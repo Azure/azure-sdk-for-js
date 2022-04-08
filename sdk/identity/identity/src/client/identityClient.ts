@@ -156,7 +156,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     refreshToken: string | undefined,
     clientSecret: string | undefined,
     expiresOnParser?: (responseBody: TokenResponseParsedBody) => number,
-    options?: GetTokenOptions
+    options: GetTokenOptions = {}
   ): Promise<TokenResponse | null> {
     if (refreshToken === undefined) {
       return null;
@@ -180,7 +180,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
     return tracingClient.withSpan(
       "IdentityClient-refreshAccessToken",
-      options || {},
+      options,
       async (updatedOptions) => {
         try {
           const urlSuffix = getIdentityTokenEndpointSuffix(tenantId);
@@ -188,12 +188,12 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
             url: `${this.authorityHost}/${tenantId}/${urlSuffix}`,
             method: "POST",
             body: query.toString(),
-            abortSignal: options && options.abortSignal,
+            abortSignal: options.abortSignal,
             headers: createHttpHeaders({
               Accept: "application/json",
               "Content-Type": "application/x-www-form-urlencoded",
             }),
-            tracingOptions: updatedOptions?.tracingOptions,
+            tracingOptions: updatedOptions.tracingOptions,
           });
 
           const response = await this.sendTokenRequest(request, expiresOnParser);

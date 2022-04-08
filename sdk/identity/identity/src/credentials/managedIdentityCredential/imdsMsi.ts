@@ -114,17 +114,13 @@ export const imdsMsi: MSI = {
     identityClient,
     clientId,
     resourceId,
-    getTokenOptions,
+    getTokenOptions = {},
   }): Promise<boolean> {
     const resource = mapScopesToResource(scopes);
     if (!resource) {
       logger.info(`${msiName}: Unavailable. Multiple scopes are not supported.`);
       return false;
     }
-    const { span, updatedOptions: options } = tracingClient.startSpan(
-      "ManagedIdentityCredential-pingImdsEndpoint",
-      getTokenOptions
-    );
 
     // if the PodIdentityEndpoint environment variable was set no need to probe the endpoint, it can be assumed to exist
     if (process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST) {
@@ -139,58 +135,54 @@ export const imdsMsi: MSI = {
       skipMetadataHeader: true,
       skipQuery: true,
     });
-    requestOptions.tracingOptions = options.tracingOptions;
 
-    try {
-      // Create a request with a timeout since we expect that
-      // not having a "Metadata" header should cause an error to be
-      // returned quickly from the endpoint, proving its availability.
-      const request = createPipelineRequest(requestOptions);
+    return tracingClient.withSpan(
+      "ManagedIdentityCredential-pingImdsEndpoint",
+      getTokenOptions,
+      async (options) => {
+        requestOptions.tracingOptions = options.tracingOptions;
+        try {
+          // Create a request with a timeout since we expect that
+          // not having a "Metadata" header should cause an error to be
+          // returned quickly from the endpoint, proving its availability.
+          const request = createPipelineRequest(requestOptions);
 
-      request.timeout = options.requestOptions?.timeout ?? 300;
+          request.timeout = options.requestOptions?.timeout ?? 300;
 
-      // This MSI uses the imdsEndpoint to get the token, which only uses http://
-      request.allowInsecureConnection = true;
+          // This MSI uses the imdsEndpoint to get the token, which only uses http://
+          request.allowInsecureConnection = true;
 
-      try {
-        logger.info(`${msiName}: Pinging the Azure IMDS endpoint`);
-        await identityClient.sendRequest(request);
-      } catch (err) {
-        if (
-          (err.name === "RestError" && err.code === RestError.REQUEST_SEND_ERROR) ||
-          err.name === "AbortError" ||
-          err.code === "ENETUNREACH" || // Network unreachable
-          err.code === "ECONNREFUSED" || // connection refused
-          err.code === "EHOSTDOWN" // host is down
-        ) {
-          // If the request failed, or Node.js was unable to establish a connection,
-          // or the host was down, we'll assume the IMDS endpoint isn't available.
-          logger.info(`${msiName}: The Azure IMDS endpoint is unavailable`);
-          span.setStatus({
-            status: "error",
-            error: err,
-          });
-          return false;
+          try {
+            logger.info(`${msiName}: Pinging the Azure IMDS endpoint`);
+            await identityClient.sendRequest(request);
+          } catch (err) {
+            if (
+              (err.name === "RestError" && err.code === RestError.REQUEST_SEND_ERROR) ||
+              err.name === "AbortError" ||
+              err.code === "ENETUNREACH" || // Network unreachable
+              err.code === "ECONNREFUSED" || // connection refused
+              err.code === "EHOSTDOWN" // host is down
+            ) {
+              // If the request failed, or Node.js was unable to establish a connection,
+              // or the host was down, we'll assume the IMDS endpoint isn't available.
+              logger.info(`${msiName}: The Azure IMDS endpoint is unavailable`);
+              return false;
+            }
+          }
+
+          // If we received any response, the endpoint is available
+          logger.info(`${msiName}: The Azure IMDS endpoint is available`);
+          return true;
+        } catch (err) {
+          // createWebResource failed.
+          // This error should bubble up to the user.
+          logger.info(
+            `${msiName}: Error when creating the WebResource for the Azure IMDS endpoint: ${err.message}`
+          );
+          throw err;
         }
       }
-
-      // If we received any response, the endpoint is available
-      logger.info(`${msiName}: The Azure IMDS endpoint is available`);
-      return true;
-    } catch (err) {
-      // createWebResource failed.
-      // This error should bubble up to the user.
-      logger.info(
-        `${msiName}: Error when creating the WebResource for the Azure IMDS endpoint: ${err.message}`
-      );
-      span.setStatus({
-        status: "error",
-        error: err,
-      });
-      throw err;
-    } finally {
-      span.end();
-    }
+    );
   },
   async getToken(
     configuration: MSIConfiguration,

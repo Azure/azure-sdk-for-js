@@ -102,7 +102,7 @@ export class AzureCliCredential implements TokenCredential {
    */
   public async getToken(
     scopes: string | string[],
-    options?: GetTokenOptions
+    options: GetTokenOptions = {}
   ): Promise<AccessToken> {
     const tenantId = processMultiTenantRequest(this.tenantId, options);
     if (tenantId) {
@@ -116,7 +116,7 @@ export class AzureCliCredential implements TokenCredential {
 
     let responseData = "";
 
-    const { span } = tracingClient.startSpan(`${this.constructor.name}.getToken`, options || {});
+    const { span } = tracingClient.startSpan(`${this.constructor.name}.getToken`, options);
 
     try {
       const obj = await cliCredentialInternals.getAzureCliAccessToken(resource, tenantId);
