@@ -8,16 +8,16 @@
    },
    "requestBody": "{\"from\":\"+14255550123\",\"smsRecipients\":[{\"to\":\"+14255550123\",\"repeatabilityRequestId\":\"sanitized\",\"repeatabilityFirstSent\":\"Thu, 01 Jan 1970 00:00:00 GMT\"}],\"message\":\"test message\",\"smsSendOptions\":{\"enableDeliveryReport\":false}}",
    "status": 202,
-   "response": "{\"value\":[{\"to\":\"+14255550123\",\"messageId\":\"Outgoing_20210424015251c05b9140-7557-4913-a30c-23c8ed2d2f2a_noam\",\"httpStatusCode\":202,\"repeatabilityResult\":\"accepted\",\"successful\":true}]}",
+   "response": "{\"value\":[{\"to\":\"+14255550123\",\"messageId\":\"Outgoing_202204081251165e0e8fd4-3c87-4071-b741-0c43a13f1692_noam\",\"httpStatusCode\":202,\"repeatabilityResult\":\"accepted\",\"successful\":false}]}",
    "responseHeaders": {
     "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 24 Apr 2021 01:52:51 GMT",
-    "ms-cv": "GZmfpT+VGk+fm00Kb6s/vw.0",
-    "request-context": "appId=",
-    "status": "202",
-    "x-azure-ref": "083mDYAAAAACcyAjrCafIRZ03l9iuawYZWVZSMzBFREdFMDMxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
-    "x-processing-time": "351ms"
+    "date": "Fri, 08 Apr 2022 12:51:15 GMT",
+    "ms-cv": "B9o3D5cW8Ui3PsTL6Hmtaw.0",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0xC9QYgAAAADVU/1HO+nBSK681MrScymCV1NURURHRTA4MTIAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-processing-time": "503ms"
    }
   }
  ],
@@ -25,5 +25,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "6d39c9c57e9160d4a3a0e376be58c39d"
+ "hash": "4bcdd6659364710541989b8bee3507ee"
 }

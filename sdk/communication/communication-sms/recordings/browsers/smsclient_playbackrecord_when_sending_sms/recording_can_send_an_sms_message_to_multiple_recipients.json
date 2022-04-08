@@ -8,16 +8,16 @@
    },
    "requestBody": "{\"from\":\"+14255550123\",\"smsRecipients\":[{\"to\":\"+14255550123\",\"repeatabilityRequestId\":\"sanitized\",\"repeatabilityFirstSent\":\"Thu, 01 Jan 1970 00:00:00 GMT\"},{\"to\":\"+1425555012345\",\"repeatabilityRequestId\":\"sanitized\",\"repeatabilityFirstSent\":\"Thu, 01 Jan 1970 00:00:00 GMT\"}],\"message\":\"test message\",\"smsSendOptions\":{\"enableDeliveryReport\":false}}",
    "status": 202,
-   "response": "{\"value\":[{\"to\":\"+14255550123\",\"messageId\":\"Outgoing_20210424015253e635a2eb-13ad-4ef0-9967-b59e15538de6_noam\",\"httpStatusCode\":202,\"repeatabilityResult\":\"accepted\",\"successful\":true},{\"to\":\"+1425555012345\",\"httpStatusCode\":400,\"errorMessage\":\"Invalid To phone number format.\",\"successful\":false}]}",
+   "response": "{\"value\":[{\"to\":\"+14255550123\",\"messageId\":\"Outgoing_20220408125118f88dc062-9bcf-4167-b76c-4858fe80f1ea_noam\",\"httpStatusCode\":202,\"repeatabilityResult\":\"accepted\",\"successful\":false},{\"to\":\"+1425555012345\",\"httpStatusCode\":400,\"errorMessage\":\"Invalid To phone number format.\",\"successful\":false}]}",
    "responseHeaders": {
     "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 24 Apr 2021 01:52:53 GMT",
-    "ms-cv": "Lk5VfjPmPEOAl+AhEkWfpA.0",
-    "request-context": "appId=",
-    "status": "202",
-    "x-azure-ref": "09XmDYAAAAACzKfXGsiYpT6GWIplAsb/PWVZSMzBFREdFMDMxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
-    "x-processing-time": "395ms"
+    "date": "Fri, 08 Apr 2022 12:51:17 GMT",
+    "ms-cv": "kQDHr3ooY0SGpPRBpUeORg.0",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0xi9QYgAAAABSFZx+qUynQo/ZM/E7LQ2HV1NURURHRTA4MTIAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-processing-time": "362ms"
    }
   }
  ],
@@ -25,5 +25,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "2eb6de647e1107f39688ece93bdde8b3"
+ "hash": "e5e54e711569bace350ec5c4564b4b23"
 }

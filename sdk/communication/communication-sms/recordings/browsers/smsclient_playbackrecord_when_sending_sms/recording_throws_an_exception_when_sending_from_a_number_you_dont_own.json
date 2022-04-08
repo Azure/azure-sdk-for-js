@@ -6,18 +6,18 @@
    "query": {
     "api-version": "2021-03-07"
    },
-   "requestBody": "{\"from\":\"+14255550123\",\"smsRecipients\":[{\"to\":\"+14255550123\",\"repeatabilityRequestId\":\"sanitized\",\"repeatabilityFirstSent\":\"Thu, 01 Jan 1970 00:00:00 GMT\"}],\"message\":\"test message\",\"smsSendOptions\":{\"enableDeliveryReport\":true,\"tag\":\"SMS_LIVE_TEST\"}}",
+   "requestBody": "{\"from\":\"+14255550123\",\"smsRecipients\":[{\"to\":\"+14255550123\",\"repeatabilityRequestId\":\"sanitized\",\"repeatabilityFirstSent\":\"Thu, 01 Jan 1970 00:00:00 GMT\"}],\"message\":\"test message\",\"smsSendOptions\":{\"enableDeliveryReport\":false,\"tag\":\"SMS_LIVE_TEST\"}}",
    "status": 401,
-   "response": "",
+   "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"\"}}",
    "responseHeaders": {
     "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07",
-    "content-length": "0",
-    "date": "Sat, 24 Apr 2021 01:52:53 GMT",
-    "ms-cv": "y+3Yvbaic0C7ZqJfdqp0YA.0",
-    "request-context": "appId=",
-    "status": "401",
-    "x-azure-ref": "09XmDYAAAAAB16lq36mMsSorud4RPhNHKWVZSMzBFREdFMDMxNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
-    "x-processing-time": "332ms"
+    "content-type": "application/json",
+    "date": "Fri, 08 Apr 2022 12:51:17 GMT",
+    "ms-cv": "mpG3MQK4dEW30W5QhCVoog.0",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0xi9QYgAAAADVV2erLt8UQoS2pJlTC7L6V1NURURHRTA4MTIAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+    "x-cache": "CONFIG_NOCACHE",
+    "x-processing-time": "280ms"
    }
   }
  ],
@@ -25,5 +25,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "c282ce4bca8ed2b180118d3cec818d82"
+ "hash": "d9f97bf1b0608a03810d5571884c2756"
 }
