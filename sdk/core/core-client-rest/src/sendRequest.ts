@@ -50,6 +50,37 @@ export async function sendRequest(
 }
 
 /**
+ * Helper function to send request used by the client
+ * @param method - method to use to send the request
+ * @param url - url to send the request to
+ * @param pipeline - pipeline with the policies to run when sending the request
+ * @param options - request options
+ * @param customHttpClient - a custom HttpClient to use when making the request
+ * @returns returns and HttpResponse
+ */
+export async function sendRequestAsStream(
+  method: HttpMethods,
+  url: string,
+  pipeline: Pipeline,
+  options: RequestParameters = {},
+  customHttpClient?: HttpClient
+): Promise<HttpResponse> {
+  const httpClient = customHttpClient ?? getCachedDefaultHttpsClient();
+  const request = buildPipelineRequest(method, url, { ...options, responseAsStream: true });
+  const response = await pipeline.sendRequest(httpClient, request);
+  const rawHeaders: RawHttpHeaders = response.headers.toJSON();
+
+  const parsedBody = response.browserStreamBody ?? response.readableStreamBody;
+
+  return {
+    request,
+    headers: rawHeaders,
+    status: `${response.status}`,
+    body: parsedBody,
+  };
+}
+
+/**
  * Function to determine the content-type of a body
  * this is used if an explicit content-type is not provided
  * @param body - body in the request
@@ -91,6 +122,9 @@ function buildPipelineRequest(
     formData,
     headers,
     allowInsecureConnection: options.allowInsecureConnection,
+    streamResponseStatusCodes: options.responseAsStream
+      ? new Set([Number.POSITIVE_INFINITY])
+      : undefined,
   });
 }
 
