@@ -61,7 +61,7 @@ async function main() {
   );
 
   // Register the schema. This would generally have been done somewhere else.
-  // You can also skip this step and let `serializeMessageData` automatically register
+  // You can also skip this step and let `serialize` automatically register
   // schemas using autoRegisterSchemas=true, but that is NOT recommended in production.
   await schemaRegistryClient.registerSchema(schemaDescription);
 
@@ -78,7 +78,7 @@ async function main() {
 
   // serialize an object that matches the schema
   const value = { firstName: "Joe", lastName: "Doe" };
-  const message = await serializer.serializeMessageData(value, schema);
+  const message = await serializer.serialize(value, schema);
   console.log("Created message:");
   console.log(message);
 

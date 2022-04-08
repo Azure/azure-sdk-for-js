@@ -26,7 +26,7 @@ export function syncTokenPolicy(syncTokens: SyncTokens): PipelinePolicy {
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       const syncTokenHeaderValue = syncTokens.getSyncTokenHeaderValue();
 
-      if (syncTokenHeaderValue != null) {
+      if (syncTokenHeaderValue) {
         request.headers.set(SyncTokenHeaderName, syncTokenHeaderValue);
       }
 

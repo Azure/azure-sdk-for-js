@@ -4,7 +4,7 @@
 // https://azure.github.io/azure-sdk/typescript_design.html#ts-config-lib
 /// <reference lib="esnext.asynciterable" />
 
-import { createAppConfigKeyCredentialPolicy } from "./appConfigCredential";
+import { appConfigKeyCredentialPolicy } from "./appConfigCredential";
 import { AppConfiguration } from "./generated/src/appConfiguration";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
@@ -34,6 +34,7 @@ import {
   SetReadOnlyResponse,
 } from "./models";
 import {
+  assertResponse,
   checkAndFormatIfAndIfNoneMatch,
   extractAfterTokenFromNextLink,
   formatAcceptDateTime,
@@ -45,7 +46,13 @@ import {
   transformKeyValueResponse,
   transformKeyValueResponseWithStatusCode,
 } from "./internal/helpers";
-import { AppConfigurationDeleteKeyValueHeaders, AppConfigurationGetKeyValueHeaders, AppConfigurationGetKeyValuesHeaders, AppConfigurationGetRevisionsHeaders, AppConfigurationPutKeyValueHeaders, DeleteKeyValueResponse, DeleteLockResponse, GetKeyValueResponse, GetKeyValuesResponse, GetRevisionsResponse, PutKeyValueResponse, PutLockResponse } from "./generated/src/models";
+import { trace as traceFromTracingHelpers } from "./internal/tracingHelpers";
+import {
+  AppConfigurationGetKeyValuesHeaders,
+  AppConfigurationGetRevisionsHeaders,
+  GetKeyValuesResponse,
+  GetRevisionsResponse,
+} from "./generated/src/models";
 import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy";
 import { FeatureFlagValue } from "./featureFlag";
 import { SecretReferenceValue } from "./secretReference";
@@ -140,7 +147,7 @@ export class AppConfigurationClient {
       const regexMatch = connectionStringOrEndpoint?.match(ConnectionStringRegex);
       if (regexMatch) {
         appConfigEndpoint = regexMatch[1];
-        authPolicy = createAppConfigKeyCredentialPolicy(regexMatch[2], regexMatch[3]);
+        authPolicy = appConfigKeyCredentialPolicy(regexMatch[2], regexMatch[3]);
       } else {
         throw new Error(
           `Invalid connection string. Valid connection strings should match the regex '${ConnectionStringRegex.source}'.`
@@ -184,8 +191,10 @@ export class AppConfigurationClient {
         label: configurationSetting.label,
         entity: keyValue,
         ...updatedOptions,
-      }) as PutKeyValueResponse & HttpResponseField<AppConfigurationPutKeyValueHeaders>;
-      return transformKeyValueResponse(originalResponse) as AddConfigurationSettingResponse;
+      });
+      const response = transformKeyValueResponse(originalResponse);
+      assertResponse(response);
+      return response;
     });
   }
 
@@ -212,9 +221,11 @@ export class AppConfigurationClient {
         onResponse: (response) => {
           status = response.status;
         },
-      }) as DeleteKeyValueResponse & HttpResponseField<AppConfigurationDeleteKeyValueHeaders>;
+      });
 
-      return transformKeyValueResponseWithStatusCode(originalResponse, status) as unknown as DeleteConfigurationSettingResponse;
+      const response = transformKeyValueResponseWithStatusCode(originalResponse, status);
+      assertResponse(response);
+      return response;
     });
   }
 
@@ -243,12 +254,9 @@ export class AppConfigurationClient {
         onResponse: (response) => {
           status = response.status;
         },
-      }) as GetKeyValueResponse & HttpResponseField<AppConfigurationGetKeyValueHeaders>;
+      });
 
-      const response: GetConfigurationSettingResponse = transformKeyValueResponseWithStatusCode(
-        originalResponse,
-        status
-      ) as GetConfigurationSettingResponse;
+      const response = transformKeyValueResponseWithStatusCode(originalResponse, status);
 
       // 304 only comes back if the user has passed a conditional option in their
       // request _and_ the remote object has the same etag as what the user passed.
@@ -260,7 +268,7 @@ export class AppConfigurationClient {
         // and now we'll undefine all the other properties that are not HTTP related
         makeConfigurationSettingEmpty(response);
       }
-
+      assertResponse(response);
       return response;
     });
   }
@@ -322,7 +330,8 @@ export class AppConfigurationClient {
           after: options.continuationToken,
         });
 
-        return response as GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>;
+        return response as GetKeyValuesResponse &
+          HttpResponseField<AppConfigurationGetKeyValuesHeaders>;
       }
     );
 
@@ -341,7 +350,8 @@ export class AppConfigurationClient {
             after: extractAfterTokenFromNextLink(currentResponse.nextLink!),
           });
 
-          return response as GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>;
+          return response as GetKeyValuesResponse &
+            HttpResponseField<AppConfigurationGetKeyValuesHeaders>;
         }
       );
 
@@ -419,7 +429,8 @@ export class AppConfigurationClient {
         after: options.continuationToken,
       });
 
-      return response as GetRevisionsResponse & HttpResponseField<AppConfigurationGetRevisionsHeaders>;
+      return response as GetRevisionsResponse &
+        HttpResponseField<AppConfigurationGetRevisionsHeaders>;
     });
 
     yield* this.createListRevisionsPageFromResponse(currentResponse);
@@ -442,7 +453,9 @@ export class AppConfigurationClient {
     }
   }
 
-  private *createListRevisionsPageFromResponse(currentResponse: GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>) {
+  private *createListRevisionsPageFromResponse(
+    currentResponse: GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>
+  ) {
     yield {
       ...currentResponse,
       items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : [],
@@ -472,14 +485,16 @@ export class AppConfigurationClient {
   ): Promise<SetConfigurationSettingResponse> {
     return tracingClient.withSpan("setConfigurationSetting", options, async updatedOptions => {
       const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
-      const response = await this.client.putKeyValue(configurationSetting.key, {
-        ...updatedOptions,
-        label: configurationSetting.label,
-        entity: keyValue,
-        ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options),
-      }) as PutKeyValueResponse & HttpResponseField<any>;
-
-      return transformKeyValueResponse(response) as SetConfigurationSettingResponse;
+      const response = transformKeyValueResponse(
+        await this.client.putKeyValue(configurationSetting.key, {
+          ...updatedOptions,
+          label: configurationSetting.label,
+          entity: keyValue,
+          ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options),
+        })
+      );
+      assertResponse(response);
+      return response;
     });
   }
 
@@ -492,24 +507,24 @@ export class AppConfigurationClient {
     readOnly: boolean,
     options: SetReadOnlyOptions = {}
   ): Promise<SetReadOnlyResponse> {
-    return tracingClient.withSpan("setReadOnly", options, async updatedOptions => {
+    return tracingClient.withSpan("setReadOnly", options, async (newOptions) => {
+      let response;
       if (readOnly) {
-        const response = await this.client.putLock(id.key, {
-          ...updatedOptions,
+        response = await this.client.putLock(id.key, {
+          ...newOptions,
           label: id.label,
           ...checkAndFormatIfAndIfNoneMatch(id, options),
-        }) as PutLockResponse & HttpResponseField<any>;
-
-        return transformKeyValueResponse(response) as SetReadOnlyResponse;
+        });
       } else {
-        const response = await this.client.deleteLock(id.key, {
-          ...updatedOptions,
+        response = await this.client.deleteLock(id.key, {
+          ...newOptions,
           label: id.label,
           ...checkAndFormatIfAndIfNoneMatch(id, options),
-        }) as DeleteLockResponse & HttpResponseField<any>;
-
-        return transformKeyValueResponse(response) as SetReadOnlyResponse;
+        });
       }
+      response = transformKeyValueResponse(response);
+      assertResponse(response);
+      return response;
     });
   }
 

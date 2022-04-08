@@ -7,6 +7,7 @@ import {
   ConfigurationSettingParam,
   HttpOnlyIfChangedField,
   HttpOnlyIfUnchangedField,
+  HttpResponseField,
   HttpResponseFields,
   ListConfigurationSettingsOptions,
   ListRevisionsOptions,
@@ -234,10 +235,18 @@ export function transformKeyValueResponseWithStatusCode<T extends KeyValue>(
   kvp: T,
   status: number | undefined
 ): ConfigurationSetting & { eTag?: string } & HttpResponseFields {
-  return {
+  const response = {
     ...transformKeyValue(kvp),
-    statusCode: status,
+    statusCode: status ?? -1,
   };
+
+  if (hasUnderscoreResponse(kvp)) {
+    Object.defineProperty(response, "_response", {
+      enumerable: false,
+      value: kvp._response,
+    });
+  }
+  return response;
 }
 
 /**
@@ -247,7 +256,14 @@ export function transformKeyValueResponse<T extends KeyValue & { eTag?: string }
   kvp: T
 ): ConfigurationSetting {
   const setting = transformKeyValue(kvp);
-  delete (setting).eTag;
+  if (hasUnderscoreResponse(kvp)) {
+    Object.defineProperty(setting, "_response", {
+      enumerable: false,
+      value: kvp._response,
+    });
+  }
+
+  delete setting.eTag;
   return setting;
 }
 
@@ -291,4 +307,22 @@ export function errorMessageForUnexpectedSetting(
   expectedType: "FeatureFlag" | "SecretReference"
 ): string {
   return `Setting with key ${key} is not a valid ${expectedType}, make sure to have the correct content-type and a valid non-null value.`;
+}
+
+export function assertResponse<T extends object>(
+  result: T
+): asserts result is T & HttpResponseField<any> {
+  if (!hasUnderscoreResponse(result)) {
+    Object.defineProperty(result, "_response", {
+      enumerable: false,
+      value:
+        "Something went wrong, _response(raw response) is supposed to be part of the response. Please file a bug at https://github.com/Azure/azure-sdk-for-js",
+    });
+  }
+}
+
+export function hasUnderscoreResponse<T extends object>(
+  result: T
+): result is T & HttpResponseField<any> {
+  return Object.prototype.hasOwnProperty.call(result, "_response");
 }

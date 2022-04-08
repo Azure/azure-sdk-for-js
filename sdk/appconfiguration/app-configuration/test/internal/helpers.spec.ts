@@ -23,6 +23,7 @@ import {
 } from "../../src";
 import { FeatureFlagValue } from "../../src/featureFlag";
 import { SecretReferenceValue } from "../../src/secretReference";
+import { HttpHeadersLike } from "@azure/core-http-compat";
 
 describe("helper methods", () => {
   it("checkAndFormatIfAndIfNoneMatch", () => {
@@ -176,6 +177,30 @@ describe("helper methods", () => {
     });
   });
 
+  const fakeHttp204Response: HttpResponseField<any> = {
+    _response: {
+      request: {
+        url: "unused",
+        abortSignal: {
+          aborted: true,
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          addEventListener: () => {},
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
+          removeEventListener: () => {},
+        },
+        method: "GET",
+        withCredentials: false,
+        headers: {} as HttpHeadersLike,
+        timeout: 0,
+        requestId: "",
+      },
+      status: 204,
+      headers: {} as HttpHeadersLike,
+      bodyAsText: "",
+      parsedHeaders: {},
+    },
+  };
+
   it("makeConfigurationSettingEmpty", () => {
     const response: ConfigurationSetting & HttpResponseFields = {
       key: "mykey",
@@ -207,7 +232,7 @@ describe("helper methods", () => {
       isReadOnly: true,
       key: "hello",
       value: undefined,
-    });
+    } as unknown);
   });
 
   it("transformKeyValueResponseWithStatusCode", () => {
@@ -215,6 +240,7 @@ describe("helper methods", () => {
       {
         key: "hello",
         locked: true,
+        ...fakeHttp204Response,
       },
       204
     );
@@ -228,7 +254,8 @@ describe("helper methods", () => {
       key: "hello",
       value: undefined,
       statusCode: 204,
-    });
+      _response: fakeHttp204Response._response,
+    } as unknown);
   });
 
   it("transformKeyValueResponse", () => {
@@ -245,7 +272,8 @@ describe("helper methods", () => {
       isReadOnly: true,
       key: "hello",
       value: undefined,
-    });
+      _response: fakeHttp204Response._response,
+    } as unknown);
   });
 
   it("normalizeFilterFields", () => {

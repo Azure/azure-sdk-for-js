@@ -571,6 +571,33 @@ export interface GenerateSharedAccessSignatureOptions {
 }
 
 // @public
+export interface HealthcareFhirResourceCreatedEventData {
+    resourceFhirAccount: string;
+    resourceFhirId: string;
+    resourceType: HealthcareFhirResourceType;
+    resourceVersionId: number;
+}
+
+// @public
+export interface HealthcareFhirResourceDeletedEventData {
+    resourceFhirAccount: string;
+    resourceFhirId: string;
+    resourceType: HealthcareFhirResourceType;
+    resourceVersionId: number;
+}
+
+// @public
+export type HealthcareFhirResourceType = string;
+
+// @public
+export interface HealthcareFhirResourceUpdatedEventData {
+    resourceFhirAccount: string;
+    resourceFhirId: string;
+    resourceType: HealthcareFhirResourceType;
+    resourceVersionId: number;
+}
+
+// @public
 export type InputSchema = keyof InputSchemaToInputTypeMap;
 
 // @public
@@ -1504,6 +1531,9 @@ export interface SystemEventNameToEventData {
     "Microsoft.EventGrid.SubscriptionDeletedEvent": SubscriptionDeletedEventData;
     "Microsoft.EventGrid.SubscriptionValidationEvent": SubscriptionValidationEventData;
     "Microsoft.EventHub.CaptureFileCreated": EventHubCaptureFileCreatedEventData;
+    "Microsoft.HealthcareApis.FhirDeletedCreated": HealthcareFhirResourceDeletedEventData;
+    "Microsoft.HealthcareApis.FhirResourceCreated": HealthcareFhirResourceCreatedEventData;
+    "Microsoft.HealthcareApis.FhirUpdatedCreated": HealthcareFhirResourceUpdatedEventData;
     "Microsoft.KeyVault.CertificateExpired": KeyVaultCertificateExpiredEventData;
     "Microsoft.KeyVault.CertificateNearExpiry": KeyVaultCertificateNearExpiryEventData;
     "Microsoft.KeyVault.CertificateNewVersionCreated": KeyVaultCertificateNewVersionCreatedEventData;

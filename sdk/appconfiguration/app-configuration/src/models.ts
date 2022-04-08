@@ -4,6 +4,7 @@
 import { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { FeatureFlagValue } from "./featureFlag";
 import { SecretReferenceValue } from "./secretReference";
+import { CompatResponse } from "@azure/core-http-compat";
 /**
  * Fields that uniquely identify a configuration setting
  */
@@ -91,7 +92,7 @@ export interface HttpResponseField<HeadersT> {
   /**
    * The underlying HTTP response.
    */
-  _response: FullOperationResponse & {
+  _response: CompatResponse & {
     /**
      * The parsed HTTP response headers.
      */
@@ -108,19 +109,20 @@ export interface HttpResponseField<HeadersT> {
  */
 export type AddConfigurationSettingParam<
   T extends string | FeatureFlagValue | SecretReferenceValue = string
-  > = ConfigurationSettingParam<T>;
+> = ConfigurationSettingParam<T>;
 
 /**
  * Parameters for creating or updating a new configuration setting
  */
 export type SetConfigurationSettingParam<
   T extends string | FeatureFlagValue | SecretReferenceValue = string
-  > = ConfigurationSettingParam<T>;
+> = ConfigurationSettingParam<T>;
 
 /**
  * Standard base response for getting, deleting or updating a configuration setting
  */
-export type ConfigurationSettingResponse<HeadersT> = ConfigurationSetting & HttpResponseField<HeadersT> &
+export type ConfigurationSettingResponse<HeadersT> = ConfigurationSetting &
+  HttpResponseField<HeadersT> &
   Pick<HeadersT, Exclude<keyof HeadersT, "eTag">>;
 
 /**

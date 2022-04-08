@@ -5,15 +5,9 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { OperationOptions } from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { KeyVaultKey, GetKeyOptions, RecoverDeletedKeyOptions } from "../../keysModels";
+import { tracingClient } from "../../tracing";
 import { getKeyFromKeyBundle } from "../../transformations";
 import { KeyVaultKeyPollOperation, KeyVaultKeyPollOperationState } from "../keyVaultKeyPoller";
-
-import { createTraceFunction } from "../../../../keyvault-common/src";
-
-/**
- * @internal
- */
-const withTrace = createTraceFunction("Azure.KeyVault.Keys.RecoverDeletedKeyPoller");
 
 /**
  * An interface representing the state of a delete key's poll operation
@@ -39,15 +33,19 @@ export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
    * This operation requires the keys/get permission.
    */
   private getKey(name: string, options: GetKeyOptions = {}): Promise<KeyVaultKey> {
-    return withTrace("generatedClient.getKey", options, async (updatedOptions) => {
-      const response = await this.client.getKey(
-        this.vaultUrl,
-        name,
-        updatedOptions?.version || "",
-        updatedOptions
-      );
-      return getKeyFromKeyBundle(response);
-    });
+    return tracingClient.withSpan(
+      "RecoverDeleteKeyPoller.getKey",
+      options,
+      async (updatedOptions) => {
+        const response = await this.client.getKey(
+          this.vaultUrl,
+          name,
+          updatedOptions?.version || "",
+          updatedOptions
+        );
+        return getKeyFromKeyBundle(response);
+      }
+    );
   }
 
   /**
@@ -58,10 +56,14 @@ export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
     name: string,
     options: RecoverDeletedKeyOptions = {}
   ): Promise<KeyVaultKey> {
-    return withTrace("generatedClient.recoverDeleteKey", options, async (updatedOptions) => {
-      const response = await this.client.recoverDeletedKey(this.vaultUrl, name, updatedOptions);
-      return getKeyFromKeyBundle(response);
-    });
+    return tracingClient.withSpan(
+      "RecoverDeletedKeyPoller.recoverDeleteKey",
+      options,
+      async (updatedOptions) => {
+        const response = await this.client.recoverDeletedKey(this.vaultUrl, name, updatedOptions);
+        return getKeyFromKeyBundle(response);
+      }
+    );
   }
 
   /**

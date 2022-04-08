@@ -1,23 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EventData, EventDataAdapterParameters, createEventDataAdapter } from "@azure/event-hubs";
+import {
+  EventData,
+  EventDataAdapterParameters,
+  MessageAdapter as EHMessageAdapter,
+  createEventDataAdapter,
+} from "@azure/event-hubs";
+import { AssertEqualKeys } from "../utils/utils";
 import { MessageAdapter } from "../../src/models";
 import { assert } from "chai";
 import { matrix } from "@azure/test-utils";
 
-/**
- * A type predicate to check whether two record types have the same keys
- */
-type AssertEqualKeys<T1 extends Record<string, any>, T2 extends Record<string, any>> = [
-  keyof T1 extends keyof T2 ? 1 : 0,
-  keyof T2 extends keyof T1 ? 1 : 0
-] extends [1, 1]
-  ? true
-  : false;
-
 function isMessageAdapter<MessageT>(obj: any): obj is MessageAdapter<MessageT> {
-  return typeof obj.produceMessage === "function" && typeof obj.consumeMessage === "function";
+  return typeof obj.produce === "function" && typeof obj.consume === "function";
 }
 
 /**
@@ -40,6 +36,15 @@ describe("Message Adapters", function () {
     adapterFactory: createEventDataAdapter(),
     adapterFactoryName: createEventDataAdapter.name,
   };
+  describe("MessageAdapter types are identical", function () {
+    it("Event Hubs", function () {
+      const areEqual: AssertEqualKeys<MessageAdapter<unknown>, EHMessageAdapter<unknown>> = true;
+      assert.isTrue(
+        areEqual,
+        "MessageAdapter should have the same shape as @azure/event-hubs's MessageAdapter."
+      );
+    });
+  });
   describe("Input types for message adapter factories are sound", function () {
     it("EventDataAdapterParameters", function () {
       const areEqual: AssertEqualKeys<
@@ -61,8 +66,7 @@ describe("Message Adapters", function () {
       it("consumeMessage rejects undefined body", async () => {
         assert.throws(
           () =>
-            adapter.consumeMessage({
-              body: undefined,
+            adapter.consume({
               contentType: "",
             }),
           /Expected the body field to be defined/
@@ -71,7 +75,7 @@ describe("Message Adapters", function () {
       it("consumeMessage rejects messages with no contentType", async () => {
         assert.throws(
           () =>
-            adapter.consumeMessage({
+            adapter.consume({
               body: dummyUint8Array,
             }),
           /Expected the contentType field to be defined/

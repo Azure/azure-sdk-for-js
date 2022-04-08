@@ -13,6 +13,7 @@ trigger:
       - sdk/storage/ci.mgmt.yml
       - sdk/storage/arm-storage/
       - sdk/storage/arm-storage-profile-2020-09-01-hybrid
+      - sdk/storage/arm-storage
 pr:
   branches:
     include:
@@ -29,6 +30,7 @@ pr:
       - sdk/storage/ci.mgmt.yml
       - sdk/storage/arm-storage/
       - sdk/storage/arm-storage-profile-2020-09-01-hybrid
+      - sdk/storage/arm-storage
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

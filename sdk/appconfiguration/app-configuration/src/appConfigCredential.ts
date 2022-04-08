@@ -13,14 +13,11 @@ import { sha256Digest, sha256Hmac } from "./internal/cryptoHelpers";
  * Create an HTTP pipeline policy to authenticate a request
  * using an `AzureKeyCredential` for AppConfig.
  */
-export function createAppConfigKeyCredentialPolicy(
-  credential: string,
-  secret: string
-): PipelinePolicy {
+export function appConfigKeyCredentialPolicy(credential: string, secret: string): PipelinePolicy {
   return {
     name: "AppConfigKeyCredentialPolicy",
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      const verb = request.method.toUpperCase();
+      const verb = request.method;
       const utcNow = new Date().toUTCString();
       const contentHash = await sha256Digest(request.body?.toString() || "");
       const signedHeaders = "x-ms-date;host;x-ms-content-sha256";

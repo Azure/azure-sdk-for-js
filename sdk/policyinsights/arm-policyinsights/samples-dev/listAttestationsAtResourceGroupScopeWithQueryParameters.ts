@@ -29,7 +29,7 @@ async function listAttestationsAtResourceGroupScopeWithQueryParameters() {
   const resArray = new Array();
   for await (let item of client.attestations.listForResourceGroup(
     resourceGroupName,
-    options
+    { queryOptions: options }
   )) {
     resArray.push(item);
   }
