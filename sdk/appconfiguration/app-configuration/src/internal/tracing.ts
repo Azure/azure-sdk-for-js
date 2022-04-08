@@ -8,5 +8,5 @@ import { packageVersion } from "../appConfigurationClient";
 export const tracingClient = createTracingClient({
   namespace: "Microsoft.AppConfiguration",
   packageName: "@azure/app-configuration",
-  packageVersion
+  packageVersion,
 });

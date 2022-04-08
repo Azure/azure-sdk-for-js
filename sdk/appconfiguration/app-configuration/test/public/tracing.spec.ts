@@ -11,11 +11,11 @@ describe("supports tracing", () => {
   beforeEach(async function (this: Context) {
     recorder = startRecorder(this);
     client = createAppConfigurationClientForTests() || this.skip();
-  })
+  });
 
   afterEach(async () => {
     await recorder.stop();
-  })
+  });
 
   it("can trace through the various options", async function () {
     const key = recorder.getUniqueName("noLabelTests");
@@ -40,5 +40,4 @@ describe("supports tracing", () => {
       ]
     );
   });
-
-})
+});

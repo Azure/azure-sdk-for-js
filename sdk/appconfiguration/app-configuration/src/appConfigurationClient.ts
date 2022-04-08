@@ -82,7 +82,7 @@ const deserializationContentTypes = {
 /**
  * Provides configuration options for AppConfigurationClient.
  */
-export interface AppConfigurationClientOptions extends CommonClientOptions { }
+export interface AppConfigurationClientOptions extends CommonClientOptions {}
 
 /**
  * Provides internal configuration options for AppConfigurationClient.
@@ -183,7 +183,7 @@ export class AppConfigurationClient {
       | AddConfigurationSettingParam<SecretReferenceValue>,
     options: AddConfigurationSettingOptions = {}
   ): Promise<AddConfigurationSettingResponse> {
-    return tracingClient.withSpan("addConfigurationSetting", options, async updatedOptions => {
+    return tracingClient.withSpan("addConfigurationSetting", options, async (updatedOptions) => {
       const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
       const originalResponse = await this.client.putKeyValue(configurationSetting.key, {
         ifNoneMatch: "*",
@@ -321,7 +321,7 @@ export class AppConfigurationClient {
     let currentResponse = await tracingClient.withSpan(
       "listConfigurationSettings",
       options,
-      async updatedOptions => {
+      async (updatedOptions) => {
         const response = await this.client.getKeyValues({
           ...updatedOptions,
           ...formatAcceptDateTime(options),
@@ -341,7 +341,7 @@ export class AppConfigurationClient {
         "listConfigurationSettings",
         options,
         // TODO: same code up above. Unify.
-        async updatedOptions => {
+        async (updatedOptions) => {
           const response = await this.client.getKeyValues({
             ...updatedOptions,
             ...formatAcceptDateTime(options),
@@ -366,7 +366,7 @@ export class AppConfigurationClient {
     currentResponse: GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>
   ): Generator<ListConfigurationSettingPage> {
     yield {
-      ...(currentResponse),
+      ...currentResponse,
       items: currentResponse.items != null ? currentResponse.items.map(transformKeyValue) : [],
       continuationToken: currentResponse.nextLink
         ? extractAfterTokenFromNextLink(currentResponse.nextLink)
@@ -420,29 +420,37 @@ export class AppConfigurationClient {
   private async *listRevisionsByPage(
     options: ListRevisionsOptions & PageSettings = {}
   ): AsyncIterableIterator<ListRevisionsPage> {
-    let currentResponse = await tracingClient.withSpan("listRevisions", options, async updatedOptions => {
-      const response = await this.client.getRevisions({
-        ...updatedOptions,
-        ...formatAcceptDateTime(options),
-        ...formatFiltersAndSelect(updatedOptions),
-        after: options.continuationToken,
-      });
+    let currentResponse = await tracingClient.withSpan(
+      "listRevisions",
+      options,
+      async (updatedOptions) => {
+        const response = await this.client.getRevisions({
+          ...updatedOptions,
+          ...formatAcceptDateTime(options),
+          ...formatFiltersAndSelect(updatedOptions),
+          after: options.continuationToken,
+        });
 
-      return response as GetRevisionsResponse &
-        HttpResponseField<AppConfigurationGetRevisionsHeaders>;
-    });
+        return response as GetRevisionsResponse &
+          HttpResponseField<AppConfigurationGetRevisionsHeaders>;
+      }
+    );
 
     yield* this.createListRevisionsPageFromResponse(currentResponse);
 
     while (currentResponse.nextLink) {
-      currentResponse = await tracingClient.withSpan("listRevisions", options, updatedOptions => {
-        return this.client.getRevisions({
-          ...updatedOptions,
-          ...formatAcceptDateTime(options),
-          ...formatFiltersAndSelect(options),
-          after: extractAfterTokenFromNextLink(currentResponse.nextLink!),
-        });
-      }) as GetRevisionsResponse & HttpResponseField<AppConfigurationGetRevisionsHeaders>;
+      currentResponse = (await tracingClient.withSpan(
+        "listRevisions",
+        options,
+        (updatedOptions) => {
+          return this.client.getRevisions({
+            ...updatedOptions,
+            ...formatAcceptDateTime(options),
+            ...formatFiltersAndSelect(options),
+            after: extractAfterTokenFromNextLink(currentResponse.nextLink!),
+          });
+        }
+      )) as GetRevisionsResponse & HttpResponseField<AppConfigurationGetRevisionsHeaders>;
 
       if (!currentResponse.items) {
         break;
@@ -482,7 +490,7 @@ export class AppConfigurationClient {
       | SetConfigurationSettingParam<SecretReferenceValue>,
     options: SetConfigurationSettingOptions = {}
   ): Promise<SetConfigurationSettingResponse> {
-    return tracingClient.withSpan("setConfigurationSetting", options, async updatedOptions => {
+    return tracingClient.withSpan("setConfigurationSetting", options, async (updatedOptions) => {
       const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
       const response = transformKeyValueResponse(
         await this.client.putKeyValue(configurationSetting.key, {
