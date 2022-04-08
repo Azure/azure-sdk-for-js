@@ -12,7 +12,7 @@ import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { getUserAgentValue } from "../util/userAgent";
 import { logger } from "../log";
-import { isError } from "../util/helpers";
+import { isError, getErrorMessage } from "../util/helpers";
 import { isRestError } from "../restError";
 
 /**
@@ -75,6 +75,7 @@ function tryCreateTracingClient(): TracingClient | undefined {
       packageVersion: SDK_VERSION,
     });
   } catch (e: unknown) {
+    logger.warning(`Error when creating the TracingClient: ${getErrorMessage(e)}`);
     return undefined;
   }
 }
@@ -118,8 +119,7 @@ function tryCreateSpan(
     }
     return { span, tracingContext: updatedOptions.tracingOptions.tracingContext };
   } catch (e) {
-    const message = isError(e) ? e.message : "";
-    logger.warning(`Skipping creating a tracing span due to an error: ${message}`);
+    logger.warning(`Skipping creating a tracing span due to an error: ${getErrorMessage(e)}`);
     return undefined;
   }
 }
@@ -135,8 +135,7 @@ function tryProcessError(span: TracingSpan, error: unknown): void {
     }
     span.end();
   } catch (e) {
-    const message = isError(e) ? e.message : "";
-    logger.warning(`Skipping tracing span processing due to an error: ${message}`);
+    logger.warning(`Skipping tracing span processing due to an error: ${getErrorMessage(e)}`);
   }
 }
 
@@ -152,7 +151,6 @@ function tryProcessResponse(span: TracingSpan, response: PipelineResponse): void
     });
     span.end();
   } catch (e) {
-    const message = isError(e) ? e.message : "";
-    logger.warning(`Skipping tracing span processing due to an error: ${message}`);
+    logger.warning(`Skipping tracing span processing due to an error: ${getErrorMessage(e)}`);
   }
 }

@@ -3,6 +3,7 @@
 
 import {
   OperationTracingOptions,
+  OptionsWithTracingContext,
   Resolved,
   TracingClient,
   TracingClientOptions,
@@ -28,7 +29,7 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
     spanOptions?: TracingSpanOptions
   ): {
     span: TracingSpan;
-    updatedOptions: Options & { tracingOptions: Required<OperationTracingOptions> };
+    updatedOptions: OptionsWithTracingContext<Options>;
   } {
     const startSpanResult = getInstrumenter().startSpan(name, {
       ...spanOptions,
@@ -42,7 +43,7 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
       tracingContext = tracingContext.setValue(knownContextKeys.namespace, namespace);
     }
     span.setAttribute("az.namespace", tracingContext.getValue(knownContextKeys.namespace));
-    const updatedOptions = Object.assign({}, operationOptions, {
+    const updatedOptions: OptionsWithTracingContext<Options> = Object.assign({}, operationOptions, {
       tracingOptions: { tracingContext },
     });
 
