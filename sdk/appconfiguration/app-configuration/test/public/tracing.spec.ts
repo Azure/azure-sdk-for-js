@@ -4,7 +4,7 @@ import { Context } from "mocha";
 import { AppConfigurationClient } from "../../src/appConfigurationClient";
 import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers";
 
-describe.only("supports tracing", () => {
+describe("supports tracing", () => {
   let client: AppConfigurationClient;
   let recorder: Recorder;
 
