@@ -15,19 +15,14 @@ it("verify tracing", async () => {
             timespan: { duration: Durations.fiveMinutes },
             ...options
          }),
-         //Type 'PagedAsyncIterableIterator<MetricDefinition, MetricDefinition[], PageSettings>' is missing the following properties from type 'Promise<any>': then, catch, finally, [Symbol.toStringTag]
-        //  await client.listMetricDefinitions("resourceUri").byPage({
-        //      maxPageSize: 2,
-        //      continuationToken: null
-        //  }),
-        // client.listMetricNames("resourceUri")
+        client.listMetricNamespaces("resourceUri").next(),
+        client.listMetricDefinitions("resourceUri").next()
         ];
         // We don't care about errors, only that we created (and closed) the appropriate spans.
         await Promise.all(promises.map((p) => p.catch(() => undefined)));
       },
       ["MetricsQueryClient.queryResource",
-       // "MetricsQueryClient.listSegmentOfMetricDefinitions",
-       // "MetricsQueryClient.listSegmentOfMetricNames"
+       "MetricsQueryClient.listSegmentOfMetricDefinitions",
     ]   
     );
   });
