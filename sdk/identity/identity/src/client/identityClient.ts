@@ -165,11 +165,6 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
       `IdentityClient: refreshing access token with client ID: ${clientId}, scopes: ${scopes} started`
     );
 
-    const { span, updatedOptions } = tracingClient.startSpan(
-      "IdentityClient-refreshAccessToken",
-      options
-    );
-
     const refreshParams = {
       grant_type: "refresh_token",
       client_id: clientId,
@@ -183,51 +178,46 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
     const query = new URLSearchParams(refreshParams);
 
-    try {
-      const urlSuffix = getIdentityTokenEndpointSuffix(tenantId);
-      const request = createPipelineRequest({
-        url: `${this.authorityHost}/${tenantId}/${urlSuffix}`,
-        method: "POST",
-        body: query.toString(),
-        abortSignal: options && options.abortSignal,
-        headers: createHttpHeaders({
-          Accept: "application/json",
-          "Content-Type": "application/x-www-form-urlencoded",
-        }),
-        tracingOptions: updatedOptions?.tracingOptions,
-      });
+    return tracingClient.withSpan(
+      "IdentityClient-refreshAccessToken",
+      options || {},
+      async (updatedOptions) => {
+        try {
+          const urlSuffix = getIdentityTokenEndpointSuffix(tenantId);
+          const request = createPipelineRequest({
+            url: `${this.authorityHost}/${tenantId}/${urlSuffix}`,
+            method: "POST",
+            body: query.toString(),
+            abortSignal: options && options.abortSignal,
+            headers: createHttpHeaders({
+              Accept: "application/json",
+              "Content-Type": "application/x-www-form-urlencoded",
+            }),
+            tracingOptions: updatedOptions?.tracingOptions,
+          });
 
-      const response = await this.sendTokenRequest(request, expiresOnParser);
-      logger.info(`IdentityClient: refreshed token for client ID: ${clientId}`);
-      return response;
-    } catch (err) {
-      if (
-        err.name === AuthenticationErrorName &&
-        err.errorResponse.error === "interaction_required"
-      ) {
-        // It's likely that the refresh token has expired, so
-        // return null so that the credential implementation will
-        // initiate the authentication flow again.
-        logger.info(`IdentityClient: interaction required for client ID: ${clientId}`);
-        span.setStatus({
-          status: "error",
-          error: err,
-        });
-
-        return null;
-      } else {
-        logger.warning(
-          `IdentityClient: failed refreshing token for client ID: ${clientId}: ${err}`
-        );
-        span.setStatus({
-          status: "error",
-          error: err,
-        });
-        throw err;
+          const response = await this.sendTokenRequest(request, expiresOnParser);
+          logger.info(`IdentityClient: refreshed token for client ID: ${clientId}`);
+          return response;
+        } catch (err) {
+          if (
+            err.name === AuthenticationErrorName &&
+            err.errorResponse.error === "interaction_required"
+          ) {
+            // It's likely that the refresh token has expired, so
+            // return null so that the credential implementation will
+            // initiate the authentication flow again.
+            logger.info(`IdentityClient: interaction required for client ID: ${clientId}`);
+            return null;
+          } else {
+            logger.warning(
+              `IdentityClient: failed refreshing token for client ID: ${clientId}: ${err}`
+            );
+            throw err;
+          }
+        }
       }
-    } finally {
-      span.end();
-    }
+    );
   }
 
   // Here is a custom layer that allows us to abort requests that go through MSAL,
