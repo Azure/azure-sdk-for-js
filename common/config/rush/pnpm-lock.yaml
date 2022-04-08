@@ -14193,7 +14193,7 @@ packages:
     dev: false
 
   file:projects/core-client-1.tgz:
-    resolution: {integrity: sha512-36Z3KNLPXfY5EZKDK1mY7EvHsv5/IbUHOhdqlHS2E+oz0Vle+EH9lp8d/QUozpaW/yq7IUdI3pKzgY9yhQ3phg==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-R1d7k0BfA0KVeo8reFupEybFUaWdZNRcQWItkGh9ygtVlbEnRytOHh0RTomrHMXlCdVlQA6xxgAURkLK6lPssQ==, tarball: file:projects/core-client-1.tgz}
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
@@ -14406,7 +14406,7 @@ packages:
     dev: false
 
   file:projects/core-lro.tgz:
-    resolution: {integrity: sha512-ewaXXxQnfcoQb9H1pkXNur7L86VeTvVvxx4s4BkJARNGh9tdf8ADHKGMDsmwh76hwWQQvM75cCxOAwURhOkgLw==, tarball: file:projects/core-lro.tgz}
+    resolution: {integrity: sha512-NANqShNp8pQvxG4T46l3bj/iRRmqesbJrDLBHund/Qkwgjcdkjt6p0h3eRQbSr06fdnUdm5RQ02wrhwtwLOHCg==, tarball: file:projects/core-lro.tgz}
     name: '@rush-temp/core-lro'
     version: 0.0.0
     dependencies:
@@ -16529,7 +16529,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-ADG9wO8rIljoktGdVnP+v8jdrxc43TL0hQgHi7cSXkrJxFGGB6M8XqcDhuT8hYCLfLkRzCwpwH7VSnsjBDVdpg==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-9TumFphoGCJiaHQVfz2Z9AsSbhal4ZtZWx7L9fG19JdfEZKJT5uUykYq81plFNWAReFMs83oFPUO//K+BhRuLQ==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
@@ -17674,7 +17674,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub.tgz:
-    resolution: {integrity: sha512-7qvVc3+mTZX3L5BoserPH04Nwu7kDUUNR5KCtK+ugSa+uTQ5jM0uPXJ3sxgajKuLX+a63eftQtMg2Zcf9K3HZw==, tarball: file:projects/web-pubsub.tgz}
+    resolution: {integrity: sha512-vAYE6Sk0Olihti+uB+3ac0P3Y+d/XtBXwF2rq0PblaciuLhY/J/3+Y9dpOYDpgTiTyZuAmm+7DDRAq8AYkSETQ==, tarball: file:projects/web-pubsub.tgz}
     name: '@rush-temp/web-pubsub'
     version: 0.0.0
     dependencies:
