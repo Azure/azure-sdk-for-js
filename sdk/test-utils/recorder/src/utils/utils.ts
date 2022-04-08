@@ -360,12 +360,3 @@ export function assertEnvironmentVariable(variable: string): string {
   if (!value) throw new Error(`${variable} is not defined`);
   return value;
 }
-
-/**
- * A constant that indicates whether the environment is node.js or browser based.
- */
-export const isNode =
-  typeof process !== "undefined" &&
-  !!process.version &&
-  !!process.versions &&
-  !!process.versions.node;

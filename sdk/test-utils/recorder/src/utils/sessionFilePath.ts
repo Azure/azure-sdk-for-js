@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { isNode } from "@azure/core-util";
 import { env } from "./env";
 import { generateTestRecordingFilePath } from "./filePathGenerator";
 import { relativeRecordingsPath } from "./relativePathCalculator";
-import { isNode, RecorderError } from "./utils";
+import { RecorderError } from "./utils";
 
 export function sessionFilePath(testContext: Mocha.Test): string {
   const recordingsFolder = !isNode ? env.RECORDINGS_RELATIVE_PATH : relativeRecordingsPath(); // sdk/service/project/recordings
