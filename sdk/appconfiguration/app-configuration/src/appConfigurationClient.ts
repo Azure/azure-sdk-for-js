@@ -421,7 +421,7 @@ export class AppConfigurationClient {
     options: ListRevisionsOptions & PageSettings = {}
   ): AsyncIterableIterator<ListRevisionsPage> {
     let currentResponse = await tracingClient.withSpan(
-      "listRevisions",
+      "AppConfigurationClient.listRevisions",
       options,
       async (updatedOptions) => {
         const response = await this.client.getRevisions({
