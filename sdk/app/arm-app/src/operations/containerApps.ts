@@ -27,9 +27,7 @@ import {
   ContainerAppsCreateOrUpdateOptionalParams,
   ContainerAppsCreateOrUpdateResponse,
   ContainerAppsDeleteOptionalParams,
-  ContainerAppPatch,
   ContainerAppsUpdateOptionalParams,
-  ContainerAppsUpdateResponse,
   ContainerAppsListCustomHostNameAnalysisOptionalParams,
   ContainerAppsListCustomHostNameAnalysisResponse,
   ContainerAppsListSecretsOptionalParams,
@@ -253,12 +251,10 @@ export class ContainerAppsImpl implements ContainerApps {
       { resourceGroupName, name, containerAppEnvelope, options },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -338,12 +334,10 @@ export class ContainerAppsImpl implements ContainerApps {
       { resourceGroupName, name, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -362,22 +356,88 @@ export class ContainerAppsImpl implements ContainerApps {
   }
 
   /**
-   * Patches a Container App. Currently only patching of tags is supported
+   * Patches a Container App using JSON Merge Patch
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name Name of the Container App.
-   * @param containerAppEnvelope Properties of a container app that need to be updated
+   * @param containerAppEnvelope Properties of a Container App that need to be updated
    * @param options The options parameters.
    */
-  update(
+  async beginUpdate(
     resourceGroupName: string,
     name: string,
-    containerAppEnvelope: ContainerAppPatch,
+    containerAppEnvelope: ContainerApp,
     options?: ContainerAppsUpdateOptionalParams
-  ): Promise<ContainerAppsUpdateResponse> {
-    return this.client.sendOperationRequest(
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
       { resourceGroupName, name, containerAppEnvelope, options },
       updateOperationSpec
     );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+  }
+
+  /**
+   * Patches a Container App using JSON Merge Patch
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name Name of the Container App.
+   * @param containerAppEnvelope Properties of a Container App that need to be updated
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
+    resourceGroupName: string,
+    name: string,
+    containerAppEnvelope: ContainerApp,
+    options?: ContainerAppsUpdateOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      name,
+      containerAppEnvelope,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -572,14 +632,15 @@ const updateOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{name}",
   httpMethod: "PATCH",
   responses: {
-    200: {
-      bodyMapper: Mappers.ContainerApp
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.containerAppEnvelope1,
+  requestBody: Parameters.containerAppEnvelope,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

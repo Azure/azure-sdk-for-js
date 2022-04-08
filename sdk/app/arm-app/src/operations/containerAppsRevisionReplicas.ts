@@ -91,8 +91,8 @@ const getReplicaOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name,
     Parameters.containerAppName,
+    Parameters.name,
     Parameters.revisionName
   ],
   headerParameters: [Parameters.accept],

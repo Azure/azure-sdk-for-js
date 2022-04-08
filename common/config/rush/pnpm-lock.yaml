@@ -9238,28 +9238,27 @@ packages:
     dev: false
 
   file:projects/arm-app.tgz:
-    resolution: {integrity: sha512-LJKyEcLnJ6ZwVZFajPwxStZhrx47ilrjb0bao+zpN2dYbZVG1mefDjM+9/vMCp1+2CFtTZg8wMkvNuk7bzwq1w==, tarball: file:projects/arm-app.tgz}
+    resolution: {integrity: sha512-FB1MXuuM/aMYCUeqBo8YJxviCy0l2KyrjGjCek2nHsk8aX6vIFRLyCK8gFCjIonFP6jYUguBb59nBwut7Y1srw==, tarball: file:projects/arm-app.tgz}
     name: '@rush-temp/arm-app'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.19.4
-      '@rollup/plugin-commonjs': 21.0.2_rollup@2.70.0
-      '@rollup/plugin-json': 4.1.0_rollup@2.70.0
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.0
-      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.0
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.70.0
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.0
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.2
     transitivePeerDependencies:
-      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -16529,7 +16528,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-ADG9wO8rIljoktGdVnP+v8jdrxc43TL0hQgHi7cSXkrJxFGGB6M8XqcDhuT8hYCLfLkRzCwpwH7VSnsjBDVdpg==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-9TumFphoGCJiaHQVfz2Z9AsSbhal4ZtZWx7L9fG19JdfEZKJT5uUykYq81plFNWAReFMs83oFPUO//K+BhRuLQ==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
@@ -17674,7 +17673,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub.tgz:
-    resolution: {integrity: sha512-7qvVc3+mTZX3L5BoserPH04Nwu7kDUUNR5KCtK+ugSa+uTQ5jM0uPXJ3sxgajKuLX+a63eftQtMg2Zcf9K3HZw==, tarball: file:projects/web-pubsub.tgz}
+    resolution: {integrity: sha512-vAYE6Sk0Olihti+uB+3ac0P3Y+d/XtBXwF2rq0PblaciuLhY/J/3+Y9dpOYDpgTiTyZuAmm+7DDRAq8AYkSETQ==, tarball: file:projects/web-pubsub.tgz}
     name: '@rush-temp/web-pubsub'
     version: 0.0.0
     dependencies:

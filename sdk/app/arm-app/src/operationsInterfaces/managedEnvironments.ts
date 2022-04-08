@@ -17,9 +17,7 @@ import {
   ManagedEnvironmentsCreateOrUpdateOptionalParams,
   ManagedEnvironmentsCreateOrUpdateResponse,
   ManagedEnvironmentsDeleteOptionalParams,
-  ManagedEnvironmentPatch,
-  ManagedEnvironmentsUpdateOptionalParams,
-  ManagedEnvironmentsUpdateResponse
+  ManagedEnvironmentsUpdateOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -106,16 +104,29 @@ export interface ManagedEnvironments {
     options?: ManagedEnvironmentsDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Patches a Managed Environment. Only patching of tags is supported currently
+   * Patches a Managed Environment using JSON Merge Patch
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name Name of the Environment.
    * @param environmentEnvelope Configuration details of the Environment.
    * @param options The options parameters.
    */
-  update(
+  beginUpdate(
     resourceGroupName: string,
     name: string,
-    environmentEnvelope: ManagedEnvironmentPatch,
+    environmentEnvelope: ManagedEnvironment,
     options?: ManagedEnvironmentsUpdateOptionalParams
-  ): Promise<ManagedEnvironmentsUpdateResponse>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Patches a Managed Environment using JSON Merge Patch
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name Name of the Environment.
+   * @param environmentEnvelope Configuration details of the Environment.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    name: string,
+    environmentEnvelope: ManagedEnvironment,
+    options?: ManagedEnvironmentsUpdateOptionalParams
+  ): Promise<void>;
 }

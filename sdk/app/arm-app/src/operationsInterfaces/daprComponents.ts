@@ -14,7 +14,9 @@ import {
   DaprComponentsGetResponse,
   DaprComponentsCreateOrUpdateOptionalParams,
   DaprComponentsCreateOrUpdateResponse,
-  DaprComponentsDeleteOptionalParams
+  DaprComponentsDeleteOptionalParams,
+  DaprComponentsListSecretsOptionalParams,
+  DaprComponentsListSecretsResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -72,4 +74,17 @@ export interface DaprComponents {
     name: string,
     options?: DaprComponentsDeleteOptionalParams
   ): Promise<void>;
+  /**
+   * List secrets for a dapr component
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param environmentName Name of the Managed Environment.
+   * @param name Name of the Dapr Component.
+   * @param options The options parameters.
+   */
+  listSecrets(
+    resourceGroupName: string,
+    environmentName: string,
+    name: string,
+    options?: DaprComponentsListSecretsOptionalParams
+  ): Promise<DaprComponentsListSecretsResponse>;
 }
