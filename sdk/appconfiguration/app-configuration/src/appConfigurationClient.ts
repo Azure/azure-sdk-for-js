@@ -490,7 +490,7 @@ export class AppConfigurationClient {
       | SetConfigurationSettingParam<SecretReferenceValue>,
     options: SetConfigurationSettingOptions = {}
   ): Promise<SetConfigurationSettingResponse> {
-    return tracingClient.withSpan("setConfigurationSetting", options, async (updatedOptions) => {
+    return tracingClient.withSpan("AppConfigurationClient.setConfigurationSetting", options, async (updatedOptions) => {
       const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
       const response = transformKeyValueResponse(
         await this.client.putKeyValue(configurationSetting.key, {
