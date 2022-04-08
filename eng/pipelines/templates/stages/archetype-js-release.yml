@@ -289,7 +289,7 @@ stages:
                 arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "dev" -registry "$(Registry)" -npmToken "$(NpmToken)"'
 
     - job: PublishDocsToNightlyBranch
-      condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal')))
+      condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'),  ne(variables['Skip.PublishDocs'], 'true')))
       dependsOn: PublishPackages
       pool:
         name: azsdk-pool-mms-ubuntu-2004-general
