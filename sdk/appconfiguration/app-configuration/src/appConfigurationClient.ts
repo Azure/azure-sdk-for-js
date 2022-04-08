@@ -440,7 +440,7 @@ export class AppConfigurationClient {
 
     while (currentResponse.nextLink) {
       currentResponse = (await tracingClient.withSpan(
-        "listRevisions",
+        "AppConfigurationClient.listRevisions",
         options,
         (updatedOptions) => {
           return this.client.getRevisions({
