@@ -5,13 +5,12 @@ import * as https from "https";
 import { assert } from "chai";
 import { getClient } from "../../src/getClient";
 import sinon from "sinon";
-
 import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
 import { PassThrough } from "stream";
 
 const mockBaseUrl = "https://example.org";
 
-describe("getClient", () => {
+describe("[Node] Streams", () => {
   afterEach(() => {
     sinon.reset();
     sinon.restore();

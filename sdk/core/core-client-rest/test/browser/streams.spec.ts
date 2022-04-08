@@ -4,9 +4,8 @@
 import { assert } from "chai";
 import { getClient } from "../../src/getClient";
 import sinon from "sinon";
-import { delay } from "@azure/core-util";
 
-function createResponse(statusCode: number, body = "", chunkDelay = 0): Response {
+function createResponse(statusCode: number, body = ""): Response {
   const stream = new ReadableStream({
     async start(controller) {
       const encoder = new TextEncoder();
@@ -16,7 +15,6 @@ function createResponse(statusCode: number, body = "", chunkDelay = 0): Response
         const first = view.slice(0, 1);
         const second = view.slice(1);
         controller.enqueue(first);
-        await delay(chunkDelay);
         controller.enqueue(second);
         controller.close();
       } else {
@@ -30,7 +28,7 @@ function createResponse(statusCode: number, body = "", chunkDelay = 0): Response
 
 const mockBaseUrl = "https://example.org";
 
-describe.only("[Browser] getClient", () => {
+describe("[Browser] Streams", () => {
   let fetchMock: sinon.SinonStub;
   beforeEach(() => {
     fetchMock = sinon.stub(self, "fetch");
@@ -43,7 +41,7 @@ describe.only("[Browser] getClient", () => {
 
   it("should get a JSON body response as a stream", async () => {
     const responseText = "An appropriate response.";
-    fetchMock.returns(createResponse(200, responseText, 1000));
+    fetchMock.returns(createResponse(200, responseText));
 
     const client = getClient(mockBaseUrl);
     const result = await client.pathUnchecked("/foo").get().asBrowserStream();
@@ -57,12 +55,9 @@ describe.only("[Browser] getClient", () => {
     const responseText = "An appropriate response.";
 
     const client = getClient(mockBaseUrl);
-    fetchMock.returns(createResponse(200, responseText, 1000));
+    fetchMock.returns(createResponse(200, responseText));
 
-    const result = await client
-      .pathUnchecked("/foo")
-      .get()
-      .then((r) => r);
+    const result = await client.pathUnchecked("/foo").get();
 
     assert.deepEqual(result.body, responseText);
   });

@@ -2,8 +2,6 @@
 // Licensed under the MIT license.
 
 import {
-  createHttpHeaders,
-  createPipelineRequest,
   FormDataMap,
   HttpClient,
   HttpMethods,
@@ -13,8 +11,11 @@ import {
   RawHttpHeaders,
   RequestBodyType,
   RestError,
+  createHttpHeaders,
+  createPipelineRequest,
 } from "@azure/core-rest-pipeline";
 import { getCachedDefaultHttpsClient } from "./clientHelpers";
+import { isReadableStream } from "./helpers/isReadableStream";
 import { HttpResponse, RequestParameters } from "./common";
 import { binaryArrayToString, stringToBinaryArray } from "./helpers/getBinaryBody";
 
@@ -58,13 +59,17 @@ export async function sendRequest(
  * @param customHttpClient - a custom HttpClient to use when making the request
  * @returns returns and HttpResponse
  */
-export async function sendRequestAsStream(
+export async function sendRequestAsStream<
+  TResponse extends HttpResponse & {
+    body: NodeJS.ReadableStream | ReadableStream<Uint8Array> | undefined;
+  }
+>(
   method: HttpMethods,
   url: string,
   pipeline: Pipeline,
   options: RequestParameters = {},
   customHttpClient?: HttpClient
-): Promise<HttpResponse> {
+): Promise<TResponse> {
   const httpClient = customHttpClient ?? getCachedDefaultHttpsClient();
   const request = buildPipelineRequest(method, url, { ...options, responseAsStream: true });
   const response = await pipeline.sendRequest(httpClient, request);
@@ -77,7 +82,7 @@ export async function sendRequestAsStream(
     headers: rawHeaders,
     status: `${response.status}`,
     body: parsedBody,
-  };
+  } as TResponse;
 }
 
 /**
@@ -140,6 +145,10 @@ interface RequestBody {
 function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
   if (body === undefined) {
     return { body: undefined };
+  }
+
+  if (isReadableStream(body)) {
+    return { body };
   }
 
   if (!contentType && typeof body === "string") {

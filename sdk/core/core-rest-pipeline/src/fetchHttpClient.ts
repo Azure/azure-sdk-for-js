@@ -239,9 +239,9 @@ function buildBodyStream(
           if (onProgress) {
             onProgress({ loadedBytes });
           }
-        },
+        }
       })
-    );
+    )
   } else {
     // If we can't use transform streams, wrap the original stream in a new readable stream
     // and use pull to enqueue each chunk and report progress.

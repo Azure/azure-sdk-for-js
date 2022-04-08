@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { isCertificateCredential } from "./certificateCredential";
 import { HttpClient, HttpMethods, Pipeline, PipelineOptions } from "@azure/core-rest-pipeline";
 import { createDefaultPipeline } from "./clientHelpers";
@@ -163,13 +163,6 @@ function buildOperation(
   allowInsecureConnection?: boolean,
   httpClient?: HttpClient
 ): StreamableMethod {
-  const asStream = sendRequestAsStream(
-    method,
-    url,
-    pipeline,
-    { allowInsecureConnection, ...options },
-    httpClient
-  );
   return {
     then: async function (onFulfilled) {
       const result = await sendRequest(
@@ -182,10 +175,22 @@ function buildOperation(
       return onFulfilled(result);
     },
     async asBrowserStream() {
-      return asStream as Promise<HttpBrowserStreamResponse>;
+      return sendRequestAsStream<HttpBrowserStreamResponse>(
+        method,
+        url,
+        pipeline,
+        { allowInsecureConnection, ...options },
+        httpClient
+      );
     },
     async asNodeStream() {
-      return asStream as Promise<HttpNodeStreamResponse>;
+      return sendRequestAsStream<HttpNodeStreamResponse>(
+        method,
+        url,
+        pipeline,
+        { allowInsecureConnection, ...options },
+        httpClient
+      );
     },
   };
 }
