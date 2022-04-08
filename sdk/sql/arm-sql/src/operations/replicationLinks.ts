@@ -20,14 +20,14 @@ import {
   ReplicationLinksListByDatabaseOptionalParams,
   ReplicationLinksListByServerNextOptionalParams,
   ReplicationLinksListByServerOptionalParams,
-  ReplicationLinksDeleteOptionalParams,
-  ReplicationLinksFailoverOptionalParams,
-  ReplicationLinksFailoverAllowDataLossOptionalParams,
-  UnlinkParameters,
-  ReplicationLinksUnlinkOptionalParams,
   ReplicationLinksListByDatabaseResponse,
   ReplicationLinksGetOptionalParams,
   ReplicationLinksGetResponse,
+  ReplicationLinksDeleteOptionalParams,
+  ReplicationLinksFailoverOptionalParams,
+  ReplicationLinksFailoverResponse,
+  ReplicationLinksFailoverAllowDataLossOptionalParams,
+  ReplicationLinksFailoverAllowDataLossResponse,
   ReplicationLinksListByServerResponse,
   ReplicationLinksListByDatabaseNextResponse,
   ReplicationLinksListByServerNextResponse
@@ -200,12 +200,54 @@ export class ReplicationLinksImpl implements ReplicationLinks {
   }
 
   /**
-   * Deletes a database replication link. Cannot be done during failover.
+   * Gets a list of replication links on database.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param databaseName The name of the database that has the replication link to be dropped.
-   * @param linkId The ID of the replication link to be deleted.
+   * @param databaseName The name of the database.
+   * @param options The options parameters.
+   */
+  private _listByDatabase(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    options?: ReplicationLinksListByDatabaseOptionalParams
+  ): Promise<ReplicationLinksListByDatabaseResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serverName, databaseName, options },
+      listByDatabaseOperationSpec
+    );
+  }
+
+  /**
+   * Gets a replication link.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param linkId The name of the replication link.
+   * @param options The options parameters.
+   */
+  get(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    linkId: string,
+    options?: ReplicationLinksGetOptionalParams
+  ): Promise<ReplicationLinksGetResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, serverName, databaseName, linkId, options },
+      getOperationSpec
+    );
+  }
+
+  /**
+   * Deletes the replication link.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param linkId
    * @param options The options parameters.
    */
   delete(
@@ -222,12 +264,12 @@ export class ReplicationLinksImpl implements ReplicationLinks {
   }
 
   /**
-   * Sets which replica database is primary by failing over from the current primary replica database.
+   * Fails over from the current primary server to this server.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param databaseName The name of the database that has the replication link to be failed over.
-   * @param linkId The ID of the replication link to be failed over.
+   * @param databaseName The name of the database.
+   * @param linkId The name of the replication link.
    * @param options The options parameters.
    */
   async beginFailover(
@@ -236,11 +278,16 @@ export class ReplicationLinksImpl implements ReplicationLinks {
     databaseName: string,
     linkId: string,
     options?: ReplicationLinksFailoverOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    PollerLike<
+      PollOperationState<ReplicationLinksFailoverResponse>,
+      ReplicationLinksFailoverResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<ReplicationLinksFailoverResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -288,12 +335,12 @@ export class ReplicationLinksImpl implements ReplicationLinks {
   }
 
   /**
-   * Sets which replica database is primary by failing over from the current primary replica database.
+   * Fails over from the current primary server to this server.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param databaseName The name of the database that has the replication link to be failed over.
-   * @param linkId The ID of the replication link to be failed over.
+   * @param databaseName The name of the database.
+   * @param linkId The name of the replication link.
    * @param options The options parameters.
    */
   async beginFailoverAndWait(
@@ -302,7 +349,7 @@ export class ReplicationLinksImpl implements ReplicationLinks {
     databaseName: string,
     linkId: string,
     options?: ReplicationLinksFailoverOptionalParams
-  ): Promise<void> {
+  ): Promise<ReplicationLinksFailoverResponse> {
     const poller = await this.beginFailover(
       resourceGroupName,
       serverName,
@@ -314,13 +361,12 @@ export class ReplicationLinksImpl implements ReplicationLinks {
   }
 
   /**
-   * Sets which replica database is primary by failing over from the current primary replica database.
-   * This operation might result in data loss.
+   * Fails over from the current primary server to this server allowing data loss.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param databaseName The name of the database that has the replication link to be failed over.
-   * @param linkId The ID of the replication link to be failed over.
+   * @param databaseName The name of the database.
+   * @param linkId The name of the replication link.
    * @param options The options parameters.
    */
   async beginFailoverAllowDataLoss(
@@ -329,11 +375,16 @@ export class ReplicationLinksImpl implements ReplicationLinks {
     databaseName: string,
     linkId: string,
     options?: ReplicationLinksFailoverAllowDataLossOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    PollerLike<
+      PollOperationState<ReplicationLinksFailoverAllowDataLossResponse>,
+      ReplicationLinksFailoverAllowDataLossResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<ReplicationLinksFailoverAllowDataLossResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -381,13 +432,12 @@ export class ReplicationLinksImpl implements ReplicationLinks {
   }
 
   /**
-   * Sets which replica database is primary by failing over from the current primary replica database.
-   * This operation might result in data loss.
+   * Fails over from the current primary server to this server allowing data loss.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param serverName The name of the server.
-   * @param databaseName The name of the database that has the replication link to be failed over.
-   * @param linkId The ID of the replication link to be failed over.
+   * @param databaseName The name of the database.
+   * @param linkId The name of the replication link.
    * @param options The options parameters.
    */
   async beginFailoverAllowDataLossAndWait(
@@ -396,7 +446,7 @@ export class ReplicationLinksImpl implements ReplicationLinks {
     databaseName: string,
     linkId: string,
     options?: ReplicationLinksFailoverAllowDataLossOptionalParams
-  ): Promise<void> {
+  ): Promise<ReplicationLinksFailoverAllowDataLossResponse> {
     const poller = await this.beginFailoverAllowDataLoss(
       resourceGroupName,
       serverName,
@@ -405,152 +455,6 @@ export class ReplicationLinksImpl implements ReplicationLinks {
       options
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * Deletes a database replication link in forced or friendly way.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database that has the replication link to be failed over.
-   * @param linkId The ID of the replication link to be failed over.
-   * @param parameters The required parameters for unlinking replication link.
-   * @param options The options parameters.
-   */
-  async beginUnlink(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    linkId: string,
-    parameters: UnlinkParameters,
-    options?: ReplicationLinksUnlinkOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      {
-        resourceGroupName,
-        serverName,
-        databaseName,
-        linkId,
-        parameters,
-        options
-      },
-      unlinkOperationSpec
-    );
-    return new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
-    });
-  }
-
-  /**
-   * Deletes a database replication link in forced or friendly way.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database that has the replication link to be failed over.
-   * @param linkId The ID of the replication link to be failed over.
-   * @param parameters The required parameters for unlinking replication link.
-   * @param options The options parameters.
-   */
-  async beginUnlinkAndWait(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    linkId: string,
-    parameters: UnlinkParameters,
-    options?: ReplicationLinksUnlinkOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginUnlink(
-      resourceGroupName,
-      serverName,
-      databaseName,
-      linkId,
-      parameters,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Gets a list of replication links on database.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param options The options parameters.
-   */
-  private _listByDatabase(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    options?: ReplicationLinksListByDatabaseOptionalParams
-  ): Promise<ReplicationLinksListByDatabaseResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, databaseName, options },
-      listByDatabaseOperationSpec
-    );
-  }
-
-  /**
-   * Gets a replication link.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param serverName The name of the server.
-   * @param databaseName The name of the database.
-   * @param linkId The name of the replication link.
-   * @param options The options parameters.
-   */
-  get(
-    resourceGroupName: string,
-    serverName: string,
-    databaseName: string,
-    linkId: string,
-    options?: ReplicationLinksGetOptionalParams
-  ): Promise<ReplicationLinksGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, serverName, databaseName, linkId, options },
-      getOperationSpec
-    );
   }
 
   /**
@@ -616,73 +520,6 @@ export class ReplicationLinksImpl implements ReplicationLinks {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/replicationLinks/{linkId}",
-  httpMethod: "DELETE",
-  responses: { 200: {}, 204: {} },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.linkId
-  ],
-  serializer
-};
-const failoverOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/replicationLinks/{linkId}/failover",
-  httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.linkId
-  ],
-  serializer
-};
-const failoverAllowDataLossOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/replicationLinks/{linkId}/forceFailoverAllowDataLoss",
-  httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.linkId
-  ],
-  serializer
-};
-const unlinkOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/replicationLinks/{linkId}/unlink",
-  httpMethod: "POST",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
-  requestBody: Parameters.parameters10,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.serverName,
-    Parameters.databaseName,
-    Parameters.linkId
-  ],
-  headerParameters: [Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
 const listByDatabaseOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/replicationLinks",
@@ -693,7 +530,7 @@ const listByDatabaseOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -714,7 +551,85 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion5],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.linkId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/replicationLinks/{linkId}",
+  httpMethod: "DELETE",
+  responses: { 200: {}, default: {} },
+  queryParameters: [Parameters.apiVersion5],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.linkId
+  ],
+  serializer
+};
+const failoverOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/replicationLinks/{linkId}/failover",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReplicationLink
+    },
+    201: {
+      bodyMapper: Mappers.ReplicationLink
+    },
+    202: {
+      bodyMapper: Mappers.ReplicationLink
+    },
+    204: {
+      bodyMapper: Mappers.ReplicationLink
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion5],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.databaseName,
+    Parameters.linkId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const failoverAllowDataLossOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/replicationLinks/{linkId}/forceFailoverAllowDataLoss",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ReplicationLink
+    },
+    201: {
+      bodyMapper: Mappers.ReplicationLink
+    },
+    202: {
+      bodyMapper: Mappers.ReplicationLink
+    },
+    204: {
+      bodyMapper: Mappers.ReplicationLink
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -736,7 +651,7 @@ const listByServerOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -755,7 +670,7 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -776,7 +691,7 @@ const listByServerNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion5],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

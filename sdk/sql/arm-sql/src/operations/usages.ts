@@ -156,7 +156,7 @@ const listByInstancePoolOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3, Parameters.expandChildren],
+  queryParameters: [Parameters.apiVersion4, Parameters.expandChildren],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -175,7 +175,7 @@ const listByInstancePoolNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion3, Parameters.expandChildren],
+  queryParameters: [Parameters.apiVersion4, Parameters.expandChildren],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
