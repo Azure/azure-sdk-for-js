@@ -242,7 +242,7 @@ export class AppConfigurationClient {
     id: ConfigurationSettingId,
     options: GetConfigurationSettingOptions = {}
   ): Promise<GetConfigurationSettingResponse> {
-    return tracingClient.withSpan("getConfigurationSetting", options, async (updatedOptions) => {
+    return tracingClient.withSpan("AppConfigurationClient.getConfigurationSetting", options, async (updatedOptions) => {
       let status;
       const originalResponse = await this.client.getKeyValue(id.key, {
         ...updatedOptions,
