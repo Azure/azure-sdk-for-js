@@ -130,7 +130,7 @@ export interface HttpResponseField<HeadersT> {
 
 // @public
 export interface HttpResponseFields {
-    statusCode: number | undefined;
+    statusCode: number;
 }
 
 // @public
