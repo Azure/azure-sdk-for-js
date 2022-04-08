@@ -1,14 +1,14 @@
 # Release History
 
-## 4.8.1 (Unreleased)
+## 4.9.0 (2022-04-07)
 
 ### Features Added
 
-### Breaking Changes
+- Added new System Events:
 
-### Bugs Fixed
-
-### Other Changes
+  - `Microsoft.HealthcareApis.FhirResourceCreated`
+  - `Microsoft.HealthcareApis.FhirUpdatedCreated`
+  - `Microsoft.HealthcareApis.FhirDeletedCreated`
 
 ## 4.8.0 (2022-03-08)
 
