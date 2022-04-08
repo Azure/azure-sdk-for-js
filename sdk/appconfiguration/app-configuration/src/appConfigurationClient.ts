@@ -211,7 +211,7 @@ export class AppConfigurationClient {
     id: ConfigurationSettingId,
     options: DeleteConfigurationSettingOptions = {}
   ): Promise<DeleteConfigurationSettingResponse> {
-    return tracingClient.withSpan("deleteConfigurationSetting", options, async (updatedOptions) => {
+    return tracingClient.withSpan("AppConfigurationClient.deleteConfigurationSetting", options, async (updatedOptions) => {
       let status;
       const originalResponse = await this.client.deleteKeyValue(id.key, {
         label: id.label,
