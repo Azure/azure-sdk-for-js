@@ -6,19 +6,19 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Schema } from "../operationsInterfaces";
+import { SchemaOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { OperationalInsightsManagementClient } from "../operationalInsightsManagementClient";
 import { SchemaGetOptionalParams, SchemaGetResponse } from "../models";
 
-/** Class containing Schema operations. */
-export class SchemaImpl implements Schema {
+/** Class containing SchemaOperations operations. */
+export class SchemaOperationsImpl implements SchemaOperations {
   private readonly client: OperationalInsightsManagementClient;
 
   /**
-   * Initialize a new instance of the class Schema class.
+   * Initialize a new instance of the class SchemaOperations class.
    * @param client Reference to the service client
    */
   constructor(client: OperationalInsightsManagementClient) {
@@ -54,7 +54,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SearchGetSchemaResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
