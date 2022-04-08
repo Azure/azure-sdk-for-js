@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Upgraded our `@azure/core-tracing` dependency to version 1.0
+
 ## 1.5.0 (2022-02-03)
 
 ### Features Added
