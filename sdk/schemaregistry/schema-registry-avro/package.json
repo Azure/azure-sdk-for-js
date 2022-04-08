@@ -60,6 +60,7 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//sampleConfiguration": {
+    "skipFolder": true,
     "disableDocsMs": true,
     "productName": "Azure Schema Registry",
     "productSlugs": [

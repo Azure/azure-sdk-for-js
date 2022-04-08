@@ -85,6 +85,7 @@
     ]
   },
   "//sampleConfiguration": {
+    "skipFolder": true,
     "productName": "Azure Key Vault Keys",
     "productSlugs": [
       "azure",

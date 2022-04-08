@@ -123,6 +123,7 @@
     "skipFolder": true
   },
   "//sampleConfiguration": {
+    "skipFolder": true,
     "productName": "Azure Digital Twins Model Parser",
     "productSlugs": [
       "azure"

@@ -83,6 +83,7 @@
     ]
   },
   "//sampleConfiguration": {
+    "skipFolder": true,
     "productName": "Azure Service Bus",
     "productSlugs": [
       "azure",

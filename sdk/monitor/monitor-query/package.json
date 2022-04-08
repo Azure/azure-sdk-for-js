@@ -148,7 +148,7 @@
     "@azure-tools/test-credential": "^1.0.0"
   },
   "//sampleConfiguration": {
-    "skipFolder": false,
+    "skipFolder": true,
     "disableDocsMs": true,
     "productName": "Monitor Query",
     "productSlugs": [],

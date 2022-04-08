@@ -160,6 +160,7 @@
     },
     "skip": [
       "secretReference.js"
-    ]
+    ],
+    "skipFolder": true
   }
 }

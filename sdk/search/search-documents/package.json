@@ -123,6 +123,7 @@
     "util": "^0.12.1"
   },
   "//sampleConfiguration": {
+    "skipFolder": true,
     "productName": "Azure Search Documents",
     "productSlugs": [
       "azure",

@@ -74,6 +74,7 @@
     ]
   },
   "//sampleConfiguration": {
+    "skipFolder": true,
     "productName": "Azure Monitor Trace Exporter",
     "productSlugs": [
       "azure-monitor"

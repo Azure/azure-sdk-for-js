@@ -119,6 +119,7 @@
     "build:samples": "echo Skipped."
   },
   "//sampleConfiguration": {
+    "skipFolder": true,
     "productName": "Azure Synapse Access Control Rest",
     "productSlugs": [
       "azure",

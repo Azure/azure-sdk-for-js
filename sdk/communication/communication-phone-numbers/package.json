@@ -138,6 +138,7 @@
     "skip": [
       "purchasePhoneNumber.js",
       "releasePhoneNumber.js"
-    ]
+    ],
+    "skipFolder": true
   }
 }

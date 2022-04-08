@@ -128,6 +128,7 @@
     "typescript": "~4.4.0"
   },
   "//sampleConfiguration": {
+    "skipFolder": true,
     "skip": [
       "analyzeDocumentByModelId.js",
       "buildModel.js",

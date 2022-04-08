@@ -128,7 +128,7 @@
     "util": "^0.12.1"
   },
   "//sampleConfiguration": {
-    "skipFolder": false,
+    "skipFolder": true,
     "disableDocsMs": true,
     "productName": "Azure Template",
     "productSlugs": [],
