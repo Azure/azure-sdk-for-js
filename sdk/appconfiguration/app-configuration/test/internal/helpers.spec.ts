@@ -20,6 +20,7 @@ import {
   HttpResponseFields,
   featureFlagContentType,
   secretReferenceContentType,
+  HttpResponseField,
 } from "../../src";
 import { FeatureFlagValue } from "../../src/featureFlag";
 import { SecretReferenceValue } from "../../src/secretReference";
@@ -184,9 +185,9 @@ describe("helper methods", () => {
         abortSignal: {
           aborted: true,
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          addEventListener: () => {},
+          addEventListener: () => { },
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          removeEventListener: () => {},
+          removeEventListener: () => { },
         },
         method: "GET",
         withCredentials: false,

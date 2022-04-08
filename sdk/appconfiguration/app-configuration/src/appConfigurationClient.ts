@@ -46,7 +46,6 @@ import {
   transformKeyValueResponse,
   transformKeyValueResponseWithStatusCode,
 } from "./internal/helpers";
-import { trace as traceFromTracingHelpers } from "./internal/tracingHelpers";
 import {
   AppConfigurationGetKeyValuesHeaders,
   AppConfigurationGetRevisionsHeaders,

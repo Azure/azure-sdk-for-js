@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { FullOperationResponse, OperationOptions } from "@azure/core-client";
+import { OperationOptions } from "@azure/core-client";
 import { FeatureFlagValue } from "./featureFlag";
 import { SecretReferenceValue } from "./secretReference";
 import { CompatResponse } from "@azure/core-http-compat";
@@ -109,14 +109,14 @@ export interface HttpResponseField<HeadersT> {
  */
 export type AddConfigurationSettingParam<
   T extends string | FeatureFlagValue | SecretReferenceValue = string
-> = ConfigurationSettingParam<T>;
+  > = ConfigurationSettingParam<T>;
 
 /**
  * Parameters for creating or updating a new configuration setting
  */
 export type SetConfigurationSettingParam<
   T extends string | FeatureFlagValue | SecretReferenceValue = string
-> = ConfigurationSettingParam<T>;
+  > = ConfigurationSettingParam<T>;
 
 /**
  * Standard base response for getting, deleting or updating a configuration setting
