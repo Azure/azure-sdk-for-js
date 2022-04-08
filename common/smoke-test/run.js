@@ -82,6 +82,7 @@ async function executeSample(sample) {
     const moduleExports = require(`${directory}/${sampleFile}`) ?? {};
 
     for (const key of Object.keys(moduleExports)) {
+      let entryPoint = moduleExports[key];
       if(typeof moduleExports[key] === "function") {
         await entryPoint();
         break;
