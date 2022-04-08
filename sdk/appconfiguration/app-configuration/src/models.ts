@@ -83,7 +83,7 @@ export interface HttpResponseFields {
   /**
    * The HTTP status code for the response
    */
-  statusCode: number | undefined;
+  statusCode: number;
 }
 /**
  * HTTP response related information - headers and raw body.
@@ -177,14 +177,16 @@ export interface AddConfigurationSettingOptions extends OperationOptions { }
  */
 export interface AddConfigurationSettingResponse
   extends ConfigurationSetting,
-  SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> { }
+  SyncTokenHeaderField,
+  HttpResponseField<SyncTokenHeaderField> { }
 
 /**
  * Response from deleting a ConfigurationSetting.
  */
 export interface DeleteConfigurationSettingResponse
   extends SyncTokenHeaderField,
-  HttpResponseFields, HttpResponseField<SyncTokenHeaderField> { }
+  HttpResponseFields,
+  HttpResponseField<SyncTokenHeaderField> { }
 
 /**
  * Options for deleting a ConfigurationSetting.
@@ -205,7 +207,8 @@ export interface SetConfigurationSettingOptions
  */
 export interface SetConfigurationSettingResponse
   extends ConfigurationSetting,
-  SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> { }
+  SyncTokenHeaderField,
+  HttpResponseField<SyncTokenHeaderField> { }
 
 /**
  * Headers from getting a ConfigurationSetting.
@@ -218,7 +221,8 @@ export interface GetConfigurationHeaders extends SyncTokenHeaderField { }
 export interface GetConfigurationSettingResponse
   extends ConfigurationSetting,
   GetConfigurationHeaders,
-  HttpResponseFields, HttpResponseField<GetConfigurationHeaders> { }
+  HttpResponseFields,
+  HttpResponseField<GetConfigurationHeaders> { }
 
 /**
  * Options for getting a ConfigurationSetting.
@@ -301,7 +305,9 @@ export interface PageSettings {
 /**
  * A page of configuration settings and the corresponding HTTP response
  */
-export interface ListConfigurationSettingPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
+export interface ListConfigurationSettingPage
+  extends HttpResponseField<SyncTokenHeaderField>,
+  PageSettings {
   /**
    * The configuration settings for this page of results.
    */
@@ -333,7 +339,10 @@ export interface SetReadOnlyOptions extends HttpOnlyIfUnchangedField, OperationO
 /**
  * Response when setting a value to read-only.
  */
-export interface SetReadOnlyResponse extends ConfigurationSetting, SyncTokenHeaderField, HttpResponseField<SyncTokenHeaderField> { }
+export interface SetReadOnlyResponse
+  extends ConfigurationSetting,
+  SyncTokenHeaderField,
+  HttpResponseField<SyncTokenHeaderField> { }
 
 /**
  * Options that control how to retry failed requests.
