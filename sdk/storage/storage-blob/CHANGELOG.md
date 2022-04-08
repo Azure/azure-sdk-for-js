@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fix incorrect browser mapping path for BufferScheduler.js
+
 ### Other Changes
 
 ## 12.9.0 (2022-03-11)

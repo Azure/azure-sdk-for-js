@@ -14,7 +14,7 @@
     "./dist-esm/storage-blob/src/BatchUtils.js": "./dist-esm/storage-blob/src/BatchUtils.browser.js",
     "./dist-esm/storage-blob/src/BlobDownloadResponse.js": "./dist-esm/storage-blob/src/BlobDownloadResponse.browser.js",
     "./dist-esm/storage-blob/src/BlobQueryResponse.js": "./dist-esm/storage-blob/src/BlobQueryResponse.browser.js",
-    "./dist-esm/storage-blob/src/utils/BufferScheduler.js": "./dist-esm/storage-blob/src/utils/BufferScheduler.browser.js",
+    "./dist-esm/storage-common/src/BufferScheduler.js": "./dist-esm/storage-common/src/BufferScheduler.browser.js",
     "./dist-esm/storage-common/src/index.js": "./dist-esm/storage-common/src/index.browser.js",
     "fs": false,
     "os": false,

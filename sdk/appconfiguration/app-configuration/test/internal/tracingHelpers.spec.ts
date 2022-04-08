@@ -7,8 +7,9 @@ import { Span, SpanStatus, SpanStatusCode } from "@azure/core-tracing";
 import { assert } from "chai";
 import sinon from "sinon";
 import { AppConfigurationClient } from "../../src/appConfigurationClient";
-import { AbortSignalLike, OperationOptions } from "@azure/core-http";
 import { OperationTracingOptions } from "@azure/core-tracing";
+import { OperationOptions } from "@azure/core-client";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 describe("tracingHelpers", () => {
   it("trace OK", async () => {
