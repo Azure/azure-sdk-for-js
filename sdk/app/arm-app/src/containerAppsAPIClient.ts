@@ -9,28 +9,30 @@
 import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
 import {
+  ContainerAppsAuthConfigsImpl,
   ContainerAppsImpl,
   ContainerAppsRevisionsImpl,
   ContainerAppsRevisionReplicasImpl,
+  DaprComponentsImpl,
+  OperationsImpl,
   ManagedEnvironmentsImpl,
   CertificatesImpl,
-  OperationsImpl,
-  ContainerAppsSourceControlsImpl,
-  DaprComponentsImpl,
-  ContainerAppsAuthConfigsImpl,
-  ManagedEnvironmentsStoragesImpl
+  NamespacesImpl,
+  ManagedEnvironmentsStoragesImpl,
+  ContainerAppsSourceControlsImpl
 } from "./operations";
 import {
+  ContainerAppsAuthConfigs,
   ContainerApps,
   ContainerAppsRevisions,
   ContainerAppsRevisionReplicas,
+  DaprComponents,
+  Operations,
   ManagedEnvironments,
   Certificates,
-  Operations,
-  ContainerAppsSourceControls,
-  DaprComponents,
-  ContainerAppsAuthConfigs,
-  ManagedEnvironmentsStorages
+  Namespaces,
+  ManagedEnvironmentsStorages,
+  ContainerAppsSourceControls
 } from "./operationsInterfaces";
 import { ContainerAppsAPIClientOptionalParams } from "./models";
 
@@ -66,7 +68,7 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-app/1.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-app/1.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -81,8 +83,7 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+      baseUri: options.endpoint || "https://management.azure.com"
     };
     super(optionsWithDefaults);
     // Parameter assignments
@@ -90,33 +91,35 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-01-01-preview";
+    this.apiVersion = options.apiVersion || "2022-03-01";
+    this.containerAppsAuthConfigs = new ContainerAppsAuthConfigsImpl(this);
     this.containerApps = new ContainerAppsImpl(this);
     this.containerAppsRevisions = new ContainerAppsRevisionsImpl(this);
     this.containerAppsRevisionReplicas = new ContainerAppsRevisionReplicasImpl(
       this
     );
+    this.daprComponents = new DaprComponentsImpl(this);
+    this.operations = new OperationsImpl(this);
     this.managedEnvironments = new ManagedEnvironmentsImpl(this);
     this.certificates = new CertificatesImpl(this);
-    this.operations = new OperationsImpl(this);
-    this.containerAppsSourceControls = new ContainerAppsSourceControlsImpl(
+    this.namespaces = new NamespacesImpl(this);
+    this.managedEnvironmentsStorages = new ManagedEnvironmentsStoragesImpl(
       this
     );
-    this.daprComponents = new DaprComponentsImpl(this);
-    this.containerAppsAuthConfigs = new ContainerAppsAuthConfigsImpl(this);
-    this.managedEnvironmentsStorages = new ManagedEnvironmentsStoragesImpl(
+    this.containerAppsSourceControls = new ContainerAppsSourceControlsImpl(
       this
     );
   }
 
+  containerAppsAuthConfigs: ContainerAppsAuthConfigs;
   containerApps: ContainerApps;
   containerAppsRevisions: ContainerAppsRevisions;
   containerAppsRevisionReplicas: ContainerAppsRevisionReplicas;
+  daprComponents: DaprComponents;
+  operations: Operations;
   managedEnvironments: ManagedEnvironments;
   certificates: Certificates;
-  operations: Operations;
-  containerAppsSourceControls: ContainerAppsSourceControls;
-  daprComponents: DaprComponents;
-  containerAppsAuthConfigs: ContainerAppsAuthConfigs;
+  namespaces: Namespaces;
   managedEnvironmentsStorages: ManagedEnvironmentsStorages;
+  containerAppsSourceControls: ContainerAppsSourceControls;
 }

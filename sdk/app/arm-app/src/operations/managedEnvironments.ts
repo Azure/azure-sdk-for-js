@@ -27,9 +27,7 @@ import {
   ManagedEnvironmentsCreateOrUpdateOptionalParams,
   ManagedEnvironmentsCreateOrUpdateResponse,
   ManagedEnvironmentsDeleteOptionalParams,
-  ManagedEnvironmentPatch,
   ManagedEnvironmentsUpdateOptionalParams,
-  ManagedEnvironmentsUpdateResponse,
   ManagedEnvironmentsListBySubscriptionNextResponse,
   ManagedEnvironmentsListByResourceGroupNextResponse
 } from "../models";
@@ -249,12 +247,10 @@ export class ManagedEnvironmentsImpl implements ManagedEnvironments {
       { resourceGroupName, name, environmentEnvelope, options },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -334,12 +330,10 @@ export class ManagedEnvironmentsImpl implements ManagedEnvironments {
       { resourceGroupName, name, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -358,22 +352,88 @@ export class ManagedEnvironmentsImpl implements ManagedEnvironments {
   }
 
   /**
-   * Patches a Managed Environment. Only patching of tags is supported currently
+   * Patches a Managed Environment using JSON Merge Patch
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param name Name of the Environment.
    * @param environmentEnvelope Configuration details of the Environment.
    * @param options The options parameters.
    */
-  update(
+  async beginUpdate(
     resourceGroupName: string,
     name: string,
-    environmentEnvelope: ManagedEnvironmentPatch,
+    environmentEnvelope: ManagedEnvironment,
     options?: ManagedEnvironmentsUpdateOptionalParams
-  ): Promise<ManagedEnvironmentsUpdateResponse> {
-    return this.client.sendOperationRequest(
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
       { resourceGroupName, name, environmentEnvelope, options },
       updateOperationSpec
     );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+  }
+
+  /**
+   * Patches a Managed Environment using JSON Merge Patch
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param name Name of the Environment.
+   * @param environmentEnvelope Configuration details of the Environment.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
+    resourceGroupName: string,
+    name: string,
+    environmentEnvelope: ManagedEnvironment,
+    options?: ManagedEnvironmentsUpdateOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      name,
+      environmentEnvelope,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -532,14 +592,15 @@ const updateOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{name}",
   httpMethod: "PATCH",
   responses: {
-    200: {
-      bodyMapper: Mappers.ManagedEnvironment
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  requestBody: Parameters.environmentEnvelope1,
+  requestBody: Parameters.environmentEnvelope,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

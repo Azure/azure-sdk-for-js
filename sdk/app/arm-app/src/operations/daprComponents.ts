@@ -22,6 +22,8 @@ import {
   DaprComponentsCreateOrUpdateOptionalParams,
   DaprComponentsCreateOrUpdateResponse,
   DaprComponentsDeleteOptionalParams,
+  DaprComponentsListSecretsOptionalParams,
+  DaprComponentsListSecretsResponse,
   DaprComponentsListNextResponse
 } from "../models";
 
@@ -184,6 +186,25 @@ export class DaprComponentsImpl implements DaprComponents {
   }
 
   /**
+   * List secrets for a dapr component
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param environmentName Name of the Managed Environment.
+   * @param name Name of the Dapr Component.
+   * @param options The options parameters.
+   */
+  listSecrets(
+    resourceGroupName: string,
+    environmentName: string,
+    name: string,
+    options?: DaprComponentsListSecretsOptionalParams
+  ): Promise<DaprComponentsListSecretsResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, environmentName, name, options },
+      listSecretsOperationSpec
+    );
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param environmentName Name of the Managed Environment.
@@ -282,6 +303,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.environmentName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listSecretsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/daprComponents/{name}/listSecrets",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DaprSecretsCollection
+    },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse
     }
