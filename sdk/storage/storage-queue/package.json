@@ -99,7 +99,6 @@
     ]
   },
   "//sampleConfiguration": {
-    "skipFolder": true,
     "skip": [
       "anonymousAuth.js",
       "azureAdAuth.js",

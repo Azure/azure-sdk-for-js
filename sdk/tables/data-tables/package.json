@@ -125,7 +125,6 @@
     "ts-node": "^10.0.0"
   },
   "//sampleConfiguration": {
-    "skipFolder": true,
     "productName": "Azure Data Tables",
     "productSlugs": [
       "azure",

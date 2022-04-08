@@ -104,7 +104,6 @@
     ]
   },
   "//sampleConfiguration": {
-    "skipFolder": true,
     "skip": [
       "advancedRequestOptions.js",
       "anonymousAuth.js",

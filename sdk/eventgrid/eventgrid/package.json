@@ -32,7 +32,6 @@
     "LICENSE"
   ],
   "//sampleConfiguration": {
-    "skipFolder": true,
     "productName": "Azure Event Grid",
     "productSlugs": [
       "azure",

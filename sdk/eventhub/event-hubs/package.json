@@ -82,7 +82,6 @@
     ]
   },
   "//sampleConfiguration": {
-    "skipFolder": true,
     "extraFiles": {
       "./samples-browser": [
         "browser"

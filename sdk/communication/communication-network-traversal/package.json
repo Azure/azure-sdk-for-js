@@ -44,8 +44,7 @@
     ],
     "requiredResources": {
       "Azure Communication Services account": "https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource"
-    },
-    "skipFolder": true
+    }
   },
   "files": [
     "dist/",

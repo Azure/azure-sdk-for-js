@@ -56,7 +56,6 @@
     ]
   },
   "//sampleConfiguration": {
-    "skipFolder": true,
     "disableDocsMs": true,
     "productName": "Azure Schema Registry",
     "productSlugs": [

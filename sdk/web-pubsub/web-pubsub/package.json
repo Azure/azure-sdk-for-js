@@ -117,7 +117,6 @@
     "ws": "^8.2.0"
   },
   "//sampleConfiguration": {
-    "skipFolder": true,
     "productName": "Azure Web PubSub",
     "productSlugs": [
       "azure"
