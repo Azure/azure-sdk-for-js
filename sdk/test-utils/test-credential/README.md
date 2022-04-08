@@ -1,6 +1,8 @@
 # Azure Tools - Test Credential
 
-This library provides a `TokenCredential` implementation for testing Azure SDK packages.
+**Note: This project is a test utility that assits with testing the packages maintained at the Azure SDK for JavaScript repository. This is not intended for the public utilization.**
+
+This library provides a `TokenCredential` implementation for testing Azure SDK packages. This library is supposed to be utilized along with the `@azure-tools/test-recorder` library for testing Azure SDKs.
 
 ## Getting started
 
@@ -13,6 +15,7 @@ Add this library as a dev dependency in your project.
 ## Key concepts
 
 ### Usage
+
 ```ts
 import { createTestCredential } from "@azure-tools/test-credential";
 
