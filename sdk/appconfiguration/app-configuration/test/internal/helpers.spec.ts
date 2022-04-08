@@ -3,24 +3,24 @@
 
 import {
   checkAndFormatIfAndIfNoneMatch,
-  extractAfterTokenFromNextLink,
-  formatFieldsForSelect,
   formatFiltersAndSelect,
-  makeConfigurationSettingEmpty,
+  extractAfterTokenFromNextLink,
   quoteETag,
-  serializeAsConfigurationSettingParam,
+  makeConfigurationSettingEmpty,
   transformKeyValue,
-  transformKeyValueResponse,
   transformKeyValueResponseWithStatusCode,
+  transformKeyValueResponse,
+  formatFieldsForSelect,
+  serializeAsConfigurationSettingParam,
 } from "../../src/internal/helpers";
 import { assert } from "chai";
 import {
   ConfigurationSetting,
   ConfigurationSettingParam,
-  HttpResponseFields,
   featureFlagContentType,
-  secretReferenceContentType,
   HttpResponseField,
+  HttpResponseFields,
+  secretReferenceContentType,
 } from "../../src";
 import { FeatureFlagValue } from "../../src/featureFlag";
 import { SecretReferenceValue } from "../../src/secretReference";
@@ -203,10 +203,11 @@ describe("helper methods", () => {
   };
 
   it("makeConfigurationSettingEmpty", () => {
-    const response: ConfigurationSetting & HttpResponseFields = {
+    const response: ConfigurationSetting & HttpResponseField<any> & HttpResponseFields = {
       key: "mykey",
       statusCode: 204,
       isReadOnly: false,
+      ...fakeHttp204Response,
     };
 
     makeConfigurationSettingEmpty(response);
@@ -218,6 +219,10 @@ describe("helper methods", () => {
       assert.ok(!response[name], name);
     }
 
+    // These point is these properties are untouched and won't throw
+    // since they're the only properties the user is allowed to touch on these
+    // "body empty" objects.
+    assert.equal(204, response._response.status);
     assert.equal(204, response.statusCode);
   });
 
@@ -227,7 +232,7 @@ describe("helper methods", () => {
       locked: true,
     });
 
-    assert.deepEqual(configurationSetting as unknown, {
+    assert.deepEqual(configurationSetting, {
       // the 'locked' property should not be present in the object since
       // it should be 'renamed' to readOnly
       isReadOnly: true,
@@ -248,7 +253,13 @@ describe("helper methods", () => {
 
     const actualKeys = Object.keys(configurationSetting).sort();
 
+    // _response is explictly set to not enumerate, even in our copied object.
     assert.deepEqual(actualKeys, ["isReadOnly", "key", "statusCode", "value"]);
+
+    // now make it enumerable so we can do our comparison
+    Object.defineProperty(configurationSetting, "_response", {
+      enumerable: true,
+    });
 
     assert.deepEqual(configurationSetting, {
       isReadOnly: true,
@@ -263,11 +274,18 @@ describe("helper methods", () => {
     const configurationSetting = transformKeyValueResponse({
       key: "hello",
       locked: true,
+      ...fakeHttp204Response,
     });
 
     const actualKeys = Object.keys(configurationSetting).sort();
 
+    // _response is explictly set to not enumerate, even in our copied object.
     assert.deepEqual(actualKeys, ["isReadOnly", "key", "value"]);
+
+    // now make it enumerable so we can do our comparison
+    Object.defineProperty(configurationSetting, "_response", {
+      enumerable: true,
+    });
 
     assert.deepEqual(configurationSetting, {
       isReadOnly: true,
