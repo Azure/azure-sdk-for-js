@@ -25,21 +25,21 @@ async function main() {
     redirectUri
   });
 
-	// Activates the credential if a redirection has already been fulfilled.
+  // Activates the credential if a redirection has already been fulfilled.
   await credential.onPageLoad();
 
   const client = new ServiceBusClient(serviceBusEndpoint, credential);
 
-	// Service clients should expose their scopes.
-	const scopes = client.scopes;
+  // Service clients should expose their scopes.
+  const scopes = client.scopes;
 
   try {
     // If the redirection has already happened, client authentication will work.
-		const sender = client.createSender(queueName);
+    const sender = client.createSender(queueName);
     await sender.sendMessages({ body: messageBody });
   } catch(e) {
     // If the redirection needs to happen,
-		// getToken will throw an `AuthenticationRequiredError` error.
+    // getToken will throw an `AuthenticationRequiredError` error.
     if (e.name === "AuthenticationRequiredError") {
       // Interactive authentication will happen via redirection once the authenticate() method is called.
       await credential.authenticate(scopes);
@@ -69,12 +69,12 @@ async function main() {
 
   const client = new ServiceBusClient(serviceBusEndpoint, credential);
 
-	// Service clients should expose their scopes.
-	const scopes = client.scopes;
+  // Service clients should expose their scopes.
+  const scopes = client.scopes;
  
   try {
     // Popup does not redirect, but most browsers will block popups by default.
-		const sender = client.createSender(queueName);
+    const sender = client.createSender(queueName);
     await sender.sendMessages({ body: messageBody });
   } catch(e) {
     // If the popup authentication needs to happen, `getToken` will throw an `AuthenticationRequiredError` error.
@@ -159,12 +159,12 @@ async function main() {
 
   const client = new ServiceBusClient(serviceBusEndpoint, credential);
 
-	// Service clients should expose their scopes.
-	const scopes = client.scopes;
+  // Service clients should expose their scopes.
+  const scopes = client.scopes;
  
   try {
     // If the redirection has already happened, client authentication will work.
-		const sender = client.createSender(queueName);
+    const sender = client.createSender(queueName);
     await sender.sendMessages({ body: messageBody });
   } catch(e) {
     // If the redirection needs to happen, getToken will throw an `AuthenticationRequiredError` error.
@@ -212,12 +212,12 @@ async function main() {
 
   const client = new ServiceBusClient(serviceBusEndpoint, credential);
 
-	// Service clients should expose their scopes.
-	const scopes = client.scopes;
+  // Service clients should expose their scopes.
+  const scopes = client.scopes;
  
   try {
     // If the redirection has already happened, client authentication will work.
-		const sender = client.createSender(queueName);
+    const sender = client.createSender(queueName);
     await sender.sendMessages({ body: messageBody });
   } catch(e) {
     // If the popup authentication needs to happen, getToken will throw an `AuthenticationRequiredError` error.
