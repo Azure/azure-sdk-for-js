@@ -842,6 +842,8 @@ export interface KeyWrapMetadata {
   type?: string;
   /** Reference / link to the KeyEncryptionKey. */
   value?: string;
+  /** Algorithm used in wrapping and unwrapping of the data encryption key. */
+  algorithm?: string;
 }
 
 /** The resource model definition for a ARM proxy resource. It will have everything other than required location and tags */
@@ -892,6 +894,8 @@ export interface SqlContainerResource {
   uniqueKeyPolicy?: UniqueKeyPolicy;
   /** The conflict resolution policy for the container. */
   conflictResolutionPolicy?: ConflictResolutionPolicy;
+  /** The client encryption policy for the container. */
+  clientEncryptionPolicy?: ClientEncryptionPolicy;
   /** Analytical TTL. */
   analyticalStorageTtl?: number;
 }
@@ -984,6 +988,55 @@ export interface ConflictResolutionPolicy {
   conflictResolutionPath?: string;
   /** The procedure to resolve conflicts in the case of custom mode. */
   conflictResolutionProcedure?: string;
+}
+
+/** Cosmos DB client encryption policy. */
+export interface ClientEncryptionPolicy {
+  /** Paths of the item that need encryption along with path-specific settings. */
+  includedPaths: ClientEncryptionIncludedPath[];
+  /** Version of the client encryption policy definition. Please note, user passed value is ignored. Default policy version is 1. */
+  policyFormatVersion?: number;
+}
+
+/** . */
+export interface ClientEncryptionIncludedPath {
+  /** Path that needs to be encrypted. */
+  path: string;
+  /** The identifier of the Client Encryption Key to be used to encrypt the path. */
+  clientEncryptionKeyId: string;
+  /** The type of encryption to be performed. Eg - Deterministic, Randomized. */
+  encryptionType: string;
+  /** The encryption algorithm which will be used. Eg - AEAD_AES_256_CBC_HMAC_SHA256. */
+  encryptionAlgorithm: string;
+}
+
+/** The properties of an Azure Cosmos DB merge operations */
+export interface MergeParameters {
+  /** Specifies whether the operation is a real merge operation or a simulation. */
+  isDryRun?: boolean;
+}
+
+/** List of physical partitions and their properties returned by a merge operation. */
+export interface PhysicalPartitionStorageInfoCollection {
+  /**
+   * List of physical partitions and their properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly physicalPartitionStorageInfoCollection?: PhysicalPartitionStorageInfo[];
+}
+
+/** The storage of a physical partition */
+export interface PhysicalPartitionStorageInfo {
+  /**
+   * The unique identifier of the partition.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The storage in KB for the physical partition.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly storageInKB?: number;
 }
 
 /** The List operation response, that contains the storedProcedures and their properties. */
@@ -1777,6 +1830,8 @@ export interface RestorableDatabaseAccountGetResult {
   accountName?: string;
   /** The creation time of the restorable database account (ISO-8601 format). */
   creationTime?: Date;
+  /** The least recent time at which the database account can be restored to (ISO-8601 format). */
+  oldestRestorableTime?: Date;
   /** The time at which the restorable database account has been deleted (ISO-8601 format). */
   deletionTime?: Date;
   /**
@@ -2344,6 +2399,12 @@ export interface PeriodicModeProperties {
   backupStorageRedundancy?: BackupStorageRedundancy;
 }
 
+/** Configuration values for periodic mode backup */
+export interface ContinuousModeProperties {
+  /** Enum to indicate type of Continuos backup mode */
+  tier?: ContinuousTier;
+}
+
 /** Describes the service response property. */
 export interface DataTransferServiceResource {
   /** Properties for DataTransferServiceResource. */
@@ -2402,6 +2463,8 @@ export type PeriodicModeBackupPolicy = BackupPolicy & {
 export type ContinuousModeBackupPolicy = BackupPolicy & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Continuous";
+  /** Configuration values for continuous mode backup */
+  continuousModeProperties?: ContinuousModeProperties;
 };
 
 /** An Azure Cosmos DB database account. */
@@ -3290,7 +3353,8 @@ export type PublicNetworkAccess = string;
 export enum KnownServerVersion {
   Three2 = "3.2",
   Three6 = "3.6",
-  Four0 = "4.0"
+  Four0 = "4.0",
+  Four2 = "4.2"
 }
 
 /**
@@ -3300,7 +3364,8 @@ export enum KnownServerVersion {
  * ### Known values supported by the service
  * **3.2** \
  * **3.6** \
- * **4.0**
+ * **4.0** \
+ * **4.2**
  */
 export type ServerVersion = string;
 
@@ -3904,6 +3969,22 @@ export enum KnownServiceStatus {
  */
 export type ServiceStatus = string;
 
+/** Known values of {@link ContinuousTier} that the service accepts. */
+export enum KnownContinuousTier {
+  Continuous7Days = "Continuous7Days",
+  Continuous30Days = "Continuous30Days"
+}
+
+/**
+ * Defines values for ContinuousTier. \
+ * {@link KnownContinuousTier} can be used interchangeably with ContinuousTier,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Continuous7Days** \
+ * **Continuous30Days**
+ */
+export type ContinuousTier = string;
+
 /** Known values of {@link NodeStatus} that the service accepts. */
 export enum KnownNodeStatus {
   Up = "Up",
@@ -4402,6 +4483,18 @@ export interface SqlResourcesDeleteSqlContainerOptionalParams
 }
 
 /** Optional parameters. */
+export interface SqlResourcesListSqlContainerPartitionMergeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the listSqlContainerPartitionMerge operation. */
+export type SqlResourcesListSqlContainerPartitionMergeResponse = PhysicalPartitionStorageInfoCollection;
+
+/** Optional parameters. */
 export interface SqlResourcesGetSqlContainerThroughputOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -4743,6 +4836,18 @@ export interface MongoDBResourcesDeleteMongoDBCollectionOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the listMongoDBCollectionPartitionMerge operation. */
+export type MongoDBResourcesListMongoDBCollectionPartitionMergeResponse = PhysicalPartitionStorageInfoCollection;
 
 /** Optional parameters. */
 export interface MongoDBResourcesGetMongoDBCollectionThroughputOptionalParams

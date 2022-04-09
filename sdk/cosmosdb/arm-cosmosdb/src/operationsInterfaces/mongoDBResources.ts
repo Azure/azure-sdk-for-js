@@ -38,6 +38,9 @@ import {
   MongoDBResourcesCreateUpdateMongoDBCollectionOptionalParams,
   MongoDBResourcesCreateUpdateMongoDBCollectionResponse,
   MongoDBResourcesDeleteMongoDBCollectionOptionalParams,
+  MergeParameters,
+  MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams,
+  MongoDBResourcesListMongoDBCollectionPartitionMergeResponse,
   MongoDBResourcesGetMongoDBCollectionThroughputOptionalParams,
   MongoDBResourcesGetMongoDBCollectionThroughputResponse,
   MongoDBResourcesUpdateMongoDBCollectionThroughputOptionalParams,
@@ -394,6 +397,47 @@ export interface MongoDBResources {
     collectionName: string,
     options?: MongoDBResourcesDeleteMongoDBCollectionOptionalParams
   ): Promise<void>;
+  /**
+   * Merges the partitions of a MongoDB Collection
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param mergeParameters The parameters for the merge operation.
+   * @param options The options parameters.
+   */
+  beginListMongoDBCollectionPartitionMerge(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    mergeParameters: MergeParameters,
+    options?: MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        MongoDBResourcesListMongoDBCollectionPartitionMergeResponse
+      >,
+      MongoDBResourcesListMongoDBCollectionPartitionMergeResponse
+    >
+  >;
+  /**
+   * Merges the partitions of a MongoDB Collection
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName Cosmos DB database account name.
+   * @param databaseName Cosmos DB database name.
+   * @param collectionName Cosmos DB collection name.
+   * @param mergeParameters The parameters for the merge operation.
+   * @param options The options parameters.
+   */
+  beginListMongoDBCollectionPartitionMergeAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    databaseName: string,
+    collectionName: string,
+    mergeParameters: MergeParameters,
+    options?: MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams
+  ): Promise<MongoDBResourcesListMongoDBCollectionPartitionMergeResponse>;
   /**
    * Gets the RUs per second of the MongoDB collection under an existing Azure Cosmos DB database account
    * with the provided name.

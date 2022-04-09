@@ -1,16 +1,6 @@
 # Release History
-
-## 16.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 16.0.0-beta.1 (2022-02-21)
+    
+## 15.1.0-beta.1 (2022-04-09)
     
 **Features**
 
@@ -47,12 +37,16 @@
   - Added operation MongoDBResources.beginDeleteMongoRoleDefinitionAndWait
   - Added operation MongoDBResources.beginDeleteMongoUserDefinition
   - Added operation MongoDBResources.beginDeleteMongoUserDefinitionAndWait
+  - Added operation MongoDBResources.beginListMongoDBCollectionPartitionMerge
+  - Added operation MongoDBResources.beginListMongoDBCollectionPartitionMergeAndWait
   - Added operation MongoDBResources.getMongoRoleDefinition
   - Added operation MongoDBResources.getMongoUserDefinition
   - Added operation MongoDBResources.listMongoRoleDefinitions
   - Added operation MongoDBResources.listMongoUserDefinitions
   - Added operation SqlResources.beginCreateUpdateClientEncryptionKey
   - Added operation SqlResources.beginCreateUpdateClientEncryptionKeyAndWait
+  - Added operation SqlResources.beginListSqlContainerPartitionMerge
+  - Added operation SqlResources.beginListSqlContainerPartitionMergeAndWait
   - Added operation SqlResources.getClientEncryptionKey
   - Added operation SqlResources.listClientEncryptionKeys
   - Added operation TableResources.beginRetrieveContinuousBackupInformation
@@ -71,9 +65,12 @@
   - Added Interface CassandraResourcesUpdateCassandraViewThroughputOptionalParams
   - Added Interface CassandraViewListResult
   - Added Interface CassandraViewResource
+  - Added Interface ClientEncryptionIncludedPath
   - Added Interface ClientEncryptionKeyCreateUpdateParameters
   - Added Interface ClientEncryptionKeyResource
   - Added Interface ClientEncryptionKeysListResult
+  - Added Interface ClientEncryptionPolicy
+  - Added Interface ContinuousModeProperties
   - Added Interface DataTransferDataSourceSink
   - Added Interface DataTransferJobFeedResults
   - Added Interface DataTransferJobProperties
@@ -95,18 +92,22 @@
   - Added Interface KeyWrapMetadata
   - Added Interface ListBackups
   - Added Interface MaterializedViewsBuilderServiceResource
+  - Added Interface MergeParameters
   - Added Interface MongoDBResourcesCreateUpdateMongoRoleDefinitionOptionalParams
   - Added Interface MongoDBResourcesCreateUpdateMongoUserDefinitionOptionalParams
   - Added Interface MongoDBResourcesDeleteMongoRoleDefinitionOptionalParams
   - Added Interface MongoDBResourcesDeleteMongoUserDefinitionOptionalParams
   - Added Interface MongoDBResourcesGetMongoRoleDefinitionOptionalParams
   - Added Interface MongoDBResourcesGetMongoUserDefinitionOptionalParams
+  - Added Interface MongoDBResourcesListMongoDBCollectionPartitionMergeOptionalParams
   - Added Interface MongoDBResourcesListMongoRoleDefinitionsOptionalParams
   - Added Interface MongoDBResourcesListMongoUserDefinitionsOptionalParams
   - Added Interface MongoRoleDefinitionCreateUpdateParameters
   - Added Interface MongoRoleDefinitionListResult
   - Added Interface MongoUserDefinitionCreateUpdateParameters
   - Added Interface MongoUserDefinitionListResult
+  - Added Interface PhysicalPartitionStorageInfo
+  - Added Interface PhysicalPartitionStorageInfoCollection
   - Added Interface Privilege
   - Added Interface PrivilegeResource
   - Added Interface RegionalServiceResource
@@ -138,6 +139,7 @@
   - Added Interface SqlResourcesCreateUpdateClientEncryptionKeyOptionalParams
   - Added Interface SqlResourcesGetClientEncryptionKeyOptionalParams
   - Added Interface SqlResourcesListClientEncryptionKeysOptionalParams
+  - Added Interface SqlResourcesListSqlContainerPartitionMergeOptionalParams
   - Added Interface TableResourcesRetrieveContinuousBackupInformationOptionalParams
   - Added Type Alias AzureBlobDataTransferDataSourceSink
   - Added Type Alias BackupResource
@@ -156,6 +158,7 @@
   - Added Type Alias CassandraViewGetResults
   - Added Type Alias ClientEncryptionKeyGetPropertiesResource
   - Added Type Alias ClientEncryptionKeyGetResults
+  - Added Type Alias ContinuousTier
   - Added Type Alias CosmosCassandraDataTransferDataSourceSink
   - Added Type Alias CosmosSqlDataTransferDataSourceSink
   - Added Type Alias CreateJobRequest
@@ -185,6 +188,7 @@
   - Added Type Alias MongoDBResourcesCreateUpdateMongoUserDefinitionResponse
   - Added Type Alias MongoDBResourcesGetMongoRoleDefinitionResponse
   - Added Type Alias MongoDBResourcesGetMongoUserDefinitionResponse
+  - Added Type Alias MongoDBResourcesListMongoDBCollectionPartitionMergeResponse
   - Added Type Alias MongoDBResourcesListMongoRoleDefinitionsResponse
   - Added Type Alias MongoDBResourcesListMongoUserDefinitionsResponse
   - Added Type Alias MongoRoleDefinitionGetResults
@@ -208,16 +212,19 @@
   - Added Type Alias SqlResourcesCreateUpdateClientEncryptionKeyResponse
   - Added Type Alias SqlResourcesGetClientEncryptionKeyResponse
   - Added Type Alias SqlResourcesListClientEncryptionKeysResponse
+  - Added Type Alias SqlResourcesListSqlContainerPartitionMergeResponse
   - Added Type Alias TableResourcesRetrieveContinuousBackupInformationResponse
   - Interface ARMResourceProperties has a new optional parameter identity
   - Interface DatabaseAccountUpdateParameters has a new optional parameter diagnosticLogSettings
   - Interface DatabaseAccountUpdateParameters has a new optional parameter enableMaterializedViews
   - Interface DataCenterResourceProperties has a new optional parameter authenticationMethodLdapProperties
   - Interface LocationProperties has a new optional parameter status
+  - Interface RestorableDatabaseAccountGetResult has a new optional parameter oldestRestorableTime
   - Interface RestorableMongodbCollectionsListOptionalParams has a new optional parameter endTime
   - Interface RestorableMongodbCollectionsListOptionalParams has a new optional parameter startTime
   - Interface RestoreParameters has a new optional parameter gremlinDatabasesToRestore
   - Interface RestoreParameters has a new optional parameter tablesToRestore
+  - Interface SqlContainerResource has a new optional parameter clientEncryptionPolicy
   - Class CosmosDBManagementClient has a new parameter dataTransferJobs
   - Class CosmosDBManagementClient has a new parameter graphResources
   - Class CosmosDBManagementClient has a new parameter restorableGremlinDatabases
@@ -226,20 +233,18 @@
   - Class CosmosDBManagementClient has a new parameter restorableTableResources
   - Class CosmosDBManagementClient has a new parameter restorableTables
   - Class CosmosDBManagementClient has a new parameter service
+  - Type Alias ContinuousModeBackupPolicy has a new parameter continuousModeProperties
   - Type Alias DatabaseAccountCreateUpdateParameters has a new parameter diagnosticLogSettings
   - Type Alias DatabaseAccountCreateUpdateParameters has a new parameter enableMaterializedViews
   - Type Alias DatabaseAccountGetResults has a new parameter diagnosticLogSettings
   - Type Alias DatabaseAccountGetResults has a new parameter enableMaterializedViews
+  - Added Enum KnownContinuousTier
   - Added Enum KnownDataTransferComponent
   - Added Enum KnownServiceSize
   - Added Enum KnownServiceStatus
   - Added Enum KnownServiceType
   - Enum KnownAuthenticationMethod has a new value Ldap
-
-**Breaking Changes**
-
-  - Type Alias DatabaseAccountCreateUpdateParameters no longer has parameter identity
-  - Type Alias DatabaseAccountGetResults no longer has parameter identity
+  - Enum KnownServerVersion has a new value Four2
     
     
 ## 15.0.0 (2021-12-09)
