@@ -12,7 +12,11 @@ An example using the `RedirectCredential`:
 
 ```javascript
 const { RedirectCredential } = require("@azure/identity-spa");
-const { KeyClient } = require("@azure/keyvault-keys");
+const { ServiceBusClient } = require("@azure/service-bus");
+
+const serviceBusEndpoint = process.env.SERVICE_BUS_ENDPOINT;
+const queueName = process.env.QUEUE_NAME;
+const messageBody = process.env.MESSAGE_BODY;
 
 async function main() {
   // Within a browser application...
@@ -21,14 +25,24 @@ async function main() {
     redirectUri
   });
 
+	// Activates the credential if a redirection has already been fulfilled.
+  await credential.onPageLoad();
+
+  const client = new ServiceBusClient(serviceBusEndpoint, credential);
+
+	// Service clients should expose their scopes.
+	const scopes = client.scopes;
+
   try {
     // If the redirection has already happened, client authentication will work.
-    const client = new KeyClient(vaultUrl, credential);
+		const sender = client.createSender(queueName);
+    await sender.sendMessages({ body: messageBody });
   } catch(e) {
-    // If the redirection needs to happen, getToken will throw a `AuthenticationRequiredError` error.
+    // If the redirection needs to happen,
+		// getToken will throw an `AuthenticationRequiredError` error.
     if (e.name === "AuthenticationRequiredError") {
       // Interactive authentication will happen via redirection once the authenticate() method is called.
-      await credential.authenticate(scope);
+      await credential.authenticate(scopes);
     }
   }
 }
@@ -40,8 +54,12 @@ An example using the `PopupCredential`:
 
 ```javascript
 const { PopupCredential } = require("@azure/identity-spa");
-const { KeyClient } = require("@azure/keyvault-keys");
+const { ServiceBusClient } = require("@azure/service-bus");
 
+const serviceBusEndpoint = process.env.SERVICE_BUS_ENDPOINT;
+const queueName = process.env.QUEUE_NAME;
+const messageBody = process.env.MESSAGE_BODY;
+ 
 async function main() {
   // Within a web page...
   const credential = new PopupCredential({
@@ -49,14 +67,20 @@ async function main() {
     redirectUri
   });
 
+  const client = new ServiceBusClient(serviceBusEndpoint, credential);
+
+	// Service clients should expose their scopes.
+	const scopes = client.scopes;
+ 
   try {
-    // If the redirection has already happened, client authentication will work.
-    const client = new KeyClient(vaultUrl, credential);
+    // Popup does not redirect, but most browsers will block popups by default.
+		const sender = client.createSender(queueName);
+    await sender.sendMessages({ body: messageBody });
   } catch(e) {
-    // If the popup authentication needs to happen, getToken will throw a `AuthenticationRequiredError` error.
+    // If the popup authentication needs to happen, `getToken` will throw an `AuthenticationRequiredError` error.
     if (e.name === "AuthenticationRequiredError") {
       // Interactive authentication will happen via a popup window that will appear when the authenticate() method is called.
-      await credential.authenticate(scope);
+      await credential.authenticate(scopes);
     }
   }
 }
@@ -103,8 +127,12 @@ An example using the `RedirectCredential`:
 
 ```javascript
 const { RedirectCredential } = require("@azure/identity-spa");
-const { KeyClient } = require("@azure/keyvault-keys");
+const { ServiceBusClient } = require("@azure/service-bus");
 
+const serviceBusEndpoint = process.env.SERVICE_BUS_ENDPOINT;
+const queueName = process.env.QUEUE_NAME;
+const messageBody = process.env.MESSAGE_BODY;
+ 
 async function main() {
   // Within a web page...
   const credential = new RedirectCredential({
@@ -128,16 +156,21 @@ async function main() {
   if (pageLoadResult) {
     state = JSON.parse(pageLoadResult.state);
   }
-  
+
+  const client = new ServiceBusClient(serviceBusEndpoint, credential);
+
+	// Service clients should expose their scopes.
+	const scopes = client.scopes;
+ 
   try {
     // If the redirection has already happened, client authentication will work.
-    const client = new KeyClient(vaultUrl, credential);
+		const sender = client.createSender(queueName);
+    await sender.sendMessages({ body: messageBody });
   } catch(e) {
-    // If the redirection needs to happen, getToken will throw a `AuthenticationRequiredError` error.
+    // If the redirection needs to happen, getToken will throw an `AuthenticationRequiredError` error.
     if (e.name === "AuthenticationRequiredError") {
-
       // Interactive authentication will happen via redirection once the authenticate() method is called.
-      await credential.authenticate(scope, {
+      await credential.authenticate(scopes, {
         // The authenticate() method supports sending the browser application state.
         state: JSON.stringify(state)
       });
@@ -177,15 +210,20 @@ async function main() {
     application: "state"
   };
 
+  const client = new ServiceBusClient(serviceBusEndpoint, credential);
+
+	// Service clients should expose their scopes.
+	const scopes = client.scopes;
+ 
   try {
     // If the redirection has already happened, client authentication will work.
-    const client = new KeyClient(vaultUrl, credential);
+		const sender = client.createSender(queueName);
+    await sender.sendMessages({ body: messageBody });
   } catch(e) {
-    // If the popup authentication needs to happen, getToken will throw a `AuthenticationRequiredError` error.
+    // If the popup authentication needs to happen, getToken will throw an `AuthenticationRequiredError` error.
     if (e.name === "AuthenticationRequiredError") {
-
       // Interactive authentication will happen via a popup window that will appear when the authenticate() method is called.
-      await credential.authenticate(scope, {
+      await credential.authenticate(scopes, {
         // The authenticate() method supports sending the browser application state.
         state: JSON.stringify(state)
       });

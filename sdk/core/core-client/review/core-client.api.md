@@ -321,6 +321,7 @@ export interface SerializerOptions {
 export class ServiceClient {
     constructor(options?: ServiceClientOptions);
     readonly pipeline: Pipeline;
+    readonly scopes?: string[];
     sendOperationRequest<T>(operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<T>;
     sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
 }
