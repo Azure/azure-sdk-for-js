@@ -120,7 +120,7 @@ export interface ResourceMethods<TResponse = Thenable<PathUncheckedResponse>> {
 }
 
 // @public
-export type StreamableMethod = Thenable<PathUncheckedResponse> & {
+export type StreamableMethod<TResponse = PathUncheckedResponse> = Thenable<TResponse> & {
     asNodeStream: () => Promise<HttpNodeStreamResponse>;
     asBrowserStream: () => Promise<HttpBrowserStreamResponse>;
 };

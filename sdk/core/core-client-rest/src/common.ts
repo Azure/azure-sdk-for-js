@@ -121,7 +121,7 @@ export type HttpBrowserStreamResponse = HttpResponse & {
  * Defines the type for a method that supports getting the response body as
  * a raw stream
  */
-export type StreamableMethod = Thenable<PathUncheckedResponse> & {
+export type StreamableMethod<TResponse = PathUncheckedResponse> = Thenable<TResponse> & {
   asNodeStream: () => Promise<HttpNodeStreamResponse>;
   asBrowserStream: () => Promise<HttpBrowserStreamResponse>;
 };
