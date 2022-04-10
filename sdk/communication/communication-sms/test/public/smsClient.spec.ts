@@ -7,24 +7,19 @@
  */
 
 import { matrix } from "@azure/test-utils";
-import { record, Recorder, env } from "@azure-tools/test-recorder";
-import { isNode } from "@azure/core-util";
-import * as dotenv from "dotenv";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import {
-  createSmsClient,
-  createSmsClientWithToken,
-  recorderConfiguration,
+  createRecordedSmsClient,
+  createRecordedSmsClientWithToken,
 } from "./utils/recordedClient";
 import { Context } from "mocha";
 import sendSmsSuites from "./suites/smsClient.send";
+import { SmsClient } from "../../src";
 
-if (isNode) {
-  dotenv.config();
-}
-
-matrix([[true, false]], async function (useAad) {
+matrix([[true, false]], async function (useAad: boolean) {
   describe(`SmsClient [Live]${useAad ? " [AAD]" : ""}`, async () => {
     let recorder: Recorder;
+    let client: SmsClient;
 
     before(function (this: Context) {
       const skipIntSMSTests = env.COMMUNICATION_SKIP_INT_SMS_TEST === "true";
@@ -34,17 +29,12 @@ matrix([[true, false]], async function (useAad) {
     });
 
     beforeEach(async function (this: Context) {
-      recorder = record(this, recorderConfiguration);
-      recorder.skip(
-        undefined,
-        "A UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
-      );
-
       if (useAad) {
-        this.smsClient = createSmsClientWithToken();
+        ({ client, recorder } = await createRecordedSmsClientWithToken(this));
       } else {
-        this.smsClient = createSmsClient();
+        ({ client, recorder } = await createRecordedSmsClient(this));
       }
+      this.smsClient = client;
     });
 
     afterEach(async function (this: Context) {
