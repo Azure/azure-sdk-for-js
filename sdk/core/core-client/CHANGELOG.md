@@ -1,6 +1,6 @@
 # Release History
 
-## 1.5.1 (Unreleased)
+## 1.6.0 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,8 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- Upgraded our `@azure/core-tracing` dependency to version 1.0
 
 ## 1.5.0 (2022-02-03)
 

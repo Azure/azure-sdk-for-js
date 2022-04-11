@@ -1,8 +1,12 @@
 # Release History
 
-## 1.3.2 (Unreleased)
+## 1.4.0-beta.1 (Unreleased)
 
 ### Features Added
+
+- Migrated from using `@azure/core-http` to depend on newer version of Core libraries `@azure/core-client` and `@azure/core-rest-pipeline` which bring better maintainability and performance. [#20766](https://github.com/Azure/azure-sdk-for-js/pull/20766). See [Azure Core v1 vs v2](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-rest-pipeline/documentation/core2.md) for more on the difference and benefits of the move.
+  - As part of the migration to `@azure/core-client` and `@azure/core-rest-pipeline`,
+    through the operation options, the methods such as `AppConfgurationClient#addConfigurationSetting` can take a callback (`onResponse`) to access the HTTP response. See [Change to the \_response property](https://github.com/Azure/autorest.typescript/wiki/%60core-http%60-dependency-migration-to-%60core-client%60-%60core-rest-pipeline%60#change-to-the-_response-property).
 
 ### Breaking Changes
 
@@ -101,8 +105,8 @@ This release marks the general availability of the `@azure/app-configuration` pa
   ```typescript
   new AppConfigurationClient(connectionString, {
     userAgentOptions: {
-      userAgentPrefix: "MyUserAgent"
-    }
+      userAgentPrefix: "MyUserAgent",
+    },
   });
   ```
 
@@ -158,11 +162,11 @@ In previous previews:
 await client.getConfigurationSetting("MyKey", { label: "MyLabel" });
 await client.addConfigurationSetting("MyKey", {
   label: "MyLabel",
-  value: "MyValue"
+  value: "MyValue",
 });
 await client.setConfigurationSetting("MyKey", {
   label: "MyLabel",
-  value: "MyValue"
+  value: "MyValue",
 });
 await client.deleteConfigurationSetting("MyKey", { label: "MyLabel" });
 ```
@@ -175,12 +179,12 @@ await client.getConfigurationSetting({ key: "MyKey", label: "MyLabel" });
 await client.addConfigurationSetting({
   key: "MyKey",
   label: "MyLabel",
-  value: "MyValue"
+  value: "MyValue",
 });
 await client.setConfigurationSetting({
   key: "MyKey",
   label: "MyLabel",
-  value: "MyValue"
+  value: "MyValue",
 });
 await client.deleteConfigurationSetting({ key: "MyKey", label: "MyLabel" });
 ```

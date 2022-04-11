@@ -1299,6 +1299,7 @@ testWithServiceTypes((serviceVersion) => {
         await subscription!.close();
         should.exist(receivedEvent);
         const body = receivedEvent.body as Buffer;
+        // eslint-disable-next-line no-unused-expressions
         expect(Buffer.isBuffer(body)).to.be.true;
         expect(body.toJSON().data).to.be.deep.equal(data);
       });
