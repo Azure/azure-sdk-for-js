@@ -18,6 +18,7 @@ import {
   DataBoxEdgeDeviceExtendedInfoPatch as DataBoxEdgeDeviceExtendedInfoPatchMapper,
   UploadCertificateRequest as UploadCertificateRequestMapper,
   BandwidthSchedule as BandwidthScheduleMapper,
+  DeviceCapacityRequestInfo as DeviceCapacityRequestInfoMapper,
   DiagnosticProactiveLogCollectionSettings as DiagnosticProactiveLogCollectionSettingsMapper,
   DiagnosticRemoteSupportSettings as DiagnosticRemoteSupportSettingsMapper,
   Order as OrderMapper,
@@ -60,7 +61,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-06-01",
+    defaultValue: "2022-03-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -175,6 +176,21 @@ export const name: OperationURLParameter = {
 export const parameters3: OperationParameter = {
   parameterPath: "parameters",
   mapper: BandwidthScheduleMapper
+};
+
+export const deviceCapacityRequestInfo: OperationParameter = {
+  parameterPath: "deviceCapacityRequestInfo",
+  mapper: DeviceCapacityRequestInfoMapper
+};
+
+export const capacityName: OperationQueryParameter = {
+  parameterPath: ["options", "capacityName"],
+  mapper: {
+    serializedName: "capacityName",
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const proactiveLogCollectionSettings: OperationParameter = {

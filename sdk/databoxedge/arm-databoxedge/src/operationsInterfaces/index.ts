@@ -11,6 +11,8 @@ export * from "./availableSkus";
 export * from "./devices";
 export * from "./alerts";
 export * from "./bandwidthSchedules";
+export * from "./deviceCapacityCheck";
+export * from "./deviceCapacityInfoOperations";
 export * from "./diagnosticSettings";
 export * from "./jobs";
 export * from "./nodes";

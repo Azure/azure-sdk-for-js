@@ -307,7 +307,7 @@ export interface SystemData {
   lastModifiedBy?: string;
   /** The type of identity that last modified the resource. */
   lastModifiedByType?: CreatedByType;
-  /** The type of identity that last modified the resource. */
+  /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: Date;
 }
 
@@ -438,6 +438,126 @@ export interface BandwidthSchedulesList {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+}
+
+/** Object for Capturing DeviceCapacityRequestInfo */
+export interface DeviceCapacityRequestInfo {
+  /** Array containing the sizes of the VMs for checking if its feasible to create them on the appliance. */
+  vmPlacementQuery: string[][];
+  /** Array of the VMs of the sizes in VmSizes can be provisioned on the appliance. */
+  vmPlacementResults?: VmPlacementRequestResult[];
+}
+
+/** List of VM sizes being checked for creation on appliance along with corresponding result. */
+export interface VmPlacementRequestResult {
+  /** List of VM sizes being checked. */
+  vmSize?: string[];
+  /** Boolean value indicating if the VM(s) in VmSize can be created. */
+  isFeasible?: boolean;
+  /** MessageCode indicating reason for success or failure. */
+  messageCode?: string;
+  /** Localized message to be displayed to the user to explain the check result. */
+  message?: string;
+}
+
+/** Cluster Storage Data. */
+export interface ClusterStorageViewData {
+  /** Total storage on the cluster in MB. */
+  clusterTotalStorageMb?: number;
+  /** The available or free storage on the cluster in MB. */
+  clusterFreeStorageMb?: number;
+}
+
+/** Cluster Compute Data. */
+export interface ClusterCapacityViewData {
+  /** The FQDN of the cluster. */
+  fqdn?: string;
+  /** The cluster's GPU capacity. */
+  gpuCapacity?: ClusterGpuCapacity;
+  /** The cluster's memory capacity. */
+  memoryCapacity?: ClusterMemoryCapacity;
+  /** The last time at which the ClusterCapacityViewData was set. */
+  lastRefreshedTime?: Date;
+  /** The total # of vCPUs provisioned by non-HPN VM per appliance. */
+  totalProvisionedNonHpnCores?: number;
+}
+
+/** Cluster GPU Data. */
+export interface ClusterGpuCapacity {
+  /** The cluster GPU Type. */
+  gpuType?: string;
+  /** The used GPU units count in the cluster. */
+  gpuUsedUnitsCount?: number;
+  /** The free GPU units count in the cluster. */
+  gpuFreeUnitsCount?: number;
+  /** The GPU units count reserved for failover in the cluster. */
+  gpuReservedForFailoverUnitsCount?: number;
+  /** The total GPU units count in the cluster. */
+  gpuTotalUnitsCount?: number;
+}
+
+/** NodeCapacityInfo defines the required information to determine the placement of a VM. */
+export interface ClusterMemoryCapacity {
+  /** The free memory in the cluster in MB. */
+  clusterFreeMemoryMb?: number;
+  /** The used memory in the cluster in MB. */
+  clusterUsedMemoryMb?: number;
+  /** The failover memory in the cluster in MB. */
+  clusterFailoverMemoryMb?: number;
+  /** The fragmentation memory in the cluster in MB. */
+  clusterFragmentationMemoryMb?: number;
+  /** The memory reserved for Hyper-V in the cluster in MB. */
+  clusterHypervReserveMemoryMb?: number;
+  /** The memory of the Infra VM in the cluster in MB. */
+  clusterInfraVmMemoryMb?: number;
+  /** The total memory in the cluster in MB. */
+  clusterTotalMemoryMb?: number;
+  /** The non-failover memory in the cluster in MB. */
+  clusterNonFailoverVmMb?: number;
+  /** The memory used by VMs in the cluster in MB. */
+  clusterMemoryUsedByVmsMb?: number;
+}
+
+/** Host Capacity Data. */
+export interface HostCapacity {
+  /** The name of the host. */
+  hostName?: string;
+  /** The available memory on the host accounting for VM placement size and any host VM reservations. */
+  effectiveAvailableMemoryMbOnHost?: number;
+  /** The available amount of GPUs on the host to use after accounting for GPUS used by reservations on the host. */
+  availableGpuCount?: number;
+  /** The VM used memory per VmId. */
+  vmUsedMemory?: { [propertyName: string]: VmMemory };
+  /** The GPU type of the VM. */
+  gpuType?: string;
+  /** The numa nodes information for Hpn VMs. */
+  numaNodesData?: NumaNodeData[];
+}
+
+/** VmMemory Data. */
+export interface VmMemory {
+  /** The total amount of RAM in the virtual machine, as seen by the guest  operating system. For a virtual machine with dynamic memory enabled, this represents the initial memory available at startup. */
+  startupMemoryMB?: number;
+  /** The current memory used by the virtual machine. */
+  currentMemoryUsageMB?: number;
+}
+
+/** NUMA node data. */
+export interface NumaNodeData {
+  /** The NUMA node index. */
+  numaNodeIndex?: number;
+  /** The total memory on the NUMA node. */
+  totalMemoryInMb?: number;
+  /** The logical cores per core count. */
+  logicalCoreCountPerCore?: number;
+  /** The effective available memory on the NUMA node in MB. */
+  effectiveAvailableMemoryInMb?: number;
+  /** The free VCPU indices for the Hpn VMs. */
+  freeVCpuIndexesForHpn?: number[];
+  /** The VCPU indices for Hpn VMs */
+  vCpuIndexesForHpn?: number[];
+  /** The VCPU indices for the root. */
+  vCpuIndexesForRoot?: number[];
 }
 
 /** RemoteApplicationType for which remote support settings is being modified */
@@ -1452,81 +1572,20 @@ export interface PeriodicTimerSourceInfo {
   topic?: string;
 }
 
-/** Resource type Sku object */
-export interface ResourceTypeSku {
-  /**
-   * The resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceType?: string;
-  /**
-   * The skus.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly skus?: SkuInformation[];
-}
-
-/** Sku information */
-export interface SkuInformation {
-  /**
-   * The sku name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The sku tier.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tier?: string;
-  /**
-   * The sku kind.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly kind?: string;
-  /**
-   * The Sku family.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly family?: string;
-  /**
-   * The pricing info of the Sku.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly costs?: SkuCost[];
-  /**
-   * The locations where Sku is available.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly locations?: string[];
-  /**
-   * The locations where Sku is available with zones and sites info
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly locationInfo?: SkuLocationInfo[];
-  /**
-   * The required quotaIds for the sku to be available.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly requiredQuotaIds?: string[];
-  /**
-   * The required features for the sku to be available.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly requiredFeatures?: string[];
-}
-
-/** List of SKU Information objects */
-export interface SkuInformationList {
-  /**
-   * List of ResourceTypeSku objects
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: ResourceTypeSku[];
-  /**
-   * Links to the next set of results
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemDataAutoGenerated {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The type of identity that last modified the resource. */
+  lastModifiedAt?: Date;
 }
 
 /** The Data Box Edge/Gateway device. */
@@ -1541,8 +1600,11 @@ export type DataBoxEdgeDevice = ARMBaseModel & {
   etag?: string;
   /** Msi identity of the resource */
   identity?: ResourceIdentity;
-  /** The kind of the device. */
-  kind?: DataBoxEdgeDeviceKind;
+  /**
+   * The kind of the device.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly kind?: DataBoxEdgeDeviceKind;
   /**
    * DataBoxEdge Resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1553,8 +1615,11 @@ export type DataBoxEdgeDevice = ARMBaseModel & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemDataPropertiesSystemData?: SystemData;
-  /** The status of the Data Box Edge/Gateway device. */
-  dataBoxEdgeDeviceStatus?: DataBoxEdgeDeviceStatus;
+  /**
+   * The status of the Data Box Edge/Gateway device.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataBoxEdgeDeviceStatus?: DataBoxEdgeDeviceStatus;
   /**
    * The Serial Number of Data Box Edge/Gateway device.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1637,7 +1702,7 @@ export type DataBoxEdgeDevice = ARMBaseModel & {
 /** Alert on the data box edge/gateway device. */
 export type Alert = ARMBaseModel & {
   /**
-   * Alert generated in the resource
+   * Metadata pertaining to creation and last modification of Alert
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
@@ -1681,7 +1746,7 @@ export type Alert = ARMBaseModel & {
 /** The bandwidth schedule details. */
 export type BandwidthSchedule = ARMBaseModel & {
   /**
-   * Bandwidth object related to ASE resource
+   * Metadata pertaining to creation and last modification of BandwidthSchedule
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
@@ -1695,10 +1760,27 @@ export type BandwidthSchedule = ARMBaseModel & {
   days: DayOfWeek[];
 };
 
+/** Object for Capturing DeviceCapacityInfo */
+export type DeviceCapacityInfo = ARMBaseModel & {
+  /**
+   * Metadata pertaining to device capacity info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Timestamp of request in UTC */
+  timeStamp?: Date;
+  /** Cluster capacity data for storage resources (CSV). */
+  clusterStorageCapacityInfo?: ClusterStorageViewData;
+  /** Cluster capacity data for compute resources (Memory and GPU). */
+  clusterComputeCapacityInfo?: ClusterCapacityViewData;
+  /** The dictionary of individual node names and node capacities in the cluster. */
+  nodeCapacityInfos?: { [propertyName: string]: HostCapacity };
+};
+
 /** The diagnostic proactive log collection settings of a device. */
 export type DiagnosticProactiveLogCollectionSettings = ARMBaseModel & {
   /**
-   * DiagnosticProactiveLogCollectionSettings
+   * Metadata pertaining to creation and last modification of DiagnosticProactiveLogCollectionSettings
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
@@ -1709,7 +1791,7 @@ export type DiagnosticProactiveLogCollectionSettings = ARMBaseModel & {
 /** The remote support settings of a device. */
 export type DiagnosticRemoteSupportSettings = ARMBaseModel & {
   /**
-   * DiagnosticRemoteSupportSettings
+   * Represents resource creation and updation time
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
@@ -1719,6 +1801,11 @@ export type DiagnosticRemoteSupportSettings = ARMBaseModel & {
 
 /** The extended Info of the Data Box Edge/Gateway device. */
 export type DataBoxEdgeDeviceExtendedInfo = ARMBaseModel & {
+  /**
+   * Metadata pertaining to creation and last modification of DataBoxEdgeDevice
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** The digital signature of encrypted certificate. */
   encryptionKeyThumbprint?: string;
   /** The public part of the encryption certificate. Client uses this to encrypt any secret. */
@@ -1743,12 +1830,42 @@ export type DataBoxEdgeDeviceExtendedInfo = ARMBaseModel & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly deviceSecrets?: { [propertyName: string]: Secret };
+  /**
+   * Cluster Witness Type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clusterWitnessType?: ClusterWitnessType;
+  /**
+   * The witness location of file share.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fileShareWitnessLocation?: string;
+  /**
+   * The username of file share.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fileShareWitnessUsername?: string;
+  /**
+   * The Cloud Witness Storage account name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cloudWitnessStorageAccountName?: string;
+  /**
+   * The Container for cloud witness in the storage account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cloudWitnessContainerName?: string;
+  /**
+   * The Azure service endpoint of the cloud witness storage account.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cloudWitnessStorageEndpoint?: string;
 };
 
 /** The network settings of a device. */
 export type NetworkSettings = ARMBaseModel & {
   /**
-   * NetworkSettings on ASE device
+   * Metadata pertaining to creation and last modification of NetworkSettings
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
@@ -1805,10 +1922,20 @@ export type Node = ARMBaseModel & {
 /** The order details. */
 export type Order = ARMBaseModel & {
   /**
-   * Order configured on ASE resource
+   * It specify the order api version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly kind?: string;
+  /**
+   * Metadata pertaining to creation and last modification of Order
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
+  /**
+   * It specify the order resource id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly orderId?: string;
   /** The contact details. */
   contactInformation?: ContactDetails;
   /** The shipping address. */
@@ -1847,7 +1974,7 @@ export type Role = ARMBaseModel & {
   /** Role type. */
   kind: RoleTypes;
   /**
-   * Role configured on ASE resource
+   * Metadata pertaining to creation and last modification of Role
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
@@ -1858,7 +1985,7 @@ export type Addon = ARMBaseModel & {
   /** Addon type. */
   kind: AddonType;
   /**
-   * Addon type
+   * Metadata pertaining to creation and last modification of Addon
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
@@ -1867,7 +1994,7 @@ export type Addon = ARMBaseModel & {
 /** The metric setting details for the role */
 export type MonitoringMetricConfiguration = ARMBaseModel & {
   /**
-   * MonitoringConfiguration on ASE device
+   * Metadata pertaining to creation and last modification of MonitoringConfiguration
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
@@ -1884,7 +2011,7 @@ export type SecuritySettings = ARMBaseModel & {
 /** Represents a share on the  Data Box Edge/Gateway device. */
 export type Share = ARMBaseModel & {
   /**
-   * Share on ASE device
+   * Metadata pertaining to creation and last modification of Share
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
@@ -1916,7 +2043,7 @@ export type Share = ARMBaseModel & {
 /** The storage account credential. */
 export type StorageAccountCredential = ARMBaseModel & {
   /**
-   * StorageAccountCredential object
+   * Metadata pertaining to creation and last modification of StorageAccountCredential
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
@@ -1941,7 +2068,7 @@ export type StorageAccountCredential = ARMBaseModel & {
 /** Represents a Storage Account on the  Data Box Edge/Gateway device. */
 export type StorageAccount = ARMBaseModel & {
   /**
-   * StorageAccount object on ASE device
+   * Metadata pertaining to creation and last modification of StorageAccount
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
@@ -1968,7 +2095,7 @@ export type StorageAccount = ARMBaseModel & {
 /** Represents a container on the  Data Box Edge/Gateway device. */
 export type Container = ARMBaseModel & {
   /**
-   * Container in DataBoxEdge Resource
+   * Metadata pertaining to creation and last modification of Container
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
@@ -1993,20 +2120,20 @@ export type Container = ARMBaseModel & {
 
 /** Trigger details. */
 export type Trigger = ARMBaseModel & {
+  /** Trigger Kind. */
+  kind: TriggerEventType;
   /**
-   * Trigger in DataBoxEdge Resource
+   * Metadata pertaining to creation and last modification of Trigger
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-  /** Trigger Kind. */
-  kind: TriggerEventType;
 };
 
 /** The request object for trigger support package. */
 export type TriggerSupportPackageRequest = ARMBaseModel & {
-  /** Start of the timespan of the log collection */
+  /** MinimumTimeStamp from where logs need to be collected */
   minimumTimeStamp?: Date;
-  /** MaximumTimeStamp until where logs need to be collected */
+  /** Start of the timespan of the log collection */
   maximumTimeStamp?: Date;
   /**
    * Type of files, which need to be included in the logs
@@ -2019,7 +2146,7 @@ export type TriggerSupportPackageRequest = ARMBaseModel & {
 /** Details about ongoing updates and availability of updates on the device. */
 export type UpdateSummary = ARMBaseModel & {
   /**
-   * UpdateSummary Result
+   * Metadata pertaining to creation and last modification of UpdateSummary
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
@@ -2135,7 +2262,7 @@ export type UpdateSummary = ARMBaseModel & {
 /** Represents a user who has access to one or more shares on the Data Box Edge/Gateway device. */
 export type User = ARMBaseModel & {
   /**
-   * User in DataBoxEdge Resource
+   * Metadata pertaining to creation and last modification of User
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
@@ -2150,7 +2277,11 @@ export type User = ARMBaseModel & {
   userType: UserType;
 };
 
-/** CloudEdgeManagementRole role. */
+/**
+ * The preview of Virtual Machine Cloud Management from the Azure supports deploying and managing VMs on your Azure Stack Edge device from Azure Portal.
+ * For more information, refer to: https://docs.microsoft.com/en-us/azure/databox-online/azure-stack-edge-gpu-virtual-machine-overview
+ * By using this feature, you agree to the preview legal terms. See the https://azure.microsoft.com/en-us/support/legal/preview-supplemental-terms/ for additional details.
+ */
 export type CloudEdgeManagementRole = Role & {
   /**
    * Local Edge Management Status
@@ -2189,7 +2320,16 @@ export type IoTRole = Role & {
   roleStatus?: RoleStatus;
 };
 
-/** Kubernetes role. */
+/**
+ * The limited preview of Kubernetes Cluster Management from the Azure supports:
+ * 1. Using a simple turn-key option in Azure Portal, deploy a Kubernetes cluster on your Azure Stack Edge device.
+ * 2. Configure Kubernetes cluster running on your device with Arc enabled Kubernetes with a click of a button in the Azure Portal.
+ *  Azure Arc enables organizations to view, manage, and govern their on-premises Kubernetes clusters using the Azure Portal, command line tools, and APIs.
+ * 3. Easily configure Persistent Volumes using SMB and NFS shares for storing container data.
+ *  For more information, refer to the document here: https://databoxupdatepackages.blob.core.windows.net/documentation/Microsoft-Azure-Stack-Edge-K8-Cloud-Management-20210323.pdf
+ *  Or Demo: https://databoxupdatepackages.blob.core.windows.net/documentation/Microsoft-Azure-Stack-Edge-K8S-Cloud-Management-20210323.mp4
+ *  By using this feature, you agree to the preview legal terms. See the https://azure.microsoft.com/en-us/support/legal/preview-supplemental-terms/
+ */
 export type KubernetesRole = Role & {
   /** Host OS supported by the Kubernetes role. */
   hostPlatform?: PlatformType;
@@ -2427,7 +2567,11 @@ export enum KnownSkuName {
   RCASmall = "RCA_Small",
   RCALarge = "RCA_Large",
   RDC = "RDC",
-  Management = "Management"
+  Management = "Management",
+  EP264Mx1W = "EP2_64_Mx1_W",
+  EP2128GPU1Mx1W = "EP2_128_GPU1_Mx1_W",
+  EP2256GPU2Mx1 = "EP2_256_GPU2_Mx1",
+  EdgeMRTCP = "EdgeMR_TCP"
 }
 
 /**
@@ -2459,7 +2603,11 @@ export enum KnownSkuName {
  * **RCA_Small** \
  * **RCA_Large** \
  * **RDC** \
- * **Management**
+ * **Management** \
+ * **EP2_64_Mx1_W** \
+ * **EP2_128_GPU1_Mx1_W** \
+ * **EP2_256_GPU2_Mx1** \
+ * **EdgeMR_TCP**
  */
 export type SkuName = string;
 
@@ -2864,6 +3012,24 @@ export enum KnownEncryptionAlgorithm {
  * **RSAES_PKCS1_v_1_5**
  */
 export type EncryptionAlgorithm = string;
+
+/** Known values of {@link ClusterWitnessType} that the service accepts. */
+export enum KnownClusterWitnessType {
+  None = "None",
+  Cloud = "Cloud",
+  FileShare = "FileShare"
+}
+
+/**
+ * Defines values for ClusterWitnessType. \
+ * {@link KnownClusterWitnessType} can be used interchangeably with ClusterWitnessType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Cloud** \
+ * **FileShare**
+ */
+export type ClusterWitnessType = string;
 
 /** Known values of {@link JobStatus} that the service accepts. */
 export enum KnownJobStatus {
@@ -3871,6 +4037,24 @@ export interface BandwidthSchedulesListByDataBoxEdgeDeviceNextOptionalParams
 
 /** Contains response data for the listByDataBoxEdgeDeviceNext operation. */
 export type BandwidthSchedulesListByDataBoxEdgeDeviceNextResponse = BandwidthSchedulesList;
+
+/** Optional parameters. */
+export interface DeviceCapacityCheckCheckResourceCreationFeasibilityOptionalParams
+  extends coreClient.OperationOptions {
+  /** The capacity name. */
+  capacityName?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DeviceCapacityInfoGetDeviceCapacityInfoOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getDeviceCapacityInfo operation. */
+export type DeviceCapacityInfoGetDeviceCapacityInfoResponse = DeviceCapacityInfo;
 
 /** Optional parameters. */
 export interface DiagnosticSettingsGetDiagnosticProactiveLogCollectionSettingsOptionalParams
