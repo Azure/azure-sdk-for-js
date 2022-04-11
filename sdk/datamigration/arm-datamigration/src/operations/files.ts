@@ -358,7 +358,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ApiError
     }
   },
-  requestBody: Parameters.parameters12,
+  requestBody: Parameters.parameters13,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -407,7 +407,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ApiError
     }
   },
-  requestBody: Parameters.parameters12,
+  requestBody: Parameters.parameters13,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

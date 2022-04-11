@@ -8,131 +8,127 @@
 
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
-  DatabaseMigrationsSqlVmGetOptionalParams,
-  DatabaseMigrationsSqlVmGetResponse,
-  DatabaseMigrationSqlVm,
-  DatabaseMigrationsSqlVmCreateOrUpdateOptionalParams,
-  DatabaseMigrationsSqlVmCreateOrUpdateResponse,
+  DatabaseMigrationsSqlDbGetOptionalParams,
+  DatabaseMigrationsSqlDbGetResponse,
+  DatabaseMigrationSqlDb,
+  DatabaseMigrationsSqlDbCreateOrUpdateOptionalParams,
+  DatabaseMigrationsSqlDbCreateOrUpdateResponse,
+  DatabaseMigrationsSqlDbDeleteOptionalParams,
   MigrationOperationInput,
-  DatabaseMigrationsSqlVmCancelOptionalParams,
-  DatabaseMigrationsSqlVmCutoverOptionalParams
+  DatabaseMigrationsSqlDbCancelOptionalParams
 } from "../models";
 
-/** Interface representing a DatabaseMigrationsSqlVm. */
-export interface DatabaseMigrationsSqlVm {
+/** Interface representing a DatabaseMigrationsSqlDb. */
+export interface DatabaseMigrationsSqlDb {
   /**
-   * Retrieve the specified database migration for a given SQL VM.
+   * Retrieve the Database Migration resource.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
-   * @param sqlVirtualMachineName
+   * @param sqlDbInstanceName
    * @param targetDbName The name of the target database.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    sqlVirtualMachineName: string,
+    sqlDbInstanceName: string,
     targetDbName: string,
-    options?: DatabaseMigrationsSqlVmGetOptionalParams
-  ): Promise<DatabaseMigrationsSqlVmGetResponse>;
+    options?: DatabaseMigrationsSqlDbGetOptionalParams
+  ): Promise<DatabaseMigrationsSqlDbGetResponse>;
   /**
-   * Create a new database migration to a given SQL VM.
+   * Create or Update Database Migration resource.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
-   * @param sqlVirtualMachineName
+   * @param sqlDbInstanceName
    * @param targetDbName The name of the target database.
-   * @param parameters Details of SqlMigrationService resource.
+   * @param parameters Details of Sql Db migration resource.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
-    sqlVirtualMachineName: string,
+    sqlDbInstanceName: string,
     targetDbName: string,
-    parameters: DatabaseMigrationSqlVm,
-    options?: DatabaseMigrationsSqlVmCreateOrUpdateOptionalParams
+    parameters: DatabaseMigrationSqlDb,
+    options?: DatabaseMigrationsSqlDbCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<DatabaseMigrationsSqlVmCreateOrUpdateResponse>,
-      DatabaseMigrationsSqlVmCreateOrUpdateResponse
+      PollOperationState<DatabaseMigrationsSqlDbCreateOrUpdateResponse>,
+      DatabaseMigrationsSqlDbCreateOrUpdateResponse
     >
   >;
   /**
-   * Create a new database migration to a given SQL VM.
+   * Create or Update Database Migration resource.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
-   * @param sqlVirtualMachineName
+   * @param sqlDbInstanceName
    * @param targetDbName The name of the target database.
-   * @param parameters Details of SqlMigrationService resource.
+   * @param parameters Details of Sql Db migration resource.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    sqlVirtualMachineName: string,
+    sqlDbInstanceName: string,
     targetDbName: string,
-    parameters: DatabaseMigrationSqlVm,
-    options?: DatabaseMigrationsSqlVmCreateOrUpdateOptionalParams
-  ): Promise<DatabaseMigrationsSqlVmCreateOrUpdateResponse>;
+    parameters: DatabaseMigrationSqlDb,
+    options?: DatabaseMigrationsSqlDbCreateOrUpdateOptionalParams
+  ): Promise<DatabaseMigrationsSqlDbCreateOrUpdateResponse>;
   /**
-   * Stop in-progress database migration to SQL VM.
+   * Delete Database Migration resource.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
-   * @param sqlVirtualMachineName
+   * @param sqlDbInstanceName
    * @param targetDbName The name of the target database.
-   * @param parameters Migration Operation Input
+   * @param options The options parameters.
+   */
+  beginDelete(
+    resourceGroupName: string,
+    sqlDbInstanceName: string,
+    targetDbName: string,
+    options?: DatabaseMigrationsSqlDbDeleteOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Delete Database Migration resource.
+   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
+   *                          value from the Azure Resource Manager API or the portal.
+   * @param sqlDbInstanceName
+   * @param targetDbName The name of the target database.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    sqlDbInstanceName: string,
+    targetDbName: string,
+    options?: DatabaseMigrationsSqlDbDeleteOptionalParams
+  ): Promise<void>;
+  /**
+   * Stop on going migration for the database.
+   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
+   *                          value from the Azure Resource Manager API or the portal.
+   * @param sqlDbInstanceName
+   * @param targetDbName The name of the target database.
+   * @param parameters Required migration operation ID for which cancel will be initiated.
    * @param options The options parameters.
    */
   beginCancel(
     resourceGroupName: string,
-    sqlVirtualMachineName: string,
+    sqlDbInstanceName: string,
     targetDbName: string,
     parameters: MigrationOperationInput,
-    options?: DatabaseMigrationsSqlVmCancelOptionalParams
+    options?: DatabaseMigrationsSqlDbCancelOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
-   * Stop in-progress database migration to SQL VM.
+   * Stop on going migration for the database.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
-   * @param sqlVirtualMachineName
+   * @param sqlDbInstanceName
    * @param targetDbName The name of the target database.
-   * @param parameters Migration Operation Input
+   * @param parameters Required migration operation ID for which cancel will be initiated.
    * @param options The options parameters.
    */
   beginCancelAndWait(
     resourceGroupName: string,
-    sqlVirtualMachineName: string,
+    sqlDbInstanceName: string,
     targetDbName: string,
     parameters: MigrationOperationInput,
-    options?: DatabaseMigrationsSqlVmCancelOptionalParams
-  ): Promise<void>;
-  /**
-   * Initiate cutover for in-progress online database migration to SQL VM.
-   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
-   *                          value from the Azure Resource Manager API or the portal.
-   * @param sqlVirtualMachineName
-   * @param targetDbName The name of the target database.
-   * @param parameters Migration Operation Input
-   * @param options The options parameters.
-   */
-  beginCutover(
-    resourceGroupName: string,
-    sqlVirtualMachineName: string,
-    targetDbName: string,
-    parameters: MigrationOperationInput,
-    options?: DatabaseMigrationsSqlVmCutoverOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
-  /**
-   * Initiate cutover for in-progress online database migration to SQL VM.
-   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
-   *                          value from the Azure Resource Manager API or the portal.
-   * @param sqlVirtualMachineName
-   * @param targetDbName The name of the target database.
-   * @param parameters Migration Operation Input
-   * @param options The options parameters.
-   */
-  beginCutoverAndWait(
-    resourceGroupName: string,
-    sqlVirtualMachineName: string,
-    targetDbName: string,
-    parameters: MigrationOperationInput,
-    options?: DatabaseMigrationsSqlVmCutoverOptionalParams
+    options?: DatabaseMigrationsSqlDbCancelOptionalParams
   ): Promise<void>;
 }

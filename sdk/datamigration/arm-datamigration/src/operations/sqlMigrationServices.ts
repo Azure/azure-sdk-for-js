@@ -231,7 +231,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   }
 
   /**
-   * Retrieve the Migration Service.
+   * Retrieve the Database Migration Service
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -249,7 +249,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   }
 
   /**
-   * Create or Update SQL Migration Service.
+   * Create or Update Database Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -318,7 +318,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   }
 
   /**
-   * Create or Update SQL Migration Service.
+   * Create or Update Database Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -341,7 +341,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   }
 
   /**
-   * Delete SQL Migration Service.
+   * Delete Database Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -403,7 +403,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   }
 
   /**
-   * Delete SQL Migration Service.
+   * Delete Database Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -423,7 +423,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   }
 
   /**
-   * Update SQL Migration Service.
+   * Update Database Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -492,7 +492,7 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   }
 
   /**
-   * Update SQL Migration Service.
+   * Update Database Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -607,7 +607,8 @@ export class SqlMigrationServicesImpl implements SqlMigrationServices {
   }
 
   /**
-   * Retrieve the Monitoring Data.
+   * Retrieve the registered Integration Runtime nodes and their monitoring data for a given Database
+   * Migration Service.
    * @param resourceGroupName Name of the resource group that contains the resource. You can obtain this
    *                          value from the Azure Resource Manager API or the portal.
    * @param sqlMigrationServiceName Name of the SQL Migration Service.
@@ -732,7 +733,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters3,
+  requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -777,7 +778,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -838,7 +839,7 @@ const regenerateAuthKeysOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -860,7 +861,7 @@ const deleteNodeOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

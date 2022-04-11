@@ -9,6 +9,7 @@
 import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
 import {
+  DatabaseMigrationsSqlDbImpl,
   DatabaseMigrationsSqlMiImpl,
   DatabaseMigrationsSqlVmImpl,
   OperationsImpl,
@@ -22,6 +23,7 @@ import {
   FilesImpl
 } from "./operations";
 import {
+  DatabaseMigrationsSqlDb,
   DatabaseMigrationsSqlMi,
   DatabaseMigrationsSqlVm,
   Operations,
@@ -68,7 +70,7 @@ export class DataMigrationManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-datamigration/3.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-datamigration/3.0.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -91,7 +93,8 @@ export class DataMigrationManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-10-30-preview";
+    this.apiVersion = options.apiVersion || "2022-03-30-preview";
+    this.databaseMigrationsSqlDb = new DatabaseMigrationsSqlDbImpl(this);
     this.databaseMigrationsSqlMi = new DatabaseMigrationsSqlMiImpl(this);
     this.databaseMigrationsSqlVm = new DatabaseMigrationsSqlVmImpl(this);
     this.operations = new OperationsImpl(this);
@@ -105,6 +108,7 @@ export class DataMigrationManagementClient extends coreClient.ServiceClient {
     this.files = new FilesImpl(this);
   }
 
+  databaseMigrationsSqlDb: DatabaseMigrationsSqlDb;
   databaseMigrationsSqlMi: DatabaseMigrationsSqlMi;
   databaseMigrationsSqlVm: DatabaseMigrationsSqlVm;
   operations: Operations;
