@@ -183,7 +183,7 @@ export class AppConfigurationClient {
       | AddConfigurationSettingParam<SecretReferenceValue>,
     options: AddConfigurationSettingOptions = {}
   ): Promise<AddConfigurationSettingResponse> {
-    return tracingClient.withSpan("addConfigurationSetting", options, async (updatedOptions) => {
+    return tracingClient.withSpan("AppConfigurationClient.addConfigurationSetting", options, async (updatedOptions) => {
       const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
       const originalResponse = await this.client.putKeyValue(configurationSetting.key, {
         ifNoneMatch: "*",
@@ -211,7 +211,7 @@ export class AppConfigurationClient {
     id: ConfigurationSettingId,
     options: DeleteConfigurationSettingOptions = {}
   ): Promise<DeleteConfigurationSettingResponse> {
-    return tracingClient.withSpan("deleteConfigurationSetting", options, async (updatedOptions) => {
+    return tracingClient.withSpan("AppConfigurationClient.deleteConfigurationSetting", options, async (updatedOptions) => {
       let status;
       const originalResponse = await this.client.deleteKeyValue(id.key, {
         label: id.label,
@@ -242,7 +242,7 @@ export class AppConfigurationClient {
     id: ConfigurationSettingId,
     options: GetConfigurationSettingOptions = {}
   ): Promise<GetConfigurationSettingResponse> {
-    return tracingClient.withSpan("getConfigurationSetting", options, async (updatedOptions) => {
+    return tracingClient.withSpan("AppConfigurationClient.getConfigurationSetting", options, async (updatedOptions) => {
       let status;
       const originalResponse = await this.client.getKeyValue(id.key, {
         ...updatedOptions,
@@ -319,7 +319,7 @@ export class AppConfigurationClient {
     options: ListConfigurationSettingsOptions & PageSettings = {}
   ): AsyncIterableIterator<ListConfigurationSettingPage> {
     let currentResponse = await tracingClient.withSpan(
-      "listConfigurationSettings",
+      "AppConfigurationClient.listConfigurationSettings",
       options,
       async (updatedOptions) => {
         const response = await this.client.getKeyValues({
@@ -338,7 +338,7 @@ export class AppConfigurationClient {
 
     while (currentResponse.nextLink) {
       currentResponse = await tracingClient.withSpan(
-        "listConfigurationSettings",
+        "AppConfigurationClient.listConfigurationSettings",
         options,
         // TODO: same code up above. Unify.
         async (updatedOptions) => {
@@ -421,7 +421,7 @@ export class AppConfigurationClient {
     options: ListRevisionsOptions & PageSettings = {}
   ): AsyncIterableIterator<ListRevisionsPage> {
     let currentResponse = await tracingClient.withSpan(
-      "listRevisions",
+      "AppConfigurationClient.listRevisions",
       options,
       async (updatedOptions) => {
         const response = await this.client.getRevisions({
@@ -440,7 +440,7 @@ export class AppConfigurationClient {
 
     while (currentResponse.nextLink) {
       currentResponse = (await tracingClient.withSpan(
-        "listRevisions",
+        "AppConfigurationClient.listRevisions",
         options,
         (updatedOptions) => {
           return this.client.getRevisions({
@@ -490,7 +490,7 @@ export class AppConfigurationClient {
       | SetConfigurationSettingParam<SecretReferenceValue>,
     options: SetConfigurationSettingOptions = {}
   ): Promise<SetConfigurationSettingResponse> {
-    return tracingClient.withSpan("setConfigurationSetting", options, async (updatedOptions) => {
+    return tracingClient.withSpan("AppConfigurationClient.setConfigurationSetting", options, async (updatedOptions) => {
       const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
       const response = transformKeyValueResponse(
         await this.client.putKeyValue(configurationSetting.key, {
