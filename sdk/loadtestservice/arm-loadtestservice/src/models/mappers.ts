@@ -241,10 +241,53 @@ export const LoadTestResourcePageList: coreClient.CompositeMapper = {
   }
 };
 
-export const SystemAssignedServiceIdentity: coreClient.CompositeMapper = {
+export const EncryptionProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SystemAssignedServiceIdentity",
+    className: "EncryptionProperties",
+    modelProperties: {
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "EncryptionPropertiesIdentity"
+        }
+      },
+      keyUrl: {
+        serializedName: "keyUrl",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EncryptionPropertiesIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EncryptionPropertiesIdentity",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      resourceId: {
+        serializedName: "resourceId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedServiceIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedServiceIdentity",
     modelProperties: {
       principalId: {
         serializedName: "principalId",
@@ -265,6 +308,38 @@ export const SystemAssignedServiceIdentity: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "String"
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "UserAssignedIdentity" }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const UserAssignedIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserAssignedIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      clientId: {
+        serializedName: "clientId",
+        readOnly: true,
+        type: {
+          name: "Uuid"
         }
       }
     }
@@ -369,32 +444,23 @@ export const LoadTestResourcePatchRequestBody: coreClient.CompositeMapper = {
         serializedName: "identity",
         type: {
           name: "Composite",
-          className: "SystemAssignedServiceIdentity"
+          className: "ManagedServiceIdentity"
         }
       },
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "LoadTestResourcePatchRequestBodyProperties"
-        }
-      }
-    }
-  }
-};
-
-export const LoadTestResourcePatchRequestBodyProperties: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LoadTestResourcePatchRequestBodyProperties",
-    modelProperties: {
       description: {
         constraints: {
           MaxLength: 512
         },
-        serializedName: "description",
+        serializedName: "properties.description",
         type: {
           name: "String"
+        }
+      },
+      encryption: {
+        serializedName: "properties.encryption",
+        type: {
+          name: "Composite",
+          className: "EncryptionProperties"
         }
       }
     }
@@ -435,7 +501,7 @@ export const LoadTestResource: coreClient.CompositeMapper = {
         serializedName: "identity",
         type: {
           name: "Composite",
-          className: "SystemAssignedServiceIdentity"
+          className: "ManagedServiceIdentity"
         }
       },
       description: {
@@ -462,6 +528,13 @@ export const LoadTestResource: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      encryption: {
+        serializedName: "properties.encryption",
+        type: {
+          name: "Composite",
+          className: "EncryptionProperties"
         }
       }
     }

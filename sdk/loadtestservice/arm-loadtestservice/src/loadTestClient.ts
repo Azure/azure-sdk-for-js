@@ -44,7 +44,7 @@ export class LoadTestClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-loadtestservice/1.0.0-beta.1`;
+    const packageDetails = `azsdk-js-arm-loadtestservice/1.0.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -67,7 +67,7 @@ export class LoadTestClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-12-01-preview";
+    this.apiVersion = options.apiVersion || "2022-04-15-preview";
     this.operations = new OperationsImpl(this);
     this.loadTests = new LoadTestsImpl(this);
   }

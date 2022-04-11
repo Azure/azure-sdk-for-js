@@ -17,6 +17,18 @@ export type ActionType = string;
 export type CreatedByType = string;
 
 // @public
+export interface EncryptionProperties {
+    identity?: EncryptionPropertiesIdentity;
+    keyUrl?: string;
+}
+
+// @public
+export interface EncryptionPropertiesIdentity {
+    resourceId?: string;
+    type?: Type;
+}
+
+// @public
 export interface ErrorAdditionalInfo {
     readonly info?: Record<string, unknown>;
     readonly type?: string;
@@ -55,6 +67,18 @@ export enum KnownCreatedByType {
 }
 
 // @public
+export enum KnownManagedServiceIdentityType {
+    // (undocumented)
+    None = "None",
+    // (undocumented)
+    SystemAssigned = "SystemAssigned",
+    // (undocumented)
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
+    // (undocumented)
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownOrigin {
     // (undocumented)
     System = "system",
@@ -77,11 +101,11 @@ export enum KnownResourceState {
 }
 
 // @public
-export enum KnownSystemAssignedServiceIdentityType {
+export enum KnownType {
     // (undocumented)
-    None = "None",
+    SystemAssigned = "SystemAssigned",
     // (undocumented)
-    SystemAssigned = "SystemAssigned"
+    UserAssigned = "UserAssigned"
 }
 
 // @public (undocumented)
@@ -108,10 +132,11 @@ export interface LoadTestClientOptionalParams extends coreClient.ServiceClientOp
 
 // @public
 export type LoadTestResource = TrackedResource & {
-    identity?: SystemAssignedServiceIdentity;
+    identity?: ManagedServiceIdentity;
     description?: string;
     readonly provisioningState?: ResourceState;
     readonly dataPlaneURI?: string;
+    encryption?: EncryptionProperties;
 };
 
 // @public
@@ -122,29 +147,29 @@ export interface LoadTestResourcePageList {
 
 // @public
 export interface LoadTestResourcePatchRequestBody {
-    identity?: SystemAssignedServiceIdentity;
-    properties?: LoadTestResourcePatchRequestBodyProperties;
+    description?: string;
+    encryption?: EncryptionProperties;
+    identity?: ManagedServiceIdentity;
     tags?: Record<string, unknown>;
 }
 
 // @public
-export interface LoadTestResourcePatchRequestBodyProperties {
-    description?: string;
-}
-
-// @public
 export interface LoadTests {
+    beginCreateOrUpdate(resourceGroupName: string, loadTestName: string, loadTestResource: LoadTestResource, options?: LoadTestsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<LoadTestsCreateOrUpdateResponse>, LoadTestsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, loadTestName: string, loadTestResource: LoadTestResource, options?: LoadTestsCreateOrUpdateOptionalParams): Promise<LoadTestsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, loadTestName: string, options?: LoadTestsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, loadTestName: string, options?: LoadTestsDeleteOptionalParams): Promise<void>;
-    createOrUpdate(resourceGroupName: string, loadTestName: string, loadTestResource: LoadTestResource, options?: LoadTestsCreateOrUpdateOptionalParams): Promise<LoadTestsCreateOrUpdateResponse>;
+    beginUpdate(resourceGroupName: string, loadTestName: string, loadTestResourcePatchRequestBody: LoadTestResourcePatchRequestBody, options?: LoadTestsUpdateOptionalParams): Promise<PollerLike<PollOperationState<LoadTestsUpdateResponse>, LoadTestsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, loadTestName: string, loadTestResourcePatchRequestBody: LoadTestResourcePatchRequestBody, options?: LoadTestsUpdateOptionalParams): Promise<LoadTestsUpdateResponse>;
     get(resourceGroupName: string, loadTestName: string, options?: LoadTestsGetOptionalParams): Promise<LoadTestsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: LoadTestsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<LoadTestResource>;
     listBySubscription(options?: LoadTestsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<LoadTestResource>;
-    update(resourceGroupName: string, loadTestName: string, loadTestResourcePatchRequestBody: LoadTestResourcePatchRequestBody, options?: LoadTestsUpdateOptionalParams): Promise<LoadTestsUpdateResponse>;
 }
 
 // @public
 export interface LoadTestsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -193,10 +218,25 @@ export type LoadTestsListBySubscriptionResponse = LoadTestResourcePageList;
 
 // @public
 export interface LoadTestsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
 export type LoadTestsUpdateResponse = LoadTestResource;
+
+// @public
+export interface ManagedServiceIdentity {
+    readonly principalId?: string;
+    readonly tenantId?: string;
+    type: ManagedServiceIdentityType;
+    userAssignedIdentities?: {
+        [propertyName: string]: UserAssignedIdentity;
+    };
+}
+
+// @public
+export type ManagedServiceIdentityType = string;
 
 // @public
 export interface Operation {
@@ -255,16 +295,6 @@ export interface Resource {
 export type ResourceState = string;
 
 // @public
-export interface SystemAssignedServiceIdentity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type: SystemAssignedServiceIdentityType;
-}
-
-// @public
-export type SystemAssignedServiceIdentityType = string;
-
-// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
@@ -281,6 +311,15 @@ export type TrackedResource = Resource & {
     };
     location: string;
 };
+
+// @public
+export type Type = string;
+
+// @public
+export interface UserAssignedIdentity {
+    readonly clientId?: string;
+    readonly principalId?: string;
+}
 
 // (No @packageDocumentation comment for this package)
 

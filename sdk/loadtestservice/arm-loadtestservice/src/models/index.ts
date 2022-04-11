@@ -129,8 +129,24 @@ export interface LoadTestResourcePageList {
   nextLink?: string;
 }
 
-/** Managed service identity (either system assigned, or none) */
-export interface SystemAssignedServiceIdentity {
+/** Key and identity details for Customer Managed Key encryption of load test resource */
+export interface EncryptionProperties {
+  /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
+  identity?: EncryptionPropertiesIdentity;
+  /** key encryption key Url, versioned. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 or https://contosovault.vault.azure.net/keys/contosokek. */
+  keyUrl?: string;
+}
+
+/** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
+export interface EncryptionPropertiesIdentity {
+  /** Managed identity type to use for accessing encryption key Url */
+  type?: Type;
+  /** user assigned identity to use for accessing key encryption key Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId */
+  resourceId?: string;
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
   /**
    * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -141,8 +157,24 @@ export interface SystemAssignedServiceIdentity {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly tenantId?: string;
-  /** Type of managed service identity (either system assigned, or none). */
-  type: SystemAssignedServiceIdentityType;
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -190,15 +222,11 @@ export interface LoadTestResourcePatchRequestBody {
   /** Resource tags. */
   tags?: Record<string, unknown>;
   /** The type of identity used for the resource. */
-  identity?: SystemAssignedServiceIdentity;
-  /** Load Test resource properties */
-  properties?: LoadTestResourcePatchRequestBodyProperties;
-}
-
-/** Load Test resource properties */
-export interface LoadTestResourcePatchRequestBodyProperties {
+  identity?: ManagedServiceIdentity;
   /** Description of the resource. */
   description?: string;
+  /** CMK Encryption property. */
+  encryption?: EncryptionProperties;
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
@@ -212,7 +240,7 @@ export type TrackedResource = Resource & {
 /** LoadTest details */
 export type LoadTestResource = TrackedResource & {
   /** The type of identity used for the resource. */
-  identity?: SystemAssignedServiceIdentity;
+  identity?: ManagedServiceIdentity;
   /** Description of the resource. */
   description?: string;
   /**
@@ -225,6 +253,8 @@ export type LoadTestResource = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly dataPlaneURI?: string;
+  /** CMK Encryption property. */
+  encryption?: EncryptionProperties;
 };
 
 /** Known values of {@link Origin} that the service accepts. */
@@ -279,21 +309,41 @@ export enum KnownResourceState {
  */
 export type ResourceState = string;
 
-/** Known values of {@link SystemAssignedServiceIdentityType} that the service accepts. */
-export enum KnownSystemAssignedServiceIdentityType {
-  None = "None",
-  SystemAssigned = "SystemAssigned"
+/** Known values of {@link Type} that the service accepts. */
+export enum KnownType {
+  SystemAssigned = "SystemAssigned",
+  UserAssigned = "UserAssigned"
 }
 
 /**
- * Defines values for SystemAssignedServiceIdentityType. \
- * {@link KnownSystemAssignedServiceIdentityType} can be used interchangeably with SystemAssignedServiceIdentityType,
+ * Defines values for Type. \
+ * {@link KnownType} can be used interchangeably with Type,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssigned** \
+ * **UserAssigned**
+ */
+export type Type = string;
+
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  None = "None",
+  SystemAssigned = "SystemAssigned",
+  UserAssigned = "UserAssigned",
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **None** \
- * **SystemAssigned**
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned,UserAssigned**
  */
-export type SystemAssignedServiceIdentityType = string;
+export type ManagedServiceIdentityType = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
@@ -352,14 +402,24 @@ export type LoadTestsGetResponse = LoadTestResource;
 
 /** Optional parameters. */
 export interface LoadTestsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the createOrUpdate operation. */
 export type LoadTestsCreateOrUpdateResponse = LoadTestResource;
 
 /** Optional parameters. */
 export interface LoadTestsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the update operation. */
 export type LoadTestsUpdateResponse = LoadTestResource;
