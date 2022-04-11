@@ -74,8 +74,8 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/client/identityClient.ts",
-        "prefix": "packageDetails"
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
       }
     ]
   },

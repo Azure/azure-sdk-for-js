@@ -79,7 +79,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
   private abortControllers: Map<string, AbortController[] | undefined>;
 
   constructor(options?: TokenCredentialOptions) {
-    const packageDetails = SDK_VERSION;
+    const packageDetails = `azsdk-js-identity/${SDK_VERSION}`;
     const userAgentPrefix = options?.userAgentOptions?.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
       : `${packageDetails}`;
@@ -179,7 +179,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     const query = new URLSearchParams(refreshParams);
 
     return tracingClient.withSpan(
-      "IdentityClient-refreshAccessToken",
+      "IdentityClient.refreshAccessToken",
       options,
       async (updatedOptions) => {
         try {
