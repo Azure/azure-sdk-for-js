@@ -6,71 +6,83 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RoleAssignments } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AuthorizationManagementClientContext } from "../authorizationManagementClientContext";
+import { AuthorizationManagementClient } from "../authorizationManagementClient";
 import {
   RoleAssignment,
-  RoleAssignmentsListForSubscriptionNextOptionalParams,
-  RoleAssignmentsListForSubscriptionOptionalParams,
-  RoleAssignmentsListForResourceGroupNextOptionalParams,
-  RoleAssignmentsListForResourceGroupOptionalParams,
   RoleAssignmentsListForResourceNextOptionalParams,
   RoleAssignmentsListForResourceOptionalParams,
+  RoleAssignmentsListForResourceGroupNextOptionalParams,
+  RoleAssignmentsListForResourceGroupOptionalParams,
+  RoleAssignmentsListNextOptionalParams,
+  RoleAssignmentsListOptionalParams,
   RoleAssignmentsListForScopeNextOptionalParams,
   RoleAssignmentsListForScopeOptionalParams,
-  RoleAssignmentsListForSubscriptionResponse,
-  RoleAssignmentsListForResourceGroupResponse,
   RoleAssignmentsListForResourceResponse,
-  RoleAssignmentsGetOptionalParams,
-  RoleAssignmentsGetResponse,
+  RoleAssignmentsListForResourceGroupResponse,
+  RoleAssignmentsDeleteOptionalParams,
+  RoleAssignmentsDeleteResponse,
   RoleAssignmentCreateParameters,
   RoleAssignmentsCreateOptionalParams,
   RoleAssignmentsCreateResponse,
-  RoleAssignmentsDeleteOptionalParams,
-  RoleAssignmentsDeleteResponse,
-  RoleAssignmentsValidateOptionalParams,
-  RoleAssignmentsValidateResponse,
-  RoleAssignmentsListForScopeResponse,
-  RoleAssignmentsGetByIdOptionalParams,
-  RoleAssignmentsGetByIdResponse,
-  RoleAssignmentsCreateByIdOptionalParams,
-  RoleAssignmentsCreateByIdResponse,
+  RoleAssignmentsGetOptionalParams,
+  RoleAssignmentsGetResponse,
   RoleAssignmentsDeleteByIdOptionalParams,
   RoleAssignmentsDeleteByIdResponse,
-  RoleAssignmentsValidateByIdOptionalParams,
-  RoleAssignmentsValidateByIdResponse,
-  RoleAssignmentsListForSubscriptionNextResponse,
-  RoleAssignmentsListForResourceGroupNextResponse,
+  RoleAssignmentsCreateByIdOptionalParams,
+  RoleAssignmentsCreateByIdResponse,
+  RoleAssignmentsGetByIdOptionalParams,
+  RoleAssignmentsGetByIdResponse,
+  RoleAssignmentsListResponse,
+  RoleAssignmentsListForScopeResponse,
   RoleAssignmentsListForResourceNextResponse,
+  RoleAssignmentsListForResourceGroupNextResponse,
+  RoleAssignmentsListNextResponse,
   RoleAssignmentsListForScopeNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing RoleAssignments operations. */
 export class RoleAssignmentsImpl implements RoleAssignments {
-  private readonly client: AuthorizationManagementClientContext;
+  private readonly client: AuthorizationManagementClient;
 
   /**
    * Initialize a new instance of the class RoleAssignments class.
    * @param client Reference to the service client
    */
-  constructor(client: AuthorizationManagementClientContext) {
+  constructor(client: AuthorizationManagementClient) {
     this.client = client;
   }
 
   /**
-   * List all role assignments that apply to a subscription.
+   * List role assignments for a resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceProviderNamespace The namespace of the resource provider.
+   * @param parentResourcePath The parent resource identity.
+   * @param resourceType The resource type of the resource.
+   * @param resourceName The name of the resource to get role assignments for.
    * @param options The options parameters.
    */
-  public listForSubscription(
-    options?: RoleAssignmentsListForSubscriptionOptionalParams
+  public listForResource(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    resourceName: string,
+    options?: RoleAssignmentsListForResourceOptionalParams
   ): PagedAsyncIterableIterator<RoleAssignment> {
-    const iter = this.listForSubscriptionPagingAll(options);
+    const iter = this.listForResourcePagingAll(
+      resourceGroupName,
+      resourceProviderNamespace,
+      parentResourcePath,
+      resourceType,
+      resourceName,
+      options
+    );
     return {
       next() {
         return iter.next();
@@ -79,34 +91,73 @@ export class RoleAssignmentsImpl implements RoleAssignments {
         return this;
       },
       byPage: () => {
-        return this.listForSubscriptionPagingPage(options);
+        return this.listForResourcePagingPage(
+          resourceGroupName,
+          resourceProviderNamespace,
+          parentResourcePath,
+          resourceType,
+          resourceName,
+          options
+        );
       }
     };
   }
 
-  private async *listForSubscriptionPagingPage(
-    options?: RoleAssignmentsListForSubscriptionOptionalParams
+  private async *listForResourcePagingPage(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    resourceName: string,
+    options?: RoleAssignmentsListForResourceOptionalParams
   ): AsyncIterableIterator<RoleAssignment[]> {
-    let result = await this._listForSubscription(options);
+    let result = await this._listForResource(
+      resourceGroupName,
+      resourceProviderNamespace,
+      parentResourcePath,
+      resourceType,
+      resourceName,
+      options
+    );
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._listForSubscriptionNext(continuationToken, options);
+      result = await this._listForResourceNext(
+        resourceGroupName,
+        resourceProviderNamespace,
+        parentResourcePath,
+        resourceType,
+        resourceName,
+        continuationToken,
+        options
+      );
       continuationToken = result.nextLink;
       yield result.value || [];
     }
   }
 
-  private async *listForSubscriptionPagingAll(
-    options?: RoleAssignmentsListForSubscriptionOptionalParams
+  private async *listForResourcePagingAll(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    resourceName: string,
+    options?: RoleAssignmentsListForResourceOptionalParams
   ): AsyncIterableIterator<RoleAssignment> {
-    for await (const page of this.listForSubscriptionPagingPage(options)) {
+    for await (const page of this.listForResourcePagingPage(
+      resourceGroupName,
+      resourceProviderNamespace,
+      parentResourcePath,
+      resourceType,
+      resourceName,
+      options
+    )) {
       yield* page;
     }
   }
 
   /**
-   * List all role assignments that apply to a resource group.
+   * List role assignments for a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -159,28 +210,13 @@ export class RoleAssignmentsImpl implements RoleAssignments {
   }
 
   /**
-   * List all role assignments that apply to a resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceProviderNamespace The namespace of the resource provider.
-   * @param resourceType The resource type name. For example the type name of a web app is 'sites' (from
-   *                     Microsoft.Web/sites).
-   * @param resourceName The resource name.
+   * Gets all role assignments for the subscription.
    * @param options The options parameters.
    */
-  public listForResource(
-    resourceGroupName: string,
-    resourceProviderNamespace: string,
-    resourceType: string,
-    resourceName: string,
-    options?: RoleAssignmentsListForResourceOptionalParams
+  public list(
+    options?: RoleAssignmentsListOptionalParams
   ): PagedAsyncIterableIterator<RoleAssignment> {
-    const iter = this.listForResourcePagingAll(
-      resourceGroupName,
-      resourceProviderNamespace,
-      resourceType,
-      resourceName,
-      options
-    );
+    const iter = this.listPagingAll(options);
     return {
       next() {
         return iter.next();
@@ -189,71 +225,35 @@ export class RoleAssignmentsImpl implements RoleAssignments {
         return this;
       },
       byPage: () => {
-        return this.listForResourcePagingPage(
-          resourceGroupName,
-          resourceProviderNamespace,
-          resourceType,
-          resourceName,
-          options
-        );
+        return this.listPagingPage(options);
       }
     };
   }
 
-  private async *listForResourcePagingPage(
-    resourceGroupName: string,
-    resourceProviderNamespace: string,
-    resourceType: string,
-    resourceName: string,
-    options?: RoleAssignmentsListForResourceOptionalParams
+  private async *listPagingPage(
+    options?: RoleAssignmentsListOptionalParams
   ): AsyncIterableIterator<RoleAssignment[]> {
-    let result = await this._listForResource(
-      resourceGroupName,
-      resourceProviderNamespace,
-      resourceType,
-      resourceName,
-      options
-    );
+    let result = await this._list(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._listForResourceNext(
-        resourceGroupName,
-        resourceProviderNamespace,
-        resourceType,
-        resourceName,
-        continuationToken,
-        options
-      );
+      result = await this._listNext(continuationToken, options);
       continuationToken = result.nextLink;
       yield result.value || [];
     }
   }
 
-  private async *listForResourcePagingAll(
-    resourceGroupName: string,
-    resourceProviderNamespace: string,
-    resourceType: string,
-    resourceName: string,
-    options?: RoleAssignmentsListForResourceOptionalParams
+  private async *listPagingAll(
+    options?: RoleAssignmentsListOptionalParams
   ): AsyncIterableIterator<RoleAssignment> {
-    for await (const page of this.listForResourcePagingPage(
-      resourceGroupName,
-      resourceProviderNamespace,
-      resourceType,
-      resourceName,
-      options
-    )) {
+    for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * List all role assignments that apply to a scope.
-   * @param scope The scope of the operation or resource. Valid scopes are: subscription (format:
-   *              '/subscriptions/{subscriptionId}'), resource group (format:
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
+   * Gets role assignments for a scope.
+   * @param scope The scope of the role assignments.
    * @param options The options parameters.
    */
   public listForScope(
@@ -298,20 +298,37 @@ export class RoleAssignmentsImpl implements RoleAssignments {
   }
 
   /**
-   * List all role assignments that apply to a subscription.
+   * List role assignments for a resource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceProviderNamespace The namespace of the resource provider.
+   * @param parentResourcePath The parent resource identity.
+   * @param resourceType The resource type of the resource.
+   * @param resourceName The name of the resource to get role assignments for.
    * @param options The options parameters.
    */
-  private _listForSubscription(
-    options?: RoleAssignmentsListForSubscriptionOptionalParams
-  ): Promise<RoleAssignmentsListForSubscriptionResponse> {
+  private _listForResource(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    resourceName: string,
+    options?: RoleAssignmentsListForResourceOptionalParams
+  ): Promise<RoleAssignmentsListForResourceResponse> {
     return this.client.sendOperationRequest(
-      { options },
-      listForSubscriptionOperationSpec
+      {
+        resourceGroupName,
+        resourceProviderNamespace,
+        parentResourcePath,
+        resourceType,
+        resourceName,
+        options
+      },
+      listForResourceOperationSpec
     );
   }
 
   /**
-   * List all role assignments that apply to a resource group.
+   * List role assignments for a resource group.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -326,60 +343,30 @@ export class RoleAssignmentsImpl implements RoleAssignments {
   }
 
   /**
-   * List all role assignments that apply to a resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceProviderNamespace The namespace of the resource provider.
-   * @param resourceType The resource type name. For example the type name of a web app is 'sites' (from
-   *                     Microsoft.Web/sites).
-   * @param resourceName The resource name.
+   * Delete a role assignment.
+   * @param scope The scope of the role assignment to delete.
+   * @param roleAssignmentName The name of the role assignment to delete.
    * @param options The options parameters.
    */
-  private _listForResource(
-    resourceGroupName: string,
-    resourceProviderNamespace: string,
-    resourceType: string,
-    resourceName: string,
-    options?: RoleAssignmentsListForResourceOptionalParams
-  ): Promise<RoleAssignmentsListForResourceResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        resourceProviderNamespace,
-        resourceType,
-        resourceName,
-        options
-      },
-      listForResourceOperationSpec
-    );
-  }
-
-  /**
-   * Get a role assignment by scope and name.
-   * @param scope The scope of the operation or resource. Valid scopes are: subscription (format:
-   *              '/subscriptions/{subscriptionId}'), resource group (format:
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
-   * @param roleAssignmentName The name of the role assignment. It can be any valid GUID.
-   * @param options The options parameters.
-   */
-  get(
+  delete(
     scope: string,
     roleAssignmentName: string,
-    options?: RoleAssignmentsGetOptionalParams
-  ): Promise<RoleAssignmentsGetResponse> {
+    options?: RoleAssignmentsDeleteOptionalParams
+  ): Promise<RoleAssignmentsDeleteResponse> {
     return this.client.sendOperationRequest(
       { scope, roleAssignmentName, options },
-      getOperationSpec
+      deleteOperationSpec
     );
   }
 
   /**
-   * Create or update a role assignment by scope and name.
-   * @param scope The scope of the operation or resource. Valid scopes are: subscription (format:
-   *              '/subscriptions/{subscriptionId}'), resource group (format:
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
-   * @param roleAssignmentName The name of the role assignment. It can be any valid GUID.
+   * Create a role assignment.
+   * @param scope The scope of the role assignment to create. The scope can be any REST resource
+   *              instance. For example, use '/subscriptions/{subscription-id}/' for a subscription,
+   *              '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}' for a resource group, and
+   *              '/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}'
+   *              for a resource.
+   * @param roleAssignmentName The name of the role assignment to create. It can be any valid GUID.
    * @param parameters Parameters for the role assignment.
    * @param options The options parameters.
    */
@@ -396,53 +383,82 @@ export class RoleAssignmentsImpl implements RoleAssignments {
   }
 
   /**
-   * Delete a role assignment by scope and name.
-   * @param scope The scope of the operation or resource. Valid scopes are: subscription (format:
-   *              '/subscriptions/{subscriptionId}'), resource group (format:
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
-   * @param roleAssignmentName The name of the role assignment. It can be any valid GUID.
+   * Get the specified role assignment.
+   * @param scope The scope of the role assignment.
+   * @param roleAssignmentName The name of the role assignment to get.
    * @param options The options parameters.
    */
-  delete(
+  get(
     scope: string,
     roleAssignmentName: string,
-    options?: RoleAssignmentsDeleteOptionalParams
-  ): Promise<RoleAssignmentsDeleteResponse> {
+    options?: RoleAssignmentsGetOptionalParams
+  ): Promise<RoleAssignmentsGetResponse> {
     return this.client.sendOperationRequest(
       { scope, roleAssignmentName, options },
-      deleteOperationSpec
+      getOperationSpec
     );
   }
 
   /**
-   * Validate a role assignment create or update operation by scope and name.
-   * @param scope The scope of the operation or resource. Valid scopes are: subscription (format:
-   *              '/subscriptions/{subscriptionId}'), resource group (format:
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
-   * @param roleAssignmentName The name of the role assignment. It can be any valid GUID.
+   * Delete a role assignment.
+   * @param roleId The ID of the role assignment to delete.
+   * @param options The options parameters.
+   */
+  deleteById(
+    roleId: string,
+    options?: RoleAssignmentsDeleteByIdOptionalParams
+  ): Promise<RoleAssignmentsDeleteByIdResponse> {
+    return this.client.sendOperationRequest(
+      { roleId, options },
+      deleteByIdOperationSpec
+    );
+  }
+
+  /**
+   * Creates a role assignment by ID.
+   * @param roleId The ID of the role assignment to create.
    * @param parameters Parameters for the role assignment.
    * @param options The options parameters.
    */
-  validate(
-    scope: string,
-    roleAssignmentName: string,
+  createById(
+    roleId: string,
     parameters: RoleAssignmentCreateParameters,
-    options?: RoleAssignmentsValidateOptionalParams
-  ): Promise<RoleAssignmentsValidateResponse> {
+    options?: RoleAssignmentsCreateByIdOptionalParams
+  ): Promise<RoleAssignmentsCreateByIdResponse> {
     return this.client.sendOperationRequest(
-      { scope, roleAssignmentName, parameters, options },
-      validateOperationSpec
+      { roleId, parameters, options },
+      createByIdOperationSpec
     );
   }
 
   /**
-   * List all role assignments that apply to a scope.
-   * @param scope The scope of the operation or resource. Valid scopes are: subscription (format:
-   *              '/subscriptions/{subscriptionId}'), resource group (format:
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
+   * Gets a role assignment by ID.
+   * @param roleId The ID of the role assignment to get.
+   * @param options The options parameters.
+   */
+  getById(
+    roleId: string,
+    options?: RoleAssignmentsGetByIdOptionalParams
+  ): Promise<RoleAssignmentsGetByIdResponse> {
+    return this.client.sendOperationRequest(
+      { roleId, options },
+      getByIdOperationSpec
+    );
+  }
+
+  /**
+   * Gets all role assignments for the subscription.
+   * @param options The options parameters.
+   */
+  private _list(
+    options?: RoleAssignmentsListOptionalParams
+  ): Promise<RoleAssignmentsListResponse> {
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
+  }
+
+  /**
+   * Gets role assignments for a scope.
+   * @param scope The scope of the role assignments.
    * @param options The options parameters.
    */
   private _listForScope(
@@ -456,93 +472,35 @@ export class RoleAssignmentsImpl implements RoleAssignments {
   }
 
   /**
-   * Get a role assignment by ID.
-   * @param roleAssignmentId The fully qualified ID of the role assignment including scope, resource
-   *                         name, and resource type. Format:
-   *                         /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}. Example:
-   *                         /subscriptions/<SUB_ID>/resourcegroups/<RESOURCE_GROUP>/providers/Microsoft.Authorization/roleAssignments/<ROLE_ASSIGNMENT_NAME>
+   * ListForResourceNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceProviderNamespace The namespace of the resource provider.
+   * @param parentResourcePath The parent resource identity.
+   * @param resourceType The resource type of the resource.
+   * @param resourceName The name of the resource to get role assignments for.
+   * @param nextLink The nextLink from the previous successful call to the ListForResource method.
    * @param options The options parameters.
    */
-  getById(
-    roleAssignmentId: string,
-    options?: RoleAssignmentsGetByIdOptionalParams
-  ): Promise<RoleAssignmentsGetByIdResponse> {
-    return this.client.sendOperationRequest(
-      { roleAssignmentId, options },
-      getByIdOperationSpec
-    );
-  }
-
-  /**
-   * Create or update a role assignment by ID.
-   * @param roleAssignmentId The fully qualified ID of the role assignment including scope, resource
-   *                         name, and resource type. Format:
-   *                         /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}. Example:
-   *                         /subscriptions/<SUB_ID>/resourcegroups/<RESOURCE_GROUP>/providers/Microsoft.Authorization/roleAssignments/<ROLE_ASSIGNMENT_NAME>
-   * @param parameters Parameters for the role assignment.
-   * @param options The options parameters.
-   */
-  createById(
-    roleAssignmentId: string,
-    parameters: RoleAssignmentCreateParameters,
-    options?: RoleAssignmentsCreateByIdOptionalParams
-  ): Promise<RoleAssignmentsCreateByIdResponse> {
-    return this.client.sendOperationRequest(
-      { roleAssignmentId, parameters, options },
-      createByIdOperationSpec
-    );
-  }
-
-  /**
-   * Delete a role assignment by ID.
-   * @param roleAssignmentId The fully qualified ID of the role assignment including scope, resource
-   *                         name, and resource type. Format:
-   *                         /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}. Example:
-   *                         /subscriptions/<SUB_ID>/resourcegroups/<RESOURCE_GROUP>/providers/Microsoft.Authorization/roleAssignments/<ROLE_ASSIGNMENT_NAME>
-   * @param options The options parameters.
-   */
-  deleteById(
-    roleAssignmentId: string,
-    options?: RoleAssignmentsDeleteByIdOptionalParams
-  ): Promise<RoleAssignmentsDeleteByIdResponse> {
-    return this.client.sendOperationRequest(
-      { roleAssignmentId, options },
-      deleteByIdOperationSpec
-    );
-  }
-
-  /**
-   * Validate a role assignment create or update operation by ID.
-   * @param roleAssignmentId The fully qualified ID of the role assignment including scope, resource
-   *                         name, and resource type. Format:
-   *                         /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}. Example:
-   *                         /subscriptions/<SUB_ID>/resourcegroups/<RESOURCE_GROUP>/providers/Microsoft.Authorization/roleAssignments/<ROLE_ASSIGNMENT_NAME>
-   * @param parameters Parameters for the role assignment.
-   * @param options The options parameters.
-   */
-  validateById(
-    roleAssignmentId: string,
-    parameters: RoleAssignmentCreateParameters,
-    options?: RoleAssignmentsValidateByIdOptionalParams
-  ): Promise<RoleAssignmentsValidateByIdResponse> {
-    return this.client.sendOperationRequest(
-      { roleAssignmentId, parameters, options },
-      validateByIdOperationSpec
-    );
-  }
-
-  /**
-   * ListForSubscriptionNext
-   * @param nextLink The nextLink from the previous successful call to the ListForSubscription method.
-   * @param options The options parameters.
-   */
-  private _listForSubscriptionNext(
+  private _listForResourceNext(
+    resourceGroupName: string,
+    resourceProviderNamespace: string,
+    parentResourcePath: string,
+    resourceType: string,
+    resourceName: string,
     nextLink: string,
-    options?: RoleAssignmentsListForSubscriptionNextOptionalParams
-  ): Promise<RoleAssignmentsListForSubscriptionNextResponse> {
+    options?: RoleAssignmentsListForResourceNextOptionalParams
+  ): Promise<RoleAssignmentsListForResourceNextResponse> {
     return this.client.sendOperationRequest(
-      { nextLink, options },
-      listForSubscriptionNextOperationSpec
+      {
+        resourceGroupName,
+        resourceProviderNamespace,
+        parentResourcePath,
+        resourceType,
+        resourceName,
+        nextLink,
+        options
+      },
+      listForResourceNextOperationSpec
     );
   }
 
@@ -564,42 +522,23 @@ export class RoleAssignmentsImpl implements RoleAssignments {
   }
 
   /**
-   * ListForResourceNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceProviderNamespace The namespace of the resource provider.
-   * @param resourceType The resource type name. For example the type name of a web app is 'sites' (from
-   *                     Microsoft.Web/sites).
-   * @param resourceName The resource name.
-   * @param nextLink The nextLink from the previous successful call to the ListForResource method.
+   * ListNext
+   * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
-  private _listForResourceNext(
-    resourceGroupName: string,
-    resourceProviderNamespace: string,
-    resourceType: string,
-    resourceName: string,
+  private _listNext(
     nextLink: string,
-    options?: RoleAssignmentsListForResourceNextOptionalParams
-  ): Promise<RoleAssignmentsListForResourceNextResponse> {
+    options?: RoleAssignmentsListNextOptionalParams
+  ): Promise<RoleAssignmentsListNextResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        resourceProviderNamespace,
-        resourceType,
-        resourceName,
-        nextLink,
-        options
-      },
-      listForResourceNextOperationSpec
+      { nextLink, options },
+      listNextOperationSpec
     );
   }
 
   /**
    * ListForScopeNext
-   * @param scope The scope of the operation or resource. Valid scopes are: subscription (format:
-   *              '/subscriptions/{subscriptionId}'), resource group (format:
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}', or resource (format:
-   *              '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/[{parentResourcePath}/]{resourceType}/{resourceName}'
+   * @param scope The scope of the role assignments.
    * @param nextLink The nextLink from the previous successful call to the ListForScope method.
    * @param options The options parameters.
    */
@@ -617,9 +556,9 @@ export class RoleAssignmentsImpl implements RoleAssignments {
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listForSubscriptionOperationSpec: coreClient.OperationSpec = {
+const listForResourceOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/roleAssignments",
+    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/roleAssignments",
   httpMethod: "GET",
   responses: {
     200: {
@@ -630,11 +569,19 @@ const listForSubscriptionOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
+    Parameters.filter,
     Parameters.apiVersion,
-    Parameters.filter1,
     Parameters.tenantId
   ],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.resourceProviderNamespace,
+    Parameters.parentResourcePath,
+    Parameters.resourceType,
+    Parameters.resourceName,
+    Parameters.subscriptionId
+  ],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -651,91 +598,16 @@ const listForResourceGroupOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
+    Parameters.filter,
     Parameters.apiVersion,
-    Parameters.filter1,
     Parameters.tenantId
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listForResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/roleAssignments",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RoleAssignmentListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter1,
-    Parameters.tenantId
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceProviderNamespace,
-    Parameters.resourceType,
-    Parameters.resourceName
+    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RoleAssignment
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.tenantId],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.scope,
-    Parameters.roleAssignmentName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RoleAssignment
-    },
-    201: {
-      bodyMapper: Mappers.RoleAssignment
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters4,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.scope,
-    Parameters.roleAssignmentName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
   serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
@@ -760,19 +632,19 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const validateOperationSpec: coreClient.OperationSpec = {
+const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}/validate",
-  httpMethod: "POST",
+    "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
+  httpMethod: "PUT",
   responses: {
-    200: {
-      bodyMapper: Mappers.ValidationResponse
+    201: {
+      bodyMapper: Mappers.RoleAssignment
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters4,
+  requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -781,6 +653,99 @@ const validateOperationSpec: coreClient.OperationSpec = {
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
+  serializer
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RoleAssignment
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.tenantId],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.scope,
+    Parameters.roleAssignmentName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const deleteByIdOperationSpec: coreClient.OperationSpec = {
+  path: "/{roleId}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RoleAssignment
+    },
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.tenantId],
+  urlParameters: [Parameters.$host, Parameters.roleId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createByIdOperationSpec: coreClient.OperationSpec = {
+  path: "/{roleId}",
+  httpMethod: "PUT",
+  responses: {
+    201: {
+      bodyMapper: Mappers.RoleAssignment
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.parameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.$host, Parameters.roleId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const getByIdOperationSpec: coreClient.OperationSpec = {
+  path: "/{roleId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RoleAssignment
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.tenantId],
+  urlParameters: [Parameters.$host, Parameters.roleId],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/roleAssignments",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.RoleAssignmentListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [
+    Parameters.filter,
+    Parameters.apiVersion,
+    Parameters.tenantId
+  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listForScopeOperationSpec: coreClient.OperationSpec = {
@@ -795,87 +760,15 @@ const listForScopeOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
+    Parameters.filter,
     Parameters.apiVersion,
-    Parameters.filter1,
     Parameters.tenantId
   ],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
   serializer
 };
-const getByIdOperationSpec: coreClient.OperationSpec = {
-  path: "/{roleAssignmentId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RoleAssignment
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.tenantId],
-  urlParameters: [Parameters.$host, Parameters.roleAssignmentId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const createByIdOperationSpec: coreClient.OperationSpec = {
-  path: "/{roleAssignmentId}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RoleAssignment
-    },
-    201: {
-      bodyMapper: Mappers.RoleAssignment
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters4,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.roleAssignmentId],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const deleteByIdOperationSpec: coreClient.OperationSpec = {
-  path: "/{roleAssignmentId}",
-  httpMethod: "DELETE",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RoleAssignment
-    },
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.tenantId],
-  urlParameters: [Parameters.$host, Parameters.roleAssignmentId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const validateByIdOperationSpec: coreClient.OperationSpec = {
-  path: "/{roleAssignmentId}/validate",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ValidationResponse
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters4,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.roleAssignmentId],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const listForSubscriptionNextOperationSpec: coreClient.OperationSpec = {
+const listForResourceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -887,14 +780,19 @@ const listForSubscriptionNextOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
+    Parameters.filter,
     Parameters.apiVersion,
-    Parameters.filter1,
     Parameters.tenantId
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.resourceGroupName,
+    Parameters.resourceProviderNamespace,
+    Parameters.parentResourcePath,
+    Parameters.resourceType,
+    Parameters.resourceName,
+    Parameters.subscriptionId,
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -911,20 +809,20 @@ const listForResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
+    Parameters.filter,
     Parameters.apiVersion,
-    Parameters.filter1,
     Parameters.tenantId
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
+    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listForResourceNextOperationSpec: coreClient.OperationSpec = {
+const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
@@ -936,18 +834,14 @@ const listForResourceNextOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
+    Parameters.filter,
     Parameters.apiVersion,
-    Parameters.filter1,
     Parameters.tenantId
   ],
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceProviderNamespace,
-    Parameters.resourceType,
-    Parameters.resourceName
+    Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -964,8 +858,8 @@ const listForScopeNextOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
+    Parameters.filter,
     Parameters.apiVersion,
-    Parameters.filter1,
     Parameters.tenantId
   ],
   urlParameters: [Parameters.$host, Parameters.scope, Parameters.nextLink],

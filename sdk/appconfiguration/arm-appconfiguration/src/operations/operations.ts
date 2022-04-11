@@ -20,8 +20,6 @@ import {
   OperationsCheckNameAvailabilityOptionalParams,
   OperationsCheckNameAvailabilityResponse,
   OperationsListResponse,
-  OperationsRegionalCheckNameAvailabilityOptionalParams,
-  OperationsRegionalCheckNameAvailabilityResponse,
   OperationsListNextResponse
 } from "../models";
 
@@ -107,24 +105,6 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * Checks whether the configuration store name is available for use.
-   * @param location The location in which uniqueness will be verified.
-   * @param checkNameAvailabilityParameters The object containing information for the availability
-   *                                        request.
-   * @param options The options parameters.
-   */
-  regionalCheckNameAvailability(
-    location: string,
-    checkNameAvailabilityParameters: CheckNameAvailabilityParameters,
-    options?: OperationsRegionalCheckNameAvailabilityOptionalParams
-  ): Promise<OperationsRegionalCheckNameAvailabilityResponse> {
-    return this.client.sendOperationRequest(
-      { location, checkNameAvailabilityParameters, options },
-      regionalCheckNameAvailabilityOperationSpec
-    );
-  }
-
-  /**
    * ListNext
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -175,29 +155,6 @@ const listOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion, Parameters.skipToken],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const regionalCheckNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.AppConfiguration/locations/{location}/checkNameAvailability",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NameAvailabilityStatus
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.checkNameAvailabilityParameters,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.location
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
