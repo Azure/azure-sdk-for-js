@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode } from "@azure/test-utils";
+import { isNode } from "@azure/core-util";
 import { env } from "./env";
 import { generateTestRecordingFilePath } from "./filePathGenerator";
 import { relativeRecordingsPath } from "./relativePathCalculator";

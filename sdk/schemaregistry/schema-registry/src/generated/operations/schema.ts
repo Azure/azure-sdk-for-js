@@ -11,7 +11,7 @@ import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { GeneratedSchemaRegistryClientContext } from "../generatedSchemaRegistryClientContext";
+import { GeneratedSchemaRegistryClient } from "../generatedSchemaRegistryClient";
 import {
   SchemaGetByIdOptionalParams,
   SchemaGetByIdResponse,
@@ -25,13 +25,13 @@ import {
 
 /** Class containing Schema operations. */
 export class SchemaImpl implements Schema {
-  private readonly client: GeneratedSchemaRegistryClientContext;
+  private readonly client: GeneratedSchemaRegistryClient;
 
   /**
    * Initialize a new instance of the class Schema class.
    * @param client Reference to the service client
    */
-  constructor(client: GeneratedSchemaRegistryClientContext) {
+  constructor(client: GeneratedSchemaRegistryClient) {
     this.client = client;
   }
 
