@@ -514,7 +514,7 @@ export class AppConfigurationClient {
     readOnly: boolean,
     options: SetReadOnlyOptions = {}
   ): Promise<SetReadOnlyResponse> {
-    return tracingClient.withSpan("setReadOnly", options, async (newOptions) => {
+    return tracingClient.withSpan("AppConfigurationClient.setReadOnly", options, async (newOptions) => {
       let response;
       if (readOnly) {
         response = await this.client.putLock(id.key, {
