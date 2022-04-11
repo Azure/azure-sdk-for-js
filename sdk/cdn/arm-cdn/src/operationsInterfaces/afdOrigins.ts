@@ -10,20 +10,20 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   AFDOrigin,
-  AfdOriginsListByOriginGroupOptionalParams,
-  AfdOriginsGetOptionalParams,
-  AfdOriginsGetResponse,
-  AfdOriginsCreateOptionalParams,
-  AfdOriginsCreateResponse,
+  AFDOriginsListByOriginGroupOptionalParams,
+  AFDOriginsGetOptionalParams,
+  AFDOriginsGetResponse,
+  AFDOriginsCreateOptionalParams,
+  AFDOriginsCreateResponse,
   AFDOriginUpdateParameters,
-  AfdOriginsUpdateOptionalParams,
-  AfdOriginsUpdateResponse,
-  AfdOriginsDeleteOptionalParams
+  AFDOriginsUpdateOptionalParams,
+  AFDOriginsUpdateResponse,
+  AFDOriginsDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a AfdOrigins. */
-export interface AfdOrigins {
+/** Interface representing a AFDOrigins. */
+export interface AFDOrigins {
   /**
    * Lists all of the existing origins within an origin group.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -36,7 +36,7 @@ export interface AfdOrigins {
     resourceGroupName: string,
     profileName: string,
     originGroupName: string,
-    options?: AfdOriginsListByOriginGroupOptionalParams
+    options?: AFDOriginsListByOriginGroupOptionalParams
   ): PagedAsyncIterableIterator<AFDOrigin>;
   /**
    * Gets an existing origin within an origin group.
@@ -52,8 +52,8 @@ export interface AfdOrigins {
     profileName: string,
     originGroupName: string,
     originName: string,
-    options?: AfdOriginsGetOptionalParams
-  ): Promise<AfdOriginsGetResponse>;
+    options?: AFDOriginsGetOptionalParams
+  ): Promise<AFDOriginsGetResponse>;
   /**
    * Creates a new origin within the specified origin group.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -70,11 +70,11 @@ export interface AfdOrigins {
     originGroupName: string,
     originName: string,
     origin: AFDOrigin,
-    options?: AfdOriginsCreateOptionalParams
+    options?: AFDOriginsCreateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<AfdOriginsCreateResponse>,
-      AfdOriginsCreateResponse
+      PollOperationState<AFDOriginsCreateResponse>,
+      AFDOriginsCreateResponse
     >
   >;
   /**
@@ -93,8 +93,8 @@ export interface AfdOrigins {
     originGroupName: string,
     originName: string,
     origin: AFDOrigin,
-    options?: AfdOriginsCreateOptionalParams
-  ): Promise<AfdOriginsCreateResponse>;
+    options?: AFDOriginsCreateOptionalParams
+  ): Promise<AFDOriginsCreateResponse>;
   /**
    * Updates an existing origin within an origin group.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -111,11 +111,11 @@ export interface AfdOrigins {
     originGroupName: string,
     originName: string,
     originUpdateProperties: AFDOriginUpdateParameters,
-    options?: AfdOriginsUpdateOptionalParams
+    options?: AFDOriginsUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<AfdOriginsUpdateResponse>,
-      AfdOriginsUpdateResponse
+      PollOperationState<AFDOriginsUpdateResponse>,
+      AFDOriginsUpdateResponse
     >
   >;
   /**
@@ -134,8 +134,8 @@ export interface AfdOrigins {
     originGroupName: string,
     originName: string,
     originUpdateProperties: AFDOriginUpdateParameters,
-    options?: AfdOriginsUpdateOptionalParams
-  ): Promise<AfdOriginsUpdateResponse>;
+    options?: AFDOriginsUpdateOptionalParams
+  ): Promise<AFDOriginsUpdateResponse>;
   /**
    * Deletes an existing origin within an origin group.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -150,7 +150,7 @@ export interface AfdOrigins {
     profileName: string,
     originGroupName: string,
     originName: string,
-    options?: AfdOriginsDeleteOptionalParams
+    options?: AFDOriginsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes an existing origin within an origin group.
@@ -166,6 +166,6 @@ export interface AfdOrigins {
     profileName: string,
     originGroupName: string,
     originName: string,
-    options?: AfdOriginsDeleteOptionalParams
+    options?: AFDOriginsDeleteOptionalParams
   ): Promise<void>;
 }

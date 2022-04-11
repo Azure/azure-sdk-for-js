@@ -1,15 +1,96 @@
 # Release History
+    
+## 8.0.0 (2022-04-11)
+    
+**Features**
 
-## 7.0.1 (Unreleased)
+  - Added operation group AFDCustomDomains
+  - Added operation group AFDEndpoints
+  - Added operation group AFDOriginGroups
+  - Added operation group AFDOrigins
+  - Added operation group AFDProfiles
+  - Added Interface AFDCustomDomainsCreateOptionalParams
+  - Added Interface AFDCustomDomainsDeleteOptionalParams
+  - Added Interface AFDCustomDomainsGetOptionalParams
+  - Added Interface AFDCustomDomainsListByProfileNextOptionalParams
+  - Added Interface AFDCustomDomainsListByProfileOptionalParams
+  - Added Interface AFDCustomDomainsRefreshValidationTokenOptionalParams
+  - Added Interface AFDCustomDomainsUpdateOptionalParams
+  - Added Interface AFDEndpointsCreateOptionalParams
+  - Added Interface AFDEndpointsDeleteOptionalParams
+  - Added Interface AFDEndpointsGetOptionalParams
+  - Added Interface AFDEndpointsListByProfileNextOptionalParams
+  - Added Interface AFDEndpointsListByProfileOptionalParams
+  - Added Interface AFDEndpointsListResourceUsageNextOptionalParams
+  - Added Interface AFDEndpointsListResourceUsageOptionalParams
+  - Added Interface AFDEndpointsPurgeContentOptionalParams
+  - Added Interface AFDEndpointsUpdateOptionalParams
+  - Added Interface AFDEndpointsValidateCustomDomainOptionalParams
+  - Added Interface AFDOriginGroupsCreateOptionalParams
+  - Added Interface AFDOriginGroupsDeleteOptionalParams
+  - Added Interface AFDOriginGroupsGetOptionalParams
+  - Added Interface AFDOriginGroupsListByProfileNextOptionalParams
+  - Added Interface AFDOriginGroupsListByProfileOptionalParams
+  - Added Interface AFDOriginGroupsListResourceUsageNextOptionalParams
+  - Added Interface AFDOriginGroupsListResourceUsageOptionalParams
+  - Added Interface AFDOriginGroupsUpdateOptionalParams
+  - Added Interface AFDOriginsCreateOptionalParams
+  - Added Interface AFDOriginsDeleteOptionalParams
+  - Added Interface AFDOriginsGetOptionalParams
+  - Added Interface AFDOriginsListByOriginGroupNextOptionalParams
+  - Added Interface AFDOriginsListByOriginGroupOptionalParams
+  - Added Interface AFDOriginsUpdateOptionalParams
+  - Added Interface AFDProfilesCheckHostNameAvailabilityOptionalParams
+  - Added Interface AFDProfilesListResourceUsageNextOptionalParams
+  - Added Interface AFDProfilesListResourceUsageOptionalParams
+  - Added Type Alias AFDCustomDomainsCreateResponse
+  - Added Type Alias AFDCustomDomainsGetResponse
+  - Added Type Alias AFDCustomDomainsListByProfileNextResponse
+  - Added Type Alias AFDCustomDomainsListByProfileResponse
+  - Added Type Alias AFDCustomDomainsUpdateResponse
+  - Added Type Alias AFDEndpointsCreateResponse
+  - Added Type Alias AFDEndpointsGetResponse
+  - Added Type Alias AFDEndpointsListByProfileNextResponse
+  - Added Type Alias AFDEndpointsListByProfileResponse
+  - Added Type Alias AFDEndpointsListResourceUsageNextResponse
+  - Added Type Alias AFDEndpointsListResourceUsageResponse
+  - Added Type Alias AFDEndpointsUpdateResponse
+  - Added Type Alias AFDEndpointsValidateCustomDomainResponse
+  - Added Type Alias AFDOriginGroupsCreateResponse
+  - Added Type Alias AFDOriginGroupsGetResponse
+  - Added Type Alias AFDOriginGroupsListByProfileNextResponse
+  - Added Type Alias AFDOriginGroupsListByProfileResponse
+  - Added Type Alias AFDOriginGroupsListResourceUsageNextResponse
+  - Added Type Alias AFDOriginGroupsListResourceUsageResponse
+  - Added Type Alias AFDOriginGroupsUpdateResponse
+  - Added Type Alias AFDOriginsCreateResponse
+  - Added Type Alias AFDOriginsGetResponse
+  - Added Type Alias AFDOriginsListByOriginGroupNextResponse
+  - Added Type Alias AFDOriginsListByOriginGroupResponse
+  - Added Type Alias AFDOriginsUpdateResponse
+  - Added Type Alias AFDProfilesCheckHostNameAvailabilityResponse
+  - Added Type Alias AFDProfilesListResourceUsageNextResponse
+  - Added Type Alias AFDProfilesListResourceUsageResponse
+  - Class CdnManagementClient has a new parameter aFDCustomDomains
+  - Class CdnManagementClient has a new parameter aFDEndpoints
+  - Class CdnManagementClient has a new parameter aFDOriginGroups
+  - Class CdnManagementClient has a new parameter aFDOrigins
+  - Class CdnManagementClient has a new parameter aFDProfiles
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group AfdCustomDomains
+  - Removed operation group AfdEndpoints
+  - Removed operation group AfdOriginGroups
+  - Removed operation group AfdOrigins
+  - Removed operation group AfdProfiles
+  - Class CdnManagementClient no longer has parameter afdCustomDomains
+  - Class CdnManagementClient no longer has parameter afdEndpoints
+  - Class CdnManagementClient no longer has parameter afdOriginGroups
+  - Class CdnManagementClient no longer has parameter afdOrigins
+  - Class CdnManagementClient no longer has parameter afdProfiles
+    
+    
 ## 7.0.0 (2022-03-23)
     
 **Features**

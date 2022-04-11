@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { AfdOrigins } from "../operationsInterfaces";
+import { AFDOrigins } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -16,27 +16,27 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   AFDOrigin,
-  AfdOriginsListByOriginGroupNextOptionalParams,
-  AfdOriginsListByOriginGroupOptionalParams,
-  AfdOriginsListByOriginGroupResponse,
-  AfdOriginsGetOptionalParams,
-  AfdOriginsGetResponse,
-  AfdOriginsCreateOptionalParams,
-  AfdOriginsCreateResponse,
+  AFDOriginsListByOriginGroupNextOptionalParams,
+  AFDOriginsListByOriginGroupOptionalParams,
+  AFDOriginsListByOriginGroupResponse,
+  AFDOriginsGetOptionalParams,
+  AFDOriginsGetResponse,
+  AFDOriginsCreateOptionalParams,
+  AFDOriginsCreateResponse,
   AFDOriginUpdateParameters,
-  AfdOriginsUpdateOptionalParams,
-  AfdOriginsUpdateResponse,
-  AfdOriginsDeleteOptionalParams,
-  AfdOriginsListByOriginGroupNextResponse
+  AFDOriginsUpdateOptionalParams,
+  AFDOriginsUpdateResponse,
+  AFDOriginsDeleteOptionalParams,
+  AFDOriginsListByOriginGroupNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing AfdOrigins operations. */
-export class AfdOriginsImpl implements AfdOrigins {
+/** Class containing AFDOrigins operations. */
+export class AFDOriginsImpl implements AFDOrigins {
   private readonly client: CdnManagementClient;
 
   /**
-   * Initialize a new instance of the class AfdOrigins class.
+   * Initialize a new instance of the class AFDOrigins class.
    * @param client Reference to the service client
    */
   constructor(client: CdnManagementClient) {
@@ -55,7 +55,7 @@ export class AfdOriginsImpl implements AfdOrigins {
     resourceGroupName: string,
     profileName: string,
     originGroupName: string,
-    options?: AfdOriginsListByOriginGroupOptionalParams
+    options?: AFDOriginsListByOriginGroupOptionalParams
   ): PagedAsyncIterableIterator<AFDOrigin> {
     const iter = this.listByOriginGroupPagingAll(
       resourceGroupName,
@@ -85,7 +85,7 @@ export class AfdOriginsImpl implements AfdOrigins {
     resourceGroupName: string,
     profileName: string,
     originGroupName: string,
-    options?: AfdOriginsListByOriginGroupOptionalParams
+    options?: AFDOriginsListByOriginGroupOptionalParams
   ): AsyncIterableIterator<AFDOrigin[]> {
     let result = await this._listByOriginGroup(
       resourceGroupName,
@@ -112,7 +112,7 @@ export class AfdOriginsImpl implements AfdOrigins {
     resourceGroupName: string,
     profileName: string,
     originGroupName: string,
-    options?: AfdOriginsListByOriginGroupOptionalParams
+    options?: AFDOriginsListByOriginGroupOptionalParams
   ): AsyncIterableIterator<AFDOrigin> {
     for await (const page of this.listByOriginGroupPagingPage(
       resourceGroupName,
@@ -136,8 +136,8 @@ export class AfdOriginsImpl implements AfdOrigins {
     resourceGroupName: string,
     profileName: string,
     originGroupName: string,
-    options?: AfdOriginsListByOriginGroupOptionalParams
-  ): Promise<AfdOriginsListByOriginGroupResponse> {
+    options?: AFDOriginsListByOriginGroupOptionalParams
+  ): Promise<AFDOriginsListByOriginGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, originGroupName, options },
       listByOriginGroupOperationSpec
@@ -158,8 +158,8 @@ export class AfdOriginsImpl implements AfdOrigins {
     profileName: string,
     originGroupName: string,
     originName: string,
-    options?: AfdOriginsGetOptionalParams
-  ): Promise<AfdOriginsGetResponse> {
+    options?: AFDOriginsGetOptionalParams
+  ): Promise<AFDOriginsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, originGroupName, originName, options },
       getOperationSpec
@@ -182,17 +182,17 @@ export class AfdOriginsImpl implements AfdOrigins {
     originGroupName: string,
     originName: string,
     origin: AFDOrigin,
-    options?: AfdOriginsCreateOptionalParams
+    options?: AFDOriginsCreateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<AfdOriginsCreateResponse>,
-      AfdOriginsCreateResponse
+      PollOperationState<AFDOriginsCreateResponse>,
+      AFDOriginsCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<AfdOriginsCreateResponse> => {
+    ): Promise<AFDOriginsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -265,8 +265,8 @@ export class AfdOriginsImpl implements AfdOrigins {
     originGroupName: string,
     originName: string,
     origin: AFDOrigin,
-    options?: AfdOriginsCreateOptionalParams
-  ): Promise<AfdOriginsCreateResponse> {
+    options?: AFDOriginsCreateOptionalParams
+  ): Promise<AFDOriginsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       profileName,
@@ -294,17 +294,17 @@ export class AfdOriginsImpl implements AfdOrigins {
     originGroupName: string,
     originName: string,
     originUpdateProperties: AFDOriginUpdateParameters,
-    options?: AfdOriginsUpdateOptionalParams
+    options?: AFDOriginsUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<AfdOriginsUpdateResponse>,
-      AfdOriginsUpdateResponse
+      PollOperationState<AFDOriginsUpdateResponse>,
+      AFDOriginsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<AfdOriginsUpdateResponse> => {
+    ): Promise<AFDOriginsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -377,8 +377,8 @@ export class AfdOriginsImpl implements AfdOrigins {
     originGroupName: string,
     originName: string,
     originUpdateProperties: AFDOriginUpdateParameters,
-    options?: AfdOriginsUpdateOptionalParams
-  ): Promise<AfdOriginsUpdateResponse> {
+    options?: AFDOriginsUpdateOptionalParams
+  ): Promise<AFDOriginsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       profileName,
@@ -404,7 +404,7 @@ export class AfdOriginsImpl implements AfdOrigins {
     profileName: string,
     originGroupName: string,
     originName: string,
-    options?: AfdOriginsDeleteOptionalParams
+    options?: AFDOriginsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -473,7 +473,7 @@ export class AfdOriginsImpl implements AfdOrigins {
     profileName: string,
     originGroupName: string,
     originName: string,
-    options?: AfdOriginsDeleteOptionalParams
+    options?: AFDOriginsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
@@ -499,8 +499,8 @@ export class AfdOriginsImpl implements AfdOrigins {
     profileName: string,
     originGroupName: string,
     nextLink: string,
-    options?: AfdOriginsListByOriginGroupNextOptionalParams
-  ): Promise<AfdOriginsListByOriginGroupNextResponse> {
+    options?: AFDOriginsListByOriginGroupNextOptionalParams
+  ): Promise<AFDOriginsListByOriginGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, originGroupName, nextLink, options },
       listByOriginGroupNextOperationSpec

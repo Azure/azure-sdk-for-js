@@ -23,69 +23,69 @@ export interface ActivatedResourceReference {
 export type AfdCertificateType = string;
 
 // @public
-export interface AfdCustomDomains {
-    beginCreate(resourceGroupName: string, profileName: string, customDomainName: string, customDomain: AFDDomain, options?: AfdCustomDomainsCreateOptionalParams): Promise<PollerLike<PollOperationState<AfdCustomDomainsCreateResponse>, AfdCustomDomainsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, profileName: string, customDomainName: string, customDomain: AFDDomain, options?: AfdCustomDomainsCreateOptionalParams): Promise<AfdCustomDomainsCreateResponse>;
-    beginDelete(resourceGroupName: string, profileName: string, customDomainName: string, options?: AfdCustomDomainsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, profileName: string, customDomainName: string, options?: AfdCustomDomainsDeleteOptionalParams): Promise<void>;
-    beginRefreshValidationToken(resourceGroupName: string, profileName: string, customDomainName: string, options?: AfdCustomDomainsRefreshValidationTokenOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginRefreshValidationTokenAndWait(resourceGroupName: string, profileName: string, customDomainName: string, options?: AfdCustomDomainsRefreshValidationTokenOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, profileName: string, customDomainName: string, customDomainUpdateProperties: AFDDomainUpdateParameters, options?: AfdCustomDomainsUpdateOptionalParams): Promise<PollerLike<PollOperationState<AfdCustomDomainsUpdateResponse>, AfdCustomDomainsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, profileName: string, customDomainName: string, customDomainUpdateProperties: AFDDomainUpdateParameters, options?: AfdCustomDomainsUpdateOptionalParams): Promise<AfdCustomDomainsUpdateResponse>;
-    get(resourceGroupName: string, profileName: string, customDomainName: string, options?: AfdCustomDomainsGetOptionalParams): Promise<AfdCustomDomainsGetResponse>;
-    listByProfile(resourceGroupName: string, profileName: string, options?: AfdCustomDomainsListByProfileOptionalParams): PagedAsyncIterableIterator<AFDDomain>;
+export interface AFDCustomDomains {
+    beginCreate(resourceGroupName: string, profileName: string, customDomainName: string, customDomain: AFDDomain, options?: AFDCustomDomainsCreateOptionalParams): Promise<PollerLike<PollOperationState<AFDCustomDomainsCreateResponse>, AFDCustomDomainsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, profileName: string, customDomainName: string, customDomain: AFDDomain, options?: AFDCustomDomainsCreateOptionalParams): Promise<AFDCustomDomainsCreateResponse>;
+    beginDelete(resourceGroupName: string, profileName: string, customDomainName: string, options?: AFDCustomDomainsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, profileName: string, customDomainName: string, options?: AFDCustomDomainsDeleteOptionalParams): Promise<void>;
+    beginRefreshValidationToken(resourceGroupName: string, profileName: string, customDomainName: string, options?: AFDCustomDomainsRefreshValidationTokenOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRefreshValidationTokenAndWait(resourceGroupName: string, profileName: string, customDomainName: string, options?: AFDCustomDomainsRefreshValidationTokenOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, profileName: string, customDomainName: string, customDomainUpdateProperties: AFDDomainUpdateParameters, options?: AFDCustomDomainsUpdateOptionalParams): Promise<PollerLike<PollOperationState<AFDCustomDomainsUpdateResponse>, AFDCustomDomainsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, profileName: string, customDomainName: string, customDomainUpdateProperties: AFDDomainUpdateParameters, options?: AFDCustomDomainsUpdateOptionalParams): Promise<AFDCustomDomainsUpdateResponse>;
+    get(resourceGroupName: string, profileName: string, customDomainName: string, options?: AFDCustomDomainsGetOptionalParams): Promise<AFDCustomDomainsGetResponse>;
+    listByProfile(resourceGroupName: string, profileName: string, options?: AFDCustomDomainsListByProfileOptionalParams): PagedAsyncIterableIterator<AFDDomain>;
 }
 
 // @public
-export interface AfdCustomDomainsCreateOptionalParams extends coreClient.OperationOptions {
+export interface AFDCustomDomainsCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AfdCustomDomainsCreateResponse = AFDDomain;
+export type AFDCustomDomainsCreateResponse = AFDDomain;
 
 // @public
-export interface AfdCustomDomainsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface AFDCustomDomainsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface AfdCustomDomainsGetOptionalParams extends coreClient.OperationOptions {
+export interface AFDCustomDomainsGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AfdCustomDomainsGetResponse = AFDDomain;
+export type AFDCustomDomainsGetResponse = AFDDomain;
 
 // @public
-export interface AfdCustomDomainsListByProfileNextOptionalParams extends coreClient.OperationOptions {
+export interface AFDCustomDomainsListByProfileNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AfdCustomDomainsListByProfileNextResponse = AFDDomainListResult;
+export type AFDCustomDomainsListByProfileNextResponse = AFDDomainListResult;
 
 // @public
-export interface AfdCustomDomainsListByProfileOptionalParams extends coreClient.OperationOptions {
+export interface AFDCustomDomainsListByProfileOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AfdCustomDomainsListByProfileResponse = AFDDomainListResult;
+export type AFDCustomDomainsListByProfileResponse = AFDDomainListResult;
 
 // @public
-export interface AfdCustomDomainsRefreshValidationTokenOptionalParams extends coreClient.OperationOptions {
+export interface AFDCustomDomainsRefreshValidationTokenOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface AfdCustomDomainsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface AFDCustomDomainsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AfdCustomDomainsUpdateResponse = AFDDomain;
+export type AFDCustomDomainsUpdateResponse = AFDDomain;
 
 // @public
 export type AFDDomain = ProxyResource & {
@@ -168,92 +168,92 @@ export interface AFDEndpointPropertiesUpdateParameters {
 export type AFDEndpointProtocols = string;
 
 // @public
-export interface AfdEndpoints {
-    beginCreate(resourceGroupName: string, profileName: string, endpointName: string, endpoint: AFDEndpoint, options?: AfdEndpointsCreateOptionalParams): Promise<PollerLike<PollOperationState<AfdEndpointsCreateResponse>, AfdEndpointsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, profileName: string, endpointName: string, endpoint: AFDEndpoint, options?: AfdEndpointsCreateOptionalParams): Promise<AfdEndpointsCreateResponse>;
-    beginDelete(resourceGroupName: string, profileName: string, endpointName: string, options?: AfdEndpointsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, profileName: string, endpointName: string, options?: AfdEndpointsDeleteOptionalParams): Promise<void>;
-    beginPurgeContent(resourceGroupName: string, profileName: string, endpointName: string, contents: AfdPurgeParameters, options?: AfdEndpointsPurgeContentOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginPurgeContentAndWait(resourceGroupName: string, profileName: string, endpointName: string, contents: AfdPurgeParameters, options?: AfdEndpointsPurgeContentOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, profileName: string, endpointName: string, endpointUpdateProperties: AFDEndpointUpdateParameters, options?: AfdEndpointsUpdateOptionalParams): Promise<PollerLike<PollOperationState<AfdEndpointsUpdateResponse>, AfdEndpointsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, profileName: string, endpointName: string, endpointUpdateProperties: AFDEndpointUpdateParameters, options?: AfdEndpointsUpdateOptionalParams): Promise<AfdEndpointsUpdateResponse>;
-    get(resourceGroupName: string, profileName: string, endpointName: string, options?: AfdEndpointsGetOptionalParams): Promise<AfdEndpointsGetResponse>;
-    listByProfile(resourceGroupName: string, profileName: string, options?: AfdEndpointsListByProfileOptionalParams): PagedAsyncIterableIterator<AFDEndpoint>;
-    listResourceUsage(resourceGroupName: string, profileName: string, endpointName: string, options?: AfdEndpointsListResourceUsageOptionalParams): PagedAsyncIterableIterator<Usage>;
-    validateCustomDomain(resourceGroupName: string, profileName: string, endpointName: string, customDomainProperties: ValidateCustomDomainInput, options?: AfdEndpointsValidateCustomDomainOptionalParams): Promise<AfdEndpointsValidateCustomDomainResponse>;
+export interface AFDEndpoints {
+    beginCreate(resourceGroupName: string, profileName: string, endpointName: string, endpoint: AFDEndpoint, options?: AFDEndpointsCreateOptionalParams): Promise<PollerLike<PollOperationState<AFDEndpointsCreateResponse>, AFDEndpointsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, profileName: string, endpointName: string, endpoint: AFDEndpoint, options?: AFDEndpointsCreateOptionalParams): Promise<AFDEndpointsCreateResponse>;
+    beginDelete(resourceGroupName: string, profileName: string, endpointName: string, options?: AFDEndpointsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, profileName: string, endpointName: string, options?: AFDEndpointsDeleteOptionalParams): Promise<void>;
+    beginPurgeContent(resourceGroupName: string, profileName: string, endpointName: string, contents: AfdPurgeParameters, options?: AFDEndpointsPurgeContentOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginPurgeContentAndWait(resourceGroupName: string, profileName: string, endpointName: string, contents: AfdPurgeParameters, options?: AFDEndpointsPurgeContentOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, profileName: string, endpointName: string, endpointUpdateProperties: AFDEndpointUpdateParameters, options?: AFDEndpointsUpdateOptionalParams): Promise<PollerLike<PollOperationState<AFDEndpointsUpdateResponse>, AFDEndpointsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, profileName: string, endpointName: string, endpointUpdateProperties: AFDEndpointUpdateParameters, options?: AFDEndpointsUpdateOptionalParams): Promise<AFDEndpointsUpdateResponse>;
+    get(resourceGroupName: string, profileName: string, endpointName: string, options?: AFDEndpointsGetOptionalParams): Promise<AFDEndpointsGetResponse>;
+    listByProfile(resourceGroupName: string, profileName: string, options?: AFDEndpointsListByProfileOptionalParams): PagedAsyncIterableIterator<AFDEndpoint>;
+    listResourceUsage(resourceGroupName: string, profileName: string, endpointName: string, options?: AFDEndpointsListResourceUsageOptionalParams): PagedAsyncIterableIterator<Usage>;
+    validateCustomDomain(resourceGroupName: string, profileName: string, endpointName: string, customDomainProperties: ValidateCustomDomainInput, options?: AFDEndpointsValidateCustomDomainOptionalParams): Promise<AFDEndpointsValidateCustomDomainResponse>;
 }
 
 // @public
-export interface AfdEndpointsCreateOptionalParams extends coreClient.OperationOptions {
+export interface AFDEndpointsCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AfdEndpointsCreateResponse = AFDEndpoint;
+export type AFDEndpointsCreateResponse = AFDEndpoint;
 
 // @public
-export interface AfdEndpointsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface AFDEndpointsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface AfdEndpointsGetOptionalParams extends coreClient.OperationOptions {
+export interface AFDEndpointsGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AfdEndpointsGetResponse = AFDEndpoint;
+export type AFDEndpointsGetResponse = AFDEndpoint;
 
 // @public
-export interface AfdEndpointsListByProfileNextOptionalParams extends coreClient.OperationOptions {
+export interface AFDEndpointsListByProfileNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AfdEndpointsListByProfileNextResponse = AFDEndpointListResult;
+export type AFDEndpointsListByProfileNextResponse = AFDEndpointListResult;
 
 // @public
-export interface AfdEndpointsListByProfileOptionalParams extends coreClient.OperationOptions {
+export interface AFDEndpointsListByProfileOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AfdEndpointsListByProfileResponse = AFDEndpointListResult;
+export type AFDEndpointsListByProfileResponse = AFDEndpointListResult;
 
 // @public
-export interface AfdEndpointsListResourceUsageNextOptionalParams extends coreClient.OperationOptions {
+export interface AFDEndpointsListResourceUsageNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AfdEndpointsListResourceUsageNextResponse = UsagesListResult;
+export type AFDEndpointsListResourceUsageNextResponse = UsagesListResult;
 
 // @public
-export interface AfdEndpointsListResourceUsageOptionalParams extends coreClient.OperationOptions {
+export interface AFDEndpointsListResourceUsageOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AfdEndpointsListResourceUsageResponse = UsagesListResult;
+export type AFDEndpointsListResourceUsageResponse = UsagesListResult;
 
 // @public
-export interface AfdEndpointsPurgeContentOptionalParams extends coreClient.OperationOptions {
+export interface AFDEndpointsPurgeContentOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface AfdEndpointsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface AFDEndpointsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AfdEndpointsUpdateResponse = AFDEndpoint;
+export type AFDEndpointsUpdateResponse = AFDEndpoint;
 
 // @public
-export interface AfdEndpointsValidateCustomDomainOptionalParams extends coreClient.OperationOptions {
+export interface AFDEndpointsValidateCustomDomainOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AfdEndpointsValidateCustomDomainResponse = ValidateCustomDomainOutput;
+export type AFDEndpointsValidateCustomDomainResponse = ValidateCustomDomainOutput;
 
 // @public
 export interface AFDEndpointUpdateParameters {
@@ -310,76 +310,76 @@ export interface AFDOriginGroupListResult {
 export type AFDOriginGroupProperties = AFDOriginGroupUpdatePropertiesParameters & AFDStateProperties & {};
 
 // @public
-export interface AfdOriginGroups {
-    beginCreate(resourceGroupName: string, profileName: string, originGroupName: string, originGroup: AFDOriginGroup, options?: AfdOriginGroupsCreateOptionalParams): Promise<PollerLike<PollOperationState<AfdOriginGroupsCreateResponse>, AfdOriginGroupsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, profileName: string, originGroupName: string, originGroup: AFDOriginGroup, options?: AfdOriginGroupsCreateOptionalParams): Promise<AfdOriginGroupsCreateResponse>;
-    beginDelete(resourceGroupName: string, profileName: string, originGroupName: string, options?: AfdOriginGroupsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, profileName: string, originGroupName: string, options?: AfdOriginGroupsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, profileName: string, originGroupName: string, originGroupUpdateProperties: AFDOriginGroupUpdateParameters, options?: AfdOriginGroupsUpdateOptionalParams): Promise<PollerLike<PollOperationState<AfdOriginGroupsUpdateResponse>, AfdOriginGroupsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, profileName: string, originGroupName: string, originGroupUpdateProperties: AFDOriginGroupUpdateParameters, options?: AfdOriginGroupsUpdateOptionalParams): Promise<AfdOriginGroupsUpdateResponse>;
-    get(resourceGroupName: string, profileName: string, originGroupName: string, options?: AfdOriginGroupsGetOptionalParams): Promise<AfdOriginGroupsGetResponse>;
-    listByProfile(resourceGroupName: string, profileName: string, options?: AfdOriginGroupsListByProfileOptionalParams): PagedAsyncIterableIterator<AFDOriginGroup>;
-    listResourceUsage(resourceGroupName: string, profileName: string, originGroupName: string, options?: AfdOriginGroupsListResourceUsageOptionalParams): PagedAsyncIterableIterator<Usage>;
+export interface AFDOriginGroups {
+    beginCreate(resourceGroupName: string, profileName: string, originGroupName: string, originGroup: AFDOriginGroup, options?: AFDOriginGroupsCreateOptionalParams): Promise<PollerLike<PollOperationState<AFDOriginGroupsCreateResponse>, AFDOriginGroupsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, profileName: string, originGroupName: string, originGroup: AFDOriginGroup, options?: AFDOriginGroupsCreateOptionalParams): Promise<AFDOriginGroupsCreateResponse>;
+    beginDelete(resourceGroupName: string, profileName: string, originGroupName: string, options?: AFDOriginGroupsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, profileName: string, originGroupName: string, options?: AFDOriginGroupsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, profileName: string, originGroupName: string, originGroupUpdateProperties: AFDOriginGroupUpdateParameters, options?: AFDOriginGroupsUpdateOptionalParams): Promise<PollerLike<PollOperationState<AFDOriginGroupsUpdateResponse>, AFDOriginGroupsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, profileName: string, originGroupName: string, originGroupUpdateProperties: AFDOriginGroupUpdateParameters, options?: AFDOriginGroupsUpdateOptionalParams): Promise<AFDOriginGroupsUpdateResponse>;
+    get(resourceGroupName: string, profileName: string, originGroupName: string, options?: AFDOriginGroupsGetOptionalParams): Promise<AFDOriginGroupsGetResponse>;
+    listByProfile(resourceGroupName: string, profileName: string, options?: AFDOriginGroupsListByProfileOptionalParams): PagedAsyncIterableIterator<AFDOriginGroup>;
+    listResourceUsage(resourceGroupName: string, profileName: string, originGroupName: string, options?: AFDOriginGroupsListResourceUsageOptionalParams): PagedAsyncIterableIterator<Usage>;
 }
 
 // @public
-export interface AfdOriginGroupsCreateOptionalParams extends coreClient.OperationOptions {
+export interface AFDOriginGroupsCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AfdOriginGroupsCreateResponse = AFDOriginGroup;
+export type AFDOriginGroupsCreateResponse = AFDOriginGroup;
 
 // @public
-export interface AfdOriginGroupsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface AFDOriginGroupsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface AfdOriginGroupsGetOptionalParams extends coreClient.OperationOptions {
+export interface AFDOriginGroupsGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AfdOriginGroupsGetResponse = AFDOriginGroup;
+export type AFDOriginGroupsGetResponse = AFDOriginGroup;
 
 // @public
-export interface AfdOriginGroupsListByProfileNextOptionalParams extends coreClient.OperationOptions {
+export interface AFDOriginGroupsListByProfileNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AfdOriginGroupsListByProfileNextResponse = AFDOriginGroupListResult;
+export type AFDOriginGroupsListByProfileNextResponse = AFDOriginGroupListResult;
 
 // @public
-export interface AfdOriginGroupsListByProfileOptionalParams extends coreClient.OperationOptions {
+export interface AFDOriginGroupsListByProfileOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AfdOriginGroupsListByProfileResponse = AFDOriginGroupListResult;
+export type AFDOriginGroupsListByProfileResponse = AFDOriginGroupListResult;
 
 // @public
-export interface AfdOriginGroupsListResourceUsageNextOptionalParams extends coreClient.OperationOptions {
+export interface AFDOriginGroupsListResourceUsageNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AfdOriginGroupsListResourceUsageNextResponse = UsagesListResult;
+export type AFDOriginGroupsListResourceUsageNextResponse = UsagesListResult;
 
 // @public
-export interface AfdOriginGroupsListResourceUsageOptionalParams extends coreClient.OperationOptions {
+export interface AFDOriginGroupsListResourceUsageOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AfdOriginGroupsListResourceUsageResponse = UsagesListResult;
+export type AFDOriginGroupsListResourceUsageResponse = UsagesListResult;
 
 // @public
-export interface AfdOriginGroupsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface AFDOriginGroupsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AfdOriginGroupsUpdateResponse = AFDOriginGroup;
+export type AFDOriginGroupsUpdateResponse = AFDOriginGroup;
 
 // @public
 export interface AFDOriginGroupUpdateParameters {
@@ -409,61 +409,61 @@ export interface AFDOriginListResult {
 export type AFDOriginProperties = AFDOriginUpdatePropertiesParameters & AFDStateProperties & {};
 
 // @public
-export interface AfdOrigins {
-    beginCreate(resourceGroupName: string, profileName: string, originGroupName: string, originName: string, origin: AFDOrigin, options?: AfdOriginsCreateOptionalParams): Promise<PollerLike<PollOperationState<AfdOriginsCreateResponse>, AfdOriginsCreateResponse>>;
-    beginCreateAndWait(resourceGroupName: string, profileName: string, originGroupName: string, originName: string, origin: AFDOrigin, options?: AfdOriginsCreateOptionalParams): Promise<AfdOriginsCreateResponse>;
-    beginDelete(resourceGroupName: string, profileName: string, originGroupName: string, originName: string, options?: AfdOriginsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, profileName: string, originGroupName: string, originName: string, options?: AfdOriginsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, profileName: string, originGroupName: string, originName: string, originUpdateProperties: AFDOriginUpdateParameters, options?: AfdOriginsUpdateOptionalParams): Promise<PollerLike<PollOperationState<AfdOriginsUpdateResponse>, AfdOriginsUpdateResponse>>;
-    beginUpdateAndWait(resourceGroupName: string, profileName: string, originGroupName: string, originName: string, originUpdateProperties: AFDOriginUpdateParameters, options?: AfdOriginsUpdateOptionalParams): Promise<AfdOriginsUpdateResponse>;
-    get(resourceGroupName: string, profileName: string, originGroupName: string, originName: string, options?: AfdOriginsGetOptionalParams): Promise<AfdOriginsGetResponse>;
-    listByOriginGroup(resourceGroupName: string, profileName: string, originGroupName: string, options?: AfdOriginsListByOriginGroupOptionalParams): PagedAsyncIterableIterator<AFDOrigin>;
+export interface AFDOrigins {
+    beginCreate(resourceGroupName: string, profileName: string, originGroupName: string, originName: string, origin: AFDOrigin, options?: AFDOriginsCreateOptionalParams): Promise<PollerLike<PollOperationState<AFDOriginsCreateResponse>, AFDOriginsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, profileName: string, originGroupName: string, originName: string, origin: AFDOrigin, options?: AFDOriginsCreateOptionalParams): Promise<AFDOriginsCreateResponse>;
+    beginDelete(resourceGroupName: string, profileName: string, originGroupName: string, originName: string, options?: AFDOriginsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, profileName: string, originGroupName: string, originName: string, options?: AFDOriginsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, profileName: string, originGroupName: string, originName: string, originUpdateProperties: AFDOriginUpdateParameters, options?: AFDOriginsUpdateOptionalParams): Promise<PollerLike<PollOperationState<AFDOriginsUpdateResponse>, AFDOriginsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, profileName: string, originGroupName: string, originName: string, originUpdateProperties: AFDOriginUpdateParameters, options?: AFDOriginsUpdateOptionalParams): Promise<AFDOriginsUpdateResponse>;
+    get(resourceGroupName: string, profileName: string, originGroupName: string, originName: string, options?: AFDOriginsGetOptionalParams): Promise<AFDOriginsGetResponse>;
+    listByOriginGroup(resourceGroupName: string, profileName: string, originGroupName: string, options?: AFDOriginsListByOriginGroupOptionalParams): PagedAsyncIterableIterator<AFDOrigin>;
 }
 
 // @public
-export interface AfdOriginsCreateOptionalParams extends coreClient.OperationOptions {
+export interface AFDOriginsCreateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AfdOriginsCreateResponse = AFDOrigin;
+export type AFDOriginsCreateResponse = AFDOrigin;
 
 // @public
-export interface AfdOriginsDeleteOptionalParams extends coreClient.OperationOptions {
+export interface AFDOriginsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface AfdOriginsGetOptionalParams extends coreClient.OperationOptions {
+export interface AFDOriginsGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AfdOriginsGetResponse = AFDOrigin;
+export type AFDOriginsGetResponse = AFDOrigin;
 
 // @public
-export interface AfdOriginsListByOriginGroupNextOptionalParams extends coreClient.OperationOptions {
+export interface AFDOriginsListByOriginGroupNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AfdOriginsListByOriginGroupNextResponse = AFDOriginListResult;
+export type AFDOriginsListByOriginGroupNextResponse = AFDOriginListResult;
 
 // @public
-export interface AfdOriginsListByOriginGroupOptionalParams extends coreClient.OperationOptions {
+export interface AFDOriginsListByOriginGroupOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AfdOriginsListByOriginGroupResponse = AFDOriginListResult;
+export type AFDOriginsListByOriginGroupResponse = AFDOriginListResult;
 
 // @public
-export interface AfdOriginsUpdateOptionalParams extends coreClient.OperationOptions {
+export interface AFDOriginsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AfdOriginsUpdateResponse = AFDOrigin;
+export type AFDOriginsUpdateResponse = AFDOrigin;
 
 // @public
 export interface AFDOriginUpdateParameters {
@@ -496,31 +496,31 @@ export interface AFDOriginUpdatePropertiesParameters {
 }
 
 // @public
-export interface AfdProfiles {
-    checkHostNameAvailability(resourceGroupName: string, profileName: string, checkHostNameAvailabilityInput: CheckHostNameAvailabilityInput, options?: AfdProfilesCheckHostNameAvailabilityOptionalParams): Promise<AfdProfilesCheckHostNameAvailabilityResponse>;
-    listResourceUsage(resourceGroupName: string, profileName: string, options?: AfdProfilesListResourceUsageOptionalParams): PagedAsyncIterableIterator<Usage>;
+export interface AFDProfiles {
+    checkHostNameAvailability(resourceGroupName: string, profileName: string, checkHostNameAvailabilityInput: CheckHostNameAvailabilityInput, options?: AFDProfilesCheckHostNameAvailabilityOptionalParams): Promise<AFDProfilesCheckHostNameAvailabilityResponse>;
+    listResourceUsage(resourceGroupName: string, profileName: string, options?: AFDProfilesListResourceUsageOptionalParams): PagedAsyncIterableIterator<Usage>;
 }
 
 // @public
-export interface AfdProfilesCheckHostNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+export interface AFDProfilesCheckHostNameAvailabilityOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AfdProfilesCheckHostNameAvailabilityResponse = CheckNameAvailabilityOutput;
+export type AFDProfilesCheckHostNameAvailabilityResponse = CheckNameAvailabilityOutput;
 
 // @public
-export interface AfdProfilesListResourceUsageNextOptionalParams extends coreClient.OperationOptions {
+export interface AFDProfilesListResourceUsageNextOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AfdProfilesListResourceUsageNextResponse = UsagesListResult;
+export type AFDProfilesListResourceUsageNextResponse = UsagesListResult;
 
 // @public
-export interface AfdProfilesListResourceUsageOptionalParams extends coreClient.OperationOptions {
+export interface AFDProfilesListResourceUsageOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type AfdProfilesListResourceUsageResponse = UsagesListResult;
+export type AFDProfilesListResourceUsageResponse = UsagesListResult;
 
 // @public
 export type AfdProvisioningState = string;
@@ -618,15 +618,15 @@ export class CdnManagementClient extends coreClient.ServiceClient {
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: CdnManagementClientOptionalParams);
     // (undocumented)
-    afdCustomDomains: AfdCustomDomains;
+    aFDCustomDomains: AFDCustomDomains;
     // (undocumented)
-    afdEndpoints: AfdEndpoints;
+    aFDEndpoints: AFDEndpoints;
     // (undocumented)
-    afdOriginGroups: AfdOriginGroups;
+    aFDOriginGroups: AFDOriginGroups;
     // (undocumented)
-    afdOrigins: AfdOrigins;
+    aFDOrigins: AFDOrigins;
     // (undocumented)
-    afdProfiles: AfdProfiles;
+    aFDProfiles: AFDProfiles;
     // (undocumented)
     apiVersion: string;
     checkEndpointNameAvailability(resourceGroupName: string, checkEndpointNameAvailabilityInput: CheckEndpointNameAvailabilityInput, options?: CheckEndpointNameAvailabilityOptionalParams): Promise<CheckEndpointNameAvailabilityResponse>;

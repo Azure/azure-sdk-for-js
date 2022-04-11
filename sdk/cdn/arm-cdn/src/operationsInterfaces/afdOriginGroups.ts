@@ -10,22 +10,22 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   AFDOriginGroup,
-  AfdOriginGroupsListByProfileOptionalParams,
+  AFDOriginGroupsListByProfileOptionalParams,
   Usage,
-  AfdOriginGroupsListResourceUsageOptionalParams,
-  AfdOriginGroupsGetOptionalParams,
-  AfdOriginGroupsGetResponse,
-  AfdOriginGroupsCreateOptionalParams,
-  AfdOriginGroupsCreateResponse,
+  AFDOriginGroupsListResourceUsageOptionalParams,
+  AFDOriginGroupsGetOptionalParams,
+  AFDOriginGroupsGetResponse,
+  AFDOriginGroupsCreateOptionalParams,
+  AFDOriginGroupsCreateResponse,
   AFDOriginGroupUpdateParameters,
-  AfdOriginGroupsUpdateOptionalParams,
-  AfdOriginGroupsUpdateResponse,
-  AfdOriginGroupsDeleteOptionalParams
+  AFDOriginGroupsUpdateOptionalParams,
+  AFDOriginGroupsUpdateResponse,
+  AFDOriginGroupsDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a AfdOriginGroups. */
-export interface AfdOriginGroups {
+/** Interface representing a AFDOriginGroups. */
+export interface AFDOriginGroups {
   /**
    * Lists all of the existing origin groups within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -36,7 +36,7 @@ export interface AfdOriginGroups {
   listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: AfdOriginGroupsListByProfileOptionalParams
+    options?: AFDOriginGroupsListByProfileOptionalParams
   ): PagedAsyncIterableIterator<AFDOriginGroup>;
   /**
    * Checks the quota and actual usage of endpoints under the given CDN profile.
@@ -50,7 +50,7 @@ export interface AfdOriginGroups {
     resourceGroupName: string,
     profileName: string,
     originGroupName: string,
-    options?: AfdOriginGroupsListResourceUsageOptionalParams
+    options?: AFDOriginGroupsListResourceUsageOptionalParams
   ): PagedAsyncIterableIterator<Usage>;
   /**
    * Gets an existing origin group within a profile.
@@ -64,8 +64,8 @@ export interface AfdOriginGroups {
     resourceGroupName: string,
     profileName: string,
     originGroupName: string,
-    options?: AfdOriginGroupsGetOptionalParams
-  ): Promise<AfdOriginGroupsGetResponse>;
+    options?: AFDOriginGroupsGetOptionalParams
+  ): Promise<AFDOriginGroupsGetResponse>;
   /**
    * Creates a new origin group within the specified profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -80,11 +80,11 @@ export interface AfdOriginGroups {
     profileName: string,
     originGroupName: string,
     originGroup: AFDOriginGroup,
-    options?: AfdOriginGroupsCreateOptionalParams
+    options?: AFDOriginGroupsCreateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<AfdOriginGroupsCreateResponse>,
-      AfdOriginGroupsCreateResponse
+      PollOperationState<AFDOriginGroupsCreateResponse>,
+      AFDOriginGroupsCreateResponse
     >
   >;
   /**
@@ -101,8 +101,8 @@ export interface AfdOriginGroups {
     profileName: string,
     originGroupName: string,
     originGroup: AFDOriginGroup,
-    options?: AfdOriginGroupsCreateOptionalParams
-  ): Promise<AfdOriginGroupsCreateResponse>;
+    options?: AFDOriginGroupsCreateOptionalParams
+  ): Promise<AFDOriginGroupsCreateResponse>;
   /**
    * Updates an existing origin group within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -117,11 +117,11 @@ export interface AfdOriginGroups {
     profileName: string,
     originGroupName: string,
     originGroupUpdateProperties: AFDOriginGroupUpdateParameters,
-    options?: AfdOriginGroupsUpdateOptionalParams
+    options?: AFDOriginGroupsUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<AfdOriginGroupsUpdateResponse>,
-      AfdOriginGroupsUpdateResponse
+      PollOperationState<AFDOriginGroupsUpdateResponse>,
+      AFDOriginGroupsUpdateResponse
     >
   >;
   /**
@@ -138,8 +138,8 @@ export interface AfdOriginGroups {
     profileName: string,
     originGroupName: string,
     originGroupUpdateProperties: AFDOriginGroupUpdateParameters,
-    options?: AfdOriginGroupsUpdateOptionalParams
-  ): Promise<AfdOriginGroupsUpdateResponse>;
+    options?: AFDOriginGroupsUpdateOptionalParams
+  ): Promise<AFDOriginGroupsUpdateResponse>;
   /**
    * Deletes an existing origin group within a profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -152,7 +152,7 @@ export interface AfdOriginGroups {
     resourceGroupName: string,
     profileName: string,
     originGroupName: string,
-    options?: AfdOriginGroupsDeleteOptionalParams
+    options?: AFDOriginGroupsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes an existing origin group within a profile.
@@ -166,6 +166,6 @@ export interface AfdOriginGroups {
     resourceGroupName: string,
     profileName: string,
     originGroupName: string,
-    options?: AfdOriginGroupsDeleteOptionalParams
+    options?: AFDOriginGroupsDeleteOptionalParams
   ): Promise<void>;
 }

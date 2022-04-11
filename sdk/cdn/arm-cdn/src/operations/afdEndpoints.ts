@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { AfdEndpoints } from "../operationsInterfaces";
+import { AFDEndpoints } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -16,37 +16,37 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   AFDEndpoint,
-  AfdEndpointsListByProfileNextOptionalParams,
-  AfdEndpointsListByProfileOptionalParams,
+  AFDEndpointsListByProfileNextOptionalParams,
+  AFDEndpointsListByProfileOptionalParams,
   Usage,
-  AfdEndpointsListResourceUsageNextOptionalParams,
-  AfdEndpointsListResourceUsageOptionalParams,
-  AfdEndpointsListByProfileResponse,
-  AfdEndpointsGetOptionalParams,
-  AfdEndpointsGetResponse,
-  AfdEndpointsCreateOptionalParams,
-  AfdEndpointsCreateResponse,
+  AFDEndpointsListResourceUsageNextOptionalParams,
+  AFDEndpointsListResourceUsageOptionalParams,
+  AFDEndpointsListByProfileResponse,
+  AFDEndpointsGetOptionalParams,
+  AFDEndpointsGetResponse,
+  AFDEndpointsCreateOptionalParams,
+  AFDEndpointsCreateResponse,
   AFDEndpointUpdateParameters,
-  AfdEndpointsUpdateOptionalParams,
-  AfdEndpointsUpdateResponse,
-  AfdEndpointsDeleteOptionalParams,
+  AFDEndpointsUpdateOptionalParams,
+  AFDEndpointsUpdateResponse,
+  AFDEndpointsDeleteOptionalParams,
   AfdPurgeParameters,
-  AfdEndpointsPurgeContentOptionalParams,
-  AfdEndpointsListResourceUsageResponse,
+  AFDEndpointsPurgeContentOptionalParams,
+  AFDEndpointsListResourceUsageResponse,
   ValidateCustomDomainInput,
-  AfdEndpointsValidateCustomDomainOptionalParams,
-  AfdEndpointsValidateCustomDomainResponse,
-  AfdEndpointsListByProfileNextResponse,
-  AfdEndpointsListResourceUsageNextResponse
+  AFDEndpointsValidateCustomDomainOptionalParams,
+  AFDEndpointsValidateCustomDomainResponse,
+  AFDEndpointsListByProfileNextResponse,
+  AFDEndpointsListResourceUsageNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing AfdEndpoints operations. */
-export class AfdEndpointsImpl implements AfdEndpoints {
+/** Class containing AFDEndpoints operations. */
+export class AFDEndpointsImpl implements AFDEndpoints {
   private readonly client: CdnManagementClient;
 
   /**
-   * Initialize a new instance of the class AfdEndpoints class.
+   * Initialize a new instance of the class AFDEndpoints class.
    * @param client Reference to the service client
    */
   constructor(client: CdnManagementClient) {
@@ -63,7 +63,7 @@ export class AfdEndpointsImpl implements AfdEndpoints {
   public listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: AfdEndpointsListByProfileOptionalParams
+    options?: AFDEndpointsListByProfileOptionalParams
   ): PagedAsyncIterableIterator<AFDEndpoint> {
     const iter = this.listByProfilePagingAll(
       resourceGroupName,
@@ -90,7 +90,7 @@ export class AfdEndpointsImpl implements AfdEndpoints {
   private async *listByProfilePagingPage(
     resourceGroupName: string,
     profileName: string,
-    options?: AfdEndpointsListByProfileOptionalParams
+    options?: AFDEndpointsListByProfileOptionalParams
   ): AsyncIterableIterator<AFDEndpoint[]> {
     let result = await this._listByProfile(
       resourceGroupName,
@@ -114,7 +114,7 @@ export class AfdEndpointsImpl implements AfdEndpoints {
   private async *listByProfilePagingAll(
     resourceGroupName: string,
     profileName: string,
-    options?: AfdEndpointsListByProfileOptionalParams
+    options?: AFDEndpointsListByProfileOptionalParams
   ): AsyncIterableIterator<AFDEndpoint> {
     for await (const page of this.listByProfilePagingPage(
       resourceGroupName,
@@ -137,7 +137,7 @@ export class AfdEndpointsImpl implements AfdEndpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: AfdEndpointsListResourceUsageOptionalParams
+    options?: AFDEndpointsListResourceUsageOptionalParams
   ): PagedAsyncIterableIterator<Usage> {
     const iter = this.listResourceUsagePagingAll(
       resourceGroupName,
@@ -167,7 +167,7 @@ export class AfdEndpointsImpl implements AfdEndpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: AfdEndpointsListResourceUsageOptionalParams
+    options?: AFDEndpointsListResourceUsageOptionalParams
   ): AsyncIterableIterator<Usage[]> {
     let result = await this._listResourceUsage(
       resourceGroupName,
@@ -194,7 +194,7 @@ export class AfdEndpointsImpl implements AfdEndpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: AfdEndpointsListResourceUsageOptionalParams
+    options?: AFDEndpointsListResourceUsageOptionalParams
   ): AsyncIterableIterator<Usage> {
     for await (const page of this.listResourceUsagePagingPage(
       resourceGroupName,
@@ -216,8 +216,8 @@ export class AfdEndpointsImpl implements AfdEndpoints {
   private _listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: AfdEndpointsListByProfileOptionalParams
-  ): Promise<AfdEndpointsListByProfileResponse> {
+    options?: AFDEndpointsListByProfileOptionalParams
+  ): Promise<AFDEndpointsListByProfileResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, options },
       listByProfileOperationSpec
@@ -237,8 +237,8 @@ export class AfdEndpointsImpl implements AfdEndpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: AfdEndpointsGetOptionalParams
-  ): Promise<AfdEndpointsGetResponse> {
+    options?: AFDEndpointsGetOptionalParams
+  ): Promise<AFDEndpointsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, endpointName, options },
       getOperationSpec
@@ -260,17 +260,17 @@ export class AfdEndpointsImpl implements AfdEndpoints {
     profileName: string,
     endpointName: string,
     endpoint: AFDEndpoint,
-    options?: AfdEndpointsCreateOptionalParams
+    options?: AFDEndpointsCreateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<AfdEndpointsCreateResponse>,
-      AfdEndpointsCreateResponse
+      PollOperationState<AFDEndpointsCreateResponse>,
+      AFDEndpointsCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<AfdEndpointsCreateResponse> => {
+    ): Promise<AFDEndpointsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -335,8 +335,8 @@ export class AfdEndpointsImpl implements AfdEndpoints {
     profileName: string,
     endpointName: string,
     endpoint: AFDEndpoint,
-    options?: AfdEndpointsCreateOptionalParams
-  ): Promise<AfdEndpointsCreateResponse> {
+    options?: AFDEndpointsCreateOptionalParams
+  ): Promise<AFDEndpointsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       profileName,
@@ -364,17 +364,17 @@ export class AfdEndpointsImpl implements AfdEndpoints {
     profileName: string,
     endpointName: string,
     endpointUpdateProperties: AFDEndpointUpdateParameters,
-    options?: AfdEndpointsUpdateOptionalParams
+    options?: AFDEndpointsUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<AfdEndpointsUpdateResponse>,
-      AfdEndpointsUpdateResponse
+      PollOperationState<AFDEndpointsUpdateResponse>,
+      AFDEndpointsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<AfdEndpointsUpdateResponse> => {
+    ): Promise<AFDEndpointsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -447,8 +447,8 @@ export class AfdEndpointsImpl implements AfdEndpoints {
     profileName: string,
     endpointName: string,
     endpointUpdateProperties: AFDEndpointUpdateParameters,
-    options?: AfdEndpointsUpdateOptionalParams
-  ): Promise<AfdEndpointsUpdateResponse> {
+    options?: AFDEndpointsUpdateOptionalParams
+  ): Promise<AFDEndpointsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       profileName,
@@ -472,7 +472,7 @@ export class AfdEndpointsImpl implements AfdEndpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: AfdEndpointsDeleteOptionalParams
+    options?: AFDEndpointsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -540,7 +540,7 @@ export class AfdEndpointsImpl implements AfdEndpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: AfdEndpointsDeleteOptionalParams
+    options?: AFDEndpointsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
@@ -567,7 +567,7 @@ export class AfdEndpointsImpl implements AfdEndpoints {
     profileName: string,
     endpointName: string,
     contents: AfdPurgeParameters,
-    options?: AfdEndpointsPurgeContentOptionalParams
+    options?: AFDEndpointsPurgeContentOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -638,7 +638,7 @@ export class AfdEndpointsImpl implements AfdEndpoints {
     profileName: string,
     endpointName: string,
     contents: AfdPurgeParameters,
-    options?: AfdEndpointsPurgeContentOptionalParams
+    options?: AFDEndpointsPurgeContentOptionalParams
   ): Promise<void> {
     const poller = await this.beginPurgeContent(
       resourceGroupName,
@@ -662,8 +662,8 @@ export class AfdEndpointsImpl implements AfdEndpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: AfdEndpointsListResourceUsageOptionalParams
-  ): Promise<AfdEndpointsListResourceUsageResponse> {
+    options?: AFDEndpointsListResourceUsageOptionalParams
+  ): Promise<AFDEndpointsListResourceUsageResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, endpointName, options },
       listResourceUsageOperationSpec
@@ -684,8 +684,8 @@ export class AfdEndpointsImpl implements AfdEndpoints {
     profileName: string,
     endpointName: string,
     customDomainProperties: ValidateCustomDomainInput,
-    options?: AfdEndpointsValidateCustomDomainOptionalParams
-  ): Promise<AfdEndpointsValidateCustomDomainResponse> {
+    options?: AFDEndpointsValidateCustomDomainOptionalParams
+  ): Promise<AFDEndpointsValidateCustomDomainResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -710,8 +710,8 @@ export class AfdEndpointsImpl implements AfdEndpoints {
     resourceGroupName: string,
     profileName: string,
     nextLink: string,
-    options?: AfdEndpointsListByProfileNextOptionalParams
-  ): Promise<AfdEndpointsListByProfileNextResponse> {
+    options?: AFDEndpointsListByProfileNextOptionalParams
+  ): Promise<AFDEndpointsListByProfileNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, nextLink, options },
       listByProfileNextOperationSpec
@@ -732,8 +732,8 @@ export class AfdEndpointsImpl implements AfdEndpoints {
     profileName: string,
     endpointName: string,
     nextLink: string,
-    options?: AfdEndpointsListResourceUsageNextOptionalParams
-  ): Promise<AfdEndpointsListResourceUsageNextResponse> {
+    options?: AFDEndpointsListResourceUsageNextOptionalParams
+  ): Promise<AFDEndpointsListResourceUsageNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, endpointName, nextLink, options },
       listResourceUsageNextOperationSpec

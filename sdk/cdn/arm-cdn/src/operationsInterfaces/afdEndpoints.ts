@@ -10,27 +10,27 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   AFDEndpoint,
-  AfdEndpointsListByProfileOptionalParams,
+  AFDEndpointsListByProfileOptionalParams,
   Usage,
-  AfdEndpointsListResourceUsageOptionalParams,
-  AfdEndpointsGetOptionalParams,
-  AfdEndpointsGetResponse,
-  AfdEndpointsCreateOptionalParams,
-  AfdEndpointsCreateResponse,
+  AFDEndpointsListResourceUsageOptionalParams,
+  AFDEndpointsGetOptionalParams,
+  AFDEndpointsGetResponse,
+  AFDEndpointsCreateOptionalParams,
+  AFDEndpointsCreateResponse,
   AFDEndpointUpdateParameters,
-  AfdEndpointsUpdateOptionalParams,
-  AfdEndpointsUpdateResponse,
-  AfdEndpointsDeleteOptionalParams,
+  AFDEndpointsUpdateOptionalParams,
+  AFDEndpointsUpdateResponse,
+  AFDEndpointsDeleteOptionalParams,
   AfdPurgeParameters,
-  AfdEndpointsPurgeContentOptionalParams,
+  AFDEndpointsPurgeContentOptionalParams,
   ValidateCustomDomainInput,
-  AfdEndpointsValidateCustomDomainOptionalParams,
-  AfdEndpointsValidateCustomDomainResponse
+  AFDEndpointsValidateCustomDomainOptionalParams,
+  AFDEndpointsValidateCustomDomainResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a AfdEndpoints. */
-export interface AfdEndpoints {
+/** Interface representing a AFDEndpoints. */
+export interface AFDEndpoints {
   /**
    * Lists existing AzureFrontDoor endpoints.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -41,7 +41,7 @@ export interface AfdEndpoints {
   listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: AfdEndpointsListByProfileOptionalParams
+    options?: AFDEndpointsListByProfileOptionalParams
   ): PagedAsyncIterableIterator<AFDEndpoint>;
   /**
    * Checks the quota and actual usage of endpoints under the given CDN profile.
@@ -55,7 +55,7 @@ export interface AfdEndpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: AfdEndpointsListResourceUsageOptionalParams
+    options?: AFDEndpointsListResourceUsageOptionalParams
   ): PagedAsyncIterableIterator<Usage>;
   /**
    * Gets an existing AzureFrontDoor endpoint with the specified endpoint name under the specified
@@ -70,8 +70,8 @@ export interface AfdEndpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: AfdEndpointsGetOptionalParams
-  ): Promise<AfdEndpointsGetResponse>;
+    options?: AFDEndpointsGetOptionalParams
+  ): Promise<AFDEndpointsGetResponse>;
   /**
    * Creates a new AzureFrontDoor endpoint with the specified endpoint name under the specified
    * subscription, resource group and profile.
@@ -87,11 +87,11 @@ export interface AfdEndpoints {
     profileName: string,
     endpointName: string,
     endpoint: AFDEndpoint,
-    options?: AfdEndpointsCreateOptionalParams
+    options?: AFDEndpointsCreateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<AfdEndpointsCreateResponse>,
-      AfdEndpointsCreateResponse
+      PollOperationState<AFDEndpointsCreateResponse>,
+      AFDEndpointsCreateResponse
     >
   >;
   /**
@@ -109,8 +109,8 @@ export interface AfdEndpoints {
     profileName: string,
     endpointName: string,
     endpoint: AFDEndpoint,
-    options?: AfdEndpointsCreateOptionalParams
-  ): Promise<AfdEndpointsCreateResponse>;
+    options?: AFDEndpointsCreateOptionalParams
+  ): Promise<AFDEndpointsCreateResponse>;
   /**
    * Updates an existing AzureFrontDoor endpoint with the specified endpoint name under the specified
    * subscription, resource group and profile. Only tags can be updated after creating an endpoint. To
@@ -128,11 +128,11 @@ export interface AfdEndpoints {
     profileName: string,
     endpointName: string,
     endpointUpdateProperties: AFDEndpointUpdateParameters,
-    options?: AfdEndpointsUpdateOptionalParams
+    options?: AFDEndpointsUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<AfdEndpointsUpdateResponse>,
-      AfdEndpointsUpdateResponse
+      PollOperationState<AFDEndpointsUpdateResponse>,
+      AFDEndpointsUpdateResponse
     >
   >;
   /**
@@ -152,8 +152,8 @@ export interface AfdEndpoints {
     profileName: string,
     endpointName: string,
     endpointUpdateProperties: AFDEndpointUpdateParameters,
-    options?: AfdEndpointsUpdateOptionalParams
-  ): Promise<AfdEndpointsUpdateResponse>;
+    options?: AFDEndpointsUpdateOptionalParams
+  ): Promise<AFDEndpointsUpdateResponse>;
   /**
    * Deletes an existing AzureFrontDoor endpoint with the specified endpoint name under the specified
    * subscription, resource group and profile.
@@ -167,7 +167,7 @@ export interface AfdEndpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: AfdEndpointsDeleteOptionalParams
+    options?: AFDEndpointsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes an existing AzureFrontDoor endpoint with the specified endpoint name under the specified
@@ -182,7 +182,7 @@ export interface AfdEndpoints {
     resourceGroupName: string,
     profileName: string,
     endpointName: string,
-    options?: AfdEndpointsDeleteOptionalParams
+    options?: AFDEndpointsDeleteOptionalParams
   ): Promise<void>;
   /**
    * Removes a content from AzureFrontDoor.
@@ -200,7 +200,7 @@ export interface AfdEndpoints {
     profileName: string,
     endpointName: string,
     contents: AfdPurgeParameters,
-    options?: AfdEndpointsPurgeContentOptionalParams
+    options?: AFDEndpointsPurgeContentOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Removes a content from AzureFrontDoor.
@@ -218,7 +218,7 @@ export interface AfdEndpoints {
     profileName: string,
     endpointName: string,
     contents: AfdPurgeParameters,
-    options?: AfdEndpointsPurgeContentOptionalParams
+    options?: AFDEndpointsPurgeContentOptionalParams
   ): Promise<void>;
   /**
    * Validates the custom domain mapping to ensure it maps to the correct CDN endpoint in DNS.
@@ -234,6 +234,6 @@ export interface AfdEndpoints {
     profileName: string,
     endpointName: string,
     customDomainProperties: ValidateCustomDomainInput,
-    options?: AfdEndpointsValidateCustomDomainOptionalParams
-  ): Promise<AfdEndpointsValidateCustomDomainResponse>;
+    options?: AFDEndpointsValidateCustomDomainOptionalParams
+  ): Promise<AFDEndpointsValidateCustomDomainResponse>;
 }

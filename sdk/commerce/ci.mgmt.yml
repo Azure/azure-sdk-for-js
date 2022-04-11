@@ -11,6 +11,7 @@ trigger:
       - sdk/commerce/ci.mgmt.yml
       - sdk/commerce/arm-commerce/
       - sdk/commerce/arm-commerce-profile-2020-09-01-hybrid
+      - sdk/commerce/arm-commerce
 pr:
   branches:
     include:
@@ -25,6 +26,7 @@ pr:
       - sdk/commerce/ci.mgmt.yml
       - sdk/commerce/arm-commerce/
       - sdk/commerce/arm-commerce-profile-2020-09-01-hybrid
+      - sdk/commerce/arm-commerce
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

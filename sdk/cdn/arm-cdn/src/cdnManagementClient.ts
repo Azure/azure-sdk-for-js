@@ -9,11 +9,11 @@
 import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
 import {
-  AfdProfilesImpl,
-  AfdCustomDomainsImpl,
-  AfdEndpointsImpl,
-  AfdOriginGroupsImpl,
-  AfdOriginsImpl,
+  AFDProfilesImpl,
+  AFDCustomDomainsImpl,
+  AFDEndpointsImpl,
+  AFDOriginGroupsImpl,
+  AFDOriginsImpl,
   RoutesImpl,
   RuleSetsImpl,
   RulesImpl,
@@ -33,11 +33,11 @@ import {
   ManagedRuleSetsImpl
 } from "./operations";
 import {
-  AfdProfiles,
-  AfdCustomDomains,
-  AfdEndpoints,
-  AfdOriginGroups,
-  AfdOrigins,
+  AFDProfiles,
+  AFDCustomDomains,
+  AFDEndpoints,
+  AFDOriginGroups,
+  AFDOrigins,
   Routes,
   RuleSets,
   Rules,
@@ -105,7 +105,7 @@ export class CdnManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-cdn/7.0.1`;
+    const packageDetails = `azsdk-js-arm-cdn/8.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -130,11 +130,11 @@ export class CdnManagementClient extends coreClient.ServiceClient {
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
     this.apiVersion = options.apiVersion || "2021-06-01";
-    this.afdProfiles = new AfdProfilesImpl(this);
-    this.afdCustomDomains = new AfdCustomDomainsImpl(this);
-    this.afdEndpoints = new AfdEndpointsImpl(this);
-    this.afdOriginGroups = new AfdOriginGroupsImpl(this);
-    this.afdOrigins = new AfdOriginsImpl(this);
+    this.aFDProfiles = new AFDProfilesImpl(this);
+    this.aFDCustomDomains = new AFDCustomDomainsImpl(this);
+    this.aFDEndpoints = new AFDEndpointsImpl(this);
+    this.aFDOriginGroups = new AFDOriginGroupsImpl(this);
+    this.aFDOrigins = new AFDOriginsImpl(this);
     this.routes = new RoutesImpl(this);
     this.ruleSets = new RuleSetsImpl(this);
     this.rules = new RulesImpl(this);
@@ -221,11 +221,11 @@ export class CdnManagementClient extends coreClient.ServiceClient {
     );
   }
 
-  afdProfiles: AfdProfiles;
-  afdCustomDomains: AfdCustomDomains;
-  afdEndpoints: AfdEndpoints;
-  afdOriginGroups: AfdOriginGroups;
-  afdOrigins: AfdOrigins;
+  aFDProfiles: AFDProfiles;
+  aFDCustomDomains: AFDCustomDomains;
+  aFDEndpoints: AFDEndpoints;
+  aFDOriginGroups: AFDOriginGroups;
+  aFDOrigins: AFDOrigins;
   routes: Routes;
   ruleSets: RuleSets;
   rules: Rules;
