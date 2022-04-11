@@ -22,6 +22,8 @@ steps:
       }
       Set-Content "${{ parameters.SourceDirectory }}/credscan.tsv" -Value "${{ parameters.SourceDirectory }}/$scanFolder"
     }
+    
+    Write-Host "##vso[task.setvariable variable=SKIP_CREDSCAN]true"
     if(Test-Path "${{ parameters.SourceDirectory }}/credscan.tsv") {
       Get-Content "${{ parameters.SourceDirectory }}/credscan.tsv"
     }
@@ -31,7 +33,7 @@ steps:
   displayName: CredScan setup
 - task: securedevelopmentteam.vss-secure-development-tools.build-task-credscan.CredScan@3
   displayName: CredScan running
-  condition: and(succeededOrFailed(), ne('SKIP_CREDSCAN', true))
+  condition: and(succeededOrFailed(), ne(variables['SKIP_CREDSCAN'], true))
   inputs:
     toolVersion: 2.2.7.8 
     scanFolder: "${{ parameters.SourceDirectory }}/credscan.tsv"
