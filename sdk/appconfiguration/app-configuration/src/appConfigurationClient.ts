@@ -9,8 +9,6 @@ import { AppConfiguration } from "./generated/src/appConfiguration";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 
-import "@azure/core-asynciterator-polyfill";
-
 import {
   AddConfigurationSettingOptions,
   AddConfigurationSettingParam,

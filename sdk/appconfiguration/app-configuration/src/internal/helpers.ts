@@ -309,6 +309,7 @@ export function errorMessageForUnexpectedSetting(
   return `Setting with key ${key} is not a valid ${expectedType}, make sure to have the correct content-type and a valid non-null value.`;
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export function assertResponse<T extends object>(
   result: T
 ): asserts result is T & HttpResponseField<any> {
@@ -321,6 +322,7 @@ export function assertResponse<T extends object>(
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export function hasUnderscoreResponse<T extends object>(
   result: T
 ): result is T & HttpResponseField<any> {
