@@ -15,7 +15,6 @@ import {
 
 describe("getClient", () => {
   afterEach(() => {
-    sinon.reset();
     sinon.restore();
   });
 

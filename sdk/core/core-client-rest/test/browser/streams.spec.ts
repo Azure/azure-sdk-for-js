@@ -36,7 +36,6 @@ describe("[Browser] Streams", () => {
 
   afterEach(() => {
     sinon.restore();
-    fetchMock.restore();
   });
 
   it("should get a JSON body response as a stream", async () => {
@@ -49,6 +48,7 @@ describe("[Browser] Streams", () => {
     // Read the first chunk
     const chunk = await reader.read();
     assert.equal(chunk.done, false);
+    assert.isTrue(fetchMock.calledOnce);
   });
 
   it("should get a JSON body response", async () => {
@@ -60,5 +60,26 @@ describe("[Browser] Streams", () => {
     const result = await client.pathUnchecked("/foo").get();
 
     assert.deepEqual(result.body, responseText);
+    assert.isTrue(fetchMock.calledOnce);
+  });
+
+  it("should be able to handle errors on normal response", async () => {
+    const client = getClient(mockBaseUrl);
+    fetchMock.throwsException(new Error("ExpectedException"));
+    try {
+      await client.pathUnchecked("/foo").get();
+    } catch (e: any) {
+      assert.match(e.message, /ExpectedException/);
+    }
+  });
+
+  it("should be able to handle errors on streamed response", async () => {
+    const client = getClient(mockBaseUrl);
+    fetchMock.throwsException(new Error("ExpectedException"));
+    try {
+      await client.pathUnchecked("/foo").get().asNodeStream();
+    } catch (e: any) {
+      assert.match(e.message, /ExpectedException/);
+    }
   });
 });

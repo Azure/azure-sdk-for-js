@@ -87,17 +87,6 @@ export interface Client {
 }
 
 /**
- * An object that defines a then property that can takes a
- * callback for the resolution and can be awaited
- */
-export interface Thenable<TResult> {
-  /**
-   * Attaches callbacks for the resolution of the thenable.
-   */
-  then: (onFulfilled: (p: TResult) => TResult) => Promise<TResult>;
-}
-
-/**
  * Http Response which body is a NodeJS stream object
  */
 export type HttpNodeStreamResponse = HttpResponse & {
@@ -121,7 +110,7 @@ export type HttpBrowserStreamResponse = HttpResponse & {
  * Defines the type for a method that supports getting the response body as
  * a raw stream
  */
-export type StreamableMethod<TResponse = PathUncheckedResponse> = Thenable<TResponse> & {
+export type StreamableMethod<TResponse = PathUncheckedResponse> = PromiseLike<TResponse> & {
   asNodeStream: () => Promise<HttpNodeStreamResponse>;
   asBrowserStream: () => Promise<HttpBrowserStreamResponse>;
 };
@@ -137,7 +126,7 @@ export type PathUnchecked = <TPath extends string>(
 /**
  * Defines the methods that can be called on a resource
  */
-export interface ResourceMethods<TResponse = Thenable<PathUncheckedResponse>> {
+export interface ResourceMethods<TResponse = PromiseLike<PathUncheckedResponse>> {
   /**
    * Definition of the GET HTTP method for a resource
    */

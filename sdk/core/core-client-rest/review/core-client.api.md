@@ -108,7 +108,7 @@ export type RequestParameters = {
 };
 
 // @public
-export interface ResourceMethods<TResponse = Thenable<PathUncheckedResponse>> {
+export interface ResourceMethods<TResponse = PromiseLike<PathUncheckedResponse>> {
     delete: (options?: RequestParameters) => TResponse;
     get: (options?: RequestParameters) => TResponse;
     head: (options?: RequestParameters) => TResponse;
@@ -120,14 +120,9 @@ export interface ResourceMethods<TResponse = Thenable<PathUncheckedResponse>> {
 }
 
 // @public
-export type StreamableMethod<TResponse = PathUncheckedResponse> = Thenable<TResponse> & {
+export type StreamableMethod<TResponse = PathUncheckedResponse> = PromiseLike<TResponse> & {
     asNodeStream: () => Promise<HttpNodeStreamResponse>;
     asBrowserStream: () => Promise<HttpBrowserStreamResponse>;
 };
-
-// @public
-export interface Thenable<TResult> {
-    then: (onFulfilled: (p: TResult) => TResult) => Promise<TResult>;
-}
 
 ```

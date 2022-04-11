@@ -12,7 +12,6 @@ const mockBaseUrl = "https://example.org";
 
 describe("[Node] Streams", () => {
   afterEach(() => {
-    sinon.reset();
     sinon.restore();
   });
 
@@ -32,10 +31,10 @@ describe("[Node] Streams", () => {
     stubbedHttpsRequest.yield(createResponse(200, JSON.stringify(expectedBody)));
 
     const response = await promise;
-    console.log(JSON.stringify(response));
     const stringBody = await readStreamToBuffer(response.body!);
 
     assert.deepEqual(stringBody.toString(), JSON.stringify(expectedBody));
+    assert.isTrue(stubbedHttpsRequest.calledOnce);
   });
 
   it("should get a JSON body response", async () => {
@@ -44,16 +43,34 @@ describe("[Node] Streams", () => {
     const clientRequest = createRequest();
     stubbedHttpsRequest.returns(clientRequest);
 
-    const promise = client
-      .pathUnchecked("/foo")
-      .get()
-      .then((r) => r);
+    const promise = client.pathUnchecked("/foo").get();
 
-    stubbedHttpsRequest.yield(createResponse(200, JSON.stringify(expectedBody)));
+    stubbedHttpsRequest.yields(createResponse(200, JSON.stringify(expectedBody)));
 
     const response = await promise;
 
     assert.deepEqual(response.body, expectedBody);
+    assert.isTrue(stubbedHttpsRequest.calledOnce);
+  });
+
+  it("should be able to handle errors on normal response", async () => {
+    const client = getClient(mockBaseUrl);
+    stubbedHttpsRequest.throwsException(new Error("ExpectedException"));
+    try {
+      await client.pathUnchecked("/foo").get();
+    } catch (e: any) {
+      assert.equal(e.message, "ExpectedException");
+    }
+  });
+
+  it("should be able to handle errors on streamed response", async () => {
+    const client = getClient(mockBaseUrl);
+    stubbedHttpsRequest.throwsException(new Error("ExpectedException"));
+    try {
+      await client.pathUnchecked("/foo").get().asNodeStream();
+    } catch (e: any) {
+      assert.equal(e.message, "ExpectedException");
+    }
   });
 });
 

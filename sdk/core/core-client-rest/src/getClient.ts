@@ -164,15 +164,14 @@ function buildOperation(
   httpClient?: HttpClient
 ): StreamableMethod {
   return {
-    then: async function (onFulfilled) {
-      const result = await sendRequest(
+    then: function (onFulfilled, onrejected) {
+      return sendRequest(
         method,
         url,
         pipeline,
         { allowInsecureConnection, ...options },
         httpClient
-      );
-      return onFulfilled(result);
+      ).then(onFulfilled, onrejected);
     },
     async asBrowserStream() {
       return sendRequestAsStream<HttpBrowserStreamResponse>(
