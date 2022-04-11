@@ -78,6 +78,10 @@
     "productSlugs": [
       "azure-monitor"
     ],
+    "skip": [
+      "basicTracerNode.js",
+      "httpSample.js"
+    ],
     "requiredResources": {
       "Azure Application Insights workspace instance": "https://docs.microsoft.com/azure/azure-monitor/app/app-insights-overview"
     }

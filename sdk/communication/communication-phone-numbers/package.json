@@ -137,7 +137,9 @@
     },
     "skip": [
       "purchasePhoneNumber.js",
-      "releasePhoneNumber.js"
+      "releasePhoneNumber.js",
+      "getPurchasedPhoneNumber.js",
+      "updatePhoneNumberCapabilities.js"
     ]
   }
 }

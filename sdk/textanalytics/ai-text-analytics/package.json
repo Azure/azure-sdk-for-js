@@ -50,6 +50,9 @@
       "azure-cognitive-services",
       "azure-text-analytics"
     ],
+    "skip": [
+      "customText.js"
+    ],
     "requiredResources": {
       "Azure Cognitive Services instance": "https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
     }

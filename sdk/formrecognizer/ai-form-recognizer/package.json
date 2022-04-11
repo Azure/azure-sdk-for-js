@@ -133,7 +133,8 @@
       "buildModel.js",
       "composeModel.js",
       "copyModel.js",
-      "getModel.js"
+      "getModel.js",
+      "analyzeW2TaxForm.js"
     ],
     "productName": "Azure Form Recognizer",
     "productSlugs": [

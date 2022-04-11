@@ -124,6 +124,10 @@
       "azure",
       "azure-synapse"
     ],
+    "skip": [
+      "createRoleAssignment.js",
+      "listRoleAssignments.js"
+    ],
     "requiredResources": {
       "Creating and managing Synapse compute resources": "https://docs.microsoft.com/azure/synapse-analytics/security/synapse-workspace-access-control-overview#creating-and-managing-synapse-compute-resources"
     },

@@ -129,6 +129,9 @@
       "azure-cognitive-search",
       "azure-search"
     ],
+    "skip": [
+      "setup.js"
+    ],
     "requiredResources": {
       "Azure Search Documents instance": "https://docs.microsoft.com/azure/search/search-create-service-portal"
     }

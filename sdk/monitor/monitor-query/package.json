@@ -149,6 +149,10 @@
   },
   "//sampleConfiguration": {
     "skipFolder": false,
+    "skip": [
+      "logsQueryMultipleWorkspaces.js",
+      "metricsQuery.js"
+    ],
     "disableDocsMs": true,
     "productName": "Monitor Query",
     "productSlugs": [],

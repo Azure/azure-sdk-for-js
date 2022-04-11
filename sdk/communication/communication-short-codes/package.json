@@ -132,6 +132,12 @@
     ],
     "requiredResources": {
       "Azure Communication Services account": "https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource"
-    }
+    },
+    "skip": [
+      "createAndDeleteProgramBrief.js",
+      "getAllProgramBriefs.js",
+      "getAllShortCodes.js",
+      "getAndUpdateProgramBrief.js"
+    ]
   }
 }
