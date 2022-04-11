@@ -35,6 +35,8 @@ function assertIsValidSchemaProperties(
 ): asserts schemaProperties {
   assert.isNotEmpty(schemaProperties.id);
   assert.equal(schemaProperties.format, expectedSerializationType);
+  assert.isNotEmpty(schemaProperties.groupName);
+  assert.isNotEmpty(schemaProperties.name);
 }
 
 function assertIsValidSchema(schema: Schema, expectedSerializationType = "Avro"): asserts schema {

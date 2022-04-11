@@ -68,11 +68,12 @@ class XhrHttpClient implements HttpClient {
 
     xhr.responseType = request.streamResponseStatusCodes?.size ? "blob" : "text";
 
-    if (isReadableStream(request.body)) {
+    const body = typeof request.body === "function" ? request.body() : request.body;
+    if (isReadableStream(body)) {
       throw new Error("Node streams are not supported in browser environment.");
     }
 
-    xhr.send(request.body === undefined ? null : request.body);
+    xhr.send(body === undefined ? null : body);
 
     if (xhr.responseType === "blob") {
       return new Promise((resolve, reject) => {

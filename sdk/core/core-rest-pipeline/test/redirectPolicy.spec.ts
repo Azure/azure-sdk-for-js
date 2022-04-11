@@ -314,4 +314,33 @@ describe("RedirectPolicy", () => {
     assert.strictEqual(result.status, expectedStatusCode);
     assert.strictEqual(next.callCount, 21);
   });
+
+  it("should remove Authorization header on redirected request", async function () {
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      method: "GET",
+      headers: createHttpHeaders({ authorization: "Basic blahblahblah" }),
+    });
+    const redirectResponse: PipelineResponse = {
+      headers: createHttpHeaders({
+        location: "https://example.com/redirect",
+      }),
+      request,
+      status: 307,
+    };
+
+    const successResponse: PipelineResponse = {
+      headers: createHttpHeaders(),
+      request,
+      status: 200,
+    };
+
+    const policy = redirectPolicy();
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.onFirstCall().resolves(redirectResponse);
+    next.onSecondCall().resolves(successResponse);
+
+    await policy.sendRequest(request, next);
+    assert.isFalse(next.args[1][0].headers.has("Authorization"));
+  });
 });

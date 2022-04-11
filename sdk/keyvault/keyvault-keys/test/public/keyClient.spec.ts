@@ -21,7 +21,6 @@ import {
 import { testPollerProperties } from "./utils/recorderUtils";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
-import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 import { DefaultHttpClient, WebResource } from "@azure/core-http";
 import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
 
@@ -396,15 +395,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     await client.purgeDeletedKey(keyName);
   });
 
-  it("supports tracing", async function (this: Context) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
-    await supportsTracing(
-      (tracingOptions) => client.createKey(keyName, "RSA", { tracingOptions }),
-      ["Azure.KeyVault.Keys.KeyClient.createKey"]
-    );
-  });
-
-  onVersions({ minVer: "7.3-preview" }).describe("key rotation", () => {
+  onVersions({ minVer: "7.3" }).describe("key rotation", () => {
     if (isPublicCloud() || isRecordMode() || isPlaybackMode()) {
       // Key Rotation is a preview feature that is not supported in all clouds yet.
       // Once 7.3 GAs we should be able to run this unconditionally.
@@ -420,16 +411,6 @@ describe("Keys client - create, read, update and delete operations", () => {
         assert.notEqual(rotatedKey.id, key.id);
         assert.notEqual(rotatedKey.properties.version, key.properties.version);
         assert.notDeepEqual(rotatedKey.key?.n, key.key?.n);
-      });
-
-      it("rotateKey supports tracing", async () => {
-        const keyName = recorder.getUniqueName("keyrotatetracing");
-        const key = await client.createKey(keyName, "RSA");
-
-        await supportsTracing(
-          (tracingOptions) => client.rotateKey(key.name, { tracingOptions }),
-          ["Azure.KeyVault.Keys.KeyClient.rotateKey"]
-        );
       });
 
       it("updateKeyRotationPolicy supports creating a new rotation policy and fetching it", async () => {
@@ -490,56 +471,38 @@ describe("Keys client - create, read, update and delete operations", () => {
         });
       });
 
-      it("updateKeyRotationPolicy supports tracing", async () => {
-        const keyName = recorder.getUniqueName("updaterotationpolicy");
-        const key = await client.createKey(keyName, "EC");
-
-        await supportsTracing(
-          (tracingOptions) =>
-            client.updateKeyRotationPolicy(
-              key.name,
-              {
-                lifetimeActions: [
-                  {
-                    action: "Notify",
-                    timeBeforeExpiry: "P30D",
-                  },
-                ],
-                expiresIn: "P90D",
-              },
-              { tracingOptions }
-            ),
-          ["Azure.KeyVault.Keys.KeyClient.updateKeyRotationPolicy"]
-        );
-      });
-
       it("throws when attempting to fetch a policy of a non-existent key", async () => {
         const keyName = recorder.getUniqueName("nonexistentkey");
         await assert.isRejected(client.getKeyRotationPolicy(keyName));
       });
 
-      it("getKeyRotationPolicy supports tracing", async () => {
+      it("supports tracing", async () => {
         const keyName = recorder.getUniqueName("rotationpolicytracing");
         const key = await client.createKey(keyName, "RSA");
 
-        await client.updateKeyRotationPolicy(key.name, {
-          lifetimeActions: [
-            {
-              action: "Rotate",
-              timeAfterCreate: "P2M",
-            },
-          ],
-        });
-
-        await supportsTracing(
-          (tracingOptions) => client.getKeyRotationPolicy(key.name, { tracingOptions }),
-          ["Azure.KeyVault.Keys.KeyClient.getKeyRotationPolicy"]
+        await assert.supportsTracing(
+          async (options) => {
+            await client.updateKeyRotationPolicy(
+              key.name,
+              {
+                lifetimeActions: [
+                  {
+                    action: "Rotate",
+                    timeAfterCreate: "P2M",
+                  },
+                ],
+              },
+              options
+            );
+            await client.getKeyRotationPolicy(key.name, options);
+          },
+          ["KeyClient.updateKeyRotationPolicy", "KeyClient.getKeyRotationPolicy"]
         );
       });
     }
   });
 
-  onVersions({ minVer: "7.3-preview" }).describe("releaseKey", () => {
+  onVersions({ minVer: "7.3" }).describe("releaseKey", () => {
     let attestation: string;
     let encodedReleasePolicy: Uint8Array;
 
@@ -640,6 +603,68 @@ describe("Keys client - create, read, update and delete operations", () => {
           },
         }),
         /Immutable Key Release/
+      );
+    });
+  });
+
+  describe("tracing", () => {
+    it("traces through the basic operations", async () => {
+      const keyName = recorder.getUniqueName("keyclienttracing");
+      await assert.supportsTracing(
+        async (options) => {
+          await client.createKey(keyName, "RSA", options);
+          await client.getKey(keyName, options);
+          await client.backupKey(keyName, options);
+          await client.listDeletedKeys(options).next();
+          await client.listPropertiesOfKeys(options).next();
+          await client.listPropertiesOfKeyVersions(keyName, options).next();
+          await client.updateKeyProperties(keyName, options);
+        },
+        [
+          "KeyClient.createKey",
+          "KeyClient.getKey",
+          "KeyClient.backupKey",
+          "KeyClient.listDeletedKeysPage",
+          "KeyClient.listPropertiesOfKeysPage",
+          "KeyClient.listPropertiesOfKeyVersionsPage",
+          "KeyClient.updateKeyProperties",
+        ]
+      );
+    });
+
+    onVersions({ minVer: "7.3" }).it("traces through key rotation operations", async () => {
+      const keyName = recorder.getUniqueName("keyrotationtracing");
+      await client.createKey(keyName, "RSA");
+      await assert.supportsTracing(
+        async (options) => {
+          await client.updateKeyRotationPolicy(
+            keyName,
+            {
+              lifetimeActions: [
+                {
+                  action: "Rotate",
+                  timeAfterCreate: "P50D",
+                },
+              ],
+            },
+            options
+          );
+          await client.getKeyRotationPolicy(keyName, options);
+        },
+        ["KeyClient.updateKeyRotationPolicy", "KeyClient.getKeyRotationPolicy"]
+      );
+    });
+
+    onVersions({ minVer: "7.3" }).it("traces through secure key release", async () => {
+      await assert.supportsTracing(
+        async (options) => {
+          try {
+            await client.releaseKey("foo", "anything", options);
+          } catch {
+            // ignore errors, as it's not worth setting up the secure key release policy for this test.
+          }
+        },
+        ["KeyClient.releaseKey"]
       );
     });
   });

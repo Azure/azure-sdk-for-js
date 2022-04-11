@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { assert } from "@azure/test-utils";
-import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 import { Context } from "mocha";
 import { createHash } from "crypto";
 import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
@@ -179,12 +178,41 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       assert.ok(verifyResult.result);
     });
 
-    it("supports tracing", async function () {
-      await supportsTracing(
-        (tracingOptions) =>
-          cryptoClient.encrypt("RSA1_5", stringToUint8Array("data"), { tracingOptions }),
-        ["Azure.KeyVault.Keys.CryptographyClient.encrypt"]
-      );
+    describe("tracing", () => {
+      it("traces through remote cryptography calls", async () => {
+        if (isLiveMode()) {
+          await assert.supportsTracing(
+            async (options) => {
+              const encryptResult = await cryptoClient.encrypt(
+                { algorithm: "RSA1_5", plaintext: stringToUint8Array("Hello, world") },
+                options
+              );
+              await cryptoClient.decrypt(
+                { algorithm: "RSA1_5", ciphertext: encryptResult.result },
+                options
+              );
+
+              const signResult = await cryptoClient.signData(
+                "RS256",
+                stringToUint8Array("Message"),
+                options
+              );
+              await cryptoClient.verifyData(
+                "RS256",
+                stringToUint8Array("Message"),
+                signResult.result,
+                options
+              );
+            },
+            [
+              "CryptographyClient.encrypt",
+              "CryptographyClient.decrypt",
+              "CryptographyClient.signData",
+              "CryptographyClient.verifyData",
+            ]
+          );
+        }
+      });
     });
   });
 

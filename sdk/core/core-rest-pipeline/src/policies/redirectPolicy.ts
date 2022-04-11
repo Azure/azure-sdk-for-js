@@ -29,6 +29,7 @@ export interface RedirectPolicyOptions {
 /**
  * A policy to follow Location headers from the server in order
  * to support server-side redirection.
+ * In the browser, this policy is not used.
  * @param options - Options to control policy behavior.
  */
 export function redirectPolicy(options: RedirectPolicyOptions = {}): PipelinePolicy {
@@ -69,6 +70,8 @@ async function handleRedirect(
       request.headers.delete("Content-Length");
       delete request.body;
     }
+
+    request.headers.delete("Authorization");
 
     const res = await next(request);
     return handleRedirect(next, res, maxRetries, currentRetries + 1);

@@ -1,5 +1,5 @@
 {
-  "name": "azure-communication-network-traversal-samples-js",
+  "name": "@azure-samples/communication-network-traversal-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Communication Services - Network Traversal client library samples for JavaScript",

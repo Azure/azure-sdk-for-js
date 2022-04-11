@@ -10,20 +10,16 @@ import {
   KeyVaultSelectiveKeyRestoreResult,
 } from "../../backupClientModels";
 import {
-  KeyVaultClientRestoreStatusResponse,
-  KeyVaultClientSelectiveKeyRestoreOperationOptionalParams,
-  KeyVaultClientSelectiveKeyRestoreOperationResponse,
   RestoreOperation,
+  RestoreStatusResponse,
+  SelectiveKeyRestoreOperationOptionalParams,
+  SelectiveKeyRestoreOperationResponse,
 } from "../../generated/models";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import { OperationOptions } from "@azure/core-client";
-import { createTraceFunction } from "../../tracingHelpers";
+import { tracingClient } from "../../tracing";
 
-/**
- * @internal
- */
-const withTrace = createTraceFunction("Azure.KeyVault.Admin.KeyVaultSelectiveKeyRestorePoller");
 /**
  * An interface representing the publicly available properties of the state of a restore Key Vault's poll operation.
  */
@@ -74,22 +70,24 @@ export class KeyVaultSelectiveKeyRestorePollOperation extends KeyVaultAdminPollO
    */
   private selectiveRestore(
     keyName: string,
-    options: KeyVaultClientSelectiveKeyRestoreOperationOptionalParams
-  ): Promise<KeyVaultClientSelectiveKeyRestoreOperationResponse> {
-    return withTrace("selectiveRestore", options, (updatedOptions) =>
-      this.client.selectiveKeyRestoreOperation(this.vaultUrl, keyName, updatedOptions)
+    options: SelectiveKeyRestoreOperationOptionalParams
+  ): Promise<SelectiveKeyRestoreOperationResponse> {
+    return tracingClient.withSpan(
+      "KeyVaultSelectiveKeyRestorePoller.selectiveRestore",
+      options,
+      (updatedOptions) =>
+        this.client.selectiveKeyRestoreOperation(this.vaultUrl, keyName, updatedOptions)
     );
   }
 
   /**
    * Tracing the restoreStatus operation.
    */
-  private restoreStatus(
-    jobId: string,
-    options: OperationOptions
-  ): Promise<KeyVaultClientRestoreStatusResponse> {
-    return withTrace("restoreStatus", options, (updatedOptions) =>
-      this.client.restoreStatus(this.vaultUrl, jobId, updatedOptions)
+  private restoreStatus(jobId: string, options: OperationOptions): Promise<RestoreStatusResponse> {
+    return tracingClient.withSpan(
+      "KeyVaultSelectiveKeyRestorePoller.restoreStatus",
+      options,
+      (updatedOptions) => this.client.restoreStatus(this.vaultUrl, jobId, updatedOptions)
     );
   }
 

@@ -13,3 +13,10 @@ You will need to create a local `.env` file under the same directory as this rea
       "STORAGE_SAS_URL",
       "TABLES_SAS_CONNECTION_STRING"
 ```
+
+## Run the tests at `test-utils/testing-recorder-new`
+
+- Navigate to the test-utils\testing-recorder-new folder
+- Run `rush update && rush build -t .`
+- Run `rushx test:node`
+- Run `rushx test:browser`

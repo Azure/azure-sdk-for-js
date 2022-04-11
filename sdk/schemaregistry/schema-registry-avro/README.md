@@ -42,7 +42,7 @@ to get schema IDs from schema definition or vice versa. The provided API has int
 
 By default, the serializer will create messages structured as follows:
 
-- `body`: a byte array containing data in the Avro Binary Encoding. Note that it
+- `data`: a byte array containing data in the Avro Binary Encoding. Note that it
   is NOT Avro Object Container File. The latter includes the schema and creating
   it defeats the purpose of using this serializer to move the schema out of the
   message payload and into the schema registry.
@@ -99,13 +99,15 @@ const schema = JSON.stringify({
 const value = { score: 42 };
 
 // Serialize value to a message
-const message = await serializer.serializeMessageData(value, schema);
+const message = await serializer.serialize(value, schema);
 
 // Deserialize a message to value
-const deserializedValue = await serializer.deserializeMessageData(message);
+const deserializedValue = await serializer.deserialize(message);
 ```
 
 ## Troubleshooting
+
+The Avro serializer communicates with the [Schema Registry][schema_registry] service as needed to register or query schemas and those service calls could throw a [RestError][resterror]. Furthermore, errors of type `AvroError` will be thrown when serialization or deserialization fails. The `innerError` property will contain the underlying error that was thrown from the Avro implementation library.
 
 ### Logging
 
@@ -160,3 +162,5 @@ learn more about how to build and test the code.
 [azure_portal]: https://portal.azure.com
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
+[resterror]: https://docs.microsoft.com/javascript/api/@azure/core-rest-pipeline/resterror?view=azure-node-latest
+[schema_registry]: https://docs.microsoft.com/javascript/api/overview/azure/schema-registry-readme?view=azure-node-latest

@@ -1,5 +1,5 @@
 {
-  "name": "azure-event-processor-host-samples-ts",
+  "name": "@azure-samples/event-processor-host-ts",
   "private": true,
   "version": "0.1.0",
   "description": "Azure Event Process Host (Event Hubs) library samples for TypeScript",

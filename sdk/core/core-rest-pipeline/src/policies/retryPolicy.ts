@@ -59,10 +59,15 @@ export function retryPolicy(
           logger.info(`Retry ${retryCount}: Received a response from request`, request.requestId);
         } catch (e) {
           logger.error(`Retry ${retryCount}: Received an error from request`, request.requestId);
+
+          // RestErrors are valid targets for the retry strategies.
+          // If none of the retry strategies can work with them, they will be thrown later in this policy.
+          // If the received error is not a RestError, it is immediately thrown.
           responseError = e as RestError;
           if (!e || responseError.name !== "RestError") {
             throw e;
           }
+
           response = responseError.response;
         }
 
@@ -76,10 +81,13 @@ export function retryPolicy(
           logger.info(
             `Retry ${retryCount}: Maximum retries reached. Returning the last received response, or throwing the last received error.`
           );
-          if (response !== undefined) {
+          if (responseError) {
+            throw responseError;
+          } else if (response) {
             return response;
+          } else {
+            throw new Error("Maximum retries reached with no response or error to throw");
           }
-          throw responseError;
         }
 
         logger.info(`Retry ${retryCount}: Processing ${strategies.length} retry strategies.`);
@@ -126,8 +134,16 @@ export function retryPolicy(
           }
         }
 
+        if (responseError) {
+          logger.info(
+            `None of the retry strategies could work with the received error. Throwing it.`
+          );
+          throw responseError;
+        }
         if (response) {
-          logger.info(`Returning the last received response.`);
+          logger.info(
+            `None of the retry strategies could work with the received response. Returning it.`
+          );
           return response;
         }
 

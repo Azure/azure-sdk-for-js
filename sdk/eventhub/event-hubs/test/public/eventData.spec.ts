@@ -110,6 +110,15 @@ testWithServiceTypes((serviceVersion) => {
     }
 
     describe("round-tripping AMQP encoding/decoding", () => {
+      beforeEach(
+        "work around initial state issue by filling partitions with at least one message",
+        async () => {
+          for (let i = 1; i < 100; i++) {
+            const filer = { body: "b", messageId: v4() };
+            await producerClient.sendBatch([filer]);
+          }
+        }
+      );
       it(`props`, async () => {
         const startingPositions = await getStartingPositionsForTests(consumerClient);
         const testEvent = getSampleEventData();

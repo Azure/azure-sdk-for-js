@@ -1,5 +1,5 @@
 {
-  "name": "azure-search-documents-samples-js",
+  "name": "@azure-samples/search-documents-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Search Documents client library samples for JavaScript",

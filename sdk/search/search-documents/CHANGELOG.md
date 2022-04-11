@@ -1,5 +1,9 @@
 # Release History
 
+## 11.3.0-beta.8 (unreleased)
+
+Added `core-http-compat` dependency
+
 ## 11.3.0-beta.7 (2022-03-08)
 
 ### Features Added

@@ -1,6 +1,6 @@
 # Release History
 
-## 4.2.0-beta.3 (Unreleased)
+## 4.3.0-beta.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 4.2.0 (2022-03-24)
+
+### Other Changes
+
+- This release updates `BackupClient` and `AccessControlClient` to support service version 7.3 by default.
 
 ## 4.2.0-beta.2 (2021-11-09)
 
@@ -29,7 +35,7 @@
     ```typescript
     let rawResponse: FullOperationResponse | undefined;
     await client.getRoleDefinition(globalScope, "roleDefinitionName", {
-      onResponse: (response) => (rawResponse = response)
+      onResponse: (response) => (rawResponse = response),
     });
     ```
 

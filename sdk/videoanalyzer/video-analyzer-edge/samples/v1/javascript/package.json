@@ -1,5 +1,5 @@
 {
-  "name": "azure-video-analyzer-edge-samples-js",
+  "name": "@azure-samples/video-analyzer-edge-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Video Analyzer client library samples for JavaScript",

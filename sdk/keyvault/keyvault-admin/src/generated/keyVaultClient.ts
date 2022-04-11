@@ -14,17 +14,17 @@ import * as Mappers from "./models/mappers";
 import { KeyVaultClientContext } from "./keyVaultClientContext";
 import {
   KeyVaultClientOptionalParams,
-  ApiVersion73Preview,
-  KeyVaultClientFullBackupOptionalParams,
-  KeyVaultClientFullBackupResponse,
-  KeyVaultClientFullBackupStatusOptionalParams,
-  KeyVaultClientFullBackupStatusResponse,
-  KeyVaultClientFullRestoreOperationOptionalParams,
-  KeyVaultClientFullRestoreOperationResponse,
-  KeyVaultClientRestoreStatusOptionalParams,
-  KeyVaultClientRestoreStatusResponse,
-  KeyVaultClientSelectiveKeyRestoreOperationOptionalParams,
-  KeyVaultClientSelectiveKeyRestoreOperationResponse
+  ApiVersion73,
+  FullBackupOptionalParams,
+  FullBackupResponse,
+  FullBackupStatusOptionalParams,
+  FullBackupStatusResponse,
+  FullRestoreOperationOptionalParams,
+  FullRestoreOperationResponse,
+  RestoreStatusOptionalParams,
+  RestoreStatusResponse,
+  SelectiveKeyRestoreOperationOptionalParams,
+  SelectiveKeyRestoreOperationResponse
 } from "./models";
 
 export class KeyVaultClient extends KeyVaultClientContext {
@@ -34,7 +34,7 @@ export class KeyVaultClient extends KeyVaultClientContext {
    * @param options The parameter options
    */
   constructor(
-    apiVersion: ApiVersion73Preview,
+    apiVersion: ApiVersion73,
     options?: KeyVaultClientOptionalParams
   ) {
     super(apiVersion, options);
@@ -43,14 +43,15 @@ export class KeyVaultClient extends KeyVaultClientContext {
   }
 
   /**
-   * Creates a full backup using a user-provided SAS token to an Azure blob storage container.
+   * Creates a full backup using a user-provided SAS token to an Azure blob storage container. This
+   * operation is supported only by the Managed HSM service.
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param options The options parameters.
    */
   fullBackup(
     vaultBaseUrl: string,
-    options?: KeyVaultClientFullBackupOptionalParams
-  ): Promise<KeyVaultClientFullBackupResponse> {
+    options?: FullBackupOptionalParams
+  ): Promise<FullBackupResponse> {
     return this.sendOperationRequest(
       { vaultBaseUrl, options },
       fullBackupOperationSpec
@@ -66,8 +67,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   fullBackupStatus(
     vaultBaseUrl: string,
     jobId: string,
-    options?: KeyVaultClientFullBackupStatusOptionalParams
-  ): Promise<KeyVaultClientFullBackupStatusResponse> {
+    options?: FullBackupStatusOptionalParams
+  ): Promise<FullBackupStatusResponse> {
     return this.sendOperationRequest(
       { vaultBaseUrl, jobId, options },
       fullBackupStatusOperationSpec
@@ -82,8 +83,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
    */
   fullRestoreOperation(
     vaultBaseUrl: string,
-    options?: KeyVaultClientFullRestoreOperationOptionalParams
-  ): Promise<KeyVaultClientFullRestoreOperationResponse> {
+    options?: FullRestoreOperationOptionalParams
+  ): Promise<FullRestoreOperationResponse> {
     return this.sendOperationRequest(
       { vaultBaseUrl, options },
       fullRestoreOperationOperationSpec
@@ -99,8 +100,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   restoreStatus(
     vaultBaseUrl: string,
     jobId: string,
-    options?: KeyVaultClientRestoreStatusOptionalParams
-  ): Promise<KeyVaultClientRestoreStatusResponse> {
+    options?: RestoreStatusOptionalParams
+  ): Promise<RestoreStatusResponse> {
     return this.sendOperationRequest(
       { vaultBaseUrl, jobId, options },
       restoreStatusOperationSpec
@@ -117,8 +118,8 @@ export class KeyVaultClient extends KeyVaultClientContext {
   selectiveKeyRestoreOperation(
     vaultBaseUrl: string,
     keyName: string,
-    options?: KeyVaultClientSelectiveKeyRestoreOperationOptionalParams
-  ): Promise<KeyVaultClientSelectiveKeyRestoreOperationResponse> {
+    options?: SelectiveKeyRestoreOperationOptionalParams
+  ): Promise<SelectiveKeyRestoreOperationResponse> {
     return this.sendOperationRequest(
       { vaultBaseUrl, keyName, options },
       selectiveKeyRestoreOperationOperationSpec

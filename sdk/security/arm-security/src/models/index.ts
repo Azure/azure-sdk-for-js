@@ -42,7 +42,8 @@ export type CloudOfferingUnion =
   | CloudOffering
   | CspmMonitorAwsOffering
   | DefenderForContainersAwsOffering
-  | DefenderForServersAwsOffering;
+  | DefenderForServersAwsOffering
+  | InformationProtectionAwsOffering;
 export type ExternalSecuritySolutionUnion =
   | ExternalSecuritySolution
   | CefExternalSecuritySolution
@@ -1742,7 +1743,8 @@ export interface CloudOffering {
   offeringType:
     | "CspmMonitorAws"
     | "DefenderForContainersAws"
-    | "DefenderForServersAWS";
+    | "DefenderForServersAws"
+    | "InformationProtectionAws";
   /**
    * The offering description.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1894,6 +1896,12 @@ export interface DefenderForServersAwsOfferingArcAutoProvisioningServicePrincipa
   parameterNameInStore?: string;
 }
 
+/** The native cloud connection configuration */
+export interface InformationProtectionAwsOfferingInformationProtection {
+  /** The cloud role ARN in AWS for this feature */
+  cloudRoleArn?: string;
+}
+
 /** The resource of the configuration or data needed to onboard the machine to MDE */
 export type MdeOnboardingData = Resource & {
   /** The onboarding package used to onboard Windows machines to MDE, coded in base64. This can also be used for onboarding using the dedicated VM Extension */
@@ -1967,6 +1975,8 @@ export type ComplianceResult = Resource & {
 export type Pricing = Resource & {
   /** The pricing tier value. Azure Security Center is provided in two pricing tiers: free and standard, with the standard tier available with a trial period. The standard tier offers advanced security capabilities, while the free tier offers basic security features. */
   pricingTier?: PricingTier;
+  /** The sub-plan selected for a Standard pricing configuration, when more than one sub-plan is available. Each sub-plan enables a set of security features. When not specified, full plan is applied. */
+  subPlan?: string;
   /**
    * The duration left for the subscriptions free trial period - in ISO 8601 format (e.g. P3Y6M4DT12H30M5S).
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -3332,11 +3342,19 @@ export type DefenderForContainersAwsOffering = CloudOffering & {
 /** The Defender for Servers AWS offering configurations */
 export type DefenderForServersAwsOffering = CloudOffering & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  offeringType: "DefenderForServersAWS";
+  offeringType: "DefenderForServersAws";
   /** The Defender for servers connection configuration */
   defenderForServers?: DefenderForServersAwsOfferingDefenderForServers;
   /** The ARC autoprovisioning configuration */
   arcAutoProvisioning?: DefenderForServersAwsOfferingArcAutoProvisioning;
+};
+
+/** The information protection for AWS offering configurations */
+export type InformationProtectionAwsOffering = CloudOffering & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  offeringType: "InformationProtectionAws";
+  /** The native cloud connection configuration */
+  informationProtection?: InformationProtectionAwsOfferingInformationProtection;
 };
 
 /** The external security solution properties for CEF solutions */
@@ -3614,7 +3632,8 @@ export type CreatedByType = string;
 
 /** Known values of {@link SupportedCloudEnum} that the service accepts. */
 export enum KnownSupportedCloudEnum {
-  AWS = "AWS"
+  AWS = "AWS",
+  GCP = "GCP"
 }
 
 /**
@@ -3622,7 +3641,8 @@ export enum KnownSupportedCloudEnum {
  * {@link KnownSupportedCloudEnum} can be used interchangeably with SupportedCloudEnum,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **AWS**
+ * **AWS** \
+ * **GCP**
  */
 export type SupportedCloudEnum = string;
 
@@ -3894,8 +3914,8 @@ export enum KnownReportedSeverity {
  */
 export type ReportedSeverity = string;
 
-/** Known values of {@link Enum15} that the service accepts. */
-export enum KnownEnum15 {
+/** Known values of {@link TaskUpdateActionType} that the service accepts. */
+export enum KnownTaskUpdateActionType {
   Activate = "Activate",
   Dismiss = "Dismiss",
   Start = "Start",
@@ -3904,8 +3924,8 @@ export enum KnownEnum15 {
 }
 
 /**
- * Defines values for Enum15. \
- * {@link KnownEnum15} can be used interchangeably with Enum15,
+ * Defines values for TaskUpdateActionType. \
+ * {@link KnownTaskUpdateActionType} can be used interchangeably with TaskUpdateActionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Activate** \
@@ -3914,7 +3934,7 @@ export enum KnownEnum15 {
  * **Resolve** \
  * **Close**
  */
-export type Enum15 = string;
+export type TaskUpdateActionType = string;
 
 /** Known values of {@link AutoProvision} that the service accepts. */
 export enum KnownAutoProvision {
@@ -3934,21 +3954,21 @@ export enum KnownAutoProvision {
  */
 export type AutoProvision = string;
 
-/** Known values of {@link Enum17} that the service accepts. */
-export enum KnownEnum17 {
+/** Known values of {@link InformationProtectionPolicyName} that the service accepts. */
+export enum KnownInformationProtectionPolicyName {
   Effective = "effective",
   Custom = "custom"
 }
 
 /**
- * Defines values for Enum17. \
- * {@link KnownEnum17} can be used interchangeably with Enum17,
+ * Defines values for InformationProtectionPolicyName. \
+ * {@link KnownInformationProtectionPolicyName} can be used interchangeably with InformationProtectionPolicyName,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **effective** \
  * **custom**
  */
-export type Enum17 = string;
+export type InformationProtectionPolicyName = string;
 
 /** Known values of {@link AlertNotifications} that the service accepts. */
 export enum KnownAlertNotifications {
@@ -5343,8 +5363,8 @@ export enum KnownSettingKind {
  */
 export type SettingKind = string;
 
-/** Known values of {@link Enum73} that the service accepts. */
-export enum KnownEnum73 {
+/** Known values of {@link SettingName} that the service accepts. */
+export enum KnownSettingName {
   Mcas = "MCAS",
   Wdatp = "WDATP",
   WdatpExcludeLinuxPublicPreview = "WDATP_EXCLUDE_LINUX_PUBLIC_PREVIEW",
@@ -5352,8 +5372,8 @@ export enum KnownEnum73 {
 }
 
 /**
- * Defines values for Enum73. \
- * {@link KnownEnum73} can be used interchangeably with Enum73,
+ * Defines values for SettingName. \
+ * {@link KnownSettingName} can be used interchangeably with SettingName,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **MCAS** \
@@ -5361,7 +5381,7 @@ export enum KnownEnum73 {
  * **WDATP_EXCLUDE_LINUX_PUBLIC_PREVIEW** \
  * **Sentinel**
  */
-export type Enum73 = string;
+export type SettingName = string;
 
 /** Known values of {@link EndOfSupportStatus} that the service accepts. */
 export enum KnownEndOfSupportStatus {
@@ -5407,7 +5427,8 @@ export type CloudName = string;
 export enum KnownOfferingType {
   CspmMonitorAws = "CspmMonitorAws",
   DefenderForContainersAws = "DefenderForContainersAws",
-  DefenderForServersAws = "DefenderForServersAws"
+  DefenderForServersAws = "DefenderForServersAws",
+  InformationProtectionAws = "InformationProtectionAws"
 }
 
 /**
@@ -5417,7 +5438,8 @@ export enum KnownOfferingType {
  * ### Known values supported by the service
  * **CspmMonitorAws** \
  * **DefenderForContainersAws** \
- * **DefenderForServersAws**
+ * **DefenderForServersAws** \
+ * **InformationProtectionAws**
  */
 export type OfferingType = string;
 
@@ -6984,12 +7006,7 @@ export interface AlertsUpdateResourceGroupLevelStateToActivateOptionalParams
 
 /** Optional parameters. */
 export interface AlertsSimulateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface AlertsListNextOptionalParams

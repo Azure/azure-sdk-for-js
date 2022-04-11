@@ -1,5 +1,5 @@
 {
-  "name": "azure-ai-document-translator-samples-ts",
+  "name": "@azure-samples/ai-document-translator-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Document Translator rest client library samples for TypeScript",

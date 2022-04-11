@@ -57,8 +57,14 @@ function Set-GitHubIssue($Package) {
   $issue = Get-GithubIssue -IssueTitle $issueTitle
   if ($issue) {
     if ($issue.body -ne $issueDesc) {
+      # Copy over current labels to avoid removing manually tagged labels
+      foreach($lbl in $issue.labels)
+      {
+        $labels += ",$($lbl.name)"
+      }
+      Write-Host "Updating existing issue  $($issue.number). Labels: $($labels)"
       $oldIssue = Update-GitHubIssue -RepoOwner $RepoOwner -RepoName $RepoName -AuthToken $AuthToken -IssueNumber $issue.number -Body $issueDesc -Labels $labels
-      Write-Host "Updated existing issue $($oldIssue.number)"      
+      Write-Host "Updated existing issue $($oldIssue.number)"
     }
     else {
       Write-Host "Found existing issue for package $($Package.Name)"
@@ -94,10 +100,10 @@ Write-Host "Running rush update"
 $rushUpdateOutput = node common/scripts/install-run-rush.js update --full
 write-host $rushUpdateOutput
 foreach ($line in $rushUpdateOutput) {
-  if ($line -match $dependencyRegex -and !$matches['pkg'].StartsWith("@azure")) { 
+  if ($line -match $dependencyRegex -and !$matches['pkg'].StartsWith("@azure")) {
     $p = New-Object PSObject -Property @{
       Name         = $matches['pkg']  
-      OldVersion   = [AzureEngSemanticVersion]::ParseVersionString($matches['version'])        
+      OldVersion   = [AzureEngSemanticVersion]::ParseVersionString($matches['version'])
       NewVersion   = [AzureEngSemanticVersion]::ParseVersionString($matches['newVersion'])
       IsDeprecated = ($matches['deprecated'] -eq "deprecated")
     }

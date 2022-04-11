@@ -323,9 +323,14 @@ describe("shared receiver code", () => {
             if (numRetryCalls > 1) {
               // not the first attempt
               const currentTime = Date.now();
-              if (currentTime - previousAttemptTime < retryDelayInMs) {
+              const elapsed = currentTime - previousAttemptTime;
+              console.log(
+                `###  ${elapsed} ms passed (from ${previousAttemptTime} to ${currentTime})`
+              );
+              const expectedDelay = retryDelayInMs - 5; // with error tolerance to account for time accuracy issue
+              if (elapsed < expectedDelay) {
                 errorMessages.push(
-                  `Unexpected, Should've waited at least ${retryDelayInMs} between attempts`
+                  `Elapsed time ${elapsed} ms (from ${previousAttemptTime} to ${currentTime}) is shorter than expected. The wait between attempts should have been about ${retryDelayInMs} ms.`
                 );
               }
               previousAttemptTime = currentTime;

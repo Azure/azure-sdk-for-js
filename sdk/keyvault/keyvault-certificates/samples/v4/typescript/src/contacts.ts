@@ -29,13 +29,13 @@ export async function main(): Promise<void> {
     {
       email: "a@a.com",
       name: "a",
-      phone: "111111111111"
+      phone: "111111111111",
     },
     {
       email: "b@b.com",
       name: "b",
-      phone: "222222222222"
-    }
+      phone: "222222222222",
+    },
   ];
 
   await client.setContacts(contacts);

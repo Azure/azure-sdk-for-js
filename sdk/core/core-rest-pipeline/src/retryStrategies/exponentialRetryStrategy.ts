@@ -61,7 +61,7 @@ export function exponentialRetryStrategy(
         return { skipStrategy: true };
       }
 
-      if (responseError && !matchedSystemError) {
+      if (responseError && !matchedSystemError && !isExponential) {
         return { errorToThrow: responseError };
       }
 

@@ -8,14 +8,14 @@
 
 import { ContainerRegistry } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { GeneratedClientContext } from "../generatedClientContext";
+import { GeneratedClient } from "../generatedClient";
 import {
   ContainerRegistryCheckDockerV2SupportOptionalParams,
   ContainerRegistryGetManifestOptionalParams,
   ContainerRegistryGetManifestResponse,
-  Manifest,
   ContainerRegistryCreateManifestOptionalParams,
   ContainerRegistryCreateManifestResponse,
   ContainerRegistryDeleteManifestOptionalParams,
@@ -49,13 +49,13 @@ import {
 
 /** Class containing ContainerRegistry operations. */
 export class ContainerRegistryImpl implements ContainerRegistry {
-  private readonly client: GeneratedClientContext;
+  private readonly client: GeneratedClient;
 
   /**
    * Initialize a new instance of the class ContainerRegistry class.
    * @param client Reference to the service client
    */
-  constructor(client: GeneratedClientContext) {
+  constructor(client: GeneratedClient) {
     this.client = client;
   }
 
@@ -99,7 +99,7 @@ export class ContainerRegistryImpl implements ContainerRegistry {
   createManifest(
     name: string,
     reference: string,
-    payload: Manifest,
+    payload: coreRestPipeline.RequestBodyType,
     options?: ContainerRegistryCreateManifestOptionalParams
   ): Promise<ContainerRegistryCreateManifestResponse> {
     return this.client.sendOperationRequest(
@@ -369,7 +369,11 @@ const getManifestOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ManifestWrapper
+      bodyMapper: {
+        type: { name: "Stream" },
+        serializedName: "parsedResponse"
+      },
+      headersMapper: Mappers.ContainerRegistryGetManifestHeaders
     },
     default: {
       bodyMapper: Mappers.AcrErrors
@@ -384,7 +388,6 @@ const createManifestOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     201: {
-      bodyMapper: { type: { name: "any" } },
       headersMapper: Mappers.ContainerRegistryCreateManifestHeaders
     },
     default: {
@@ -393,8 +396,8 @@ const createManifestOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.payload,
   urlParameters: [Parameters.url, Parameters.name, Parameters.reference],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
+  headerParameters: [Parameters.accept2, Parameters.contentType],
+  mediaType: "binary",
   serializer
 };
 const deleteManifestOperationSpec: coreClient.OperationSpec = {

@@ -10,7 +10,6 @@ import {
   validateOptions,
   ParsedPerfOptions,
 } from "./options";
-import { PerfParallel } from "./parallel";
 import { AbortController } from "@azure/abort-controller";
 
 /**
@@ -32,6 +31,11 @@ export interface PerfTestConstructor<
  * (initializations are as many as the "parallel" command line parameter specifies).
  */
 export abstract class PerfTestBase<TOptions = Record<string, unknown>> {
+  public completedOperations = 0;
+  public lastMillisecondsElapsed = 0;
+  private static globalParallelIndex = 0;
+  protected readonly parallelIndex: number;
+
   public abstract options: PerfOptionDictionary<TOptions>;
 
   public get parsedOptions(): ParsedPerfOptions<TOptions & DefaultPerfOptions> {
@@ -58,9 +62,6 @@ export abstract class PerfTestBase<TOptions = Record<string, unknown>> {
     } as PerfOptionDictionary<TOptions & DefaultPerfOptions>);
   }
 
-  private static globalParallelIndex = 0;
-  protected readonly parallelIndex: number;
-
   public constructor() {
     this.parallelIndex = PerfTestBase.globalParallelIndex;
     PerfTestBase.globalParallelIndex++;
@@ -77,7 +78,6 @@ export abstract class PerfTestBase<TOptions = Record<string, unknown>> {
   public cleanup?(): void | Promise<void>;
 
   public abstract runAll(
-    parallel: PerfParallel,
     durationMilliseconds: number,
     abortController: AbortController
   ): Promise<void>;

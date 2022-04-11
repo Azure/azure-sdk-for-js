@@ -69,13 +69,18 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
     const headers = buildFetchHeaders(request.headers);
     const requestBody = buildRequestBody(request);
 
+    /**
+     * Developers of the future:
+     * Do not set redirect: "manual" as part
+     * of request options.
+     * It will not work as you expect.
+     */
     const response = await fetch(request.url, {
       body: requestBody,
       method: request.method,
       headers: headers,
       signal: abortController.signal,
       credentials: request.withCredentials ? "include" : "same-origin",
-      redirect: "manual",
       cache: "no-store",
     });
     return buildPipelineResponse(response, request);
@@ -198,13 +203,12 @@ function buildPipelineHeaders(httpResponse: Response): PipelineHeaders {
 }
 
 function buildRequestBody(request: PipelineRequest) {
-  if (isNodeReadableStream(request.body)) {
+  const body = typeof request.body === "function" ? request.body() : request.body;
+  if (isNodeReadableStream(body)) {
     throw new Error("Node streams are not supported in browser environment.");
   }
 
-  return isReadableStream(request.body)
-    ? buildBodyStream(request.body, request.onUploadProgress)
-    : request.body;
+  return isReadableStream(body) ? buildBodyStream(body, request.onUploadProgress) : body;
 }
 
 /**
