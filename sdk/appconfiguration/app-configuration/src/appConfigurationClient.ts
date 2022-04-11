@@ -183,18 +183,22 @@ export class AppConfigurationClient {
       | AddConfigurationSettingParam<SecretReferenceValue>,
     options: AddConfigurationSettingOptions = {}
   ): Promise<AddConfigurationSettingResponse> {
-    return tracingClient.withSpan("AppConfigurationClient.addConfigurationSetting", options, async (updatedOptions) => {
-      const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
-      const originalResponse = await this.client.putKeyValue(configurationSetting.key, {
-        ifNoneMatch: "*",
-        label: configurationSetting.label,
-        entity: keyValue,
-        ...updatedOptions,
-      });
-      const response = transformKeyValueResponse(originalResponse);
-      assertResponse(response);
-      return response;
-    });
+    return tracingClient.withSpan(
+      "AppConfigurationClient.addConfigurationSetting",
+      options,
+      async (updatedOptions) => {
+        const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
+        const originalResponse = await this.client.putKeyValue(configurationSetting.key, {
+          ifNoneMatch: "*",
+          label: configurationSetting.label,
+          entity: keyValue,
+          ...updatedOptions,
+        });
+        const response = transformKeyValueResponse(originalResponse);
+        assertResponse(response);
+        return response;
+      }
+    );
   }
 
   /**
@@ -211,21 +215,25 @@ export class AppConfigurationClient {
     id: ConfigurationSettingId,
     options: DeleteConfigurationSettingOptions = {}
   ): Promise<DeleteConfigurationSettingResponse> {
-    return tracingClient.withSpan("AppConfigurationClient.deleteConfigurationSetting", options, async (updatedOptions) => {
-      let status;
-      const originalResponse = await this.client.deleteKeyValue(id.key, {
-        label: id.label,
-        ...updatedOptions,
-        ...checkAndFormatIfAndIfNoneMatch(id, options),
-        onResponse: (response) => {
-          status = response.status;
-        },
-      });
+    return tracingClient.withSpan(
+      "AppConfigurationClient.deleteConfigurationSetting",
+      options,
+      async (updatedOptions) => {
+        let status;
+        const originalResponse = await this.client.deleteKeyValue(id.key, {
+          label: id.label,
+          ...updatedOptions,
+          ...checkAndFormatIfAndIfNoneMatch(id, options),
+          onResponse: (response) => {
+            status = response.status;
+          },
+        });
 
-      const response = transformKeyValueResponseWithStatusCode(originalResponse, status);
-      assertResponse(response);
-      return response;
-    });
+        const response = transformKeyValueResponseWithStatusCode(originalResponse, status);
+        assertResponse(response);
+        return response;
+      }
+    );
   }
 
   /**
@@ -242,34 +250,38 @@ export class AppConfigurationClient {
     id: ConfigurationSettingId,
     options: GetConfigurationSettingOptions = {}
   ): Promise<GetConfigurationSettingResponse> {
-    return tracingClient.withSpan("AppConfigurationClient.getConfigurationSetting", options, async (updatedOptions) => {
-      let status;
-      const originalResponse = await this.client.getKeyValue(id.key, {
-        ...updatedOptions,
-        label: id.label,
-        select: formatFieldsForSelect(options.fields),
-        ...formatAcceptDateTime(options),
-        ...checkAndFormatIfAndIfNoneMatch(id, options),
-        onResponse: (response) => {
-          status = response.status;
-        },
-      });
+    return tracingClient.withSpan(
+      "AppConfigurationClient.getConfigurationSetting",
+      options,
+      async (updatedOptions) => {
+        let status;
+        const originalResponse = await this.client.getKeyValue(id.key, {
+          ...updatedOptions,
+          label: id.label,
+          select: formatFieldsForSelect(options.fields),
+          ...formatAcceptDateTime(options),
+          ...checkAndFormatIfAndIfNoneMatch(id, options),
+          onResponse: (response) => {
+            status = response.status;
+          },
+        });
 
-      const response = transformKeyValueResponseWithStatusCode(originalResponse, status);
+        const response = transformKeyValueResponseWithStatusCode(originalResponse, status);
 
-      // 304 only comes back if the user has passed a conditional option in their
-      // request _and_ the remote object has the same etag as what the user passed.
-      if (response.statusCode === 304) {
-        // this is one of our few 'required' fields so we'll make sure it does get initialized
-        // with a value
-        response.key = id.key;
+        // 304 only comes back if the user has passed a conditional option in their
+        // request _and_ the remote object has the same etag as what the user passed.
+        if (response.statusCode === 304) {
+          // this is one of our few 'required' fields so we'll make sure it does get initialized
+          // with a value
+          response.key = id.key;
 
-        // and now we'll undefine all the other properties that are not HTTP related
-        makeConfigurationSettingEmpty(response);
+          // and now we'll undefine all the other properties that are not HTTP related
+          makeConfigurationSettingEmpty(response);
+        }
+        assertResponse(response);
+        return response;
       }
-      assertResponse(response);
-      return response;
-    });
+    );
   }
 
   /**
@@ -490,19 +502,23 @@ export class AppConfigurationClient {
       | SetConfigurationSettingParam<SecretReferenceValue>,
     options: SetConfigurationSettingOptions = {}
   ): Promise<SetConfigurationSettingResponse> {
-    return tracingClient.withSpan("AppConfigurationClient.setConfigurationSetting", options, async (updatedOptions) => {
-      const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
-      const response = transformKeyValueResponse(
-        await this.client.putKeyValue(configurationSetting.key, {
-          ...updatedOptions,
-          label: configurationSetting.label,
-          entity: keyValue,
-          ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options),
-        })
-      );
-      assertResponse(response);
-      return response;
-    });
+    return tracingClient.withSpan(
+      "AppConfigurationClient.setConfigurationSetting",
+      options,
+      async (updatedOptions) => {
+        const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
+        const response = transformKeyValueResponse(
+          await this.client.putKeyValue(configurationSetting.key, {
+            ...updatedOptions,
+            label: configurationSetting.label,
+            entity: keyValue,
+            ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options),
+          })
+        );
+        assertResponse(response);
+        return response;
+      }
+    );
   }
 
   /**
@@ -514,25 +530,29 @@ export class AppConfigurationClient {
     readOnly: boolean,
     options: SetReadOnlyOptions = {}
   ): Promise<SetReadOnlyResponse> {
-    return tracingClient.withSpan("AppConfigurationClient.setReadOnly", options, async (newOptions) => {
-      let response;
-      if (readOnly) {
-        response = await this.client.putLock(id.key, {
-          ...newOptions,
-          label: id.label,
-          ...checkAndFormatIfAndIfNoneMatch(id, options),
-        });
-      } else {
-        response = await this.client.deleteLock(id.key, {
-          ...newOptions,
-          label: id.label,
-          ...checkAndFormatIfAndIfNoneMatch(id, options),
-        });
+    return tracingClient.withSpan(
+      "AppConfigurationClient.setReadOnly",
+      options,
+      async (newOptions) => {
+        let response;
+        if (readOnly) {
+          response = await this.client.putLock(id.key, {
+            ...newOptions,
+            label: id.label,
+            ...checkAndFormatIfAndIfNoneMatch(id, options),
+          });
+        } else {
+          response = await this.client.deleteLock(id.key, {
+            ...newOptions,
+            label: id.label,
+            ...checkAndFormatIfAndIfNoneMatch(id, options),
+          });
+        }
+        response = transformKeyValueResponse(response);
+        assertResponse(response);
+        return response;
       }
-      response = transformKeyValueResponse(response);
-      assertResponse(response);
-      return response;
-    });
+    );
   }
 
   /**
