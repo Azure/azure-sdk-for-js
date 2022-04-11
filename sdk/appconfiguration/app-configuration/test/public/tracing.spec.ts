@@ -32,11 +32,11 @@ describe("supports tracing", () => {
         await Promise.all(promises.map((p) => p.catch(() => undefined)));
       },
       [
-        "addConfigurationSetting",
-        "getConfigurationSetting",
-        "setConfigurationSetting",
-        "setReadOnly",
-        "deleteConfigurationSetting",
+        "AppConfigurationClient.addConfigurationSetting",
+        "AppConfigurationClient.getConfigurationSetting",
+        "AppConfigurationClient.setConfigurationSetting",
+        "AppConfigurationClient.setReadOnly",
+        "AppConfigurationClient.deleteConfigurationSetting",
       ]
     );
   });
