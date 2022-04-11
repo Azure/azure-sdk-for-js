@@ -44,7 +44,7 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
     }
     span.setAttribute("az.namespace", tracingContext.getValue(knownContextKeys.namespace));
     const updatedOptions: OptionsWithTracingContext<Options> = Object.assign({}, operationOptions, {
-      tracingOptions: { tracingContext },
+      tracingOptions: { ...operationOptions?.tracingOptions, tracingContext },
     });
 
     return {
