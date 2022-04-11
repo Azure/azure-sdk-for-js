@@ -1,0 +1,90 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/metricsadvisor/v1.0/dataFeeds?dataFeedName=js-test-\u0026%24skip=1\u0026%24maxpagesize=1",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-ai-metrics-advisor-rest/1.0.0-beta.2 core-rest-pipeline/1.6.1 Node/v17.8.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "ea1c8cc0-d161-499b-9351-9db7b339e234"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "a1a742f3-c34f-4d14-b6a1-197bbe68f1a0",
+        "Content-Length": "1262",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 11 Apr 2022 04:57:34 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "215",
+        "X-Request-ID": "a1a742f3-c34f-4d14-b6a1-197bbe68f1a0"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "dataFeedId": "15ad87f9-b79e-4822-b4ce-fe023901ffd6",
+            "dataFeedName": "js-test-sqlServerFeed-164784552544502327",
+            "metrics": [
+              {
+                "metricId": "97481ab0-e87d-4c5b-9efd-262a5b596715",
+                "metricName": "cost",
+                "metricDisplayName": "cost",
+                "metricDescription": ""
+              },
+              {
+                "metricId": "0d6d1649-43d9-48f9-b91a-39213505a48f",
+                "metricName": "revenue",
+                "metricDisplayName": "revenue",
+                "metricDescription": ""
+              }
+            ],
+            "dimension": [
+              {
+                "dimensionName": "category",
+                "dimensionDisplayName": "category"
+              },
+              {
+                "dimensionName": "city",
+                "dimensionDisplayName": "city"
+              }
+            ],
+            "dataStartFrom": "2020-08-21T00:00:00Z",
+            "dataSourceType": "SqlServer",
+            "timestampColumn": "",
+            "startOffsetInSeconds": 0,
+            "maxQueryPerMinute": 30.0,
+            "granularityName": "Daily",
+            "allUpIdentification": "__CUSTOM_SUM__",
+            "needRollup": "NeedRollup",
+            "fillMissingPointType": "CustomValue",
+            "fillMissingPointValue": 555.0,
+            "rollUpMethod": "Sum",
+            "dataFeedDescription": "Data feed description",
+            "stopRetryAfterInSeconds": -1,
+            "minRetryIntervalInSeconds": -1,
+            "maxConcurrency": -1,
+            "viewMode": "Private",
+            "admins": [
+              "azure_client_id"
+            ],
+            "viewers": [],
+            "creator": "azure_client_id",
+            "status": "Paused",
+            "createdTime": "2022-03-21T06:52:17Z",
+            "isAdmin": true,
+            "actionLinkTemplate": "",
+            "dataSourceParameter": {
+              "query": "select * from adsample2 where Timestamp = @StartTime"
+            },
+            "authenticationType": "Basic"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

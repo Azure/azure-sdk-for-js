@@ -1,0 +1,29 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/metricsadvisor/v1.0/dataFeeds/7e6a6834-55af-4c67-a584-a224548ae2d8",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-ai-metrics-advisor-rest/1.0.0-beta.2 core-rest-pipeline/1.6.1 Node/v17.8.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "40a8f807-fc3e-45ab-a2d3-c3142a7308dc"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "apim-request-id": "74fe9687-da2c-431c-b3a1-27d7d94b5b22",
+        "Content-Length": "0",
+        "Date": "Mon, 11 Apr 2022 04:57:35 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "466",
+        "X-Request-ID": "74fe9687-da2c-431c-b3a1-27d7d94b5b22"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {}
+}

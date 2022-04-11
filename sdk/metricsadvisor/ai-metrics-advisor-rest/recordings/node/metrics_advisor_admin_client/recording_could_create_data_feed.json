@@ -1,0 +1,71 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/metricsadvisor/v1.0/dataFeeds",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "844",
+        "Content-Type": "application/json; charset=UTF-8",
+        "User-Agent": "azsdk-js-ai-metrics-advisor-rest/1.0.0-beta.2 core-rest-pipeline/1.6.1 Node/v17.8.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "aa665a9a-ed8a-48c9-bfe3-33543192fb5a"
+      },
+      "RequestBody": {
+        "dataFeedName": "js-test--1649653042059",
+        "dataSourceType": "AzureBlob",
+        "granularityName": "Daily",
+        "metrics": [
+          {
+            "metricName": "Metric1",
+            "metricDisplayName": "Metric1 display",
+            "metricDescription": ""
+          },
+          {
+            "metricName": "Metric2",
+            "metricDisplayName": "Metric2 display",
+            "metricDescription": ""
+          }
+        ],
+        "dimension": [
+          {
+            "dimensionName": "Dim1",
+            "dimensionDisplayName": "Dim1 display"
+          },
+          {
+            "dimensionName": "Dim2",
+            "dimensionDisplayName": "Dim2 display"
+          }
+        ],
+        "authenticationType": "Basic",
+        "dataStartFrom": "2020-09-21T00:00:00.000Z",
+        "dataSourceParameter": {
+          "connectionString": "\u003CAzure Blob storage connection string\u003E",
+          "container": "\u003CAzure Blob container name\u003E",
+          "blobTemplate": "\u003CAzure Blob data file name template\u003E"
+        },
+        "needRollup": "NeedRollup",
+        "allUpIdentification": "__CUSTOM_SUM__",
+        "rollUpMethod": "Sum",
+        "fillMissingPointType": "CustomValue",
+        "fillMissingPointValue": 567,
+        "viewMode": "Private"
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "apim-request-id": "c5b4ec5f-1aa2-4b90-9a48-27473a9752f6",
+        "Content-Length": "0",
+        "Date": "Mon, 11 Apr 2022 04:57:29 GMT",
+        "Location": "https://endpoint/metricsadvisor/v1.0/dataFeeds/7e6a6834-55af-4c67-a584-a224548ae2d8",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "1002",
+        "X-Request-ID": "c5b4ec5f-1aa2-4b90-9a48-27473a9752f6"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {}
+}

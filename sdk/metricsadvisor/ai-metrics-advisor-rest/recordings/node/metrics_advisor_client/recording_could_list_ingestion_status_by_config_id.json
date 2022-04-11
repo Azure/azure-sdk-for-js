@@ -1,0 +1,38 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/metricsadvisor/v1.0/dataFeeds/ingestionStatus/query?%24maxpagesize=100",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "77",
+        "Content-Type": "application/json; charset=UTF-8",
+        "User-Agent": "azsdk-js-ai-metrics-advisor-rest/1.0.0-beta.2 core-rest-pipeline/1.6.1 Node/v17.8.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "e4aa36f4-6104-4ae3-8cf7-36a869a66ff6"
+      },
+      "RequestBody": {
+        "startTime": "2020-10-30T00:00:00.000Z",
+        "endTime": "2023-10-30T00:00:00.000Z"
+      },
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "apim-request-id": "4cfd3be4-9e93-40bc-89a0-1f4d8b30b6bb",
+        "Content-Length": "56",
+        "Content-Type": "application/json",
+        "Date": "Mon, 11 Apr 2022 04:57:36 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "404",
+          "message": "Resource not found"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

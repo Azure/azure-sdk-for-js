@@ -55,8 +55,6 @@ This is the list of APIs we choose and related code in AsyncClient:
 
 ### 5. Test
 
-==> [ttttttry1]js testing recorder upgrading
-==> [ttttttry4]update test recorder
 
 ### 6. Issues
 

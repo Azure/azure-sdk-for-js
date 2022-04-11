@@ -1,0 +1,87 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/metricsadvisor/v1.0/dataFeeds/7e6a6834-55af-4c67-a584-a224548ae2d8",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-ai-metrics-advisor-rest/1.0.0-beta.2 core-rest-pipeline/1.6.1 Node/v17.8.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "b93ea79f-6ff2-45e1-9221-780c35a2c736"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "d05ee711-205d-4433-b36d-5c061daa7399",
+        "Content-Length": "1274",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 11 Apr 2022 04:57:31 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "341",
+        "X-Request-ID": "d05ee711-205d-4433-b36d-5c061daa7399"
+      },
+      "ResponseBody": {
+        "dataFeedId": "7e6a6834-55af-4c67-a584-a224548ae2d8",
+        "dataFeedName": "js-test--1649653042059",
+        "metrics": [
+          {
+            "metricId": "21c1cda7-f14f-45ef-9611-7e21ac4fa56b",
+            "metricName": "Metric1",
+            "metricDisplayName": "Metric1 display",
+            "metricDescription": ""
+          },
+          {
+            "metricId": "7f13159a-b1d5-4857-88c5-8202132dd6fe",
+            "metricName": "Metric2",
+            "metricDisplayName": "Metric2 display",
+            "metricDescription": ""
+          }
+        ],
+        "dimension": [
+          {
+            "dimensionName": "Dim1",
+            "dimensionDisplayName": "Dim1 display"
+          },
+          {
+            "dimensionName": "Dim2",
+            "dimensionDisplayName": "Dim2 display"
+          }
+        ],
+        "dataStartFrom": "2020-09-21T00:00:00Z",
+        "dataSourceType": "AzureBlob",
+        "timestampColumn": "",
+        "startOffsetInSeconds": 0,
+        "maxQueryPerMinute": 30.0,
+        "granularityName": "Daily",
+        "allUpIdentification": "__CUSTOM_SUM__",
+        "needRollup": "NeedRollup",
+        "fillMissingPointType": "CustomValue",
+        "fillMissingPointValue": 567.0,
+        "rollUpMethod": "Sum",
+        "dataFeedDescription": "",
+        "stopRetryAfterInSeconds": -1,
+        "minRetryIntervalInSeconds": -1,
+        "maxConcurrency": -1,
+        "viewMode": "Private",
+        "admins": [
+          "azure_client_id"
+        ],
+        "viewers": [],
+        "creator": "azure_client_id",
+        "status": "Active",
+        "createdTime": "2022-04-11T04:57:29Z",
+        "isAdmin": true,
+        "actionLinkTemplate": "",
+        "dataSourceParameter": {
+          "container": "\u003CAzure Blob container name\u003E",
+          "blobTemplate": "\u003CAzure Blob data file name template\u003E"
+        },
+        "authenticationType": "Basic"
+      }
+    }
+  ],
+  "Variables": {}
+}

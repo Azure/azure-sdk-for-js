@@ -7,11 +7,13 @@ import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import "./env";
 
 const envSetupForPlayback: { [k: string]: string } = {
-  ENDPOINT: "https://endpoint",
+  METRICS_ADVISOR_ENDPOINT: "https://endpoint/",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-  SUBSCRIPTION_ID: "azure_subscription_id"
+  SUBSCRIPTION_ID: "azure_subscription_id",
+  METRICS_ADVISOR_SUBSCRIPTION_KEY: "xxxxxxx",
+  METRICS_ADVISOR_EXISTING_CONFIG_ID: "existing_config_id"
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
