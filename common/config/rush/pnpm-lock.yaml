@@ -1116,21 +1116,6 @@ packages:
       - encoding
     dev: false
 
-  /@azure/keyvault-secrets/4.3.0:
-    resolution: {integrity: sha512-bhdAr2Yjx+XpgfkClOufpTxcnKqDIwyOSKrbI9mJ2q5wQNb7Z1WPnPnIhjdsw1on/NRXzMaarYFNkf/MdS73FA==}
-    engines: {node: '>=12.0.0'}
-    dependencies:
-      '@azure/abort-controller': 1.0.4
-      '@azure/core-http': 2.2.4
-      '@azure/core-lro': 2.2.3
-      '@azure/core-paging': 1.2.1
-      '@azure/core-tracing': 1.0.0-preview.13
-      '@azure/logger': 1.0.3
-      tslib: 2.3.1
-    transitivePeerDependencies:
-      - encoding
-    dev: false
-
   /@azure/keyvault-secrets/4.4.0:
     resolution: {integrity: sha512-D7s5f+YDJYBLjjAY25Bl0P32h0ztFdHExViqbydsx8QjcrRgq62DJfbYBC4+9/M80BSBH5jRzKw5VWNFFp++AA==}
     engines: {node: '>=12.0.0'}
@@ -9106,7 +9091,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-hIFCp+CUg8qqdA847NgRPdCeTawIYjDsj0NPM9zbW/B9fITFQ89SLbwTU6Aqi5Qr+4Sx/GrA9ohL15TBi7b5Og==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-viaBpInDzOxVVDJHOq/AoRzgfQnK5lFalmAQraZZtv9miXnnhjpocos/smSYGMRNObwHKPXgJRZXinZJEpd0jA==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -9114,7 +9099,7 @@ packages:
       '@azure/core-http-compat': 1.2.0
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
-      '@azure/keyvault-secrets': 4.3.0
+      '@azure/keyvault-secrets': 4.4.0
       '@microsoft/api-extractor': 7.19.4
       '@rollup/plugin-commonjs': 21.0.2_rollup@2.70.0
       '@rollup/plugin-inject': 4.0.4_rollup@2.70.0
@@ -14208,7 +14193,7 @@ packages:
     dev: false
 
   file:projects/core-client-1.tgz:
-    resolution: {integrity: sha512-36Z3KNLPXfY5EZKDK1mY7EvHsv5/IbUHOhdqlHS2E+oz0Vle+EH9lp8d/QUozpaW/yq7IUdI3pKzgY9yhQ3phg==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-R1d7k0BfA0KVeo8reFupEybFUaWdZNRcQWItkGh9ygtVlbEnRytOHh0RTomrHMXlCdVlQA6xxgAURkLK6lPssQ==, tarball: file:projects/core-client-1.tgz}
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
@@ -14421,7 +14406,7 @@ packages:
     dev: false
 
   file:projects/core-lro.tgz:
-    resolution: {integrity: sha512-ewaXXxQnfcoQb9H1pkXNur7L86VeTvVvxx4s4BkJARNGh9tdf8ADHKGMDsmwh76hwWQQvM75cCxOAwURhOkgLw==, tarball: file:projects/core-lro.tgz}
+    resolution: {integrity: sha512-NANqShNp8pQvxG4T46l3bj/iRRmqesbJrDLBHund/Qkwgjcdkjt6p0h3eRQbSr06fdnUdm5RQ02wrhwtwLOHCg==, tarball: file:projects/core-lro.tgz}
     name: '@rush-temp/core-lro'
     version: 0.0.0
     dependencies:
@@ -15450,7 +15435,7 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
-      '@azure/keyvault-secrets': 4.3.0
+      '@azure/keyvault-secrets': 4.4.0
       '@microsoft/api-extractor': 7.19.4
       '@types/mocha': 7.0.2
       '@types/node': 12.20.46
@@ -17434,7 +17419,7 @@ packages:
     dev: false
 
   file:projects/test-recorder.tgz:
-    resolution: {integrity: sha512-I+6cy62A3fZO0CejOz4sYIld1JLcBtqgNxuBofi2ah7SuKDSXGYfPDk726RlCYb7thvK4JpXIm7Wh1J1DxQTYA==, tarball: file:projects/test-recorder.tgz}
+    resolution: {integrity: sha512-Xer6XFqtF+++PkuM8klXusuoFnbtFT0MYT+SSptHozyW84/FdCf2V5t0VZJmqSYF7AM42GVSnRMbl6KF/pzevA==, tarball: file:projects/test-recorder.tgz}
     name: '@rush-temp/test-recorder'
     version: 0.0.0
     dependencies:
