@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/botservice/ci.mgmt.yml
-      - sdk/botservice/arm-botservice/
       - sdk/botservice/arm-botservice
 pr:
   branches:
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/botservice/ci.mgmt.yml
-      - sdk/botservice/arm-botservice/
       - sdk/botservice/arm-botservice
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml

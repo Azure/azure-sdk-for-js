@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/cdn/ci.mgmt.yml
-      - sdk/cdn/arm-cdn/
       - sdk/cdn/arm-cdn
 pr:
   branches:
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/cdn/ci.mgmt.yml
-      - sdk/cdn/arm-cdn/
       - sdk/cdn/arm-cdn
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
