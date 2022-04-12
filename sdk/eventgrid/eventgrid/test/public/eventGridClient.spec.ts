@@ -265,7 +265,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
               }
             );
           },
-          ["EventGridClient.send"]
+          ["EventGridPublisherClient.send"]
         );
 
         const parsedBody = JSON.parse(requestBody || "");

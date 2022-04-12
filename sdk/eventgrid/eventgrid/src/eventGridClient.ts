@@ -128,7 +128,7 @@ export class EventGridPublisherClient<T extends InputSchema> {
    * @param options - Options to control the underlying operation.
    */
   send(events: InputSchemaToInputTypeMap[T][], options: SendOptions = {}): Promise<void> {
-    return tracingClient.withSpan("EventGridClient.send", options, (updatedOptions) => {
+    return tracingClient.withSpan("EventGridPublisherClient.send", options, (updatedOptions) => {
       switch (this.inputSchema) {
         case "EventGrid": {
           return this.client.publishEvents(
