@@ -279,12 +279,10 @@ export class TriggersImpl implements Triggers {
       { resourceGroupName, factoryName, triggerName, options },
       subscribeToEventsOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -390,12 +388,10 @@ export class TriggersImpl implements Triggers {
       { resourceGroupName, factoryName, triggerName, options },
       unsubscribeFromEventsOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -477,12 +473,10 @@ export class TriggersImpl implements Triggers {
       { resourceGroupName, factoryName, triggerName, options },
       startOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -564,12 +558,10 @@ export class TriggersImpl implements Triggers {
       { resourceGroupName, factoryName, triggerName, options },
       stopOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**

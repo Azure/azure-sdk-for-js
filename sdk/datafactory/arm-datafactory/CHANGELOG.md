@@ -1,15 +1,15 @@
 # Release History
+    
+## 10.4.0 (2022-04-12)
+    
+**Features**
 
-## 10.3.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Type Alias AppFiguresLinkedService
+  - Added Type Alias AsanaLinkedService
+  - Added Type Alias DataworldLinkedService
+  - Added Type Alias TwilioLinkedService
+    
+    
 ## 10.3.0 (2022-04-06)
     
 **Features**

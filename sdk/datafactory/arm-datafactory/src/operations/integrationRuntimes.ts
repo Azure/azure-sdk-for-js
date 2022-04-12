@@ -415,12 +415,10 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
       { resourceGroupName, factoryName, integrationRuntimeName, options },
       startOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -502,12 +500,10 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
       { resourceGroupName, factoryName, integrationRuntimeName, options },
       stopOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
