@@ -1,14 +1,18 @@
 # Release History
 
-## 1.0.2 (Unreleased)
+## 1.1.0 (Unreleased)
 
 ### Features Added
+
+- Added support for distributed tracing using OpenTelemetry - please refer to the [@azure/opentelemetry-instrumentation-azure-sdk](https://www.npmjs.com/package/@azure/opentelemetry-instrumentation-azure-sdk) package for instructions.
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+- `SchemaProperties` now includes `name` and `groupName` for the schema name and its group respectively.
 
 ## 1.0.1 (2021-11-17)
 

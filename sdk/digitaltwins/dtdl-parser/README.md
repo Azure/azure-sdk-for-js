@@ -60,9 +60,9 @@ async function main() {
 
   const modelParser = createParser(ModelParsingOption.PermitAnyTopLevelElement);
   modelParser.options = ModelParsingOption.PermitAnyTopLevelElement;
-  Object.entries(models).forEach(([key, value]) => {
+  Object.entries(models).forEach(async ([key, value]) => {
     console.log(`dtmi: ${key}`);
-    const modelDict = await modelParser.parse([value]);
+    const modelDict = await modelParser.parse([JSON.stringify(value)]);
     Object.entries(modelDict).forEach(([key2, value2]) => {
       console.log(key2);
     });

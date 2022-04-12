@@ -19,6 +19,23 @@ import {
   SourceControlConfiguration as SourceControlConfigurationMapper
 } from "../models/mappers";
 
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const extension: OperationParameter = {
+  parameterPath: "extension",
+  mapper: ExtensionMapper
+};
+
 export const accept: OperationParameter = {
   parameterPath: "accept",
   mapper: {
@@ -105,74 +122,23 @@ export const clusterName: OperationURLParameter = {
   }
 };
 
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2022-01-01-preview",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const extensionTypeName: OperationURLParameter = {
-  parameterPath: "extensionTypeName",
-  mapper: {
-    serializedName: "extensionTypeName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const location: OperationURLParameter = {
-  parameterPath: "location",
-  mapper: {
-    serializedName: "location",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
-  mapper: {
-    defaultValue: "application/json",
-    isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const extension: OperationParameter = {
-  parameterPath: "extension",
-  mapper: ExtensionMapper
-};
-
 export const extensionName: OperationURLParameter = {
   parameterPath: "extensionName",
   mapper: {
     serializedName: "extensionName",
     required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2022-03-01",
+    isConstant: true,
+    serializedName: "api-version",
     type: {
       name: "String"
     }
@@ -192,6 +158,18 @@ export const forceDelete: OperationQueryParameter = {
 export const patchExtension: OperationParameter = {
   parameterPath: "patchExtension",
   mapper: PatchExtensionMapper
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
 };
 
 export const operationId: OperationURLParameter = {

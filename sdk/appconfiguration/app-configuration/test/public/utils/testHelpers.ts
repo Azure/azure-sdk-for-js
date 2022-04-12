@@ -9,16 +9,16 @@ import {
   ListRevisionsPage,
 } from "../../../src";
 import {
+  Recorder,
+  RecorderEnvironmentSetup,
   env,
   isPlaybackMode,
-  RecorderEnvironmentSetup,
   record,
-  Recorder,
 } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
-import { RestError } from "@azure/core-http";
+import { RestError } from "@azure/core-rest-pipeline";
 
 let connectionStringNotPresentWarning = false;
 let tokenCredentialsNotPresentWarning = false;
