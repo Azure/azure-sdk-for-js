@@ -9,8 +9,6 @@ import { AppConfiguration } from "./generated/src/appConfiguration";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 
-import "@azure/core-asynciterator-polyfill";
-
 import {
   AddConfigurationSettingOptions,
   AddConfigurationSettingParam,
@@ -46,7 +44,6 @@ import {
   transformKeyValueResponse,
   transformKeyValueResponseWithStatusCode,
 } from "./internal/helpers";
-import { trace as traceFromTracingHelpers } from "./internal/tracingHelpers";
 import {
   AppConfigurationGetKeyValuesHeaders,
   AppConfigurationGetRevisionsHeaders,
@@ -62,6 +59,7 @@ import {
   deserializationPolicyName,
 } from "@azure/core-client";
 import { PipelinePolicy, bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { tracingClient } from "./internal/tracing";
 
 /**
  * @internal
@@ -102,8 +100,6 @@ export interface InternalAppConfigurationClientOptions extends AppConfigurationC
 export class AppConfigurationClient {
   private client: AppConfiguration;
   private _syncTokens: SyncTokens;
-  // (for tests)
-  private _trace = traceFromTracingHelpers;
 
   /**
    * Initializes a new instance of the AppConfigurationClient class.
@@ -185,18 +181,22 @@ export class AppConfigurationClient {
       | AddConfigurationSettingParam<SecretReferenceValue>,
     options: AddConfigurationSettingOptions = {}
   ): Promise<AddConfigurationSettingResponse> {
-    return this._trace("addConfigurationSetting", options, async (newOptions) => {
-      const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
-      const originalResponse = await this.client.putKeyValue(configurationSetting.key, {
-        ifNoneMatch: "*",
-        label: configurationSetting.label,
-        entity: keyValue,
-        ...newOptions,
-      });
-      const response = transformKeyValueResponse(originalResponse);
-      assertResponse(response);
-      return response;
-    });
+    return tracingClient.withSpan(
+      "AppConfigurationClient.addConfigurationSetting",
+      options,
+      async (updatedOptions) => {
+        const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
+        const originalResponse = await this.client.putKeyValue(configurationSetting.key, {
+          ifNoneMatch: "*",
+          label: configurationSetting.label,
+          entity: keyValue,
+          ...updatedOptions,
+        });
+        const response = transformKeyValueResponse(originalResponse);
+        assertResponse(response);
+        return response;
+      }
+    );
   }
 
   /**
@@ -213,21 +213,25 @@ export class AppConfigurationClient {
     id: ConfigurationSettingId,
     options: DeleteConfigurationSettingOptions = {}
   ): Promise<DeleteConfigurationSettingResponse> {
-    return this._trace("deleteConfigurationSetting", options, async (newOptions) => {
-      let status;
-      const originalResponse = await this.client.deleteKeyValue(id.key, {
-        label: id.label,
-        ...newOptions,
-        ...checkAndFormatIfAndIfNoneMatch(id, options),
-        onResponse: (response) => {
-          status = response.status;
-        },
-      });
+    return tracingClient.withSpan(
+      "AppConfigurationClient.deleteConfigurationSetting",
+      options,
+      async (updatedOptions) => {
+        let status;
+        const originalResponse = await this.client.deleteKeyValue(id.key, {
+          label: id.label,
+          ...updatedOptions,
+          ...checkAndFormatIfAndIfNoneMatch(id, options),
+          onResponse: (response) => {
+            status = response.status;
+          },
+        });
 
-      const response = transformKeyValueResponseWithStatusCode(originalResponse, status);
-      assertResponse(response);
-      return response;
-    });
+        const response = transformKeyValueResponseWithStatusCode(originalResponse, status);
+        assertResponse(response);
+        return response;
+      }
+    );
   }
 
   /**
@@ -244,34 +248,38 @@ export class AppConfigurationClient {
     id: ConfigurationSettingId,
     options: GetConfigurationSettingOptions = {}
   ): Promise<GetConfigurationSettingResponse> {
-    return this._trace("getConfigurationSetting", options, async (newOptions) => {
-      let status;
-      const originalResponse = await this.client.getKeyValue(id.key, {
-        ...newOptions,
-        label: id.label,
-        select: formatFieldsForSelect(options.fields),
-        ...formatAcceptDateTime(options),
-        ...checkAndFormatIfAndIfNoneMatch(id, options),
-        onResponse: (response) => {
-          status = response.status;
-        },
-      });
+    return tracingClient.withSpan(
+      "AppConfigurationClient.getConfigurationSetting",
+      options,
+      async (updatedOptions) => {
+        let status;
+        const originalResponse = await this.client.getKeyValue(id.key, {
+          ...updatedOptions,
+          label: id.label,
+          select: formatFieldsForSelect(options.fields),
+          ...formatAcceptDateTime(options),
+          ...checkAndFormatIfAndIfNoneMatch(id, options),
+          onResponse: (response) => {
+            status = response.status;
+          },
+        });
 
-      const response = transformKeyValueResponseWithStatusCode(originalResponse, status);
+        const response = transformKeyValueResponseWithStatusCode(originalResponse, status);
 
-      // 304 only comes back if the user has passed a conditional option in their
-      // request _and_ the remote object has the same etag as what the user passed.
-      if (response.statusCode === 304) {
-        // this is one of our few 'required' fields so we'll make sure it does get initialized
-        // with a value
-        response.key = id.key;
+        // 304 only comes back if the user has passed a conditional option in their
+        // request _and_ the remote object has the same etag as what the user passed.
+        if (response.statusCode === 304) {
+          // this is one of our few 'required' fields so we'll make sure it does get initialized
+          // with a value
+          response.key = id.key;
 
-        // and now we'll undefine all the other properties that are not HTTP related
-        makeConfigurationSettingEmpty(response);
+          // and now we'll undefine all the other properties that are not HTTP related
+          makeConfigurationSettingEmpty(response);
+        }
+        assertResponse(response);
+        return response;
       }
-      assertResponse(response);
-      return response;
-    });
+    );
   }
 
   /**
@@ -320,12 +328,12 @@ export class AppConfigurationClient {
   private async *listConfigurationSettingsByPage(
     options: ListConfigurationSettingsOptions & PageSettings = {}
   ): AsyncIterableIterator<ListConfigurationSettingPage> {
-    let currentResponse = await this._trace(
-      "listConfigurationSettings",
+    let currentResponse = await tracingClient.withSpan(
+      "AppConfigurationClient.listConfigurationSettings",
       options,
-      async (newOptions) => {
+      async (updatedOptions) => {
         const response = await this.client.getKeyValues({
-          ...newOptions,
+          ...updatedOptions,
           ...formatAcceptDateTime(options),
           ...formatFiltersAndSelect(options),
           after: options.continuationToken,
@@ -339,13 +347,13 @@ export class AppConfigurationClient {
     yield* this.createListConfigurationPageFromResponse(currentResponse);
 
     while (currentResponse.nextLink) {
-      currentResponse = await this._trace(
-        "listConfigurationSettings",
+      currentResponse = await tracingClient.withSpan(
+        "AppConfigurationClient.listConfigurationSettings",
         options,
         // TODO: same code up above. Unify.
-        async (newOptions) => {
+        async (updatedOptions) => {
           const response = await this.client.getKeyValues({
-            ...newOptions,
+            ...updatedOptions,
             ...formatAcceptDateTime(options),
             ...formatFiltersAndSelect(options),
             after: extractAfterTokenFromNextLink(currentResponse.nextLink!),
@@ -422,29 +430,37 @@ export class AppConfigurationClient {
   private async *listRevisionsByPage(
     options: ListRevisionsOptions & PageSettings = {}
   ): AsyncIterableIterator<ListRevisionsPage> {
-    let currentResponse = await this._trace("listRevisions", options, async (newOptions) => {
-      const response = await this.client.getRevisions({
-        ...newOptions,
-        ...formatAcceptDateTime(options),
-        ...formatFiltersAndSelect(newOptions),
-        after: options.continuationToken,
-      });
+    let currentResponse = await tracingClient.withSpan(
+      "AppConfigurationClient.listRevisions",
+      options,
+      async (updatedOptions) => {
+        const response = await this.client.getRevisions({
+          ...updatedOptions,
+          ...formatAcceptDateTime(options),
+          ...formatFiltersAndSelect(updatedOptions),
+          after: options.continuationToken,
+        });
 
-      return response as GetRevisionsResponse &
-        HttpResponseField<AppConfigurationGetRevisionsHeaders>;
-    });
+        return response as GetRevisionsResponse &
+          HttpResponseField<AppConfigurationGetRevisionsHeaders>;
+      }
+    );
 
     yield* this.createListRevisionsPageFromResponse(currentResponse);
 
     while (currentResponse.nextLink) {
-      currentResponse = (await this._trace("listRevisions", options, (newOptions) => {
-        return this.client.getRevisions({
-          ...newOptions,
-          ...formatAcceptDateTime(options),
-          ...formatFiltersAndSelect(options),
-          after: extractAfterTokenFromNextLink(currentResponse.nextLink!),
-        });
-      })) as GetRevisionsResponse & HttpResponseField<AppConfigurationGetRevisionsHeaders>;
+      currentResponse = (await tracingClient.withSpan(
+        "AppConfigurationClient.listRevisions",
+        options,
+        (updatedOptions) => {
+          return this.client.getRevisions({
+            ...updatedOptions,
+            ...formatAcceptDateTime(options),
+            ...formatFiltersAndSelect(options),
+            after: extractAfterTokenFromNextLink(currentResponse.nextLink!),
+          });
+        }
+      )) as GetRevisionsResponse & HttpResponseField<AppConfigurationGetRevisionsHeaders>;
 
       if (!currentResponse.items) {
         break;
@@ -484,19 +500,23 @@ export class AppConfigurationClient {
       | SetConfigurationSettingParam<SecretReferenceValue>,
     options: SetConfigurationSettingOptions = {}
   ): Promise<SetConfigurationSettingResponse> {
-    return this._trace("setConfigurationSetting", options, async (newOptions) => {
-      const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
-      const response = transformKeyValueResponse(
-        await this.client.putKeyValue(configurationSetting.key, {
-          ...newOptions,
-          label: configurationSetting.label,
-          entity: keyValue,
-          ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options),
-        })
-      );
-      assertResponse(response);
-      return response;
-    });
+    return tracingClient.withSpan(
+      "AppConfigurationClient.setConfigurationSetting",
+      options,
+      async (updatedOptions) => {
+        const keyValue = serializeAsConfigurationSettingParam(configurationSetting);
+        const response = transformKeyValueResponse(
+          await this.client.putKeyValue(configurationSetting.key, {
+            ...updatedOptions,
+            label: configurationSetting.label,
+            entity: keyValue,
+            ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options),
+          })
+        );
+        assertResponse(response);
+        return response;
+      }
+    );
   }
 
   /**
@@ -508,25 +528,29 @@ export class AppConfigurationClient {
     readOnly: boolean,
     options: SetReadOnlyOptions = {}
   ): Promise<SetReadOnlyResponse> {
-    return this._trace("setReadOnly", options, async (newOptions) => {
-      let response;
-      if (readOnly) {
-        response = await this.client.putLock(id.key, {
-          ...newOptions,
-          label: id.label,
-          ...checkAndFormatIfAndIfNoneMatch(id, options),
-        });
-      } else {
-        response = await this.client.deleteLock(id.key, {
-          ...newOptions,
-          label: id.label,
-          ...checkAndFormatIfAndIfNoneMatch(id, options),
-        });
+    return tracingClient.withSpan(
+      "AppConfigurationClient.setReadOnly",
+      options,
+      async (newOptions) => {
+        let response;
+        if (readOnly) {
+          response = await this.client.putLock(id.key, {
+            ...newOptions,
+            label: id.label,
+            ...checkAndFormatIfAndIfNoneMatch(id, options),
+          });
+        } else {
+          response = await this.client.deleteLock(id.key, {
+            ...newOptions,
+            label: id.label,
+            ...checkAndFormatIfAndIfNoneMatch(id, options),
+          });
+        }
+        response = transformKeyValueResponse(response);
+        assertResponse(response);
+        return response;
       }
-      response = transformKeyValueResponse(response);
-      assertResponse(response);
-      return response;
-    });
+    );
   }
 
   /**

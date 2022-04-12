@@ -357,7 +357,7 @@ export const scope: OperationQueryParameter = {
 };
 
 export const typeParam: OperationQueryParameter = {
-  parameterPath: ["options", "type"],
+  parameterPath: ["options", "typeParam"],
   mapper: {
     defaultValue: "none",
     serializedName: "type",
