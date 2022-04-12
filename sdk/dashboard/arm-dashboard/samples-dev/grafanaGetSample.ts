@@ -22,7 +22,7 @@ async function grafanaGet() {
   const resourceGroupName = "myResourceGroup";
   const workspaceName = "myWorkspace";
   const credential = new DefaultAzureCredential();
-  const client = new DashboardManagementClient(credential, "", subscriptionId);
+  const client = new DashboardManagementClient(credential, subscriptionId);
   const result = await client.grafana.get(resourceGroupName, workspaceName);
   console.log(result);
 }
