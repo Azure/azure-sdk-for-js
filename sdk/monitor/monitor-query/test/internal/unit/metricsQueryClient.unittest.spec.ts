@@ -15,12 +15,16 @@ it("verify tracing", async () => {
           timespan: { duration: Durations.fiveMinutes },
           ...options,
         }),
-        client.listMetricNamespaces("resourceUri",options).next(),
-        client.listMetricDefinitions("resourceUri",options).next(),
+        client.listMetricNamespaces("resourceUri", options).next(),
+        client.listMetricDefinitions("resourceUri", options).next(),
       ];
       // We don't care about errors, only that we created (and closed) the appropriate spans.
       await Promise.all(promises.map((p) => p.catch(() => undefined)));
     },
-    ["MetricsQueryClient.queryResource", "MetricsQueryClient.listSegmentOfMetricNamespaces","MetricsQueryClient.listSegmentOfMetricDefinitions"]
+    [
+      "MetricsQueryClient.queryResource",
+      "MetricsQueryClient.listSegmentOfMetricNamespaces",
+      "MetricsQueryClient.listSegmentOfMetricDefinitions",
+    ]
   );
 });
