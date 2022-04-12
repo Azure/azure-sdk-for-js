@@ -3,7 +3,7 @@
 
 import { Durations, LogsQueryClient } from "../../../src";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import { DefaultAzureCredential } from "@azure/identity";
 
 describe("LogsQueryClient unit tests", () => {
