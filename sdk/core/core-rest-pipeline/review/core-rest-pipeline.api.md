@@ -151,6 +151,9 @@ export interface InternalPipelineOptions extends PipelineOptions {
 }
 
 // @public
+export function isRestError(e: unknown): e is RestError;
+
+// @public
 export function logPolicy(options?: LogPolicyOptions): PipelinePolicy;
 
 // @public

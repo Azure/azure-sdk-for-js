@@ -88,19 +88,6 @@ describe("OpenTelemetryInstrumenter", () => {
 
         assert.equal(trace.getSpan(tracingContext), unwrap(span));
       });
-
-      it("adds az.namespace as a context attribute for compatibility", async () => {
-        const currentContext = context
-          .active()
-          .setValue(Symbol.for("@azure/core-tracing namespace"), "test-namespace");
-
-        const { tracingContext } = instrumenter.startSpan("test", {
-          tracingContext: currentContext,
-          packageName,
-        });
-
-        assert.equal(tracingContext.getValue(Symbol.for("az.namespace")), "test-namespace");
-      });
     });
 
     describe("when a context is not provided", () => {
