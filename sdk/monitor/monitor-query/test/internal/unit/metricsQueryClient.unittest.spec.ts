@@ -21,6 +21,6 @@ it("verify tracing", async () => {
       // We don't care about errors, only that we created (and closed) the appropriate spans.
       await Promise.all(promises.map((p) => p.catch(() => undefined)));
     },
-    ["MetricsQueryClient.queryResource", "MetricsQueryClient.listSegmentOfMetricDefinitions"]
+    ["MetricsQueryClient.queryResource", "MetricsQueryClient.listSegmentOfMetricNamespaces","MetricsQueryClient.listSegmentOfMetricDefinitions"]
   );
 });

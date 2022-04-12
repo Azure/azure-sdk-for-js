@@ -65,24 +65,7 @@ describe("LogsQueryClient unit tests", () => {
               workspaceId: "monitorWorkspaceId",
               query: "AppEvents | project TimeGenerated, Name, AppRoleInstance | limit 1",
               timespan: { duration: "P1D" },
-            },
-            {
-              workspaceId: "monitorWorkspaceId",
-              query: "AzureActivity | summarize count()",
-              timespan: { duration: "PT1H" },
-            },
-            {
-              workspaceId: "monitorWorkspaceId",
-              query:
-                "AppRequests | take 10 | summarize avgRequestDuration=avg(DurationMs) by bin(TimeGenerated, 10m), _ResourceId",
-              timespan: { duration: "PT1H" },
-            },
-            {
-              workspaceId: "monitorWorkspaceId",
-              query: "AppRequests | take 2",
-              timespan: { duration: "PT1H" },
-              includeQueryStatistics: true,
-            },
+            }
           ]),
         ];
         // We don't care about errors, only that we created (and closed) the appropriate spans.
