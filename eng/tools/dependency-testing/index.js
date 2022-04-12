@@ -281,7 +281,7 @@ async function readAndReplaceSourceReferences(filePath, packageName) {
     'path.resolve(path.join(process.cwd(),"..","..", "assets"'
   );
   // Regex for internal references = /* ["']+[../]*src[/][a-z]+["'] */
-  let internalrefs = testAssetsContent.match(/[\"\']+[..//]*src[//][a-zA-Z/]+[\"\']+/g);
+  let internalrefs = testAssetsContent.match(/[\"\']+[..//]*src[//][a-zA-Z]+[\"\']+/g);
   let writeContent = "";
   if (internalrefs) {
     console.log("internal refs = ");
