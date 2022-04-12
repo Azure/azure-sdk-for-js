@@ -58,18 +58,13 @@ class ReportTransform extends Transform {
   }
 }
 
-interface CachedAgent {
-  tlsSettings?: TlsSettings;
-  agent: http.Agent;
-}
-
 /**
  * A HttpClient implementation that uses Node's "https" module to send HTTPS requests.
  * @internal
  */
 class NodeHttpClient implements HttpClient {
-  private httpKeepAliveAgent?: CachedAgent;
-  private httpsKeepAliveAgent: WeakMap<TlsSettings, CachedAgent> = new WeakMap();
+  private httpKeepAliveAgent?: http.Agent;
+  private httpsKeepAliveAgent: WeakMap<TlsSettings, http.Agent> = new WeakMap();
 
   /**
    * Makes a request over an underlying transport layer and returns the response.
@@ -254,8 +249,8 @@ class NodeHttpClient implements HttpClient {
     }
     const settingsIndex = request.tlsSettings ?? {};
     let agent: http.Agent | undefined = isInsecure
-      ? this.httpKeepAliveAgent?.agent
-      : this.httpsKeepAliveAgent?.get(settingsIndex)?.agent;
+      ? this.httpKeepAliveAgent
+      : this.httpsKeepAliveAgent?.get(settingsIndex);
 
     if (agent) {
       return agent;
@@ -268,15 +263,11 @@ class NodeHttpClient implements HttpClient {
 
     if (isInsecure) {
       agent = new http.Agent(agentOptions);
-      this.httpKeepAliveAgent = { agent };
+      this.httpKeepAliveAgent = agent;
       return agent;
     } else {
       agent = new https.Agent(agentOptions);
-      this.httpsKeepAliveAgent.set(settingsIndex, {
-        agent,
-        tlsSettings: request.tlsSettings,
-      });
-
+      this.httpsKeepAliveAgent.set(settingsIndex, agent);
       return agent;
     }
   }
