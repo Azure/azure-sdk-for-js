@@ -66,7 +66,7 @@ describe("LogsQueryClient unit tests", () => {
               query: "AppEvents | project TimeGenerated, Name, AppRoleInstance | limit 1",
               timespan: { duration: "P1D" },
             }
-          ]),
+          ],options),
         ];
         // We don't care about errors, only that we created (and closed) the appropriate spans.
         await Promise.all(promises.map((p) => p.catch(() => undefined)));
