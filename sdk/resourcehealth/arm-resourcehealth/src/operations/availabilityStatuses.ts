@@ -44,8 +44,7 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
   }
 
   /**
-   * Lists the current availability status for all the resources in the subscription. Use the nextLink
-   * property in the response to get the next page of availability statuses.
+   * Lists the current availability status for all the resources in the subscription.
    * @param options The options parameters.
    */
   public listBySubscriptionId(
@@ -87,8 +86,7 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
   }
 
   /**
-   * Lists the current availability status for all the resources in the resource group. Use the nextLink
-   * property in the response to get the next page of availability statuses.
+   * Lists the current availability status for all the resources in the resource group.
    * @param resourceGroupName The name of the resource group.
    * @param options The options parameters.
    */
@@ -141,8 +139,7 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
   }
 
   /**
-   * Lists all historical availability transitions and impacting events for a single resource. Use the
-   * nextLink property in the response to get the next page of availability status
+   * Lists all historical availability transitions and impacting events for a single resource.
    * @param resourceUri The fully qualified ID of the resource, including the resource name and resource
    *                    type. Currently the API support not nested and one nesting level resource types :
    *                    /subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/{resource-provider-name}/{resource-type}/{resource-name}
@@ -192,8 +189,7 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
   }
 
   /**
-   * Lists the current availability status for all the resources in the subscription. Use the nextLink
-   * property in the response to get the next page of availability statuses.
+   * Lists the current availability status for all the resources in the subscription.
    * @param options The options parameters.
    */
   private _listBySubscriptionId(
@@ -206,8 +202,7 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
   }
 
   /**
-   * Lists the current availability status for all the resources in the resource group. Use the nextLink
-   * property in the response to get the next page of availability statuses.
+   * Lists the current availability status for all the resources in the resource group.
    * @param resourceGroupName The name of the resource group.
    * @param options The options parameters.
    */
@@ -241,8 +236,7 @@ export class AvailabilityStatusesImpl implements AvailabilityStatuses {
   }
 
   /**
-   * Lists all historical availability transitions and impacting events for a single resource. Use the
-   * nextLink property in the response to get the next page of availability status
+   * Lists all historical availability transitions and impacting events for a single resource.
    * @param resourceUri The fully qualified ID of the resource, including the resource name and resource
    *                    type. Currently the API support not nested and one nesting level resource types :
    *                    /subscriptions/{subscriptionId}/resourceGroups/{resource-group-name}/providers/{resource-provider-name}/{resource-type}/{resource-name}

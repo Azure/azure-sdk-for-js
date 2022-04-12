@@ -34,6 +34,8 @@ export interface AvailabilityStatus {
 export interface AvailabilityStatusProperties {
   /** Availability status of the resource. When it is null, this availabilityStatus object represents an availability impacting event */
   availabilityState?: AvailabilityStateValues;
+  /** Title description of the availability status. */
+  title?: string;
   /** Summary description of the availability status. */
   summary?: string;
   /** Details of the availability status. */
@@ -53,13 +55,13 @@ export interface AvailabilityStatusProperties {
   /** When the resource's availabilityState is Unavailable and the reasonType is not User Initiated, it provides the date and time for when the issue is expected to be resolved. */
   resolutionETA?: Date;
   /** Timestamp for when last change in health status occurred. */
-  occuredTime?: Date;
+  occurredTime?: Date;
   /** Chronicity of the availability transition. */
   reasonChronicity?: ReasonChronicityTypes;
   /** Timestamp for when the health was last checked. */
   reportedTime?: Date;
   /** An annotation describing a change in the availabilityState to Available from Unavailable with a reasonType of type Unplanned */
-  recentlyResolvedState?: AvailabilityStatusPropertiesRecentlyResolvedState;
+  recentlyResolved?: AvailabilityStatusPropertiesRecentlyResolved;
   /** Lists actions the user can take based on the current availabilityState of the resource. */
   recommendedActions?: RecommendedAction[];
   /** Lists the service impacting events that may be affecting the health of the resource. */
@@ -67,7 +69,7 @@ export interface AvailabilityStatusProperties {
 }
 
 /** An annotation describing a change in the availabilityState to Available from Unavailable with a reasonType of type Unplanned */
-export interface AvailabilityStatusPropertiesRecentlyResolvedState {
+export interface AvailabilityStatusPropertiesRecentlyResolved {
   /** Timestamp for when the availabilityState changed to Unavailable */
   unavailableOccurredTime?: Date;
   /** Timestamp when the availabilityState changes to Available. */
@@ -120,6 +122,12 @@ export interface ServiceImpactingEventIncidentProperties {
 
 /** Error details. */
 export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorResponseError;
+}
+
+/** The error object. */
+export interface ErrorResponseError {
   /**
    * The error code.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -163,60 +171,6 @@ export interface OperationDisplay {
   description?: string;
 }
 
-/** Banner type of emerging issue. */
-export interface StatusBanner {
-  /** The banner title. */
-  title?: string;
-  /** The details of banner. */
-  message?: string;
-  /** The cloud type of this banner. */
-  cloud?: string;
-  /** The last time modified on this banner. */
-  lastModifiedTime?: Date;
-}
-
-/** Active event type of emerging issue. */
-export interface StatusActiveEvent {
-  /** The active event title. */
-  title?: string;
-  /** The details of active event. */
-  description?: string;
-  /** The tracking id of this active event. */
-  trackingId?: string;
-  /** The impact start time on this active event. */
-  startTime?: Date;
-  /** The cloud type of this active event. */
-  cloud?: string;
-  /** The severity level of this active event. */
-  severity?: SeverityValues;
-  /** The stage of this active event. */
-  stage?: StageValues;
-  /** The boolean value of this active event if published or not. */
-  published?: boolean;
-  /** The last time modified on this banner. */
-  lastModifiedTime?: Date;
-  /** The list of emerging issues impacts. */
-  impacts?: EmergingIssueImpact[];
-}
-
-/** Object of the emerging issue impact on services and regions. */
-export interface EmergingIssueImpact {
-  /** The impacted service id. */
-  id?: string;
-  /** The impacted service name. */
-  name?: string;
-  /** The list of impacted regions for corresponding emerging issues. */
-  regions?: ImpactedRegion[];
-}
-
-/** Object of impacted region. */
-export interface ImpactedRegion {
-  /** The impacted region id. */
-  id?: string;
-  /** The impacted region name. */
-  name?: string;
-}
-
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
@@ -236,63 +190,93 @@ export interface Resource {
   readonly type?: string;
 }
 
-/** The list of emerging issues. */
-export interface EmergingIssueListResult {
-  /** The list of emerging issues. */
-  value?: EmergingIssuesGetResult[];
-  /** The link used to get the next page of emerging issues. */
-  nextLink?: string;
+/** Banner type of emerging issue. */
+export interface StatusBanner {
+  /** The banner title. */
+  title?: string;
+  /** The details of banner. */
+  message?: string;
+  /** The cloud type of this banner. */
+  cloud?: string;
+  /** The last time modified on this banner. */
+  lastModifiedTime?: Date;
 }
 
-/** The Get EmergingIssues operation response. */
-export type EmergingIssuesGetResult = Resource & {
-  /** Timestamp for when last time refreshed for ongoing emerging issue. */
-  refreshTimestamp?: Date;
-  /** The list of emerging issues of banner type. */
-  statusBanners?: StatusBanner[];
-  /** The list of emerging issues of active event type. */
-  statusActiveEvents?: StatusActiveEvent[];
+/** Object of impacted region. */
+export interface ImpactedRegion {
+  /** The impacted region id. */
+  id?: string;
+  /** The impacted region name. */
+  name?: string;
+}
+
+/** impactedResource with health status */
+export type ImpactedResourceStatus = Resource & {
+  /** Impacted resource status of the resource. */
+  availabilityState?: AvailabilityStateValues;
+  /** Title description of the impacted resource status. */
+  title?: string;
+  /** Summary description of the impacted resource status. */
+  summary?: string;
+  /** When the resource's availabilityState is Unavailable, it describes where the health impacting event was originated. */
+  reasonType?: ReasonTypeValues;
+  /** Timestamp for when last change in health status occurred. */
+  occurredTime?: Date;
 };
 
-/** Known values of {@link SeverityValues} that the service accepts. */
-export enum KnownSeverityValues {
-  Information = "Information",
-  Warning = "Warning",
-  Error = "Error"
+/** Known values of {@link AvailabilityStateValues} that the service accepts. */
+export enum KnownAvailabilityStateValues {
+  Available = "Available",
+  Unavailable = "Unavailable",
+  Degraded = "Degraded",
+  Unknown = "Unknown"
 }
 
 /**
- * Defines values for SeverityValues. \
- * {@link KnownSeverityValues} can be used interchangeably with SeverityValues,
+ * Defines values for AvailabilityStateValues. \
+ * {@link KnownAvailabilityStateValues} can be used interchangeably with AvailabilityStateValues,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Information** \
- * **Warning** \
- * **Error**
+ * **Available** \
+ * **Unavailable** \
+ * **Degraded** \
+ * **Unknown**
  */
-export type SeverityValues = string;
+export type AvailabilityStateValues = string;
 
-/** Known values of {@link StageValues} that the service accepts. */
-export enum KnownStageValues {
-  Active = "Active",
-  Resolve = "Resolve",
-  Archived = "Archived"
+/** Known values of {@link ReasonChronicityTypes} that the service accepts. */
+export enum KnownReasonChronicityTypes {
+  Transient = "Transient",
+  Persistent = "Persistent"
 }
 
 /**
- * Defines values for StageValues. \
- * {@link KnownStageValues} can be used interchangeably with StageValues,
+ * Defines values for ReasonChronicityTypes. \
+ * {@link KnownReasonChronicityTypes} can be used interchangeably with ReasonChronicityTypes,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Active** \
- * **Resolve** \
- * **Archived**
+ * **Transient** \
+ * **Persistent**
  */
-export type StageValues = string;
-/** Defines values for AvailabilityStateValues. */
-export type AvailabilityStateValues = "Available" | "Unavailable" | "Unknown";
-/** Defines values for ReasonChronicityTypes. */
-export type ReasonChronicityTypes = "Transient" | "Persistent";
+export type ReasonChronicityTypes = string;
+
+/** Known values of {@link ReasonTypeValues} that the service accepts. */
+export enum KnownReasonTypeValues {
+  Unplanned = "Unplanned",
+  Planned = "Planned",
+  UserInitiated = "UserInitiated"
+}
+
+/**
+ * Defines values for ReasonTypeValues. \
+ * {@link KnownReasonTypeValues} can be used interchangeably with ReasonTypeValues,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unplanned** \
+ * **Planned** \
+ * **UserInitiated**
+ */
+export type ReasonTypeValues = string;
 
 /** Optional parameters. */
 export interface AvailabilityStatusesListBySubscriptionIdOptionalParams
@@ -379,92 +363,11 @@ export interface AvailabilityStatusesListNextOptionalParams
 export type AvailabilityStatusesListNextResponse = AvailabilityStatusListResult;
 
 /** Optional parameters. */
-export interface ChildAvailabilityStatusesGetByResourceOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  filter?: string;
-  /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
-  expand?: string;
-}
-
-/** Contains response data for the getByResource operation. */
-export type ChildAvailabilityStatusesGetByResourceResponse = AvailabilityStatus;
-
-/** Optional parameters. */
-export interface ChildAvailabilityStatusesListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  filter?: string;
-  /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
-  expand?: string;
-}
-
-/** Contains response data for the list operation. */
-export type ChildAvailabilityStatusesListResponse = AvailabilityStatusListResult;
-
-/** Optional parameters. */
-export interface ChildAvailabilityStatusesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  filter?: string;
-  /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
-  expand?: string;
-}
-
-/** Contains response data for the listNext operation. */
-export type ChildAvailabilityStatusesListNextResponse = AvailabilityStatusListResult;
-
-/** Optional parameters. */
-export interface ChildResourcesListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  filter?: string;
-  /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
-  expand?: string;
-}
-
-/** Contains response data for the list operation. */
-export type ChildResourcesListResponse = AvailabilityStatusListResult;
-
-/** Optional parameters. */
-export interface ChildResourcesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. For more information please see https://docs.microsoft.com/en-us/rest/api/apimanagement/apis?redirectedfrom=MSDN */
-  filter?: string;
-  /** Setting $expand=recommendedactions in url query expands the recommendedactions in the response. */
-  expand?: string;
-}
-
-/** Contains response data for the listNext operation. */
-export type ChildResourcesListNextResponse = AvailabilityStatusListResult;
-
-/** Optional parameters. */
 export interface OperationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface EmergingIssuesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type EmergingIssuesGetResponse = EmergingIssuesGetResult;
-
-/** Optional parameters. */
-export interface EmergingIssuesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type EmergingIssuesListResponse = EmergingIssueListResult;
-
-/** Optional parameters. */
-export interface EmergingIssuesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type EmergingIssuesListNextResponse = EmergingIssueListResult;
 
 /** Optional parameters. */
 export interface MicrosoftResourceHealthOptionalParams

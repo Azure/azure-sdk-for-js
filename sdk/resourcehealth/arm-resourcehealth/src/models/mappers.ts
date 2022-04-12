@@ -84,8 +84,13 @@ export const AvailabilityStatusProperties: coreClient.CompositeMapper = {
       availabilityState: {
         serializedName: "availabilityState",
         type: {
-          name: "Enum",
-          allowedValues: ["Available", "Unavailable", "Unknown"]
+          name: "String"
+        }
+      },
+      title: {
+        serializedName: "title",
+        type: {
+          name: "String"
         }
       },
       summary: {
@@ -142,8 +147,8 @@ export const AvailabilityStatusProperties: coreClient.CompositeMapper = {
           name: "DateTime"
         }
       },
-      occuredTime: {
-        serializedName: "occuredTime",
+      occurredTime: {
+        serializedName: "occurredTime",
         type: {
           name: "DateTime"
         }
@@ -151,8 +156,7 @@ export const AvailabilityStatusProperties: coreClient.CompositeMapper = {
       reasonChronicity: {
         serializedName: "reasonChronicity",
         type: {
-          name: "Enum",
-          allowedValues: ["Transient", "Persistent"]
+          name: "String"
         }
       },
       reportedTime: {
@@ -161,11 +165,11 @@ export const AvailabilityStatusProperties: coreClient.CompositeMapper = {
           name: "DateTime"
         }
       },
-      recentlyResolvedState: {
-        serializedName: "recentlyResolvedState",
+      recentlyResolved: {
+        serializedName: "recentlyResolved",
         type: {
           name: "Composite",
-          className: "AvailabilityStatusPropertiesRecentlyResolvedState"
+          className: "AvailabilityStatusPropertiesRecentlyResolved"
         }
       },
       recommendedActions: {
@@ -196,10 +200,10 @@ export const AvailabilityStatusProperties: coreClient.CompositeMapper = {
   }
 };
 
-export const AvailabilityStatusPropertiesRecentlyResolvedState: coreClient.CompositeMapper = {
+export const AvailabilityStatusPropertiesRecentlyResolved: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AvailabilityStatusPropertiesRecentlyResolvedState",
+    className: "AvailabilityStatusPropertiesRecentlyResolved",
     modelProperties: {
       unavailableOccurredTime: {
         serializedName: "unavailableOccurredTime",
@@ -344,6 +348,22 @@ export const ErrorResponse: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ErrorResponse",
     modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorResponseError"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorResponseError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponseError",
+    modelProperties: {
       code: {
         serializedName: "code",
         readOnly: true,
@@ -446,6 +466,36 @@ export const OperationDisplay: coreClient.CompositeMapper = {
   }
 };
 
+export const Resource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Resource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const StatusBanner: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -479,114 +529,6 @@ export const StatusBanner: coreClient.CompositeMapper = {
   }
 };
 
-export const StatusActiveEvent: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "StatusActiveEvent",
-    modelProperties: {
-      title: {
-        serializedName: "title",
-        type: {
-          name: "String"
-        }
-      },
-      description: {
-        serializedName: "description",
-        type: {
-          name: "String"
-        }
-      },
-      trackingId: {
-        serializedName: "trackingId",
-        type: {
-          name: "String"
-        }
-      },
-      startTime: {
-        serializedName: "startTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      cloud: {
-        serializedName: "cloud",
-        type: {
-          name: "String"
-        }
-      },
-      severity: {
-        serializedName: "severity",
-        type: {
-          name: "String"
-        }
-      },
-      stage: {
-        serializedName: "stage",
-        type: {
-          name: "String"
-        }
-      },
-      published: {
-        serializedName: "published",
-        type: {
-          name: "Boolean"
-        }
-      },
-      lastModifiedTime: {
-        serializedName: "lastModifiedTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      impacts: {
-        serializedName: "impacts",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "EmergingIssueImpact"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const EmergingIssueImpact: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "EmergingIssueImpact",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      regions: {
-        serializedName: "regions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ImpactedRegion"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const ImpactedRegion: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -608,97 +550,40 @@ export const ImpactedRegion: coreClient.CompositeMapper = {
   }
 };
 
-export const Resource: coreClient.CompositeMapper = {
+export const ImpactedResourceStatus: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Resource",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        serializedName: "name",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const EmergingIssueListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "EmergingIssueListResult",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "EmergingIssuesGetResult"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const EmergingIssuesGetResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "EmergingIssuesGetResult",
+    className: "ImpactedResourceStatus",
     modelProperties: {
       ...Resource.type.modelProperties,
-      refreshTimestamp: {
-        serializedName: "properties.refreshTimestamp",
+      availabilityState: {
+        serializedName: "properties.availabilityState",
+        type: {
+          name: "String"
+        }
+      },
+      title: {
+        serializedName: "properties.title",
+        type: {
+          name: "String"
+        }
+      },
+      summary: {
+        serializedName: "properties.summary",
+        type: {
+          name: "String"
+        }
+      },
+      reasonType: {
+        serializedName: "properties.reasonType",
+        type: {
+          name: "String"
+        }
+      },
+      occurredTime: {
+        serializedName: "properties.occurredTime",
         type: {
           name: "DateTime"
-        }
-      },
-      statusBanners: {
-        serializedName: "properties.statusBanners",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "StatusBanner"
-            }
-          }
-        }
-      },
-      statusActiveEvents: {
-        serializedName: "properties.statusActiveEvents",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "StatusActiveEvent"
-            }
-          }
         }
       }
     }
