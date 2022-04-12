@@ -7,8 +7,6 @@ import { StorageDFSReadTest } from "./read.spec";
 import { StorageDFSUploadTest } from "./upload.spec";
 import { StorageDFSUploadFromFileTest } from "./uploadFromFile.spec";
 
-console.log("");
-
 const perfProgram = createPerfProgram([
   StorageDFSAppendTest,
   StorageDFSReadTest,

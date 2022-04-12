@@ -11,8 +11,6 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
-console.log("");
-
 const perfProgram = createPerfProgram([
   CreateSimpleEntityTest,
   CreateSimpleEntityBatchTest,

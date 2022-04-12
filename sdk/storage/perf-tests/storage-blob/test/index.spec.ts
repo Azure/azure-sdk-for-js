@@ -11,8 +11,6 @@ import { CoreHTTPDownloadWithSASTest } from "./core-http.spec";
 import { NodeFetchDownloadWithSASTest } from "./node-fetch.spec";
 import { CoreHTTPSDownloadWithSASTest } from "./core-rest-pipeline.spec";
 
-console.log("");
-
 const perfProgram = createPerfProgram([
   StorageBlobDownloadTest,
   StorageBlobUploadTest,

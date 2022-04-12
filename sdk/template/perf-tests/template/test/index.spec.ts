@@ -4,8 +4,6 @@
 import { createPerfProgram } from "@azure/test-utils-perf";
 import { GetConfigurationSettingTest } from "./getConfigurationSetting.spec";
 
-console.log("");
-
 const perfProgram = createPerfProgram([GetConfigurationSettingTest]);
 
 perfProgram.run();
