@@ -15120,7 +15120,7 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-ZhyXAu8kcm5oHyd/zNVz+qdzsJfBdN7CBjafd8GppFOslxDWsEUiOW7gBEYDu+uCLSkfe7XaitWwEPjarQrVig==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-UQnT/wlqG6WWBdaxBS4xbx8EpI9Ux+9ZDJbyuClx+6MPJjiD4hmxWcYeUg0HV9EWsYMnKlTOYUDOPHGgCpvMlw==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
@@ -15155,7 +15155,7 @@ packages:
     dev: false
 
   file:projects/identity-vscode.tgz:
-    resolution: {integrity: sha512-pfNduHOpPPPmBQhN9dRaZbLbm6iV7zfGaaKx87xLr8DC6TsmM/uUyJlBRXR8gdHuxn5LQssgU7u+6kZ+UjHO1A==, tarball: file:projects/identity-vscode.tgz}
+    resolution: {integrity: sha512-WWPRS32hE8LRhyroxtc2oMaGmHfCa45m4qJjjOX7VhxRHYIbvqwxFY6SSsP8uKwdFfo//V0K1UNrm4qKq68xYQ==, tarball: file:projects/identity-vscode.tgz}
     name: '@rush-temp/identity-vscode'
     version: 0.0.0
     dependencies:
@@ -15188,7 +15188,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-c5Qkc5SAHq5kIU71uO6rdV7Eq5Qd4kkhDi0v6QnHwn/dWFoAywZtepUOeW+mPpTZiaoqApQmUHc5NTtUUIwzaw==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-yLvNjdvlfXv475D8/9+2ZdFeT7h9kTlkCVGbjepVHPTwEUZYFnaJBBiMa5At0bu/w+Xju9GGdmAUArleoLqbhw==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
