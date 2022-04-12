@@ -38,12 +38,13 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
     });
 
     it("redirect (redirect location has host)", async function (this: Mocha.Context) {
+      await recorder.start({ envSetupForPlayback: {} });
+
       if (!isNode) {
         // In the browser, redirects get handled by fetch/XHR and we can't guarantee redirect behavior.
         this.skip();
       }
 
-      await recorder.start({ envSetupForPlayback: {} });
       await makeRequestAndVerifyResponse(
         client,
         { path: `/redirectWithHost`, method: "GET" },
@@ -52,12 +53,13 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
     });
 
     it("redirect (redirect location is relative)", async function (this: Mocha.Context) {
+      await recorder.start({ envSetupForPlayback: {} });
+
       if (!isNode) {
         // In the browser, redirects get handled by fetch/XHR and we can't guarantee redirect behavior.
         this.skip();
       }
 
-      await recorder.start({ envSetupForPlayback: {} });
       await makeRequestAndVerifyResponse(
         client,
         { path: `/redirectWithoutHost`, method: "GET" },
