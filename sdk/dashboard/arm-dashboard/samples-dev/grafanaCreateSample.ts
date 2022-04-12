@@ -32,7 +32,7 @@ async function grafanaCreate() {
     tags: { environment: "Dev" }
   };
   const credential = new DefaultAzureCredential();
-  const client = new DashboardManagementClient(credential, subscriptionId);
+  const client = new DashboardManagementClient(credential, "", subscriptionId);
   const result = await client.grafana.beginCreateAndWait(
     resourceGroupName,
     workspaceName,

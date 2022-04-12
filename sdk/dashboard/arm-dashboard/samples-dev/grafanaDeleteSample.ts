@@ -22,7 +22,7 @@ async function grafanaDelete() {
   const resourceGroupName = "myResourceGroup";
   const workspaceName = "myWorkspace";
   const credential = new DefaultAzureCredential();
-  const client = new DashboardManagementClient(credential, subscriptionId);
+  const client = new DashboardManagementClient(credential, "", subscriptionId);
   const result = await client.grafana.beginDeleteAndWait(
     resourceGroupName,
     workspaceName

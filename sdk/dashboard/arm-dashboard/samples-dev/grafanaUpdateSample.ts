@@ -28,7 +28,7 @@ async function grafanaUpdate() {
     tags: { environment: "Dev 2" }
   };
   const credential = new DefaultAzureCredential();
-  const client = new DashboardManagementClient(credential, subscriptionId);
+  const client = new DashboardManagementClient(credential, "", subscriptionId);
   const result = await client.grafana.update(
     resourceGroupName,
     workspaceName,
