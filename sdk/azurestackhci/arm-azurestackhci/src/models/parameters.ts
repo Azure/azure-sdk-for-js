@@ -15,6 +15,7 @@ import {
   ArcSetting as ArcSettingMapper,
   Cluster as ClusterMapper,
   ClusterPatch as ClusterPatchMapper,
+  UploadCertificateRequest as UploadCertificateRequestMapper,
   Extension as ExtensionMapper
 } from "../models/mappers";
 
@@ -85,7 +86,7 @@ export const clusterName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-01-01",
+    defaultValue: "2022-03-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -142,6 +143,11 @@ export const cluster: OperationParameter = {
 export const cluster1: OperationParameter = {
   parameterPath: "cluster",
   mapper: ClusterPatchMapper
+};
+
+export const uploadCertificateRequest: OperationParameter = {
+  parameterPath: "uploadCertificateRequest",
+  mapper: UploadCertificateRequestMapper
 };
 
 export const extensionName: OperationURLParameter = {

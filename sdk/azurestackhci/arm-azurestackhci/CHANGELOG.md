@@ -1,15 +1,36 @@
 # Release History
+    
+## 2.2.0 (2022-04-12)
+    
+**Features**
 
-## 2.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation ArcSettings.beginCreateIdentity
+  - Added operation ArcSettings.beginCreateIdentityAndWait
+  - Added operation ArcSettings.generatePassword
+  - Added operation Clusters.beginCreateIdentity
+  - Added operation Clusters.beginCreateIdentityAndWait
+  - Added operation Clusters.beginUploadCertificate
+  - Added operation Clusters.beginUploadCertificateAndWait
+  - Added Interface ArcIdentityResponse
+  - Added Interface ArcSettingsCreateIdentityOptionalParams
+  - Added Interface ArcSettingsGeneratePasswordOptionalParams
+  - Added Interface ClusterIdentityResponse
+  - Added Interface ClustersCreateIdentityOptionalParams
+  - Added Interface ClustersUploadCertificateOptionalParams
+  - Added Interface PasswordCredential
+  - Added Interface RawCertificateData
+  - Added Interface UploadCertificateRequest
+  - Added Type Alias ArcSettingsCreateIdentityResponse
+  - Added Type Alias ArcSettingsGeneratePasswordResponse
+  - Added Type Alias ClustersCreateIdentityResponse
+  - Type Alias ArcSetting has a new parameter arcApplicationClientId
+  - Type Alias ArcSetting has a new parameter arcApplicationTenantId
+  - Type Alias ArcSetting has a new parameter arcServicePrincipalObjectId
+  - Type Alias ArcSetting has a new parameter arcApplicationObjectId
+  - Type Alias Cluster has a new parameter aadApplicationObjectId
+  - Type Alias Cluster has a new parameter aadServicePrincipalObjectId
+  - Type Alias Cluster has a new parameter serviceEndpoint
+    
 ## 2.1.0 (2022-02-28)
 
 **Features**

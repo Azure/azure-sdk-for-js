@@ -109,6 +109,21 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
+export interface PasswordCredential {
+  secretText?: string;
+  keyId?: string;
+  startDateTime?: Date;
+  endDateTime?: Date;
+}
+
+/** ArcIdentity details. */
+export interface ArcIdentityResponse {
+  arcApplicationClientId?: string;
+  arcApplicationTenantId?: string;
+  arcServicePrincipalObjectId?: string;
+  arcApplicationObjectId?: string;
+}
+
 /** List of clusters. */
 export interface ClusterList {
   /** List of clusters. */
@@ -232,6 +247,22 @@ export interface ClusterPatch {
   desiredProperties?: ClusterDesiredProperties;
 }
 
+export interface UploadCertificateRequest {
+  properties?: RawCertificateData;
+}
+
+export interface RawCertificateData {
+  certificates?: string[];
+}
+
+/** Cluster Identity details. */
+export interface ClusterIdentityResponse {
+  aadClientId?: string;
+  aadTenantId?: string;
+  aadServicePrincipalObjectId?: string;
+  aadApplicationObjectId?: string;
+}
+
 /** List of Extensions in HCI cluster. */
 export interface ExtensionList {
   /**
@@ -349,6 +380,14 @@ export type ArcSetting = ProxyResource & {
   readonly provisioningState?: ProvisioningState;
   /** The resource group that hosts the Arc agents, ie. Hybrid Compute Machine resources. */
   arcInstanceResourceGroup?: string;
+  /** App id of arc AAD identity. */
+  arcApplicationClientId?: string;
+  /** Tenant id of arc AAD identity. */
+  arcApplicationTenantId?: string;
+  /** Object id of arc AAD service principal. */
+  arcServicePrincipalObjectId?: string;
+  /** Object id of arc AAD identity. */
+  arcApplicationObjectId?: string;
   /**
    * Aggregate state of Arc agent across the nodes in this HCI cluster.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -441,6 +480,10 @@ export type Cluster = TrackedResource & {
   aadClientId?: string;
   /** Tenant id of cluster AAD identity. */
   aadTenantId?: string;
+  /** Object id of cluster AAD identity. */
+  aadApplicationObjectId?: string;
+  /** Id of cluster identity service principal. */
+  aadServicePrincipalObjectId?: string;
   /** Desired properties of the cluster. */
   desiredProperties?: ClusterDesiredProperties;
   /**
@@ -473,6 +516,11 @@ export type Cluster = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastBillingTimestamp?: Date;
+  /**
+   * Region specific DataPath Endpoint of the cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceEndpoint?: string;
   /** The identity that created the resource. */
   createdBy?: string;
   /** The type of identity that created the resource. */
@@ -820,6 +868,25 @@ export interface ArcSettingsDeleteOptionalParams
 }
 
 /** Optional parameters. */
+export interface ArcSettingsGeneratePasswordOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the generatePassword operation. */
+export type ArcSettingsGeneratePasswordResponse = PasswordCredential;
+
+/** Optional parameters. */
+export interface ArcSettingsCreateIdentityOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createIdentity operation. */
+export type ArcSettingsCreateIdentityResponse = ArcIdentityResponse;
+
+/** Optional parameters. */
 export interface ArcSettingsListByClusterNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -864,6 +931,27 @@ export type ClustersUpdateResponse = Cluster;
 /** Optional parameters. */
 export interface ClustersDeleteOptionalParams
   extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ClustersUploadCertificateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ClustersCreateIdentityOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createIdentity operation. */
+export type ClustersCreateIdentityResponse = ClusterIdentityResponse;
 
 /** Optional parameters. */
 export interface ClustersListBySubscriptionNextOptionalParams

@@ -24,6 +24,10 @@ import {
   ArcSettingsCreateOptionalParams,
   ArcSettingsCreateResponse,
   ArcSettingsDeleteOptionalParams,
+  ArcSettingsGeneratePasswordOptionalParams,
+  ArcSettingsGeneratePasswordResponse,
+  ArcSettingsCreateIdentityOptionalParams,
+  ArcSettingsCreateIdentityResponse,
   ArcSettingsListByClusterNextResponse
 } from "../models";
 
@@ -255,6 +259,116 @@ export class ArcSettingsImpl implements ArcSettings {
   }
 
   /**
+   * Generate password for arc settings.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param arcSettingName The name of the proxy resource holding details of HCI ArcSetting information.
+   * @param options The options parameters.
+   */
+  generatePassword(
+    resourceGroupName: string,
+    clusterName: string,
+    arcSettingName: string,
+    options?: ArcSettingsGeneratePasswordOptionalParams
+  ): Promise<ArcSettingsGeneratePasswordResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, clusterName, arcSettingName, options },
+      generatePasswordOperationSpec
+    );
+  }
+
+  /**
+   * Create Aad identity for arc settings.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param arcSettingName The name of the proxy resource holding details of HCI ArcSetting information.
+   * @param options The options parameters.
+   */
+  async beginCreateIdentity(
+    resourceGroupName: string,
+    clusterName: string,
+    arcSettingName: string,
+    options?: ArcSettingsCreateIdentityOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<ArcSettingsCreateIdentityResponse>,
+      ArcSettingsCreateIdentityResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ArcSettingsCreateIdentityResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, clusterName, arcSettingName, options },
+      createIdentityOperationSpec
+    );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
+  }
+
+  /**
+   * Create Aad identity for arc settings.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param arcSettingName The name of the proxy resource holding details of HCI ArcSetting information.
+   * @param options The options parameters.
+   */
+  async beginCreateIdentityAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    arcSettingName: string,
+    options?: ArcSettingsCreateIdentityOptionalParams
+  ): Promise<ArcSettingsCreateIdentityResponse> {
+    const poller = await this.beginCreateIdentity(
+      resourceGroupName,
+      clusterName,
+      arcSettingName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListByClusterNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the cluster.
@@ -355,6 +469,61 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     201: {},
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.arcSettingName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const generatePasswordOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}/generatePassword",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PasswordCredential
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.arcSettingName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createIdentityOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}/createArcIdentity",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ArcIdentityResponse
+    },
+    201: {
+      bodyMapper: Mappers.ArcIdentityResponse
+    },
+    202: {
+      bodyMapper: Mappers.ArcIdentityResponse
+    },
+    204: {
+      bodyMapper: Mappers.ArcIdentityResponse
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
