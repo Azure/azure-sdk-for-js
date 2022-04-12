@@ -224,7 +224,7 @@ export class MetricsQueryClient {
     options: ListMetricNamespacesOptions = {}
   ): AsyncIterableIterator<Array<MetricNamespace>> {
     const segmentResponse = await tracingClient.withSpan(
-      "MetricsQueryClient.listSegmentOfMetricDefinitions",
+      "MetricsQueryClient.listSegmentOfMetricNamespaces",
       options,
       async (updatedOptions) =>
         await this._namespacesClient.metricNamespaces.list(resourceUri, updatedOptions)
