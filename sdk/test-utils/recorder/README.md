@@ -1,14 +1,26 @@
-## Azure @azure-tools/test-recorder-new library for JavaScript
+## Azure @azure-tools/test-recorder library for JavaScript
 
-This is an experimental tool to record and playback the tests in the JS repo by leveraging the unified out-of-process test proxy server. This library is still under construction.
-Feature work is being tracked at [#15829](https://github.com/Azure/azure-sdk-for-js/issues/15829)
+**Note: This project is a test utility that assits with testing the packages maintained at the Azure SDK for JavaScript repository. This is not intended for the public utilization.**
+
+This tool helps to record and playback the tests in the JS repo by leveraging the unified out-of-process test proxy server.
 
 ## Resources
 
+- [Migration guide to recorder v2 from v1](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md)
 - [Azure SDK Tools Test Proxy](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/Azure.Sdk.Tools.TestProxy)
 - [Using Test Proxy with docker container](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/docker#build-and-run)
 
-## Running the test-proxy tool
+## Running the tests along with the test-proxy tool
+
+### With the `dev-tool` commands
+
+- The following commands run the tests with the default configs, and concurrently runs the proxy tool in record/playback modes if it is not already active. Additionally, more options can be passeed to override the default configs.
+  - `dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'`
+  - `dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'`
+  - `dev-tool run test:browser`
+    Read more at [dev-tool commands #usage](https://github.com/Azure/azure-sdk-for-js/blob/main/common/tools/dev-tool/README.md#usage)
+
+Follow the below two methods if you wish to run the proxy tool yourself without relying on the `dev-tool` commands.
 
 ### With the `docker run` command
 
@@ -17,8 +29,6 @@ Feature work is being tracked at [#15829](https://github.com/Azure/azure-sdk-for
   > `docker run -v /workspaces/azure-sdk-for-js/:/srv/testproxy -p 5001:5001 -p 5000:5000 azsdkengsys.azurecr.io/engsys/testproxy-lin:latest`
 
   Map the root directory of the azure-sdk-for-js repo to `/srv/testproxy` inside the container for an accurate location while generating recordings.
-
-  (Eventually, recorder will trigger this for you!)
 
   Add `--add-host host.docker.internal:host-gateway` for linux to access host's network(to access `localhost`) through `host.docker.internal`.
   Docker for Windows and Mac support `host.docker.internal` as a functioning alias for localhost.
@@ -37,18 +47,3 @@ Feature work is being tracked at [#15829](https://github.com/Azure/azure-sdk-for
   > `test-proxy --storage-location <root-of-the-repo>`
 
   [ `root-of-the-repo example` - `/workspaces/azure-sdk-for-js` if you're on codespaces]
-
-## Run the tests using recorder-new at `test-utils/testing-recorder-new`
-
-- Navigate to the test-utils\testing-recorder-new folder
-- Run `rush update && rush build -t .`
-- Run `rushx test:node`
-- Run `rushx test:browser`
-
-## Copying the recordings saved in the container
-
-For some reason, the volume mapping did not work for you, copy the recordings manually.
-
-- `docker cp <container_id>:/srv/testproxy/ temp-location`
-
-  [This will be fixed eventually [#Issue-17138](https://github.com/Azure/azure-sdk-for-js/issues/17138)]

@@ -281,7 +281,7 @@ async function readAndReplaceSourceReferences(filePath, packageName) {
     'path.resolve(path.join(process.cwd(),"..","..", "assets"'
   );
   // Regex for internal references = /* ["']+[../]*src[/][a-z]+["'] */
-  let internalrefs = testAssetsContent.match(/[\"\']+[..//]*src[//][a-zA-Z]+[\"\']+/g);
+  let internalrefs = testAssetsContent.match(/[\"\']+[..//]*src[//][a-zA-Z/]+[\"\']+/g);
   let writeContent = "";
   if (internalrefs) {
     console.log("internal refs = ");
@@ -357,32 +357,6 @@ async function updateRushConfig(repoRoot, targetPackage, testFolder) {
   await packageUtils.writePackageJson(rushPath, rushSpec);
 }
 
-async function updateCommonVersions(repoRoot, allowedVersionList) {
-  const commonVersionsConfig = await packageUtils.getRushCommonVersions(repoRoot);
-  let allowedAlternativeVersions = commonVersionsConfig["allowedAlternativeVersions"];
-  console.dir(allowedVersionList);
-  console.dir(allowedAlternativeVersions);
-  for (const package in allowedVersionList) {
-    console.log(package);
-    console.log(allowedVersionList[package]);
-    if (allowedVersionList[package] && !allowedAlternativeVersions[package]) {
-      allowedAlternativeVersions[package] = [allowedVersionList[package]];
-    } else if (
-      allowedVersionList[package] &&
-      !allowedAlternativeVersions[package].includes(allowedVersionList[package])
-    ) {
-      allowedAlternativeVersions[package].push(allowedVersionList[package]);
-    }
-  }
-  console.dir(allowedAlternativeVersions);
-  let newConfig = commonVersionsConfig;
-  newConfig["allowedAlternativeVersions"] = allowedAlternativeVersions;
-  const commonVersionsPath = path.resolve(
-    path.join(repoRoot, "/common/config/rush/common-versions.json")
-  );
-  console.log(newConfig);
-  await packageUtils.writePackageJson(commonVersionsPath, newConfig);
-}
 
 async function getPackageFromRush(repoRoot, packageName) {
   const rushSpec = await packageUtils.getRushSpec(repoRoot);
@@ -410,7 +384,7 @@ async function main(argv) {
   const packageJsonLocation = path.join(targetPackagePath, "package.json");
 
   const packageJsonContents = await packageUtils.readFileJson(packageJsonLocation);
-  const allowedVersionList = await insertPackageJson(
+  await insertPackageJson(
     repoRoot,
     packageJsonContents,
     targetPackagePath,
@@ -426,7 +400,6 @@ async function main(argv) {
   await replaceSourceReferences(targetPackagePath, targetPackage.packageName, testFolder);
   await insertMochaReporter(targetPackagePath, repoRoot, testFolder);
   await updateRushConfig(repoRoot, targetPackage, testFolder);
-  await updateCommonVersions(repoRoot, allowedVersionList);
   outputTestPath(targetPackage.projectFolder, sourceDir, testFolder);
 }
 main(argv);

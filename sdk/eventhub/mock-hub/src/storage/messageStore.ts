@@ -3,7 +3,6 @@
 
 /// <reference lib="ES2018.AsyncIterable" />
 
-import "@azure/core-asynciterator-polyfill";
 import { EventPosition } from "../utils/eventPosition";
 import { Message } from "rhea";
 import { Queue } from "./queue";

@@ -18,7 +18,7 @@ import { EnvVarKeys, getEnvVars, getStartingPositionsForTests, loopUntil } from 
 import { LogTester } from "./utils/logHelpers";
 import { ReceivedMessagesTester } from "./utils/receivedMessagesTester";
 import { TestInMemoryCheckpointStore } from "./utils/testInMemoryCheckpointStore";
-import chai from "chai";
+import chai, { expect } from "chai";
 import { createMockServer } from "./utils/mockService";
 import debugModule from "debug";
 import { testWithServiceTypes } from "./utils/testWithServiceTypes";
@@ -1265,6 +1265,43 @@ testWithServiceTypes((serviceVersion) => {
         await subscription!.close();
         should.exist(caughtErr);
         should.equal((caughtErr as MessagingError).code, "ArgumentOutOfRangeError");
+      });
+    });
+
+    describe("Types of received payloads", function (): void {
+      it(`Uint8Array is received as Buffer`, async function (): Promise<void> {
+        const partitionId = partitionIds[0];
+        const startingPositions = await getStartingPositionsForTests(consumerClient);
+        const data = [0, 1, 2];
+        await producerClient.sendBatch(
+          [{ body: Uint8Array.from(data), contentType: "avro/binary+1234" }],
+          {
+            partitionId,
+          }
+        );
+        let subscription: Subscription;
+        const receivedEvent = await new Promise<ReceivedEventData>((resolve, reject) => {
+          subscription = consumerClient.subscribe(
+            partitionId,
+            {
+              processEvents: async (events: ReceivedEventData[]) => {
+                resolve(events[0]);
+              },
+              processError: async (err) => {
+                reject(err);
+              },
+            },
+            {
+              startPosition: startingPositions,
+            }
+          );
+        });
+        await subscription!.close();
+        should.exist(receivedEvent);
+        const body = receivedEvent.body as Buffer;
+        // eslint-disable-next-line no-unused-expressions
+        expect(Buffer.isBuffer(body)).to.be.true;
+        expect(body.toJSON().data).to.be.deep.equal(data);
       });
     });
   }).timeout(120000);

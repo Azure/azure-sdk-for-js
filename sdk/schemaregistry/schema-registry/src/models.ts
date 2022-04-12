@@ -15,6 +15,12 @@ export interface SchemaProperties {
    * Currently only 'avro' is supported, but this is subject to change.
    */
   format: string;
+
+  /** Schema group under which schema is or should be registered. */
+  groupName: string;
+
+  /** Name of schema.*/
+  name: string;
 }
 
 /**

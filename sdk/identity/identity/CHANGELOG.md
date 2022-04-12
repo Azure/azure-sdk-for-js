@@ -12,6 +12,8 @@
 
 ### Other Changes
 
+- Upgraded to `@azure/core-tracing` version `^1.0.0`.
+
 ## 2.1.0-beta.2 (2022-03-22)
 
 ### Features Added

@@ -27,8 +27,8 @@ import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { createChallengeCallbacks } from "./challengeAuthenticationCallbacks";
 import { logger } from "./log";
 import { mappings } from "./mappings";
-import { v4 as v4uuid } from "uuid";
 import { tracingClient } from "./tracing";
+import { v4 as v4uuid } from "uuid";
 
 /**
  * The KeyVaultAccessControlClient provides methods to manage
