@@ -10,7 +10,7 @@ api-version-parameter: choice
 use-core-v2: true
 v3: true
 use-extension:
-  "@autorest/typescript": "6.0.0-beta.18"
+  "@autorest/typescript": "6.0.0-beta.19"
 azure-arm: false
 generate-metadata: false
 add-credentials: false
