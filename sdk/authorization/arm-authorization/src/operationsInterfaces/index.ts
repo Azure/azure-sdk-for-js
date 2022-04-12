@@ -6,18 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./operations";
-export * from "./accessReviewHistoryDefinitions";
-export * from "./accessReviewHistoryDefinitionOperations";
-export * from "./accessReviewHistoryDefinitionInstance";
-export * from "./accessReviewHistoryDefinitionInstances";
-export * from "./accessReviewScheduleDefinitions";
-export * from "./accessReviewInstances";
-export * from "./accessReviewInstanceOperations";
-export * from "./accessReviewInstanceDecisions";
-export * from "./accessReviewInstanceContactedReviewers";
-export * from "./accessReviewDefaultSettingsOperations";
-export * from "./accessReviewScheduleDefinitionsAssignedForMyApproval";
-export * from "./accessReviewInstancesAssignedForMyApproval";
-export * from "./accessReviewInstanceMyDecisions";
-export * from "./tenantLevelAccessReviewInstanceContactedReviewers";
+export * from "./eligibleChildResources";
+export * from "./roleAssignmentSchedules";
+export * from "./roleAssignmentScheduleInstances";
+export * from "./roleAssignmentScheduleRequests";
+export * from "./roleEligibilitySchedules";
+export * from "./roleEligibilityScheduleInstances";
+export * from "./roleEligibilityScheduleRequests";
+export * from "./roleManagementPolicies";
+export * from "./roleManagementPolicyAssignments";

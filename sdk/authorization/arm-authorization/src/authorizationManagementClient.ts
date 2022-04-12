@@ -9,62 +9,44 @@
 import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
 import {
-  OperationsImpl,
-  AccessReviewHistoryDefinitionsImpl,
-  AccessReviewHistoryDefinitionOperationsImpl,
-  AccessReviewHistoryDefinitionInstanceImpl,
-  AccessReviewHistoryDefinitionInstancesImpl,
-  AccessReviewScheduleDefinitionsImpl,
-  AccessReviewInstancesImpl,
-  AccessReviewInstanceOperationsImpl,
-  AccessReviewInstanceDecisionsImpl,
-  AccessReviewInstanceContactedReviewersImpl,
-  AccessReviewDefaultSettingsOperationsImpl,
-  AccessReviewScheduleDefinitionsAssignedForMyApprovalImpl,
-  AccessReviewInstancesAssignedForMyApprovalImpl,
-  AccessReviewInstanceMyDecisionsImpl,
-  TenantLevelAccessReviewInstanceContactedReviewersImpl
+  EligibleChildResourcesImpl,
+  RoleAssignmentSchedulesImpl,
+  RoleAssignmentScheduleInstancesImpl,
+  RoleAssignmentScheduleRequestsImpl,
+  RoleEligibilitySchedulesImpl,
+  RoleEligibilityScheduleInstancesImpl,
+  RoleEligibilityScheduleRequestsImpl,
+  RoleManagementPoliciesImpl,
+  RoleManagementPolicyAssignmentsImpl
 } from "./operations";
 import {
-  Operations,
-  AccessReviewHistoryDefinitions,
-  AccessReviewHistoryDefinitionOperations,
-  AccessReviewHistoryDefinitionInstance,
-  AccessReviewHistoryDefinitionInstances,
-  AccessReviewScheduleDefinitions,
-  AccessReviewInstances,
-  AccessReviewInstanceOperations,
-  AccessReviewInstanceDecisions,
-  AccessReviewInstanceContactedReviewers,
-  AccessReviewDefaultSettingsOperations,
-  AccessReviewScheduleDefinitionsAssignedForMyApproval,
-  AccessReviewInstancesAssignedForMyApproval,
-  AccessReviewInstanceMyDecisions,
-  TenantLevelAccessReviewInstanceContactedReviewers
+  EligibleChildResources,
+  RoleAssignmentSchedules,
+  RoleAssignmentScheduleInstances,
+  RoleAssignmentScheduleRequests,
+  RoleEligibilitySchedules,
+  RoleEligibilityScheduleInstances,
+  RoleEligibilityScheduleRequests,
+  RoleManagementPolicies,
+  RoleManagementPolicyAssignments
 } from "./operationsInterfaces";
 import { AuthorizationManagementClientOptionalParams } from "./models";
 
 export class AuthorizationManagementClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
 
   /**
    * Initializes a new instance of the AuthorizationManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
-    subscriptionId: string,
     options?: AuthorizationManagementClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
-    }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
     }
 
     // Initializing default values for options
@@ -76,7 +58,7 @@ export class AuthorizationManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-authorization/9.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-authorization/9.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -95,68 +77,38 @@ export class AuthorizationManagementClient extends coreClient.ServiceClient {
         options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
-    // Parameter assignments
-    this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-11-16-preview";
-    this.operations = new OperationsImpl(this);
-    this.accessReviewHistoryDefinitions = new AccessReviewHistoryDefinitionsImpl(
+    this.apiVersion = options.apiVersion || "2020-10-01";
+    this.eligibleChildResources = new EligibleChildResourcesImpl(this);
+    this.roleAssignmentSchedules = new RoleAssignmentSchedulesImpl(this);
+    this.roleAssignmentScheduleInstances = new RoleAssignmentScheduleInstancesImpl(
       this
     );
-    this.accessReviewHistoryDefinitionOperations = new AccessReviewHistoryDefinitionOperationsImpl(
+    this.roleAssignmentScheduleRequests = new RoleAssignmentScheduleRequestsImpl(
       this
     );
-    this.accessReviewHistoryDefinitionInstance = new AccessReviewHistoryDefinitionInstanceImpl(
+    this.roleEligibilitySchedules = new RoleEligibilitySchedulesImpl(this);
+    this.roleEligibilityScheduleInstances = new RoleEligibilityScheduleInstancesImpl(
       this
     );
-    this.accessReviewHistoryDefinitionInstances = new AccessReviewHistoryDefinitionInstancesImpl(
+    this.roleEligibilityScheduleRequests = new RoleEligibilityScheduleRequestsImpl(
       this
     );
-    this.accessReviewScheduleDefinitions = new AccessReviewScheduleDefinitionsImpl(
-      this
-    );
-    this.accessReviewInstances = new AccessReviewInstancesImpl(this);
-    this.accessReviewInstanceOperations = new AccessReviewInstanceOperationsImpl(
-      this
-    );
-    this.accessReviewInstanceDecisions = new AccessReviewInstanceDecisionsImpl(
-      this
-    );
-    this.accessReviewInstanceContactedReviewers = new AccessReviewInstanceContactedReviewersImpl(
-      this
-    );
-    this.accessReviewDefaultSettingsOperations = new AccessReviewDefaultSettingsOperationsImpl(
-      this
-    );
-    this.accessReviewScheduleDefinitionsAssignedForMyApproval = new AccessReviewScheduleDefinitionsAssignedForMyApprovalImpl(
-      this
-    );
-    this.accessReviewInstancesAssignedForMyApproval = new AccessReviewInstancesAssignedForMyApprovalImpl(
-      this
-    );
-    this.accessReviewInstanceMyDecisions = new AccessReviewInstanceMyDecisionsImpl(
-      this
-    );
-    this.tenantLevelAccessReviewInstanceContactedReviewers = new TenantLevelAccessReviewInstanceContactedReviewersImpl(
+    this.roleManagementPolicies = new RoleManagementPoliciesImpl(this);
+    this.roleManagementPolicyAssignments = new RoleManagementPolicyAssignmentsImpl(
       this
     );
   }
 
-  operations: Operations;
-  accessReviewHistoryDefinitions: AccessReviewHistoryDefinitions;
-  accessReviewHistoryDefinitionOperations: AccessReviewHistoryDefinitionOperations;
-  accessReviewHistoryDefinitionInstance: AccessReviewHistoryDefinitionInstance;
-  accessReviewHistoryDefinitionInstances: AccessReviewHistoryDefinitionInstances;
-  accessReviewScheduleDefinitions: AccessReviewScheduleDefinitions;
-  accessReviewInstances: AccessReviewInstances;
-  accessReviewInstanceOperations: AccessReviewInstanceOperations;
-  accessReviewInstanceDecisions: AccessReviewInstanceDecisions;
-  accessReviewInstanceContactedReviewers: AccessReviewInstanceContactedReviewers;
-  accessReviewDefaultSettingsOperations: AccessReviewDefaultSettingsOperations;
-  accessReviewScheduleDefinitionsAssignedForMyApproval: AccessReviewScheduleDefinitionsAssignedForMyApproval;
-  accessReviewInstancesAssignedForMyApproval: AccessReviewInstancesAssignedForMyApproval;
-  accessReviewInstanceMyDecisions: AccessReviewInstanceMyDecisions;
-  tenantLevelAccessReviewInstanceContactedReviewers: TenantLevelAccessReviewInstanceContactedReviewers;
+  eligibleChildResources: EligibleChildResources;
+  roleAssignmentSchedules: RoleAssignmentSchedules;
+  roleAssignmentScheduleInstances: RoleAssignmentScheduleInstances;
+  roleAssignmentScheduleRequests: RoleAssignmentScheduleRequests;
+  roleEligibilitySchedules: RoleEligibilitySchedules;
+  roleEligibilityScheduleInstances: RoleEligibilityScheduleInstances;
+  roleEligibilityScheduleRequests: RoleEligibilityScheduleRequests;
+  roleManagementPolicies: RoleManagementPolicies;
+  roleManagementPolicyAssignments: RoleManagementPolicyAssignments;
 }

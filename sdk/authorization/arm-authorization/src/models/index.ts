@@ -8,1647 +8,1488 @@
 
 import * as coreClient from "@azure/core-client";
 
-export type AccessReviewDecisionIdentityUnion =
-  | AccessReviewDecisionIdentity
-  | AccessReviewDecisionUserIdentity
-  | AccessReviewDecisionServicePrincipalIdentity;
-export type AccessReviewDecisionResourceUnion =
-  | AccessReviewDecisionResource
-  | AccessReviewDecisionResourceAzureRole;
+export type RoleManagementPolicyRuleUnion =
+  | RoleManagementPolicyRule
+  | RoleManagementPolicyApprovalRule
+  | RoleManagementPolicyAuthenticationContextRule
+  | RoleManagementPolicyEnablementRule
+  | RoleManagementPolicyExpirationRule
+  | RoleManagementPolicyNotificationRule;
 
-/** The result of a request to list Microsoft.Authorization operations. */
-export interface OperationListResult {
-  /** The collection value. */
-  value?: Operation[];
-  /** The URI that can be used to request the next set of paged results. */
+/** Eligible child resources list operation result. */
+export interface EligibleChildResourcesListResult {
+  /** Eligible child resource list. */
+  value?: EligibleChildResource[];
+  /** The URL to use for getting the next set of results. */
   nextLink?: string;
 }
 
-/** The definition of a Microsoft.Authorization operation. */
-export interface Operation {
-  /** Name of the operation */
-  name?: string;
-  /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
-  /** Display of the operation */
-  display?: OperationDisplay;
-  /** Origin of the operation */
-  origin?: string;
+/** Eligible child resource */
+export interface EligibleChildResource {
+  /**
+   * The resource scope Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The resource name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
 }
 
-/** The display information for a Microsoft.Authorization operation. */
-export interface OperationDisplay {
-  /**
-   * The resource provider name: Microsoft.Authorization.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provider?: string;
-  /**
-   * The resource on which the operation is performed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resource?: string;
-  /**
-   * The operation that users can perform.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operation?: string;
-  /**
-   * The description for the operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
+/** An error response from the service. */
+export interface CloudError {
+  /** An error response from the service. */
+  error?: CloudErrorBody;
 }
 
-/** Error description and code explaining why an operation failed. */
-export interface ErrorDefinition {
-  /** Error of the list gateway status. */
-  error?: ErrorDefinitionProperties;
-}
-
-/** Error description and code explaining why an operation failed. */
-export interface ErrorDefinitionProperties {
-  /**
-   * Description of the error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /** Error code of list gateway. */
+/** An error response from the service. */
+export interface CloudErrorBody {
+  /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
   code?: string;
+  /** A message describing the error, intended to be suitable for display in a user interface. */
+  message?: string;
 }
 
-/** List of Access Review History Definitions. */
-export interface AccessReviewHistoryDefinitionListResult {
-  /** Access Review History Definition list. */
-  value?: AccessReviewHistoryDefinition[];
-  /** The URL to use for getting the next set of results. */
-  nextLink?: string;
-}
-
-/** Access Review History Definition. */
-export interface AccessReviewHistoryDefinition {
+/** Role Assignment schedule */
+export interface RoleAssignmentSchedule {
   /**
-   * The access review history definition id.
+   * The role assignment schedule Id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
-   * The access review history definition unique id.
+   * The role assignment schedule name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * The resource type.
+   * The role assignment schedule type.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-  /** The display name for the history definition. */
+  /** The role assignment schedule scope. */
+  scope?: string;
+  /** The role definition ID. */
+  roleDefinitionId?: string;
+  /** The principal ID. */
+  principalId?: string;
+  /** The principal type of the assigned principal ID. */
+  principalType?: PrincipalType;
+  /** The id of roleAssignmentScheduleRequest used to create this roleAssignmentSchedule */
+  roleAssignmentScheduleRequestId?: string;
+  /** The id of roleEligibilitySchedule used to activated this roleAssignmentSchedule */
+  linkedRoleEligibilityScheduleId?: string;
+  /** Assignment type of the role assignment schedule */
+  assignmentType?: AssignmentType;
+  /** Membership type of the role assignment schedule */
+  memberType?: MemberType;
+  /** The status of the role assignment schedule. */
+  status?: Status;
+  /** Start DateTime when role assignment schedule */
+  startDateTime?: Date;
+  /** End DateTime when role assignment schedule */
+  endDateTime?: Date;
+  /** The conditions on the role assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase 'foo_storage_container' */
+  condition?: string;
+  /** Version of the condition. Currently accepted value is '2.0' */
+  conditionVersion?: string;
+  /** DateTime when role assignment schedule was created */
+  createdOn?: Date;
+  /** DateTime when role assignment schedule was modified */
+  updatedOn?: Date;
+  /** Additional properties of principal, scope and role definition */
+  expandedProperties?: ExpandedProperties;
+}
+
+export interface ExpandedProperties {
+  /** Details of the resource scope */
+  scope?: ExpandedPropertiesScope;
+  /** Details of role definition */
+  roleDefinition?: ExpandedPropertiesRoleDefinition;
+  /** Details of the principal */
+  principal?: ExpandedPropertiesPrincipal;
+}
+
+/** Details of the resource scope */
+export interface ExpandedPropertiesScope {
+  /** Scope id of the resource */
+  id?: string;
+  /** Display name of the resource */
   displayName?: string;
-  /**
-   * Date time used when selecting review data, all reviews included in data start on or after this date. For use only with one-time/non-recurring reports.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly reviewHistoryPeriodStartDateTime?: Date;
-  /**
-   * Date time used when selecting review data, all reviews included in data end on or before this date. For use only with one-time/non-recurring reports.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly reviewHistoryPeriodEndDateTime?: Date;
-  /** Collection of review decisions which the history data should be filtered on. For example if Approve and Deny are supplied the data will only contain review results in which the decision maker approved or denied a review request. */
-  decisions?: AccessReviewResult[];
-  /**
-   * This read-only field specifies the of the requested review history data. This is either requested, in-progress, done or error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: AccessReviewHistoryDefinitionStatus;
-  /**
-   * Date time when history definition was created
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdDateTime?: Date;
-  /** A collection of scopes used when selecting review history data */
-  scopes?: AccessReviewScope[];
-  /** Set of access review history instances for this history definition. */
-  instances?: AccessReviewHistoryInstance[];
-  /** The recurrence range type. The possible values are: endDate, noEnd, numbered. */
-  typePropertiesSettingsRangeType?: AccessReviewRecurrenceRangeType;
-  /** The number of times to repeat the access review. Required and must be positive if type is numbered. */
-  numberOfOccurrences?: number;
-  /** The DateTime when the review is scheduled to be start. This could be a date in the future. Required on create. */
-  startDate?: Date;
-  /** The DateTime when the review is scheduled to end. Required if type is endDate */
-  endDate?: Date;
-  /** The recurrence type : weekly, monthly, etc. */
-  typePropertiesSettingsPatternType?: AccessReviewRecurrencePatternType;
-  /** The interval for recurrence. For a quarterly review, the interval is 3 for type : absoluteMonthly. */
-  interval?: number;
-  /**
-   * The identity id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The identity type : user/servicePrincipal
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalType?: AccessReviewActorIdentityType;
-  /**
-   * The identity display name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalName?: string;
-  /**
-   * The user principal name(if valid)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly userPrincipalName?: string;
+  /** Type of the resource */
+  type?: string;
 }
 
-/** Access Review History Instances. */
-export interface AccessReviewHistoryDefinitionProperties {
-  /** The display name for the history definition. */
+/** Details of role definition */
+export interface ExpandedPropertiesRoleDefinition {
+  /** Id of the role definition */
+  id?: string;
+  /** Display name of the role definition */
   displayName?: string;
-  /**
-   * Date time used when selecting review data, all reviews included in data start on or after this date. For use only with one-time/non-recurring reports.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly reviewHistoryPeriodStartDateTime?: Date;
-  /**
-   * Date time used when selecting review data, all reviews included in data end on or before this date. For use only with one-time/non-recurring reports.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly reviewHistoryPeriodEndDateTime?: Date;
-  /** Collection of review decisions which the history data should be filtered on. For example if Approve and Deny are supplied the data will only contain review results in which the decision maker approved or denied a review request. */
-  decisions?: AccessReviewResult[];
-  /**
-   * This read-only field specifies the of the requested review history data. This is either requested, in-progress, done or error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: AccessReviewHistoryDefinitionStatus;
-  /**
-   * Date time when history definition was created
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdDateTime?: Date;
-  /** A collection of scopes used when selecting review history data */
-  scopes?: AccessReviewScope[];
-  /** Set of access review history instances for this history definition. */
-  instances?: AccessReviewHistoryInstance[];
-  /** The recurrence range type. The possible values are: endDate, noEnd, numbered. */
-  typeSettingsRangeType?: AccessReviewRecurrenceRangeType;
-  /** The number of times to repeat the access review. Required and must be positive if type is numbered. */
-  numberOfOccurrences?: number;
-  /** The DateTime when the review is scheduled to be start. This could be a date in the future. Required on create. */
-  startDate?: Date;
-  /** The DateTime when the review is scheduled to end. Required if type is endDate */
-  endDate?: Date;
-  /** The recurrence type : weekly, monthly, etc. */
-  typeSettingsPatternType?: AccessReviewRecurrencePatternType;
-  /** The interval for recurrence. For a quarterly review, the interval is 3 for type : absoluteMonthly. */
-  interval?: number;
-  /**
-   * The identity id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The identity type : user/servicePrincipal
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalType?: AccessReviewActorIdentityType;
-  /**
-   * The identity display name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalName?: string;
-  /**
-   * The user principal name(if valid)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly userPrincipalName?: string;
+  /** Type of the role definition */
+  type?: string;
 }
 
-/** Descriptor for what needs to be reviewed */
-export interface AccessReviewScope {
-  /**
-   * ResourceId in which this review is getting created
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceId?: string;
-  /**
-   * This is used to indicate the role being reviewed
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly roleDefinitionId?: string;
-  /**
-   * The identity type user/servicePrincipal to review
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalType?: AccessReviewScopePrincipalType;
-  /**
-   * The role assignment state eligible/active to review
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly assignmentState?: AccessReviewScopeAssignmentState;
-  /** Duration users are inactive for. The value should be in ISO  8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).This code can be used to convert TimeSpan to a valid interval string: XmlConvert.ToString(new TimeSpan(hours, minutes, seconds)) */
-  inactiveDuration?: string;
-  /** Flag to indicate whether to expand nested memberships or not. */
-  expandNestedMemberships?: boolean;
-}
-
-/** Access Review History Definition Instance. */
-export interface AccessReviewHistoryInstance {
-  /**
-   * The access review history definition instance id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The access review history definition instance unique id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Date time used when selecting review data, all reviews included in data start on or after this date. For use only with one-time/non-recurring reports. */
-  reviewHistoryPeriodStartDateTime?: Date;
-  /** Date time used when selecting review data, all reviews included in data end on or before this date. For use only with one-time/non-recurring reports. */
-  reviewHistoryPeriodEndDateTime?: Date;
-  /** The display name for the parent history definition. */
+/** Details of the principal */
+export interface ExpandedPropertiesPrincipal {
+  /** Id of the principal */
+  id?: string;
+  /** Display name of the principal */
   displayName?: string;
-  /**
-   * Status of the requested review history instance data. This is either requested, in-progress, done or error. The state transitions are as follows - Requested -> InProgress -> Done -> Expired
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: AccessReviewHistoryDefinitionStatus;
-  /** Date time when the history data report is scheduled to be generated. */
-  runDateTime?: Date;
-  /** Date time when the history data report is scheduled to be generated. */
-  fulfilledDateTime?: Date;
-  /**
-   * Uri which can be used to retrieve review history data. To generate this Uri, generateDownloadUri() must be called for a specific accessReviewHistoryDefinitionInstance. The link expires after a 24 hour period. Callers can see the expiration date time by looking at the 'se' parameter in the generated uri.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly downloadUri?: string;
-  /** Date time when history data report expires and the associated data is deleted. */
-  expiration?: Date;
+  /** Email id of the principal */
+  email?: string;
+  /** Type of the principal */
+  type?: string;
 }
 
-/** List of Access Review History Instances. */
-export interface AccessReviewHistoryDefinitionInstanceListResult {
-  /** Access Review History Definition's Instance list. */
-  value?: AccessReviewHistoryInstance[];
+/** Role assignment schedule list operation result. */
+export interface RoleAssignmentScheduleListResult {
+  /** Role assignment schedule list. */
+  value?: RoleAssignmentSchedule[];
   /** The URL to use for getting the next set of results. */
   nextLink?: string;
 }
 
-/** List of Access Review Schedule Definitions. */
-export interface AccessReviewScheduleDefinitionListResult {
-  /** Access Review Schedule Definition list. */
-  value?: AccessReviewScheduleDefinition[];
+/** Role assignment schedule instance list operation result. */
+export interface RoleAssignmentScheduleInstanceListResult {
+  /** Role assignment schedule instance list. */
+  value?: RoleAssignmentScheduleInstance[];
   /** The URL to use for getting the next set of results. */
   nextLink?: string;
 }
 
-/** Access Review Schedule Definition. */
-export interface AccessReviewScheduleDefinition {
+/** Information about current or upcoming role assignment schedule instance */
+export interface RoleAssignmentScheduleInstance {
   /**
-   * The access review schedule definition id.
+   * The role assignment schedule instance ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
-   * The access review schedule definition unique id.
+   * The role assignment schedule instance name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * The resource type.
+   * The role assignment schedule instance type.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-  /** The display name for the schedule definition. */
-  displayName?: string;
-  /**
-   * This read-only field specifies the status of an accessReview.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: AccessReviewScheduleDefinitionStatus;
-  /** The description provided by the access review creator and visible to admins. */
-  descriptionForAdmins?: string;
-  /** The description provided by the access review creator to be shown to reviewers. */
-  descriptionForReviewers?: string;
-  /** This is the collection of reviewers. */
-  reviewers?: AccessReviewReviewer[];
-  /** This is the collection of backup reviewers. */
-  backupReviewers?: AccessReviewReviewer[];
-  /**
-   * This field specifies the type of reviewers for a review. Usually for a review, reviewers are explicitly assigned. However, in some cases, the reviewers may not be assigned and instead be chosen dynamically. For example managers review or self review.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly reviewersType?: AccessReviewScheduleDefinitionReviewersType;
-  /** This is the collection of instances returned when one does an expand on it. */
-  instances?: AccessReviewInstance[];
-  /**
-   * ResourceId in which this review is getting created
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceId?: string;
-  /**
-   * This is used to indicate the role being reviewed
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly roleDefinitionId?: string;
-  /**
-   * The identity type user/servicePrincipal to review
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalTypePropertiesScopePrincipalType?: AccessReviewScopePrincipalType;
-  /**
-   * The role assignment state eligible/active to review
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly assignmentState?: AccessReviewScopeAssignmentState;
-  /** Duration users are inactive for. The value should be in ISO  8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).This code can be used to convert TimeSpan to a valid interval string: XmlConvert.ToString(new TimeSpan(hours, minutes, seconds)) */
-  inactiveDuration?: string;
-  /** Flag to indicate whether to expand nested memberships or not. */
-  expandNestedMemberships?: boolean;
-  /** Flag to indicate whether sending mails to reviewers and the review creator is enabled. */
-  mailNotificationsEnabled?: boolean;
-  /** Flag to indicate whether sending reminder emails to reviewers are enabled. */
-  reminderNotificationsEnabled?: boolean;
-  /** Flag to indicate whether reviewers are required to provide a justification when reviewing access. */
-  defaultDecisionEnabled?: boolean;
-  /** Flag to indicate whether the reviewer is required to pass justification when recording a decision. */
-  justificationRequiredOnApproval?: boolean;
-  /** This specifies the behavior for the autoReview feature when an access review completes. */
-  defaultDecision?: DefaultDecisionType;
-  /** Flag to indicate whether auto-apply capability, to automatically change the target object access resource, is enabled. If not enabled, a user must, after the review completes, apply the access review. */
-  autoApplyDecisionsEnabled?: boolean;
-  /** Flag to indicate whether showing recommendations to reviewers is enabled. */
-  recommendationsEnabled?: boolean;
-  /** Recommendations for access reviews are calculated by looking back at 30 days of data(w.r.t the start date of the review) by default. However, in some scenarios, customers want to change how far back to look at and want to configure 60 days, 90 days, etc. instead. This setting allows customers to configure this duration. The value should be in ISO  8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).This code can be used to convert TimeSpan to a valid interval string: XmlConvert.ToString(new TimeSpan(hours, minutes, seconds)) */
-  recommendationLookBackDuration?: string;
-  /** The duration in days for an instance. */
-  instanceDurationInDays?: number;
-  /** The recurrence range type. The possible values are: endDate, noEnd, numbered. */
-  typePropertiesSettingsRecurrenceRangeType?: AccessReviewRecurrenceRangeType;
-  /** The number of times to repeat the access review. Required and must be positive if type is numbered. */
-  numberOfOccurrences?: number;
-  /** The DateTime when the review is scheduled to be start. This could be a date in the future. Required on create. */
-  startDate?: Date;
-  /** The DateTime when the review is scheduled to end. Required if type is endDate */
-  endDate?: Date;
-  /** The recurrence type : weekly, monthly, etc. */
-  typePropertiesSettingsRecurrencePatternType?: AccessReviewRecurrencePatternType;
-  /** The interval for recurrence. For a quarterly review, the interval is 3 for type : absoluteMonthly. */
-  interval?: number;
-  /**
-   * The identity id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The identity type : user/servicePrincipal
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalTypePropertiesCreatedByPrincipalType?: AccessReviewActorIdentityType;
-  /**
-   * The identity display name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalName?: string;
-  /**
-   * The user principal name(if valid)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly userPrincipalName?: string;
+  /** The role assignment schedule scope. */
+  scope?: string;
+  /** The role definition ID. */
+  roleDefinitionId?: string;
+  /** The principal ID. */
+  principalId?: string;
+  /** The principal type of the assigned principal ID. */
+  principalType?: PrincipalType;
+  /** Id of the master role assignment schedule */
+  roleAssignmentScheduleId?: string;
+  /** Role Assignment Id in external system */
+  originRoleAssignmentId?: string;
+  /** The status of the role assignment schedule instance. */
+  status?: Status;
+  /** The startDateTime of the role assignment schedule instance */
+  startDateTime?: Date;
+  /** The endDateTime of the role assignment schedule instance */
+  endDateTime?: Date;
+  /** roleEligibilityScheduleId used to activate */
+  linkedRoleEligibilityScheduleId?: string;
+  /** roleEligibilityScheduleInstanceId linked to this roleAssignmentScheduleInstance */
+  linkedRoleEligibilityScheduleInstanceId?: string;
+  /** Assignment type of the role assignment schedule */
+  assignmentType?: AssignmentType;
+  /** Membership type of the role assignment schedule */
+  memberType?: MemberType;
+  /** The conditions on the role assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase 'foo_storage_container' */
+  condition?: string;
+  /** Version of the condition. Currently accepted value is '2.0' */
+  conditionVersion?: string;
+  /** DateTime when role assignment schedule was created */
+  createdOn?: Date;
+  /** Additional properties of principal, scope and role definition */
+  expandedProperties?: ExpandedProperties;
 }
 
-/** Access Review. */
-export interface AccessReviewScheduleDefinitionProperties {
-  /** The display name for the schedule definition. */
-  displayName?: string;
+/** Role Assignment schedule request */
+export interface RoleAssignmentScheduleRequest {
   /**
-   * This read-only field specifies the status of an accessReview.
+   * The role assignment schedule request ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly status?: AccessReviewScheduleDefinitionStatus;
-  /** The description provided by the access review creator and visible to admins. */
-  descriptionForAdmins?: string;
-  /** The description provided by the access review creator to be shown to reviewers. */
-  descriptionForReviewers?: string;
-  /** This is the collection of reviewers. */
-  reviewers?: AccessReviewReviewer[];
-  /** This is the collection of backup reviewers. */
-  backupReviewers?: AccessReviewReviewer[];
+  readonly id?: string;
   /**
-   * This field specifies the type of reviewers for a review. Usually for a review, reviewers are explicitly assigned. However, in some cases, the reviewers may not be assigned and instead be chosen dynamically. For example managers review or self review.
+   * The role assignment schedule request name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly reviewersType?: AccessReviewScheduleDefinitionReviewersType;
-  /** This is the collection of instances returned when one does an expand on it. */
-  instances?: AccessReviewInstance[];
+  readonly name?: string;
   /**
-   * ResourceId in which this review is getting created
+   * The role assignment schedule request type.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly resourceId?: string;
+  readonly type?: string;
   /**
-   * This is used to indicate the role being reviewed
+   * The role assignment schedule request scope.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly roleDefinitionId?: string;
-  /**
-   * The identity type user/servicePrincipal to review
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalTypeScopePrincipalType?: AccessReviewScopePrincipalType;
-  /**
-   * The role assignment state eligible/active to review
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly assignmentState?: AccessReviewScopeAssignmentState;
-  /** Duration users are inactive for. The value should be in ISO  8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).This code can be used to convert TimeSpan to a valid interval string: XmlConvert.ToString(new TimeSpan(hours, minutes, seconds)) */
-  inactiveDuration?: string;
-  /** Flag to indicate whether to expand nested memberships or not. */
-  expandNestedMemberships?: boolean;
-  /** Flag to indicate whether sending mails to reviewers and the review creator is enabled. */
-  mailNotificationsEnabled?: boolean;
-  /** Flag to indicate whether sending reminder emails to reviewers are enabled. */
-  reminderNotificationsEnabled?: boolean;
-  /** Flag to indicate whether reviewers are required to provide a justification when reviewing access. */
-  defaultDecisionEnabled?: boolean;
-  /** Flag to indicate whether the reviewer is required to pass justification when recording a decision. */
-  justificationRequiredOnApproval?: boolean;
-  /** This specifies the behavior for the autoReview feature when an access review completes. */
-  defaultDecision?: DefaultDecisionType;
-  /** Flag to indicate whether auto-apply capability, to automatically change the target object access resource, is enabled. If not enabled, a user must, after the review completes, apply the access review. */
-  autoApplyDecisionsEnabled?: boolean;
-  /** Flag to indicate whether showing recommendations to reviewers is enabled. */
-  recommendationsEnabled?: boolean;
-  /** Recommendations for access reviews are calculated by looking back at 30 days of data(w.r.t the start date of the review) by default. However, in some scenarios, customers want to change how far back to look at and want to configure 60 days, 90 days, etc. instead. This setting allows customers to configure this duration. The value should be in ISO  8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).This code can be used to convert TimeSpan to a valid interval string: XmlConvert.ToString(new TimeSpan(hours, minutes, seconds)) */
-  recommendationLookBackDuration?: string;
-  /** The duration in days for an instance. */
-  instanceDurationInDays?: number;
-  /** The recurrence range type. The possible values are: endDate, noEnd, numbered. */
-  typeSettingsRecurrenceRangeType?: AccessReviewRecurrenceRangeType;
-  /** The number of times to repeat the access review. Required and must be positive if type is numbered. */
-  numberOfOccurrences?: number;
-  /** The DateTime when the review is scheduled to be start. This could be a date in the future. Required on create. */
-  startDate?: Date;
-  /** The DateTime when the review is scheduled to end. Required if type is endDate */
-  endDate?: Date;
-  /** The recurrence type : weekly, monthly, etc. */
-  typeSettingsRecurrencePatternType?: AccessReviewRecurrencePatternType;
-  /** The interval for recurrence. For a quarterly review, the interval is 3 for type : absoluteMonthly. */
-  interval?: number;
-  /**
-   * The identity id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The identity type : user/servicePrincipal
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalTypeCreatedByPrincipalType?: AccessReviewActorIdentityType;
-  /**
-   * The identity display name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalName?: string;
-  /**
-   * The user principal name(if valid)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly userPrincipalName?: string;
-}
-
-/** Settings of an Access Review. */
-export interface AccessReviewScheduleSettings {
-  /** Flag to indicate whether sending mails to reviewers and the review creator is enabled. */
-  mailNotificationsEnabled?: boolean;
-  /** Flag to indicate whether sending reminder emails to reviewers are enabled. */
-  reminderNotificationsEnabled?: boolean;
-  /** Flag to indicate whether reviewers are required to provide a justification when reviewing access. */
-  defaultDecisionEnabled?: boolean;
-  /** Flag to indicate whether the reviewer is required to pass justification when recording a decision. */
-  justificationRequiredOnApproval?: boolean;
-  /** This specifies the behavior for the autoReview feature when an access review completes. */
-  defaultDecision?: DefaultDecisionType;
-  /** Flag to indicate whether auto-apply capability, to automatically change the target object access resource, is enabled. If not enabled, a user must, after the review completes, apply the access review. */
-  autoApplyDecisionsEnabled?: boolean;
-  /** Flag to indicate whether showing recommendations to reviewers is enabled. */
-  recommendationsEnabled?: boolean;
-  /** Recommendations for access reviews are calculated by looking back at 30 days of data(w.r.t the start date of the review) by default. However, in some scenarios, customers want to change how far back to look at and want to configure 60 days, 90 days, etc. instead. This setting allows customers to configure this duration. The value should be in ISO  8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).This code can be used to convert TimeSpan to a valid interval string: XmlConvert.ToString(new TimeSpan(hours, minutes, seconds)) */
-  recommendationLookBackDuration?: string;
-  /** The duration in days for an instance. */
-  instanceDurationInDays?: number;
-  /** The recurrence range type. The possible values are: endDate, noEnd, numbered. */
-  typeRecurrenceRangeType?: AccessReviewRecurrenceRangeType;
-  /** The number of times to repeat the access review. Required and must be positive if type is numbered. */
-  numberOfOccurrences?: number;
-  /** The DateTime when the review is scheduled to be start. This could be a date in the future. Required on create. */
-  startDate?: Date;
-  /** The DateTime when the review is scheduled to end. Required if type is endDate */
-  endDate?: Date;
-  /** The recurrence type : weekly, monthly, etc. */
-  typeRecurrencePatternType?: AccessReviewRecurrencePatternType;
-  /** The interval for recurrence. For a quarterly review, the interval is 3 for type : absoluteMonthly. */
-  interval?: number;
-}
-
-/** Descriptor for what needs to be reviewed */
-export interface AccessReviewReviewer {
-  /** The id of the reviewer(user/servicePrincipal) */
+  readonly scope?: string;
+  /** The role definition ID. */
+  roleDefinitionId?: string;
+  /** The principal ID. */
   principalId?: string;
   /**
-   * The identity type : user/servicePrincipal
+   * The principal type of the assigned principal ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly principalType?: AccessReviewReviewerType;
-}
-
-/** Access Review Instance. */
-export interface AccessReviewInstance {
+  readonly principalType?: PrincipalType;
+  /** The type of the role assignment schedule request. Eg: SelfActivate, AdminAssign etc */
+  requestType?: RequestType;
   /**
-   * The access review instance id.
+   * The status of the role assignment schedule request.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly id?: string;
+  readonly status?: Status;
   /**
-   * The access review instance name.
+   * The approvalId of the role assignment schedule request.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly name?: string;
-  /**
-   * The resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * This read-only field specifies the status of an access review instance.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: AccessReviewInstanceStatus;
-  /** The DateTime when the review instance is scheduled to be start. */
-  startDateTime?: Date;
-  /** The DateTime when the review instance is scheduled to end. */
-  endDateTime?: Date;
-  /** This is the collection of reviewers. */
-  reviewers?: AccessReviewReviewer[];
-  /** This is the collection of backup reviewers. */
-  backupReviewers?: AccessReviewReviewer[];
-  /**
-   * This field specifies the type of reviewers for a review. Usually for a review, reviewers are explicitly assigned. However, in some cases, the reviewers may not be assigned and instead be chosen dynamically. For example managers review or self review.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly reviewersType?: AccessReviewInstanceReviewersType;
-}
-
-/** Access Review Instance properties. */
-export interface AccessReviewInstanceProperties {
-  /**
-   * This read-only field specifies the status of an access review instance.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: AccessReviewInstanceStatus;
-  /** The DateTime when the review instance is scheduled to be start. */
-  startDateTime?: Date;
-  /** The DateTime when the review instance is scheduled to end. */
-  endDateTime?: Date;
-  /** This is the collection of reviewers. */
-  reviewers?: AccessReviewReviewer[];
-  /** This is the collection of backup reviewers. */
-  backupReviewers?: AccessReviewReviewer[];
-  /**
-   * This field specifies the type of reviewers for a review. Usually for a review, reviewers are explicitly assigned. However, in some cases, the reviewers may not be assigned and instead be chosen dynamically. For example managers review or self review.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly reviewersType?: AccessReviewInstanceReviewersType;
-}
-
-/** List of Access Review Instances. */
-export interface AccessReviewInstanceListResult {
-  /** Access Review Instance list. */
-  value?: AccessReviewInstance[];
-  /** The URL to use for getting the next set of results. */
-  nextLink?: string;
-}
-
-/** List of access review decisions. */
-export interface AccessReviewDecisionListResult {
-  /** Access Review Decision list. */
-  value?: AccessReviewDecision[];
-  /** The URL to use for getting the next set of results. */
-  nextLink?: string;
-}
-
-/** Access Review. */
-export interface AccessReviewDecision {
-  /**
-   * The access review decision id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The access review decision name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The feature- generated recommendation shown to the reviewer.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly recommendation?: AccessRecommendationType;
-  /** The decision on the approval step. This value is initially set to NotReviewed. Approvers can take action of Approve/Deny */
-  decision?: AccessReviewResult;
-  /** Justification provided by approvers for their action */
+  readonly approvalId?: string;
+  /** The resultant role assignment schedule id or the role assignment schedule id being updated */
+  targetRoleAssignmentScheduleId?: string;
+  /** The role assignment schedule instance id being updated */
+  targetRoleAssignmentScheduleInstanceId?: string;
+  /** Schedule info of the role assignment schedule */
+  scheduleInfo?: RoleAssignmentScheduleRequestPropertiesScheduleInfo;
+  /** The linked role eligibility schedule id - to activate an eligibility. */
+  linkedRoleEligibilityScheduleId?: string;
+  /** Justification for the role assignment */
   justification?: string;
+  /** Ticket Info of the role assignment */
+  ticketInfo?: RoleAssignmentScheduleRequestPropertiesTicketInfo;
+  /** The conditions on the role assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase 'foo_storage_container' */
+  condition?: string;
+  /** Version of the condition. Currently accepted value is '2.0' */
+  conditionVersion?: string;
   /**
-   * Date Time when a decision was taken.
+   * DateTime when role assignment schedule request was created
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly reviewedDateTime?: Date;
+  readonly createdOn?: Date;
   /**
-   * The outcome of applying the decision.
+   * Id of the user who created this request
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly applyResult?: AccessReviewApplyResult;
+  readonly requestorId?: string;
   /**
-   * The date and time when the review decision was applied.
+   * Additional properties of principal, scope and role definition
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly appliedDateTime?: Date;
-  /**
-   * The identity id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalIdPropertiesAppliedByPrincipalId?: string;
-  /**
-   * The identity type : user/servicePrincipal
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalTypePropertiesAppliedByPrincipalType?: AccessReviewActorIdentityType;
-  /**
-   * The identity display name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalNamePropertiesAppliedByPrincipalName?: string;
-  /**
-   * The user principal name(if valid)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly userPrincipalNamePropertiesAppliedByUserPrincipalName?: string;
-  /**
-   * The identity id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalIdPropertiesReviewedByPrincipalId?: string;
-  /**
-   * The identity type : user/servicePrincipal
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalTypePropertiesReviewedByPrincipalType?: AccessReviewActorIdentityType;
-  /**
-   * The identity display name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalNamePropertiesReviewedByPrincipalName?: string;
-  /**
-   * The user principal name(if valid)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly userPrincipalNamePropertiesReviewedByUserPrincipalName?: string;
-  /** The type of resource: azureRole */
-  typePropertiesResourceType?: DecisionResourceType;
-  /**
-   * The id of resource associated with a decision record.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly idPropertiesResourceId?: string;
-  /**
-   * The display name of resource associated with a decision record.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayNamePropertiesResourceDisplayName?: string;
-  /** The type of decision target : User/ServicePrincipal */
-  typePropertiesPrincipalType?: DecisionTargetType;
-  /**
-   * The id of principal whose access was reviewed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly idPropertiesPrincipalId?: string;
-  /**
-   * The display name of the user whose access was reviewed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayNamePropertiesPrincipalDisplayName?: string;
+  readonly expandedProperties?: ExpandedProperties;
 }
 
-/** Approval Step. */
-export interface AccessReviewDecisionProperties {
-  /**
-   * The feature- generated recommendation shown to the reviewer.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly recommendation?: AccessRecommendationType;
-  /** The decision on the approval step. This value is initially set to NotReviewed. Approvers can take action of Approve/Deny */
-  decision?: AccessReviewResult;
-  /** Justification provided by approvers for their action */
-  justification?: string;
-  /**
-   * Date Time when a decision was taken.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly reviewedDateTime?: Date;
-  /**
-   * The outcome of applying the decision.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly applyResult?: AccessReviewApplyResult;
-  /**
-   * The date and time when the review decision was applied.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly appliedDateTime?: Date;
-  /**
-   * The identity id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalIdAppliedByPrincipalId?: string;
-  /**
-   * The identity type : user/servicePrincipal
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalTypeAppliedByPrincipalType?: AccessReviewActorIdentityType;
-  /**
-   * The identity display name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalNameAppliedByPrincipalName?: string;
-  /**
-   * The user principal name(if valid)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly userPrincipalNameAppliedByUserPrincipalName?: string;
-  /**
-   * The identity id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalIdReviewedByPrincipalId?: string;
-  /**
-   * The identity type : user/servicePrincipal
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalTypeReviewedByPrincipalType?: AccessReviewActorIdentityType;
-  /**
-   * The identity display name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalNameReviewedByPrincipalName?: string;
-  /**
-   * The user principal name(if valid)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly userPrincipalNameReviewedByUserPrincipalName?: string;
-  /** The type of resource: azureRole */
-  typeResourceType?: DecisionResourceType;
-  /**
-   * The id of resource associated with a decision record.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly idResourceId?: string;
-  /**
-   * The display name of resource associated with a decision record.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayNameResourceDisplayName?: string;
-  /** The type of decision target : User/ServicePrincipal */
-  typePrincipalType?: DecisionTargetType;
-  /**
-   * The id of principal whose access was reviewed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly idPrincipalId?: string;
-  /**
-   * The display name of the user whose access was reviewed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayNamePrincipalDisplayName?: string;
+/** Schedule info of the role assignment schedule */
+export interface RoleAssignmentScheduleRequestPropertiesScheduleInfo {
+  /** Start DateTime of the role assignment schedule. */
+  startDateTime?: Date;
+  /** Expiration of the role assignment schedule */
+  expiration?: RoleAssignmentScheduleRequestPropertiesScheduleInfoExpiration;
 }
 
-/** Target of the decision. */
-export interface AccessReviewDecisionIdentity {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "user" | "servicePrincipal";
-  /**
-   * The id of principal whose access was reviewed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The display name of the user whose access was reviewed.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
+/** Expiration of the role assignment schedule */
+export interface RoleAssignmentScheduleRequestPropertiesScheduleInfoExpiration {
+  /** Type of the role assignment schedule expiration */
+  type?: Type;
+  /** End DateTime of the role assignment schedule. */
+  endDateTime?: Date;
+  /** Duration of the role assignment schedule in TimeSpan. */
+  duration?: string;
 }
 
-/** Target of the decision. */
-export interface AccessReviewDecisionResource {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "azureRole";
-  /**
-   * The id of resource associated with a decision record.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The display name of resource associated with a decision record.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly displayName?: string;
+/** Ticket Info of the role assignment */
+export interface RoleAssignmentScheduleRequestPropertiesTicketInfo {
+  /** Ticket number for the role assignment */
+  ticketNumber?: string;
+  /** Ticket system name for the role assignment */
+  ticketSystem?: string;
 }
 
-/** List of access review contacted reviewers. */
-export interface AccessReviewContactedReviewerListResult {
-  /** Access Review Contacted Reviewer. */
-  value?: AccessReviewContactedReviewer[];
+/** Role assignment schedule request list operation result. */
+export interface RoleAssignmentScheduleRequestListResult {
+  /** Role assignment schedule request list. */
+  value?: RoleAssignmentScheduleRequest[];
   /** The URL to use for getting the next set of results. */
   nextLink?: string;
 }
 
-/** Access Review Contacted Reviewer. */
-export interface AccessReviewContactedReviewer {
+/** Role eligibility schedule */
+export interface RoleEligibilitySchedule {
   /**
-   * The access review reviewer id.
+   * The role eligibility schedule Id.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
-   * The access review reviewer id.
+   * The role eligibility schedule name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * The resource type.
+   * The role eligibility schedule type.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-  /**
-   * The display name of the reviewer
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly userDisplayName?: string;
-  /**
-   * The user principal name of the reviewer
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly userPrincipalName?: string;
-  /**
-   * Date Time when the reviewer was contacted.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdDateTime?: Date;
+  /** The role eligibility schedule scope. */
+  scope?: string;
+  /** The role definition ID. */
+  roleDefinitionId?: string;
+  /** The principal ID. */
+  principalId?: string;
+  /** The principal type of the assigned principal ID. */
+  principalType?: PrincipalType;
+  /** The id of roleEligibilityScheduleRequest used to create this roleAssignmentSchedule */
+  roleEligibilityScheduleRequestId?: string;
+  /** Membership type of the role eligibility schedule */
+  memberType?: MemberType;
+  /** The status of the role eligibility schedule. */
+  status?: Status;
+  /** Start DateTime when role eligibility schedule */
+  startDateTime?: Date;
+  /** End DateTime when role eligibility schedule */
+  endDateTime?: Date;
+  /** The conditions on the role assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase 'foo_storage_container' */
+  condition?: string;
+  /** Version of the condition. Currently accepted value is '2.0' */
+  conditionVersion?: string;
+  /** DateTime when role eligibility schedule was created */
+  createdOn?: Date;
+  /** DateTime when role eligibility schedule was modified */
+  updatedOn?: Date;
+  /** Additional properties of principal, scope and role definition */
+  expandedProperties?: ExpandedProperties;
 }
 
-/** Access Review Default Settings. */
-export interface AccessReviewDefaultSettings {
+/** role eligibility schedule list operation result. */
+export interface RoleEligibilityScheduleListResult {
+  /** role eligibility schedule list. */
+  value?: RoleEligibilitySchedule[];
+  /** The URL to use for getting the next set of results. */
+  nextLink?: string;
+}
+
+/** Role eligibility schedule instance list operation result. */
+export interface RoleEligibilityScheduleInstanceListResult {
+  /** Role eligibility schedule instance list. */
+  value?: RoleEligibilityScheduleInstance[];
+  /** The URL to use for getting the next set of results. */
+  nextLink?: string;
+}
+
+/** Information about current or upcoming role eligibility schedule instance */
+export interface RoleEligibilityScheduleInstance {
   /**
-   * The access review default settings id. This is only going to be default
+   * The role eligibility schedule instance ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
-   * The access review default settings name. This is always going to be Access Review Default Settings
+   * The role eligibility schedule instance name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * The resource type.
+   * The role eligibility schedule instance type.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-  /** Flag to indicate whether sending mails to reviewers and the review creator is enabled. */
-  mailNotificationsEnabled?: boolean;
-  /** Flag to indicate whether sending reminder emails to reviewers are enabled. */
-  reminderNotificationsEnabled?: boolean;
-  /** Flag to indicate whether reviewers are required to provide a justification when reviewing access. */
-  defaultDecisionEnabled?: boolean;
-  /** Flag to indicate whether the reviewer is required to pass justification when recording a decision. */
-  justificationRequiredOnApproval?: boolean;
-  /** This specifies the behavior for the autoReview feature when an access review completes. */
-  defaultDecision?: DefaultDecisionType;
-  /** Flag to indicate whether auto-apply capability, to automatically change the target object access resource, is enabled. If not enabled, a user must, after the review completes, apply the access review. */
-  autoApplyDecisionsEnabled?: boolean;
-  /** Flag to indicate whether showing recommendations to reviewers is enabled. */
-  recommendationsEnabled?: boolean;
-  /** Recommendations for access reviews are calculated by looking back at 30 days of data(w.r.t the start date of the review) by default. However, in some scenarios, customers want to change how far back to look at and want to configure 60 days, 90 days, etc. instead. This setting allows customers to configure this duration. The value should be in ISO  8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).This code can be used to convert TimeSpan to a valid interval string: XmlConvert.ToString(new TimeSpan(hours, minutes, seconds)) */
-  recommendationLookBackDuration?: string;
-  /** The duration in days for an instance. */
-  instanceDurationInDays?: number;
-  /** The recurrence range type. The possible values are: endDate, noEnd, numbered. */
-  typePropertiesRecurrenceRangeType?: AccessReviewRecurrenceRangeType;
-  /** The number of times to repeat the access review. Required and must be positive if type is numbered. */
-  numberOfOccurrences?: number;
-  /** The DateTime when the review is scheduled to be start. This could be a date in the future. Required on create. */
-  startDate?: Date;
-  /** The DateTime when the review is scheduled to end. Required if type is endDate */
-  endDate?: Date;
-  /** The recurrence type : weekly, monthly, etc. */
-  typePropertiesRecurrencePatternType?: AccessReviewRecurrencePatternType;
-  /** The interval for recurrence. For a quarterly review, the interval is 3 for type : absoluteMonthly. */
-  interval?: number;
+  /** The role eligibility schedule scope. */
+  scope?: string;
+  /** The role definition ID. */
+  roleDefinitionId?: string;
+  /** The principal ID. */
+  principalId?: string;
+  /** The principal type of the assigned principal ID. */
+  principalType?: PrincipalType;
+  /** Id of the master role eligibility schedule */
+  roleEligibilityScheduleId?: string;
+  /** The status of the role eligibility schedule instance */
+  status?: Status;
+  /** The startDateTime of the role eligibility schedule instance */
+  startDateTime?: Date;
+  /** The endDateTime of the role eligibility schedule instance */
+  endDateTime?: Date;
+  /** Membership type of the role eligibility schedule */
+  memberType?: MemberType;
+  /** The conditions on the role assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase 'foo_storage_container' */
+  condition?: string;
+  /** Version of the condition. Currently accepted value is '2.0' */
+  conditionVersion?: string;
+  /** DateTime when role eligibility schedule was created */
+  createdOn?: Date;
+  /** Additional properties of principal, scope and role definition */
+  expandedProperties?: ExpandedProperties;
 }
 
-/** User Decision Target */
-export type AccessReviewDecisionUserIdentity = AccessReviewDecisionIdentity & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "user";
+/** Role Eligibility schedule request */
+export interface RoleEligibilityScheduleRequest {
   /**
-   * The user principal name of the user whose access was reviewed.
+   * The role eligibility schedule request ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly userPrincipalName?: string;
-};
-
-/** Service Principal Decision Target */
-export type AccessReviewDecisionServicePrincipalIdentity = AccessReviewDecisionIdentity & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "servicePrincipal";
+  readonly id?: string;
   /**
-   * The appId for the service principal entity being reviewed
+   * The role eligibility schedule request name.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly appId?: string;
-};
+  readonly name?: string;
+  /**
+   * The role eligibility schedule request type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The role eligibility schedule request scope.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly scope?: string;
+  /** The role definition ID. */
+  roleDefinitionId?: string;
+  /** The principal ID. */
+  principalId?: string;
+  /**
+   * The principal type of the assigned principal ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalType?: PrincipalType;
+  /** The type of the role assignment schedule request. Eg: SelfActivate, AdminAssign etc */
+  requestType?: RequestType;
+  /**
+   * The status of the role eligibility schedule request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: Status;
+  /**
+   * The approvalId of the role eligibility schedule request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly approvalId?: string;
+  /** Schedule info of the role eligibility schedule */
+  scheduleInfo?: RoleEligibilityScheduleRequestPropertiesScheduleInfo;
+  /** The resultant role eligibility schedule id or the role eligibility schedule id being updated */
+  targetRoleEligibilityScheduleId?: string;
+  /** The role eligibility schedule instance id being updated */
+  targetRoleEligibilityScheduleInstanceId?: string;
+  /** Justification for the role eligibility */
+  justification?: string;
+  /** Ticket Info of the role eligibility */
+  ticketInfo?: RoleEligibilityScheduleRequestPropertiesTicketInfo;
+  /** The conditions on the role assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase 'foo_storage_container' */
+  condition?: string;
+  /** Version of the condition. Currently accepted value is '2.0' */
+  conditionVersion?: string;
+  /**
+   * DateTime when role eligibility schedule request was created
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdOn?: Date;
+  /**
+   * Id of the user who created this request
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requestorId?: string;
+  /**
+   * Additional properties of principal, scope and role definition
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expandedProperties?: ExpandedProperties;
+}
 
-/** Target of the decision. */
-export type AccessReviewDecisionResourceAzureRole = AccessReviewDecisionResource & {
+/** Schedule info of the role eligibility schedule */
+export interface RoleEligibilityScheduleRequestPropertiesScheduleInfo {
+  /** Start DateTime of the role eligibility schedule. */
+  startDateTime?: Date;
+  /** Expiration of the role eligibility schedule */
+  expiration?: RoleEligibilityScheduleRequestPropertiesScheduleInfoExpiration;
+}
+
+/** Expiration of the role eligibility schedule */
+export interface RoleEligibilityScheduleRequestPropertiesScheduleInfoExpiration {
+  /** Type of the role eligibility schedule expiration */
+  type?: Type;
+  /** End DateTime of the role eligibility schedule. */
+  endDateTime?: Date;
+  /** Duration of the role eligibility schedule in TimeSpan. */
+  duration?: string;
+}
+
+/** Ticket Info of the role eligibility */
+export interface RoleEligibilityScheduleRequestPropertiesTicketInfo {
+  /** Ticket number for the role eligibility */
+  ticketNumber?: string;
+  /** Ticket system name for the role eligibility */
+  ticketSystem?: string;
+}
+
+/** Role eligibility schedule request list operation result. */
+export interface RoleEligibilityScheduleRequestListResult {
+  /** Role eligibility schedule request list. */
+  value?: RoleEligibilityScheduleRequest[];
+  /** The URL to use for getting the next set of results. */
+  nextLink?: string;
+}
+
+/** Role management policy */
+export interface RoleManagementPolicy {
+  /**
+   * The role management policy Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The role management policy name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The role management policy type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** The role management policy scope. */
+  scope?: string;
+  /** The role management policy display name. */
+  displayName?: string;
+  /** The role management policy description. */
+  description?: string;
+  /** The role management policy is default policy. */
+  isOrganizationDefault?: boolean;
+  /**
+   * The name of the entity last modified it
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastModifiedBy?: Principal;
+  /**
+   * The last modified date time.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastModifiedDateTime?: Date;
+  /** The rule applied to the policy. */
+  rules?: RoleManagementPolicyRuleUnion[];
+  /**
+   * The readonly computed rule applied to the policy.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly effectiveRules?: RoleManagementPolicyRuleUnion[];
+  /**
+   * Additional properties of scope
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policyProperties?: PolicyProperties;
+}
+
+/** The name of the entity last modified it */
+export interface Principal {
+  /** The id of the principal made changes */
+  id?: string;
+  /** The name of the principal made changes */
+  displayName?: string;
+  /** Type of principal such as user , group etc */
+  type?: string;
+  /** Email of principal */
+  email?: string;
+}
+
+/** The role management policy rule. */
+export interface RoleManagementPolicyRule {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "azureRole";
+  ruleType:
+    | "RoleManagementPolicyApprovalRule"
+    | "RoleManagementPolicyAuthenticationContextRule"
+    | "RoleManagementPolicyEnablementRule"
+    | "RoleManagementPolicyExpirationRule"
+    | "RoleManagementPolicyNotificationRule";
+  /** The id of the rule. */
+  id?: string;
+  /** The target of the current rule. */
+  target?: RoleManagementPolicyRuleTarget;
+}
+
+/** The role management policy rule target. */
+export interface RoleManagementPolicyRuleTarget {
+  /** The caller of the setting. */
+  caller?: string;
+  /** The type of operation. */
+  operations?: string[];
+  /** The assignment level to which rule is applied. */
+  level?: string;
+  /** The list of target objects. */
+  targetObjects?: string[];
+  /** The list of inheritable settings. */
+  inheritableSettings?: string[];
+  /** The list of enforced settings. */
+  enforcedSettings?: string[];
+}
+
+/** Expanded info of resource scope */
+export interface PolicyProperties {
+  /**
+   * Details of the resource scope
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly scope?: PolicyPropertiesScope;
+}
+
+/** Details of the resource scope */
+export interface PolicyPropertiesScope {
+  /** Scope id of the resource */
+  id?: string;
+  /** Display name of the resource */
+  displayName?: string;
+  /** Type of the resource */
+  type?: string;
+}
+
+/** Role management policy list operation result. */
+export interface RoleManagementPolicyListResult {
+  /** Role management policy list. */
+  value?: RoleManagementPolicy[];
+  /** The URL to use for getting the next set of results. */
+  nextLink?: string;
+}
+
+/** Role management policy */
+export interface RoleManagementPolicyAssignment {
+  /**
+   * The role management policy Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The role management policy name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The role management policy type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** The role management policy scope. */
+  scope?: string;
+  /** The role definition of management policy assignment. */
+  roleDefinitionId?: string;
+  /** The policy id role management policy assignment. */
+  policyId?: string;
+  /**
+   * The readonly computed rule applied to the policy.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly effectiveRules?: RoleManagementPolicyRuleUnion[];
+  /**
+   * Additional properties of scope, role definition and policy
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policyAssignmentProperties?: PolicyAssignmentProperties;
+}
+
+/** Expanded info of resource scope, role definition and policy */
+export interface PolicyAssignmentProperties {
+  /** Details of the resource scope */
+  scope?: PolicyAssignmentPropertiesScope;
+  /** Details of role definition */
+  roleDefinition?: PolicyAssignmentPropertiesRoleDefinition;
+  /** Details of the policy */
+  policy?: PolicyAssignmentPropertiesPolicy;
+}
+
+/** Details of the resource scope */
+export interface PolicyAssignmentPropertiesScope {
+  /** Scope id of the resource */
+  id?: string;
+  /** Display name of the resource */
+  displayName?: string;
+  /** Type of the resource */
+  type?: string;
+}
+
+/** Details of role definition */
+export interface PolicyAssignmentPropertiesRoleDefinition {
+  /** Id of the role definition */
+  id?: string;
+  /** Display name of the role definition */
+  displayName?: string;
+  /** Type of the role definition */
+  type?: string;
+}
+
+/** Details of the policy */
+export interface PolicyAssignmentPropertiesPolicy {
+  /** Id of the policy */
+  id?: string;
+  /**
+   * The name of the entity last modified it
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastModifiedBy?: Principal;
+  /** The last modified date time. */
+  lastModifiedDateTime?: Date;
+}
+
+/** Role management policy assignment list operation result. */
+export interface RoleManagementPolicyAssignmentListResult {
+  /** Role management policy assignment list. */
+  value?: RoleManagementPolicyAssignment[];
+  /** The URL to use for getting the next set of results. */
+  nextLink?: string;
+}
+
+/** Role definition permissions. */
+export interface Permission {
+  /** Allowed actions. */
+  actions?: string[];
+  /** Denied actions. */
+  notActions?: string[];
+  /** Allowed Data actions. */
+  dataActions?: string[];
+  /** Denied Data actions. */
+  notDataActions?: string[];
+}
+
+/** The approval settings. */
+export interface ApprovalSettings {
+  /** Determines whether approval is required or not. */
+  isApprovalRequired?: boolean;
+  /** Determines whether approval is required for assignment extension. */
+  isApprovalRequiredForExtension?: boolean;
+  /** Determine whether requestor justification is required. */
+  isRequestorJustificationRequired?: boolean;
+  /** The type of rule */
+  approvalMode?: ApprovalMode;
+  /** The approval stages of the request. */
+  approvalStages?: ApprovalStage[];
+}
+
+/** The approval stage. */
+export interface ApprovalStage {
+  /** The time in days when approval request would be timed out */
+  approvalStageTimeOutInDays?: number;
+  /** Determines whether approver need to provide justification for his decision. */
+  isApproverJustificationRequired?: boolean;
+  /** The time in minutes when the approval request would be escalated if the primary approver does not approve */
+  escalationTimeInMinutes?: number;
+  /** The primary approver of the request. */
+  primaryApprovers?: UserSet[];
+  /** The value determine whether escalation feature is enabled. */
+  isEscalationEnabled?: boolean;
+  /** The escalation approver of the request. */
+  escalationApprovers?: UserSet[];
+}
+
+/** The detail of a user. */
+export interface UserSet {
+  /** The type of user. */
+  userType?: UserType;
+  /** The value indicating whether the user is a backup fallback approver */
+  isBackup?: boolean;
+  /** The object id of the user. */
+  id?: string;
+  /** The description of the user. */
+  description?: string;
+}
+
+/** Role assignment schedule filter */
+export interface RoleAssignmentScheduleFilter {
+  /** Returns role assignment schedule of the specific principal. */
+  principalId?: string;
+  /** Returns role assignment schedule of the specific role definition. */
+  roleDefinitionId?: string;
+  /** Returns role assignment schedule instances of the specific status. */
+  status?: string;
+}
+
+/** Role assignment schedule instance filter */
+export interface RoleAssignmentScheduleInstanceFilter {
+  /** Returns role assignment schedule instances of the specific principal. */
+  principalId?: string;
+  /** Returns role assignment schedule instances of the specific role definition. */
+  roleDefinitionId?: string;
+  /** Returns role assignment schedule instances of the specific status. */
+  status?: string;
+  /** Returns role assignment schedule instances belonging to a specific role assignment schedule. */
+  roleAssignmentScheduleId?: string;
+}
+
+/** Role assignment schedule request filter */
+export interface RoleAssignmentScheduleRequestFilter {
+  /** Returns role assignment requests of the specific principal. */
+  principalId?: string;
+  /** Returns role assignment requests of the specific role definition. */
+  roleDefinitionId?: string;
+  /** Returns role assignment requests created by specific principal. */
+  requestorId?: string;
+  /** Returns role assignment requests of specific status. */
+  status?: string;
+}
+
+/** Role eligibility schedule filter */
+export interface RoleEligibilityScheduleFilter {
+  /** Returns role eligibility schedule of the specific principal. */
+  principalId?: string;
+  /** Returns role eligibility schedule of the specific role definition. */
+  roleDefinitionId?: string;
+  /** Returns role eligibility schedule of the specific status. */
+  status?: string;
+}
+
+/** Role eligibility schedule instance filter */
+export interface RoleEligibilityScheduleInstanceFilter {
+  /** Returns role eligibility schedule instances of the specific principal. */
+  principalId?: string;
+  /** Returns role eligibility schedule instances of the specific role definition. */
+  roleDefinitionId?: string;
+  /** Returns role eligibility schedule instances of the specific status. */
+  status?: string;
+  /** Returns role eligibility schedule instances belonging to a specific role eligibility schedule. */
+  roleEligibilityScheduleId?: string;
+}
+
+/** Role eligibility schedule request filter */
+export interface RoleEligibilityScheduleRequestFilter {
+  /** Returns role eligibility requests of the specific principal. */
+  principalId?: string;
+  /** Returns role eligibility requests of the specific role definition. */
+  roleDefinitionId?: string;
+  /** Returns role eligibility requests created by specific principal. */
+  requestorId?: string;
+  /** Returns role eligibility requests of specific status. */
+  status?: string;
+}
+
+/** The role management policy approval rule. */
+export type RoleManagementPolicyApprovalRule = RoleManagementPolicyRule & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  ruleType: "RoleManagementPolicyApprovalRule";
+  /** The approval setting */
+  setting?: ApprovalSettings;
 };
 
-/** Known values of {@link AccessReviewResult} that the service accepts. */
-export enum KnownAccessReviewResult {
-  Approve = "Approve",
-  Deny = "Deny",
-  NotReviewed = "NotReviewed",
-  DontKnow = "DontKnow",
-  NotNotified = "NotNotified"
+/** The role management policy authentication context rule. */
+export type RoleManagementPolicyAuthenticationContextRule = RoleManagementPolicyRule & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  ruleType: "RoleManagementPolicyAuthenticationContextRule";
+  /** The value indicating if rule is enabled. */
+  isEnabled?: boolean;
+  /** The claim value. */
+  claimValue?: string;
+};
+
+/** The role management policy enablement rule. */
+export type RoleManagementPolicyEnablementRule = RoleManagementPolicyRule & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  ruleType: "RoleManagementPolicyEnablementRule";
+  /** The list of enabled rules. */
+  enabledRules?: EnablementRules[];
+};
+
+/** The role management policy expiration rule. */
+export type RoleManagementPolicyExpirationRule = RoleManagementPolicyRule & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  ruleType: "RoleManagementPolicyExpirationRule";
+  /** The value indicating whether expiration is required. */
+  isExpirationRequired?: boolean;
+  /** The maximum duration of expiration in timespan. */
+  maximumDuration?: string;
+};
+
+/** The role management policy notification rule. */
+export type RoleManagementPolicyNotificationRule = RoleManagementPolicyRule & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  ruleType: "RoleManagementPolicyNotificationRule";
+  /** The type of notification. */
+  notificationType?: NotificationDeliveryMechanism;
+  /** The notification level. */
+  notificationLevel?: NotificationLevel;
+  /** The recipient type. */
+  recipientType?: RecipientType;
+  /** The list of notification recipients. */
+  notificationRecipients?: string[];
+  /** Determines if the notification will be sent to the recipient type specified in the policy rule. */
+  isDefaultRecipientsEnabled?: boolean;
+};
+
+/** Known values of {@link PrincipalType} that the service accepts. */
+export enum KnownPrincipalType {
+  User = "User",
+  Group = "Group",
+  ServicePrincipal = "ServicePrincipal",
+  ForeignGroup = "ForeignGroup",
+  Device = "Device"
 }
 
 /**
- * Defines values for AccessReviewResult. \
- * {@link KnownAccessReviewResult} can be used interchangeably with AccessReviewResult,
+ * Defines values for PrincipalType. \
+ * {@link KnownPrincipalType} can be used interchangeably with PrincipalType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Approve** \
- * **Deny** \
- * **NotReviewed** \
- * **DontKnow** \
- * **NotNotified**
+ * **User** \
+ * **Group** \
+ * **ServicePrincipal** \
+ * **ForeignGroup** \
+ * **Device**
  */
-export type AccessReviewResult = string;
+export type PrincipalType = string;
 
-/** Known values of {@link AccessReviewHistoryDefinitionStatus} that the service accepts. */
-export enum KnownAccessReviewHistoryDefinitionStatus {
-  Requested = "Requested",
-  InProgress = "InProgress",
-  Done = "Done",
-  Error = "Error"
+/** Known values of {@link AssignmentType} that the service accepts. */
+export enum KnownAssignmentType {
+  Activated = "Activated",
+  Assigned = "Assigned"
 }
 
 /**
- * Defines values for AccessReviewHistoryDefinitionStatus. \
- * {@link KnownAccessReviewHistoryDefinitionStatus} can be used interchangeably with AccessReviewHistoryDefinitionStatus,
+ * Defines values for AssignmentType. \
+ * {@link KnownAssignmentType} can be used interchangeably with AssignmentType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Requested** \
- * **InProgress** \
- * **Done** \
- * **Error**
+ * **Activated** \
+ * **Assigned**
  */
-export type AccessReviewHistoryDefinitionStatus = string;
+export type AssignmentType = string;
 
-/** Known values of {@link AccessReviewActorIdentityType} that the service accepts. */
-export enum KnownAccessReviewActorIdentityType {
-  User = "user",
-  ServicePrincipal = "servicePrincipal"
+/** Known values of {@link MemberType} that the service accepts. */
+export enum KnownMemberType {
+  Inherited = "Inherited",
+  Direct = "Direct",
+  Group = "Group"
 }
 
 /**
- * Defines values for AccessReviewActorIdentityType. \
- * {@link KnownAccessReviewActorIdentityType} can be used interchangeably with AccessReviewActorIdentityType,
+ * Defines values for MemberType. \
+ * {@link KnownMemberType} can be used interchangeably with MemberType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **user** \
- * **servicePrincipal**
+ * **Inherited** \
+ * **Direct** \
+ * **Group**
  */
-export type AccessReviewActorIdentityType = string;
+export type MemberType = string;
 
-/** Known values of {@link AccessReviewScopePrincipalType} that the service accepts. */
-export enum KnownAccessReviewScopePrincipalType {
-  User = "user",
-  GuestUser = "guestUser",
-  ServicePrincipal = "servicePrincipal",
-  UserGroup = "user,group",
-  RedeemedGuestUser = "redeemedGuestUser"
+/** Known values of {@link Status} that the service accepts. */
+export enum KnownStatus {
+  Accepted = "Accepted",
+  PendingEvaluation = "PendingEvaluation",
+  Granted = "Granted",
+  Denied = "Denied",
+  PendingProvisioning = "PendingProvisioning",
+  Provisioned = "Provisioned",
+  PendingRevocation = "PendingRevocation",
+  Revoked = "Revoked",
+  Canceled = "Canceled",
+  Failed = "Failed",
+  PendingApprovalProvisioning = "PendingApprovalProvisioning",
+  PendingApproval = "PendingApproval",
+  FailedAsResourceIsLocked = "FailedAsResourceIsLocked",
+  PendingAdminDecision = "PendingAdminDecision",
+  AdminApproved = "AdminApproved",
+  AdminDenied = "AdminDenied",
+  TimedOut = "TimedOut",
+  ProvisioningStarted = "ProvisioningStarted",
+  Invalid = "Invalid",
+  PendingScheduleCreation = "PendingScheduleCreation",
+  ScheduleCreated = "ScheduleCreated",
+  PendingExternalProvisioning = "PendingExternalProvisioning"
 }
 
 /**
- * Defines values for AccessReviewScopePrincipalType. \
- * {@link KnownAccessReviewScopePrincipalType} can be used interchangeably with AccessReviewScopePrincipalType,
+ * Defines values for Status. \
+ * {@link KnownStatus} can be used interchangeably with Status,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **user** \
- * **guestUser** \
- * **servicePrincipal** \
- * **user,group** \
- * **redeemedGuestUser**
+ * **Accepted** \
+ * **PendingEvaluation** \
+ * **Granted** \
+ * **Denied** \
+ * **PendingProvisioning** \
+ * **Provisioned** \
+ * **PendingRevocation** \
+ * **Revoked** \
+ * **Canceled** \
+ * **Failed** \
+ * **PendingApprovalProvisioning** \
+ * **PendingApproval** \
+ * **FailedAsResourceIsLocked** \
+ * **PendingAdminDecision** \
+ * **AdminApproved** \
+ * **AdminDenied** \
+ * **TimedOut** \
+ * **ProvisioningStarted** \
+ * **Invalid** \
+ * **PendingScheduleCreation** \
+ * **ScheduleCreated** \
+ * **PendingExternalProvisioning**
  */
-export type AccessReviewScopePrincipalType = string;
+export type Status = string;
 
-/** Known values of {@link AccessReviewScopeAssignmentState} that the service accepts. */
-export enum KnownAccessReviewScopeAssignmentState {
-  Eligible = "eligible",
-  Active = "active"
+/** Known values of {@link RequestType} that the service accepts. */
+export enum KnownRequestType {
+  AdminAssign = "AdminAssign",
+  AdminRemove = "AdminRemove",
+  AdminUpdate = "AdminUpdate",
+  AdminExtend = "AdminExtend",
+  AdminRenew = "AdminRenew",
+  SelfActivate = "SelfActivate",
+  SelfDeactivate = "SelfDeactivate",
+  SelfExtend = "SelfExtend",
+  SelfRenew = "SelfRenew"
 }
 
 /**
- * Defines values for AccessReviewScopeAssignmentState. \
- * {@link KnownAccessReviewScopeAssignmentState} can be used interchangeably with AccessReviewScopeAssignmentState,
+ * Defines values for RequestType. \
+ * {@link KnownRequestType} can be used interchangeably with RequestType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **eligible** \
- * **active**
+ * **AdminAssign** \
+ * **AdminRemove** \
+ * **AdminUpdate** \
+ * **AdminExtend** \
+ * **AdminRenew** \
+ * **SelfActivate** \
+ * **SelfDeactivate** \
+ * **SelfExtend** \
+ * **SelfRenew**
  */
-export type AccessReviewScopeAssignmentState = string;
+export type RequestType = string;
 
-/** Known values of {@link AccessReviewRecurrencePatternType} that the service accepts. */
-export enum KnownAccessReviewRecurrencePatternType {
-  Weekly = "weekly",
-  AbsoluteMonthly = "absoluteMonthly"
+/** Known values of {@link Type} that the service accepts. */
+export enum KnownType {
+  AfterDuration = "AfterDuration",
+  AfterDateTime = "AfterDateTime",
+  NoExpiration = "NoExpiration"
 }
 
 /**
- * Defines values for AccessReviewRecurrencePatternType. \
- * {@link KnownAccessReviewRecurrencePatternType} can be used interchangeably with AccessReviewRecurrencePatternType,
+ * Defines values for Type. \
+ * {@link KnownType} can be used interchangeably with Type,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **weekly** \
- * **absoluteMonthly**
+ * **AfterDuration** \
+ * **AfterDateTime** \
+ * **NoExpiration**
  */
-export type AccessReviewRecurrencePatternType = string;
+export type Type = string;
 
-/** Known values of {@link AccessReviewRecurrenceRangeType} that the service accepts. */
-export enum KnownAccessReviewRecurrenceRangeType {
-  EndDate = "endDate",
-  NoEnd = "noEnd",
-  Numbered = "numbered"
+/** Known values of {@link RoleManagementPolicyRuleType} that the service accepts. */
+export enum KnownRoleManagementPolicyRuleType {
+  RoleManagementPolicyApprovalRule = "RoleManagementPolicyApprovalRule",
+  RoleManagementPolicyAuthenticationContextRule = "RoleManagementPolicyAuthenticationContextRule",
+  RoleManagementPolicyEnablementRule = "RoleManagementPolicyEnablementRule",
+  RoleManagementPolicyExpirationRule = "RoleManagementPolicyExpirationRule",
+  RoleManagementPolicyNotificationRule = "RoleManagementPolicyNotificationRule"
 }
 
 /**
- * Defines values for AccessReviewRecurrenceRangeType. \
- * {@link KnownAccessReviewRecurrenceRangeType} can be used interchangeably with AccessReviewRecurrenceRangeType,
+ * Defines values for RoleManagementPolicyRuleType. \
+ * {@link KnownRoleManagementPolicyRuleType} can be used interchangeably with RoleManagementPolicyRuleType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **endDate** \
- * **noEnd** \
- * **numbered**
+ * **RoleManagementPolicyApprovalRule** \
+ * **RoleManagementPolicyAuthenticationContextRule** \
+ * **RoleManagementPolicyEnablementRule** \
+ * **RoleManagementPolicyExpirationRule** \
+ * **RoleManagementPolicyNotificationRule**
  */
-export type AccessReviewRecurrenceRangeType = string;
+export type RoleManagementPolicyRuleType = string;
 
-/** Known values of {@link AccessReviewScheduleDefinitionStatus} that the service accepts. */
-export enum KnownAccessReviewScheduleDefinitionStatus {
-  NotStarted = "NotStarted",
-  InProgress = "InProgress",
-  Completed = "Completed",
-  Applied = "Applied",
-  Initializing = "Initializing",
-  Applying = "Applying",
-  Completing = "Completing",
-  Scheduled = "Scheduled",
-  AutoReviewing = "AutoReviewing",
-  AutoReviewed = "AutoReviewed",
-  Starting = "Starting"
+/** Known values of {@link ApprovalMode} that the service accepts. */
+export enum KnownApprovalMode {
+  SingleStage = "SingleStage",
+  Serial = "Serial",
+  Parallel = "Parallel",
+  NoApproval = "NoApproval"
 }
 
 /**
- * Defines values for AccessReviewScheduleDefinitionStatus. \
- * {@link KnownAccessReviewScheduleDefinitionStatus} can be used interchangeably with AccessReviewScheduleDefinitionStatus,
+ * Defines values for ApprovalMode. \
+ * {@link KnownApprovalMode} can be used interchangeably with ApprovalMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **NotStarted** \
- * **InProgress** \
- * **Completed** \
- * **Applied** \
- * **Initializing** \
- * **Applying** \
- * **Completing** \
- * **Scheduled** \
- * **AutoReviewing** \
- * **AutoReviewed** \
- * **Starting**
+ * **SingleStage** \
+ * **Serial** \
+ * **Parallel** \
+ * **NoApproval**
  */
-export type AccessReviewScheduleDefinitionStatus = string;
+export type ApprovalMode = string;
 
-/** Known values of {@link DefaultDecisionType} that the service accepts. */
-export enum KnownDefaultDecisionType {
-  Approve = "Approve",
-  Deny = "Deny",
-  Recommendation = "Recommendation"
+/** Known values of {@link UserType} that the service accepts. */
+export enum KnownUserType {
+  User = "User",
+  Group = "Group"
 }
 
 /**
- * Defines values for DefaultDecisionType. \
- * {@link KnownDefaultDecisionType} can be used interchangeably with DefaultDecisionType,
+ * Defines values for UserType. \
+ * {@link KnownUserType} can be used interchangeably with UserType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Approve** \
- * **Deny** \
- * **Recommendation**
+ * **User** \
+ * **Group**
  */
-export type DefaultDecisionType = string;
+export type UserType = string;
 
-/** Known values of {@link AccessReviewReviewerType} that the service accepts. */
-export enum KnownAccessReviewReviewerType {
-  User = "user",
-  ServicePrincipal = "servicePrincipal"
+/** Known values of {@link EnablementRules} that the service accepts. */
+export enum KnownEnablementRules {
+  MultiFactorAuthentication = "MultiFactorAuthentication",
+  Justification = "Justification",
+  Ticketing = "Ticketing"
 }
 
 /**
- * Defines values for AccessReviewReviewerType. \
- * {@link KnownAccessReviewReviewerType} can be used interchangeably with AccessReviewReviewerType,
+ * Defines values for EnablementRules. \
+ * {@link KnownEnablementRules} can be used interchangeably with EnablementRules,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **user** \
- * **servicePrincipal**
+ * **MultiFactorAuthentication** \
+ * **Justification** \
+ * **Ticketing**
  */
-export type AccessReviewReviewerType = string;
+export type EnablementRules = string;
 
-/** Known values of {@link AccessReviewScheduleDefinitionReviewersType} that the service accepts. */
-export enum KnownAccessReviewScheduleDefinitionReviewersType {
-  Assigned = "Assigned",
-  Self = "Self",
-  Managers = "Managers"
+/** Known values of {@link NotificationDeliveryMechanism} that the service accepts. */
+export enum KnownNotificationDeliveryMechanism {
+  Email = "Email"
 }
 
 /**
- * Defines values for AccessReviewScheduleDefinitionReviewersType. \
- * {@link KnownAccessReviewScheduleDefinitionReviewersType} can be used interchangeably with AccessReviewScheduleDefinitionReviewersType,
+ * Defines values for NotificationDeliveryMechanism. \
+ * {@link KnownNotificationDeliveryMechanism} can be used interchangeably with NotificationDeliveryMechanism,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Assigned** \
- * **Self** \
- * **Managers**
+ * **Email**
  */
-export type AccessReviewScheduleDefinitionReviewersType = string;
+export type NotificationDeliveryMechanism = string;
 
-/** Known values of {@link AccessReviewInstanceStatus} that the service accepts. */
-export enum KnownAccessReviewInstanceStatus {
-  NotStarted = "NotStarted",
-  InProgress = "InProgress",
-  Completed = "Completed",
-  Applied = "Applied",
-  Initializing = "Initializing",
-  Applying = "Applying",
-  Completing = "Completing",
-  Scheduled = "Scheduled",
-  AutoReviewing = "AutoReviewing",
-  AutoReviewed = "AutoReviewed",
-  Starting = "Starting"
+/** Known values of {@link NotificationLevel} that the service accepts. */
+export enum KnownNotificationLevel {
+  None = "None",
+  Critical = "Critical",
+  All = "All"
 }
 
 /**
- * Defines values for AccessReviewInstanceStatus. \
- * {@link KnownAccessReviewInstanceStatus} can be used interchangeably with AccessReviewInstanceStatus,
+ * Defines values for NotificationLevel. \
+ * {@link KnownNotificationLevel} can be used interchangeably with NotificationLevel,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **NotStarted** \
- * **InProgress** \
- * **Completed** \
- * **Applied** \
- * **Initializing** \
- * **Applying** \
- * **Completing** \
- * **Scheduled** \
- * **AutoReviewing** \
- * **AutoReviewed** \
- * **Starting**
+ * **None** \
+ * **Critical** \
+ * **All**
  */
-export type AccessReviewInstanceStatus = string;
+export type NotificationLevel = string;
 
-/** Known values of {@link AccessReviewInstanceReviewersType} that the service accepts. */
-export enum KnownAccessReviewInstanceReviewersType {
-  Assigned = "Assigned",
-  Self = "Self",
-  Managers = "Managers"
+/** Known values of {@link RecipientType} that the service accepts. */
+export enum KnownRecipientType {
+  Requestor = "Requestor",
+  Approver = "Approver",
+  Admin = "Admin"
 }
 
 /**
- * Defines values for AccessReviewInstanceReviewersType. \
- * {@link KnownAccessReviewInstanceReviewersType} can be used interchangeably with AccessReviewInstanceReviewersType,
+ * Defines values for RecipientType. \
+ * {@link KnownRecipientType} can be used interchangeably with RecipientType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Assigned** \
- * **Self** \
- * **Managers**
+ * **Requestor** \
+ * **Approver** \
+ * **Admin**
  */
-export type AccessReviewInstanceReviewersType = string;
-
-/** Known values of {@link DecisionTargetType} that the service accepts. */
-export enum KnownDecisionTargetType {
-  User = "user",
-  ServicePrincipal = "servicePrincipal"
-}
-
-/**
- * Defines values for DecisionTargetType. \
- * {@link KnownDecisionTargetType} can be used interchangeably with DecisionTargetType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **user** \
- * **servicePrincipal**
- */
-export type DecisionTargetType = string;
-
-/** Known values of {@link DecisionResourceType} that the service accepts. */
-export enum KnownDecisionResourceType {
-  AzureRole = "azureRole"
-}
-
-/**
- * Defines values for DecisionResourceType. \
- * {@link KnownDecisionResourceType} can be used interchangeably with DecisionResourceType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **azureRole**
- */
-export type DecisionResourceType = string;
-
-/** Known values of {@link AccessRecommendationType} that the service accepts. */
-export enum KnownAccessRecommendationType {
-  Approve = "Approve",
-  Deny = "Deny",
-  NoInfoAvailable = "NoInfoAvailable"
-}
-
-/**
- * Defines values for AccessRecommendationType. \
- * {@link KnownAccessRecommendationType} can be used interchangeably with AccessRecommendationType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Approve** \
- * **Deny** \
- * **NoInfoAvailable**
- */
-export type AccessRecommendationType = string;
-
-/** Known values of {@link AccessReviewApplyResult} that the service accepts. */
-export enum KnownAccessReviewApplyResult {
-  New = "New",
-  Applying = "Applying",
-  AppliedSuccessfully = "AppliedSuccessfully",
-  AppliedWithUnknownFailure = "AppliedWithUnknownFailure",
-  AppliedSuccessfullyButObjectNotFound = "AppliedSuccessfullyButObjectNotFound",
-  ApplyNotSupported = "ApplyNotSupported"
-}
-
-/**
- * Defines values for AccessReviewApplyResult. \
- * {@link KnownAccessReviewApplyResult} can be used interchangeably with AccessReviewApplyResult,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **New** \
- * **Applying** \
- * **AppliedSuccessfully** \
- * **AppliedWithUnknownFailure** \
- * **AppliedSuccessfullyButObjectNotFound** \
- * **ApplyNotSupported**
- */
-export type AccessReviewApplyResult = string;
+export type RecipientType = string;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type OperationsListResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type OperationsListNextResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface AccessReviewHistoryDefinitionsListOptionalParams
+export interface EligibleChildResourcesGetOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Only standard filters on definition name and created date are supported */
+  /** The filter to apply on the operation. Use $filter=resourceType+eq+'Subscription' to filter on only resource of type = 'Subscription'. Use $filter=resourceType+eq+'subscription'+or+resourceType+eq+'resourcegroup' to filter on resource of type = 'Subscription' or 'ResourceGroup' */
   filter?: string;
 }
 
-/** Contains response data for the list operation. */
-export type AccessReviewHistoryDefinitionsListResponse = AccessReviewHistoryDefinitionListResult;
+/** Contains response data for the get operation. */
+export type EligibleChildResourcesGetResponse = EligibleChildResourcesListResult;
 
 /** Optional parameters. */
-export interface AccessReviewHistoryDefinitionsGetByIdOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getById operation. */
-export type AccessReviewHistoryDefinitionsGetByIdResponse = AccessReviewHistoryDefinition;
-
-/** Optional parameters. */
-export interface AccessReviewHistoryDefinitionsListNextOptionalParams
+export interface EligibleChildResourcesGetNextOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Only standard filters on definition name and created date are supported */
+  /** The filter to apply on the operation. Use $filter=resourceType+eq+'Subscription' to filter on only resource of type = 'Subscription'. Use $filter=resourceType+eq+'subscription'+or+resourceType+eq+'resourcegroup' to filter on resource of type = 'Subscription' or 'ResourceGroup' */
   filter?: string;
 }
 
-/** Contains response data for the listNext operation. */
-export type AccessReviewHistoryDefinitionsListNextResponse = AccessReviewHistoryDefinitionListResult;
+/** Contains response data for the getNext operation. */
+export type EligibleChildResourcesGetNextResponse = EligibleChildResourcesListResult;
 
 /** Optional parameters. */
-export interface AccessReviewHistoryDefinitionCreateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the create operation. */
-export type AccessReviewHistoryDefinitionCreateResponse = AccessReviewHistoryDefinition;
-
-/** Optional parameters. */
-export interface AccessReviewHistoryDefinitionDeleteByIdOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AccessReviewHistoryDefinitionInstanceGenerateDownloadUriOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the generateDownloadUri operation. */
-export type AccessReviewHistoryDefinitionInstanceGenerateDownloadUriResponse = AccessReviewHistoryInstance;
-
-/** Optional parameters. */
-export interface AccessReviewHistoryDefinitionInstancesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type AccessReviewHistoryDefinitionInstancesListResponse = AccessReviewHistoryDefinitionInstanceListResult;
-
-/** Optional parameters. */
-export interface AccessReviewHistoryDefinitionInstancesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type AccessReviewHistoryDefinitionInstancesListNextResponse = AccessReviewHistoryDefinitionInstanceListResult;
-
-/** Optional parameters. */
-export interface AccessReviewScheduleDefinitionsListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Other than standard filters, one custom filter option is supported : 'assignedToMeToReview()'. When one specified $filter=assignedToMeToReview(), only items that are assigned to the calling user to review are returned */
-  filter?: string;
-}
-
-/** Contains response data for the list operation. */
-export type AccessReviewScheduleDefinitionsListResponse = AccessReviewScheduleDefinitionListResult;
-
-/** Optional parameters. */
-export interface AccessReviewScheduleDefinitionsGetByIdOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getById operation. */
-export type AccessReviewScheduleDefinitionsGetByIdResponse = AccessReviewScheduleDefinition;
-
-/** Optional parameters. */
-export interface AccessReviewScheduleDefinitionsDeleteByIdOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AccessReviewScheduleDefinitionsCreateOrUpdateByIdOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdateById operation. */
-export type AccessReviewScheduleDefinitionsCreateOrUpdateByIdResponse = AccessReviewScheduleDefinition;
-
-/** Optional parameters. */
-export interface AccessReviewScheduleDefinitionsStopOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AccessReviewScheduleDefinitionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Other than standard filters, one custom filter option is supported : 'assignedToMeToReview()'. When one specified $filter=assignedToMeToReview(), only items that are assigned to the calling user to review are returned */
-  filter?: string;
-}
-
-/** Contains response data for the listNext operation. */
-export type AccessReviewScheduleDefinitionsListNextResponse = AccessReviewScheduleDefinitionListResult;
-
-/** Optional parameters. */
-export interface AccessReviewInstancesListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Other than standard filters, one custom filter option is supported : 'assignedToMeToReview()'. When one specified $filter=assignedToMeToReview(), only items that are assigned to the calling user to review are returned */
-  filter?: string;
-}
-
-/** Contains response data for the list operation. */
-export type AccessReviewInstancesListResponse = AccessReviewInstanceListResult;
-
-/** Optional parameters. */
-export interface AccessReviewInstancesGetByIdOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getById operation. */
-export type AccessReviewInstancesGetByIdResponse = AccessReviewInstance;
-
-/** Optional parameters. */
-export interface AccessReviewInstancesCreateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the create operation. */
-export type AccessReviewInstancesCreateResponse = AccessReviewInstance;
-
-/** Optional parameters. */
-export interface AccessReviewInstancesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Other than standard filters, one custom filter option is supported : 'assignedToMeToReview()'. When one specified $filter=assignedToMeToReview(), only items that are assigned to the calling user to review are returned */
-  filter?: string;
-}
-
-/** Contains response data for the listNext operation. */
-export type AccessReviewInstancesListNextResponse = AccessReviewInstanceListResult;
-
-/** Optional parameters. */
-export interface AccessReviewInstanceStopOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AccessReviewInstanceResetDecisionsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AccessReviewInstanceApplyDecisionsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AccessReviewInstanceSendRemindersOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AccessReviewInstanceAcceptRecommendationsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface AccessReviewInstanceDecisionsListOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Other than standard filters, one custom filter option is supported : 'assignedToMeToReview()'. When one specified $filter=assignedToMeToReview(), only items that are assigned to the calling user to review are returned */
-  filter?: string;
-}
-
-/** Contains response data for the list operation. */
-export type AccessReviewInstanceDecisionsListResponse = AccessReviewDecisionListResult;
-
-/** Optional parameters. */
-export interface AccessReviewInstanceDecisionsListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Other than standard filters, one custom filter option is supported : 'assignedToMeToReview()'. When one specified $filter=assignedToMeToReview(), only items that are assigned to the calling user to review are returned */
-  filter?: string;
-}
-
-/** Contains response data for the listNext operation. */
-export type AccessReviewInstanceDecisionsListNextResponse = AccessReviewDecisionListResult;
-
-/** Optional parameters. */
-export interface AccessReviewInstanceContactedReviewersListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type AccessReviewInstanceContactedReviewersListResponse = AccessReviewContactedReviewerListResult;
-
-/** Optional parameters. */
-export interface AccessReviewInstanceContactedReviewersListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type AccessReviewInstanceContactedReviewersListNextResponse = AccessReviewContactedReviewerListResult;
-
-/** Optional parameters. */
-export interface AccessReviewDefaultSettingsGetOptionalParams
+export interface RoleAssignmentSchedulesGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type AccessReviewDefaultSettingsGetResponse = AccessReviewDefaultSettings;
+export type RoleAssignmentSchedulesGetResponse = RoleAssignmentSchedule;
 
 /** Optional parameters. */
-export interface AccessReviewDefaultSettingsPutOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the put operation. */
-export type AccessReviewDefaultSettingsPutResponse = AccessReviewDefaultSettings;
-
-/** Optional parameters. */
-export interface AccessReviewScheduleDefinitionsAssignedForMyApprovalListOptionalParams
+export interface RoleAssignmentSchedulesListForScopeOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Other than standard filters, one custom filter option is supported : 'assignedToMeToReview()'. When one specified $filter=assignedToMeToReview(), only items that are assigned to the calling user to review are returned */
+  /** The filter to apply on the operation. Use $filter=atScope() to return all role assignment schedules at or above the scope. Use $filter=principalId eq {id} to return all role assignment schedules at, above or below the scope for the specified principal. Use $filter=assignedTo('{userId}') to return all role assignment schedules for the current user. Use $filter=asTarget() to return all role assignment schedules created for the current user. */
   filter?: string;
 }
 
-/** Contains response data for the list operation. */
-export type AccessReviewScheduleDefinitionsAssignedForMyApprovalListResponse = AccessReviewScheduleDefinitionListResult;
+/** Contains response data for the listForScope operation. */
+export type RoleAssignmentSchedulesListForScopeResponse = RoleAssignmentScheduleListResult;
 
 /** Optional parameters. */
-export interface AccessReviewScheduleDefinitionsAssignedForMyApprovalListNextOptionalParams
+export interface RoleAssignmentSchedulesListForScopeNextOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Other than standard filters, one custom filter option is supported : 'assignedToMeToReview()'. When one specified $filter=assignedToMeToReview(), only items that are assigned to the calling user to review are returned */
+  /** The filter to apply on the operation. Use $filter=atScope() to return all role assignment schedules at or above the scope. Use $filter=principalId eq {id} to return all role assignment schedules at, above or below the scope for the specified principal. Use $filter=assignedTo('{userId}') to return all role assignment schedules for the current user. Use $filter=asTarget() to return all role assignment schedules created for the current user. */
   filter?: string;
 }
 
-/** Contains response data for the listNext operation. */
-export type AccessReviewScheduleDefinitionsAssignedForMyApprovalListNextResponse = AccessReviewScheduleDefinitionListResult;
+/** Contains response data for the listForScopeNext operation. */
+export type RoleAssignmentSchedulesListForScopeNextResponse = RoleAssignmentScheduleListResult;
 
 /** Optional parameters. */
-export interface AccessReviewInstancesAssignedForMyApprovalListOptionalParams
+export interface RoleAssignmentScheduleInstancesListForScopeOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Other than standard filters, one custom filter option is supported : 'assignedToMeToReview()'. When one specified $filter=assignedToMeToReview(), only items that are assigned to the calling user to review are returned */
+  /** The filter to apply on the operation. Use $filter=atScope() to return all role assignment schedules at or above the scope. Use $filter=principalId eq {id} to return all role assignment schedules at, above or below the scope for the specified principal.  Use $filter=assignedTo('{userId}') to return all role assignment schedule instances for the user. Use $filter=asTarget() to return all role assignment schedule instances created for the current user. */
   filter?: string;
 }
 
-/** Contains response data for the list operation. */
-export type AccessReviewInstancesAssignedForMyApprovalListResponse = AccessReviewInstanceListResult;
+/** Contains response data for the listForScope operation. */
+export type RoleAssignmentScheduleInstancesListForScopeResponse = RoleAssignmentScheduleInstanceListResult;
 
 /** Optional parameters. */
-export interface AccessReviewInstancesAssignedForMyApprovalGetByIdOptionalParams
+export interface RoleAssignmentScheduleInstancesGetOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the getById operation. */
-export type AccessReviewInstancesAssignedForMyApprovalGetByIdResponse = AccessReviewInstance;
+/** Contains response data for the get operation. */
+export type RoleAssignmentScheduleInstancesGetResponse = RoleAssignmentScheduleInstance;
 
 /** Optional parameters. */
-export interface AccessReviewInstancesAssignedForMyApprovalListNextOptionalParams
+export interface RoleAssignmentScheduleInstancesListForScopeNextOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Other than standard filters, one custom filter option is supported : 'assignedToMeToReview()'. When one specified $filter=assignedToMeToReview(), only items that are assigned to the calling user to review are returned */
+  /** The filter to apply on the operation. Use $filter=atScope() to return all role assignment schedules at or above the scope. Use $filter=principalId eq {id} to return all role assignment schedules at, above or below the scope for the specified principal.  Use $filter=assignedTo('{userId}') to return all role assignment schedule instances for the user. Use $filter=asTarget() to return all role assignment schedule instances created for the current user. */
   filter?: string;
 }
 
-/** Contains response data for the listNext operation. */
-export type AccessReviewInstancesAssignedForMyApprovalListNextResponse = AccessReviewInstanceListResult;
+/** Contains response data for the listForScopeNext operation. */
+export type RoleAssignmentScheduleInstancesListForScopeNextResponse = RoleAssignmentScheduleInstanceListResult;
 
 /** Optional parameters. */
-export interface AccessReviewInstanceMyDecisionsListOptionalParams
+export interface RoleAssignmentScheduleRequestsCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type RoleAssignmentScheduleRequestsCreateResponse = RoleAssignmentScheduleRequest;
+
+/** Optional parameters. */
+export interface RoleAssignmentScheduleRequestsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RoleAssignmentScheduleRequestsGetResponse = RoleAssignmentScheduleRequest;
+
+/** Optional parameters. */
+export interface RoleAssignmentScheduleRequestsListForScopeOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Other than standard filters, one custom filter option is supported : 'assignedToMeToReview()'. When one specified $filter=assignedToMeToReview(), only items that are assigned to the calling user to review are returned */
+  /** The filter to apply on the operation. Use $filter=atScope() to return all role assignment schedule requests at or above the scope. Use $filter=principalId eq {id} to return all role assignment schedule requests at, above or below the scope for the specified principal. Use $filter=asRequestor() to return all role assignment schedule requests requested by the current user. Use $filter=asTarget() to return all role assignment schedule requests created for the current user. Use $filter=asApprover() to return all role assignment schedule requests where the current user is an approver. */
   filter?: string;
 }
 
-/** Contains response data for the list operation. */
-export type AccessReviewInstanceMyDecisionsListResponse = AccessReviewDecisionListResult;
+/** Contains response data for the listForScope operation. */
+export type RoleAssignmentScheduleRequestsListForScopeResponse = RoleAssignmentScheduleRequestListResult;
 
 /** Optional parameters. */
-export interface AccessReviewInstanceMyDecisionsGetByIdOptionalParams
+export interface RoleAssignmentScheduleRequestsCancelOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the getById operation. */
-export type AccessReviewInstanceMyDecisionsGetByIdResponse = AccessReviewDecision;
-
 /** Optional parameters. */
-export interface AccessReviewInstanceMyDecisionsPatchOptionalParams
+export interface RoleAssignmentScheduleRequestsValidateOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the patch operation. */
-export type AccessReviewInstanceMyDecisionsPatchResponse = AccessReviewDecision;
+/** Contains response data for the validate operation. */
+export type RoleAssignmentScheduleRequestsValidateResponse = RoleAssignmentScheduleRequest;
 
 /** Optional parameters. */
-export interface AccessReviewInstanceMyDecisionsListNextOptionalParams
+export interface RoleAssignmentScheduleRequestsListForScopeNextOptionalParams
   extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. Other than standard filters, one custom filter option is supported : 'assignedToMeToReview()'. When one specified $filter=assignedToMeToReview(), only items that are assigned to the calling user to review are returned */
+  /** The filter to apply on the operation. Use $filter=atScope() to return all role assignment schedule requests at or above the scope. Use $filter=principalId eq {id} to return all role assignment schedule requests at, above or below the scope for the specified principal. Use $filter=asRequestor() to return all role assignment schedule requests requested by the current user. Use $filter=asTarget() to return all role assignment schedule requests created for the current user. Use $filter=asApprover() to return all role assignment schedule requests where the current user is an approver. */
   filter?: string;
 }
 
-/** Contains response data for the listNext operation. */
-export type AccessReviewInstanceMyDecisionsListNextResponse = AccessReviewDecisionListResult;
+/** Contains response data for the listForScopeNext operation. */
+export type RoleAssignmentScheduleRequestsListForScopeNextResponse = RoleAssignmentScheduleRequestListResult;
 
 /** Optional parameters. */
-export interface TenantLevelAccessReviewInstanceContactedReviewersListOptionalParams
+export interface RoleEligibilitySchedulesGetOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the list operation. */
-export type TenantLevelAccessReviewInstanceContactedReviewersListResponse = AccessReviewContactedReviewerListResult;
+/** Contains response data for the get operation. */
+export type RoleEligibilitySchedulesGetResponse = RoleEligibilitySchedule;
 
 /** Optional parameters. */
-export interface TenantLevelAccessReviewInstanceContactedReviewersListNextOptionalParams
+export interface RoleEligibilitySchedulesListForScopeOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. Use $filter=atScope() to return all role eligibility schedules at or above the scope. Use $filter=principalId eq {id} to return all role eligibility schedules at, above or below the scope for the specified principal. Use $filter=assignedTo('{userId}') to return all role eligibility schedules for the user. Use $filter=asTarget() to return all role eligibility schedules created for the current user. */
+  filter?: string;
+}
+
+/** Contains response data for the listForScope operation. */
+export type RoleEligibilitySchedulesListForScopeResponse = RoleEligibilityScheduleListResult;
+
+/** Optional parameters. */
+export interface RoleEligibilitySchedulesListForScopeNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. Use $filter=atScope() to return all role eligibility schedules at or above the scope. Use $filter=principalId eq {id} to return all role eligibility schedules at, above or below the scope for the specified principal. Use $filter=assignedTo('{userId}') to return all role eligibility schedules for the user. Use $filter=asTarget() to return all role eligibility schedules created for the current user. */
+  filter?: string;
+}
+
+/** Contains response data for the listForScopeNext operation. */
+export type RoleEligibilitySchedulesListForScopeNextResponse = RoleEligibilityScheduleListResult;
+
+/** Optional parameters. */
+export interface RoleEligibilityScheduleInstancesListForScopeOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. Use $filter=atScope() to return all role assignment schedules at or above the scope. Use $filter=principalId eq {id} to return all role assignment schedules at, above or below the scope for the specified principal. Use $filter=assignedTo('{userId}') to return all role eligibility schedules for the user. Use $filter=asTarget() to return all role eligibility schedules created for the current user. */
+  filter?: string;
+}
+
+/** Contains response data for the listForScope operation. */
+export type RoleEligibilityScheduleInstancesListForScopeResponse = RoleEligibilityScheduleInstanceListResult;
+
+/** Optional parameters. */
+export interface RoleEligibilityScheduleInstancesGetOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listNext operation. */
-export type TenantLevelAccessReviewInstanceContactedReviewersListNextResponse = AccessReviewContactedReviewerListResult;
+/** Contains response data for the get operation. */
+export type RoleEligibilityScheduleInstancesGetResponse = RoleEligibilityScheduleInstance;
+
+/** Optional parameters. */
+export interface RoleEligibilityScheduleInstancesListForScopeNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. Use $filter=atScope() to return all role assignment schedules at or above the scope. Use $filter=principalId eq {id} to return all role assignment schedules at, above or below the scope for the specified principal. Use $filter=assignedTo('{userId}') to return all role eligibility schedules for the user. Use $filter=asTarget() to return all role eligibility schedules created for the current user. */
+  filter?: string;
+}
+
+/** Contains response data for the listForScopeNext operation. */
+export type RoleEligibilityScheduleInstancesListForScopeNextResponse = RoleEligibilityScheduleInstanceListResult;
+
+/** Optional parameters. */
+export interface RoleEligibilityScheduleRequestsCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type RoleEligibilityScheduleRequestsCreateResponse = RoleEligibilityScheduleRequest;
+
+/** Optional parameters. */
+export interface RoleEligibilityScheduleRequestsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RoleEligibilityScheduleRequestsGetResponse = RoleEligibilityScheduleRequest;
+
+/** Optional parameters. */
+export interface RoleEligibilityScheduleRequestsListForScopeOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. Use $filter=atScope() to return all role eligibility schedule requests at or above the scope. Use $filter=principalId eq {id} to return all role eligibility schedule requests at, above or below the scope for the specified principal. Use $filter=asRequestor() to return all role eligibility schedule requests requested by the current user. Use $filter=asTarget() to return all role eligibility schedule requests created for the current user. Use $filter=asApprover() to return all role eligibility schedule requests where the current user is an approver. */
+  filter?: string;
+}
+
+/** Contains response data for the listForScope operation. */
+export type RoleEligibilityScheduleRequestsListForScopeResponse = RoleEligibilityScheduleRequestListResult;
+
+/** Optional parameters. */
+export interface RoleEligibilityScheduleRequestsCancelOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface RoleEligibilityScheduleRequestsValidateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the validate operation. */
+export type RoleEligibilityScheduleRequestsValidateResponse = RoleEligibilityScheduleRequest;
+
+/** Optional parameters. */
+export interface RoleEligibilityScheduleRequestsListForScopeNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. Use $filter=atScope() to return all role eligibility schedule requests at or above the scope. Use $filter=principalId eq {id} to return all role eligibility schedule requests at, above or below the scope for the specified principal. Use $filter=asRequestor() to return all role eligibility schedule requests requested by the current user. Use $filter=asTarget() to return all role eligibility schedule requests created for the current user. Use $filter=asApprover() to return all role eligibility schedule requests where the current user is an approver. */
+  filter?: string;
+}
+
+/** Contains response data for the listForScopeNext operation. */
+export type RoleEligibilityScheduleRequestsListForScopeNextResponse = RoleEligibilityScheduleRequestListResult;
+
+/** Optional parameters. */
+export interface RoleManagementPoliciesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RoleManagementPoliciesGetResponse = RoleManagementPolicy;
+
+/** Optional parameters. */
+export interface RoleManagementPoliciesUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type RoleManagementPoliciesUpdateResponse = RoleManagementPolicy;
+
+/** Optional parameters. */
+export interface RoleManagementPoliciesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface RoleManagementPoliciesListForScopeOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listForScope operation. */
+export type RoleManagementPoliciesListForScopeResponse = RoleManagementPolicyListResult;
+
+/** Optional parameters. */
+export interface RoleManagementPoliciesListForScopeNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listForScopeNext operation. */
+export type RoleManagementPoliciesListForScopeNextResponse = RoleManagementPolicyListResult;
+
+/** Optional parameters. */
+export interface RoleManagementPolicyAssignmentsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type RoleManagementPolicyAssignmentsGetResponse = RoleManagementPolicyAssignment;
+
+/** Optional parameters. */
+export interface RoleManagementPolicyAssignmentsCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type RoleManagementPolicyAssignmentsCreateResponse = RoleManagementPolicyAssignment;
+
+/** Optional parameters. */
+export interface RoleManagementPolicyAssignmentsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface RoleManagementPolicyAssignmentsListForScopeOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listForScope operation. */
+export type RoleManagementPolicyAssignmentsListForScopeResponse = RoleManagementPolicyAssignmentListResult;
+
+/** Optional parameters. */
+export interface RoleManagementPolicyAssignmentsListForScopeNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listForScopeNext operation. */
+export type RoleManagementPolicyAssignmentsListForScopeNextResponse = RoleManagementPolicyAssignmentListResult;
 
 /** Optional parameters. */
 export interface AuthorizationManagementClientOptionalParams
