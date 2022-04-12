@@ -521,7 +521,7 @@ export interface AutomationRuleTriggeringLogic {
 // @public
 export interface Availability {
     isPreview?: boolean;
-    status?: 1;
+    status?: "1";
 }
 
 // @public
@@ -1354,7 +1354,7 @@ export type Entity = Resource & {
 
 // @public
 export type EntityAnalytics = Settings & {
-    readonly isEnabled?: boolean;
+    entityProviders?: EntityProviders[];
 };
 
 // @public
@@ -1446,6 +1446,9 @@ export interface EntityMapping {
 
 // @public
 export type EntityMappingType = string;
+
+// @public
+export type EntityProviders = string;
 
 // @public
 export interface EntityQueries {
@@ -2057,7 +2060,7 @@ export interface IncidentOwnerInfo {
     assignedTo?: string;
     email?: string;
     objectId?: string;
-    readonly ownerType?: OwnerType;
+    ownerType?: OwnerType;
     userPrincipalName?: string;
 }
 
@@ -2774,6 +2777,14 @@ export enum KnownEntityMappingType {
     SecurityGroup = "SecurityGroup",
     SubmissionMail = "SubmissionMail",
     URL = "URL"
+}
+
+// @public
+export enum KnownEntityProviders {
+    // (undocumented)
+    ActiveDirectory = "ActiveDirectory",
+    // (undocumented)
+    AzureActiveDirectory = "AzureActiveDirectory"
 }
 
 // @public
@@ -5147,8 +5158,12 @@ export type WatchlistItem = ResourceWithEtag & {
     updated?: Date;
     createdBy?: UserInfo;
     updatedBy?: UserInfo;
-    itemsKeyValue?: Record<string, unknown>;
-    entityMapping?: Record<string, unknown>;
+    itemsKeyValue?: {
+        [propertyName: string]: any;
+    };
+    entityMapping?: {
+        [propertyName: string]: any;
+    };
 };
 
 // @public

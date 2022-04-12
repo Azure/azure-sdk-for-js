@@ -1940,7 +1940,6 @@ export const IncidentOwnerInfo: coreClient.CompositeMapper = {
       },
       ownerType: {
         serializedName: "ownerType",
-        readOnly: true,
         type: {
           name: "String"
         }
@@ -14065,11 +14064,15 @@ export const EntityAnalytics: coreClient.CompositeMapper = {
     polymorphicDiscriminator: Resource.type.polymorphicDiscriminator,
     modelProperties: {
       ...Settings.type.modelProperties,
-      isEnabled: {
-        serializedName: "properties.isEnabled",
-        readOnly: true,
+      entityProviders: {
+        serializedName: "properties.entityProviders",
         type: {
-          name: "Boolean"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }

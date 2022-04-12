@@ -789,11 +789,8 @@ export interface IncidentOwnerInfo {
   objectId?: string;
   /** The user principal name of the user the incident is assigned to. */
   userPrincipalName?: string;
-  /**
-   * The type of the owner the incident is assigned to.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ownerType?: OwnerType;
+  /** The type of the owner the incident is assigned to. */
+  ownerType?: OwnerType;
 }
 
 /** Describes team information */
@@ -1874,7 +1871,7 @@ export interface ConnectivityCriteria {
 /** Connector Availability Status */
 export interface Availability {
   /** The connector Availability Status */
-  status?: 1;
+  status?: "1";
   /** Set connector as preview */
   isPreview?: boolean;
 }
@@ -4007,9 +4004,9 @@ export type WatchlistItem = ResourceWithEtag & {
   /** Describes a user that updated the watchlist item */
   updatedBy?: UserInfo;
   /** key-value pairs for a watchlist item */
-  itemsKeyValue?: Record<string, unknown>;
+  itemsKeyValue?: { [propertyName: string]: any };
   /** key-value pairs for a watchlist item entity mapping */
-  entityMapping?: Record<string, unknown>;
+  entityMapping?: { [propertyName: string]: any };
 };
 
 /** Data connector */
@@ -5670,11 +5667,8 @@ export type EyesOn = Settings & {
 
 /** Settings with single toggle. */
 export type EntityAnalytics = Settings & {
-  /**
-   * Determines whether the setting is enable or disabled.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isEnabled?: boolean;
+  /** The relevant entity providers that are synced */
+  entityProviders?: EntityProviders[];
 };
 
 /** Settings with single toggle. */
@@ -7402,6 +7396,22 @@ export enum KnownOutputType {
  * **Entity**
  */
 export type OutputType = string;
+
+/** Known values of {@link EntityProviders} that the service accepts. */
+export enum KnownEntityProviders {
+  ActiveDirectory = "ActiveDirectory",
+  AzureActiveDirectory = "AzureActiveDirectory"
+}
+
+/**
+ * Defines values for EntityProviders. \
+ * {@link KnownEntityProviders} can be used interchangeably with EntityProviders,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ActiveDirectory** \
+ * **AzureActiveDirectory**
+ */
+export type EntityProviders = string;
 
 /** Known values of {@link UebaDataSources} that the service accepts. */
 export enum KnownUebaDataSources {
