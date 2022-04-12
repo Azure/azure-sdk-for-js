@@ -83,13 +83,12 @@ describe("LogsQueryClient unit tests", () => {
               timespan: { duration: "PT1H" },
               includeQueryStatistics: true,
             },
-          ])
+          ]),
         ];
         // We don't care about errors, only that we created (and closed) the appropriate spans.
         await Promise.all(promises.map((p) => p.catch(() => undefined)));
       },
-      ["LogsQueryClient.queryWorkspace",
-       "LogsQueryClient.queryBatch"]
+      ["LogsQueryClient.queryWorkspace", "LogsQueryClient.queryBatch"]
     );
   });
 });

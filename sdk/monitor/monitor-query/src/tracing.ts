@@ -15,5 +15,5 @@ import { SDK_VERSION } from "./constants";
 export const tracingClient = createTracingClient({
   namespace: "Microsoft.Monitor",
   packageName: "@azure/monitor-query",
-  packageVersion: SDK_VERSION
+  packageVersion: SDK_VERSION,
 });

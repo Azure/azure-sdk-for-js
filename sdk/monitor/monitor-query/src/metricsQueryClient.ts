@@ -130,10 +130,15 @@ export class MetricsQueryClient {
     resourceUri: string,
     options: ListMetricDefinitionsOptions = {}
   ): AsyncIterableIterator<Array<MetricDefinition>> {
-    const segmentResponse = await tracingClient.withSpan("MetricsQueryClient.listSegmentOfMetricDefinitions",options, async (updatedOptions) => await this._definitionsClient.metricDefinitions.list(
-      resourceUri,
-      convertRequestOptionsForMetricsDefinitions(updatedOptions)
-    ) );
+    const segmentResponse = await tracingClient.withSpan(
+      "MetricsQueryClient.listSegmentOfMetricDefinitions",
+      options,
+      async (updatedOptions) =>
+        await this._definitionsClient.metricDefinitions.list(
+          resourceUri,
+          convertRequestOptionsForMetricsDefinitions(updatedOptions)
+        )
+    );
     yield convertResponseForMetricsDefinitions(segmentResponse.value);
   }
 
@@ -218,10 +223,12 @@ export class MetricsQueryClient {
     resourceUri: string,
     options: ListMetricNamespacesOptions = {}
   ): AsyncIterableIterator<Array<MetricNamespace>> {
-    const segmentResponse = await tracingClient.withSpan("MetricsQueryClient.listSegmentOfMetricDefinitions",options, async (updatedOptions) => await this._namespacesClient.metricNamespaces.list(
-      resourceUri,
-      updatedOptions
-    ));
+    const segmentResponse = await tracingClient.withSpan(
+      "MetricsQueryClient.listSegmentOfMetricDefinitions",
+      options,
+      async (updatedOptions) =>
+        await this._namespacesClient.metricNamespaces.list(resourceUri, updatedOptions)
+    );
     yield convertResponseForMetricNamespaces(segmentResponse.value);
   }
   /**
