@@ -15,17 +15,11 @@
     ],
     "declaration": true,
     "outDir": "./dist-esm",
-    "importHelpers": true,
-    "paths": {
-      "@azure/arm-containerservice": [
-        "./src/index"
-      ]
-    }
+    "importHelpers": true
   },
   "include": [
     "./src/**/*.ts",
-    "./test/**/*.ts",
-    "samples-dev/**/*.ts"
+    "./test/**/*.ts"
   ],
   "exclude": [
     "node_modules"

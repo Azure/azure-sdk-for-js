@@ -453,12 +453,10 @@ export class ManagedClustersImpl implements ManagedClusters {
       { resourceGroupName, resourceName, parameters, options },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -545,12 +543,10 @@ export class ManagedClustersImpl implements ManagedClusters {
       { resourceGroupName, resourceName, parameters, options },
       updateTagsOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -630,12 +626,10 @@ export class ManagedClustersImpl implements ManagedClusters {
       { resourceGroupName, resourceName, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -714,12 +708,10 @@ export class ManagedClustersImpl implements ManagedClusters {
       { resourceGroupName, resourceName, parameters, options },
       resetServicePrincipalProfileOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -801,12 +793,10 @@ export class ManagedClustersImpl implements ManagedClusters {
       { resourceGroupName, resourceName, parameters, options },
       resetAADProfileOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -887,12 +877,10 @@ export class ManagedClustersImpl implements ManagedClusters {
       { resourceGroupName, resourceName, options },
       rotateClusterCertificatesOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -974,12 +962,10 @@ export class ManagedClustersImpl implements ManagedClusters {
       { resourceGroupName, resourceName, options },
       stopOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -1061,12 +1047,10 @@ export class ManagedClustersImpl implements ManagedClusters {
       { resourceGroupName, resourceName, options },
       startOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -1153,12 +1137,10 @@ export class ManagedClustersImpl implements ManagedClusters {
       { resourceGroupName, resourceName, requestPayload, options },
       runCommandOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
