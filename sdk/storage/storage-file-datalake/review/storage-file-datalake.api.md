@@ -1221,10 +1221,10 @@ export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousC
 export interface Path {
     // (undocumented)
     contentLength?: number;
-    creationTime?: string;
+    createdOn?: Date;
     // (undocumented)
     etag?: string;
-    expiryTime?: string;
+    expiresOn?: Date;
     // (undocumented)
     group?: string;
     // (undocumented)
