@@ -143,7 +143,7 @@ const getAllOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorContract
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -159,7 +159,7 @@ const getAllNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorContract
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

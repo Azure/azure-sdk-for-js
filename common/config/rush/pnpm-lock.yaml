@@ -43,6 +43,7 @@ specifiers:
   '@rush-temp/arm-containerservice': file:./projects/arm-containerservice.tgz
   '@rush-temp/arm-cosmosdb': file:./projects/arm-cosmosdb.tgz
   '@rush-temp/arm-customerinsights': file:./projects/arm-customerinsights.tgz
+  '@rush-temp/arm-dashboard': file:./projects/arm-dashboard.tgz
   '@rush-temp/arm-databox': file:./projects/arm-databox.tgz
   '@rush-temp/arm-databoxedge': file:./projects/arm-databoxedge.tgz
   '@rush-temp/arm-databoxedge-profile-2020-09-01-hybrid': file:./projects/arm-databoxedge-profile-2020-09-01-hybrid.tgz
@@ -316,6 +317,7 @@ dependencies:
   '@rush-temp/arm-containerservice': file:projects/arm-containerservice.tgz
   '@rush-temp/arm-cosmosdb': file:projects/arm-cosmosdb.tgz
   '@rush-temp/arm-customerinsights': file:projects/arm-customerinsights.tgz
+  '@rush-temp/arm-dashboard': file:projects/arm-dashboard.tgz
   '@rush-temp/arm-databox': file:projects/arm-databox.tgz
   '@rush-temp/arm-databoxedge': file:projects/arm-databoxedge.tgz
   '@rush-temp/arm-databoxedge-profile-2020-09-01-hybrid': file:projects/arm-databoxedge-profile-2020-09-01-hybrid.tgz
@@ -9377,7 +9379,7 @@ packages:
     dev: false
 
   file:projects/arm-appservice.tgz:
-    resolution: {integrity: sha512-GPnOzswKgnWDjjtbybT7jXD7lWUnwNUYPXHzQG/tgscRIS23nXs2Wsp6ZGyTyDgBIE0mgnf30iVeUwKUKz6LLg==, tarball: file:projects/arm-appservice.tgz}
+    resolution: {integrity: sha512-Q3akZ2s9nL46Wj0uviYVRAJ6zAylklH/Qc0umXu9XybHeklDcZ6ZBl0QN+hHKloTQty4HzCWXyODxxwk4qXISA==, tarball: file:projects/arm-appservice.tgz}
     name: '@rush-temp/arm-appservice'
     version: 0.0.0
     dependencies:
@@ -9386,45 +9388,47 @@ packages:
       '@microsoft/api-extractor': 7.19.4
       '@rollup/plugin-commonjs': 21.0.2_rollup@2.70.0
       '@rollup/plugin-json': 4.1.0_rollup@2.70.0
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.0
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.70.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.0
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.70.0
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.70.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.0
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.2
     transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
     dev: false
 
   file:projects/arm-attestation.tgz:
-    resolution: {integrity: sha512-oSaX3+0+VMUU7H17GPDzg1iSXWTwp2aWq/wqcmf+/9hGWS3dQlWOsRzKrAUINc/FrSE5a+GM1AEJ0CjY2JNM9A==, tarball: file:projects/arm-attestation.tgz}
+    resolution: {integrity: sha512-Mo76Zlt01jYXbecnmzuPqzyaEkqFv2KoUppolwvH9ReTahIEkZSHC1IyhFqgaDkb+oEqfSCh+8Rsk+F32BsSbA==, tarball: file:projects/arm-attestation.tgz}
     name: '@rush-temp/arm-attestation'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.19.4
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-commonjs': 21.0.2_rollup@2.70.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.0
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup: 2.70.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.0
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.2
     transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -10077,6 +10081,34 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.15.2
     transitivePeerDependencies:
+      - debug
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-dashboard.tgz:
+    resolution: {integrity: sha512-cdTu6iRmV35jgpt7hIut0n0X1eA3WReK30x14m311OVigP7FI+MpH9jlkNmwBETDOTkzFTAx6+pu+L1iNh/j1g==, tarball: file:projects/arm-dashboard.tgz}
+    name: '@rush-temp/arm-dashboard'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.19.4
+      '@rollup/plugin-commonjs': 21.0.2_rollup@2.70.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.0
+      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.0
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.70.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.0
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.15.2
+    transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -15008,7 +15040,7 @@ packages:
     dev: false
 
   file:projects/eventgrid.tgz:
-    resolution: {integrity: sha512-TYTy+XdoTR3dMR16kLw6A6S6bmsy/p6pVqspQSAPRPLUpCvWo8wqpPJIjpj8cV2kTEvQ1BFQu0C+VSNnoOgwyw==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-AQubC+PetnbX+gBI9ppDIuWdMl/qpU8vSc6GJxgzKWqaATuK23qn3XUljongEBQjjZhCah+4fdIVQr9X4axsLw==, tarball: file:projects/eventgrid.tgz}
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
@@ -15163,7 +15195,7 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-ZhyXAu8kcm5oHyd/zNVz+qdzsJfBdN7CBjafd8GppFOslxDWsEUiOW7gBEYDu+uCLSkfe7XaitWwEPjarQrVig==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-UQnT/wlqG6WWBdaxBS4xbx8EpI9Ux+9ZDJbyuClx+6MPJjiD4hmxWcYeUg0HV9EWsYMnKlTOYUDOPHGgCpvMlw==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
@@ -15199,7 +15231,7 @@ packages:
     dev: false
 
   file:projects/identity-vscode.tgz:
-    resolution: {integrity: sha512-pfNduHOpPPPmBQhN9dRaZbLbm6iV7zfGaaKx87xLr8DC6TsmM/uUyJlBRXR8gdHuxn5LQssgU7u+6kZ+UjHO1A==, tarball: file:projects/identity-vscode.tgz}
+    resolution: {integrity: sha512-WWPRS32hE8LRhyroxtc2oMaGmHfCa45m4qJjjOX7VhxRHYIbvqwxFY6SSsP8uKwdFfo//V0K1UNrm4qKq68xYQ==, tarball: file:projects/identity-vscode.tgz}
     name: '@rush-temp/identity-vscode'
     version: 0.0.0
     dependencies:
@@ -15233,7 +15265,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-c5Qkc5SAHq5kIU71uO6rdV7Eq5Qd4kkhDi0v6QnHwn/dWFoAywZtepUOeW+mPpTZiaoqApQmUHc5NTtUUIwzaw==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-yLvNjdvlfXv475D8/9+2ZdFeT7h9kTlkCVGbjepVHPTwEUZYFnaJBBiMa5At0bu/w+Xju9GGdmAUArleoLqbhw==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
