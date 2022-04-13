@@ -113,7 +113,7 @@ export interface FileAndDirectoryCreateCommonOptions {
    * A value of now may be used to indicate the time of the request.
    * By default, the value will be set to the time of the request.
    */
-  changedOn?: Date | TimeNowType;
+  changeTime?: Date | TimeNowType;
 }
 
 export interface FileAndDirectorySetPropertiesCommonOptions {
@@ -161,7 +161,7 @@ export interface FileAndDirectorySetPropertiesCommonOptions {
    * A value of now may be used to indicate the time of the request.
    * By default, the value will be set to the time of the request.
    */
-  changeOn?: Date | TimeNowType;
+  changeTime?: Date | TimeNowType;
 }
 
 /**

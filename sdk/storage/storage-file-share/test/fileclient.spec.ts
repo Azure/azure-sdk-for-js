@@ -209,7 +209,7 @@ describe("FileClient", () => {
       },
       creationTime: now,
       lastWriteTime: now,
-      changeOn: now,
+      changeTime: now,
       filePermission: getPermissionResp.permission,
       fileAttributes: fullFileAttributes,
     };
@@ -505,7 +505,7 @@ describe("FileClient", () => {
     const options = {
       creationTime: creationDate,
       lastWriteTime: lastwriteTime,
-      changeOn: changedTime,
+      changeTime: changedTime,
       fileAttributes: fullFileAttributes,
     };
 

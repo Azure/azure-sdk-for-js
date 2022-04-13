@@ -96,7 +96,7 @@ describe("DirectoryClient", () => {
       metadata: metadata,
       creationTime: now,
       lastWriteTime: now,
-      changedOn: now,
+      changeTime: now,
       filePermissionKey: defaultDirCreateResp.filePermissionKey,
       fileAttributes: fullDirAttributes,
     });
@@ -226,7 +226,7 @@ describe("DirectoryClient", () => {
     await dirClient.setProperties({
       creationTime: now,
       lastWriteTime: now,
-      changeOn: now,
+      changeTime: now,
       filePermission: getPermissionResp.permission,
       fileAttributes: fullDirAttributes,
     });

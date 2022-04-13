@@ -499,7 +499,7 @@ export type FileAbortCopyResponse = FileAbortCopyHeaders & {
 
 // @public (undocumented)
 export interface FileAndDirectoryCreateCommonOptions {
-    changedOn?: Date | TimeNowType;
+    changeTime?: Date | TimeNowType;
     creationTime?: Date | TimeNowType;
     fileAttributes?: FileSystemAttributes;
     filePermission?: string | FilePermissionInheritType;
@@ -509,7 +509,7 @@ export interface FileAndDirectoryCreateCommonOptions {
 
 // @public (undocumented)
 export interface FileAndDirectorySetPropertiesCommonOptions {
-    changeOn?: Date | TimeNowType;
+    changeTime?: Date | TimeNowType;
     creationTime?: Date | TimeNowType | TimePreserveType;
     fileAttributes?: FileSystemAttributes | FileAttributesPreserveType;
     filePermission?: string | FilePermissionInheritType | FilePermissionPreserveType;
