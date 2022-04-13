@@ -87,6 +87,7 @@ export default {
         ],
         "@typescript-eslint/no-angle-bracket-type-assertion": "off",
         "@typescript-eslint/no-array-constructor": "off",
+        "@typescript-eslint/no-implicit-any-catch": "warn",
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/explicit-function-return-type": [
           "warn",
