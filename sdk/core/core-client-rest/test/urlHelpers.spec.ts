@@ -44,6 +44,15 @@ describe("urlHelpers", () => {
     assert.equal(result, `https://example.org/foo/one?foo=1&bar=two&$maxpagesize=1&$skip=$_20`);
   });
 
+  it("should skip encoding if the client already encoded the parameters", () => {
+    const result = buildRequestUrl(mockBaseUrl, "/foo/{id}", ["one"], {
+      queryParameters: { foo: "%24encoded%20value" }, // the value is already encoded so we could enable the setting skipUrlEncoding
+      skipUrlEncoding: true,
+    });
+
+    assert.equal(result, `https://example.org/foo/one?foo=%24encoded%20value`);
+  });
+
   it("should enable encoding for values in query parameter", () => {
     const result = buildRequestUrl(mockBaseUrl, "/foo/{id}", ["one"], {
       queryParameters: { foo: "1", bar: "two", $maxpagesize: 1, $skip: "$_20" },

@@ -64,7 +64,7 @@ function skipQueryParameterEncoding(url: URL) {
   }
   const searchPieces: string[] = [];
   for (let [name, value] of url.searchParams) {
-    // QUIRK: searchParams.get will NOT encode the values
+    // QUIRK: searchParams.get retrieves the values decoded
     searchPieces.push(`${name}=${value}`);
   }
   // QUIRK: we have to set search manually as searchParams will encode comma when it shouldn't.
