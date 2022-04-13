@@ -4,13 +4,6 @@
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { PipelineResponse } from "../interfaces";
 
-/**
- * A constant that indicates whether the environment the code is running is Node.JS.
- * @internal
- */
-export const isNode =
-  typeof process !== "undefined" && Boolean(process.version) && Boolean(process.versions?.node);
-
 const StandardAbortMessage = "The operation was aborted.";
 
 /**
@@ -70,45 +63,6 @@ export function delay<T>(
 }
 
 /**
- * Returns a random integer value between a lower and upper bound,
- * inclusive of both bounds.
- * Note that this uses Math.random and isn't secure. If you need to use
- * this for any kind of security purpose, find a better source of random.
- * @param min - The smallest integer value allowed.
- * @param max - The largest integer value allowed.
- * @internal
- */
-export function getRandomIntegerInclusive(min: number, max: number): number {
-  // Make sure inputs are integers.
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  // Pick a random offset from zero to the size of the range.
-  // Since Math.random() can never return 1, we have to make the range one larger
-  // in order to be inclusive of the maximum value after we take the floor.
-  const offset = Math.floor(Math.random() * (max - min + 1));
-  return offset + min;
-}
-
-/**
- * @internal
- */
-export type UnknownObject = { [s: string]: unknown };
-
-/**
- * @internal
- * @returns true when input is an object type that is not null, Array, RegExp, or Date.
- */
-export function isObject(input: unknown): input is UnknownObject {
-  return (
-    typeof input === "object" &&
-    input !== null &&
-    !Array.isArray(input) &&
-    !(input instanceof RegExp) &&
-    !(input instanceof Date)
-  );
-}
-
-/**
  * @internal
  * @returns the parsed value or undefined if the parsed value is invalid.
  */
@@ -121,43 +75,4 @@ export function parseHeaderValueAsNumber(
   const valueAsNum = Number(value);
   if (Number.isNaN(valueAsNum)) return;
   return valueAsNum;
-}
-
-/**
- * @internal
- * Typeguard for an error object shape (has name and message)
- * @param e - Something caught by a catch clause.
- */
-export function isError(e: unknown): e is Error {
-  if (isObject(e)) {
-    const hasName = typeof e.name === "string";
-    const hasMessage = typeof e.message === "string";
-    return hasName && hasMessage;
-  }
-  return false;
-}
-
-/**
- * @internal
- * Given what is thought to be an error object, return the message if possible.
- * If the message is missing, returns a stringified version of the input.
- * @param e - Something thrown from a try block
- * @returns The error message or a string of the input
- */
-export function getErrorMessage(e: unknown): string {
-  if (isError(e)) {
-    return e.message;
-  } else {
-    let stringified: string;
-    try {
-      if (typeof e === "object" && e) {
-        stringified = JSON.stringify(e);
-      } else {
-        stringified = String(e);
-      }
-    } catch (err) {
-      stringified = "[unable to stringify input]";
-    }
-    return `Unknown error ${stringified}`;
-  }
 }
