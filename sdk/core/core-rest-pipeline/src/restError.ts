@@ -88,7 +88,7 @@ export class RestError extends Error {
 
 /**
  * Typeguard for RestError
- * @param e Something caught by a catch clause.
+ * @param e - Something caught by a catch clause.
  */
 export function isRestError(e: unknown): e is RestError {
   if (e instanceof RestError) {
