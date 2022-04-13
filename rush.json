@@ -447,11 +447,6 @@
       "versionPolicyName": "core"
     },
     {
-      "packageName": "@azure/core-asynciterator-polyfill",
-      "projectFolder": "sdk/core/core-asynciterator-polyfill",
-      "versionPolicyName": "core"
-    },
-    {
       "packageName": "@azure/core-auth",
       "projectFolder": "sdk/core/core-auth",
       "versionPolicyName": "core"

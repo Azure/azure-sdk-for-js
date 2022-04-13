@@ -4,22 +4,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { parseSyncToken, SyncTokens } from "../../src/internal/synctokenpolicy";
+import { SyncTokens, parseSyncToken } from "../../src/internal/synctokenpolicy";
 import { assert } from "chai";
 import { AppConfigurationClient } from "../../src";
 import nock from "nock";
+import { InternalAppConfigurationClientOptions } from "../../src/appConfigurationClient";
 import {
-  getUserAgentPrefix,
-  InternalAppConfigurationClientOptions,
-  packageVersion,
-} from "../../src/appConfigurationClient";
-import {
-  createAppConfigurationClientForTests,
   assertThrowsRestError,
+  createAppConfigurationClientForTests,
   startRecorder,
 } from "../public/utils/testHelpers";
 
-import * as chai from "chai";
 import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
@@ -41,30 +36,6 @@ describe("http request related tests", function () {
             new RegExp(`Failed to parse sync token '${invalidToken}' with regex .+$`)
           );
         }
-      });
-    });
-
-    it("useragent", () => {
-      describe("with user prefix", () => {
-        const prefix = getUserAgentPrefix("MyCustomUserAgent");
-
-        chai.assert.match(
-          prefix,
-          new RegExp(
-            `^MyCustomUserAgent azsdk-js-app-configuration/${packageVersion}+ core-http/[^ ]+.+$`
-          ),
-          `Using a custom user agent`
-        );
-      });
-
-      describe("without user prefix", () => {
-        const prefix = getUserAgentPrefix(undefined);
-
-        chai.assert.match(
-          prefix,
-          new RegExp(`^azsdk-js-app-configuration/${packageVersion}+ core-http/[^ ]+.+$`),
-          `Using the default user agent`
-        );
       });
     });
 

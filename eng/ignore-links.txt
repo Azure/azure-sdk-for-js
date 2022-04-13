@@ -34,3 +34,5 @@ https://docs.microsoft.com/javascript/api/@azure/arm-mysql-flexible
 https://docs.microsoft.com/javascript/api/@azure/arm-mysql-flexible?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-hardwaresecuritymodules
 https://docs.microsoft.com/javascript/api/@azure/arm-hardwaresecuritymodules?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-azureadexternalidentities
+https://docs.microsoft.com/javascript/api/@azure/arm-azureadexternalidentities?view=azure-node-preview
