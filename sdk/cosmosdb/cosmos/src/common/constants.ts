@@ -158,6 +158,9 @@ export const Constants = {
     IsBatchAtomic: "x-ms-cosmos-batch-atomic",
     BatchContinueOnError: "x-ms-cosmos-batch-continue-on-error",
 
+    // Dedicated Gateway Headers
+    dedicatedGatewayPerRequestCacheStaleness: "x-ms-dedicatedgateway-max-age",
+
     // Cache Refresh header
     ForceRefresh: "x-ms-force-refresh",
   },

@@ -187,6 +187,13 @@ export async function getHeaders({
   if (options.disableRUPerMinuteUsage) {
     headers[Constants.HttpHeaders.DisableRUPerMinuteUsage] = true;
   }
+
+  if (options.maxIntegratedCacheStaleness !== undefined) {
+    headers[Constants.HttpHeaders.dedicatedGatewayPerRequestCacheStaleness] =
+      options.maxIntegratedCacheStaleness;
+    console.log(headers);
+  }
+
   if (
     clientOptions.key ||
     clientOptions.resourceTokens ||

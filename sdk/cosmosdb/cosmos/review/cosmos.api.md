@@ -395,6 +395,7 @@ export const Constants: {
         IsBatchRequest: string;
         IsBatchAtomic: string;
         BatchContinueOnError: string;
+        dedicatedGatewayPerRequestCacheStaleness: string;
         ForceRefresh: string;
     };
     WritableLocations: string;
@@ -669,6 +670,11 @@ export enum DataType {
     Point = "Point",
     Polygon = "Polygon",
     String = "String"
+}
+
+// @public
+export interface DedicatedGatewayRequestOptions {
+    maxIntegratedCacheStaleness?: number;
 }
 
 // @public (undocumented)
@@ -1461,7 +1467,7 @@ interface RequestInfo_2 {
 export { RequestInfo_2 as RequestInfo }
 
 // @public
-export interface RequestOptions extends SharedOptions {
+export interface RequestOptions extends SharedOptions, DedicatedGatewayRequestOptions {
     accessCondition?: {
         type: string;
         condition: string;
