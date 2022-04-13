@@ -148,6 +148,12 @@ dev-tool samples publish -f
 ```
 You will see the workable samples in the `${PROJECT_ROOT}/samples` folder.  
 
+# Format both the generated code and manual code
+After you have finished the generation and added your own tests or samples, You can use the following command to format the code.  
+```shell
+cd ${PROJECT_ROOT} && rushx format
+```
+
 # How to create package
 
 Now we can use the exact same steps to build an releasable artifact.
