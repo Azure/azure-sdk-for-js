@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
+import { assert } from "@azure/test-utils";
+import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { getError } from "../../authTestUtils";
 import { Context } from "mocha";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
@@ -51,10 +51,9 @@ describe.skip("AzureApplicationCredential", function () {
     assert.ok(token?.expiresOnTimestamp > Date.now());
   });
 
-  it(
-    "supports tracing with environment client secret",
-    testTracing({
-      test: async (tracingOptions) => {
+  it("supports tracing with environment client secret", async () => {
+    await assert.supportsTracing(
+      async (tracingOptions) => {
         // The following environment variables must be set for this to work.
         // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
         process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
@@ -63,28 +62,15 @@ describe.skip("AzureApplicationCredential", function () {
 
         const credential = new AzureApplicationCredential();
 
-        await credential.getToken(scope, {
-          tracingOptions,
-        });
+        await credential.getToken(scope, tracingOptions);
       },
-      children: [
-        {
-          name: "ChainedTokenCredential.getToken",
-          children: [
-            {
-              name: "EnvironmentCredential.getToken",
-              children: [
-                {
-                  name: "ClientSecretCredential.getToken",
-                  children: [],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    })
-  );
+      [
+        "ChainedTokenCredential.getToken",
+        "EnvironmentCredential.getToken",
+        "ClientSecretCredential.getToken",
+      ]
+    );
+  });
 
   it("throws an AggregateAuthenticationError when getToken is called and no credential was configured", async () => {
     const credential = new AzureApplicationCredential();

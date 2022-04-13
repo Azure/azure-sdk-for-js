@@ -4,6 +4,7 @@
 import { PipelineRequest, PipelineResponse } from "./interfaces";
 import { custom } from "./util/inspect";
 import { Sanitizer } from "./util/sanitizer";
+import { isError } from "./util/helpers";
 
 const errorSanitizer = new Sanitizer();
 
@@ -83,4 +84,15 @@ export class RestError extends Error {
   [custom](): string {
     return `RestError: ${this.message} \n ${errorSanitizer.sanitize(this)}`;
   }
+}
+
+/**
+ * Typeguard for RestError
+ * @param e - Something caught by a catch clause.
+ */
+export function isRestError(e: unknown): e is RestError {
+  if (e instanceof RestError) {
+    return true;
+  }
+  return isError(e) && e.name === "RestError";
 }
