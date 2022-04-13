@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-                
+
 trigger:
   branches:
     include:
@@ -10,7 +10,6 @@ trigger:
     include:
       - sdk/mediaservices/ci.mgmt.yml
       - sdk/mediaservices/arm-mediaservices/
-      - sdk/mediaservices/arm-mediaservices
 pr:
   branches:
     include:
@@ -24,7 +23,7 @@ pr:
     include:
       - sdk/mediaservices/ci.mgmt.yml
       - sdk/mediaservices/arm-mediaservices/
-      - sdk/mediaservices/arm-mediaservices
+
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
