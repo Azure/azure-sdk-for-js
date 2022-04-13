@@ -25,7 +25,7 @@ async function afdEndpointsListResourceUsage() {
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.afdEndpoints.listResourceUsage(
+  for await (let item of client.aFDEndpoints.listResourceUsage(
     resourceGroupName,
     profileName,
     endpointName

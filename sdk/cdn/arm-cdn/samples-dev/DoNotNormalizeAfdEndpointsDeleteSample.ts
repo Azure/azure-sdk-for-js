@@ -24,7 +24,7 @@ async function afdEndpointsDelete() {
   const endpointName = "endpoint1";
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
-  const result = await client.afdEndpoints.beginDeleteAndWait(
+  const result = await client.aFDEndpoints.beginDeleteAndWait(
     resourceGroupName,
     profileName,
     endpointName

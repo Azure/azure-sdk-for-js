@@ -10,7 +10,11 @@
 // Licensed under the MIT License.
 import {
   ChannelsUpdateOptionalParams,
-  AzureBotService
+  AzureBotService,
+  AlexaChannel,
+  EmailChannel,
+  DirectLineSpeechChannel,
+  LineChannel
 } from "@azure/arm-botservice";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -26,11 +30,11 @@ async function updateAlexa() {
   const resourceName = "samplebotname";
   const channelName = "AlexaChannel";
   const location = "global";
-  const properties = {
+  const properties: AlexaChannel = {
     channelName: "AlexaChannel",
     properties: { alexaSkillId: "XAlexaSkillIdX", isEnabled: true }
   };
-  const options: ChannelsUpdateOptionalParams = { location, properties };
+  const options: ChannelsUpdateOptionalParams = { location: location, properties };
   const credential = new DefaultAzureCredential();
   const client = new AzureBotService(credential, subscriptionId);
   const result = await client.channels.update(
@@ -56,7 +60,7 @@ async function updateBot() {
   const resourceName = "samplebotname";
   const channelName = "EmailChannel";
   const location = "global";
-  const properties = {
+  const properties: EmailChannel = {
     channelName: "EmailChannel",
     properties: { emailAddress: "a@b.com", isEnabled: true, password: "pwd" }
   };
@@ -86,7 +90,7 @@ async function updateDirectLineSpeech() {
   const resourceName = "samplebotname";
   const channelName = "DirectLineSpeechChannel";
   const location = "global";
-  const properties = {
+  const properties: DirectLineSpeechChannel = {
     channelName: "DirectLineSpeechChannel",
     properties: {
       cognitiveServiceRegion: "XcognitiveServiceRegionX",
@@ -120,7 +124,7 @@ async function updateLine() {
   const resourceName = "samplebotname";
   const channelName = "LineChannel";
   const location = "global";
-  const properties = {
+  const properties: LineChannel = {
     channelName: "LineChannel",
     properties: {
       lineRegistrations: [

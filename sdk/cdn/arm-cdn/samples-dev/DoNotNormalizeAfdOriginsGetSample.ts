@@ -25,7 +25,7 @@ async function afdOriginsGet() {
   const originName = "origin1";
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
-  const result = await client.afdOrigins.get(
+  const result = await client.aFDOrigins.get(
     resourceGroupName,
     profileName,
     originGroupName,

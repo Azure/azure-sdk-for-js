@@ -27,7 +27,7 @@ async function endpointsValidateCustomDomain() {
   };
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
-  const result = await client.afdEndpoints.validateCustomDomain(
+  const result = await client.aFDEndpoints.validateCustomDomain(
     resourceGroupName,
     profileName,
     endpointName,

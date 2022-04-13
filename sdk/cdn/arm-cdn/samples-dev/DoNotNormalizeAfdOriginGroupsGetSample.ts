@@ -24,7 +24,7 @@ async function afdOriginGroupsGet() {
   const originGroupName = "origingroup1";
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
-  const result = await client.afdOriginGroups.get(
+  const result = await client.aFDOriginGroups.get(
     resourceGroupName,
     profileName,
     originGroupName

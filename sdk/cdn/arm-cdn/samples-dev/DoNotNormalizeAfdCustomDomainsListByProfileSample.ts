@@ -24,7 +24,7 @@ async function afdCustomDomainsListByProfile() {
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.afdCustomDomains.listByProfile(
+  for await (let item of client.aFDCustomDomains.listByProfile(
     resourceGroupName,
     profileName
   )) {

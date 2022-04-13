@@ -24,7 +24,7 @@ async function afdEndpointsListByProfile() {
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.afdEndpoints.listByProfile(
+  for await (let item of client.aFDEndpoints.listByProfile(
     resourceGroupName,
     profileName
   )) {
