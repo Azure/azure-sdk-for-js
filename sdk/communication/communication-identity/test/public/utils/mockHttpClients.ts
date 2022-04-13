@@ -8,7 +8,6 @@ import {
   createHttpHeaders,
 } from "@azure/core-rest-pipeline";
 import { CommunicationAccessToken } from "../../../src";
-import { CommunicationIdentityAccessTokenResult } from "../../../src/generated/src/models";
 
 export const createMockHttpClient = <T = Record<string, unknown>>(
   status: number = 200,
@@ -43,12 +42,12 @@ export const getTokenHttpClient: HttpClient = createMockHttpClient<Communication
 export const revokeTokensHttpClient: HttpClient = createMockHttpClient(204);
 
 export const createUserHttpClient: HttpClient =
-  createMockHttpClient<CommunicationIdentityAccessTokenResult>(201, {
+  createMockHttpClient(201, {
     identity: { id: "identity" },
   });
 
 export const createUserAndTokenHttpClient: HttpClient =
-  createMockHttpClient<CommunicationIdentityAccessTokenResult>(201, {
+  createMockHttpClient(201, {
     identity: { id: "identity" },
     accessToken: {
       token: "token",
