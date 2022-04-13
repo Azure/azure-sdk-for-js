@@ -10,6 +10,7 @@ import githubSourceHeaders from "./github-source-headers";
 import tsApiExtractorPublicTypes from "./ts-apiextractor-json-types";
 import tsApisurfaceStandardizedVerbs from "./ts-apisurface-standardized-verbs";
 import tsApisurfaceSupportcancellation from "./ts-apisurface-supportcancellation";
+import tsCatchErrorAny from "./ts-catch-error-any";
 import tsConfigInclude from "./ts-config-include";
 import tsDocInternal from "./ts-doc-internal";
 import tsDocInternalPrivateMember from "./ts-doc-internal-private-member";
@@ -48,6 +49,7 @@ export = {
   "ts-apiextractor-json-types": tsApiExtractorPublicTypes,
   "ts-apisurface-standardized-verbs": tsApisurfaceStandardizedVerbs,
   "ts-apisurface-supportcancellation": tsApisurfaceSupportcancellation,
+  "ts-catch-error-any": tsCatchErrorAny,
   "ts-config-include": tsConfigInclude,
   "ts-doc-internal": tsDocInternal,
   "ts-doc-internal-private-member": tsDocInternalPrivateMember,

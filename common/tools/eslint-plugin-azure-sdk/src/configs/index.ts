@@ -26,6 +26,7 @@ export = {
       "@azure/azure-sdk/ts-apiextractor-json-types": "error",
       "@azure/azure-sdk/ts-apisurface-standardized-verbs": "error",
       "@azure/azure-sdk/ts-apisurface-supportcancellation": "error",
+      "@azure/azure-sdk/ts-catch-error-any": "off",
       "@azure/azure-sdk/ts-config-include": "error",
       "@azure/azure-sdk/ts-doc-internal": "error",
       "@azure/azure-sdk/ts-doc-internal-private-member": "warn",
