@@ -52,7 +52,6 @@ import { FileSystemSASPermissions } from "./sas/FileSystemSASPermissions";
 import { SasIPRange } from "./sas/SasIPRange";
 import { SASProtocol } from "./sas/SASQueryParameters";
 import { CommonOptions } from "./StorageClient";
-import { EncryptionAlgorithmAES25 } from "./utils/constants";
 
 export {
   LeaseAccessConditions,
@@ -69,6 +68,7 @@ export {
   BlobPrefix,
   BlobPropertiesModel,
   CpkInfo,
+  EncryptionAlgorithmType,
   FileSystemListPathsHeaders,
   FileSystemListBlobHierarchySegmentHeaders,
   FileSystemListPathsResponse as ListPathsSegmentResponse,
@@ -1446,16 +1446,6 @@ export interface FileGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
    * Optional only when identifier is provided. Specifies the list of permissions to be associated with the SAS.
    */
   permissions?: DataLakeSASPermissions;
-}
-
-export function ensureCpkIfSpecified(cpk: CpkInfo | undefined, isHttps: boolean): void {
-  if (cpk && !isHttps) {
-    throw new RangeError("Customer-provided encryption key must be used over HTTPS.");
-  }
-
-  if (cpk && !cpk.encryptionAlgorithm) {
-    cpk.encryptionAlgorithm = EncryptionAlgorithmAES25;
-  }
 }
 
 /** *********************************************************/

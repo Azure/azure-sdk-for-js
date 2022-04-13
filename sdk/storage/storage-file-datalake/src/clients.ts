@@ -17,7 +17,6 @@ import {
   DirectoryCreateOptions,
   DirectoryCreateResponse,
   DirectoryGenerateSasUrlOptions,
-  ensureCpkIfSpecified,
   FileAppendOptions,
   FileAppendResponse,
   FileCreateIfNotExistsOptions,
@@ -94,6 +93,7 @@ import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing"
 import {
   appendToURLPath,
   appendToURLQuery,
+  ensureCpkIfSpecified,
   getURLPathAndQuery,
   setURLPath,
   setURLQueries,

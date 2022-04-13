@@ -2,8 +2,14 @@
 // Licensed under the MIT license.
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
+import { CpkInfo } from "../models";
 
-import { DevelopmentConnectionString, HeaderConstants, UrlConstants } from "./constants";
+import {
+  DevelopmentConnectionString,
+  EncryptionAlgorithmAES25,
+  HeaderConstants,
+  UrlConstants,
+} from "./constants";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -585,4 +591,14 @@ export function windowsFileTimeTicksToTime(timeNumber: string | undefined): Date
   const date = new Date(timeNumberInternal / 10000);
   date.setUTCFullYear(date.getUTCFullYear() - 369);
   return date;
+}
+
+export function ensureCpkIfSpecified(cpk: CpkInfo | undefined, isHttps: boolean): void {
+  if (cpk && !isHttps) {
+    throw new RangeError("Customer-provided encryption key must be used over HTTPS.");
+  }
+
+  if (cpk && !cpk.encryptionAlgorithm) {
+    cpk.encryptionAlgorithm = EncryptionAlgorithmAES25;
+  }
 }

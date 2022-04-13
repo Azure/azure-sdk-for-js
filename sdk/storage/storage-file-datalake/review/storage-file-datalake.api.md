@@ -256,7 +256,6 @@ export type CopyStatusType = "pending" | "success" | "aborted" | "failed";
 
 // @public
 export interface CpkInfo {
-    // Warning: (ae-forgotten-export) The symbol "EncryptionAlgorithmType" needs to be exported by the entry point index.d.ts
     encryptionAlgorithm?: EncryptionAlgorithmType;
     encryptionKey?: string;
     encryptionKeySha256?: string;
@@ -509,8 +508,8 @@ export class DirectorySASPermissions {
     write: boolean;
 }
 
-// @public (undocumented)
-export function ensureCpkIfSpecified(cpk: CpkInfo | undefined, isHttps: boolean): void;
+// @public
+export type EncryptionAlgorithmType = string;
 
 // @public (undocumented)
 export interface FileAppendOptions extends CommonOptions {

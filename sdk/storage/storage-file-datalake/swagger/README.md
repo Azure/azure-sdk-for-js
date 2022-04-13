@@ -332,3 +332,17 @@ directive:
     transform: >
       $["x-ms-enum"]["modelAsString"] = true;
 ```
+
+### Fix EncryptionAlgorithm
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters
+    transform: >
+      delete $.EncryptionAlgorithm.enum;
+      $.EncryptionAlgorithm.enum = [
+        "None",
+        "AES256"
+      ];
+```

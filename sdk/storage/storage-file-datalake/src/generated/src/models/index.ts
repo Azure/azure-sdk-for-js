@@ -711,6 +711,7 @@ export interface CpkInfo {
 
 /** Known values of {@link EncryptionAlgorithmType} that the service accepts. */
 export const enum KnownEncryptionAlgorithmType {
+  None = "None",
   AES256 = "AES256"
 }
 
@@ -719,6 +720,7 @@ export const enum KnownEncryptionAlgorithmType {
  * {@link KnownEncryptionAlgorithmType} can be used interchangeably with EncryptionAlgorithmType,
  *  this enum contains the known values that the service supports.
  * ### Know values supported by the service
+ * **None** \
  * **AES256**
  */
 export type EncryptionAlgorithmType = string;
