@@ -12684,28 +12684,27 @@ packages:
     dev: false
 
   file:projects/arm-security.tgz:
-    resolution: {integrity: sha512-j/Plp7yL9w2UNzRaKK1P2c9PSzowhLFUTBBAT22F4JlG7vKQd+C1tEf2n21O7ML4F4DcDjo/2G/1WbrFh8DzBw==, tarball: file:projects/arm-security.tgz}
+    resolution: {integrity: sha512-EFl1g3+q0KxjJLX23npsPXhMFZTvgtcJVyURA8RLe6XfsXxjnTPEcpAOGL0JK/8A4fkhf8FvSxLCou9Tq1fk7w==, tarball: file:projects/arm-security.tgz}
     name: '@rush-temp/arm-security'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.20.0
-      '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
-      '@rollup/plugin-json': 4.1.0_rollup@2.70.1
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
-      '@rollup/plugin-node-resolve': 13.1.3_rollup@2.70.1
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.70.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.1
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.3
     transitivePeerDependencies:
-      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -14926,7 +14925,7 @@ packages:
     dev: false
 
   file:projects/eventgrid.tgz:
-    resolution: {integrity: sha512-TYTy+XdoTR3dMR16kLw6A6S6bmsy/p6pVqspQSAPRPLUpCvWo8wqpPJIjpj8cV2kTEvQ1BFQu0C+VSNnoOgwyw==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-AQubC+PetnbX+gBI9ppDIuWdMl/qpU8vSc6GJxgzKWqaATuK23qn3XUljongEBQjjZhCah+4fdIVQr9X4axsLw==, tarball: file:projects/eventgrid.tgz}
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:

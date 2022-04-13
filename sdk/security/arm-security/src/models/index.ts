@@ -1971,9 +1971,9 @@ export type ComplianceResult = Resource & {
   readonly resourceStatus?: ResourceStatus;
 };
 
-/** Azure Security Center is provided in two pricing tiers: free and standard, with the standard tier available with a trial period. The standard tier offers advanced security capabilities, while the free tier offers basic security features. */
+/** Microsoft Defender for Cloud is provided in two pricing tiers: free and standard, with the standard tier available with a trial period. The standard tier offers advanced security capabilities, while the free tier offers basic security features. */
 export type Pricing = Resource & {
-  /** The pricing tier value. Azure Security Center is provided in two pricing tiers: free and standard, with the standard tier available with a trial period. The standard tier offers advanced security capabilities, while the free tier offers basic security features. */
+  /** The pricing tier value. Microsoft Defender for Cloud is provided in two pricing tiers: free and standard, with the standard tier available with a trial period. The standard tier offers advanced security capabilities, while the free tier offers basic security features. */
   pricingTier?: PricingTier;
   /** The sub-plan selected for a Standard pricing configuration, when more than one sub-plan is available. Each sub-plan enables a set of security features. When not specified, full plan is applied. */
   subPlan?: string;
@@ -3147,7 +3147,7 @@ export type ServerVulnerabilityProperties = AdditionalData & {
   readonly vendorReferences?: VendorReference[];
 };
 
-/** The logic app action that should be triggered. To learn more about Security Center's Workflow Automation capabilities, visit https://aka.ms/ASCWorkflowAutomationLearnMore */
+/** The logic app action that should be triggered. To learn more about Microsoft Defender for Cloud's Workflow Automation capabilities, visit https://aka.ms/ASCWorkflowAutomationLearnMore */
 export type AutomationActionLogicApp = AutomationAction & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   actionType: "LogicApp";
@@ -3157,7 +3157,7 @@ export type AutomationActionLogicApp = AutomationAction & {
   uri?: string;
 };
 
-/** The target Event Hub to which event data will be exported. To learn more about Security Center continuous export capabilities, visit https://aka.ms/ASCExportLearnMore */
+/** The target Event Hub to which event data will be exported. To learn more about Microsoft Defender for Cloud continuous export capabilities, visit https://aka.ms/ASCExportLearnMore */
 export type AutomationActionEventHub = AutomationAction & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   actionType: "EventHub";
@@ -3172,7 +3172,7 @@ export type AutomationActionEventHub = AutomationAction & {
   connectionString?: string;
 };
 
-/** The Log Analytics Workspace to which event data will be exported. Security alerts data will reside in the 'SecurityAlert' table and the assessments data will reside in the 'SecurityRecommendation' table (under the 'Security'/'SecurityCenterFree' solutions). Note that in order to view the data in the workspace, the Security Center Log Analytics free/standard solution needs to be enabled on that workspace. To learn more about Security Center continuous export capabilities, visit https://aka.ms/ASCExportLearnMore */
+/** The Log Analytics Workspace to which event data will be exported. Security alerts data will reside in the 'SecurityAlert' table and the assessments data will reside in the 'SecurityRecommendation' table (under the 'Security'/'SecurityCenterFree' solutions). Note that in order to view the data in the workspace, the Security Center Log Analytics free/standard solution needs to be enabled on that workspace. To learn more about Microsoft Defender for Cloud continuous export capabilities, visit https://aka.ms/ASCExportLearnMore */
 export type AutomationActionWorkspace = AutomationAction & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   actionType: "Workspace";
@@ -3690,9 +3690,9 @@ export type ResourceStatus = string;
 
 /** Known values of {@link PricingTier} that the service accepts. */
 export enum KnownPricingTier {
-  /** Get free Azure security center experience with basic security features */
+  /** Get free Microsoft Defender for Cloud experience with basic security features */
   Free = "Free",
-  /** Get the standard Azure security center experience with advanced security features */
+  /** Get the standard Microsoft Defender for Cloud experience with advanced security features */
   Standard = "Standard"
 }
 
@@ -3701,8 +3701,8 @@ export enum KnownPricingTier {
  * {@link KnownPricingTier} can be used interchangeably with PricingTier,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Free**: Get free Azure security center experience with basic security features \
- * **Standard**: Get the standard Azure security center experience with advanced security features
+ * **Free**: Get free Microsoft Defender for Cloud experience with basic security features \
+ * **Standard**: Get the standard Microsoft Defender for Cloud experience with advanced security features
  */
 export type PricingTier = string;
 
@@ -4589,11 +4589,11 @@ export type Threats = string;
 
 /** Known values of {@link AssessmentType} that the service accepts. */
 export enum KnownAssessmentType {
-  /** Azure Security Center managed assessments */
+  /** Microsoft Defender for Cloud managed assessments */
   BuiltIn = "BuiltIn",
-  /** User defined policies that are automatically ingested from Azure Policy to Azure Security Center */
+  /** User defined policies that are automatically ingested from Azure Policy to Microsoft Defender for Cloud */
   CustomPolicy = "CustomPolicy",
-  /** User assessments pushed directly by the user or other third party to Azure Security Center */
+  /** User assessments pushed directly by the user or other third party to Microsoft Defender for Cloud */
   CustomerManaged = "CustomerManaged",
   /** An assessment that was created by a verified 3rd party if the user connected it to ASC */
   VerifiedPartner = "VerifiedPartner"
@@ -4604,9 +4604,9 @@ export enum KnownAssessmentType {
  * {@link KnownAssessmentType} can be used interchangeably with AssessmentType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **BuiltIn**: Azure Security Center managed assessments \
- * **CustomPolicy**: User defined policies that are automatically ingested from Azure Policy to Azure Security Center \
- * **CustomerManaged**: User assessments pushed directly by the user or other third party to Azure Security Center \
+ * **BuiltIn**: Microsoft Defender for Cloud managed assessments \
+ * **CustomPolicy**: User defined policies that are automatically ingested from Azure Policy to Microsoft Defender for Cloud \
+ * **CustomerManaged**: User assessments pushed directly by the user or other third party to Microsoft Defender for Cloud \
  * **VerifiedPartner**: An assessment that was created by a verified 3rd party if the user connected it to ASC
  */
 export type AssessmentType = string;
@@ -4971,9 +4971,9 @@ export type ExpandControlsEnum = string;
 
 /** Known values of {@link ControlType} that the service accepts. */
 export enum KnownControlType {
-  /** Azure Security Center managed assessments */
+  /** Microsoft Defender for Cloud managed assessments */
   BuiltIn = "BuiltIn",
-  /** Non Azure Security Center managed assessments */
+  /** Non Microsoft Defender for Cloud managed assessments */
   Custom = "Custom"
 }
 
@@ -4982,8 +4982,8 @@ export enum KnownControlType {
  * {@link KnownControlType} can be used interchangeably with ControlType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **BuiltIn**: Azure Security Center managed assessments \
- * **Custom**: Non Azure Security Center managed assessments
+ * **BuiltIn**: Microsoft Defender for Cloud managed assessments \
+ * **Custom**: Non Microsoft Defender for Cloud managed assessments
  */
 export type ControlType = string;
 
