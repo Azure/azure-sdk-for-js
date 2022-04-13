@@ -17,8 +17,7 @@ import {
   EventGridEvent as EventGridEventWireModel,
 } from "./generated/models";
 import { cloudEventDistributedTracingEnricherPolicy } from "./cloudEventDistrubtedTracingEnricherPolicy";
-import { createSpan } from "./tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { tracingClient } from "./tracing";
 import { v4 as uuidv4 } from "uuid";
 import { TokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy, tracingPolicyName } from "@azure/core-rest-pipeline";
@@ -128,13 +127,11 @@ export class EventGridPublisherClient<T extends InputSchema> {
    * @param events - The events to send. The events should be in the schema used when constructing the client.
    * @param options - Options to control the underlying operation.
    */
-  async send(events: InputSchemaToInputTypeMap[T][], options?: SendOptions): Promise<void> {
-    const { span, updatedOptions } = createSpan("EventGridPublisherClient-send", options || {});
-
-    try {
+  send(events: InputSchemaToInputTypeMap[T][], options: SendOptions = {}): Promise<void> {
+    return tracingClient.withSpan("EventGridPublisherClient.send", options, (updatedOptions) => {
       switch (this.inputSchema) {
         case "EventGrid": {
-          return await this.client.publishEvents(
+          return this.client.publishEvents(
             this.endpointUrl,
             (events as InputSchemaToInputTypeMap["EventGrid"][]).map(
               convertEventGridEventToModelType
@@ -143,14 +140,14 @@ export class EventGridPublisherClient<T extends InputSchema> {
           );
         }
         case "CloudEvent": {
-          return await this.client.publishCloudEventEvents(
+          return this.client.publishCloudEventEvents(
             this.endpointUrl,
             (events as InputSchemaToInputTypeMap["CloudEvent"][]).map(convertCloudEventToModelType),
             updatedOptions
           );
         }
         case "Custom": {
-          return await this.client.publishCustomEventEvents(
+          return this.client.publishCustomEventEvents(
             this.endpointUrl,
             events as InputSchemaToInputTypeMap["Custom"][],
             updatedOptions
@@ -160,12 +157,7 @@ export class EventGridPublisherClient<T extends InputSchema> {
           throw new Error(`Unknown input schema type '${this.inputSchema}'`);
         }
       }
-    } catch (e) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 }
 
