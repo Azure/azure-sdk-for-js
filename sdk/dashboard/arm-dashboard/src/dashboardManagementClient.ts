@@ -21,22 +21,17 @@ export class DashboardManagementClient extends coreClient.ServiceClient {
   /**
    * Initializes a new instance of the DashboardManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param $host server parameter
    * @param subscriptionId Gets subscription credentials which uniquely identify Microsoft Azure
    *                       subscription. The subscription ID forms part of the URI for every service call.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
-    $host: string,
     subscriptionId: string,
     options?: DashboardManagementClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
-    }
-    if ($host === undefined) {
-      throw new Error("'$host' cannot be null");
     }
     if (subscriptionId === undefined) {
       throw new Error("'subscriptionId' cannot be null");
@@ -66,7 +61,8 @@ export class DashboardManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint ?? options.baseUri ?? "{$host}"
+      baseUri:
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
 
@@ -93,10 +89,10 @@ export class DashboardManagementClient extends coreClient.ServiceClient {
       }
     }
     // Parameter assignments
-    this.$host = $host;
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
+    this.$host = options.$host || "https://management.azure.com";
     this.apiVersion = options.apiVersion || "2021-09-01-preview";
     this.operations = new OperationsImpl(this);
     this.grafana = new GrafanaImpl(this);
