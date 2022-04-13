@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/changeanalysis/ci.mgmt.yml
-      - sdk/changeanalysis/arm-changeanalysis/
       - sdk/changeanalysis/arm-changeanalysis
 pr:
   branches:
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/changeanalysis/ci.mgmt.yml
-      - sdk/changeanalysis/arm-changeanalysis/
       - sdk/changeanalysis/arm-changeanalysis
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml

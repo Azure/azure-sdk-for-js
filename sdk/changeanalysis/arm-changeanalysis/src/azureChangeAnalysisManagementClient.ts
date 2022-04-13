@@ -44,7 +44,7 @@ export class AzureChangeAnalysisManagementClient extends coreClient.ServiceClien
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-changeanalysis/2.0.2`;
+    const packageDetails = `azsdk-js-arm-changeanalysis/2.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
