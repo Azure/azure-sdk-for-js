@@ -9,6 +9,7 @@
 ### Bugs Fixed
 
 - Fix incorrect browser mapping path for BufferScheduler.js
+- Add `react-native` mapping to ESM entrypoint
 
 ### Other Changes
 
