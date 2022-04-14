@@ -345,6 +345,11 @@ export interface CloudEvent<T> {
 }
 
 // @public
+export interface CloudEventSendOptions extends SendOptions {
+    channelName?: string;
+}
+
+// @public
 export type CommunicationCloudEnvironmentModel = string;
 
 // @public
@@ -609,8 +614,6 @@ export interface InputSchemaToInputTypeMap {
 
 // @public
 export interface InputSchemaToOptionsTypeMap {
-    // Warning: (ae-forgotten-export) The symbol "CloudEventSendOptions" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     CloudEvent: CloudEventSendOptions;
     // (undocumented)
