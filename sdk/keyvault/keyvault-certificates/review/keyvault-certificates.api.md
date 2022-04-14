@@ -7,12 +7,12 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { AzureLogger } from '@azure/logger';
-import * as coreHttp from '@azure/core-http';
+import { CommonClientOptions } from '@azure/core-client';
+import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PipelineOptions } from '@azure/core-http';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-http';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = "EmailContacts" | "AutoRenew";
@@ -31,7 +31,7 @@ export type ArrayOneOrMore<T> = {
 } & Array<T>;
 
 // @public
-export type BackupCertificateOptions = coreHttp.OperationOptions;
+export type BackupCertificateOptions = coreClient.OperationOptions;
 
 // @public
 export interface BackupCertificateResult {
@@ -49,11 +49,11 @@ export type BeginDeleteCertificateOptions = CertificatePollerOptions;
 export type BeginRecoverDeletedCertificateOptions = CertificatePollerOptions;
 
 // @public
-export type CancelCertificateOperationOptions = coreHttp.OperationOptions;
+export type CancelCertificateOperationOptions = coreClient.OperationOptions;
 
 // @public
 export class CertificateClient {
-    constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: CertificateClientOptions);
+    constructor(vaultUrl: string, credential: TokenCredential, CommonClientOptions?: CertificateClientOptions);
     backupCertificate(certificateName: string, options?: BackupCertificateOptions): Promise<Uint8Array | undefined>;
     beginCreateCertificate(certificateName: string, policy: CertificatePolicy, options?: BeginCreateCertificateOptions): Promise<PollerLike<CreateCertificateState, KeyVaultCertificateWithPolicy>>;
     beginDeleteCertificate(certificateName: string, options?: BeginDeleteCertificateOptions): Promise<PollerLike<DeleteCertificateState, DeletedCertificate>>;
@@ -85,7 +85,7 @@ export class CertificateClient {
 }
 
 // @public
-export interface CertificateClientOptions extends coreHttp.PipelineOptions {
+export interface CertificateClientOptions extends coreClient.CommonClientOptions {
     serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3";
 }
 
@@ -175,7 +175,7 @@ export interface CertificatePolicyProperties {
 }
 
 // @public
-export interface CertificatePollerOptions extends coreHttp.OperationOptions {
+export interface CertificatePollerOptions extends coreClient.OperationOptions {
     intervalInMs?: number;
     resumeFrom?: string;
 }
@@ -202,6 +202,8 @@ export type CertificateTags = {
     [propertyName: string]: string;
 };
 
+export { CommonClientOptions }
+
 // @public
 export interface CoreSubjectAlternativeNames {
     dnsNames?: string[];
@@ -210,14 +212,14 @@ export interface CoreSubjectAlternativeNames {
 }
 
 // @public
-export interface CreateCertificateOptions extends CertificateProperties, coreHttp.OperationOptions {
+export interface CreateCertificateOptions extends CertificateProperties, coreClient.OperationOptions {
 }
 
 // @public
 export type CreateCertificateState = KeyVaultCertificatePollOperationState<KeyVaultCertificateWithPolicy>;
 
 // @public
-export interface CreateIssuerOptions extends coreHttp.OperationOptions {
+export interface CreateIssuerOptions extends coreClient.OperationOptions {
     accountId?: string;
     administratorContacts?: AdministratorContact[];
     enabled?: boolean;
@@ -232,13 +234,13 @@ export const DefaultCertificatePolicy: {
 };
 
 // @public
-export type DeleteCertificateOperationOptions = coreHttp.OperationOptions;
+export type DeleteCertificateOperationOptions = coreClient.OperationOptions;
 
 // @public
 export type DeleteCertificateState = KeyVaultCertificatePollOperationState<DeletedCertificate>;
 
 // @public
-export type DeleteContactsOptions = coreHttp.OperationOptions;
+export type DeleteContactsOptions = coreClient.OperationOptions;
 
 // @public
 export interface DeletedCertificate extends KeyVaultCertificateWithPolicy {
@@ -248,7 +250,7 @@ export interface DeletedCertificate extends KeyVaultCertificateWithPolicy {
 }
 
 // @public
-export type DeleteIssuerOptions = coreHttp.OperationOptions;
+export type DeleteIssuerOptions = coreClient.OperationOptions;
 
 // @public
 export type DeletionRecoveryLevel = string;
@@ -264,28 +266,28 @@ export interface ErrorModel {
 export type GetCertificateOperationOptions = CertificatePollerOptions;
 
 // @public
-export type GetCertificateOptions = coreHttp.OperationOptions;
+export type GetCertificateOptions = coreClient.OperationOptions;
 
 // @public
-export type GetCertificatePolicyOptions = coreHttp.OperationOptions;
+export type GetCertificatePolicyOptions = coreClient.OperationOptions;
 
 // @public
-export type GetCertificateVersionOptions = coreHttp.OperationOptions;
+export type GetCertificateVersionOptions = coreClient.OperationOptions;
 
 // @public
-export type GetContactsOptions = coreHttp.OperationOptions;
+export type GetContactsOptions = coreClient.OperationOptions;
 
 // @public
-export type GetDeletedCertificateOptions = coreHttp.OperationOptions;
+export type GetDeletedCertificateOptions = coreClient.OperationOptions;
 
 // @public
-export type GetIssuerOptions = coreHttp.OperationOptions;
+export type GetIssuerOptions = coreClient.OperationOptions;
 
 // @public
-export type GetPlainCertificateOperationOptions = coreHttp.OperationOptions;
+export type GetPlainCertificateOperationOptions = coreClient.OperationOptions;
 
 // @public
-export interface ImportCertificateOptions extends coreHttp.OperationOptions {
+export interface ImportCertificateOptions extends coreClient.OperationOptions {
     enabled?: boolean;
     password?: string;
     policy?: ImportCertificatePolicy;
@@ -406,31 +408,29 @@ export interface LifetimeAction {
 }
 
 // @public
-export interface ListDeletedCertificatesOptions extends coreHttp.OperationOptions {
+export interface ListDeletedCertificatesOptions extends coreClient.OperationOptions {
     includePending?: boolean;
 }
 
 // @public
-export interface ListPropertiesOfCertificatesOptions extends coreHttp.OperationOptions {
+export interface ListPropertiesOfCertificatesOptions extends coreClient.OperationOptions {
     includePending?: boolean;
 }
 
 // @public
-export type ListPropertiesOfCertificateVersionsOptions = coreHttp.OperationOptions;
+export type ListPropertiesOfCertificateVersionsOptions = coreClient.OperationOptions;
 
 // @public
-export type ListPropertiesOfIssuersOptions = coreHttp.OperationOptions;
+export type ListPropertiesOfIssuersOptions = coreClient.OperationOptions;
 
 // @public
 export const logger: AzureLogger;
 
 // @public
-export type MergeCertificateOptions = coreHttp.OperationOptions;
+export type MergeCertificateOptions = coreClient.OperationOptions;
 
 // @public
 export function parseKeyVaultCertificateIdentifier(id: string): KeyVaultCertificateIdentifier;
-
-export { PipelineOptions }
 
 // @public
 export interface PolicySubjectProperties {
@@ -441,7 +441,7 @@ export interface PolicySubjectProperties {
 export { PollerLike }
 
 // @public
-export type PurgeDeletedCertificateOptions = coreHttp.OperationOptions;
+export type PurgeDeletedCertificateOptions = coreClient.OperationOptions;
 
 // @public
 export type RecoverDeletedCertificateState = KeyVaultCertificatePollOperationState<KeyVaultCertificateWithPolicy>;
@@ -452,10 +452,10 @@ export type RequireAtLeastOne<T> = {
 }[keyof T];
 
 // @public
-export type RestoreCertificateBackupOptions = coreHttp.OperationOptions;
+export type RestoreCertificateBackupOptions = coreClient.OperationOptions;
 
 // @public
-export type SetContactsOptions = coreHttp.OperationOptions;
+export type SetContactsOptions = coreClient.OperationOptions;
 
 // @public
 export type SubjectAlternativeNames = RequireAtLeastOne<SubjectAlternativeNamesAll>;
@@ -468,11 +468,11 @@ export interface SubjectAlternativeNamesAll {
 }
 
 // @public
-export interface UpdateCertificateOptions extends CertificateProperties, coreHttp.OperationOptions {
+export interface UpdateCertificateOptions extends CertificateProperties, coreClient.OperationOptions {
 }
 
 // @public
-export type UpdateCertificatePolicyOptions = coreHttp.OperationOptions;
+export type UpdateCertificatePolicyOptions = coreClient.OperationOptions;
 
 // @public
 export interface UpdateIssuerOptions extends CreateIssuerOptions {
