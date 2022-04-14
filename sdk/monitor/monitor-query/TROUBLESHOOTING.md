@@ -34,6 +34,13 @@ To see a log of HTTP requests and responses:
 
   ```text
   AZURE_LOG_LEVEL = info
+  ```
+2. Add the following code to the app:
+
+```ts
+import * as dotenv from "dotenv";
+dotenv.config({ path: ".env" });
+```
 
 #### Logging using setLogLevel
 
