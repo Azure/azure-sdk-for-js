@@ -100,10 +100,8 @@ function tryCreateSpan(
       }
     );
 
-    const tracingContext = updatedOptions.tracingOptions?.tracingContext;
-
-    // If the span is not recording, or we don't have valid context don't do any more work.
-    if (!tracingContext || !span.isRecording()) {
+    // If the span is not recording, don't do any more work.
+    if (!span.isRecording()) {
       span.end();
       return undefined;
     }
@@ -113,11 +111,13 @@ function tryCreateSpan(
     }
 
     // set headers
-    const headers = tracingClient.createRequestHeaders(tracingContext);
+    const headers = tracingClient.createRequestHeaders(
+      updatedOptions.tracingOptions.tracingContext
+    );
     for (const [key, value] of Object.entries(headers)) {
       request.headers.set(key, value);
     }
-    return { span, tracingContext };
+    return { span, tracingContext: updatedOptions.tracingOptions.tracingContext };
   } catch (e) {
     logger.warning(`Skipping creating a tracing span due to an error: ${getErrorMessage(e)}`);
     return undefined;
