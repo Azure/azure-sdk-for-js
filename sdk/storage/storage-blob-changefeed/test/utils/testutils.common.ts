@@ -3,6 +3,7 @@
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { isPlaybackMode, env, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import { Readable } from "stream";
 
 export const testPollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -143,5 +144,19 @@ export function isSuperSet(m1?: BlobMetadata, m2?: BlobMetadata): boolean {
 export function sleep(seconds: number): Promise<void> {
   return new Promise((resolve) => {
     setTimeout(resolve, seconds * 1000);
+  });
+}
+/**
+ * Read text content from a stream
+ * @param stream
+ * @returns
+ */
+export function streamToString(stream: Readable): Promise<string> {
+  let chunks: any[];
+  chunks = [];
+  return new Promise((resolve, reject) => {
+    stream.on("data", (chunk) => chunks.push(Buffer.from(chunk)));
+    stream.on("error", (err) => reject(err));
+    stream.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
   });
 }
