@@ -291,7 +291,7 @@ async function processBatchResult(result: LogsQueryBatchResult) {
 }
 ```
 
-For more details on the response hierarchy for multiple queries, see can be found [Handle logs batch query response](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/README.md#handle-logs-batch-query-response).
+For more details on the response hierarchy for multiple queries, see [Handle logs batch query response](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/README.md#handle-logs-batch-query-response).
 
 ## Metrics query
 
