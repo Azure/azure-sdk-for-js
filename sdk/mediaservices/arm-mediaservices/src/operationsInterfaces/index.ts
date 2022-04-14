@@ -6,14 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./accountFilters";
 export * from "./operations";
 export * from "./mediaservices";
 export * from "./privateLinkResources";
 export * from "./privateEndpointConnections";
 export * from "./locations";
-export * from "./accountFilters";
 export * from "./assets";
 export * from "./assetFilters";
+export * from "./tracks";
+export * from "./operationStatuses";
+export * from "./operationResults";
 export * from "./contentKeyPolicies";
 export * from "./transforms";
 export * from "./jobs";
