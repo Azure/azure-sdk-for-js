@@ -57,7 +57,9 @@
     "./dist-esm/src/util/url.js": "./dist-esm/src/util/url.browser.js"
   },
   "react-native": {
-    "./dist/index.js": "./dist-esm/src/coreHttp.js"
+    "./dist/index.js": "./dist-esm/src/coreHttp.js",
+    "./dist-esm/src/util/xml.js": "./dist-esm/src/util/xml.js",
+    "./dist-esm/src/policies/msRestUserAgentPolicy.js": "./dist-esm/src/policies/msRestUserAgentPolicy.native.js"
   },
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-http/README.md",
