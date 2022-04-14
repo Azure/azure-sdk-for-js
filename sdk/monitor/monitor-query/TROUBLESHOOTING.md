@@ -6,16 +6,16 @@ This troubleshooting guide contains instructions to diagnose frequently encounte
 
 - [General troubleshooting](#general-troubleshooting)
   - [Enable client logging](#enable-client-logging)
-  - [Troubleshooting authentication issues with logs and metrics query requests](#authentication-errors)
-- [Troubleshooting logs query](#troubleshooting-logs-query)
-  - [Troubleshooting insufficient access error](#troubleshooting-insufficient-access-error-for-logs-query)
-  - [Troubleshooting invalid Kusto query](#troubleshooting-invalid-kusto-query)
-  - [Troubleshooting empty log query results](#troubleshooting-empty-log-query-results)
-  - [Troubleshooting server timeouts when executing logs query request](#troubleshooting-server-timeouts-when-executing-logs-query-request)
-  - [Troubleshooting partially successful logs query requests](#troubleshooting-partially-successful-logs-query-requests)
-- [Troubleshooting metrics query](#troubleshooting-metrics-query)
-  - [Troubleshooting authorization failed error](#troubleshooting-authorization-failed-error-for-metrics-query)
-  - [Troubleshooting unsupported granularity](#troubleshooting-unsupported-granularity-for-metrics-query)
+  - [Authentication issues with logs and metrics query requests](#authentication-errors)
+- [Logs query](#logs-query)
+  - [Insufficient access error](#insufficient-access-error-for-logs-query)
+  - [Invalid Kusto query](#invalid-kusto-query)
+  - [Empty log query results](#empty-log-query-results)
+  - [Server timeouts when executing logs query request](#server-timeouts-when-executing-logs-query-request)
+  - [Partially successful logs query requests](#partially-successful-logs-query-requests)
+- [Metrics query](#metrics-query)
+  - [Authorization failed error](#authorization-failed-error-for-metrics-query)
+  - [Unsupported granularity](#unsupported-granularity-for-metrics-query)
 
 ## General troubleshooting
 
@@ -23,16 +23,7 @@ This troubleshooting guide contains instructions to diagnose frequently encounte
 
 To troubleshoot issues with Azure Monitor Query library, it's important to first enable logging to monitor the behavior of the application. The errors and warnings in the logs generally provide useful insights into what went wrong and sometimes include corrective actions to fix issues.
 
-The Azure client libraries for JavaScript allow you to enable logging either through the environment variable or at runtime.
-
-The following log levels are supported. They're listed from most to least verbose.
-
-- verbose
-- info
-- warning
-- error
-
-When setting a log level, either programmatically or via the `AZURE_LOG_LEVEL` environment variable, any logs that are written using a log level equal to or less than the one you choose will be emitted. For example, setting the log level to `warning` will cause all logs that have the log level `warning` or `error` to be emitted.
+The Azure client libraries for JavaScript allow you to enable logging either through the environment variable `AZURE_LOG_LEVEL` or at runtime by calling `setLogLevel` in the `@azure/logger`.
 
 #### Logging via environment variable
 
@@ -67,9 +58,9 @@ For detailed instructions on how to enable logs, see the [@azure/logger package 
 
 Azure Monitor Query supports Azure Active Directory authentication. Both `logsQueryClient` and `metricsQueryClient` have methods to set the `credential`. To provide a valid credential, you can use the `@azure/identity` dependency. For more details on getting started, refer to the [README](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/README.md#create-the-client) of Azure Monitor Query library. You can also refer to the [Azure Identity documentation](https://aka.ms/azsdk/js/identity/troubleshoot) for more details on the various credential types supported in `@azure/identity`.
 
-## Troubleshooting logs query
+## Logs query
 
-### Troubleshooting insufficient access error for logs query
+### Insufficient access error for logs query
 
 If you get an HTTP error with status code 403 (Forbidden), it means the provided credentials lack sufficient permissions to query the workspace.
 
@@ -79,7 +70,7 @@ If you get an HTTP error with status code 403 (Forbidden), it means the provided
   "code": "InsufficientAccessError",
   "statusCode": 403,
   "request": {
-    "url": "https://api.loganalytics.io/v1/workspaces/08e1f3a5-9cf2-47a4-94b6-285bf25dc4be/query",
+    "url": "https://api.loganalytics.io/v1/workspaces/<workspace_id>/query",
     "headers": {
       "content-type": "application/json",
       "accept": "application/json",
@@ -114,7 +105,7 @@ If you get an HTTP error with status code 403 (Forbidden), it means the provided
    - You can refer to this document to [manage access to workspaces](https://docs.microsoft.com/azure/azure-monitor/logs/manage-access#manage-access-using-workspace-permissions)
 2. If the user or application is granted sufficient privileges to query the workspace, ensure you're authenticating as that user/application. If you're authenticating using the [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#authenticating-with-the-defaultazurecredential), check the logs to verify the credential used is the one you expected. To enable logging, see the [Enable client logging](#enable-client-logging) section.
 
-### Troubleshooting invalid Kusto query
+### Invalid Kusto query
 
 If you get an HTTP error with status code 400 (Bad Request), you may have an error in your Kusto query. You'll see an error message similar to the one below.
 
@@ -124,7 +115,7 @@ If you get an HTTP error with status code 400 (Bad Request), you may have an err
   "code": "BadArgumentError",
   "statusCode": 400,
   "request": {
-    "url": "https://api.loganalytics.io/v1/workspaces/598029db-4756-4768-87f3-d6d45ed0ebd7/query",
+    "url": "https://api.loganalytics.io/v1/workspaces/<workspace_id>/query",
     "headers": {
       "content-type": "application/json",
       "accept": "application/json",
@@ -169,7 +160,7 @@ If you get an HTTP error with status code 400 (Bad Request), you may have an err
 The error message may include the line number and position where the Kusto query has an error (line 2, position 244
 in the above example). You may also refer to the [Kusto Query Language](https://docs.microsoft.com/azure/data-explorer/kusto/query) reference docs to learn more about querying logs using KQL.
 
-### Troubleshooting empty log query results
+### Empty log query results
 
 If your Kusto query returns empty no logs, validate the following:
 
@@ -177,7 +168,7 @@ If your Kusto query returns empty no logs, validate the following:
 - You're setting the correct time interval for the query. Try expanding the time interval for your query to see if that returns any results.
 - If your Kusto query also has a time interval, the query is evaluated for the intersection of the time interval in the query string and the time interval set in the `QueryTimeInterval` parameter provided to the query API. The intersection of these time intervals may not have any logs. To avoid any confusion, it's recommended to remove any time interval in the Kusto query string. Use `QueryTimeInterval` explicitly.
 
-### Troubleshooting server timeouts when executing logs query request
+### Server timeouts when executing logs query request
 
 Some complex Kusto queries can take a long time to complete and such queries are aborted by the
 service if they run for more than 3 minutes. For such scenarios, the query APIs on `LogsQueryClient`, provide options to
@@ -191,7 +182,7 @@ You may see an error as follows:
   "code": "GatewayTimeout",
   "statusCode": 504,
   "request": {
-    "url": "https://api.loganalytics.io/v1/workspaces/598029db-4756-4768-87f3-d6d45ed0ebd7/query",
+    "url": "https://api.loganalytics.io/v1/workspaces/<workspace_id>/query",
     "headers": {
       "content-type": "application/json",
       "accept": "application/json",
@@ -243,7 +234,7 @@ const result = await logsQueryClient.queryWorkspace(
         );
 ```
 
-### Troubleshooting partially successful logs query requests
+### Partially successful logs query requests
 
 By default, if the execution of a Kusto query resulted in a partially successful response, the Azure Monitor Query
 client library will return the result of type `LogsQueryPartialResult` with the `status` field of `result` object set to `PartialFailure` to indicate to the user that the query was not fully successful. In case of multiple queries, when the results from all queries aren't successful, the `status` field of `result` object may be set to `Failure`.
@@ -307,9 +298,9 @@ async function processBatchResult(result: LogsQueryBatchResult) {
 
 For more details on the response hierarchy for multiple queries, see can be found [Handle logs batch query response](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/README.md#handle-logs-batch-query-response).
 
-## Troubleshooting metrics query
+## Metrics query
 
-### Troubleshooting authorization failed error for metrics query
+### Authorization failed error for metrics query
 
 If you get an HTTP error with status code 403 (Forbidden), the provided credentials lack sufficient permissions to query the workspace.
 
@@ -319,7 +310,7 @@ If you get an HTTP error with status code 403 (Forbidden), the provided credenti
   "code": "AuthorizationFailed",
   "statusCode": 403,
   "request": {
-    "url": "https://management.azure.com//subscriptions/2cd617ea-1866-46b1-90e3-fffb087ebf9b/resourceGroups/metrics-advisor/providers/Microsoft.CognitiveServices/accounts/js-metrics-advisor/providers/Microsoft.Insights/metricDefinitions?api-version=2018-01-01",
+    "url": "https://management.azure.com//subscriptions/<subscription_id>/resourceGroups/metrics-advisor/providers/Microsoft.CognitiveServices/accounts/js-metrics-advisor/providers/Microsoft.Insights/metricDefinitions?api-version=2018-01-01",
     "headers": {
       "accept": "application/json",
       "accept-encoding": "gzip,deflate",
@@ -339,10 +330,10 @@ If you get an HTTP error with status code 403 (Forbidden), the provided credenti
   "details": {
     "error": {
       "code": "AuthorizationFailed",
-      "message": "The client 'c7074f99-78cc-49d5-8973-5f61b5fdf2f0' with object id 'c7074f99-78cc-49d5-8973-5f61b5fdf2f0' does not have authorization to perform action 'Microsoft.Insights/metricDefinitions/read' over scope '/subscriptions/2cd617ea-1866-46b1-90e3-fffb087ebf9b/resourceGroups/metrics-advisor/providers/Microsoft.CognitiveServices/accounts/js-metrics-advisor/providers/Microsoft.Insights' or the scope is invalid. If access was recently granted, please refresh your credentials."
+      "message": "The client '<client-id>' with object id '<object-id>' does not have authorization to perform action 'Microsoft.Insights/metricDefinitions/read' over scope '/subscriptions/2cd617ea-1866-46b1-90e3-fffb087ebf9b/resourceGroups/metrics-advisor/providers/Microsoft.CognitiveServices/accounts/js-metrics-advisor/providers/Microsoft.Insights' or the scope is invalid. If access was recently granted, please refresh your credentials."
     }
   },
-  "message": "The client 'c7074f99-78cc-49d5-8973-5f61b5fdf2f0' with object id 'c7074f99-78cc-49d5-8973-5f61b5fdf2f0' does not have authorization to perform action 'Microsoft.Insights/metricDefinitions/read' over scope '/subscriptions/2cd617ea-1866-46b1-90e3-fffb087ebf9b/resourceGroups/metrics-advisor/providers/Microsoft.CognitiveServices/accounts/js-metrics-advisor/providers/Microsoft.Insights' or the scope is invalid. If access was recently granted, please refresh your credentials."
+  "message": "The client '<client-id>' with object id '<object-id>' does not have authorization to perform action 'Microsoft.Insights/metricDefinitions/read' over scope '/subscriptions/2cd617ea-1866-46b1-90e3-fffb087ebf9b/resourceGroups/metrics-advisor/providers/Microsoft.CognitiveServices/accounts/js-metrics-advisor/providers/Microsoft.Insights' or the scope is invalid. If access was recently granted, please refresh your credentials."
 }
 
 ```
@@ -351,7 +342,7 @@ If you get an HTTP error with status code 403 (Forbidden), the provided credenti
    - You can refer to this document to [manage access to workspaces](https://docs.microsoft.com/azure/azure-monitor/logs/manage-access#manage-access-using-workspace-permissions)
 2. If the user or application is granted sufficient privileges to query the workspace, make sure you're authenticating as that user/application. If you're authenticating using the [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-java/blob/main/sdk/identity/azure-identity/README.md#authenticating-with-defaultazurecredential), check the logs to verify that the credential used is the one you expected. To enable logging, see the [Enable client logging](#enable-client-logging) section.
 
-### Troubleshooting unsupported granularity for metrics query
+### Unsupported granularity for metrics query
 
 If you notice the following exception, this is due to an invalid time granularity in the metrics query request. Your query might look something like the following, where `MetricsQueryOptions().setGranularity()` is set to an unsupported duration.
 
@@ -361,7 +352,7 @@ If you notice the following exception, this is due to an invalid time granularit
   "code": "BadRequest",
   "statusCode": 400,
   "request": {
-    "url": "https://management.azure.com//subscriptions/2cd617ea-1866-46b1-90e3-fffb087ebf9b/resourceGroups/metrics-advisor/providers/Microsoft.CognitiveServices/accounts/js-metrics-advisor/providers/Microsoft.Insights/metrics?timespan=REDACTED&interval=REDACTED&metricnames=REDACTED&api-version=2018-01-01",
+    "url": "https://management.azure.com//subscriptions/<subscription_id>/resourceGroups/metrics-advisor/providers/Microsoft.CognitiveServices/accounts/js-metrics-advisor/providers/Microsoft.Insights/metrics?timespan=REDACTED&interval=REDACTED&metricnames=REDACTED&api-version=2018-01-01",
     "headers": {
       "accept": "application/json",
       "accept-encoding": "gzip,deflate",
