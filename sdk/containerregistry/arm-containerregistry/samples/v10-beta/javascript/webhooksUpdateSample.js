@@ -25,7 +25,7 @@ async function webhookUpdate() {
   const webhookUpdateParameters = {
     actions: ["push"],
     customHeaders: {
-      authorization: "Basic 000000000000000000000000000000000000000000000000000",
+      authorization: "",
     },
     scope: "myRepository",
     serviceUri: "http://myservice.com",
