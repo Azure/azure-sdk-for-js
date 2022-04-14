@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "@azure/test-utils";
-import { RestError } from "@azure/core-http";
+import { RestError } from "@azure/core-rest-pipeline";
 import { DeleteCertificatePoller } from "../../src/lro/delete/poller";
 import { RecoverDeletedCertificatePoller } from "../../src/lro/recover/poller";
 
@@ -20,7 +20,7 @@ describe("The LROs properly throw on unexpected errors", () => {
           };
         },
         async getDeletedCertificate(): Promise<any> {
-          throw new RestError(`${code}`, undefined, code);
+          throw new RestError(`${code}`, { statusCode: code });
         },
       };
       const poller = new DeleteCertificatePoller({
@@ -44,7 +44,7 @@ describe("The LROs properly throw on unexpected errors", () => {
           };
         },
         async getDeletedCertificate(): Promise<any> {
-          throw new RestError(`${code}`, undefined, code);
+          throw new RestError(`${code}`, { statusCode: code });
         },
       };
       const poller = new DeleteCertificatePoller({
@@ -70,7 +70,7 @@ describe("The LROs properly throw on unexpected errors", () => {
             };
           },
           async getDeletedCertificate(): Promise<any> {
-            throw new RestError(`${code}`, undefined, code);
+            throw new RestError(`${code}`, { statusCode: code });
           },
         };
         const poller = new DeleteCertificatePoller({
@@ -106,7 +106,7 @@ describe("The LROs properly throw on unexpected errors", () => {
           };
         },
         async getCertificate(): Promise<any> {
-          throw new RestError(`${code}`, undefined, code);
+          throw new RestError(`${code}`, { statusCode: code });
         },
       };
       const poller = new RecoverDeletedCertificatePoller({
@@ -134,7 +134,7 @@ describe("The LROs properly throw on unexpected errors", () => {
           };
         },
         async getCertificate(): Promise<any> {
-          throw new RestError(`${code}`, undefined, code);
+          throw new RestError(`${code}`, { statusCode: code });
         },
       };
       const poller = new RecoverDeletedCertificatePoller({
@@ -164,7 +164,7 @@ describe("The LROs properly throw on unexpected errors", () => {
             };
           },
           async getCertificate(): Promise<any> {
-            throw new RestError(`${code}`, undefined, code);
+            throw new RestError(`${code}`, { statusCode: code });
           },
         };
         const poller = new RecoverDeletedCertificatePoller({

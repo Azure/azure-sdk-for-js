@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode } from "@azure/core-http";
+import { isNode } from "../../../../keyvault-common/src/";
 import * as dotenv from "dotenv";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 
