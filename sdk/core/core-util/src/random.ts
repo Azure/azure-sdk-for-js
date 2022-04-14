@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /**
  * Returns a random integer value between a lower and upper bound,
  * inclusive of both bounds.
