@@ -21,7 +21,11 @@ This troubleshooting guide contains instructions to diagnose frequently encounte
 
 ### Enable client logging
 
-To troubleshoot issues with Azure Monitor Query library, it's important to first enable logging to monitor the behavior of the application. The errors and warnings in the logs generally provide useful insights into what went wrong and sometimes include corrective actions to fix issues. The Azure client libraries for JavaScript allow you to enable logging either through the environment variable `AZURE_LOG_LEVEL` or at runtime by calling `setLogLevel` in the `@azure/logger`.
+To troubleshoot issues with Azure Monitor Query library, it's important to first enable logging to monitor the behavior of the application. The errors and warnings in the logs generally provide useful insights into what went wrong and sometimes include corrective actions to fix issues. The Azure SDK client libraries for JavaScript allow you to enable logging with one of the following approaches:
+
+- Through the `AZURE_LOG_LEVEL` environment variable
+- At runtime by calling `setLogLevel` in the `@azure/logger` package
+
 #### Logging via environment variable
 
 To see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`.
