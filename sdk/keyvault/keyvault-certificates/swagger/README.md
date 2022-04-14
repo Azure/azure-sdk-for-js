@@ -20,4 +20,5 @@ output-folder: ../
 source-code-folder-path: ./src/generated
 hide-clients: true
 package-version: 4.5.0-beta.1
+openapi-type: "data-plane"
 ```

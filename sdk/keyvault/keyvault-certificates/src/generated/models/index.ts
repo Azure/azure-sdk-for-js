@@ -60,7 +60,7 @@ export interface KeyVaultError {
    * The key vault server error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly error?: ErrorModel;
+  readonly error?: ErrorModel | null;
 }
 
 /** The key vault server error. */
@@ -79,7 +79,7 @@ export interface ErrorModel {
    * The key vault server error.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly innerError?: ErrorModel;
+  readonly innerError?: ErrorModel | null;
 }
 
 /** A certificate bundle consists of a certificate (X509) plus its attributes. */
@@ -372,7 +372,7 @@ export interface CertificateOperation {
   /** The status details of the certificate operation. */
   statusDetails?: string;
   /** Error encountered, if any, during the certificate operation. */
-  error?: ErrorModel;
+  error?: ErrorModel | null;
   /** Location which contains the result of the certificate operation. */
   target?: string;
   /** Identifier for the certificate operation. */
