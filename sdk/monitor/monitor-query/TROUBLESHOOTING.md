@@ -28,18 +28,12 @@ To troubleshoot issues with Azure Monitor Query library, it's important to first
 
 #### Logging via environment variable
 
-To see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`.
+To see a log of HTTP requests and responses:
 
-Add the following to the .env
-```text
-AZURE_LOG_LEVEL = info
-```
+ 1. Set the `AZURE_LOG_LEVEL` environment variable to `info` in your *.env* file:
 
-Add the following to the code 
-```ts
-import * as dotenv from "dotenv";
-dotenv.config({ path: ".env" });
-```
+  ```text
+  AZURE_LOG_LEVEL = info
 
 #### Logging using setLogLevel
 
