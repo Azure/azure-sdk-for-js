@@ -69,6 +69,12 @@ export interface CreateConsentParams extends OperationOptions {
 export interface GetConsentOptionalParams extends coreClient.OperationOptions {
 }
 
+// @public (undocumented)
+export interface GetConsentParams extends GetConsentOptionalParams {
+    // (undocumented)
+    operatorId: string;
+}
+
 // @public
 export interface GetConsentsOptionalParams extends coreClient.OperationOptions {
     skip?: number;
@@ -106,7 +112,7 @@ export class OperatorConnectClient {
     constructor(url: string, credential: KeyCredential, options?: OperatorConnectClientOptions);
     constructor(url: string, credential: TokenCredential, options?: OperatorConnectClientOptions);
     createConsent(operationOptions: CreateConsentParams): Promise<Consent>;
-    getConsent(operatorId: string, options?: GetConsentOptionalParams): Promise<Consent>;
+    getConsent(options: GetConsentParams): Promise<Consent>;
     listConsents(options?: GetConsentsOptionalParams): PagedAsyncIterableIterator<Consent>;
     listOperators(options?: GetOperatorsOptionalParams): PagedAsyncIterableIterator<Operator>;
     removeConsent(operationOptions: RemoveConsentParams): Promise<Consent>;

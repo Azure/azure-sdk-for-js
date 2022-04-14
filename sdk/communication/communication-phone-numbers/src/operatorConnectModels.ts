@@ -5,6 +5,10 @@ import { OperationOptions } from "@azure/core-client";
 
 export type ConsentStatus = "Active" | "Removed" | "Suspended";
 
+import {
+  GetConsentOptionalParams,
+} from "./generated/src/operatorConnect/models/";
+
 /**
  * Parameters that could be used fo creating consent.
  */
@@ -102,8 +106,12 @@ export interface Operator {
   logoThumbnailUri?: string;
 }
 
+export interface GetConsentParams extends GetConsentOptionalParams {
+  operatorId: string
+}
+
 export {
-  GetOperatorsOptionalParams,
   GetConsentOptionalParams,
+  GetOperatorsOptionalParams,
   GetConsentsOptionalParams,
 } from "./generated/src/operatorConnect/models/";

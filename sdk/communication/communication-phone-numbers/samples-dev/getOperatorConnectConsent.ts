@@ -26,7 +26,7 @@ export async function main() {
 
   console.log("Get OperatorConnect consent.");
 
-  const consent = await client.getConsent("fa82b96a-3352-4594-80f2-a0a18924a001")
+  const consent = await client.getConsent({operatorId: "fa82b96a-3352-4594-80f2-a0a18924a001"})
   console.log(`Company Name '${consent.companyName}'`);
   console.log(`OperatorId: '${consent.operatorId}'`);
   console.log(`Status: '${consent.status}'`);

@@ -21,14 +21,14 @@ import {
   CreateConsentParams,
   UpdateConsentParams,
   RemoveConsentParams,
+  GetConsentParams,
   Operator,
+  GetOperatorsOptionalParams,
+  GetConsentsOptionalParams,
 } from "./";
 import * as Mapper from "./mappers";
 import { OperatorConnectClient as OperatorConnectGeneratedClient } from "./generated/src/operatorConnect";
 import {
-  GetOperatorsOptionalParams,
-  GetConsentsOptionalParams,
-  GetConsentOptionalParams,
   CreateOrUpdateConsentOptionalParams,
 } from "./generated/src/operatorConnect/models/";
 
@@ -148,12 +148,11 @@ export class OperatorConnectClient {
    * @param options - Additional request options.
    */
   public async getConsent(
-    operatorId: string,
-    options: GetConsentOptionalParams = {}
+    options: GetConsentParams
   ): Promise<Consent> {
     const { span, updatedOptions } = createSpan("OperatorConnectClient-getConsent", options);
     try {
-      var consent = await this.client.getConsent(operatorId, updatedOptions);
+      var consent = await this.client.getConsent(options.operatorId, updatedOptions);
       return Mapper.toConsentResponse(consent);
     } catch (e: any) {
       span.setStatus({

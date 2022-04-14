@@ -54,7 +54,8 @@ matrix([[true, false]], async function (useAad) {
         consentedBy: contact,
         requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } }, // Todo: remove. sent to get mocked results while api is not ready
       });
-      const getResponse = await client.getConsent(operatorId, {
+      const getResponse = await client.getConsent({
+        operatorId,
         requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } },
       });
       assert.equal(getResponse.operatorId, operatorId);
@@ -76,7 +77,8 @@ matrix([[true, false]], async function (useAad) {
       assert.equal(createResponse.contacts, [contact]);
       assert.equal(createResponse.status, "Active");
 
-      const getResponse = await client.getConsent(operatorId, {
+      const getResponse = await client.getConsent({
+        operatorId,
         requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } },
       });
       assert.deepEqual(getResponse, createResponse);
@@ -260,14 +262,16 @@ matrix([[true, false]], async function (useAad) {
 
     it("can handle not found error in get consent", async function (this: Context) {
       await assertThrows(404, async () =>
-        await client.getConsent(operatorId, {
+        await client.getConsent({ 
+          operatorId,
           requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } },
         }));
     }).timeout(defaultTimeoutMs);
 
     it("can handle bad request error in get consent", async function (this: Context) {
       await assertThrows(400, async () =>
-        await client.getConsent(nonExistingOperatorId, {
+        await client.getConsent({ 
+          operatorId: nonExistingOperatorId,
           requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } },
         }));
     }).timeout(defaultTimeoutMs);
