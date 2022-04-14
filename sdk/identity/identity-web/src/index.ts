@@ -155,7 +155,7 @@ export class WebRedirectCredential implements TokenCredential {
         scopes: Array.isArray(scopes) ? scopes : [scopes],
         getTokenOptions: options,
         message:
-          "Automatic authentication is unavailable in this credential. You must call the authentication() method first.",
+          "Automatic authentication is unavailable in this credential. You must call the authenticate() method first.",
       });
     }
     return trace(`${this.constructor.name}.getToken`, options, async (newOptions) => {
