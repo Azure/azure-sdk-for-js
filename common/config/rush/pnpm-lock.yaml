@@ -43,6 +43,7 @@ specifiers:
   '@rush-temp/arm-containerservice': file:./projects/arm-containerservice.tgz
   '@rush-temp/arm-cosmosdb': file:./projects/arm-cosmosdb.tgz
   '@rush-temp/arm-customerinsights': file:./projects/arm-customerinsights.tgz
+  '@rush-temp/arm-dashboard': file:./projects/arm-dashboard.tgz
   '@rush-temp/arm-databox': file:./projects/arm-databox.tgz
   '@rush-temp/arm-databoxedge': file:./projects/arm-databoxedge.tgz
   '@rush-temp/arm-databoxedge-profile-2020-09-01-hybrid': file:./projects/arm-databoxedge-profile-2020-09-01-hybrid.tgz
@@ -316,6 +317,7 @@ dependencies:
   '@rush-temp/arm-containerservice': file:projects/arm-containerservice.tgz
   '@rush-temp/arm-cosmosdb': file:projects/arm-cosmosdb.tgz
   '@rush-temp/arm-customerinsights': file:projects/arm-customerinsights.tgz
+  '@rush-temp/arm-dashboard': file:projects/arm-dashboard.tgz
   '@rush-temp/arm-databox': file:projects/arm-databox.tgz
   '@rush-temp/arm-databoxedge': file:projects/arm-databoxedge.tgz
   '@rush-temp/arm-databoxedge-profile-2020-09-01-hybrid': file:projects/arm-databoxedge-profile-2020-09-01-hybrid.tgz
@@ -8787,7 +8789,7 @@ packages:
     dev: false
 
   file:projects/agrifood-farming.tgz:
-    resolution: {integrity: sha512-WkOPi4KrjmrSJOBZKum4E3Fu6mh41Dj6+gpvcvjeiVan9iaNjcfx1/GqQPD6W0/CfXfralQNK6yB+OYYT5eGOQ==, tarball: file:projects/agrifood-farming.tgz}
+    resolution: {integrity: sha512-QRw220xUlnuSeW1WOqKh3tKc5aIM9Vst643jf1mujIYBU+E2yFfXHaFk7IEJi3O3uRPpilQnmDRG04pem7hF6w==, tarball: file:projects/agrifood-farming.tgz}
     name: '@rush-temp/agrifood-farming'
     version: 0.0.0
     dependencies:
@@ -9350,7 +9352,7 @@ packages:
     dev: false
 
   file:projects/arm-appservice.tgz:
-    resolution: {integrity: sha512-GPnOzswKgnWDjjtbybT7jXD7lWUnwNUYPXHzQG/tgscRIS23nXs2Wsp6ZGyTyDgBIE0mgnf30iVeUwKUKz6LLg==, tarball: file:projects/arm-appservice.tgz}
+    resolution: {integrity: sha512-Q3akZ2s9nL46Wj0uviYVRAJ6zAylklH/Qc0umXu9XybHeklDcZ6ZBl0QN+hHKloTQty4HzCWXyODxxwk4qXISA==, tarball: file:projects/arm-appservice.tgz}
     name: '@rush-temp/arm-appservice'
     version: 0.0.0
     dependencies:
@@ -9359,45 +9361,47 @@ packages:
       '@microsoft/api-extractor': 7.21.2
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.70.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
+      '@rollup/plugin-node-resolve': 13.2.0_rollup@2.70.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.70.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.70.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.4
     transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
     dev: false
 
   file:projects/arm-attestation.tgz:
-    resolution: {integrity: sha512-oSaX3+0+VMUU7H17GPDzg1iSXWTwp2aWq/wqcmf+/9hGWS3dQlWOsRzKrAUINc/FrSE5a+GM1AEJ0CjY2JNM9A==, tarball: file:projects/arm-attestation.tgz}
+    resolution: {integrity: sha512-Mo76Zlt01jYXbecnmzuPqzyaEkqFv2KoUppolwvH9ReTahIEkZSHC1IyhFqgaDkb+oEqfSCh+8Rsk+F32BsSbA==, tarball: file:projects/arm-attestation.tgz}
     name: '@rush-temp/arm-attestation'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.21.2
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
+      '@rollup/plugin-node-resolve': 13.2.0_rollup@2.70.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup: 2.70.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.4
     transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -10052,6 +10056,34 @@ packages:
       typescript: 4.2.4
       uglify-js: 3.15.4
     transitivePeerDependencies:
+      - debug
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-dashboard.tgz:
+    resolution: {integrity: sha512-cdTu6iRmV35jgpt7hIut0n0X1eA3WReK30x14m311OVigP7FI+MpH9jlkNmwBETDOTkzFTAx6+pu+L1iNh/j1g==, tarball: file:projects/arm-dashboard.tgz}
+    name: '@rush-temp/arm-dashboard'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.21.2
+      '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
+      '@rollup/plugin-node-resolve': 13.2.0_rollup@2.70.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.70.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.15.4
+    transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -13630,7 +13662,7 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-F2p5XwoV7jQhN9ZEN8CJLDdTq1UBXLM0Ch9Ciz0KgJIsHFEnC6gts26YWXpJnvqligsIbdgdSoEGQSGxEEcfAA==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-BrBKMZZ69GWRDs436jfSh6cwYxI2Wtw44XQMjjrX1Y6tkLzguQDVnGpZcRiaP3kgoqt6VSkt2jOzPJWjHG4+IA==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
@@ -13726,7 +13758,7 @@ packages:
     dev: false
 
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-1tM+0PEXI9NF2zGpjIrsxgtCPK/gDjPVpIzexRBiNUe+570eFeG1vaa0Oz01Wtyq9zX0jab5kiSC8ENssu9GBg==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-Hrb58e5OQs5SF1TE3dI9Ol7rfCxhw6xL+nXeGHjyL/gdhDMnpJRMauI+37tHjOxc+5PmyYrqO2Zc8/ohX+6Cmw==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
@@ -14189,7 +14221,7 @@ packages:
     dev: false
 
   file:projects/core-client.tgz:
-    resolution: {integrity: sha512-PtXu2tdeBOmMdUlWxsxh9SUxhJtzjYmhjy0BpwJFkGaLIqcriWwrRLJaXlNr6CMjB3v7cm5o3gV60MJDbzSyKA==, tarball: file:projects/core-client.tgz}
+    resolution: {integrity: sha512-DKkIoNyzHZSp08YPbfeq6yB7tO4dnBiDb3MeLGFSyBGKEXP4I2sHR1dRn50jbfisk6PrlJAjZpPoTqE0QD0atg==, tarball: file:projects/core-client.tgz}
     name: '@rush-temp/core-client'
     version: 0.0.0
     dependencies:
@@ -14434,7 +14466,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-Dk2F5VckIcgD9MZORhmnOel3syAjbpZke2aBWiCeeHJxXyCJ+xPlkwF4sWjaNOHzBAA0zHTT2cnKX10cv2sH+g==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-9ZxxeAF7BAgOvK0Mk05qB3s6ZRG9oBcrJrDJOebXYFqD2EAnbkmCKKQt1RBIX1tFYrBKY3wgimFJzgtlOv2SHQ==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -14969,7 +15001,7 @@ packages:
     dev: false
 
   file:projects/eventgrid.tgz:
-    resolution: {integrity: sha512-TYTy+XdoTR3dMR16kLw6A6S6bmsy/p6pVqspQSAPRPLUpCvWo8wqpPJIjpj8cV2kTEvQ1BFQu0C+VSNnoOgwyw==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-AQubC+PetnbX+gBI9ppDIuWdMl/qpU8vSc6GJxgzKWqaATuK23qn3XUljongEBQjjZhCah+4fdIVQr9X4axsLw==, tarball: file:projects/eventgrid.tgz}
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
@@ -15123,7 +15155,7 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-ZhyXAu8kcm5oHyd/zNVz+qdzsJfBdN7CBjafd8GppFOslxDWsEUiOW7gBEYDu+uCLSkfe7XaitWwEPjarQrVig==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-UQnT/wlqG6WWBdaxBS4xbx8EpI9Ux+9ZDJbyuClx+6MPJjiD4hmxWcYeUg0HV9EWsYMnKlTOYUDOPHGgCpvMlw==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
@@ -15158,7 +15190,7 @@ packages:
     dev: false
 
   file:projects/identity-vscode.tgz:
-    resolution: {integrity: sha512-pfNduHOpPPPmBQhN9dRaZbLbm6iV7zfGaaKx87xLr8DC6TsmM/uUyJlBRXR8gdHuxn5LQssgU7u+6kZ+UjHO1A==, tarball: file:projects/identity-vscode.tgz}
+    resolution: {integrity: sha512-WWPRS32hE8LRhyroxtc2oMaGmHfCa45m4qJjjOX7VhxRHYIbvqwxFY6SSsP8uKwdFfo//V0K1UNrm4qKq68xYQ==, tarball: file:projects/identity-vscode.tgz}
     name: '@rush-temp/identity-vscode'
     version: 0.0.0
     dependencies:
@@ -15191,7 +15223,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-c5Qkc5SAHq5kIU71uO6rdV7Eq5Qd4kkhDi0v6QnHwn/dWFoAywZtepUOeW+mPpTZiaoqApQmUHc5NTtUUIwzaw==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-+Wk8E2yDXVSTk9q1Fqxx5kBL/etwgGK4D55hQTGZmImyBvR1gmAD5DuT+rDZMlLHEiFCXSsAUBE+e8npgoHnsw==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
@@ -15337,7 +15369,7 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-rTQGaROiDATp0HOLuLiOFD1foVcN5w87ag6pHhy+P0OShpm0wBv5X9Z6q6NMGGdVtJbZ3xAGZQBLFyPmAxqAfg==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-4W7EmqBTAk1ftlOXWI4zkqDrZoFUa4M4u8XG9TM5pUYF54BMZdSSPBNOh11IaQxUvd4jXTGqLmwb4RvRoxTkdA==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
@@ -15617,7 +15649,7 @@ packages:
     dev: false
 
   file:projects/mixed-reality-remote-rendering.tgz:
-    resolution: {integrity: sha512-PKrfgxjuhPzhn40WNlhJPMvCE2d3UTirey3KVIV+zM7nF1QBpCKNWiruFGL/H5OmHYe/eN7hJ41PWUeop/KPSA==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
+    resolution: {integrity: sha512-zJ+q3BZsVWm4wdR2gtdTqXfO0lQsP2j9Dln1SUSdphFrTU/SdNmWYYmH1xjZ5OACLcslUwmNvS6iJZQ/RQVcBQ==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
     name: '@rush-temp/mixed-reality-remote-rendering'
     version: 0.0.0
     dependencies:
@@ -16410,7 +16442,7 @@ packages:
     dev: false
 
   file:projects/quantum-jobs.tgz:
-    resolution: {integrity: sha512-baM9AM1oaLuFQZVYWcQOOsk3S2pDL2sQq3P4Xz4QsSqrMdnar4GUttKENCESpdKzbEtd16Wn6aXAeEv6e1b/4w==, tarball: file:projects/quantum-jobs.tgz}
+    resolution: {integrity: sha512-0vtL5PMy4/ux6GNFCAQkKtbb4hwrlsTfOCR47g2AgYOyiP80bwOOp7cBH+afjsiJqJV2UG7oQrofNBuhvsE9HA==, tarball: file:projects/quantum-jobs.tgz}
     name: '@rush-temp/quantum-jobs'
     version: 0.0.0
     dependencies:
@@ -16610,7 +16642,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-P3Rn6mictVwNI4EDig2gMjCEp2yPXMQrVKPzQ+04AFmhimoSeaqxOCvA7JphaSXUFwv/aEyHKYG4Lo1XDyN+fg==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-u3s6k4iody58TezFwH1LXZmzF4PTM5Sq8hQSFlhLoVoMpnubfFesRDa9FPn2mH6NRIxr6ldYOGRlo8RHpbMvqw==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
@@ -17344,7 +17376,7 @@ packages:
     dev: false
 
   file:projects/test-recorder.tgz:
-    resolution: {integrity: sha512-I+6cy62A3fZO0CejOz4sYIld1JLcBtqgNxuBofi2ah7SuKDSXGYfPDk726RlCYb7thvK4JpXIm7Wh1J1DxQTYA==, tarball: file:projects/test-recorder.tgz}
+    resolution: {integrity: sha512-B93X36qy6MzbmwmJTI9M56ciGzXk7pxYC69kGsF4p6Ume78JsRW/moamW9oUYvzPqI02ADCjlN921XKQC8RijQ==, tarball: file:projects/test-recorder.tgz}
     name: '@rush-temp/test-recorder'
     version: 0.0.0
     dependencies:
