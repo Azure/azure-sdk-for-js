@@ -3,7 +3,8 @@
 
 export * from "./paginateHelper";
 export * from "./credentialHelper";
-export * from "./generated/index";
+export * from "./generated/single/index";
+export * from "./generated/batch/index";
 export {
   MetricsAdvisorKeyCredential
 } from "./metricsAdvisorKeyCredentialPolicy";

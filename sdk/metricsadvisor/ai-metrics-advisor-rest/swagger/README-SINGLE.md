@@ -31,7 +31,7 @@ credential-scopes: https://cognitiveservices.azure.com/.default
 add-credentials: true
 generate-test: true
 use-extension:
-  "@autorest/typescript": "file:../../../../autorest.typescript/"
+  "@autorest/typescript": "latest"
 ```
 
 ### Metric output type - add description
