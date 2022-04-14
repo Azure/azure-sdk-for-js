@@ -2,12 +2,11 @@
 // Licensed under the MIT license.
 
 /*
- * NOTE: When moving this file, please update "browser" section in package.json
- * and "plugins" section in webpack.testconfig.ts.
+ * NOTE: When moving this file, please update "react-native" section in package.json.
  */
 
 import { TelemetryInfo } from "./userAgentPolicy";
-const { Platform } = require("react-native");
+const { Platform } = require("react-native");  // eslint-disable-line import/no-extraneous-dependencies, @typescript-eslint/no-require-imports
 
 export function getDefaultUserAgentKey(): string {
   return "x-ms-useragent";
