@@ -12,7 +12,7 @@ import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { getUserAgentValue } from "../util/userAgent";
 import { logger } from "../log";
-import { isError, getErrorMessage } from "../util/helpers";
+import { isError, getErrorMessage } from "@azure/core-util";
 import { isRestError } from "../restError";
 
 /**
