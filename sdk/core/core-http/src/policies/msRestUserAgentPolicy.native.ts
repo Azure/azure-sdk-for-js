@@ -23,6 +23,5 @@ export function getPlatformSpecificData(): TelemetryInfo[] {
     value: `${Platform.OS}-${String(Platform.Version)}`,
   };
 
-  console.log("Platform.constants", Platform.constants);
   return [runtimeInfo, osInfo];
 }
