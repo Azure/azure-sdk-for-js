@@ -10,13 +10,9 @@ import {
   env,
   record,
   RecorderEnvironmentSetup,
-  Recorder,
-  delay,
-  isPlaybackMode
+  Recorder
 } from "@azure-tools/test-recorder";
 import * as assert from "assert";
-import { ClientSecretCredential } from "@azure/identity";
-import { ServiceBusManagementClient } from "../src/serviceBusManagementClient";
 
 const recorderEnvSetup: RecorderEnvironmentSetup = {
   replaceableVariables: {
@@ -35,115 +31,18 @@ const recorderEnvSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
-export const testPollingOptions = {
-  updateIntervalInMs: isPlaybackMode() ? 0 : undefined,
-};
-
-describe("ServiceBus test", () => {
+describe("My test", () => {
   let recorder: Recorder;
-  let subscriptionId: string;
-  let client: ServiceBusManagementClient;
-  let location: string;
-  let resourceGroup: string;
-  let namespacesName: string;
-  let authorizationRuleName: string;
-  let queueName: string;
-  let topicName: string;
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
-    subscriptionId = env.SUBSCRIPTION_ID;
-    // This is an example of how the environment variables are used
-    const credential = new ClientSecretCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_CLIENT_SECRET
-    );
-    client = new ServiceBusManagementClient(credential, subscriptionId);
-    location = "eastus";
-    resourceGroup = "myjstest";
-    namespacesName = "mynamespacexxx";
-    authorizationRuleName = "myAuthoriztionRule";
-    queueName = "myQueue";
-    topicName = "mytopic";
   });
 
   afterEach(async function() {
     await recorder.stop();
   });
 
-  it("namespaces create test", async function() {
-    const res = await client.namespaces.beginCreateOrUpdateAndWait(resourceGroup,namespacesName,{
-      sku: {
-        name: "Standard",
-        tier: "Standard",
-      },
-      location: location,
-      tags: {
-        tag1: "value1",
-        tag2: "value2",
-      }
-    },testPollingOptions)
-    assert.equal(res.name,namespacesName);
-  });
-
-  it("queues create test", async function() {
-    const res = await client.queues.createOrUpdate(resourceGroup,namespacesName,queueName,{enablePartitioning: true});
-    assert.equal(res.name,queueName);
-  });
-
-  it("queues get test", async function() {
-    const res = await client.queues.get(resourceGroup,namespacesName,queueName);
-    assert.equal(res.name,queueName);
-  });
-
-  it("queues list test", async function() {
-    const resArray = new Array();
-    for await (let item of client.queues.listByNamespace(resourceGroup,namespacesName)){
-      resArray.push(item);
-    }
-    assert.equal(resArray.length,1);
-  });
-
-  it("topics create test", async function() {
-    const res = await client.topics.createOrUpdate(resourceGroup,namespacesName,topicName,{
-      enableExpress: true
-    })
-    assert.equal(res.name,topicName);
-  });
-
-  it("topics get test", async function() {
-    const res = await client.topics.get(resourceGroup,namespacesName,topicName);
-    assert.equal(res.name,topicName);
-  });
-
-  it("topics list test", async function() {
-    const resArray = new Array();
-    for await (let item of client.topics.listByNamespace(resourceGroup,namespacesName)){
-      resArray.push(item);
-    }
-    assert.equal(resArray.length,1);
-  });
-
-  it("queues delete test", async function() {
-    const res = await client.queues.delete(resourceGroup,namespacesName,queueName);
-    const resArray = new Array();
-    for await (let item of client.queues.listByNamespace(resourceGroup,namespacesName)){
-      resArray.push(item);
-    }
-    assert.equal(resArray.length,0);
-  });
-
-  it("topics delete test", async function() {
-    const res = await client.topics.delete(resourceGroup,namespacesName,topicName);
-    const resArray = new Array();
-    for await (let item of client.topics.listByNamespace(resourceGroup,namespacesName)){
-      resArray.push(item);
-    }
-    assert.equal(resArray.length,0);
-  });
-
-  it("namespaces delete test", async function() {
-    const res = await client.namespaces.beginDeleteAndWait(resourceGroup,namespacesName,testPollingOptions);
+  it("sample test", async function() {
+    console.log("Hi, I'm a test!");
   });
 });
