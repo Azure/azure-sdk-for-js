@@ -14472,7 +14472,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-9ZxxeAF7BAgOvK0Mk05qB3s6ZRG9oBcrJrDJOebXYFqD2EAnbkmCKKQt1RBIX1tFYrBKY3wgimFJzgtlOv2SHQ==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-9cRj5F0bEb7SfVpuWvnANbN+to1qMNca2hSQSpYapPuz0Z9oVgOfj2PViNKTxXoPU+dzEAoqtDop2aRFU7QEKg==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
