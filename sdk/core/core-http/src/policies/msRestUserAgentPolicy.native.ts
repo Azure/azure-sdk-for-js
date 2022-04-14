@@ -6,7 +6,7 @@
  */
 
 import { TelemetryInfo } from "./userAgentPolicy";
-const { Platform } = require("react-native");  // eslint-disable-line import/no-extraneous-dependencies, @typescript-eslint/no-require-imports
+const { Platform } = require("react-native"); // eslint-disable-line import/no-extraneous-dependencies, @typescript-eslint/no-require-imports
 
 export function getDefaultUserAgentKey(): string {
   return "x-ms-useragent";
