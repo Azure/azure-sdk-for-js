@@ -45,7 +45,7 @@ describe("HttpsPipeline", function () {
       });
     });
 
-    it("should pass tlsSettings to proxy", async function () {
+    it("should pass honor proxy over tls", async function () {
       const fakePfx = "fakeCert";
       const pipeline = createPipelineFromOptions({
         proxyOptions: { host: "https://foo2", port: 12345 },
@@ -53,7 +53,7 @@ describe("HttpsPipeline", function () {
       const httpClient: HttpClient = {
         sendRequest: async (request) => {
           assert.instanceOf(request.agent, HttpsProxyAgent);
-          assert.equal((request.agent as any).proxy.pfx, fakePfx);
+          assert.isUndefined((request.agent as any).proxy.pfx);
           return {
             request,
             headers: createHttpHeaders(),

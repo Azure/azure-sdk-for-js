@@ -7,6 +7,7 @@ import { HttpsProxyAgent, HttpsProxyAgentOptions } from "https-proxy-agent";
 import { HttpProxyAgent, HttpProxyAgentOptions } from "http-proxy-agent";
 import { PipelineRequest, PipelineResponse, ProxySettings, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
+import { logger } from "../log";
 
 const HTTPS_PROXY = "HTTPS_PROXY";
 const HTTP_PROXY = "HTTP_PROXY";
@@ -141,12 +142,17 @@ export function getProxyAgentOptions(
     );
   }
 
+  if (tlsSettings) {
+    logger.warning(
+      "TLS settings are not supported in combination with custom Proxy, certificates provided to the client will be ignored."
+    );
+  }
+
   const proxyAgentOptions: HttpsProxyAgentOptions = {
     hostname: parsedProxyUrl.hostname,
     port: proxySettings.port,
     protocol: parsedProxyUrl.protocol,
     headers: headers.toJSON(),
-    ...tlsSettings,
   };
   if (proxySettings.username && proxySettings.password) {
     proxyAgentOptions.auth = `${proxySettings.username}:${proxySettings.password}`;
