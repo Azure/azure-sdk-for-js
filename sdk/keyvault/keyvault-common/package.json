@@ -57,8 +57,11 @@
     "docs": "echo Skipped."
   },
   "dependencies": {
-    "@azure/core-http": "^2.0.0",
+    "@azure/core-client": "^1.5.0",
+    "@azure/core-rest-pipeline": "^1.8.0",
     "@azure/core-tracing": "^1.0.0",
+    "@azure/core-auth": "^1.3.0",
+    "@azure/abort-controller": "^1.0.4",
     "tslib": "^2.2.0"
   },
   "devDependencies": {

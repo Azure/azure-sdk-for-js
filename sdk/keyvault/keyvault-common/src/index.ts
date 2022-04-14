@@ -4,3 +4,5 @@
 export * from "./challengeBasedAuthenticationPolicy";
 export * from "./parseKeyvaultIdentifier";
 export * from "./parseWWWAuthenticate";
+export * from "./delay";
+export * from "./isNode";
