@@ -1547,11 +1547,11 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.11
     dev: false
 
-  /@microsoft/api-extractor-model/7.16.1:
-    resolution: {integrity: sha512-+1mlvy/ji+mUuH7WdVZ6fTo/aCKfS6m37aAFVOFWLfkMvmR+I9SjPfiv9qOg83If7GOrk2HPiHHibv6kA80VTg==}
+  /@microsoft/api-extractor-model/7.17.0:
+    resolution: {integrity: sha512-IsZD3vXVyfR3+sKPXwi8QRJ3hb+Wkgoc4LTeRmUgNb16PqhYvwE1Yyu7dapoa2q3qta1yo5NAXU2v3cY7yzYeA==}
     dependencies:
-      '@microsoft/tsdoc': 0.13.2
-      '@microsoft/tsdoc-config': 0.15.2
+      '@microsoft/tsdoc': 0.14.1
+      '@microsoft/tsdoc-config': 0.16.1
       '@rushstack/node-core-library': 3.45.2
     dev: false
 
@@ -1562,20 +1562,20 @@ packages:
       '@rushstack/node-core-library': 3.19.6
     dev: false
 
-  /@microsoft/api-extractor/7.21.2:
-    resolution: {integrity: sha512-m0+YPaXVou01O/V9swugZG7Gn4mw6HSWY+uisf0j2JPRZcoEDyoYe4hg0ERKXOEf0hByOnMLT28nQ82v8ig9Yw==}
+  /@microsoft/api-extractor/7.22.1:
+    resolution: {integrity: sha512-xF23JUFyersyM9nJdX/OBfObaKWSK+wmNkMY4g2lX5XMlgq/daqVYLIjeTCKLXxruqM4BjyZkBzqNLNVv51+rg==}
     hasBin: true
     dependencies:
-      '@microsoft/api-extractor-model': 7.16.1
-      '@microsoft/tsdoc': 0.13.2
-      '@microsoft/tsdoc-config': 0.15.2
+      '@microsoft/api-extractor-model': 7.17.0
+      '@microsoft/tsdoc': 0.14.1
+      '@microsoft/tsdoc-config': 0.16.1
       '@rushstack/node-core-library': 3.45.2
       '@rushstack/rig-package': 0.3.9
       '@rushstack/ts-command-line': 4.10.8
       colors: 1.2.5
       lodash: 4.17.21
       resolve: 1.17.0
-      semver: 7.3.6
+      semver: 7.3.7
       source-map: 0.6.1
       typescript: 4.5.5
     dev: false
@@ -1595,15 +1595,6 @@ packages:
       typescript: 3.7.7
     dev: false
 
-  /@microsoft/tsdoc-config/0.15.2:
-    resolution: {integrity: sha512-mK19b2wJHSdNf8znXSMYVShAHktVr/ib0Ck2FA3lsVBSEhSI/TfXT7DJQkAYgcztTuwazGcg58ZjYdk0hTCVrA==}
-    dependencies:
-      '@microsoft/tsdoc': 0.13.2
-      ajv: 6.12.6
-      jju: 1.4.0
-      resolve: 1.19.0
-    dev: false
-
   /@microsoft/tsdoc-config/0.16.1:
     resolution: {integrity: sha512-2RqkwiD4uN6MLnHFljqBlZIXlt/SaUT6cuogU1w2ARw4nKuuppSmR0+s+NC+7kXBQykd9zzu0P4HtBpZT5zBpQ==}
     dependencies:
@@ -1615,10 +1606,6 @@ packages:
 
   /@microsoft/tsdoc/0.12.19:
     resolution: {integrity: sha512-IpgPxHrNxZiMNUSXqR1l/gePKPkfAmIKoDRP9hp7OwjU29ZR8WCJsOJ8iBKgw0Qk+pFwR+8Y1cy8ImLY6e9m4A==}
-    dev: false
-
-  /@microsoft/tsdoc/0.13.2:
-    resolution: {integrity: sha512-WrHvO8PDL8wd8T2+zBGKrMwVL5IyzR3ryWUsl0PXgEV0QHup4mTLi0QcATefGI6Gx9Anu7vthPyyyLpY0EpiQg==}
     dev: false
 
   /@microsoft/tsdoc/0.14.1:
@@ -1704,7 +1691,7 @@ packages:
     dependencies:
       '@opentelemetry/api': 1.0.4
       '@opentelemetry/semantic-conventions': 0.22.0
-      semver: 7.3.6
+      semver: 7.3.7
     dev: false
 
   /@opentelemetry/core/0.24.0_@opentelemetry+api@1.0.4:
@@ -1715,7 +1702,7 @@ packages:
     dependencies:
       '@opentelemetry/api': 1.0.4
       '@opentelemetry/semantic-conventions': 0.24.0
-      semver: 7.3.6
+      semver: 7.3.7
     dev: false
 
   /@opentelemetry/core/1.0.1_@opentelemetry+api@1.0.4:
@@ -1738,7 +1725,7 @@ packages:
       '@opentelemetry/core': 1.0.1_@opentelemetry+api@1.0.4
       '@opentelemetry/instrumentation': 0.27.0_@opentelemetry+api@1.0.4
       '@opentelemetry/semantic-conventions': 1.0.1
-      semver: 7.3.6
+      semver: 7.3.7
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -1751,7 +1738,7 @@ packages:
       '@opentelemetry/api': 1.0.4
       '@opentelemetry/api-metrics': 0.27.0
       require-in-the-middle: 5.1.0
-      semver: 7.3.6
+      semver: 7.3.7
       shimmer: 1.2.1
     transitivePeerDependencies:
       - supports-color
@@ -1770,7 +1757,7 @@ packages:
       '@opentelemetry/propagator-b3': 0.24.0_@opentelemetry+api@1.0.4
       '@opentelemetry/propagator-jaeger': 0.24.0_@opentelemetry+api@1.0.4
       '@opentelemetry/tracing': 0.24.0_@opentelemetry+api@1.0.4
-      semver: 7.3.6
+      semver: 7.3.7
     dev: false
 
   /@opentelemetry/propagator-b3/0.24.0_@opentelemetry+api@1.0.4:
@@ -1870,7 +1857,7 @@ packages:
       '@opentelemetry/propagator-b3': 1.0.1_@opentelemetry+api@1.0.4
       '@opentelemetry/propagator-jaeger': 1.0.1_@opentelemetry+api@1.0.4
       '@opentelemetry/sdk-trace-base': 1.0.1_@opentelemetry+api@1.0.4
-      semver: 7.3.6
+      semver: 7.3.7
     dev: false
 
   /@opentelemetry/semantic-conventions/0.22.0:
@@ -2131,7 +2118,7 @@ packages:
       import-lazy: 4.0.0
       jju: 1.4.0
       resolve: 1.17.0
-      semver: 7.3.6
+      semver: 7.3.7
       timsort: 0.3.0
       z-schema: 5.0.3
     dev: false
@@ -2576,7 +2563,7 @@ packages:
       functional-red-black-tree: 1.0.1
       lodash: 4.17.21
       regexpp: 3.2.0
-      semver: 7.3.6
+      semver: 7.3.7
       tsutils: 3.21.0_typescript@4.2.4
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -2648,7 +2635,7 @@ packages:
       debug: 4.3.4
       globby: 11.1.0
       is-glob: 4.0.3
-      semver: 7.3.6
+      semver: 7.3.7
       tsutils: 3.21.0_typescript@4.2.4
       typescript: 4.2.4
     transitivePeerDependencies:
@@ -2844,7 +2831,7 @@ packages:
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.3
-      es-abstract: 1.19.2
+      es-abstract: 1.19.4
       get-intrinsic: 1.1.1
       is-string: 1.0.7
     dev: false
@@ -2854,13 +2841,14 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
-  /array.prototype.flat/1.2.5:
-    resolution: {integrity: sha512-KaYU+S+ndVqyUnignHftkwc58o3uVU1jzczILJ1tN2YaIZpFIKBiP/x/j97E5MVPsaCloPbqWLB/8qCTVvT2qg==}
+  /array.prototype.flat/1.3.0:
+    resolution: {integrity: sha512-12IUEkHsAhA4DY5s0FPgNXIdc8VRSqD9Zp78a5au9abH/SOBrsp082JOWFNTjkMozh8mqcdiKuaLGhPeYztxSw==}
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.3
-      es-abstract: 1.19.2
+      es-abstract: 1.19.4
+      es-shim-unscopables: 1.0.0
     dev: false
 
   /asap/2.0.6:
@@ -3072,8 +3060,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001327
-      electron-to-chromium: 1.4.106
+      caniuse-lite: 1.0.30001331
+      electron-to-chromium: 1.4.107
       escalade: 3.1.1
       node-releases: 2.0.3
       picocolors: 1.0.0
@@ -3157,8 +3145,8 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /caniuse-lite/1.0.30001327:
-    resolution: {integrity: sha512-1/Cg4jlD9qjZzhbzkzEaAC2JHsP0WrOc8Rd/3a3LuajGzGWR/hD7TVyvq99VqmTy99eVh8Zkmdq213OgvgXx7w==}
+  /caniuse-lite/1.0.30001331:
+    resolution: {integrity: sha512-Y1xk6paHpUXKP/P6YjQv1xqyTbgAP05ycHBcRdQjTcyXlWol868sJJPlmk5ylOekw2BrucWes5jk+LvVd7WZ5Q==}
     dev: false
 
   /chai-as-promised/7.1.1_chai@4.3.6:
@@ -3735,7 +3723,7 @@ packages:
     resolution: {integrity: sha512-wBy+Q0Ya/1XRz9MMaj3BXH95E8aSckY3lppmUnf8Qv7dUg0wbWm3szDiVL4PdAvwcS7JbBBDPhCXeAGNT3ttFQ==}
     hasBin: true
     dependencies:
-      semver: 7.3.6
+      semver: 7.3.7
       shelljs: 0.8.5
       typescript: 4.5.5
     dev: false
@@ -3754,8 +3742,8 @@ packages:
     resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
     dev: false
 
-  /electron-to-chromium/1.4.106:
-    resolution: {integrity: sha512-ZYfpVLULm67K7CaaGP7DmjyeMY4naxsbTy+syVVxT6QHI1Ww8XbJjmr9fDckrhq44WzCrcC5kH3zGpdusxwwqg==}
+  /electron-to-chromium/1.4.107:
+    resolution: {integrity: sha512-Huen6taaVrUrSy8o7mGStByba8PfOWWluHNxSHGBrCgEdFVLtvdQDBr9LBCF9Uci8SYxh28QNNMO0oC17wbGAg==}
     dev: false
 
   /emoji-regex/7.0.3:
@@ -3821,8 +3809,8 @@ packages:
       is-arrayish: 0.2.1
     dev: false
 
-  /es-abstract/1.19.2:
-    resolution: {integrity: sha512-gfSBJoZdlL2xRiOCy0g8gLMryhoe1TlimjzU99L/31Z8QEGIhVQI+EWwt5lT+AuU9SnorVupXFqqOGqGfsyO6w==}
+  /es-abstract/1.19.4:
+    resolution: {integrity: sha512-flV8e5g9/xulChMG48Fygk1ptpo4lQRJ0eJYtxJFgi7pklLx7EFcOJ34jnvr8pbWlaFN/AT1cZpe0hiFel9Hqg==}
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.2
@@ -3845,6 +3833,12 @@ packages:
       string.prototype.trimend: 1.0.4
       string.prototype.trimstart: 1.0.4
       unbox-primitive: 1.0.1
+    dev: false
+
+  /es-shim-unscopables/1.0.0:
+    resolution: {integrity: sha512-Jm6GPcCdC30eMLbZ2x8z2WuRwAws3zTBBKuusffYVUrNj/GVSUAZ+xKMaUpfNDR5IbyNA5LJbaecoUVbmUcB1w==}
+    dependencies:
+      has: 1.0.3
     dev: false
 
   /es-to-primitive/1.2.1:
@@ -3925,7 +3919,7 @@ packages:
       eslint: ^2 || ^3 || ^4 || ^5 || ^6 || ^7.2.0 || ^8
     dependencies:
       array-includes: 3.1.4
-      array.prototype.flat: 1.2.5
+      array.prototype.flat: 1.3.0
       debug: 2.6.9
       doctrine: 2.1.0
       eslint: 7.32.0
@@ -4052,7 +4046,7 @@ packages:
       optionator: 0.9.1
       progress: 2.0.3
       regexpp: 3.2.0
-      semver: 7.3.6
+      semver: 7.3.7
       strip-ansi: 6.0.1
       strip-json-comments: 3.1.1
       table: 6.8.0
@@ -5175,7 +5169,7 @@ packages:
     dependencies:
       available-typed-arrays: 1.0.5
       call-bind: 1.0.2
-      es-abstract: 1.19.2
+      es-abstract: 1.19.4
       foreach: 2.0.5
       has-tostringtag: 1.0.0
     dev: false
@@ -5521,14 +5515,14 @@ packages:
     resolution: {integrity: sha512-UfpWE/VZn0iP50d8cz9NrZLM9lSWhcJ+0Gt/nm4by88UL+J1SiKN8/5dkjMmbEzwL2CAe+67GsegCbIKtbp75A==}
     dev: false
 
-  /karma-chai/0.1.0_chai@4.3.6+karma@6.3.17:
+  /karma-chai/0.1.0_chai@4.3.6+karma@6.3.18:
     resolution: {integrity: sha1-vuWtQEAFF4Ea40u5RfdikJEIt5o=}
     peerDependencies:
       chai: '*'
       karma: '>=0.10.9'
     dependencies:
       chai: 4.3.6
-      karma: 6.3.17
+      karma: 6.3.18
     dev: false
 
   /karma-chrome-launcher/3.1.1:
@@ -5551,14 +5545,14 @@ packages:
       - supports-color
     dev: false
 
-  /karma-edge-launcher/0.4.2_karma@6.3.17:
+  /karma-edge-launcher/0.4.2_karma@6.3.18:
     resolution: {integrity: sha512-YAJZb1fmRcxNhMIWYsjLuxwODBjh2cSHgTW/jkVmdpGguJjLbs9ZgIK/tEJsMQcBLUkO+yO4LBbqYxqgGW2HIw==}
     engines: {node: '>=4'}
     peerDependencies:
       karma: '>=0.9'
     dependencies:
       edge-launcher: 1.2.2
-      karma: 6.3.17
+      karma: 6.3.18
     dev: false
 
   /karma-env-preprocessor/0.1.1:
@@ -5571,21 +5565,21 @@ packages:
       is-wsl: 2.2.0
     dev: false
 
-  /karma-ie-launcher/1.0.0_karma@6.3.17:
+  /karma-ie-launcher/1.0.0_karma@6.3.18:
     resolution: {integrity: sha1-SXmGhCxJAZA0bNifVJTKmDDG1Zw=}
     peerDependencies:
       karma: '>=0.9'
     dependencies:
-      karma: 6.3.17
+      karma: 6.3.18
       lodash: 4.17.21
     dev: false
 
-  /karma-json-preprocessor/0.3.3_karma@6.3.17:
+  /karma-json-preprocessor/0.3.3_karma@6.3.18:
     resolution: {integrity: sha1-X36ZW+uuS06PCiy1IVBVSq8LHi4=}
     peerDependencies:
       karma: '>=0.9'
     dependencies:
-      karma: 6.3.17
+      karma: 6.3.18
     dev: false
 
   /karma-json-to-file-reporter/1.0.1:
@@ -5594,24 +5588,24 @@ packages:
       json5: 2.2.1
     dev: false
 
-  /karma-junit-reporter/2.0.1_karma@6.3.17:
+  /karma-junit-reporter/2.0.1_karma@6.3.18:
     resolution: {integrity: sha512-VtcGfE0JE4OE1wn0LK8xxDKaTP7slN8DO3I+4xg6gAi1IoAHAXOJ1V9G/y45Xg6sxdxPOR3THCFtDlAfBo9Afw==}
     engines: {node: '>= 8'}
     peerDependencies:
       karma: '>=0.9'
     dependencies:
-      karma: 6.3.17
+      karma: 6.3.18
       path-is-absolute: 1.0.1
       xmlbuilder: 12.0.0
     dev: false
 
-  /karma-mocha-reporter/2.2.5_karma@6.3.17:
+  /karma-mocha-reporter/2.2.5_karma@6.3.18:
     resolution: {integrity: sha1-FRIAlejtgZGG5HoLAS8810GJVWA=}
     peerDependencies:
       karma: '>=0.13'
     dependencies:
       chalk: 2.4.2
-      karma: 6.3.17
+      karma: 6.3.18
       log-symbols: 2.2.0
       strip-ansi: 4.0.0
     dev: false
@@ -5634,8 +5628,8 @@ packages:
       graceful-fs: 4.2.10
     dev: false
 
-  /karma/6.3.17:
-    resolution: {integrity: sha512-2TfjHwrRExC8yHoWlPBULyaLwAFmXmxQrcuFImt/JsAsSZu1uOWTZ1ZsWjqQtWpHLiatJOHL5jFjXSJIgCd01g==}
+  /karma/6.3.18:
+    resolution: {integrity: sha512-YEwXVHRILKWKN7uEW9IkgTPjnYGb3YA3MDvlp04xpSRAyrNPoRmsBayLDgHykKAwBm6/mAOckj4xi/1JdQfhzQ==}
     engines: {node: '>= 10'}
     hasBin: true
     dependencies:
@@ -5670,8 +5664,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /karma/6.3.17_debug@4.3.4:
-    resolution: {integrity: sha512-2TfjHwrRExC8yHoWlPBULyaLwAFmXmxQrcuFImt/JsAsSZu1uOWTZ1ZsWjqQtWpHLiatJOHL5jFjXSJIgCd01g==}
+  /karma/6.3.18_debug@4.3.4:
+    resolution: {integrity: sha512-YEwXVHRILKWKN7uEW9IkgTPjnYGb3YA3MDvlp04xpSRAyrNPoRmsBayLDgHykKAwBm6/mAOckj4xi/1JdQfhzQ==}
     engines: {node: '>= 10'}
     hasBin: true
     dependencies:
@@ -5853,6 +5847,13 @@ packages:
     dependencies:
       pseudomap: 1.0.2
       yallist: 2.1.2
+    dev: false
+
+  /lru-cache/6.0.0:
+    resolution: {integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==}
+    engines: {node: '>=10'}
+    dependencies:
+      yallist: 4.0.0
     dev: false
 
   /lru-cache/7.8.1:
@@ -6254,7 +6255,7 @@ packages:
     resolution: {integrity: sha512-tzua9qWWi7iW4I42vUPKM+SfaF0vQSLAm4yO5J83mSwB7GeoWrDKC/K+8YCnYNwqP5duwazbw2X9l4m8SC2cUw==}
     engines: {node: '>=10'}
     dependencies:
-      semver: 7.3.6
+      semver: 7.3.7
     dev: false
 
   /node-abort-controller/3.0.1:
@@ -6477,7 +6478,7 @@ packages:
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.3
-      es-abstract: 1.19.2
+      es-abstract: 1.19.4
     dev: false
 
   /object.values/1.1.5:
@@ -6486,7 +6487,7 @@ packages:
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.3
-      es-abstract: 1.19.2
+      es-abstract: 1.19.4
     dev: false
 
   /on-finished/2.3.0:
@@ -7395,12 +7396,12 @@ packages:
     hasBin: true
     dev: false
 
-  /semver/7.3.6:
-    resolution: {integrity: sha512-HZWqcgwLsjaX1HBD31msI/rXktuIhS+lWvdE4kN9z+8IVT4Itc7vqU2WvYsyD6/sjYCt4dEKH/m1M3dwI9CC5w==}
-    engines: {node: ^10.0.0 || ^12.0.0 || ^14.0.0 || >=16.0.0}
+  /semver/7.3.7:
+    resolution: {integrity: sha512-QlYTucUYOews+WeEujDoEGziz4K6c47V/Bd+LjSSYcA94p+DmINdf7ncaUinThfvZyu13lN9OY1XDxt8C0Tw0g==}
+    engines: {node: '>=10'}
     hasBin: true
     dependencies:
-      lru-cache: 7.8.1
+      lru-cache: 6.0.0
     dev: false
 
   /send/0.17.2:
@@ -7763,7 +7764,7 @@ packages:
     dependencies:
       call-bind: 1.0.2
       define-properties: 1.1.3
-      es-abstract: 1.19.2
+      es-abstract: 1.19.4
     dev: false
 
   /string.prototype.trimend/1.0.4:
@@ -8446,7 +8447,7 @@ packages:
     dependencies:
       available-typed-arrays: 1.0.5
       call-bind: 1.0.2
-      es-abstract: 1.19.2
+      es-abstract: 1.19.4
       foreach: 2.0.5
       has-tostringtag: 1.0.0
       is-typed-array: 1.1.8
@@ -8615,6 +8616,10 @@ packages:
     resolution: {integrity: sha1-HBH5IY8HYImkfdUS+TxmmaaoHVI=}
     dev: false
 
+  /yallist/4.0.0:
+    resolution: {integrity: sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==}
+    dev: false
+
   /yaml/1.10.2:
     resolution: {integrity: sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==}
     engines: {node: '>= 6'}
@@ -8752,7 +8757,7 @@ packages:
     name: '@rush-temp/abort-controller'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -8760,16 +8765,16 @@ packages:
       cross-env: 7.0.3
       downlevel-dts: 0.8.0
       eslint: 7.32.0
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -8795,7 +8800,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -8803,18 +8808,18 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       mkdirp: 1.0.4
@@ -8842,7 +8847,7 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -8852,16 +8857,16 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -8885,7 +8890,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -8893,18 +8898,18 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
@@ -8928,7 +8933,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -8938,16 +8943,16 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -8973,7 +8978,7 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -8983,18 +8988,18 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -9023,7 +9028,7 @@ packages:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -9034,16 +9039,16 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
@@ -9071,10 +9076,9 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
-      '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
       '@azure/keyvault-secrets': 4.4.0
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-inject': 4.0.4_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
@@ -9091,16 +9095,16 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       esm: 3.2.25
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -9135,7 +9139,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -9163,7 +9167,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -9190,7 +9194,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -9218,7 +9222,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -9246,7 +9250,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -9274,7 +9278,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -9302,7 +9306,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -9330,7 +9334,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -9358,7 +9362,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -9386,7 +9390,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -9414,7 +9418,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -9440,7 +9444,7 @@ packages:
     name: '@rush-temp/arm-authorization'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -9460,7 +9464,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -9487,7 +9491,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -9514,7 +9518,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -9542,7 +9546,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -9570,7 +9574,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -9597,7 +9601,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -9624,7 +9628,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -9652,7 +9656,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -9679,7 +9683,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -9707,7 +9711,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -9735,7 +9739,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -9762,7 +9766,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -9789,7 +9793,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -9817,7 +9821,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -9845,7 +9849,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -9873,7 +9877,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -9901,7 +9905,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -9929,7 +9933,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -9957,7 +9961,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -9985,7 +9989,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -10013,7 +10017,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -10041,7 +10045,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -10068,7 +10072,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -10096,7 +10100,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -10123,7 +10127,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -10151,7 +10155,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -10178,7 +10182,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -10205,7 +10209,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -10232,7 +10236,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -10259,7 +10263,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -10287,7 +10291,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -10314,7 +10318,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -10341,7 +10345,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -10368,7 +10372,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -10395,7 +10399,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -10422,7 +10426,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -10449,7 +10453,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -10476,7 +10480,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -10504,7 +10508,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -10532,7 +10536,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -10559,7 +10563,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -10587,7 +10591,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -10614,7 +10618,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -10642,7 +10646,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -10670,7 +10674,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -10697,7 +10701,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -10723,7 +10727,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -10750,7 +10754,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -10777,7 +10781,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -10804,7 +10808,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -10832,7 +10836,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -10859,7 +10863,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -10886,7 +10890,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -10914,7 +10918,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -10941,7 +10945,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -10969,7 +10973,7 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/arm-msi': 2.0.0
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -10997,7 +11001,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -11024,7 +11028,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -11052,7 +11056,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -11079,7 +11083,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -11107,7 +11111,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -11134,7 +11138,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -11162,7 +11166,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -11190,7 +11194,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -11217,7 +11221,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -11244,7 +11248,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -11271,7 +11275,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -11299,7 +11303,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -11326,7 +11330,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -11353,7 +11357,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -11380,7 +11384,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -11407,7 +11411,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -11434,7 +11438,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -11461,7 +11465,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -11488,7 +11492,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -11515,7 +11519,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -11542,7 +11546,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -11569,7 +11573,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -11596,7 +11600,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -11623,7 +11627,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -11650,7 +11654,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -11677,7 +11681,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -11705,7 +11709,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -11733,7 +11737,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -11760,7 +11764,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -11788,7 +11792,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -11816,7 +11820,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -11843,7 +11847,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -11871,7 +11875,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -11899,7 +11903,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -11926,7 +11930,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -11953,7 +11957,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -11980,7 +11984,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -12007,7 +12011,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -12034,7 +12038,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -12061,7 +12065,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -12088,7 +12092,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -12116,7 +12120,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -12143,7 +12147,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -12171,7 +12175,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -12198,7 +12202,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -12225,7 +12229,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -12252,7 +12256,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -12279,7 +12283,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -12306,7 +12310,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -12333,7 +12337,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -12360,7 +12364,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -12387,7 +12391,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -12414,7 +12418,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -12441,7 +12445,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -12468,7 +12472,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -12496,7 +12500,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -12523,7 +12527,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -12550,7 +12554,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -12577,7 +12581,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -12604,7 +12608,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -12631,7 +12635,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -12658,7 +12662,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -12686,7 +12690,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -12713,7 +12717,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -12740,7 +12744,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -12767,7 +12771,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -12795,7 +12799,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -12823,7 +12827,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -12850,7 +12854,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -12877,7 +12881,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -12904,7 +12908,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -12931,7 +12935,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -12958,7 +12962,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -12986,7 +12990,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -13013,7 +13017,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -13041,7 +13045,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -13069,7 +13073,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -13097,7 +13101,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -13125,7 +13129,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -13152,7 +13156,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -13179,7 +13183,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -13206,7 +13210,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -13233,7 +13237,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -13260,7 +13264,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -13288,7 +13292,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -13315,7 +13319,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -13342,7 +13346,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -13369,7 +13373,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -13396,7 +13400,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -13423,7 +13427,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -13450,7 +13454,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -13477,7 +13481,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -13504,7 +13508,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -13531,7 +13535,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -13558,7 +13562,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -13585,7 +13589,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
       '@rollup/plugin-json': 4.1.0_rollup@1.32.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
@@ -13612,7 +13616,7 @@ packages:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -13627,18 +13631,18 @@ packages:
       esm: 3.2.25
       inherits: 2.0.4
       jsrsasign: 10.5.16
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
@@ -13668,7 +13672,7 @@ packages:
     dependencies:
       '@azure/communication-signaling': 1.0.0-beta.13
       '@azure/core-tracing': 1.0.0-preview.13
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -13680,18 +13684,18 @@ packages:
       eslint: 7.32.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -13717,7 +13721,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -13730,16 +13734,16 @@ packages:
       events: 3.3.0
       inherits: 2.0.4
       jwt-decode: 3.1.2
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -13764,7 +13768,7 @@ packages:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -13775,16 +13779,16 @@ packages:
       eslint: 7.32.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -13811,7 +13815,7 @@ packages:
       '@azure/communication-identity': 1.0.0
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
@@ -13827,18 +13831,18 @@ packages:
       eslint: 7.32.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -13869,7 +13873,7 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -13880,18 +13884,18 @@ packages:
       eslint: 7.32.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -13917,7 +13921,7 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -13928,18 +13932,18 @@ packages:
       eslint: 7.32.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -13966,7 +13970,7 @@ packages:
       '@azure/communication-common': 1.1.0
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -13977,16 +13981,16 @@ packages:
       eslint: 7.32.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -14012,7 +14016,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -14020,18 +14024,18 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
@@ -14056,7 +14060,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -14067,16 +14071,16 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -14098,7 +14102,7 @@ packages:
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-inject': 4.0.4_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
@@ -14119,7 +14123,7 @@ packages:
       eslint: 7.32.0
       events: 3.3.0
       jssha: 3.2.0
-      karma: 6.3.17_debug@4.3.4
+      karma: 6.3.18_debug@4.3.4
       karma-chrome-launcher: 3.1.1
       karma-mocha: 2.0.1
       mocha: 7.2.0
@@ -14156,7 +14160,7 @@ packages:
     name: '@rush-temp/core-auth'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -14181,7 +14185,7 @@ packages:
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -14191,16 +14195,16 @@ packages:
       downlevel-dts: 0.8.0
       eslint: 7.32.0
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -14225,7 +14229,7 @@ packages:
     name: '@rush-temp/core-client'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -14234,16 +14238,16 @@ packages:
       cross-env: 7.0.3
       eslint: 7.32.0
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -14264,7 +14268,7 @@ packages:
     name: '@rush-temp/core-crypto'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-node-resolve': 8.4.0_rollup@2.70.1
       '@rollup/plugin-replace': 2.4.2_rollup@2.70.1
@@ -14276,16 +14280,16 @@ packages:
       cross-env: 7.0.3
       downlevel-dts: 0.8.0
       eslint: 7.32.0
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -14308,7 +14312,7 @@ packages:
     name: '@rush-temp/core-http-compat'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       cross-env: 7.0.3
       downlevel-dts: 0.8.0
       eslint: 7.32.0
@@ -14328,7 +14332,7 @@ packages:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/logger-js': 1.3.2
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@opentelemetry/api': 1.0.4
       '@types/chai': 4.3.0
       '@types/express': 4.17.13
@@ -14349,10 +14353,10 @@ packages:
       fetch-mock: 9.11.0_node-fetch@2.6.7
       form-data: 4.0.0
       glob: 7.2.0
-      karma: 6.3.17
-      karma-chai: 0.1.0_chai@4.3.6+karma@6.3.17
+      karma: 6.3.18
+      karma-chai: 0.1.0_chai@4.3.6+karma@6.3.18
       karma-chrome-launcher: 3.1.1
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-firefox-launcher: 1.3.0
       karma-mocha: 2.0.1
       karma-sourcemap-loader: 0.3.8
@@ -14392,23 +14396,23 @@ packages:
     name: '@rush-temp/core-lro'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
       chai: 4.3.6
       cross-env: 7.0.3
       eslint: 7.32.0
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -14434,23 +14438,23 @@ packages:
     name: '@rush-temp/core-paging'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
       chai: 4.3.6
       downlevel-dts: 0.8.0
       eslint: 7.32.0
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -14470,8 +14474,7 @@ packages:
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.13
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@opentelemetry/api': 1.0.4
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.5
@@ -14488,16 +14491,16 @@ packages:
       http-proxy-agent: 4.0.1
       https-proxy-agent: 5.0.0
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -14523,7 +14526,7 @@ packages:
     name: '@rush-temp/core-tracing'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -14532,16 +14535,16 @@ packages:
       cross-env: 7.0.3
       eslint: 7.32.0
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -14563,7 +14566,7 @@ packages:
     name: '@rush-temp/core-util'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -14573,16 +14576,16 @@ packages:
       downlevel-dts: 0.8.0
       eslint: 7.32.0
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -14604,7 +14607,7 @@ packages:
     name: '@rush-temp/core-xml'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -14616,16 +14619,16 @@ packages:
       eslint: 7.32.0
       fast-xml-parser: 4.0.7
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -14648,7 +14651,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.0.4_debug@4.3.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/debug': 4.1.7
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -14693,7 +14696,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -14705,16 +14708,16 @@ packages:
       downlevel-dts: 0.8.0
       eslint: 7.32.0
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -14787,7 +14790,7 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -14798,18 +14801,18 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -14850,18 +14853,18 @@ packages:
       cross-env: 7.0.3
       eslint: 7.32.0
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
       nyc: 14.1.1
@@ -14928,7 +14931,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.0.4_debug@4.3.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-inject': 4.0.4_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
@@ -14961,16 +14964,16 @@ packages:
       https-proxy-agent: 5.0.0
       is-buffer: 2.0.5
       jssha: 3.2.0
-      karma: 6.3.17_debug@4.3.4
+      karma: 6.3.18_debug@4.3.4
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -15005,9 +15008,8 @@ packages:
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.13
       '@azure/service-bus': 7.5.1
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -15019,16 +15021,16 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -15056,7 +15058,7 @@ packages:
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.5
       '@types/chai-string': 1.4.2
@@ -15074,16 +15076,16 @@ packages:
       events: 3.3.0
       guid-typescript: 1.0.9
       inherits: 2.0.4
-      karma: 6.3.17_debug@4.3.4
+      karma: 6.3.18_debug@4.3.4
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -15109,7 +15111,7 @@ packages:
     dependencies:
       '@azure/data-tables': 12.1.2
       '@azure/event-hubs': 5.7.0
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.5
       '@types/chai-string': 1.4.2
@@ -15126,16 +15128,16 @@ packages:
       esm: 3.2.25
       guid-typescript: 1.0.9
       inherits: 2.0.4
-      karma: 6.3.17_debug@4.3.4
+      karma: 6.3.18_debug@4.3.4
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -15161,7 +15163,7 @@ packages:
     dependencies:
       '@azure/msal-node': 1.8.0
       '@azure/msal-node-extensions': 1.0.0-alpha.13
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/jws': 3.2.4
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -15194,7 +15196,7 @@ packages:
     name: '@rush-temp/identity-vscode'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/jws': 3.2.4
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -15227,12 +15229,11 @@ packages:
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.13
       '@azure/keyvault-keys': 4.2.0
       '@azure/msal-browser': 2.23.0
       '@azure/msal-common': 4.5.1
       '@azure/msal-node': 1.8.0
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/jws': 3.2.4
       '@types/mocha': 7.0.2
@@ -15247,13 +15248,13 @@ packages:
       events: 3.3.0
       inherits: 2.0.4
       jws: 4.0.0
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-env-preprocessor: 0.1.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -15282,7 +15283,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -15290,18 +15291,18 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       mkdirp: 1.0.4
@@ -15327,7 +15328,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -15337,18 +15338,18 @@ packages:
       eslint: 7.32.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
@@ -15376,7 +15377,7 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
       '@azure/keyvault-keys': 4.4.0
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
       '@types/sinon': 9.0.11
@@ -15408,7 +15409,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/keyvault-secrets': 4.4.0
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
       '@types/sinon': 9.0.11
@@ -15416,18 +15417,18 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       esm: 3.2.25
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -15468,7 +15469,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
       '@types/sinon': 9.0.11
@@ -15477,18 +15478,18 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       esm: 3.2.25
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -15515,7 +15516,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
       '@types/sinon': 9.0.11
@@ -15523,18 +15524,18 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       esm: 3.2.25
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -15560,7 +15561,7 @@ packages:
     name: '@rush-temp/logger'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -15570,16 +15571,16 @@ packages:
       delay: 4.4.1
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -15608,7 +15609,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -15619,18 +15620,18 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -15655,7 +15656,7 @@ packages:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -15667,18 +15668,18 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
@@ -15717,7 +15718,7 @@ packages:
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@opentelemetry/api': 1.0.4
       '@opentelemetry/core': 1.0.1_@opentelemetry+api@1.0.4
       '@opentelemetry/instrumentation': 0.27.0_@opentelemetry+api@1.0.4
@@ -15755,7 +15756,7 @@ packages:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
       '@azure/monitor-opentelemetry-exporter': 1.0.0-beta.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@opentelemetry/api': 1.0.4
       '@opentelemetry/node': 0.24.0_@opentelemetry+api@1.0.4
       '@opentelemetry/tracing': 0.24.0_@opentelemetry+api@1.0.4
@@ -15771,16 +15772,16 @@ packages:
       eslint: 7.32.0
       esm: 3.2.25
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
@@ -15803,7 +15804,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@opentelemetry/api': 1.0.4
       '@opentelemetry/core': 1.0.1_@opentelemetry+api@1.0.4
       '@opentelemetry/instrumentation': 0.27.0_@opentelemetry+api@1.0.4
@@ -15820,18 +15821,18 @@ packages:
       eslint: 7.32.0
       esm: 3.2.25
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
       nyc: 14.1.1
@@ -16321,7 +16322,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -16329,16 +16330,16 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       mkdirp: 1.0.4
@@ -16363,7 +16364,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -16371,16 +16372,16 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       mkdirp: 1.0.4
@@ -16405,7 +16406,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -16413,16 +16414,16 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       mkdirp: 1.0.4
@@ -16447,9 +16448,8 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
-      '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -16460,18 +16460,18 @@ packages:
       eslint: 7.32.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -16497,7 +16497,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-inject': 4.0.4_rollup@2.70.1
       '@types/chai': 4.3.0
@@ -16513,18 +16513,18 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       lru-cache: 7.8.1
@@ -16554,7 +16554,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -16564,18 +16564,18 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -16598,7 +16598,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -16609,18 +16609,18 @@ packages:
       eslint: 7.32.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -16648,7 +16648,7 @@ packages:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4_debug@4.3.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.5
       '@types/debug': 4.1.7
@@ -16675,16 +16675,16 @@ packages:
       https-proxy-agent: 5.0.0
       is-buffer: 2.0.5
       jssha: 3.2.0
-      karma: 6.3.17_debug@4.3.4
+      karma: 6.3.18_debug@4.3.4
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       long: 4.0.0
       mocha: 7.2.0
@@ -16720,7 +16720,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -16734,18 +16734,18 @@ packages:
       esm: 3.2.25
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -16777,7 +16777,7 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -16791,18 +16791,18 @@ packages:
       esm: 3.2.25
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -16833,7 +16833,7 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -16847,18 +16847,18 @@ packages:
       events: 3.3.0
       execa: 6.1.0
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -16888,7 +16888,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -16901,18 +16901,18 @@ packages:
       esm: 3.2.25
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -16941,7 +16941,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -16952,18 +16952,18 @@ packages:
       eslint: 7.32.0
       esm: 3.2.25
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -16994,7 +16994,7 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -17006,18 +17006,18 @@ packages:
       eslint: 7.32.0
       esm: 3.2.25
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -17048,7 +17048,7 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -17059,18 +17059,18 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
@@ -17101,7 +17101,7 @@ packages:
     dependencies:
       '@azure/core-util': 1.0.0-beta.1
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -17113,18 +17113,18 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
@@ -17155,7 +17155,7 @@ packages:
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -17166,18 +17166,18 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
@@ -17208,7 +17208,7 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -17217,18 +17217,18 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
@@ -17253,7 +17253,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       eslint: 7.32.0
       rimraf: 3.0.2
@@ -17275,7 +17275,7 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-tracing': 1.0.0-preview.13
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -17284,18 +17284,18 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
@@ -17320,7 +17320,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
@@ -17331,18 +17331,18 @@ packages:
       eslint: 7.32.0
       esm: 3.2.25
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       nyc: 15.1.0
@@ -17392,16 +17392,16 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       express: 4.17.3
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -17428,7 +17428,7 @@ packages:
       '@types/node': 12.20.47
       '@types/node-fetch': 2.6.1
       eslint: 7.32.0
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-env-preprocessor: 0.1.1
@@ -17453,7 +17453,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@opentelemetry/api': 1.0.4
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.5
@@ -17465,7 +17465,7 @@ packages:
       chai-exclude: 2.1.0_chai@4.3.6
       cross-env: 7.0.3
       eslint: 7.32.0
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
       karma-env-preprocessor: 0.1.1
@@ -17500,18 +17500,18 @@ packages:
       chai: 4.3.6
       dotenv: 8.6.0
       eslint: 7.32.0
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -17537,7 +17537,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/core-tracing': 1.0.0-preview.13
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
@@ -17550,16 +17550,16 @@ packages:
       eslint: 7.32.0
       events: 3.3.0
       inherits: 2.0.4
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -17583,7 +17583,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/express': 4.17.13
       '@types/express-serve-static-core': 4.17.28
@@ -17597,18 +17597,18 @@ packages:
       eslint: 7.32.0
       esm: 3.2.25
       express: 4.17.3
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-json-preprocessor: 0.3.3_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-json-preprocessor: 0.3.3_karma@6.3.18
       karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -17633,7 +17633,7 @@ packages:
     name: '@rush-temp/web-pubsub'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.21.2
+      '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
       '@types/jsonwebtoken': 8.5.8
       '@types/mocha': 7.0.2
@@ -17646,16 +17646,16 @@ packages:
       eslint: 7.32.0
       esm: 3.2.25
       jsonwebtoken: 8.5.1
-      karma: 6.3.17
+      karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.3.17
+      karma-edge-launcher: 0.4.2_karma@6.3.18
       karma-env-preprocessor: 0.1.1
       karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.3.17
-      karma-junit-reporter: 2.0.1_karma@6.3.17
+      karma-ie-launcher: 1.0.0_karma@6.3.18
+      karma-junit-reporter: 2.0.1_karma@6.3.18
       karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.3.17
+      karma-mocha-reporter: 2.2.5_karma@6.3.18
       karma-sourcemap-loader: 0.3.8
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
