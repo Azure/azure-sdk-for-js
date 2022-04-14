@@ -543,7 +543,7 @@ export class EventGridPublisherClient<T extends InputSchema> {
     constructor(endpointUrl: string, inputSchema: T, credential: KeyCredential | SASCredential | TokenCredential, options?: EventGridPublisherClientOptions);
     readonly apiVersion: string;
     readonly endpointUrl: string;
-    send(events: InputSchemaToInputTypeMap[T][], options?: SendOptions): Promise<void>;
+    send(events: InputSchemaToInputTypeMap[T][], options?: InputSchemaToOptionsTypeMap[T]): Promise<void>;
 }
 
 // @public
@@ -605,6 +605,18 @@ export interface InputSchemaToInputTypeMap {
     CloudEvent: SendCloudEventInput<unknown>;
     Custom: Record<string, unknown>;
     EventGrid: SendEventGridEventInput<unknown>;
+}
+
+// @public
+export interface InputSchemaToOptionsTypeMap {
+    // Warning: (ae-forgotten-export) The symbol "CloudEventSendOptions" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    CloudEvent: CloudEventSendOptions;
+    // (undocumented)
+    Custom: SendOptions;
+    // (undocumented)
+    EventGrid: SendOptions;
 }
 
 // @public

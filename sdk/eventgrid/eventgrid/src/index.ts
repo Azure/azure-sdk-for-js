@@ -11,6 +11,7 @@ export {
   SendOptions,
   InputSchema,
   InputSchemaToInputTypeMap,
+  InputSchemaToOptionsTypeMap,
 } from "./eventGridClient";
 
 export {
