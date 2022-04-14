@@ -152,8 +152,7 @@ If you get an HTTP error with status code 400 (Bad Request), you may have an err
 }
 ```
 
-The error message may include the line number and position where the Kusto query has an error (line 2, position 244
-in the above example). You may also refer to the [Kusto Query Language](https://docs.microsoft.com/azure/data-explorer/kusto/query) reference docs to learn more about querying logs using KQL.
+The error message may include the line number and position where the Kusto query has an error (line 2, position 244 in the above example). You may also refer to the [Kusto Query Language](https://docs.microsoft.com/azure/data-explorer/kusto/query) reference docs to learn more about querying logs using KQL.
 
 ### Empty log query results
 
