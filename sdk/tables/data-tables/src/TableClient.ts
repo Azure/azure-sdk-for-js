@@ -299,6 +299,8 @@ export class TableClient {
       } catch (e) {
         if (e.statusCode === 404) {
           logger.info("TableClient.deleteTable: Table doesn't exist");
+        } else {
+          throw e;
         }
       }
     });
