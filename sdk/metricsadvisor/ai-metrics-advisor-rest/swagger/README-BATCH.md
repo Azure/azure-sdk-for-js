@@ -40,7 +40,7 @@ add-credentials: true
 generate-test: false
 rlc-shortcut: true
 use-extension:
-  "@autorest/typescript": "file:../../../../autorest.typescript/"
+  "@autorest/typescript": "latest"
 batch:
   - metrics-advisor: true
   - metrics-advisor-admin: true
