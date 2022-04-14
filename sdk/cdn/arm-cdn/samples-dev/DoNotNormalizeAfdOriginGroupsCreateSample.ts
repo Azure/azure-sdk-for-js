@@ -38,7 +38,7 @@ async function afdOriginGroupsCreate() {
   };
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
-  const result = await client.aFDOriginGroups.beginCreateAndWait(
+  const result = await client.afdOriginGroups.beginCreateAndWait(
     resourceGroupName,
     profileName,
     originGroupName,

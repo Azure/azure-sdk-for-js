@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { AFDCustomDomains } from "../operationsInterfaces";
+import { AfdCustomDomains } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -16,28 +16,28 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   AFDDomain,
-  AFDCustomDomainsListByProfileNextOptionalParams,
-  AFDCustomDomainsListByProfileOptionalParams,
-  AFDCustomDomainsListByProfileResponse,
-  AFDCustomDomainsGetOptionalParams,
-  AFDCustomDomainsGetResponse,
-  AFDCustomDomainsCreateOptionalParams,
-  AFDCustomDomainsCreateResponse,
+  AfdCustomDomainsListByProfileNextOptionalParams,
+  AfdCustomDomainsListByProfileOptionalParams,
+  AfdCustomDomainsListByProfileResponse,
+  AfdCustomDomainsGetOptionalParams,
+  AfdCustomDomainsGetResponse,
+  AfdCustomDomainsCreateOptionalParams,
+  AfdCustomDomainsCreateResponse,
   AFDDomainUpdateParameters,
-  AFDCustomDomainsUpdateOptionalParams,
-  AFDCustomDomainsUpdateResponse,
-  AFDCustomDomainsDeleteOptionalParams,
-  AFDCustomDomainsRefreshValidationTokenOptionalParams,
-  AFDCustomDomainsListByProfileNextResponse
+  AfdCustomDomainsUpdateOptionalParams,
+  AfdCustomDomainsUpdateResponse,
+  AfdCustomDomainsDeleteOptionalParams,
+  AfdCustomDomainsRefreshValidationTokenOptionalParams,
+  AfdCustomDomainsListByProfileNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing AFDCustomDomains operations. */
-export class AFDCustomDomainsImpl implements AFDCustomDomains {
+/** Class containing AfdCustomDomains operations. */
+export class AfdCustomDomainsImpl implements AfdCustomDomains {
   private readonly client: CdnManagementClient;
 
   /**
-   * Initialize a new instance of the class AFDCustomDomains class.
+   * Initialize a new instance of the class AfdCustomDomains class.
    * @param client Reference to the service client
    */
   constructor(client: CdnManagementClient) {
@@ -54,7 +54,7 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
   public listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: AFDCustomDomainsListByProfileOptionalParams
+    options?: AfdCustomDomainsListByProfileOptionalParams
   ): PagedAsyncIterableIterator<AFDDomain> {
     const iter = this.listByProfilePagingAll(
       resourceGroupName,
@@ -81,7 +81,7 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
   private async *listByProfilePagingPage(
     resourceGroupName: string,
     profileName: string,
-    options?: AFDCustomDomainsListByProfileOptionalParams
+    options?: AfdCustomDomainsListByProfileOptionalParams
   ): AsyncIterableIterator<AFDDomain[]> {
     let result = await this._listByProfile(
       resourceGroupName,
@@ -105,7 +105,7 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
   private async *listByProfilePagingAll(
     resourceGroupName: string,
     profileName: string,
-    options?: AFDCustomDomainsListByProfileOptionalParams
+    options?: AfdCustomDomainsListByProfileOptionalParams
   ): AsyncIterableIterator<AFDDomain> {
     for await (const page of this.listByProfilePagingPage(
       resourceGroupName,
@@ -126,8 +126,8 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
   private _listByProfile(
     resourceGroupName: string,
     profileName: string,
-    options?: AFDCustomDomainsListByProfileOptionalParams
-  ): Promise<AFDCustomDomainsListByProfileResponse> {
+    options?: AfdCustomDomainsListByProfileOptionalParams
+  ): Promise<AfdCustomDomainsListByProfileResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, options },
       listByProfileOperationSpec
@@ -147,8 +147,8 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
     resourceGroupName: string,
     profileName: string,
     customDomainName: string,
-    options?: AFDCustomDomainsGetOptionalParams
-  ): Promise<AFDCustomDomainsGetResponse> {
+    options?: AfdCustomDomainsGetOptionalParams
+  ): Promise<AfdCustomDomainsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, customDomainName, options },
       getOperationSpec
@@ -169,17 +169,17 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
     profileName: string,
     customDomainName: string,
     customDomain: AFDDomain,
-    options?: AFDCustomDomainsCreateOptionalParams
+    options?: AfdCustomDomainsCreateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<AFDCustomDomainsCreateResponse>,
-      AFDCustomDomainsCreateResponse
+      PollOperationState<AfdCustomDomainsCreateResponse>,
+      AfdCustomDomainsCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<AFDCustomDomainsCreateResponse> => {
+    ): Promise<AfdCustomDomainsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -249,8 +249,8 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
     profileName: string,
     customDomainName: string,
     customDomain: AFDDomain,
-    options?: AFDCustomDomainsCreateOptionalParams
-  ): Promise<AFDCustomDomainsCreateResponse> {
+    options?: AfdCustomDomainsCreateOptionalParams
+  ): Promise<AfdCustomDomainsCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       profileName,
@@ -275,17 +275,17 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
     profileName: string,
     customDomainName: string,
     customDomainUpdateProperties: AFDDomainUpdateParameters,
-    options?: AFDCustomDomainsUpdateOptionalParams
+    options?: AfdCustomDomainsUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<AFDCustomDomainsUpdateResponse>,
-      AFDCustomDomainsUpdateResponse
+      PollOperationState<AfdCustomDomainsUpdateResponse>,
+      AfdCustomDomainsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<AFDCustomDomainsUpdateResponse> => {
+    ): Promise<AfdCustomDomainsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -355,8 +355,8 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
     profileName: string,
     customDomainName: string,
     customDomainUpdateProperties: AFDDomainUpdateParameters,
-    options?: AFDCustomDomainsUpdateOptionalParams
-  ): Promise<AFDCustomDomainsUpdateResponse> {
+    options?: AfdCustomDomainsUpdateOptionalParams
+  ): Promise<AfdCustomDomainsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       profileName,
@@ -380,7 +380,7 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
     resourceGroupName: string,
     profileName: string,
     customDomainName: string,
-    options?: AFDCustomDomainsDeleteOptionalParams
+    options?: AfdCustomDomainsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -448,7 +448,7 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
     resourceGroupName: string,
     profileName: string,
     customDomainName: string,
-    options?: AFDCustomDomainsDeleteOptionalParams
+    options?: AfdCustomDomainsDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
@@ -471,7 +471,7 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
     resourceGroupName: string,
     profileName: string,
     customDomainName: string,
-    options?: AFDCustomDomainsRefreshValidationTokenOptionalParams
+    options?: AfdCustomDomainsRefreshValidationTokenOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -538,7 +538,7 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
     resourceGroupName: string,
     profileName: string,
     customDomainName: string,
-    options?: AFDCustomDomainsRefreshValidationTokenOptionalParams
+    options?: AfdCustomDomainsRefreshValidationTokenOptionalParams
   ): Promise<void> {
     const poller = await this.beginRefreshValidationToken(
       resourceGroupName,
@@ -561,8 +561,8 @@ export class AFDCustomDomainsImpl implements AFDCustomDomains {
     resourceGroupName: string,
     profileName: string,
     nextLink: string,
-    options?: AFDCustomDomainsListByProfileNextOptionalParams
-  ): Promise<AFDCustomDomainsListByProfileNextResponse> {
+    options?: AfdCustomDomainsListByProfileNextOptionalParams
+  ): Promise<AfdCustomDomainsListByProfileNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, nextLink, options },
       listByProfileNextOperationSpec

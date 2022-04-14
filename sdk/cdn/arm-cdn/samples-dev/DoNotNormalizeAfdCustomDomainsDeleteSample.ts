@@ -24,7 +24,7 @@ async function afdCustomDomainsDelete() {
   const customDomainName = "domain1";
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
-  const result = await client.aFDCustomDomains.beginDeleteAndWait(
+  const result = await client.afdCustomDomains.beginDeleteAndWait(
     resourceGroupName,
     profileName,
     customDomainName

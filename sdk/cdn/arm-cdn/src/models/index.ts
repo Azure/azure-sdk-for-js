@@ -5166,42 +5166,42 @@ export interface ValidateProbeOptionalParams
 export type ValidateProbeResponse = ValidateProbeOutput;
 
 /** Optional parameters. */
-export interface AFDProfilesListResourceUsageOptionalParams
+export interface AfdProfilesListResourceUsageOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listResourceUsage operation. */
-export type AFDProfilesListResourceUsageResponse = UsagesListResult;
+export type AfdProfilesListResourceUsageResponse = UsagesListResult;
 
 /** Optional parameters. */
-export interface AFDProfilesCheckHostNameAvailabilityOptionalParams
+export interface AfdProfilesCheckHostNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkHostNameAvailability operation. */
-export type AFDProfilesCheckHostNameAvailabilityResponse = CheckNameAvailabilityOutput;
+export type AfdProfilesCheckHostNameAvailabilityResponse = CheckNameAvailabilityOutput;
 
 /** Optional parameters. */
-export interface AFDProfilesListResourceUsageNextOptionalParams
+export interface AfdProfilesListResourceUsageNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listResourceUsageNext operation. */
-export type AFDProfilesListResourceUsageNextResponse = UsagesListResult;
+export type AfdProfilesListResourceUsageNextResponse = UsagesListResult;
 
 /** Optional parameters. */
-export interface AFDCustomDomainsListByProfileOptionalParams
+export interface AfdCustomDomainsListByProfileOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProfile operation. */
-export type AFDCustomDomainsListByProfileResponse = AFDDomainListResult;
+export type AfdCustomDomainsListByProfileResponse = AFDDomainListResult;
 
 /** Optional parameters. */
-export interface AFDCustomDomainsGetOptionalParams
+export interface AfdCustomDomainsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type AFDCustomDomainsGetResponse = AFDDomain;
+export type AfdCustomDomainsGetResponse = AFDDomain;
 
 /** Optional parameters. */
-export interface AFDCustomDomainsCreateOptionalParams
+export interface AfdCustomDomainsCreateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -5210,10 +5210,10 @@ export interface AFDCustomDomainsCreateOptionalParams
 }
 
 /** Contains response data for the create operation. */
-export type AFDCustomDomainsCreateResponse = AFDDomain;
+export type AfdCustomDomainsCreateResponse = AFDDomain;
 
 /** Optional parameters. */
-export interface AFDCustomDomainsUpdateOptionalParams
+export interface AfdCustomDomainsUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -5222,10 +5222,10 @@ export interface AFDCustomDomainsUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type AFDCustomDomainsUpdateResponse = AFDDomain;
+export type AfdCustomDomainsUpdateResponse = AFDDomain;
 
 /** Optional parameters. */
-export interface AFDCustomDomainsDeleteOptionalParams
+export interface AfdCustomDomainsDeleteOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -5234,7 +5234,7 @@ export interface AFDCustomDomainsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface AFDCustomDomainsRefreshValidationTokenOptionalParams
+export interface AfdCustomDomainsRefreshValidationTokenOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -5243,28 +5243,28 @@ export interface AFDCustomDomainsRefreshValidationTokenOptionalParams
 }
 
 /** Optional parameters. */
-export interface AFDCustomDomainsListByProfileNextOptionalParams
+export interface AfdCustomDomainsListByProfileNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProfileNext operation. */
-export type AFDCustomDomainsListByProfileNextResponse = AFDDomainListResult;
+export type AfdCustomDomainsListByProfileNextResponse = AFDDomainListResult;
 
 /** Optional parameters. */
-export interface AFDEndpointsListByProfileOptionalParams
+export interface AfdEndpointsListByProfileOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProfile operation. */
-export type AFDEndpointsListByProfileResponse = AFDEndpointListResult;
+export type AfdEndpointsListByProfileResponse = AFDEndpointListResult;
 
 /** Optional parameters. */
-export interface AFDEndpointsGetOptionalParams
+export interface AfdEndpointsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type AFDEndpointsGetResponse = AFDEndpoint;
+export type AfdEndpointsGetResponse = AFDEndpoint;
 
 /** Optional parameters. */
-export interface AFDEndpointsCreateOptionalParams
+export interface AfdEndpointsCreateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -5273,10 +5273,10 @@ export interface AFDEndpointsCreateOptionalParams
 }
 
 /** Contains response data for the create operation. */
-export type AFDEndpointsCreateResponse = AFDEndpoint;
+export type AfdEndpointsCreateResponse = AFDEndpoint;
 
 /** Optional parameters. */
-export interface AFDEndpointsUpdateOptionalParams
+export interface AfdEndpointsUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -5285,10 +5285,10 @@ export interface AFDEndpointsUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type AFDEndpointsUpdateResponse = AFDEndpoint;
+export type AfdEndpointsUpdateResponse = AFDEndpoint;
 
 /** Optional parameters. */
-export interface AFDEndpointsDeleteOptionalParams
+export interface AfdEndpointsDeleteOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -5297,7 +5297,7 @@ export interface AFDEndpointsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface AFDEndpointsPurgeContentOptionalParams
+export interface AfdEndpointsPurgeContentOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -5306,49 +5306,49 @@ export interface AFDEndpointsPurgeContentOptionalParams
 }
 
 /** Optional parameters. */
-export interface AFDEndpointsListResourceUsageOptionalParams
+export interface AfdEndpointsListResourceUsageOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listResourceUsage operation. */
-export type AFDEndpointsListResourceUsageResponse = UsagesListResult;
+export type AfdEndpointsListResourceUsageResponse = UsagesListResult;
 
 /** Optional parameters. */
-export interface AFDEndpointsValidateCustomDomainOptionalParams
+export interface AfdEndpointsValidateCustomDomainOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the validateCustomDomain operation. */
-export type AFDEndpointsValidateCustomDomainResponse = ValidateCustomDomainOutput;
+export type AfdEndpointsValidateCustomDomainResponse = ValidateCustomDomainOutput;
 
 /** Optional parameters. */
-export interface AFDEndpointsListByProfileNextOptionalParams
+export interface AfdEndpointsListByProfileNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProfileNext operation. */
-export type AFDEndpointsListByProfileNextResponse = AFDEndpointListResult;
+export type AfdEndpointsListByProfileNextResponse = AFDEndpointListResult;
 
 /** Optional parameters. */
-export interface AFDEndpointsListResourceUsageNextOptionalParams
+export interface AfdEndpointsListResourceUsageNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listResourceUsageNext operation. */
-export type AFDEndpointsListResourceUsageNextResponse = UsagesListResult;
+export type AfdEndpointsListResourceUsageNextResponse = UsagesListResult;
 
 /** Optional parameters. */
-export interface AFDOriginGroupsListByProfileOptionalParams
+export interface AfdOriginGroupsListByProfileOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProfile operation. */
-export type AFDOriginGroupsListByProfileResponse = AFDOriginGroupListResult;
+export type AfdOriginGroupsListByProfileResponse = AFDOriginGroupListResult;
 
 /** Optional parameters. */
-export interface AFDOriginGroupsGetOptionalParams
+export interface AfdOriginGroupsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type AFDOriginGroupsGetResponse = AFDOriginGroup;
+export type AfdOriginGroupsGetResponse = AFDOriginGroup;
 
 /** Optional parameters. */
-export interface AFDOriginGroupsCreateOptionalParams
+export interface AfdOriginGroupsCreateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -5357,10 +5357,10 @@ export interface AFDOriginGroupsCreateOptionalParams
 }
 
 /** Contains response data for the create operation. */
-export type AFDOriginGroupsCreateResponse = AFDOriginGroup;
+export type AfdOriginGroupsCreateResponse = AFDOriginGroup;
 
 /** Optional parameters. */
-export interface AFDOriginGroupsUpdateOptionalParams
+export interface AfdOriginGroupsUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -5369,10 +5369,10 @@ export interface AFDOriginGroupsUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type AFDOriginGroupsUpdateResponse = AFDOriginGroup;
+export type AfdOriginGroupsUpdateResponse = AFDOriginGroup;
 
 /** Optional parameters. */
-export interface AFDOriginGroupsDeleteOptionalParams
+export interface AfdOriginGroupsDeleteOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -5381,42 +5381,42 @@ export interface AFDOriginGroupsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface AFDOriginGroupsListResourceUsageOptionalParams
+export interface AfdOriginGroupsListResourceUsageOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listResourceUsage operation. */
-export type AFDOriginGroupsListResourceUsageResponse = UsagesListResult;
+export type AfdOriginGroupsListResourceUsageResponse = UsagesListResult;
 
 /** Optional parameters. */
-export interface AFDOriginGroupsListByProfileNextOptionalParams
+export interface AfdOriginGroupsListByProfileNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByProfileNext operation. */
-export type AFDOriginGroupsListByProfileNextResponse = AFDOriginGroupListResult;
+export type AfdOriginGroupsListByProfileNextResponse = AFDOriginGroupListResult;
 
 /** Optional parameters. */
-export interface AFDOriginGroupsListResourceUsageNextOptionalParams
+export interface AfdOriginGroupsListResourceUsageNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listResourceUsageNext operation. */
-export type AFDOriginGroupsListResourceUsageNextResponse = UsagesListResult;
+export type AfdOriginGroupsListResourceUsageNextResponse = UsagesListResult;
 
 /** Optional parameters. */
-export interface AFDOriginsListByOriginGroupOptionalParams
+export interface AfdOriginsListByOriginGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByOriginGroup operation. */
-export type AFDOriginsListByOriginGroupResponse = AFDOriginListResult;
+export type AfdOriginsListByOriginGroupResponse = AFDOriginListResult;
 
 /** Optional parameters. */
-export interface AFDOriginsGetOptionalParams
+export interface AfdOriginsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type AFDOriginsGetResponse = AFDOrigin;
+export type AfdOriginsGetResponse = AFDOrigin;
 
 /** Optional parameters. */
-export interface AFDOriginsCreateOptionalParams
+export interface AfdOriginsCreateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -5425,10 +5425,10 @@ export interface AFDOriginsCreateOptionalParams
 }
 
 /** Contains response data for the create operation. */
-export type AFDOriginsCreateResponse = AFDOrigin;
+export type AfdOriginsCreateResponse = AFDOrigin;
 
 /** Optional parameters. */
-export interface AFDOriginsUpdateOptionalParams
+export interface AfdOriginsUpdateOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -5437,10 +5437,10 @@ export interface AFDOriginsUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type AFDOriginsUpdateResponse = AFDOrigin;
+export type AfdOriginsUpdateResponse = AFDOrigin;
 
 /** Optional parameters. */
-export interface AFDOriginsDeleteOptionalParams
+export interface AfdOriginsDeleteOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
@@ -5449,11 +5449,11 @@ export interface AFDOriginsDeleteOptionalParams
 }
 
 /** Optional parameters. */
-export interface AFDOriginsListByOriginGroupNextOptionalParams
+export interface AfdOriginsListByOriginGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByOriginGroupNext operation. */
-export type AFDOriginsListByOriginGroupNextResponse = AFDOriginListResult;
+export type AfdOriginsListByOriginGroupNextResponse = AFDOriginListResult;
 
 /** Optional parameters. */
 export interface RoutesListByEndpointOptionalParams

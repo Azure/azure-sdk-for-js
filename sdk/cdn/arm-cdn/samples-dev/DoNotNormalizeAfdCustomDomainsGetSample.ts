@@ -24,7 +24,7 @@ async function afdCustomDomainsGet() {
   const customDomainName = "domain1";
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
-  const result = await client.aFDCustomDomains.get(
+  const result = await client.afdCustomDomains.get(
     resourceGroupName,
     profileName,
     customDomainName

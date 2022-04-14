@@ -7,29 +7,29 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { AFDProfiles } from "../operationsInterfaces";
+import { AfdProfiles } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CdnManagementClient } from "../cdnManagementClient";
 import {
   Usage,
-  AFDProfilesListResourceUsageNextOptionalParams,
-  AFDProfilesListResourceUsageOptionalParams,
-  AFDProfilesListResourceUsageResponse,
+  AfdProfilesListResourceUsageNextOptionalParams,
+  AfdProfilesListResourceUsageOptionalParams,
+  AfdProfilesListResourceUsageResponse,
   CheckHostNameAvailabilityInput,
-  AFDProfilesCheckHostNameAvailabilityOptionalParams,
-  AFDProfilesCheckHostNameAvailabilityResponse,
-  AFDProfilesListResourceUsageNextResponse
+  AfdProfilesCheckHostNameAvailabilityOptionalParams,
+  AfdProfilesCheckHostNameAvailabilityResponse,
+  AfdProfilesListResourceUsageNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing AFDProfiles operations. */
-export class AFDProfilesImpl implements AFDProfiles {
+/** Class containing AfdProfiles operations. */
+export class AfdProfilesImpl implements AfdProfiles {
   private readonly client: CdnManagementClient;
 
   /**
-   * Initialize a new instance of the class AFDProfiles class.
+   * Initialize a new instance of the class AfdProfiles class.
    * @param client Reference to the service client
    */
   constructor(client: CdnManagementClient) {
@@ -46,7 +46,7 @@ export class AFDProfilesImpl implements AFDProfiles {
   public listResourceUsage(
     resourceGroupName: string,
     profileName: string,
-    options?: AFDProfilesListResourceUsageOptionalParams
+    options?: AfdProfilesListResourceUsageOptionalParams
   ): PagedAsyncIterableIterator<Usage> {
     const iter = this.listResourceUsagePagingAll(
       resourceGroupName,
@@ -73,7 +73,7 @@ export class AFDProfilesImpl implements AFDProfiles {
   private async *listResourceUsagePagingPage(
     resourceGroupName: string,
     profileName: string,
-    options?: AFDProfilesListResourceUsageOptionalParams
+    options?: AfdProfilesListResourceUsageOptionalParams
   ): AsyncIterableIterator<Usage[]> {
     let result = await this._listResourceUsage(
       resourceGroupName,
@@ -97,7 +97,7 @@ export class AFDProfilesImpl implements AFDProfiles {
   private async *listResourceUsagePagingAll(
     resourceGroupName: string,
     profileName: string,
-    options?: AFDProfilesListResourceUsageOptionalParams
+    options?: AfdProfilesListResourceUsageOptionalParams
   ): AsyncIterableIterator<Usage> {
     for await (const page of this.listResourceUsagePagingPage(
       resourceGroupName,
@@ -118,8 +118,8 @@ export class AFDProfilesImpl implements AFDProfiles {
   private _listResourceUsage(
     resourceGroupName: string,
     profileName: string,
-    options?: AFDProfilesListResourceUsageOptionalParams
-  ): Promise<AFDProfilesListResourceUsageResponse> {
+    options?: AfdProfilesListResourceUsageOptionalParams
+  ): Promise<AfdProfilesListResourceUsageResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, options },
       listResourceUsageOperationSpec
@@ -138,8 +138,8 @@ export class AFDProfilesImpl implements AFDProfiles {
     resourceGroupName: string,
     profileName: string,
     checkHostNameAvailabilityInput: CheckHostNameAvailabilityInput,
-    options?: AFDProfilesCheckHostNameAvailabilityOptionalParams
-  ): Promise<AFDProfilesCheckHostNameAvailabilityResponse> {
+    options?: AfdProfilesCheckHostNameAvailabilityOptionalParams
+  ): Promise<AfdProfilesCheckHostNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -163,8 +163,8 @@ export class AFDProfilesImpl implements AFDProfiles {
     resourceGroupName: string,
     profileName: string,
     nextLink: string,
-    options?: AFDProfilesListResourceUsageNextOptionalParams
-  ): Promise<AFDProfilesListResourceUsageNextResponse> {
+    options?: AfdProfilesListResourceUsageNextOptionalParams
+  ): Promise<AfdProfilesListResourceUsageNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, profileName, nextLink, options },
       listResourceUsageNextOperationSpec

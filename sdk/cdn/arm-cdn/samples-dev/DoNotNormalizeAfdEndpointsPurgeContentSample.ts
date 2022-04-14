@@ -28,7 +28,7 @@ async function afdEndpointsPurgeContent() {
   };
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
-  const result = await client.aFDEndpoints.beginPurgeContentAndWait(
+  const result = await client.afdEndpoints.beginPurgeContentAndWait(
     resourceGroupName,
     profileName,
     endpointName,

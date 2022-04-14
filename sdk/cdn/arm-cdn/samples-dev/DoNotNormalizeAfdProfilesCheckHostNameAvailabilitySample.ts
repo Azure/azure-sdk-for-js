@@ -29,7 +29,7 @@ async function afdProfilesCheckHostNameAvailability() {
   };
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
-  const result = await client.aFDProfiles.checkHostNameAvailability(
+  const result = await client.afdProfiles.checkHostNameAvailability(
     resourceGroupName,
     profileName,
     checkHostNameAvailabilityInput

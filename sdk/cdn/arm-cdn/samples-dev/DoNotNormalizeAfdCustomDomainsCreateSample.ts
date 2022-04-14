@@ -32,7 +32,7 @@ async function afdCustomDomainsCreate() {
   };
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
-  const result = await client.aFDCustomDomains.beginCreateAndWait(
+  const result = await client.afdCustomDomains.beginCreateAndWait(
     resourceGroupName,
     profileName,
     customDomainName,

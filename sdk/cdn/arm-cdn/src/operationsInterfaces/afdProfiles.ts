@@ -9,15 +9,15 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   Usage,
-  AFDProfilesListResourceUsageOptionalParams,
+  AfdProfilesListResourceUsageOptionalParams,
   CheckHostNameAvailabilityInput,
-  AFDProfilesCheckHostNameAvailabilityOptionalParams,
-  AFDProfilesCheckHostNameAvailabilityResponse
+  AfdProfilesCheckHostNameAvailabilityOptionalParams,
+  AfdProfilesCheckHostNameAvailabilityResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a AFDProfiles. */
-export interface AFDProfiles {
+/** Interface representing a AfdProfiles. */
+export interface AfdProfiles {
   /**
    * Checks the quota and actual usage of endpoints under the given CDN profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -28,7 +28,7 @@ export interface AFDProfiles {
   listResourceUsage(
     resourceGroupName: string,
     profileName: string,
-    options?: AFDProfilesListResourceUsageOptionalParams
+    options?: AfdProfilesListResourceUsageOptionalParams
   ): PagedAsyncIterableIterator<Usage>;
   /**
    * Validates the custom domain mapping to ensure it maps to the correct CDN endpoint in DNS.
@@ -42,6 +42,6 @@ export interface AFDProfiles {
     resourceGroupName: string,
     profileName: string,
     checkHostNameAvailabilityInput: CheckHostNameAvailabilityInput,
-    options?: AFDProfilesCheckHostNameAvailabilityOptionalParams
-  ): Promise<AFDProfilesCheckHostNameAvailabilityResponse>;
+    options?: AfdProfilesCheckHostNameAvailabilityOptionalParams
+  ): Promise<AfdProfilesCheckHostNameAvailabilityResponse>;
 }

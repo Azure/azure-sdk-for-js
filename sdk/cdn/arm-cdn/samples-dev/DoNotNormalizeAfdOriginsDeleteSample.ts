@@ -25,7 +25,7 @@ async function afdOriginsDelete() {
   const originName = "origin1";
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
-  const result = await client.aFDOrigins.beginDeleteAndWait(
+  const result = await client.afdOrigins.beginDeleteAndWait(
     resourceGroupName,
     profileName,
     originGroupName,

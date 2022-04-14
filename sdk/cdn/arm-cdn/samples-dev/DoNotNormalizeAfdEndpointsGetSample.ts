@@ -24,7 +24,7 @@ async function afdEndpointsGet() {
   const endpointName = "endpoint1";
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
-  const result = await client.aFDEndpoints.get(
+  const result = await client.afdEndpoints.get(
     resourceGroupName,
     profileName,
     endpointName

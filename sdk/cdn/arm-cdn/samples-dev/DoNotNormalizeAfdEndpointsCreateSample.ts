@@ -30,7 +30,7 @@ async function afdEndpointsCreate() {
   };
   const credential = new DefaultAzureCredential();
   const client = new CdnManagementClient(credential, subscriptionId);
-  const result = await client.aFDEndpoints.beginCreateAndWait(
+  const result = await client.afdEndpoints.beginCreateAndWait(
     resourceGroupName,
     profileName,
     endpointName,
