@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "@azure/test-utils";
-import { RestError } from "@azure/core-http";
+import { RestError } from "@azure/core-rest-pipeline";
 import { DeleteKeyPoller } from "../../src/lro/delete/poller";
 import { RecoverDeletedKeyPoller } from "../../src/lro/recover/poller";
 
@@ -22,7 +22,7 @@ describe("The LROs properly throw on unexpected errors", () => {
           };
         },
         async getDeletedKey(): Promise<any> {
-          throw new RestError(`${code}`, undefined, code);
+          throw new RestError(`${code}`, { statusCode: code });
         },
       };
       const poller = new DeleteKeyPoller({
@@ -48,7 +48,7 @@ describe("The LROs properly throw on unexpected errors", () => {
           };
         },
         async getDeletedKey(): Promise<any> {
-          throw new RestError(`${code}`, undefined, code);
+          throw new RestError(`${code}`, { statusCode: code });
         },
       };
       const poller = new DeleteKeyPoller({
@@ -76,7 +76,7 @@ describe("The LROs properly throw on unexpected errors", () => {
             };
           },
           async getDeletedKey(): Promise<any> {
-            throw new RestError(`${code}`, undefined, code);
+            throw new RestError(`${code}`, { statusCode: code });
           },
         };
         const poller = new DeleteKeyPoller({
@@ -110,7 +110,7 @@ describe("The LROs properly throw on unexpected errors", () => {
           };
         },
         async getKey(): Promise<any> {
-          throw new RestError(`${code}`, undefined, code);
+          throw new RestError(`${code}`, { statusCode: code });
         },
       };
       const poller = new RecoverDeletedKeyPoller({
@@ -136,7 +136,7 @@ describe("The LROs properly throw on unexpected errors", () => {
           };
         },
         async getKey(): Promise<any> {
-          throw new RestError(`${code}`, undefined, code);
+          throw new RestError(`${code}`, { statusCode: code });
         },
       };
       const poller = new RecoverDeletedKeyPoller({
@@ -164,7 +164,7 @@ describe("The LROs properly throw on unexpected errors", () => {
             };
           },
           async getKey(): Promise<any> {
-            throw new RestError(`${code}`, undefined, code);
+            throw new RestError(`${code}`, { statusCode: code });
           },
         };
         const poller = new RecoverDeletedKeyPoller({

@@ -3,7 +3,7 @@
 
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
-import { isNode } from "@azure/core-http";
+import { isNode } from "../../../keyvault-common/src/";
 import { KeyClient } from "../../src";
 import { assertThrowsAbortError, getServiceVersion } from "../public/utils/common";
 import { testPollerProperties } from "../public/utils/recorderUtils";

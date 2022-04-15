@@ -5,7 +5,12 @@ import { assert } from "@azure/test-utils";
 import { createSandbox, SinonSandbox, SinonSpy } from "sinon";
 import { KeyClient } from "../../src";
 import { LATEST_API_VERSION } from "../../src/keysModels";
-import { HttpClient, HttpOperationResponse, WebResourceLike, HttpHeaders } from "@azure/core-http";
+import {
+  HttpClient,
+  PipelineRequest,
+  PipelineResponse,
+  createHttpHeaders,
+} from "@azure/core-rest-pipeline";
 import { ClientSecretCredential } from "@azure/identity";
 import { env } from "@azure-tools/test-recorder";
 import { versionsToTest } from "@azure/test-utils";
@@ -15,22 +20,22 @@ describe("The Keys client should set the serviceVersion", () => {
   const keyVaultUrl = `https://keyVaultName.vault.azure.net`;
 
   const mockHttpClient: HttpClient = {
-    async sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
+    async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
       return {
         status: 200,
-        headers: new HttpHeaders(),
-        request: httpRequest,
-        parsedBody: {
+        headers: createHttpHeaders(),
+        request: request,
+        bodyAsText: JSON.stringify({
           key: {
             kid: `${keyVaultUrl}/keys/keyName/id`,
           },
-        },
+        }),
       };
     },
   };
 
   let sandbox: SinonSandbox;
-  let spy: SinonSpy<[WebResourceLike], Promise<HttpOperationResponse>>;
+  let spy: SinonSpy<[PipelineRequest], Promise<PipelineResponse>>;
   let credential: ClientSecretCredential;
   beforeEach(async () => {
     sandbox = createSandbox();
