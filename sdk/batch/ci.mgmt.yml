@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/batch/ci.mgmt.yml
-      - sdk/batch/arm-batch/
       - sdk/batch/arm-batch
 pr:
   branches:
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/batch/ci.mgmt.yml
-      - sdk/batch/arm-batch/
       - sdk/batch/arm-batch
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
