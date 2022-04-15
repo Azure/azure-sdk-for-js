@@ -10081,7 +10081,7 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdb.tgz:
-    resolution: {integrity: sha512-OP4+f3Ecd0Ix+6YOLUhueJClbVOWRncbHN4VmJ5b2BzW64Ui/j9m3chqAAQHUyYNBNBsbiKSM7Fva1SLmCpfCQ==, tarball: file:projects/arm-cosmosdb.tgz}
+    resolution: {integrity: sha512-ccYAABzHBd1z9k6CRvCvejrtFCor3dx4BtgD2Kp5kYC10NCgix44mJDK+JKizxW5xOKnQzeAkUtX8WEKpbxkaQ==, tarball: file:projects/arm-cosmosdb.tgz}
     name: '@rush-temp/arm-cosmosdb'
     version: 0.0.0
     dependencies:
@@ -10109,27 +10109,28 @@ packages:
     dev: false
 
   file:projects/arm-customerinsights.tgz:
-    resolution: {integrity: sha512-0e7MjJl5ksl4SxdhU/yFmqosyG1DNYthE3jsUqy71XalRP3V3Hq1OI0aIujwzuoL9lGFsCbeHBcnB1GdoOZuPQ==, tarball: file:projects/arm-customerinsights.tgz}
+    resolution: {integrity: sha512-JMFKoFT8xCCEwiqAmcOe/HoRNVUbabcHLoLoMDh/R8ggL+IWiuRyCUtPtEY3CXpkTBVHJeqjaVBrfcIsxDjzSw==, tarball: file:projects/arm-customerinsights.tgz}
     name: '@rush-temp/arm-customerinsights'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.22.1
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
+      '@rollup/plugin-node-resolve': 13.2.0_rollup@2.70.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup: 2.70.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.4
     transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
