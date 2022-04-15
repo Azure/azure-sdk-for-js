@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/databricks/ci.mgmt.yml
-      - sdk/databricks/arm-databricks/
       - sdk/databricks/arm-databricks
 pr:
   branches:
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/databricks/ci.mgmt.yml
-      - sdk/databricks/arm-databricks/
       - sdk/databricks/arm-databricks
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml

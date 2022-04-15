@@ -11,7 +11,6 @@ trigger:
       - sdk/cosmosdb/cosmos/
       - sdk/cosmosdb/ci.yml
     exclude:
-      - sdk/cosmosdb/arm-cosmosdb/
       - sdk/cosmosdb/ci.mgmt.yml
       - sdk/cosmosdb/arm-cosmosdb
 pr:
@@ -26,7 +25,6 @@ pr:
       - sdk/cosmosdb/cosmos/
       - sdk/cosmosdb/ci.yml
     exclude:
-      - sdk/cosmosdb/arm-cosmosdb/
       - sdk/cosmosdb/ci.mgmt.yml
       - sdk/cosmosdb/arm-cosmosdb
 extends:

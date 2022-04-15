@@ -225,6 +225,7 @@
   - Added Enum KnownServiceStatus
   - Added Enum KnownServiceType
   - Enum KnownAuthenticationMethod has a new value Ldap
+  - Bug fix
     
     
 ## 15.0.0 (2021-12-09)

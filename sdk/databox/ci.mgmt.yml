@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/databox/ci.mgmt.yml
-      - sdk/databox/arm-databox/
       - sdk/databox/arm-databox
 pr:
   branches:
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/databox/ci.mgmt.yml
-      - sdk/databox/arm-databox/
       - sdk/databox/arm-databox
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml

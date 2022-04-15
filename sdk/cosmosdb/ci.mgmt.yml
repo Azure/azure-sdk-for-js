@@ -8,7 +8,6 @@ trigger:
       - hotfix/*
   paths:
     include:
-      - sdk/cosmosdb/arm-cosmosdb/
       - sdk/cosmosdb/ci.mgmt.yml
       - sdk/cosmosdb/arm-cosmosdb
 pr:
@@ -22,7 +21,6 @@ pr:
       - feature/v4
   paths:
     include:
-      - sdk/cosmosdb/arm-cosmosdb/
       - sdk/cosmosdb/ci.mgmt.yml
       - sdk/cosmosdb/arm-cosmosdb
 extends:

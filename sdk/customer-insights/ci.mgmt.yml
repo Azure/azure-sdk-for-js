@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/customer-insights/ci.mgmt.yml
-      - sdk/customer-insights/arm-customerinsights/
       - sdk/customer-insights/arm-customerinsights
 pr:
   branches:
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/customer-insights/ci.mgmt.yml
-      - sdk/customer-insights/arm-customerinsights/
       - sdk/customer-insights/arm-customerinsights
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
