@@ -2,13 +2,9 @@
 
 ## 4.10.0-beta.1 (2022-04-14)
 
-- Add support for specifiying a channel to send to in a specific Partner Topic via the `channelName` property of `SendOptions`.
-
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
+- Add support for specifiying a channel to send to in a specific Partner Topic via the `channelName` property of `SendOptions`.
 
 ### Other Changes
 

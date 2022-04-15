@@ -58,7 +58,6 @@ export interface InputSchemaToInputTypeMap {
   /**
    * The shape of the input to `send` when the client is configured to send events using a custom schema.
    */
-
   Custom: Record<string, unknown>;
 }
 
@@ -66,8 +65,17 @@ export interface InputSchemaToInputTypeMap {
  * A map of input schema names to shapes of the options bag for the send method on EventGridPublisherClient.
  */
 export interface InputSchemaToOptionsTypeMap {
+  /**
+   * The shape of the options parameter for `send` when the client is configured to send events using the Event Grid schema.
+   */
   EventGrid: SendOptions;
+  /**
+   * The shape of the options parameter for `send` when the client is configured to send events using the Cloud Event schema.
+   */
   CloudEvent: CloudEventSendOptions;
+  /**
+   * The shape of the options parameter for `send` when the client is configured to send events using a custom schema.
+   */
   Custom: SendOptions;
 }
 
@@ -166,11 +174,14 @@ export class EventGridPublisherClient<T extends InputSchema> {
           // The underlying REST API expects a header named `aeg-channel-name`, and so the generated client
           // expects that options bag has a property called `aegChannelName`, where as we expose it with the
           // friendlier name "channelName". Fix up the impedence mismatch here
-          const { channelName, ...sendOptions } = updatedOptions as CloudEventSendOptions;
+          const {
+            channelName,
+            ...sendOptions
+          }: { channelName?: string } & GeneratedClientPublishCloudEventEventsOptionalParams =
+            updatedOptions as CloudEventSendOptions;
 
           if (channelName) {
-            (sendOptions as GeneratedClientPublishCloudEventEventsOptionalParams).aegChannelName =
-              channelName;
+            sendOptions.aegChannelName = channelName;
           }
 
           return this.client.publishCloudEventEvents(

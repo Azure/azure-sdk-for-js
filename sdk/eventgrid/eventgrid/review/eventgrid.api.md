@@ -614,11 +614,8 @@ export interface InputSchemaToInputTypeMap {
 
 // @public
 export interface InputSchemaToOptionsTypeMap {
-    // (undocumented)
     CloudEvent: CloudEventSendOptions;
-    // (undocumented)
     Custom: SendOptions;
-    // (undocumented)
     EventGrid: SendOptions;
 }
 
