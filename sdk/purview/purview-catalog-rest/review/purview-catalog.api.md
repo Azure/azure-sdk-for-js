@@ -11,7 +11,6 @@ import { LroEngineOptions } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import { RequestParameters } from '@azure-rest/core-client';
-import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
@@ -799,7 +798,7 @@ export interface ClassificationAssociateRequest {
 
 // @public (undocumented)
 export interface CollectionCreateOrUpdate {
-    post(options: CollectionCreateOrUpdateParameters): StreamableMethod<CollectionCreateOrUpdate200Response | CollectionCreateOrUpdatedefaultResponse>;
+    post(options: CollectionCreateOrUpdateParameters): Promise<CollectionCreateOrUpdate200Response | CollectionCreateOrUpdatedefaultResponse>;
 }
 
 // @public
@@ -817,7 +816,7 @@ export interface CollectionCreateOrUpdateBodyParam {
 
 // @public (undocumented)
 export interface CollectionCreateOrUpdateBulk {
-    post(options: CollectionCreateOrUpdateBulkParameters): StreamableMethod<CollectionCreateOrUpdateBulk200Response | CollectionCreateOrUpdateBulkdefaultResponse>;
+    post(options: CollectionCreateOrUpdateBulkParameters): Promise<CollectionCreateOrUpdateBulk200Response | CollectionCreateOrUpdateBulkdefaultResponse>;
 }
 
 // @public
@@ -867,7 +866,7 @@ export type CollectionCreateOrUpdateParameters = CollectionCreateOrUpdateMediaTy
 
 // @public (undocumented)
 export interface CollectionMoveEntitiesToCollection {
-    post(options: CollectionMoveEntitiesToCollectionParameters): StreamableMethod<CollectionMoveEntitiesToCollection200Response | CollectionMoveEntitiesToCollectiondefaultResponse>;
+    post(options: CollectionMoveEntitiesToCollectionParameters): Promise<CollectionMoveEntitiesToCollection200Response | CollectionMoveEntitiesToCollectiondefaultResponse>;
 }
 
 // @public
@@ -952,7 +951,7 @@ export interface DateFormatOutput {
 
 // @public (undocumented)
 export interface DiscoveryAutoComplete {
-    post(options: DiscoveryAutoCompleteParameters): StreamableMethod<DiscoveryAutoComplete200Response | DiscoveryAutoCompletedefaultResponse>;
+    post(options: DiscoveryAutoCompleteParameters): Promise<DiscoveryAutoComplete200Response | DiscoveryAutoCompletedefaultResponse>;
 }
 
 // @public
@@ -986,7 +985,7 @@ export type DiscoveryAutoCompleteParameters = DiscoveryAutoCompleteMediaTypesPar
 
 // @public (undocumented)
 export interface DiscoveryBrowse {
-    post(options: DiscoveryBrowseParameters): StreamableMethod<DiscoveryBrowse200Response | DiscoveryBrowsedefaultResponse>;
+    post(options: DiscoveryBrowseParameters): Promise<DiscoveryBrowse200Response | DiscoveryBrowsedefaultResponse>;
 }
 
 // @public
@@ -1020,7 +1019,7 @@ export type DiscoveryBrowseParameters = DiscoveryBrowseMediaTypesParam & Discove
 
 // @public (undocumented)
 export interface DiscoveryQuery {
-    post(options: DiscoveryQueryParameters): StreamableMethod<DiscoveryQuery200Response | DiscoveryQuerydefaultResponse>;
+    post(options: DiscoveryQueryParameters): Promise<DiscoveryQuery200Response | DiscoveryQuerydefaultResponse>;
 }
 
 // @public
@@ -1054,7 +1053,7 @@ export type DiscoveryQueryParameters = DiscoveryQueryMediaTypesParam & Discovery
 
 // @public (undocumented)
 export interface DiscoverySuggest {
-    post(options: DiscoverySuggestParameters): StreamableMethod<DiscoverySuggest200Response | DiscoverySuggestdefaultResponse>;
+    post(options: DiscoverySuggestParameters): Promise<DiscoverySuggest200Response | DiscoverySuggestdefaultResponse>;
 }
 
 // @public
@@ -1088,7 +1087,7 @@ export type DiscoverySuggestParameters = DiscoverySuggestMediaTypesParam & Disco
 
 // @public (undocumented)
 export interface EntityAddClassification {
-    post(options: EntityAddClassificationParameters): StreamableMethod<EntityAddClassification204Response | EntityAddClassificationdefaultResponse>;
+    post(options: EntityAddClassificationParameters): Promise<EntityAddClassification204Response | EntityAddClassificationdefaultResponse>;
 }
 
 // @public
@@ -1135,8 +1134,8 @@ export interface EntityAddClassificationsBodyParam {
 
 // @public (undocumented)
 export interface EntityAddClassificationsByUniqueAttribute {
-    post(options: EntityAddClassificationsByUniqueAttributeParameters): StreamableMethod<EntityAddClassificationsByUniqueAttribute204Response | EntityAddClassificationsByUniqueAttributedefaultResponse>;
-    put(options: EntityUpdateClassificationsByUniqueAttributeParameters): StreamableMethod<EntityUpdateClassificationsByUniqueAttribute204Response | EntityUpdateClassificationsByUniqueAttributedefaultResponse>;
+    post(options: EntityAddClassificationsByUniqueAttributeParameters): Promise<EntityAddClassificationsByUniqueAttribute204Response | EntityAddClassificationsByUniqueAttributedefaultResponse>;
+    put(options: EntityUpdateClassificationsByUniqueAttributeParameters): Promise<EntityUpdateClassificationsByUniqueAttribute204Response | EntityUpdateClassificationsByUniqueAttributedefaultResponse>;
 }
 
 // @public
@@ -1197,7 +1196,7 @@ export type EntityAddClassificationsParameters = EntityAddClassificationsMediaTy
 
 // @public (undocumented)
 export interface EntityCreateOrUpdate {
-    post(options: EntityCreateOrUpdateParameters): StreamableMethod<EntityCreateOrUpdate200Response | EntityCreateOrUpdatedefaultResponse>;
+    post(options: EntityCreateOrUpdateParameters): Promise<EntityCreateOrUpdate200Response | EntityCreateOrUpdatedefaultResponse>;
 }
 
 // @public
@@ -1347,7 +1346,7 @@ export interface EntityDeleteClassification204Response extends HttpResponse {
 
 // @public (undocumented)
 export interface EntityDeleteClassificationByUniqueAttribute {
-    delete(options?: EntityDeleteClassificationByUniqueAttributeParameters): StreamableMethod<EntityDeleteClassificationByUniqueAttribute204Response | EntityDeleteClassificationByUniqueAttributedefaultResponse>;
+    delete(options?: EntityDeleteClassificationByUniqueAttributeParameters): Promise<EntityDeleteClassificationByUniqueAttribute204Response | EntityDeleteClassificationByUniqueAttributedefaultResponse>;
 }
 
 // @public
@@ -1393,9 +1392,9 @@ export type EntityDeleteClassificationParameters = RequestParameters;
 
 // @public (undocumented)
 export interface EntityGetByGuid {
-    delete(options?: EntityDeleteByGuidParameters): StreamableMethod<EntityDeleteByGuid200Response | EntityDeleteByGuiddefaultResponse>;
-    get(options?: EntityGetByGuidParameters): StreamableMethod<EntityGetByGuid200Response | EntityGetByGuiddefaultResponse>;
-    put(options: EntityPartialUpdateEntityAttributeByGuidParameters): StreamableMethod<EntityPartialUpdateEntityAttributeByGuid200Response | EntityPartialUpdateEntityAttributeByGuiddefaultResponse>;
+    delete(options?: EntityDeleteByGuidParameters): Promise<EntityDeleteByGuid200Response | EntityDeleteByGuiddefaultResponse>;
+    get(options?: EntityGetByGuidParameters): Promise<EntityGetByGuid200Response | EntityGetByGuiddefaultResponse>;
+    put(options: EntityPartialUpdateEntityAttributeByGuidParameters): Promise<EntityPartialUpdateEntityAttributeByGuid200Response | EntityPartialUpdateEntityAttributeByGuiddefaultResponse>;
 }
 
 // @public
@@ -1431,9 +1430,9 @@ export interface EntityGetByGuidQueryParamProperties {
 
 // @public (undocumented)
 export interface EntityGetByUniqueAttributes {
-    delete(options?: EntityDeleteByUniqueAttributeParameters): StreamableMethod<EntityDeleteByUniqueAttribute200Response | EntityDeleteByUniqueAttributedefaultResponse>;
-    get(options?: EntityGetByUniqueAttributesParameters): StreamableMethod<EntityGetByUniqueAttributes200Response | EntityGetByUniqueAttributesdefaultResponse>;
-    put(options: EntityPartialUpdateEntityByUniqueAttributesParameters): StreamableMethod<EntityPartialUpdateEntityByUniqueAttributes200Response | EntityPartialUpdateEntityByUniqueAttributesdefaultResponse>;
+    delete(options?: EntityDeleteByUniqueAttributeParameters): Promise<EntityDeleteByUniqueAttribute200Response | EntityDeleteByUniqueAttributedefaultResponse>;
+    get(options?: EntityGetByUniqueAttributesParameters): Promise<EntityGetByUniqueAttributes200Response | EntityGetByUniqueAttributesdefaultResponse>;
+    put(options: EntityPartialUpdateEntityByUniqueAttributesParameters): Promise<EntityPartialUpdateEntityByUniqueAttributes200Response | EntityPartialUpdateEntityByUniqueAttributesdefaultResponse>;
 }
 
 // @public
@@ -1470,8 +1469,8 @@ export interface EntityGetByUniqueAttributesQueryParamProperties {
 
 // @public (undocumented)
 export interface EntityGetClassification {
-    delete(options?: EntityDeleteClassificationParameters): StreamableMethod<EntityDeleteClassification204Response | EntityDeleteClassificationdefaultResponse>;
-    get(options?: EntityGetClassificationParameters): StreamableMethod<EntityGetClassification200Response | EntityGetClassificationdefaultResponse>;
+    delete(options?: EntityDeleteClassificationParameters): Promise<EntityDeleteClassification204Response | EntityDeleteClassificationdefaultResponse>;
+    get(options?: EntityGetClassificationParameters): Promise<EntityGetClassification200Response | EntityGetClassificationdefaultResponse>;
 }
 
 // @public
@@ -1495,9 +1494,9 @@ export type EntityGetClassificationParameters = RequestParameters;
 
 // @public (undocumented)
 export interface EntityGetClassifications {
-    get(options?: EntityGetClassificationsParameters): StreamableMethod<EntityGetClassifications200Response | EntityGetClassificationsdefaultResponse>;
-    post(options: EntityAddClassificationsParameters): StreamableMethod<EntityAddClassifications204Response | EntityAddClassificationsdefaultResponse>;
-    put(options: EntityUpdateClassificationsParameters): StreamableMethod<EntityUpdateClassifications204Response | EntityUpdateClassificationsdefaultResponse>;
+    get(options?: EntityGetClassificationsParameters): Promise<EntityGetClassifications200Response | EntityGetClassificationsdefaultResponse>;
+    post(options: EntityAddClassificationsParameters): Promise<EntityAddClassifications204Response | EntityAddClassificationsdefaultResponse>;
+    put(options: EntityUpdateClassificationsParameters): Promise<EntityUpdateClassifications204Response | EntityUpdateClassificationsdefaultResponse>;
 }
 
 // @public
@@ -1521,7 +1520,7 @@ export type EntityGetClassificationsParameters = RequestParameters;
 
 // @public (undocumented)
 export interface EntityGetEntitiesByUniqueAttributes {
-    get(options?: EntityGetEntitiesByUniqueAttributesParameters): StreamableMethod<EntityGetEntitiesByUniqueAttributes200Response | EntityGetEntitiesByUniqueAttributesdefaultResponse>;
+    get(options?: EntityGetEntitiesByUniqueAttributesParameters): Promise<EntityGetEntitiesByUniqueAttributes200Response | EntityGetEntitiesByUniqueAttributesdefaultResponse>;
 }
 
 // @public
@@ -1558,7 +1557,7 @@ export interface EntityGetEntitiesByUniqueAttributesQueryParamProperties {
 
 // @public (undocumented)
 export interface EntityGetHeader {
-    get(options?: EntityGetHeaderParameters): StreamableMethod<EntityGetHeader200Response | EntityGetHeaderdefaultResponse>;
+    get(options?: EntityGetHeaderParameters): Promise<EntityGetHeader200Response | EntityGetHeaderdefaultResponse>;
 }
 
 // @public
@@ -1582,9 +1581,9 @@ export type EntityGetHeaderParameters = RequestParameters;
 
 // @public (undocumented)
 export interface EntityListByGuids {
-    delete(options: EntityDeleteByGuidsParameters): StreamableMethod<EntityDeleteByGuids200Response | EntityDeleteByGuidsdefaultResponse>;
-    get(options: EntityListByGuidsParameters): StreamableMethod<EntityListByGuids200Response | EntityListByGuidsdefaultResponse>;
-    post(options: EntityCreateOrUpdateEntitiesParameters): StreamableMethod<EntityCreateOrUpdateEntities200Response | EntityCreateOrUpdateEntitiesdefaultResponse>;
+    delete(options: EntityDeleteByGuidsParameters): Promise<EntityDeleteByGuids200Response | EntityDeleteByGuidsdefaultResponse>;
+    get(options: EntityListByGuidsParameters): Promise<EntityListByGuids200Response | EntityListByGuidsdefaultResponse>;
+    post(options: EntityCreateOrUpdateEntitiesParameters): Promise<EntityCreateOrUpdateEntities200Response | EntityCreateOrUpdateEntitiesdefaultResponse>;
 }
 
 // @public
@@ -1709,7 +1708,7 @@ export interface EntityPartialUpdateEntityByUniqueAttributesQueryParamProperties
 
 // @public (undocumented)
 export interface EntitySetClassifications {
-    post(options: EntitySetClassificationsParameters): StreamableMethod<EntitySetClassifications200Response | EntitySetClassificationsdefaultResponse>;
+    post(options: EntitySetClassificationsParameters): Promise<EntitySetClassifications200Response | EntitySetClassificationsdefaultResponse>;
 }
 
 // @public
@@ -1864,7 +1863,7 @@ export interface GlossaryCreateGlossaryBodyParam {
 
 // @public (undocumented)
 export interface GlossaryCreateGlossaryCategories {
-    post(options: GlossaryCreateGlossaryCategoriesParameters): StreamableMethod<GlossaryCreateGlossaryCategories200Response | GlossaryCreateGlossaryCategoriesdefaultResponse>;
+    post(options: GlossaryCreateGlossaryCategoriesParameters): Promise<GlossaryCreateGlossaryCategories200Response | GlossaryCreateGlossaryCategoriesdefaultResponse>;
 }
 
 // @public
@@ -1898,7 +1897,7 @@ export type GlossaryCreateGlossaryCategoriesParameters = GlossaryCreateGlossaryC
 
 // @public (undocumented)
 export interface GlossaryCreateGlossaryCategory {
-    post(options: GlossaryCreateGlossaryCategoryParameters): StreamableMethod<GlossaryCreateGlossaryCategory200Response | GlossaryCreateGlossaryCategorydefaultResponse>;
+    post(options: GlossaryCreateGlossaryCategoryParameters): Promise<GlossaryCreateGlossaryCategory200Response | GlossaryCreateGlossaryCategorydefaultResponse>;
 }
 
 // @public
@@ -1948,7 +1947,7 @@ export type GlossaryCreateGlossaryParameters = GlossaryCreateGlossaryMediaTypesP
 
 // @public (undocumented)
 export interface GlossaryCreateGlossaryTerm {
-    post(options: GlossaryCreateGlossaryTermParameters): StreamableMethod<GlossaryCreateGlossaryTerm200Response | GlossaryCreateGlossaryTermdefaultResponse>;
+    post(options: GlossaryCreateGlossaryTermParameters): Promise<GlossaryCreateGlossaryTerm200Response | GlossaryCreateGlossaryTermdefaultResponse>;
 }
 
 // @public
@@ -1993,7 +1992,7 @@ export interface GlossaryCreateGlossaryTermQueryParamProperties {
 
 // @public (undocumented)
 export interface GlossaryCreateGlossaryTerms {
-    post(options: GlossaryCreateGlossaryTermsParameters): StreamableMethod<GlossaryCreateGlossaryTerms200Response | GlossaryCreateGlossaryTermsdefaultResponse>;
+    post(options: GlossaryCreateGlossaryTermsParameters): Promise<GlossaryCreateGlossaryTerms200Response | GlossaryCreateGlossaryTermsdefaultResponse>;
 }
 
 // @public
@@ -2124,7 +2123,7 @@ export type GlossaryDeleteTermAssignmentFromEntitiesParameters = GlossaryDeleteT
 
 // @public (undocumented)
 export interface GlossaryExportGlossaryTermsAsCsv {
-    post(options: GlossaryExportGlossaryTermsAsCsvParameters): StreamableMethod<GlossaryExportGlossaryTermsAsCsv200Response | GlossaryExportGlossaryTermsAsCsvdefaultResponse>;
+    post(options: GlossaryExportGlossaryTermsAsCsvParameters): Promise<GlossaryExportGlossaryTermsAsCsv200Response | GlossaryExportGlossaryTermsAsCsvdefaultResponse>;
 }
 
 // @public
@@ -2168,7 +2167,7 @@ export interface GlossaryExportGlossaryTermsAsCsvQueryParamProperties {
 
 // @public (undocumented)
 export interface GlossaryGetDetailedGlossary {
-    get(options?: GlossaryGetDetailedGlossaryParameters): StreamableMethod<GlossaryGetDetailedGlossary200Response | GlossaryGetDetailedGlossarydefaultResponse>;
+    get(options?: GlossaryGetDetailedGlossaryParameters): Promise<GlossaryGetDetailedGlossary200Response | GlossaryGetDetailedGlossarydefaultResponse>;
 }
 
 // @public
@@ -2203,10 +2202,10 @@ export interface GlossaryGetDetailedGlossaryQueryParamProperties {
 
 // @public (undocumented)
 export interface GlossaryGetEntitiesAssignedWithTerm {
-    delete(options: GlossaryDeleteTermAssignmentFromEntitiesParameters): StreamableMethod<GlossaryDeleteTermAssignmentFromEntities204Response | GlossaryDeleteTermAssignmentFromEntitiesdefaultResponse>;
-    get(options?: GlossaryGetEntitiesAssignedWithTermParameters): StreamableMethod<GlossaryGetEntitiesAssignedWithTerm200Response | GlossaryGetEntitiesAssignedWithTermdefaultResponse>;
-    post(options: GlossaryAssignTermToEntitiesParameters): StreamableMethod<GlossaryAssignTermToEntities204Response | GlossaryAssignTermToEntitiesdefaultResponse>;
-    put(options: GlossaryRemoveTermAssignmentFromEntitiesParameters): StreamableMethod<GlossaryRemoveTermAssignmentFromEntities204Response | GlossaryRemoveTermAssignmentFromEntitiesdefaultResponse>;
+    delete(options: GlossaryDeleteTermAssignmentFromEntitiesParameters): Promise<GlossaryDeleteTermAssignmentFromEntities204Response | GlossaryDeleteTermAssignmentFromEntitiesdefaultResponse>;
+    get(options?: GlossaryGetEntitiesAssignedWithTermParameters): Promise<GlossaryGetEntitiesAssignedWithTerm200Response | GlossaryGetEntitiesAssignedWithTermdefaultResponse>;
+    post(options: GlossaryAssignTermToEntitiesParameters): Promise<GlossaryAssignTermToEntities204Response | GlossaryAssignTermToEntitiesdefaultResponse>;
+    put(options: GlossaryRemoveTermAssignmentFromEntitiesParameters): Promise<GlossaryRemoveTermAssignmentFromEntities204Response | GlossaryRemoveTermAssignmentFromEntitiesdefaultResponse>;
 }
 
 // @public
@@ -2243,9 +2242,9 @@ export interface GlossaryGetEntitiesAssignedWithTermQueryParamProperties {
 
 // @public (undocumented)
 export interface GlossaryGetGlossary {
-    delete(options?: GlossaryDeleteGlossaryParameters): StreamableMethod<GlossaryDeleteGlossary204Response | GlossaryDeleteGlossarydefaultResponse>;
-    get(options?: GlossaryGetGlossaryParameters): StreamableMethod<GlossaryGetGlossary200Response | GlossaryGetGlossarydefaultResponse>;
-    put(options: GlossaryUpdateGlossaryParameters): StreamableMethod<GlossaryUpdateGlossary200Response | GlossaryUpdateGlossarydefaultResponse>;
+    delete(options?: GlossaryDeleteGlossaryParameters): Promise<GlossaryDeleteGlossary204Response | GlossaryDeleteGlossarydefaultResponse>;
+    get(options?: GlossaryGetGlossaryParameters): Promise<GlossaryGetGlossary200Response | GlossaryGetGlossarydefaultResponse>;
+    put(options: GlossaryUpdateGlossaryParameters): Promise<GlossaryUpdateGlossary200Response | GlossaryUpdateGlossarydefaultResponse>;
 }
 
 // @public
@@ -2258,9 +2257,9 @@ export interface GlossaryGetGlossary200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface GlossaryGetGlossaryCategory {
-    delete(options?: GlossaryDeleteGlossaryCategoryParameters): StreamableMethod<GlossaryDeleteGlossaryCategory204Response | GlossaryDeleteGlossaryCategorydefaultResponse>;
-    get(options?: GlossaryGetGlossaryCategoryParameters): StreamableMethod<GlossaryGetGlossaryCategory200Response | GlossaryGetGlossaryCategorydefaultResponse>;
-    put(options: GlossaryUpdateGlossaryCategoryParameters): StreamableMethod<GlossaryUpdateGlossaryCategory200Response | GlossaryUpdateGlossaryCategorydefaultResponse>;
+    delete(options?: GlossaryDeleteGlossaryCategoryParameters): Promise<GlossaryDeleteGlossaryCategory204Response | GlossaryDeleteGlossaryCategorydefaultResponse>;
+    get(options?: GlossaryGetGlossaryCategoryParameters): Promise<GlossaryGetGlossaryCategory200Response | GlossaryGetGlossaryCategorydefaultResponse>;
+    put(options: GlossaryUpdateGlossaryCategoryParameters): Promise<GlossaryUpdateGlossaryCategory200Response | GlossaryUpdateGlossaryCategorydefaultResponse>;
 }
 
 // @public
@@ -2295,9 +2294,9 @@ export type GlossaryGetGlossaryParameters = RequestParameters;
 
 // @public (undocumented)
 export interface GlossaryGetGlossaryTerm {
-    delete(options?: GlossaryDeleteGlossaryTermParameters): StreamableMethod<GlossaryDeleteGlossaryTerm204Response | GlossaryDeleteGlossaryTermdefaultResponse>;
-    get(options?: GlossaryGetGlossaryTermParameters): StreamableMethod<GlossaryGetGlossaryTerm200Response | GlossaryGetGlossaryTermdefaultResponse>;
-    put(options: GlossaryUpdateGlossaryTermParameters): StreamableMethod<GlossaryUpdateGlossaryTerm200Response | GlossaryUpdateGlossaryTermdefaultResponse>;
+    delete(options?: GlossaryDeleteGlossaryTermParameters): Promise<GlossaryDeleteGlossaryTerm204Response | GlossaryDeleteGlossaryTermdefaultResponse>;
+    get(options?: GlossaryGetGlossaryTermParameters): Promise<GlossaryGetGlossaryTerm200Response | GlossaryGetGlossaryTermdefaultResponse>;
+    put(options: GlossaryUpdateGlossaryTermParameters): Promise<GlossaryUpdateGlossaryTerm200Response | GlossaryUpdateGlossaryTermdefaultResponse>;
 }
 
 // @public
@@ -2332,7 +2331,7 @@ export interface GlossaryGetGlossaryTermQueryParamProperties {
 
 // @public (undocumented)
 export interface GlossaryGetImportCsvOperationStatus {
-    get(options?: GlossaryGetImportCsvOperationStatusParameters): StreamableMethod<GlossaryGetImportCsvOperationStatus200Response | GlossaryGetImportCsvOperationStatusdefaultResponse>;
+    get(options?: GlossaryGetImportCsvOperationStatusParameters): Promise<GlossaryGetImportCsvOperationStatus200Response | GlossaryGetImportCsvOperationStatusdefaultResponse>;
 }
 
 // @public
@@ -2356,7 +2355,7 @@ export type GlossaryGetImportCsvOperationStatusParameters = RequestParameters;
 
 // @public (undocumented)
 export interface GlossaryImportGlossaryTermsViaCsv {
-    post(options: GlossaryImportGlossaryTermsViaCsvParameters): StreamableMethod<GlossaryImportGlossaryTermsViaCsv202Response | GlossaryImportGlossaryTermsViaCsvdefaultResponse>;
+    post(options: GlossaryImportGlossaryTermsViaCsvParameters): Promise<GlossaryImportGlossaryTermsViaCsv202Response | GlossaryImportGlossaryTermsViaCsvdefaultResponse>;
 }
 
 // @public
@@ -2375,7 +2374,7 @@ export interface GlossaryImportGlossaryTermsViaCsvBodyParam {
 
 // @public (undocumented)
 export interface GlossaryImportGlossaryTermsViaCsvByGlossaryName {
-    post(options: GlossaryImportGlossaryTermsViaCsvByGlossaryNameParameters): StreamableMethod<GlossaryImportGlossaryTermsViaCsvByGlossaryName202Response | GlossaryImportGlossaryTermsViaCsvByGlossaryNamedefaultResponse>;
+    post(options: GlossaryImportGlossaryTermsViaCsvByGlossaryNameParameters): Promise<GlossaryImportGlossaryTermsViaCsvByGlossaryName202Response | GlossaryImportGlossaryTermsViaCsvByGlossaryNamedefaultResponse>;
 }
 
 // @public
@@ -2458,7 +2457,7 @@ export interface GlossaryImportGlossaryTermsViaCsvQueryParamProperties {
 
 // @public (undocumented)
 export interface GlossaryListCategoryTerms {
-    get(options?: GlossaryListCategoryTermsParameters): StreamableMethod<GlossaryListCategoryTerms200Response | GlossaryListCategoryTermsdefaultResponse>;
+    get(options?: GlossaryListCategoryTermsParameters): Promise<GlossaryListCategoryTerms200Response | GlossaryListCategoryTermsdefaultResponse>;
 }
 
 // @public
@@ -2495,8 +2494,8 @@ export interface GlossaryListCategoryTermsQueryParamProperties {
 
 // @public (undocumented)
 export interface GlossaryListGlossaries {
-    get(options?: GlossaryListGlossariesParameters): StreamableMethod<GlossaryListGlossaries200Response | GlossaryListGlossariesdefaultResponse>;
-    post(options: GlossaryCreateGlossaryParameters): StreamableMethod<GlossaryCreateGlossary200Response | GlossaryCreateGlossarydefaultResponse>;
+    get(options?: GlossaryListGlossariesParameters): Promise<GlossaryListGlossaries200Response | GlossaryListGlossariesdefaultResponse>;
+    post(options: GlossaryCreateGlossaryParameters): Promise<GlossaryCreateGlossary200Response | GlossaryCreateGlossarydefaultResponse>;
 }
 
 // @public
@@ -2534,7 +2533,7 @@ export interface GlossaryListGlossariesQueryParamProperties {
 
 // @public (undocumented)
 export interface GlossaryListGlossaryCategories {
-    get(options?: GlossaryListGlossaryCategoriesParameters): StreamableMethod<GlossaryListGlossaryCategories200Response | GlossaryListGlossaryCategoriesdefaultResponse>;
+    get(options?: GlossaryListGlossaryCategoriesParameters): Promise<GlossaryListGlossaryCategories200Response | GlossaryListGlossaryCategoriesdefaultResponse>;
 }
 
 // @public
@@ -2555,7 +2554,7 @@ export interface GlossaryListGlossaryCategoriesdefaultResponse extends HttpRespo
 
 // @public (undocumented)
 export interface GlossaryListGlossaryCategoriesHeaders {
-    get(options?: GlossaryListGlossaryCategoriesHeadersParameters): StreamableMethod<GlossaryListGlossaryCategoriesHeaders200Response | GlossaryListGlossaryCategoriesHeadersdefaultResponse>;
+    get(options?: GlossaryListGlossaryCategoriesHeadersParameters): Promise<GlossaryListGlossaryCategoriesHeaders200Response | GlossaryListGlossaryCategoriesHeadersdefaultResponse>;
 }
 
 // @public
@@ -2608,7 +2607,7 @@ export interface GlossaryListGlossaryCategoriesQueryParamProperties {
 
 // @public (undocumented)
 export interface GlossaryListGlossaryTermHeaders {
-    get(options?: GlossaryListGlossaryTermHeadersParameters): StreamableMethod<GlossaryListGlossaryTermHeaders200Response | GlossaryListGlossaryTermHeadersdefaultResponse>;
+    get(options?: GlossaryListGlossaryTermHeadersParameters): Promise<GlossaryListGlossaryTermHeaders200Response | GlossaryListGlossaryTermHeadersdefaultResponse>;
 }
 
 // @public
@@ -2645,7 +2644,7 @@ export interface GlossaryListGlossaryTermHeadersQueryParamProperties {
 
 // @public (undocumented)
 export interface GlossaryListGlossaryTerms {
-    get(options?: GlossaryListGlossaryTermsParameters): StreamableMethod<GlossaryListGlossaryTerms200Response | GlossaryListGlossaryTermsdefaultResponse>;
+    get(options?: GlossaryListGlossaryTermsParameters): Promise<GlossaryListGlossaryTerms200Response | GlossaryListGlossaryTermsdefaultResponse>;
 }
 
 // @public
@@ -2683,7 +2682,7 @@ export interface GlossaryListGlossaryTermsQueryParamProperties {
 
 // @public (undocumented)
 export interface GlossaryListRelatedCategories {
-    get(options?: GlossaryListRelatedCategoriesParameters): StreamableMethod<GlossaryListRelatedCategories200Response | GlossaryListRelatedCategoriesdefaultResponse>;
+    get(options?: GlossaryListRelatedCategoriesParameters): Promise<GlossaryListRelatedCategories200Response | GlossaryListRelatedCategoriesdefaultResponse>;
 }
 
 // @public
@@ -2720,7 +2719,7 @@ export interface GlossaryListRelatedCategoriesQueryParamProperties {
 
 // @public (undocumented)
 export interface GlossaryListRelatedTerms {
-    get(options?: GlossaryListRelatedTermsParameters): StreamableMethod<GlossaryListRelatedTerms200Response | GlossaryListRelatedTermsdefaultResponse>;
+    get(options?: GlossaryListRelatedTermsParameters): Promise<GlossaryListRelatedTerms200Response | GlossaryListRelatedTermsdefaultResponse>;
 }
 
 // @public
@@ -2757,7 +2756,7 @@ export interface GlossaryListRelatedTermsQueryParamProperties {
 
 // @public (undocumented)
 export interface GlossaryListTermsByGlossaryName {
-    get(options?: GlossaryListTermsByGlossaryNameParameters): StreamableMethod<GlossaryListTermsByGlossaryName200Response | GlossaryListTermsByGlossaryNamedefaultResponse>;
+    get(options?: GlossaryListTermsByGlossaryNameParameters): Promise<GlossaryListTermsByGlossaryName200Response | GlossaryListTermsByGlossaryNamedefaultResponse>;
 }
 
 // @public
@@ -2794,7 +2793,7 @@ export interface GlossaryListTermsByGlossaryNameQueryParamProperties {
 
 // @public (undocumented)
 export interface GlossaryPartialUpdateGlossary {
-    put(options: GlossaryPartialUpdateGlossaryParameters): StreamableMethod<GlossaryPartialUpdateGlossary200Response | GlossaryPartialUpdateGlossarydefaultResponse>;
+    put(options: GlossaryPartialUpdateGlossaryParameters): Promise<GlossaryPartialUpdateGlossary200Response | GlossaryPartialUpdateGlossarydefaultResponse>;
 }
 
 // @public
@@ -2812,7 +2811,7 @@ export interface GlossaryPartialUpdateGlossaryBodyParam {
 
 // @public (undocumented)
 export interface GlossaryPartialUpdateGlossaryCategory {
-    put(options: GlossaryPartialUpdateGlossaryCategoryParameters): StreamableMethod<GlossaryPartialUpdateGlossaryCategory200Response | GlossaryPartialUpdateGlossaryCategorydefaultResponse>;
+    put(options: GlossaryPartialUpdateGlossaryCategoryParameters): Promise<GlossaryPartialUpdateGlossaryCategory200Response | GlossaryPartialUpdateGlossaryCategorydefaultResponse>;
 }
 
 // @public
@@ -2873,7 +2872,7 @@ export interface GlossaryPartialUpdateGlossaryQueryParamProperties {
 
 // @public (undocumented)
 export interface GlossaryPartialUpdateGlossaryTerm {
-    put(options: GlossaryPartialUpdateGlossaryTermParameters): StreamableMethod<GlossaryPartialUpdateGlossaryTerm200Response | GlossaryPartialUpdateGlossaryTermdefaultResponse>;
+    put(options: GlossaryPartialUpdateGlossaryTermParameters): Promise<GlossaryPartialUpdateGlossaryTerm200Response | GlossaryPartialUpdateGlossaryTermdefaultResponse>;
 }
 
 // @public
@@ -3058,7 +3057,7 @@ export interface ImportCSVOperationPropertiesOutput {
 
 // @public (undocumented)
 export interface LineageGetLineageGraph {
-    get(options: LineageGetLineageGraphParameters): StreamableMethod<LineageGetLineageGraph200Response | LineageGetLineageGraphdefaultResponse>;
+    get(options: LineageGetLineageGraphParameters): Promise<LineageGetLineageGraph200Response | LineageGetLineageGraphdefaultResponse>;
 }
 
 // @public
@@ -3097,7 +3096,7 @@ export interface LineageGetLineageGraphQueryParamProperties {
 
 // @public (undocumented)
 export interface LineageNextPageLineage {
-    get(options: LineageNextPageLineageParameters): StreamableMethod<LineageNextPageLineage200Response | LineageNextPageLineagedefaultResponse>;
+    get(options: LineageNextPageLineageParameters): Promise<LineageNextPageLineage200Response | LineageNextPageLineagedefaultResponse>;
 }
 
 // @public
@@ -3205,8 +3204,8 @@ export type PurviewCatalogClient = Client & {
 
 // @public (undocumented)
 export interface RelationshipCreate {
-    post(options: RelationshipCreateParameters): StreamableMethod<RelationshipCreate200Response | RelationshipCreatedefaultResponse>;
-    put(options: RelationshipUpdateParameters): StreamableMethod<RelationshipUpdate200Response | RelationshipUpdatedefaultResponse>;
+    post(options: RelationshipCreateParameters): Promise<RelationshipCreate200Response | RelationshipCreatedefaultResponse>;
+    put(options: RelationshipUpdateParameters): Promise<RelationshipUpdate200Response | RelationshipUpdatedefaultResponse>;
 }
 
 // @public
@@ -3259,8 +3258,8 @@ export type RelationshipDeleteParameters = RequestParameters;
 
 // @public (undocumented)
 export interface RelationshipGet {
-    delete(options?: RelationshipDeleteParameters): StreamableMethod<RelationshipDelete204Response | RelationshipDeletedefaultResponse>;
-    get(options?: RelationshipGetParameters): StreamableMethod<RelationshipGet200Response | RelationshipGetdefaultResponse>;
+    delete(options?: RelationshipDeleteParameters): Promise<RelationshipDelete204Response | RelationshipDeletedefaultResponse>;
+    get(options?: RelationshipGetParameters): Promise<RelationshipGet200Response | RelationshipGetdefaultResponse>;
 }
 
 // @public
@@ -3650,10 +3649,10 @@ export type TypesDeleteTypeDefinitionsParameters = TypesDeleteTypeDefinitionsMed
 
 // @public (undocumented)
 export interface TypesGetAllTypeDefinitions {
-    delete(options: TypesDeleteTypeDefinitionsParameters): StreamableMethod<TypesDeleteTypeDefinitions204Response | TypesDeleteTypeDefinitionsdefaultResponse>;
-    get(options?: TypesGetAllTypeDefinitionsParameters): StreamableMethod<TypesGetAllTypeDefinitions200Response | TypesGetAllTypeDefinitionsdefaultResponse>;
-    post(options: TypesCreateTypeDefinitionsParameters): StreamableMethod<TypesCreateTypeDefinitions200Response | TypesCreateTypeDefinitionsdefaultResponse>;
-    put(options: TypesUpdateAtlasTypeDefinitionsParameters): StreamableMethod<TypesUpdateAtlasTypeDefinitions200Response | TypesUpdateAtlasTypeDefinitionsdefaultResponse>;
+    delete(options: TypesDeleteTypeDefinitionsParameters): Promise<TypesDeleteTypeDefinitions204Response | TypesDeleteTypeDefinitionsdefaultResponse>;
+    get(options?: TypesGetAllTypeDefinitionsParameters): Promise<TypesGetAllTypeDefinitions200Response | TypesGetAllTypeDefinitionsdefaultResponse>;
+    post(options: TypesCreateTypeDefinitionsParameters): Promise<TypesCreateTypeDefinitions200Response | TypesCreateTypeDefinitionsdefaultResponse>;
+    put(options: TypesUpdateAtlasTypeDefinitionsParameters): Promise<TypesUpdateAtlasTypeDefinitions200Response | TypesUpdateAtlasTypeDefinitionsdefaultResponse>;
 }
 
 // @public
@@ -3689,7 +3688,7 @@ export interface TypesGetAllTypeDefinitionsQueryParamProperties {
 
 // @public (undocumented)
 export interface TypesGetClassificationDefByGuid {
-    get(options?: TypesGetClassificationDefByGuidParameters): StreamableMethod<TypesGetClassificationDefByGuid200Response | TypesGetClassificationDefByGuiddefaultResponse>;
+    get(options?: TypesGetClassificationDefByGuidParameters): Promise<TypesGetClassificationDefByGuid200Response | TypesGetClassificationDefByGuiddefaultResponse>;
 }
 
 // @public
@@ -3713,7 +3712,7 @@ export type TypesGetClassificationDefByGuidParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetClassificationDefByName {
-    get(options?: TypesGetClassificationDefByNameParameters): StreamableMethod<TypesGetClassificationDefByName200Response | TypesGetClassificationDefByNamedefaultResponse>;
+    get(options?: TypesGetClassificationDefByNameParameters): Promise<TypesGetClassificationDefByName200Response | TypesGetClassificationDefByNamedefaultResponse>;
 }
 
 // @public
@@ -3737,7 +3736,7 @@ export type TypesGetClassificationDefByNameParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetEntityDefinitionByGuid {
-    get(options?: TypesGetEntityDefinitionByGuidParameters): StreamableMethod<TypesGetEntityDefinitionByGuid200Response | TypesGetEntityDefinitionByGuiddefaultResponse>;
+    get(options?: TypesGetEntityDefinitionByGuidParameters): Promise<TypesGetEntityDefinitionByGuid200Response | TypesGetEntityDefinitionByGuiddefaultResponse>;
 }
 
 // @public
@@ -3761,7 +3760,7 @@ export type TypesGetEntityDefinitionByGuidParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetEntityDefinitionByName {
-    get(options?: TypesGetEntityDefinitionByNameParameters): StreamableMethod<TypesGetEntityDefinitionByName200Response | TypesGetEntityDefinitionByNamedefaultResponse>;
+    get(options?: TypesGetEntityDefinitionByNameParameters): Promise<TypesGetEntityDefinitionByName200Response | TypesGetEntityDefinitionByNamedefaultResponse>;
 }
 
 // @public
@@ -3785,7 +3784,7 @@ export type TypesGetEntityDefinitionByNameParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetEnumDefByGuid {
-    get(options?: TypesGetEnumDefByGuidParameters): StreamableMethod<TypesGetEnumDefByGuid200Response | TypesGetEnumDefByGuiddefaultResponse>;
+    get(options?: TypesGetEnumDefByGuidParameters): Promise<TypesGetEnumDefByGuid200Response | TypesGetEnumDefByGuiddefaultResponse>;
 }
 
 // @public
@@ -3809,7 +3808,7 @@ export type TypesGetEnumDefByGuidParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetEnumDefByName {
-    get(options?: TypesGetEnumDefByNameParameters): StreamableMethod<TypesGetEnumDefByName200Response | TypesGetEnumDefByNamedefaultResponse>;
+    get(options?: TypesGetEnumDefByNameParameters): Promise<TypesGetEnumDefByName200Response | TypesGetEnumDefByNamedefaultResponse>;
 }
 
 // @public
@@ -3833,7 +3832,7 @@ export type TypesGetEnumDefByNameParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetRelationshipDefByGuid {
-    get(options?: TypesGetRelationshipDefByGuidParameters): StreamableMethod<TypesGetRelationshipDefByGuid200Response | TypesGetRelationshipDefByGuiddefaultResponse>;
+    get(options?: TypesGetRelationshipDefByGuidParameters): Promise<TypesGetRelationshipDefByGuid200Response | TypesGetRelationshipDefByGuiddefaultResponse>;
 }
 
 // @public
@@ -3857,7 +3856,7 @@ export type TypesGetRelationshipDefByGuidParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetRelationshipDefByName {
-    get(options?: TypesGetRelationshipDefByNameParameters): StreamableMethod<TypesGetRelationshipDefByName200Response | TypesGetRelationshipDefByNamedefaultResponse>;
+    get(options?: TypesGetRelationshipDefByNameParameters): Promise<TypesGetRelationshipDefByName200Response | TypesGetRelationshipDefByNamedefaultResponse>;
 }
 
 // @public
@@ -3881,7 +3880,7 @@ export type TypesGetRelationshipDefByNameParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetStructDefByGuid {
-    get(options?: TypesGetStructDefByGuidParameters): StreamableMethod<TypesGetStructDefByGuid200Response | TypesGetStructDefByGuiddefaultResponse>;
+    get(options?: TypesGetStructDefByGuidParameters): Promise<TypesGetStructDefByGuid200Response | TypesGetStructDefByGuiddefaultResponse>;
 }
 
 // @public
@@ -3905,7 +3904,7 @@ export type TypesGetStructDefByGuidParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetStructDefByName {
-    get(options?: TypesGetStructDefByNameParameters): StreamableMethod<TypesGetStructDefByName200Response | TypesGetStructDefByNamedefaultResponse>;
+    get(options?: TypesGetStructDefByNameParameters): Promise<TypesGetStructDefByName200Response | TypesGetStructDefByNamedefaultResponse>;
 }
 
 // @public
@@ -3929,7 +3928,7 @@ export type TypesGetStructDefByNameParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetTermTemplateDefByGuid {
-    get(options?: TypesGetTermTemplateDefByGuidParameters): StreamableMethod<TypesGetTermTemplateDefByGuid200Response | TypesGetTermTemplateDefByGuiddefaultResponse>;
+    get(options?: TypesGetTermTemplateDefByGuidParameters): Promise<TypesGetTermTemplateDefByGuid200Response | TypesGetTermTemplateDefByGuiddefaultResponse>;
 }
 
 // @public
@@ -3953,7 +3952,7 @@ export type TypesGetTermTemplateDefByGuidParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetTermTemplateDefByName {
-    get(options?: TypesGetTermTemplateDefByNameParameters): StreamableMethod<TypesGetTermTemplateDefByName200Response | TypesGetTermTemplateDefByNamedefaultResponse>;
+    get(options?: TypesGetTermTemplateDefByNameParameters): Promise<TypesGetTermTemplateDefByName200Response | TypesGetTermTemplateDefByNamedefaultResponse>;
 }
 
 // @public
@@ -3977,7 +3976,7 @@ export type TypesGetTermTemplateDefByNameParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetTypeDefinitionByGuid {
-    get(options?: TypesGetTypeDefinitionByGuidParameters): StreamableMethod<TypesGetTypeDefinitionByGuid200Response | TypesGetTypeDefinitionByGuiddefaultResponse>;
+    get(options?: TypesGetTypeDefinitionByGuidParameters): Promise<TypesGetTypeDefinitionByGuid200Response | TypesGetTypeDefinitionByGuiddefaultResponse>;
 }
 
 // @public
@@ -4001,8 +4000,8 @@ export type TypesGetTypeDefinitionByGuidParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesGetTypeDefinitionByName {
-    delete(options?: TypesDeleteTypeByNameParameters): StreamableMethod<TypesDeleteTypeByName204Response | TypesDeleteTypeByNamedefaultResponse>;
-    get(options?: TypesGetTypeDefinitionByNameParameters): StreamableMethod<TypesGetTypeDefinitionByName200Response | TypesGetTypeDefinitionByNamedefaultResponse>;
+    delete(options?: TypesDeleteTypeByNameParameters): Promise<TypesDeleteTypeByName204Response | TypesDeleteTypeByNamedefaultResponse>;
+    get(options?: TypesGetTypeDefinitionByNameParameters): Promise<TypesGetTypeDefinitionByName200Response | TypesGetTypeDefinitionByNamedefaultResponse>;
 }
 
 // @public
@@ -4026,7 +4025,7 @@ export type TypesGetTypeDefinitionByNameParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypesListTypeDefinitionHeaders {
-    get(options?: TypesListTypeDefinitionHeadersParameters): StreamableMethod<TypesListTypeDefinitionHeaders200Response | TypesListTypeDefinitionHeadersdefaultResponse>;
+    get(options?: TypesListTypeDefinitionHeadersParameters): Promise<TypesListTypeDefinitionHeaders200Response | TypesListTypeDefinitionHeadersdefaultResponse>;
 }
 
 // @public
