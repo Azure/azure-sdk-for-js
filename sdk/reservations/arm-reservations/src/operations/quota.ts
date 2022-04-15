@@ -231,7 +231,7 @@ export class QuotaImpl implements Quota {
     return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      lroResourceLocationConfig: "original-uri"
     });
   }
 
@@ -355,7 +355,7 @@ export class QuotaImpl implements Quota {
     return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "location"
+      lroResourceLocationConfig: "original-uri"
     });
   }
 
@@ -470,16 +470,16 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaRequestOneResourceSubmitResponse
+      bodyMapper: Mappers.CurrentQuotaLimitBase
     },
     201: {
-      bodyMapper: Mappers.QuotaRequestOneResourceSubmitResponse
+      bodyMapper: Mappers.CurrentQuotaLimitBase
     },
     202: {
-      bodyMapper: Mappers.QuotaRequestOneResourceSubmitResponse
+      bodyMapper: Mappers.CurrentQuotaLimitBase
     },
     204: {
-      bodyMapper: Mappers.QuotaRequestOneResourceSubmitResponse
+      bodyMapper: Mappers.CurrentQuotaLimitBase
     },
     default: {
       bodyMapper: Mappers.ExceptionResponse
@@ -504,16 +504,16 @@ const updateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.QuotaRequestOneResourceSubmitResponse
+      bodyMapper: Mappers.CurrentQuotaLimitBase
     },
     201: {
-      bodyMapper: Mappers.QuotaRequestOneResourceSubmitResponse
+      bodyMapper: Mappers.CurrentQuotaLimitBase
     },
     202: {
-      bodyMapper: Mappers.QuotaRequestOneResourceSubmitResponse
+      bodyMapper: Mappers.CurrentQuotaLimitBase
     },
     204: {
-      bodyMapper: Mappers.QuotaRequestOneResourceSubmitResponse
+      bodyMapper: Mappers.CurrentQuotaLimitBase
     },
     default: {
       bodyMapper: Mappers.ExceptionResponse
