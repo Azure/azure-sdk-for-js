@@ -6,7 +6,7 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import path from "path";
 import fs from "fs";
-import { packageVersion } from "../../../src/internal/packageVersion";
+import { packageVersion } from "../../../src/internal/constants";
 
 describe("packagejson related tests", () => {
   // if this test is failing you need to update the contant `packageVersion` referenced above
