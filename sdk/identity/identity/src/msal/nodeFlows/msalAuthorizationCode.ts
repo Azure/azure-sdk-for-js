@@ -37,7 +37,7 @@ export class MsalAuthorizationCode extends MsalNode {
 
   async getAuthCodeUrl(options: { scopes: string[]; redirectUri: string }): Promise<string> {
     await this.init();
-    return this.confidentialApp!.getAuthCodeUrl(options);
+    return (this.confidentialApp || this.publicApp)!.getAuthCodeUrl(options);
   }
 
   protected async doGetToken(
@@ -45,7 +45,7 @@ export class MsalAuthorizationCode extends MsalNode {
     options?: CredentialFlowGetTokenOptions
   ): Promise<AccessToken> {
     try {
-      const result = await this.confidentialApp?.acquireTokenByCode({
+      const result = await (this.confidentialApp || this.publicApp)?.acquireTokenByCode({
         scopes,
         redirectUri: this.redirectUri,
         code: this.authorizationCode,
