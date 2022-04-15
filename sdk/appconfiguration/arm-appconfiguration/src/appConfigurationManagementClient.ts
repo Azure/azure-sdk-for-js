@@ -57,7 +57,7 @@ export class AppConfigurationManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-appconfiguration/3.0.0-beta.4`;
+    const packageDetails = `azsdk-js-arm-appconfiguration/3.0.0-beta.5`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
