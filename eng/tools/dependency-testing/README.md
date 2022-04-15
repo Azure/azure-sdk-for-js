@@ -74,7 +74,7 @@ Note : If the above step fails, you can reset the repo: `git clean -f -x -d` (Wa
 
 ### Troubleshooting guide for min-max test failures
 
-#### This is not a module
+#### Case 1: This is not a module
 When you see an error message as shown below, it implies that there has been an internal source reference in a file inside the test/public folder that has been replaced by an empty file to avoid multiple versions of a dependency being pulled in.
 
 ```
