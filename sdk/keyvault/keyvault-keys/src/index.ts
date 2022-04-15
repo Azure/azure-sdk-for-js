@@ -3,13 +3,11 @@
 /* eslint @typescript-eslint/member-ordering: 0 */
 /// <reference lib="esnext.asynciterable" />
 
-import {
-  PipelineOptions,
-  TokenCredential,
-  createPipelineFromOptions,
-  isTokenCredential,
-  signingPolicy,
-} from "@azure/core-http";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { CommonClientOptions } from "@azure/core-client";
+import { authenticationScopes } from "./constants";
+
+import { TokenCredential } from "@azure/core-auth";
 
 import { logger } from "./log";
 
@@ -25,7 +23,7 @@ import {
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./constants";
-import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
+import { createChallengeCallbacks } from "../../keyvault-common/src";
 
 import { DeleteKeyPoller } from "./lro/delete/poller";
 import { RecoverDeletedKeyPoller } from "./lro/recover/poller";
@@ -178,7 +176,7 @@ export {
   PagedAsyncIterableIterator,
   KeyVaultKeyIdentifier,
   parseKeyVaultKeyIdentifier,
-  PipelineOptions,
+  CommonClientOptions,
   PollOperationState,
   PollerLike,
   PurgeDeletedKeyOptions,
@@ -267,9 +265,11 @@ export class KeyClient {
           : libInfo,
     };
 
-    const authPolicy = isTokenCredential(credential)
-      ? challengeBasedAuthenticationPolicy(credential)
-      : signingPolicy(credential);
+    const authPolicy = bearerTokenAuthenticationPolicy({
+      credential,
+      scopes: authenticationScopes,
+      challengeCallbacks: createChallengeCallbacks(),
+    });
 
     const internalPipelineOptions = {
       ...pipelineOptions,
@@ -286,8 +286,9 @@ export class KeyClient {
     this.credential = credential;
     this.client = new KeyVaultClient(
       pipelineOptions.serviceVersion || LATEST_API_VERSION,
-      createPipelineFromOptions(internalPipelineOptions, authPolicy)
+      internalPipelineOptions
     );
+    this.client.pipeline.addPolicy(authPolicy);
   }
 
   /**
