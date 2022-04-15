@@ -1,12 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  createPipelineFromOptions,
-  isTokenCredential,
-  TokenCredential,
-  signingPolicy,
-} from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { authenticationScopes } from "../constants";
+
 import {
   EncryptParameters,
   EncryptOptions,
@@ -37,7 +35,7 @@ import { getKeyFromKeyBundle } from "../transformations";
 import { createHash } from "./crypto";
 import { CryptographyProvider, CryptographyProviderOperation } from "./models";
 import { logger } from "../log";
-import { challengeBasedAuthenticationPolicy } from "../../../keyvault-common/src";
+import { createChallengeCallbacks } from "../../../keyvault-common/src";
 import { tracingClient } from "../tracing";
 
 /**
@@ -385,9 +383,11 @@ function getOrInitializeClient(
         : libInfo,
   };
 
-  const authPolicy = isTokenCredential(credential)
-    ? challengeBasedAuthenticationPolicy(credential)
-    : signingPolicy(credential);
+  const authPolicy = bearerTokenAuthenticationPolicy({
+    credential,
+    scopes: authenticationScopes,
+    challengeCallbacks: createChallengeCallbacks(),
+  });
 
   const internalPipelineOptions = {
     ...options,
@@ -401,8 +401,11 @@ function getOrInitializeClient(
     },
   };
 
-  return new KeyVaultClient(
+  let client = new KeyVaultClient(
     options.serviceVersion || LATEST_API_VERSION,
-    createPipelineFromOptions(internalPipelineOptions, authPolicy)
+    internalPipelineOptions
   );
+  client.pipeline.addPolicy(authPolicy);
+
+  return client;
 }
