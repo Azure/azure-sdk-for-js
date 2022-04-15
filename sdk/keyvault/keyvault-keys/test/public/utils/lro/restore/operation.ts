@@ -3,7 +3,7 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
-import { RequestOptionsBase } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
 import { KeyVaultKey, KeyPollerOptions } from "../../../../../src";
 
 /**
@@ -37,7 +37,7 @@ export interface RestoreKeyBackupPollOperationState extends PollOperationState<K
   /**
    * Options for the core-http requests.
    */
-  requestOptions?: RequestOptionsBase;
+  requestOptions?: OperationOptions;
   /**
    * An interface representing a KeyClient. For internal use.
    */
