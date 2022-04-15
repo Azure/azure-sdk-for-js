@@ -79,7 +79,21 @@ export class Recorder {
    * - PipelineRequest -> core-v2 (recorderHttpPolicy calls this method on the request to modify and hit the proxy-tool with appropriate headers.)
    */
   private redirectRequest(request: WebResource | PipelineRequest): void {
-    if (!isLiveMode() && !request.headers.get("x-recording-id")) {
+    const upstreamUrl = new URL(request.url);
+    const redirectedUrl = new URL(request.url);
+    const testProxyUrl = new URL(this.url);
+
+    // Sometimes, due to the service returning a redirect or due to the retry policy, redirectRequest
+    // may be called multiple times. We only want to update the request the second time if the request's
+    // URL has been changed between calls (this may happen in the case of a redirect, but generally
+    // not in the case of a retry). Otherwise, we might accidentally update the X-Recording-Upstream-Base-Uri
+    // header to point to the test proxy instead of the true upstream.
+    const requestAlreadyRedirected =
+      upstreamUrl.host === testProxyUrl.host &&
+      upstreamUrl.port === testProxyUrl.port &&
+      upstreamUrl.protocol === testProxyUrl.protocol;
+
+    if (!isLiveMode() && !requestAlreadyRedirected) {
       if (this.recordingId === undefined) {
         throw new RecorderError("Recording ID must be defined to redirect a request");
       }
@@ -87,13 +101,9 @@ export class Recorder {
       request.headers.set("x-recording-id", this.recordingId);
       request.headers.set("x-recording-mode", getTestMode());
 
-      const upstreamUrl = new URL(request.url);
-      const redirectedUrl = new URL(request.url);
-      const providedUrl = new URL(this.url);
-
-      redirectedUrl.host = providedUrl.host;
-      redirectedUrl.port = providedUrl.port;
-      redirectedUrl.protocol = providedUrl.protocol;
+      redirectedUrl.host = testProxyUrl.host;
+      redirectedUrl.port = testProxyUrl.port;
+      redirectedUrl.protocol = testProxyUrl.protocol;
       request.headers.set("x-recording-upstream-base-uri", upstreamUrl.toString());
       request.url = redirectedUrl.toString();
 

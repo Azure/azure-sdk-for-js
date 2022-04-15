@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { isError } from "@azure/core-util";
 import { PipelineRequest, PipelineResponse } from "./interfaces";
 import { custom } from "./util/inspect";
 import { Sanitizer } from "./util/sanitizer";
-import { isError } from "./util/helpers";
 
 const errorSanitizer = new Sanitizer();
 
@@ -88,7 +88,7 @@ export class RestError extends Error {
 
 /**
  * Typeguard for RestError
- * @param e Something caught by a catch clause.
+ * @param e - Something caught by a catch clause.
  */
 export function isRestError(e: unknown): e is RestError {
   if (e instanceof RestError) {

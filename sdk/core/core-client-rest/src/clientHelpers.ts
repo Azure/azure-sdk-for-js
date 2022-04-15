@@ -2,24 +2,24 @@
 // Licensed under the MIT license.
 
 import {
-  createEmptyPipeline,
-  bearerTokenAuthenticationPolicy,
-  Pipeline,
-  createDefaultHttpClient,
   HttpClient,
-  proxyPolicy,
+  Pipeline,
+  bearerTokenAuthenticationPolicy,
+  createDefaultHttpClient,
+  createEmptyPipeline,
   decompressResponsePolicy,
-  formDataPolicy,
-  userAgentPolicy,
-  setClientRequestIdPolicy,
-  throttlingRetryPolicy,
-  systemErrorRetryPolicy,
   exponentialRetryPolicy,
-  redirectPolicy,
+  formDataPolicy,
   logPolicy,
+  proxyPolicy,
+  redirectPolicy,
+  setClientRequestIdPolicy,
+  systemErrorRetryPolicy,
+  throttlingRetryPolicy,
+  userAgentPolicy,
 } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
-import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { ClientOptions } from "./common";
 import { keyCredentialAuthenticationPolicy } from "./keyCredentialAuthenticationPolicy";
 import { apiVersionPolicy } from "./apiVersionPolicy";

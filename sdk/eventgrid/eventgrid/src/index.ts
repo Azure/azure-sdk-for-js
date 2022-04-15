@@ -9,8 +9,10 @@ export {
   EventGridPublisherClient,
   EventGridPublisherClientOptions,
   SendOptions,
+  CloudEventSendOptions,
   InputSchema,
   InputSchemaToInputTypeMap,
+  InputSchemaToOptionsTypeMap,
 } from "./eventGridClient";
 
 export {

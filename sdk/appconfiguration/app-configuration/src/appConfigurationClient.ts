@@ -61,10 +61,6 @@ import {
 import { PipelinePolicy, bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { tracingClient } from "./internal/tracing";
 
-/**
- * @internal
- */
-export const packageVersion = "1.4.0-beta.1";
 const apiVersion = "1.0";
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
 const deserializationContentTypes = {

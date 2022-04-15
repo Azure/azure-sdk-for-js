@@ -15,6 +15,7 @@ import { GeneratedClient } from "./generated/generatedClient";
 import {
   CloudEvent as CloudEventWireModel,
   EventGridEvent as EventGridEventWireModel,
+  GeneratedClientPublishCloudEventEventsOptionalParams,
 } from "./generated/models";
 import { cloudEventDistributedTracingEnricherPolicy } from "./cloudEventDistrubtedTracingEnricherPolicy";
 import { tracingClient } from "./tracing";
@@ -32,6 +33,16 @@ export type EventGridPublisherClientOptions = CommonClientOptions;
  */
 export type SendOptions = OperationOptions;
 
+/***
+ * Options for the send events operation, when the input schema is cloud event.
+ */
+export interface CloudEventSendOptions extends SendOptions {
+  /**
+   * The name of the channel to send the event to (only valid for Partner Namespaces and Topics).
+   */
+  channelName?: string;
+}
+
 /**
  * A map of input schema names to shapes of the input for the send method on EventGridPublisherClient.
  */
@@ -47,8 +58,25 @@ export interface InputSchemaToInputTypeMap {
   /**
    * The shape of the input to `send` when the client is configured to send events using a custom schema.
    */
-
   Custom: Record<string, unknown>;
+}
+
+/**
+ * A map of input schema names to shapes of the options bag for the send method on EventGridPublisherClient.
+ */
+export interface InputSchemaToOptionsTypeMap {
+  /**
+   * The shape of the options parameter for `send` when the client is configured to send events using the Event Grid schema.
+   */
+  EventGrid: SendOptions;
+  /**
+   * The shape of the options parameter for `send` when the client is configured to send events using the Cloud Event schema.
+   */
+  CloudEvent: CloudEventSendOptions;
+  /**
+   * The shape of the options parameter for `send` when the client is configured to send events using a custom schema.
+   */
+  Custom: SendOptions;
 }
 
 /**
@@ -127,7 +155,10 @@ export class EventGridPublisherClient<T extends InputSchema> {
    * @param events - The events to send. The events should be in the schema used when constructing the client.
    * @param options - Options to control the underlying operation.
    */
-  send(events: InputSchemaToInputTypeMap[T][], options: SendOptions = {}): Promise<void> {
+  send(
+    events: InputSchemaToInputTypeMap[T][],
+    options: InputSchemaToOptionsTypeMap[T] = {}
+  ): Promise<void> {
     return tracingClient.withSpan("EventGridPublisherClient.send", options, (updatedOptions) => {
       switch (this.inputSchema) {
         case "EventGrid": {
@@ -140,10 +171,23 @@ export class EventGridPublisherClient<T extends InputSchema> {
           );
         }
         case "CloudEvent": {
+          // The underlying REST API expects a header named `aeg-channel-name`, and so the generated client
+          // expects that options bag has a property called `aegChannelName`, where as we expose it with the
+          // friendlier name "channelName". Fix up the impedence mismatch here
+          const {
+            channelName,
+            ...sendOptions
+          }: { channelName?: string } & GeneratedClientPublishCloudEventEventsOptionalParams =
+            updatedOptions as CloudEventSendOptions;
+
+          if (channelName) {
+            sendOptions.aegChannelName = channelName;
+          }
+
           return this.client.publishCloudEventEvents(
             this.endpointUrl,
             (events as InputSchemaToInputTypeMap["CloudEvent"][]).map(convertCloudEventToModelType),
-            updatedOptions
+            sendOptions
           );
         }
         case "Custom": {
