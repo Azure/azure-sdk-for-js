@@ -14,6 +14,8 @@ import {
   ConfigurationStoresListByResourceGroupOptionalParams,
   ApiKey,
   ConfigurationStoresListKeysOptionalParams,
+  DeletedConfigurationStore,
+  ConfigurationStoresListDeletedOptionalParams,
   ConfigurationStoresGetOptionalParams,
   ConfigurationStoresGetResponse,
   ConfigurationStoresCreateOptionalParams,
@@ -24,7 +26,10 @@ import {
   ConfigurationStoresUpdateResponse,
   RegenerateKeyParameters,
   ConfigurationStoresRegenerateKeyOptionalParams,
-  ConfigurationStoresRegenerateKeyResponse
+  ConfigurationStoresRegenerateKeyResponse,
+  ConfigurationStoresGetDeletedOptionalParams,
+  ConfigurationStoresGetDeletedResponse,
+  ConfigurationStoresPurgeDeletedOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,6 +62,13 @@ export interface ConfigurationStores {
     configStoreName: string,
     options?: ConfigurationStoresListKeysOptionalParams
   ): PagedAsyncIterableIterator<ApiKey>;
+  /**
+   * Gets information about the deleted configuration stores in a subscription.
+   * @param options The options parameters.
+   */
+  listDeleted(
+    options?: ConfigurationStoresListDeletedOptionalParams
+  ): PagedAsyncIterableIterator<DeletedConfigurationStore>;
   /**
    * Gets the properties of the specified configuration store.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
@@ -165,4 +177,37 @@ export interface ConfigurationStores {
     regenerateKeyParameters: RegenerateKeyParameters,
     options?: ConfigurationStoresRegenerateKeyOptionalParams
   ): Promise<ConfigurationStoresRegenerateKeyResponse>;
+  /**
+   * Gets a deleted Azure app configuration store.
+   * @param location The location in which uniqueness will be verified.
+   * @param configStoreName The name of the configuration store.
+   * @param options The options parameters.
+   */
+  getDeleted(
+    location: string,
+    configStoreName: string,
+    options?: ConfigurationStoresGetDeletedOptionalParams
+  ): Promise<ConfigurationStoresGetDeletedResponse>;
+  /**
+   * Permanently deletes the specified configuration store.
+   * @param location The location in which uniqueness will be verified.
+   * @param configStoreName The name of the configuration store.
+   * @param options The options parameters.
+   */
+  beginPurgeDeleted(
+    location: string,
+    configStoreName: string,
+    options?: ConfigurationStoresPurgeDeletedOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Permanently deletes the specified configuration store.
+   * @param location The location in which uniqueness will be verified.
+   * @param configStoreName The name of the configuration store.
+   * @param options The options parameters.
+   */
+  beginPurgeDeletedAndWait(
+    location: string,
+    configStoreName: string,
+    options?: ConfigurationStoresPurgeDeletedOptionalParams
+  ): Promise<void>;
 }
