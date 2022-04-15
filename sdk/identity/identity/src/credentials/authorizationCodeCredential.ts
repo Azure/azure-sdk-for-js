@@ -114,6 +114,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
       ...options,
       clientSecret,
       clientId,
+      tenantId,
       tokenCredentialOptions: options || {},
       logger,
       redirectUri: this.redirectUri,

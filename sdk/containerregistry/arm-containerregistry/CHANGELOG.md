@@ -154,6 +154,7 @@
   - Added Enum KnownTokenCertificateName
   - Added Enum KnownTokenPasswordName
   - Added Enum KnownTokenStatus
+  - Bug fix
     
     
 ## 10.0.0 (2021-12-28)
