@@ -10249,7 +10249,7 @@ packages:
     dev: false
 
   file:projects/arm-databricks.tgz:
-    resolution: {integrity: sha512-XqSqvTvkq0eYJg/2pIWqIZd1jAD5wlUJlg55Z4Hozn/wzx/3+ykgfBF3v6Cdzuj8wTnubV8VOU4luoqua0XUUg==, tarball: file:projects/arm-databricks.tgz}
+    resolution: {integrity: sha512-4VOt/m2ZeYSms0Fs2LX1PZTenOg9nl7r0J6KhzFnFjE8+4Bgnel0FZluj53pPVID+0Dk/RmVels1TLuTz8QAoQ==, tarball: file:projects/arm-databricks.tgz}
     name: '@rush-temp/arm-databricks'
     version: 0.0.0
     dependencies:
@@ -10258,18 +10258,19 @@ packages:
       '@microsoft/api-extractor': 7.22.1
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.70.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
+      '@rollup/plugin-node-resolve': 13.2.0_rollup@2.70.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.70.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.70.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.4
     transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
