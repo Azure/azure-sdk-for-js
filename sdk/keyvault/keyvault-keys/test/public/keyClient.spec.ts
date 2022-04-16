@@ -5,6 +5,7 @@ import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
 import { AbortController } from "@azure/abort-controller";
 import { env, isPlaybackMode, isRecordMode, Recorder } from "@azure-tools/test-recorder";
+import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
 
 import {
   KeyClient,
@@ -21,7 +22,6 @@ import {
 import { testPollerProperties } from "./utils/recorderUtils";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
-import { DefaultHttpClient, WebResource } from "@azure/core-http";
 import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
 
 describe("Keys client - create, read, update and delete operations", () => {
@@ -523,9 +523,9 @@ describe("Keys client - create, read, update and delete operations", () => {
         version: "1.0.0",
       };
       encodedReleasePolicy = stringToUint8Array(JSON.stringify(releasePolicy));
-      const attestationTokenClient = new DefaultHttpClient();
+      const attestationTokenClient = createDefaultHttpClient();
       const response = await attestationTokenClient.sendRequest(
-        new WebResource(`${attestationUri}/generate-test-token`)
+        createPipelineRequest({ url: `${attestationUri}/generate-test-token` })
       );
       attestation = JSON.parse(response.bodyAsText!).token;
     });

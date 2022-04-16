@@ -10,7 +10,7 @@ import TestClient from "./utils/testClient";
 import { CreateOctKeyOptions, KnownKeyExportEncryptionAlgorithm } from "../../src/keysModels";
 import { getServiceVersion, onVersions } from "./utils/common";
 import { createRsaKey, stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
-import { DefaultHttpClient, WebResource } from "@azure/core-http";
+import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
 
 onVersions({ minVer: "7.2" }).describe(
   "Keys client - create, read, update and delete operations for managed HSM",
@@ -93,9 +93,10 @@ onVersions({ minVer: "7.2" }).describe(
           version: "1.0",
         };
         encodedReleasePolicy = stringToUint8Array(JSON.stringify(releasePolicy));
-        const client = new DefaultHttpClient();
+
+        const client = createDefaultHttpClient();
         const response = await client.sendRequest(
-          new WebResource(`${attestationUri}/generate-test-token`)
+          createPipelineRequest({ url: `${attestationUri}/generate-test-token` })
         );
         attestation = JSON.parse(response.bodyAsText!).token;
       });

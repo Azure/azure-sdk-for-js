@@ -11,7 +11,7 @@ import { authenticate } from "./utils/testAuthentication";
 import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
 import TestClient from "./utils/testClient";
 import { getServiceVersion, onVersions } from "./utils/common";
-import { isNode } from "@azure/core-http";
+import { isNode } from "../../../keyvault-common/src/";
 
 onVersions({ minVer: "7.2" }).describe(
   "CryptographyClient for managed HSM (skipped if MHSM is not deployed)",
