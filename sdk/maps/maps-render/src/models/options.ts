@@ -12,7 +12,7 @@ import {
 } from "../generated/models";
 
 /**
- * Client options used to configure the Maps Route Client
+ * Client options used to configure the Maps Render Client
  */
 export type MapsRenderClientOptions = CommonClientOptions;
 
