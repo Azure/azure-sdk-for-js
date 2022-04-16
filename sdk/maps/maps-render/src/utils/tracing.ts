@@ -10,6 +10,6 @@ import { createSpanFunction } from "@azure/core-tracing";
  * @param tracingOptions - The options for the underlying http request.
  */
 export const createSpan = createSpanFunction({
-  packagePrefix: "Azure.Maps.Route",
+  packagePrefix: "Azure.Maps.Render",
   namespace: "Microsoft.Maps",
 });
