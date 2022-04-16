@@ -73,7 +73,7 @@ async function update(
   }
 
   try {
-    state.result = await client.restoreKeyBackup(backup, { requestOptions });
+    state.result = await client.restoreKeyBackup(backup, requestOptions);
     state.isCompleted = true;
   } catch {
     // Nothing to do here.
