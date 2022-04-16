@@ -7,4 +7,4 @@ import { createClientLogger } from "@azure/logger";
  * The `@azure/logger` configuration for this package.
  * @internal
  */
-export const logger = createClientLogger("maps-route");
+export const logger = createClientLogger("maps-render");

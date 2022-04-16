@@ -42,44 +42,44 @@ const isMapsRenderClientOptions = (
   clientIdOrOptions && typeof clientIdOrOptions !== "string";
 
 /**
- * Client class for interacting with Azure Maps Route Service.
+ * Client class for interacting with Azure Maps Render Service.
  */
 export class MapsRenderClient {
   /**
-   * A reference to the auto-generated Route HTTP client.
+   * A reference to the auto-generated Render HTTP client.
    */
   private readonly client: GeneratedClient;
   private readonly defaultFormat: string = "json";
   /**
-   * Creates an instance of MapsRouteClient from a subscription key.
+   * Creates an instance of MapsRenderClient from a subscription key.
    *
    * @example
    * ```ts
-   * import { MapsRouteClient, AzureKeyCredential } from "@azure/maps-route";
+   * import { MapsRenderClient, AzureKeyCredential } from "@azure/maps-Render";
    * const credential = new AzureKeyCredential("<subscription-key>");
    *
-   * const client = new MapsRouteClient(credential);
+   * const client = new MapsRenderClient(credential);
    *```
    *
    * @param credential - An AzureKeyCredential instance used to authenticate requests to the service
-   * @param options - Options used to configure the Route Client
+   * @param options - Options used to configure the Render Client
    */
   constructor(credential: AzureKeyCredential, options?: MapsRenderClientOptions);
   /**
-   * Creates an instance of MapsRouteClient from an Azure Identity `TokenCredential`.
+   * Creates an instance of MapsRenderClient from an Azure Identity `TokenCredential`.
    *
    * @example
    * ```ts
-   * import { MapsRouteClient } from "@azure/maps-route";
+   * import { MapsRenderClient } from "@azure/maps-render";
    * import { DefaultAzureCredential } from "@azure/identity";
    * const credential = new DefaultAzureCredential();
    *
-   * const client = new MapsRouteClient(credential, "<maps-account-client-id>");
+   * const client = new MapsRenderClient(credential, "<maps-account-client-id>");
    *```
    *
    * @param credential - An TokenCredential instance used to authenticate requests to the service
    * @param mapsAccountClientId - The Azure Maps client id of a specific map resource
-   * @param options - Options used to configure the Route Client
+   * @param options - Options used to configure the Render Client
    */
   constructor(
     credential: TokenCredential,
