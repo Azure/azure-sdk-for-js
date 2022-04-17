@@ -783,6 +783,18 @@ describe("BlobClient", () => {
     assert.ok(result, "exists() should return true");
   });
 
+  it("exists works without customer provided key on a blob with CPK", async () => {
+    blobName = recorder.getUniqueName("blobCPK");
+    blobClient = containerClient.getBlobClient(blobName);
+    blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload(content, content.length, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    const result = await blobClient.exists();
+    assert.ok(result, "exists() should return true");
+  });
+
   it("exists works against blob uploaded with customer provided key", async () => {
     blobName = recorder.getUniqueName("blobCPK");
     blobClient = containerClient.getBlobClient(blobName);

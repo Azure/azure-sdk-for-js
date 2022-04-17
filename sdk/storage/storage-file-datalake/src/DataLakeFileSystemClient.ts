@@ -45,7 +45,11 @@ import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import { toContainerPublicAccessType, toPublicAccessType, toPermissions } from "./transforms";
 import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
-import { appendToURLPath, appendToURLQuery } from "./utils/utils.common";
+import {
+  appendToURLPath,
+  appendToURLQuery,
+  windowsFileTimeTicksToTime,
+} from "./utils/utils.common";
 import { DataLakeFileClient, DataLakeDirectoryClient } from "./clients";
 import { generateDataLakeSASQueryParameters } from "./sas/DataLakeSASSignatureValues";
 import { DeletionIdKey, PathResultTypeConstants } from "./utils/constants";
@@ -607,6 +611,8 @@ export class DataLakeFileSystemClient extends StorageClient {
         response.pathItems.push({
           ...path,
           permissions: toPermissions(path.permissions),
+          createdOn: windowsFileTimeTicksToTime(path.creationTime),
+          expiresOn: windowsFileTimeTicksToTime(path.expiryTime),
         });
       }
       delete rawResponse.paths;
