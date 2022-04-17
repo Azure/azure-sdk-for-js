@@ -20,6 +20,9 @@
     "os": false,
     "process": false
   },
+  "react-native": {
+    "./dist/index.js": "./dist-esm/storage-blob/src/index.js"
+  },
   "types": "./types/latest/storage-blob.d.ts",
   "typesVersions": {
     "<3.6": {
