@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/templatespecs/ci.mgmt.yml
-      - sdk/templatespecs/arm-templatespecs/
       - sdk/templatespecs/arm-templatespecs
 pr:
   branches:
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/synapse/ci.mgmt.yml
-      - sdk/synapse/arm-synapse/
       - sdk/templatespecs/arm-templatespecs
       - sdk/templatespecs/ci.mgmt.yml
 extends:

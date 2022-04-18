@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/managedapplications/ci.mgmt.yml
-      - sdk/managedapplications/arm-managedapplications/
       - sdk/managedapplications/arm-managedapplications
 pr:
   branches:
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/managedapplications/ci.mgmt.yml
-      - sdk/managedapplications/arm-managedapplications/
       - sdk/managedapplications/arm-managedapplications
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml

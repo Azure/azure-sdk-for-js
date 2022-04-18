@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/resources-subscriptions/ci.mgmt.yml
-      - sdk/resources-subscriptions/arm-resources-subscriptions/
       - sdk/resources-subscriptions/arm-resources-subscriptions
 pr:
   branches:
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/resources-subscriptions/ci.mgmt.yml
-      - sdk/resources-subscriptions/arm-resources-subscriptions/
       - sdk/resources-subscriptions/arm-resources-subscriptions
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml

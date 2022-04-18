@@ -11,6 +11,7 @@
   - Added Type Alias CreatedByType
   - Interface ManagementLockObject has a new optional parameter systemData
   - Added Enum KnownCreatedByType
+  - Bug fix
     
     
 ## 2.0.0 (2021-12-07)

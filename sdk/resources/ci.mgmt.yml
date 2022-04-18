@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/resources/ci.mgmt.yml
-      - sdk/resources/arm-resources/
       - sdk/resources/arm-resources-profile-2020-09-01-hybrid
       - sdk/resources/arm-resources
 pr:
@@ -24,7 +23,6 @@ pr:
   paths:
     include:
       - sdk/resources/ci.mgmt.yml
-      - sdk/resources/arm-resources/
       - sdk/resources/arm-resources-profile-2020-09-01-hybrid
       - sdk/resources/arm-resources
 extends:
