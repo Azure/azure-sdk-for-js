@@ -300,10 +300,12 @@ export class GlobalSchedulesImpl implements GlobalSchedules {
       { resourceGroupName, name, options },
       executeOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -378,10 +380,12 @@ export class GlobalSchedulesImpl implements GlobalSchedules {
       { resourceGroupName, name, retargetScheduleProperties, options },
       retargetOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
