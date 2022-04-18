@@ -10548,7 +10548,7 @@ packages:
     dev: false
 
   file:projects/arm-digitaltwins.tgz:
-    resolution: {integrity: sha512-UoYxvLJ6lsdjg2ko5jVsLEQQLC1nIjSFPc4lkFkwwUJAMFgceRXpPAcTMs+O0aICUIZSgs3Fw+sVW8m6ZbFsxA==, tarball: file:projects/arm-digitaltwins.tgz}
+    resolution: {integrity: sha512-hW849ZUuBqPjs2hSiWFKM2L38jA29tgjpn1HSxr5gdGqSbkh+xJWb10tjhbByoPAGoC/xiLlmFsEzLWoIME2HQ==, tarball: file:projects/arm-digitaltwins.tgz}
     name: '@rush-temp/arm-digitaltwins'
     version: 0.0.0
     dependencies:
@@ -10604,27 +10604,28 @@ packages:
     dev: false
 
   file:projects/arm-dns.tgz:
-    resolution: {integrity: sha512-lNH4104hmq8+MemTpwQgpthSZtz07RGeORUIpI1m5s+j0t7U8XMDGNvCdNtEduEW+8EIYlLy+gcvedWRAOoYMQ==, tarball: file:projects/arm-dns.tgz}
+    resolution: {integrity: sha512-i8TiBoOj9lXLt99eF1caVtFXnXBsgTSYqSOCfIeXuc2gdgERBvRzng89bck00hj+4w1m6yyWvuiBln2rrwwlOg==, tarball: file:projects/arm-dns.tgz}
     name: '@rush-temp/arm-dns'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.22.1
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
+      '@rollup/plugin-node-resolve': 13.2.0_rollup@2.70.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup: 2.70.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.4
     transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -16098,7 +16099,7 @@ packages:
     dev: false
 
   file:projects/perf-eventgrid.tgz:
-    resolution: {integrity: sha512-xZEKu3aE6Hkt6dwHFG0AhSvy3ckK6GMgKPzXbfuk1CXxIUnDmFq8MzclLNVzyjVDXNtMmyqv3seBpd+2SLHV0Q==, tarball: file:projects/perf-eventgrid.tgz}
+    resolution: {integrity: sha512-GAlXNvlXjweEKtCQ2VWR1aTnpyfkL2oqOPAfTT57pgVIu2KzUwnOpbkw/xVEJAL9yuLoJikmaFUN9qqylJgo5w==, tarball: file:projects/perf-eventgrid.tgz}
     name: '@rush-temp/perf-eventgrid'
     version: 0.0.0
     dependencies:
@@ -16901,7 +16902,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-6+gtsXHsjNFYtXySI3zLAZlzdZQ8B9f+P94mYZmsfPrU1n8xwv9f5g9a0gWf0CJFKLmqrOJcVwPJJcgRzeKVxQ==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-MEul5fHWS6WAUHpmjEMzHwBEHfk1PL6BvDeNIR9PjbvAvPQSDYi4eImkpy+v26FC0/LrLL0IC2wfYxcSG05b/g==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
