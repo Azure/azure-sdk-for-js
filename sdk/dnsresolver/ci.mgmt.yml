@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/dnsresolver/ci.mgmt.yml
-      - sdk/dnsresolver/arm-dnsresolver/
       - sdk/dnsresolver/arm-dnsresolver
 pr:
   branches:
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/dnsresolver/ci.mgmt.yml
-      - sdk/dnsresolver/arm-dnsresolver/
       - sdk/dnsresolver/arm-dnsresolver
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
