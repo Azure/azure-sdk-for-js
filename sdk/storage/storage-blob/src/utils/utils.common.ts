@@ -28,6 +28,8 @@ import {
   RehydratePriority,
   BlobImmutabilityPolicyMode,
   BlobTag,
+  PageRange,
+  ClearRange,
 } from "../generated/src/models";
 import { DevelopmentConnectionString, HeaderConstants, URLConstants } from "./constants";
 import {
@@ -42,6 +44,8 @@ import {
   BlobItemInternal as BlobItemInternalModel,
   ListBlobsHierarchySegmentResponseModel,
   BlobPrefix as BlobPrefixModel,
+  PageBlobGetPageRangesDiffResponseModel,
+  PageRangeInfo,
 } from "../generatedModels";
 
 /**
@@ -1014,4 +1018,51 @@ export function ProcessBlobPrefixes(blobPrefixesInXML: any[]): BlobPrefix[] {
   }
 
   return blobPrefixes;
+}
+
+export function* ExtractPageRangeInfoItems(
+  getPageRangesSegment: PageBlobGetPageRangesDiffResponseModel
+): IterableIterator<PageRangeInfo> {
+  let pageRange: PageRange[] = [];
+  let clearRange: ClearRange[] = [];
+
+  if (getPageRangesSegment.pageRange) pageRange = getPageRangesSegment.pageRange;
+  if (getPageRangesSegment.clearRange) clearRange = getPageRangesSegment.clearRange;
+
+  let pageRangeIndex = 0;
+  let clearRangeIndex = 0;
+
+  while (pageRangeIndex < pageRange.length && clearRangeIndex < clearRange.length) {
+    if (pageRange[pageRangeIndex].start < clearRange[clearRangeIndex].start) {
+      yield {
+        start: pageRange[pageRangeIndex].start,
+        end: pageRange[pageRangeIndex].end,
+        isClear: false,
+      };
+      ++pageRangeIndex;
+    } else {
+      yield {
+        start: clearRange[clearRangeIndex].start,
+        end: clearRange[clearRangeIndex].end,
+        isClear: true,
+      };
+      ++clearRangeIndex;
+    }
+  }
+
+  for (; pageRangeIndex < pageRange.length; ++pageRangeIndex) {
+    yield {
+      start: pageRange[pageRangeIndex].start,
+      end: pageRange[pageRangeIndex].end,
+      isClear: false,
+    };
+  }
+
+  for (; clearRangeIndex < clearRange.length; ++clearRangeIndex) {
+    yield {
+      start: clearRange[clearRangeIndex].start,
+      end: clearRange[clearRangeIndex].end,
+      isClear: true,
+    };
+  }
 }

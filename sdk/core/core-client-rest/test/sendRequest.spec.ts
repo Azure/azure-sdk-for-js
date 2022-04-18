@@ -4,11 +4,11 @@
 import { sendRequest } from "../src/sendRequest";
 import { assert } from "chai";
 import {
-  createEmptyPipeline,
-  createHttpHeaders,
   Pipeline,
   PipelineResponse,
   RestError,
+  createEmptyPipeline,
+  createHttpHeaders,
 } from "@azure/core-rest-pipeline";
 
 describe("sendRequest", () => {

@@ -5,8 +5,8 @@
 ```ts
 
 import { ExportResult } from '@opentelemetry/core';
-import { ReadableSpan } from '@opentelemetry/tracing';
-import { SpanExporter } from '@opentelemetry/tracing';
+import { ReadableSpan } from '@opentelemetry/sdk-trace-base';
+import { SpanExporter } from '@opentelemetry/sdk-trace-base';
 import { TokenCredential } from '@azure/core-http';
 
 // @public

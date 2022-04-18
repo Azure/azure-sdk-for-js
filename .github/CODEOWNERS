@@ -1439,6 +1439,7 @@ sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 ###########
 /.vscode/ @mikeharder @praveenkuttappan @deyaaeldeen
 /common/ @mikeharder @praveenkuttappan @witemple-msft @deyaaeldeen
+/common/config/rush/pnpm-lock.yaml @praveenkuttappan @witemple-msft @deyaaeldeen @jeremymeng
 /common/smoke-test @mikeharder @praveenkuttappan @witemple-msft @deyaaeldeen @benbp
 
 /rush.json @mikeharder @praveenkuttappan

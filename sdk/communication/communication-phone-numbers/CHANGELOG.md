@@ -1,16 +1,14 @@
 # Release History
 
-## 1.2.0-beta.3 (Unreleased)
+## 1.2.0-beta.3 (2022-04-06)
 
 ### Features Added
 
 - Added environment variable `AZURE_USERAGENT_OVERRIDE` that overrides the HTTP header `x-ms-useragent` during tests
 
-### Breaking Changes
-
-### Bugs Fixed
-
 ### Other Changes
+
+- Update minimum version of dependency "@azure/core-client" to "1.5.0", which allows adding additional policies to the rest pipeline after initialization.
 
 ## 1.2.0-beta.2 (2022-03-10)
 
