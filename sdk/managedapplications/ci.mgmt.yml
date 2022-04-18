@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -10,6 +10,7 @@ trigger:
     include:
       - sdk/managedapplications/ci.mgmt.yml
       - sdk/managedapplications/arm-managedapplications/
+      - sdk/managedapplications/arm-managedapplications
 pr:
   branches:
     include:
@@ -23,11 +24,11 @@ pr:
     include:
       - sdk/managedapplications/ci.mgmt.yml
       - sdk/managedapplications/arm-managedapplications/
-
+      - sdk/managedapplications/arm-managedapplications
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: managedapplications
     Artifacts:
       - name: azure-arm-managedapplications
-        safeName: azurearmmanagedapplications        
+        safeName: azurearmmanagedapplications
