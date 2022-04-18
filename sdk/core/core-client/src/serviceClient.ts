@@ -21,6 +21,7 @@ import { getCachedDefaultHttpClient } from "./httpClientCache";
 import { getOperationRequestInfo } from "./operationHelpers";
 import { getRequestUrl } from "./urlHelpers";
 import { getStreamingResponseStatusCodes } from "./interfaceHelpers";
+import { createClientLogger } from "@azure/logger";
 
 /**
  * Options to be provided while creating the client.
@@ -97,6 +98,10 @@ export class ServiceClient {
   constructor(options: ServiceClientOptions = {}) {
     this._requestContentType = options.requestContentType;
     this._endpoint = options.endpoint ?? options.baseUri;
+    if (options.baseUri) {
+      const logger = createClientLogger("ServiceClientOptions");
+      logger.warning("This baseUri option has been deprecated, please use endpoint instead!");
+    }
     this._allowInsecureConnection = options.allowInsecureConnection;
     this._httpClient = options.httpClient || getCachedDefaultHttpClient();
 
