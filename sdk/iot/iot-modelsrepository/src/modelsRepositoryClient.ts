@@ -11,7 +11,6 @@ import {
 } from "./utils/constants";
 import { createClientPipeline, InternalClientPipelineOptions } from "@azure/core-client";
 import { Fetcher } from "./fetcherAbstract";
-import { URL } from "./utils/url";
 import { isLocalPath, normalize } from "./utils/path";
 import { FilesystemFetcher } from "./fetcherFilesystem";
 import { dependencyResolutionType } from "./dependencyResolutionType";

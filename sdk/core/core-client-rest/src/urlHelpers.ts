@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { RequestParameters } from "./common";
-import { URL } from "./url";
 
 /**
  * Builds the request url, filling in query and path parameters

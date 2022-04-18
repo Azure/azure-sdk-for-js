@@ -14,7 +14,6 @@ import {
   ArtifactTagOrder,
   TagPageResponse,
 } from "./models";
-import { URL } from "./utils/url";
 import { createSpan } from "./tracing";
 import { GeneratedClient } from "./generated";
 import { extractNextLink, isDigest } from "./utils/helpers";

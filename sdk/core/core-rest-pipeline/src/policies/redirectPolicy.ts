@@ -3,7 +3,6 @@
 
 import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
-import { URL } from "../util/url";
 
 /**
  * The programmatic identifier of the redirectPolicy.
