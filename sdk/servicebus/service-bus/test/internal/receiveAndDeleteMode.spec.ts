@@ -26,6 +26,7 @@ import {
   getRandomTestClientTypeWithNoSessions,
 } from "../public/utils/testutils2";
 import { DispositionType } from "../../src/serviceBusMessage";
+import Long from "long";
 
 let errorWasThrown: boolean;
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
