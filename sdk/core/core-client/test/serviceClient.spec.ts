@@ -107,7 +107,7 @@ describe("ServiceClient", function () {
       }
     });
 
-    it("should throw is no scope or baseUri are defined", async function () {
+    it("should throw is no scope or endpoint are defined", async function () {
       const credential: TokenCredential = {
         getToken: async (_scopes) => {
           return { token: "testToken", expiresOnTimestamp: 11111 };
@@ -130,7 +130,7 @@ describe("ServiceClient", function () {
       } catch (error) {
         assert.equal(
           error.message,
-          `When using credentials, the ServiceClientOptions must contain either a baseUri or a credentialScopes. Unable to create a bearerTokenAuthenticationPolicy`
+          `When using credentials, the ServiceClientOptions must contain either a endpoint or a credentialScopes. Unable to create a bearerTokenAuthenticationPolicy`
         );
       }
     });
@@ -154,6 +154,33 @@ describe("ServiceClient", function () {
         },
         credential,
         baseUri,
+      });
+
+      await client.sendOperationRequest(testOperationArgs, testOperationSpec);
+
+      assert(request!);
+      assert.deepEqual(request!.headers.get("authorization"), "Bearer testToken");
+    });
+
+    it("should use endpoint to build scope", async function () {
+      const endpoint = "https://microsoft.com/baseuri";
+      const credential: TokenCredential = {
+        getToken: async (scopes) => {
+          assert.equal(scopes, `${endpoint}/.default`);
+          return { token: "testToken", expiresOnTimestamp: 11111 };
+        },
+      };
+
+      let request: OperationRequest;
+      const client = new ServiceClient({
+        httpClient: {
+          sendRequest: (req) => {
+            request = req;
+            return Promise.resolve({ request, status: 200, headers: createHttpHeaders() });
+          },
+        },
+        credential,
+        endpoint,
       });
 
       await client.sendOperationRequest(testOperationArgs, testOperationSpec);
