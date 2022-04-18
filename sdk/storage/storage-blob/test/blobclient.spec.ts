@@ -1241,6 +1241,54 @@ describe("BlobClient", () => {
       await newBlobClient.clearPages(0, 512, { conditions: tagConditionMet });
     });
 
+    it("PageBlobClient.listPageRanges", async () => {
+      const newBlobClient = containerClient.getPageBlobClient(recorder.getUniqueName("pageBlob"));
+      await newBlobClient.create(512, { tags });
+      assert.ok(
+        await throwExpectedError(
+          newBlobClient
+            .listPageRanges(0, 512, {
+              conditions: tagConditionUnmet,
+            })
+            .byPage()
+            .next(),
+          "ConditionNotMet"
+        )
+      );
+      await newBlobClient
+        .listPageRanges(0, 512, {
+          conditions: tagConditionMet,
+        })
+        .byPage()
+        .next();
+    });
+
+    it("PageBlobClient.listPageRangesDiff", async () => {
+      const newBlobClient = containerClient.getPageBlobClient(recorder.getUniqueName("pageBlob"));
+      await newBlobClient.create(512, { tags });
+      const snapshotResult = await newBlobClient.createSnapshot();
+      assert.ok(snapshotResult.snapshot);
+      await newBlobClient.uploadPages("a".repeat(512), 0, 512);
+
+      assert.ok(
+        await throwExpectedError(
+          newBlobClient
+            .listPageRangesDiff(0, 512, snapshotResult.snapshot!, {
+              conditions: tagConditionUnmet,
+            })
+            .byPage()
+            .next(),
+          "ConditionNotMet"
+        )
+      );
+      await newBlobClient
+        .listPageRangesDiff(0, 512, snapshotResult.snapshot!, {
+          conditions: tagConditionMet,
+        })
+        .byPage()
+        .next();
+    });
+
     it("PageBlobClient.getPageRanges", async () => {
       const newBlobClient = containerClient.getPageBlobClient(recorder.getUniqueName("pageBlob"));
       await newBlobClient.create(512, { tags });

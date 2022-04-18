@@ -23,6 +23,7 @@ export {
   FileGetPropertiesResponse,
   FileGetRangeListHeaders,
   FileItem,
+  FileLastWrittenMode,
   FileListHandlesResponse,
   FileServiceProperties,
   FileSetMetadataResponse,

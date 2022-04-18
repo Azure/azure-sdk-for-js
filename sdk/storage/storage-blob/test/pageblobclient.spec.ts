@@ -18,6 +18,7 @@ import {
 } from "../src";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
+import { getYieldedValue } from "@azure/test-utils";
 
 describe("PageBlobClient", () => {
   let blobServiceClient: BlobServiceClient;
@@ -239,6 +240,239 @@ describe("PageBlobClient", () => {
     assert.equal(rangesDiff.clearRange![0].count, 511);
 
     await mdContainerClient.delete();
+  });
+
+  it("listPageRanges", async () => {
+    await pageBlobClient.create(4096);
+
+    for (let i = 0; i < 4; ++i) {
+      await pageBlobClient.uploadPages("a".repeat(512), i * 1024, 512);
+    }
+
+    const rangesResult = (await pageBlobClient.listPageRanges(0, 4096).byPage().next()).value;
+
+    for (let i = 0; i < 4; ++i) {
+      assert.equal(rangesResult.pageRange[i].start, i * 1024);
+      assert.equal(rangesResult.pageRange[i].end, i * 1024 + 511);
+    }
+  });
+
+  it("Verify PagedAsyncIterableIterator for listPageRanges", async () => {
+    await pageBlobClient.create(4096);
+
+    for (let i = 0; i < 4; ++i) {
+      await pageBlobClient.uploadPages("a".repeat(512), i * 1024, 512);
+    }
+
+    let index = 0;
+    for await (const pageRange of pageBlobClient.listPageRanges(0, 4096)) {
+      assert.equal(pageRange.start, index * 1024);
+      assert.equal(pageRange.end, index * 1024 + 511);
+      ++index;
+    }
+  });
+
+  it("Verify PagedAsyncIterableIterator(generator .next() syntax) for listPageRanges", async () => {
+    await pageBlobClient.create(4096);
+
+    for (let i = 0; i < 4; ++i) {
+      await pageBlobClient.uploadPages("a".repeat(512), i * 1024, 512);
+    }
+
+    const iterator = pageBlobClient.listPageRanges(0, 4096);
+
+    let pageRange = getYieldedValue(await iterator.next());
+    assert.equal(pageRange.start, 0);
+
+    pageRange = getYieldedValue(await iterator.next());
+    assert.equal(pageRange.start, 1024);
+  });
+
+  it("Verify PagedAsyncIterableIterator(byPage()) for listPageRanges", async () => {
+    await pageBlobClient.create(4096);
+
+    for (let i = 0; i < 4; ++i) {
+      await pageBlobClient.uploadPages("a".repeat(512), i * 1024, 512);
+    }
+
+    let index = 0;
+
+    for await (const response of pageBlobClient
+      .listPageRanges(0, 4096)
+      .byPage({ maxPageSize: 2 })) {
+      for (const pageRangeItem of response.pageRange!) {
+        assert.equal(pageRangeItem.start, index * 1024);
+        assert.equal(pageRangeItem.end, index * 1024 + 511);
+        ++index;
+      }
+    }
+  });
+
+  it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for listPageRanges", async () => {
+    await pageBlobClient.create(4096);
+
+    for (let i = 0; i < 4; ++i) {
+      await pageBlobClient.uploadPages("a".repeat(512), i * 1024, 512);
+    }
+
+    let index = 0;
+
+    let iter = pageBlobClient.listPageRanges(0, 4096).byPage({ maxPageSize: 2 });
+
+    let response = (await iter.next()).value;
+    for (const pageRangeItem of response.pageRange) {
+      assert.equal(pageRangeItem.start, index * 1024);
+      assert.equal(pageRangeItem.end, index * 1024 + 511);
+      ++index;
+    }
+    // Gets next marker
+    const marker = response.continuationToken;
+    // Passing next marker as continuationToken
+    iter = pageBlobClient
+      .listPageRanges(0, 4096)
+      .byPage({ continuationToken: marker, maxPageSize: 2 });
+
+    response = (await iter.next()).value;
+    for (const pageRangeItem of response.pageRange) {
+      assert.equal(pageRangeItem.start, index * 1024);
+      assert.equal(pageRangeItem.end, index * 1024 + 511);
+      ++index;
+    }
+  });
+
+  it("listPageRangesDiff", async () => {
+    await pageBlobClient.create(4096);
+
+    await pageBlobClient.uploadPages("b".repeat(4096), 0, 4096);
+
+    const snapshotResult = await pageBlobClient.createSnapshot();
+    assert.ok(snapshotResult.snapshot);
+
+    for (let i = 0; i < 4; ++i) {
+      await pageBlobClient.uploadPages("a".repeat(512), i * 1024, 512);
+      await pageBlobClient.clearPages(i * 1024 + 512, 512);
+    }
+
+    const rangesDiff = (
+      await pageBlobClient.listPageRangesDiff(0, 4096, snapshotResult.snapshot!).byPage().next()
+    ).value;
+
+    for (let i = 0; i < 4; ++i) {
+      assert.equal(rangesDiff.pageRange[i].start, i * 1024);
+      assert.equal(rangesDiff.pageRange[i].end, i * 1024 + 511);
+      assert.equal(rangesDiff.clearRange[i].start, i * 1024 + 512);
+      assert.equal(rangesDiff.clearRange[i].end, i * 1024 + 1023);
+    }
+  });
+
+  it("Verify PagedAsyncIterableIterator for listPageRangesDiff", async () => {
+    await pageBlobClient.create(4096);
+
+    await pageBlobClient.uploadPages("b".repeat(4096), 0, 4096);
+    const snapshotResult = await pageBlobClient.createSnapshot();
+    assert.ok(snapshotResult.snapshot);
+
+    for (let i = 0; i < 4; ++i) {
+      await pageBlobClient.uploadPages("a".repeat(512), i * 1024, 512);
+      await pageBlobClient.clearPages(i * 1024 + 512, 512);
+    }
+
+    let index = 0;
+    for await (const pageRange of pageBlobClient.listPageRangesDiff(
+      0,
+      4096,
+      snapshotResult.snapshot!
+    )) {
+      assert.equal(pageRange.start, index * 512);
+      assert.equal(pageRange.end, index * 512 + 511);
+      if (index % 2 === 0) {
+        assert.ok(!pageRange.isClear);
+      } else {
+        assert.ok(pageRange.isClear);
+      }
+      ++index;
+    }
+  });
+
+  it("Verify PagedAsyncIterableIterator(generator .next() syntax) for listPageRangesDiff", async () => {
+    await pageBlobClient.create(4096);
+
+    await pageBlobClient.uploadPages("b".repeat(4096), 0, 4096);
+    const snapshotResult = await pageBlobClient.createSnapshot();
+    assert.ok(snapshotResult.snapshot);
+
+    for (let i = 0; i < 4; ++i) {
+      await pageBlobClient.uploadPages("a".repeat(512), i * 1024, 512);
+      await pageBlobClient.clearPages(i * 1024 + 512, 512);
+    }
+
+    const iterator = pageBlobClient.listPageRangesDiff(0, 4096, snapshotResult.snapshot!);
+
+    let pageRange = getYieldedValue(await iterator.next());
+    assert.equal(pageRange.start, 0);
+
+    pageRange = getYieldedValue(await iterator.next());
+    assert.equal(pageRange.start, 512);
+  });
+
+  it("Verify PagedAsyncIterableIterator(byPage()) for listPageRangesDiff", async () => {
+    await pageBlobClient.create(4096);
+
+    await pageBlobClient.uploadPages("b".repeat(4096), 0, 4096);
+    const snapshotResult = await pageBlobClient.createSnapshot();
+    assert.ok(snapshotResult.snapshot);
+
+    for (let i = 0; i < 4; ++i) {
+      await pageBlobClient.uploadPages("a".repeat(512), i * 1024, 512);
+      await pageBlobClient.clearPages(i * 1024 + 512, 512);
+    }
+
+    let index = 0;
+    for await (const response of pageBlobClient
+      .listPageRangesDiff(0, 4096, snapshotResult.snapshot!)
+      .byPage({ maxPageSize: 2 })) {
+      assert.equal(response.pageRange![0].start, index * 1024);
+      assert.equal(response.pageRange![0].end, index * 1024 + 511);
+      assert.equal(response.clearRange![0].start, index * 1024 + 512);
+      assert.equal(response.clearRange![0].end, index * 1024 + 1023);
+      ++index;
+    }
+  });
+
+  it("Verify PagedAsyncIterableIterator(byPage() - continuationToken) for listPageRangesDiff", async () => {
+    await pageBlobClient.create(4096);
+
+    await pageBlobClient.uploadPages("b".repeat(4096), 0, 4096);
+    const snapshotResult = await pageBlobClient.createSnapshot();
+    assert.ok(snapshotResult.snapshot);
+
+    for (let i = 0; i < 4; ++i) {
+      await pageBlobClient.uploadPages("a".repeat(512), i * 1024, 512);
+      await pageBlobClient.clearPages(i * 1024 + 512, 512);
+    }
+
+    let iter = pageBlobClient
+      .listPageRangesDiff(0, 4096, snapshotResult.snapshot!)
+      .byPage({ maxPageSize: 2 });
+
+    let response = (await iter.next()).value;
+    assert.equal(response.pageRange![0].start, 0);
+    assert.equal(response.pageRange![0].end, 511);
+    assert.equal(response.clearRange![0].start, 512);
+    assert.equal(response.clearRange![0].end, 1023);
+
+    // Gets next marker
+    const marker = response.continuationToken;
+    // Passing next marker as continuationToken
+    iter = pageBlobClient
+      .listPageRangesDiff(0, 4096, snapshotResult.snapshot!)
+      .byPage({ continuationToken: marker, maxPageSize: 2 });
+
+    response = (await iter.next()).value;
+    assert.equal(response.pageRange![0].start, 1024);
+    assert.equal(response.pageRange![0].end, 1024 + 511);
+    assert.equal(response.clearRange![0].start, 1024 + 512);
+    assert.equal(response.clearRange![0].end, 1024 + 1023);
   });
 
   it("updateSequenceNumber", async () => {
