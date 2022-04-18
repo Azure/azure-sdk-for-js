@@ -22,6 +22,9 @@
   },
   "main": "./src/index.ts",
   "module": "dist-esm/index.js",
+  "browser": {
+    "./dist-esm/src/isNode.js": "./dist-esm/src/isNode.browser.js"
+  },
   "types": "./types/index.d.ts",
   "engines": {
     "node": ">=12.0.0"
