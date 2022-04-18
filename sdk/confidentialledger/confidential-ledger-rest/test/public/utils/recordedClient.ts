@@ -12,8 +12,8 @@ import {
   RecorderEnvironmentSetup,
   isLiveMode,
 } from "@azure-tools/test-recorder";
-import ConfidentialLedger, { ConfidentialLedgerRestClient } from "../../../src";
-import { ClientSecretCredential } from "@azure/identity";
+import ConfidentialLedger, { ConfidentialLedgerRestClient, getLedgerIdentity } from "../../../src";
+import { DefaultAzureCredential } from "@azure/identity";
 import { isNode, createXhrHttpClient } from "@azure/test-utils";
 
 import "./env";
@@ -44,15 +44,11 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: [],
 };
 
-export function createClient(): ConfidentialLedgerRestClient {
+export async function createClient(): Promise<ConfidentialLedgerRestClient> {
   const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
-  const credential = new ClientSecretCredential(
-    env["AZURE_TENANT_ID"],
-    env["AZURE_CLIENT_ID"],
-    env["AZURE_CLIENT_SECRET"],
-    { httpClient }
-  );
-  return ConfidentialLedger(env.ENDPOINT, env.LEDGER_IDENTITY, credential, { httpClient });
+  const credential = new DefaultAzureCredential();
+  const identity = await getLedgerIdentity(env.LEDGER_IDENTITY, "https://identity.confidential-ledger.core.azure.com");
+  return ConfidentialLedger(env.ENDPOINT, identity.ledgerTlsCertificate, credential, { httpClient });
 }
 
 /**
