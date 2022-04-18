@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/catalog/api/atlas/v2/entity/guid/9dd348a4-6109-45c1-a8f0-3fdaea05b539?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/catalog/api/atlas/v2/entity/guid/dfe0e51a-e567-4c63-ae9d-67875a4c3cd3?api-version=2021-05-01-preview",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -17,8 +17,8 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "22e4081e-3461-4ef1-bab9-26592394468f",
-        "x-ms-useragent": "azsdk-js-purview-catalog-rest/1.0.0-beta.5 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+        "x-ms-client-request-id": "00d6a1ca-035b-4dd8-b2a4-bd7d1dca7fe9",
+        "x-ms-useragent": "azsdk-js-purview-catalog-rest/1.0.0-beta.4 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -30,7 +30,7 @@
         "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
         "Content-Security-Policy": "default-src \u0027self\u0027; script-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 blob: data:; connect-src \u0027self\u0027; img-src \u0027self\u0027 blob: data:; style-src \u0027self\u0027 \u0027unsafe-inline\u0027;font-src \u0027self\u0027 data:",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 18 Apr 2022 06:00:13 GMT",
+        "Date": "Mon, 18 Apr 2022 12:47:11 GMT",
         "Expires": "0",
         "Pragma": "no-cache",
         "Server": "AzurePurview",
@@ -38,8 +38,8 @@
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "DENY",
-        "x-ms-correlation-request-id": "79787909-b67c-44b5-bc94-6b194178b82b",
-        "x-ms-request-id": "22e4081e-3461-4ef1-bab9-26592394468f",
+        "x-ms-correlation-request-id": "58a5c668-6b39-4d87-b8be-02d56283c22e",
+        "x-ms-request-id": "00d6a1ca-035b-4dd8-b2a4-bd7d1dca7fe9",
         "X-XSS-Protection": "1; mode=block"
       },
       "ResponseBody": {
@@ -52,7 +52,7 @@
                 "name": "jsLROTesting-2"
               },
               "lastModifiedTS": "2",
-              "guid": "9dd348a4-6109-45c1-a8f0-3fdaea05b539",
+              "guid": "dfe0e51a-e567-4c63-ae9d-67875a4c3cd3",
               "status": "ACTIVE",
               "displayText": "jsLROTesting-2",
               "classificationNames": [],

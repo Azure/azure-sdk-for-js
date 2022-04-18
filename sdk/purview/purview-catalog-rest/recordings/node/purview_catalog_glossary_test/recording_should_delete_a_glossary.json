@@ -1,15 +1,15 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/catalog/api/atlas/v2/entity/guid/0c77217f-0f42-411d-9b3b-fb9676f13a79?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/catalog/api/atlas/v2/entity/guid/02d8b056-a685-4189-8dba-dc424ad49425?api-version=2021-05-01-preview",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-purview-catalog-rest/1.0.0-beta.5 core-rest-pipeline/1.8.1 Node/v17.8.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "908b3830-78af-4f83-855a-e0807ee3d463"
+        "User-Agent": "azsdk-js-purview-catalog-rest/1.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v17.8.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "b4b8e737-a10b-4ab6-97d0-5929bd1c5d6b"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -21,7 +21,7 @@
         "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
         "Content-Security-Policy": "default-src \u0027self\u0027; script-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 blob: data:; connect-src \u0027self\u0027; img-src \u0027self\u0027 blob: data:; style-src \u0027self\u0027 \u0027unsafe-inline\u0027;font-src \u0027self\u0027 data:",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 18 Apr 2022 06:00:36 GMT",
+        "Date": "Mon, 18 Apr 2022 12:45:27 GMT",
         "Expires": "0",
         "Pragma": "no-cache",
         "Server": "AzurePurview",
@@ -29,8 +29,8 @@
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "DENY",
-        "x-ms-correlation-request-id": "b63bc0b0-8075-4921-a07f-056e9332ed39",
-        "x-ms-request-id": "908b3830-78af-4f83-855a-e0807ee3d463",
+        "x-ms-correlation-request-id": "4e16a3c4-0418-4caa-ad41-0e8d555809d9",
+        "x-ms-request-id": "b4b8e737-a10b-4ab6-97d0-5929bd1c5d6b",
         "X-XSS-Protection": "1; mode=block"
       },
       "ResponseBody": {
@@ -43,7 +43,7 @@
                 "name": "jsLROTesting-2"
               },
               "lastModifiedTS": "2",
-              "guid": "0c77217f-0f42-411d-9b3b-fb9676f13a79",
+              "guid": "02d8b056-a685-4189-8dba-dc424ad49425",
               "status": "ACTIVE",
               "displayText": "jsLROTesting-2",
               "classificationNames": [],
