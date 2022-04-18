@@ -302,10 +302,10 @@ setLogLevel("info");
 ```
  
 In cases where the authenticate code might be running in an environment with more than one credential available,
-the `@azure/identity` package offers a special form of logging. On the optional parameters for every credential,
+the `@azure/identity` package offers a unique form of logging. On the optional parameters for every credential,
 developers can set `allowLoggingAccountIdentifiers` to true in the
 `loggingOptions` to log information specific to the authenticated account after
-each successful authentication, including: the Client ID, the Tenant ID, the
+each successful authentication, including the Client ID, the Tenant ID, the
 Object ID of the authenticated user, and if possible the User Principal Name.
 
 For example, using the `DefaultAzureCredential`:
