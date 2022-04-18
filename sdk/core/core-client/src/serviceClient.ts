@@ -40,11 +40,6 @@ export interface ServiceClientOptions extends CommonClientOptions {
    */
   endpoint?: string;
   /**
-   * If specified, this is the apiVersion that requests will be made against for this ServiceClient.
-   * If it is not specified, we will use the default apiVersion value defined in specs.
-   */
-  apiVersion?: string;
-  /**
    * If specified, will be used to build the BearerTokenAuthenticationPolicy.
    */
   credentialScopes?: string | string[];
