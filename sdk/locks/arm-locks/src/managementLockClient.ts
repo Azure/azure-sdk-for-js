@@ -47,7 +47,7 @@ export class ManagementLockClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-locks/2.0.0`;
+    const packageDetails = `azsdk-js-arm-locks/2.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -70,7 +70,7 @@ export class ManagementLockClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2016-09-01";
+    this.apiVersion = options.apiVersion || "2020-05-01";
     this.authorizationOperations = new AuthorizationOperationsImpl(this);
     this.managementLocks = new ManagementLocksImpl(this);
   }
