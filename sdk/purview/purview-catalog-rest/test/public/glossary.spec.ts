@@ -19,6 +19,18 @@ describe("purview catalog glossary test", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     client = await createClient(recorder);
+    await recorder.addSanitizers({
+      removeHeaderSanitizer: {
+        headersForRemoval: ["Content-Type", "Transfer-Encoding", "Content-Length"],
+      },
+      generalSanitizers: [
+        {
+          regex: true,
+          target: `-----[a-zA-Z0-9-._]*`,
+          value: "----------fixed-boundary",
+        },
+      ]
+    }, ["record", "playback"]);
     glossaryName = "jsLROTesting-2";
   });
 
