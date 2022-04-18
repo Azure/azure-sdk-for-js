@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/desktopvirtualization/ci.mgmt.yml
-      - sdk/desktopvirtualization/arm-desktopvirtualization/
       - sdk/desktopvirtualization/arm-desktopvirtualization
 pr:
   branches:
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/desktopvirtualization/ci.mgmt.yml
-      - sdk/desktopvirtualization/arm-desktopvirtualization/
       - sdk/desktopvirtualization/arm-desktopvirtualization
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml

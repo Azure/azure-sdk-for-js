@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/datacatalog/ci.mgmt.yml
-      - sdk/datacatalog/arm-datacatalog/
       - sdk/datacatalog/arm-datacatalog
 pr:
   branches:
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/datacatalog/ci.mgmt.yml
-      - sdk/datacatalog/arm-datacatalog/
       - sdk/datacatalog/arm-datacatalog
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml

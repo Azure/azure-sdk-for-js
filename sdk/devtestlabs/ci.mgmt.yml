@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/devtestlabs/ci.mgmt.yml
-      - sdk/devtestlabs/arm-devtestlabs/
       - sdk/devtestlabs/arm-devtestlabs
 pr:
   branches:
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/devtestlabs/ci.mgmt.yml
-      - sdk/devtestlabs/arm-devtestlabs/
       - sdk/devtestlabs/arm-devtestlabs
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml

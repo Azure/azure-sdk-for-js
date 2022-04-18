@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/datadog/ci.mgmt.yml
-      - sdk/datadog/arm-datadog/
       - sdk/datadog/arm-datadog
 pr:
   branches:
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/datadog/ci.mgmt.yml
-      - sdk/datadog/arm-datadog/
       - sdk/datadog/arm-datadog
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml

@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/deviceprovisioningservices/ci.mgmt.yml
-      - sdk/deviceprovisioningservices/arm-deviceprovisioningservices/
       - sdk/deviceprovisioningservices/arm-deviceprovisioningservices
 pr:
   branches:
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/desktopvirtualization/ci.mgmt.yml
-      - sdk/desktopvirtualization/arm-desktopvirtualization/
       - sdk/deviceprovisioningservices/arm-deviceprovisioningservices
       - sdk/deviceprovisioningservices/ci.mgmt.yml
 extends:

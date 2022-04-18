@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/deploymentmanager/ci.mgmt.yml
-      - sdk/deploymentmanager/arm-deploymentmanager/
       - sdk/deploymentmanager/arm-deploymentmanager
 pr:
   branches:
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/deploymentmanager/ci.mgmt.yml
-      - sdk/deploymentmanager/arm-deploymentmanager/
       - sdk/deploymentmanager/arm-deploymentmanager
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml

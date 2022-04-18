@@ -53,7 +53,7 @@ export class IotDpsClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-deviceprovisioningservices/4.1.2`;
+    const packageDetails = `azsdk-js-arm-deviceprovisioningservices/4.1.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

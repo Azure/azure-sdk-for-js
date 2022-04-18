@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/datamigration/ci.mgmt.yml
-      - sdk/datamigration/arm-datamigration/
       - sdk/datamigration/arm-datamigration
 pr:
   branches:
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/datamigration/ci.mgmt.yml
-      - sdk/datamigration/arm-datamigration/
       - sdk/datamigration/arm-datamigration
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml

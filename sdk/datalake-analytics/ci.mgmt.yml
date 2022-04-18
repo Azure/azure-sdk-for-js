@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/datalake-analytics/ci.mgmt.yml
-      - sdk/datalake-analytics/arm-datalake-analytics/
       - sdk/datalake-analytics/arm-datalake-analytics
 pr:
   branches:
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/datalake-analytics/ci.mgmt.yml
-      - sdk/datalake-analytics/arm-datalake-analytics/
       - sdk/datalake-analytics/arm-datalake-analytics
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
