@@ -1209,6 +1209,18 @@ export const copySourceAuthorization: OperationParameter = {
   }
 };
 
+export const copySourceTags: OperationParameter = {
+  parameterPath: ["options", "copySourceTags"],
+  mapper: {
+    serializedName: "x-ms-copy-source-tag-option",
+    xmlName: "x-ms-copy-source-tag-option",
+    type: {
+      name: "Enum",
+      allowedValues: ["REPLACE", "COPY"]
+    }
+  }
+};
+
 export const comp15: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {

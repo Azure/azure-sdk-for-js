@@ -11,6 +11,7 @@ import {
 
 import { EventGridPublisherClient, InputSchema } from "../../../src";
 import { AzureKeyCredential } from "@azure/core-auth";
+import { AdditionalPolicyConfig } from "@azure/core-client";
 
 export interface RecordedClient<T extends InputSchema> {
   client: EventGridPublisherClient<T>;
@@ -35,18 +36,23 @@ export async function createRecordedClient<T extends InputSchema>(
   endpointEnv: string,
   eventSchema: T,
   apiKeyEnv: string,
-  removeApiEventsSuffixBool: boolean = false
+  options: {
+    removeApiEventsSuffixBool?: boolean;
+    additionalPolicies?: AdditionalPolicyConfig[];
+  } = {}
 ): Promise<RecordedClient<T>> {
   const recorder = new Recorder(currentTest);
   await recorder.start(recorderOptions);
   return {
     client: new EventGridPublisherClient(
-      removeApiEventsSuffixBool
+      options.removeApiEventsSuffixBool
         ? removeApiEventsSuffix(assertEnvironmentVariable(endpointEnv))
         : assertEnvironmentVariable(endpointEnv),
       eventSchema,
       new AzureKeyCredential(assertEnvironmentVariable(apiKeyEnv)),
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({
+        additionalPolicies: options.additionalPolicies,
+      })
     ),
     recorder,
   };

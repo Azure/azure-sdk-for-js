@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-chat",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Azure client library for Azure Communication Chat services",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -76,7 +76,7 @@
     "uuid": "^8.3.0"
   },
   "devDependencies": {
-    "@azure/core-util": "^1.0.0-beta.1",
+    "@azure/core-util": "^1.0.0",
     "@azure/communication-identity": "^1.1.0-beta.2",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",

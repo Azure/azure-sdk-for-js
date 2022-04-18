@@ -44,7 +44,7 @@ export class CommunicationServiceManagementClient extends coreClient.ServiceClie
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-communication/3.0.0`;
+    const packageDetails = `azsdk-js-arm-communication/3.0.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -59,7 +59,8 @@ export class CommunicationServiceManagementClient extends coreClient.ServiceClie
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint || "https://management.azure.com"
+      baseUri:
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
     // Parameter assignments

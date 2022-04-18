@@ -19,15 +19,16 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 async function queryAtSubscriptionScopeWithNextLink() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
+  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options = { skipToken: skipToken };
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForSubscription(
-    subscriptionId,
-    options
+    "default",
+    subscriptionId2,
+    { queryOptions: options }
   )) {
     resArray.push(item);
   }

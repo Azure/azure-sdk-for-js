@@ -15,6 +15,9 @@
     "os": false,
     "process": false
   },
+  "react-native": {
+    "./dist/index.js": "./dist-esm/src/index.js"
+  },
   "types": "./types/latest/storage-file-share.d.ts",
   "typesVersions": {
     "<3.6": {

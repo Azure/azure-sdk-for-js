@@ -8,6 +8,10 @@
 
 import * as coreClient from "@azure/core-client";
 
+export type SecretBaseUnion =
+  | SecretBase
+  | SecureString
+  | AzureKeyVaultSecretReference;
 export type DataFlowUnion = DataFlow | MappingDataFlow | Flowlet;
 export type IntegrationRuntimeUnion =
   | IntegrationRuntime
@@ -227,10 +231,6 @@ export type TriggerUnion =
   | MultiplePipelineTriggerUnion
   | TumblingWindowTrigger
   | ChainingTrigger;
-export type SecretBaseUnion =
-  | SecretBase
-  | SecureString
-  | AzureKeyVaultSecretReference;
 export type DatasetLocationUnion =
   | DatasetLocation
   | AzureBlobStorageLocation
@@ -501,6 +501,208 @@ export type TriggerDependencyReferenceUnion =
   | TriggerDependencyReference
   | TumblingWindowTriggerDependencyReference;
 
+export interface LinkConnectionListResponse {
+  /** List link connection value */
+  value: LinkConnectionResource[];
+  /** List link connections next link */
+  nextLink?: string;
+}
+
+export interface LinkConnectionResource {
+  /** Link connection id */
+  id?: string;
+  /** Link connection name */
+  name?: string;
+  /** Link connection type */
+  type?: string;
+  /** Properties of link connection */
+  properties: LinkConnection;
+}
+
+export interface LinkConnection {
+  /** Properties of link connection's source database */
+  sourceDatabase?: LinkConnectionSourceDatabase;
+  /** Properties of link connection's target database */
+  targetDatabase?: LinkConnectionTargetDatabase;
+  /** Properties of link connection's landing zone */
+  landingZone?: LinkConnectionLandingZone;
+  /** Properties of link connection's compute */
+  compute?: LinkConnectionCompute;
+}
+
+export interface LinkConnectionSourceDatabase {
+  /** Linked service reference */
+  linkedService?: LinkedServiceReference;
+  /** Source database type properties */
+  typeProperties?: LinkConnectionSourceDatabaseTypeProperties;
+}
+
+/** Linked service reference type. */
+export interface LinkedServiceReference {
+  /** Linked service reference type. */
+  type: Type;
+  /** Reference LinkedService name. */
+  referenceName: string;
+  /** Arguments for LinkedService. */
+  parameters?: { [propertyName: string]: any };
+}
+
+export interface LinkConnectionSourceDatabaseTypeProperties {
+  /** Link connection source database server's resource id */
+  resourceId?: string;
+  /** Link connection source database server's principal id */
+  principalId?: string;
+}
+
+export interface LinkConnectionTargetDatabase {
+  /** Linked service reference */
+  linkedService?: LinkedServiceReference;
+}
+
+export interface LinkConnectionLandingZone {
+  /** Linked service reference */
+  linkedService?: LinkedServiceReference;
+  /** Landing zone's file system name */
+  fileSystem?: string;
+  /** Landing zone's folder path name */
+  folderPath?: string;
+  /** Landing zone's sas token */
+  sasToken?: SecureString;
+}
+
+/** The base definition of a secret type. */
+export interface SecretBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SecureString" | "AzureKeyVaultSecret";
+}
+
+export interface LinkConnectionCompute {
+  /** Link connection's compute core count */
+  coreCount?: number;
+  /** Link connection's compute type */
+  computeType?: string;
+}
+
+/** The object that defines the structure of an Azure Synapse error response. */
+export interface CloudError {
+  /** Error code. */
+  code: string;
+  /** Error message. */
+  message: string;
+  /** Property name/path in request associated with error. */
+  target?: string;
+  /** Array with additional error details. */
+  details?: CloudError[];
+}
+
+export interface EditTablesRequest {
+  /** Edit link tables request */
+  linkTables?: LinkTableRequest[];
+}
+
+export interface LinkTableRequest {
+  /** Link table id */
+  id?: string;
+  /** Source table properties for link table request */
+  source?: LinkTableRequestSource;
+  /** Target table properties for link table request */
+  target?: LinkTableRequestTarget;
+  /** Link table operation type */
+  operationType?: string;
+}
+
+export interface LinkTableRequestSource {
+  /** Source table table name */
+  tableName?: string;
+  /** Source table schema name */
+  schemaName?: string;
+}
+
+export interface LinkTableRequestTarget {
+  /** Target table table name */
+  tableName?: string;
+  /** Target table schema name */
+  schemaName?: string;
+  /** Target table distribution options for link table request */
+  distributionOptions?: LinkTableRequestTargetDistributionOptions;
+}
+
+export interface LinkTableRequestTargetDistributionOptions {
+  /** Target table distribution type */
+  type?: string;
+  /** Target table distribution column */
+  distributionColumn?: string;
+}
+
+export interface LinkConnectionDetailedStatus {
+  /** Link connection id */
+  id?: string;
+  /** Link connection name */
+  name?: string;
+  /** Is link connection applying changes */
+  isApplyingChanges?: boolean;
+  /** Is link connection partially failed */
+  isPartiallyFailed?: boolean;
+  /** Link connection start time */
+  startTime?: any;
+  /** Link connection stop time */
+  stopTime?: any;
+  /** Link connection status */
+  status?: string;
+  /** Link connection's corresponding continuous run id */
+  continuousRunId?: string;
+  /** Link connection error */
+  error?: any;
+}
+
+export interface LinkTableListResponse {
+  /** List link table value */
+  value?: LinkTableResource[];
+}
+
+export interface LinkTableResource {
+  /** Link table id */
+  id?: string;
+  /** Link table name */
+  name?: string;
+  /** Source table properties for link table request */
+  source?: LinkTableRequestSource;
+  /** Target table properties for link table request */
+  target?: LinkTableRequestTarget;
+}
+
+export interface QueryTableStatusRequest {
+  /** Max segment count to query table status */
+  maxSegmentCount?: number;
+  /** Continuation token to query table status */
+  continuationToken?: any;
+}
+
+export interface LinkConnectionQueryTableStatus {
+  /** Link tables' status */
+  value?: LinkTableStatus[];
+  /** Continuation token to query table status */
+  continuationToken?: any;
+}
+
+export interface LinkTableStatus {
+  /** Link table id */
+  id?: string;
+  /** Link table status */
+  status?: string;
+  /** Link table error message */
+  errorMessage?: string;
+  /** Link table start time */
+  startTime?: any;
+  /** Link table stop time */
+  stopTime?: any;
+}
+
+export interface UpdateLandingZoneCredential {
+  /** Landing zone's sas token */
+  sasToken?: SecureString;
+}
+
 export interface KqlScriptsResourceCollectionResponse {
   value?: KqlScriptResource[];
   nextLink?: string;
@@ -660,18 +862,6 @@ export interface Resource {
   readonly type?: string;
 }
 
-/** The object that defines the structure of an Azure Synapse error response. */
-export interface CloudError {
-  /** Error code. */
-  code: string;
-  /** Error message. */
-  message: string;
-  /** Property name/path in request associated with error. */
-  target?: string;
-  /** Array with additional error details. */
-  details?: CloudError[];
-}
-
 /** Collection of Big Data pool information */
 export interface BigDataPoolResourceInfoListResult {
   /** Link to the next page of results */
@@ -757,18 +947,6 @@ export interface DataFlow {
 export interface DataFlowFolder {
   /** The name of the folder that this data flow is in. */
   name?: string;
-}
-
-/** The object that defines the structure of an Azure Synapse error response. */
-export interface CloudErrorAutoGenerated {
-  /** Error code. */
-  code: string;
-  /** Error message. */
-  message: string;
-  /** Property name/path in request associated with error. */
-  target?: string;
-  /** Array with additional error details. */
-  details?: CloudErrorAutoGenerated[];
 }
 
 /** A list of data flow resources. */
@@ -980,16 +1158,6 @@ export interface Dataset {
   annotations?: any[];
   /** The folder that this Dataset is in. If not specified, Dataset will appear at the root level. */
   folder?: DatasetFolder;
-}
-
-/** Linked service reference type. */
-export interface LinkedServiceReference {
-  /** Linked service reference type. */
-  type: Type;
-  /** Reference LinkedService name. */
-  referenceName: string;
-  /** Arguments for LinkedService. */
-  parameters?: { [propertyName: string]: any };
 }
 
 /** Definition of a single parameter for an entity. */
@@ -1347,7 +1515,7 @@ export interface OperationResult {
   /** Property name/path in request associated with error. */
   target?: string;
   /** Array with additional error details. */
-  details?: CloudErrorAutoGenerated[];
+  details?: CloudError[];
 }
 
 /** A list of linked service resources. */
@@ -2314,12 +2482,6 @@ export interface Expression {
   type: ExpressionType;
   /** Expression value. */
   value: string;
-}
-
-/** The base definition of a secret type. */
-export interface SecretBase {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "SecureString" | "AzureKeyVaultSecret";
 }
 
 /** Defines the response of a provision trigger dependency operation. */
@@ -3539,6 +3701,26 @@ export interface LinkedIntegrationRuntimeType {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   authorizationType: "Key" | "RBAC";
 }
+
+/** Azure Synapse secure string definition. The string value will be masked with asterisks '*' during Get or List API calls. */
+export type SecureString = SecretBase & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "SecureString";
+  /** Value of secure string. */
+  value: string;
+};
+
+/** Azure Key Vault secret reference. */
+export type AzureKeyVaultSecretReference = SecretBase & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AzureKeyVaultSecret";
+  /** The Azure Key Vault linked service reference. */
+  store: LinkedServiceReference;
+  /** The name of the secret in Azure Key Vault. Type: string (or Expression with resultType string). */
+  secretName: any;
+  /** The version of the secret in Azure Key Vault. The default value is the latest version of the secret. Type: string (or Expression with resultType string). */
+  secretVersion?: any;
+};
 
 /** The resource model definition for an Azure Resource Manager resource with an etag. */
 export type AzureEntityResource = Resource & {
@@ -6839,26 +7021,6 @@ export type ChainingTrigger = Trigger & {
   runDimension: string;
 };
 
-/** Azure Synapse secure string definition. The string value will be masked with asterisks '*' during Get or List API calls. */
-export type SecureString = SecretBase & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "SecureString";
-  /** Value of secure string. */
-  value: string;
-};
-
-/** Azure Key Vault secret reference. */
-export type AzureKeyVaultSecretReference = SecretBase & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AzureKeyVaultSecret";
-  /** The Azure Key Vault linked service reference. */
-  store: LinkedServiceReference;
-  /** The name of the secret in Azure Key Vault. Type: string (or Expression with resultType string). */
-  secretName: any;
-  /** The version of the secret in Azure Key Vault. The default value is the latest version of the secret. Type: string (or Expression with resultType string). */
-  secretVersion?: any;
-};
-
 /** Transformation for data flow source. */
 export type DataFlowSource = Transformation & {
   /** Schema linked service reference. */
@@ -8984,9 +9146,7 @@ export type SqlServerStoredProcedureActivity = ExecutionActivity & {
   /** Stored procedure name. Type: string (or Expression with resultType string). */
   storedProcedureName: any;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". */
-  storedProcedureParameters?: {
-    [propertyName: string]: StoredProcedureParameter;
-  };
+  storedProcedureParameters?: any;
 };
 
 /** Delete activity. */
@@ -9973,6 +10133,20 @@ export interface DataFlowDebugSessionExecuteCommandHeaders {
   location?: string;
 }
 
+/** Known values of {@link Type} that the service accepts. */
+export enum KnownType {
+  LinkedServiceReference = "LinkedServiceReference"
+}
+
+/**
+ * Defines values for Type. \
+ * {@link KnownType} can be used interchangeably with Type,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **LinkedServiceReference**
+ */
+export type Type = string;
+
 /** Known values of {@link RequestStatus} that the service accepts. */
 export enum KnownRequestStatus {
   Running = "Running",
@@ -10066,20 +10240,6 @@ export enum KnownIntegrationRuntimeType {
  * **SelfHosted**
  */
 export type IntegrationRuntimeType = string;
-
-/** Known values of {@link Type} that the service accepts. */
-export enum KnownType {
-  LinkedServiceReference = "LinkedServiceReference"
-}
-
-/**
- * Defines values for Type. \
- * {@link KnownType} can be used interchangeably with Type,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **LinkedServiceReference**
- */
-export type Type = string;
 
 /** Known values of {@link ParameterType} that the service accepts. */
 export enum KnownParameterType {
@@ -12055,6 +12215,75 @@ export type DayOfWeek =
   | "Thursday"
   | "Friday"
   | "Saturday";
+
+/** Optional parameters. */
+export interface LinkConnectionListLinkConnectionsByWorkspaceOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listLinkConnectionsByWorkspace operation. */
+export type LinkConnectionListLinkConnectionsByWorkspaceResponse = LinkConnectionListResponse;
+
+/** Optional parameters. */
+export interface LinkConnectionCreateOrUpdateLinkConnectionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdateLinkConnection operation. */
+export type LinkConnectionCreateOrUpdateLinkConnectionResponse = LinkConnectionResource;
+
+/** Optional parameters. */
+export interface LinkConnectionGetLinkConnectionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getLinkConnection operation. */
+export type LinkConnectionGetLinkConnectionResponse = LinkConnectionResource;
+
+/** Optional parameters. */
+export interface LinkConnectionDeleteLinkConnectionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface LinkConnectionEditTablesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface LinkConnectionStartOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface LinkConnectionStopOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface LinkConnectionGetDetailedStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getDetailedStatus operation. */
+export type LinkConnectionGetDetailedStatusResponse = LinkConnectionDetailedStatus;
+
+/** Optional parameters. */
+export interface LinkConnectionListLinkTablesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listLinkTables operation. */
+export type LinkConnectionListLinkTablesResponse = LinkTableListResponse;
+
+/** Optional parameters. */
+export interface LinkConnectionQueryTableStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the queryTableStatus operation. */
+export type LinkConnectionQueryTableStatusResponse = LinkConnectionQueryTableStatus;
+
+/** Optional parameters. */
+export interface LinkConnectionUpdateLandingZoneCredentialOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface LinkConnectionListLinkConnectionsByWorkspaceNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listLinkConnectionsByWorkspaceNext operation. */
+export type LinkConnectionListLinkConnectionsByWorkspaceNextResponse = LinkConnectionListResponse;
 
 /** Optional parameters. */
 export interface KqlScriptsGetAllOptionalParams

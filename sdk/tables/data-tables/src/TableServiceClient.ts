@@ -290,7 +290,7 @@ export class TableServiceClient {
       byPage: (settings) => {
         const pageOptions: InternalListTablesOptions = {
           ...options,
-          queryOptions: { top: settings?.maxPageSize },
+          queryOptions: { ...options?.queryOptions, top: settings?.maxPageSize },
         };
 
         if (settings?.continuationToken) {
