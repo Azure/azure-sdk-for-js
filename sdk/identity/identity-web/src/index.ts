@@ -137,7 +137,7 @@ export class WebRedirectCredential implements TokenCredential {
     const params = new URLSearchParams(queryParams as Record<string, string>);
     const query = params.toString();
     const authorizeHost = `https://login.microsoftonline.com/${this.tenantId}/oauth2/v2.0/authorize?${query}`;
-    return `${authorizeHost}`;
+    return authorizeHost;
   }
 
   /**
