@@ -66,7 +66,7 @@ async function createHealthCheckStep() {
                 name: "code",
                 type: "ApiKey",
                 in: "Header",
-                value: "NBCapiMOBQyAAbCkeytoPadnvO0eGHmidwFz5rXpappznKp3Jt7LLg==",
+                value: "",
               },
               uri: "https://resthealth.healthservice.com/api/services/contosoService/healthStatus",
             },

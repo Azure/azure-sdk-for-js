@@ -21,7 +21,7 @@ async function listAzureDataCatalogService() {
   const subscriptionId = "12345678-1234-1234-12345678abc";
   const resourceGroupName = "exampleResourceGroup";
   const credential = new DefaultAzureCredential();
-  const client = new DataCatalogRestClient(credential, subscriptionId);
+  const client = new DataCatalogRestClient(credential, subscriptionId, "");
   const result = await client.aDCCatalogs.listtByResourceGroup(
     resourceGroupName
   );
