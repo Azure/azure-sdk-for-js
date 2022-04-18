@@ -25,16 +25,12 @@ async function createOrUpdateAPolicySetDefinition() {
     displayName: "Cost Management",
     metadata: { category: "Cost Management" },
     parameters: {
-      namePrefix: {
-        type: "String",
-        defaultValue: "myPrefix",
-        metadata: { displayName: "Prefix to enforce on resource names" }
-      }
+      namePrefix: {}
     },
     policyDefinitions: [
       {
         parameters: {
-          listOfAllowedSKUs: { value: ["Standard_GRS", "Standard_LRS"] }
+          listOfAllowedSKUs: {}
         },
         policyDefinitionId:
           "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/7433c107-6db4-4ad1-b57a-a76dce0154a1",
@@ -42,8 +38,8 @@ async function createOrUpdateAPolicySetDefinition() {
       },
       {
         parameters: {
-          prefix: { value: "[parameters('namePrefix')]" },
-          suffix: { value: "-LC" }
+          prefix: {},
+          suffix: {}
         },
         policyDefinitionId:
           "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming",
@@ -93,7 +89,7 @@ async function createOrUpdateAPolicySetDefinitionWithGroups() {
       {
         groupNames: ["CostSaving"],
         parameters: {
-          listOfAllowedSKUs: { value: ["Standard_GRS", "Standard_LRS"] }
+          listOfAllowedSKUs: {}
         },
         policyDefinitionId:
           "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/7433c107-6db4-4ad1-b57a-a76dce0154a1",
@@ -101,7 +97,7 @@ async function createOrUpdateAPolicySetDefinitionWithGroups() {
       },
       {
         groupNames: ["Organizational"],
-        parameters: { prefix: { value: "DeptA" }, suffix: { value: "-LC" } },
+        parameters: { prefix: {}, suffix: {} },
         policyDefinitionId:
           "/subscriptions/ae640e6b-ba3e-4256-9d62-2993eecfa6f2/providers/Microsoft.Authorization/policyDefinitions/ResourceNaming",
         policyDefinitionReferenceId: "Resource_Naming"
