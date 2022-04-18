@@ -1,6 +1,6 @@
 # Release History
     
-## 15.1.0-beta.1 (2022-04-15)
+## 15.1.0-beta.2 (2022-04-15)
     
 **Features**
 
