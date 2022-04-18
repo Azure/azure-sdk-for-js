@@ -284,7 +284,10 @@ Credentials raise `AuthenticationError` when they fail to authenticate. This cla
 
 ### Logging
 
-Enabling logging may help uncover useful information about failures. To see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. You can read this environment variable from the *.env* file by explicitly specifying a file path:
+Enabling logging may help uncover useful information about failures.
+
+To see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`.
+You can read this environment variable from the *.env* file by explicitly specifying a file path:
 
 ```javascript
 require("dotenv").config({ path: ".env" });
@@ -296,6 +299,31 @@ Alternatively, logging can be enabled at runtime by calling `setLogLevel` from t
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
+```
+ 
+In cases where the authenticate code might be running in an environment with more than one credential available,
+the `@azure/identity` package offers a special form of logging. On the optional parameters for every credential,
+developers can set `allowLoggingAccountIdentifiers` to true in the
+`loggingOptions` to log information specific to the authenticated account after
+each successful authentication, including: the Client ID, the Tenant ID, the
+Object ID of the authenticated user, and if possible the User Principal Name.
+
+For example, using the `DefaultAzureCredential`:
+
+```js
+import { setLogLevel } from "@azure/logger";
+
+setLogLevel("info");
+
+const credential = new DefaultAzureCredential({
+  loggingOptions: { allowLoggingAccountIdentifiers: true }
+});
+```
+
+Once that credential authenticates, the following message will appear in the logs (with the real information instead of `HIDDEN`):
+
+```
+azure:identity:info [Authenticated account] Client ID: HIDDEN. Tenant ID: HIDDEN. User Principal Name: HIDDEN. Object ID (user): HIDDEN
 ```
 
 For assistance with troubleshooting, see the [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/TROUBLESHOOTING.md).
