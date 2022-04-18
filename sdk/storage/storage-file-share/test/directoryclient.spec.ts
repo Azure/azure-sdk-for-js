@@ -96,6 +96,7 @@ describe("DirectoryClient", () => {
       metadata: metadata,
       creationTime: now,
       lastWriteTime: now,
+      changeTime: now,
       filePermissionKey: defaultDirCreateResp.filePermissionKey,
       fileAttributes: fullDirAttributes,
     });
@@ -114,11 +115,13 @@ describe("DirectoryClient", () => {
     assert.ok(respFileAttributes.noScrubData);
     assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
     assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileChangeOn!), truncatedISO8061Date(now));
     assert.equal(result.filePermissionKey!, defaultDirCreateResp.filePermissionKey!);
     assert.ok(result.fileChangeOn!);
     assert.ok(result.fileId!);
     assert.ok(result.fileParentId!);
   });
+
   it("create with all parameters configured setting filePermission", async () => {
     const getPermissionResp = await shareClient.getPermission(
       defaultDirCreateResp.filePermissionKey!
@@ -223,6 +226,7 @@ describe("DirectoryClient", () => {
     await dirClient.setProperties({
       creationTime: now,
       lastWriteTime: now,
+      changeTime: now,
       filePermission: getPermissionResp.permission,
       fileAttributes: fullDirAttributes,
     });
@@ -240,6 +244,7 @@ describe("DirectoryClient", () => {
     assert.ok(respFileAttributes.noScrubData);
     assert.equal(truncatedISO8061Date(result.fileCreatedOn!), truncatedISO8061Date(now));
     assert.equal(truncatedISO8061Date(result.fileLastWriteOn!), truncatedISO8061Date(now));
+    assert.equal(truncatedISO8061Date(result.fileChangeOn!), truncatedISO8061Date(now));
     assert.ok(result.filePermissionKey!);
     assert.ok(result.fileChangeOn!);
     assert.ok(result.fileId!);
@@ -1172,11 +1177,13 @@ describe("DirectoryClient", () => {
 
     const creationDate = new Date("05 October 2019 14:48 UTC");
     const lastwriteTime = new Date("15 October 2019 14:48 UTC");
+    const changedTime = new Date("25 October 2019 14:48 UTC");
 
     const copyFileSMBInfo = {
       fileAttributes: fileAttributesInstance.toString(),
       fileCreationTime: truncatedISO8061Date(creationDate),
       fileLastWriteTime: truncatedISO8061Date(lastwriteTime),
+      fileChangeTime: truncatedISO8061Date(changedTime),
     };
 
     const sourceDirName = recorder.getUniqueName("sourcedir");
@@ -1202,6 +1209,10 @@ describe("DirectoryClient", () => {
     assert.ok(
       truncatedISO8061Date(properties.fileLastWriteOn!) === truncatedISO8061Date(lastwriteTime),
       "Last write time should be expected"
+    );
+    assert.ok(
+      truncatedISO8061Date(properties.fileChangeOn!) === truncatedISO8061Date(changedTime),
+      "Changed time should be expected"
     );
     const fileSystemAttributes = FileSystemAttributes.parse(properties.fileAttributes!);
     assert.ok(

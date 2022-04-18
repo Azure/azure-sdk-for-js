@@ -53,6 +53,7 @@ import {
   ShareRootSquash,
   FileRenameResponse,
   DirectoryRenameResponse,
+  FileLastWrittenMode,
 } from "./generatedModels";
 import { Share, Directory, File } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
@@ -62,6 +63,8 @@ import {
   FILE_MAX_SIZE_BYTES,
   FILE_RANGE_MAX_SIZE_BYTES,
   URLConstants,
+  FileAttributesPreserve,
+  FileAttributesNone,
 } from "./utils/constants";
 import {
   appendToURLPath,
@@ -99,6 +102,7 @@ import {
   toShareProtocolsString,
   toShareProtocols,
   HttpAuthorization,
+  fileChangeTimeToString,
 } from "./models";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
@@ -1761,14 +1765,17 @@ export class ShareDirectoryClient extends StorageClient {
       }
 
       return await this.context.create(
-        fileAttributesToString(options.fileAttributes!),
-        fileCreationTimeToString(options.creationTime!),
-        fileLastWriteTimeToString(options.lastWriteTime!),
+        options.fileAttributes
+          ? fileAttributesToString(options.fileAttributes!)
+          : FileAttributesNone,
         {
           abortSignal: options.abortSignal,
           metadata: options.metadata,
           filePermission: options.filePermission,
           filePermissionKey: options.filePermissionKey,
+          fileChangeOn: fileChangeTimeToString(options.changeTime),
+          fileCreatedOn: fileCreationTimeToString(options.creationTime),
+          fileLastWriteOn: fileLastWriteTimeToString(options.lastWriteTime),
           ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
@@ -1838,13 +1845,16 @@ export class ShareDirectoryClient extends StorageClient {
       properties = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(properties);
 
       return await this.context.setProperties(
-        fileAttributesToString(properties.fileAttributes!),
-        fileCreationTimeToString(properties.creationTime!),
-        fileLastWriteTimeToString(properties.lastWriteTime!),
+        properties.fileAttributes
+          ? fileAttributesToString(properties.fileAttributes!)
+          : FileAttributesPreserve,
         {
           abortSignal: properties.abortSignal,
           filePermission: properties.filePermission,
           filePermissionKey: properties.filePermissionKey,
+          fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
+          fileCreatedOn: fileCreationTimeToString(properties.creationTime),
+          fileLastWriteOn: fileLastWriteTimeToString(properties.lastWriteTime),
           ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
@@ -2962,6 +2972,14 @@ export interface FileUploadRangeOptions extends CommonOptions {
    * Lease access conditions.
    */
   leaseAccessConditions?: LeaseAccessConditions;
+
+  /**
+   * The last write time for the file.
+   * A value of Preserve may be passed to keep an existing value unchanged.
+   * A value of Now may be used to indicate the time of the request.
+   * By default, the value will be set as Now.
+   */
+  fileLastWrittenMode?: FileLastWrittenMode;
 }
 
 /**
@@ -2995,6 +3013,13 @@ export interface FileUploadRangeFromURLOptions extends CommonOptions {
    * Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source.
    */
   sourceAuthorization?: HttpAuthorization;
+  /**
+   * The last write time for the file.
+   * A value of preserve may be passed to keep an existing value unchanged.
+   * A value of now may be used to indicate the time of the request.
+   * By default, the value will be set as now.
+   */
+  fileLastWrittenMode?: FileLastWrittenMode;
 }
 
 /**
@@ -3206,6 +3231,13 @@ export interface FileClearRangeOptions extends CommonOptions {
    * Lease access conditions.
    */
   leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * The last write time for the file.
+   * A value of preserve may be passed to keep an existing value unchanged.
+   * A value of now may be used to indicate the time of the request.
+   * By default, the value will be set as now.
+   */
+  fileLastWrittenMode?: FileLastWrittenMode;
 }
 
 /**
@@ -3496,6 +3528,12 @@ export interface FileRenameOptions extends CommonOptions {
    * A boolean value that specifies whether the ReadOnly attribute on a preexisting destination file should be respected. If true, the rename will succeed, otherwise, a previous file at the destination with the ReadOnly attribute set will cause the rename to fail.
    */
   ignoreReadOnly?: boolean;
+
+  /**
+   * Optional.
+   * Content type to set on the File.
+   */
+  contentType?: string;
 }
 
 /**
@@ -3701,26 +3739,22 @@ export class ShareFileClient extends StorageClient {
       }
       options = validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions(options);
 
-      if (!options.fileAttributes) {
-        // Note: It would be Archive in service side if None is set.
-        const attributes: FileSystemAttributes = new FileSystemAttributes();
-        attributes.none = true;
-        options.fileAttributes = attributes;
-      }
-
       options.fileHttpHeaders = options.fileHttpHeaders || {};
 
       return await this.context.create(
         size,
-        fileAttributesToString(options.fileAttributes!),
-        fileCreationTimeToString(options.creationTime!),
-        fileLastWriteTimeToString(options.lastWriteTime!),
+        options.fileAttributes
+          ? fileAttributesToString(options.fileAttributes!)
+          : FileAttributesNone,
         {
           abortSignal: options.abortSignal,
           fileHttpHeaders: options.fileHttpHeaders,
           metadata: options.metadata,
           filePermission: options.filePermission,
           filePermissionKey: options.filePermissionKey,
+          fileChangeOn: fileChangeTimeToString(options.changeTime),
+          fileCreatedOn: fileCreationTimeToString(options.creationTime),
+          fileLastWriteOn: fileLastWriteTimeToString(options.lastWriteTime),
           leaseAccessConditions: options.leaseAccessConditions,
           ...convertTracingToRequestOptionsBase(updatedOptions),
         }
@@ -3971,15 +4005,18 @@ export class ShareFileClient extends StorageClient {
       properties.fileHttpHeaders = properties.fileHttpHeaders || {};
 
       return await this.context.setHttpHeaders(
-        fileAttributesToString(properties.fileAttributes!),
-        fileCreationTimeToString(properties.creationTime!),
-        fileLastWriteTimeToString(properties.lastWriteTime!),
+        properties.fileAttributes
+          ? fileAttributesToString(properties.fileAttributes!)
+          : FileAttributesPreserve,
         {
           abortSignal: properties.abortSignal,
           fileHttpHeaders: properties.fileHttpHeaders,
           filePermission: properties.filePermission,
           filePermissionKey: properties.filePermissionKey,
           leaseAccessConditions: properties.leaseAccessConditions,
+          fileChangeOn: fileChangeTimeToString(properties.changeTime),
+          fileCreatedOn: fileCreationTimeToString(properties.creationTime),
+          fileLastWriteOn: fileLastWriteTimeToString(properties.lastWriteTime),
           ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
@@ -4102,15 +4139,18 @@ export class ShareFileClient extends StorageClient {
       // FileAttributes, filePermission, createTime, lastWriteTime will all be preserved
       options = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(options);
       return await this.context.setHttpHeaders(
-        fileAttributesToString(options.fileAttributes!),
-        fileCreationTimeToString(options.creationTime!),
-        fileLastWriteTimeToString(options.lastWriteTime!),
+        options.fileAttributes
+          ? fileAttributesToString(options.fileAttributes!)
+          : FileAttributesPreserve,
         {
           abortSignal: options.abortSignal,
           fileHttpHeaders,
           filePermission: options.filePermission,
           filePermissionKey: options.filePermissionKey,
           leaseAccessConditions: options.leaseAccessConditions,
+          fileCreatedOn: fileCreationTimeToString(options.creationTime),
+          fileLastWriteOn: fileLastWriteTimeToString(options.lastWriteTime),
+          fileChangeOn: fileChangeTimeToString(options.changeTime),
           ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
@@ -4148,19 +4188,17 @@ export class ShareFileClient extends StorageClient {
       // FileAttributes, filePermission, createTime, lastWriteTime will all be preserved.
       options = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(options);
 
-      return await this.context.setHttpHeaders(
-        fileAttributesToString(options.fileAttributes!),
-        fileCreationTimeToString(options.creationTime!),
-        fileLastWriteTimeToString(options.lastWriteTime!),
-        {
-          abortSignal: options.abortSignal,
-          fileContentLength: length,
-          filePermission: options.filePermission,
-          filePermissionKey: options.filePermissionKey,
-          leaseAccessConditions: options.leaseAccessConditions,
-          ...convertTracingToRequestOptionsBase(updatedOptions),
-        }
-      );
+      return await this.context.setHttpHeaders(fileAttributesToString(options.fileAttributes!), {
+        abortSignal: options.abortSignal,
+        fileContentLength: length,
+        filePermission: options.filePermission,
+        filePermissionKey: options.filePermissionKey,
+        leaseAccessConditions: options.leaseAccessConditions,
+        fileChangeOn: fileChangeTimeToString(options.changeTime),
+        fileCreatedOn: fileCreationTimeToString(options.creationTime),
+        fileLastWriteOn: fileLastWriteTimeToString(options.lastWriteTime),
+        ...convertTracingToRequestOptionsBase(updatedOptions),
+      });
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -4266,6 +4304,7 @@ export class ShareFileClient extends StorageClient {
           body: body,
           ...convertTracingToRequestOptionsBase(updatedOptions),
           leaseAccessConditions: options.leaseAccessConditions,
+          fileLastWrittenMode: options.fileLastWrittenMode,
         }
       );
     } catch (e) {
@@ -4315,6 +4354,7 @@ export class ShareFileClient extends StorageClient {
           sourceRange: rangeToString({ offset: sourceOffset, count }),
           sourceModifiedAccessConditions: options.sourceConditions,
           copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
+          fileLastWrittenMode: options.fileLastWrittenMode,
           ...options,
           ...convertTracingToRequestOptionsBase(updatedOptions),
         }
@@ -4356,6 +4396,7 @@ export class ShareFileClient extends StorageClient {
           abortSignal: options.abortSignal,
           ...convertTracingToRequestOptionsBase(updatedOptions),
           leaseAccessConditions: options.leaseAccessConditions,
+          fileLastWrittenMode: options.fileLastWrittenMode,
         }
       );
     } catch (e) {
@@ -5370,6 +5411,11 @@ export class ShareFileClient extends StorageClient {
         destinationLeaseAccessConditions: updatedOptions.destinationLeaseAccessConditions
           ? {
               destinationLeaseId: updatedOptions.destinationLeaseAccessConditions.leaseId,
+            }
+          : undefined,
+        fileHttpHeaders: options.contentType
+          ? {
+              fileContentType: options.contentType,
             }
           : undefined,
       });
