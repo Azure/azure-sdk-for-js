@@ -3,7 +3,7 @@
 
 import { SpanAttributes, HrTime, SpanContext, SpanKind, ROOT_CONTEXT } from "@opentelemetry/api";
 import { timeInputToHrTime } from "@opentelemetry/core";
-import { BasicTracerProvider, Span } from "@opentelemetry/tracing";
+import { BasicTracerProvider, Span } from "@opentelemetry/sdk-trace-base";
 import * as assert from "assert";
 import { ENQUEUED_TIME, TIME_SINCE_ENQUEUED } from "../../src/utils/constants/applicationinsights";
 import {

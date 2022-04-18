@@ -29,8 +29,9 @@ async function summarizeAtManagementGroupScope() {
   const credential = new DefaultAzureCredential();
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const result = await client.policyStates.summarizeForManagementGroup(
+    "latest",
     managementGroupName,
-    options
+    { queryOptions: options }
   );
   console.log(result);
 }

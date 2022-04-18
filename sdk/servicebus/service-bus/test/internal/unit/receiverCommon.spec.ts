@@ -327,9 +327,10 @@ describe("shared receiver code", () => {
               console.log(
                 `###  ${elapsed} ms passed (from ${previousAttemptTime} to ${currentTime})`
               );
-              if (elapsed < retryDelayInMs) {
+              const expectedDelay = retryDelayInMs - 5; // with error tolerance to account for time accuracy issue
+              if (elapsed < expectedDelay) {
                 errorMessages.push(
-                  `Elapsed time ${elapsed} ms (from ${previousAttemptTime} to ${currentTime}) is shorter than expected, the wait between attempts should have been at least ${retryDelayInMs} ms.`
+                  `Elapsed time ${elapsed} ms (from ${previousAttemptTime} to ${currentTime}) is shorter than expected. The wait between attempts should have been about ${retryDelayInMs} ms.`
                 );
               }
               previousAttemptTime = currentTime;

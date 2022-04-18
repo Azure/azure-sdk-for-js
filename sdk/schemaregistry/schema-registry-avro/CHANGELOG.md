@@ -1,15 +1,26 @@
 # Release History
 
-## 1.0.0 (Unreleased)
+## 1.0.0-beta.9 (Unreleased)
 
 ### Features Added
-- A new error type, `AvroSerializationError`, is added and is thrown in all error cases except for service calls.
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.0.0-beta.8 (2022-04-05)
+
+### Features Added
+- A new error type, `AvroError`, is added and is thrown in all error cases except for service calls.
+
+### Breaking Changes
+- The `encodeMessageData` method has been renamed to `serialize`.
+- The `decodeMessageData` method has been renamed to `deserialize`.
+- The `MessageWithMetadata` interface has been renamed to `MessageContent`.
+- `MessageContent`'s `body` has been renamed to `data`.
+- `MessageAdapter`'s `consumeMessage` and `produceMessage` have been renamed to `consume` and `produce`.
 
 ## 1.0.0-beta.7 (2022-03-10)
 

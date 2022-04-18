@@ -32,6 +32,8 @@ export async function convertSchemaResponse(response: GeneratedSchemaResponse): 
     properties: {
       id: response.schemaId!,
       format: mapContentTypeToFormat(response.contentType!),
+      groupName: response.schemaGroupName!,
+      name: response.schemaName!,
     },
   };
 }
@@ -50,6 +52,8 @@ export function convertSchemaIdResponse(
       // is not modeled by the generated client.
       id: response.schemaId!,
       format: schemaFormat,
+      groupName: response.schemaGroupName!,
+      name: response.schemaName!,
     };
   };
 }

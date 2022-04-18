@@ -3,25 +3,18 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { OperationOptions } from "@azure/core-http";
-import { createTraceFunction } from "../../../../keyvault-common/src";
 import {
   GetCertificateOptions,
   KeyVaultCertificateWithPolicy,
   RecoverDeletedCertificateOptions,
 } from "../../certificatesModels";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
+import { tracingClient } from "../../tracing";
 import { getCertificateWithPolicyFromCertificateBundle } from "../../transformations";
 import {
   KeyVaultCertificatePollOperation,
   KeyVaultCertificatePollOperationState,
 } from "../keyVaultCertificatePoller";
-
-/**
- * @internal
- */
-const withTrace = createTraceFunction(
-  "Azure.KeyVault.Certificates.RecoverDeletedCertificatePoller"
-);
 
 /**
  * Deprecated: Public representation of the recovery of a deleted certificate poll operation
@@ -54,15 +47,19 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
     certificateName: string,
     options: GetCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
-    return withTrace("getCertificate", options, async (updatedOptions) => {
-      const result = await this.client.getCertificate(
-        this.vaultUrl,
-        certificateName,
-        "",
-        updatedOptions
-      );
-      return getCertificateWithPolicyFromCertificateBundle(result);
-    });
+    return tracingClient.withSpan(
+      "RecoverDeletedCertificatePoller.getCertificate",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.getCertificate(
+          this.vaultUrl,
+          certificateName,
+          "",
+          updatedOptions
+        );
+        return getCertificateWithPolicyFromCertificateBundle(result);
+      }
+    );
   }
 
   /**
@@ -73,14 +70,18 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
     certificateName: string,
     options: RecoverDeletedCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
-    return withTrace("recoverDeletedCertificate", options, async (updatedOptions) => {
-      const result = await this.client.recoverDeletedCertificate(
-        this.vaultUrl,
-        certificateName,
-        updatedOptions
-      );
-      return getCertificateWithPolicyFromCertificateBundle(result._response.parsedBody);
-    });
+    return tracingClient.withSpan(
+      "RecoverDeletedCertificatePoller.recoverDeletedCertificate",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.recoverDeletedCertificate(
+          this.vaultUrl,
+          certificateName,
+          updatedOptions
+        );
+        return getCertificateWithPolicyFromCertificateBundle(result._response.parsedBody);
+      }
+    );
   }
 
   /**

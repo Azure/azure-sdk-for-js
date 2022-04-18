@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */ {
+ */{
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -444,11 +444,6 @@
     {
       "packageName": "@azure-rest/core-client",
       "projectFolder": "sdk/core/core-client-rest",
-      "versionPolicyName": "core"
-    },
-    {
-      "packageName": "@azure/core-asynciterator-polyfill",
-      "projectFolder": "sdk/core/core-asynciterator-polyfill",
       "versionPolicyName": "core"
     },
     {
@@ -1674,6 +1669,16 @@
     {
       "packageName": "@azure/arm-app",
       "projectFolder": "sdk/app/arm-app",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-hardwaresecuritymodules",
+      "projectFolder": "sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-dashboard",
+      "projectFolder": "sdk/dashboard/arm-dashboard",
       "versionPolicyName": "management"
     }
   ]

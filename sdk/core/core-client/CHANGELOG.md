@@ -1,9 +1,11 @@
 # Release History
 
-## 1.5.1 (2022-03-31)
+## 1.6.0 (unreleased)
 
 ### Features Added
-- Added a new property endpoint in ServiceClientOptions and mark the baseUri as deprecated to encourage people to use endpoint. 
+
+- Added a new property endpoint in ServiceClientOptions and mark the baseUri as deprecated to encourage people to use endpoint.
+- Upgraded our `@azure/core-tracing` dependency to version 1.0
 
 ## 1.5.0 (2022-02-03)
 

@@ -12,16 +12,17 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
+  AccountFilter as AccountFilterMapper,
   MediaService as MediaServiceMapper,
   MediaServiceUpdate as MediaServiceUpdateMapper,
   SyncStorageKeysInput as SyncStorageKeysInputMapper,
   ListEdgePoliciesInput as ListEdgePoliciesInputMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   CheckNameAvailabilityInput as CheckNameAvailabilityInputMapper,
-  AccountFilter as AccountFilterMapper,
   Asset as AssetMapper,
   ListContainerSasInput as ListContainerSasInputMapper,
   AssetFilter as AssetFilterMapper,
+  AssetTrack as AssetTrackMapper,
   ContentKeyPolicy as ContentKeyPolicyMapper,
   Transform as TransformMapper,
   Job as JobMapper,
@@ -58,18 +59,6 @@ export const $host: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const apiVersion: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2021-06-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
@@ -103,76 +92,12 @@ export const accountName: OperationURLParameter = {
   }
 };
 
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "application/json",
+    defaultValue: "2021-11-01",
     isConstant: true,
-    serializedName: "Content-Type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: MediaServiceMapper
-};
-
-export const parameters1: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: MediaServiceUpdateMapper
-};
-
-export const parameters2: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: SyncStorageKeysInputMapper
-};
-
-export const parameters3: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: ListEdgePoliciesInputMapper
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
-export const name: OperationURLParameter = {
-  parameterPath: "name",
-  mapper: {
-    serializedName: "name",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters4: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: PrivateEndpointConnectionMapper
-};
-
-export const parameters5: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: CheckNameAvailabilityInputMapper
-};
-
-export const locationName: OperationURLParameter = {
-  parameterPath: "locationName",
-  mapper: {
-    serializedName: "locationName",
-    required: true,
+    serializedName: "api-version",
     type: {
       name: "String"
     }
@@ -190,9 +115,97 @@ export const filterName: OperationURLParameter = {
   }
 };
 
-export const parameters6: OperationParameter = {
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters: OperationParameter = {
   parameterPath: "parameters",
   mapper: AccountFilterMapper
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
+export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2021-06-01",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters1: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: MediaServiceMapper
+};
+
+export const parameters2: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: MediaServiceUpdateMapper
+};
+
+export const parameters3: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: SyncStorageKeysInputMapper
+};
+
+export const parameters4: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ListEdgePoliciesInputMapper
+};
+
+export const name: OperationURLParameter = {
+  parameterPath: "name",
+  mapper: {
+    serializedName: "name",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters5: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: PrivateEndpointConnectionMapper
+};
+
+export const parameters6: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: CheckNameAvailabilityInputMapper
+};
+
+export const locationName: OperationURLParameter = {
+  parameterPath: "locationName",
+  mapper: {
+    serializedName: "locationName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const filter: OperationQueryParameter = {
@@ -251,6 +264,33 @@ export const parameters9: OperationParameter = {
   mapper: AssetFilterMapper
 };
 
+export const trackName: OperationURLParameter = {
+  parameterPath: "trackName",
+  mapper: {
+    serializedName: "trackName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters10: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: AssetTrackMapper
+};
+
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    serializedName: "operationId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const contentKeyPolicyName: OperationURLParameter = {
   parameterPath: "contentKeyPolicyName",
   mapper: {
@@ -262,7 +302,7 @@ export const contentKeyPolicyName: OperationURLParameter = {
   }
 };
 
-export const parameters10: OperationParameter = {
+export const parameters11: OperationParameter = {
   parameterPath: "parameters",
   mapper: ContentKeyPolicyMapper
 };
@@ -278,7 +318,7 @@ export const transformName: OperationURLParameter = {
   }
 };
 
-export const parameters11: OperationParameter = {
+export const parameters12: OperationParameter = {
   parameterPath: "parameters",
   mapper: TransformMapper
 };
@@ -294,7 +334,7 @@ export const jobName: OperationURLParameter = {
   }
 };
 
-export const parameters12: OperationParameter = {
+export const parameters13: OperationParameter = {
   parameterPath: "parameters",
   mapper: JobMapper
 };
@@ -310,7 +350,7 @@ export const streamingPolicyName: OperationURLParameter = {
   }
 };
 
-export const parameters13: OperationParameter = {
+export const parameters14: OperationParameter = {
   parameterPath: "parameters",
   mapper: StreamingPolicyMapper
 };
@@ -326,7 +366,7 @@ export const streamingLocatorName: OperationURLParameter = {
   }
 };
 
-export const parameters14: OperationParameter = {
+export const parameters15: OperationParameter = {
   parameterPath: "parameters",
   mapper: StreamingLocatorMapper
 };
@@ -347,7 +387,7 @@ export const liveEventName: OperationURLParameter = {
   }
 };
 
-export const parameters15: OperationParameter = {
+export const parameters16: OperationParameter = {
   parameterPath: "parameters",
   mapper: LiveEventMapper
 };
@@ -362,7 +402,7 @@ export const autoStart: OperationQueryParameter = {
   }
 };
 
-export const parameters16: OperationParameter = {
+export const parameters17: OperationParameter = {
   parameterPath: "parameters",
   mapper: LiveEventActionInputMapper
 };
@@ -383,7 +423,7 @@ export const liveOutputName: OperationURLParameter = {
   }
 };
 
-export const parameters17: OperationParameter = {
+export const parameters18: OperationParameter = {
   parameterPath: "parameters",
   mapper: LiveOutputMapper
 };
@@ -404,12 +444,12 @@ export const streamingEndpointName: OperationURLParameter = {
   }
 };
 
-export const parameters18: OperationParameter = {
+export const parameters19: OperationParameter = {
   parameterPath: "parameters",
   mapper: StreamingEndpointMapper
 };
 
-export const parameters19: OperationParameter = {
+export const parameters20: OperationParameter = {
   parameterPath: "parameters",
   mapper: StreamingEntityScaleUnitMapper
 };

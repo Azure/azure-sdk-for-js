@@ -206,3 +206,5 @@ export const StorageBlobLoggingAllowedQueryParameters = [
 ];
 
 export const BlobUsesCustomerSpecifiedEncryptionMsg = "BlobUsesCustomerSpecifiedEncryption";
+export const BlobDoesNotUseCustomerSpecifiedEncryption =
+  "BlobDoesNotUseCustomerSpecifiedEncryption";
