@@ -46,6 +46,7 @@ export interface WebRedirectCredentialOptions extends TokenCredentialOptions {
 export class WebRedirectCredential implements TokenCredential {
   private tenantId: string;
   private clientId: string;
+  private clientSecret?: string;
   private redirectUri: string;
   private credentialOptions: WebRedirectCredentialOptions;
   private msalFlow: MsalFlow | undefined;
@@ -103,6 +104,7 @@ export class WebRedirectCredential implements TokenCredential {
 
     this.tenantId = tenantId;
     this.clientId = clientId;
+    this.clientSecret = options.clientSecret;
     this.redirectUri = redirectUri;
     this.credentialOptions = options;
   }
@@ -187,6 +189,7 @@ export class WebRedirectCredential implements TokenCredential {
         authorizationCode,
         tenantId: this.tenantId,
         clientId: this.clientId,
+        clientSecret: this.clientSecret,
         redirectUri: this.redirectUri,
         tokenCredentialOptions: this.credentialOptions,
         logger,
