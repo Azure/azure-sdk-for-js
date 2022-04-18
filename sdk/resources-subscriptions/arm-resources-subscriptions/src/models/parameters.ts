@@ -11,7 +11,10 @@ import {
   OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-client";
-import { ResourceName as ResourceNameMapper } from "../models/mappers";
+import {
+  CheckZonePeersRequest as CheckZonePeersRequestMapper,
+  ResourceName as ResourceNameMapper
+} from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -70,18 +73,6 @@ export const includeExtendedLocations: OperationQueryParameter = {
   }
 };
 
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],
   mapper: {
@@ -92,6 +83,23 @@ export const contentType: OperationParameter = {
       name: "String"
     }
   }
+};
+
+export const parameters: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: CheckZonePeersRequestMapper
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
 };
 
 export const resourceNameDefinition: OperationParameter = {

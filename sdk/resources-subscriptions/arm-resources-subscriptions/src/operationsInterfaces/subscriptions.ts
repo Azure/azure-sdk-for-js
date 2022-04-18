@@ -13,7 +13,10 @@ import {
   Subscription,
   SubscriptionsListOptionalParams,
   SubscriptionsGetOptionalParams,
-  SubscriptionsGetResponse
+  SubscriptionsGetResponse,
+  CheckZonePeersRequest,
+  SubscriptionsCheckZonePeersOptionalParams,
+  SubscriptionsCheckZonePeersResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,4 +48,15 @@ export interface Subscriptions {
     subscriptionId: string,
     options?: SubscriptionsGetOptionalParams
   ): Promise<SubscriptionsGetResponse>;
+  /**
+   * Compares a subscriptions logical zone mapping
+   * @param subscriptionId The ID of the target subscription.
+   * @param parameters Parameters for checking zone peers.
+   * @param options The options parameters.
+   */
+  checkZonePeers(
+    subscriptionId: string,
+    parameters: CheckZonePeersRequest,
+    options?: SubscriptionsCheckZonePeersOptionalParams
+  ): Promise<SubscriptionsCheckZonePeersResponse>;
 }

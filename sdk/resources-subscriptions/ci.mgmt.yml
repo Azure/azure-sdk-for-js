@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -10,6 +10,7 @@ trigger:
     include:
       - sdk/resources-subscriptions/ci.mgmt.yml
       - sdk/resources-subscriptions/arm-resources-subscriptions/
+      - sdk/resources-subscriptions/arm-resources-subscriptions
 pr:
   branches:
     include:
@@ -23,11 +24,11 @@ pr:
     include:
       - sdk/resources-subscriptions/ci.mgmt.yml
       - sdk/resources-subscriptions/arm-resources-subscriptions/
-
+      - sdk/resources-subscriptions/arm-resources-subscriptions
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: resources-subscriptions
     Artifacts:
       - name: azure-arm-resources-subscriptions
-        safeName: azurearmresourcessubscriptions       
+        safeName: azurearmresourcessubscriptions
