@@ -148,12 +148,11 @@ export function sleep(seconds: number): Promise<void> {
 }
 /**
  * Read text content from a stream
- * @param stream
+ * @param stream -
  * @returns
  */
 export function streamToString(stream: Readable): Promise<string> {
-  let chunks: any[];
-  chunks = [];
+  const chunks: any[] = [];
   return new Promise((resolve, reject) => {
     stream.on("data", (chunk) => chunks.push(Buffer.from(chunk)));
     stream.on("error", (err) => reject(err));
