@@ -124,7 +124,7 @@ export class FileSystemPersist implements PersistentStorage {
       }
       return null;
     } catch (e: any) {
-      if (e.code === "ENOENT") {
+      if (e && (e as Record<string, unknown>).code === "ENOENT") {
         // File does not exist -- return null instead of throwing
         return null;
       } else {
@@ -137,7 +137,7 @@ export class FileSystemPersist implements PersistentStorage {
     try {
       await confirmDirExists(this._tempDirectory);
     } catch (error: any) {
-      diag.warn(`Error while checking/creating directory: `, error && error.message);
+      diag.warn(`Error while checking/creating directory: `, error && (error as Record<string, unknown>).message);
       return false;
     }
 
@@ -150,7 +150,7 @@ export class FileSystemPersist implements PersistentStorage {
         return false;
       }
     } catch (error: any) {
-      diag.warn(`Error while checking size of persistence directory: `, error && error.message);
+      diag.warn(`Error while checking size of persistence directory: `, error && (error as Record<string, unknown>).message);
       return false;
     }
 

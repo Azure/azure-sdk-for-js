@@ -72,7 +72,9 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
           const url = new URL(String(httpUrl));
           // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
           tags[KnownContextTagKeys.AiOperationName] = `${httpMethod} ${url.pathname}`;
-        } catch (ex: any) {}
+        } catch (ex: any) {
+          // eslint-disable-line no-empty
+        }
       }
       if (httpClientIp) {
         tags[KnownContextTagKeys.AiLocationIp] = String(httpClientIp);
@@ -220,8 +222,10 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
     if (httpUrl) {
       try {
         const dependencyUrl = new URL(String(httpUrl));
-        remoteDependencyData.name = `${httpMethod} ${dependencyUrl.pathname}`;
-      } catch (ex: any) {}
+        remoteDependencyData.name = `${(httpMethod as string)} ${dependencyUrl.pathname}`;
+      } catch (ex: any) {
+        // eslint-disable-line no-empty
+      }
     }
     remoteDependencyData.type = DependencyTypes.Http;
     remoteDependencyData.data = getUrl(span);
@@ -243,7 +247,9 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
             target = res[1] + res[2] + res[4];
           }
         }
-      } catch (error: any) {}
+      } catch (error: any) {
+        // eslint-disable-line no-empty
+      }
       remoteDependencyData.target = `${target}`;
     }
   }
