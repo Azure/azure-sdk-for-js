@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { UnknownObject, isObject } from "@azure/core-util";
-import { URL } from "./url";
 
 /**
  * @internal
