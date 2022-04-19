@@ -1,5 +1,20 @@
 # Release History
     
+## 3.1.0-beta.1 (2022-04-19)
+    
+**Features**
+
+  - Added Interface OSProfileLinuxConfiguration
+  - Added Interface OSProfileWindowsConfiguration
+  - Added Interface PrivateEndpointConnectionDataModel
+  - Interface HybridComputePrivateLinkScopeProperties has a new optional parameter privateEndpointConnections
+  - Interface MachineProperties has a new optional parameter mssqlDiscovered
+  - Interface MachineProperties has a new optional parameter osType
+  - Interface MachineUpdateProperties has a new optional parameter osProfile
+  - Interface OSProfile has a new optional parameter linuxConfiguration
+  - Interface OSProfile has a new optional parameter windowsConfiguration
+    
+    
 ## 3.0.0 (2022-01-18)
 
 The package of @azure/arm-hybridcompute is using our next generation design principles since version 3.0.0, which contains breaking changes.
