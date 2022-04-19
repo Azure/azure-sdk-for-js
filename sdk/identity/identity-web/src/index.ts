@@ -13,7 +13,7 @@ import {
   GetTokenOptions,
   TokenCredential,
   TokenCredentialOptions,
-} from "@azure/identity";
+} from "../../identity/src";
 
 const logger = credentialLogger("WebRedirectCredential");
 
