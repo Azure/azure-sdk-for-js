@@ -996,7 +996,9 @@ export function flattenResponse(
   } => {
     return Object.defineProperty(obj, "_response", {
       value: _response,
-    });
+    }) as {
+      _response: HttpOperationResponse;
+    };
   };
 
   if (bodyMapper) {

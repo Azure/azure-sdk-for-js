@@ -639,12 +639,15 @@ const rheaPromiseErrors = [
  * @param err - The amqp error that was received.
  * @returns MessagingError object.
  */
-export function translate(err: AmqpError | Error): MessagingError | Error {
+export function translate(err: unknown): MessagingError | Error {
   if (!isDefined(err)) {
     return new Error(`Unknown error encountered.`);
   } else if (typeof err !== "object") {
     // The error is a scalar type, make it the message of an actual error.
-    return new Error(err);
+    return new Error(String(err));
+  }
+  if (!(err instanceof Error) && !isAmqpError(err)) {
+    return new Error(String(err));
   }
   // Built-in errors like TypeError and RangeError should not be retryable as these indicate issues
   // with user input and not an issue with the Messaging process.
@@ -678,7 +681,7 @@ export function translate(err: AmqpError | Error): MessagingError | Error {
 
   if (err.name === "MessagingError") {
     // already translated
-    return err;
+    return err as MessagingError;
   }
 
   if (isSystemError(err)) {

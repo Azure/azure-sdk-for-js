@@ -104,6 +104,6 @@
     "rollup": "^2.0.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "sinon": "^9.0.2",
-    "typescript": "~4.2.0"
+    "typescript": "~4.6.0"
   }
 }
