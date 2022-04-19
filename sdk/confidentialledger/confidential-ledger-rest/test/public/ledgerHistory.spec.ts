@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ConfidentialLedgerRestClient, GetLedgerEntries200Response, LedgerEntry } from "../../src";
+import { ConfidentialLedgerRestClient } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
@@ -22,20 +22,20 @@ describe("List Document Formats", () => {
 
   // TODO: add subLedgerIds test
 
-  it("should obtain constitution from ledger", async function () {
+  it("should obtain ledger entries from ledger", async function () {
+
     const result = await client.path("/app/transactions").get();
 
     if (result.status !== "200") {
       assert.fail(`GET "/app/transactions" failed with ${result.status}`);
     }
 
-    let constResponse = result as GetLedgerEntries200Response;
+    // let constResponse = result as GetLedgerEntries200Response;
 
-    do {
-      constResponse.body.entries.forEach((entry : LedgerEntry) => {
-        assert.typeOf('string', entry.contents);
-      })
-    } while (constResponse.body.nextLink);
+    // let pagedEntries : PagedLedgerEntries = constResponse.body;
+
+    
+    // TODO: how do we make this pageable?
   });
 
   // TODO: get subset of entries randomly
