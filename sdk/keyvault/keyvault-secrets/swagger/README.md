@@ -8,9 +8,9 @@ typescript:
 api-version-parameter: choice
 disable-async-iterators: true
 v3: true
-use-core-v2: false
+use-core-v2: true
 use-extension:
-  "@autorest/typescript": "6.0.0-beta.15"
+  "@autorest/typescript": "6.0.0-beta.19"
 azure-arm: false
 generate-metadata: false
 add-credentials: false
