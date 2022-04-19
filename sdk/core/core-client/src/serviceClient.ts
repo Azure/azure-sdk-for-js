@@ -21,7 +21,7 @@ import { getCachedDefaultHttpClient } from "./httpClientCache";
 import { getOperationRequestInfo } from "./operationHelpers";
 import { getRequestUrl } from "./urlHelpers";
 import { getStreamingResponseStatusCodes } from "./interfaceHelpers";
-import { createClientLogger } from "@azure/logger";
+import { logger } from "./log";
 
 /**
  * Options to be provided while creating the client.
@@ -99,8 +99,9 @@ export class ServiceClient {
     this._requestContentType = options.requestContentType;
     this._endpoint = options.endpoint ?? options.baseUri;
     if (options.baseUri) {
-      const logger = createClientLogger("ServiceClientOptions");
-      logger.warning("The baseUri option for SDK Clients has been deprecated, please use endpoint instead.");
+      logger.warning(
+        "The baseUri option for SDK Clients has been deprecated, please use endpoint instead."
+      );
     }
     this._allowInsecureConnection = options.allowInsecureConnection;
     this._httpClient = options.httpClient || getCachedDefaultHttpClient();
@@ -138,7 +139,7 @@ export class ServiceClient {
     const endpoint: string | undefined = operationSpec.baseUrl || this._endpoint;
     if (!endpoint) {
       throw new Error(
-        "If operationSpec.baseUrl is not specified, then the ServiceClient must have a baseUri string property that contains the base URL to use."
+        "If operationSpec.baseUrl is not specified, then the ServiceClient must have a endpoint string property that contains the base URL to use."
       );
     }
 
