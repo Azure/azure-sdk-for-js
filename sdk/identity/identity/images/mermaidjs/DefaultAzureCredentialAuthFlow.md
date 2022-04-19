@@ -16,8 +16,8 @@ flowchart LR;
     end;
 
     %% Define styles for credential type boxes
-    classDef deployed fill:#71AD4C, stroke:#71AD4C;
-    classDef developer fill:#EB7C39, stroke:#EB7C39;
+    classDef deployed fill:#95C37E, stroke:#71AD4C;
+    classDef developer fill:#F5AF6F, stroke:#EB7C39;
 
     %% Add API ref links to credential type boxes
     click A "https://docs.microsoft.com/javascript/api/@azure/identity/environmentcredential?view=azure-node-latest" _blank;
