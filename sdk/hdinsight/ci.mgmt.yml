@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/hdinsight/ci.mgmt.yml
-      - sdk/hdinsight/arm-hdinsight/
       - sdk/hdinsight/arm-hdinsight
 pr:
   branches:
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/hdinsight/ci.mgmt.yml
-      - sdk/hdinsight/arm-hdinsight/
       - sdk/hdinsight/arm-hdinsight
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml

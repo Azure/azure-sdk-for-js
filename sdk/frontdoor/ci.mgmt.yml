@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/frontdoor/ci.mgmt.yml
-      - sdk/frontdoor/arm-frontdoor/
       - sdk/frontdoor/arm-frontdoor
 pr:
   branches:
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/frontdoor/ci.mgmt.yml
-      - sdk/frontdoor/arm-frontdoor/
       - sdk/frontdoor/arm-frontdoor
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml

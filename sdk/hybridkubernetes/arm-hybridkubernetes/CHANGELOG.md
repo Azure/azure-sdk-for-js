@@ -1,4 +1,10 @@
 # Release History
+
+## 2.0.1 (2022-04-19)
+
+**features**
+
+  - Bug fix
     
 ## 2.0.0 (2022-01-18)
 

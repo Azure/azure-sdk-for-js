@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/hybridcompute/ci.mgmt.yml
-      - sdk/hybridcompute/arm-hybridcompute/
       - sdk/hybridcompute/arm-hybridcompute
 pr:
   branches:
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/hybridcompute/ci.mgmt.yml
-      - sdk/hybridcompute/arm-hybridcompute/
       - sdk/hybridcompute/arm-hybridcompute
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
