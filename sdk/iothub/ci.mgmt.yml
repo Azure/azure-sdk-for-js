@@ -11,6 +11,7 @@ trigger:
       - sdk/iothub/ci.mgmt.yml
       - sdk/iothub/arm-iothub/
       - sdk/iothub/arm-iothub-profile-2020-09-01-hybrid
+      - sdk/iothub/arm-iothub
 pr:
   branches:
     include:
@@ -25,6 +26,7 @@ pr:
       - sdk/iothub/ci.mgmt.yml
       - sdk/iothub/arm-iothub/
       - sdk/iothub/arm-iothub-profile-2020-09-01-hybrid
+      - sdk/iothub/arm-iothub
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
