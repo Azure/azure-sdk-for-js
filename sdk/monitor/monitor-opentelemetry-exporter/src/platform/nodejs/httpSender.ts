@@ -57,14 +57,6 @@ export class HttpSender implements Sender {
       if (options.onResponse) {
         options.onResponse(rawResponse, flatResponse);
       }
-      await this._appInsightsClient.track(envelopes, {
-        ...options,
-        onResponse,
-      });
-
-      return { statusCode: response?.status, result: response?.bodyAsText ?? "" };
-    } catch (e: any) {
-      throw e;
     }
     await this._appInsightsClient.track(envelopes, {
       ...options,

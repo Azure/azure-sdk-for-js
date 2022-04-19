@@ -136,12 +136,7 @@ export class FileSystemPersist implements PersistentStorage {
   private async _storeToDisk(payload: string): Promise<boolean> {
     try {
       await confirmDirExists(this._tempDirectory);
-<<<<<<< HEAD
-    } catch (error) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-=======
     } catch (error: any) {
->>>>>>> 191e4ce330acd60e014c13412204b9598870cfa1
       diag.warn(`Error while checking/creating directory: `, error && error.message);
       return false;
     }
@@ -154,12 +149,7 @@ export class FileSystemPersist implements PersistentStorage {
         );
         return false;
       }
-<<<<<<< HEAD
-    } catch (error) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-=======
     } catch (error: any) {
->>>>>>> 191e4ce330acd60e014c13412204b9598870cfa1
       diag.warn(`Error while checking size of persistence directory: `, error && error.message);
       return false;
     }
