@@ -66,7 +66,7 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-hybridcompute/3.0.0`;
+    const packageDetails = `azsdk-js-arm-hybridcompute/3.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -89,7 +89,7 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-05-20";
+    this.apiVersion = options.apiVersion || "2022-03-10";
     this.machines = new MachinesImpl(this);
     this.machineExtensions = new MachineExtensionsImpl(this);
     this.operations = new OperationsImpl(this);

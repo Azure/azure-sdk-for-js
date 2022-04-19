@@ -62,10 +62,16 @@ export interface MachineProperties {
   /** Metadata pertaining to the geographic location of the resource. */
   locationData?: LocationData;
   /**
-   * Specifies the operating system settings for the hybrid machine.
+   * Configurable properties that the user can set locally via the azcmagent config command, or remotely via ARM.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly osProfile?: OSProfile;
+  readonly agentConfiguration?: AgentConfiguration;
+  /** Statuses of dependent services that are reported back to ARM. */
+  serviceStatuses?: ServiceStatuses;
+  /** The metadata of the cloud environment (Azure/GCP/AWS/OCI...). */
+  cloudMetadata?: CloudMetadata;
+  /** Specifies the operating system settings for the hybrid machine. */
+  osProfile?: OSProfile;
   /**
    * The provisioning state, which only appears in the response.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -115,6 +121,8 @@ export interface MachineProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly osVersion?: string;
+  /** The type of Operating System (windows/linux). */
+  osType?: string;
   /**
    * Specifies the Arc Machine's unique SMBIOS ID
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -146,6 +154,8 @@ export interface MachineProperties {
   privateLinkScopeResourceId?: string;
   /** The resource id of the parent cluster (Azure HCI) this machine is assigned to, if any. */
   parentClusterResourceId?: string;
+  /** Specifies whether any MS SQL instance is discovered on the machine. */
+  mssqlDiscovered?: string;
   /**
    * Detected properties from the machine.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -165,6 +175,84 @@ export interface LocationData {
   countryOrRegion?: string;
 }
 
+/** Configurable properties that the user can set locally via the azcmagent config command, or remotely via ARM. */
+export interface AgentConfiguration {
+  /**
+   * Specifies the URL of the proxy to be used.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly proxyUrl?: string;
+  /**
+   * Specifies the list of ports that the agent will be able to listen on.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly incomingConnectionsPorts?: string[];
+  /**
+   * Array of extensions that are allowed to be installed or updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly extensionsAllowList?: ConfigurationExtension[];
+  /**
+   * Array of extensions that are blocked (cannot be installed or updated)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly extensionsBlockList?: ConfigurationExtension[];
+  /**
+   * List of service names which should not use the specified proxy server.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly proxyBypass?: string[];
+  /**
+   * Specifies whether the extension service is enabled or disabled.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly extensionsEnabled?: string;
+  /**
+   * Specified whether the guest configuration service is enabled or disabled.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly guestConfigurationEnabled?: string;
+}
+
+/** Describes properties that can identify extensions. */
+export interface ConfigurationExtension {
+  /**
+   * Publisher of the extension.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publisher?: string;
+  /**
+   * Type of the extension.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+}
+
+/** Reports the state and behavior of dependent services. */
+export interface ServiceStatuses {
+  /** The state of the extension service on the Arc-enabled machine. */
+  extensionService?: ServiceStatus;
+  /** The state of the guest configuration service on the Arc-enabled machine. */
+  guestConfigurationService?: ServiceStatus;
+}
+
+/** Describes the status and behavior of a service. */
+export interface ServiceStatus {
+  /** The current status of the service. */
+  status?: string;
+  /** The behavior of the service when the Arc-enabled machine starts up. */
+  startupType?: string;
+}
+
+/** The metadata of the cloud environment (Azure/GCP/AWS/OCI...). */
+export interface CloudMetadata {
+  /**
+   * Specifies the cloud provider (Azure/AWS/GCP...).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provider?: string;
+}
+
 /** Specifies the operating system settings for the hybrid machine. */
 export interface OSProfile {
   /**
@@ -172,6 +260,26 @@ export interface OSProfile {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly computerName?: string;
+  /** Specifies the windows configuration for update management. */
+  windowsConfiguration?: OSProfileWindowsConfiguration;
+  /** Specifies the linux configuration for update management. */
+  linuxConfiguration?: OSProfileLinuxConfiguration;
+}
+
+/** Specifies the windows configuration for update management. */
+export interface OSProfileWindowsConfiguration {
+  /** Specifies the assessment mode. */
+  assessmentMode?: AssessmentModeTypes;
+  /** Specifies the patch mode. */
+  patchMode?: PatchModeTypes;
+}
+
+/** Specifies the linux configuration for update management. */
+export interface OSProfileLinuxConfiguration {
+  /** Specifies the assessment mode. */
+  assessmentMode?: AssessmentModeTypes;
+  /** Specifies the patch mode. */
+  patchMode?: PatchModeTypes;
 }
 
 /** Describes the Machine Extension Instance View. */
@@ -269,6 +377,8 @@ export interface MachineExtensionProperties {
   type?: string;
   /** Specifies the version of the script handler. */
   typeHandlerVersion?: string;
+  /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version available. */
+  enableAutomaticUpgrade?: boolean;
   /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
   autoUpgradeMinorVersion?: boolean;
   /** Json formatted public settings for the extension. */
@@ -351,6 +461,11 @@ export interface OperationValue {
   readonly name?: string;
   /** Display properties */
   display?: OperationValueDisplay;
+  /**
+   * This property indicates if the operation is an action or a data action
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDataAction?: boolean;
 }
 
 /** Describes the properties of a Hybrid Compute Operation Value Display. */
@@ -399,6 +514,69 @@ export interface HybridComputePrivateLinkScopeProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateLinkScopeId?: string;
+  /**
+   * The collection of associated Private Endpoint Connections.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnectionDataModel[];
+}
+
+/** The Data Model for a Private Endpoint Connection associated with a Private Link Scope */
+export interface PrivateEndpointConnectionDataModel {
+  /**
+   * The ARM Resource Id of the Private Endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The Name of the Private Endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Azure resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** The Private Endpoint Connection properties. */
+  properties?: PrivateEndpointConnectionProperties;
+}
+
+/** Properties of a private endpoint connection. */
+export interface PrivateEndpointConnectionProperties {
+  /** Private endpoint which the connection belongs to. */
+  privateEndpoint?: PrivateEndpointProperty;
+  /** Connection state of the private endpoint connection. */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
+  /**
+   * State of the private endpoint connection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /**
+   * List of group IDs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupIds?: string[];
+}
+
+/** Private endpoint which the connection belongs to. */
+export interface PrivateEndpointProperty {
+  /** Resource id of the private endpoint. */
+  id?: string;
+}
+
+/** State of the private endpoint connection. */
+export interface PrivateLinkServiceConnectionStateProperty {
+  /** The private link service connection status. */
+  status: string;
+  /** The private link service connection description. */
+  description: string;
+  /**
+   * The actions required for private link service connection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionsRequired?: string;
 }
 
 /** An azure resource object */
@@ -463,38 +641,6 @@ export interface PrivateLinkResourceProperties {
   readonly requiredZoneNames?: string[];
 }
 
-/** Properties of a private endpoint connection. */
-export interface PrivateEndpointConnectionProperties {
-  /** Private endpoint which the connection belongs to. */
-  privateEndpoint?: PrivateEndpointProperty;
-  /** Connection state of the private endpoint connection. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionStateProperty;
-  /**
-   * State of the private endpoint connection.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-}
-
-/** Private endpoint which the connection belongs to. */
-export interface PrivateEndpointProperty {
-  /** Resource id of the private endpoint. */
-  id?: string;
-}
-
-/** State of the private endpoint connection. */
-export interface PrivateLinkServiceConnectionStateProperty {
-  /** The private link service connection status. */
-  status: string;
-  /** The private link service connection description. */
-  description: string;
-  /**
-   * The actions required for private link service connection.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly actionsRequired?: string;
-}
-
 /** A list of private endpoint connections. */
 export interface PrivateEndpointConnectionListResult {
   /**
@@ -553,6 +699,10 @@ export interface ConnectionDetail {
 export interface MachineUpdateProperties {
   /** Metadata pertaining to the geographic location of the resource. */
   locationData?: LocationData;
+  /** Specifies the operating system settings for the hybrid machine. */
+  osProfile?: OSProfile;
+  /** The metadata of the cloud environment (Azure/GCP/AWS/OCI...). */
+  cloudMetadata?: CloudMetadata;
   /** The resource id of the parent cluster (Azure HCI) this machine is assigned to, if any. */
   parentClusterResourceId?: string;
   /** The resource id of the private link scope this machine is assigned to, if any. */
@@ -654,6 +804,42 @@ export enum KnownInstanceViewTypes {
  * **instanceView**
  */
 export type InstanceViewTypes = string;
+
+/** Known values of {@link AssessmentModeTypes} that the service accepts. */
+export enum KnownAssessmentModeTypes {
+  ImageDefault = "ImageDefault",
+  AutomaticByPlatform = "AutomaticByPlatform"
+}
+
+/**
+ * Defines values for AssessmentModeTypes. \
+ * {@link KnownAssessmentModeTypes} can be used interchangeably with AssessmentModeTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ImageDefault** \
+ * **AutomaticByPlatform**
+ */
+export type AssessmentModeTypes = string;
+
+/** Known values of {@link PatchModeTypes} that the service accepts. */
+export enum KnownPatchModeTypes {
+  ImageDefault = "ImageDefault",
+  AutomaticByPlatform = "AutomaticByPlatform",
+  AutomaticByOS = "AutomaticByOS",
+  Manual = "Manual"
+}
+
+/**
+ * Defines values for PatchModeTypes. \
+ * {@link KnownPatchModeTypes} can be used interchangeably with PatchModeTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ImageDefault** \
+ * **AutomaticByPlatform** \
+ * **AutomaticByOS** \
+ * **Manual**
+ */
+export type PatchModeTypes = string;
 
 /** Known values of {@link StatusTypes} that the service accepts. */
 export enum KnownStatusTypes {
