@@ -8,6 +8,10 @@
 
 ### Bugs Fixed
 
+- Fixed a bug that would break the AzureCliCredential if the Azure CLI reported a warning. See: [21075](https://github.com/Azure/azure-sdk-for-js/issues/21075).
+- Fixed a bug in `AuthorizationCodeCredential` where the tenant id was not being used. The `common` tenant was the only tenant being used by this credential.
+- Fixed a bug in `AuthorizationCodeCredential` where the public client was not being used. Due to this bug, without passing in the client secret, this credential would fail.
+
 ### Other Changes
 
 - Upgraded to `@azure/core-tracing` version `^1.0.0`.

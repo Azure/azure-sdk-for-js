@@ -1,12 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { isCertificateCredential } from "./certificateCredential";
 import { HttpClient, HttpMethods, Pipeline, PipelineOptions } from "@azure/core-rest-pipeline";
 import { createDefaultPipeline } from "./clientHelpers";
-import { Client, ClientOptions, HttpResponse, RequestParameters } from "./common";
-import { sendRequest } from "./sendRequest";
+import {
+  Client,
+  ClientOptions,
+  HttpBrowserStreamResponse,
+  HttpNodeStreamResponse,
+  RequestParameters,
+  StreamableMethod,
+} from "./common";
+import { sendRequest, sendRequestAsStream } from "./sendRequest";
 import { buildRequestUrl } from "./urlHelpers";
 
 /**
@@ -54,92 +61,87 @@ export function getClient(
 
   const { allowInsecureConnection, httpClient } = clientOptions;
   const client = (path: string, ...args: Array<any>) => {
+    const getUrl = (requestOptions: RequestParameters) =>
+      buildRequestUrl(baseUrl, path, args, { allowInsecureConnection, ...requestOptions });
+
     return {
-      get: (options: RequestParameters = {}): Promise<HttpResponse> => {
-        return buildSendRequest(
+      get: (requestOptions: RequestParameters = {}): StreamableMethod => {
+        return buildOperation(
           "GET",
-          baseUrl,
-          path,
+          getUrl(requestOptions),
           pipeline,
-          { allowInsecureConnection, ...options },
-          args,
+          requestOptions,
+          allowInsecureConnection,
           httpClient
         );
       },
-      post: (options: RequestParameters = {}): Promise<HttpResponse> => {
-        return buildSendRequest(
+      post: (requestOptions: RequestParameters = {}): StreamableMethod => {
+        return buildOperation(
           "POST",
-          baseUrl,
-          path,
+          getUrl(requestOptions),
           pipeline,
-          { allowInsecureConnection, ...options },
-          args,
+          requestOptions,
+          allowInsecureConnection,
           httpClient
         );
       },
-      put: (options: RequestParameters = {}): Promise<HttpResponse> => {
-        return buildSendRequest(
+      put: (requestOptions: RequestParameters = {}): StreamableMethod => {
+        return buildOperation(
           "PUT",
-          baseUrl,
-          path,
+          getUrl(requestOptions),
           pipeline,
-          { allowInsecureConnection, ...options },
-          args,
+          requestOptions,
+          allowInsecureConnection,
           httpClient
         );
       },
-      patch: (options: RequestParameters = {}): Promise<HttpResponse> => {
-        return buildSendRequest(
+      patch: (requestOptions: RequestParameters = {}): StreamableMethod => {
+        return buildOperation(
           "PATCH",
-          baseUrl,
-          path,
+          getUrl(requestOptions),
           pipeline,
-          { allowInsecureConnection, ...options },
-          args,
+          requestOptions,
+          allowInsecureConnection,
           httpClient
         );
       },
-      delete: (options: RequestParameters = {}): Promise<HttpResponse> => {
-        return buildSendRequest(
+      delete: (requestOptions: RequestParameters = {}): StreamableMethod => {
+        return buildOperation(
           "DELETE",
-          baseUrl,
-          path,
+          getUrl(requestOptions),
           pipeline,
-          { allowInsecureConnection, ...options },
-          args,
+          requestOptions,
+          allowInsecureConnection,
           httpClient
         );
       },
-      head: (options: RequestParameters = {}): Promise<HttpResponse> => {
-        return buildSendRequest(
+      head: (requestOptions: RequestParameters = {}): StreamableMethod => {
+        return buildOperation(
           "HEAD",
-          baseUrl,
-          path,
+          getUrl(requestOptions),
           pipeline,
-          { allowInsecureConnection, ...options },
-          args,
+          requestOptions,
+          allowInsecureConnection,
           httpClient
         );
       },
-      options: (options: RequestParameters = {}): Promise<HttpResponse> => {
-        return buildSendRequest(
+      options: (requestOptions: RequestParameters = {}): StreamableMethod => {
+        return buildOperation(
           "OPTIONS",
-          baseUrl,
-          path,
+          getUrl(requestOptions),
           pipeline,
-          { allowInsecureConnection, ...options },
-          args,
+          requestOptions,
+          allowInsecureConnection,
           httpClient
         );
       },
-      trace: (options: RequestParameters = {}): Promise<HttpResponse> => {
-        return buildSendRequest(
+      trace: (requestOptions: RequestParameters = {}): StreamableMethod => {
+        return buildOperation(
           "TRACE",
-          baseUrl,
-          path,
+          getUrl(requestOptions),
           pipeline,
-          { allowInsecureConnection, ...options },
-          args,
+          requestOptions,
+          allowInsecureConnection,
           httpClient
         );
       },
@@ -153,18 +155,43 @@ export function getClient(
   };
 }
 
-function buildSendRequest(
+function buildOperation(
   method: HttpMethods,
-  baseUrl: string,
-  path: string,
+  url: string,
   pipeline: Pipeline,
-  requestOptions: RequestParameters = {},
-  args: string[] = [],
+  options: RequestParameters,
+  allowInsecureConnection?: boolean,
   httpClient?: HttpClient
-): Promise<HttpResponse> {
-  // If the client has an api-version and the request doesn't specify one, inject the one in the client options
-  const url = buildRequestUrl(baseUrl, path, args, requestOptions);
-  return sendRequest(method, url, pipeline, requestOptions, httpClient);
+): StreamableMethod {
+  return {
+    then: function (onFulfilled, onrejected) {
+      return sendRequest(
+        method,
+        url,
+        pipeline,
+        { allowInsecureConnection, ...options },
+        httpClient
+      ).then(onFulfilled, onrejected);
+    },
+    async asBrowserStream() {
+      return sendRequestAsStream<HttpBrowserStreamResponse>(
+        method,
+        url,
+        pipeline,
+        { allowInsecureConnection, ...options },
+        httpClient
+      );
+    },
+    async asNodeStream() {
+      return sendRequestAsStream<HttpNodeStreamResponse>(
+        method,
+        url,
+        pipeline,
+        { allowInsecureConnection, ...options },
+        httpClient
+      );
+    },
+  };
 }
 
 function isCredential(

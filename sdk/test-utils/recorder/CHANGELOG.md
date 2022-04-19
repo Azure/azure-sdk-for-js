@@ -1,5 +1,15 @@
 # Release History
 
+## 2.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 2.0.0 (2022-04-11)
 
 Marks the first release of recorder v2. This project is a test utility that assits with testing the packages maintained at the Azure SDK for JavaScript repository by leveraging the unified out-of-process test proxy server. This is not intended for the public utilization.

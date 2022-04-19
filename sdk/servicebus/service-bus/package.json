@@ -112,7 +112,7 @@
     "@azure/core-rest-pipeline": "^1.1.0",
     "@azure/core-tracing": "1.0.0-preview.13",
     "@azure/core-paging": "^1.1.1",
-    "@azure/core-util": "^1.0.0-beta.1",
+    "@azure/core-util": "^1.0.0",
     "@azure/core-xml": "^1.0.0",
     "@azure/logger": "^1.0.0",
     "@types/is-buffer": "^2.0.0",
@@ -120,7 +120,7 @@
     "buffer": "^6.0.0",
     "is-buffer": "^2.0.3",
     "jssha": "^3.1.0",
-    "long": "^4.0.0",
+    "long": "^5.2.0",
     "process": "^0.11.10",
     "tslib": "^2.2.0",
     "rhea-promise": "^2.1.0"

@@ -13,7 +13,7 @@ import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy";
 import { tracingPolicy } from "./policies/tracingPolicy";
 import { UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy";
 import { defaultRetryPolicy } from "./policies/defaultRetryPolicy";
-import { isNode } from "./util/helpers";
+import { isNode } from "@azure/core-util";
 
 /**
  * Defines options that are used to configure the HTTP pipeline for

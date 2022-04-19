@@ -783,6 +783,18 @@ describe("BlobClient", () => {
     assert.ok(result, "exists() should return true");
   });
 
+  it("exists works without customer provided key on a blob with CPK", async () => {
+    blobName = recorder.getUniqueName("blobCPK");
+    blobClient = containerClient.getBlobClient(blobName);
+    blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload(content, content.length, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    const result = await blobClient.exists();
+    assert.ok(result, "exists() should return true");
+  });
+
   it("exists works against blob uploaded with customer provided key", async () => {
     blobName = recorder.getUniqueName("blobCPK");
     blobClient = containerClient.getBlobClient(blobName);
@@ -1227,6 +1239,54 @@ describe("BlobClient", () => {
         )
       );
       await newBlobClient.clearPages(0, 512, { conditions: tagConditionMet });
+    });
+
+    it("PageBlobClient.listPageRanges", async () => {
+      const newBlobClient = containerClient.getPageBlobClient(recorder.getUniqueName("pageBlob"));
+      await newBlobClient.create(512, { tags });
+      assert.ok(
+        await throwExpectedError(
+          newBlobClient
+            .listPageRanges(0, 512, {
+              conditions: tagConditionUnmet,
+            })
+            .byPage()
+            .next(),
+          "ConditionNotMet"
+        )
+      );
+      await newBlobClient
+        .listPageRanges(0, 512, {
+          conditions: tagConditionMet,
+        })
+        .byPage()
+        .next();
+    });
+
+    it("PageBlobClient.listPageRangesDiff", async () => {
+      const newBlobClient = containerClient.getPageBlobClient(recorder.getUniqueName("pageBlob"));
+      await newBlobClient.create(512, { tags });
+      const snapshotResult = await newBlobClient.createSnapshot();
+      assert.ok(snapshotResult.snapshot);
+      await newBlobClient.uploadPages("a".repeat(512), 0, 512);
+
+      assert.ok(
+        await throwExpectedError(
+          newBlobClient
+            .listPageRangesDiff(0, 512, snapshotResult.snapshot!, {
+              conditions: tagConditionUnmet,
+            })
+            .byPage()
+            .next(),
+          "ConditionNotMet"
+        )
+      );
+      await newBlobClient
+        .listPageRangesDiff(0, 512, snapshotResult.snapshot!, {
+          conditions: tagConditionMet,
+        })
+        .byPage()
+        .next();
     });
 
     it("PageBlobClient.getPageRanges", async () => {

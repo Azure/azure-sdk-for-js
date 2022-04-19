@@ -472,6 +472,57 @@ describe("syncUploadFromURL", () => {
     assert.deepStrictEqual(getTagsRes.tags, tags);
   });
 
+  it("syncUploadFromURL - with COPY tags", async () => {
+    const tags = {
+      tag1: "val1",
+    };
+    await sourceBlob.setTags(tags);
+    const expiryTime = recorder.newDate("tagtestexpiry");
+    expiryTime.setDate(expiryTime.getDate() + 1);
+    const sas = generateBlobSASQueryParameters(
+      {
+        expiresOn: expiryTime,
+        permissions: BlobSASPermissions.parse("rt"),
+        containerName: sourceBlob.containerName,
+        blobName: sourceBlob.name,
+      },
+      sourceBlob.credential as StorageSharedKeyCredential
+    );
+    const urlWithSAS = sourceBlob.url + "?" + sas;
+    await blockBlobClient.syncUploadFromURL(urlWithSAS, { copySourceTags: "COPY" });
+
+    // Validate source and destination blob content match.
+    const downloadRes = await blockBlobClient.download();
+    const downloadBuffer = await streamToBuffer3(downloadRes.readableStreamBody!);
+    assert.ok(downloadBuffer.compare(Buffer.from(content)) === 0);
+
+    // Validate tags set correctly
+    const getTagsRes = await blockBlobClient.getTags();
+    assert.deepStrictEqual(getTagsRes.tags, tags);
+  });
+
+  it("syncUploadFromURL - with REPLACE tags", async () => {
+    await sourceBlob.setTags({
+      tag1: "val1",
+    });
+    const tags = {
+      tag2: "val2",
+    };
+    await blockBlobClient.syncUploadFromURL(sourceBlobURLWithSAS, {
+      tags: tags,
+      copySourceTags: "REPLACE",
+    });
+
+    // Validate source and destination blob content match.
+    const downloadRes = await blockBlobClient.download();
+    const downloadBuffer = await streamToBuffer3(downloadRes.readableStreamBody!);
+    assert.ok(downloadBuffer.compare(Buffer.from(content)) === 0);
+
+    // Validate tags set correctly
+    const getTagsRes = await blockBlobClient.getTags();
+    assert.deepStrictEqual(getTagsRes.tags, tags);
+  });
+
   it("copySourceBlobProperties = false", async () => {
     const blobHTTPHeaders = {
       blobContentLanguage: "blobContentLanguage1",

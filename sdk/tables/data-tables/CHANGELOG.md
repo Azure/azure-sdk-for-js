@@ -1,6 +1,6 @@
 # Release History
 
-## 13.1.1 (Unreleased)
+## 13.1.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,11 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 13.1.1 (2022-04-14)
+
+### Bugs Fixed
+- Fixed issue where `deleteTable()` doesn't throw any errors [21408](https://github.com/Azure/azure-sdk-for-js/pull/21408).
 
 ## 13.1.0 (2022-04-07)
 

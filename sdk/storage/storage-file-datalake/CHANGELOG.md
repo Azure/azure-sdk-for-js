@@ -9,6 +9,7 @@
 ### Bugs Fixed
 
 - Add missing browser mapping for `./dist-esm/storage-common/src/BufferScheduler.js`
+- Add `react-native` mapping to ESM entry point
 
 ### Other Changes
 

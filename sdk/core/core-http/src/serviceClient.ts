@@ -47,7 +47,6 @@ import { OperationArguments } from "./operationArguments";
 import { OperationResponse } from "./operationResponse";
 import { QueryCollectionFormat } from "./queryCollectionFormat";
 import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
-import { URL } from "./url";
 import { URLBuilder } from "./url";
 import { bearerTokenAuthenticationPolicy } from "./policies/bearerTokenAuthenticationPolicy";
 import { disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
