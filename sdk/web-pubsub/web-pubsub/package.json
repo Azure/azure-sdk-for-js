@@ -52,9 +52,6 @@
       }
     ]
   },
-  "browser": {
-    "./dist-esm/src/util/url.js": "./dist-esm/src/util/url.browser.js"
-  },
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",

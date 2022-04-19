@@ -16,7 +16,6 @@ import {
 } from "./interfaces";
 import { createHttpHeaders } from "./httpHeaders";
 import { RestError } from "./restError";
-import { URL } from "./util/url";
 import { IncomingMessage } from "http";
 import { logger } from "./log";
 

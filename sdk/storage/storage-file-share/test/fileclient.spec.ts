@@ -101,7 +101,7 @@ describe("FileClient", () => {
       },
       creationTime: now,
       lastWriteTime: now,
-      changeOn: now,
+      changeTime: now,
       filePermissionKey: defaultDirCreateResp.filePermissionKey,
       fileAttributes: fullFileAttributes,
     };
