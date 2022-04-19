@@ -720,7 +720,7 @@ export function translate(err: unknown): MessagingError | Error {
     return error;
   }
 
-  return err instanceof Error ? err: new Error(String(err));
+  return err instanceof Error ? err : new Error(String(err));
 }
 
 /**
