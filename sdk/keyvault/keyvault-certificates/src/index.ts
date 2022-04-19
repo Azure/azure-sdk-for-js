@@ -742,11 +742,11 @@ export class CertificateClient {
             id: updatedOptions.organizationId,
             adminDetails: updatedOptions.administratorContacts
               ? updatedOptions.administratorContacts.map((x) => ({
-                emailAddress: x.email,
-                phone: x.phone,
-                firstName: x.firstName,
-                lastName: x.lastName,
-              }))
+                  emailAddress: x.email,
+                  phone: x.phone,
+                  firstName: x.firstName,
+                  lastName: x.lastName,
+                }))
               : undefined,
           };
         }
@@ -810,11 +810,11 @@ export class CertificateClient {
             id: updatedOptions.organizationId,
             adminDetails: updatedOptions.administratorContacts
               ? updatedOptions.administratorContacts.map((x) => ({
-                emailAddress: x.email,
-                phone: x.phone,
-                firstName: x.firstName,
-                lastName: x.lastName,
-              }))
+                  emailAddress: x.email,
+                  phone: x.phone,
+                  firstName: x.firstName,
+                  lastName: x.lastName,
+                }))
               : undefined,
           };
         }
