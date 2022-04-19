@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import * as fs from "fs";
-import { assert } from "chai";
-import { AvroReadableFromStream } from "../../src";
 import { AbortController } from "@azure/abort-controller";
+import { AvroReadableFromStream } from "../../src";
 import { Readable } from "stream";
+import { assert } from "chai";
 
 describe("AvroReadableFromStream", () => {
   it("read pass end should throw", async () => {
