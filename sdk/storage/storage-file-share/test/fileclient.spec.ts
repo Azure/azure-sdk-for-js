@@ -478,7 +478,7 @@ describe("FileClient", () => {
       assert.fail(
         "AbortCopyFromURL should be failed and throw exception for an completed copy operation."
       );
-    } catch (err) {
+    } catch (err: any) {
       assert.ok(true);
     }
   });
@@ -826,7 +826,7 @@ describe("FileClient", () => {
       });
 
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
     }
     assert.ok(eventTriggered);
@@ -972,7 +972,7 @@ describe("FileClient", () => {
 
     try {
       await fileClient.getProperties();
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
     }
   });
@@ -999,7 +999,7 @@ describe("FileClient", () => {
 
     try {
       await fileClient.getProperties();
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
     }
   });
@@ -1032,7 +1032,7 @@ describe("FileClient", () => {
     try {
       await sourceFile.getProperties();
       assert.fail("Source file should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
     }
   });
@@ -1060,7 +1060,7 @@ describe("FileClient", () => {
     try {
       await sourceFileClient.getProperties();
       assert.fail("Source file should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
     }
   });
@@ -1077,7 +1077,7 @@ describe("FileClient", () => {
     try {
       await sourceFileClient.rename(destFileName);
       assert.fail("Should got conflict error when trying to overwrite an exiting file");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok(
         (err.statusCode as number) === 409,
         "Should got conflict error when trying to overwrite an exiting file"
@@ -1111,7 +1111,7 @@ describe("FileClient", () => {
     try {
       await sourceFileClient.getProperties();
       assert.fail("Source file should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
     }
   });
@@ -1133,7 +1133,7 @@ describe("FileClient", () => {
         replaceIfExists: true,
       });
       assert.fail("Should got conflict error when trying to overwrite an exiting file");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok(
         (err.statusCode as number) === 409,
         "Should got conflict error when trying to overwrite an exiting file"
@@ -1171,7 +1171,7 @@ describe("FileClient", () => {
     try {
       await sourceFileClient.getProperties();
       assert.fail("Source file should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
     }
   });
@@ -1195,7 +1195,7 @@ describe("FileClient", () => {
       });
 
       assert.fail("Should got conflict error when trying to overwrite an exiting file");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok(
         (err.statusCode as number) === 412,
         "Should got conflict error when trying to overwrite an exiting file"
@@ -1234,7 +1234,7 @@ describe("FileClient", () => {
     try {
       await sourceFileClient.getProperties();
       assert.fail("Source file should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
     }
   });
@@ -1252,7 +1252,7 @@ describe("FileClient", () => {
     try {
       await sourceFileClient.rename(destFileName);
       assert.fail("Should got conflict error when trying to overwrite an exiting file");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok(
         (err.statusCode as number) === 412,
         "Should got conflict error when trying to overwrite an exiting file"
@@ -1280,7 +1280,7 @@ describe("FileClient", () => {
     try {
       await sourceFileClient.getProperties();
       assert.fail("Source file should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
     }
   });
@@ -1309,7 +1309,7 @@ describe("FileClient", () => {
     try {
       await sourceFileClient.getProperties();
       assert.fail("Source file should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
     }
   });
@@ -1372,7 +1372,7 @@ describe("FileClient", () => {
     try {
       await sourceFileClient.getProperties();
       assert.fail("Source file should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
     }
   });
@@ -1400,7 +1400,7 @@ describe("FileClient", () => {
     try {
       await sourceFileClient.getProperties();
       assert.fail("Source file should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source file should not exist anymore");
     }
   });

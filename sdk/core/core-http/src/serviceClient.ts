@@ -288,7 +288,7 @@ export class ServiceClient {
         httpRequest = new WebResource();
         httpRequest = httpRequest.prepare(options);
       }
-    } catch (error) {
+    } catch (error: any) {
       return Promise.reject(error);
     }
 
@@ -518,7 +518,7 @@ export class ServiceClient {
       let sendRequestError;
       try {
         rawResponse = await this.sendRequest(httpRequest);
-      } catch (error) {
+      } catch (error: any) {
         sendRequestError = error;
       }
       if (sendRequestError) {
@@ -535,7 +535,7 @@ export class ServiceClient {
           flattenResponse(rawResponse!, operationSpec.responses[rawResponse!.status])
         );
       }
-    } catch (error) {
+    } catch (error: any) {
       result = Promise.reject(error);
     }
 
@@ -630,7 +630,7 @@ export function serializeRequestBody(
           httpRequest.body = JSON.stringify(httpRequest.body);
         }
       }
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(
         `Error "${error.message}" occurred in serializing the payload - ${JSON.stringify(
           serializedName,

@@ -521,7 +521,7 @@ describe("DataLakeFileSystemClient with soft delete", () => {
 
     try {
       serviceClient = getGenericDataLakeServiceClient("DFS_SOFT_DELETE_");
-    } catch (err) {
+    } catch (err: any) {
       this.skip();
     }
 
@@ -938,7 +938,7 @@ describe("DataLakeFileSystemClient with soft delete", () => {
     try {
       await fileSystemClient.undeletePath(fileName, firstDeleteResponse.deletionId ?? "");
       assert.fail("Second undeletion should fail");
-    } catch (err) {
+    } catch (err: any) {
       /* empty */
       // The test case here expects an expection, so the exception should not fail the case.
     }

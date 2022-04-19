@@ -72,7 +72,7 @@ describe(`TableServiceClient`, () => {
           for (const table of tableNames) {
             await unRecordedClient.deleteTable(table);
           }
-        } catch (error) {
+        } catch (error: any) {
           console.warn(`Failed to delete a table during cleanup`);
         }
       }

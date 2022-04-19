@@ -68,7 +68,7 @@ matrix([[true, false]], async function (useAad) {
           emptyToken = "sanitized";
         }
         await client.getTokenForTeamsUser(emptyToken);
-      } catch (e) {
+      } catch (e: any) {
         assert.equal(e.statusCode, 401);
         return;
       }
@@ -83,7 +83,7 @@ matrix([[true, false]], async function (useAad) {
           invalidToken = "sanitized";
         }
         await client.getTokenForTeamsUser(invalidToken);
-      } catch (e) {
+      } catch (e: any) {
         assert.equal(e.statusCode, 401);
         return;
       }
@@ -98,7 +98,7 @@ matrix([[true, false]], async function (useAad) {
           expiredToken = "sanitized";
         }
         await client.getTokenForTeamsUser(expiredToken);
-      } catch (e) {
+      } catch (e: any) {
         assert.equal(e.statusCode, 401);
         return;
       }

@@ -304,7 +304,7 @@ export abstract class AvroType {
     // Primitives can be defined as strings or objects
     try {
       return AvroType.fromStringSchema(type);
-    } catch (err) {
+    } catch (err: any) {
       // eslint-disable-line no-empty
     }
 

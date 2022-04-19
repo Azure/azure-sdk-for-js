@@ -54,7 +54,7 @@ export class TriggerRunOperationsImpl implements TriggerRunOperations {
         rerunTriggerInstanceOperationSpec
       );
       return result as void;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -86,7 +86,7 @@ export class TriggerRunOperationsImpl implements TriggerRunOperations {
         cancelTriggerInstanceOperationSpec
       );
       return result as void;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -116,7 +116,7 @@ export class TriggerRunOperationsImpl implements TriggerRunOperations {
         queryTriggerRunsByWorkspaceOperationSpec
       );
       return result as TriggerRunQueryTriggerRunsByWorkspaceResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message

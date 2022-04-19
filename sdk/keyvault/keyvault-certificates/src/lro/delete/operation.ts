@@ -120,7 +120,7 @@ export class DeleteCertificatePollOperation extends KeyVaultCertificatePollOpera
       try {
         state.result = await this.getDeletedCertificate(certificateName, this.operationOptions);
         state.isCompleted = true;
-      } catch (error) {
+      } catch (error: any) {
         if (error.statusCode === 403) {
           // At this point, the resource exists but the user doesn't have access to it.
           state.isCompleted = true;

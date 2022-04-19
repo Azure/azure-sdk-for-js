@@ -46,7 +46,7 @@ class ReportTransform extends Transform {
     try {
       this.progressCallback({ loadedBytes: this.loadedBytes });
       callback();
-    } catch (e) {
+    } catch (e: any) {
       callback(e);
     }
   }

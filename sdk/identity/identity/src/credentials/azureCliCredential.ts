@@ -62,7 +62,7 @@ export const cliCredentialInternals = {
             resolve({ stdout: stdout, stderr: stderr, error });
           }
         );
-      } catch (err) {
+      } catch (err: any) {
         reject(err);
       }
     });
@@ -144,13 +144,13 @@ export class AzureCliCredential implements TokenCredential {
             expiresOnTimestamp: new Date(response.expiresOn).getTime(),
           };
           return returnValue;
-        } catch (e) {
+        } catch (e: any) {
           if (obj.stderr) {
             throw new CredentialUnavailableError(obj.stderr);
           }
           throw e;
         }
-      } catch (err) {
+      } catch (err: any) {
         const error =
           err.name === "CredentialUnavailableError"
             ? err

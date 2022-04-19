@@ -177,7 +177,7 @@ export class ManagedIdentityCredential implements TokenCredential {
         },
         updatedOptions
       );
-    } catch (err) {
+    } catch (err: any) {
       span.setStatus({
         status: "error",
         error: err,
@@ -246,7 +246,7 @@ export class ManagedIdentityCredential implements TokenCredential {
 
       logger.getToken.info(formatSuccess(scopes));
       return result;
-    } catch (err) {
+    } catch (err: any) {
       // CredentialUnavailable errors are expected to reach here.
       // We intend them to bubble up, so that DefaultAzureCredential can catch them.
       if (err.name === "AuthenticationRequiredError") {

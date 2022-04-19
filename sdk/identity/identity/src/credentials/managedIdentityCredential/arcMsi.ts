@@ -98,7 +98,7 @@ async function filePathRequest(
   const authHeader = response.headers.get("www-authenticate") || "";
   try {
     return authHeader.split("=").slice(1)[0];
-  } catch (e) {
+  } catch (e: any) {
     throw Error(`Invalid www-authenticate header format: ${authHeader}`);
   }
 }

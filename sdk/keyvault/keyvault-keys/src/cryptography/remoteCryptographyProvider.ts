@@ -74,7 +74,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
       this.vaultUrl = parsed.vaultUrl;
       this.name = parsed.name;
       this.version = parsed.version ?? "";
-    } catch (err) {
+    } catch (err: any) {
       logger.error(err);
 
       throw new Error(`${keyId} is not a valid Key Vault key ID`);

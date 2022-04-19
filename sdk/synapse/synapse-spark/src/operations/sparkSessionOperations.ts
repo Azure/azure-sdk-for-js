@@ -60,7 +60,7 @@ export class SparkSessionOperationsImpl implements SparkSessionOperations {
         getSparkSessionsOperationSpec
       );
       return result as SparkSessionGetSparkSessionsResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -90,7 +90,7 @@ export class SparkSessionOperationsImpl implements SparkSessionOperations {
         createSparkSessionOperationSpec
       );
       return result as SparkSessionCreateSparkSessionResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -117,7 +117,7 @@ export class SparkSessionOperationsImpl implements SparkSessionOperations {
         getSparkSessionOperationSpec
       );
       return result as SparkSessionGetSparkSessionResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -147,7 +147,7 @@ export class SparkSessionOperationsImpl implements SparkSessionOperations {
         cancelSparkSessionOperationSpec
       );
       return result as void;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -177,7 +177,7 @@ export class SparkSessionOperationsImpl implements SparkSessionOperations {
         resetSparkSessionTimeoutOperationSpec
       );
       return result as void;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -207,7 +207,7 @@ export class SparkSessionOperationsImpl implements SparkSessionOperations {
         getSparkStatementsOperationSpec
       );
       return result as SparkSessionGetSparkStatementsResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -239,7 +239,7 @@ export class SparkSessionOperationsImpl implements SparkSessionOperations {
         createSparkStatementOperationSpec
       );
       return result as SparkSessionCreateSparkStatementResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -268,7 +268,7 @@ export class SparkSessionOperationsImpl implements SparkSessionOperations {
         getSparkStatementOperationSpec
       );
       return result as SparkSessionGetSparkStatementResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -300,7 +300,7 @@ export class SparkSessionOperationsImpl implements SparkSessionOperations {
         cancelSparkStatementOperationSpec
       );
       return result as SparkSessionCancelSparkStatementResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message

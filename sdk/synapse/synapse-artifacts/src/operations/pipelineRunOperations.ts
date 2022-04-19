@@ -55,7 +55,7 @@ export class PipelineRunOperationsImpl implements PipelineRunOperations {
         queryPipelineRunsByWorkspaceOperationSpec
       );
       return result as PipelineRunQueryPipelineRunsByWorkspaceResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -85,7 +85,7 @@ export class PipelineRunOperationsImpl implements PipelineRunOperations {
         getPipelineRunOperationSpec
       );
       return result as PipelineRunGetPipelineRunResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -119,7 +119,7 @@ export class PipelineRunOperationsImpl implements PipelineRunOperations {
         queryActivityRunsOperationSpec
       );
       return result as PipelineRunQueryActivityRunsResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -149,7 +149,7 @@ export class PipelineRunOperationsImpl implements PipelineRunOperations {
         cancelPipelineRunOperationSpec
       );
       return result as void;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message

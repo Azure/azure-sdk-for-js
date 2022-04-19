@@ -50,7 +50,7 @@ export class SparkBatchImpl implements SparkBatch {
         getSparkBatchJobsOperationSpec
       );
       return result as SparkBatchGetSparkBatchJobsResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -80,7 +80,7 @@ export class SparkBatchImpl implements SparkBatch {
         createSparkBatchJobOperationSpec
       );
       return result as SparkBatchCreateSparkBatchJobResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -107,7 +107,7 @@ export class SparkBatchImpl implements SparkBatch {
         getSparkBatchJobOperationSpec
       );
       return result as SparkBatchGetSparkBatchJobResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -137,7 +137,7 @@ export class SparkBatchImpl implements SparkBatch {
         cancelSparkBatchJobOperationSpec
       );
       return result as void;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message

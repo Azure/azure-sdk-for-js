@@ -106,7 +106,7 @@ describe("Certificates client - create, read, update and delete", () => {
         testPollerProperties
       );
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(
@@ -340,7 +340,7 @@ describe("Certificates client - create, read, update and delete", () => {
     try {
       await client.getCertificate(certificateName);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error.code, "CertificateNotFound");
@@ -364,7 +364,7 @@ describe("Certificates client - create, read, update and delete", () => {
     try {
       await client.getCertificate(certificateName);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       if (e.statusCode === 404) {
         assert.equal(e.code, "CertificateNotFound");
       } else {
@@ -400,7 +400,7 @@ describe("Certificates client - create, read, update and delete", () => {
     try {
       await client.beginDeleteCertificate(certificateName, testPollerProperties);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error.code, "CertificateNotFound");
@@ -458,7 +458,7 @@ describe("Certificates client - create, read, update and delete", () => {
       try {
         await client.beginDeleteCertificate(certificateName, testPollerProperties);
         throw Error("Expecting an error but not catching one.");
-      } catch (e) {
+      } catch (e: any) {
         error = e;
       }
       assert.equal(error.code, "CertificateNotFound");
@@ -527,7 +527,7 @@ describe("Certificates client - create, read, update and delete", () => {
     try {
       await client.getIssuer(issuerName);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error.message, "Issuer not found");
@@ -584,7 +584,7 @@ describe("Certificates client - create, read, update and delete", () => {
     try {
       await client.getCertificateOperation(certificateName);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error.message, `Pending certificate not found: ${certificateName}`);
@@ -622,7 +622,7 @@ describe("Certificates client - create, read, update and delete", () => {
     try {
       await client.getContacts();
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error.code, "ContactsNotFound");

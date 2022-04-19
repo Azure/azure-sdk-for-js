@@ -1753,7 +1753,7 @@ testWithServiceTypes((serviceVersion) => {
               return innerAllPartitionsClaimed;
             },
           });
-        } catch (err) {
+        } catch (err: any) {
           // close processors
           await Promise.all([processor1.stop(), processor2.stop()]);
           throw err;
@@ -1770,7 +1770,7 @@ testWithServiceTypes((serviceVersion) => {
             timeBetweenRunsMs: 1000,
             until: async () => thrashAfterSettling,
           });
-        } catch (err) {
+        } catch (err: any) {
           // swallow error, check trashAfterSettling for the condition in finally
         } finally {
           await Promise.all([processor1.stop(), processor2.stop()]);
@@ -1918,7 +1918,7 @@ testWithServiceTypes((serviceVersion) => {
               return innerAllPartitionsClaimed;
             },
           });
-        } catch (err) {
+        } catch (err: any) {
           // close processors
           await Promise.all([processor1.stop(), processor2.stop()]);
           throw err;
@@ -1935,7 +1935,7 @@ testWithServiceTypes((serviceVersion) => {
             timeBetweenRunsMs: 1000,
             until: async () => thrashAfterSettling,
           });
-        } catch (err) {
+        } catch (err: any) {
           // swallow error, check trashAfterSettling for the condition in finally
         } finally {
           await Promise.all([processor1.stop(), processor2.stop()]);

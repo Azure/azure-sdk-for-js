@@ -185,7 +185,7 @@ export function bearerTokenAuthenticationPolicy(
       let error: Error | undefined;
       try {
         response = await next(request);
-      } catch (err) {
+      } catch (err: any) {
         error = err;
         response = err.response;
       }

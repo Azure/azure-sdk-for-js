@@ -62,7 +62,7 @@ describe("TableClient CreationHandling", () => {
     try {
       await unrecordedClient.createTable();
       assert.fail("Expected error");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal((error as RestError).statusCode, 409);
     }
   });
@@ -132,7 +132,7 @@ describe("TableServiceClient CreationHandling", () => {
     try {
       await unrecordedClient.createTable(tableName);
       assert.fail("Expected error");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal((error as RestError).statusCode, 409);
     }
   });

@@ -265,7 +265,7 @@ describe("receive and delete", () => {
         } else if (operation === DispositionType.defer) {
           await receiver.deferMessage(msg);
         }
-      } catch (err) {
+      } catch (err: any) {
         errorWasThrown = true;
         testError(err);
       }
@@ -473,7 +473,7 @@ describe("receive and delete", () => {
         } else if (operation === DispositionType.defer) {
           await receiver.deferMessage(deferredMsg);
         }
-      } catch (err) {
+      } catch (err: any) {
         errorWasThrown = true;
         testError(err);
       }

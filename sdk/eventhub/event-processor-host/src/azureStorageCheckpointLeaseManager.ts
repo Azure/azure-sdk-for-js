@@ -75,7 +75,7 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
         blob: blob
       };
       return new AzureBlobLease(blobLeaseInfo);
-    } catch (err) {
+    } catch (err: any) {
       const msg =
         `An error occurred while downloading the lease for blobPath ` +
         `"${this._context.composedBlobPrefix}${partitionId}". It is: \n` +
@@ -111,7 +111,7 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
           "'blobService' is not defined in the 'hostContext', hence cannot " + "list all the blobs."
         );
       }
-    } catch (err) {
+    } catch (err: any) {
       const msg =
         `An error occurred while deleting the lease store '${storageContainerName}': %O` +
         `${err ? err.stack : JSON.stringify(err)}`;
@@ -136,7 +136,7 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
       if (await blob.doesBlobExist()) {
         result = await this.downloadLease(partitionId, blob);
       }
-    } catch (err) {
+    } catch (err: any) {
       const msg =
         `An error occurred while getting lease for partitionId '${partitionId}': \n` +
         `${err ? err.stack : JSON.stringify(err)}`;
@@ -172,7 +172,7 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
           lbi.metadata
         );
       }
-    } catch (err) {
+    } catch (err: any) {
       const info: EPHDiagnosticInfo = {
         error: err,
         action: EPHActionStrings.gettingAllLeases,
@@ -206,7 +206,7 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
         }
         await Promise.all(createPromises);
       }
-    } catch (err) {
+    } catch (err: any) {
       const info: EPHDiagnosticInfo = {
         error: err,
         action: EPHActionStrings.creatingAllLeases,
@@ -227,7 +227,7 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
       const blob = this.getAzureBlob(partitionId);
       returnLease = AzureBlobLease.createFromPartitionId(partitionId, blob);
       await this._uploadLease(returnLease, UploadActivity.create);
-    } catch (error) {
+    } catch (error: any) {
       const statusCode = (error as StorageError).statusCode;
       const code = (error as StorageError).code;
       // https://docs.microsoft.com/en-us/rest/api/storageservices/blob-service-error-codes
@@ -254,7 +254,7 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
   async deleteLease(lease: AzureBlobLease): Promise<void> {
     try {
       return await lease.blob.deleteBlobIfExists();
-    } catch (err) {
+    } catch (err: any) {
       const msg =
         `An error occurred while deleting the lease for blobPath ` +
         `"${this._context.composedBlobPrefix}${lease.partitionId}". It is: \n` +
@@ -302,7 +302,7 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
           };
           const acquireResult = await lease.blob.acquireLease(options);
           newToken = acquireResult.id;
-        } catch (err) {
+        } catch (err: any) {
           const statusCode = err && (err as StorageError).statusCode;
           const code = err && (err as StorageError).code;
           if (statusCode === 409 && code && code.toLowerCase() === "leasealreadypresent") {
@@ -316,7 +316,7 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
       // Increment epoch each time lease is acquired or stolen by a new host
       lease.incrementEpoch();
       await this._uploadLease(lease, UploadActivity.acquire);
-    } catch (err) {
+    } catch (err: any) {
       if (this._wasLeaseLost(lease.partitionId, err)) {
         result = false;
       } else {
@@ -335,7 +335,7 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
       };
       await lease.blob.renewLease(lease.token, options);
       result = true;
-    } catch (err) {
+    } catch (err: any) {
       if (!this._wasLeaseLost(lease.partitionId, err)) {
         throw err;
       }
@@ -353,7 +353,7 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
       releasedCopy.token = "";
       await this._uploadLease(lease, UploadActivity.release);
       await lease.blob.releaseLease(leaseId);
-    } catch (err) {
+    } catch (err: any) {
       if (!this._wasLeaseLost(lease.partitionId, err)) {
         throw err;
       }
@@ -384,7 +384,7 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
     if (result) {
       try {
         await this._uploadLease(lease, UploadActivity.update);
-      } catch (err) {
+      } catch (err: any) {
         if (this._wasLeaseLost(lease.partitionId, err)) {
           result = false;
         } else {
@@ -450,7 +450,7 @@ export class AzureStorageCheckpointLeaseManager implements CheckpointManager, Le
         log.error(withHostAndPartition(lease, msg));
         throw new Error(msg);
       }
-    } catch (err) {
+    } catch (err: any) {
       const info: EPHDiagnosticInfo = {
         action: EPHActionStrings.updatingCheckpoint,
         error: err,

@@ -116,7 +116,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as DataFlowCreateOrUpdateDataFlowResponse;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -207,7 +207,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
         getDataFlowOperationSpec
       );
       return result as DataFlowGetDataFlowResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -238,7 +238,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -329,7 +329,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -421,7 +421,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
         getDataFlowsByWorkspaceOperationSpec
       );
       return result as DataFlowGetDataFlowsByWorkspaceResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -452,7 +452,7 @@ export class DataFlowOperationsImpl implements DataFlowOperations {
         getDataFlowsByWorkspaceNextOperationSpec
       );
       return result as DataFlowGetDataFlowsByWorkspaceNextResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
