@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SpanKind } from "@opentelemetry/api";
-import { hrTimeToMilliseconds } from "@opentelemetry/core";
-import { SemanticAttributes } from "@opentelemetry/semantic-conventions";
-import { ReadableSpan } from "@opentelemetry/sdk-trace-base";
-import { RemoteDependencyData, RequestData } from "../generated";
-import { TIME_SINCE_ENQUEUED, ENQUEUED_TIME } from "./constants/applicationinsights";
 import {
   AzNamespace,
   MessageBusDestination,
   MicrosoftEventHub,
 } from "./constants/span/azAttributes";
+import { ENQUEUED_TIME, TIME_SINCE_ENQUEUED } from "./constants/applicationinsights";
+import { RemoteDependencyData, RequestData } from "../generated";
+import { ReadableSpan } from "@opentelemetry/sdk-trace-base";
+import { SemanticAttributes } from "@opentelemetry/semantic-conventions";
+import { SpanKind } from "@opentelemetry/api";
+import { hrTimeToMilliseconds } from "@opentelemetry/core";
 
 /**
  * Average span.links[].attributes.enqueuedTime
  */
-const getTimeSinceEnqueued = (span: ReadableSpan) => {
+const getTimeSinceEnqueued = (span: ReadableSpan): number => {
   let countEnqueueDiffs = 0;
   let sumEnqueueDiffs = 0;
   const startTimeMs = hrTimeToMilliseconds(span.startTime);
@@ -61,7 +61,8 @@ export const parseEventHubSpan = (
       break;
     case SpanKind.CONSUMER:
       baseData.type = `Queue Message | ${namespace}`;
-      (baseData as any).source = `${peerAddress}/${messageBusDestination}`;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      baseData.source = `${peerAddress}/${messageBusDestination}`;
       baseData.measurements = {
         ...baseData.measurements,
         [TIME_SINCE_ENQUEUED]: getTimeSinceEnqueued(span),

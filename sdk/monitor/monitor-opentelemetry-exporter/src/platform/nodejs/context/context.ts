@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import * as ai from "../../../utils/constants/applicationinsights";
 import * as os from "os";
+import { KnownContextTagKeys } from "../../../generated";
 import { SDK_INFO } from "@opentelemetry/core";
 import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
-
-import { KnownContextTagKeys } from "../../../generated";
-import * as ai from "../../../utils/constants/applicationinsights";
 import { Tags } from "../../../types";
 
 let instance: Context | null = null;

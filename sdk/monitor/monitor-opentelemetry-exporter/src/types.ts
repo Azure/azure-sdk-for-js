@@ -12,6 +12,7 @@ export type Tags = { [key in ContextTagKeys]: string };
  * Azure Monitor envelope property type.
  * @internal
  */
+// eslint-disable-next-line @typescript-eslint/ban-types
 export type PropertyType = string | number | boolean | object | Array<PropertyType>;
 /**
  * Azure Monitor envelope properties.

@@ -4,11 +4,11 @@
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
-import { diag } from "@opentelemetry/api";
-import { PersistentStorage } from "../../../types";
-import { DEFAULT_EXPORTER_CONFIG, AzureExporterInternalConfig } from "../../../config";
-import { FileAccessControl } from "./fileAccessControl";
+import { AzureExporterInternalConfig, DEFAULT_EXPORTER_CONFIG } from "../../../config";
 import { confirmDirExists, getShallowDirectorySize } from "./fileSystemHelpers";
+import { FileAccessControl } from "./fileAccessControl";
+import { PersistentStorage } from "../../../types";
+import { diag } from "@opentelemetry/api";
 import { promisify } from "util";
 
 const statAsync = promisify(fs.stat);
@@ -61,8 +61,9 @@ export class FileSystemPersist implements PersistentStorage {
       );
       // Starts file cleanup task
       if (!this._fileCleanupTimer) {
+        const noop: () => void = () => { return; }
         this._fileCleanupTimer = setTimeout(() => {
-          this._fileCleanupTask();
+          this._fileCleanupTask().catch(noop);
         }, this.cleanupTimeOut);
         this._fileCleanupTimer.unref();
       }
@@ -85,6 +86,7 @@ export class FileSystemPersist implements PersistentStorage {
       try {
         const buffer = await this._getFirstFileOnDisk();
         if (buffer) {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
           return JSON.parse(buffer.toString("utf8"));
         }
       } catch (e) {
@@ -122,6 +124,7 @@ export class FileSystemPersist implements PersistentStorage {
       }
       return null;
     } catch (e) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       if (e.code === "ENOENT") {
         // File does not exist -- return null instead of throwing
         return null;
@@ -135,6 +138,7 @@ export class FileSystemPersist implements PersistentStorage {
     try {
       await confirmDirExists(this._tempDirectory);
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       diag.warn(`Error while checking/creating directory: `, error && error.message);
       return false;
     }
@@ -148,6 +152,7 @@ export class FileSystemPersist implements PersistentStorage {
         return false;
       }
     } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
       diag.warn(`Error while checking size of persistence directory: `, error && error.message);
       return false;
     }
@@ -177,6 +182,7 @@ export class FileSystemPersist implements PersistentStorage {
         if (files.length === 0) {
           return false;
         } else {
+          // eslint-disable-next-line @typescript-eslint/no-misused-promises
           files.forEach(async (file) => {
             // Check expiration
             const fileCreationDate: Date = new Date(

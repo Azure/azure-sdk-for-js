@@ -4,9 +4,10 @@
 import { assertCount, assertExpectation } from "../../utils/assert";
 import { BasicScenario } from "../../utils/basic";
 import { DEFAULT_BREEZE_ENDPOINT } from "../../../src/Declarations/Constants";
+import { TelemetryItem as Envelope } from "../../../src/generated";
 import nock from "nock";
 import { successfulBreezeResponse } from "../../utils/breezeTestUtils";
-import { TelemetryItem as Envelope } from "../../../src/generated";
+
 
 describe("Trace Exporter Scenarios", () => {
   describe(BasicScenario.prototype.constructor.name, () => {
@@ -39,14 +40,15 @@ describe("Trace Exporter Scenarios", () => {
         .run()
         .then(() => {
           // promisify doesn't work on this, so use callbacks/done for now
+          // eslint-disable-next-line promise/no-nesting, promise/always-return
           return scenario.flush().then(() => {
             assertExpectation(ingest, scenario.expectation);
             assertCount(ingest, scenario.expectation);
-            done();
+            done(); // eslint-disable-line promise/no-callback-in-promise
           });
         })
         .catch((e) => {
-          done(e);
+          done(e); // eslint-disable-line promise/no-callback-in-promise
         });
     });
   });

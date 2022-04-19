@@ -1,29 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import os from "os";
-import { URL } from "url";
-import { ReadableSpan } from "@opentelemetry/sdk-trace-base";
-import { hrTimeToMilliseconds } from "@opentelemetry/core";
-import { diag, SpanKind, SpanStatusCode, Link } from "@opentelemetry/api";
-import {
-  SemanticResourceAttributes,
-  SemanticAttributes,
-  DbSystemValues,
-} from "@opentelemetry/semantic-conventions";
 
-import { Tags, Properties, MSLink, Measurements } from "../types";
-import { msToTimeSpan } from "./breezeUtils";
-import { getInstance } from "../platform";
-import { parseEventHubSpan } from "./eventhub";
-import { DependencyTypes, MS_LINKS } from "./constants/applicationinsights";
 import { AzNamespace, MicrosoftEventHub } from "./constants/span/azAttributes";
 import {
-  RemoteDependencyData,
-  RequestData,
+  DbSystemValues,
+  SemanticAttributes,
+  SemanticResourceAttributes,
+} from "@opentelemetry/semantic-conventions";
+import { DependencyTypes, MS_LINKS } from "./constants/applicationinsights";
+import {
   TelemetryItem as Envelope,
   KnownContextTagKeys,
+  RemoteDependencyData,
+  RequestData,
 } from "../generated";
+import { Link, SpanKind, SpanStatusCode, diag } from "@opentelemetry/api";
+import { MSLink, Measurements, Properties, Tags } from "../types";
+import { ReadableSpan } from "@opentelemetry/sdk-trace-base";
+import { getInstance } from "../platform";
+import { hrTimeToMilliseconds } from "@opentelemetry/core";
+import { msToTimeSpan } from "./breezeUtils";
+import os from "os";
+import { parseEventHubSpan } from "./eventhub";
 
 function createTagsFromSpan(span: ReadableSpan): Tags {
   const context = getInstance();
@@ -38,6 +37,7 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
     const serviceNamespace = span.resource.attributes[SemanticResourceAttributes.SERVICE_NAMESPACE];
     if (serviceName) {
       if (serviceNamespace) {
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         tags[KnownContextTagKeys.AiCloudRole] = `${serviceNamespace}.${serviceName}`;
       } else {
         tags[KnownContextTagKeys.AiCloudRole] = String(serviceName);
@@ -69,9 +69,12 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
         }`;
       } else if (httpUrl) {
         try {
-          let url = new URL(String(httpUrl));
+          const url = new URL(String(httpUrl));
+          // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
           tags[KnownContextTagKeys.AiOperationName] = `${httpMethod} ${url.pathname}`;
-        } catch (ex) {}
+        } catch (ex) {
+          // eslint-disable-line no-empty
+        }
       }
       if (httpClientIp) {
         tags[KnownContextTagKeys.AiLocationIp] = String(httpClientIp);
@@ -126,7 +129,7 @@ function createPropertiesFromSpan(span: ReadableSpan): [Properties, Measurements
   return [properties, measurements];
 }
 
-function isSqlDB(dbSystem: string) {
+function isSqlDB(dbSystem: string): boolean {
   return (
     dbSystem === DbSystemValues.DB2 ||
     dbSystem === DbSystemValues.DERBY ||
@@ -152,17 +155,17 @@ function getUrl(span: ReadableSpan): string {
       if (httpScheme && httpTarget) {
         const httpHost = span.attributes[SemanticAttributes.HTTP_HOST];
         if (httpHost) {
-          return `${httpScheme}://${httpHost}${httpTarget}`;
+          return `${httpScheme}://${httpHost}${httpTarget}`; // eslint-disable-line @typescript-eslint/restrict-template-expressions
         } else {
           const netPeerPort = span.attributes[SemanticAttributes.NET_PEER_PORT];
           if (netPeerPort) {
             const netPeerName = span.attributes[SemanticAttributes.NET_PEER_NAME];
             if (netPeerName) {
-              return `${httpScheme}://${netPeerName}:${netPeerPort}${httpTarget}`;
+              return `${httpScheme}://${netPeerName}:${netPeerPort}${httpTarget}`; // eslint-disable-line @typescript-eslint/restrict-template-expressions
             } else {
               const netPeerIp = span.attributes[SemanticAttributes.NET_PEER_IP];
               if (netPeerIp) {
-                return `${httpScheme}://${netPeerIp}:${netPeerPort}${httpTarget}`;
+                return `${httpScheme}://${netPeerIp}:${netPeerPort}${httpTarget}`; // eslint-disable-line @typescript-eslint/restrict-template-expressions
               }
             }
           }
@@ -195,9 +198,9 @@ function getDependencyTarget(span: ReadableSpan): string {
 
 function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   const remoteDependencyData: RemoteDependencyData = {
-    name: span.name, //Default
+    name: span.name, // Default
     id: `${span.spanContext().spanId}`,
-    success: span.status.code != SpanStatusCode.ERROR,
+    success: span.status.code !== SpanStatusCode.ERROR,
     resultCode: "0",
     type: "Dependency",
     duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
@@ -218,9 +221,9 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
     const httpUrl = span.attributes[SemanticAttributes.HTTP_URL];
     if (httpUrl) {
       try {
-        let dependencyUrl = new URL(String(httpUrl));
-        remoteDependencyData.name = `${httpMethod} ${dependencyUrl.pathname}`;
-      } catch (ex) {}
+        const dependencyUrl = new URL(String(httpUrl));
+        remoteDependencyData.name = `${httpMethod} ${dependencyUrl.pathname}`; // eslint-disable-line @typescript-eslint/restrict-template-expressions
+      } catch (ex) { /* eslint-disable-line no-empty */ }
     }
     remoteDependencyData.type = DependencyTypes.Http;
     remoteDependencyData.data = getUrl(span);
@@ -232,17 +235,17 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
     if (target) {
       try {
         // Remove default port
-        let portRegex = new RegExp(/(https?)(:\/\/.*)(:\d+)(\S*)/);
-        let res = portRegex.exec(target);
+        const portRegex = new RegExp(/(https?)(:\/\/.*)(:\d+)(\S*)/);
+        const res = portRegex.exec(target);
         if (res != null) {
-          let protocol = res[1];
-          let port = res[3];
-          if ((protocol == "https" && port == ":443") || (protocol == "http" && port == ":80")) {
+          const protocol = res[1];
+          const port = res[3];
+          if ((protocol === "https" && port === ":443") || (protocol === "http" && port === ":80")) {
             // Drop port
             target = res[1] + res[2] + res[4];
           }
         }
-      } catch (error) {}
+      } catch (error) { /* eslint-disable-line no-empty */ }
       remoteDependencyData.target = `${target}`;
     }
   }
@@ -269,12 +272,12 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
     } else if (dbOperation) {
       remoteDependencyData.data = String(dbOperation);
     }
-    let target = getDependencyTarget(span);
+    const target = getDependencyTarget(span);
     const dbName = span.attributes[SemanticAttributes.DB_NAME];
     if (target) {
-      remoteDependencyData.target = dbName ? `${target}|${dbName}` : `${target}`;
+      remoteDependencyData.target = dbName ? `${target}|${dbName}` : `${target}`; // eslint-disable-line @typescript-eslint/restrict-template-expressions
     } else {
-      remoteDependencyData.target = dbName ? `${dbName}` : `${dbSystem}`;
+      remoteDependencyData.target = dbName ? `${dbName}` : `${dbSystem}`; // eslint-disable-line @typescript-eslint/restrict-template-expressions
     }
   }
   // grpc Dependency
@@ -284,7 +287,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
     if (grpcStatusCode) {
       remoteDependencyData.resultCode = String(grpcStatusCode);
     }
-    let target = getDependencyTarget(span);
+    const target = getDependencyTarget(span);
     if (target) {
       remoteDependencyData.target = `${target}`;
     } else if (rpcSystem) {
@@ -297,7 +300,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
 function createRequestData(span: ReadableSpan): RequestData {
   const requestData: RequestData = {
     id: `${span.spanContext().spanId}`,
-    success: span.status.code != SpanStatusCode.ERROR,
+    success: span.status.code !== SpanStatusCode.ERROR,
     responseCode: "0",
     duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
     version: 2,
@@ -348,14 +351,16 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
       break;
     default:
       // never
+      /* eslint-disable @typescript-eslint/restrict-template-expressions */
       diag.error(`Unsupported span kind ${span.kind}`);
       throw new Error(`Unsupported span kind ${span.kind}`);
+      /* eslint-enable @typescript-eslint/restrict-template-expressions */
   }
 
   // Azure SDK
   if (span.attributes[AzNamespace]) {
     if (span.kind === SpanKind.INTERNAL) {
-      baseData.type = `${DependencyTypes.InProc} | ${span.attributes[AzNamespace]}`;
+      baseData.type = `${DependencyTypes.InProc} | ${span.attributes[AzNamespace]}`; // eslint-disable-line @typescript-eslint/restrict-template-expressions
     }
     if (span.attributes[AzNamespace] === MicrosoftEventHub) {
       parseEventHubSpan(span, baseData);

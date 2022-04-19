@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { Expectation } from "./types";
 import {
-  MonitorBase,
-  RequestData,
   TelemetryItem as Envelope,
   KnownContextTagKeys,
+  MonitorBase,
+  RequestData,
 } from "../../src/generated";
 import { TelemetryItem as EnvelopeMapper } from "../../src/generated/models/mappers";
+import { Expectation } from "./types";
 
 export const assertData = (actual: MonitorBase, expected: MonitorBase): void => {
   assert.strictEqual(actual.baseType, expected.baseType);
@@ -34,7 +34,7 @@ export const assertTrace = (actual: Envelope[], expectation: Expectation): void 
     );
   });
   if (envelope.length !== 1) {
-    assert.ok(false, `assertTrace: could not find exported envelope: ${expectation.name}`);
+    assert.ok(false, `assertTrace: could not find exported envelope: ${expectation.name!}`);
   }
   const operationId = envelope[0].tags![KnownContextTagKeys.AiOperationId];
 
@@ -51,7 +51,7 @@ export const assertTrace = (actual: Envelope[], expectation: Expectation): void 
     assert.strictEqual(
       childEnvelopes.length,
       1,
-      `Could not find a child envelope for ${(envelope[0].data!.baseData as RequestData).name}`
+      `Could not find a child envelope for ${(envelope[0].data!.baseData as RequestData).name!}`
     );
   }
 };
@@ -77,7 +77,7 @@ export const assertExpectation = (actual: Envelope[], expectations: Expectation[
       assert.ok(
         false,
         `assertExpectation: could not find exported envelope: ${
-          (expectation.data?.baseData as RequestData).name
+          (expectation.data?.baseData as RequestData).name!
         }`
       );
     }
@@ -99,7 +99,7 @@ export const assertExpectation = (actual: Envelope[], expectations: Expectation[
           assert.strictEqual(
             envelope[0][serializedKey as keyof Envelope], // as keyof Serialized(Envelope)
             value,
-            `envelope.${serializedKey} should be equal\nActual: ${envelope[0][key]}\nExpected: ${value}`
+            `envelope.${serializedKey} should be equal\nActual: ${envelope[0][key]}\nExpected: ${value}` // eslint-disable-line @typescript-eslint/restrict-template-expressions
           );
       }
     }

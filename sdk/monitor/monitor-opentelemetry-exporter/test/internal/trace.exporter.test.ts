@@ -3,14 +3,14 @@
 
 import * as assert from "assert";
 import { ExportResult, ExportResultCode } from "@opentelemetry/core";
-import { AzureMonitorTraceExporter } from "../../src/export/trace";
-import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants";
+import { FileSystemPersist, HttpSender } from "../../src/platform";
 import {
   failedBreezeResponse,
   partialBreezeResponse,
   successfulBreezeResponse,
 } from "../utils/breezeTestUtils";
-import { FileSystemPersist, HttpSender } from "../../src/platform";
+import { AzureMonitorTraceExporter } from "../../src/export/trace";
+import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants";
 import { TelemetryItem as Envelope } from "../../src/generated";
 import nock from "nock";
 
@@ -28,11 +28,13 @@ describe("#AzureMonitorBaseExporter", () => {
       this.thisAsAny = this;
     }
 
-    getTelemetryProcesors() {
-      return this.thisAsAny._telemetryProcessors;
+    getTelemetryProcesors(): any {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, no-underscore-dangle, @typescript-eslint/no-unsafe-member-access
+      return this.thisAsAny._telemetryProcessors; 
     }
 
-    async exportEnvelopesPrivate(payload: Envelope[]): Promise<ExportResult> {
+    exportEnvelopesPrivate(payload: Envelope[]): Promise<ExportResult> {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
       return this.thisAsAny.exportEnvelopes(payload);
     }
   }

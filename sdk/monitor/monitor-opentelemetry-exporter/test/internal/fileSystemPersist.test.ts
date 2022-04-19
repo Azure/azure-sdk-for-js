@@ -5,8 +5,8 @@ import * as assert from "assert";
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
-import { FileSystemPersist } from "../../src/platform/nodejs/persist/fileSystemPersist";
 import { TelemetryItem as Envelope } from "../../src/generated";
+import { FileSystemPersist } from "../../src/platform/nodejs/persist/fileSystemPersist";
 import { promisify } from "util";
 
 const statAsync = promisify(fs.stat);
@@ -33,19 +33,19 @@ const deleteFolderRecursive = (dirPath: string): void => {
   }
 };
 
-const assertFirstFile = async (tempDir: string, expectation: unknown): Promise<void> => {
-  // Assert that tempDir is a directory
-  const stats = await statAsync(tempDir);
+const assertFirstFile = async (tmpDir: string, expectation: unknown): Promise<void> => {
+  // Assert that tmpDir is a directory
+  const stats = await statAsync(tmpDir);
   assert.strictEqual(stats.isDirectory(), true);
 
-  // Read the first file in tempDir
-  const origFiles = await readdirAsync(tempDir);
+  // Read the first file in tmpDir
+  const origFiles = await readdirAsync(tmpDir);
   const files = origFiles.filter((f) => path.basename(f).includes(".ai.json"));
   assert.ok(files.length > 0);
 
   // Assert file matches expectation
   const firstFile = files[0];
-  const filePath = path.join(tempDir, firstFile);
+  const filePath = path.join(tmpDir, firstFile);
   const payload = await readFileAsync(filePath);
   assert.deepStrictEqual(JSON.parse(payload.toString()), JSON.parse(JSON.stringify(expectation)));
 
@@ -91,7 +91,7 @@ describe("FileSystemPersist", () => {
     });
 
     it("should store to disk several values", async () => {
-      const envelopes: Envelope[] = new Array(10).fill({
+      const envelopes: Envelope[] = new Array<Envelope>(10).fill({
         name: "name",
         time: new Date(),
       });

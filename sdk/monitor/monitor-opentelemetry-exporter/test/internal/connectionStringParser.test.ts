@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
 import * as Constants from "../../src/Declarations/Constants";
+import * as assert from "assert";
 import { ConnectionStringParser } from "../../src/utils/connectionStringParser";
 
 describe("ConnectionStringParser", () => {
@@ -55,7 +55,7 @@ describe("ConnectionStringParser", () => {
       expectedInstrumentationKey?: string;
       expectedBreezeEndpoint: string;
       expectedLiveMetricsEndpoint: string;
-    }) => {
+    }): void => {
       const result = ConnectionStringParser.parse(options.connectionString);
 
       if (options.expectedAuthorization) {

@@ -1,25 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import fs from "fs";
-import path from "path";
-import { Span, BasicTracerProvider, TracerConfig } from "@opentelemetry/sdk-trace-base";
-import { SpanKind, SpanStatusCode, ROOT_CONTEXT } from "@opentelemetry/api";
 import * as assert from "assert";
-import { hrTimeToMilliseconds } from "@opentelemetry/core";
-import { Resource } from "@opentelemetry/resources";
+import { BasicTracerProvider, Span, TracerConfig } from "@opentelemetry/sdk-trace-base";
+import { Context, getInstance } from "../../src/platform";
 import {
   DbSystemValues,
   SemanticAttributes,
   SemanticResourceAttributes,
 } from "@opentelemetry/semantic-conventions";
-
-import { Tags, Properties, Measurements } from "../../src/types";
-import { Context, getInstance } from "../../src/platform";
-import { msToTimeSpan } from "../../src/utils/breezeUtils";
-import { readableSpanToEnvelope } from "../../src/utils/spanUtils";
-import { RemoteDependencyData, RequestData, KnownContextTagKeys } from "../../src/generated";
+import { KnownContextTagKeys, RemoteDependencyData, RequestData } from "../../src/generated";
+import { Measurements, Properties, Tags } from "../../src/types";
+import { ROOT_CONTEXT, SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import { TelemetryItem as Envelope } from "../../src/generated";
+import { Resource } from "@opentelemetry/resources";
+import fs from "fs";
+import { hrTimeToMilliseconds } from "@opentelemetry/core";
+import { msToTimeSpan } from "../../src/utils/breezeUtils";
+import path from "path";
+import { readableSpanToEnvelope } from "../../src/utils/spanUtils";
 
 const context = getInstance();
 
@@ -33,7 +32,7 @@ const tracerProviderConfig: TracerConfig = {
 
 const tracer = new BasicTracerProvider(tracerProviderConfig).getTracer("default");
 const packageJsonPath = path.resolve(__dirname, "../../../", "./package.json");
-let packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
+const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8")) as { version: string };
 
 function assertEnvelope(
   envelope: Envelope,

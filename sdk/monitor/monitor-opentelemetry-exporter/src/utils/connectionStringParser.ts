@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { diag } from "@opentelemetry/api";
-import { ConnectionString, ConnectionStringKey } from "../Declarations/Contracts";
-
 import * as Constants from "../Declarations/Constants";
+import { ConnectionString, ConnectionStringKey } from "../Declarations/Contracts";
+import { diag } from "@opentelemetry/api";
 
 /**
  * ConnectionString parser.
@@ -74,14 +73,14 @@ export class ConnectionStringParser {
     return result;
   }
 
-  public static sanitizeUrl(url: string) {
+  public static sanitizeUrl(url: string): string {
     let newUrl = url.trim();
     if (newUrl.indexOf("https://") < 0) {
       // Try to update http to https
       newUrl = newUrl.replace("http://", "https://");
     }
     // Remove final slash if present
-    if (newUrl[newUrl.length - 1] == "/") {
+    if (newUrl[newUrl.length - 1] === "/") {
       newUrl = newUrl.slice(0, -1);
     }
     return newUrl;

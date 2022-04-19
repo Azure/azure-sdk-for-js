@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import url from "url";
-import { diag } from "@opentelemetry/api";
-import { FullOperationResponse } from "@azure/core-client";
-import { bearerTokenAuthenticationPolicy, redirectPolicyName } from "@azure/core-rest-pipeline";
-import { Sender, SenderResult } from "../../types";
+
 import {
-  TelemetryItem as Envelope,
   ApplicationInsightsClient,
   ApplicationInsightsClientOptionalParams,
+  TelemetryItem as Envelope,
   TrackOptionalParams,
 } from "../../generated";
+import { Sender, SenderResult } from "../../types";
+import { bearerTokenAuthenticationPolicy, redirectPolicyName } from "@azure/core-rest-pipeline";
 import { AzureExporterInternalConfig } from "../../config";
+import { FullOperationResponse } from "@azure/core-client";
+import { diag } from "@opentelemetry/api";
 
 const applicationInsightsResource = "https://monitor.azure.com//.default";
 
@@ -35,7 +35,7 @@ export class HttpSender implements Sender {
     this._appInsightsClient.pipeline.removePolicy({ name: redirectPolicyName });
 
     if (this._exporterOptions.aadTokenCredential) {
-      let scopes: string[] = [applicationInsightsResource];
+      const scopes: string[] = [applicationInsightsResource];
       this._appInsightsClient.pipeline.addPolicy(
         bearerTokenAuthenticationPolicy({
           credential: this._exporterOptions.aadTokenCredential,
@@ -50,37 +50,34 @@ export class HttpSender implements Sender {
    * @internal
    */
   async send(envelopes: Envelope[]): Promise<SenderResult> {
-    let options: TrackOptionalParams = {};
-    try {
-      let response: FullOperationResponse | undefined;
-      function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
-        response = rawResponse;
-        if (options.onResponse) {
-          options.onResponse(rawResponse, flatResponse);
-        }
+    const options: TrackOptionalParams = {};
+    let response: FullOperationResponse | undefined;
+    function onResponse(rawResponse: FullOperationResponse, flatResponse: unknown): void {
+      response = rawResponse;
+      if (options.onResponse) {
+        options.onResponse(rawResponse, flatResponse);
       }
-      await this._appInsightsClient.track(envelopes, {
-        ...options,
-        onResponse,
-      });
-
-      return { statusCode: response?.status, result: response?.bodyAsText ?? "" };
-    } catch (e) {
-      throw e;
     }
+    await this._appInsightsClient.track(envelopes, {
+      ...options,
+      onResponse,
+    });
+
+    return { statusCode: response?.status, result: response?.bodyAsText ?? "" };
   }
 
   /**
    * Shutdown sender
    * @internal
    */
+  // eslint-disable-next-line @typescript-eslint/require-await
   async shutdown(): Promise<void> {
     diag.info("HttpSender shutting down");
   }
 
-  handlePermanentRedirect(location: string | undefined) {
+  handlePermanentRedirect(location: string | undefined): void {
     if (location) {
-      const locUrl = new url.URL(location);
+      const locUrl = new URL(location);
       if (locUrl && locUrl.host) {
         this._appInsightsClient.host = "https://" + locUrl.host;
       }

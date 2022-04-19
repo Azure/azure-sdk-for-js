@@ -2,18 +2,18 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { TokenCredential } from "@azure/core-http";
-import { DEFAULT_EXPORTER_CONFIG } from "../../src/config";
-import { HttpSender } from "../../src/platform/nodejs/httpSender";
-import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants";
 import {
-  successfulBreezeResponse,
   failedBreezeResponse,
   partialBreezeResponse,
+  successfulBreezeResponse,
 } from "../utils/breezeTestUtils";
+import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants";
+import { DEFAULT_EXPORTER_CONFIG } from "../../src/config";
 import { TelemetryItem as Envelope } from "../../src/generated";
-import nock from "nock";
+import { HttpSender } from "../../src/platform/nodejs/httpSender";
 import { PipelinePolicy } from "@azure/core-rest-pipeline";
+import { TokenCredential } from "@azure/core-http";
+import nock from "nock";
 
 class TestTokenCredential implements TokenCredential {
   private _expiresOn: Date;
@@ -23,12 +23,12 @@ class TestTokenCredential implements TokenCredential {
     this._expiresOn = expiresOn || new Date();
   }
 
-  async getToken(): Promise<any> {
+  getToken(): Promise<any> {
     this._numberOfRefreshs++;
-    return {
-      token: "testToken" + this._numberOfRefreshs,
+    return Promise.resolve({
+      token: `testToken${this._numberOfRefreshs}`,
       expiresOnTimestamp: this._expiresOn,
-    };
+    });
   }
 }
 
@@ -84,14 +84,14 @@ describe("HttpSender", () => {
 
   describe("#authentication", () => {
     it("should add bearerTokenAuthenticationPolicy", () => {
-      let config = DEFAULT_EXPORTER_CONFIG;
+      const config = DEFAULT_EXPORTER_CONFIG;
       config.aadTokenCredential = new TestTokenCredential();
       const sender = new HttpSender(DEFAULT_EXPORTER_CONFIG);
       assert.ok(
         sender["_appInsightsClient"].pipeline
           .getOrderedPolicies()
           .find((policy: PipelinePolicy) => {
-            return policy.name == "bearerTokenAuthenticationPolicy";
+            return policy.name === "bearerTokenAuthenticationPolicy";
           })
       );
     });

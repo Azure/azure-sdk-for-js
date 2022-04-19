@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SpanAttributes, HrTime, SpanContext, SpanKind, ROOT_CONTEXT } from "@opentelemetry/api";
-import { timeInputToHrTime } from "@opentelemetry/core";
-import { BasicTracerProvider, Span } from "@opentelemetry/sdk-trace-base";
 import * as assert from "assert";
-import { ENQUEUED_TIME, TIME_SINCE_ENQUEUED } from "../../src/utils/constants/applicationinsights";
 import {
   AzNamespace,
   MessageBusDestination,
   MicrosoftEventHub,
 } from "../../src/utils/constants/span/azAttributes";
+import { BasicTracerProvider, Span } from "@opentelemetry/sdk-trace-base";
+import { ENQUEUED_TIME, TIME_SINCE_ENQUEUED } from "../../src/utils/constants/applicationinsights";
+import { TelemetryItem as Envelope, RemoteDependencyData } from "../../src/generated";
+import { HrTime, ROOT_CONTEXT, SpanAttributes, SpanContext, SpanKind } from "@opentelemetry/api";
 import { parseEventHubSpan } from "../../src/utils/eventhub";
-import { RemoteDependencyData, TelemetryItem as Envelope } from "../../src/generated";
+import { timeInputToHrTime } from "@opentelemetry/core";
 
 const tracer = new BasicTracerProvider().getTracer("default");
 
@@ -42,7 +42,7 @@ describe("#parseEventHubSpan(...)", () => {
     assert.strictEqual(baseData.type, attributes[AzNamespace]);
     assert.strictEqual(baseData.target, `${peerAddress}/${destination}`);
 
-    assert.strictEqual((baseData as any).source, undefined);
+    assert.strictEqual(baseData.source, undefined);
     assert.strictEqual(baseData.measurements, undefined);
   });
 
@@ -60,10 +60,10 @@ describe("#parseEventHubSpan(...)", () => {
     const baseData = envelope.data?.baseData as RemoteDependencyData;
     parseEventHubSpan(span, baseData);
 
-    assert.strictEqual(baseData.type, `Queue Message | ${attributes[AzNamespace]}`);
+    assert.strictEqual(baseData.type, `Queue Message | ${attributes[AzNamespace]}`); // eslint-disable-line @typescript-eslint/restrict-template-expressions
     assert.strictEqual(baseData.target, `${peerAddress}/${destination}`);
 
-    assert.strictEqual((baseData as any).source, undefined);
+    assert.strictEqual(baseData.source, undefined);
     assert.strictEqual(baseData.measurements, undefined);
   });
 
@@ -99,8 +99,8 @@ describe("#parseEventHubSpan(...)", () => {
 
     const baseData = envelope.data?.baseData as RemoteDependencyData;
     parseEventHubSpan(span, baseData);
-    assert.strictEqual(baseData.type, `Queue Message | ${attributes[AzNamespace]}`);
-    assert.strictEqual((baseData as any).source, `${peerAddress}/${destination}`);
+    assert.strictEqual(baseData.type, `Queue Message | ${attributes[AzNamespace]}`); // eslint-disable-line @typescript-eslint/restrict-template-expressions
+    assert.strictEqual(baseData.source, `${peerAddress}/${destination}`);
     assert.deepStrictEqual(baseData.measurements, {
       [TIME_SINCE_ENQUEUED]: 148,
     });

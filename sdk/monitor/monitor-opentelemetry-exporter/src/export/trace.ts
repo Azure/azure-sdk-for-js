@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { diag } from "@opentelemetry/api";
-import { ExportResult, ExportResultCode } from "@opentelemetry/core";
-import { ReadableSpan, SpanExporter } from "@opentelemetry/sdk-trace-base";
-import { RestError } from "@azure/core-rest-pipeline";
-import { ConnectionStringParser } from "../utils/connectionStringParser";
-import { HttpSender, FileSystemPersist } from "../platform";
 import {
-  DEFAULT_EXPORTER_CONFIG,
   AzureExporterConfig,
   AzureExporterInternalConfig,
+  DEFAULT_EXPORTER_CONFIG,
 } from "../config";
+import { BreezeResponse, isRetriable } from "../utils/breezeUtils";
+import { ExportResult, ExportResultCode } from "@opentelemetry/core";
+import { FileSystemPersist, HttpSender } from "../platform";
 import { PersistentStorage, Sender } from "../types";
-import { isRetriable, BreezeResponse } from "../utils/breezeUtils";
+import { ReadableSpan, SpanExporter } from "@opentelemetry/sdk-trace-base";
+import { ConnectionStringParser } from "../utils/connectionStringParser";
 import { ENV_CONNECTION_STRING } from "../Declarations/Constants";
 import { TelemetryItem as Envelope } from "../generated";
+import { RestError } from "@azure/core-rest-pipeline";
+import { diag } from "@opentelemetry/api";
 import { readableSpanToEnvelope } from "../utils/spanUtils";
 
 /**
@@ -72,6 +72,7 @@ export class AzureMonitorTraceExporter implements SpanExporter {
             error: new Error("Failed to persist envelope in disk."),
           };
     } catch (ex) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       return { code: ExportResultCode.FAILED, error: ex };
     }
   }
@@ -81,13 +82,14 @@ export class AzureMonitorTraceExporter implements SpanExporter {
 
     try {
       const { result, statusCode } = await this._sender.send(envelopes);
+      const noop: () => void = () => { return; };
       this._numConsecutiveRedirects = 0;
       if (statusCode === 200) {
         // Success -- @todo: start retry timer
         if (!this._retryTimer) {
           this._retryTimer = setTimeout(() => {
             this._retryTimer = null;
-            this._sendFirstPersistedFile();
+            this._sendFirstPersistedFile().catch(noop);
           }, this._options.batchSendRetryIntervalMs);
           this._retryTimer.unref();
         }
@@ -145,14 +147,14 @@ export class AzureMonitorTraceExporter implements SpanExporter {
           return { code: ExportResultCode.FAILED, error: new Error("Circular redirect") };
         }
       } else if (restError.statusCode && isRetriable(restError.statusCode)) {
-        return await this._persist(envelopes);
+        return this._persist(envelopes);
       }
       if (this._isNetworkError(restError)) {
         diag.error(
           "Retrying due to transient client side error. Error message:",
           restError.message
         );
-        return await this._persist(envelopes);
+        return this._persist(envelopes);
       }
 
       diag.error(

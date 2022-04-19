@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import * as opentelemetry from "@opentelemetry/api";
-import { BasicTracerProvider } from "@opentelemetry/sdk-trace-base";
-import { AzureMonitorTraceExporter } from "../../src";
 import { Expectation, Scenario } from "./types";
-import { msToTimeSpan } from "../../src/utils/breezeUtils";
-import { SpanStatusCode } from "@opentelemetry/api";
+import { AzureMonitorTraceExporter } from "../../src";
+import { BasicTracerProvider } from "@opentelemetry/sdk-trace-base";
 import { TelemetryItem as Envelope } from "../../src/generated";
 import { FlushSpanProcessor } from "./flushSpanProcessor";
+import { SpanStatusCode } from "@opentelemetry/api";
+import { msToTimeSpan } from "../../src/utils/breezeUtils";
 
 function delay<T>(t: number, value?: T): Promise<T | void> {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));
@@ -20,7 +20,7 @@ const COMMON_ENVELOPE_PARAMS: Partial<Envelope> = {
 };
 
 const exporter = new AzureMonitorTraceExporter({
-  connectionString: `instrumentationkey=${COMMON_ENVELOPE_PARAMS.instrumentationKey}`,
+  connectionString: `instrumentationkey=${COMMON_ENVELOPE_PARAMS.instrumentationKey!}`,
 });
 const processor = new FlushSpanProcessor(exporter);
 
@@ -95,7 +95,7 @@ export class BasicScenario implements Scenario {
           properties: {
             foo: "bar",
           },
-        } as any,
+        },
       },
       children: [
         {
@@ -111,7 +111,7 @@ export class BasicScenario implements Scenario {
               properties: {
                 numbers: "123",
               },
-            } as any,
+            },
           },
           children: [],
         },
@@ -128,7 +128,7 @@ export class BasicScenario implements Scenario {
               properties: {
                 numbers: "1234",
               },
-            } as any,
+            },
           },
           children: [],
         },
