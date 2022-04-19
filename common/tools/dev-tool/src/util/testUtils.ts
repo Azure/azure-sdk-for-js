@@ -1,5 +1,5 @@
 import { isProxyToolActive } from "./testProxyUtils";
-import concurrently from "concurrently";
+import concurrently, { Command as ConcurrentlyCommand, ConcurrentlyCommandInput, ConcurrentlyOptions } from "concurrently";
 import { createPrinter } from "./printer";
 
 const log = createPrinter("preparing-proxy-tool");
@@ -23,29 +23,32 @@ async function shouldRunProxyTool(): Promise<boolean> {
 }
 
 export async function runTestsWithProxyTool(
-  testCommandObj: concurrently.CommandObj
+  testCommandObj: Partial<ConcurrentlyCommand>
 ): Promise<boolean> {
+  const commands: ConcurrentlyCommandInput[] = [];
+  let concurrentlyOptions: Partial<ConcurrentlyOptions> | undefined;
   if (
     await shouldRunProxyTool() // Boolean to figure out if we need to run just the mocha command or the test-proxy too
   ) {
     const testProxyStartCMD = "dev-tool test-proxy start";
     const testProxyStopCMD = "dev-tool test-proxy stop";
     const waitForProxyEndpointCMD = "dev-tool test-proxy wait-for-proxy-endpoint";
-    await concurrently(
-      [
-        { command: testProxyStartCMD },
-        {
-          command: `${waitForProxyEndpointCMD} && ${testCommandObj.command} && ${testProxyStopCMD}`, // Waits for the proxy endpoint to be active and then starts running the tests
-          name: testCommandObj.name,
-        },
-      ],
+    commands.push(
+      { command: testProxyStartCMD },
       {
-        killOthers: ["failure", "success"],
-        successCondition: "first",
+        command: `${waitForProxyEndpointCMD} && ${testCommandObj.command} && ${testProxyStopCMD}`, // Waits for the proxy endpoint to be active and then starts running the tests
+        name: testCommandObj.name,
       }
     );
+    concurrentlyOptions = {
+      killOthers: ["failure", "success"],
+      successCondition: "first",
+    };
   } else {
-    await concurrently([testCommandObj]);
+    commands.push(testCommandObj);
   }
+
+  await concurrently(commands, concurrentlyOptions).result;
+
   return true;
 }
