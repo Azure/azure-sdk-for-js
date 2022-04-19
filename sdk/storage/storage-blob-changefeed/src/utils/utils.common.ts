@@ -193,7 +193,7 @@ export function rawEventToBlobChangeFeedEvent(rawEvent: Record<string, any>): Bl
         delete previousInfo.SoftDeleteSnapshot;
       }
       if (previousInfo.WasBlobSoftDeleted) {
-        previousInfo.isBlobSoftDeleted = previousInfo.WasBlobSoftDeleted;
+        previousInfo.isBlobSoftDeleted = previousInfo.WasBlobSoftDeleted === "true";
         delete previousInfo.WasBlobSoftDeleted;
       }
       if (previousInfo.BlobVersion) {
