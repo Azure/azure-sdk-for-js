@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import {
-  // getLongRunningPoller,
+  getLongRunningPoller,
   PurviewCatalogClient,
 } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
@@ -19,15 +19,6 @@ describe("purview catalog glossary test", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     client = await createClient(recorder);
-    await recorder.addSanitizers({
-      generalSanitizers: [
-        {
-          regex: true,
-          target: `; boundary=[-]+---(.)*`,
-          value: "",
-        },
-      ],
-    }, ["record", "playback"]);
     glossaryName = "jsLROTesting-2";
   });
 
@@ -46,45 +37,50 @@ describe("purview catalog glossary test", () => {
       },
     });
 
-    // console.log("created glossary: ", glossary);
+    console.log("created glossary: ", glossary);
 
     assert.strictEqual(glossary.status, "200");
     glossaryGuid = glossary.status == "200" ? glossary?.body?.guid || "" : "";
   });
 
-  // TODO: enable this test case when we could customize sanitizers
-  // it("should work with LRO helper", async () => {
-  //   const initialResponse = await client
-  //     .path("/glossary/name/{glossaryName}/terms/import", glossaryName)
-  //     .post({
-  //       headers: {
-  //         contentType: "multipart/form-data",
-  //       },
-  //       body: {
-  //         file: "random content",
-  //       },
-  //       contentType: "multipart/form-data",
-  //     });
+  it("should work with LRO helper", async () => {
+    await recorder.addSanitizers({
+      removeHeaderSanitizer: {
+        headersForRemoval: ["Content-Type", "Transfer-Encoding"]
+      }
+    }, ["playback", "record"]);
+    await recorder.setMatcher("BodilessMatcher");
+    const initialResponse = await client
+      .path("/glossary/name/{glossaryName}/terms/import", glossaryName)
+      .post({
+        headers: {
+          contentType: "multipart/form-data",
+        },
+        body: {
+          file: "random content",
+        },
+        contentType: "multipart/form-data",
+      });
 
-  //   console.log("LRO init resp: ", initialResponse);
-  //   const poller = getLongRunningPoller(client, initialResponse, {
-  //     intervalInMs: 0,
-  //   });
+    console.log("LRO init resp: ", initialResponse);
+    const poller = getLongRunningPoller(client, initialResponse, {
+      intervalInMs: 0,
+    });
 
-  //   const result = await poller.pollUntilDone();
-  //   console.log("LRO polling result:", result);
-  //   if (result.status === "500") {
-  //     const error = `Unexpected status code ${result.status}`;
-  //     assert.fail(error);
-  //   }
+    const result = await poller.pollUntilDone();
+    console.log("LRO polling result:", result);
+    if (result.status === "500") {
+      const error = `Unexpected status code ${result.status}`;
+      assert.fail(error);
+    }
 
-  //   // console.log(result);
-  //   assert.equal(result.body.status, "Succeeded");
-  // });
+    // console.log(result);
+    assert.equal(result.body.status, "Succeeded");
+  });
 
   it("Should delete a glossary", async () => {
     const glossary = await client.path("/atlas/v2/entity/guid/{guid}", glossaryGuid).delete();
-    // console.log("deleted glossary: ", glossary);
+    console.log("deleted glossary: ", glossary);
 
     assert.strictEqual(glossary.status, "200");
   });

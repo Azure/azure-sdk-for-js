@@ -11,7 +11,7 @@
         "Content-Length": "160",
         "Content-Type": "application/json; charset=UTF-8",
         "User-Agent": "azsdk-js-purview-catalog-rest/1.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v17.8.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "69471a84-1245-41cf-8dc3-55d5bb176538"
+        "x-ms-client-request-id": "d3336149-905e-4976-8e00-26163e92a1b4"
       },
       "RequestBody": {
         "name": "jsLROTesting-2",
@@ -29,7 +29,7 @@
         "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
         "Content-Security-Policy": "default-src \u0027self\u0027; script-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 blob: data:; connect-src \u0027self\u0027; img-src \u0027self\u0027 blob: data:; style-src \u0027self\u0027 \u0027unsafe-inline\u0027;font-src \u0027self\u0027 data:",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 18 Apr 2022 12:45:26 GMT",
+        "Date": "Tue, 19 Apr 2022 07:33:42 GMT",
         "Expires": "0",
         "Pragma": "no-cache",
         "Server": "AzurePurview",
@@ -37,12 +37,12 @@
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "DENY",
-        "x-ms-correlation-request-id": "29e1cabf-ea39-462f-9496-94c51e5a2c1c",
-        "x-ms-request-id": "69471a84-1245-41cf-8dc3-55d5bb176538",
+        "x-ms-correlation-request-id": "5daab81f-e096-44c6-8983-eecaddba5d95",
+        "x-ms-request-id": "d3336149-905e-4976-8e00-26163e92a1b4",
         "X-XSS-Protection": "1; mode=block"
       },
       "ResponseBody": {
-        "guid": "02d8b056-a685-4189-8dba-dc424ad49425",
+        "guid": "5fb8514d-9cb8-4d5f-b4ea-056c727bbfd1",
         "qualifiedName": "jsLROTesting-2",
         "name": "jsLROTesting-2",
         "shortDescription": "Example Short Description",

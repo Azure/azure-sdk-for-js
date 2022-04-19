@@ -9,12 +9,11 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "173",
-        "Content-Type": "multipart/form-data",
         "contentType": "multipart/form-data",
         "User-Agent": "azsdk-js-purview-catalog-rest/1.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v17.8.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "2fad84b4-75bf-403d-9ca8-2bfa2dea8c0e"
+        "x-ms-client-request-id": "92dabb64-aa01-450c-bfeb-0f3f7cbeb12d"
       },
-      "RequestBody": "LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLTE2NDc4ODg2OTUwMzYyODM2NDg5Nzk2OQ0KQ29udGVudC1EaXNwb3NpdGlvbjogZm9ybS1kYXRhOyBuYW1lPSJmaWxlIg0KDQpyYW5kb20gY29udGVudA0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLTE2NDc4ODg2OTUwMzYyODM2NDg5Nzk2OS0tDQo=",
+      "RequestBody": "LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLTQxMjIwMTYxNDU1MjgwMTE1ODQzMzc3MQ0KQ29udGVudC1EaXNwb3NpdGlvbjogZm9ybS1kYXRhOyBuYW1lPSJmaWxlIg0KDQpyYW5kb20gY29udGVudA0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLTQxMjIwMTYxNDU1MjgwMTE1ODQzMzc3MS0tDQo=",
       "StatusCode": 202,
       "ResponseHeaders": {
         "Access-Control-Allow-Headers": "authorization,content-type,x-xsrf-header,x-ms-client-request-id,lastmodifiedts",
@@ -23,38 +22,23 @@
         "Access-Control-Expose-Headers": "x-ms-request-id,lastmodifiedts",
         "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
         "Content-Security-Policy": "default-src \u0027self\u0027; script-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 blob: data:; connect-src \u0027self\u0027; img-src \u0027self\u0027 blob: data:; style-src \u0027self\u0027 \u0027unsafe-inline\u0027;font-src \u0027self\u0027 data:",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 18 Apr 2022 12:32:50 GMT",
+        "Date": "Tue, 19 Apr 2022 07:33:45 GMT",
         "Expires": "0",
-        "Location": "https://endpoint/catalog/api/glossary/terms/import/2fad84b4-75bf-403d-9ca8-2bfa2dea8c0e",
+        "Location": "https://endpoint/catalog/api/glossary/terms/import/92dabb64-aa01-450c-bfeb-0f3f7cbeb12d",
         "Pragma": "no-cache",
         "Retry-After": "5",
         "Server": "AzurePurview",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "DENY",
-        "x-ms-correlation-request-id": "8c0fa307-13ee-4084-89b0-da9e3931b787",
-        "x-ms-request-id": "2fad84b4-75bf-403d-9ca8-2bfa2dea8c0e",
+        "x-ms-correlation-request-id": "68c227fa-6176-47b5-80aa-43693499c4d4",
+        "x-ms-request-id": "92dabb64-aa01-450c-bfeb-0f3f7cbeb12d",
         "X-XSS-Protection": "1; mode=block"
       },
-      "ResponseBody": {
-        "id": "2fad84b4-75bf-403d-9ca8-2bfa2dea8c0e",
-        "status": "Running",
-        "createTime": "2022-04-18T12:32:50.720\u002B0000",
-        "lastUpdateTime": "2022-04-18T12:32:50.720\u002B0000",
-        "properties": {
-          "importedTerms": "0",
-          "totalTermsDetected": "-1"
-        },
-        "error": {
-          "errorCode": 0,
-          "errorMessage": ""
-        }
-      }
+      "ResponseBody": "eyJpZCI6IjkyZGFiYjY0LWFhMDEtNDUwYy1iZmViLTBmM2Y3Y2JlYjEyZCIsInN0YXR1cyI6IlJ1bm5pbmciLCJjcmVhdGVUaW1lIjoiMjAyMi0wNC0xOVQwNzozMzo0NS43NjQrMDAwMCIsImxhc3RVcGRhdGVUaW1lIjoiMjAyMi0wNC0xOVQwNzozMzo0NS43NjUrMDAwMCIsInByb3BlcnRpZXMiOnsiaW1wb3J0ZWRUZXJtcyI6IjAiLCJ0b3RhbFRlcm1zRGV0ZWN0ZWQiOiItMSJ9LCJlcnJvciI6eyJlcnJvckNvZGUiOjAsImVycm9yTWVzc2FnZSI6IiJ9fQ=="
     },
     {
-      "RequestUri": "https://endpoint/catalog/api/glossary/terms/import/2fad84b4-75bf-403d-9ca8-2bfa2dea8c0e?api-version=2021-05-01-preview",
+      "RequestUri": "https://endpoint/catalog/api/glossary/terms/import/92dabb64-aa01-450c-bfeb-0f3f7cbeb12d?api-version=2021-05-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -62,7 +46,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-purview-catalog-rest/1.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v17.8.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "bb045d2b-793b-4fd4-904a-104fdce8ef10"
+        "x-ms-client-request-id": "1f374817-a520-4c46-b554-48798573a018"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -73,35 +57,55 @@
         "Access-Control-Expose-Headers": "x-ms-request-id,lastmodifiedts",
         "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
         "Content-Security-Policy": "default-src \u0027self\u0027; script-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 blob: data:; connect-src \u0027self\u0027; img-src \u0027self\u0027 blob: data:; style-src \u0027self\u0027 \u0027unsafe-inline\u0027;font-src \u0027self\u0027 data:",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 18 Apr 2022 12:32:51 GMT",
+        "Date": "Tue, 19 Apr 2022 07:33:46 GMT",
         "Expires": "0",
-        "Location": "https://endpoint/catalog/api/glossary/terms/import/2fad84b4-75bf-403d-9ca8-2bfa2dea8c0e",
+        "Location": "https://endpoint/catalog/api/glossary/terms/import/92dabb64-aa01-450c-bfeb-0f3f7cbeb12d",
         "Pragma": "no-cache",
         "Retry-After": "5",
         "Server": "AzurePurview",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
         "X-Frame-Options": "DENY",
-        "x-ms-correlation-request-id": "93e7ab2a-9fe8-4f57-9fb2-8f7f71ffaf43",
-        "x-ms-request-id": "bb045d2b-793b-4fd4-904a-104fdce8ef10",
+        "x-ms-correlation-request-id": "ab502035-8591-462c-86dc-d2f2b266d37a",
+        "x-ms-request-id": "1f374817-a520-4c46-b554-48798573a018",
         "X-XSS-Protection": "1; mode=block"
       },
-      "ResponseBody": {
-        "id": "2fad84b4-75bf-403d-9ca8-2bfa2dea8c0e",
-        "status": "Succeeded",
-        "createTime": "2022-04-18T12:32:50.720\u002B0000",
-        "lastUpdateTime": "2022-04-18T12:32:51.033\u002B0000",
-        "properties": {
-          "importedTerms": "0",
-          "totalTermsDetected": "0"
-        },
-        "error": {
-          "errorCode": 0,
-          "errorMessage": ""
-        }
-      }
+      "ResponseBody": "eyJpZCI6IjkyZGFiYjY0LWFhMDEtNDUwYy1iZmViLTBmM2Y3Y2JlYjEyZCIsInN0YXR1cyI6IlJ1bm5pbmciLCJjcmVhdGVUaW1lIjoiMjAyMi0wNC0xOVQwNzozMzo0NS43NjQrMDAwMCIsImxhc3RVcGRhdGVUaW1lIjoiMjAyMi0wNC0xOVQwNzozMzo0Ni4wNzArMDAwMCIsInByb3BlcnRpZXMiOnsiaW1wb3J0ZWRUZXJtcyI6IjAiLCJ0b3RhbFRlcm1zRGV0ZWN0ZWQiOiIwIn0sImVycm9yIjp7ImVycm9yQ29kZSI6MCwiZXJyb3JNZXNzYWdlIjoiIn19"
+    },
+    {
+      "RequestUri": "https://endpoint/catalog/api/glossary/terms/import/92dabb64-aa01-450c-bfeb-0f3f7cbeb12d?api-version=2021-05-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-purview-catalog-rest/1.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v17.8.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "f0abb223-f753-45d0-8c00-78946fd4a51a"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Headers": "authorization,content-type,x-xsrf-header,x-ms-client-request-id,lastmodifiedts",
+        "Access-Control-Allow-Methods": "GET,OPTIONS,HEAD,PUT,POST,DELETE,PATCH",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "x-ms-request-id,lastmodifiedts",
+        "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
+        "Content-Security-Policy": "default-src \u0027self\u0027; script-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 blob: data:; connect-src \u0027self\u0027; img-src \u0027self\u0027 blob: data:; style-src \u0027self\u0027 \u0027unsafe-inline\u0027;font-src \u0027self\u0027 data:",
+        "Date": "Tue, 19 Apr 2022 07:33:51 GMT",
+        "Expires": "0",
+        "Location": "https://endpoint/catalog/api/glossary/terms/import/92dabb64-aa01-450c-bfeb-0f3f7cbeb12d",
+        "Pragma": "no-cache",
+        "Retry-After": "5",
+        "Server": "AzurePurview",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "DENY",
+        "x-ms-correlation-request-id": "1f730b76-3615-44e0-a1e7-7a429bd08696",
+        "x-ms-request-id": "f0abb223-f753-45d0-8c00-78946fd4a51a",
+        "X-XSS-Protection": "1; mode=block"
+      },
+      "ResponseBody": "eyJpZCI6IjkyZGFiYjY0LWFhMDEtNDUwYy1iZmViLTBmM2Y3Y2JlYjEyZCIsInN0YXR1cyI6IlN1Y2NlZWRlZCIsImNyZWF0ZVRpbWUiOiIyMDIyLTA0LTE5VDA3OjMzOjQ1Ljc2NCswMDAwIiwibGFzdFVwZGF0ZVRpbWUiOiIyMDIyLTA0LTE5VDA3OjMzOjQ2LjExMCswMDAwIiwicHJvcGVydGllcyI6eyJpbXBvcnRlZFRlcm1zIjoiMCIsInRvdGFsVGVybXNEZXRlY3RlZCI6IjAifSwiZXJyb3IiOnsiZXJyb3JDb2RlIjowLCJlcnJvck1lc3NhZ2UiOiIifX0="
     }
   ],
   "Variables": {}
