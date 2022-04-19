@@ -1680,6 +1680,11 @@
       "packageName": "@azure/arm-dashboard",
       "projectFolder": "sdk/dashboard/arm-dashboard",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-education",
+      "projectFolder": "sdk/education/arm-education",
+      "versionPolicyName": "management"
     }
   ]
 }
