@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay, OperationOptions } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
+import { delay } from "../../../../../../keyvault-common/src/";
 import { Poller } from "@azure/core-lro";
 import {
   RestoreSecretBackupPollOperationState,
