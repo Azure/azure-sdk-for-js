@@ -20,6 +20,8 @@ import { RestError } from "./restError";
 import { IncomingMessage } from "http";
 import { logger } from "./log";
 
+const DEFAULT_TLS_SETTINGS = {};
+
 function isReadableStream(body: any): body is NodeJS.ReadableStream {
   return body && typeof body.pipe === "function";
 }
@@ -63,8 +65,8 @@ class ReportTransform extends Transform {
  * @internal
  */
 class NodeHttpClient implements HttpClient {
-  private httpKeepAliveAgent?: http.Agent;
-  private httpsKeepAliveAgent: WeakMap<TlsSettings, http.Agent> = new WeakMap();
+  private cachedHttpAgent?: http.Agent;
+  private cachedHttpsAgents: WeakMap<TlsSettings, https.Agent> = new WeakMap();
 
   /**
    * Makes a request over an underlying transport layer and returns the response.
@@ -244,30 +246,54 @@ class NodeHttpClient implements HttpClient {
   }
 
   private getOrCreateAgent(request: PipelineRequest, isInsecure: boolean): http.Agent {
-    if (!request.tlsSettings && request.disableKeepAlive) {
-      return isInsecure ? http.globalAgent : https.globalAgent;
-    }
-    const settingsIndex = request.tlsSettings ?? {};
-    let agent: http.Agent | undefined = isInsecure
-      ? this.httpKeepAliveAgent
-      : this.httpsKeepAliveAgent?.get(settingsIndex);
+    const disableKeepAlive = request.disableKeepAlive;
 
-    if (agent) {
-      return agent;
-    }
-
-    const agentOptions: https.AgentOptions = {
-      ...request.tlsSettings,
-      keepAlive: !request.disableKeepAlive,
-    };
-
+    // Handle Insecure requests first
     if (isInsecure) {
-      agent = new http.Agent(agentOptions);
-      this.httpKeepAliveAgent = agent;
+      if (disableKeepAlive) {
+        // keepAlive:false is the default so we don't need a custom Agent
+        return http.globalAgent;
+      }
+
+      // Get the cached agent if exists
+      let agent = this.cachedHttpAgent;
+      if (!agent) {
+        // If there is no cached agent create a new one and cache it.
+        agent = new http.Agent({ keepAlive: true });
+        this.cachedHttpAgent;
+      }
       return agent;
     } else {
-      agent = new https.Agent(agentOptions);
-      this.httpsKeepAliveAgent.set(settingsIndex, agent);
+      // We use the tlsSettings to index cached clients
+      const tlsSettings = request.tlsSettings ?? DEFAULT_TLS_SETTINGS;
+      if (disableKeepAlive && !request.tlsSettings) {
+        // When there are no tlsSettings and keepAlive is false
+        // we don't need a custom agent
+        return https.globalAgent;
+      }
+
+      // Get the cached agent or create a new one with the
+      // provided values for keepAlive and tlsSettings
+      let agent =
+        this.cachedHttpsAgents.get(tlsSettings) ??
+        new https.Agent({
+          // keepAlive is true if disableKeepAlive is false.
+          keepAlive: !disableKeepAlive,
+          // Since we are spreading, if non tslSettings were provided, nothing is added to the agent options.
+          ...tlsSettings,
+        });
+
+      // If there was a cached client, check if we can return it.
+      if (this.cachedHttpsAgents.has(tlsSettings)) {
+        // We have a cached agent, check if keepAlive matches with the cache
+        if (agent.options.keepAlive === !disableKeepAlive) {
+          return agent;
+        }
+      } else {
+        // Cache the current agent, if it was not previously cached.
+        this.cachedHttpsAgents.set(tlsSettings, agent);
+      }
+
       return agent;
     }
   }
