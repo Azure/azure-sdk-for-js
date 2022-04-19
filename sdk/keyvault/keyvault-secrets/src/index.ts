@@ -3,13 +3,11 @@
 /* eslint @typescript-eslint/member-ordering: 0 */
 /// <reference lib="esnext.asynciterable" />
 
-import {
-  TokenCredential,
-  isTokenCredential,
-  signingPolicy,
-  PipelineOptions,
-  createPipelineFromOptions,
-} from "@azure/core-http";
+import { CommonClientOptions } from "@azure/core-client";
+
+import { TokenCredential } from "@azure/core-auth";
+
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 
 import { logger } from "./log";
 
@@ -24,8 +22,8 @@ import {
   DeletedSecretBundle,
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
-import { SDK_VERSION } from "./constants";
-import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
+import { authenticationScopes } from "./constants";
+import { createChallengeCallbacks } from "../../keyvault-common/src";
 
 import { DeleteSecretPoller } from "./lro/delete/poller";
 import { RecoverDeletedSecretPoller } from "./lro/recover/poller";
@@ -60,7 +58,7 @@ export {
   DeletionRecoveryLevel,
   KnownDeletionRecoveryLevel,
   GetSecretOptions,
-  PipelineOptions,
+  CommonClientOptions,
   GetDeletedSecretOptions,
   PurgeDeletedSecretOptions,
   BackupSecretOptions,
@@ -127,20 +125,11 @@ export class SecretClient {
   ) {
     this.vaultUrl = vaultUrl;
 
-    const libInfo = `azsdk-js-keyvault-secrets/${SDK_VERSION}`;
-
-    const userAgentOptions = pipelineOptions.userAgentOptions;
-
-    pipelineOptions.userAgentOptions = {
-      userAgentPrefix:
-        userAgentOptions && userAgentOptions.userAgentPrefix
-          ? `${userAgentOptions.userAgentPrefix} ${libInfo}`
-          : libInfo,
-    };
-
-    const authPolicy = isTokenCredential(credential)
-      ? challengeBasedAuthenticationPolicy(credential)
-      : signingPolicy(credential);
+    const authPolicy = bearerTokenAuthenticationPolicy({
+      credential,
+      scopes: authenticationScopes,
+      challengeCallbacks: createChallengeCallbacks(),
+    });
 
     const internalPipelineOptions = {
       ...pipelineOptions,
@@ -156,8 +145,9 @@ export class SecretClient {
 
     this.client = new KeyVaultClient(
       pipelineOptions.serviceVersion || LATEST_API_VERSION,
-      createPipelineFromOptions(internalPipelineOptions, authPolicy)
+      internalPipelineOptions
     );
+    this.client.pipeline.addPolicy(authPolicy);
   }
 
   /**
