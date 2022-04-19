@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { RequestParameters } from "./common";
-import { URL } from "./url";
 
 /**
  * Builds the request url, filling in query and path parameters
@@ -63,7 +62,7 @@ function skipQueryParameterEncoding(url: URL) {
     return url;
   }
   const searchPieces: string[] = [];
-  for (let [name, value] of url.searchParams) {
+  for (const [name, value] of url.searchParams) {
     // QUIRK: searchParams.get retrieves the values decoded
     searchPieces.push(`${name}=${value}`);
   }

@@ -68,7 +68,7 @@ describe("HttpSender", () => {
       try {
         await sender.send([envelope, envelope]);
         assert.ok(false);
-      } catch (error) {
+      } catch (error: any) {
         assert.ok(error);
       }
     });

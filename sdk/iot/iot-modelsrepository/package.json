@@ -7,7 +7,6 @@
   "module": "dist-esm/src/index.js",
   "browser": {
     "./dist-esm/src/print.js": "./dist-esm/src/print.browser.js",
-    "./dist-esm/src/utils/url.js": "./dist-esm/src/utils/url.browser.js",
     "./dist-esm/src/utils/path.js": "./dist-esm/src/utils/path.browser.js",
     "./dist-esm/src/fetcherFilesystem.js": "./dist-esm/src/utils/fetcherFilesystem.browser.js"
   },

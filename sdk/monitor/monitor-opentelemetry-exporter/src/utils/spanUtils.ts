@@ -72,9 +72,13 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
           const url = new URL(String(httpUrl));
           // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
           tags[KnownContextTagKeys.AiOperationName] = `${httpMethod} ${url.pathname}`;
+<<<<<<< HEAD
         } catch (ex) {
           // eslint-disable-line no-empty
         }
+=======
+        } catch (ex: any) {}
+>>>>>>> 191e4ce330acd60e014c13412204b9598870cfa1
       }
       if (httpClientIp) {
         tags[KnownContextTagKeys.AiLocationIp] = String(httpClientIp);
@@ -221,9 +225,9 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
     const httpUrl = span.attributes[SemanticAttributes.HTTP_URL];
     if (httpUrl) {
       try {
-        const dependencyUrl = new URL(String(httpUrl));
-        remoteDependencyData.name = `${httpMethod} ${dependencyUrl.pathname}`; // eslint-disable-line @typescript-eslint/restrict-template-expressions
-      } catch (ex) { /* eslint-disable-line no-empty */ }
+        let dependencyUrl = new URL(String(httpUrl));
+        remoteDependencyData.name = `${httpMethod} ${dependencyUrl.pathname}`;
+      } catch (ex: any) {}
     }
     remoteDependencyData.type = DependencyTypes.Http;
     remoteDependencyData.data = getUrl(span);
@@ -245,7 +249,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
             target = res[1] + res[2] + res[4];
           }
         }
-      } catch (error) { /* eslint-disable-line no-empty */ }
+      } catch (error: any) {}
       remoteDependencyData.target = `${target}`;
     }
   }

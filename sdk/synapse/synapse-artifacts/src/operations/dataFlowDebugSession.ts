@@ -122,7 +122,7 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as DataFlowDebugSessionCreateDataFlowDebugSessionResponse;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -210,7 +210,7 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
         queryDataFlowDebugSessionsByWorkspaceOperationSpec
       );
       return result as DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -237,7 +237,7 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
         addDataFlowOperationSpec
       );
       return result as DataFlowDebugSessionAddDataFlowResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -267,7 +267,7 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
         deleteDataFlowDebugSessionOperationSpec
       );
       return result as void;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -303,7 +303,7 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as DataFlowDebugSessionExecuteCommandResponse;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -394,7 +394,7 @@ export class DataFlowDebugSessionImpl implements DataFlowDebugSession {
         queryDataFlowDebugSessionsByWorkspaceNextOperationSpec
       );
       return result as DataFlowDebugSessionQueryDataFlowDebugSessionsByWorkspaceNextResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message

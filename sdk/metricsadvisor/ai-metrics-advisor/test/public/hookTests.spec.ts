@@ -131,7 +131,7 @@ matrix([[true, false]] as const, async (useAad) => {
         try {
           await client.getHook(createdEmailHookId);
           assert.fail("Expecting error getting hook");
-        } catch (error) {
+        } catch (error: any) {
           assert.equal((error as any).code, "404 NOT_FOUND");
           assert.equal((error as any).message, "hookId is invalid.");
         }
@@ -142,7 +142,7 @@ matrix([[true, false]] as const, async (useAad) => {
         try {
           await client.getHook(createdWebHookId);
           assert.fail("Expecting error getting hook");
-        } catch (error) {
+        } catch (error: any) {
           assert.equal((error as any).code, "404 NOT_FOUND");
           assert.equal((error as any).message, "hookId is invalid.");
         }

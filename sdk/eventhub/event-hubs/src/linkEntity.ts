@@ -229,7 +229,7 @@ export class LinkEntity {
           abortSignal: undefined,
           timeoutInMs: getRetryAttemptTimeoutInMs(undefined),
         });
-      } catch (err) {
+      } catch (err: any) {
         logger.verbose(
           "[%s] %s '%s' with address %s, an error occurred while renewing the token: %O",
           this._context.connectionId,
@@ -271,7 +271,7 @@ export class LinkEntity {
           this.name,
           this.address
         );
-      } catch (err) {
+      } catch (err: any) {
         logger.verbose(
           "[%s] An error occurred while closing the %s '%s' with address '%s': %O",
           this._context.connectionId,

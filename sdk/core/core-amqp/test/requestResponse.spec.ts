@@ -65,7 +65,7 @@ describe("RequestResponseLink", function () {
       try {
         await RequestResponseLink.create(connection, {}, {}, { abortSignal: signal });
         throw new Error(TEST_FAILURE);
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.name, "AbortError");
       }
     });
@@ -81,7 +81,7 @@ describe("RequestResponseLink", function () {
       try {
         await RequestResponseLink.create(connection, {}, {}, { abortSignal: signal });
         throw new Error(TEST_FAILURE);
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.name, "AbortError");
       }
     });
@@ -232,7 +232,7 @@ describe("RequestResponseLink", function () {
       await link.sendRequest(request1, {
         timeoutInMs: 2000,
       });
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         request1.message_id === undefined,
         false,
@@ -312,7 +312,7 @@ describe("RequestResponseLink", function () {
     try {
       await failedRequest;
       throw new Error("Test failure");
-    } catch (err) {
+    } catch (err: any) {
       err.message.should.not.equal("Test failure");
     }
 
@@ -449,7 +449,7 @@ describe("RequestResponseLink", function () {
       setTimeout(controller.abort.bind(controller), 100);
       await link.sendRequest(request, { abortSignal: signal, requestName: "foo" });
       throw new Error(`Test failure`);
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError", `Error name ${err.name} is not as expected`);
       assert.equal(err.message, StandardAbortMessage, `Incorrect error received "${err.message}"`);
     }
@@ -513,7 +513,7 @@ describe("RequestResponseLink", function () {
         requestName: "foo",
       });
       throw new Error(`Test failure`);
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError", `Error name ${err.name} is not as expected`);
       assert.equal(err.message, StandardAbortMessage, `Incorrect error received "${err.message}"`);
     }
@@ -568,7 +568,7 @@ describe("RequestResponseLink", function () {
       controller.abort();
       await link.sendRequest(request, { abortSignal: signal, requestName: "foo" });
       throw new Error(`Test failure`);
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError", `Error name ${err.name} is not as expected`);
       assert.equal(err.message, StandardAbortMessage, `Incorrect error received "${err.message}"`);
     }
@@ -637,7 +637,7 @@ describe("RequestResponseLink", function () {
       try {
         await link.sendRequest(request, { timeoutInMs: 120000, requestName: "foo" });
         throw new Error(testFailureMessage);
-      } catch (err) {
+      } catch (err: any) {
         assert.notEqual(err.message, testFailureMessage);
       }
       assertItemsLengthInResponsesMap(link["_responsesMap"], 0);

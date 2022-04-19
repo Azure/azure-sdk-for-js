@@ -122,7 +122,7 @@ describe("With messaging clients", function () {
           try {
             const message = await serializer.serialize(value, writerSchema);
             await client.send(message);
-          } catch (e) {
+          } catch (e: any) {
             await client.cleanup();
             throw e;
           }
@@ -140,7 +140,7 @@ describe("With messaging clients", function () {
                 schema: readerSchema,
               })
             );
-          } catch (e) {
+          } catch (e: any) {
             errors.push({
               error: e as Error,
               language: receivedMessage.properties.language,

@@ -110,7 +110,7 @@ export class StreamingPartitionSender {
         }
         // And away it goes!
         sender.send(outgoingMessage);
-      } catch (err) {
+      } catch (err: any) {
         if (err?.name !== "AbortError") {
           console.error(`Unexpected error while streaming events: `, err);
         }

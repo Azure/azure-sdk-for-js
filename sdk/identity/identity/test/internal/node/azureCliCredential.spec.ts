@@ -122,7 +122,7 @@ describe("AzureCliCredential (internal)", function () {
 
       try {
         await credential.getToken("https://service/.default");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(
           error.message,
           "Azure CLI could not be found.  Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
@@ -135,7 +135,7 @@ describe("AzureCliCredential (internal)", function () {
 
       try {
         await credential.getToken("https://service/.default");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(
           error.message,
           "Azure CLI could not be found.  Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
@@ -151,7 +151,7 @@ describe("AzureCliCredential (internal)", function () {
     const credential = new AzureCliCredential();
     try {
       await credential.getToken("https://service/.default");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         error.message,
         "Please run 'az login' from a command prompt to authenticate before using this credential."
@@ -165,7 +165,7 @@ describe("AzureCliCredential (internal)", function () {
     const credential = new AzureCliCredential();
     try {
       await credential.getToken("https://service/.default");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(error.message, "mock other access token error");
     }
   });

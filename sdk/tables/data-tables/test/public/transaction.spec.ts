@@ -235,7 +235,7 @@ describe("Handle suberror", () => {
     try {
       await client.submitTransaction(actions);
       assert.fail("Expected submitBatch to throw");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(error.code, "TableNotFound");
       assert.equal(error.statusCode, 404);
       assert.isString(error.message);

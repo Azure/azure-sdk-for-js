@@ -155,7 +155,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     try {
       await poller.pollUntilDone();
       throw new Error("Test failure");
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "PollerCancelledError");
     }
   });

@@ -51,7 +51,7 @@ export class WorkspaceGitRepoManagementImpl
         getGitHubAccessTokenOperationSpec
       );
       return result as WorkspaceGitRepoManagementGetGitHubAccessTokenResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message

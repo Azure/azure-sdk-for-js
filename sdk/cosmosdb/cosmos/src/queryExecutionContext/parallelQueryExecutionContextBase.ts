@@ -133,10 +133,10 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
               // if there are matching results in the target ex range add it to the priority queue
               try {
                 this.orderByPQ.enq(documentProducer);
-              } catch (e) {
+              } catch (e: any) {
                 this.err = e;
               }
-            } catch (err) {
+            } catch (err: any) {
               this._mergeWithActiveResponseHeaders(err.headers);
               this.err = err;
             } finally {
@@ -146,7 +146,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           };
           parallelismSem.take(throttledFunc);
         });
-      } catch (err) {
+      } catch (err: any) {
         this.err = err;
         // release the lock
         this.sem.leave();
@@ -244,7 +244,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           }
 
           await checkNextDocumentProducerCallback();
-        } catch (err) {
+        } catch (err: any) {
           this.err = err;
           return;
         }
@@ -263,7 +263,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       };
       // Invoke the recursive function to get the ball rolling
       await checkAndEnqueueDocumentProducers(replacementDocumentProducers);
-    } catch (err) {
+    } catch (err: any) {
       this.err = err;
       throw err;
     }
@@ -289,7 +289,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     try {
       await documentProducer.current();
       elseCallback();
-    } catch (err) {
+    } catch (err: any) {
       if (ParallelQueryExecutionContextBase._needPartitionKeyRangeCacheRefresh(err)) {
         // Split has happened so we need to repair execution context before continueing
         return this._repairExecutionContext(ifCallback);
@@ -342,7 +342,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           let documentProducer: DocumentProducer;
           try {
             documentProducer = this.orderByPQ.deq();
-          } catch (e) {
+          } catch (e: any) {
             // if comparing elements of the priority queue throws exception
             // set that error and return error
             this.err = e;
@@ -375,7 +375,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
                 headers: this._getAndResetActiveResponseHeaders(),
               });
             }
-          } catch (err) {
+          } catch (err: any) {
             this.err = new Error(
               `Extracted DocumentProducer from the priority queue fails to get the \
                                     buffered item. Due to ${JSON.stringify(err)}`
@@ -403,13 +403,13 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
                   );
                 }
                 this.orderByPQ.enq(documentProducer);
-              } catch (e) {
+              } catch (e: any) {
                 // if comparing elements in priority queue throws exception
                 // set error
                 this.err = e;
               }
             }
-          } catch (err) {
+          } catch (err: any) {
             if (ParallelQueryExecutionContextBase._needPartitionKeyRangeCacheRefresh(err)) {
               // We want the document producer enqueued
               // So that later parts of the code can repair the execution context

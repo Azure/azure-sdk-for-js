@@ -33,7 +33,7 @@ export type EventGridPublisherClientOptions = CommonClientOptions;
  */
 export type SendOptions = OperationOptions;
 
-/***
+/**
  * Options for the send events operation, when the input schema is cloud event.
  */
 export interface CloudEventSendOptions extends SendOptions {

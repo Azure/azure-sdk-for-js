@@ -59,7 +59,7 @@ export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolic
         const response = await tracingClient.withContext(tracingContext, next, request);
         tryProcessResponse(span, response);
         return response;
-      } catch (err) {
+      } catch (err: any) {
         tryProcessError(span, err);
         throw err;
       }
@@ -118,7 +118,7 @@ function tryCreateSpan(
       request.headers.set(key, value);
     }
     return { span, tracingContext: updatedOptions.tracingOptions.tracingContext };
-  } catch (e) {
+  } catch (e: any) {
     logger.warning(`Skipping creating a tracing span due to an error: ${getErrorMessage(e)}`);
     return undefined;
   }
@@ -134,7 +134,7 @@ function tryProcessError(span: TracingSpan, error: unknown): void {
       span.setAttribute("http.status_code", error.statusCode);
     }
     span.end();
-  } catch (e) {
+  } catch (e: any) {
     logger.warning(`Skipping tracing span processing due to an error: ${getErrorMessage(e)}`);
   }
 }
@@ -150,7 +150,7 @@ function tryProcessResponse(span: TracingSpan, response: PipelineResponse): void
       status: "success",
     });
     span.end();
-  } catch (e) {
+  } catch (e: any) {
     logger.warning(`Skipping tracing span processing due to an error: ${getErrorMessage(e)}`);
   }
 }

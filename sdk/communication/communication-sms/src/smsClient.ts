@@ -177,7 +177,7 @@ export class SmsClient {
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return response.value;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

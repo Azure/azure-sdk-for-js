@@ -89,7 +89,7 @@ export class FileSystemPersist implements PersistentStorage {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-return
           return JSON.parse(buffer.toString("utf8"));
         }
-      } catch (e) {
+      } catch (e: any) {
         diag.debug("Failed to read persisted file", e);
       }
       return null;
@@ -123,8 +123,7 @@ export class FileSystemPersist implements PersistentStorage {
         }
       }
       return null;
-    } catch (e) {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    } catch (e: any) {
       if (e.code === "ENOENT") {
         // File does not exist -- return null instead of throwing
         return null;
@@ -137,8 +136,12 @@ export class FileSystemPersist implements PersistentStorage {
   private async _storeToDisk(payload: string): Promise<boolean> {
     try {
       await confirmDirExists(this._tempDirectory);
+<<<<<<< HEAD
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+=======
+    } catch (error: any) {
+>>>>>>> 191e4ce330acd60e014c13412204b9598870cfa1
       diag.warn(`Error while checking/creating directory: `, error && error.message);
       return false;
     }
@@ -151,8 +154,12 @@ export class FileSystemPersist implements PersistentStorage {
         );
         return false;
       }
+<<<<<<< HEAD
     } catch (error) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+=======
+    } catch (error: any) {
+>>>>>>> 191e4ce330acd60e014c13412204b9598870cfa1
       diag.warn(`Error while checking size of persistence directory: `, error && error.message);
       return false;
     }
@@ -164,7 +171,7 @@ export class FileSystemPersist implements PersistentStorage {
     diag.info(`saving data to disk at: ${fileFullPath}`);
     try {
       await writeFileAsync(fileFullPath, payload, { mode: 0o600 });
-    } catch (writeError) {
+    } catch (writeError: any) {
       diag.warn(`Error writing file to persistent file storage`, writeError);
       return false;
     }
@@ -198,7 +205,7 @@ export class FileSystemPersist implements PersistentStorage {
         }
       }
       return false;
-    } catch (error) {
+    } catch (error: any) {
       diag.info(`Failed cleanup of persistent file storage expired files`, error);
       return false;
     }

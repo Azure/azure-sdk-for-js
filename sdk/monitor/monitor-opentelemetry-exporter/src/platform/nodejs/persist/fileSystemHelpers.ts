@@ -41,13 +41,11 @@ export const confirmDirExists = async (directory: string): Promise<void> => {
     if (!stats.isDirectory()) {
       throw new Error("Path existed but was not a directory");
     }
-  } catch (err) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  } catch (err: any) {
     if (err && err.code === "ENOENT") {
       try {
         await mkdirAsync(directory);
-      } catch (mkdirErr) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      } catch (mkdirErr: any) {
         if (mkdirErr && mkdirErr.code !== "EEXIST") {
           // Handle race condition by ignoring EEXIST
           throw mkdirErr;

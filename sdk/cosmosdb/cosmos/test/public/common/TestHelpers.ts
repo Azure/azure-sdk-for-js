@@ -46,7 +46,7 @@ export async function removeAllDatabases(client: CosmosClient = defaultClient): 
         client.database(database.id).delete()
       )
     );
-  } catch (err) {
+  } catch (err: any) {
     console.log("An error occured", err);
     assert.fail(err);
     throw err;
@@ -269,7 +269,7 @@ export function generateDocuments(docSize: number): {
 export async function assertThrowsAsync(test: () => Promise<any>, error?: any): Promise<string> {
   try {
     await test();
-  } catch (e) {
+  } catch (e: any) {
     if (!error || e instanceof error) return "everything is fine";
   }
   throw new assert.AssertionError({

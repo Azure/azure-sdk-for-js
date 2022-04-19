@@ -41,7 +41,7 @@ export class WorkspaceOperationsImpl implements WorkspaceOperations {
         getOperationSpec
       );
       return result as WorkspaceGetResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message

@@ -88,7 +88,7 @@ describe("EnvironmentCredential", function () {
     try {
       const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
       await credential.getToken("scope");
-    } catch (e) {
+    } catch (e: any) {
       // To avoid having to store passwords anywhere, this getToken request will fail.
       // We will focus our test on making sure the underlying getToken was called.
     }
@@ -153,7 +153,7 @@ describe("EnvironmentCredential", function () {
 
         try {
           await credential.getToken(scope, tracingOptions);
-        } catch (e) {
+        } catch (e: any) {
           // To avoid having to store passwords anywhere, this getToken request will fail.
           // We will focus our test on making sure the underlying getToken was called.
         }

@@ -157,7 +157,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
         getNotebooksByWorkspaceOperationSpec
       );
       return result as NotebookGetNotebooksByWorkspaceResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -185,7 +185,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
         getNotebookSummaryByWorkSpaceOperationSpec
       );
       return result as NotebookGetNotebookSummaryByWorkSpaceResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -223,7 +223,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as NotebookCreateOrUpdateNotebookResponse;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -314,7 +314,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
         getNotebookOperationSpec
       );
       return result as NotebookGetNotebookResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -345,7 +345,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -436,7 +436,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -531,7 +531,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
         getNotebooksByWorkspaceNextOperationSpec
       );
       return result as NotebookGetNotebooksByWorkspaceNextResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -562,7 +562,7 @@ export class NotebookOperationsImpl implements NotebookOperations {
         getNotebookSummaryByWorkSpaceNextOperationSpec
       );
       return result as NotebookGetNotebookSummaryByWorkSpaceNextResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
