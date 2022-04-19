@@ -11,6 +11,7 @@ trigger:
       - sdk/keyvault/ci.mgmt.yml
       - sdk/keyvault/arm-keyvault/
       - sdk/keyvault/arm-keyvault-profile-2020-09-01-hybrid
+      - sdk/keyvault/arm-keyvault
 pr:
   branches:
     include:
@@ -25,6 +26,7 @@ pr:
       - sdk/keyvault/ci.mgmt.yml
       - sdk/keyvault/arm-keyvault/
       - sdk/keyvault/arm-keyvault-profile-2020-09-01-hybrid
+      - sdk/keyvault/arm-keyvault
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
