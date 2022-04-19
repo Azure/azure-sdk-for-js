@@ -46,7 +46,7 @@ export const defaultDataTransformer = {
       result.typecode = valueSectionTypeCode;
     } else if (bodyType === "sequence") {
       result = message.sequence_section(body);
-    } else if (isBuffer(body)) {
+    } else if (isBuffer(body) || body instanceof Uint8Array) {
       result = message.data_section(body);
     } else if (body === null && bodyType === "data") {
       result = message.data_section(null);

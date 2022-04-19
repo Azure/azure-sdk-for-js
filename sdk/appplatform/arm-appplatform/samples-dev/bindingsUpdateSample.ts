@@ -28,14 +28,7 @@ async function bindingsUpdate() {
   const bindingName = "mybinding";
   const bindingResource: BindingResource = {
     properties: {
-      bindingParameters: {
-        apiType: {
-          name: "SQL"
-        }, 
-        databaseName: {
-          name: "db1"
-        }
-      },
+      bindingParameters: {},
       createdAt: undefined,
       generatedProperties: undefined,
       key: "xxxx",

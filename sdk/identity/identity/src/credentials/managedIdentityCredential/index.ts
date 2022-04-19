@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SpanStatusCode } from "@azure/core-tracing";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 
 import { IdentityClient } from "../../client/identityClient";
@@ -9,7 +8,7 @@ import { TokenCredentialOptions } from "../../tokenCredentialOptions";
 import { AuthenticationError, CredentialUnavailableError } from "../../errors";
 import { credentialLogger, formatSuccess, formatError } from "../../util/logging";
 import { appServiceMsi2017 } from "./appServiceMsi2017";
-import { createSpan } from "../../util/tracing";
+import { tracingClient } from "../../util/tracing";
 import { cloudShellMsi } from "./cloudShellMsi";
 import { imdsMsi } from "./imdsMsi";
 import { MSI } from "./models";
@@ -160,7 +159,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     scopes: string | string[],
     getTokenOptions?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const { span, updatedOptions } = createSpan(
+    const { span, updatedOptions } = tracingClient.startSpan(
       `${ManagedIdentityCredential.name}.authenticateManagedIdentity`,
       getTokenOptions
     );
@@ -180,8 +179,8 @@ export class ManagedIdentityCredential implements TokenCredential {
       );
     } catch (err) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: err.message,
+        status: "error",
+        error: err,
       });
       throw err;
     } finally {
@@ -204,7 +203,7 @@ export class ManagedIdentityCredential implements TokenCredential {
   ): Promise<AccessToken> {
     let result: AccessToken | null = null;
 
-    const { span, updatedOptions } = createSpan(
+    const { span, updatedOptions } = tracingClient.startSpan(
       `${ManagedIdentityCredential.name}.getToken`,
       options
     );
@@ -261,8 +260,8 @@ export class ManagedIdentityCredential implements TokenCredential {
       //   but no identity is available.
 
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: err.message,
+        status: "error",
+        error: err,
       });
 
       // If either the network is unreachable,

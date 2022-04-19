@@ -28,8 +28,8 @@ Add the exporter to your existing OpenTelemetry tracer provider (`NodeTracerProv
 
 ```js
 const { AzureMonitorTraceExporter } = require("@azure/monitor-opentelemetry-exporter");
-const { NodeTracerProvider } = require("@opentelemetry/node");
-const { BatchSpanProcessor } = require("@opentelemetry/tracing");
+const { NodeTracerProvider } = require("@opentelemetry/sdk-trace-node");
+const { BatchSpanProcessor } = require("@opentelemetry/sdk-trace-base");
 
 // Use your existing provider
 const provider = new NodeTracerProvider({

@@ -169,4 +169,23 @@ describe("AzureCliCredential (internal)", function () {
       assert.equal(error.message, "mock other access token error");
     }
   });
+
+  it("get access token when having a warning on stderr", async () => {
+    stdout = '{"accessToken": "token","expiresOn": "01/01/1900 00:00:00 +00:00"}';
+    stderr = "Argument '--tenant' is in preview. It may be changed/removed in a future release.";
+    const credential = new AzureCliCredential();
+    const actualToken = await credential.getToken("https://service/.default");
+    assert.equal(actualToken!.token, "token");
+    assert.deepEqual(azArgs, [
+      ["account", "get-access-token", "--output", "json", "--resource", "https://service"],
+    ]);
+    // Used a working directory, and a shell
+    assert.deepEqual(
+      {
+        cwd: [process.env.SystemRoot, "/bin"].includes(azOptions[0].cwd),
+        shell: azOptions[0].shell,
+      },
+      { cwd: true, shell: true }
+    );
+  });
 });
