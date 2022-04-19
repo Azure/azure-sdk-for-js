@@ -100,7 +100,7 @@ export class ServiceClient {
     this._endpoint = options.endpoint ?? options.baseUri;
     if (options.baseUri) {
       const logger = createClientLogger("ServiceClientOptions");
-      logger.warning("This baseUri option has been deprecated, please use endpoint instead!");
+      logger.warning("The baseUri option for SDK Clients has been deprecated, please use endpoint instead.");
     }
     this._allowInsecureConnection = options.allowInsecureConnection;
     this._httpClient = options.httpClient || getCachedDefaultHttpClient();
