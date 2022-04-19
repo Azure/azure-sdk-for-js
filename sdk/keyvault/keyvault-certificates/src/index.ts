@@ -5,7 +5,6 @@
 /* eslint-disable @azure/azure-sdk/ts-apisurface-supportcancellation */
 
 // This file makes more sense if ordered based on how meaningful are some methods in relation to others.
-/* eslint-disable @typescript-eslint/member-ordering */
 
 /// <reference lib="esnext.asynciterable" />
 
@@ -743,11 +742,11 @@ export class CertificateClient {
             id: updatedOptions.organizationId,
             adminDetails: updatedOptions.administratorContacts
               ? updatedOptions.administratorContacts.map((x) => ({
-                  emailAddress: x.email,
-                  phone: x.phone,
-                  firstName: x.firstName,
-                  lastName: x.lastName,
-                }))
+                emailAddress: x.email,
+                phone: x.phone,
+                firstName: x.firstName,
+                lastName: x.lastName,
+              }))
               : undefined,
           };
         }
@@ -811,11 +810,11 @@ export class CertificateClient {
             id: updatedOptions.organizationId,
             adminDetails: updatedOptions.administratorContacts
               ? updatedOptions.administratorContacts.map((x) => ({
-                  emailAddress: x.email,
-                  phone: x.phone,
-                  firstName: x.firstName,
-                  lastName: x.lastName,
-                }))
+                emailAddress: x.email,
+                phone: x.phone,
+                firstName: x.firstName,
+                lastName: x.lastName,
+              }))
               : undefined,
           };
         }
