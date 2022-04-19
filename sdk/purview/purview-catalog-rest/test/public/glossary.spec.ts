@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import {
-  getLongRunningPoller,
-  PurviewCatalogClient,
-} from "../../src";
+import { getLongRunningPoller, PurviewCatalogClient } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
@@ -44,11 +41,14 @@ describe("purview catalog glossary test", () => {
   });
 
   it("should work with LRO helper", async () => {
-    await recorder.addSanitizers({
-      removeHeaderSanitizer: {
-        headersForRemoval: ["Content-Type", "Transfer-Encoding"]
-      }
-    }, ["playback", "record"]);
+    await recorder.addSanitizers(
+      {
+        removeHeaderSanitizer: {
+          headersForRemoval: ["Content-Type", "Transfer-Encoding"],
+        },
+      },
+      ["playback", "record"]
+    );
     await recorder.setMatcher("BodilessMatcher");
     const initialResponse = await client
       .path("/glossary/name/{glossaryName}/terms/import", glossaryName)
