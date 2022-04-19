@@ -5,7 +5,7 @@ import { MsalAuthorizationCode } from "../../identity/src/msal/nodeFlows/msalAut
 import { MsalFlow } from "../../identity/src/msal/flows";
 import { credentialLogger } from "../../identity/src/util/logging";
 import { checkTenantId } from "../../identity/src/util/checkTenantId";
-import { trace } from "../../identity/src/util/tracing";
+import { tracingClient } from "../../identity/src/util/tracing";
 import {
   AccessToken,
   AuthenticationRecord,
@@ -13,7 +13,7 @@ import {
   GetTokenOptions,
   TokenCredential,
   TokenCredentialOptions,
-} from "../../identity/src";
+} from "@azure/identity";
 
 const logger = credentialLogger("WebRedirectCredential");
 
@@ -160,7 +160,7 @@ export class WebRedirectCredential implements TokenCredential {
           "Automatic authentication is unavailable in this credential. You must call the authenticate() method first.",
       });
     }
-    return trace(`${this.constructor.name}.getToken`, options, async (newOptions) => {
+    return tracingClient.withSpan(`${this.constructor.name}.getToken`, options, async (newOptions) => {
       const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
       return this.msalFlow!.getToken(arrayScopes, {
         ...newOptions,
@@ -197,7 +197,7 @@ export class WebRedirectCredential implements TokenCredential {
     }
 
     try {
-      return trace(`${this.constructor.name}.authenticate`, options, async (newOptions) => {
+      return tracingClient.withSpan(`${this.constructor.name}.authenticate`, options, async (newOptions) => {
         const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
         await this.msalFlow!.getToken(arrayScopes, newOptions);
         return this.msalFlow!.getActiveAccount();
