@@ -41,19 +41,17 @@ export const getTokenHttpClient: HttpClient = createMockHttpClient<Communication
 );
 export const revokeTokensHttpClient: HttpClient = createMockHttpClient(204);
 
-export const createUserHttpClient: HttpClient =
-  createMockHttpClient(201, {
-    identity: { id: "identity" },
-  });
+export const createUserHttpClient: HttpClient = createMockHttpClient(201, {
+  identity: { id: "identity" },
+});
 
-export const createUserAndTokenHttpClient: HttpClient =
-  createMockHttpClient(201, {
-    identity: { id: "identity" },
-    accessToken: {
-      token: "token",
-      expiresOn: new Date("2011/11/30"),
-    },
-  });
+export const createUserAndTokenHttpClient: HttpClient = createMockHttpClient(201, {
+  identity: { id: "identity" },
+  accessToken: {
+    token: "token",
+    expiresOn: new Date("2011/11/30"),
+  },
+});
 
 export const getTokenForTeamsUserHttpClient: HttpClient =
   createMockHttpClient<CommunicationAccessToken>(200, tokenResponse);
