@@ -51,18 +51,6 @@ export async function createClient(): Promise<ConfidentialLedgerRestClient> {
   const identity = await getLedgerIdentity(env.LEDGER_IDENTITY, "https://identity.confidential-ledger.core.azure.com");
   return ConfidentialLedger(env.ENDPOINT, identity.ledgerTlsCertificate, credential, { httpClient });
 }
-/*
-export function createClient(): ConfidentialLedgerRestClient {
-  const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
-  const credential = new ClientSecretCredential(
-    env["AZURE_TENANT_ID"],
-    env["AZURE_CLIENT_ID"],
-    env["AZURE_CLIENT_SECRET"],
-    { httpClient }
-  );
-  return ConfidentialLedger(env.ENDPOINT, env.LEDGER_IDENTITY, credential, { httpClient });
-}
-*/
 
 /**
  * creates the recorder and reads the environment variables from the `.env` file.
