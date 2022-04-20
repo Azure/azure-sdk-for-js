@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 3.0.0-beta.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 3.0.0-beta.2 (2022-04-18)
 
 The package of @azure/arm-datamigration is using our next generation design principles since version 3.0.0-beta.2, which contains breaking changes.
