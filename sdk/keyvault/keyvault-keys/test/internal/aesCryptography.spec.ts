@@ -11,7 +11,7 @@ import {
   KeyVaultKey,
 } from "../../src";
 import { getKey, stringToUint8Array, uint8ArrayToString } from "../public/utils/crypto";
-import { isNode } from "../../../keyvault-common/src/";
+import { isNode } from "@azure/core-util";
 import { AesCryptographyProvider } from "../../src/cryptography/aesCryptographyProvider";
 import TestClient from "../public/utils/testClient";
 import { authenticate } from "../public/utils/testAuthentication";

@@ -8,7 +8,7 @@ import { SDK_VERSION } from "../../src/constants";
 import { assert } from "@azure/test-utils";
 import { env } from "@azure-tools/test-recorder";
 import fs from "fs";
-import { isNode } from "../../../keyvault-common/src/";
+import { isNode } from "@azure/core-util";
 import path from "path";
 
 describe("Certificates client's user agent (only in Node, because of fs)", () => {

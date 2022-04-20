@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isNode } from "../../../keyvault-common/src/";
+import { isNode } from "@azure/core-util";
 
 import { Context } from "mocha";
 import { KeyClient } from "../../src";

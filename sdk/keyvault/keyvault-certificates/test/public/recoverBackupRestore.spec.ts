@@ -4,7 +4,7 @@
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
 import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure-tools/test-recorder";
-import { isNode } from "../../../keyvault-common/src/";
+import { isNode } from "@azure/core-util";
 
 import { CertificateClient } from "../../src";
 import { testPollerProperties } from "./utils/recorderUtils";

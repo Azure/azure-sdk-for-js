@@ -3,7 +3,7 @@
 
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
-import { isNode } from "../../../keyvault-common/src/";
+import { isNode } from "@azure/core-util";
 import { env, isPlaybackMode, Recorder, isRecordMode } from "@azure-tools/test-recorder";
 
 import { SecretClient } from "../../src";

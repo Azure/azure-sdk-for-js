@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { CertificateContentType } from "./certificatesModels";
-import { isNode } from "./isNode";
+import { isNode } from "@azure/core-util";
 
 /**
  * Decodes a Uint8Array into a Base64 string.

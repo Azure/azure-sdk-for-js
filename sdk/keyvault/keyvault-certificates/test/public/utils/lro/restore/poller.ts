@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-client";
-import { delay } from "../../../../../../keyvault-common/src/";
+import { delay } from "@azure/core-util";
 import { Poller } from "@azure/core-lro";
 import {
   RestoreCertificateBackupPollOperationState,

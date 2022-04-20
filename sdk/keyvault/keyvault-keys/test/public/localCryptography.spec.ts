@@ -3,7 +3,7 @@
 
 import { Context } from "mocha";
 import { KeyClient, CryptographyClient, SignatureAlgorithm, KeyVaultKey } from "../../src";
-import { isNode } from "../../../keyvault-common/src/";
+import { isNode } from "@azure/core-util";
 import { createHash } from "crypto";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";

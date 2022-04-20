@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-client";
-import { isNode } from "../../../keyvault-common/src/";
+import { isNode } from "@azure/core-util";
 import { TokenCredential } from "@azure/core-auth";
 import { Context } from "mocha";
 import { assert } from "@azure/test-utils";

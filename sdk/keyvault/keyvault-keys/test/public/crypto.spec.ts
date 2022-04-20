@@ -13,7 +13,7 @@ import TestClient from "./utils/testClient";
 import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
 import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
 import { getServiceVersion } from "./utils/common";
-import { isNode } from "../../../keyvault-common/src/";
+import { isNode } from "@azure/core-util";
 
 describe("CryptographyClient (all decrypts happen remotely)", () => {
   const keyPrefix = `crypto${env.KEY_NAME || "KeyName"}`;

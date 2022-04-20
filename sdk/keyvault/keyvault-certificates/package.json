@@ -35,8 +35,7 @@
   ],
   "browser": {
     "os": false,
-    "process": false,
-    "./dist-esm/src/isNode.js": "./dist-esm/src/isNode.browser.js"
+    "process": false
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -124,6 +123,7 @@
     "@azure/test-utils": "^1.0.0",
     "@azure-tools/test-recorder": "^1.0.0",
     "@microsoft/api-extractor": "^7.18.11",
+    "@azure/core-util": "^1.0.0-beta.1",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
     "@types/sinon": "^9.0.4",

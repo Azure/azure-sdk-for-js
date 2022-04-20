@@ -33,10 +33,6 @@
     "README.md",
     "LICENSE"
   ],
-  "browser": {
-    "os": false,
-    "process": false
-  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js 2>&1",
@@ -116,6 +112,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^2.1.0-beta.2",
     "@azure/test-utils": "^1.0.0",
+    "@azure/core-util": "^1.0.0-beta.1",
     "@azure-tools/test-recorder": "^1.0.0",
     "@microsoft/api-extractor": "^7.18.11",
     "@types/mocha": "^7.0.2",
