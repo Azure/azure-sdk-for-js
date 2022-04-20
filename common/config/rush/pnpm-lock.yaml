@@ -2853,6 +2853,13 @@ packages:
     resolution: {integrity: sha1-5QNHYR1+aQlDIIu9r+vLwvuGbUY=}
     dev: false
 
+  /assert/1.5.0:
+    resolution: {integrity: sha512-EDsgawzwoun2CZkCgtxJbv392v4nbk9XDD06zI+kQYoBM/3RBWLlEyJARDOmhAAosBjWACEkKL6S+lIZtcAubA==}
+    dependencies:
+      object-assign: 4.1.1
+      util: 0.10.3
+    dev: false
+
   /assertion-error/1.1.0:
     resolution: {integrity: sha512-jgsaNduz+ndvGyFt3uSuWqvy4lCnIJiovtouQN5JZHOKCS2QuhEdbcQHFhVksz2N2U9hXJo8odG7ETyWlEeuDw==}
     dev: false
@@ -4875,6 +4882,10 @@ packages:
       wrappy: 1.0.2
     dev: false
 
+  /inherits/2.0.1:
+    resolution: {integrity: sha1-sX0I0ya0Qj5Wjv9xn5GwscvfafE=}
+    dev: false
+
   /inherits/2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
     dev: false
@@ -5803,6 +5814,7 @@ packages:
   /lru-cache/7.7.3:
     resolution: {integrity: sha512-WY9wjJNQt9+PZilnLbuFKM+SwDull9+6IAguOrarOMoOHTcJ9GnXSO11+Gw6c7xtDkBkthR57OZMtZKYr+1CEw==}
     engines: {node: '>=12'}
+    deprecated: Please update to latest patch version to fix memory leak https://github.com/isaacs/node-lru-cache/issues/227
     dev: false
 
   /lunr/2.3.9:
@@ -8230,6 +8242,12 @@ packages:
 
   /util-deprecate/1.0.2:
     resolution: {integrity: sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=}
+    dev: false
+
+  /util/0.10.3:
+    resolution: {integrity: sha1-evsa/lCAUkZInj23/g7TeTNqwPk=}
+    dependencies:
+      inherits: 2.0.1
     dev: false
 
   /util/0.12.4:
@@ -15266,7 +15284,7 @@ packages:
     dev: false
 
   file:projects/keyvault-certificates.tgz:
-    resolution: {integrity: sha512-ct6NmYtwck8R55s7cIt56nACxn0YI+BuE/VLF9XHRFKOAU03wm1mqYMnvqwH0oZ1iguu/KcNwElA/WmF1nRYLg==, tarball: file:projects/keyvault-certificates.tgz}
+    resolution: {integrity: sha512-cAG8l1vxvIj2xbqhWwiPsRtcKRodeaUcf41IhfH2rAHCQGYkosTboeBt4PSBCVKkH0XFtKRSkoXF8shkQub/xQ==, tarball: file:projects/keyvault-certificates.tgz}
     name: '@rush-temp/keyvault-certificates'
     version: 0.0.0
     dependencies:
@@ -15276,6 +15294,8 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
       '@types/sinon': 9.0.11
+      assert: 1.5.0
+      chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
@@ -15313,7 +15333,7 @@ packages:
     dev: false
 
   file:projects/keyvault-common.tgz:
-    resolution: {integrity: sha512-BPj4BnN3yufrL4X2HIbxF2INDi1hggcwe8p07w9zPA2KIZ+tlkRxz06a5IPZGuVG0VOuCRO50JHHFNKQMvlkLw==, tarball: file:projects/keyvault-common.tgz}
+    resolution: {integrity: sha512-ei/FtR4UTX5bViNRA1rzEiBwNy+aCIBOBCmPQONxPEyjG/sy7uGdgtNodpUznsRX7H8N1z9nqMDpikSP4GENeA==, tarball: file:projects/keyvault-common.tgz}
     name: '@rush-temp/keyvault-common'
     version: 0.0.0
     dependencies:
@@ -15327,7 +15347,7 @@ packages:
     dev: false
 
   file:projects/keyvault-keys.tgz:
-    resolution: {integrity: sha512-kgSMzd+SujJOrfAoEpE6Gk8Km8bJ51DQ65bElKr6u/5FW/Yk9LyT2/zM8gPY52ExpGoGWzvet/UsyR0ZUcds5g==, tarball: file:projects/keyvault-keys.tgz}
+    resolution: {integrity: sha512-JOZD6Qd8H+FvdPfwSRvZ3dEtmoc8xClEX7Vua1uRqt/YzgI6nqab/yZ5hNj42BFmFizc1OgKraa+Tk8W4VP95g==, tarball: file:projects/keyvault-keys.tgz}
     name: '@rush-temp/keyvault-keys'
     version: 0.0.0
     dependencies:
@@ -15374,7 +15394,7 @@ packages:
     dev: false
 
   file:projects/keyvault-secrets.tgz:
-    resolution: {integrity: sha512-UIZLrHpMVleOn8mKQkGwuf1OWSmjqGzBKves59k/FqcGf/yNKEvrjbzxxbPuylDcZxQwpqSEIW5BmnPmtdW5kw==, tarball: file:projects/keyvault-secrets.tgz}
+    resolution: {integrity: sha512-mLMNQpBhA7DVOogXunyqCpXUrkTQX4jjGniQViwjA5m4mgEzxn/wN6QvSenyNM9UKIlIrC3PmUVMIsEncIhavg==, tarball: file:projects/keyvault-secrets.tgz}
     name: '@rush-temp/keyvault-secrets'
     version: 0.0.0
     dependencies:
@@ -15383,6 +15403,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
       '@types/sinon': 9.0.11
+      assert: 1.5.0
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
