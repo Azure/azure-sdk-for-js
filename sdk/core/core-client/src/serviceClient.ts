@@ -30,8 +30,7 @@ export interface ServiceClientOptions extends CommonClientOptions {
   /**
    * If specified, this is the base URI that requests will be made against for this ServiceClient.
    * If it is not specified, then all OperationSpecs must contain a baseUrl property.
-   * This property is deprecated and will be removed soon, please use endpoint instead
-   * @deprecated
+   * @deprecated This property is deprecated and will be removed soon, please use endpoint instead
    */
   baseUri?: string;
   /**
