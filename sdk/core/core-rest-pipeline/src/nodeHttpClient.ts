@@ -255,45 +255,37 @@ class NodeHttpClient implements HttpClient {
         return http.globalAgent;
       }
 
-      // Get the cached agent if exists
-      let agent = this.cachedHttpAgent;
-      if (!agent) {
+      if (!this.cachedHttpAgent) {
         // If there is no cached agent create a new one and cache it.
-        agent = new http.Agent({ keepAlive: true });
-        this.cachedHttpAgent;
+        this.cachedHttpAgent = new http.Agent({ keepAlive: true });
       }
-      return agent;
+      return this.cachedHttpAgent;
     } else {
-      // We use the tlsSettings to index cached clients
-      const tlsSettings = request.tlsSettings ?? DEFAULT_TLS_SETTINGS;
       if (disableKeepAlive && !request.tlsSettings) {
         // When there are no tlsSettings and keepAlive is false
         // we don't need a custom agent
         return https.globalAgent;
       }
 
+      // We use the tlsSettings to index cached clients
+      const tlsSettings = request.tlsSettings ?? DEFAULT_TLS_SETTINGS;
+
       // Get the cached agent or create a new one with the
       // provided values for keepAlive and tlsSettings
-      let agent =
-        this.cachedHttpsAgents.get(tlsSettings) ??
-        new https.Agent({
-          // keepAlive is true if disableKeepAlive is false.
-          keepAlive: !disableKeepAlive,
-          // Since we are spreading, if non tslSettings were provided, nothing is added to the agent options.
-          ...tlsSettings,
-        });
+      let agent = this.cachedHttpsAgents.get(tlsSettings);
 
-      // If there was a cached client, check if we can return it.
-      if (this.cachedHttpsAgents.has(tlsSettings)) {
-        // We have a cached agent, check if keepAlive matches with the cache
-        if (agent.options.keepAlive === !disableKeepAlive) {
-          return agent;
-        }
-      } else {
-        // Cache the current agent, if it was not previously cached.
-        this.cachedHttpsAgents.set(tlsSettings, agent);
+      if (agent && agent.options.keepAlive === !disableKeepAlive) {
+        return agent;
       }
 
+      agent = new https.Agent({
+        // keepAlive is true if disableKeepAlive is false.
+        keepAlive: !disableKeepAlive,
+        // Since we are spreading, if non tslSettings were provided, nothing is added to the agent options.
+        ...tlsSettings,
+      });
+
+      this.cachedHttpsAgents.set(tlsSettings, agent);
       return agent;
     }
   }
