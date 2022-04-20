@@ -78,8 +78,12 @@ export class CosmosClient {
 
     optionsOrConnectionString.defaultHeaders = optionsOrConnectionString.defaultHeaders || {};
     optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.CacheControl] = "no-cache";
-    optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.Version] =
-      Constants.CurrentVersion;
+
+    if (optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.Version] == null) {
+      optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.Version] =
+        Constants.CurrentVersion;
+    }
+
     if (optionsOrConnectionString.consistencyLevel !== undefined) {
       optionsOrConnectionString.defaultHeaders[Constants.HttpHeaders.ConsistencyLevel] =
         optionsOrConnectionString.consistencyLevel;
@@ -101,7 +105,7 @@ export class CosmosClient {
       this.backgroundRefreshEndpointList(
         globalEndpointManager,
         optionsOrConnectionString.connectionPolicy.endpointRefreshRateInMs ||
-          defaultConnectionPolicy.endpointRefreshRateInMs
+        defaultConnectionPolicy.endpointRefreshRateInMs
       );
     }
 
