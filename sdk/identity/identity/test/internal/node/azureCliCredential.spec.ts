@@ -171,15 +171,30 @@ describe("AzureCliCredential (internal)", function () {
   });
 
   // Reported by https://github.com/Azure/azure-sdk-for-js/issues/21151
-  it("get access token when having other access token error", async () => {
+  it("get access token when having an error about an unknown platform", async () => {
     stdout = "";
-    stderr = `Error: Command failed: az account get-access-token --output json --resource https://database.windows.net/
-ERROR: AADSTS50005: User tried to log in to a device from a platform (Unknown) that's currently not supported through Conditional Access policy. Supported device platforms are: iOS, Android, Mac, and Windows flavors.
+    stderr = `ERROR: AADSTS50005: User tried to log in to a device from a platform (Unknown) that's currently not supported through Conditional Access policy. Supported device platforms are: iOS, Android, Mac, and Windows flavors.
 Trace ID: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
 Correlation ID: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
 Timestamp: 2022-02-22 10:11:12Z
 To re-authenticate, please run:
 az login --scope https://database.windows.net//.default`;
+    const credential = new AzureCliCredential();
+    try {
+      await credential.getToken("https://service/.default");
+    } catch (error: any) {
+      assert.equal(error.message, stderr);
+    }
+  });
+
+  it("get access token when having an error about a resource principal not found", async () => {
+    stdout = "";
+    stderr = `ERROR: AADSTS500011: The resource principal named https://test.windows.net was not found in the tenant named Default Directory. This can happen if the application has not been installed by the administrator of the tenant or consented to by any user in the tenant. You might have sent your authentication request to the wrong tenant.
+Trace ID: 437df2c8-a34f-4398-80d5-0bbbdf1c4100
+Correlation ID: e8036175-c575-4405-b035-f148227f4cbe
+Timestamp: 2022-04-20 22:10:51Z
+To re-authenticate, please run:
+az login --scope https://test.windows.net/.default`;
     const credential = new AzureCliCredential();
     try {
       await credential.getToken("https://service/.default");
