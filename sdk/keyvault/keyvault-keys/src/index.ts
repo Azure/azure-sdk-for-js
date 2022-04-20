@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-/* eslint @typescript-eslint/member-ordering: 0 */
 /// <reference lib="esnext.asynciterable" />
 
 import {
