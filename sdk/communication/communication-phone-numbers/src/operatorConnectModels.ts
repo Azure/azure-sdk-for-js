@@ -5,10 +5,6 @@ import { OperationOptions } from "@azure/core-client";
 
 export type ConsentStatus = "Active" | "Removed" | "Suspended";
 
-import {
-  GetConsentOptionalParams,
-} from "./generated/src/operatorConnect/models/";
-
 /**
  * Parameters that could be used fo creating consent.
  */
@@ -106,12 +102,14 @@ export interface Operator {
   logoThumbnailUri?: string;
 }
 
-export interface GetConsentParams extends GetConsentOptionalParams {
+export interface GetConsentParams extends OperationOptions {
+  /** Unique GUID that represents the operator record */
   operatorId: string
 }
 
-export {
-  GetConsentOptionalParams,
-  GetOperatorsOptionalParams,
-  GetConsentsOptionalParams,
-} from "./generated/src/operatorConnect/models/";
+export interface PagedOptionalParams extends OperationOptions {
+  /** An optional parameter for how many entries to skip, for pagination purposes. The default value is 0. */
+  skip?: number;
+  /** An optional parameter for how many entries to return, for pagination purposes. The default will return the entire list. */
+  top?: number;
+}

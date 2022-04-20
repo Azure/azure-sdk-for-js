@@ -18,13 +18,12 @@ import { createPhoneNumbersPagingPolicy } from "./utils/customPipelinePolicies";
 
 import {
   Consent,
+  Operator,
   CreateConsentParams,
   UpdateConsentParams,
   RemoveConsentParams,
   GetConsentParams,
-  Operator,
-  GetOperatorsOptionalParams,
-  GetConsentsOptionalParams,
+  PagedOptionalParams,
 } from "./";
 import * as Mapper from "./mappers";
 import { OperatorConnectClient as OperatorConnectGeneratedClient } from "./generated/src/operatorConnect";
@@ -119,7 +118,7 @@ export class OperatorConnectClient {
    * @param options - Additional request options.
    */
   public listOperators(
-    options: GetOperatorsOptionalParams = {}
+    options: PagedOptionalParams = {}
   ): PagedAsyncIterableIterator<Operator> {
     const { span, updatedOptions } = createSpan("OperatorConnectClient-listOperators", options);
     const iter = this.client.listOperators(updatedOptions);
@@ -133,7 +132,7 @@ export class OperatorConnectClient {
    * @param options - Additional request options.
    */
   public listConsents(
-    options: GetConsentsOptionalParams = {}
+    options: PagedOptionalParams = {}
   ): PagedAsyncIterableIterator<Consent> {
     const { span, updatedOptions } = createSpan("OperatorConnectClient-listConsents", options);
     const iter = this.client.listConsents(updatedOptions);
