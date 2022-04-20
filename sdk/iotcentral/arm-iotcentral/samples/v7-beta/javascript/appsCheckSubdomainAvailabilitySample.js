@@ -8,8 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { OperationInputs, IotCentralClient } from "@azure/arm-iotcentral";
-import { DefaultAzureCredential } from "@azure/identity";
+const { IotCentralClient } = require("@azure/arm-iotcentral");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Check if an IoT Central application subdomain is available.
@@ -19,9 +19,9 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function appsSubdomainAvailability() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const operationInputs: OperationInputs = {
+  const operationInputs = {
     name: "myiotcentralapp",
-    type: "IoTApps"
+    type: "IoTApps",
   };
   const credential = new DefaultAzureCredential();
   const client = new IotCentralClient(credential, subscriptionId);

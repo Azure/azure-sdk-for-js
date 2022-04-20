@@ -6,7 +6,7 @@ Use this API to manage IoT Central Applications in your Azure subscription.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/iotcentral/arm-iotcentral) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-iotcentral) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-iotcentral) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-iotcentral?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

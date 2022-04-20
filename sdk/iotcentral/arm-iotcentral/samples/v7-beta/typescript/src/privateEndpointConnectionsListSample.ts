@@ -12,20 +12,25 @@ import { IotCentralClient } from "@azure/arm-iotcentral";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Get all available application templates.
+ * This sample demonstrates how to Get all private endpoint connections of a IoT Central Application.
  *
- * @summary Get all available application templates.
- * x-ms-original-file: specification/iotcentral/resource-manager/Microsoft.IoTCentral/preview/2021-11-01-preview/examples/Apps_Templates.json
+ * @summary Get all private endpoint connections of a IoT Central Application.
+ * x-ms-original-file: specification/iotcentral/resource-manager/Microsoft.IoTCentral/preview/2021-11-01-preview/examples/PrivateEndpointConnections_List.json
  */
-async function appsListTemplates() {
+async function privateEndpointConnectionsList() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName = "resRg";
+  const resourceName = "myIoTCentralApp";
   const credential = new DefaultAzureCredential();
   const client = new IotCentralClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.apps.listTemplates()) {
+  for await (let item of client.privateEndpointConnections.list(
+    resourceGroupName,
+    resourceName
+  )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-appsListTemplates().catch(console.error);
+privateEndpointConnectionsList().catch(console.error);

@@ -8,8 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { IotCentralClient } from "@azure/arm-iotcentral";
-import { DefaultAzureCredential } from "@azure/identity";
+const { IotCentralClient } = require("@azure/arm-iotcentral");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Get all the IoT Central Applications in a resource group.

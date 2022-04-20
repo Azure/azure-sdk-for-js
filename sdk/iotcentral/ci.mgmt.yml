@@ -9,7 +9,6 @@ trigger:
   paths:
     include:
       - sdk/iotcentral/ci.mgmt.yml
-      - sdk/iotcentral/arm-iotcentral/
       - sdk/iotcentral/arm-iotcentral
 pr:
   branches:
@@ -23,7 +22,6 @@ pr:
   paths:
     include:
       - sdk/iotcentral/ci.mgmt.yml
-      - sdk/iotcentral/arm-iotcentral/
       - sdk/iotcentral/arm-iotcentral
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
