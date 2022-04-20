@@ -105,37 +105,26 @@ export type AnalyzeActionName = typeof AnalyzeActionName[number];
 /**
  * The type of parameters for every action in ${@link AnalyzeActionName}.
  */
-export type AnalyzeActionParameters<ActionName extends AnalyzeActionName> =
-  ActionName extends "EntityLinking"
-    ? EntityLinkingAction
-    : ActionName extends "EntityRecognition"
-    ? EntityRecognitionAction
-    : ActionName extends "KeyPhraseExtraction"
-    ? KeyPhraseExtractionAction
-    : ActionName extends "PiiEntityRecognition"
-    ? PiiEntityRecognitionAction
-    : ActionName extends "SentimentAnalysis"
-    ? SentimentAnalysisAction
-    : ActionName extends "LanguageDetection"
-    ? LanguageDetectionAction
-    : never;
+export type AnalyzeActionParameters<ActionName extends AnalyzeActionName> = {
+  EntityLinking: EntityLinkingAction;
+  EntityRecognition: EntityRecognitionAction;
+  PiiEntityRecognition: PiiEntityRecognitionAction;
+  KeyPhraseExtraction: KeyPhraseExtractionAction;
+  SentimentAnalysis: SentimentAnalysisAction;
+  LanguageDetection: LanguageDetectionAction;
+}[ActionName];
 
 /**
  * The type of results of every action in ${@link AnalyzeActionName}.
  */
-export type AnalyzeResult<ActionName extends AnalyzeActionName> = ActionName extends "EntityLinking"
-  ? EntityLinkingResult[]
-  : ActionName extends "EntityRecognition"
-  ? EntityRecognitionResult[]
-  : ActionName extends "KeyPhraseExtraction"
-  ? KeyPhraseExtractionResult[]
-  : ActionName extends "PiiEntityRecognition"
-  ? PiiEntityRecognitionResult[]
-  : ActionName extends "SentimentAnalysis"
-  ? SentimentAnalysisResult[]
-  : ActionName extends "LanguageDetection"
-  ? LanguageDetectionResult[]
-  : never;
+export type AnalyzeResult<ActionName extends AnalyzeActionName> = {
+  EntityLinking: EntityLinkingResult[];
+  EntityRecognition: EntityRecognitionResult[];
+  PiiEntityRecognition: PiiEntityRecognitionResult[];
+  KeyPhraseExtraction: KeyPhraseExtractionResult[];
+  SentimentAnalysis: SentimentAnalysisResult[];
+  LanguageDetection: LanguageDetectionResult[];
+}[ActionName];
 
 /**
  * Enum of possible error codes of a {@link TextAnalysisError}.
@@ -419,7 +408,7 @@ export interface TargetSentiment {
  * other information about an assessment of a target. For example, in the sentence
  * "The food is good", the assessment of the target 'food' is 'good'.
  */
-export interface AssessmentSentiment extends SentenceAssessment {}
+export type AssessmentSentiment = SentenceAssessment;
 
 /**
  * A mined opinion object represents an opinion we've extracted from a sentence.

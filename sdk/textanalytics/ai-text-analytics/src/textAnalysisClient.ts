@@ -79,9 +79,7 @@ export class TextAnalysisClient {
    * Azure portal. They will be located in the resource's Keys and Endpoint page,
    * under Resource Management.
    *
-   * ### Examples for authentication:
-   *
-   * #### API Key
+   * ### Example
    *
    * ```js
    * import { TextAnalysisClient, AzureKeyCredential } from "@azure/ai-text-analytics";
@@ -92,7 +90,20 @@ export class TextAnalysisClient {
    * const client = new TextAnalysisClient(endpoint, credential);
    * ```
    *
-   * #### Azure Active Directory
+   * @param endpointUrl - The URL to the endpoint of a Cognitive Language Service resource
+   * @param credential - Key credential to be used to authenticate requests to the service.
+   * @param options - Used to configure the TextAnalytics client.
+   */
+  constructor(endpointUrl: string, credential: KeyCredential, options?: TextAnalysisClientOptions);
+  /**
+   * Creates an instance of TextAnalysisClient with the endpoint of a Language
+   * resource and an authentication method such as an API key or AAD.
+   *
+   * The API key and endpoint can be found in the Language resource page in the
+   * Azure portal. They will be located in the resource's Keys and Endpoint page,
+   * under Resource Management.
+   *
+   * ### Example
    *
    * See the [`@azure/identity`](https://npmjs.com/package/\@azure/identity)
    * package for more information about authenticating with Azure Active Directory.
@@ -108,9 +119,14 @@ export class TextAnalysisClient {
    * ```
    *
    * @param endpointUrl - The URL to the endpoint of a Cognitive Language Service resource
-   * @param credential - Used to authenticate requests to the service.
+   * @param credential - Token credential to be used to authenticate requests to the service.
    * @param options - Used to configure the TextAnalytics client.
    */
+  constructor(
+    endpointUrl: string,
+    credential: TokenCredential,
+    options?: TextAnalysisClientOptions
+  );
   constructor(
     endpointUrl: string,
     credential: TokenCredential | KeyCredential,
@@ -208,8 +224,7 @@ export class TextAnalysisClient {
    * const countryHint = "us";
    * const results = await client.analyze("LanguageDetection", documents, countryHint);
    *
-   * for (let i = 0; i < results.length; i++) {
-   *   const result = results[i];
+   * for (const result of results) {
    *   if (result.error) {
    *     // a document has an error instead of results
    *   } else {
@@ -270,8 +285,7 @@ export class TextAnalysisClient {
    *   includeOpinionMining: true,
    * });
    *
-   * for (let i = 0; i < results.length; i++) {
-   *   const result = results[i];
+   * for (const result of results) {
    *   if (result.error) {
    *     // a document has an error instead of results
    *   } else {
@@ -301,8 +315,7 @@ export class TextAnalysisClient {
    *   domainFilter, categoriesFilter
    * });
    *
-   * for (let i = 0; i < results.length; i++) {
-   *   const result = results[i];
+   * for (const result of results) {
    *   if (result.error) {
    *     // a document has an error instead of results
    *   } else {
@@ -334,28 +347,27 @@ export class TextAnalysisClient {
    * Runs a predictive model to perform the action of choice on the input
    * strings. See ${@link AnalyzeActionName} for a list of supported
    * actions.
-   * 
+   *
    * The layout of each item in the results array depends on the action chosen.
    * For example, each PIIEntityRecognition document result consists of both
    * `entities` and `redactedText` where the former is a list of all Pii entities
    * in the text and the latter is the original text after all such Pii entities
    * have been redacted from it.
-   * 
+   *
    * See {@link https://docs.microsoft.com//azure/cognitive-services/language-service/concepts/data-limits}
    * for data limits.
-   * 
+   *
    * ### Examples
-   * 
+   *
    * #### Opinion mining
-   * 
+   *
    * ```js
    * const documents = ["The food and service aren't the best"];
    * const results = await client.analyze("SentimentAnalysis", documents, {
    *   includeOpinionMining: true,
    * });
-   * 
-   * for (let i = 0; i < results.length; i++) {
-   *   const result = results[i];
+   *
+   * for (const result of results) {
    *   if (result.error) {
    *     // a document has an error instead of results
    *   } else {
@@ -371,12 +383,12 @@ export class TextAnalysisClient {
    *   }
    * }
    * ```
-   * 
+   *
    * See {@link https://docs.microsoft.com//azure/cognitive-services/language-service/sentiment-opinion-mining/overview}
    * for more information on opinion mining.
-   * 
+   *
    * #### Personally identifiable information
-   * 
+   *
    * ```js
    * const documents = [<input strings>];
    * const languageHint = "en";
@@ -385,9 +397,8 @@ export class TextAnalysisClient {
    * const results = await client.analyze("PiiEntityRecognition", documents, languageHint, {
    *   domainFilter, categoriesFilter
    * });
-   * 
-   * for (let i = 0; i < results.length; i++) {
-   *   const result = results[i];
+   *
+   * for (const result of results) {
    *   if (result.error) {
    *     // a document has an error instead of results
    *   } else {
@@ -398,20 +409,20 @@ export class TextAnalysisClient {
    *   }
    * }
    * ```
-   * 
+   *
    * See {@link https://docs.microsoft.com//azure/cognitive-services/language-service/personally-identifiable-information/overview}
    * for more information on personally identifiable information.
-   * 
+   *
    * @param actionName - the name of the action to be performed on the input
    *   documents, see ${@link AnalyzeActionName}
    * @param documents - the input documents to be analyzed
    * @param language - the language that all the input strings are
-        written in. If unspecified, this value will be set to the default
-        language in `TextAnalysisClientOptions`. If set to an empty string,
-        the service will apply a model where the language is explicitly set to
-        "None".
+   *    written in. If unspecified, this value will be set to the default
+   *    language in `TextAnalysisClientOptions`. If set to an empty string,
+   *    the service will apply a model where the language is explicitly set to
+   *    "None".
    * @param options - optional action parameters and settings for the operation
-   * 
+   *
    * @returns an array of results corresponding to the input documents
    */
   public async analyze<ActionName extends AnalyzeActionName = AnalyzeActionName>(
@@ -421,11 +432,7 @@ export class TextAnalysisClient {
     options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions
   ): Promise<AnalyzeResult<ActionName>>;
   // implementation
-  public async analyze<
-    ActionName extends AnalyzeActionName | "LanguageDetection" =
-      | AnalyzeActionName
-      | "LanguageDetection"
-  >(
+  public async analyze<ActionName extends AnalyzeActionName = AnalyzeActionName>(
     actionName: ActionName,
     documents: string[] | LanguageDetectionInput[] | TextDocumentInput[],
     languageOrCountryHintOrOptions?:
@@ -463,10 +470,10 @@ export class TextAnalysisClient {
         (languageOrCountryHintOrOptions as AnalyzeActionParameters<ActionName> &
           TextAnalysisOperationOptions) || {};
     }
-    const { options: operatioOptions, rest: action } = getOperationOptions(realOptions);
+    const { options: operationOptions, rest: action } = getOperationOptions(realOptions);
     return this._tracing.withSpan(
       "TextAnalysisClient.analyze",
-      operatioOptions,
+      operationOptions,
       async (updatedOptions: TextAnalysisOperationOptions) => {
         try {
           const result = await this._client.analyze(
@@ -479,10 +486,9 @@ export class TextAnalysisClient {
             } as any,
             updatedOptions
           );
-          return transformActionResult(actionName, realInputs, result) as any;
+          return transformActionResult(actionName, realInputs, result) as AnalyzeResult<ActionName>;
         } catch (e: unknown) {
-          const restError = e as RestError;
-          throw transformError(restError);
+          throw transformError(e as RestError);
         }
       }
     );

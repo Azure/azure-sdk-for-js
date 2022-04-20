@@ -27,14 +27,27 @@ export const AnalyzeActionName: readonly ["EntityLinking", "EntityRecognition", 
 export type AnalyzeActionName = typeof AnalyzeActionName[number];
 
 // @public
-export type AnalyzeActionParameters<ActionName extends AnalyzeActionName> = ActionName extends "EntityLinking" ? EntityLinkingAction : ActionName extends "EntityRecognition" ? EntityRecognitionAction : ActionName extends "KeyPhraseExtraction" ? KeyPhraseExtractionAction : ActionName extends "PiiEntityRecognition" ? PiiEntityRecognitionAction : ActionName extends "SentimentAnalysis" ? SentimentAnalysisAction : ActionName extends "LanguageDetection" ? LanguageDetectionAction : never;
+export type AnalyzeActionParameters<ActionName extends AnalyzeActionName> = {
+    EntityLinking: EntityLinkingAction;
+    EntityRecognition: EntityRecognitionAction;
+    PiiEntityRecognition: PiiEntityRecognitionAction;
+    KeyPhraseExtraction: KeyPhraseExtractionAction;
+    SentimentAnalysis: SentimentAnalysisAction;
+    LanguageDetection: LanguageDetectionAction;
+}[ActionName];
 
 // @public
-export type AnalyzeResult<ActionName extends AnalyzeActionName> = ActionName extends "EntityLinking" ? EntityLinkingResult[] : ActionName extends "EntityRecognition" ? EntityRecognitionResult[] : ActionName extends "KeyPhraseExtraction" ? KeyPhraseExtractionResult[] : ActionName extends "PiiEntityRecognition" ? PiiEntityRecognitionResult[] : ActionName extends "SentimentAnalysis" ? SentimentAnalysisResult[] : ActionName extends "LanguageDetection" ? LanguageDetectionResult[] : never;
+export type AnalyzeResult<ActionName extends AnalyzeActionName> = {
+    EntityLinking: EntityLinkingResult[];
+    EntityRecognition: EntityRecognitionResult[];
+    PiiEntityRecognition: PiiEntityRecognitionResult[];
+    KeyPhraseExtraction: KeyPhraseExtractionResult[];
+    SentimentAnalysis: SentimentAnalysisResult[];
+    LanguageDetection: LanguageDetectionResult[];
+}[ActionName];
 
 // @public
-export interface AssessmentSentiment extends SentenceAssessment {
-}
+export type AssessmentSentiment = SentenceAssessment;
 
 export { AzureKeyCredential }
 
@@ -721,7 +734,8 @@ export interface TargetSentiment {
 
 // @public
 export class TextAnalysisClient {
-    constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: TextAnalysisClientOptions);
+    constructor(endpointUrl: string, credential: KeyCredential, options?: TextAnalysisClientOptions);
+    constructor(endpointUrl: string, credential: TokenCredential, options?: TextAnalysisClientOptions);
     analyze<ActionName extends "LanguageDetection">(actionName: ActionName, documents: LanguageDetectionInput[], options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions): Promise<AnalyzeResult<ActionName>>;
     analyze<ActionName extends "LanguageDetection">(actionName: ActionName, documents: string[], countryHint?: string, options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions): Promise<AnalyzeResult<ActionName>>;
     analyze<ActionName extends AnalyzeActionName = AnalyzeActionName>(actionName: ActionName, documents: TextDocumentInput[], options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions): Promise<AnalyzeResult<ActionName>>;

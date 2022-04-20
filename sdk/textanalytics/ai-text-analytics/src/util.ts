@@ -19,8 +19,8 @@ interface IdObject {
  * @param sortedArray - An array of entries sorted by `id`
  * @param unsortedArray - An array of entries that contain `id` but are not sorted
  */
-export function sortResponseIdObjects<T extends IdObject, U extends IdObject>(
-  sortedArray: T[],
+export function sortResponseIdObjects<U extends IdObject>(
+  sortedArray: IdObject[],
   unsortedArray: U[]
 ): U[] {
   const unsortedMap = new Map<string, U>();
@@ -40,6 +40,8 @@ export function sortResponseIdObjects<T extends IdObject, U extends IdObject>(
     const item = unsortedMap.get(sortedItem.id);
     if (item) {
       result.push(item);
+    } else {
+      throw new Error(`Unrecognized document ID: ${sortedItem.id}`);
     }
   }
   return result;
@@ -85,16 +87,6 @@ export function parseHealthcareEntityIndex(pointer: string): number {
   } else {
     throw new Error(`Pointer "${pointer}" is not a valid healthcare entity pointer`);
   }
-}
-
-/**
- * Set the opinion mining property
- * @internal
- */
-export function setOpinionMining<X extends { includeOpinionMining?: boolean }>(
-  x: X
-): X & { opinionMining?: boolean } {
-  return { ...x, opinionMining: x.includeOpinionMining };
 }
 
 /**
@@ -163,7 +155,7 @@ export async function getRawResponse<TOptions extends OperationOptions, TResult>
 /**
  * @internal
  */
-export function isStringArray(documents: any[]): documents is string[] {
+export function isStringArray(documents: unknown[]): documents is string[] {
   return typeof documents[0] === "string";
 }
 

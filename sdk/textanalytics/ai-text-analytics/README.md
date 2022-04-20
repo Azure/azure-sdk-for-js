@@ -173,16 +173,6 @@ if (result.error !== undefined) {
 }
 ```
 
-This capability was introduced in TypeScript 3.2, so users of TypeScript 3.1 must cast result values to their corresponding success variant as follows:
-
-```typescript
-const [result] = await client.analyze("LanguageDetection", ["Hello world!"]);
-
-if (result.error === undefined) {
-  const { primaryLanguage } = result as LanguageDetectionSuccessResult;
-}
-```
-
 ## Examples
 
 ### Analyze Sentiment

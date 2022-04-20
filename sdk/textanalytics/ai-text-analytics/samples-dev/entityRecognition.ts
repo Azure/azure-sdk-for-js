@@ -6,7 +6,7 @@
  * Named Entity Recognition (NER) and prints them along with their recognized
  * entity type.
  *
- * @summary detects entites in a piece of text
+ * @summary detects entities in a piece of text
  * @azsdk-weight 100
  */
 

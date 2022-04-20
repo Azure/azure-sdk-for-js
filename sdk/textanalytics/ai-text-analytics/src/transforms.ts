@@ -4,6 +4,7 @@
 import {
   AnalyzeActionName,
   AnalyzeActionParameters,
+  AnalyzeResult,
   AssessmentSentiment,
   EntityLinkingResult,
   EntityRecognitionResult,
@@ -86,32 +87,30 @@ export function makeTextAnalyticsErrorResult(
  * sort them so that the IDs order match that of the input documents array.
  * @param input - the array of documents sent to the service for processing.
  * @param response - the response received from the service.
- * @param process - a function to convert the results from one type to another.
+ * @param options - an options bag that includes functions to process the results.
  */
 export function transformDocumentResults<
-  TSuccessService extends TextAnalysisSuccessResult,
-  TSuccessSDK extends TextAnalysisSuccessResult = TSuccessService,
+  DocumentSuccess extends TextAnalysisSuccessResult,
+  PublicDocumentSuccess extends TextAnalysisSuccessResult = DocumentSuccess,
   TError extends TextAnalysisErrorResult = TextAnalysisErrorResult
 >(
   input: TextDocumentInput[],
   response: {
-    documents: TSuccessService[];
+    documents: DocumentSuccess[];
     errors: DocumentError[];
   },
-  options: {
-    processSuccess?: (successResult: TSuccessService) => TSuccessSDK;
+  options?: {
+    processSuccess?: (successResult: DocumentSuccess) => PublicDocumentSuccess;
     processError?: (id: string, error: ErrorModel) => TError;
-  } = {}
-): (TSuccessSDK | TextAnalysisErrorResult)[] {
-  const {
-    processError = makeTextAnalyticsErrorResult,
-    processSuccess = (successResult) => successResult as any as TSuccessSDK,
-  } = options;
-  const successResults: (TSuccessSDK | TextAnalysisErrorResult)[] =
-    response.documents.map(processSuccess);
-  const unsortedResults = successResults.concat(
-    response.errors.map((error) => processError(error.id, error.error))
-  );
+  }
+): (PublicDocumentSuccess | TextAnalysisErrorResult)[] {
+  const { processError = makeTextAnalyticsErrorResult, processSuccess } = options || {};
+  const successResults = processSuccess
+    ? response.documents.map(processSuccess)
+    : response.documents;
+  const unsortedResults = (
+    successResults as (PublicDocumentSuccess | TextAnalysisErrorResult)[]
+  ).concat(response.errors.map((error) => processError(error.id, error.error)));
 
   return sortResponseIdObjects(input, unsortedResults);
 }
@@ -244,16 +243,11 @@ export function toEntityRecognitionResult(
 /**
  * @internal
  */
-export function transformActionResult(
-  actionName: AnalyzeActionName,
+export function transformActionResult<ActionName extends AnalyzeActionName>(
+  actionName: ActionName,
   input: TextDocumentInput[] | LanguageDetectionInput[],
   response: AnalyzeResponse
-):
-  | EntityLinkingResult[]
-  | EntityRecognitionResult[]
-  | KeyPhraseExtractionResult[]
-  | SentimentAnalysisResult[]
-  | LanguageDetectionResult[] {
+): AnalyzeResult<AnalyzeActionName> {
   switch (response.kind) {
     case "EntityLinkingResults": {
       return toEntityLinkingResult(input, (response as EntityLinkingTaskResult).results);
@@ -274,7 +268,8 @@ export function transformActionResult(
       return toLanguageDetectionResult(input, (response as LanguageDetectionTaskResult).results);
     }
     default: {
-      throw new Error(`Unsupported action name: ${actionName}`);
+      const __exhaust: never = response;
+      throw new Error(`Unsupported results kind: ${__exhaust} for an action of type ${actionName}`);
     }
   }
 }
@@ -293,16 +288,16 @@ function appendReadableErrorMessage(currentMessage: string, innerMessage: string
  * @param error - the incoming error
  */
 export function transformError(errorResponse: unknown): any {
-  const castErrorResponse = errorResponse as {
+  const strongErrorResponse = errorResponse as {
     response: {
       parsedBody?: ErrorResponse;
     };
     statusCode: number;
   };
-  if (!castErrorResponse.response) {
+  if (!strongErrorResponse.response) {
     throw errorResponse;
   }
-  const topLevelError = castErrorResponse.response.parsedBody?.error;
+  const topLevelError = strongErrorResponse.response.parsedBody?.error;
   if (!topLevelError) return errorResponse;
   let errorMessage = topLevelError.message;
   let code = topLevelError.code;
@@ -322,7 +317,7 @@ export function transformError(errorResponse: unknown): any {
   unwrap(topLevelError);
   return new RestError(errorMessage, {
     code,
-    statusCode: castErrorResponse.statusCode,
+    statusCode: strongErrorResponse.statusCode,
   });
 }
 

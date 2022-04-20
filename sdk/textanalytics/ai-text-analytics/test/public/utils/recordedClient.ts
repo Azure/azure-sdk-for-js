@@ -9,7 +9,6 @@ import {
   env,
 } from "@azure-tools/test-recorder";
 import { Test } from "mocha";
-import { TokenCredential } from "@azure/identity";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 const envSetupForPlayback: { [k: string]: string } = {
@@ -37,30 +36,27 @@ export function createClient(options: {
   clientOptions?: TextAnalysisClientOptions;
 }): TextAnalysisClient {
   const { authMethod, recorder, clientOptions = {} } = options;
+  const endpoint = env.ENDPOINT || "https://dummy.cognitiveservices.azure.com/";
+  const updatedOptions = recorder ? recorder.configureClientOptions(clientOptions) : clientOptions;
 
-  let credential: AzureKeyCredential | TokenCredential;
   switch (authMethod) {
     case "APIKey": {
-      credential = new AzureKeyCredential(assertEnvironmentVariable("LANGUAGE_API_KEY"));
-      break;
+      return new TextAnalysisClient(
+        endpoint,
+        new AzureKeyCredential(assertEnvironmentVariable("LANGUAGE_API_KEY")),
+        updatedOptions
+      );
     }
     case "AAD": {
-      credential = createTestCredential();
-      break;
+      return new TextAnalysisClient(endpoint, createTestCredential(), updatedOptions);
     }
     case "DummyAPIKey": {
-      credential = new AzureKeyCredential("whatever");
-      break;
+      return new TextAnalysisClient(endpoint, new AzureKeyCredential("whatever"), updatedOptions);
     }
     default: {
       throw Error(`Unsupported authentication method: ${authMethod}`);
     }
   }
-  return new TextAnalysisClient(
-    env.ENDPOINT || "https://dummy.cognitiveservices.azure.com/",
-    credential,
-    recorder ? recorder.configureClientOptions(clientOptions) : clientOptions
-  );
 }
 
 /**
