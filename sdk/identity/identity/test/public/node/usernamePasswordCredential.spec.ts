@@ -3,11 +3,11 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import { env, delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 import { UsernamePasswordCredential } from "../../../src";
-import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
+import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { Context } from "mocha";
 
 // https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/identity/Azure.Identity/src/Constants.cs#L9
@@ -67,7 +67,7 @@ describe("UsernamePasswordCredential", function () {
     let error: Error | undefined;
     try {
       await getTokenPromise;
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error?.name, "CredentialUnavailableError");
@@ -78,8 +78,8 @@ describe("UsernamePasswordCredential", function () {
     const tenantId = env.AZURE_IDENTITY_TEST_TENANTID || env.AZURE_TENANT_ID!;
     const clientId = isLiveMode() ? DeveloperSignOnClientId : env.AZURE_CLIENT_ID!;
 
-    await testTracing({
-      test: async (tracingOptions) => {
+    await assert.supportsTracing(
+      async (tracingOptions) => {
         const credential = new UsernamePasswordCredential(
           tenantId,
           clientId,
@@ -88,16 +88,9 @@ describe("UsernamePasswordCredential", function () {
           recorder.configureClientOptions({})
         );
 
-        await credential.getToken(scope, {
-          tracingOptions,
-        });
+        await credential.getToken(scope, tracingOptions);
       },
-      children: [
-        {
-          name: "UsernamePasswordCredential.getToken",
-          children: [],
-        },
-      ],
-    });
+      ["UsernamePasswordCredential.getToken"]
+    );
   });
 });

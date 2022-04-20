@@ -32,7 +32,7 @@ export class AzureBlob {
         await this._blobService.ensureContainerAndBlobExist(this._containerName, this._blobPath);
         this._containerAndBlobExist = true;
       }
-    } catch (err) {
+    } catch (err: any) {
       const msg =
         `An error occurred while ensuring that the container and blob exists. ` +
         `It is: \n${err ? err.stack : JSON.stringify(err)}`;

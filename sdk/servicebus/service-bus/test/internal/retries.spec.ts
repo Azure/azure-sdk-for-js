@@ -77,7 +77,7 @@ describe("Retries - ManagementClient", () => {
     let errorThrown = false;
     try {
       await func();
-    } catch (error) {
+    } catch (error: any) {
       errorThrown = true;
       should.equal(error.message, "Hello there, I'm an error", "Unexpected error thrown");
       should.equal(
@@ -238,7 +238,7 @@ describe("Retries - MessageSender", () => {
     let errorThrown = false;
     try {
       await func();
-    } catch (error) {
+    } catch (error: any) {
       errorThrown = true;
       should.equal(error.message, "Hello there, I'm an error", "Unexpected error thrown");
       should.equal(numberOfTimesInitInvoked, defaultMaxRetries + 1, "Unexpected number of retries");
@@ -366,7 +366,7 @@ describe("Retries - Receive methods", () => {
     let errorThrown = false;
     try {
       await func();
-    } catch (error) {
+    } catch (error: any) {
       errorThrown = true;
       should.equal(error.message, "Hello there, I'm an error", "Unexpected error thrown");
       should.equal(numberOfTimesTried, defaultMaxRetries + 1, "Unexpected number of retries");

@@ -544,11 +544,13 @@ export class BlobContainersImpl implements BlobContainers {
       { resourceGroupName, accountName, containerName, options },
       objectLevelWormOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

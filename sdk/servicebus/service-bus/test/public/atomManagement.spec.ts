@@ -336,7 +336,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               let errorWasThrown = false;
               try {
                 getIter().byPage(settings);
-              } catch (error) {
+              } catch (error: any) {
                 errorWasThrown = true;
                 should.equal(
                   error.message,
@@ -1192,7 +1192,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               managementTopic1,
               managementSubscription1
             );
-          } catch (err) {
+          } catch (err: any) {
             error = err;
           }
 
@@ -1283,7 +1283,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
                 managementTopic1,
                 managementSubscription1
               );
-            } catch (err) {
+            } catch (err: any) {
               error = err;
             }
 
@@ -1307,7 +1307,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
                 managementTopic1,
                 managementSubscription1
               );
-            } catch (err) {
+            } catch (err: any) {
               error = err;
             }
 
@@ -1328,7 +1328,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               case EntityType.QUEUE:
                 try {
                   await getEntity(entityType, "notexisting");
-                } catch (err) {
+                } catch (err: any) {
                   error = err;
                 }
                 break;
@@ -1336,7 +1336,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               case EntityType.TOPIC:
                 try {
                   error = await getEntity(entityType, "notexisting");
-                } catch (err) {
+                } catch (err: any) {
                   error = err;
                 }
 
@@ -1345,7 +1345,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               case EntityType.SUBSCRIPTION:
                 try {
                   error = await getEntity(entityType, "notexisting", managementTopic1);
-                } catch (err) {
+                } catch (err: any) {
                   error = err;
                 }
                 break;
@@ -1358,7 +1358,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
                     managementTopic1,
                     managementSubscription1
                   );
-                } catch (err) {
+                } catch (err: any) {
                   error = err;
                 }
                 break;
@@ -2112,7 +2112,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               "accessedAt",
               "maxMessageSizeInKilobytes",
             ]);
-          } catch (err) {
+          } catch (err: any) {
             checkForValidErrorScenario(err, testCase.output);
           }
         });
@@ -2213,7 +2213,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               testCase.output.forwardDeadLetteredMessagesTo,
               "forwardDeadLetteredMessagesTo value mismatch"
             );
-          } catch (err) {
+          } catch (err: any) {
             checkForValidErrorScenario(err, testCase.output);
           }
         });
@@ -2281,7 +2281,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               "accessedAt",
               "maxMessageSizeInKilobytes",
             ]);
-          } catch (err) {
+          } catch (err: any) {
             checkForValidErrorScenario(err, testCase.output);
           }
         });
@@ -2353,7 +2353,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               "modifiedAt",
               "accessedAt",
             ]);
-          } catch (err) {
+          } catch (err: any) {
             checkForValidErrorScenario(err, testCase.output);
           }
         });
@@ -2415,7 +2415,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               testCase.output.forwardDeadLetteredMessagesTo,
               "forwardDeadLetteredMessagesTo value mismatch"
             );
-          } catch (err) {
+          } catch (err: any) {
             checkForValidErrorScenario(err, testCase.output);
           }
         });
@@ -2510,7 +2510,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               "modifiedAt",
               "accessedAt",
             ]);
-          } catch (err) {
+          } catch (err: any) {
             checkForValidErrorScenario(err, testCase.output);
           }
         });
@@ -3117,7 +3117,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               undefined,
               atomClient
             );
-          } catch (err) {
+          } catch (err: any) {
             error = err;
           }
           assert.include(

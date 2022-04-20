@@ -58,7 +58,7 @@ describe("QueueClient", () => {
     let error: RestError | undefined;
     try {
       await queueClient2.getProperties();
-    } catch (err) {
+    } catch (err: any) {
       error = err;
     }
     assert.ok(error);
@@ -88,7 +88,7 @@ describe("QueueClient", () => {
     try {
       const qClient = queueServiceClient.getQueueClient("");
       await qClient.create();
-    } catch (err) {
+    } catch (err: any) {
       error = err;
     }
     assert.ok(error);
@@ -152,7 +152,7 @@ describe("QueueClient", () => {
     let error;
     try {
       await queueClient.setAccessPolicy(queueAcl);
-    } catch (err) {
+    } catch (err: any) {
       error = err;
     }
     assert.ok(error); // For browser, permission denied; For node, invalid permission
@@ -186,7 +186,7 @@ describe("QueueClient", () => {
     try {
       new QueueClient(getSASConnectionStringFromEnvironment(), "");
       assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         "Expecting non-empty strings for queueName parameter",
         error.message,

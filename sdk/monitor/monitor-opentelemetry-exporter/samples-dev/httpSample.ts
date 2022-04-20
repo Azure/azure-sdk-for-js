@@ -20,8 +20,8 @@
  */
 import api from "@opentelemetry/api";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
-import { NodeTracerProvider } from "@opentelemetry/node";
-import { SimpleSpanProcessor, Tracer } from "@opentelemetry/tracing";
+import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+import { SimpleSpanProcessor, Tracer } from "@opentelemetry/sdk-trace-base";
 import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
 import { HttpInstrumentation } from "@opentelemetry/instrumentation-http";
 

@@ -10,7 +10,7 @@ import { Aliases } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { SearchServiceClientContext } from "../searchServiceClientContext";
+import { SearchServiceClient } from "../searchServiceClient";
 import {
   SearchAlias,
   AliasesCreateOptionalParams,
@@ -26,13 +26,13 @@ import {
 
 /** Class containing Aliases operations. */
 export class AliasesImpl implements Aliases {
-  private readonly client: SearchServiceClientContext;
+  private readonly client: SearchServiceClient;
 
   /**
    * Initialize a new instance of the class Aliases class.
    * @param client Reference to the service client
    */
-  constructor(client: SearchServiceClientContext) {
+  constructor(client: SearchServiceClient) {
     this.client = client;
   }
 

@@ -18,6 +18,8 @@ import {
   StreamingEndpointsUpdateOptionalParams,
   StreamingEndpointsUpdateResponse,
   StreamingEndpointsDeleteOptionalParams,
+  StreamingEndpointsSkusOptionalParams,
+  StreamingEndpointsSkusResponse,
   StreamingEndpointsStartOptionalParams,
   StreamingEndpointsStopOptionalParams,
   StreamingEntityScaleUnit,
@@ -147,6 +149,19 @@ export interface StreamingEndpoints {
     streamingEndpointName: string,
     options?: StreamingEndpointsDeleteOptionalParams
   ): Promise<void>;
+  /**
+   * List streaming endpoint supported skus.
+   * @param resourceGroupName The name of the resource group within the Azure subscription.
+   * @param accountName The Media Services account name.
+   * @param streamingEndpointName The name of the streaming endpoint, maximum length is 24.
+   * @param options The options parameters.
+   */
+  skus(
+    resourceGroupName: string,
+    accountName: string,
+    streamingEndpointName: string,
+    options?: StreamingEndpointsSkusOptionalParams
+  ): Promise<StreamingEndpointsSkusResponse>;
   /**
    * Starts an existing streaming endpoint.
    * @param resourceGroupName The name of the resource group within the Azure subscription.

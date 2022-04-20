@@ -97,12 +97,15 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
 
   /**
    * Policies for protecting resources using Just-in-Time access control for the subscription, location
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param options The options parameters.
    */
   public listByRegion(
+    ascLocation: string,
     options?: JitNetworkAccessPoliciesListByRegionOptionalParams
   ): PagedAsyncIterableIterator<JitNetworkAccessPolicy> {
-    const iter = this.listByRegionPagingAll(options);
+    const iter = this.listByRegionPagingAll(ascLocation, options);
     return {
       next() {
         return iter.next();
@@ -111,28 +114,37 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
         return this;
       },
       byPage: () => {
-        return this.listByRegionPagingPage(options);
+        return this.listByRegionPagingPage(ascLocation, options);
       }
     };
   }
 
   private async *listByRegionPagingPage(
+    ascLocation: string,
     options?: JitNetworkAccessPoliciesListByRegionOptionalParams
   ): AsyncIterableIterator<JitNetworkAccessPolicy[]> {
-    let result = await this._listByRegion(options);
+    let result = await this._listByRegion(ascLocation, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._listByRegionNext(continuationToken, options);
+      result = await this._listByRegionNext(
+        ascLocation,
+        continuationToken,
+        options
+      );
       continuationToken = result.nextLink;
       yield result.value || [];
     }
   }
 
   private async *listByRegionPagingAll(
+    ascLocation: string,
     options?: JitNetworkAccessPoliciesListByRegionOptionalParams
   ): AsyncIterableIterator<JitNetworkAccessPolicy> {
-    for await (const page of this.listByRegionPagingPage(options)) {
+    for await (const page of this.listByRegionPagingPage(
+      ascLocation,
+      options
+    )) {
       yield* page;
     }
   }
@@ -195,14 +207,18 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
    * Policies for protecting resources using Just-in-Time access control for the subscription, location
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param options The options parameters.
    */
   public listByResourceGroupAndRegion(
     resourceGroupName: string,
+    ascLocation: string,
     options?: JitNetworkAccessPoliciesListByResourceGroupAndRegionOptionalParams
   ): PagedAsyncIterableIterator<JitNetworkAccessPolicy> {
     const iter = this.listByResourceGroupAndRegionPagingAll(
       resourceGroupName,
+      ascLocation,
       options
     );
     return {
@@ -215,6 +231,7 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
       byPage: () => {
         return this.listByResourceGroupAndRegionPagingPage(
           resourceGroupName,
+          ascLocation,
           options
         );
       }
@@ -223,10 +240,12 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
 
   private async *listByResourceGroupAndRegionPagingPage(
     resourceGroupName: string,
+    ascLocation: string,
     options?: JitNetworkAccessPoliciesListByResourceGroupAndRegionOptionalParams
   ): AsyncIterableIterator<JitNetworkAccessPolicy[]> {
     let result = await this._listByResourceGroupAndRegion(
       resourceGroupName,
+      ascLocation,
       options
     );
     yield result.value || [];
@@ -234,6 +253,7 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
     while (continuationToken) {
       result = await this._listByResourceGroupAndRegionNext(
         resourceGroupName,
+        ascLocation,
         continuationToken,
         options
       );
@@ -244,10 +264,12 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
 
   private async *listByResourceGroupAndRegionPagingAll(
     resourceGroupName: string,
+    ascLocation: string,
     options?: JitNetworkAccessPoliciesListByResourceGroupAndRegionOptionalParams
   ): AsyncIterableIterator<JitNetworkAccessPolicy> {
     for await (const page of this.listByResourceGroupAndRegionPagingPage(
       resourceGroupName,
+      ascLocation,
       options
     )) {
       yield* page;
@@ -266,13 +288,16 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
 
   /**
    * Policies for protecting resources using Just-in-Time access control for the subscription, location
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param options The options parameters.
    */
   private _listByRegion(
+    ascLocation: string,
     options?: JitNetworkAccessPoliciesListByRegionOptionalParams
   ): Promise<JitNetworkAccessPoliciesListByRegionResponse> {
     return this.client.sendOperationRequest(
-      { options },
+      { ascLocation, options },
       listByRegionOperationSpec
     );
   }
@@ -297,14 +322,17 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
    * Policies for protecting resources using Just-in-Time access control for the subscription, location
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param options The options parameters.
    */
   private _listByResourceGroupAndRegion(
     resourceGroupName: string,
+    ascLocation: string,
     options?: JitNetworkAccessPoliciesListByResourceGroupAndRegionOptionalParams
   ): Promise<JitNetworkAccessPoliciesListByResourceGroupAndRegionResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, options },
+      { resourceGroupName, ascLocation, options },
       listByResourceGroupAndRegionOperationSpec
     );
   }
@@ -313,16 +341,19 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
    * Policies for protecting resources using Just-in-Time access control for the subscription, location
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param jitNetworkAccessPolicyName Name of a Just-in-Time access configuration policy.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
+    ascLocation: string,
     jitNetworkAccessPolicyName: string,
     options?: JitNetworkAccessPoliciesGetOptionalParams
   ): Promise<JitNetworkAccessPoliciesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, jitNetworkAccessPolicyName, options },
+      { resourceGroupName, ascLocation, jitNetworkAccessPolicyName, options },
       getOperationSpec
     );
   }
@@ -331,18 +362,27 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
    * Create a policy for protecting resources using Just-in-Time access control
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param jitNetworkAccessPolicyName Name of a Just-in-Time access configuration policy.
    * @param body
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
+    ascLocation: string,
     jitNetworkAccessPolicyName: string,
     body: JitNetworkAccessPolicy,
     options?: JitNetworkAccessPoliciesCreateOrUpdateOptionalParams
   ): Promise<JitNetworkAccessPoliciesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, jitNetworkAccessPolicyName, body, options },
+      {
+        resourceGroupName,
+        ascLocation,
+        jitNetworkAccessPolicyName,
+        body,
+        options
+      },
       createOrUpdateOperationSpec
     );
   }
@@ -351,16 +391,19 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
    * Delete a Just-in-Time access control policy.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param jitNetworkAccessPolicyName Name of a Just-in-Time access configuration policy.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
+    ascLocation: string,
     jitNetworkAccessPolicyName: string,
     options?: JitNetworkAccessPoliciesDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, jitNetworkAccessPolicyName, options },
+      { resourceGroupName, ascLocation, jitNetworkAccessPolicyName, options },
       deleteOperationSpec
     );
   }
@@ -369,18 +412,27 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
    * Initiate a JIT access from a specific Just-in-Time policy configuration.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param jitNetworkAccessPolicyName Name of a Just-in-Time access configuration policy.
    * @param body
    * @param options The options parameters.
    */
   initiate(
     resourceGroupName: string,
+    ascLocation: string,
     jitNetworkAccessPolicyName: string,
     body: JitNetworkAccessPolicyInitiateRequest,
     options?: JitNetworkAccessPoliciesInitiateOptionalParams
   ): Promise<JitNetworkAccessPoliciesInitiateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, jitNetworkAccessPolicyName, body, options },
+      {
+        resourceGroupName,
+        ascLocation,
+        jitNetworkAccessPolicyName,
+        body,
+        options
+      },
       initiateOperationSpec
     );
   }
@@ -402,15 +454,18 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
 
   /**
    * ListByRegionNext
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param nextLink The nextLink from the previous successful call to the ListByRegion method.
    * @param options The options parameters.
    */
   private _listByRegionNext(
+    ascLocation: string,
     nextLink: string,
     options?: JitNetworkAccessPoliciesListByRegionNextOptionalParams
   ): Promise<JitNetworkAccessPoliciesListByRegionNextResponse> {
     return this.client.sendOperationRequest(
-      { nextLink, options },
+      { ascLocation, nextLink, options },
       listByRegionNextOperationSpec
     );
   }
@@ -437,17 +492,20 @@ export class JitNetworkAccessPoliciesImpl implements JitNetworkAccessPolicies {
    * ListByResourceGroupAndRegionNext
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroupAndRegion
    *                 method.
    * @param options The options parameters.
    */
   private _listByResourceGroupAndRegionNext(
     resourceGroupName: string,
+    ascLocation: string,
     nextLink: string,
     options?: JitNetworkAccessPoliciesListByResourceGroupAndRegionNextOptionalParams
   ): Promise<JitNetworkAccessPoliciesListByResourceGroupAndRegionNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
+      { resourceGroupName, ascLocation, nextLink, options },
       listByResourceGroupAndRegionNextOperationSpec
     );
   }

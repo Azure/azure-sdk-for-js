@@ -797,7 +797,7 @@ export interface GlossaryGetImportCsvOperationStatusdefaultResponse extends Http
 export interface GlossaryExportGlossaryTermsAsCsv200Response extends HttpResponse {
   status: "200";
   /** Value may contain any sequence of octets */
-  body: string;
+  body: Uint8Array;
 }
 
 /** Export Glossary Terms as csv file */

@@ -102,7 +102,7 @@ describe("ServiceClient", function () {
 
         await client.sendOperationRequest(testOperationArgs, testOperationSpec);
         assert.fail();
-      } catch (error) {
+      } catch (error: any) {
         assert.include(error.message, `Invalid URL`);
       }
     });
@@ -127,7 +127,7 @@ describe("ServiceClient", function () {
 
         await client.sendOperationRequest(testOperationArgs, testOperationSpec);
         assert.fail();
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(
           error.message,
           `When using credentials, the ServiceClientOptions must contain either a baseUri or a credentialScopes. Unable to create a bearerTokenAuthenticationPolicy`
@@ -1074,7 +1074,7 @@ describe("ServiceClient", function () {
     try {
       await client.sendOperationRequest({}, operationSpec);
       assert.fail();
-    } catch (ex) {
+    } catch (ex: any) {
       assert.strictEqual(ex.details.errorCode, "InvalidResourceNameHeader");
       assert.strictEqual(ex.details.message, "InvalidResourceNameBody");
     }
@@ -1154,7 +1154,7 @@ describe("ServiceClient", function () {
     try {
       await client.sendOperationRequest({}, operationSpec);
       assert.fail();
-    } catch (ex) {
+    } catch (ex: any) {
       assert.strictEqual(ex.code, "BlobNotFound");
       assert.strictEqual(ex.message, "The specified blob does not exist.");
     }
@@ -1338,7 +1338,7 @@ describe("ServiceClient", function () {
         operationSpec
       );
       assert.fail("Expected client to throw");
-    } catch (error) {
+    } catch (error: any) {
       assert.include(error.message, "cannot be null or undefined");
     }
   });
@@ -1422,7 +1422,7 @@ describe("ServiceClient", function () {
         operationSpec
       );
       assert.fail("Expected client to throw");
-    } catch (error) {
+    } catch (error: any) {
       assert.include(error.message, "cannot be null or undefined");
     }
   });

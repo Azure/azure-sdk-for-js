@@ -69,7 +69,7 @@ describe("Highlevel", () => {
         abortSignal: aborter,
       });
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
     }
   });
@@ -85,7 +85,7 @@ describe("Highlevel", () => {
         concurrency: 2,
       });
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
     }
   });
@@ -107,7 +107,7 @@ describe("Highlevel", () => {
           aborter.abort();
         },
       });
-    } catch (err) {}
+    } catch (err: any) {}
     assert.ok(eventTriggered);
   });
 
@@ -128,7 +128,7 @@ describe("Highlevel", () => {
           aborter.abort();
         },
       });
-    } catch (err) {}
+    } catch (err: any) {}
     assert.ok(eventTriggered);
   });
 

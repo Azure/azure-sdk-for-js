@@ -35,7 +35,6 @@ import {
 import Long from "long";
 import { ServiceBusMessageImpl, DeadLetterOptions } from "../serviceBusMessage";
 import { Constants, RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
-import "@azure/core-asynciterator-polyfill";
 import { LockRenewer } from "../core/autoLockRenewer";
 import { receiverLogger as logger } from "../log";
 import { translateServiceBusError } from "../serviceBusError";
@@ -617,7 +616,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
           await this._batchingReceiver.close();
         }
       }
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, `${this.logPrefix} An error occurred while closing the Receiver`);
       throw err;
     }

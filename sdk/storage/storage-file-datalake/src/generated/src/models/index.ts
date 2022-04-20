@@ -45,6 +45,10 @@ export interface Path {
   owner?: string;
   group?: string;
   permissions?: string;
+  /** The name of the encryption scope under which the blob is encrypted. */
+  encryptionScope?: string;
+  creationTime?: string;
+  expiryTime?: string;
 }
 
 /** An enumeration of blobs */
@@ -285,6 +289,10 @@ export interface PathCreateHeaders {
   continuation?: string;
   /** The size of the resource in bytes. */
   contentLength?: number;
+  /** The value of this header is set to true if the contents of the request are successfully encrypted using the specified algorithm, and false otherwise. */
+  isServerEncrypted?: boolean;
+  /** The SHA-256 hash of the encryption key used to encrypt the blob. This header is only returned when the blob was encrypted with a customer-provided key. */
+  encryptionKeySha256?: string;
   /** Error Code */
   errorCode?: string;
 }
@@ -398,6 +406,10 @@ export interface PathReadHeaders {
   leaseState?: string;
   /** The lease status of the resource. */
   leaseStatus?: string;
+  /** The value of this header is set to true if the contents of the request are successfully encrypted using the specified algorithm, and false otherwise. */
+  isServerEncrypted?: boolean;
+  /** The SHA-256 hash of the encryption key used to encrypt the blob. This header is only returned when the blob was encrypted with a customer-provided key. */
+  encryptionKeySha256?: string;
 }
 
 /** Defines headers for Path_read operation. */
@@ -549,6 +561,10 @@ export interface PathFlushDataHeaders {
   requestId?: string;
   /** The version of the REST protocol used to process the request. */
   version?: string;
+  /** The value of this header is set to true if the contents of the request are successfully encrypted using the specified algorithm, and false otherwise. */
+  isServerEncrypted?: boolean;
+  /** The SHA-256 hash of the encryption key used to encrypt the blob. This header is only returned when the blob was encrypted with a customer-provided key. */
+  encryptionKeySha256?: string;
 }
 
 /** Defines headers for Path_flushData operation. */
@@ -579,6 +595,8 @@ export interface PathAppendDataHeaders {
   xMsContentCrc64?: Uint8Array;
   /** The value of this header is set to true if the contents of the request are successfully encrypted using the specified algorithm, and false otherwise. */
   isServerEncrypted?: boolean;
+  /** The SHA-256 hash of the encryption key used to encrypt the blob. This header is only returned when the blob was encrypted with a customer-provided key. */
+  encryptionKeySha256?: string;
 }
 
 /** Defines headers for Path_appendData operation. */
@@ -681,6 +699,31 @@ export interface SourceModifiedAccessConditions {
   sourceIfUnmodifiedSince?: Date;
 }
 
+/** Parameter group */
+export interface CpkInfo {
+  /** Optional. Specifies the encryption key to use to encrypt the data provided in the request. If not specified, encryption is performed with the root account encryption key.  For more information, see Encryption at Rest for Azure Storage Services. */
+  encryptionKey?: string;
+  /** The SHA-256 hash of the provided encryption key. Must be provided if the x-ms-encryption-key header is provided. */
+  encryptionKeySha256?: string;
+  /** The algorithm used to produce the encryption key hash. Currently, the only accepted value is "AES256". Must be provided if the x-ms-encryption-key header is provided. */
+  encryptionAlgorithm?: EncryptionAlgorithmType;
+}
+
+/** Known values of {@link EncryptionAlgorithmType} that the service accepts. */
+export const enum KnownEncryptionAlgorithmType {
+  None = "None",
+  AES256 = "AES256"
+}
+
+/**
+ * Defines values for EncryptionAlgorithmType. \
+ * {@link KnownEncryptionAlgorithmType} can be used interchangeably with EncryptionAlgorithmType,
+ *  this enum contains the known values that the service supports.
+ * ### Know values supported by the service
+ * **None** \
+ * **AES256**
+ */
+export type EncryptionAlgorithmType = string;
 /** Defines values for ListBlobsIncludeItem. */
 export type ListBlobsIncludeItem =
   | "copy"
@@ -905,6 +948,8 @@ export interface PathCreateOptionalParams extends coreHttp.OperationOptions {
   leaseAccessConditions?: LeaseAccessConditions;
   /** Parameter group */
   sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
+  /** Parameter group */
+  cpkInfo?: CpkInfo;
   /** Optional.  When deleting a directory, the number of paths that are deleted with each invocation is limited.  If the number of paths to be deleted exceeds this limit, a continuation token is returned in this response header.  When a continuation token is returned in the response, it must be specified in a subsequent invocation of the delete operation to continue deleting the directory. */
   continuation?: string;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
@@ -1022,6 +1067,8 @@ export interface PathReadOptionalParams extends coreHttp.OperationOptions {
   modifiedAccessConditions?: ModifiedAccessConditions;
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
+  /** Parameter group */
+  cpkInfo?: CpkInfo;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -1177,6 +1224,8 @@ export interface PathFlushDataOptionalParams extends coreHttp.OperationOptions {
   pathHttpHeaders?: PathHttpHeaders;
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
+  /** Parameter group */
+  cpkInfo?: CpkInfo;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */
   requestId?: string;
   /** The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/fileservices/setting-timeouts-for-blob-service-operations">Setting Timeouts for Blob Service Operations.</a> */
@@ -1205,6 +1254,8 @@ export interface PathAppendDataOptionalParams
   extends coreHttp.OperationOptions {
   /** Parameter group */
   leaseAccessConditions?: LeaseAccessConditions;
+  /** Parameter group */
+  cpkInfo?: CpkInfo;
   /** Parameter group */
   pathHttpHeaders?: PathHttpHeaders;
   /** Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when storage analytics logging is enabled. */

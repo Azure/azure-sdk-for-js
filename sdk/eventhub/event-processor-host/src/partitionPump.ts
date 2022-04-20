@@ -85,7 +85,7 @@ export class PartitionPump {
     const withHostAndPartition = this._context.withHostAndPartition;
     try {
       this._client = this._context.getEventHubClient();
-    } catch (err) {
+    } catch (err: any) {
       log.error(
         withHostAndPartition(
           partitionId,
@@ -125,7 +125,7 @@ export class PartitionPump {
       }
       try {
         await this._removeReceiver(CloseReason.shutdown);
-      } catch (err) {
+      } catch (err: any) {
         log.error(
           withHostAndPartition(
             partitionId,
@@ -173,7 +173,7 @@ export class PartitionPump {
       if (result) {
         log.partitionPump(withHostAndPartition(this._lease, "Successfully renewed the lease."));
       }
-    } catch (err) {
+    } catch (err: any) {
       const msg =
         `An error occurred while renewing the lease for partitionId ` +
         `'${this._lease.partitionId}': ${err ? err.stack : JSON.stringify(err)}`;
@@ -210,7 +210,7 @@ export class PartitionPump {
     this._leaseRenewalTimer = setTimeout(async () => {
       try {
         await this._leaseRenewer();
-      } catch (err) {
+      } catch (err: any) {
         log.error(
           withHostAndPartition(this._lease, "An error occurred in the _leaseRenewer(): %O"),
           err
@@ -247,7 +247,7 @@ export class PartitionPump {
           partitionId,
           reason
         );
-      } catch (err) {
+      } catch (err: any) {
         const msg =
           `An error occurred while closing the receiver '${receiveHandler.address}' : ` +
           `${err ? err.stack : JSON.stringify(err)}`;
@@ -268,7 +268,7 @@ export class PartitionPump {
             reason
           );
           await this._context.leaseManager.releaseLease(partitionContext.lease);
-        } catch (err) {
+        } catch (err: any) {
           const msg =
             `An error occurred while releasing the lease ${leaseId} ` +
             `the receiver '${receiveHandler.address}' : ${err ? err.stack : JSON.stringify(err)} `;

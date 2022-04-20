@@ -48,7 +48,7 @@ async function main() {
   const containerClient = blobServiceClient.getContainerClient(containerName);
   try {
     await containerClient.create();
-  } catch (err) {
+  } catch (err: any) {
     console.log(
       `Creating a container failed, requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
     );
@@ -67,7 +67,7 @@ async function main() {
       onProgress: (ev) => console.log(ev),
     });
     console.log("Successfully uploaded file:", blockBlobClient.name);
-  } catch (err) {
+  } catch (err: any) {
     console.log(
       `uploadFile failed, requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
     );
@@ -81,7 +81,7 @@ async function main() {
       onProgress: (ev) => console.log(ev),
     });
     console.log("uploadStream succeeds");
-  } catch (err) {
+  } catch (err: any) {
     console.log(
       `uploadStream failed, requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
     );
@@ -110,7 +110,7 @@ async function main() {
       onProgress: (ev) => console.log(ev),
     });
     console.log("downloadToBuffer succeeds");
-  } catch (err) {
+  } catch (err: any) {
     console.log(
       `downloadToBuffer failed, requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
     );
@@ -122,7 +122,7 @@ async function main() {
     // Downloading an archived blockBlob fails
     console.log("// Downloading an archived blockBlob fails...");
     await blockBlobClient.download();
-  } catch (err) {
+  } catch (err: any) {
     // BlobArchived	Conflict (409)	This operation is not permitted on an archived blob.
     console.log(
       `requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`

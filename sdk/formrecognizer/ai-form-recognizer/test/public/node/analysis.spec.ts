@@ -190,7 +190,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid language.");
-        } catch (ex) {
+        } catch (ex: any) {
           // Just make sure we didn't get a bad error message
           assert.isFalse((ex as Error).message.includes("<empty>"));
         }
@@ -220,7 +220,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid pages.");
-        } catch (ex) {
+        } catch (ex: any) {
           // Just make sure we didn't get a bad error message
           assert.isFalse((ex as Error).message.includes("<empty>"));
         }
@@ -551,7 +551,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid locale.");
-        } catch (ex) {
+        } catch (ex: any) {
           // Just make sure we didn't get a bad error message
           assert.isFalse((ex as Error).message.includes("<empty>"));
         }
@@ -649,7 +649,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid locale.");
-        } catch (ex) {
+        } catch (ex: any) {
           // Just make sure we didn't get a bad error message
           assert.isFalse((ex as Error).message.includes("<empty>"));
         }
@@ -744,7 +744,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid locale.");
-        } catch (ex) {
+        } catch (ex: any) {
           // Just make sure we didn't get a bad error message
           assert.isFalse((ex as Error).message.includes("<empty>"));
         }
@@ -829,7 +829,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
 
           await poller.pollUntilDone();
           assert.fail("Expected an exception due to invalid locale.");
-        } catch (ex) {
+        } catch (ex: any) {
           // Just make sure we didn't get a bad error message
           assert.isFalse((ex as Error).message.includes("<empty>"));
         }

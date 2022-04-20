@@ -10,7 +10,7 @@ import { Chat } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ChatApiClientContext } from "../chatApiClientContext";
+import { ChatApiClient } from "../chatApiClient";
 import {
   CreateChatThreadRequest,
   ChatCreateChatThreadOptionalParams,
@@ -24,13 +24,13 @@ import {
 
 /** Class containing Chat operations. */
 export class ChatImpl implements Chat {
-  private readonly client: ChatApiClientContext;
+  private readonly client: ChatApiClient;
 
   /**
    * Initialize a new instance of the class Chat class.
    * @param client Reference to the service client
    */
-  constructor(client: ChatApiClientContext) {
+  constructor(client: ChatApiClient) {
     this.client = client;
   }
 
