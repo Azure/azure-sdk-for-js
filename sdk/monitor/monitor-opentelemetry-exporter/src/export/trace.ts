@@ -71,8 +71,8 @@ export class AzureMonitorTraceExporter implements SpanExporter {
             code: ExportResultCode.FAILED,
             error: new Error("Failed to persist envelope in disk."),
           };
-    } catch (ex: any) {
-      return { code: ExportResultCode.FAILED, error: ex }; // eslint-disable-line @typescript-eslint/no-unsafe-assignment
+    } catch (ex: unknown) {
+      return { code: ExportResultCode.FAILED, error: ex as Error };
     }
   }
 
