@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ConfidentialLedgerRestClient } from "../../src";
+import { ConfidentialLedgerRestClient, GetCurrentLedgerEntry200Response } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 
-describe("List Document Formats", () => {
+describe("Get ledger history", () => {
   let recorder: Recorder;
   let client: ConfidentialLedgerRestClient;
 
@@ -29,6 +29,17 @@ describe("List Document Formats", () => {
     if (result.status !== "200") {
       assert.fail(`GET "/app/transactions" failed with ${result.status}`);
     }
+
+    const currentTransactionsResult = await client.path("/app/transactions/current").get();
+
+    if (result.status !== "200") {
+      assert.fail(`GET "/app/transactions/current" failed with ${currentTransactionsResult.status}`);
+    }
+
+    let currentTransaction : GetCurrentLedgerEntry200Response = currentTransactionsResult as GetCurrentLedgerEntry200Response;
+    assert.typeOf(currentTransaction.body.contents, 'string');
+    assert.typeOf(currentTransaction.body.subLedgerId, 'string');
+    assert.typeOf(currentTransaction.body.transactionId, 'string');
 
     // let constResponse = result as GetLedgerEntries200Response;
 

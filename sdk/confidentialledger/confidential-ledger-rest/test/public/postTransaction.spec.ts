@@ -7,7 +7,7 @@ import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 
-describe("List Document Formats", () => {
+describe("Post transaction", () => {
   let recorder: Recorder;
   let client: ConfidentialLedgerRestClient;
   let contentBody : string;
