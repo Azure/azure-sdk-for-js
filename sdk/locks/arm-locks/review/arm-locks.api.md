@@ -28,6 +28,41 @@ export interface AuthorizationOperationsListOptionalParams extends coreClient.Op
 export type AuthorizationOperationsListResponse = OperationListResult;
 
 // @public
+export type CreatedByType = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
+export enum KnownCreatedByType {
+    // (undocumented)
+    Application = "Application",
+    // (undocumented)
+    Key = "Key",
+    // (undocumented)
+    ManagedIdentity = "ManagedIdentity",
+    // (undocumented)
+    User = "User"
+}
+
+// @public
 export enum KnownLockLevel {
     // (undocumented)
     CanNotDelete = "CanNotDelete",
@@ -75,6 +110,7 @@ export interface ManagementLockObject {
     readonly name?: string;
     notes?: string;
     owners?: ManagementLockOwner[];
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -256,6 +292,16 @@ export interface OperationDisplay {
 export interface OperationListResult {
     nextLink?: string;
     value?: Operation[];
+}
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
 }
 
 // (No @packageDocumentation comment for this package)

@@ -989,14 +989,16 @@ export function flattenResponse(
   const parsedHeaders = _response.parsedHeaders;
   const bodyMapper = responseSpec && responseSpec.bodyMapper;
 
-  const addOperationResponse = (
-    obj: Record<string, unknown>
-  ): {
+  const addOperationResponse = <T extends Record<string, unknown>>(
+    obj: T
+  ): T & {
     _response: HttpOperationResponse;
   } => {
     return Object.defineProperty(obj, "_response", {
       value: _response,
-    });
+    }) as T & {
+      _response: HttpOperationResponse;
+    };
   };
 
   if (bodyMapper) {

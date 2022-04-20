@@ -5,23 +5,12 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { ShortCodesClient, ShortCodesUpsertUSProgramBriefOptionalParams } from "../../src";
-import { USProgramBrief } from "../../src/generated/src";
 import { createRecordedClient } from "./utils/recordedClient";
 import {
   assertEditableFieldsAreEqual,
   doesProgramBriefExist,
   getTestUSProgramBrief,
 } from "./utils/testUSProgramBrief";
-
-function getExpectedResponseFor(programBrief: USProgramBrief): USProgramBrief {
-  return {
-    ...programBrief,
-
-    // Currently, the server rejects payloads that include preferredVanityNumbers if isVanity=false.
-    // However, the response always includes preferredVanityNumbers, regardless of the isVanity flag.
-    programDetails: { ...programBrief.programDetails, preferredVanityNumbers: [] },
-  };
-}
 
 describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Program Brief`, function () {
   let recorder: Recorder;
@@ -71,7 +60,7 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
 
     // get program brief, verify it was created correctly
     let getRes = await client.getUSProgramBrief(uspb.id);
-    assertEditableFieldsAreEqual(getExpectedResponseFor(uspb), getRes, "get after initial create");
+    assertEditableFieldsAreEqual(uspb, getRes, "get after initial create");
 
     // update program brief by calling upsert
     if (uspb.programDetails) {
@@ -86,14 +75,14 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
 
     // get program brief, verify it was updated correctly
     getRes = await client.getUSProgramBrief(uspb.id);
-    assertEditableFieldsAreEqual(getExpectedResponseFor(uspb), getRes, "get after update");
+    assertEditableFieldsAreEqual(uspb, getRes, "get after update");
 
     // list program briefs, validate test program brief is in the list
     let foundTestProgramBrief = false;
     for await (const pb of client.listUSProgramBriefs()) {
       if (pb.id === uspb.id) {
         foundTestProgramBrief = true;
-        assertEditableFieldsAreEqual(getExpectedResponseFor(uspb), pb, "list all program briefs");
+        assertEditableFieldsAreEqual(uspb, pb, "list all program briefs");
       }
     }
     assert.isTrue(

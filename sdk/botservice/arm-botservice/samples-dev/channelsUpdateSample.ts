@@ -11,10 +11,10 @@
 import {
   ChannelsUpdateOptionalParams,
   AzureBotService,
-  AlexaChannel,
   EmailChannel,
-  DirectLineSpeechChannel,
-  LineChannel
+  AlexaChannel,
+  LineChannel,
+  DirectLineSpeechChannel
 } from "@azure/arm-botservice";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -34,7 +34,7 @@ async function updateAlexa() {
     channelName: "AlexaChannel",
     properties: { alexaSkillId: "XAlexaSkillIdX", isEnabled: true }
   };
-  const options: ChannelsUpdateOptionalParams = { location: location, properties };
+  const options: ChannelsUpdateOptionalParams = { location, properties };
   const credential = new DefaultAzureCredential();
   const client = new AzureBotService(credential, subscriptionId);
   const result = await client.channels.update(
