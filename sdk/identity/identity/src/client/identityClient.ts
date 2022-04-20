@@ -199,7 +199,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
           const response = await this.sendTokenRequest(request, expiresOnParser);
           logger.info(`IdentityClient: refreshed token for client ID: ${clientId}`);
           return response;
-        } catch (err) {
+        } catch (err: any) {
           if (
             err.name === AuthenticationErrorName &&
             err.errorResponse.error === "interaction_required"
@@ -345,7 +345,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
           upn || unavailableUpn
         }. Object ID (user): ${oid}`
       );
-    } catch (e) {
+    } catch (e: any) {
       logger.warning(
         "allowLoggingAccountIdentifiers was set, but we couldn't log the account information. Error:",
         e.message

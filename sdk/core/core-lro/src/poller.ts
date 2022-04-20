@@ -324,7 +324,7 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
           this.resolve(this.operation.state.result as TResult);
         }
       }
-    } catch (e) {
+    } catch (e: any) {
       this.operation.state.error = e;
       if (this.reject) {
         this.reject(e);

@@ -46,7 +46,7 @@ export class BigDataPoolsImpl implements BigDataPools {
         listOperationSpec
       );
       return result as BigDataPoolsListResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -73,7 +73,7 @@ export class BigDataPoolsImpl implements BigDataPools {
         getOperationSpec
       );
       return result as BigDataPoolsGetResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message

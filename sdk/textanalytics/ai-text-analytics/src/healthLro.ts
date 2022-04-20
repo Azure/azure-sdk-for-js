@@ -128,7 +128,7 @@ export class HealthLro implements LongRunningOperation<PagedAnalyzeHealthcareEnt
         flatResponse: flatResponse as PagedAnalyzeHealthcareEntitiesResult,
         rawResponse,
       };
-    } catch (e) {
+    } catch (e: any) {
       const exception = compileError(e);
       span.setStatus({
         code: SpanStatusCode.ERROR,

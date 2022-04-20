@@ -34,7 +34,7 @@ describe("retry function", function(): void {
         result.code.should.equal(200);
         result.description.should.equal("OK");
         counter.should.equal(1);
-      } catch (err) {
+      } catch (err: any) {
         debug("An error occurred in a test that should have succeeded: %O", err);
         throw err;
       }
@@ -72,7 +72,7 @@ describe("retry function", function(): void {
         should.equal(Array.isArray(result), true);
         result.toString().should.equal("0,1");
         counter.should.equal(2);
-      } catch (err) {
+      } catch (err: any) {
         debug("An error occurred in a test that should have succeeded: %O", err);
         throw err;
       }
@@ -117,7 +117,7 @@ describe("retry function", function(): void {
         result.code.should.equal(200);
         result.description.should.equal("OK");
         counter.should.equal(3);
-      } catch (err) {
+      } catch (err: any) {
         debug("An error occurred in a test that should have succeeded: %O", err);
         throw err;
       }
@@ -150,7 +150,7 @@ describe("retry function", function(): void {
           finalFailureMessage: "Out of retry attempts, still failing!!"
         };
         await retry(config);
-      } catch (err) {
+      } catch (err: any) {
         counter.should.equal(5);
         should.exist(err);
         err.action.should.equal("Fail after 5 attempts");

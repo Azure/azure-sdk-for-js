@@ -92,7 +92,7 @@ async function startEph(ephName: string): Promise<EventProcessorHost> {
           ephName,
           partionCount[context.partitionId]
         );
-      } catch (err) {
+      } catch (err: any) {
         console.log(
           "[%s] An error occurred while checkpointing msg number %d: %O",
           ephName,

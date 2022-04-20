@@ -84,7 +84,7 @@ describe("BlobClient", () => {
       assert.fail(
         "Should have failed when setting tags without the right lease condition of a leased blob"
       );
-    } catch (err) {
+    } catch (err: any) {
       assert.deepStrictEqual(err.code, "LeaseIdMissing", err.msg);
     }
 
@@ -94,7 +94,7 @@ describe("BlobClient", () => {
       assert.fail(
         "Should have failed when setting tags without the right lease condition of a leased blob"
       );
-    } catch (err) {
+    } catch (err: any) {
       assert.deepStrictEqual(err.code, "LeaseIdMismatchWithBlobOperation");
     }
 
@@ -232,7 +232,7 @@ describe("BlobClient", () => {
         rangeGetContentMD5: true,
         rangeGetContentCrc64: true,
       });
-    } catch (err) {
+    } catch (err: any) {
       exceptionCaught = true;
     }
     assert.ok(exceptionCaught);
@@ -490,7 +490,7 @@ describe("BlobClient", () => {
       assert.fail(
         "AbortCopyFromClient should be failed and throw exception for an completed copy operation."
       );
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.details.errorCode = "NoPendingCopyOperation"));
     }
   });
@@ -557,7 +557,7 @@ describe("BlobClient", () => {
       // tslint:disable-next-line: no-unused-expression
       new BlobClient(getSASConnectionStringFromEnvironment(), "", "blobName");
       assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         "Expecting non-empty strings for containerName and blobName parameters",
         error.message,
@@ -571,7 +571,7 @@ describe("BlobClient", () => {
       // tslint:disable-next-line: no-unused-expression
       new BlobClient(getSASConnectionStringFromEnvironment(), "containerName", "");
       assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         "Expecting non-empty strings for containerName and blobName parameters",
         error.message,
@@ -584,7 +584,7 @@ describe("BlobClient", () => {
     let exceptionCaught = false;
     try {
       await blobClient.setMetadata({ a: "a" }, { customerProvidedKey: Test_CPK_INFO });
-    } catch (err) {
+    } catch (err: any) {
       exceptionCaught = true;
     }
     assert.ok(exceptionCaught);
@@ -611,7 +611,7 @@ describe("BlobClient", () => {
     let exceptionCaught = false;
     try {
       await blobClient.getProperties();
-    } catch (err) {
+    } catch (err: any) {
       exceptionCaught = true;
     }
     assert.ok(exceptionCaught);
@@ -652,7 +652,7 @@ describe("BlobClient", () => {
     exceptionCaught = false;
     try {
       await blobSnapshotURL.getProperties();
-    } catch (err) {
+    } catch (err: any) {
       exceptionCaught = true;
     }
     assert.ok(exceptionCaught);
@@ -843,7 +843,7 @@ describe("BlobClient", () => {
 
     try {
       await anonymousBlobClient.exists();
-    } catch (err) {
+    } catch (err: any) {
       exceptionCaught = true;
     }
     assert.ok(exceptionCaught);
@@ -863,7 +863,7 @@ describe("BlobClient", () => {
       }
 
       await blobClient.exists({ conditions: { leaseId: guid } });
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.details.errorCode, "LeaseIdMismatchWithBlobOperation");
       exceptionCaught = true;
     }
@@ -934,7 +934,7 @@ describe("BlobClient", () => {
       let expectedExceptionCaught = false;
       try {
         await promise;
-      } catch (e) {
+      } catch (e: any) {
         assert.equal(e.details?.errorCode, errorCode);
         expectedExceptionCaught = true;
       }
@@ -993,7 +993,7 @@ describe("BlobClient", () => {
       let exceptionCaught = false;
       try {
         await leaseClient.acquireLease(duration, { conditions: tagConditionMet });
-      } catch (err) {
+      } catch (err: any) {
         assert.ok(err instanceof RangeError);
         exceptionCaught = true;
       }
@@ -1736,7 +1736,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
         policyMode: "Unlocked",
       });
       assert.fail("setImmutabilityPolicy against a non-exist blob should not succeed");
-    } catch (error) {
+    } catch (error: any) {
       caughtException = true;
     }
     assert.ok(
@@ -1759,7 +1759,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
         policyMode: "Mutable",
       });
       assert.fail("Setting ImmutabilityPolicy mode to Mutable should not succeed");
-    } catch (error) {
+    } catch (error: any) {
       caughtException = true;
     }
     assert.ok(
@@ -1773,7 +1773,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     try {
       await blobClient.setLegalHold(true);
       assert.fail("setLegalHold against a non-exist blob should not succeed");
-    } catch (error) {
+    } catch (error: any) {
       caughtException = true;
     }
     assert.ok(caughtException, "Should catch exception when setLegalHold against a non-exist blob");
@@ -1785,7 +1785,7 @@ describe("BlobClient - ImmutabilityPolicy", () => {
     try {
       await blobClient.deleteImmutabilityPolicy();
       assert.fail("Delete immutability policy against a non-exist blob should not succeed");
-    } catch (error) {
+    } catch (error: any) {
       caughtException = true;
     }
     assert.ok(

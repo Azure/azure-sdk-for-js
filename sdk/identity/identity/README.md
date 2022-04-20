@@ -120,12 +120,12 @@ If used from Node.js, the `DefaultAzureCredential` will attempt to authenticate 
 
 ![DefaultAzureCredential authentication flow][defaultauthflow_image]
 
-- Environment - The `DefaultAzureCredential` will read account information specified via [environment variables](#environment-variables) and use it to authenticate.
-- Managed Identity - If the application is deployed to an Azure host with Managed Identity enabled, the `DefaultAzureCredential` will authenticate with that account.
-- Visual Studio Code - If the developer has authenticated with the [Visual Studio Code Azure Account extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.azure-account), the `DefaultAzureCredential` will authenticate using that account.
-  - In `@azure/identity` version 2.0 or later, the [`@azure/identity-vscode`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-vscode) package must be installed for the Visual Studio Code authentication to work.
-- Azure CLI - If the developer has authenticated an account via the Azure CLI `az login` command, the `DefaultAzureCredential` will authenticate with that account.
-- Azure PowerShell - If the developer has authenticated using the Azure PowerShell module `Connect-AzAccount` command, the `DefaultAzureCredential` will authenticate with that account.
+1. **Environment** - The `DefaultAzureCredential` will read account information specified via [environment variables](#environment-variables) and use it to authenticate.
+1. **Managed Identity** - If the application is deployed to an Azure host with Managed Identity enabled, the `DefaultAzureCredential` will authenticate with that account.
+1. **Visual Studio Code** - If the developer has authenticated with the [Visual Studio Code Azure Account extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.azure-account), the `DefaultAzureCredential` will authenticate using that account.
+    - In `@azure/identity` version 2.0 or later, the [`@azure/identity-vscode`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-vscode) package must be installed for the Visual Studio Code authentication to work.
+1. **Azure CLI** - If the developer has authenticated an account via the Azure CLI `az login` command, the `DefaultAzureCredential` will authenticate with that account.
+1. **Azure PowerShell** - If the developer has authenticated using the Azure PowerShell module `Connect-AzAccount` command, the `DefaultAzureCredential` will authenticate with that account.
 
 ## Plugins
 
@@ -284,7 +284,10 @@ Credentials raise `AuthenticationError` when they fail to authenticate. This cla
 
 ### Logging
 
-Enabling logging may help uncover useful information about failures. To see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. You can read this environment variable from the *.env* file by explicitly specifying a file path:
+Enabling logging may help uncover useful information about failures.
+
+To see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`.
+You can read this environment variable from the *.env* file by explicitly specifying a file path:
 
 ```javascript
 require("dotenv").config({ path: ".env" });
@@ -296,6 +299,31 @@ Alternatively, logging can be enabled at runtime by calling `setLogLevel` from t
 import { setLogLevel } from "@azure/logger";
 
 setLogLevel("info");
+```
+ 
+In cases where the authenticate code might be running in an environment with more than one credential available,
+the `@azure/identity` package offers a unique form of logging. On the optional parameters for every credential,
+developers can set `allowLoggingAccountIdentifiers` to true in the
+`loggingOptions` to log information specific to the authenticated account after
+each successful authentication, including the Client ID, the Tenant ID, the
+Object ID of the authenticated user, and if possible the User Principal Name.
+
+For example, using the `DefaultAzureCredential`:
+
+```js
+import { setLogLevel } from "@azure/logger";
+
+setLogLevel("info");
+
+const credential = new DefaultAzureCredential({
+  loggingOptions: { allowLoggingAccountIdentifiers: true }
+});
+```
+
+Once that credential authenticates, the following message will appear in the logs (with the real information instead of `HIDDEN`):
+
+```
+azure:identity:info [Authenticated account] Client ID: HIDDEN. Tenant ID: HIDDEN. User Principal Name: HIDDEN. Object ID (user): HIDDEN
 ```
 
 For assistance with troubleshooting, see the [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/TROUBLESHOOTING.md).
@@ -338,6 +366,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azureclilogin_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/identity/identity/images/AzureCliLogin.png
 [azureclilogindevicecode_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/identity/identity/images/AzureCliLoginDeviceCode.png
 [azurepowershelllogin_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/identity/identity/images/AzurePowerShellLogin.png
-[defaultauthflow_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/identity/identity/images/DefaultAzureCredentialAuthenticationFlow.png
+[defaultauthflow_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/identity/identity/images/mermaidjs/DefaultAzureCredentialAuthFlow.svg
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fidentity%2Fidentity%2FREADME.png)

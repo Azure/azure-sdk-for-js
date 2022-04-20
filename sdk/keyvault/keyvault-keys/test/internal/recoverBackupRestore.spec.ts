@@ -61,7 +61,7 @@ describe("Keys client - restore keys and recover backups", () => {
       const recoverPoller = await client.beginRecoverDeletedKey(keyName, testPollerProperties);
       await recoverPoller.pollUntilDone();
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error.code, "KeyNotFound");
@@ -95,7 +95,7 @@ describe("Keys client - restore keys and recover backups", () => {
     try {
       await client.backupKey(keyName);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error.code, "KeyNotFound");
@@ -151,7 +151,7 @@ describe("Keys client - restore keys and recover backups", () => {
     try {
       await client.restoreKeyBackup(backup);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(

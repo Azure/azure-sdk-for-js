@@ -57,7 +57,7 @@ export function retryPolicy(
           logger.info(`Retry ${retryCount}: Attempting to send request`, request.requestId);
           response = await next(request);
           logger.info(`Retry ${retryCount}: Received a response from request`, request.requestId);
-        } catch (e) {
+        } catch (e: any) {
           logger.error(`Retry ${retryCount}: Received an error from request`, request.requestId);
 
           // RestErrors are valid targets for the retry strategies.

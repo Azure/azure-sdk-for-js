@@ -11,7 +11,6 @@
     "./dist-esm/src/policies/formDataPolicy.js": "./dist-esm/src/policies/formDataPolicy.browser.js",
     "./dist-esm/src/policies/proxyPolicy.js": "./dist-esm/src/policies/proxyPolicy.browser.js",
     "./dist-esm/src/util/inspect.js": "./dist-esm/src/util/inspect.browser.js",
-    "./dist-esm/src/util/url.js": "./dist-esm/src/util/url.browser.js",
     "./dist-esm/src/util/userAgentPlatform.js": "./dist-esm/src/util/userAgentPlatform.browser.js"
   },
   "react-native": {
@@ -132,7 +131,7 @@
     "rimraf": "^3.0.0",
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
-    "typescript": "~4.2.0",
+    "typescript": "~4.6.0",
     "util": "^0.12.1"
   },
   "//sampleConfiguration": {

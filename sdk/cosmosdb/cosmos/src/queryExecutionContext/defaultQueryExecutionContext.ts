@@ -153,7 +153,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
           ? fetchFunction({ ...this.options, continuationToken: this.continuationToken })
           : undefined;
       }
-    } catch (err) {
+    } catch (err: any) {
       this.state = DefaultQueryExecutionContext.STATES.ended;
       // return callback(err, undefined, responseHeaders);
       // TODO: Error and data being returned is an antipattern, this might broken

@@ -76,7 +76,7 @@ describe("DataLakePathClient", () => {
         rangeGetContentMD5: true,
         rangeGetContentCrc64: true,
       });
-    } catch (err) {
+    } catch (err: any) {
       exceptionCaught = true;
     }
     assert.ok(exceptionCaught);
@@ -488,7 +488,7 @@ describe("DataLakePathClient with CPK", () => {
     let gotError = false;
     try {
       await fileClient.getProperties();
-    } catch (err) {
+    } catch (err: any) {
       gotError = true;
       assert.equal((err as any).statusCode, 409);
     }
@@ -505,7 +505,7 @@ describe("DataLakePathClient with CPK", () => {
       await fileClient.getProperties({
         customerProvidedKey: Test_CPK_INFO,
       });
-    } catch (err) {
+    } catch (err: any) {
       gotError = true;
       assert.equal((err as any).statusCode, 409);
     }
@@ -552,7 +552,7 @@ describe("DataLakePathClient with CPK", () => {
       await fileClient.append(content, 0, content.length, {
         customerProvidedKey: Test_CPK_INFO,
       });
-    } catch (err) {
+    } catch (err: any) {
       gotError = true;
       assert.equal((err as any).statusCode, 409);
     }
@@ -568,7 +568,7 @@ describe("DataLakePathClient with CPK", () => {
     let gotError = false;
     try {
       await fileClient.append(content, 0, content.length);
-    } catch (err) {
+    } catch (err: any) {
       gotError = true;
       assert.equal((err as any).statusCode, 409);
     }
@@ -585,7 +585,7 @@ describe("DataLakePathClient with CPK", () => {
       await fileClient.flush(content.length, {
         customerProvidedKey: Test_CPK_INFO,
       });
-    } catch (err) {
+    } catch (err: any) {
       gotError = true;
       assert.equal((err as any).statusCode, 409);
     }
@@ -603,7 +603,7 @@ describe("DataLakePathClient with CPK", () => {
     let gotError = false;
     try {
       await fileClient.flush(content.length);
-    } catch (err) {
+    } catch (err: any) {
       gotError = true;
       assert.equal((err as any).statusCode, 409);
     }
@@ -624,7 +624,7 @@ describe("DataLakePathClient with CPK", () => {
     let gotError = false;
     try {
       await fileClient.read(0, undefined);
-    } catch (err) {
+    } catch (err: any) {
       gotError = true;
       assert.equal((err as any).statusCode, 409);
     }
@@ -641,7 +641,7 @@ describe("DataLakePathClient with CPK", () => {
       await fileClient.read(0, undefined, {
         customerProvidedKey: Test_CPK_INFO,
       });
-    } catch (err) {
+    } catch (err: any) {
       gotError = true;
       assert.equal((err as any).statusCode, 409);
     }
@@ -675,7 +675,7 @@ describe("DataLakePathClient with CPK", () => {
     let gotError = false;
     try {
       await fileClient.setMetadata({});
-    } catch (err) {
+    } catch (err: any) {
       gotError = true;
       assert.equal((err as any).statusCode, 409);
     }
@@ -693,7 +693,7 @@ describe("DataLakePathClient with CPK", () => {
           customerProvidedKey: Test_CPK_INFO,
         }
       );
-    } catch (err) {
+    } catch (err: any) {
       gotError = true;
       assert.equal((err as any).statusCode, 409);
     }
@@ -717,7 +717,7 @@ describe("DataLakePathClient with CPK", () => {
       await dirClient.getProperties({
         customerProvidedKey: Test_CPK_INFO,
       });
-    } catch (err) {
+    } catch (err: any) {
       gotError = true;
       assert.equal((err as any).statusCode, 409);
     }
@@ -732,7 +732,7 @@ describe("DataLakePathClient with CPK", () => {
     let gotError = false;
     try {
       await dirClient.getProperties();
-    } catch (err) {
+    } catch (err: any) {
       gotError = true;
       assert.equal((err as any).statusCode, 409);
     }
@@ -796,7 +796,7 @@ describe("DataLakePathClient with CPK", () => {
     let gotError = false;
     try {
       await dirClient.setMetadata({});
-    } catch (err) {
+    } catch (err: any) {
       gotError = true;
       assert.equal((err as any).statusCode, 409);
     }
@@ -814,7 +814,7 @@ describe("DataLakePathClient with CPK", () => {
           customerProvidedKey: Test_CPK_INFO,
         }
       );
-    } catch (err) {
+    } catch (err: any) {
       gotError = true;
       assert.equal((err as any).statusCode, 409);
     }

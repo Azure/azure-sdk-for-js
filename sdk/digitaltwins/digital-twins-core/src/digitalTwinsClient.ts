@@ -143,7 +143,7 @@ export class DigitalTwinsClient {
     const { span, updatedOptions } = createSpan("DigitalTwinsClient-getDigitalTwin", options);
     try {
       return this.client.digitalTwins.getById(digitalTwinId, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -172,7 +172,7 @@ export class DigitalTwinsClient {
     try {
       const payload = JSON.parse(digitalTwinJson);
       return this.client.digitalTwins.add(digitalTwinId, payload, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -203,7 +203,7 @@ export class DigitalTwinsClient {
     const { span, updatedOptions } = createSpan("DigitalTwinsClient-updateDigitalTwin", options);
     try {
       return this.client.digitalTwins.update(digitalTwinId, jsonPatch, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -229,7 +229,7 @@ export class DigitalTwinsClient {
     const { span, updatedOptions } = createSpan("DigitalTwinsClient-deleteDigitalTwin", options);
     try {
       return this.client.digitalTwins.delete(digitalTwinId, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -256,7 +256,7 @@ export class DigitalTwinsClient {
     const { span, updatedOptions } = createSpan("DigitalTwinsClient-getComponent", options);
     try {
       return this.client.digitalTwins.getComponent(digitalTwinId, componentName, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -292,7 +292,7 @@ export class DigitalTwinsClient {
         jsonPatch,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -323,7 +323,7 @@ export class DigitalTwinsClient {
         relationshipId,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -358,7 +358,7 @@ export class DigitalTwinsClient {
         relationship,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -392,7 +392,7 @@ export class DigitalTwinsClient {
         jsonPatch,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -424,7 +424,7 @@ export class DigitalTwinsClient {
         relationshipId,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -510,7 +510,7 @@ export class DigitalTwinsClient {
         byPage: (settings: PageSettings = {}) =>
           this.listRelationshipsPage(digitalTwinId, updatedOptions, settings),
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -600,7 +600,7 @@ export class DigitalTwinsClient {
         byPage: (settings: PageSettings = {}) =>
           this.listIncomingRelationshipsPage(digitalTwinId, updatedOptions, settings),
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -644,7 +644,7 @@ export class DigitalTwinsClient {
         payload,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -690,7 +690,7 @@ export class DigitalTwinsClient {
         messageId,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -722,7 +722,7 @@ export class DigitalTwinsClient {
     );
     try {
       return this.client.digitalTwinModels.getById(modelId, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -817,7 +817,7 @@ export class DigitalTwinsClient {
         byPage: (settings: PageSettings = {}) =>
           this.getModelsPage(digitalTwinModelsListOptionalParams, settings),
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -847,7 +847,7 @@ export class DigitalTwinsClient {
     );
     try {
       return this.client.digitalTwinModels.add(updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -876,7 +876,7 @@ export class DigitalTwinsClient {
     const { span, updatedOptions } = createSpan("DigitalTwinsClient-decommissionModel", options);
     try {
       return this.client.digitalTwinModels.update(modelId, jsonPatch, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -903,7 +903,7 @@ export class DigitalTwinsClient {
     const { span, updatedOptions } = createSpan("DigitalTwinsClient-deleteModel", options);
     try {
       return this.client.digitalTwinModels.delete(modelId, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -928,7 +928,7 @@ export class DigitalTwinsClient {
     const { span, updatedOptions } = createSpan("DigitalTwinsClient-getEventRoute", options);
     try {
       return this.client.eventRoutes.getById(eventRouteId, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1018,7 +1018,7 @@ export class DigitalTwinsClient {
         byPage: (settings: PageSettings = {}) =>
           this.getEventRoutesPage(eventRoutesListOptionalParams, settings),
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1056,7 +1056,7 @@ export class DigitalTwinsClient {
     );
     try {
       return this.client.eventRoutes.add(eventRouteId, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1081,7 +1081,7 @@ export class DigitalTwinsClient {
     const { span, updatedOptions } = createSpan("DigitalTwinsClient-deleteEventRoute", options);
     try {
       return this.client.eventRoutes.delete(eventRouteId, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1180,7 +1180,7 @@ export class DigitalTwinsClient {
         byPage: (settings: PageSettings = {}) =>
           this.queryTwinsPage(query, queryQueryTwinsOptionalParams, settings),
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

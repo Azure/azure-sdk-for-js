@@ -60,7 +60,7 @@ async function sendMessages() {
         try {
           await sender.sendMessages(message);
           console.log("Sent message step:", data[index].step);
-        } catch (err) {
+        } catch (err: any) {
           console.log("Error while sending message", err);
         }
       })

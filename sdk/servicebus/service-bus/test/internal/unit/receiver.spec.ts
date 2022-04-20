@@ -81,7 +81,7 @@ describe("Receiver unit tests", () => {
       try {
         await messageReceiver2["_init"]({} as ReceiverOptions);
         assert.fail("Should throw");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal("Link has been permanently closed. Not reopening.", err.message);
         assert.equal(err.name, "AbortError");
         assert.isFalse(negotiateClaimWasCalled);
@@ -110,7 +110,7 @@ describe("Receiver unit tests", () => {
       try {
         await subscribeAndWaitForInitialize(receiverImpl);
         assert.fail("Should throw since we have an active subscriber");
-      } catch (err) {
+      } catch (err: any) {
         assert.deepEqual(
           {
             name: err.name,
@@ -229,7 +229,7 @@ describe("Receiver unit tests", () => {
 
         await iter.next();
         assert.fail("Should have thrown");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.name, "AbortError");
       }
 
@@ -265,7 +265,7 @@ describe("Receiver unit tests", () => {
 
         await iter.next();
         assert.fail("Should have thrown");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal("AbortError", err.name);
       }
 

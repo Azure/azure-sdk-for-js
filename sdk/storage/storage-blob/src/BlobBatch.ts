@@ -199,7 +199,7 @@ export class BlobBatch {
           );
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -315,7 +315,7 @@ export class BlobBatch {
           );
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

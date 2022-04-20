@@ -40,7 +40,7 @@ export async function trace<T>(fn: () => Promise<T>, span: Span): Promise<T> {
     const ret = await fn();
     span.setStatus({ code: SpanStatusCode.OK });
     return ret;
-  } catch (err) {
+  } catch (err: any) {
     span.setStatus({
       code: SpanStatusCode.ERROR,
       message: err.message,

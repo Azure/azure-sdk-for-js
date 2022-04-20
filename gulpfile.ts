@@ -239,7 +239,7 @@ function pack(): void {
               const distTags: StringMap<string> | undefined = npmViewResult["dist-tags"];
               npmPackageVersion = distTags && distTags["latest"];
             }
-            catch (error) {
+            catch (error: any) {
               // This happens if the package doesn't exist in NPM.
             }
 
@@ -263,7 +263,7 @@ function pack(): void {
                 _logger.log(`Filename: ${packFileName}`);
                 packedPackages++;
               }
-              catch (error) {
+              catch (error: any) {
                 errorPackages++;
               }
             } else {
@@ -309,7 +309,7 @@ gulp.task("find-missing-sdks", async () => {
     _logger.log(`Found azure-rest-api-specs repository in ${azureRestApiSpecsRepositoryPath}`);
 
     await findMissingSdks(azureRestApiSpecsRepositoryPath);
-  } catch (error) {
+  } catch (error: any) {
     _logger.logError(error);
   }
 });

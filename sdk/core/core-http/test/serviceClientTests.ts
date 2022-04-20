@@ -96,7 +96,7 @@ describe("ServiceClient", function () {
         });
         await client.sendOperationRequest(testArgs, testOperationSpec);
         assert.fail("Expected to throw");
-      } catch (error) {
+      } catch (error: any) {
         assert.include(error.message, `Invalid URL`);
       }
     });
@@ -119,7 +119,7 @@ describe("ServiceClient", function () {
         });
         await client.sendOperationRequest(testArgs, testOperationSpec);
         assert.fail("Expected to throw");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(
           error.message,
           `When using credential, the ServiceClient must contain a baseUri or a credentialScopes in ServiceClientOptions. Unable to create a bearerTokenAuthenticationPolicy`
@@ -1989,7 +1989,7 @@ describe("ServiceClient", function () {
     try {
       await client.sendOperationRequest({}, operationSpec);
       assert.fail();
-    } catch (ex) {
+    } catch (ex: any) {
       assert.strictEqual(ex.details.errorCode, "InvalidResourceNameHeader");
       assert.strictEqual(ex.details.message, "InvalidResourceNameBody");
     }

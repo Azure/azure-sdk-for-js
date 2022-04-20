@@ -349,7 +349,7 @@ export class ShareServiceClient extends StorageClient {
         shareCreateResponse,
         shareClient,
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -375,7 +375,7 @@ export class ShareServiceClient extends StorageClient {
     try {
       const shareClient = this.getShareClient(shareName);
       return await shareClient.delete(updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -403,7 +403,7 @@ export class ShareServiceClient extends StorageClient {
         abortSignal: options.abortSignal,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -433,7 +433,7 @@ export class ShareServiceClient extends StorageClient {
         abortSignal: options.abortSignal,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -655,7 +655,7 @@ export class ShareServiceClient extends StorageClient {
       }
 
       return res;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -691,7 +691,7 @@ export class ShareServiceClient extends StorageClient {
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
       return shareClient;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

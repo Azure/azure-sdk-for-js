@@ -49,7 +49,7 @@ describe("Utility Helpers Node.js only", () => {
         "DefaultEndpointsProtocol=a;AccountName=b;AccountKey=c;EndpointSuffix=d"
       );
       assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
+    } catch (error: any) {
       assert.ok(
         error.message ===
           "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'"
@@ -65,7 +65,7 @@ describe("Utility Helpers Node.js only", () => {
       );
 
       assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         "Invalid AccountName in the provided Connection String",
         error.message,
@@ -80,7 +80,7 @@ describe("Utility Helpers Node.js only", () => {
         "DefaultEndpointsProtocol=https;AccountName=b;AccountKey=cdefg;EndpointSuffix="
       );
       assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         "Invalid EndpointSuffix in the provided Connection String",
         error.message,
@@ -95,7 +95,7 @@ describe("Utility Helpers Node.js only", () => {
         "DefaultEndpointsProtocol=https;AccountName=b;AccountKey=;EndpointSuffix=d"
       );
       assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         "Invalid AccountKey in the provided Connection String",
         error.message,
@@ -110,7 +110,7 @@ describe("Utility Helpers Node.js only", () => {
         "DefaultEndpointsProtocol=https;AccountName=;AccountKey=c;EndpointSuffix=d"
       );
       assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         "Invalid AccountName in the provided Connection String",
         error.message,
@@ -125,7 +125,7 @@ describe("Utility Helpers Node.js only", () => {
         "DefaultEndpointsProtocol=;AccountName=b;AccountKey=c;EndpointSuffix=d"
       );
       assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'",
         error.message,
@@ -218,7 +218,7 @@ describe("Utility Helpers Node.js only", () => {
       try {
         await readStreamToLocalFile(readStream, validFilePath);
         throw new Error("Test failure");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(
           err.message,
           "Expected error.",
@@ -235,7 +235,7 @@ describe("Utility Helpers Node.js only", () => {
       try {
         await readStreamToLocalFile(readStream, __dirname);
         throw new Error("Test failure");
-      } catch (err) {
+      } catch (err: any) {
         assert.notEqual(err.message, "Test failure");
       }
     });
@@ -378,7 +378,7 @@ describe("Utility Helpers Node.js only", () => {
           } else {
             throw new Error("Test failure");
           }
-        } catch (err) {
+        } catch (err: any) {
           if (test.expectedSuccess) {
             throw err;
           } else {

@@ -53,7 +53,7 @@ class FetchHttpClient implements HttpClient {
 
     try {
       return await makeRequest(request);
-    } catch (e) {
+    } catch (e: any) {
       throw getError(e, request);
     }
   }

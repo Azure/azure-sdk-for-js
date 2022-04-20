@@ -23,7 +23,7 @@ describe("TableTransaction", () => {
       try {
         parseTransactionResponse(testResponse);
         assert.fail("Expected error");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.message, "Transaction Failed");
       }
     });
@@ -44,7 +44,7 @@ describe("TableTransaction", () => {
       try {
         parseTransactionResponse(testResponse);
         assert.fail("Expected error");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.message, "Test message");
         assert.equal(error.code, "123");
       }

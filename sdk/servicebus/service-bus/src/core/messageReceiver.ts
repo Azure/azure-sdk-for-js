@@ -186,7 +186,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
       // It is possible for someone to close the receiver and then start it again.
       // Thus make sure that the receiver is present in the client cache.
       this._context.messageReceivers[this.name] = this as any;
-    } catch (err) {
+    } catch (err: any) {
       const translatedError = translateServiceBusError(err);
       logger.logError(
         translatedError,

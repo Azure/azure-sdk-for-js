@@ -126,7 +126,7 @@ describe("EPH", function(): void {
                 sequence = data.sequenceNumber as number;
                 doneCheckpointing = true;
               }
-            } catch (err) {
+            } catch (err: any) {
               debug("An error occurred while checkpointing msg number %d: %O", num, err);
             }
           }
@@ -537,7 +537,7 @@ describe("EPH", function(): void {
         );
         try {
           await host.getPartitionInformation(false as any);
-        } catch (err) {
+        } catch (err: any) {
           err.message.should.equal(
             "'partitionId' is a required parameter and must be of type: 'string' | 'number'."
           );
@@ -566,7 +566,7 @@ describe("EPH", function(): void {
         );
         try {
           await host.getPartitionInformation("");
-        } catch (err) {
+        } catch (err: any) {
           err.message.should.match(
             /.*The specified partition is invalid for an EventHub partition sender or receiver.*/gi
           );
@@ -597,7 +597,7 @@ describe("EPH", function(): void {
         );
         try {
           await host.getPartitionInformation(-1);
-        } catch (err) {
+        } catch (err: any) {
           err.message.should.match(
             /.*The specified partition is invalid for an EventHub partition sender or receiver.*/gi
           );
@@ -629,7 +629,7 @@ describe("EPH", function(): void {
             initialOffset: EventPosition.fromEnqueuedTime(Date.now())
           }
         );
-      } catch (err) {
+      } catch (err: any) {
         should.exist(err);
         err.message.match(
           /.*Either provide "path" or the "connectionString": "Endpoint=sb:\/\/foo\.bar\.baz\.net\/;SharedAccessKeyName=somekey;SharedAccessKey=somesecret", must contain EntityPath="<path-to-the-entity>.*"/gi
