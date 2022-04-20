@@ -170,6 +170,24 @@ describe("AzureCliCredential (internal)", function () {
     }
   });
 
+  // Reported by https://github.com/Azure/azure-sdk-for-js/issues/21151
+  it("get access token when having other access token error", async () => {
+    stdout = "";
+    stderr = `Error: Command failed: az account get-access-token --output json --resource https://database.windows.net/
+ERROR: AADSTS50005: User tried to log in to a device from a platform (Unknown) that's currently not supported through Conditional Access policy. Supported device platforms are: iOS, Android, Mac, and Windows flavors.
+Trace ID: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+Correlation ID: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+Timestamp: 2022-02-22 10:11:12Z
+To re-authenticate, please run:
+az login --scope https://database.windows.net//.default`;
+    const credential = new AzureCliCredential();
+    try {
+      await credential.getToken("https://service/.default");
+    } catch (error: any) {
+      assert.equal(error.message, stderr);
+    }
+  });
+
   it("get access token when having a warning on stderr", async () => {
     stdout = '{"accessToken": "token","expiresOn": "01/01/1900 00:00:00 +00:00"}';
     stderr = "Argument '--tenant' is in preview. It may be changed/removed in a future release.";
