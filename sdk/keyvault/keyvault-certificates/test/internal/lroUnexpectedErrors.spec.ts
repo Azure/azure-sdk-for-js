@@ -91,17 +91,17 @@ describe("The LROs properly throw on unexpected errors", () => {
     });
   });
 
-  describe("recover LRO", () => {
+  describe.only("recover LRO", () => {
     it("403 doesn't throw", async function () {
       const code = 403;
       const client: any = {
         async recoverDeletedCertificate(): Promise<any> {
           return {
             _response: {
-              parsedBody: {
+              bodyAsText: JSON.stringify({
                 id: "/version/name/version",
                 recoveryId: "something",
-              },
+              }),
             },
           };
         },
@@ -126,10 +126,10 @@ describe("The LROs properly throw on unexpected errors", () => {
         async recoverDeletedCertificate(): Promise<any> {
           return {
             _response: {
-              parsedBody: {
+              bodyAsText: JSON.stringify({
                 id: "/version/name/version",
                 recoveryId: "something",
-              },
+              }),
             },
           };
         },
@@ -156,10 +156,10 @@ describe("The LROs properly throw on unexpected errors", () => {
           async recoverDeletedCertificate(): Promise<any> {
             return {
               _response: {
-                parsedBody: {
+                bodyAsText: JSON.stringify({
                   id: "/version/name/version",
                   recoveryId: "something",
-                },
+                }),
               },
             };
           },

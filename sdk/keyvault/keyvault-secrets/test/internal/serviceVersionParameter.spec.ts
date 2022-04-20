@@ -58,7 +58,7 @@ describe("The Secrets client should set the serviceVersion", () => {
     const calls = spy.getCalls();
     assert.equal(
       calls[0].args[0].url,
-      `https://keyVaultName.vault.azure.net/secrets/secretName?api-version=${LATEST_API_VERSION}`
+      `https://keyvaultname.vault.azure.net/secrets/secretName?api-version=${LATEST_API_VERSION}`
     );
   });
 
@@ -78,7 +78,7 @@ describe("The Secrets client should set the serviceVersion", () => {
       const lastCall = calls[calls.length - 1];
       assert.equal(
         lastCall.args[0].url,
-        `https://keyVaultName.vault.azure.net/secrets/secretName?api-version=${serviceVersion}`
+        `https://keyvaultname.vault.azure.net/secrets/secretName?api-version=${serviceVersion}`
       );
     }
   });

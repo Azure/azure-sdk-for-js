@@ -15,7 +15,7 @@ import { ClientSecretCredential } from "@azure/identity";
 import { env } from "@azure-tools/test-recorder";
 
 describe("The Certificates client should set the serviceVersion", () => {
-  const keyVaultUrl = `https://keyVaultName.vault.azure.net`;
+  const keyVaultUrl = `https://keyvaultname.vault.azure.net`;
 
   const mockHttpClient: HttpClient = {
     async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
@@ -54,11 +54,10 @@ describe("The Certificates client should set the serviceVersion", () => {
       httpClient: mockHttpClient,
     });
     await client.getCertificate("certificateName");
-
     const calls = spy.getCalls();
     assert.equal(
       calls[0].args[0].url,
-      `https://keyVaultName.vault.azure.net/certificates/certificateName/?api-version=${LATEST_API_VERSION}`
+      `https://keyvaultname.vault.azure.net/certificates/certificateName/?api-version=${LATEST_API_VERSION}`
     );
   });
 
