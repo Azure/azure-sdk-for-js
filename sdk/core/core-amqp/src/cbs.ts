@@ -261,7 +261,7 @@ export class CbsClient {
       }
     } catch (err) {
       const msg = `An error occurred while closing the cbs link: ${
-      isError(err) ? err.stack || JSON.stringify(err) : JSON.stringify(err)
+        isError(err) ? err.stack || JSON.stringify(err) : JSON.stringify(err)
       }.`;
       logger.verbose("[%s] %s", this.connection.id, msg);
       throw new Error(msg);

@@ -457,7 +457,11 @@ describe("RequestResponseLink", function () {
       assert.ok(isError(err));
       const error = err as Error;
       assert.equal(error.name, "AbortError", `Error name ${error.name} is not as expected`);
-      assert.equal(error.message, StandardAbortMessage, `Incorrect error received "${error.message}"`);
+      assert.equal(
+        error.message,
+        StandardAbortMessage,
+        `Incorrect error received "${error.message}"`
+      );
     }
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
   });
@@ -522,8 +526,12 @@ describe("RequestResponseLink", function () {
     } catch (err) {
       assert.ok(isError(err));
       const error = err as Error;
-     assert.equal(error.name, "AbortError", `Error name ${error.name} is not as expected`);
-      assert.equal(error.message, StandardAbortMessage, `Incorrect error received "${error.message}"`);
+      assert.equal(error.name, "AbortError", `Error name ${error.name} is not as expected`);
+      assert.equal(
+        error.message,
+        StandardAbortMessage,
+        `Incorrect error received "${error.message}"`
+      );
     }
     // Final state of the map
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
@@ -580,7 +588,11 @@ describe("RequestResponseLink", function () {
       assert.ok(isError(err));
       const error = err as Error;
       assert.equal(error.name, "AbortError", `Error name ${error.name} is not as expected`);
-      assert.equal(error.message, StandardAbortMessage, `Incorrect error received "${error.message}"`);
+      assert.equal(
+        error.message,
+        StandardAbortMessage,
+        `Incorrect error received "${error.message}"`
+      );
     }
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
   });
