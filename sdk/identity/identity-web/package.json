@@ -60,7 +60,8 @@
   "sideEffects": false,
   "dependencies": {
     "tslib": "^2.2.0",
-    "@azure/identity": "2.1.0-beta.3"
+    "@azure/identity": "2.1.0-beta.2",
+    "@azure/core-tracing": "^1.0.0"
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
