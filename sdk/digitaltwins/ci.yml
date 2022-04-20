@@ -11,6 +11,7 @@ trigger:
       - sdk/digitaltwins/
     exclude:
       - sdk/digitaltwins/ci.mgmt.yml
+      - sdk/digitaltwins/arm-digitaltwins/
       - sdk/digitaltwins/arm-digitaltwins
 pr:
   branches:
@@ -26,6 +27,7 @@ pr:
       - sdk/digitaltwins/
     exclude:
       - sdk/digitaltwins/ci.mgmt.yml
+      - sdk/digitaltwins/arm-digitaltwins/
       - sdk/digitaltwins/arm-digitaltwins
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
