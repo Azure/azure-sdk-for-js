@@ -23,8 +23,9 @@ describe("CbsClient", function () {
       try {
         await cbsClient.init({ abortSignal: signal });
         throw new Error(TEST_FAILURE);
-      } catch (err: any) {
-        assert.equal(err.name, "AbortError");
+      } catch (err) {
+        assert.ok(err instanceof Error)
+        assert.equal((err as Error).name, "AbortError");
       }
     });
 
@@ -54,8 +55,9 @@ describe("CbsClient", function () {
       try {
         await cbsClient.init({ abortSignal: signal });
         throw new Error(TEST_FAILURE);
-      } catch (err: any) {
-        assert.equal(err.name, "AbortError");
+      } catch (err) {
+        assert.ok(err instanceof Error)
+        assert.equal((err as Error).name, "AbortError");
       }
     });
 
@@ -74,8 +76,9 @@ describe("CbsClient", function () {
       try {
         await cbsClient.init({ abortSignal: signal });
         throw new Error(TEST_FAILURE);
-      } catch (err: any) {
-        assert.equal(err.name, "AbortError");
+      } catch (err) {
+        assert.ok(err instanceof Error)
+        assert.equal((err as Error).name, "AbortError");
       }
     });
   });
@@ -88,9 +91,10 @@ describe("CbsClient", function () {
       try {
         await cbsClient.negotiateClaim("audience", "token", TokenType.CbsTokenTypeSas);
         throw new Error(TEST_FAILURE);
-      } catch (err: any) {
+      } catch (err) {
+        assert.ok(err instanceof Error)
         assert.equal(
-          err.message,
+          (err as Error).message,
           "Attempted to negotiate a claim but the CBS link does not exist."
         );
       }
@@ -112,8 +116,9 @@ describe("CbsClient", function () {
             abortSignal: signal,
           });
           throw new Error(TEST_FAILURE);
-        } catch (err: any) {
-          assert.equal(err.name, "AbortError");
+        } catch (err) {
+          assert.ok(err instanceof Error)
+          assert.equal((err as Error).name, "AbortError");
         }
       });
 
@@ -134,8 +139,9 @@ describe("CbsClient", function () {
             abortSignal: signal,
           });
           throw new Error(TEST_FAILURE);
-        } catch (err: any) {
-          assert.equal(err.name, "AbortError");
+        } catch (err) { 
+          assert.ok(err instanceof Error)
+          assert.equal((err as Error).name, "AbortError");
         }
       });
     });
