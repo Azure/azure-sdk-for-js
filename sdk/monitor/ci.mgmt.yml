@@ -11,6 +11,7 @@ trigger:
       - sdk/monitor/ci.mgmt.yml
       - sdk/monitor/arm-monitor/
       - sdk/monitor/arm-monitor-profile-2020-09-01-hybrid
+      - sdk/monitor/arm-monitor
 pr:
   branches:
     include:
@@ -25,6 +26,7 @@ pr:
       - sdk/monitor/ci.mgmt.yml
       - sdk/monitor/arm-monitor/
       - sdk/monitor/arm-monitor-profile-2020-09-01-hybrid
+      - sdk/monitor/arm-monitor
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

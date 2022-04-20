@@ -29,8 +29,12 @@ import {
   NotificationRequestBody,
   ActionGroupsPostTestNotificationsOptionalParams,
   ActionGroupsPostTestNotificationsResponse,
+  ActionGroupsCreateNotificationsAtResourceGroupLevelOptionalParams,
+  ActionGroupsCreateNotificationsAtResourceGroupLevelResponse,
   ActionGroupsGetTestNotificationsOptionalParams,
   ActionGroupsGetTestNotificationsResponse,
+  ActionGroupsGetTestNotificationsAtResourceGroupLevelOptionalParams,
+  ActionGroupsGetTestNotificationsAtResourceGroupLevelResponse,
   ActionGroupsListBySubscriptionIdResponse,
   ActionGroupsListByResourceGroupResponse,
   EnableRequest,
@@ -283,6 +287,94 @@ export class ActionGroupsImpl implements ActionGroups {
   }
 
   /**
+   * Send test notifications to a set of provided receivers
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param notificationRequest The notification request body which includes the contact details
+   * @param options The options parameters.
+   */
+  async beginCreateNotificationsAtResourceGroupLevel(
+    resourceGroupName: string,
+    notificationRequest: NotificationRequestBody,
+    options?: ActionGroupsCreateNotificationsAtResourceGroupLevelOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<
+        ActionGroupsCreateNotificationsAtResourceGroupLevelResponse
+      >,
+      ActionGroupsCreateNotificationsAtResourceGroupLevelResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ActionGroupsCreateNotificationsAtResourceGroupLevelResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, notificationRequest, options },
+      createNotificationsAtResourceGroupLevelOperationSpec
+    );
+    return new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "location"
+    });
+  }
+
+  /**
+   * Send test notifications to a set of provided receivers
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param notificationRequest The notification request body which includes the contact details
+   * @param options The options parameters.
+   */
+  async beginCreateNotificationsAtResourceGroupLevelAndWait(
+    resourceGroupName: string,
+    notificationRequest: NotificationRequestBody,
+    options?: ActionGroupsCreateNotificationsAtResourceGroupLevelOptionalParams
+  ): Promise<ActionGroupsCreateNotificationsAtResourceGroupLevelResponse> {
+    const poller = await this.beginCreateNotificationsAtResourceGroupLevel(
+      resourceGroupName,
+      notificationRequest,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Get the test notifications by the notification id
    * @param notificationId The notification id
    * @param options The options parameters.
@@ -294,6 +386,23 @@ export class ActionGroupsImpl implements ActionGroups {
     return this.client.sendOperationRequest(
       { notificationId, options },
       getTestNotificationsOperationSpec
+    );
+  }
+
+  /**
+   * Get the test notifications by the notification id
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param notificationId The notification id
+   * @param options The options parameters.
+   */
+  getTestNotificationsAtResourceGroupLevel(
+    resourceGroupName: string,
+    notificationId: string,
+    options?: ActionGroupsGetTestNotificationsAtResourceGroupLevelOptionalParams
+  ): Promise<ActionGroupsGetTestNotificationsAtResourceGroupLevelResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, notificationId, options },
+      getTestNotificationsAtResourceGroupLevelOperationSpec
     );
   }
 
@@ -448,16 +557,16 @@ const postTestNotificationsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.TestNotificationResponse
+      headersMapper: Mappers.ActionGroupsPostTestNotificationsHeaders
     },
     201: {
-      bodyMapper: Mappers.TestNotificationResponse
+      headersMapper: Mappers.ActionGroupsPostTestNotificationsHeaders
     },
     202: {
-      bodyMapper: Mappers.TestNotificationResponse
+      headersMapper: Mappers.ActionGroupsPostTestNotificationsHeaders
     },
     204: {
-      bodyMapper: Mappers.TestNotificationResponse
+      headersMapper: Mappers.ActionGroupsPostTestNotificationsHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -466,6 +575,42 @@ const postTestNotificationsOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.notificationRequest,
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const createNotificationsAtResourceGroupLevelOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/createNotifications",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper:
+        Mappers.ActionGroupsCreateNotificationsAtResourceGroupLevelHeaders
+    },
+    201: {
+      headersMapper:
+        Mappers.ActionGroupsCreateNotificationsAtResourceGroupLevelHeaders
+    },
+    202: {
+      headersMapper:
+        Mappers.ActionGroupsCreateNotificationsAtResourceGroupLevelHeaders
+    },
+    204: {
+      headersMapper:
+        Mappers.ActionGroupsCreateNotificationsAtResourceGroupLevelHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.notificationRequest,
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId
+  ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
@@ -485,6 +630,28 @@ const getTestNotificationsOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.notificationId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getTestNotificationsAtResourceGroupLevelOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/notificationStatus/{notificationId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TestNotificationDetailsResponse
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.notificationId
   ],
