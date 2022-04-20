@@ -37,8 +37,7 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
     const serviceNamespace = span.resource.attributes[SemanticResourceAttributes.SERVICE_NAMESPACE];
     if (serviceName) {
       if (serviceNamespace) {
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-        tags[KnownContextTagKeys.AiCloudRole] = `${serviceNamespace}.${serviceName}`;
+        tags[KnownContextTagKeys.AiCloudRole] = `${(serviceNamespace as string)}.${(serviceName as string)}`;
       } else {
         tags[KnownContextTagKeys.AiCloudRole] = String(serviceName);
       }

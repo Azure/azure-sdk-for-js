@@ -124,7 +124,8 @@ export class FileSystemPersist implements PersistentStorage {
       }
       return null;
     } catch (e: any) {
-      if (e && (e as Record<string, unknown>).code === "ENOENT") {
+      const strongErr = e as Record<string, unknown>;
+      if (strongErr?.code === "ENOENT") {
         // File does not exist -- return null instead of throwing
         return null;
       } else {
@@ -179,8 +180,7 @@ export class FileSystemPersist implements PersistentStorage {
         if (files.length === 0) {
           return false;
         } else {
-          // eslint-disable-next-line @typescript-eslint/no-misused-promises
-          files.forEach(async (file) => {
+          for (const file of files) {
             // Check expiration
             const fileCreationDate: Date = new Date(
               parseInt(file.split(FileSystemPersist.FILENAME_SUFFIX)[0])
@@ -190,7 +190,7 @@ export class FileSystemPersist implements PersistentStorage {
               const filePath = path.join(this._tempDirectory, file);
               await unlinkAsync(filePath);
             }
-          });
+          }
           return true;
         }
       }
