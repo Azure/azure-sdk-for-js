@@ -79,7 +79,7 @@ export function getPropertyFromVSCode(property: string): string | undefined {
       default:
         return;
     }
-  } catch (e) {
+  } catch (e: any) {
     logger.info(`Failed to load the Visual Studio Code configuration file. Error: ${e.message}`);
     return;
   }

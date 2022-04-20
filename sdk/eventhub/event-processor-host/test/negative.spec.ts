@@ -62,7 +62,7 @@ describe("negative", function(): void {
         debug("Test logs: [%s] Trying to start second time.", hostName);
         await host.start(onMessage, onError);
         throw new Error("The second call to start() should have failed.");
-      } catch (err) {
+      } catch (err: any) {
         err.message.should.match(/A partition manager cannot be started multiple times/gi);
       } finally {
         await host.stop();
@@ -152,7 +152,7 @@ describe("negative", function(): void {
         }
       );
       done(new Error("creating eph should have failed."));
-    } catch (err) {
+    } catch (err: any) {
       should.exist(err);
       err.message.should.match(/Connection strings must be of the form/gi);
       done();

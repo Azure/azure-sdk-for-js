@@ -8,7 +8,7 @@ import { TokenCredentialOptions } from "../tokenCredentialOptions";
 import { ClientSecretCredential } from "./clientSecretCredential";
 import { AuthenticationError, CredentialUnavailableError } from "../errors";
 import { checkTenantId } from "../util/checkTenantId";
-import { trace } from "../util/tracing";
+import { tracingClient } from "../util/tracing";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
 import { UsernamePasswordCredential } from "./usernamePasswordCredential";
 
@@ -125,13 +125,13 @@ export class EnvironmentCredential implements TokenCredential {
    * @param options - Optional parameters. See {@link GetTokenOptions}.
    */
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
-    return trace(`${credentialName}.getToken`, options, async (newOptions) => {
+    return tracingClient.withSpan(`${credentialName}.getToken`, options, async (newOptions) => {
       if (this._credential) {
         try {
           const result = await this._credential.getToken(scopes, newOptions);
           logger.getToken.info(formatSuccess(scopes));
           return result;
-        } catch (err) {
+        } catch (err: any) {
           const authenticationError = new AuthenticationError(400, {
             error: `${credentialName} authentication failed. To troubleshoot, visit https://aka.ms/azsdk/js/identity/environmentcredential/troubleshoot.`,
             error_description: err.message.toString().split("More details:").join(""),

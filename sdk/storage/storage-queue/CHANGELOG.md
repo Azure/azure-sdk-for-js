@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Add `react-native` mapping to ESM entry point
+
 ### Other Changes
 
 ## 12.8.0 (2022-03-11)

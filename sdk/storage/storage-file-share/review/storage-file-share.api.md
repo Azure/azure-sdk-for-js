@@ -133,6 +133,7 @@ export interface CommonOptions {
 // @public
 export interface CopyFileSmbInfo {
     fileAttributes?: string;
+    fileChangeTime?: string;
     fileCreationTime?: string;
     fileLastWriteTime?: string;
     filePermissionCopyMode?: PermissionCopyModeType;
@@ -498,6 +499,7 @@ export type FileAbortCopyResponse = FileAbortCopyHeaders & {
 
 // @public (undocumented)
 export interface FileAndDirectoryCreateCommonOptions {
+    changeTime?: Date | TimeNowType;
     creationTime?: Date | TimeNowType;
     fileAttributes?: FileSystemAttributes;
     filePermission?: string | FilePermissionInheritType;
@@ -507,6 +509,7 @@ export interface FileAndDirectoryCreateCommonOptions {
 
 // @public (undocumented)
 export interface FileAndDirectorySetPropertiesCommonOptions {
+    changeTime?: Date | TimeNowType;
     creationTime?: Date | TimeNowType | TimePreserveType;
     fileAttributes?: FileSystemAttributes | FileAttributesPreserveType;
     filePermission?: string | FilePermissionInheritType | FilePermissionPreserveType;
@@ -520,6 +523,7 @@ export type FileAttributesPreserveType = "preserve";
 // @public
 export interface FileClearRangeOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    fileLastWrittenMode?: FileLastWrittenMode;
     leaseAccessConditions?: LeaseAccessConditions;
 }
 
@@ -811,6 +815,9 @@ export interface FileItem {
 }
 
 // @public
+export type FileLastWrittenMode = "Now" | "Preserve";
+
+// @public
 export interface FileListHandlesHeaders {
     contentType?: string;
     date?: Date;
@@ -900,6 +907,7 @@ export interface FileRenameHeaders {
 // @public
 export interface FileRenameOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    contentType?: string;
     copyFileSmbInfo?: CopyFileSmbInfo;
     destinationLeaseAccessConditions?: LeaseAccessConditions;
     filePermission?: string;
@@ -1072,6 +1080,7 @@ export interface FileUploadRangeFromURLHeaders {
     date?: Date;
     errorCode?: string;
     etag?: string;
+    fileLastWriteTime?: Date;
     isServerEncrypted?: boolean;
     lastModified?: Date;
     requestId?: string;
@@ -1082,6 +1091,7 @@ export interface FileUploadRangeFromURLHeaders {
 // @public
 export interface FileUploadRangeFromURLOptionalParams extends coreHttp.OperationOptions {
     copySourceAuthorization?: string;
+    fileLastWrittenMode?: FileLastWrittenMode;
     leaseAccessConditions?: LeaseAccessConditions;
     sourceContentCrc64?: Uint8Array;
     sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
@@ -1092,6 +1102,7 @@ export interface FileUploadRangeFromURLOptionalParams extends coreHttp.Operation
 // @public
 export interface FileUploadRangeFromURLOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    fileLastWrittenMode?: FileLastWrittenMode;
     leaseAccessConditions?: LeaseAccessConditions;
     sourceAuthorization?: HttpAuthorization;
     sourceConditions?: SourceModifiedAccessConditions;
@@ -1112,6 +1123,7 @@ export interface FileUploadRangeHeaders {
     date?: Date;
     errorCode?: string;
     etag?: string;
+    fileLastWriteTime?: Date;
     isServerEncrypted?: boolean;
     lastModified?: Date;
     requestId?: string;
@@ -1122,6 +1134,7 @@ export interface FileUploadRangeHeaders {
 export interface FileUploadRangeOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     contentMD5?: Uint8Array;
+    fileLastWrittenMode?: FileLastWrittenMode;
     leaseAccessConditions?: LeaseAccessConditions;
     onProgress?: (progress: TransferProgressEvent) => void;
 }

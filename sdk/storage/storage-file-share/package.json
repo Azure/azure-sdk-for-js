@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-file-share",
   "sdk-type": "client",
-  "version": "12.9.1",
+  "version": "12.10.0-beta.1",
   "description": "Microsoft Azure Storage SDK for JavaScript - File",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
@@ -14,6 +14,9 @@
     "fs": false,
     "os": false,
     "process": false
+  },
+  "react-native": {
+    "./dist/index.js": "./dist-esm/src/index.js"
   },
   "types": "./types/latest/storage-file-share.d.ts",
   "typesVersions": {

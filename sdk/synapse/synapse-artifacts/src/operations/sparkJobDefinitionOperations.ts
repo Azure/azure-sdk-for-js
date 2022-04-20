@@ -113,7 +113,7 @@ export class SparkJobDefinitionOperationsImpl
         getSparkJobDefinitionsByWorkspaceOperationSpec
       );
       return result as SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -153,7 +153,7 @@ export class SparkJobDefinitionOperationsImpl
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -201,10 +201,12 @@ export class SparkJobDefinitionOperationsImpl
       { sparkJobDefinitionName, sparkJobDefinition, options },
       createOrUpdateSparkJobDefinitionOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -245,7 +247,7 @@ export class SparkJobDefinitionOperationsImpl
         getSparkJobDefinitionOperationSpec
       );
       return result as SparkJobDefinitionGetSparkJobDefinitionResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -276,7 +278,7 @@ export class SparkJobDefinitionOperationsImpl
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -324,10 +326,12 @@ export class SparkJobDefinitionOperationsImpl
       { sparkJobDefinitionName, options },
       deleteSparkJobDefinitionOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -371,7 +375,7 @@ export class SparkJobDefinitionOperationsImpl
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as SparkJobDefinitionExecuteSparkJobDefinitionResponse;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -419,11 +423,13 @@ export class SparkJobDefinitionOperationsImpl
       { sparkJobDefinitionName, options },
       executeSparkJobDefinitionOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -464,7 +470,7 @@ export class SparkJobDefinitionOperationsImpl
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -512,10 +518,12 @@ export class SparkJobDefinitionOperationsImpl
       { sparkJobDefinitionName, request, options },
       renameSparkJobDefinitionOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -562,7 +570,7 @@ export class SparkJobDefinitionOperationsImpl
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as SparkJobDefinitionDebugSparkJobDefinitionResponse;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -610,11 +618,13 @@ export class SparkJobDefinitionOperationsImpl
       { sparkJobDefinitionAzureResource, options },
       debugSparkJobDefinitionOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -653,7 +663,7 @@ export class SparkJobDefinitionOperationsImpl
         getSparkJobDefinitionsByWorkspaceNextOperationSpec
       );
       return result as SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -675,10 +685,10 @@ const getSparkJobDefinitionsByWorkspaceOperationSpec: coreClient.OperationSpec =
       bodyMapper: Mappers.SparkJobDefinitionsListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -700,11 +710,11 @@ const createOrUpdateSparkJobDefinitionOperationSpec: coreClient.OperationSpec = 
       bodyMapper: Mappers.SparkJobDefinitionResource
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
   requestBody: Parameters.sparkJobDefinition,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.sparkJobDefinitionName],
   headerParameters: [
     Parameters.accept,
@@ -723,10 +733,10 @@ const getSparkJobDefinitionOperationSpec: coreClient.OperationSpec = {
     },
     304: {},
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.sparkJobDefinitionName],
   headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
   serializer
@@ -740,10 +750,10 @@ const deleteSparkJobDefinitionOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.sparkJobDefinitionName],
   headerParameters: [Parameters.accept],
   serializer
@@ -765,10 +775,10 @@ const executeSparkJobDefinitionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SparkBatchJob
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.sparkJobDefinitionName],
   headerParameters: [Parameters.accept],
   serializer
@@ -782,11 +792,11 @@ const renameSparkJobDefinitionOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
   requestBody: Parameters.request,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.sparkJobDefinitionName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -809,11 +819,11 @@ const debugSparkJobDefinitionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SparkBatchJob
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
   requestBody: Parameters.sparkJobDefinitionAzureResource,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -827,10 +837,10 @@ const getSparkJobDefinitionsByWorkspaceNextOperationSpec: coreClient.OperationSp
       bodyMapper: Mappers.SparkJobDefinitionsListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

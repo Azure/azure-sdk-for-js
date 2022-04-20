@@ -15,7 +15,39 @@ app.get("/", (_, res) => {
   res.send("Hello world!");
 });
 
-app.get("/sample_response", (_, res) => {
+app.get("/redirectWithHost", (req, res) => {
+  res.redirect(307, `http://${req.hostname}:${port}/sample_response`);
+});
+
+app.get("/redirectWithoutHost", (_, res) => {
+  res.redirect(307, `/sample_response`);
+});
+
+let sendRetryResponse = true;
+
+app.get("/reset_retry", (_, res) => {
+  sendRetryResponse = true;
+  res.send("The retry flag was reset. The next call to /retry will return a 429 status.");
+});
+
+app.get("/retry", (_, res) => {
+  if (sendRetryResponse) {
+    res
+      .status(429)
+      .header("Retry-After", new Date().toUTCString())
+      .send({ error: "429 Too Many Requests" });
+    sendRetryResponse = false;
+  } else {
+    res.send({ val: "abc" });
+  }
+});
+
+app.get("/sample_response", (req, res) => {
+  if (req.header("x-recording-id") !== undefined) {
+    res.status(400).send({ error: "This request bypassed the proxy tool!" });
+    return;
+  }
+
   res.send({ val: "abc" });
 });
 

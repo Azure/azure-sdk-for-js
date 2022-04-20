@@ -9,16 +9,16 @@ import {
   ListRevisionsPage,
 } from "../../../src";
 import {
+  Recorder,
+  RecorderEnvironmentSetup,
   env,
   isPlaybackMode,
-  RecorderEnvironmentSetup,
   record,
-  Recorder,
 } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 
 import { DefaultAzureCredential, TokenCredential } from "@azure/identity";
-import { RestError } from "@azure/core-http";
+import { RestError } from "@azure/core-rest-pipeline";
 
 let connectionStringNotPresentWarning = false;
 let tokenCredentialsNotPresentWarning = false;
@@ -162,7 +162,7 @@ export async function assertThrowsRestError(
   try {
     await testFunction();
     assert.fail(`${message}: No error thrown`);
-  } catch (err) {
+  } catch (err: any) {
     if (!(err instanceof Error)) {
       throw new Error("Error is not recognized");
     }
@@ -185,7 +185,7 @@ export async function assertThrowsAbortError(
   try {
     await testFunction();
     assert.fail(`${message}: No error thrown`);
-  } catch (e) {
+  } catch (e: any) {
     if (!(e instanceof Error)) {
       throw new Error("Error is not recognized");
     }

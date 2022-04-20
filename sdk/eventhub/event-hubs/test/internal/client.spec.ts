@@ -265,7 +265,7 @@ testWithServiceTypes((serviceVersion) => {
       try {
         await client.getEventHubProperties();
         throw new Error(testFailureMessage);
-      } catch (err) {
+      } catch (err: any) {
         debug(err);
         validateConnectionError(err);
       }
@@ -275,7 +275,7 @@ testWithServiceTypes((serviceVersion) => {
       try {
         await client.getPartitionProperties("0");
         throw new Error(testFailureMessage);
-      } catch (err) {
+      } catch (err: any) {
         debug(err);
         validateConnectionError(err);
       }
@@ -285,7 +285,7 @@ testWithServiceTypes((serviceVersion) => {
       try {
         await client.getPartitionIds();
         throw new Error(testFailureMessage);
-      } catch (err) {
+      } catch (err: any) {
         debug(err);
         validateConnectionError(err);
       }
@@ -328,7 +328,7 @@ testWithServiceTypes((serviceVersion) => {
       try {
         await client.getEventHubProperties();
         throw new Error(testFailureMessage);
-      } catch (err) {
+      } catch (err: any) {
         debug(err);
         validateConnectionError(err);
       }
@@ -338,7 +338,7 @@ testWithServiceTypes((serviceVersion) => {
       try {
         await client.getPartitionProperties("0");
         throw new Error(testFailureMessage);
-      } catch (err) {
+      } catch (err: any) {
         debug(err);
         validateConnectionError(err);
       }
@@ -348,7 +348,7 @@ testWithServiceTypes((serviceVersion) => {
       try {
         await client.getPartitionIds();
         throw new Error(testFailureMessage);
-      } catch (err) {
+      } catch (err: any) {
         debug(err);
         validateConnectionError(err);
       }
@@ -358,7 +358,7 @@ testWithServiceTypes((serviceVersion) => {
       try {
         await client.sendBatch([{ body: "Hello World" }]);
         throw new Error(testFailureMessage);
-      } catch (err) {
+      } catch (err: any) {
         debug(err);
         validateConnectionError(err);
       }
@@ -368,7 +368,7 @@ testWithServiceTypes((serviceVersion) => {
       try {
         await client.createBatch();
         throw new Error(testFailureMessage);
-      } catch (err) {
+      } catch (err: any) {
         debug(err);
         validateConnectionError(err);
       }
@@ -400,7 +400,7 @@ testWithServiceTypes((serviceVersion) => {
       try {
         await client.getEventHubProperties();
         throw new Error(testFailureMessage);
-      } catch (err) {
+      } catch (err: any) {
         debug(err);
         should.equal(err.code, expectedErrCode);
       }
@@ -410,7 +410,7 @@ testWithServiceTypes((serviceVersion) => {
       try {
         await client.getPartitionProperties("0");
         throw new Error(testFailureMessage);
-      } catch (err) {
+      } catch (err: any) {
         debug(err);
         should.equal(err.code, expectedErrCode);
       }
@@ -420,7 +420,7 @@ testWithServiceTypes((serviceVersion) => {
       try {
         await client.getPartitionIds();
         throw new Error(testFailureMessage);
-      } catch (err) {
+      } catch (err: any) {
         debug(err);
         should.equal(err.code, expectedErrCode);
       }
@@ -467,7 +467,7 @@ testWithServiceTypes((serviceVersion) => {
       try {
         await client.getEventHubProperties();
         throw new Error(testFailureMessage);
-      } catch (err) {
+      } catch (err: any) {
         debug(err);
         should.equal(err.code, expectedErrCode);
       }
@@ -477,7 +477,7 @@ testWithServiceTypes((serviceVersion) => {
       try {
         await client.getPartitionProperties("0");
         throw new Error(testFailureMessage);
-      } catch (err) {
+      } catch (err: any) {
         debug(err);
         should.equal(err.code, expectedErrCode);
       }
@@ -487,7 +487,7 @@ testWithServiceTypes((serviceVersion) => {
       try {
         await client.getPartitionIds();
         throw new Error(testFailureMessage);
-      } catch (err) {
+      } catch (err: any) {
         debug(err);
         should.equal(err.code, expectedErrCode);
       }
@@ -497,7 +497,7 @@ testWithServiceTypes((serviceVersion) => {
       try {
         await client.sendBatch([{ body: "Hello World" }]);
         throw new Error(testFailureMessage);
-      } catch (err) {
+      } catch (err: any) {
         debug(err);
         should.equal(err.code, expectedErrCode);
       }
@@ -507,7 +507,7 @@ testWithServiceTypes((serviceVersion) => {
       try {
         await client.createBatch();
         throw new Error(testFailureMessage);
-      } catch (err) {
+      } catch (err: any) {
         debug(err);
         should.equal(err.code, expectedErrCode);
       }
@@ -634,7 +634,7 @@ testWithServiceTypes((serviceVersion) => {
       try {
         await client.getEventHubProperties();
         throw new Error(testFailureMessage);
-      } catch (err) {
+      } catch (err: any) {
         debug(err);
         should.equal(err.message, expectedErrorMsg);
       }
@@ -645,7 +645,7 @@ testWithServiceTypes((serviceVersion) => {
       try {
         await client.getPartitionProperties("0");
         throw new Error(testFailureMessage);
-      } catch (err) {
+      } catch (err: any) {
         debug(err);
         should.equal(err.message, expectedErrorMsg);
       }
@@ -656,7 +656,7 @@ testWithServiceTypes((serviceVersion) => {
       try {
         await client.getPartitionIds();
         throw new Error(testFailureMessage);
-      } catch (err) {
+      } catch (err: any) {
         debug(err);
         should.equal(err.message, expectedErrorMsg);
       }
@@ -713,7 +713,7 @@ testWithServiceTypes((serviceVersion) => {
       try {
         await client.getEventHubProperties();
         throw new Error(testFailureMessage);
-      } catch (err) {
+      } catch (err: any) {
         debug(err);
         should.equal(err.message, expectedErrorMsg);
       }
@@ -724,7 +724,7 @@ testWithServiceTypes((serviceVersion) => {
       try {
         await client.getPartitionProperties("0");
         throw new Error(testFailureMessage);
-      } catch (err) {
+      } catch (err: any) {
         debug(err);
         should.equal(err.message, expectedErrorMsg);
       }
@@ -735,7 +735,7 @@ testWithServiceTypes((serviceVersion) => {
       try {
         await client.getPartitionIds();
         throw new Error(testFailureMessage);
-      } catch (err) {
+      } catch (err: any) {
         debug(err);
         should.equal(err.message, expectedErrorMsg);
       }
@@ -746,7 +746,7 @@ testWithServiceTypes((serviceVersion) => {
       try {
         await client.sendBatch([{ body: "Hello World" }]);
         throw new Error(testFailureMessage);
-      } catch (err) {
+      } catch (err: any) {
         debug(err);
         should.equal(err.message, expectedErrorMsg);
       }
@@ -757,7 +757,7 @@ testWithServiceTypes((serviceVersion) => {
       try {
         await client.createBatch();
         throw new Error(testFailureMessage);
-      } catch (err) {
+      } catch (err: any) {
         debug(err);
         should.equal(err.message, expectedErrorMsg);
       }

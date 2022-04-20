@@ -100,7 +100,7 @@ export class RecoverDeletedKeyPollOperation extends KeyVaultKeyPollOperation<
       try {
         state.result = await this.getKey(name, operationOptions);
         state.isCompleted = true;
-      } catch (error) {
+      } catch (error: any) {
         if (error.statusCode === 403) {
           // At this point, the resource exists but the user doesn't have access to it.
           state.isCompleted = true;

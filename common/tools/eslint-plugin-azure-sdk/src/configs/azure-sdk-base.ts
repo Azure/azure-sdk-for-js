@@ -7,24 +7,27 @@ export default {
     sourceType: "module",
     extraFileExtensions: [".json", ".javascript"],
   },
-  plugins: ["@typescript-eslint", "no-only-tests", "promise", "eslint-plugin-tsdoc", "import", "markdown"],
-  extends: [
-    "eslint:recommended",
-    "plugin:promise/recommended",
-    "prettier",
+  plugins: [
+    "@typescript-eslint",
+    "no-only-tests",
+    "promise",
+    "eslint-plugin-tsdoc",
+    "import",
+    "markdown",
   ],
+  extends: ["eslint:recommended", "plugin:promise/recommended", "prettier"],
   env: {
     mocha: true,
   },
   ignorePatterns: ["**/generated/**"],
-  "overrides": [
+  overrides: [
     {
-      files: ['*.ts', '*.tsx', '*.json'],
+      files: ["*.ts", "*.tsx", "*.json"],
       parserOptions: {
         project: [
           "./tsconfig.json",
           "../../../common/tools/eslint-plugin-azure-sdk/tsconfig.lintjson.json",
-        ]
+        ],
       },
       extends: [
         "plugin:@typescript-eslint/recommended",
@@ -87,6 +90,7 @@ export default {
         ],
         "@typescript-eslint/no-angle-bracket-type-assertion": "off",
         "@typescript-eslint/no-array-constructor": "off",
+        "@typescript-eslint/no-implicit-any-catch": "warn",
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/explicit-function-return-type": [
           "warn",
@@ -134,21 +138,24 @@ export default {
     },
     {
       files: ["**/*.md"],
-      processor: "markdown/markdown"
+      processor: "markdown/markdown",
     },
     {
       files: ["**/*.md/*.{js,javascript}"],
-      extends: [
-        "plugin:markdown/recommended"
-      ],
+      extends: ["plugin:markdown/recommended"],
       rules: {
-        "no-restricted-imports": ["error", {
-          "patterns": [{
-            "group": ["*"],
-            "message": "Please use require instead of import."
-          }],
-        }]
-      }
-    }
-  ]
+        "no-restricted-imports": [
+          "error",
+          {
+            patterns: [
+              {
+                group: ["*"],
+                message: "Please use require instead of import.",
+              },
+            ],
+          },
+        ],
+      },
+    },
+  ],
 };

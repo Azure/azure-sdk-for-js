@@ -173,7 +173,7 @@ export class ContainerRegistryBlobClient {
         digest,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
     } finally {
       span.end();
@@ -218,7 +218,7 @@ export class ContainerRegistryBlobClient {
       assertHasProperty(createManifestResult, "dockerContentDigest");
 
       return { digest: createManifestResult.dockerContentDigest };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
@@ -271,7 +271,7 @@ export class ContainerRegistryBlobClient {
         manifest,
         manifestStream: Readable.from(bodyData),
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
@@ -297,7 +297,7 @@ export class ContainerRegistryBlobClient {
         digest,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
@@ -365,7 +365,7 @@ export class ContainerRegistryBlobClient {
       }
 
       return { digest };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
@@ -400,7 +400,7 @@ export class ContainerRegistryBlobClient {
         digest,
         content: readableStreamBody ?? Readable.from([]),
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {

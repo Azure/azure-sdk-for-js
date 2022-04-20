@@ -3,11 +3,11 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import { env, isLiveMode, delay, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { AbortController, AbortError } from "@azure/abort-controller";
 import { DeviceCodeCredential, DeviceCodePromptCallback } from "../../../src";
-import { msalNodeTestSetup, MsalTestCleanup, testTracing } from "../../msalTestUtils";
+import { msalNodeTestSetup, MsalTestCleanup } from "../../msalTestUtils";
 import { Context } from "mocha";
 
 // https://github.com/Azure/azure-sdk-for-net/blob/main/sdk/identity/Azure.Identity/src/Constants.cs#L9
@@ -125,7 +125,7 @@ describe("DeviceCodeCredential", function () {
     let error: AbortError | undefined;
     try {
       await getTokenPromise;
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
 
@@ -147,7 +147,7 @@ describe("DeviceCodeCredential", function () {
     let error: AbortError | undefined;
     try {
       await credential.getToken(scope);
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(
@@ -164,8 +164,8 @@ describe("DeviceCodeCredential", function () {
     if (isLiveMode()) {
       this.skip();
     }
-    await testTracing({
-      test: async (tracingOptions) => {
+    await assert.supportsTracing(
+      async (tracingOptions) => {
         const credential = new DeviceCodeCredential(
           recorder.configureClientOptions({
             tenantId: env.AZURE_TENANT_ID,
@@ -173,16 +173,9 @@ describe("DeviceCodeCredential", function () {
           })
         );
 
-        await credential.getToken(scope, {
-          tracingOptions,
-        });
+        await credential.getToken(scope, tracingOptions);
       },
-      children: [
-        {
-          name: "DeviceCodeCredential.getToken",
-          children: [],
-        },
-      ],
-    })();
+      ["DeviceCodeCredential.getToken"]
+    );
   });
 });

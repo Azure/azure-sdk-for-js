@@ -53,7 +53,7 @@ export class PumpManager {
         );
         await pump.start();
       }
-    } catch (err) {
+    } catch (err: any) {
       const msg =
         `An error occurred while adding/updating a pump for partitionId ` +
         `'${partitionId}': ${err ? err.stack : JSON.stringify(err)}`;
@@ -77,7 +77,7 @@ export class PumpManager {
       } else {
         log.pumpManager(withHostAndPartition(partitionId, "No pump was found, to remove."));
       }
-    } catch (err) {
+    } catch (err: any) {
       const msg =
         `An error occurred while removing a pump for partitionId '${partitionId}': ` +
         `${err ? err.stack : JSON.stringify(err)}`;

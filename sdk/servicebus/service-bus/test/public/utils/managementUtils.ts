@@ -50,7 +50,7 @@ async function retry(
         break;
       }
       await operationCallback();
-    } catch (err) {
+    } catch (err: any) {
       lastKnownError = err;
       // Ignore error and wait before retrying
       await delay(retryDelayInMs);
@@ -89,7 +89,7 @@ export async function recreateQueue(
   const checkIfQueueExistsOperation = async (): Promise<boolean> => {
     try {
       await client.getQueue(queueName);
-    } catch (err) {
+    } catch (err: any) {
       return false;
     }
     return true;
@@ -125,7 +125,7 @@ export async function recreateTopic(
   const checkIfTopicExistsOperation = async (): Promise<boolean> => {
     try {
       await client.getTopic(topicName);
-    } catch (err) {
+    } catch (err: any) {
       return false;
     }
     return true;
@@ -163,7 +163,7 @@ export async function recreateSubscription(
   const checkIfSubscriptionExistsOperation = async (): Promise<boolean> => {
     try {
       await client.getSubscription(topicName, subscriptionName);
-    } catch (err) {
+    } catch (err: any) {
       return false;
     }
     return true;

@@ -122,7 +122,7 @@ describe("AzureCliCredential (internal)", function () {
 
       try {
         await credential.getToken("https://service/.default");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(
           error.message,
           "Azure CLI could not be found.  Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
@@ -135,7 +135,7 @@ describe("AzureCliCredential (internal)", function () {
 
       try {
         await credential.getToken("https://service/.default");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(
           error.message,
           "Azure CLI could not be found.  Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
@@ -151,7 +151,7 @@ describe("AzureCliCredential (internal)", function () {
     const credential = new AzureCliCredential();
     try {
       await credential.getToken("https://service/.default");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         error.message,
         "Please run 'az login' from a command prompt to authenticate before using this credential."
@@ -165,8 +165,27 @@ describe("AzureCliCredential (internal)", function () {
     const credential = new AzureCliCredential();
     try {
       await credential.getToken("https://service/.default");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(error.message, "mock other access token error");
     }
+  });
+
+  it("get access token when having a warning on stderr", async () => {
+    stdout = '{"accessToken": "token","expiresOn": "01/01/1900 00:00:00 +00:00"}';
+    stderr = "Argument '--tenant' is in preview. It may be changed/removed in a future release.";
+    const credential = new AzureCliCredential();
+    const actualToken = await credential.getToken("https://service/.default");
+    assert.equal(actualToken!.token, "token");
+    assert.deepEqual(azArgs, [
+      ["account", "get-access-token", "--output", "json", "--resource", "https://service"],
+    ]);
+    // Used a working directory, and a shell
+    assert.deepEqual(
+      {
+        cwd: [process.env.SystemRoot, "/bin"].includes(azOptions[0].cwd),
+        shell: azOptions[0].shell,
+      },
+      { cwd: true, shell: true }
+    );
   });
 });
