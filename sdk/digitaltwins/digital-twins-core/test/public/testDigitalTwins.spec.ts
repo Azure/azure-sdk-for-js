@@ -212,9 +212,7 @@ describe("DigitalTwins - create, read, update, delete and telemetry operations",
         `If-None-Match: * header was specified but a twin with the id ` +
           digitalTwinId +
           ` was found. Please specify a different twin id.`
-      );`If-None-Match: * header was specified but a twin with the id ` +
-          digitalTwinId +
-          ` was found. Please specify a different twin id.`
+      );
     } finally {
       await deleteDigitalTwin(digitalTwinId);
       await deleteModels();
