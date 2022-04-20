@@ -208,7 +208,7 @@ export class ModelParserImpl implements ModelParser {
       let dependencyMapping: { [dtmi: string]: unknown } | null;
       try {
         dependencyMapping = await this.getModels(undefinedIdentifiers);
-      } catch (e: any) {
+      } catch (e) {
         dependencyMapping = null;
       }
       const additionalJsonTexts =
@@ -258,7 +258,7 @@ export class ModelParserImpl implements ModelParser {
       let documentToken: any;
       try {
         documentToken = JSON.parse(jsonText);
-      } catch (error: any) {
+      } catch (error) {
         throw new JsonSyntaxError(error as Error, index);
       }
 
