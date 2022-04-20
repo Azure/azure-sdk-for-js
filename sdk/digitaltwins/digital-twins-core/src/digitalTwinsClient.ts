@@ -197,7 +197,7 @@ export class DigitalTwinsClient {
   public updateDigitalTwin(
     digitalTwinId: string,
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types -- changing the type any would be a breaking change
-    jsonPatch,
+    jsonPatch: any,
     options: DigitalTwinsUpdateOptionalParams = {}
   ): Promise<DigitalTwinsUpdateResponse> {
     const { span, updatedOptions } = createSpan("DigitalTwinsClient-updateDigitalTwin", options);
@@ -281,7 +281,7 @@ export class DigitalTwinsClient {
   public updateComponent(
     digitalTwinId: string,
     componentName: string,
-    jsonPatch[],
+    jsonPatch: any[],
     options: DigitalTwinsUpdateComponentOptionalParams = {}
   ): Promise<DigitalTwinsUpdateComponentResponse> {
     const { span, updatedOptions } = createSpan("DigitalTwinsClient-updateComponent", options);
@@ -347,7 +347,7 @@ export class DigitalTwinsClient {
     digitalTwinId: string,
     relationshipId: string,
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types -- changing the type any would be a breaking change
-    relationship,
+    relationship: any,
     options: DigitalTwinsAddRelationshipOptionalParams = {}
   ): Promise<DigitalTwinsAddRelationshipResponse> {
     const { span, updatedOptions } = createSpan("DigitalTwinsClient-upsertRelationship", options);
@@ -381,7 +381,7 @@ export class DigitalTwinsClient {
   public updateRelationship(
     digitalTwinId: string,
     relationshipId: string,
-    jsonPatch[],
+    jsonPatch: any[],
     options: DigitalTwinsUpdateRelationshipOptionalParams = {}
   ): Promise<DigitalTwinsUpdateRelationshipResponse> {
     const { span, updatedOptions } = createSpan("DigitalTwinsClient-updateRelationship", options);
@@ -623,7 +623,7 @@ export class DigitalTwinsClient {
   public publishTelemetry(
     digitalTwinId: string,
     // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types -- changing the type any would be a breaking change
-    payload,
+    payload: any,
     messageId: string,
     options: OperationOptions = {}
   ): Promise<RestResponse> {
@@ -836,7 +836,7 @@ export class DigitalTwinsClient {
    * @returns The created application/json models and the http response.
    */
   public createModels(
-    dtdlModels[],
+    dtdlModels: any[],
     options: OperationOptions = {}
   ): Promise<DigitalTwinModelsAddResponse> {
     const digitalTwinModelsAddOptionalParams: DigitalTwinModelsAddOptionalParams = options;
