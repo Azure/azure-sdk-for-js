@@ -5,7 +5,7 @@ import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth"
 import { AuthenticationRecord } from "@azure/identity";
 
 import { credentialLogger, formatError } from "../../identity/src/util/logging";
-import { trace } from "../../identity/src/util/tracing";
+import { tracingClient } from "../../identity/src/util/tracing";
 import { MsalFlow } from "../../identity/src/msal/flows";
 import { MSALAuthCode } from "../../identity/src/msal/browserFlows/msalAuthCode";
 import { MsalBrowserFlowOptions } from "../../identity/src/msal/browserFlows/msalBrowserCommon";
@@ -67,7 +67,7 @@ export class RedirectCredential implements TokenCredential {
    *                TokenCredential implementation might make.
    */
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
-    return trace(`${this.constructor.name}.getToken`, options, async (newOptions) => {
+    return tracingClient.withSpan(`${this.constructor.name}.getToken`, options, async (newOptions) => {
       const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
       return this.msalFlow.getToken(arrayScopes, {
         ...newOptions,
@@ -90,7 +90,7 @@ export class RedirectCredential implements TokenCredential {
     scopes: string | string[],
     options: GetTokenOptions = {}
   ): Promise<AuthenticationRecord | undefined> {
-    return trace(`${this.constructor.name}.authenticate`, options, async (newOptions) => {
+    return tracingClient.withSpan(`${this.constructor.name}.authenticate`, options, async (newOptions) => {
       const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
       await this.msalFlow.getToken(arrayScopes, newOptions);
       return this.msalFlow.getActiveAccount();
