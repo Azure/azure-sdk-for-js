@@ -1,9 +1,9 @@
 {
-  "name": "azure-digital-twins-core-samples-ts",
+  "name": "azure-digital-twins-parser-samples-ts",
   "private": true,
   "version": "1.0.0",
-  "description": "Azure Digital Twins client library samples for TypeScript",
-  "engine": {
+  "description": "Azure Digital Twins Model Parser client library samples for TypeScript",
+  "engines": {
     "node": ">=12.0.0"
   },
   "scripts": {
@@ -13,30 +13,22 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
-    "directory": "sdk/digitaltwins/digital-twins-core"
+    "directory": "sdk/digitaltwins/digital-twins-parser"
   },
   "keywords": [
     "azure",
-    "iot",
-    "digital-twins-core",
     "cloud",
-    "twins",
-    "node",
-    "typescript",
-    "browser",
-    "isomorphic"
+    "typescript"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/digitaltwins/digital-twins-core",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/digitaltwins/digital-twins-parser",
   "dependencies": {
-    "@azure/digital-twins-core": "latest",
-    "dotenv": "latest",
-    "@azure/identity": "^2.0.1",
-    "uuid": "^8.3.0"
+    "@azure/dtdl-parser": "next",
+    "dotenv": "latest"
   },
   "devDependencies": {
     "typescript": "~4.2.0",

@@ -11,4 +11,3 @@ export * from "./digitalTwinsEndpoint";
 export * from "./operations";
 export * from "./privateLinkResources";
 export * from "./privateEndpointConnections";
-export * from "./timeSeriesDatabaseConnections";

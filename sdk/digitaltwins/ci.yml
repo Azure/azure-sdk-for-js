@@ -1,5 +1,4 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-                
 trigger:
   branches:
     include:
@@ -12,7 +11,6 @@ trigger:
     exclude:
       - sdk/digitaltwins/ci.mgmt.yml
       - sdk/digitaltwins/arm-digitaltwins/
-      - sdk/digitaltwins/arm-digitaltwins
 pr:
   branches:
     include:
@@ -28,7 +26,6 @@ pr:
     exclude:
       - sdk/digitaltwins/ci.mgmt.yml
       - sdk/digitaltwins/arm-digitaltwins/
-      - sdk/digitaltwins/arm-digitaltwins
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

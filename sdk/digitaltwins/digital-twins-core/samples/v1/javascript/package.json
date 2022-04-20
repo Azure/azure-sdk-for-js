@@ -1,5 +1,5 @@
 {
-  "name": "@azure-samples/digital-twins-core-js",
+  "name": "azure-digital-twins-core-samples-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Digital Twins client library samples for JavaScript",
