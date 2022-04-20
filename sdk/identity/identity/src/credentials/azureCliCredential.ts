@@ -118,8 +118,7 @@ export class AzureCliCredential implements TokenCredential {
       try {
         const obj = await cliCredentialInternals.getAzureCliAccessToken(resource, tenantId);
         const specificScope = obj.stderr?.match("(.*)az login --scope(.*)");
-        const isLoginError =
-          obj.stderr?.match("(.*)az login(.*)") && !unknownPlatform && !specificScope;
+        const isLoginError = obj.stderr?.match("(.*)az login(.*)") && !specificScope;
         const isNotInstallError =
           obj.stderr?.match("az:(.*)not found") || obj.stderr?.startsWith("'az' is not recognized");
 
