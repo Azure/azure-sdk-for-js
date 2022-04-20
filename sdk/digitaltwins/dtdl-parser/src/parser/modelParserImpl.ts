@@ -200,7 +200,7 @@ export class ModelParserImpl implements ModelParser {
       if (this.getModels === undefined) {
         throw new ResolutionError(
           "No getModels provided to resolve requisite reference(s): " +
-            undefinedIdentifiers.join(" "),
+          undefinedIdentifiers.join(" "),
           undefinedIdentifiers
         );
       }
@@ -216,7 +216,7 @@ export class ModelParserImpl implements ModelParser {
       if (additionalJsonTexts === null) {
         throw new ResolutionError(
           "getModels refused to resolve requisite references to element(s): " +
-            undefinedIdentifiers.join(" "),
+          undefinedIdentifiers.join(" "),
           undefinedIdentifiers
         );
       }
@@ -240,7 +240,7 @@ export class ModelParserImpl implements ModelParser {
       if (stillUnresolvedIdentifiers.length > 0) {
         throw new ResolutionError(
           "getModels failed to resolve requisite references to element(s): " +
-            stillUnresolvedIdentifiers.join(" "),
+          stillUnresolvedIdentifiers.join(" "),
           stillUnresolvedIdentifiers
         );
       }
@@ -354,9 +354,8 @@ export class ModelParserImpl implements ModelParser {
           createParsingError("dtmi:dtdl:parsingError:badType", {
             cause: `Top-level element ${JSON.stringify(
               obj[ModelParserImpl.idKeyword]
-            )} does not have @type of ${
-              RootableTypeCollection.rootableTypeDescriptions[aggregateContext.dtdlVersion]
-            }.`,
+            )} does not have @type of ${RootableTypeCollection.rootableTypeDescriptions[aggregateContext.dtdlVersion]
+              }.`,
             action: `Provide a @type in the set of allowable types.`
           })
         );
