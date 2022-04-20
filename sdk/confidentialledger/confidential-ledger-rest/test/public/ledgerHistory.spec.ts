@@ -20,8 +20,6 @@ describe("Get ledger history", () => {
     await recorder.stop();
   });
 
-  // TODO: add subLedgerIds test
-
   it("should obtain ledger entries from ledger", async function () {
 
     const result = await client.path("/app/transactions").get();
@@ -40,14 +38,5 @@ describe("Get ledger history", () => {
     assert.typeOf(currentTransaction.body.contents, 'string');
     assert.typeOf(currentTransaction.body.subLedgerId, 'string');
     assert.typeOf(currentTransaction.body.transactionId, 'string');
-
-    // let constResponse = result as GetLedgerEntries200Response;
-
-    // let pagedEntries : PagedLedgerEntries = constResponse.body;
-
-    
-    // TODO: how do we make this pageable?
   });
-
-  // TODO: get subset of entries randomly
 });

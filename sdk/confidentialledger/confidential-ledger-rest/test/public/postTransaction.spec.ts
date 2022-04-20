@@ -22,8 +22,6 @@ describe("Post transaction", () => {
     await recorder.stop();
   });
 
-  // TODO: add subLedgerIds test
-
   it("should post to default ledger", async function () {
 
     var entry : LedgerEntry = {
