@@ -6,8 +6,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable sort-imports */
 
+import { ModelsRepositoryClient } from "@azure/iot-modelsrepository";
 import {
-  DtmiResolver,
   ElementPropertyConstraint,
   ModelParsingOption,
   ParsingError,
@@ -72,7 +72,7 @@ export class ModelParserImpl implements ModelParser {
   // codegen-outline-end
 
   // codegen-outline-begin methods
-  dtmiResolver?: DtmiResolver;
+  getModels?: ModelsRepositoryClient["getModels"];
   options: ModelParsingOption;
   maxDtdlVersion?: number;
   static supplementalTypeCollection: SupplementalTypeCollectionImpl = new SupplementalTypeCollectionImpl();
@@ -197,18 +197,25 @@ export class ModelParserImpl implements ModelParser {
         return;
       }
 
-      if (this.dtmiResolver === undefined) {
+      if (this.getModels === undefined) {
         throw new ResolutionError(
-          "No DtmiResolver provided to resolve requisite reference(s): " +
+          "No getModels provided to resolve requisite reference(s): " +
             undefinedIdentifiers.join(" "),
           undefinedIdentifiers
         );
       }
 
-      const additionalJsonTexts = await this.dtmiResolver(undefinedIdentifiers);
+      let dependencyMapping: { [dtmi: string]: unknown } | null;
+      try {
+        dependencyMapping = await this.getModels(undefinedIdentifiers);
+      } catch (e: any) {
+        dependencyMapping = null;
+      }
+      const additionalJsonTexts =
+        dependencyMapping && Object.values(dependencyMapping).map((value) => JSON.stringify(value));
       if (additionalJsonTexts === null) {
         throw new ResolutionError(
-          "DtmiResolver refused to resolve requisite references to element(s): " +
+          "getModels refused to resolve requisite references to element(s): " +
             undefinedIdentifiers.join(" "),
           undefinedIdentifiers
         );
@@ -232,7 +239,7 @@ export class ModelParserImpl implements ModelParser {
       const stillUnresolvedIdentifiers = Array.from(stillUnresolvedIdentifierSet.values());
       if (stillUnresolvedIdentifiers.length > 0) {
         throw new ResolutionError(
-          "DtmiResolver failed to resolve requisite references to element(s): " +
+          "getModels failed to resolve requisite references to element(s): " +
             stillUnresolvedIdentifiers.join(" "),
           stillUnresolvedIdentifiers
         );
@@ -251,7 +258,7 @@ export class ModelParserImpl implements ModelParser {
       let documentToken: any;
       try {
         documentToken = JSON.parse(jsonText);
-      } catch (error) {
+      } catch (error: any) {
         throw new JsonSyntaxError(error as Error, index);
       }
 

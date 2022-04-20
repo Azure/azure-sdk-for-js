@@ -25,8 +25,8 @@ const testCaseFolder = "test/cases/";
 const caseFileExtension = ".json";
 
 interface ResolutionInfo {
-  request: string[];
-  response?: any[];
+  request: string[]; // list of DTMIs
+  response?: any[]; // list of DTDLs
 }
 
 interface ElementInfo {
@@ -66,7 +66,7 @@ interface ModelTestCase {
   expect: ValidExpectation | InvalidExpectation;
 }
 
-class DtmiResolverClosure {
+class ModelsRepositoryClientMock {
   private _resolutionInfos: ResolutionInfo[];
 
   constructor(resolutionInfos: ResolutionInfo[]) {
@@ -76,7 +76,7 @@ class DtmiResolverClosure {
 
   resolutionCount: number;
 
-  resolve(identifiers: string[]): Promise<string[] | null> {
+  getModels(dtmis: string | string[]): Promise<{ [dtmi: string]: unknown }> {
     expect(this.resolutionCount).to.be.lessThan(
       this._resolutionInfos.length,
       "resolution count exceeded expectation"
@@ -84,7 +84,7 @@ class DtmiResolverClosure {
 
     const resolutionInfo = this._resolutionInfos[this.resolutionCount];
 
-    expect(identifiers).to.have.members(
+    expect(dtmis).to.have.members(
       resolutionInfo.request,
       "list of identifiers to resolve does not match expectation"
     );
@@ -95,13 +95,13 @@ class DtmiResolverClosure {
       Object.prototype.hasOwnProperty.call(resolutionInfo, "response") &&
       resolutionInfo.response !== null
     ) {
-      const result: string[] = [];
+      const result: { [dtmi: string]: unknown } = {};
       for (const element of resolutionInfo.response as any[]) {
-        result.push(JSON.stringify(element));
+        result[element["@id"]] = element;
       }
       return Promise.resolve(result);
     } else {
-      return Promise.resolve(null);
+      return Promise.reject("No resolutionInfo response information");
     }
   }
 }
@@ -382,7 +382,7 @@ describe("Tests of ModelParser", function() {
     describe(testName, function() {
       it(testDescription, async function() {
         const resolverClosure = testCase.resolution
-          ? new DtmiResolverClosure(testCase.resolution)
+          ? new ModelsRepositoryClientMock(testCase.resolution)
           : null;
 
         const modelParserOptions = testCase.options.reduce(
@@ -393,7 +393,7 @@ describe("Tests of ModelParser", function() {
         );
         const modelParser = createParser(modelParserOptions);
         if (resolverClosure) {
-          modelParser.dtmiResolver = resolverClosure.resolve.bind(resolverClosure);
+          modelParser.getModels = resolverClosure.getModels.bind(resolverClosure);
         }
 
         if (Object.prototype.hasOwnProperty.call(testCase, "maxDtdlVersion")) {
