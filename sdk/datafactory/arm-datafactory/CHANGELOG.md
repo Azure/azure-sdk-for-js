@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 10.4.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 10.4.0 (2022-04-20)
     
 **Features**
