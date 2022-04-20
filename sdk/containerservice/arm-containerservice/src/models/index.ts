@@ -736,10 +736,6 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemData?: SystemData;
-  /** Resource location */
-  location: string;
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
 }
 
 /** Metadata pertaining to creation and last modification of the resource. */
@@ -1143,6 +1139,34 @@ export interface ContainerServiceVMDiagnostics {
   readonly storageUri?: string;
 }
 
+/** Storage profile for the container service cluster. */
+export interface ManagedClusterStorageProfile {
+  /** AzureDisk CSI Driver settings for the storage profile. */
+  diskCSIDriver?: ManagedClusterStorageProfileDiskCSIDriver;
+  /** AzureFile CSI Driver settings for the storage profile. */
+  fileCSIDriver?: ManagedClusterStorageProfileFileCSIDriver;
+  /** Snapshot Controller settings for the storage profile. */
+  snapshotController?: ManagedClusterStorageProfileSnapshotController;
+}
+
+/** AzureDisk CSI Driver settings for the storage profile. */
+export interface ManagedClusterStorageProfileDiskCSIDriver {
+  /** Whether to enable AzureDisk CSI Driver. The default value is true. */
+  enabled?: boolean;
+}
+
+/** AzureFile CSI Driver settings for the storage profile. */
+export interface ManagedClusterStorageProfileFileCSIDriver {
+  /** Whether to enable AzureFile CSI Driver. The default value is true. */
+  enabled?: boolean;
+}
+
+/** Snapshot Controller settings for the storage profile. */
+export interface ManagedClusterStorageProfileSnapshotController {
+  /** Whether to enable Snapshot Controller. The default value is true. */
+  enabled?: boolean;
+}
+
 /** Profile for the container service agent pool. */
 export type ManagedClusterAgentPoolProfile = ManagedClusterAgentPoolProfileProperties & {
   /** Windows agent pool names must be 6 characters or less. */
@@ -1152,136 +1176,12 @@ export type ManagedClusterAgentPoolProfile = ManagedClusterAgentPoolProfilePrope
 /** Information of user assigned identity used by this add-on. */
 export type ManagedClusterAddonProfileIdentity = UserAssignedIdentity & {};
 
-/** Managed cluster. */
-export type ManagedCluster = Resource & {
-  /** The managed cluster SKU. */
-  sku?: ManagedClusterSKU;
-  /** The extended location of the Virtual Machine. */
-  extendedLocation?: ExtendedLocation;
-  /** The identity of the managed cluster, if configured. */
-  identity?: ManagedClusterIdentity;
-  /**
-   * The current provisioning state.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: string;
-  /**
-   * The Power State of the cluster.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly powerState?: PowerState;
-  /**
-   * The max number of agent pools for the managed cluster.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly maxAgentPools?: number;
-  /** When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -> 1.15.x or 1.15.x -> 1.16.x are allowed, however 1.14.x -> 1.16.x is not allowed. See [upgrading an AKS cluster](https://docs.microsoft.com/azure/aks/upgrade-cluster) for more details. */
-  kubernetesVersion?: string;
-  /** This cannot be updated once the Managed Cluster has been created. */
-  dnsPrefix?: string;
-  /** This cannot be updated once the Managed Cluster has been created. */
-  fqdnSubdomain?: string;
-  /**
-   * The FQDN of the master pool.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fqdn?: string;
-  /**
-   * The FQDN of private cluster.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly privateFqdn?: string;
-  /**
-   * The Azure Portal requires certain Cross-Origin Resource Sharing (CORS) headers to be sent in some responses, which Kubernetes APIServer doesn't handle by default. This special FQDN supports CORS, allowing the Azure Portal to function properly.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly azurePortalFqdn?: string;
-  /** The agent pool properties. */
-  agentPoolProfiles?: ManagedClusterAgentPoolProfile[];
-  /** The profile for Linux VMs in the Managed Cluster. */
-  linuxProfile?: ContainerServiceLinuxProfile;
-  /** The profile for Windows VMs in the Managed Cluster. */
-  windowsProfile?: ManagedClusterWindowsProfile;
-  /** Information about a service principal identity for the cluster to use for manipulating Azure APIs. */
-  servicePrincipalProfile?: ManagedClusterServicePrincipalProfile;
-  /** The profile of managed cluster add-on. */
-  addonProfiles?: { [propertyName: string]: ManagedClusterAddonProfile };
-  /** See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more details on AAD pod identity integration. */
-  podIdentityProfile?: ManagedClusterPodIdentityProfile;
-  /** The name of the resource group containing agent pool nodes. */
-  nodeResourceGroup?: string;
-  /** Whether to enable Kubernetes Role-Based Access Control. */
-  enableRbac?: boolean;
-  /** (DEPRECATING) Whether to enable Kubernetes pod security policy (preview). This feature is set for removal on October 15th, 2020. Learn more at aka.ms/aks/azpodpolicy. */
-  enablePodSecurityPolicy?: boolean;
-  /** The network configuration profile. */
-  networkProfile?: ContainerServiceNetworkProfile;
-  /** The Azure Active Directory configuration. */
-  aadProfile?: ManagedClusterAADProfile;
-  /** The auto upgrade configuration. */
-  autoUpgradeProfile?: ManagedClusterAutoUpgradeProfile;
-  /** Parameters to be applied to the cluster-autoscaler when enabled */
-  autoScalerProfile?: ManagedClusterPropertiesAutoScalerProfile;
-  /** The access profile for managed cluster API server. */
-  apiServerAccessProfile?: ManagedClusterAPIServerAccessProfile;
-  /** This is of the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{encryptionSetName}' */
-  diskEncryptionSetID?: string;
-  /** Identities associated with the cluster. */
-  identityProfile?: { [propertyName: string]: UserAssignedIdentity };
-  /** Private link resources associated with the cluster. */
-  privateLinkResources?: PrivateLinkResource[];
-  /** If set to true, getting static credentials will be disabled for this cluster. This must only be used on Managed Clusters that are AAD enabled. For more details see [disable local accounts](https://docs.microsoft.com/azure/aks/managed-aad#disable-local-accounts-preview). */
-  disableLocalAccounts?: boolean;
-  /** Configurations for provisioning the cluster with HTTP proxy servers. */
-  httpProxyConfig?: ManagedClusterHttpProxyConfig;
-  /** Security profile for the managed cluster. */
-  securityProfile?: ManagedClusterSecurityProfile;
-  /** Allow or deny public network access for AKS */
-  publicNetworkAccess?: PublicNetworkAccess;
-};
-
-/** Managed cluster Access Profile. */
-export type ManagedClusterAccessProfile = Resource & {
-  /** Base64-encoded Kubernetes configuration file. */
-  kubeConfig?: Uint8Array;
-};
-
-/** A node pool snapshot resource. */
-export type Snapshot = Resource & {
-  /** CreationData to be used to specify the source agent pool resource ID to create this snapshot. */
-  creationData?: CreationData;
-  /** The type of a snapshot. The default is NodePool. */
-  snapshotType?: SnapshotType;
-  /**
-   * The version of Kubernetes.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly kubernetesVersion?: string;
-  /**
-   * The version of node image.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nodeImageVersion?: string;
-  /**
-   * The operating system type. The default is Linux.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly osType?: OSType;
-  /**
-   * Specifies an OS SKU. This value must not be specified if OSType is Windows.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly osSku?: Ossku;
-  /**
-   * The size of the VM.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly vmSize?: string;
-  /**
-   * Whether to use a FIPS-enabled OS.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly enableFips?: boolean;
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export type TrackedResource = Resource & {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
 };
 
 /** See [planned maintenance](https://docs.microsoft.com/azure/aks/planned-maintenance) for more information about planned maintenance. */
@@ -1383,6 +1283,138 @@ export type AgentPool = SubResource & {
   gpuInstanceProfile?: GPUInstanceProfile;
   /** CreationData to be used to specify the source Snapshot ID if the node pool will be created/upgraded using a snapshot. */
   creationData?: CreationData;
+};
+
+/** Managed cluster. */
+export type ManagedCluster = TrackedResource & {
+  /** The managed cluster SKU. */
+  sku?: ManagedClusterSKU;
+  /** The extended location of the Virtual Machine. */
+  extendedLocation?: ExtendedLocation;
+  /** The identity of the managed cluster, if configured. */
+  identity?: ManagedClusterIdentity;
+  /**
+   * The current provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /**
+   * The Power State of the cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly powerState?: PowerState;
+  /**
+   * The max number of agent pools for the managed cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maxAgentPools?: number;
+  /** When you upgrade a supported AKS cluster, Kubernetes minor versions cannot be skipped. All upgrades must be performed sequentially by major version number. For example, upgrades between 1.14.x -> 1.15.x or 1.15.x -> 1.16.x are allowed, however 1.14.x -> 1.16.x is not allowed. See [upgrading an AKS cluster](https://docs.microsoft.com/azure/aks/upgrade-cluster) for more details. */
+  kubernetesVersion?: string;
+  /** This cannot be updated once the Managed Cluster has been created. */
+  dnsPrefix?: string;
+  /** This cannot be updated once the Managed Cluster has been created. */
+  fqdnSubdomain?: string;
+  /**
+   * The FQDN of the master pool.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fqdn?: string;
+  /**
+   * The FQDN of private cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateFqdn?: string;
+  /**
+   * The Azure Portal requires certain Cross-Origin Resource Sharing (CORS) headers to be sent in some responses, which Kubernetes APIServer doesn't handle by default. This special FQDN supports CORS, allowing the Azure Portal to function properly.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly azurePortalFqdn?: string;
+  /** The agent pool properties. */
+  agentPoolProfiles?: ManagedClusterAgentPoolProfile[];
+  /** The profile for Linux VMs in the Managed Cluster. */
+  linuxProfile?: ContainerServiceLinuxProfile;
+  /** The profile for Windows VMs in the Managed Cluster. */
+  windowsProfile?: ManagedClusterWindowsProfile;
+  /** Information about a service principal identity for the cluster to use for manipulating Azure APIs. */
+  servicePrincipalProfile?: ManagedClusterServicePrincipalProfile;
+  /** The profile of managed cluster add-on. */
+  addonProfiles?: { [propertyName: string]: ManagedClusterAddonProfile };
+  /** See [use AAD pod identity](https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity) for more details on AAD pod identity integration. */
+  podIdentityProfile?: ManagedClusterPodIdentityProfile;
+  /** The name of the resource group containing agent pool nodes. */
+  nodeResourceGroup?: string;
+  /** Whether to enable Kubernetes Role-Based Access Control. */
+  enableRbac?: boolean;
+  /** (DEPRECATING) Whether to enable Kubernetes pod security policy (preview). This feature is set for removal on October 15th, 2020. Learn more at aka.ms/aks/azpodpolicy. */
+  enablePodSecurityPolicy?: boolean;
+  /** The network configuration profile. */
+  networkProfile?: ContainerServiceNetworkProfile;
+  /** The Azure Active Directory configuration. */
+  aadProfile?: ManagedClusterAADProfile;
+  /** The auto upgrade configuration. */
+  autoUpgradeProfile?: ManagedClusterAutoUpgradeProfile;
+  /** Parameters to be applied to the cluster-autoscaler when enabled */
+  autoScalerProfile?: ManagedClusterPropertiesAutoScalerProfile;
+  /** The access profile for managed cluster API server. */
+  apiServerAccessProfile?: ManagedClusterAPIServerAccessProfile;
+  /** This is of the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{encryptionSetName}' */
+  diskEncryptionSetID?: string;
+  /** Identities associated with the cluster. */
+  identityProfile?: { [propertyName: string]: UserAssignedIdentity };
+  /** Private link resources associated with the cluster. */
+  privateLinkResources?: PrivateLinkResource[];
+  /** If set to true, getting static credentials will be disabled for this cluster. This must only be used on Managed Clusters that are AAD enabled. For more details see [disable local accounts](https://docs.microsoft.com/azure/aks/managed-aad#disable-local-accounts-preview). */
+  disableLocalAccounts?: boolean;
+  /** Configurations for provisioning the cluster with HTTP proxy servers. */
+  httpProxyConfig?: ManagedClusterHttpProxyConfig;
+  /** Security profile for the managed cluster. */
+  securityProfile?: ManagedClusterSecurityProfile;
+  /** Allow or deny public network access for AKS */
+  publicNetworkAccess?: PublicNetworkAccess;
+};
+
+/** Managed cluster Access Profile. */
+export type ManagedClusterAccessProfile = TrackedResource & {
+  /** Base64-encoded Kubernetes configuration file. */
+  kubeConfig?: Uint8Array;
+};
+
+/** A node pool snapshot resource. */
+export type Snapshot = TrackedResource & {
+  /** CreationData to be used to specify the source agent pool resource ID to create this snapshot. */
+  creationData?: CreationData;
+  /** The type of a snapshot. The default is NodePool. */
+  snapshotType?: SnapshotType;
+  /**
+   * The version of Kubernetes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly kubernetesVersion?: string;
+  /**
+   * The version of node image.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nodeImageVersion?: string;
+  /**
+   * The operating system type. The default is Linux.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly osType?: OSType;
+  /**
+   * Specifies an OS SKU. This value must not be specified if OSType is Windows.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly osSku?: Ossku;
+  /**
+   * The size of the VM.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vmSize?: string;
+  /**
+   * Whether to use a FIPS-enabled OS.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly enableFips?: boolean;
 };
 
 /** Defines headers for AgentPools_upgradeNodeImageVersion operation. */
