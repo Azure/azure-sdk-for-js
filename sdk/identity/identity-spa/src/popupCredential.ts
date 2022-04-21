@@ -7,7 +7,7 @@ import { AuthenticationRecord } from "@azure/identity";
 import { credentialLogger, formatError } from "../../identity/src/util/logging";
 import { SPACredentialOptions } from "./options";
 
-const BrowserNotSupportedError = new Error("PopupCredential is not supported in Node.js");
+const NodeNotSupportedError = new Error("PopupCredential is not supported in Node.js");
 const logger = credentialLogger("PopupCredential");
 
 /**
@@ -32,8 +32,8 @@ export class PopupCredential implements TokenCredential {
    * @param options - Options for configuring the client which makes the authentication request.
    */
   constructor(_options: SPACredentialOptions) {
-    logger.info(formatError("", BrowserNotSupportedError));
-    throw BrowserNotSupportedError;
+    logger.info(formatError("", NodeNotSupportedError));
+    throw NodeNotSupportedError;
   }
 
   /**
@@ -46,8 +46,8 @@ export class PopupCredential implements TokenCredential {
    *                TokenCredential implementation might make.
    */
   public getToken(): Promise<AccessToken | null> {
-    logger.getToken.info(formatError("", BrowserNotSupportedError));
-    throw BrowserNotSupportedError;
+    logger.getToken.info(formatError("", NodeNotSupportedError));
+    throw NodeNotSupportedError;
   }
 
   /**
@@ -62,15 +62,15 @@ export class PopupCredential implements TokenCredential {
    *                  TokenCredential implementation might make.
    */
   async authenticate(): Promise<AuthenticationRecord | undefined> {
-    logger.getToken.info(formatError("", BrowserNotSupportedError));
-    throw BrowserNotSupportedError;
+    logger.getToken.info(formatError("", NodeNotSupportedError));
+    throw NodeNotSupportedError;
   }
 
   /**
    * Tries to authenticate and retrieves parameters from the URL hash
    */
   async onPageLoad(): Promise<{ code?: string; state?: string }> {
-    logger.getToken.info(formatError("", BrowserNotSupportedError));
-    throw BrowserNotSupportedError;
+    logger.getToken.info(formatError("", NodeNotSupportedError));
+    throw NodeNotSupportedError;
   }
 }
