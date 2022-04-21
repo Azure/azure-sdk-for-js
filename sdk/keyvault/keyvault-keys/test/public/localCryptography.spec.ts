@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-import { KeyClient, CryptographyClient, SignatureAlgorithm, KeyVaultKey } from "../../src";
+import { CryptographyClient, KeyClient, KeyVaultKey, SignatureAlgorithm } from "../../src";
 import { isNode } from "@azure/core-http";
 import { createHash } from "crypto";
 import { authenticate } from "./utils/testAuthentication";
