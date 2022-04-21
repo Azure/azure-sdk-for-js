@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Support TLS Settings for client certificate authentication. [#21172](https://github.com/Azure/azure-sdk-for-js/pull/21172)
+
 - Exposed type guard for RestError called `isRestError` for typesafe exception handling.
 
 ### Breaking Changes
