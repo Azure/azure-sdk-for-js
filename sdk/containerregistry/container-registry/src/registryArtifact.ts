@@ -396,8 +396,8 @@ export class RegistryArtifactImpl {
     return tracingClient.withSpan(
       "RegistryArtifactImpl.getTagProperties",
       options,
-      async (updatedOptions) => {
-        return await this.client.containerRegistry.getTagProperties(
+      (updatedOptions) => {
+        return this.client.containerRegistry.getTagProperties(
           this.repositoryName,
           tag,
           updatedOptions
@@ -443,8 +443,8 @@ export class RegistryArtifactImpl {
           canRead: options.canRead,
         },
       },
-      async (updatedOptions) => {
-        return await this.client.containerRegistry.updateTagAttributes(
+      (updatedOptions) => {
+        return this.client.containerRegistry.updateTagAttributes(
           this.repositoryName,
           tag,
           updatedOptions

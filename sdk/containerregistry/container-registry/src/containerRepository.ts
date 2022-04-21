@@ -213,8 +213,8 @@ export class ContainerRepositoryImpl {
     return tracingClient.withSpan(
       "ContainerRepositoryImpl.getProperties",
       options,
-      async (updatedOptions) => {
-        return await this.client.containerRegistry.getProperties(this.name, updatedOptions);
+      (updatedOptions) => {
+        return this.client.containerRegistry.getProperties(this.name, updatedOptions);
       }
     );
   }
@@ -249,8 +249,8 @@ export class ContainerRepositoryImpl {
     return tracingClient.withSpan(
       "ContainerRepositoryImpl.updateProperties",
       { ...options, value },
-      async (updatedOptions) => {
-        return await this.client.containerRegistry.updateProperties(this.name, updatedOptions);
+      (updatedOptions) => {
+        return this.client.containerRegistry.updateProperties(this.name, updatedOptions);
       }
     );
   }
