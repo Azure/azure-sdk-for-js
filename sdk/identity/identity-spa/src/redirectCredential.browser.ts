@@ -48,7 +48,6 @@ export class RedirectCredential implements TokenCredential {
 
     const msalOptions: MsalBrowserFlowOptions = {
       ...options,
-      disableAutomaticAuthentication: true,
       logger,
       loginStyle: "redirect",
       redirectUri:
