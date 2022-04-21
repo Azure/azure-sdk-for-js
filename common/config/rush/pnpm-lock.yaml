@@ -17508,12 +17508,12 @@ packages:
     dev: false
 
   file:projects/template.tgz:
-    resolution: {integrity: sha512-+Br/j0LW6HPO8FtcZA318RDXzwVmFvhoVTH2MyExmFcT2ZQ0taJtGd7HeW9IPHVKxVRnPAnSrv1dT5tnOgCy1w==, tarball: file:projects/template.tgz}
+    resolution: {integrity: sha512-5jMzL5UkcV8vr3dqDQikWU2GeKE9JwzA4ane7ST4LOiGdYzmf6AxANQ8WXnQePVxfzxKhRb4apAU3cJf9fxTjg==, tarball: file:projects/template.tgz}
     name: '@rush-temp/template'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.22.1
+      '@microsoft/api-extractor': 7.18.11
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
