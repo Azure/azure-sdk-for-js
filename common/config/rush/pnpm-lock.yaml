@@ -6406,9 +6406,9 @@ packages:
       whatwg-url: 5.0.0
     dev: false
 
-  /node-fetch/4.0.0-beta.4:
-    resolution: {integrity: sha512-R+axlY/crCwhwOKPw9d0SxHUhzA2jEXkasDdooL6Z1pJt2y22SrIsGKaO3ZtIF2uE+DruGU6tOZchgQRTQ8keQ==}
-    engines: {node: ^14.17.1 || >=16.0.0}
+  /node-fetch/3.2.3:
+    resolution: {integrity: sha512-AXP18u4pidSZ1xYXRDPY/8jdv3RAozIt/WLNR/MBGZAz+xjtlr90RvCnsvHQRiXyWliZF/CpytExp32UU67/SA==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dependencies:
       data-uri-to-buffer: 4.0.0
       fetch-blob: 3.1.5
@@ -16230,7 +16230,7 @@ packages:
     dev: false
 
   file:projects/perf-core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-cTA6TrksvMT8oM6YLDtaDNHVK5OzevyS1q5zIZBhgpVZxEykyrT8Ql2TLBqv8tpKslwZWOggixsKKjA9P97eTA==, tarball: file:projects/perf-core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-qRL6zkeX/ByfypuyoFz0cIYaod5kYT2pTl0M2ELvKHA0wSFCqoWYoameXntKM/uo43+uXIGdD9GfPWYAZrPjKw==, tarball: file:projects/perf-core-rest-pipeline.tgz}
     name: '@rush-temp/perf-core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -16242,7 +16242,7 @@ packages:
       dotenv: 8.6.0
       eslint: 7.32.0
       express: 4.17.3
-      node-fetch: 4.0.0-beta.4
+      node-fetch: 3.2.3
       prettier: 2.5.1
       rimraf: 3.0.2
       ts-node: 10.7.0_62a4faae1826e2204fcb4dcbc1e7e4f3
