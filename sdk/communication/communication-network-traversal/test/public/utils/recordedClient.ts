@@ -15,9 +15,11 @@ import { CommunicationRelayClient } from "../../../src";
 import { parseConnectionString } from "@azure/communication-common";
 import { TokenCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { CommunicationIdentityClient } from "@azure/communication-identity";
 
-export interface RecordedClient<T> {
-  client: T;
+export interface RecordedClient {
+  identityClient: CommunicationIdentityClient;
+  relayClient: CommunicationRelayClient;
   recorder: Recorder;
 }
 
@@ -51,12 +53,24 @@ const sanitizerOptions: SanitizerOptions = {
     { regex: true, target: `"id"\\s?:\\s?"[^"]*"`, value: `"id":"sanitized"` },
     {
       regex: true,
+      target: `"expiresOn"\s?:\s?"[^"]*"`,
+      value: `"expiresOn":"2022-05-18T12:00:00.00+00:00"`,
+    },
+    { regex: true, target: `"(turn|stun):[^"]*"`, value: `"turn.skype.com"` },
+    { regex: true, target: `"username"\\s?:\\s?"[^"]*"`, value: `"username":"sanitized_username"` },
+    {
+      regex: true,
+      target: `"credential"\\s?:\\s?"[^"]*"`,
+      value: `"credential":"sanitized_credential"`,
+    },
+    {
+      regex: true,
       target: `[0-9a-f]{8}-([0-9a-f]{4}-){3}[0-9a-f]{12}`,
       value: `sanitized`,
     },
   ],
 };
-  
+
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
   sanitizerOptions: sanitizerOptions,
@@ -76,24 +90,29 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
 
 export async function createRecordedCommunicationRelayClient(
   context: Context
-): Promise<RecordedClient<CommunicationRelayClient>> {
+): Promise<RecordedClient> {
   const recorder = await createRecorder(context.currentTest);
-  
+
+  const identityClient = new CommunicationIdentityClient(
+    env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ?? "",
+    recorder.configureClientOptions({})
+  );
   const client = new CommunicationRelayClient(
     env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ?? "",
     recorder.configureClientOptions({})
   );
-  
+
   // casting is a workaround to enable min-max testing
   return {
-    client,
+    identityClient,
+    relayClient: client,
     recorder,
   };
 }
 
 export async function createRecordedCommunicationRelayClientWithToken(
   context: Context
-): Promise<RecordedClient<CommunicationRelayClient>> {
+): Promise<RecordedClient> {
   const recorder = await createRecorder(context.currentTest);
 
   let credential: TokenCredential;
@@ -106,10 +125,14 @@ export async function createRecordedCommunicationRelayClientWithToken(
         return { token: "testToken", expiresOnTimestamp: 11111 };
       },
     };
-
   } else {
     credential = createTestCredential();
   }
+  const identityClient = new CommunicationIdentityClient(
+    endpoint,
+    credential,
+    recorder.configureClientOptions({})
+  );
 
   const client = new CommunicationRelayClient(
     endpoint,
@@ -117,5 +140,9 @@ export async function createRecordedCommunicationRelayClientWithToken(
     recorder.configureClientOptions({})
   );
 
-  return { client, recorder };
+  return {
+    identityClient,
+    relayClient: client,
+    recorder,
+  };
 }

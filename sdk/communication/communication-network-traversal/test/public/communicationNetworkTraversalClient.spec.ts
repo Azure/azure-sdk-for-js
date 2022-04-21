@@ -7,7 +7,7 @@ import {
 } from "./utils/recordedClient";
 import { CommunicationUserIdentifier } from "@azure/communication-common";
 import { assert } from "chai";
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { CommunicationRelayClient } from "../../src";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 import { Context } from "mocha";
@@ -17,13 +17,17 @@ import { GetRelayConfigurationOptions } from "../../src/models";
 matrix([[true, false]], async function (useAad: boolean) {
   describe(`CommunicationNetworkingClient [Playback/Live]${useAad ? " [AAD]" : ""}`, function () {
     let recorder: Recorder;
-    let client: CommunicationRelayClient;
+    let relayClient: CommunicationRelayClient;
+    let identityClient: CommunicationIdentityClient;
 
     beforeEach(async function (this: Context) {
       if (useAad) {
-        ({ client, recorder } = await createRecordedCommunicationRelayClientWithToken(this));
+        ({ identityClient, relayClient, recorder } =
+          await createRecordedCommunicationRelayClientWithToken(this));
       } else {
-        ({ client, recorder } = await createRecordedCommunicationRelayClient(this));
+        ({ identityClient, relayClient, recorder } = await createRecordedCommunicationRelayClient(
+          this
+        ));
       }
     });
 
@@ -34,12 +38,10 @@ matrix([[true, false]], async function (useAad: boolean) {
     });
 
     it("successfully gets a turn credential with user identity", async function () {
-      const connectionString = env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING;
-      const identityClient = new CommunicationIdentityClient(connectionString ?? "");
       const user: CommunicationUserIdentifier = await identityClient.createUser();
       const options: GetRelayConfigurationOptions = { id: user.communicationUserId };
 
-      const turnCredentialResponse = await client.getRelayConfiguration(options);
+      const turnCredentialResponse = await relayClient.getRelayConfiguration(options);
       assert.isNotNull(turnCredentialResponse);
 
       const turnTokenExpiresOn = turnCredentialResponse.expiresOn;
@@ -61,7 +63,7 @@ matrix([[true, false]], async function (useAad: boolean) {
     }).timeout(5000);
 
     it("successfully gets a turn credential without providing a user identity", async function () {
-      const turnCredentialResponse = await client.getRelayConfiguration();
+      const turnCredentialResponse = await relayClient.getRelayConfiguration();
       assert.isNotNull(turnCredentialResponse);
 
       const turnTokenExpiresOn = turnCredentialResponse.expiresOn;
@@ -82,7 +84,7 @@ matrix([[true, false]], async function (useAad: boolean) {
 
     it("successfully gets a turn credential providing roteType nearest", async function () {
       const options: GetRelayConfigurationOptions = { routeType: "nearest" };
-      const turnCredentialResponse = await client.getRelayConfiguration(options);
+      const turnCredentialResponse = await relayClient.getRelayConfiguration(options);
       assert.isNotNull(turnCredentialResponse);
 
       const turnTokenExpiresOn = turnCredentialResponse.expiresOn;
@@ -104,7 +106,7 @@ matrix([[true, false]], async function (useAad: boolean) {
 
     it("successfully gets a turn credential providing roteType any", async function () {
       const options: GetRelayConfigurationOptions = { routeType: "any" };
-      const turnCredentialResponse = await client.getRelayConfiguration(options);
+      const turnCredentialResponse = await relayClient.getRelayConfiguration(options);
       assert.isNotNull(turnCredentialResponse);
 
       const turnTokenExpiresOn = turnCredentialResponse.expiresOn;
@@ -129,7 +131,7 @@ matrix([[true, false]], async function (useAad: boolean) {
       const options: GetRelayConfigurationOptions = { ttl: ttl };
 
       const requestedTime = new Date();
-      const turnCredentialResponse = await client.getRelayConfiguration(options);
+      const turnCredentialResponse = await relayClient.getRelayConfiguration(options);
       const turnTokenExpiresOn = turnCredentialResponse.expiresOn;
 
       // Token should expire a few milliseconds earlier
@@ -155,8 +157,6 @@ matrix([[true, false]], async function (useAad: boolean) {
     }).timeout(5000);
 
     it("successfully gets a turn credential with all options", async function () {
-      const connectionString = env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING;
-      const identityClient = new CommunicationIdentityClient(connectionString ?? "");
       const user: CommunicationUserIdentifier = await identityClient.createUser();
       const options: GetRelayConfigurationOptions = {
         id: user.communicationUserId,
@@ -164,7 +164,7 @@ matrix([[true, false]], async function (useAad: boolean) {
         ttl: 4000,
       };
 
-      const turnCredentialResponse = await client.getRelayConfiguration(options);
+      const turnCredentialResponse = await relayClient.getRelayConfiguration(options);
       assert.isNotNull(turnCredentialResponse);
 
       const turnTokenExpiresOn = turnCredentialResponse.expiresOn;
