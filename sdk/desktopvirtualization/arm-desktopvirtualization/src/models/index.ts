@@ -95,6 +95,44 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
+/** The Private Endpoint resource. */
+export interface PrivateEndpoint {
+  /**
+   * The ARM identifier for Private Endpoint
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+/** A collection of information about the state of the connection between service consumer and provider. */
+export interface PrivateLinkServiceConnectionState {
+  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
+  status?: PrivateEndpointServiceConnectionStatus;
+  /** The reason for approval/rejection of the connection. */
+  description?: string;
+  /** A message indicating if changes on the service provider require any updates on the consumer. */
+  actionsRequired?: string;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+}
+
 /** The resource model definition containing the full set of allowed properties for a resource. Except properties bag, there cannot be a top level property outside of this set. */
 export interface ResourceModelWithAllowedPropertySet {
   /**
@@ -292,25 +330,6 @@ export interface MigrationRequestProperties {
   migrationPath?: string;
 }
 
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-}
-
 /** List of ApplicationGroup definitions. */
 export interface ApplicationGroupList {
   /** List of ApplicationGroup definitions. */
@@ -403,12 +422,52 @@ export interface RegistrationInfo {
   registrationTokenOperation?: RegistrationTokenOperation;
 }
 
+/** The session host configuration for updating agent, monitoring agent, and stack component. */
+export interface AgentUpdateProperties {
+  /** The type of maintenance for session host components. */
+  type?: SessionHostComponentUpdateType;
+  /** Whether to use localTime of the virtual machine. */
+  useSessionHostLocalTime?: boolean;
+  /** Time zone for maintenance as defined in https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=net-5.0. Must be set if useLocalTime is true. */
+  maintenanceWindowTimeZone?: string;
+  /** List of maintenance windows. Maintenance windows are 2 hours long. */
+  maintenanceWindows?: MaintenanceWindowProperties[];
+}
+
+/** Maintenance window starting hour and day of week. */
+export interface MaintenanceWindowProperties {
+  /** The update start hour of the day. (0 - 23) */
+  hour?: number;
+  /** Day of the week. */
+  dayOfWeek?: DayOfWeek;
+}
+
 /** Represents a RegistrationInfo definition. */
 export interface RegistrationInfoPatch {
   /** Expiration time of registration token. */
   expirationTime?: Date;
   /** The type of resetting the token. */
   registrationTokenOperation?: RegistrationTokenOperation;
+}
+
+/** The session host configuration for updating agent, monitoring agent, and stack component. */
+export interface AgentUpdatePatchProperties {
+  /** The type of maintenance for session host components. */
+  type?: SessionHostComponentUpdateType;
+  /** Whether to use localTime of the virtual machine. */
+  useSessionHostLocalTime?: boolean;
+  /** Time zone for maintenance as defined in https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=net-5.0. Must be set if useLocalTime is true. */
+  maintenanceWindowTimeZone?: string;
+  /** List of maintenance windows. Maintenance windows are 2 hours long. */
+  maintenanceWindows?: MaintenanceWindowPatchProperties[];
+}
+
+/** Maintenance window starting hour and day of week. */
+export interface MaintenanceWindowPatchProperties {
+  /** The update start hour of the day. (0 - 23) */
+  hour?: number;
+  /** Day of the week. */
+  dayOfWeek?: DayOfWeek;
 }
 
 /** List of HostPool definitions. */
@@ -557,25 +616,6 @@ export interface PrivateEndpointConnectionListResultWithSystemData {
   readonly nextLink?: string;
 }
 
-/** The Private Endpoint resource. */
-export interface PrivateEndpoint {
-  /**
-   * The ARM identifier for Private Endpoint
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-}
-
-/** A collection of information about the state of the connection between service consumer and provider. */
-export interface PrivateLinkServiceConnectionState {
-  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus;
-  /** The reason for approval/rejection of the connection. */
-  description?: string;
-  /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
-}
-
 /** A list of private link resources */
 export interface PrivateLinkResourceListResult {
   /** Array of private link resources */
@@ -587,162 +627,15 @@ export interface PrivateLinkResourceListResult {
   readonly nextLink?: string;
 }
 
-/** Represents a Workspace definition. */
-export type Workspace = ResourceModelWithAllowedPropertySet & {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
-   * ObjectId of Workspace. (internal use)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly objectId?: string;
-  /** Description of Workspace. */
-  description?: string;
-  /** Friendly name of Workspace. */
-  friendlyName?: string;
-  /** List of applicationGroup resource Ids. */
-  applicationGroupReferences?: string[];
-  /**
-   * Is cloud pc resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cloudPcResource?: boolean;
-  /** Enabled allows this resource to be accessed from both public and private networks, Disabled allows this resource to only be accessed via private endpoints */
-  publicNetworkAccess?: PublicNetworkAccess;
+/** The Private Endpoint Connection resource. */
+export type PrivateEndpointConnection = Resource & {
+  /** The resource of private end point. */
+  privateEndpoint?: PrivateEndpoint;
+  /** A collection of information about the state of the connection between service consumer and provider. */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /** The provisioning state of the private endpoint connection resource. */
+  provisioningState?: PrivateEndpointConnectionProvisioningState;
 };
-
-/** Represents a scaling plan definition. */
-export type ScalingPlan = ResourceModelWithAllowedPropertySet & {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
-   * ObjectId of scaling plan. (internal use)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly objectId?: string;
-  /** Description of scaling plan. */
-  description?: string;
-  /** User friendly name of scaling plan. */
-  friendlyName?: string;
-  /** Timezone of the scaling plan. */
-  timeZone?: string;
-  /** HostPool type for desktop. */
-  hostPoolType?: ScalingHostPoolType;
-  /** Exclusion tag for scaling plan. */
-  exclusionTag?: string;
-  /** List of ScalingSchedule definitions. */
-  schedules?: ScalingSchedule[];
-  /** List of ScalingHostPoolReference definitions. */
-  hostPoolReferences?: ScalingHostPoolReference[];
-};
-
-/** Represents a ApplicationGroup definition. */
-export type ApplicationGroup = ResourceModelWithAllowedPropertySet & {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
-   * ObjectId of ApplicationGroup. (internal use)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly objectId?: string;
-  /** Description of ApplicationGroup. */
-  description?: string;
-  /** Friendly name of ApplicationGroup. */
-  friendlyName?: string;
-  /** HostPool arm path of ApplicationGroup. */
-  hostPoolArmPath: string;
-  /**
-   * Workspace arm path of ApplicationGroup.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly workspaceArmPath?: string;
-  /** Resource Type of ApplicationGroup. */
-  applicationGroupType: ApplicationGroupType;
-  /** The registration info of HostPool. */
-  migrationRequest?: MigrationRequestProperties;
-  /**
-   * Is cloud pc resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cloudPcResource?: boolean;
-};
-
-/** Represents a HostPool definition. */
-export type HostPool = ResourceModelWithAllowedPropertySet & {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
-   * ObjectId of HostPool. (internal use)
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly objectId?: string;
-  /** Friendly name of HostPool. */
-  friendlyName?: string;
-  /** Description of HostPool. */
-  description?: string;
-  /** HostPool type for desktop. */
-  hostPoolType: HostPoolType;
-  /** PersonalDesktopAssignment type for HostPool. */
-  personalDesktopAssignmentType?: PersonalDesktopAssignmentType;
-  /** Custom rdp property of HostPool. */
-  customRdpProperty?: string;
-  /** The max session limit of HostPool. */
-  maxSessionLimit?: number;
-  /** The type of the load balancer. */
-  loadBalancerType: LoadBalancerType;
-  /** The ring number of HostPool. */
-  ring?: number;
-  /** Is validation environment. */
-  validationEnvironment?: boolean;
-  /** The registration info of HostPool. */
-  registrationInfo?: RegistrationInfo;
-  /** VM template for sessionhosts configuration within hostpool. */
-  vmTemplate?: string;
-  /**
-   * List of applicationGroup links.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly applicationGroupReferences?: string[];
-  /** URL to customer ADFS server for signing WVD SSO certificates. */
-  ssoadfsAuthority?: string;
-  /** ClientId for the registered Relying Party used to issue WVD SSO certificates. */
-  ssoClientId?: string;
-  /** Path to Azure KeyVault storing the secret used for communication to ADFS. */
-  ssoClientSecretKeyVaultPath?: string;
-  /** The type of single sign on Secret Type. */
-  ssoSecretType?: SSOSecretType;
-  /** The type of preferred application group type, default to Desktop Application Group */
-  preferredAppGroupType: PreferredAppGroupType;
-  /** The flag to turn on/off StartVMOnConnect feature. */
-  startVMOnConnect?: boolean;
-  /** The registration info of HostPool. */
-  migrationRequest?: MigrationRequestProperties;
-  /**
-   * Is cloud pc resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cloudPcResource?: boolean;
-  /** Enabled allows this resource to be accessed from both public and private networks, Disabled allows this resource to only be accessed via private endpoints */
-  publicNetworkAccess?: PublicNetworkAccess;
-};
-
-export type ResourceModelWithAllowedPropertySetIdentity = Identity & {};
-
-export type ResourceModelWithAllowedPropertySetSku = Sku & {};
-
-export type ResourceModelWithAllowedPropertySetPlan = Plan & {};
 
 /** ApplicationGroup properties that can be patched. */
 export type ApplicationGroupPatch = Resource & {
@@ -879,7 +772,9 @@ export type HostPoolPatch = Resource & {
   /** The flag to turn on/off StartVMOnConnect feature. */
   startVMOnConnect?: boolean;
   /** Enabled to allow this resource to be access from the public network */
-  publicNetworkAccess?: PublicNetworkAccess;
+  publicNetworkAccess?: HostpoolPublicNetworkAccess;
+  /** The session host configuration for updating agent, monitoring agent, and stack component. */
+  agentUpdate?: AgentUpdatePatchProperties;
 };
 
 /** Represents a UserSession definition. */
@@ -938,6 +833,8 @@ export type SessionHost = Resource & {
   readonly resourceId?: string;
   /** User assigned to SessionHost. */
   assignedUser?: string;
+  /** Friendly name of SessionHost */
+  friendlyName?: string;
   /** Status for a SessionHost. */
   status?: Status;
   /**
@@ -971,6 +868,8 @@ export type SessionHostPatch = Resource & {
   allowNewSession?: boolean;
   /** User assigned to SessionHost. */
   assignedUser?: string;
+  /** Friendly name of SessionHost */
+  friendlyName?: string;
 };
 
 /** Schema for MSIX Package properties. */
@@ -1044,16 +943,6 @@ export type ExpandMsixImage = Resource & {
   packageApplications?: MsixPackageApplications[];
 };
 
-/** The Private Endpoint Connection resource. */
-export type PrivateEndpointConnection = Resource & {
-  /** The resource of private end point. */
-  privateEndpoint?: PrivateEndpoint;
-  /** A collection of information about the state of the connection between service consumer and provider. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-  /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
-};
-
 /** A private link resource */
 export type PrivateLinkResource = Resource & {
   /**
@@ -1069,6 +958,175 @@ export type PrivateLinkResource = Resource & {
   /** The private link resource Private link DNS zone name. */
   requiredZoneNames?: string[];
 };
+
+/** Represents a Workspace definition. */
+export type Workspace = ResourceModelWithAllowedPropertySet & {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * ObjectId of Workspace. (internal use)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly objectId?: string;
+  /** Description of Workspace. */
+  description?: string;
+  /** Friendly name of Workspace. */
+  friendlyName?: string;
+  /** List of applicationGroup resource Ids. */
+  applicationGroupReferences?: string[];
+  /**
+   * Is cloud pc resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cloudPcResource?: boolean;
+  /** Enabled allows this resource to be accessed from both public and private networks, Disabled allows this resource to only be accessed via private endpoints */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * List of private endpoint connection associated with the specified resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+};
+
+/** Represents a scaling plan definition. */
+export type ScalingPlan = ResourceModelWithAllowedPropertySet & {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * ObjectId of scaling plan. (internal use)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly objectId?: string;
+  /** Description of scaling plan. */
+  description?: string;
+  /** User friendly name of scaling plan. */
+  friendlyName?: string;
+  /** Timezone of the scaling plan. */
+  timeZone?: string;
+  /** HostPool type for desktop. */
+  hostPoolType?: ScalingHostPoolType;
+  /** Exclusion tag for scaling plan. */
+  exclusionTag?: string;
+  /** List of ScalingSchedule definitions. */
+  schedules?: ScalingSchedule[];
+  /** List of ScalingHostPoolReference definitions. */
+  hostPoolReferences?: ScalingHostPoolReference[];
+};
+
+/** Represents a ApplicationGroup definition. */
+export type ApplicationGroup = ResourceModelWithAllowedPropertySet & {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * ObjectId of ApplicationGroup. (internal use)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly objectId?: string;
+  /** Description of ApplicationGroup. */
+  description?: string;
+  /** Friendly name of ApplicationGroup. */
+  friendlyName?: string;
+  /** HostPool arm path of ApplicationGroup. */
+  hostPoolArmPath: string;
+  /**
+   * Workspace arm path of ApplicationGroup.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly workspaceArmPath?: string;
+  /** Resource Type of ApplicationGroup. */
+  applicationGroupType: ApplicationGroupType;
+  /** The registration info of HostPool. */
+  migrationRequest?: MigrationRequestProperties;
+  /**
+   * Is cloud pc resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cloudPcResource?: boolean;
+};
+
+/** Represents a HostPool definition. */
+export type HostPool = ResourceModelWithAllowedPropertySet & {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * ObjectId of HostPool. (internal use)
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly objectId?: string;
+  /** Friendly name of HostPool. */
+  friendlyName?: string;
+  /** Description of HostPool. */
+  description?: string;
+  /** HostPool type for desktop. */
+  hostPoolType: HostPoolType;
+  /** PersonalDesktopAssignment type for HostPool. */
+  personalDesktopAssignmentType?: PersonalDesktopAssignmentType;
+  /** Custom rdp property of HostPool. */
+  customRdpProperty?: string;
+  /** The max session limit of HostPool. */
+  maxSessionLimit?: number;
+  /** The type of the load balancer. */
+  loadBalancerType: LoadBalancerType;
+  /** The ring number of HostPool. */
+  ring?: number;
+  /** Is validation environment. */
+  validationEnvironment?: boolean;
+  /** The registration info of HostPool. */
+  registrationInfo?: RegistrationInfo;
+  /** VM template for sessionhosts configuration within hostpool. */
+  vmTemplate?: string;
+  /**
+   * List of applicationGroup links.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applicationGroupReferences?: string[];
+  /** URL to customer ADFS server for signing WVD SSO certificates. */
+  ssoadfsAuthority?: string;
+  /** ClientId for the registered Relying Party used to issue WVD SSO certificates. */
+  ssoClientId?: string;
+  /** Path to Azure KeyVault storing the secret used for communication to ADFS. */
+  ssoClientSecretKeyVaultPath?: string;
+  /** The type of single sign on Secret Type. */
+  ssoSecretType?: SSOSecretType;
+  /** The type of preferred application group type, default to Desktop Application Group */
+  preferredAppGroupType: PreferredAppGroupType;
+  /** The flag to turn on/off StartVMOnConnect feature. */
+  startVMOnConnect?: boolean;
+  /** The registration info of HostPool. */
+  migrationRequest?: MigrationRequestProperties;
+  /**
+   * Is cloud pc resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cloudPcResource?: boolean;
+  /** Enabled allows this resource to be accessed from both public and private networks, Disabled allows this resource to only be accessed via private endpoints */
+  publicNetworkAccess?: HostpoolPublicNetworkAccess;
+  /** The session host configuration for updating agent, monitoring agent, and stack component. */
+  agentUpdate?: AgentUpdateProperties;
+  /**
+   * List of private endpoint connection associated with the specified resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+};
+
+export type ResourceModelWithAllowedPropertySetIdentity = Identity & {};
+
+export type ResourceModelWithAllowedPropertySetSku = Sku & {};
+
+export type ResourceModelWithAllowedPropertySetPlan = Plan & {};
 
 /** The Private Endpoint Connection resource. */
 export type PrivateEndpointConnectionWithSystemData = PrivateEndpointConnection & {
@@ -1114,6 +1172,44 @@ export enum KnownPublicNetworkAccess {
  * **Disabled**
  */
 export type PublicNetworkAccess = string;
+
+/** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
+export enum KnownPrivateEndpointServiceConnectionStatus {
+  Pending = "Pending",
+  Approved = "Approved",
+  Rejected = "Rejected"
+}
+
+/**
+ * Defines values for PrivateEndpointServiceConnectionStatus. \
+ * {@link KnownPrivateEndpointServiceConnectionStatus} can be used interchangeably with PrivateEndpointServiceConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending** \
+ * **Approved** \
+ * **Rejected**
+ */
+export type PrivateEndpointServiceConnectionStatus = string;
+
+/** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
+export enum KnownPrivateEndpointConnectionProvisioningState {
+  Succeeded = "Succeeded",
+  Creating = "Creating",
+  Deleting = "Deleting",
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for PrivateEndpointConnectionProvisioningState. \
+ * {@link KnownPrivateEndpointConnectionProvisioningState} can be used interchangeably with PrivateEndpointConnectionProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Creating** \
+ * **Deleting** \
+ * **Failed**
+ */
+export type PrivateEndpointConnectionProvisioningState = string;
 
 /** Known values of {@link ScalingHostPoolType} that the service accepts. */
 export enum KnownScalingHostPoolType {
@@ -1376,6 +1472,44 @@ export enum KnownPreferredAppGroupType {
  */
 export type PreferredAppGroupType = string;
 
+/** Known values of {@link HostpoolPublicNetworkAccess} that the service accepts. */
+export enum KnownHostpoolPublicNetworkAccess {
+  Enabled = "Enabled",
+  Disabled = "Disabled",
+  EnabledForSessionHostsOnly = "EnabledForSessionHostsOnly",
+  EnabledForClientsOnly = "EnabledForClientsOnly"
+}
+
+/**
+ * Defines values for HostpoolPublicNetworkAccess. \
+ * {@link KnownHostpoolPublicNetworkAccess} can be used interchangeably with HostpoolPublicNetworkAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled** \
+ * **EnabledForSessionHostsOnly** \
+ * **EnabledForClientsOnly**
+ */
+export type HostpoolPublicNetworkAccess = string;
+
+/** Known values of {@link SessionHostComponentUpdateType} that the service accepts. */
+export enum KnownSessionHostComponentUpdateType {
+  /** Agent and other agent side components are delivery schedule is controlled by WVD Infra. */
+  Default = "Default",
+  /** TenantAdmin have opted in for Scheduled Component Update feature. */
+  Scheduled = "Scheduled"
+}
+
+/**
+ * Defines values for SessionHostComponentUpdateType. \
+ * {@link KnownSessionHostComponentUpdateType} can be used interchangeably with SessionHostComponentUpdateType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default**: Agent and other agent side components are delivery schedule is controlled by WVD Infra. \
+ * **Scheduled**: TenantAdmin have opted in for Scheduled Component Update feature.
+ */
+export type SessionHostComponentUpdateType = string;
+
 /** Known values of {@link ApplicationType} that the service accepts. */
 export enum KnownApplicationType {
   RemoteApp = "RemoteApp",
@@ -1554,46 +1688,17 @@ export enum KnownHealthCheckResult {
  * **SessionHostShutdown**: We received a Shutdown notification.
  */
 export type HealthCheckResult = string;
-
-/** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
-export enum KnownPrivateEndpointServiceConnectionStatus {
-  Pending = "Pending",
-  Approved = "Approved",
-  Rejected = "Rejected"
-}
-
-/**
- * Defines values for PrivateEndpointServiceConnectionStatus. \
- * {@link KnownPrivateEndpointServiceConnectionStatus} can be used interchangeably with PrivateEndpointServiceConnectionStatus,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Pending** \
- * **Approved** \
- * **Rejected**
- */
-export type PrivateEndpointServiceConnectionStatus = string;
-
-/** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
-export enum KnownPrivateEndpointConnectionProvisioningState {
-  Succeeded = "Succeeded",
-  Creating = "Creating",
-  Deleting = "Deleting",
-  Failed = "Failed"
-}
-
-/**
- * Defines values for PrivateEndpointConnectionProvisioningState. \
- * {@link KnownPrivateEndpointConnectionProvisioningState} can be used interchangeably with PrivateEndpointConnectionProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Creating** \
- * **Deleting** \
- * **Failed**
- */
-export type PrivateEndpointConnectionProvisioningState = string;
 /** Defines values for SkuTier. */
 export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
+/** Defines values for DayOfWeek. */
+export type DayOfWeek =
+  | "Monday"
+  | "Tuesday"
+  | "Wednesday"
+  | "Thursday"
+  | "Friday"
+  | "Saturday"
+  | "Sunday";
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams

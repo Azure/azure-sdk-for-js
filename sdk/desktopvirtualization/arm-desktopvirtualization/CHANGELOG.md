@@ -1,15 +1,25 @@
 # Release History
+    
+## 1.0.0-beta.4 (2022-04-21)
+    
+**Features**
 
-## 1.0.0-beta.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface AgentUpdatePatchProperties
+  - Added Interface AgentUpdateProperties
+  - Added Interface MaintenanceWindowPatchProperties
+  - Added Interface MaintenanceWindowProperties
+  - Added Type Alias DayOfWeek
+  - Added Type Alias HostpoolPublicNetworkAccess
+  - Added Type Alias SessionHostComponentUpdateType
+  - Type Alias HostPool has a new parameter agentUpdate
+  - Type Alias HostPool has a new parameter privateEndpointConnections
+  - Type Alias HostPoolPatch has a new parameter agentUpdate
+  - Type Alias SessionHost has a new parameter friendlyName
+  - Type Alias SessionHostPatch has a new parameter friendlyName
+  - Type Alias Workspace has a new parameter privateEndpointConnections
+  - Added Enum KnownHostpoolPublicNetworkAccess
+  - Added Enum KnownSessionHostComponentUpdateType
+    
 ## 1.0.0-beta.3 (2022-04-18)
 
 **features**
