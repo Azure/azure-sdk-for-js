@@ -4,6 +4,7 @@
 import { assert } from "chai";
 import * as sinon from "sinon";
 import {
+  PipelineRequest,
   PipelineResponse,
   RestError,
   SendRequest,
@@ -12,217 +13,117 @@ import {
   tracingPolicy,
 } from "../src";
 import {
-  SpanAttributeValue,
-  SpanAttributes,
-  SpanContext,
-  SpanOptions,
+  Instrumenter,
+  InstrumenterSpanOptions,
   SpanStatus,
-  SpanStatusCode,
-  TraceFlags,
-  TraceState,
-  context,
-  setSpan,
+  TracingContext,
+  TracingSpan,
+  TracingSpanOptions,
+  useInstrumenter,
 } from "@azure/core-tracing";
-import { Span, Tracer, TracerProvider, trace } from "@opentelemetry/api";
 
-export class MockSpan implements Span {
-  private _endCalled = false;
-  private _status: SpanStatus = {
-    code: SpanStatusCode.UNSET,
-  };
-  private _attributes: SpanAttributes = {};
+class MockSpan implements TracingSpan {
+  spanAttributes: Record<string, unknown> = {};
+  endCalled: boolean = false;
+  status?: SpanStatus;
+  exceptions: Array<Error | string> = [];
 
-  constructor(
-    private name: string,
-    private traceId: string,
-    private spanId: string,
-    private flags: TraceFlags,
-    private state: string,
-    options?: SpanOptions
-  ) {
-    this._attributes = options?.attributes || {};
-  }
-
-  addEvent(): this {
-    throw new Error("Method not implemented.");
+  constructor(public name: string, spanOptions: TracingSpanOptions = {}) {
+    this.spanAttributes = spanOptions.spanAttributes ?? {};
   }
 
   isRecording(): boolean {
     return true;
   }
 
-  recordException(): void {
-    throw new Error("Method not implemented.");
-  }
-
-  updateName(): this {
-    throw new Error("Method not implemented.");
-  }
-
-  didEnd(): boolean {
-    return this._endCalled;
+  recordException(exception: Error | string): void {
+    this.exceptions.push(exception);
   }
 
   end(): void {
-    this._endCalled = true;
+    this.endCalled = true;
   }
 
-  getStatus(): SpanStatus {
-    return this._status;
+  setStatus(status: SpanStatus): void {
+    this.status = status;
   }
 
-  setStatus(status: SpanStatus): this {
-    this._status = status;
+  setAttribute(name: string, value: unknown): void {
+    this.spanAttributes[name] = value;
+  }
+
+  getAttribute(name: string): unknown {
+    return this.spanAttributes[name];
+  }
+}
+
+const noopTracingContext: TracingContext = {
+  deleteValue() {
     return this;
-  }
+  },
+  getValue() {
+    return undefined;
+  },
+  setValue() {
+    return this;
+  },
+};
 
-  setAttributes(attributes: SpanAttributes): this {
-    for (const key in attributes) {
-      this.setAttribute(key, attributes[key]!);
+class MockInstrumenter implements Instrumenter {
+  lastSpanCreated: MockSpan | undefined;
+  staticSpan: MockSpan | undefined;
+
+  setStaticSpan(span: MockSpan): void {
+    this.staticSpan = span;
+  }
+  startSpan(
+    name: string,
+    spanOptions: InstrumenterSpanOptions
+  ): {
+    span: TracingSpan;
+    tracingContext: TracingContext;
+  } {
+    const tracingContext = spanOptions.tracingContext ?? noopTracingContext;
+    if (this.staticSpan) {
+      return { span: this.staticSpan, tracingContext };
     }
-    return this;
-  }
-
-  setAttribute(key: string, value: SpanAttributeValue): this {
-    this._attributes[key] = value;
-    return this;
-  }
-
-  getName(): string {
-    return this.name;
-  }
-
-  getAttribute(key: string): SpanAttributeValue | undefined {
-    return this._attributes[key];
-  }
-
-  spanContext(): SpanContext {
-    const state = this.state;
-
-    const traceState = {
-      set(): TraceState {
-        /* empty */
-        return traceState;
-      },
-      unset(): TraceState {
-        /* empty */
-        return traceState;
-      },
-      get(): string | undefined {
-        return;
-      },
-      serialize() {
-        return state;
-      },
-    };
-
+    const span = new MockSpan(name, spanOptions);
+    this.lastSpanCreated = span;
     return {
-      traceId: this.traceId,
-      spanId: this.spanId,
-      traceFlags: this.flags,
-      traceState,
+      span,
+      tracingContext,
     };
   }
-}
-
-export class MockTracer implements Tracer {
-  private spans: MockSpan[] = [];
-  private _startSpanCalled = false;
-
-  constructor(
-    private traceId = "",
-    private spanId = "",
-    private flags = TraceFlags.NONE,
-    private state = ""
-  ) {}
-
-  startActiveSpan(): never {
-    throw new Error("Method not implemented.");
+  withContext<
+    CallbackArgs extends unknown[],
+    Callback extends (...args: CallbackArgs) => ReturnType<Callback>
+  >(
+    _context: TracingContext,
+    callback: Callback,
+    ...callbackArgs: CallbackArgs
+  ): ReturnType<Callback> {
+    return callback(...callbackArgs);
   }
 
-  getStartedSpans(): MockSpan[] {
-    return this.spans;
+  parseTraceparentHeader(_traceparentHeader: string): TracingContext | undefined {
+    return undefined;
   }
-
-  startSpanCalled(): boolean {
-    return this._startSpanCalled;
-  }
-
-  startSpan(name: string, options?: SpanOptions): MockSpan {
-    this._startSpanCalled = true;
-    const span = new MockSpan(name, this.traceId, this.spanId, this.flags, this.state, options);
-    this.spans.push(span);
-    return span;
+  createRequestHeaders(_tracingContext?: TracingContext): Record<string, string> {
+    return {};
   }
 }
-
-export class MockTracerProvider implements TracerProvider {
-  private mockTracer: Tracer = new MockTracer();
-
-  setTracer(tracer: Tracer): void {
-    this.mockTracer = tracer;
-  }
-
-  getTracer(): Tracer {
-    return this.mockTracer;
-  }
-
-  register(): void {
-    trace.setGlobalTracerProvider(this);
-  }
-
-  disable(): void {
-    trace.disable();
-  }
-}
-
-const ROOT_SPAN = new MockSpan("name", "root", "root", TraceFlags.SAMPLED, "");
 
 describe("tracingPolicy", function () {
-  const TRACE_VERSION = "00";
-  const mockTracerProvider = new MockTracerProvider();
+  let activeInstrumenter: MockInstrumenter;
 
-  beforeEach(() => {
-    mockTracerProvider.register();
-  });
-
-  afterEach(() => {
-    mockTracerProvider.disable();
-  });
-
-  it("will not create a span if tracingContext is missing", async () => {
-    const mockTracer = new MockTracer();
-    const request = createPipelineRequest({
-      url: "https://bing.com",
-    });
-    const response: PipelineResponse = {
-      headers: createHttpHeaders(),
-      request: request,
-      status: 200,
-    };
-    const policy = tracingPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(response);
-    await policy.sendRequest(request, next);
-
-    assert.isFalse(mockTracer.startSpanCalled());
-  });
-
-  it("will create a span with the correct data", async () => {
-    const mockTraceId = "11111111111111111111111111111111";
-    const mockSpanId = "2222222222222222";
-    const mockTracer = new MockTracer(mockTraceId, mockSpanId, TraceFlags.SAMPLED);
-    mockTracerProvider.setTracer(mockTracer);
-
+  function createTestRequest({ noContext = false } = {}): {
+    request: PipelineRequest;
+    next: sinon.SinonStub;
+  } {
     const request = createPipelineRequest({
       url: "https://bing.com",
       method: "POST",
-      tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN).setValue(
-          Symbol.for("az.namespace"),
-          "test"
-        ),
-      },
+      tracingOptions: { tracingContext: noContext ? undefined : noopTracingContext },
     });
 
     const response: PipelineResponse = {
@@ -230,369 +131,110 @@ describe("tracingPolicy", function () {
       request: request,
       status: 200,
     };
-    const policy = tracingPolicy();
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.resolves(response);
-    await policy.sendRequest(request, next);
+    return { request, next };
+  }
 
-    assert.lengthOf(mockTracer.getStartedSpans(), 1);
-    const span = mockTracer.getStartedSpans()[0];
-    assert.equal(span.getName(), "HTTP POST");
-    assert.equal(span.getAttribute("az.namespace"), "test");
-    assert.equal(span.getAttribute("http.method"), "POST");
-    assert.equal(span.getAttribute("http.url"), request.url);
-    assert.equal(span.getAttribute("requestId"), request.requestId);
-    assert.equal(span.getAttribute("http.status_code"), response.status);
+  afterEach(() => {
+    sinon.restore();
   });
 
-  it("will create a span and correctly set trace headers if tracingContext is available", async () => {
-    const mockTraceId = "11111111111111111111111111111111";
-    const mockSpanId = "2222222222222222";
-    const mockTracer = new MockTracer(mockTraceId, mockSpanId, TraceFlags.SAMPLED);
-    mockTracerProvider.setTracer(mockTracer);
-
-    const request = createPipelineRequest({
-      url: "https://bing.com",
-      tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN),
-      },
-    });
-    const response: PipelineResponse = {
-      headers: createHttpHeaders(),
-      request: request,
-      status: 200,
-    };
-    const policy = tracingPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(response);
-    await policy.sendRequest(request, next);
-
-    assert.isTrue(mockTracer.startSpanCalled());
-    assert.lengthOf(mockTracer.getStartedSpans(), 1);
-    const span = mockTracer.getStartedSpans()[0];
-    assert.isTrue(span.didEnd());
-    assert.deepEqual(span.getStatus(), { code: SpanStatusCode.OK });
-    assert.equal(span.getAttribute("http.status_code"), 200);
-
-    const expectedFlag = "01";
-
-    assert.equal(
-      request.headers.get("traceparent"),
-      `${TRACE_VERSION}-${mockTraceId}-${mockSpanId}-${expectedFlag}`
-    );
-    assert.notExists(request.headers.get("tracestate"));
+  beforeEach(() => {
+    activeInstrumenter = new MockInstrumenter();
+    useInstrumenter(activeInstrumenter);
   });
 
-  it("will create a span and correctly set trace headers if tracingContext is available (no TraceOptions)", async () => {
-    const mockTraceId = "11111111111111111111111111111111";
-    const mockSpanId = "2222222222222222";
-    // leave out the TraceOptions
-    const mockTracer = new MockTracer(mockTraceId, mockSpanId);
-    mockTracerProvider.setTracer(mockTracer);
-
-    const request = createPipelineRequest({
-      url: "https://bing.com",
-      tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN),
-      },
-    });
-    const response: PipelineResponse = {
-      headers: createHttpHeaders(),
-      request: request,
-      status: 200,
-    };
+  it("will create a span with the correct data", async () => {
     const policy = tracingPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(response);
+    const { request, next } = createTestRequest();
     await policy.sendRequest(request, next);
 
-    assert.isTrue(mockTracer.startSpanCalled());
-    assert.lengthOf(mockTracer.getStartedSpans(), 1);
-    const span = mockTracer.getStartedSpans()[0];
-    assert.isTrue(span.didEnd());
-    assert.deepEqual(span.getStatus(), { code: SpanStatusCode.OK });
-    assert.equal(span.getAttribute("http.status_code"), 200);
-
-    const expectedFlag = "00";
-
-    assert.equal(
-      request.headers.get("traceparent"),
-      `${TRACE_VERSION}-${mockTraceId}-${mockSpanId}-${expectedFlag}`
-    );
-    assert.notExists(request.headers.get("tracestate"));
+    const createdSpan = activeInstrumenter.lastSpanCreated;
+    assert.exists(createdSpan);
+    const mockSpan = createdSpan!;
+    assert.isTrue(mockSpan.endCalled, "expected span to be ended");
+    assert.equal(mockSpan.name, "HTTP POST");
+    assert.equal(mockSpan.getAttribute("http.method"), "POST");
+    assert.equal(mockSpan.getAttribute("http.url"), request.url);
+    assert.equal(mockSpan.getAttribute("requestId"), request.requestId);
+    assert.equal(mockSpan.getAttribute("http.status_code"), 200); // createTestRequest's response will return 200 OK
   });
 
-  it("will create a span and correctly set trace headers tracingContext is available (TraceState)", async () => {
-    const mockTraceId = "11111111111111111111111111111111";
-    const mockSpanId = "2222222222222222";
-    const mockTraceState = "foo=bar";
-    const mockTracer = new MockTracer(mockTraceId, mockSpanId, TraceFlags.SAMPLED, mockTraceState);
-    mockTracerProvider.setTracer(mockTracer);
-
-    const request = createPipelineRequest({
-      url: "https://bing.com",
-      method: "PUT",
-      tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN),
-      },
+  it("will set request headers correctly", async () => {
+    sinon.stub(activeInstrumenter, "createRequestHeaders").returns({
+      testheader: "testvalue",
     });
-    const response: PipelineResponse = {
-      headers: createHttpHeaders(),
-      request: request,
-      status: 200,
-    };
+    const { request, next } = createTestRequest();
+
     const policy = tracingPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(response);
     await policy.sendRequest(request, next);
-
-    assert.isTrue(mockTracer.startSpanCalled());
-    assert.lengthOf(mockTracer.getStartedSpans(), 1);
-    const span = mockTracer.getStartedSpans()[0];
-    assert.isTrue(span.didEnd());
-    assert.deepEqual(span.getStatus(), { code: SpanStatusCode.OK });
-
-    const expectedFlag = "01";
-
-    assert.equal(
-      request.headers.get("traceparent"),
-      `${TRACE_VERSION}-${mockTraceId}-${mockSpanId}-${expectedFlag}`
-    );
-    assert.equal(request.headers.get("tracestate"), mockTraceState);
+    assert.equal(request.headers.get("testheader"), "testvalue");
   });
 
   it("will close a span if an error is encountered", async () => {
-    const mockTraceId = "11111111111111111111111111111111";
-    const mockSpanId = "2222222222222222";
-    const mockTraceState = "foo=bar";
-    const mockTracer = new MockTracer(mockTraceId, mockSpanId, TraceFlags.SAMPLED, mockTraceState);
-    mockTracerProvider.setTracer(mockTracer);
-
     const request = createPipelineRequest({
       url: "https://bing.com",
       tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN),
+        tracingContext: noopTracingContext,
       },
     });
+
     const policy = tracingPolicy();
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.rejects(new RestError("Bad Request.", { statusCode: 400 }));
+    const requestError = new RestError("Bad Request.", { statusCode: 400 });
+    next.rejects(requestError);
 
-    try {
-      await policy.sendRequest(request, next);
-      throw new Error("Test Failure");
-    } catch (err) {
-      assert.notEqual(err.message, "Test Failure");
-      assert.isTrue(mockTracer.startSpanCalled());
-      assert.lengthOf(mockTracer.getStartedSpans(), 1);
-      const span = mockTracer.getStartedSpans()[0];
-      assert.isTrue(span.didEnd());
-      assert.deepEqual(span.getStatus(), {
-        code: SpanStatusCode.ERROR,
-        message: "Bad Request.",
-      });
-      assert.equal(span.getAttribute("http.status_code"), 400);
-
-      const expectedFlag = "01";
-
-      assert.equal(
-        request.headers.get("traceparent"),
-        `${TRACE_VERSION}-${mockTraceId}-${mockSpanId}-${expectedFlag}`
-      );
-      assert.equal(request.headers.get("tracestate"), mockTraceState);
+    await assert.isRejected(policy.sendRequest(request, next), requestError);
+    const createdSpan = activeInstrumenter.lastSpanCreated;
+    assert.exists(createdSpan);
+    const mockSpan = createdSpan!;
+    assert.equal(mockSpan.status?.status, "error");
+    if (mockSpan.status?.status === "error") {
+      assert.equal(mockSpan.status?.error, requestError);
     }
+    assert.isTrue(mockSpan.endCalled, "end was expected to be called!");
+    assert.equal(mockSpan.getAttribute("http.status_code"), 400);
   });
 
-  it("will not set headers if span is a NoOpSpan", async () => {
-    mockTracerProvider.disable();
-
-    const request = createPipelineRequest({
-      url: "https://bing.com",
-      tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN),
-      },
-    });
-    const response: PipelineResponse = {
-      headers: createHttpHeaders(),
-      request: request,
-      status: 200,
-    };
+  it("will not create a span if tracingContext is missing", async () => {
     const policy = tracingPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(response);
+    const { request, next } = createTestRequest({ noContext: true });
     await policy.sendRequest(request, next);
 
-    assert.notExists(request.headers.get("traceparent"));
-    assert.notExists(request.headers.get("tracestate"));
+    const createdSpan = activeInstrumenter.lastSpanCreated;
+    assert.notExists(createdSpan, "span was created without tracingContext being passed!");
   });
 
-  it("will not set headers if context is invalid", async () => {
-    // This will create a tracer that produces invalid trace-id and span-id
-    const mockTracer = new MockTracer("invalid", "00", TraceFlags.SAMPLED, "foo=bar");
-    mockTracerProvider.setTracer(mockTracer);
+  describe("span errors", () => {
+    it("will not fail the request when creating a span throws", async () => {
+      sinon.stub(activeInstrumenter, "startSpan").throws("boom");
+      const { request, next } = createTestRequest();
+      const policy = tracingPolicy();
 
-    const request = createPipelineRequest({
-      url: "https://bing.com",
-      tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN),
-      },
+      await assert.isFulfilled(policy.sendRequest(request, next));
     });
-    const response: PipelineResponse = {
-      headers: createHttpHeaders(),
-      request: request,
-      status: 200,
-    };
-    const policy = tracingPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(response);
-    await policy.sendRequest(request, next);
 
-    assert.notExists(request.headers.get("traceparent"));
-    assert.notExists(request.headers.get("tracestate"));
-  });
+    it("will not fail the request when post-processing success fails", async () => {
+      const mockSpan = sinon.createStubInstance(MockSpan);
+      mockSpan.end.throws(new Error("end is not a function"));
+      activeInstrumenter.setStaticSpan(mockSpan);
+      const { request, next } = createTestRequest();
+      const policy = tracingPolicy();
 
-  it("will not fail the request if span setup fails", async () => {
-    const errorTracer = new MockTracer("", "", TraceFlags.SAMPLED, "");
-    sinon.stub(errorTracer, "startSpan").throws(new Error("Test Error"));
-    mockTracerProvider.setTracer(errorTracer);
-
-    const request = createPipelineRequest({
-      url: "https://bing.com",
-      tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN),
-      },
+      await assert.isFulfilled(policy.sendRequest(request, next));
     });
-    const response: PipelineResponse = {
-      headers: createHttpHeaders(),
-      request: request,
-      status: 200,
-    };
-    const policy = tracingPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(response);
 
-    // Does not throw
-    const result = await policy.sendRequest(request, next);
-    assert.equal(result, response);
-  });
+    it("will not fail the request when post-processing error fails", async () => {
+      const mockSpan = sinon.createStubInstance(MockSpan);
+      mockSpan.end.throws(new Error("end is not a function"));
+      const { request, next } = createTestRequest();
+      const policy = tracingPolicy();
+      const expectedError = new RestError("Bad Request.", { statusCode: 400 });
+      next.rejects(expectedError);
 
-  it("will not fail the request if response processing fails", async () => {
-    const errorTracer = new MockTracer("", "", TraceFlags.SAMPLED, "");
-    mockTracerProvider.setTracer(errorTracer);
-    const errorSpan = new MockSpan("", "", "", TraceFlags.SAMPLED, "");
-    sinon.stub(errorSpan, "end").throws(new Error("Test Error"));
-    sinon.stub(errorTracer, "startSpan").returns(errorSpan);
-
-    const request = createPipelineRequest({
-      url: "https://bing.com",
-      tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN),
-      },
+      // Expect the pipeline request error, _not_ the error that is thrown when ending a span.
+      await assert.isRejected(policy.sendRequest(request, next), expectedError);
     });
-    const response: PipelineResponse = {
-      headers: createHttpHeaders(),
-      request: request,
-      status: 200,
-    };
-    const policy = tracingPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(response);
-
-    // Does not throw
-    const result = await policy.sendRequest(request, next);
-    assert.equal(result, response);
-  });
-
-  it("will give priority to context's az.namespace over spanOptions", async () => {
-    const mockTraceId = "11111111111111111111111111111111";
-    const mockSpanId = "2222222222222222";
-    const mockTracer = new MockTracer(mockTraceId, mockSpanId, TraceFlags.SAMPLED);
-    mockTracerProvider.setTracer(mockTracer);
-
-    const request = createPipelineRequest({
-      url: "https://bing.com",
-      tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN).setValue(
-          Symbol.for("az.namespace"),
-          "value_from_context"
-        ),
-      },
-    });
-    Object.assign(request.tracingOptions, {
-      spanOptions: { attributes: { "az.namespace": "value_from_span_options" } },
-    });
-    const response: PipelineResponse = {
-      headers: createHttpHeaders(),
-      request: request,
-      status: 200,
-    };
-    const policy = tracingPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(response);
-    await policy.sendRequest(request, next);
-
-    assert.isTrue(mockTracer.startSpanCalled());
-    assert.lengthOf(mockTracer.getStartedSpans(), 1);
-    const span = mockTracer.getStartedSpans()[0];
-    assert.equal(span.getAttribute("az.namespace"), "value_from_context");
-  });
-
-  it("will use spanOptions if context does not have namespace", async () => {
-    const mockTraceId = "11111111111111111111111111111111";
-    const mockSpanId = "2222222222222222";
-    const mockTracer = new MockTracer(mockTraceId, mockSpanId, TraceFlags.SAMPLED);
-    mockTracerProvider.setTracer(mockTracer);
-
-    const request = createPipelineRequest({
-      url: "https://bing.com",
-      tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN),
-      },
-    });
-    Object.assign(request.tracingOptions, {
-      spanOptions: { attributes: { "az.namespace": "value_from_span_options" } },
-    });
-    const response: PipelineResponse = {
-      headers: createHttpHeaders(),
-      request: request,
-      status: 200,
-    };
-    const policy = tracingPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(response);
-    await policy.sendRequest(request, next);
-
-    assert.isTrue(mockTracer.startSpanCalled());
-    assert.lengthOf(mockTracer.getStartedSpans(), 1);
-    const span = mockTracer.getStartedSpans()[0];
-    assert.equal(span.getAttribute("az.namespace"), "value_from_span_options");
-  });
-
-  it("is robust when spanOptions is undefined", async () => {
-    const mockTraceId = "11111111111111111111111111111111";
-    const mockSpanId = "2222222222222222";
-    const mockTracer = new MockTracer(mockTraceId, mockSpanId, TraceFlags.SAMPLED);
-    mockTracerProvider.setTracer(mockTracer);
-
-    const request = createPipelineRequest({
-      url: "https://bing.com",
-      tracingOptions: {
-        tracingContext: setSpan(context.active(), ROOT_SPAN),
-      },
-    });
-    const response: PipelineResponse = {
-      headers: createHttpHeaders(),
-      request: request,
-      status: 200,
-    };
-    const policy = tracingPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(response);
-    await policy.sendRequest(request, next);
-
-    assert.isTrue(mockTracer.startSpanCalled());
-    assert.lengthOf(mockTracer.getStartedSpans(), 1);
-    const span = mockTracer.getStartedSpans()[0];
-    assert.notExists(span.getAttribute("az.namespace"));
   });
 });

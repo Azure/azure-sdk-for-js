@@ -1,5 +1,5 @@
 {
-  "name": "azure-eventhubs-checkpointstore-blob-samples-ts",
+  "name": "@azure-samples/eventhubs-checkpointstore-blob-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Event Hubs - Checkpoint Store client library samples for TypeScript",

@@ -103,7 +103,7 @@ export const timeoutInSeconds: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2021-04-10",
+    defaultValue: "2021-06-08",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
@@ -1205,6 +1205,18 @@ export const copySourceAuthorization: OperationParameter = {
     xmlName: "x-ms-copy-source-authorization",
     type: {
       name: "String"
+    }
+  }
+};
+
+export const copySourceTags: OperationParameter = {
+  parameterPath: ["options", "copySourceTags"],
+  mapper: {
+    serializedName: "x-ms-copy-source-tag-option",
+    xmlName: "x-ms-copy-source-tag-option",
+    type: {
+      name: "Enum",
+      allowedValues: ["REPLACE", "COPY"]
     }
   }
 };

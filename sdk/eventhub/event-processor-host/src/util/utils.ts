@@ -150,7 +150,7 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
           config.action
         );
       }
-    } catch (err) {
+    } catch (err: any) {
       innerError = err;
       if (config.partitionId) {
         log.error(

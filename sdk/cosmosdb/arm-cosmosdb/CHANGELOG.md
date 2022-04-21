@@ -1,6 +1,6 @@
 # Release History
 
-## 16.0.0-beta.2 (Unreleased)
+## 16.0.0-beta.3 (Unreleased)
 
 ### Features Added
 
@@ -10,7 +10,7 @@
 
 ### Other Changes
 
-## 16.0.0-beta.1 (2022-02-21)
+## 16.0.0-beta.2 (2022-04-15)
     
 **Features**
 
@@ -235,11 +235,7 @@
   - Added Enum KnownServiceStatus
   - Added Enum KnownServiceType
   - Enum KnownAuthenticationMethod has a new value Ldap
-
-**Breaking Changes**
-
-  - Type Alias DatabaseAccountCreateUpdateParameters no longer has parameter identity
-  - Type Alias DatabaseAccountGetResults no longer has parameter identity
+  - Bug fix
     
     
 ## 15.0.0 (2021-12-09)

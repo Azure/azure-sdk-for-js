@@ -124,7 +124,7 @@ export class EventProcessorHost {
   async start(onMessage: OnReceivedMessage, onError: OnReceivedError): Promise<void> {
     try {
       await this._context.partitionManager.start(onMessage, onError);
-    } catch (err) {
+    } catch (err: any) {
       log.error(this._context.withHost("An error occurred while starting the EPH: %O"), err);
       this._context.onEphError(err);
       throw err;
@@ -138,7 +138,7 @@ export class EventProcessorHost {
   async stop(): Promise<void> {
     try {
       await this._context.partitionManager.stop();
-    } catch (err) {
+    } catch (err: any) {
       log.error(this._context.withHost("An error occurred while stopping the EPH: %O"), err);
       this._context.onEphError(err);
       throw err;

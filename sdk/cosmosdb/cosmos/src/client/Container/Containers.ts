@@ -203,7 +203,7 @@ export class Containers {
     try {
       const readResponse = await this.database.container(body.id).read(options);
       return readResponse;
-    } catch (err) {
+    } catch (err: any) {
       if (err.code === StatusCodes.NotFound) {
         const createResponse = await this.create(body, options);
         // Must merge the headers to capture RU costskaty

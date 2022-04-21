@@ -5,13 +5,15 @@ import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth"
 
 import { MsalOnBehalfOf } from "../msal/nodeFlows/msalOnBehalfOf";
 import { credentialLogger } from "../util/logging";
-import { trace } from "../util/tracing";
+import { tracingClient } from "../util/tracing";
 import { MsalFlow } from "../msal/flows";
 import {
   OnBehalfOfCredentialCertificateOptions,
   OnBehalfOfCredentialOptions,
   OnBehalfOfCredentialSecretOptions,
 } from "./onBehalfOfCredentialOptions";
+import { TokenCredentialOptions } from "../tokenCredentialOptions";
+import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
 
 const credentialName = "OnBehalfOfCredential";
 const logger = credentialLogger(credentialName);
@@ -21,11 +23,10 @@ const logger = credentialLogger(credentialName);
  */
 export class OnBehalfOfCredential implements TokenCredential {
   private msalFlow: MsalFlow;
-
   /**
    * Creates an instance of the {@link OnBehalfOfCredential} with the details
-   * needed to authenticate against Azure Active Directory with a client
-   * secret or a path to a PEM certificate, and an user assertion.
+   * needed to authenticate against Azure Active Directory with path to a PEM certificate,
+   * and an user assertion.
    *
    * Example using the `KeyClient` from [\@azure/keyvault-keys](https://www.npmjs.com/package/\@azure/keyvault-keys):
    *
@@ -33,7 +34,7 @@ export class OnBehalfOfCredential implements TokenCredential {
    * const tokenCredential = new OnBehalfOfCredential({
    *   tenantId,
    *   clientId,
-   *   clientSecret, // or `certificatePath: "/path/to/certificate.pem"
+   *   certificatePath: "/path/to/certificate.pem",
    *   userAssertionToken: "access-token"
    * });
    * const client = new KeyClient("vault-url", tokenCredential);
@@ -43,6 +44,38 @@ export class OnBehalfOfCredential implements TokenCredential {
    *
    * @param options - Optional parameters, generally common across credentials.
    */
+  constructor(
+    options: OnBehalfOfCredentialCertificateOptions &
+      TokenCredentialOptions &
+      CredentialPersistenceOptions
+  );
+  /**
+   * Creates an instance of the {@link OnBehalfOfCredential} with the details
+   * needed to authenticate against Azure Active Directory with a client
+   * secret and an user assertion.
+   *
+   * Example using the `KeyClient` from [\@azure/keyvault-keys](https://www.npmjs.com/package/\@azure/keyvault-keys):
+   *
+   * ```ts
+   * const tokenCredential = new OnBehalfOfCredential({
+   *   tenantId,
+   *   clientId,
+   *   clientSecret,
+   *   userAssertionToken: "access-token"
+   * });
+   * const client = new KeyClient("vault-url", tokenCredential);
+   *
+   * await client.getKey("key-name");
+   * ```
+   *
+   * @param options - Optional parameters, generally common across credentials.
+   */
+  constructor(
+    options: OnBehalfOfCredentialSecretOptions &
+      TokenCredentialOptions &
+      CredentialPersistenceOptions
+  );
+
   constructor(private options: OnBehalfOfCredentialOptions) {
     const { clientSecret } = options as OnBehalfOfCredentialSecretOptions;
     const { certificatePath } = options as OnBehalfOfCredentialCertificateOptions;
@@ -67,7 +100,7 @@ export class OnBehalfOfCredential implements TokenCredential {
    * @param options - The options used to configure the underlying network requests.
    */
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
-    return trace(`${credentialName}.getToken`, options, async (newOptions) => {
+    return tracingClient.withSpan(`${credentialName}.getToken`, options, async (newOptions) => {
       const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
       return this.msalFlow!.getToken(arrayScopes, newOptions);
     });

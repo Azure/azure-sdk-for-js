@@ -116,7 +116,7 @@ export async function doesProgramBriefExist(
     } else {
       return false;
     }
-  } catch (e) {
+  } catch (e: any) {
     const error = e as RestError;
     if (error.statusCode === 404) {
       return false;

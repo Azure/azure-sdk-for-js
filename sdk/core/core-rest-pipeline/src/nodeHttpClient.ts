@@ -16,7 +16,6 @@ import {
 } from "./interfaces";
 import { createHttpHeaders } from "./httpHeaders";
 import { RestError } from "./restError";
-import { URL } from "./util/url";
 import { IncomingMessage } from "http";
 import { logger } from "./log";
 
@@ -47,7 +46,7 @@ class ReportTransform extends Transform {
     try {
       this.progressCallback({ loadedBytes: this.loadedBytes });
       callback();
-    } catch (e) {
+    } catch (e: any) {
       callback(e);
     }
   }
@@ -95,8 +94,8 @@ class NodeHttpClient implements HttpClient {
     const acceptEncoding = request.headers.get("Accept-Encoding");
     const shouldDecompress =
       acceptEncoding?.includes("gzip") || acceptEncoding?.includes("deflate");
-    let body = request.body;
 
+    let body = typeof request.body === "function" ? request.body() : request.body;
     if (body && !request.headers.has("Content-Length")) {
       const bodyLength = getBodyLength(body);
       if (bodyLength !== null) {

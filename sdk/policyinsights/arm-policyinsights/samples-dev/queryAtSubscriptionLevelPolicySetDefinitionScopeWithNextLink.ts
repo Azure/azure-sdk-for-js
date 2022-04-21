@@ -19,7 +19,7 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 async function queryAtSubscriptionLevelPolicySetDefinitionScopeWithNextLink() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const subscriptionId = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
+  const subscriptionId2 = "fffedd8f-ffff-fffd-fffd-fffed2f84852";
   const policySetDefinitionName = "3e3807c1-65c9-49e0-a406-82d8ae3e338c";
   const skipToken = "WpmWfBSvPhkAK6QD";
   const options = { skipToken: skipToken };
@@ -27,9 +27,10 @@ async function queryAtSubscriptionLevelPolicySetDefinitionScopeWithNextLink() {
   const client = new PolicyInsightsClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.policyEvents.listQueryResultsForPolicySetDefinition(
-    subscriptionId,
+    "default",
+    subscriptionId2,
     policySetDefinitionName,
-    options
+    { queryOptions: options }
   )) {
     resArray.push(item);
   }

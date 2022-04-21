@@ -38,7 +38,7 @@ describe("LogsQueryClient unit tests", () => {
     try {
       await client.queryWorkspace("workspaceId", "query", { duration: Durations.fiveMinutes });
       assert.fail("Should have thrown");
-    } catch (err) {
+    } catch (err: any) {
       assert.deepNestedInclude(err, {
         message: "Shortcircuit auth exception",
       });

@@ -112,7 +112,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
         getTriggersByWorkspaceOperationSpec
       );
       return result as TriggerGetTriggersByWorkspaceResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -150,7 +150,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as TriggerCreateOrUpdateTriggerResponse;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -198,10 +198,12 @@ export class TriggerOperationsImpl implements TriggerOperations {
       { triggerName, trigger, options },
       createOrUpdateTriggerOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -239,7 +241,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
         getTriggerOperationSpec
       );
       return result as TriggerGetTriggerResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -270,7 +272,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -318,10 +320,12 @@ export class TriggerOperationsImpl implements TriggerOperations {
       { triggerName, options },
       deleteTriggerOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -362,7 +366,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as TriggerSubscribeTriggerToEventsResponse;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -410,10 +414,12 @@ export class TriggerOperationsImpl implements TriggerOperations {
       { triggerName, options },
       subscribeTriggerToEventsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -451,7 +457,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
         getEventSubscriptionStatusOperationSpec
       );
       return result as TriggerGetEventSubscriptionStatusResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -487,7 +493,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as TriggerUnsubscribeTriggerFromEventsResponse;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -535,10 +541,12 @@ export class TriggerOperationsImpl implements TriggerOperations {
       { triggerName, options },
       unsubscribeTriggerFromEventsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -577,7 +585,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -625,10 +633,12 @@ export class TriggerOperationsImpl implements TriggerOperations {
       { triggerName, options },
       startTriggerOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -664,7 +674,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -712,10 +722,12 @@ export class TriggerOperationsImpl implements TriggerOperations {
       { triggerName, options },
       stopTriggerOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -750,7 +762,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
         getTriggersByWorkspaceNextOperationSpec
       );
       return result as TriggerGetTriggersByWorkspaceNextResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -772,10 +784,10 @@ const getTriggersByWorkspaceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TriggerListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -797,11 +809,11 @@ const createOrUpdateTriggerOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TriggerResource
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
   requestBody: Parameters.trigger,
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.triggerName],
   headerParameters: [
     Parameters.accept,
@@ -820,10 +832,10 @@ const getTriggerOperationSpec: coreClient.OperationSpec = {
     },
     304: {},
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.triggerName],
   headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
   serializer
@@ -837,10 +849,10 @@ const deleteTriggerOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.triggerName],
   headerParameters: [Parameters.accept],
   serializer
@@ -862,10 +874,10 @@ const subscribeTriggerToEventsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TriggerSubscriptionOperationStatus
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.triggerName],
   headerParameters: [Parameters.accept],
   serializer
@@ -878,10 +890,10 @@ const getEventSubscriptionStatusOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TriggerSubscriptionOperationStatus
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.triggerName],
   headerParameters: [Parameters.accept],
   serializer
@@ -903,10 +915,10 @@ const unsubscribeTriggerFromEventsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TriggerSubscriptionOperationStatus
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.triggerName],
   headerParameters: [Parameters.accept],
   serializer
@@ -920,10 +932,10 @@ const startTriggerOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.triggerName],
   headerParameters: [Parameters.accept],
   serializer
@@ -937,10 +949,10 @@ const stopTriggerOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.triggerName],
   headerParameters: [Parameters.accept],
   serializer
@@ -953,10 +965,10 @@ const getTriggersByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TriggerListResponse
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

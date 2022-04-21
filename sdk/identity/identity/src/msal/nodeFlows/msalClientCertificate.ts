@@ -9,7 +9,11 @@ import { AccessToken } from "@azure/core-auth";
 import { MsalNodeOptions, MsalNode } from "./msalNodeCommon";
 import { formatError } from "../../util/logging";
 import { CredentialFlowGetTokenOptions } from "../credentials";
-import { ClientCertificateCredentialPEMConfiguration } from "../../credentials/clientCertificateCredential";
+import {
+  ClientCertificateCredentialPEMConfiguration,
+  ClientCertificatePEMCertificate,
+  ClientCertificatePEMCertificatePath,
+} from "../../credentials/clientCertificateCredential";
 
 const readFileAsync = promisify(readFile);
 
@@ -62,8 +66,12 @@ export async function parseCertificate(
 ): Promise<CertificateParts> {
   const certificateParts: Partial<CertificateParts> = {};
 
+  const certificate: string | undefined = (configuration as ClientCertificatePEMCertificate)
+    .certificate;
+  const certificatePath: string | undefined = (configuration as ClientCertificatePEMCertificatePath)
+    .certificatePath;
   certificateParts.certificateContents =
-    configuration.certificate || (await readFileAsync(configuration.certificatePath!, "utf8"));
+    certificate || (await readFileAsync(certificatePath!, "utf8"));
   if (sendCertificateChain) {
     certificateParts.x5c = certificateParts.certificateContents;
   }
@@ -117,7 +125,7 @@ export class MsalClientCertificate extends MsalNode {
         privateKey: parts.certificateContents,
         x5c: parts.x5c,
       };
-    } catch (error) {
+    } catch (error: any) {
       this.logger.info(formatError("", error));
       throw error;
     }
@@ -140,7 +148,7 @@ export class MsalClientCertificate extends MsalNode {
       // The Client Credential flow does not return the account information from the authentication service,
       // so each time getToken gets called, we will have to acquire a new token through the service.
       return this.handleResult(scopes, this.clientId, result || undefined);
-    } catch (err) {
+    } catch (err: any) {
       throw this.handleError(scopes, err, options);
     }
   }

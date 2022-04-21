@@ -155,7 +155,7 @@ describe("Tracing tests", () => {
           },
         } as any as ServiceBusMessageImpl);
         assert.fail("Error should propagate after being traced");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, "This message failed when we tried to process it");
         const [span] = tracer.getKnownSpans();
 
@@ -217,7 +217,7 @@ describe("Tracing tests", () => {
         },
       } as any as ServiceBusMessageImpl);
       assert.fail("Error should propagate after being traced");
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.message, "This message failed when we tried to process it");
       assert.deepEqual(testData.span!.status, {
         code: SpanStatusCode.ERROR,
@@ -269,7 +269,7 @@ describe("Tracing tests", () => {
       try {
         await iterator.next();
         assert.fail("Should throw my error");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(
           err.message,
           "We are passing tracing options so it'll be up to receiveMessages to trace properly"

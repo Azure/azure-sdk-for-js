@@ -3,7 +3,7 @@
 
 import { diag } from "@opentelemetry/api";
 import { ExportResult, ExportResultCode } from "@opentelemetry/core";
-import { ReadableSpan, SpanExporter } from "@opentelemetry/tracing";
+import { ReadableSpan, SpanExporter } from "@opentelemetry/sdk-trace-base";
 import { RestError } from "@azure/core-rest-pipeline";
 import { ConnectionStringParser } from "../utils/connectionStringParser";
 import { HttpSender, FileSystemPersist } from "../platform";
@@ -71,7 +71,7 @@ export class AzureMonitorTraceExporter implements SpanExporter {
             code: ExportResultCode.FAILED,
             error: new Error("Failed to persist envelope in disk."),
           };
-    } catch (ex) {
+    } catch (ex: any) {
       return { code: ExportResultCode.FAILED, error: ex };
     }
   }
@@ -121,7 +121,7 @@ export class AzureMonitorTraceExporter implements SpanExporter {
           code: ExportResultCode.FAILED,
         };
       }
-    } catch (error) {
+    } catch (error: any) {
       const restError = error as RestError;
       if (
         restError.statusCode &&
@@ -193,7 +193,7 @@ export class AzureMonitorTraceExporter implements SpanExporter {
       if (envelopes) {
         await this._sender.send(envelopes);
       }
-    } catch (err) {
+    } catch (err: any) {
       diag.warn(`Failed to fetch persisted file`, err);
     }
   }

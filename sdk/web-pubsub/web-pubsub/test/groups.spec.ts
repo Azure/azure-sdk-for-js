@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /* eslint-disable no-invalid-this */
-import { env, Recorder, record } from "@azure-tools/test-recorder";
+import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { WebPubSubServiceClient, WebPubSubGroup } from "../src";
 import { assert } from "chai";
-import environmentSetup from "./testEnv";
+import recorderOptions from "./testEnv";
 import { FullOperationResponse } from "@azure/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 /* eslint-disable @typescript-eslint/no-invalid-this */
@@ -16,9 +16,15 @@ describe("Group client working with a group", function () {
   function onResponse(response: FullOperationResponse) {
     lastResponse = response;
   }
-  beforeEach(function () {
-    recorder = record(this, environmentSetup);
-    const hubClient = new WebPubSubServiceClient(env.WPS_CONNECTION_STRING, "simplechat");
+  beforeEach(async function () {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderOptions);
+    const hubClient = new WebPubSubServiceClient(
+      assertEnvironmentVariable("WPS_CONNECTION_STRING"),
+      "simplechat",
+      recorder.configureClientOptions({})
+    );
+
     client = hubClient.group("group");
   });
 
@@ -39,7 +45,7 @@ describe("Group client working with a group", function () {
     let error: RestError | undefined;
     try {
       await client.addConnection("xxxx");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
 
@@ -48,7 +54,7 @@ describe("Group client working with a group", function () {
 
     try {
       await client.removeConnection("xxxx", { onResponse });
-    } catch (e) {
+    } catch (e: any) {
       assert.exists(error);
       assert.strictEqual(error?.name, "RestError");
     }
@@ -65,8 +71,6 @@ describe("Group client working with a group", function () {
   });
 
   afterEach(async function () {
-    if (recorder) {
-      recorder.stop();
-    }
+    await recorder.stop();
   });
 });

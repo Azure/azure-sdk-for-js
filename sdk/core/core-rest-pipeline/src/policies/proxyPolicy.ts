@@ -13,7 +13,6 @@ import {
   SendRequest,
 } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
-import { URL } from "../util/url";
 
 const HTTPS_PROXY = "HTTPS_PROXY";
 const HTTP_PROXY = "HTTP_PROXY";

@@ -13,13 +13,13 @@
 ###########
 
 # Catch all
-/sdk/ @ramya-rao-a
+/sdk/ @xirzec
 
 # PRLabel: %Azure.Core
 /sdk/core/ @xirzec @jeremymeng @deyaaeldeen
 
 # PRLabel: %Azure.Core
-/sdk/core/core-amqp/ @jeremymeng @deyaaeldeen @HarshaNalluru @ramya-rao-a
+/sdk/core/core-amqp/ @jeremymeng @deyaaeldeen @HarshaNalluru
 
 # PRLabel: %Azure.Core
 /sdk/core/core-auth/ @sadasant @xirzec @jeremymeng @deyaaeldeen
@@ -40,35 +40,47 @@
 # PRLabel: %Batch
 /sdk/batch/ @dpwatrous @paterasMSFT @zfengms @deyaaeldeen
 
-# PRLabel: %Communication
-/sdk/communication/communication-identity/ @Azure/acs-identity-sdk 
+# PRLabel: %Communication - Identity
+/sdk/communication/communication-identity/ @petrsvihlik @AikoBB @maximrytych-ms @martinbarnas-ms
+
+# PRLabel: %Communication - Chat
 /sdk/communication/communication-chat/ @LuChen-Microsoft
+
+# PRLabel: %Communication - Phone Numbers
 /sdk/communication/communication-phone-numbers/ @miguhern @whisper6284 @lucasrsant @RoyHerrod @danielav7
+
+# PRLabel: %Communication - Network Traversal
 /sdk/communication/communication-network-traversal/ @AriZavala2
+
+# PRLabel: %Communication - SMS
 /sdk/communication/communication-sms/ @arifibrahim4 @RoyHerrod
-/sdk/communication/communication-short-codes/ @danielav7 @AlonsoMondal @ericasp16
-/sdk/communication/communication-common/ @Azure/acs-identity-sdk
+
+# PRLabel: %Communication - Short Codes
+/sdk/communication/communication-short-codes/ @danielav7 @AlonsoMondal
+
+# PRLabel: %Communication - Common
+/sdk/communication/communication-common/ @petrsvihlik @AikoBB @maximrytych-ms @martinbarnas-ms
+
+# PRLabel: %Communication
+/sdk/communication/communication/ @petrsvihlik @AikoBB @maximrytych-ms @martinbarnas-ms
 
 # PRLabel: %Container Registry
-/sdk/containerregistry/ @jeremymeng
+/sdk/containerregistry/ @jeremymeng @timovv
 
 # PRLabel: %Cosmos
-/sdk/cosmosdb/ @kushagraThapar @simorenoh @simplynaveen20 @xinlian12 @moderakh @jay-most
+/sdk/cosmosdb/ @jay-most @kushagraThapar @simorenoh @simplynaveen20 @xinlian12 @sajeetharan
 
 # ServiceLabel: %Cosmos %Service Attention
 #/<NotInRepo>/ @sajeetharan @simorenoh
 
-# ServiceLabel: %Device Update for IoT Hub %Service Attention
-/sdk/deviceupdate/ @dpokluda
-
 # PRLabel: %Digital Twins
-/sdk/digitaltwins/ @johngallardo @YoDaMa @olivakar
+/sdk/digitaltwins/ @johngallardo @YoDaMa @olivakar @sjiherzig
 
 # PRLabel: %Event Grid
 /sdk/eventgrid/ @ellismg @xirzec
 
 # PRLabel: %Event Hubs
-/sdk/eventhub/ @jeremymeng @deyaaeldeen @HarshaNalluru @ramya-rao-a
+/sdk/eventhub/ @jeremymeng @deyaaeldeen @HarshaNalluru
 
 # PRLabel: %Azure.Identity
 /sdk/identity/ @sadasant @witemple-msft @schaabs
@@ -83,7 +95,7 @@
 /sdk/instrumentation/ @maorleger @joheredi
 
 # PRLabel: %Service Bus
-/sdk/servicebus/ @jeremymeng @deyaaeldeen @HarshaNalluru @ramya-rao-a
+/sdk/servicebus/ @jeremymeng @deyaaeldeen @HarshaNalluru
 
 # PRLabel: %Storage
 /sdk/storage/ @EmmaZhu @XiaoningLiu @jeremymeng @vinjiang @jiacfan @ljian3377
@@ -118,7 +130,7 @@
 /sdk/textanalytics/ @deyaaeldeen @witemple-msft
 
 # PRLabel: %Schema Registry
-/sdk/schemaregistry/ @deyaaeldeen @nguerrera
+/sdk/schemaregistry/ @deyaaeldeen
 
 # PRLabel: %Cognitive - Form Recognizer
 /sdk/formrecognizer/ @witemple-msft @HarshaNalluru @jeremymeng
@@ -126,17 +138,9 @@
 # PRLabel: %Cognitive - Metrics Advisor
 /sdk/metricsadvisor/ @KarishmaGhiya @jeremymeng
 
-# PRLabel: %Cognitive - Anomaly Detector
-/sdk/anomalydetector/ @conhua @mengaims @juaduan @moreOver0
-
 # PRLabel: %Search
 /sdk/search/ @sarangan12 @xirzec
 
-/sdk/applicationinsights/applicationinsights-query/ @divyajay @alongafni
-/sdk/operationalinsights/loganalytics/ @divyajay @alongafni
-
-/sdk/cognitiveservices/cognitiveservices-qnamaker-runtime/ @bingisbestest @nerajput1607
-/sdk/cognitiveservices/cognitiveservices-qnamaker/ @bingisbestest @nerajput1607
 
 # PRLabel: %Mixed Reality
 /sdk/mixedreality/ @craigktreasure 
@@ -148,10 +152,10 @@
 /sdk/videoanalyzer/video-analyzer-edge @hivyas @bterlson
 
 # Smoke Tests
-/common/smoke-test/ @ramya-rao-a @sadasant @jeremymeng
+/common/smoke-test/ @xirzec @sadasant @jeremymeng
 
 # API review files
-/sdk/**/review/*api.md @bterlson @xirzec @ramya-rao-a @jeremymeng
+/sdk/**/review/*api.md @bterlson @xirzec @jeremymeng
 
 
 # Management Plane
@@ -812,7 +816,7 @@ sdk/dnsresolver/arm-dnsresolver @qiaozha @dw511214992 @MaryGao
 sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Monitor
-/sdk/monitor/ @hectorhdzg @applicationinsights-js-owners
+/sdk/monitor/ @hectorhdzg
 /sdk/monitor/monitor-query @KarishmaGhiya @maorleger
 
 # ServiceLabel: %AAD %Service Attention
@@ -916,9 +920,6 @@ sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 
 # ServiceLabel: %Cognitive - Face %Service Attention
 #/<NotInRepo>/          @JinyuID @dipidoo @SteveMSFT
-
-# ServiceLabel: %Cognitive - QnA Maker %Service Attention
-#/<NotInRepo>/          @bingisbestest @nerajput1607
 
 # ServiceLabel: %Cognitive - Translator %Service Attention
 #/<NotInRepo>/          @swmachan
@@ -1424,6 +1425,7 @@ sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 ###########
 /.vscode/ @mikeharder @praveenkuttappan @deyaaeldeen
 /common/ @mikeharder @praveenkuttappan @witemple-msft @deyaaeldeen
+/common/config/rush/pnpm-lock.yaml @praveenkuttappan @witemple-msft @deyaaeldeen @jeremymeng
 /common/smoke-test @mikeharder @praveenkuttappan @witemple-msft @deyaaeldeen @benbp
 
 /rush.json @mikeharder @praveenkuttappan
@@ -1433,4 +1435,4 @@ sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 /.scripts/ @mikeharder @praveenkuttappan @KarishmaGhiya
 
 # Add owners for notifications for specific pipelines
-/eng/pipelines/aggregate-reports.yml         @ramya-rao-a
+/eng/pipelines/aggregate-reports.yml         @xirzec @jeremymeng

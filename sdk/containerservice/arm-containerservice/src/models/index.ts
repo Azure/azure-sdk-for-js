@@ -714,27 +714,48 @@ export interface ManagedClusterSecurityProfileAzureDefender {
   logAnalyticsWorkspaceResourceId?: string;
 }
 
-/** The Resource model definition. */
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Resource Id
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
-   * Resource name
+   * The name of the resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * Resource type
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** Resource location */
   location: string;
   /** Resource tags */
   tags?: { [propertyName: string]: string };
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** The list of available upgrades for compute pools. */
@@ -817,22 +838,6 @@ export interface MaintenanceConfigurationListResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The UTC timestamp of resource creation. */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The type of identity that last modified the resource. */
-  lastModifiedAt?: Date;
 }
 
 /** Time in a week. */
@@ -1243,11 +1248,6 @@ export type ManagedClusterAccessProfile = Resource & {
 
 /** A node pool snapshot resource. */
 export type Snapshot = Resource & {
-  /**
-   * The system metadata relating to this snapshot.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
   /** CreationData to be used to specify the source agent pool resource ID to create this snapshot. */
   creationData?: CreationData;
   /** The type of a snapshot. The default is NodePool. */
@@ -1872,24 +1872,6 @@ export enum KnownPublicNetworkAccess {
  */
 export type PublicNetworkAccess = string;
 
-/** Known values of {@link Format} that the service accepts. */
-export enum KnownFormat {
-  /** Return azure auth-provider kubeconfig. This format is deprecated in 1.22 and will be fully removed in 1.25. */
-  Azure = "azure",
-  /** Return exec format kubeconfig. This format requires kubelogin binary in the path. */
-  Exec = "exec"
-}
-
-/**
- * Defines values for Format. \
- * {@link KnownFormat} can be used interchangeably with Format,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **azure**: Return azure auth-provider kubeconfig. This format is deprecated in 1.22 and will be fully removed in 1.25. \
- * **exec**: Return exec format kubeconfig. This format requires kubelogin binary in the path.
- */
-export type Format = string;
-
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
   User = "User",
@@ -1909,6 +1891,24 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
+
+/** Known values of {@link Format} that the service accepts. */
+export enum KnownFormat {
+  /** Return azure auth-provider kubeconfig. This format is deprecated in 1.22 and will be fully removed in 1.25. */
+  Azure = "azure",
+  /** Return exec format kubeconfig. This format requires kubelogin binary in the path. */
+  Exec = "exec"
+}
+
+/**
+ * Defines values for Format. \
+ * {@link KnownFormat} can be used interchangeably with Format,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **azure**: Return azure auth-provider kubeconfig. This format is deprecated in 1.22 and will be fully removed in 1.25. \
+ * **exec**: Return exec format kubeconfig. This format requires kubelogin binary in the path.
+ */
+export type Format = string;
 
 /** Known values of {@link WeekDay} that the service accepts. */
 export enum KnownWeekDay {

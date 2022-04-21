@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0 (Unreleased)
+## 1.0.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+- Minor improvements to the typing of `updatedOptions` when calling startSpan.
+
+## 1.0.0 (2022-03-31)
+
+This release marks the GA release of our @azure/core-tracing libraries and is unchanged from preview.14
 
 ## 1.0.0-preview.14 (2022-02-03)
 

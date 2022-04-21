@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SpanStatusCode } from "@azure/core-tracing";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 
 import { IdentityClient } from "../../client/identityClient";
@@ -9,7 +8,7 @@ import { TokenCredentialOptions } from "../../tokenCredentialOptions";
 import { AuthenticationError, CredentialUnavailableError } from "../../errors";
 import { credentialLogger, formatSuccess, formatError } from "../../util/logging";
 import { appServiceMsi2017 } from "./appServiceMsi2017";
-import { createSpan } from "../../util/tracing";
+import { tracingClient } from "../../util/tracing";
 import { cloudShellMsi } from "./cloudShellMsi";
 import { imdsMsi } from "./imdsMsi";
 import { MSI } from "./models";
@@ -43,15 +42,8 @@ export interface ManagedIdentityCredentialResourceIdOptions extends TokenCredent
    * this parameter allows programs to use these user assigned identities
    * without having to first determine the client Id of the created identity.
    */
-  resourceId?: string;
+  resourceId: string;
 }
-
-/**
- * Options to send on the {@link ManagedIdentityCredential} constructor.
- */
-export type ManagedIdentityCredentialOptions =
-  | ManagedIdentityCredentialClientIdOptions
-  | ManagedIdentityCredentialResourceIdOptions;
 
 /**
  * Attempts authentication using a managed identity available at the deployment environment.
@@ -77,17 +69,26 @@ export class ManagedIdentityCredential implements TokenCredential {
    */
   constructor(clientId: string, options?: TokenCredentialOptions);
   /**
-   * Creates an instance of ManagedIdentityCredential
+   * Creates an instance of ManagedIdentityCredential with clientId
    *
    * @param options - Options for configuring the client which makes the access token request.
    */
-  constructor(options?: ManagedIdentityCredentialOptions);
+  constructor(options?: ManagedIdentityCredentialClientIdOptions);
+  /**
+   * Creates an instance of ManagedIdentityCredential with Resource Id
+   *
+   * @param options - Options for configuring the resource which makes the access token request.
+   */
+  constructor(options?: ManagedIdentityCredentialResourceIdOptions);
   /**
    * @internal
    * @hidden
    */
   constructor(
-    clientIdOrOptions: string | ManagedIdentityCredentialOptions | undefined,
+    clientIdOrOptions?:
+      | string
+      | ManagedIdentityCredentialClientIdOptions
+      | ManagedIdentityCredentialResourceIdOptions,
     options?: TokenCredentialOptions
   ) {
     let _options: TokenCredentialOptions | undefined;
@@ -158,7 +159,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     scopes: string | string[],
     getTokenOptions?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const { span, updatedOptions } = createSpan(
+    const { span, updatedOptions } = tracingClient.startSpan(
       `${ManagedIdentityCredential.name}.authenticateManagedIdentity`,
       getTokenOptions
     );
@@ -176,10 +177,10 @@ export class ManagedIdentityCredential implements TokenCredential {
         },
         updatedOptions
       );
-    } catch (err) {
+    } catch (err: any) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: err.message,
+        status: "error",
+        error: err,
       });
       throw err;
     } finally {
@@ -202,7 +203,7 @@ export class ManagedIdentityCredential implements TokenCredential {
   ): Promise<AccessToken> {
     let result: AccessToken | null = null;
 
-    const { span, updatedOptions } = createSpan(
+    const { span, updatedOptions } = tracingClient.startSpan(
       `${ManagedIdentityCredential.name}.getToken`,
       options
     );
@@ -245,7 +246,7 @@ export class ManagedIdentityCredential implements TokenCredential {
 
       logger.getToken.info(formatSuccess(scopes));
       return result;
-    } catch (err) {
+    } catch (err: any) {
       // CredentialUnavailable errors are expected to reach here.
       // We intend them to bubble up, so that DefaultAzureCredential can catch them.
       if (err.name === "AuthenticationRequiredError") {
@@ -259,8 +260,8 @@ export class ManagedIdentityCredential implements TokenCredential {
       //   but no identity is available.
 
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: err.message,
+        status: "error",
+        error: err,
       });
 
       // If either the network is unreachable,

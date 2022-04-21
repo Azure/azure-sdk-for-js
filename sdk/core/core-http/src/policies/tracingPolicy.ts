@@ -77,7 +77,7 @@ export class TracingPolicy extends BaseRequestPolicy {
       const response = await this._nextPolicy.sendRequest(request);
       this.tryProcessResponse(span, response);
       return response;
-    } catch (err) {
+    } catch (err: any) {
       this.tryProcessError(span, err);
       throw err;
     }
@@ -131,7 +131,7 @@ export class TracingPolicy extends BaseRequestPolicy {
         }
       }
       return span;
-    } catch (error) {
+    } catch (error: any) {
       logger.warning(`Skipping creating a tracing span due to an error: ${error.message}`);
       return undefined;
     }
@@ -148,7 +148,7 @@ export class TracingPolicy extends BaseRequestPolicy {
         span.setAttribute("http.status_code", err.statusCode);
       }
       span.end();
-    } catch (error) {
+    } catch (error: any) {
       logger.warning(`Skipping tracing span processing due to an error: ${error.message}`);
     }
   }
@@ -164,7 +164,7 @@ export class TracingPolicy extends BaseRequestPolicy {
         code: SpanStatusCode.OK,
       });
       span.end();
-    } catch (error) {
+    } catch (error: any) {
       logger.warning(`Skipping tracing span processing due to an error: ${error.message}`);
     }
   }

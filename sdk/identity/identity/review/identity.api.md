@@ -106,7 +106,8 @@ export class ChainedTokenCredential implements TokenCredential {
 // @public
 export class ClientCertificateCredential implements TokenCredential {
     constructor(tenantId: string, clientId: string, certificatePath: string, options?: ClientCertificateCredentialOptions);
-    constructor(tenantId: string, clientId: string, configuration: ClientCertificateCredentialPEMConfiguration, options?: ClientCertificateCredentialOptions);
+    constructor(tenantId: string, clientId: string, configuration: ClientCertificatePEMCertificatePath, options?: ClientCertificateCredentialOptions);
+    constructor(tenantId: string, clientId: string, configuration: ClientCertificatePEMCertificate, options?: ClientCertificateCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
@@ -116,13 +117,17 @@ export interface ClientCertificateCredentialOptions extends TokenCredentialOptio
 }
 
 // @public
-export type ClientCertificateCredentialPEMConfiguration = {
+export type ClientCertificateCredentialPEMConfiguration = ClientCertificatePEMCertificate | ClientCertificatePEMCertificatePath;
+
+// @public
+export interface ClientCertificatePEMCertificate {
     certificate: string;
-    certificatePath?: never;
-} | {
-    certificate?: never;
+}
+
+// @public
+export interface ClientCertificatePEMCertificatePath {
     certificatePath: string;
-};
+}
 
 // @public
 export class ClientSecretCredential implements TokenCredential {
@@ -149,22 +154,24 @@ export const CredentialUnavailableErrorName = "CredentialUnavailableError";
 
 // @public
 export class DefaultAzureCredential extends ChainedTokenCredential {
+    constructor(options?: DefaultAzureCredentialClientIdOptions);
+    constructor(options?: DefaultAzureCredentialResourceIdOptions);
     constructor(options?: DefaultAzureCredentialOptions);
 }
 
 // @public
-export interface DefaultAzureCredentialClientIdOptions extends TokenCredentialOptions {
+export interface DefaultAzureCredentialClientIdOptions extends DefaultAzureCredentialOptions {
     managedIdentityClientId?: string;
+}
+
+// @public
+export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
     tenantId?: string;
 }
 
 // @public
-export type DefaultAzureCredentialOptions = DefaultAzureCredentialClientIdOptions | DefaultAzureCredentialResourceIdOptions;
-
-// @public
-export interface DefaultAzureCredentialResourceIdOptions extends TokenCredentialOptions {
-    managedIdentityResourceId?: string;
-    tenantId?: string;
+export interface DefaultAzureCredentialResourceIdOptions extends DefaultAzureCredentialOptions {
+    managedIdentityResourceId: string;
 }
 
 // @public
@@ -258,7 +265,8 @@ export const logger: AzureLogger;
 // @public
 export class ManagedIdentityCredential implements TokenCredential {
     constructor(clientId: string, options?: TokenCredentialOptions);
-    constructor(options?: ManagedIdentityCredentialOptions);
+    constructor(options?: ManagedIdentityCredentialClientIdOptions);
+    constructor(options?: ManagedIdentityCredentialResourceIdOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
@@ -268,16 +276,14 @@ export interface ManagedIdentityCredentialClientIdOptions extends TokenCredentia
 }
 
 // @public
-export type ManagedIdentityCredentialOptions = ManagedIdentityCredentialClientIdOptions | ManagedIdentityCredentialResourceIdOptions;
-
-// @public
 export interface ManagedIdentityCredentialResourceIdOptions extends TokenCredentialOptions {
-    resourceId?: string;
+    resourceId: string;
 }
 
 // @public
 export class OnBehalfOfCredential implements TokenCredential {
-    constructor(options: OnBehalfOfCredentialOptions);
+    constructor(options: OnBehalfOfCredentialCertificateOptions & TokenCredentialOptions & CredentialPersistenceOptions);
+    constructor(options: OnBehalfOfCredentialSecretOptions & TokenCredentialOptions & CredentialPersistenceOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken>;
 }
 
@@ -285,7 +291,6 @@ export class OnBehalfOfCredential implements TokenCredential {
 export interface OnBehalfOfCredentialCertificateOptions {
     certificatePath: string;
     clientId: string;
-    clientSecret?: never;
     sendCertificateChain?: boolean;
     tenantId: string;
     userAssertionToken: string;
@@ -296,10 +301,8 @@ export type OnBehalfOfCredentialOptions = (OnBehalfOfCredentialSecretOptions | O
 
 // @public
 export interface OnBehalfOfCredentialSecretOptions {
-    certificatePath?: never;
     clientId: string;
     clientSecret: string;
-    sendCertificateChain?: never;
     tenantId: string;
     userAssertionToken: string;
 }

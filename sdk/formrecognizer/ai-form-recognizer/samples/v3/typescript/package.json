@@ -1,5 +1,5 @@
 {
-  "name": "azure-ai-form-recognizer-samples-ts",
+  "name": "@azure-samples/ai-form-recognizer-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Form Recognizer client library samples for TypeScript",

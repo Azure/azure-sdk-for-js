@@ -10,8 +10,7 @@ const { KeyClient } = require("@azure/keyvault-keys");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   // DefaultAzureCredential expects the following three environment variables:
@@ -75,3 +74,5 @@ main().catch((err) => {
   console.log("error message: ", err.message);
   console.log("error stack: ", err.stack);
 });
+
+module.exports = { main };

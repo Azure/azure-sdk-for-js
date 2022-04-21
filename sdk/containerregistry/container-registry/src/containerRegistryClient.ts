@@ -176,7 +176,7 @@ export class ContainerRegistryClient {
 
     try {
       await this.client.containerRegistry.deleteRepository(repositoryName, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {

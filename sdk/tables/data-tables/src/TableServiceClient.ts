@@ -240,7 +240,7 @@ export class TableServiceClient {
       async (updatedOptions) => {
         try {
           await this.table.create({ name }, updatedOptions);
-        } catch (e) {
+        } catch (e: any) {
           handleTableAlreadyExists(e, { ...updatedOptions, logger, tableName: name });
         }
       }
@@ -259,7 +259,7 @@ export class TableServiceClient {
       async (updatedOptions) => {
         try {
           await this.table.delete(name, updatedOptions);
-        } catch (e) {
+        } catch (e: any) {
           if (e.statusCode === 404) {
             logger.info("TableServiceClient.deleteTable: Table doesn't exist");
           } else {
@@ -290,7 +290,7 @@ export class TableServiceClient {
       byPage: (settings) => {
         const pageOptions: InternalListTablesOptions = {
           ...options,
-          queryOptions: { top: settings?.maxPageSize },
+          queryOptions: { ...options?.queryOptions, top: settings?.maxPageSize },
         };
 
         if (settings?.continuationToken) {
