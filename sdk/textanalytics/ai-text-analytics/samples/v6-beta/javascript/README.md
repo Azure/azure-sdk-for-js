@@ -16,7 +16,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | **File Name**                                     | **Description**                                                                     |
 | ------------------------------------------------- | ----------------------------------------------------------------------------------- |
 | [entityLinking.js][entitylinking]                 | detects entities that have links to more information on the web                     |
-| [entityRecognition.js][entityrecognition]         | detects entites in a piece of text                                                  |
+| [entityRecognition.js][entityrecognition]         | detects entities in a piece of text                                                 |
 | [keyPhraseExtraction.js][keyphraseextraction]     | extracts key phrases from a piece of text                                           |
 | [languageDetection.js][languagedetection]         | detects the language of a piece of text                                             |
 | [piiEntityRecognition.js][piientityrecognition]   | detects personally-identifiable information                                         |

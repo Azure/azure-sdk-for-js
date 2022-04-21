@@ -6,7 +6,7 @@
  * Named Entity Recognition (NER) and prints them along with their recognized
  * entity type.
  *
- * @summary detects entites in a piece of text
+ * @summary detects entities in a piece of text
  */
 
 const { TextAnalysisClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
@@ -15,7 +15,7 @@ const { TextAnalysisClient, AzureKeyCredential } = require("@azure/ai-text-analy
 require("dotenv").config();
 
 // You will need to set these environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
+const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
 const apiKey = process.env["LANGUAGE_API_KEY"] || "<api key>";
 
 const documents = [

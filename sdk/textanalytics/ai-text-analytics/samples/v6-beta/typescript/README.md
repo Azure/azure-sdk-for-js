@@ -16,7 +16,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | **File Name**                                     | **Description**                                                                     |
 | ------------------------------------------------- | ----------------------------------------------------------------------------------- |
 | [entityLinking.ts][entitylinking]                 | detects entities that have links to more information on the web                     |
-| [entityRecognition.ts][entityrecognition]         | detects entites in a piece of text                                                  |
+| [entityRecognition.ts][entityrecognition]         | detects entities in a piece of text                                                 |
 | [keyPhraseExtraction.ts][keyphraseextraction]     | extracts key phrases from a piece of text                                           |
 | [languageDetection.ts][languagedetection]         | detects the language of a piece of text                                             |
 | [piiEntityRecognition.ts][piientityrecognition]   | detects personally-identifiable information                                         |

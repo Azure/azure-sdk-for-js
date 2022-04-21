@@ -24,7 +24,6 @@ import {
 } from "./generated";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 
-
 /**
  * Supported versions of the Cognitive Language Service API.
  */
