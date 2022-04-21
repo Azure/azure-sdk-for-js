@@ -49,7 +49,7 @@
     "unit-test:node": "echo skipped",
     "unit-test": "echo skipped",
     "test:browser": "echo skipped",
-    "test:node": "npm run build && node dist-esm/test/index.spec.js",
+    "test:node": "echo skipped",
     "test": "echo skipped"
   }
 }
