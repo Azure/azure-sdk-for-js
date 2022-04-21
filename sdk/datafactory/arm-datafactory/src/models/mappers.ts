@@ -3892,9 +3892,8 @@ export const DataFlowReference: coreClient.CompositeMapper = {
     additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       type: {
-        defaultValue: "DataFlowReference",
-        isConstant: true,
         serializedName: "type",
+        required: true,
         type: {
           name: "String"
         }
@@ -3932,9 +3931,8 @@ export const ManagedVirtualNetworkReference: coreClient.CompositeMapper = {
     className: "ManagedVirtualNetworkReference",
     modelProperties: {
       type: {
-        defaultValue: "ManagedVirtualNetworkReference",
-        isConstant: true,
         serializedName: "type",
+        required: true,
         type: {
           name: "String"
         }
@@ -3957,9 +3955,8 @@ export const CredentialReference: coreClient.CompositeMapper = {
     additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       type: {
-        defaultValue: "CredentialReference",
-        isConstant: true,
         serializedName: "type",
+        required: true,
         type: {
           name: "String"
         }
@@ -6492,6 +6489,22 @@ export const CustomActivityReferenceObject: coreClient.CompositeMapper = {
   }
 };
 
+export const ExecutePipelineActivityPolicy: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ExecutePipelineActivityPolicy",
+    additionalProperties: { type: { name: "Object" } },
+    modelProperties: {
+      secureInput: {
+        serializedName: "secureInput",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const WebActivityAuthentication: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -7014,9 +7027,8 @@ export const TriggerReference: coreClient.CompositeMapper = {
     className: "TriggerReference",
     modelProperties: {
       type: {
-        defaultValue: "TriggerReference",
-        isConstant: true,
         serializedName: "type",
+        required: true,
         type: {
           name: "String"
         }
@@ -23426,6 +23438,13 @@ export const ExecutePipelineActivity: coreClient.CompositeMapper = {
     polymorphicDiscriminator: Activity.type.polymorphicDiscriminator,
     modelProperties: {
       ...ControlActivity.type.modelProperties,
+      policy: {
+        serializedName: "policy",
+        type: {
+          name: "Composite",
+          className: "ExecutePipelineActivityPolicy"
+        }
+      },
       pipeline: {
         serializedName: "typeProperties.pipeline",
         type: {
@@ -24673,9 +24692,7 @@ export const SqlServerStoredProcedureActivity: coreClient.CompositeMapper = {
         serializedName: "typeProperties.storedProcedureParameters",
         type: {
           name: "Dictionary",
-          value: {
-            type: { name: "Composite", className: "StoredProcedureParameter" }
-          }
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -24848,6 +24865,12 @@ export const WebActivity: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "WebActivityAuthentication"
+        }
+      },
+      disableCertValidation: {
+        serializedName: "typeProperties.disableCertValidation",
+        type: {
+          name: "Boolean"
         }
       },
       datasets: {

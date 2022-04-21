@@ -57,17 +57,23 @@ describe("TestProxyClient functions", () => {
     });
 
     ["record", "playback"].forEach((testMode) => {
-      it(`${testMode} mode: ` + "request unchanged if `x-recording-id` in headers", function () {
-        env.TEST_MODE = testMode;
-        testRedirectedRequest(
-          client,
-          () => ({
-            ...initialRequest,
-            headers: createHttpHeaders({ "x-recording-id": "dummy-recording-id" }),
-          }),
-          (req) => req
-        );
-      });
+      it(
+        `${testMode} mode: ` + "request unchanged if request URL already points to test proxy",
+        function () {
+          env.TEST_MODE = testMode;
+          testRedirectedRequest(
+            client,
+            () => ({
+              ...initialRequest,
+              url: "http://localhost:5000/dummy_path?sas=sas",
+              headers: createHttpHeaders({
+                "x-recording-upstream-uri": "https://dummy_url.windows.net/dummy_path?sas=sas",
+              }),
+            }),
+            (req) => req
+          );
+        }
+      );
 
       it(
         `${testMode} mode: ` + "url and headers get updated if no `x-recording-id` in headers",

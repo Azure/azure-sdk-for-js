@@ -65,10 +65,10 @@
 /sdk/communication/communication/ @Azure/acs-identity-sdk @petrsvihlik @AikoBB @maximrytych-ms @martinbarnas-ms
 
 # PRLabel: %Container Registry
-/sdk/containerregistry/ @jeremymeng
+/sdk/containerregistry/ @jeremymeng @timovv
 
 # PRLabel: %Cosmos
-/sdk/cosmosdb/ @kushagraThapar @simorenoh @simplynaveen20 @xinlian12 @moderakh @jay-most
+/sdk/cosmosdb/ @jay-most @kushagraThapar @simorenoh @simplynaveen20 @xinlian12 @moderakh @sajeetharan
 
 # ServiceLabel: %Cosmos %Service Attention
 #/<NotInRepo>/ @sajeetharan @simorenoh
@@ -1439,6 +1439,7 @@ sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 ###########
 /.vscode/ @mikeharder @praveenkuttappan @deyaaeldeen
 /common/ @mikeharder @praveenkuttappan @witemple-msft @deyaaeldeen
+/common/config/rush/pnpm-lock.yaml @praveenkuttappan @witemple-msft @deyaaeldeen @jeremymeng
 /common/smoke-test @mikeharder @praveenkuttappan @witemple-msft @deyaaeldeen @benbp
 
 /rush.json @mikeharder @praveenkuttappan
