@@ -37,7 +37,7 @@ describe("purview catalog glossary test", () => {
     console.log("created glossary: ", glossary);
 
     assert.strictEqual(glossary.status, "200");
-    glossaryGuid = glossary.status == "200" ? glossary?.body?.guid || "" : "";
+    glossaryGuid = glossary.status === "200" ? glossary?.body?.guid || "" : "";
   });
 
   it("should work with LRO helper", async () => {
