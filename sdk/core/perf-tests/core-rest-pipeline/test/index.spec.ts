@@ -3,10 +3,11 @@ import { BearerTokenAuthenticationPolicyChallengeTest } from "./bearerTokenChall
 import { CoreHTTPTest } from "./core-http.spec";
 import { CoreRestPipelineTest } from "./core-rest-pipeline.spec";
 import { FetchTest } from "./fetch.spec";
+import { NodeFetchTest } from "./node-fetch.spec";
 
 
 console.log("=== Starting the perf test ===");
 
-const perfProgram = new PerfProgram(selectPerfTest([BearerTokenAuthenticationPolicyChallengeTest, CoreHTTPTest, CoreRestPipelineTest, FetchTest]));
+const perfProgram = new PerfProgram(selectPerfTest([BearerTokenAuthenticationPolicyChallengeTest, CoreHTTPTest, CoreRestPipelineTest, FetchTest, NodeFetchTest]));
 
 perfProgram.run();

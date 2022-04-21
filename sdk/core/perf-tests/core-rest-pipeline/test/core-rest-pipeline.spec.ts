@@ -8,10 +8,11 @@ import {
   createPipelineRequest,
   PipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { PerfOptionDictionary, PerfTest } from "@azure/test-utils-perf";
-import { TEST_SERVER_URL } from "./utils/server";
+import { PerfOptionDictionary } from "@azure/test-utils-perf";
+import { BaseHttpTest } from "./baseHttpTest";
+import { TEST_SERVER_URL } from "./utils/serverUrl";
 
-export class CoreRestPipelineTest extends PerfTest {
+export class CoreRestPipelineTest extends BaseHttpTest {
   options: PerfOptionDictionary<Record<string, unknown>> = {};
   client: HttpClient;
   request: PipelineRequest;
@@ -26,6 +27,6 @@ export class CoreRestPipelineTest extends PerfTest {
 
   async run(): Promise<void> {
     const response = await this.client.sendRequest(this.request);
-    console.log(response.bodyAsText)
+    response.bodyAsText; // Hello World!
   }
 }

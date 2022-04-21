@@ -2,10 +2,11 @@
 // Licensed under the MIT license.
 
 
-import { PerfOptionDictionary, PerfTest } from "@azure/test-utils-perf";
-import { TEST_SERVER_URL } from "./utils/server";
+import { PerfOptionDictionary } from "@azure/test-utils-perf";
+import { BaseHttpTest } from "./baseHttpTest";
+import { TEST_SERVER_URL } from "./utils/serverUrl";
 
-export class FetchTest extends PerfTest {
+export class FetchTest extends BaseHttpTest {
   options: PerfOptionDictionary<Record<string, unknown>> = {};
   constructor() {
     super();
@@ -13,6 +14,6 @@ export class FetchTest extends PerfTest {
 
   async run(): Promise<void> {
     const response = await fetch(TEST_SERVER_URL, { keepalive: false });
-    console.log(response.body);
+    await response.text(); // Hello World!
   }
 }
