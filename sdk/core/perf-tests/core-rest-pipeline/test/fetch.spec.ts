@@ -13,7 +13,7 @@ export class FetchTest extends BaseHttpTest {
   }
 
   async run(): Promise<void> {
-    const response = await fetch(TEST_SERVER_URL, { keepalive: false });
+    const response = await fetch(TEST_SERVER_URL, { keepalive: true });
     await response.text(); // Hello World!
   }
 }
