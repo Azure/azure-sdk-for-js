@@ -5,7 +5,7 @@ import {
   CommunicationRelayConfiguration,
 } from "./generated/src/models";
 import { CommunicationRelayClientOptions, GetRelayConfigurationOptions } from "./models";
-import { KeyCredential, TokenCredential, isTokenCredential,  } from "@azure/core-auth";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
   createCommunicationAuthPolicy,
   isKeyCredential,
