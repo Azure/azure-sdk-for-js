@@ -16,13 +16,13 @@ export { AzureKeyCredential } from "@azure/core-auth";
 export { TextAnalysisClient } from "./textAnalysisClient";
 export * from "./models";
 export {
+  AssessmentSentiment,
   SentimentAnalysisAction,
   EntityLinkingAction,
   EntityRecognitionAction,
   KeyPhraseExtractionAction,
   LanguageDetectionAction,
   PiiEntityRecognitionAction,
-  SentenceAssessment,
   StringIndexType,
   LinkedEntity,
   Entity,

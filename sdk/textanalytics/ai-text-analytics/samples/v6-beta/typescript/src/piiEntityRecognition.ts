@@ -26,7 +26,7 @@ export async function main() {
   console.log(`Running recognizePii sample`);
 
   // You will need to set these environment variables or edit the following values
-  const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
+  const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
   const apiKey = process.env["LANGUAGE_API_KEY"] || "<api key>";
 
   const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));

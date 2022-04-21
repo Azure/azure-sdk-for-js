@@ -351,7 +351,7 @@ export interface SentenceSentiment {
   /** The array of sentence targets for the sentence. */
   targets?: SentenceTarget[];
   /** The array of assessments for the sentence. */
-  assessments?: SentenceAssessment[];
+  assessments?: AssessmentSentiment[];
 }
 
 export interface SentenceTarget {
@@ -383,7 +383,7 @@ export interface TargetRelation {
 }
 
 /** An object that contains the predicted sentiment, confidence scores and other information about an assessment of a target. For example, in the sentence "The food is good", the assessment of the target 'food' is 'good'. */
-export interface SentenceAssessment {
+export interface AssessmentSentiment {
   /** Assessment sentiment in the sentence. */
   sentiment: TokenSentimentLabel;
   /** Assessment sentiment confidence scores in the sentence. */

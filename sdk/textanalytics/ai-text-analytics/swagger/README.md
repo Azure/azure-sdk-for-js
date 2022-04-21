@@ -218,6 +218,17 @@ directive:
       $["x-ms-client-name"] = "sentenceSentiments";
 ```
 
+### SentenceAssessment to AssessmentSentiment
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SentenceAssessment
+    transform: >
+      $["x-ms-client-name"] = "AssessmentSentiment";
+      $.description = "AssessmentSentiment contains the predicted sentiment, confidence scores and other information about an assessment of a target. For example, in the sentence \"The food is good\", the assessment of the target 'food' is 'good'.";
+```
+
 ### DocumentStatistics => TextDocumentStatistics
 
 ```yaml

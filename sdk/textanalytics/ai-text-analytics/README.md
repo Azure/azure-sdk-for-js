@@ -1,4 +1,4 @@
-# Azure Text Analytics client library for JavaScript
+# Azure Text Analysis client library for JavaScript
 
 [Azure Cognitive Service for Language](https://azure.microsoft.com/services/cognitive-services/language-service/) is a cloud-based service that provides advanced natural language processing over raw text, and includes the following main features:
 
@@ -54,7 +54,7 @@ az cognitiveservices account create --kind TextAnalytics --resource-group <your-
 
 ### Install the `@azure/ai-text-analytics` package
 
-Install the Azure Text Analytics client library for JavaScript with `npm`:
+Install the Azure Text Analysis client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/ai-text-analytics
@@ -62,7 +62,7 @@ npm install @azure/ai-text-analytics
 
 ### Create and authenticate a `TextAnalysisClient`
 
-To create a client object to access the Language API, you will need the `endpoint` of your Language resource and a `credential`. The Text Analytics client can use either Azure Active Directory credentials or an API key credential to authenticate.
+To create a client object to access the Language API, you will need the `endpoint` of your Language resource and a `credential`. The Text Analysis client can use either Azure Active Directory credentials or an API key credential to authenticate.
 
 You can find the endpoint for your Language resource either in the [Azure Portal][azure_portal] or by using the [Azure CLI][azure_cli] snippet below:
 
@@ -112,7 +112,7 @@ const client = new TextAnalysisClient("<endpoint>", new DefaultAzureCredential()
 
 ### TextAnalysisClient
 
-`TextAnalysisClient` is the primary interface for developers using the Text Analytics client library. Explore the methods on this client object to understand the different features of the Language service that you can access.
+`TextAnalysisClient` is the primary interface for developers using the Text Analysis client library. Explore the methods on this client object to understand the different features of the Language service that you can access.
 
 ### Input
 

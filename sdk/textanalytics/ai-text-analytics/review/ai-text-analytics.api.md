@@ -21,10 +21,17 @@ export type ActionPrebuilt = ActionCommon & {
 };
 
 // @public
-export const AnalyzeActionName: readonly ["EntityLinking", "EntityRecognition", "KeyPhraseExtraction", "PiiEntityRecognition", "LanguageDetection", "SentimentAnalysis"];
+export type AnalyzeActionName = keyof typeof AnalyzeActionNames;
 
 // @public
-export type AnalyzeActionName = typeof AnalyzeActionName[number];
+export const AnalyzeActionNames: {
+    readonly EntityLinking: "EntityLinking";
+    readonly EntityRecognition: "EntityRecognition";
+    readonly KeyPhraseExtraction: "KeyPhraseExtraction";
+    readonly PiiEntityRecognition: "PiiEntityRecognition";
+    readonly LanguageDetection: "LanguageDetection";
+    readonly SentimentAnalysis: "SentimentAnalysis";
+};
 
 // @public
 export type AnalyzeActionParameters<ActionName extends AnalyzeActionName> = {
@@ -47,19 +54,26 @@ export type AnalyzeResult<ActionName extends AnalyzeActionName> = {
 }[ActionName];
 
 // @public
-export type AssessmentSentiment = SentenceAssessment;
+export interface AssessmentSentiment {
+    confidenceScores: TargetConfidenceScores;
+    isNegated: boolean;
+    length: number;
+    offset: number;
+    sentiment: TokenSentimentLabel;
+    text: string;
+}
 
 export { AzureKeyCredential }
 
 // @public
-export const CognitiveLanguageApiVersion: {
+export type CognitiveLanguageApiVersion = keyof typeof CognitiveLanguageApiVersions;
+
+// @public
+export const CognitiveLanguageApiVersions: {
     readonly "2022-02-01-preview": "2022-02-01-preview";
     readonly "2022-03-01-preview": "2022-03-01-preview";
     readonly Latest: "2022-03-01-preview";
 };
-
-// @public
-export type CognitiveLanguageApiVersion = keyof typeof CognitiveLanguageApiVersion;
 
 // @public
 export interface DetectedLanguage {
@@ -658,16 +672,6 @@ export type PiiEntityRecognitionResult = PiiEntityRecognitionSuccessResult | Pii
 export interface PiiEntityRecognitionSuccessResult extends TextAnalysisSuccessResult {
     readonly entities: Entity[];
     readonly redactedText: string;
-}
-
-// @public
-export interface SentenceAssessment {
-    confidenceScores: TargetConfidenceScores;
-    isNegated: boolean;
-    length: number;
-    offset: number;
-    sentiment: TokenSentimentLabel;
-    text: string;
 }
 
 // @public

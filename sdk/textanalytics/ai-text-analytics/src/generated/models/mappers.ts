@@ -1083,7 +1083,7 @@ export const SentenceSentiment: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SentenceAssessment"
+              className: "AssessmentSentiment"
             }
           }
         }
@@ -1197,10 +1197,10 @@ export const TargetRelation: coreClient.CompositeMapper = {
   }
 };
 
-export const SentenceAssessment: coreClient.CompositeMapper = {
+export const AssessmentSentiment: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SentenceAssessment",
+    className: "AssessmentSentiment",
     modelProperties: {
       sentiment: {
         serializedName: "sentiment",

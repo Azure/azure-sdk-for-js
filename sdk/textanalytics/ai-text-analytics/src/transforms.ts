@@ -5,7 +5,6 @@ import {
   AnalyzeActionName,
   AnalyzeActionParameters,
   AnalyzeResult,
-  AssessmentSentiment,
   EntityLinkingResult,
   EntityRecognitionResult,
   KeyPhraseExtractionResult,
@@ -20,6 +19,7 @@ import {
 } from "./models";
 import {
   AnalyzeResponse,
+  AssessmentSentiment,
   DocumentError,
   EntitiesTaskResult,
   EntityLinkingTaskResult,
@@ -38,7 +38,6 @@ import {
   LanguageDetectionTaskResult,
   PiiEntityRecognitionAction,
   PiiTaskResult,
-  SentenceAssessment,
   SentenceTarget,
   SentimentTaskResult,
   TargetRelation,
@@ -201,7 +200,7 @@ function convertTargetRelationToAssessmentSentiment(
 ): AssessmentSentiment {
   const assessmentPtr = targetRelation.ref;
   const assessmentIndex: AssessmentIndex = parseAssessmentIndex(assessmentPtr);
-  const assessment: SentenceAssessment | undefined =
+  const assessment =
     sentences?.[assessmentIndex.sentence].assessments?.[assessmentIndex.assessment];
   if (assessment !== undefined) {
     return assessment;

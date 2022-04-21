@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import {
+  AssessmentSentiment,
   DetectedLanguage,
   DocumentSentimentLabel,
   DocumentWarning,
@@ -15,7 +15,6 @@ import {
   LanguageDetectionAction,
   LinkedEntity,
   PiiEntityRecognitionAction,
-  SentenceAssessment,
   SentenceSentimentLabel,
   SentimentAnalysisAction,
   SentimentConfidenceScores,
@@ -23,11 +22,13 @@ import {
   TextDocumentStatistics,
   TokenSentimentLabel,
 } from "./generated";
+import { CommonClientOptions, OperationOptions } from "@azure/core-client";
+
 
 /**
  * Supported versions of the Cognitive Language Service API.
  */
-export const CognitiveLanguageApiVersion = {
+export const CognitiveLanguageApiVersions = {
   /**
    * 2022-02-01-preview
    */
@@ -46,8 +47,7 @@ export const CognitiveLanguageApiVersion = {
 /**
  * The type of supported versions of the Cognitive Language Service API.
  */
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type CognitiveLanguageApiVersion = keyof typeof CognitiveLanguageApiVersion;
+export type CognitiveLanguageApiVersion = keyof typeof CognitiveLanguageApiVersions;
 
 /**
  * Configuration options for {@link TextAnalysisClient}.
@@ -63,7 +63,7 @@ export interface TextAnalysisClientOptions extends CommonClientOptions {
    */
   defaultLanguage?: string;
   /**
-   * The version of the Cognitive Language Service API to use. {@link CognitiveLanguageApiVersion.Latest}
+   * The version of the Cognitive Language Service API to use. {@link CognitiveLanguageApiVersions.Latest}
    * is the default.
    */
   apiVersion?: CognitiveLanguageApiVersion;
@@ -78,32 +78,31 @@ export interface TextAnalysisOperationOptions extends OperationOptions {
    */
   includeStatistics?: boolean;
   /**
-   * The version of the Cognitive Language Service API to use. {@link CognitiveLanguageApiVersion.Latest}
+   * The version of the Cognitive Language Service API to use. {@link CognitiveLanguageApiVersions.Latest}
    * is the default if {@link TextAnalysisClientOptions.apiVersion} was not set.
    */
   apiVersion?: string;
 }
 
 /**
- * List of actions supported by the {@link TextAnalysisClient.analyze} method.
+ * Type of actions supported by the {@link TextAnalysisClient.analyze} method.
  */
-export const AnalyzeActionName = [
-  "EntityLinking",
-  "EntityRecognition",
-  "KeyPhraseExtraction",
-  "PiiEntityRecognition",
-  "LanguageDetection",
-  "SentimentAnalysis",
-] as const;
+export const AnalyzeActionNames = {
+  EntityLinking: "EntityLinking",
+  EntityRecognition: "EntityRecognition",
+  KeyPhraseExtraction: "KeyPhraseExtraction",
+  PiiEntityRecognition: "PiiEntityRecognition",
+  LanguageDetection: "LanguageDetection",
+  SentimentAnalysis: "SentimentAnalysis",
+} as const;
 
 /**
  * Type of actions supported by the {@link TextAnalysisClient.analyze} method.
  */
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type AnalyzeActionName = typeof AnalyzeActionName[number];
+export type AnalyzeActionName = keyof typeof AnalyzeActionNames;
 
 /**
- * The type of parameters for every action in ${@link AnalyzeActionName}.
+ * The type of parameters for every action in ${@link AnalyzeActionNames}.
  */
 export type AnalyzeActionParameters<ActionName extends AnalyzeActionName> = {
   EntityLinking: EntityLinkingAction;
@@ -115,7 +114,7 @@ export type AnalyzeActionParameters<ActionName extends AnalyzeActionName> = {
 }[ActionName];
 
 /**
- * The type of results of every action in ${@link AnalyzeActionName}.
+ * The type of results of every action in ${@link AnalyzeActionNames}.
  */
 export type AnalyzeResult<ActionName extends AnalyzeActionName> = {
   EntityLinking: EntityLinkingResult[];
@@ -402,13 +401,6 @@ export interface TargetSentiment {
    */
   readonly length: number;
 }
-
-/**
- * AssessmentSentiment contains the predicted sentiment, confidence scores and
- * other information about an assessment of a target. For example, in the sentence
- * "The food is good", the assessment of the target 'food' is 'good'.
- */
-export type AssessmentSentiment = SentenceAssessment;
 
 /**
  * A mined opinion object represents an opinion we've extracted from a sentence.

@@ -1,18 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient";
-import { Context, Suite } from "mocha";
 import {
+  AnalyzeActionNames,
   KnownPiiCategory,
   KnownPiiDomain,
   KnownStringIndexType,
+  KnownTextAnalysisErrorCode,
   LanguageDetectionInput,
   Opinion,
   SentenceSentiment,
   TextAnalysisClient,
   TextDocumentInput,
 } from "../../src";
+import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient";
+import { Context, Suite } from "mocha";
 import { assert, matrix } from "@azure/test-utils";
 import { assertAllSuccess, getSuccRes, isSuccess } from "./utils/resultHelper";
 import { checkEntityTextOffset, checkOffsetAndLength } from "./utils/stringIndexTypeHelpers";
@@ -44,9 +46,6 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
       client = createClient({
         authMethod,
         recorder,
-        clientOptions: {
-          apiVersion: "2022-02-01-preview",
-        },
       });
       let nextId = 0;
       getId = function () {
@@ -62,31 +61,38 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
     describe("analyze", function () {
       describe("#SentimentAnalysis", function () {
         it("client throws on empty list", async function () {
-          return assert.isRejected(client.analyze("SentimentAnalysis", []), /non-empty array/);
+          return assert.isRejected(
+            client.analyze(AnalyzeActionNames.SentimentAnalysis, []),
+            /non-empty array/
+          );
         });
 
         it("client accepts string[] and language", async function () {
-          const results = await client.analyze("SentimentAnalysis", testDataEn, "en");
+          const results = await client.analyze(
+            AnalyzeActionNames.SentimentAnalysis,
+            testDataEn,
+            "en"
+          );
           assert.equal(results.length, testDataEn.length);
           assertAllSuccess(results);
         });
 
         it("client accepts string[] with no language", async function () {
-          const results = await client.analyze("SentimentAnalysis", testDataEn);
+          const results = await client.analyze(AnalyzeActionNames.SentimentAnalysis, testDataEn);
           assert.equal(results.length, testDataEn.length);
           assertAllSuccess(results);
         });
 
         it("service returns error for invalid language", async function () {
           const [result] = await client.analyze(
-            "SentimentAnalysis",
+            AnalyzeActionNames.SentimentAnalysis,
             ["Hello world!"],
             "notalanguage"
           );
           if (result.error === undefined) {
             assert.fail("Expected an error from the service.");
           }
-          assert.equal(result.error.code, "UnsupportedLanguageCode");
+          assert.equal(result.error.code, KnownTextAnalysisErrorCode.UnsupportedLanguageCode);
         });
 
         it("service has a bug when referencing assessments in doc #6 or greater", async function () {
@@ -99,9 +105,14 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
             "Nice rooms but bathrooms were old and the toilet was dirty when we arrived.",
             "The toilet smelled.",
           ];
-          const results = await client.analyze("SentimentAnalysis", documents, "en", {
-            includeOpinionMining: true,
-          });
+          const results = await client.analyze(
+            AnalyzeActionNames.SentimentAnalysis,
+            documents,
+            "en",
+            {
+              includeOpinionMining: true,
+            }
+          );
           const result1 = getSuccRes(results[0]);
           const result6 = getSuccRes(results[5]);
           const result7 = getSuccRes(results[6]);
@@ -128,7 +139,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
         it("service returns an error for an empty document", async function () {
           const data = [...testDataEn];
           data.splice(1, 0, "");
-          const results = await client.analyze("SentimentAnalysis", data);
+          const results = await client.analyze(AnalyzeActionNames.SentimentAnalysis, data);
           const errorResult = results[1];
           if (errorResult.error === undefined) {
             assert.fail("Expected an error from the service");
@@ -137,7 +148,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
             results.filter((result) => result.error === undefined).length,
             testDataEn.length
           );
-          assert.equal(errorResult.error.code, "InvalidDocument");
+          assert.equal(errorResult.error.code, KnownTextAnalysisErrorCode.InvalidDocument);
         });
 
         it("client accepts TextDocumentInput[]", async function () {
@@ -156,7 +167,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
             })
           );
           const allInputs = enInputs.concat(esInputs);
-          const results = await client.analyze("SentimentAnalysis", allInputs);
+          const results = await client.analyze(AnalyzeActionNames.SentimentAnalysis, allInputs);
           assert.equal(results.length, testDataEn.length + testDataEs.length);
           assertAllSuccess(results);
           results.map((result) =>
@@ -172,7 +183,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
               language: "en",
             },
           ];
-          const results = await client.analyze("SentimentAnalysis", documents, {
+          const results = await client.analyze(AnalyzeActionNames.SentimentAnalysis, documents, {
             includeOpinionMining: true,
           });
           assert.equal(results.length, 1);
@@ -221,7 +232,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
               language: "en",
             },
           ];
-          const results = await client.analyze("SentimentAnalysis", documents, {
+          const results = await client.analyze(AnalyzeActionNames.SentimentAnalysis, documents, {
             includeOpinionMining: true,
           });
           assert.equal(results.length, 1);
@@ -276,7 +287,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
               language: "en",
             },
           ];
-          const results = await client.analyze("SentimentAnalysis", documents, {
+          const results = await client.analyze(AnalyzeActionNames.SentimentAnalysis, documents, {
             includeOpinionMining: true,
           });
           assert.equal(results.length, 1);
@@ -288,24 +299,31 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
 
       describe("#LanguageDetection", function () {
         it("client throws on empty list", async function () {
-          return assert.isRejected(client.analyze("LanguageDetection", []), /non-empty array/);
+          return assert.isRejected(
+            client.analyze(AnalyzeActionNames.LanguageDetection, []),
+            /non-empty array/
+          );
         });
 
         it("client accepts no countryHint", async function () {
-          const results = await client.analyze("LanguageDetection", testDataEn);
+          const results = await client.analyze(AnalyzeActionNames.LanguageDetection, testDataEn);
           assert.equal(results.length, testDataEn.length);
           assertAllSuccess(results);
         });
 
         it("client accepts a countryHint", async function () {
-          const results = await client.analyze("LanguageDetection", ["impossible"], "fr");
+          const results = await client.analyze(
+            AnalyzeActionNames.LanguageDetection,
+            ["impossible"],
+            "fr"
+          );
           assert.equal(results.length, 1);
           assertAllSuccess(results);
         });
 
         it('client accepts "none" country hint with string[] input', async function () {
           const results = await client.analyze(
-            "LanguageDetection",
+            AnalyzeActionNames.LanguageDetection,
             ["I use Azure Functions to develop my service."],
             "none"
           );
@@ -317,7 +335,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
 
         it('client accepts "none" country hint with DetectLanguageInput[] input', async function () {
           const results = await client.analyze(
-            "LanguageDetection",
+            AnalyzeActionNames.LanguageDetection,
             testDataEn.concat(testDataEs).map(
               (input): LanguageDetectionInput => ({
                 id: getId(),
@@ -330,12 +348,16 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
         });
 
         it("service errors on invalid country hint", async function () {
-          const [result] = await client.analyze("LanguageDetection", ["hello"], "invalidcountry");
+          const [result] = await client.analyze(
+            AnalyzeActionNames.LanguageDetection,
+            ["hello"],
+            "invalidcountry"
+          );
           if (result.error === undefined) {
             assert.fail("Expected an error from the service");
           }
 
-          assert.equal(result.error.code, "InvalidCountryHint");
+          assert.equal(result.error.code, KnownTextAnalysisErrorCode.InvalidCountryHint);
         });
 
         it("client accepts mixed-country DetectLanguageInput[]", async function () {
@@ -354,7 +376,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
           );
           const allInputs = enInputs.concat(esInputs);
 
-          const results = await client.analyze("LanguageDetection", allInputs);
+          const results = await client.analyze(AnalyzeActionNames.LanguageDetection, allInputs);
           assert.equal(results.length, testDataEn.length + testDataEs.length);
           assertAllSuccess(results);
         });
@@ -362,24 +384,31 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
 
       describe("#EntityRecognition", function () {
         it("client throws on empty list", async function () {
-          return assert.isRejected(client.analyze("EntityRecognition", []), /non-empty array/);
+          return assert.isRejected(
+            client.analyze(AnalyzeActionNames.EntityRecognition, []),
+            /non-empty array/
+          );
         });
 
         it("client accepts string[] with no language", async function () {
-          const results = await client.analyze("EntityRecognition", testDataEn);
+          const results = await client.analyze(AnalyzeActionNames.EntityRecognition, testDataEn);
           assert.equal(results.length, testDataEn.length);
           assertAllSuccess(results);
         });
 
         it("client accepts string[] with a language specified", async function () {
-          const results = await client.analyze("EntityRecognition", testDataEn, "en");
+          const results = await client.analyze(
+            AnalyzeActionNames.EntityRecognition,
+            testDataEn,
+            "en"
+          );
           assert.equal(results.length, testDataEn.length);
           assertAllSuccess(results);
         });
 
         it("service errors on unsupported language", async function () {
           const [result] = await client.analyze(
-            "EntityRecognition",
+            AnalyzeActionNames.EntityRecognition,
             ["This is some text, but it doesn't matter."],
             "notalanguage"
           );
@@ -388,7 +417,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
             assert.fail("Expected an error from the service");
           }
 
-          assert.equal(result.error.code, "UnsupportedLanguageCode");
+          assert.equal(result.error.code, KnownTextAnalysisErrorCode.UnsupportedLanguageCode);
         });
 
         it("client accepts mixed-language TextDocumentInput[]", async function () {
@@ -408,7 +437,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
           );
           const allInputs = enInputs.concat(esInputs);
 
-          const results = await client.analyze("EntityRecognition", allInputs);
+          const results = await client.analyze(AnalyzeActionNames.EntityRecognition, allInputs);
           assert.equal(results.length, testDataEn.length - 1 + testDataEs.length);
           assertAllSuccess(results);
         });
@@ -431,12 +460,12 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
           const allInputs = enInputs.concat(esInputs);
 
           try {
-            await client.analyze("EntityRecognition", allInputs);
+            await client.analyze(AnalyzeActionNames.EntityRecognition, allInputs);
             assert.fail("Oops, an exception didn't happen.");
           } catch (e: unknown) {
             const restError = e as RestError;
             assert.equal(restError.statusCode, 400);
-            assert.equal(restError.code, "InvalidDocumentBatch");
+            assert.equal(restError.code, KnownTextAnalysisErrorCode.InvalidDocumentBatch);
             assert.equal(
               restError.message,
               "Invalid document in request. Batch request contains too many records. Max 5 records are permitted."
@@ -447,24 +476,31 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
 
       describe("#KeyPhraseExtraction", function () {
         it("client throws on empty list", async function () {
-          return assert.isRejected(client.analyze("KeyPhraseExtraction", []), /non-empty array/);
+          return assert.isRejected(
+            client.analyze(AnalyzeActionNames.KeyPhraseExtraction, []),
+            /non-empty array/
+          );
         });
 
         it("client accepts string[] with no language", async function () {
-          const results = await client.analyze("KeyPhraseExtraction", testDataEn);
+          const results = await client.analyze(AnalyzeActionNames.KeyPhraseExtraction, testDataEn);
           assert.equal(results.length, testDataEn.length);
           assertAllSuccess(results);
         });
 
         it("client accepts string[] with a language specified", async function () {
-          const results = await client.analyze("KeyPhraseExtraction", testDataEn, "en");
+          const results = await client.analyze(
+            AnalyzeActionNames.KeyPhraseExtraction,
+            testDataEn,
+            "en"
+          );
           assert.equal(results.length, testDataEn.length);
           assertAllSuccess(results);
         });
 
         it("service errors on unsupported language", async function () {
           const [result] = await client.analyze(
-            "KeyPhraseExtraction",
+            AnalyzeActionNames.KeyPhraseExtraction,
             ["This is some text, but it doesn't matter."],
             "notalanguage"
           );
@@ -473,7 +509,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
             assert.fail("Expected an error from the service");
           }
 
-          assert.equal(result.error.code, "UnsupportedLanguageCode");
+          assert.equal(result.error.code, KnownTextAnalysisErrorCode.UnsupportedLanguageCode);
         });
 
         it("client accepts mixed-language TextDocumentInput[]", async function () {
@@ -493,7 +529,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
           );
           const allInputs = enInputs.concat(esInputs);
 
-          const results = await client.analyze("KeyPhraseExtraction", allInputs);
+          const results = await client.analyze(AnalyzeActionNames.KeyPhraseExtraction, allInputs);
           assert.equal(results.length, testDataEn.length + testDataEs.length);
           assertAllSuccess(results);
         });
@@ -501,17 +537,21 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
 
       describe("#PiiEntityRecognition", function () {
         it("client throws on empty list", async function () {
-          return assert.isRejected(client.analyze("PiiEntityRecognition", []));
+          return assert.isRejected(client.analyze(AnalyzeActionNames.PiiEntityRecognition, []));
         });
 
         it("client accepts string[] with no language", async function () {
-          const results = await client.analyze("PiiEntityRecognition", testDataEn);
+          const results = await client.analyze(AnalyzeActionNames.PiiEntityRecognition, testDataEn);
           assert.equal(results.length, testDataEn.length);
           assertAllSuccess(results);
         });
 
         it("client accepts string[] with a language specified", async function () {
-          const results = await client.analyze("PiiEntityRecognition", testDataEn, "en");
+          const results = await client.analyze(
+            AnalyzeActionNames.PiiEntityRecognition,
+            testDataEn,
+            "en"
+          );
           assert.equal(results.length, testDataEn.length);
           assertAllSuccess(results);
         });
@@ -520,13 +560,17 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
           // 078-05-1120 is an invalid social security number due to its use in advertising
           // throughout the late 1930s
           const fakeSSNDocument = "Your Social Security Number is 859-98-0987.";
-          const [result] = await client.analyze("PiiEntityRecognition", [fakeSSNDocument], "en");
+          const [result] = await client.analyze(
+            AnalyzeActionNames.PiiEntityRecognition,
+            [fakeSSNDocument],
+            "en"
+          );
           assert.equal(getSuccRes(result).entities.length, 1);
         });
 
         it("service errors on unsupported language", async function () {
           const [result] = await client.analyze(
-            "PiiEntityRecognition",
+            AnalyzeActionNames.PiiEntityRecognition,
             ["This is some text, but it doesn't matter."],
             "notalanguage"
           );
@@ -535,7 +579,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
             assert.fail("Expected an error from the service");
           }
 
-          assert.equal(result.error.code, "UnsupportedLanguageCode");
+          assert.equal(result.error.code, KnownTextAnalysisErrorCode.UnsupportedLanguageCode);
         });
 
         it("client accepts mixed-language TextDocumentInput[]", async function () {
@@ -556,7 +600,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
           );
           const allInputs = enInputs.concat(esInputs);
 
-          const results = await client.analyze("PiiEntityRecognition", allInputs);
+          const results = await client.analyze(AnalyzeActionNames.PiiEntityRecognition, allInputs);
           assert.equal(results.length, sliceSize + testDataEs.length);
           // TA NER public preview currently supports only english
           assert.ok(results.slice(0, sliceSize).every(isSuccess));
@@ -564,7 +608,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
 
         it("accepts domain filter", async function () {
           const response = await client.analyze(
-            "PiiEntityRecognition",
+            AnalyzeActionNames.PiiEntityRecognition,
             [
               {
                 id: "0",
@@ -588,7 +632,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
 
         it("accepts pii categories", async function () {
           const response = await client.analyze(
-            "PiiEntityRecognition",
+            AnalyzeActionNames.PiiEntityRecognition,
             [
               {
                 id: "0",
@@ -606,7 +650,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
         });
 
         it("output pii categories are accepted as input", async function () {
-          const response1 = await client.analyze("PiiEntityRecognition", [
+          const response1 = await client.analyze(AnalyzeActionNames.PiiEntityRecognition, [
             {
               id: "0",
               text: "Patient name is Joe and SSN is 859-98-0987",
@@ -616,7 +660,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
           const result1 = getSuccRes(response1[0]);
           const entity2 = result1.entities[1];
           const response2 = await client.analyze(
-            "PiiEntityRecognition",
+            AnalyzeActionNames.PiiEntityRecognition,
             [
               {
                 id: "0",
@@ -636,24 +680,27 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
 
       describe("#EntityLinking", function () {
         it("client throws on empty list", async function () {
-          return assert.isRejected(client.analyze("EntityLinking", []), /non-empty array/);
+          return assert.isRejected(
+            client.analyze(AnalyzeActionNames.EntityLinking, []),
+            /non-empty array/
+          );
         });
 
         it("client accepts string[] with no language", async function () {
-          const results = await client.analyze("EntityLinking", testDataEn);
+          const results = await client.analyze(AnalyzeActionNames.EntityLinking, testDataEn);
           assert.equal(results.length, testDataEn.length);
           assertAllSuccess(results);
         });
 
         it("client accepts string[] with a language specified", async function () {
-          const results = await client.analyze("EntityLinking", testDataEn, "en");
+          const results = await client.analyze(AnalyzeActionNames.EntityLinking, testDataEn, "en");
           assert.equal(results.length, testDataEn.length);
           assertAllSuccess(results);
         });
 
         it("service errors on unsupported language", async function () {
           const [result] = await client.analyze(
-            "EntityLinking",
+            AnalyzeActionNames.EntityLinking,
             ["This is some text, but it doesn't matter."],
             "notalanguage"
           );
@@ -662,7 +709,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
             assert.fail("Expected an error from the service");
           }
 
-          assert.equal(result.error.code, "UnsupportedLanguageCode");
+          assert.equal(result.error.code, KnownTextAnalysisErrorCode.UnsupportedLanguageCode);
         });
 
         it("client accepts mixed-language TextDocumentInput[]", async function () {
@@ -682,7 +729,7 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
           );
           const allInputs = enInputs.concat(esInputs);
 
-          const results = await client.analyze("EntityLinking", allInputs);
+          const results = await client.analyze(AnalyzeActionNames.EntityLinking, allInputs);
           assert.equal(results.length, testDataEn.length - 1 + testDataEs.length);
           assertAllSuccess(results);
         });
@@ -705,12 +752,12 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
           const allInputs = enInputs.concat(esInputs);
 
           try {
-            await client.analyze("EntityRecognition", allInputs);
+            await client.analyze(AnalyzeActionNames.EntityRecognition, allInputs);
             assert.fail("Oops, an exception didn't happen.");
           } catch (e: unknown) {
             const restError = e as RestError;
             assert.equal(restError.statusCode, 400);
-            assert.equal(restError.code, "InvalidDocumentBatch");
+            assert.equal(restError.code, KnownTextAnalysisErrorCode.InvalidDocumentBatch);
             assert.equal(
               restError.message,
               "Invalid document in request. Batch request contains too many records. Max 5 records are permitted."
