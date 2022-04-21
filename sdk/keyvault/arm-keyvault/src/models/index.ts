@@ -37,6 +37,10 @@ export interface KeyProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly keyUriWithVersion?: string;
+  /** Key rotation policy in response. It will be used for both output and input. Omitted if empty */
+  rotationPolicy?: RotationPolicy;
+  /** Key release policy in response. It will be used for both output and input. Omitted if empty */
+  releasePolicy?: KeyReleasePolicy;
 }
 
 /** The object attributes managed by the Azure Key Vault service. */
@@ -64,6 +68,54 @@ export interface KeyAttributes {
   readonly recoveryLevel?: DeletionRecoveryLevel;
   /** Indicates if the private key can be exported. */
   exportable?: boolean;
+}
+
+export interface RotationPolicy {
+  /** The attributes of key rotation policy. */
+  attributes?: KeyRotationPolicyAttributes;
+  /** The lifetimeActions for key rotation action. */
+  lifetimeActions?: LifetimeAction[];
+}
+
+export interface KeyRotationPolicyAttributes {
+  /**
+   * Creation time in seconds since 1970-01-01T00:00:00Z.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly created?: number;
+  /**
+   * Last updated time in seconds since 1970-01-01T00:00:00Z.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updated?: number;
+  /** The expiration time for the new key version. It should be in ISO8601 format. Eg: 'P90D', 'P1Y'. */
+  expiryTime?: string;
+}
+
+export interface LifetimeAction {
+  /** The trigger of key rotation policy lifetimeAction. */
+  trigger?: Trigger;
+  /** The action of key rotation policy lifetimeAction. */
+  action?: Action;
+}
+
+export interface Trigger {
+  /** The time duration after key creation to rotate the key. It only applies to rotate. It will be in ISO 8601 duration format. Eg: 'P90D', 'P1Y'. */
+  timeAfterCreate?: string;
+  /** The time duration before key expiring to rotate or notify. It will be in ISO 8601 duration format. Eg: 'P90D', 'P1Y'. */
+  timeBeforeExpiry?: string;
+}
+
+export interface Action {
+  /** The type of action. */
+  type?: KeyRotationPolicyActionType;
+}
+
+export interface KeyReleasePolicy {
+  /** Content type and version of key release policy */
+  contentType?: string;
+  /** Blob encoding the policy rules under which the key can be released. */
+  data?: Uint8Array;
 }
 
 /** Key Vault resource */
@@ -152,7 +204,7 @@ export interface VaultProperties {
   enableSoftDelete?: boolean;
   /** softDelete data retention days. It accepts >=7 and <=90. */
   softDeleteRetentionInDays?: number;
-  /** Property that controls how data actions are authorized. When true, the key vault will use Role Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties will be  ignored. When false, the key vault will use the access policies specified in vault properties, and any policy stored on Azure Resource Manager will be ignored. If null or not specified, the vault is created with the default value of false. Note that management actions are always authorized with RBAC. */
+  /** Property that controls how data actions are authorized. When true, the key vault will use Role Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties will be  ignored (warning: this is a preview feature). When false, the key vault will use the access policies specified in vault properties, and any policy stored on Azure Resource Manager will be ignored. If null or not specified, the vault is created with the default value of false. Note that management actions are always authorized with RBAC. */
   enableRbacAuthorization?: boolean;
   /** The vault's create mode to indicate whether the vault need to be recovered or not. */
   createMode?: CreateMode;
@@ -332,7 +384,7 @@ export interface VaultPatchProperties {
   enabledForTemplateDeployment?: boolean;
   /** Property to specify whether the 'soft delete' functionality is enabled for this key vault. Once set to true, it cannot be reverted to false. */
   enableSoftDelete?: boolean;
-  /** Property that controls how data actions are authorized. When true, the key vault will use Role Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties will be  ignored. When false, the key vault will use the access policies specified in vault properties, and any policy stored on Azure Resource Manager will be ignored. If null or not specified, the value of this property will not change. */
+  /** Property that controls how data actions are authorized. When true, the key vault will use Role Based Access Control (RBAC) for authorization of data actions, and the access policies specified in vault properties will be  ignored (warning: this is a preview feature). When false, the key vault will use the access policies specified in vault properties, and any policy stored on Azure Resource Manager will be ignored. If null or not specified, the value of this property will not change. */
   enableRbacAuthorization?: boolean;
   /** softDelete data retention days. It accepts >=7 and <=90. */
   softDeleteRetentionInDays?: number;
@@ -929,6 +981,10 @@ export type Key = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly keyUriWithVersion?: string;
+  /** Key rotation policy in response. It will be used for both output and input. Omitted if empty */
+  rotationPolicy?: RotationPolicy;
+  /** Key release policy in response. It will be used for both output and input. Omitted if empty */
+  releasePolicy?: KeyReleasePolicy;
 };
 
 /** Private endpoint connection resource. */
@@ -1082,7 +1138,8 @@ export enum KnownJsonWebKeyOperation {
   Verify = "verify",
   WrapKey = "wrapKey",
   UnwrapKey = "unwrapKey",
-  Import = "import"
+  Import = "import",
+  Release = "release"
 }
 
 /**
@@ -1096,7 +1153,8 @@ export enum KnownJsonWebKeyOperation {
  * **verify** \
  * **wrapKey** \
  * **unwrapKey** \
- * **import**
+ * **import** \
+ * **release**
  */
 export type JsonWebKeyOperation = string;
 
@@ -1152,7 +1210,11 @@ export enum KnownKeyPermissions {
   Backup = "backup",
   Restore = "restore",
   Recover = "recover",
-  Purge = "purge"
+  Purge = "purge",
+  Release = "release",
+  Rotate = "rotate",
+  Getrotationpolicy = "getrotationpolicy",
+  Setrotationpolicy = "setrotationpolicy"
 }
 
 /**
@@ -1176,7 +1238,11 @@ export enum KnownKeyPermissions {
  * **backup** \
  * **restore** \
  * **recover** \
- * **purge**
+ * **purge** \
+ * **release** \
+ * **rotate** \
+ * **getrotationpolicy** \
+ * **setrotationpolicy**
  */
 export type KeyPermissions = string;
 
@@ -1489,6 +1555,8 @@ export enum KnownManagedHsmSkuFamily {
  * **B**
  */
 export type ManagedHsmSkuFamily = string;
+/** Defines values for KeyRotationPolicyActionType. */
+export type KeyRotationPolicyActionType = "rotate" | "notify";
 /** Defines values for SkuName. */
 export type SkuName = "standard" | "premium";
 /** Defines values for CreateMode. */

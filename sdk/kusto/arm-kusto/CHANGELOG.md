@@ -1,9 +1,11 @@
 # Release History
     
-## 7.1.1 (Unreleased)
-Update generated samples from swagger examples
-    
+## 7.1.1 (2022-04-21)
 
+**Features**
+
+  - Bug fix
+    
 ## 7.1.0 (2022-02-23)
     
 **Features**
