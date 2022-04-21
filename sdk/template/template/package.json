@@ -1,6 +1,6 @@
 {
   "name": "@azure/template",
-  "version": "1.0.11-beta.1",
+  "version": "1.0.11-beta.2",
   "description": "Example project for learning how to build a client library",
   "sdk-type": "client",
   "main": "dist/index.js",
