@@ -83,6 +83,10 @@ export type LinkedServiceUnion =
   | QuickbaseLinkedService
   | SmartsheetLinkedService
   | ZendeskLinkedService
+  | DataworldLinkedService
+  | AppFiguresLinkedService
+  | AsanaLinkedService
+  | TwilioLinkedService
   | AmazonRedshiftLinkedService
   | CustomDataSourceLinkedService
   | AzureSearchLinkedService
@@ -1283,6 +1287,10 @@ export interface LinkedService {
     | "Quickbase"
     | "Smartsheet"
     | "Zendesk"
+    | "Dataworld"
+    | "AppFigures"
+    | "Asana"
+    | "Twilio"
     | "AmazonRedshift"
     | "CustomDataSource"
     | "AzureSearch"
@@ -4983,6 +4991,48 @@ export type ZendeskLinkedService = LinkedService & {
   apiToken?: SecretBaseUnion;
   /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
   encryptedCredential?: Record<string, unknown>;
+};
+
+/** Linked service for Dataworld. */
+export type DataworldLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Dataworld";
+  /** The api token for the Dataworld source. */
+  apiToken: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: Record<string, unknown>;
+};
+
+/** Linked service for AppFigures. */
+export type AppFiguresLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AppFigures";
+  /** The username of the Appfigures source. */
+  userName: Record<string, unknown>;
+  /** The password of the AppFigures source. */
+  password: SecretBaseUnion;
+  /** The client key for the AppFigures source. */
+  clientKey: SecretBaseUnion;
+};
+
+/** Linked service for Asana. */
+export type AsanaLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Asana";
+  /** The api token for the Asana source. */
+  apiToken: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: Record<string, unknown>;
+};
+
+/** Linked service for Twilio. */
+export type TwilioLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Twilio";
+  /** The Account SID of Twilio service. */
+  userName: Record<string, unknown>;
+  /** The auth token of Twilio service. */
+  password: SecretBaseUnion;
 };
 
 /** Linked service for Amazon Redshift. */
