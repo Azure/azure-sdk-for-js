@@ -278,10 +278,11 @@ class NodeHttpClient implements HttpClient {
         return agent;
       }
 
+      logger.info("No cached TLS Agent exist, creating a new Agent");
       agent = new https.Agent({
         // keepAlive is true if disableKeepAlive is false.
         keepAlive: !disableKeepAlive,
-        // Since we are spreading, if non tslSettings were provided, nothing is added to the agent options.
+        // Since we are spreading, if no tslSettings were provided, nothing is added to the agent options.
         ...tlsSettings,
       });
 
