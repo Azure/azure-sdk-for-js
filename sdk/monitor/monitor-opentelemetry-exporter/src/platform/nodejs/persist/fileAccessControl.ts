@@ -111,9 +111,9 @@ export class FileAccessControl {
       });
       if (aclProc.error) {
         throw aclProc.error;
-      } else if (aclProc.status !== null && aclProc.status !== 0) {
+      } else if (aclProc?.status !== 0) {
         throw new Error(
-          `Setting ACL restrictions did not succeed (ICACLS returned code ${aclProc.status})`
+          `Setting ACL restrictions did not succeed (ICACLS returned code ${aclProc.status!})`
         );
       }
     } else {

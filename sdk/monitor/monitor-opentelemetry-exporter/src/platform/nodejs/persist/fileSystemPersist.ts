@@ -138,7 +138,7 @@ export class FileSystemPersist implements PersistentStorage {
     try {
       await confirmDirExists(this._tempDirectory);
     } catch (error: any) {
-      diag.warn(`Error while checking/creating directory: `, error && (error as Record<string, unknown>).message);
+      diag.warn(`Error while checking/creating directory: `, (error as Record<string, unknown>)?.message);
       return false;
     }
 
