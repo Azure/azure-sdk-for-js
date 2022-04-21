@@ -224,14 +224,15 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
       const err = translate(_err);
 
       if (
-        !(err as MessagingError).retryable &&
+        err instanceof MessagingError &&
+        !err.retryable &&
         err.name === "ServiceCommunicationError" &&
         config.connectionHost
       ) {
         const isConnected = await checkNetworkConnection(config.connectionHost);
         if (!isConnected) {
           err.name = "ConnectionLostError";
-          (err as MessagingError).retryable = true;
+          err.retryable = true;
         }
       }
       logger.verbose(
@@ -243,7 +244,7 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
       );
 
       lastError = err;
-      if ((lastError as MessagingError).retryable && totalNumberOfAttempts > i) {
+      if (lastError instanceof MessagingError && lastError.retryable && totalNumberOfAttempts > i) {
         const targetDelayInMs = calculateDelay(
           i,
           config.retryOptions.retryDelayInMs,

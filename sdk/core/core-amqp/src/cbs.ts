@@ -239,7 +239,7 @@ export class CbsClient {
       logger.warning(
         "[%s] An error occurred while negotiating the cbs claim: %s",
         this.connection.id,
-        isError(err) ? `${err?.name}: ${err?.message}` : String(err)
+        isError(err) ? `${err.name}: ${err.message}` : String(err)
       );
       logErrorStackTrace(err);
       throw err;
@@ -261,7 +261,7 @@ export class CbsClient {
       }
     } catch (err) {
       const msg = `An error occurred while closing the cbs link: ${
-        isError(err) ? err.stack || JSON.stringify(err) : JSON.stringify(err)
+        isError(err) && err.stack ? err.stack : JSON.stringify(err)
       }.`;
       logger.verbose("[%s] %s", this.connection.id, msg);
       throw new Error(msg);
@@ -282,7 +282,7 @@ export class CbsClient {
       }
     } catch (err) {
       const msg = `An error occurred while removing the cbs link: ${
-        isError(err) ? err.stack || JSON.stringify(err) : JSON.stringify(err)
+        isError(err) && err.stack ? err.stack : JSON.stringify(err)
       }.`;
       logger.verbose("[%s] %s", this.connection.id, msg);
       throw new Error(msg);

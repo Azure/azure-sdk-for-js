@@ -677,9 +677,9 @@ export function translate(err: unknown): MessagingError | Error {
     return error;
   }
 
-  if (isError(err) && err.name === "MessagingError") {
+  if (err instanceof MessagingError) {
     // already translated
-    return err as MessagingError;
+    return err;
   }
 
   if (isSystemError(err)) {
