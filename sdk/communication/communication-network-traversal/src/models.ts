@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 // delete this pipeline options
-import { OperationOptions, CommonClientOptions } from "@azure/core-client";
+import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { RouteType } from "./generated/src/models";
 
 /**

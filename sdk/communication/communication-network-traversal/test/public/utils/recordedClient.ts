@@ -2,20 +2,18 @@
 // Licensed under the MIT license.
 
 import { Context, Test } from "mocha";
-
 import {
-  env,
   Recorder,
   RecorderStartOptions,
   SanitizerOptions,
+  env,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-
+import { CommunicationIdentityClient } from "@azure/communication-identity";
 import { CommunicationRelayClient } from "../../../src";
-import { parseConnectionString } from "@azure/communication-common";
 import { TokenCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { CommunicationIdentityClient } from "@azure/communication-identity";
+import { parseConnectionString } from "@azure/communication-common";
 
 export interface RecordedClient {
   identityClient: CommunicationIdentityClient;
@@ -53,7 +51,7 @@ const sanitizerOptions: SanitizerOptions = {
     { regex: true, target: `"id"\\s?:\\s?"[^"]*"`, value: `"id":"sanitized"` },
     {
       regex: true,
-      target: `"expiresOn"\s?:\s?"[^"]*"`,
+      target: `"expiresOn"\\s?:\\s?"[^"]*"`,
       value: `"expiresOn":"2022-05-18T12:00:00.00+00:00"`,
     },
     { regex: true, target: `"(turn|stun):[^"]*"`, value: `"turn.skype.com"` },

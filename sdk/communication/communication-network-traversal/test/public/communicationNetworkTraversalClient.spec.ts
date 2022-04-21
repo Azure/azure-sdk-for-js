@@ -5,14 +5,14 @@ import {
   createRecordedCommunicationRelayClient,
   createRecordedCommunicationRelayClientWithToken,
 } from "./utils/recordedClient";
-import { CommunicationUserIdentifier } from "@azure/communication-common";
-import { assert } from "chai";
-import { Recorder } from "@azure-tools/test-recorder";
-import { CommunicationRelayClient } from "../../src";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
+import { CommunicationRelayClient } from "../../src";
+import { CommunicationUserIdentifier } from "@azure/communication-common";
 import { Context } from "mocha";
-import { matrix } from "@azure/test-utils";
 import { GetRelayConfigurationOptions } from "../../src/models";
+import { Recorder } from "@azure-tools/test-recorder";
+import { assert } from "chai";
+import { matrix } from "@azure/test-utils";
 
 matrix([[true, false]], async function (useAad: boolean) {
   describe(`CommunicationNetworkingClient [Playback/Live]${useAad ? " [AAD]" : ""}`, function () {
