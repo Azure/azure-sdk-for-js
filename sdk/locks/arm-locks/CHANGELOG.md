@@ -1,15 +1,19 @@
 # Release History
+    
+## 2.1.0 (2022-04-18)
+    
+**Features**
 
-## 2.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface ErrorResponse
+  - Added Interface SystemData
+  - Added Type Alias CreatedByType
+  - Interface ManagementLockObject has a new optional parameter systemData
+  - Added Enum KnownCreatedByType
+  - Bug fix
+    
+    
 ## 2.0.0 (2021-12-07)
 
 The package of @azure/arm-locks is using our next generation design principles since version 2.0.0, which contains breaking changes.

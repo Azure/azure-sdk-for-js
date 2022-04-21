@@ -9,8 +9,8 @@ trigger:
   paths:
     include:
       - sdk/dns/ci.mgmt.yml
-      - sdk/dns/arm-dns/
       - sdk/dns/arm-dns-profile-2020-09-01-hybrid
+      - sdk/dns/arm-dns
 pr:
   branches:
     include:
@@ -23,8 +23,8 @@ pr:
   paths:
     include:
       - sdk/dns/ci.mgmt.yml
-      - sdk/dns/arm-dns/
       - sdk/dns/arm-dns-profile-2020-09-01-hybrid
+      - sdk/dns/arm-dns
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

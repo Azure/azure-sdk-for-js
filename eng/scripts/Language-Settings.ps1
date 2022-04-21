@@ -437,26 +437,40 @@ function GetExistingPackageVersions ($PackageName, $GroupId = $null) {
   }
 }
 
-function Validate-javascript-DocMsPackages ($PackageInfo, $DocRepoLocation, $DocValidationImageId) { 
-  $fileLocation = ""
-  if ($PackageInfo.DevVersion -or $PackageInfo.Version -contains "beta") {
-    $fileLocation = (Join-Path $DocRepoLocation 'ci-configs/packages-preview.json')
-    if ($PackageInfo.DevVersion) {
-      $PackageInfo.Version = $PackageInfo.DevVersion
-    }
-  }
-  else {
-    $fileLocation = (Join-Path $DocRepoLocation 'ci-configs/packages-latest.json')
+function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRepoLocation, $DocValidationImageId) { 
+  if (!$PackageInfos) {
+    $PackageInfos = @($PackageInfo)
   }
 
-  $packageConfig = Get-Content $fileLocation -Raw | ConvertFrom-Json
-  $outputPackage = $PackageInfo
-  foreach ($package in $packageConfig.npm_package_sources) {
-    if ($package.name -eq $PackageInfo.Name) {
-      $outputPackage = $package
-      $outputPackage.name = Get-DocsMsPackageName $package.name $PackageInfo.Version
-      break
+  $outputPackages = @()
+
+  foreach ($packageInfo in $PackageInfos)
+  {
+    $fileLocation = ""
+    if ($packageInfo.DevVersion -or $packageInfo.Version -contains "beta") {
+      $fileLocation = (Join-Path $DocRepoLocation 'ci-configs/packages-preview.json')
+      if ($packageInfo.DevVersion) {
+        $package.Version = $package.DevVersion
+      }
     }
+    else {
+      $fileLocation = (Join-Path $DocRepoLocation 'ci-configs/packages-latest.json')
+    }
+
+    $packageConfig = Get-Content $fileLocation -Raw | ConvertFrom-Json
+    
+    $outputPackage = $packageInfo
+    
+    foreach ($package in $packageConfig.npm_package_sources) {
+      if ($package.name -eq $packageInfo.Name) {
+        $outputPackage = $package
+        $outputPackage.name = Get-DocsMsPackageName $package.name $packageInfo.Version
+        break
+      }
+    }
+
+    $outputPackages += $outputPackage
   }
-  ValidatePackagesForDocs -packages $outputPackage -DocValidationImageId $DocValidationImageId
+
+  ValidatePackagesForDocs -packages $outputPackages -DocValidationImageId $DocValidationImageId
 }
