@@ -153,7 +153,7 @@ async function main() {
 
   // On page load, developers can retrieve the state of the previous authentication.
   const pageLoadResult = await credential.onPageLoad();
-  if (pageLoadResult) {
+  if (pageLoadResult.state) {
     state = JSON.parse(pageLoadResult.state);
   }
 

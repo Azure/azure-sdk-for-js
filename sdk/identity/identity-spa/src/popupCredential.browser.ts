@@ -48,7 +48,6 @@ export class PopupCredential implements TokenCredential {
 
     const msalOptions: MsalBrowserFlowOptions = {
       ...options,
-      disableAutomaticAuthentication: true,
       logger,
       loginStyle: "popup",
       redirectUri:
@@ -67,13 +66,17 @@ export class PopupCredential implements TokenCredential {
    *                TokenCredential implementation might make.
    */
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
-    return tracingClient.withSpan(`${this.constructor.name}.getToken`, options, async (newOptions) => {
-      const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
-      return this.msalFlow.getToken(arrayScopes, {
-        ...newOptions,
-        disableAutomaticAuthentication: true,
-      });
-    });
+    return tracingClient.withSpan(
+      `${this.constructor.name}.getToken`,
+      options,
+      async (newOptions) => {
+        const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
+        return this.msalFlow.getToken(arrayScopes, {
+          ...newOptions,
+          disableAutomaticAuthentication: true,
+        });
+      }
+    );
   }
 
   /**
@@ -90,11 +93,15 @@ export class PopupCredential implements TokenCredential {
     scopes: string | string[],
     options: GetTokenOptions = {}
   ): Promise<AuthenticationRecord | undefined> {
-    return tracingClient.withSpan(`${this.constructor.name}.authenticate`, options, async (newOptions) => {
-      const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
-      await this.msalFlow.getToken(arrayScopes, newOptions);
-      return this.msalFlow.getActiveAccount();
-    });
+    return tracingClient.withSpan(
+      `${this.constructor.name}.authenticate`,
+      options,
+      async (newOptions) => {
+        const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
+        await this.msalFlow.getToken(arrayScopes, newOptions);
+        return this.msalFlow.getActiveAccount();
+      }
+    );
   }
 
   /**
