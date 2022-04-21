@@ -68,7 +68,7 @@ describe("DirectoryClient", () => {
 
       const result = await dirClient.getProperties();
       assert.deepEqual(result.metadata, metadata);
-    } catch (err) {
+    } catch (err: any) {
       console.log(err);
     }
   });
@@ -676,7 +676,7 @@ describe("DirectoryClient", () => {
       assert.fail(
         "Expecting an error in getting properties from a deleted block blob but didn't get one."
       );
-    } catch (error) {
+    } catch (error: any) {
       assert.ok((error.statusCode as number) === 404);
     }
   });
@@ -696,7 +696,7 @@ describe("DirectoryClient", () => {
       assert.fail(
         "Expecting an error in getting properties from a deleted block blob but didn't get one."
       );
-    } catch (error) {
+    } catch (error: any) {
       assert.ok((error.statusCode as number) === 404);
     }
     await subDirClient.delete();
@@ -729,7 +729,7 @@ describe("DirectoryClient", () => {
       assert.fail(
         "Expecting an error in getting properties from a deleted block blob but didn't get one."
       );
-    } catch (error) {
+    } catch (error: any) {
       assert.ok((error.statusCode as number) === 404);
       assert.equal(
         error.details.errorCode,
@@ -908,7 +908,7 @@ describe("DirectoryClient", () => {
     try {
       await dirClient.getProperties();
       assert.fail("Source directory should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
     }
   });
@@ -935,7 +935,7 @@ describe("DirectoryClient", () => {
     try {
       await dirClient.getProperties();
       assert.fail("Source directory should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
     }
   });
@@ -968,7 +968,7 @@ describe("DirectoryClient", () => {
     try {
       await sourceDir.getProperties();
       assert.fail("Source directory should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
     }
   });
@@ -991,7 +991,7 @@ describe("DirectoryClient", () => {
     try {
       await dirClient.getProperties();
       assert.fail("Source directory should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
     }
   });
@@ -1003,7 +1003,7 @@ describe("DirectoryClient", () => {
     try {
       await dirClient.rename(destDirName);
       assert.fail("Should got conflict error when trying to overwrite an exiting file");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok(
         (err.statusCode as number) === 409,
         "Should got conflict error when trying to overwrite an exiting file"
@@ -1033,7 +1033,7 @@ describe("DirectoryClient", () => {
     try {
       await dirClient.getProperties();
       assert.fail("Source directory should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
     }
   });
@@ -1051,7 +1051,7 @@ describe("DirectoryClient", () => {
         replaceIfExists: true,
       });
       assert.fail("Should got conflict error when trying to overwrite an exiting file");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok(
         (err.statusCode as number) === 409,
         "Should got conflict error when trying to overwrite an exiting file"
@@ -1085,7 +1085,7 @@ describe("DirectoryClient", () => {
     try {
       await dirClient.getProperties();
       assert.fail("Source directory should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
     }
   });
@@ -1104,7 +1104,7 @@ describe("DirectoryClient", () => {
         replaceIfExists: true,
       });
       assert.fail("Should got conflict error when trying to overwrite a leased file");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok("Should got conflict error when trying to overwrite a leased file");
     }
 
@@ -1131,7 +1131,7 @@ describe("DirectoryClient", () => {
     try {
       await sourceDirClient.getProperties();
       assert.fail("Source directory should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
     }
   });
@@ -1160,7 +1160,7 @@ describe("DirectoryClient", () => {
     try {
       await sourceDirClient.getProperties();
       assert.fail("Source directory should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
     }
   });
@@ -1223,7 +1223,7 @@ describe("DirectoryClient", () => {
     try {
       await sourceDirClient.getProperties();
       assert.fail("Source directory should not exist anymore");
-    } catch (err) {
+    } catch (err: any) {
       assert.ok((err.statusCode as number) === 404, "Source directory should not exist anymore");
     }
   });

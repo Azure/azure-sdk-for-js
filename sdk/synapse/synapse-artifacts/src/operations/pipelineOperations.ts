@@ -108,7 +108,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
         getPipelinesByWorkspaceOperationSpec
       );
       return result as PipelineGetPipelinesByWorkspaceResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -146,7 +146,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as PipelineCreateOrUpdatePipelineResponse;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -237,7 +237,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
         getPipelineOperationSpec
       );
       return result as PipelineGetPipelineResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -268,7 +268,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -359,7 +359,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -453,7 +453,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
         createPipelineRunOperationSpec
       );
       return result as PipelineCreatePipelineRunResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -484,7 +484,7 @@ export class PipelineOperationsImpl implements PipelineOperations {
         getPipelinesByWorkspaceNextOperationSpec
       );
       return result as PipelineGetPipelinesByWorkspaceNextResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message

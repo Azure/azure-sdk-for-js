@@ -135,7 +135,7 @@ describe("AppConfigurationClient", () => {
       try {
         await client.addConfigurationSetting({ key, label, value });
         throw new Error("Test failure");
-      } catch (err) {
+      } catch (err: any) {
         assert.notEqual((err as { message: string }).message, "Test failure");
       }
 
@@ -188,7 +188,7 @@ describe("AppConfigurationClient", () => {
       try {
         await client.getConfigurationSetting({ key, label });
         throw new Error("Test failure");
-      } catch (err) {
+      } catch (err: any) {
         assert.notEqual((err as { message: string }).message, "Test failure");
       }
     });
@@ -226,7 +226,7 @@ describe("AppConfigurationClient", () => {
       try {
         await client.getConfigurationSetting({ key, label });
         throw new Error("Test failure");
-      } catch (err) {
+      } catch (err: any) {
         assert.notEqual((err as { message: string }).message, "Test failure");
       }
     });
@@ -393,7 +393,7 @@ describe("AppConfigurationClient", () => {
       try {
         await client.getConfigurationSetting({ key, label });
         throw new Error("Test failure");
-      } catch (err) {
+      } catch (err: any) {
         assert.notEqual((err as { message: string }).message, "Test failure");
       }
     });
@@ -542,7 +542,7 @@ describe("AppConfigurationClient", () => {
     after(async () => {
       try {
         await deleteKeyCompletely([keys.listConfigSettingA, keys.listConfigSettingB], client);
-      } catch (e) {
+      } catch (e: any) {
         /** empty */
       }
     });

@@ -112,7 +112,7 @@ describe("Highlevel Node.js only", () => {
         rangeSize: 4 * 1024 * 1024,
       });
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
     }
   });
@@ -128,7 +128,7 @@ describe("Highlevel Node.js only", () => {
         rangeSize: 4 * 1024 * 1024,
       });
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
     }
   });
@@ -149,7 +149,7 @@ describe("Highlevel Node.js only", () => {
         },
         rangeSize: 4 * 1024 * 1024,
       });
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
     assert.ok(eventTriggered);
@@ -171,7 +171,7 @@ describe("Highlevel Node.js only", () => {
         },
         rangeSize: 4 * 1024 * 1024,
       });
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
     assert.ok(eventTriggered);
@@ -204,7 +204,7 @@ describe("Highlevel Node.js only", () => {
         abortSignal: aborter,
       });
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
     }
   });
@@ -286,7 +286,7 @@ describe("Highlevel Node.js only", () => {
       // casting to "any" is required since @types/node@8 doesn't have `constants` though it is present on the `buffer`,
       // "as any" can be removed once we move from @types/node v8 to v10
       await fileClient.downloadToBuffer(undefined, (buffer as any).constants.MAX_LENGTH + 1);
-    } catch (err) {
+    } catch (err: any) {
       error = err;
     }
     assert.ok(
@@ -349,7 +349,7 @@ describe("Highlevel Node.js only", () => {
         rangeSize: 4 * 1024 * 1024,
       });
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
     }
   }).timeout(timeoutForLargeFileUploadingTest);
@@ -372,7 +372,7 @@ describe("Highlevel Node.js only", () => {
         },
         rangeSize: 1 * 1024,
       });
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
     assert.ok(eventTriggered);
@@ -496,7 +496,7 @@ describe("Highlevel Node.js only", () => {
       });
       retriableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
       await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
-    } catch (error) {
+    } catch (error: any) {
       expectedError = true;
     }
 
@@ -533,7 +533,7 @@ describe("Highlevel Node.js only", () => {
       });
       retriableReadableStreamOptions = (downloadResponse.readableStreamBody! as any).options;
       await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(error.name, "AbortError", "Unexpected error caught: " + error);
     }
 

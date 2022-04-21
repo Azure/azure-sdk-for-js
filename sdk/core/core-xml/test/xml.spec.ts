@@ -11,7 +11,7 @@ describe("XML serializer", function () {
         // @ts-expect-error - intentional error for test
         await parseXML(undefined);
         assert.fail("Expected error");
-      } catch (error) {
+      } catch (error: any) {
         assert.ok(
           error.message.indexOf("Document is empty") !== -1 || // Chrome
             (error.message.startsWith("XML Parsing Error: syntax error") &&
@@ -26,7 +26,7 @@ describe("XML serializer", function () {
         // @ts-expect-error - intentional error for test
         await parseXML(null);
         assert.fail("Expected error");
-      } catch (error) {
+      } catch (error: any) {
         assert.ok(
           error.message.indexOf("Document is empty") !== -1 || // Chrome
             (error.message.startsWith("XML Parsing Error: syntax error") &&
@@ -40,7 +40,7 @@ describe("XML serializer", function () {
       try {
         await parseXML("");
         assert.fail("Expected error");
-      } catch (error) {
+      } catch (error: any) {
         // ignored
       }
     });
@@ -49,7 +49,7 @@ describe("XML serializer", function () {
       try {
         await parseXML("");
         assert.fail("Hello World!");
-      } catch (error) {
+      } catch (error: any) {
         // ignored
       }
     });
@@ -323,7 +323,7 @@ describe("XML serializer", function () {
       try {
         await parseXML("INVALID", { includeRoot: true });
         throw new Error("did not throw");
-      } catch (err) {
+      } catch (err: any) {
         if (err.message === "did not throw") {
           throw err;
         }
@@ -553,7 +553,7 @@ describe("XML serializer", function () {
     try {
       await parseXML("INVALID");
       throw new Error("did not throw");
-    } catch (err) {
+    } catch (err: any) {
       if (err.message === "did not throw") {
         throw err;
       }

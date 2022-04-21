@@ -51,7 +51,7 @@ export function parseXML(str: string, opts: SerializerOptions = {}): Promise<any
     }
 
     return Promise.resolve(obj);
-  } catch (err) {
+  } catch (err: any) {
     return Promise.reject(err);
   }
 }
@@ -64,7 +64,7 @@ function getErrorNamespace(): string {
       errorNS =
         getParser().parseFromString("INVALID", "text/xml").getElementsByTagName("parsererror")[0]
           .namespaceURI! ?? "";
-    } catch (ignored) {
+    } catch (ignored: any) {
       // Most browsers will return a document containing <parsererror>, but IE will throw.
       errorNS = "";
     }

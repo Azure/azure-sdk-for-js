@@ -241,7 +241,7 @@ describe("sendRequest", () => {
 
     try {
       await sendRequest("GET", mockBaseUrl, mockPipeline);
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(error.code, RestError.PARSE_ERROR);
     }
   });

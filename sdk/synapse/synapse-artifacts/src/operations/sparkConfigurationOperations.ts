@@ -109,7 +109,7 @@ export class SparkConfigurationOperationsImpl
         getSparkConfigurationsByWorkspaceOperationSpec
       );
       return result as SparkConfigurationGetSparkConfigurationsByWorkspaceResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -149,7 +149,7 @@ export class SparkConfigurationOperationsImpl
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as SparkConfigurationCreateOrUpdateSparkConfigurationResponse;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -243,7 +243,7 @@ export class SparkConfigurationOperationsImpl
         getSparkConfigurationOperationSpec
       );
       return result as SparkConfigurationGetSparkConfigurationResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -274,7 +274,7 @@ export class SparkConfigurationOperationsImpl
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -368,7 +368,7 @@ export class SparkConfigurationOperationsImpl
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -463,7 +463,7 @@ export class SparkConfigurationOperationsImpl
         getSparkConfigurationsByWorkspaceNextOperationSpec
       );
       return result as SparkConfigurationGetSparkConfigurationsByWorkspaceNextResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message

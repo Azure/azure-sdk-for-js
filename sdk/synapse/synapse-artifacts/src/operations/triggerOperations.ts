@@ -112,7 +112,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
         getTriggersByWorkspaceOperationSpec
       );
       return result as TriggerGetTriggersByWorkspaceResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -150,7 +150,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as TriggerCreateOrUpdateTriggerResponse;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -241,7 +241,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
         getTriggerOperationSpec
       );
       return result as TriggerGetTriggerResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -272,7 +272,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -366,7 +366,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as TriggerSubscribeTriggerToEventsResponse;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -457,7 +457,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
         getEventSubscriptionStatusOperationSpec
       );
       return result as TriggerGetEventSubscriptionStatusResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -493,7 +493,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as TriggerUnsubscribeTriggerFromEventsResponse;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -585,7 +585,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -674,7 +674,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -762,7 +762,7 @@ export class TriggerOperationsImpl implements TriggerOperations {
         getTriggersByWorkspaceNextOperationSpec
       );
       return result as TriggerGetTriggersByWorkspaceNextResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message

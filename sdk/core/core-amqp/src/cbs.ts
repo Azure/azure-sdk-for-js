@@ -153,7 +153,7 @@ export class CbsClient {
           this._cbsSenderReceiverLink!.receiver.name
         );
       }
-    } catch (err) {
+    } catch (err: any) {
       const translatedError = translate(err);
       logger.warning(
         "[%s] An error occurred while establishing the cbs links: %s",
@@ -234,7 +234,7 @@ export class CbsClient {
       });
       logger.verbose("[%s] The CBS response is: %O", this.connection.id, responseMessage);
       return this._fromRheaMessageResponse(responseMessage);
-    } catch (err) {
+    } catch (err: any) {
       logger.warning(
         "[%s] An error occurred while negotiating the cbs claim: %s",
         this.connection.id,
@@ -258,7 +258,7 @@ export class CbsClient {
         await cbsLink!.close();
         logger.verbose("[%s] Successfully closed the cbs session.", this.connection.id);
       }
-    } catch (err) {
+    } catch (err: any) {
       const msg = `An error occurred while closing the cbs link: ${
         err.stack || JSON.stringify(err)
       }.`;
@@ -279,7 +279,7 @@ export class CbsClient {
         cbsLink!.remove();
         logger.verbose("[%s] Successfully removed the cbs session.", this.connection.id);
       }
-    } catch (err) {
+    } catch (err: any) {
       const msg = `An error occurred while removing the cbs link: ${
         err.stack || JSON.stringify(err)
       }.`;

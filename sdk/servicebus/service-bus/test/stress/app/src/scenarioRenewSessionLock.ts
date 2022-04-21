@@ -101,7 +101,7 @@ export async function scenarioRenewSessionLock() {
             receiveMode,
             maxAutoLockRenewalDurationInMs: !autoLockRenewal ? 0 : testDurationInMs - elapsedTime,
           });
-        } catch (error) {
+        } catch (error: any) {
           console.log(error);
         }
         if (receiver) {

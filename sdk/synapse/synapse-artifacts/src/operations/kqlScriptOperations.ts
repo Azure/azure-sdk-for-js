@@ -65,7 +65,7 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as KqlScriptCreateOrUpdateResponse;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -156,7 +156,7 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
         getByNameOperationSpec
       );
       return result as KqlScriptGetByNameResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -187,7 +187,7 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -275,7 +275,7 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message

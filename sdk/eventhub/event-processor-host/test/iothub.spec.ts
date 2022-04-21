@@ -60,7 +60,7 @@ describe("EPH with iothub connection string", function(): void {
         await host.start(onMessage, onError);
         await delay(15000);
         await host.stop();
-      } catch (err) {
+      } catch (err: any) {
         throw err;
       }
     };

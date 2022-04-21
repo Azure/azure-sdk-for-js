@@ -61,7 +61,7 @@ export class VectorSessionToken {
       let localLsn: string;
       try {
         localLsn = localLsnStr;
-      } catch (err) {
+      } catch (err: any) {
         // TODO: log error
         return null;
       }

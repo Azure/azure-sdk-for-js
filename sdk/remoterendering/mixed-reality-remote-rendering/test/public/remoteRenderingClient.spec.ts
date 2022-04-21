@@ -209,7 +209,7 @@ describe("RemoteRendering functional tests", () => {
     let didThrowExpected: boolean = false;
     try {
       await client.beginConversion(conversionId, conversionSettings, pollerSettings);
-    } catch (e) {
+    } catch (e: any) {
       assert(e instanceof RestError);
       if (e instanceof RestError) {
         assert.isTrue(e.message.toLowerCase().includes("storage"));
@@ -337,7 +337,7 @@ describe("RemoteRendering functional tests", () => {
     let didThrowExpected: boolean = false;
     try {
       await client.beginSession(sessionId, sessionSettings, pollerSettings);
-    } catch (e) {
+    } catch (e: any) {
       assert(e instanceof RestError);
       if (e instanceof RestError) {
         // The maxLeaseTimeMinutes value cannot be negative

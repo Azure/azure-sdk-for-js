@@ -202,7 +202,7 @@ export class AvroSerializer<MessageT = MessageContent> {
     } else {
       try {
         id = (await this.registry.getSchemaProperties(description)).id;
-      } catch (e) {
+      } catch (e: any) {
         if (e.statusCode === 404) {
           throw new AvroError(
             `Schema '${description.name}' not found in registry group '${description.groupName}', or not found to have matching definition.`
@@ -324,7 +324,7 @@ function wrapError<T>(
   let result: T;
   try {
     result = f();
-  } catch (innerError) {
+  } catch (innerError: any) {
     const { schemaId } = options;
     throw new AvroError(message, {
       innerError,
