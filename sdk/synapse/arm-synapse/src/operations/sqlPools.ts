@@ -225,13 +225,11 @@ export class SqlPoolsImpl implements SqlPools {
       { resourceGroupName, workspaceName, sqlPoolName, sqlPoolInfo, options },
       createOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -321,13 +319,11 @@ export class SqlPoolsImpl implements SqlPools {
       { resourceGroupName, workspaceName, sqlPoolName, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -428,13 +424,11 @@ export class SqlPoolsImpl implements SqlPools {
       { resourceGroupName, workspaceName, sqlPoolName, options },
       pauseOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -521,13 +515,11 @@ export class SqlPoolsImpl implements SqlPools {
       { resourceGroupName, workspaceName, sqlPoolName, options },
       resumeOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**

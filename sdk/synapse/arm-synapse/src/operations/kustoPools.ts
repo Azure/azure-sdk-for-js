@@ -430,12 +430,10 @@ export class KustoPoolsImpl implements KustoPools {
       { workspaceName, resourceGroupName, kustoPoolName, parameters, options },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -527,12 +525,10 @@ export class KustoPoolsImpl implements KustoPools {
       { workspaceName, resourceGroupName, kustoPoolName, parameters, options },
       updateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -617,12 +613,10 @@ export class KustoPoolsImpl implements KustoPools {
       { workspaceName, resourceGroupName, kustoPoolName, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -704,12 +698,10 @@ export class KustoPoolsImpl implements KustoPools {
       { workspaceName, kustoPoolName, resourceGroupName, options },
       stopOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -791,12 +783,10 @@ export class KustoPoolsImpl implements KustoPools {
       { workspaceName, kustoPoolName, resourceGroupName, options },
       startOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -924,12 +914,10 @@ export class KustoPoolsImpl implements KustoPools {
       },
       addLanguageExtensionsOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -1022,12 +1010,10 @@ export class KustoPoolsImpl implements KustoPools {
       },
       removeLanguageExtensionsOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -1140,12 +1126,10 @@ export class KustoPoolsImpl implements KustoPools {
       },
       detachFollowerDatabasesOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
