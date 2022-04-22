@@ -220,13 +220,11 @@ export class ApiManagementServiceImpl implements ApiManagementService {
       { resourceGroupName, serviceName, parameters, options },
       restoreOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -316,13 +314,11 @@ export class ApiManagementServiceImpl implements ApiManagementService {
       { resourceGroupName, serviceName, parameters, options },
       backupOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -411,12 +407,10 @@ export class ApiManagementServiceImpl implements ApiManagementService {
       { resourceGroupName, serviceName, parameters, options },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -504,12 +498,10 @@ export class ApiManagementServiceImpl implements ApiManagementService {
       { resourceGroupName, serviceName, parameters, options },
       updateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -606,12 +598,10 @@ export class ApiManagementServiceImpl implements ApiManagementService {
       { resourceGroupName, serviceName, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -766,13 +756,11 @@ export class ApiManagementServiceImpl implements ApiManagementService {
       { resourceGroupName, serviceName, options },
       applyNetworkConfigurationUpdatesOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**

@@ -9,113 +9,96 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
-  SchemaContract,
-  ApiSchemaListByApiOptionalParams,
-  ApiSchemaGetEntityTagOptionalParams,
-  ApiSchemaGetEntityTagResponse,
-  ApiSchemaGetOptionalParams,
-  ApiSchemaGetResponse,
-  ApiSchemaCreateOrUpdateOptionalParams,
-  ApiSchemaCreateOrUpdateResponse,
-  ApiSchemaDeleteOptionalParams
+  GlobalSchemaContract,
+  GlobalSchemaListByServiceOptionalParams,
+  GlobalSchemaGetEntityTagOptionalParams,
+  GlobalSchemaGetEntityTagResponse,
+  GlobalSchemaGetOptionalParams,
+  GlobalSchemaGetResponse,
+  GlobalSchemaCreateOrUpdateOptionalParams,
+  GlobalSchemaCreateOrUpdateResponse,
+  GlobalSchemaDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a ApiSchema. */
-export interface ApiSchema {
+/** Interface representing a GlobalSchema. */
+export interface GlobalSchema {
   /**
-   * Get the schema configuration at the API level.
+   * Lists a collection of schemas registered with service instance.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
-   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
    * @param options The options parameters.
    */
-  listByApi(
+  listByService(
     resourceGroupName: string,
     serviceName: string,
-    apiId: string,
-    options?: ApiSchemaListByApiOptionalParams
-  ): PagedAsyncIterableIterator<SchemaContract>;
+    options?: GlobalSchemaListByServiceOptionalParams
+  ): PagedAsyncIterableIterator<GlobalSchemaContract>;
   /**
-   * Gets the entity state (Etag) version of the schema specified by its identifier.
+   * Gets the entity state (Etag) version of the Schema specified by its identifier.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
-   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
    * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
    */
   getEntityTag(
     resourceGroupName: string,
     serviceName: string,
-    apiId: string,
     schemaId: string,
-    options?: ApiSchemaGetEntityTagOptionalParams
-  ): Promise<ApiSchemaGetEntityTagResponse>;
+    options?: GlobalSchemaGetEntityTagOptionalParams
+  ): Promise<GlobalSchemaGetEntityTagResponse>;
   /**
-   * Get the schema configuration at the API level.
+   * Gets the details of the Schema specified by its identifier.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
-   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
    * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     serviceName: string,
-    apiId: string,
     schemaId: string,
-    options?: ApiSchemaGetOptionalParams
-  ): Promise<ApiSchemaGetResponse>;
+    options?: GlobalSchemaGetOptionalParams
+  ): Promise<GlobalSchemaGetResponse>;
   /**
-   * Creates or updates schema configuration for the API.
+   * Creates new or updates existing specified Schema of the API Management service instance.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
-   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
    * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
-   * @param parameters The schema contents to apply.
+   * @param parameters Create or update parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     serviceName: string,
-    apiId: string,
     schemaId: string,
-    parameters: SchemaContract,
-    options?: ApiSchemaCreateOrUpdateOptionalParams
+    parameters: GlobalSchemaContract,
+    options?: GlobalSchemaCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<ApiSchemaCreateOrUpdateResponse>,
-      ApiSchemaCreateOrUpdateResponse
+      PollOperationState<GlobalSchemaCreateOrUpdateResponse>,
+      GlobalSchemaCreateOrUpdateResponse
     >
   >;
   /**
-   * Creates or updates schema configuration for the API.
+   * Creates new or updates existing specified Schema of the API Management service instance.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
-   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
    * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
-   * @param parameters The schema contents to apply.
+   * @param parameters Create or update parameters.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     serviceName: string,
-    apiId: string,
     schemaId: string,
-    parameters: SchemaContract,
-    options?: ApiSchemaCreateOrUpdateOptionalParams
-  ): Promise<ApiSchemaCreateOrUpdateResponse>;
+    parameters: GlobalSchemaContract,
+    options?: GlobalSchemaCreateOrUpdateOptionalParams
+  ): Promise<GlobalSchemaCreateOrUpdateResponse>;
   /**
-   * Deletes the schema configuration at the Api.
+   * Deletes specific Schema.
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param apiId API revision identifier. Must be unique in the current API Management service instance.
-   *              Non-current revision has ;rev=n as a suffix where n is the revision number.
    * @param schemaId Schema id identifier. Must be unique in the current API Management service instance.
    * @param ifMatch ETag of the Entity. ETag should match the current entity state from the header
    *                response of the GET request or it should be * for unconditional update.
@@ -124,9 +107,8 @@ export interface ApiSchema {
   delete(
     resourceGroupName: string,
     serviceName: string,
-    apiId: string,
     schemaId: string,
     ifMatch: string,
-    options?: ApiSchemaDeleteOptionalParams
+    options?: GlobalSchemaDeleteOptionalParams
   ): Promise<void>;
 }
