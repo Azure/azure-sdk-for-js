@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   createRecordedCommunicationRelayClient,
   createRecordedCommunicationRelayClientWithToken,
@@ -10,7 +11,6 @@ import { CommunicationRelayClient } from "../../src";
 import { CommunicationUserIdentifier } from "@azure/communication-common";
 import { Context } from "mocha";
 import { GetRelayConfigurationOptions } from "../../src/models";
-import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { matrix } from "@azure/test-utils";
 
@@ -127,20 +127,26 @@ matrix([[true, false]], async function (useAad: boolean) {
     }).timeout(5000);
 
     it("successfully gets a turn credential providing ttl", async function () {
-      const ttl = 4000;
-      const options: GetRelayConfigurationOptions = { ttl: ttl };
-
       const requestedTime = new Date();
+      const ttl = 4000;
+
+      // Token should expire a few milliseconds earlier than the given 1000 ms margin
+      const expectedExpirationTime = new Date();
+      expectedExpirationTime.setSeconds(expectedExpirationTime.getSeconds() + ttl + 1000);
+
+      const options: GetRelayConfigurationOptions = { ttl: ttl };
       const turnCredentialResponse = await relayClient.getRelayConfiguration(options);
       const turnTokenExpiresOn = turnCredentialResponse.expiresOn;
 
-      // Token should expire a few milliseconds earlier
-      const expectedExpirationTime = requestedTime;
-      expectedExpirationTime.setSeconds(expectedExpirationTime.getSeconds() + ttl);
-
       assert.isNotNull(turnCredentialResponse);
       assert.isNotNull(turnTokenExpiresOn);
-      assert.isTrue(expectedExpirationTime <= turnTokenExpiresOn);
+
+      if (!isPlaybackMode()) {
+        // The token should expire between the requestedTime and the expectedExpirationTime
+        assert.isTrue(
+          requestedTime <= turnTokenExpiresOn && turnTokenExpiresOn <= expectedExpirationTime
+        );
+      }
 
       const turnServers = turnCredentialResponse.iceServers;
       // Should return both ANY and NEAREST routeType iceServers
