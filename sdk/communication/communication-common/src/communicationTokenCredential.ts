@@ -5,7 +5,10 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { AccessToken } from "@azure/core-auth";
 import { CommunicationAccessToken } from "./models";
 
-export type TokenCredential = Pick<CommunicationTokenCredential, "getToken" | "dispose" | "getCommunicationToken">;
+export type TokenCredential = Pick<
+  CommunicationTokenCredential,
+  "getToken" | "dispose" | "getCommunicationToken"
+>;
 
 /**
  * Options for `CommunicationTokenCredential`'s `getToken` function.
