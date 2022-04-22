@@ -14,7 +14,7 @@ import {
 import { AccessToken } from "@azure/core-auth";
 import { StaticTokenCredential } from "./staticTokenCredential";
 import { parseToken } from "./tokenParser";
-import { CommunicationAccessToken } from "./models";
+import { CommunicationToken } from "./models";
 import { createIdentifierFromRawId } from "./identifierModels";
 
 /**
@@ -58,7 +58,7 @@ export class AzureCommunicationTokenCredential implements CommunicationTokenCred
    */
   public async getCommunicationToken(
     options?: CommunicationGetTokenOptions
-  ): Promise<CommunicationAccessToken> {
+  ): Promise<CommunicationToken> {
     this.throwIfDisposed();
     const token = await this.tokenCredential.getCommunicationToken(options);
     this.throwIfDisposed();

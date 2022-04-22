@@ -3,13 +3,13 @@
 
 import { AccessToken } from "@azure/core-auth";
 import { TokenCredential } from "./communicationTokenCredential";
-import { CommunicationAccessToken } from "./models";
+import { CommunicationToken } from "./models";
 
 /**
  * StaticTokenCredential
  */
 export class StaticTokenCredential implements TokenCredential {
-  constructor(private readonly token: CommunicationAccessToken) {}
+  constructor(private readonly token: CommunicationToken) {}
 
   public async getToken(): Promise<AccessToken> {
     const communicationToken = await this.getCommunicationToken();
@@ -19,7 +19,7 @@ export class StaticTokenCredential implements TokenCredential {
     };
   }
 
-  public async getCommunicationToken(): Promise<CommunicationAccessToken> {
+  public async getCommunicationToken(): Promise<CommunicationToken> {
     return this.token;
   }
 

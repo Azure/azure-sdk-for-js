@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CommunicationIdentifier, CommunicationUserIdentifier } from "./identifierModels";
+import { CommunicationIdentifier } from "./identifierModels";
 
 /**
  * The access token for a user.
  */
-export interface CommunicationAccessToken {
+export interface CommunicationToken {
   /**
    * The access token issued for the user.
    */
@@ -21,12 +21,6 @@ export interface CommunicationAccessToken {
    * Stable Communication resource identifier.
    */
   resourceId?: string;
-
-  /**
-   * @deprecated Please use getRawIdForIdentifier(CommunicationAccessToken.identity: CommunicationIdentifier) instead.
-   * Communication user identifier.
-   */
-  user?: CommunicationUserIdentifier;
 
   /**
    * Communication user identifier.

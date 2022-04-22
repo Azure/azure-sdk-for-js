@@ -5,7 +5,7 @@ import { CommunicationGetTokenOptions, TokenCredential } from "./communicationTo
 import { AbortSignalLike } from "@azure/abort-controller";
 import { AccessToken } from "@azure/core-auth";
 import { parseToken } from "./tokenParser";
-import { CommunicationAccessToken } from "./models";
+import { CommunicationToken } from "./models";
 import { createIdentifierFromRawId } from "./identifierModels";
 
 /**
@@ -38,12 +38,12 @@ export interface TeamsTokenRefreshOptions {
    * Callback function that returns a string Communication access token acquired from the Communication Identity API.
    * The returned token must be valid (expiration date must be in the future).
    */
-  tokenRefresher: (abortSignal?: AbortSignalLike) => Promise<CommunicationAccessToken>;
+  tokenRefresher: (abortSignal?: AbortSignalLike) => Promise<CommunicationToken>;
 
   /**
    * Optional token to initialize.
    */
-  token?: CommunicationAccessToken;
+  token?: CommunicationToken;
 
   /**
    * Indicates whether the token should be proactively renewed prior to expiry or only renew on demand.
@@ -52,7 +52,7 @@ export interface TeamsTokenRefreshOptions {
   refreshProactively?: boolean;
 }
 
-const expiredToken: CommunicationAccessToken = {
+const expiredToken: CommunicationToken = {
   token: "",
   expiresOn: new Date(-10),
   identity: { id: "" },
@@ -62,14 +62,14 @@ const defaultExpiringSoonInterval = minutesToMs(10);
 const defaultRefreshAfterLifetimePercentage = 0.5;
 
 export class AutoRefreshTokenCredential implements TokenCredential {
-  private readonly refresh: (abortSignal?: AbortSignalLike) => Promise<CommunicationAccessToken>;
+  private readonly refresh: (abortSignal?: AbortSignalLike) => Promise<CommunicationToken>;
   private readonly refreshProactively: boolean;
   private readonly expiringSoonIntervalInMs: number = defaultExpiringSoonInterval;
   private readonly refreshAfterLifetimePercentage = defaultRefreshAfterLifetimePercentage;
 
-  private currentToken: CommunicationAccessToken;
+  private currentToken: CommunicationToken;
   private activeTimeout: ReturnType<typeof setTimeout> | undefined;
-  private activeTokenFetching: Promise<CommunicationAccessToken> | null = null;
+  private activeTokenFetching: Promise<CommunicationToken> | null = null;
   private activeTokenUpdating: Promise<void> | null = null;
   private disposed = false;
 
@@ -89,7 +89,7 @@ export class AutoRefreshTokenCredential implements TokenCredential {
             }
           : expiredToken;
 
-      this.refresh = async (abortSignal?: AbortSignalLike): Promise<CommunicationAccessToken> => {
+      this.refresh = async (abortSignal?: AbortSignalLike): Promise<CommunicationToken> => {
         const response = await cra.tokenRefresher(abortSignal);
         const { token, expiresOnTimestamp, rawId } = parseToken(response);
         return {
@@ -112,7 +112,7 @@ export class AutoRefreshTokenCredential implements TokenCredential {
 
   public async getCommunicationToken(
     options?: CommunicationGetTokenOptions
-  ): Promise<CommunicationAccessToken> {
+  ): Promise<CommunicationToken> {
     if (!this.isTokenExpiringSoon(this.currentToken)) {
       return this.currentToken;
     }
@@ -168,7 +168,7 @@ export class AutoRefreshTokenCredential implements TokenCredential {
     }
   }
 
-  private async refreshToken(abortSignal?: AbortSignalLike): Promise<CommunicationAccessToken> {
+  private async refreshToken(abortSignal?: AbortSignalLike): Promise<CommunicationToken> {
     try {
       if (!this.activeTokenFetching) {
         this.activeTokenFetching = this.refresh(abortSignal);
@@ -200,11 +200,11 @@ export class AutoRefreshTokenCredential implements TokenCredential {
     this.activeTimeout = setTimeout(() => this.updateTokenAndReschedule(), timespanInMs);
   }
 
-  private isTokenValid(token: CommunicationAccessToken): boolean {
+  private isTokenValid(token: CommunicationToken): boolean {
     return token && Date.now() < token.expiresOn.getTime();
   }
 
-  private isTokenExpiringSoon(token: CommunicationAccessToken): boolean {
+  private isTokenExpiringSoon(token: CommunicationToken): boolean {
     return !token || Date.now() >= token.expiresOn.getTime() - this.expiringSoonIntervalInMs;
   }
 }

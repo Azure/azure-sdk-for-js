@@ -15,19 +15,8 @@ export class AzureCommunicationTokenCredential implements CommunicationTokenCred
     constructor(token: string);
     constructor(refreshOptions: CommunicationTokenRefreshOptions);
     dispose(): void;
-    getCommunicationToken(options?: CommunicationGetTokenOptions): Promise<CommunicationAccessToken>;
+    getCommunicationToken(options?: CommunicationGetTokenOptions): Promise<CommunicationToken>;
     getToken(options?: CommunicationGetTokenOptions): Promise<AccessToken>;
-}
-
-// @public
-export interface CommunicationAccessToken {
-    expiresOn: Date;
-    identity: CommunicationIdentifier;
-    resourceId?: string;
-    scheme?: string;
-    token: string;
-    // @deprecated (undocumented)
-    user?: CommunicationUserIdentifier;
 }
 
 // @public
@@ -42,9 +31,18 @@ export type CommunicationIdentifier = CommunicationUserIdentifier | PhoneNumberI
 export type CommunicationIdentifierKind = CommunicationUserKind | PhoneNumberKind | MicrosoftTeamsUserKind | UnknownIdentifierKind;
 
 // @public
+export interface CommunicationToken {
+    expiresOn: Date;
+    identity: CommunicationIdentifier;
+    resourceId?: string;
+    scheme?: string;
+    token: string;
+}
+
+// @public
 export interface CommunicationTokenCredential {
     dispose(): void;
-    getCommunicationToken(options?: CommunicationGetTokenOptions): Promise<CommunicationAccessToken>;
+    getCommunicationToken(options?: CommunicationGetTokenOptions): Promise<CommunicationToken>;
     getToken(options?: CommunicationGetTokenOptions): Promise<AccessToken>;
 }
 

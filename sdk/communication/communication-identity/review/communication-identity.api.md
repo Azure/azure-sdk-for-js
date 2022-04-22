@@ -5,13 +5,17 @@
 ```ts
 
 import { CommonClientOptions } from '@azure/core-client';
-import { CommunicationAccessToken } from '@azure/communication-common';
+import { CommunicationToken } from '@azure/communication-common';
 import { CommunicationUserIdentifier } from '@azure/communication-common';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
-export { CommunicationAccessToken }
+// @public
+export interface CommunicationAccessToken extends CommunicationToken {
+    expiresOn: Date;
+    token: string;
+}
 
 // @public
 export class CommunicationIdentityClient {

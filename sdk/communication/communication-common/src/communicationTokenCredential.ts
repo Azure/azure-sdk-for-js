@@ -3,7 +3,7 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { AccessToken } from "@azure/core-auth";
-import { CommunicationAccessToken } from "./models";
+import { CommunicationToken } from "./models";
 
 export type TokenCredential = Pick<
   CommunicationTokenCredential,
@@ -34,7 +34,7 @@ export interface CommunicationTokenCredential {
    * Gets a Communication access token for the user. Throws if already disposed.
    * @param options - Additional options.
    */
-  getCommunicationToken(options?: CommunicationGetTokenOptions): Promise<CommunicationAccessToken>;
+  getCommunicationToken(options?: CommunicationGetTokenOptions): Promise<CommunicationToken>;
 
   /**
    * Disposes the CommunicationTokenCredential and cancels any internal auto-refresh operation.
