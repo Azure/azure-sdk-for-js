@@ -194,13 +194,11 @@ export class ApiPortalsImpl implements ApiPortals {
       },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -287,13 +285,11 @@ export class ApiPortalsImpl implements ApiPortals {
       { resourceGroupName, serviceName, apiPortalName, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
-    await poller.poll();
-    return poller;
   }
 
   /**

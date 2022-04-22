@@ -2422,6 +2422,20 @@ export enum KnownAppResourceProvisioningState {
  */
 export type AppResourceProvisioningState = string;
 
+/** Known values of {@link Type} that the service accepts. */
+export enum KnownType {
+  AzureFileVolume = "AzureFileVolume"
+}
+
+/**
+ * Defines values for Type. \
+ * {@link KnownType} can be used interchangeably with Type,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AzureFileVolume**
+ */
+export type Type = string;
+
 /** Known values of {@link ManagedIdentityType} that the service accepts. */
 export enum KnownManagedIdentityType {
   None = "None",
@@ -2441,6 +2455,20 @@ export enum KnownManagedIdentityType {
  * **SystemAssigned,UserAssigned**
  */
 export type ManagedIdentityType = string;
+
+/** Known values of {@link StorageType} that the service accepts. */
+export enum KnownStorageType {
+  StorageAccount = "StorageAccount"
+}
+
+/**
+ * Defines values for StorageType. \
+ * {@link KnownStorageType} can be used interchangeably with StorageType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **StorageAccount**
+ */
+export type StorageType = string;
 
 /** Known values of {@link DeploymentResourceProvisioningState} that the service accepts. */
 export enum KnownDeploymentResourceProvisioningState {

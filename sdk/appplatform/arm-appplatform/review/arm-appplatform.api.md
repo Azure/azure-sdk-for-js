@@ -2170,6 +2170,12 @@ export enum KnownSkuScaleType {
 }
 
 // @public
+export enum KnownStorageType {
+    // (undocumented)
+    StorageAccount = "StorageAccount"
+}
+
+// @public
 export enum KnownSupportedRuntimePlatform {
     // (undocumented)
     Java = "Java",
@@ -2203,6 +2209,12 @@ export enum KnownTrafficDirection {
     Inbound = "Inbound",
     // (undocumented)
     Outbound = "Outbound"
+}
+
+// @public
+export enum KnownType {
+    // (undocumented)
+    AzureFileVolume = "AzureFileVolume"
 }
 
 // @public
@@ -2866,6 +2878,9 @@ export interface StoragesListOptionalParams extends coreClient.OperationOptions 
 export type StoragesListResponse = StorageResourceCollection;
 
 // @public
+export type StorageType = string;
+
+// @public
 export type SupportedBuildpackResource = ProxyResource & {
     properties?: SupportedBuildpackResourceProperties;
 };
@@ -2954,6 +2969,9 @@ export type TrafficDirection = string;
 export interface TriggeredBuildResult {
     id?: string;
 }
+
+// @public
+export type Type = string;
 
 // @public
 export type UploadedUserSourceInfo = UserSourceInfo & {

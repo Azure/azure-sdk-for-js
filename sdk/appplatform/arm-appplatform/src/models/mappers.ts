@@ -2083,9 +2083,8 @@ export const CustomPersistentDiskProperties: coreClient.CompositeMapper = {
     },
     modelProperties: {
       type: {
-        defaultValue: "AzureFileVolume",
-        isConstant: true,
         serializedName: "type",
+        required: true,
         type: {
           name: "String"
         }
@@ -2353,9 +2352,8 @@ export const StorageProperties: coreClient.CompositeMapper = {
     },
     modelProperties: {
       storageType: {
-        defaultValue: "StorageAccount",
-        isConstant: true,
         serializedName: "storageType",
+        required: true,
         type: {
           name: "String"
         }
@@ -3601,6 +3599,7 @@ export const GatewayProperties: coreClient.CompositeMapper = {
         }
       },
       public: {
+        defaultValue: false,
         serializedName: "public",
         type: {
           name: "Boolean"
@@ -3614,6 +3613,7 @@ export const GatewayProperties: coreClient.CompositeMapper = {
         }
       },
       httpsOnly: {
+        defaultValue: false,
         serializedName: "httpsOnly",
         type: {
           name: "Boolean"
@@ -4137,6 +4137,7 @@ export const ApiPortalProperties: coreClient.CompositeMapper = {
         }
       },
       public: {
+        defaultValue: false,
         serializedName: "public",
         type: {
           name: "Boolean"
@@ -4150,6 +4151,7 @@ export const ApiPortalProperties: coreClient.CompositeMapper = {
         }
       },
       httpsOnly: {
+        defaultValue: false,
         serializedName: "httpsOnly",
         type: {
           name: "Boolean"
