@@ -259,9 +259,9 @@ export class CommunicationIdentityClient {
         updatedOptions
       );
       return {
-        resourceId: "", //TODO: this will be populated from the response
-        scheme: "", //TODO: this will be populated from the response
-        identity: { microsoftTeamsUserId: "", cloud: "public" }, //TODO: this will be populated from the response
+        resourceId: "", // TODO: this will be populated from the response
+        scheme: "", // TODO: this will be populated from the response
+        identity: { microsoftTeamsUserId: "", cloud: "public" }, // TODO: this will be populated from the response
         ...token,
       };
     } catch (e: any) {

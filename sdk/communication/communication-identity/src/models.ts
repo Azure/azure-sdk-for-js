@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { CommunicationToken, CommunicationUserIdentifier } from "@azure/communication-common";
 import { CommonClientOptions } from "@azure/core-client";
-import { CommunicationUserIdentifier, CommunicationToken } from "@azure/communication-common";
 
 /**
  * Represents the scope of the token.
