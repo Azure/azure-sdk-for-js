@@ -54,4 +54,9 @@ export {
   MessageExampleSequence,
   MessageExample,
   MessageDirection,
+  ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams,
+  ShortCodesDeleteUSProgramBriefAttachmentOptionalParams,
+  ShortCodesGetUSProgramBriefAttachmentsOptionalParams,
+  ShortCodesGetUSProgramBriefAttachmentOptionalParams,
+  ProgramBriefAttachment,
 } from "./generated/src/models/";
