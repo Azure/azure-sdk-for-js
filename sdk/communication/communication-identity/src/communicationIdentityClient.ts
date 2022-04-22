@@ -238,10 +238,14 @@ export class CommunicationIdentityClient {
    * Exchanges an AAD access token of a Teams user for a new Communication Identity access token with a matching expiration time.
    *
    * @param teamsToken - AAD access token of a Teams user.
+   * @param appId - Client ID of an Azure AD application to be verified against the appId claim in the Azure AD access token.
+   * @param userId - Object ID of an Azure AD user (Teams User) to be verified against the OID claim in the Azure AD access token.
    * @param options - Additional options for the request.
    */
   public async getTokenForTeamsUser(
     teamsUserAadToken: string,
+    appId: string,
+    userId: string,
     options: OperationOptions = {}
   ): Promise<CommunicationAccessToken> {
     const { span, updatedOptions } = createSpan(
@@ -251,6 +255,8 @@ export class CommunicationIdentityClient {
     try {
       return await this.client.communicationIdentityOperations.exchangeTeamsUserAccessToken(
         teamsUserAadToken,
+        appId,
+        userId,
         updatedOptions
       );
     } catch (e: any) {

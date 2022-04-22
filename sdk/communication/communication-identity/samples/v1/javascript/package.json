@@ -25,6 +25,6 @@
   "dependencies": {
     "@azure/communication-identity": "next",
     "dotenv": "latest",
-    "@azure/identity": "^2.0.1"
+    "@azure/msal-node": "^1.3.0"
   }
 }
