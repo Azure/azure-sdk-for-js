@@ -16,7 +16,7 @@ export async function assertAvroError<T>(
   try {
     await p;
     assert.fail(`Expected promise to error, but resolved successfully`);
-  } catch (e) {
+  } catch (e: any) {
     assert.instanceOf(e, AvroError);
     const error = e as AvroError;
     if (message) {

@@ -4,7 +4,7 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { OperationOptions } from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
-import { DeletedKey, DeleteKeyOptions, GetDeletedKeyOptions } from "../../keysModels";
+import { DeleteKeyOptions, DeletedKey, GetDeletedKeyOptions } from "../../keysModels";
 import { tracingClient } from "../../tracing";
 import { getKeyFromKeyBundle } from "../../transformations";
 import { KeyVaultKeyPollOperation, KeyVaultKeyPollOperationState } from "../keyVaultKeyPoller";
@@ -82,7 +82,7 @@ export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
       try {
         state.result = await this.getDeletedKey(name, this.operationOptions);
         state.isCompleted = true;
-      } catch (error) {
+      } catch (error: any) {
         if (error.statusCode === 403) {
           // At this point, the resource exists but the user doesn't have access to it.
           state.isCompleted = true;

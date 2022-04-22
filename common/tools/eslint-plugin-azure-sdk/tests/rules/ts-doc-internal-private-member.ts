@@ -17,8 +17,8 @@ const ruleTester = new RuleTester({
   parser: require.resolve("@typescript-eslint/parser"),
   parserOptions: {
     createDefaultProgram: true,
-    project: "./tsconfig.json"
-  }
+    project: "./tsconfig.json",
+  },
 });
 
 ruleTester.run("ts-doc-internal-private-member", rule, {
@@ -61,7 +61,7 @@ ruleTester.run("ts-doc-internal-private-member", rule, {
                 private method1(): any;
 
               }`,
-      filename: "src/test.ts"
+      filename: "src/test.ts",
     },
     // all internal
     {
@@ -106,8 +106,8 @@ ruleTester.run("ts-doc-internal-private-member", rule, {
                  */
                  method1(): any;
               }`,
-      filename: "src/test.ts"
-    }
+      filename: "src/test.ts",
+    },
   ],
   invalid: [
     {
@@ -156,24 +156,24 @@ ruleTester.run("ts-doc-internal-private-member", rule, {
       filename: "src/test.ts",
       errors: [
         {
-          message: "private class members should not include an @internal tag"
+          message: "private class members should not include an @internal tag",
         },
         {
-          message: "private class members should not include an @internal tag"
+          message: "private class members should not include an @internal tag",
         },
         {
-          message: "private class members should not include an @internal tag"
+          message: "private class members should not include an @internal tag",
         },
         {
-          message: "private class members should not include an @internal tag"
+          message: "private class members should not include an @internal tag",
         },
         {
-          message: "private class members should not include an @internal tag"
+          message: "private class members should not include an @internal tag",
         },
         {
-          message: "private class members should not include an @internal tag"
-        }
-      ]
-    }
-  ]
+          message: "private class members should not include an @internal tag",
+        },
+      ],
+    },
+  ],
 });

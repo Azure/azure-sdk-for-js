@@ -20,7 +20,7 @@ export function fromBase64JsonString(base64String: string | undefined): Record<s
     const buf = Buffer.from(base64String, "base64").toString();
     const parsed = JSON.parse(buf);
     return isJsonObject(parsed) ? parsed : {};
-  } catch (e) {
+  } catch (e: any) {
     console.warn("Unexpected state format:" + e);
     return {};
   }

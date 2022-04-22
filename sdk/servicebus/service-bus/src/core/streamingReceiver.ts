@@ -260,7 +260,7 @@ export class StreamingReceiver extends MessageReceiver {
 
       try {
         await this._messageHandlers().processMessage(bMessage);
-      } catch (err) {
+      } catch (err: any) {
         logger.logError(
           err,
           "%s An error occurred while running user's message handler for the message " +
@@ -298,7 +298,7 @@ export class StreamingReceiver extends MessageReceiver {
               undefined,
               this._retryOptions
             );
-          } catch (abandonError) {
+          } catch (abandonError: any) {
             const translatedError = translateServiceBusError(abandonError);
             logger.logError(
               translatedError,
@@ -320,7 +320,7 @@ export class StreamingReceiver extends MessageReceiver {
       } finally {
         try {
           this._receiverHelper.addCredit(1);
-        } catch (err) {
+        } catch (err: any) {
           // if we're aborting out of the receive operation we don't need to report it (the user already
           // knows the link is being torn down or stopped)
           if (err.name !== "AbortError") {
@@ -347,7 +347,7 @@ export class StreamingReceiver extends MessageReceiver {
             bMessage.messageId
           );
           await completeMessage(bMessage, this._context, entityPath, this._retryOptions);
-        } catch (completeError) {
+        } catch (completeError: any) {
           const translatedError = translateServiceBusError(completeError);
           logger.logError(
             translatedError,
@@ -444,7 +444,7 @@ export class StreamingReceiver extends MessageReceiver {
     try {
       this._receiverHelper.resume();
       return await this._subscribeImpl("subscribe");
-    } catch (err) {
+    } catch (err: any) {
       // callers aren't going to be in a good position to forward this error properly
       // so we do it here.
       await this._messageHandlers().processError({
@@ -477,7 +477,7 @@ export class StreamingReceiver extends MessageReceiver {
         try {
           args.error = translateServiceBusError(args.error);
           await userHandlers.processError(args);
-        } catch (err) {
+        } catch (err: any) {
           await this._reportInternalError(err);
           logger.logError(err, `An error was thrown from the user's processError handler`);
         }
@@ -486,7 +486,7 @@ export class StreamingReceiver extends MessageReceiver {
         try {
           const span = createProcessingSpan(message, this, this._context.config, operationOptions);
           return await trace(() => userHandlers.processMessage(message), span);
-        } catch (err) {
+        } catch (err: any) {
           this._messageHandlers().processError({
             error: err,
             errorSource: "processMessageCallback",
@@ -557,10 +557,10 @@ export class StreamingReceiver extends MessageReceiver {
         logPrefix: this.logPrefix,
         logger,
       });
-    } catch (err) {
+    } catch (err: any) {
       try {
         await this._receiverHelper.suspend();
-      } catch (error) {
+      } catch (error: any) {
         logger.logError(error, `${this.logPrefix} receiver.suspend threw an error`);
       }
 
@@ -601,10 +601,10 @@ export class StreamingReceiver extends MessageReceiver {
     try {
       await this._messageHandlers().postInitialize();
       this._receiverHelper.addCredit(this.maxConcurrentCalls);
-    } catch (err) {
+    } catch (err: any) {
       try {
         await this.closeLink();
-      } catch (error) {
+      } catch (error: any) {
         await this._messageHandlers().processError({
           error,
           errorSource: "receive",
@@ -661,7 +661,7 @@ export class StreamingReceiver extends MessageReceiver {
       // Clears the token renewal timer. Closes the link and its session if they are open.
       // Removes the link and its session if they are present in rhea's cache.
       await this.closeLink();
-    } catch (err) {
+    } catch (err: any) {
       logger.verbose(
         `${this.logPrefix} onDetached: Encountered an error when closing the previous link: `,
         err

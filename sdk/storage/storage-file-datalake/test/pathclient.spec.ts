@@ -8,10 +8,11 @@ import { record, Recorder } from "@azure-tools/test-recorder";
 import { setSpan, context } from "@azure/core-tracing";
 import { assert } from "chai";
 
-import { DataLakeFileClient, DataLakeFileSystemClient } from "../src";
+import { DataLakeDirectoryClient, DataLakeFileClient, DataLakeFileSystemClient } from "../src";
 import { toPermissionsString } from "../src/transforms";
 import { bodyToString, getDataLakeServiceClient, recorderEnvSetup } from "./utils";
 import { Context } from "mocha";
+import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 
 describe("DataLakePathClient", () => {
   let fileSystemName: string;
@@ -75,7 +76,7 @@ describe("DataLakePathClient", () => {
         rangeGetContentMD5: true,
         rangeGetContentCrc64: true,
       });
-    } catch (err) {
+    } catch (err: any) {
       exceptionCaught = true;
     }
     assert.ok(exceptionCaught);
@@ -419,5 +420,404 @@ describe("DataLakePathClient", () => {
     await fileClient.setExpiry("NeverExpire");
     const getRes2 = await fileClient.getProperties();
     assert.equal(getRes2.expiresOn, undefined);
+  });
+});
+
+describe("DataLakePathClient with CPK", () => {
+  let fileSystemName: string;
+  let fileSystemClient: DataLakeFileSystemClient;
+  let fileName: string;
+  let dirName: string;
+  let fileClient: DataLakeFileClient;
+  let dirClient: DataLakeDirectoryClient;
+  const content = "Hello World";
+
+  let recorder: Recorder;
+
+  beforeEach(async function (this: Context) {
+    recorder = record(this, recorderEnvSetup);
+    const serviceClient = getDataLakeServiceClient();
+    fileSystemName = recorder.getUniqueName("filesystem");
+    fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.createIfNotExists();
+    fileName = recorder.getUniqueName("file");
+    fileClient = fileSystemClient.getFileClient(fileName);
+    dirName = recorder.getUniqueName("dir");
+    dirClient = fileSystemClient.getDirectoryClient(dirName);
+  });
+
+  afterEach(async function () {
+    await fileSystemClient.deleteIfExists();
+    await recorder.stop();
+  });
+
+  it("file create, append, flush and read with cpk", async () => {
+    await fileClient.create({
+      customerProvidedKey: Test_CPK_INFO,
+    });
+    await fileClient.append(content, 0, content.length, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+    await fileClient.flush(content.length, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    const result = await fileClient.read(0, undefined, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+    assert.deepStrictEqual(await bodyToString(result, content.length), content);
+  });
+
+  it("file getProperties with CPK", async () => {
+    await fileClient.create({
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    const result = await fileClient.getProperties({
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    assert.equal(result.contentLength, 0);
+  });
+
+  it("file getProperties without CPK on a file with CPK", async () => {
+    await fileClient.create({
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    let gotError = false;
+    try {
+      await fileClient.getProperties();
+    } catch (err: any) {
+      gotError = true;
+      assert.equal((err as any).statusCode, 409);
+    }
+
+    assert.ok(gotError, "Should got an error");
+  });
+
+  it("file getProperties with CPK on a file without CPK", async () => {
+    await fileClient.create();
+
+    let gotError = false;
+
+    try {
+      await fileClient.getProperties({
+        customerProvidedKey: Test_CPK_INFO,
+      });
+    } catch (err: any) {
+      gotError = true;
+      assert.equal((err as any).statusCode, 409);
+    }
+
+    assert.ok(gotError, "Should got an error");
+  });
+
+  it("file exists with CPK", async () => {
+    await fileClient.create({
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    assert.ok(
+      await fileClient.exists({
+        customerProvidedKey: Test_CPK_INFO,
+      })
+    );
+  });
+
+  it("file exists with CPK on a file without CPK", async () => {
+    await fileClient.create();
+
+    assert.ok(
+      await fileClient.exists({
+        customerProvidedKey: Test_CPK_INFO,
+      })
+    );
+  });
+
+  it("file exists without CPK on a file with CPK", async () => {
+    await fileClient.create({
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    assert.ok(await fileClient.exists());
+  });
+
+  it("file append with cpk to a file without CPK", async () => {
+    await fileClient.create();
+
+    let gotError = false;
+
+    try {
+      await fileClient.append(content, 0, content.length, {
+        customerProvidedKey: Test_CPK_INFO,
+      });
+    } catch (err: any) {
+      gotError = true;
+      assert.equal((err as any).statusCode, 409);
+    }
+
+    assert.ok(gotError, "Should got an error");
+  });
+
+  it("file append without cpk to a file with CPK", async () => {
+    await fileClient.create({
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    let gotError = false;
+    try {
+      await fileClient.append(content, 0, content.length);
+    } catch (err: any) {
+      gotError = true;
+      assert.equal((err as any).statusCode, 409);
+    }
+
+    assert.ok(gotError, "Should got an error");
+  });
+
+  it("file flush with cpk to a file without CPK", async () => {
+    await fileClient.create();
+    await fileClient.append(content, 0, content.length);
+
+    let gotError = false;
+    try {
+      await fileClient.flush(content.length, {
+        customerProvidedKey: Test_CPK_INFO,
+      });
+    } catch (err: any) {
+      gotError = true;
+      assert.equal((err as any).statusCode, 409);
+    }
+    assert.ok(gotError, "Should got an error");
+  });
+
+  it("file flush without cpk to a file with CPK", async () => {
+    await fileClient.create({
+      customerProvidedKey: Test_CPK_INFO,
+    });
+    await fileClient.append(content, 0, content.length, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    let gotError = false;
+    try {
+      await fileClient.flush(content.length);
+    } catch (err: any) {
+      gotError = true;
+      assert.equal((err as any).statusCode, 409);
+    }
+    assert.ok(gotError, "Should got an error");
+  });
+
+  it("file read without cpk to a file with CPK", async () => {
+    await fileClient.create({
+      customerProvidedKey: Test_CPK_INFO,
+    });
+    await fileClient.append(content, 0, content.length, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+    await fileClient.flush(content.length, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    let gotError = false;
+    try {
+      await fileClient.read(0, undefined);
+    } catch (err: any) {
+      gotError = true;
+      assert.equal((err as any).statusCode, 409);
+    }
+    assert.ok(gotError, "Should got an error");
+  });
+
+  it("file read with cpk to a file without CPK", async () => {
+    await fileClient.create();
+    await fileClient.append(content, 0, content.length);
+    await fileClient.flush(content.length);
+
+    let gotError = false;
+    try {
+      await fileClient.read(0, undefined, {
+        customerProvidedKey: Test_CPK_INFO,
+      });
+    } catch (err: any) {
+      gotError = true;
+      assert.equal((err as any).statusCode, 409);
+    }
+
+    assert.ok(gotError, "Should got an error");
+  });
+
+  it("file setMetadata with CPK", async () => {
+    await fileClient.create({
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    const metadata = {
+      a: "a",
+      b: "b",
+    };
+    await fileClient.setMetadata(metadata, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+    const result = await fileClient.getProperties({
+      customerProvidedKey: Test_CPK_INFO,
+    });
+    assert.deepStrictEqual(result.metadata, metadata);
+  });
+
+  it("file setMetadata without cpk to a file with CPK", async () => {
+    await fileClient.create({
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    let gotError = false;
+    try {
+      await fileClient.setMetadata({});
+    } catch (err: any) {
+      gotError = true;
+      assert.equal((err as any).statusCode, 409);
+    }
+    assert.ok(gotError, "Should got an error");
+  });
+
+  it("file setMetadata with cpk to a file without CPK", async () => {
+    await fileClient.create();
+
+    let gotError = false;
+    try {
+      await fileClient.setMetadata(
+        {},
+        {
+          customerProvidedKey: Test_CPK_INFO,
+        }
+      );
+    } catch (err: any) {
+      gotError = true;
+      assert.equal((err as any).statusCode, 409);
+    }
+    assert.ok(gotError, "Should got an error");
+  });
+
+  it("directory create and getProperties with CPK", async () => {
+    await dirClient.create({
+      customerProvidedKey: Test_CPK_INFO,
+    });
+    await dirClient.getProperties({
+      customerProvidedKey: Test_CPK_INFO,
+    });
+  });
+
+  it("directory getProperties with CPK on a directory without CPK", async () => {
+    await dirClient.create();
+
+    let gotError = false;
+    try {
+      await dirClient.getProperties({
+        customerProvidedKey: Test_CPK_INFO,
+      });
+    } catch (err: any) {
+      gotError = true;
+      assert.equal((err as any).statusCode, 409);
+    }
+    assert.ok(gotError, "Should got an error");
+  });
+
+  it("directory getProperties without CPK on a directory with CPK", async () => {
+    await dirClient.create({
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    let gotError = false;
+    try {
+      await dirClient.getProperties();
+    } catch (err: any) {
+      gotError = true;
+      assert.equal((err as any).statusCode, 409);
+    }
+    assert.ok(gotError, "Should got an error");
+  });
+
+  it("directory exists with CPK", async () => {
+    await dirClient.create({
+      customerProvidedKey: Test_CPK_INFO,
+    });
+    assert.ok(
+      await dirClient.exists({
+        customerProvidedKey: Test_CPK_INFO,
+      })
+    );
+  });
+
+  it("directory exists with CPK on a directory without CPK", async () => {
+    await dirClient.create();
+    assert.ok(
+      await dirClient.exists({
+        customerProvidedKey: Test_CPK_INFO,
+      })
+    );
+  });
+
+  it("directory exists without CPK on a directory with CPK", async () => {
+    await dirClient.create({
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    assert.ok(await dirClient.exists());
+  });
+
+  it("directory setMetadata with CPK", async () => {
+    await dirClient.create({
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    const metadata = {
+      a: "a",
+      b: "b",
+    };
+    await dirClient.setMetadata(metadata, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+    const result = await dirClient.getProperties({
+      customerProvidedKey: Test_CPK_INFO,
+    });
+    assert.deepStrictEqual(result.metadata, {
+      ...metadata,
+      hdi_isfolder: "true",
+    });
+  });
+
+  it("directory setMetadata without cpk to a directory with CPK", async () => {
+    await dirClient.create({
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    let gotError = false;
+    try {
+      await dirClient.setMetadata({});
+    } catch (err: any) {
+      gotError = true;
+      assert.equal((err as any).statusCode, 409);
+    }
+    assert.ok(gotError, "Should got an error");
+  });
+
+  it("directory setMetadata with cpk to a directory without CPK", async () => {
+    await dirClient.create();
+
+    let gotError = false;
+    try {
+      await dirClient.setMetadata(
+        {},
+        {
+          customerProvidedKey: Test_CPK_INFO,
+        }
+      );
+    } catch (err: any) {
+      gotError = true;
+      assert.equal((err as any).statusCode, 409);
+    }
+    assert.ok(gotError, "Should got an error");
   });
 });

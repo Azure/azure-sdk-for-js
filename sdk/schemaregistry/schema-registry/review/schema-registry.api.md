@@ -37,7 +37,9 @@ export interface SchemaDescription {
 // @public
 export interface SchemaProperties {
     format: string;
+    groupName: string;
     id: string;
+    name: string;
 }
 
 // @public

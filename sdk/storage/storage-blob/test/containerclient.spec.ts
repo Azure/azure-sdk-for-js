@@ -692,7 +692,7 @@ describe("ContainerClient", () => {
     try {
       await containerClient.listBlobsByHierarchy("", { prefix: "" }).byPage().next();
       assert.fail("Expecting an error when listBlobsByHierarchy with empty delimiter.");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         "delimiter should contain one or more characters",
         error.message,
@@ -729,7 +729,7 @@ describe("ContainerClient", () => {
       assert.fail(
         "Expecting an error in getting properties from a deleted block blob but didn't get one."
       );
-    } catch (error) {
+    } catch (error: any) {
       assert.ok((error.statusCode as number) === 404);
     }
   });
@@ -798,7 +798,7 @@ describe("ContainerClient", () => {
       assert.fail(
         "Expecting an error in getting properties from a deleted block blob but didn't get one."
       );
-    } catch (error) {
+    } catch (error: any) {
       assert.ok((error.statusCode as number) === 404);
     }
   });
@@ -844,7 +844,7 @@ describe("ContainerClient", () => {
       // tslint:disable-next-line: no-unused-expression
       new ContainerClient(getSASConnectionStringFromEnvironment(), "");
       assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         "Expecting non-empty strings for containerName parameter",
         error.message,

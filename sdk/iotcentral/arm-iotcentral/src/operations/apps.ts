@@ -31,6 +31,7 @@ import {
   AppsUpdateOptionalParams,
   AppsUpdateResponse,
   AppsDeleteOptionalParams,
+  AppsDeleteResponse,
   AppsListBySubscriptionResponse,
   AppsListByResourceGroupResponse,
   OperationInputs,
@@ -275,10 +276,12 @@ export class AppsImpl implements Apps {
       { resourceGroupName, resourceName, app, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -364,10 +367,12 @@ export class AppsImpl implements Apps {
       { resourceGroupName, resourceName, appPatch, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -402,11 +407,13 @@ export class AppsImpl implements Apps {
     resourceGroupName: string,
     resourceName: string,
     options?: AppsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<
+    PollerLike<PollOperationState<AppsDeleteResponse>, AppsDeleteResponse>
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<void> => {
+    ): Promise<AppsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -447,10 +454,12 @@ export class AppsImpl implements Apps {
       { resourceGroupName, resourceName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -463,7 +472,7 @@ export class AppsImpl implements Apps {
     resourceGroupName: string,
     resourceName: string,
     options?: AppsDeleteOptionalParams
-  ): Promise<void> {
+  ): Promise<AppsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       resourceName,
@@ -604,7 +613,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.App
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -623,19 +632,23 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.App
+      bodyMapper: Mappers.App,
+      headersMapper: Mappers.AppsCreateOrUpdateHeaders
     },
     201: {
-      bodyMapper: Mappers.App
+      bodyMapper: Mappers.App,
+      headersMapper: Mappers.AppsCreateOrUpdateHeaders
     },
     202: {
-      bodyMapper: Mappers.App
+      bodyMapper: Mappers.App,
+      headersMapper: Mappers.AppsCreateOrUpdateHeaders
     },
     204: {
-      bodyMapper: Mappers.App
+      bodyMapper: Mappers.App,
+      headersMapper: Mappers.AppsCreateOrUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.app,
@@ -656,19 +669,19 @@ const updateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.App
+      headersMapper: Mappers.AppsUpdateHeaders
     },
     201: {
-      bodyMapper: Mappers.App
+      headersMapper: Mappers.AppsUpdateHeaders
     },
     202: {
-      bodyMapper: Mappers.App
+      headersMapper: Mappers.AppsUpdateHeaders
     },
     204: {
-      bodyMapper: Mappers.App
+      headersMapper: Mappers.AppsUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.appPatch,
@@ -688,12 +701,20 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTCentral/iotApps/{resourceName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.AppsDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.AppsDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.AppsDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.AppsDeleteHeaders
+    },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -715,7 +736,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AppListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -732,7 +753,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AppListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -753,7 +774,7 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AppAvailabilityInfo
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.operationInputs,
@@ -772,7 +793,7 @@ const checkSubdomainAvailabilityOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AppAvailabilityInfo
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.operationInputs,
@@ -791,7 +812,7 @@ const listTemplatesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AppTemplatesResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -807,7 +828,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AppListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -827,7 +848,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AppListResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -848,7 +869,7 @@ const listTemplatesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AppTemplatesResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],

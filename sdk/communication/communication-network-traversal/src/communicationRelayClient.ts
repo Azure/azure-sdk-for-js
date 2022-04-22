@@ -153,7 +153,7 @@ export class CommunicationRelayClient {
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
       return result;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

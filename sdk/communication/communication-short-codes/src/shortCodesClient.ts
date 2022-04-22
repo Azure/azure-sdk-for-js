@@ -86,7 +86,7 @@ export class ShortCodesClient {
     const { span, updatedOptions } = createSpan("ShortCodesClient-listShortCodes", options);
     try {
       return this.client.shortCodesOperations.listShortCodes(updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -107,7 +107,7 @@ export class ShortCodesClient {
         programBriefId,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -128,7 +128,7 @@ export class ShortCodesClient {
         programBriefId,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -149,7 +149,7 @@ export class ShortCodesClient {
         programBriefId,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -166,7 +166,7 @@ export class ShortCodesClient {
     const { span, updatedOptions } = createSpan("ShortCodesClient-listUSProgramBriefs", options);
     try {
       return this.client.shortCodesOperations.listUSProgramBriefs(updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -187,7 +187,7 @@ export class ShortCodesClient {
         programBriefId,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

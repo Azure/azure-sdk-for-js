@@ -11,7 +11,7 @@ describe("generateSas Browser", () => {
     try {
       generateTableSas("testTable", new AzureNamedKeyCredential("keyName", "keySecret"));
       assert.fail("`Expected generateTableSas to throw when running in the browser");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal((error as Error)?.message, "computeHMACSHA256 is not supported in the browser");
     }
   });

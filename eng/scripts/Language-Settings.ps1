@@ -8,20 +8,16 @@ $BlobStorageUrl = "https://azuresdkdocs.blob.core.windows.net/%24web?restype=con
 
 . "$PSScriptRoot/docs/Docs-ToC.ps1"
 
-function Confirm-NodeInstallation
-{
-  if (!(Get-Command npm -ErrorAction SilentlyContinue))
-  {
+function Confirm-NodeInstallation {
+  if (!(Get-Command npm -ErrorAction SilentlyContinue)) {
     LogError "Could not locate npm. Install NodeJS (includes npm and npx) https://nodejs.org/en/download"
     exit 1
   }
 }
 
-function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory)
-{
+function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory) {
   $projectPath = Join-Path $pkgPath "package.json"
-  if (Test-Path $projectPath)
-  {
+  if (Test-Path $projectPath) {
     $projectJson = Get-Content $projectPath | ConvertFrom-Json
     $jsStylePkgName = $projectJson.name.Replace("@", "").Replace("/", "-")
 
@@ -40,30 +36,25 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory)
 }
 
 # Returns the npm publish status of a package id and version.
-function IsNPMPackageVersionPublished ($pkgId, $pkgVersion)
-{
+function IsNPMPackageVersionPublished ($pkgId, $pkgVersion) {
   Confirm-NodeInstallation
-  $npmVersions = (npm show $pkgId versions)
-  if ($LastExitCode -ne 0)
-  {
+  $packageAndVersion = $pkgId + "@" + $pkgVersion
+  $npmVersion = (npm show $packageAndVersion version)
+  if ($LastExitCode -ne 0) {
     npm ping
-    if ($LastExitCode -eq 0)
-    {
+    if ($LastExitCode -eq 0) {
       return $False
     }
     Write-Host "Could not find a deployed version of $pkgId, and NPM connectivity check failed."
     exit(1)
   }
-  $npmVersionList = $npmVersions.split(",") | ForEach-Object { return $_.replace("[", "").replace("]", "").Trim() }
-  return $npmVersionList.Contains($pkgVersion)
+  return $npmVersion -eq $pkgVersion
 }
 
 # make certain to always take the package json closest to the top
-function ResolvePkgJson($workFolder)
-{
+function ResolvePkgJson($workFolder) {
   $pathsWithComplexity = @()
-  foreach ($file in (Get-ChildItem -Path $workFolder -Recurse -Include "package.json"))
-  {
+  foreach ($file in (Get-ChildItem -Path $workFolder -Recurse -Include "package.json")) {
     $complexity = ($file.FullName -Split { $_ -eq "/" -or $_ -eq "\" }).Length
     $pathsWithComplexity += New-Object PSObject -Property @{
       Path       = $file
@@ -75,8 +66,7 @@ function ResolvePkgJson($workFolder)
 }
 
 # Parse out package publishing information given a .tgz npm artifact
-function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory)
-{
+function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory) {
   $workFolder = "$workingDirectory$($pkg.Basename)"
   $origFolder = Get-Location
   $releaseNotes = ""
@@ -93,14 +83,12 @@ function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory)
   $pkgVersion = $packageJSON.version
 
   $changeLogLoc = @(Get-ChildItem -Path $workFolder -Recurse -Include "CHANGELOG.md")[0]
-  if ($changeLogLoc)
-  {
+  if ($changeLogLoc) {
     $releaseNotes = Get-ChangeLogEntryAsString -ChangeLogLocation $changeLogLoc -VersionString $pkgVersion
   }
 
   $readmeContentLoc = @(Get-ChildItem -Path $workFolder -Recurse -Include "README.md") | Select-Object -Last 1
-  if ($readmeContentLoc)
-  {
+  if ($readmeContentLoc) {
     $readmeContent = Get-Content -Raw $readmeContentLoc
   }
 
@@ -127,7 +115,7 @@ function Get-javascript-DocsMsMetadataForPackage($PackageInfo) {
     DocsMsReadMeName      = $docsReadmeName
     LatestReadMeLocation  = 'docs-ref-services/latest'
     PreviewReadMeLocation = 'docs-ref-services/preview'
-    Suffix = ''
+    Suffix                = ''
   }
 }
 
@@ -136,22 +124,18 @@ function Get-javascript-DocsMsMetadataForPackage($PackageInfo) {
 # published at the "dev" tag. To prevent using a version which does not exist in 
 # NPM, use the "dev" tag instead.
 function Get-javascript-DocsMsDevLanguageSpecificPackageInfo($packageInfo) {
-  try
-  {
+  try {
     $npmPackageInfo = Invoke-RestMethod -Uri "https://registry.npmjs.com/$($packageInfo.Name)"
 
-    if ($npmPackageInfo.'dist-tags'.dev)
-    {
+    if ($npmPackageInfo.'dist-tags'.dev) {
       Write-Host "Using published version at 'dev' tag: '$($npmPackageInfo.'dist-tags'.dev)'"
       $packageInfo.Version = $npmPackageInfo.'dist-tags'.dev
     }
-    else
-    {
+    else {
       LogWarning "No 'dev' dist-tag available for '$($packageInfo.Name)'. Keeping current version '$($packageInfo.Version)'"
     }
   }
-  catch
-  {
+  catch {
     LogWarning "Error getting package info from NPM for $($packageInfo.Name)"
     LogWarning $_.Exception
     LogWarning $_.Exception.StackTrace
@@ -161,43 +145,36 @@ function Get-javascript-DocsMsDevLanguageSpecificPackageInfo($packageInfo) {
 }
 
 # Stage and Upload Docs to blob Storage
-function Publish-javascript-GithubIODocs ($DocLocation, $PublicArtifactLocation)
-{
+function Publish-javascript-GithubIODocs ($DocLocation, $PublicArtifactLocation) {
   $PublishedDocs = Get-ChildItem "$($DocLocation)/documentation" | Where-Object -FilterScript { $_.Name.EndsWith(".zip") }
 
-  foreach ($Item in $PublishedDocs)
-  {
+  foreach ($Item in $PublishedDocs) {
     Expand-Archive -Force -Path "$($DocLocation)/documentation/$($Item.Name)" -DestinationPath "$($DocLocation)/documentation/$($Item.BaseName)"
     $dirList = Get-ChildItem "$($DocLocation)/documentation/$($Item.BaseName)/$($Item.BaseName)" -Attributes Directory
 
-    if ($dirList.Length -eq 1)
-    {
+    if ($dirList.Length -eq 1) {
       $DocVersion = $dirList[0].Name
       $pkgs = Get-ChildItem -Path $PublicArtifactLocation -Include "*.tgz" -Recurse -File
       # set default package name
       $PkgName = "azure-$($Item.BaseName)"
-      if ($pkgs -and $pkgs.Count -eq 1)
-      {
+      if ($pkgs -and $pkgs.Count -eq 1) {
         $parsedPackage = Get-javascript-PackageInfoFromPackageFile $pkgs[0] $PublicArtifactLocation
         $PkgName = $parsedPackage.PackageId.Replace("@", "").Replace("/", "-")
       }
-      else
-      {
+      else {
         Write-Host "Package info is not available from artifact. Assuming package is in default scope @azure."
       }
       Write-Host "Uploading Doc for $($PkgName) Version:- $($DocVersion)..."
       $releaseTag = RetrieveReleaseTag $PublicArtifactLocation
       Upload-Blobs -DocDir "$($DocLocation)/documentation/$($Item.BaseName)/$($Item.BaseName)/$($DocVersion)" -PkgName $PkgName -DocVersion $DocVersion -ReleaseTag $releaseTag
     }
-    else
-    {
+    else {
       Write-Host "found more than 1 folder under the documentation for package - $($Item.Name)"
     }
   }
 }
 
-function Get-javascript-GithubIoDocIndex()
-{
+function Get-javascript-GithubIoDocIndex() {
   # Update the main.js and docfx.json language content
   UpdateDocIndexFiles -appTitleLang JavaScript -packageRegex "/\@(.*)\//i" -regexReplacement "`$1-"
   # Fetch out all package metadata from csv file.
@@ -256,9 +233,8 @@ function ValidatePackagesForDocs($packages, $DocValidationImageId) {
 }
 
 $PackageExclusions = @{
-  '@azure/identity-vscode'              = 'Fails type2docfx execution https://github.com/Azure/azure-sdk-for-js/issues/16303';
-  '@azure/identity-cache-persistence'   = 'Fails typedoc2fx execution https://github.com/Azure/azure-sdk-for-js/issues/16310';
-  '@azure/core-asynciterator-polyfill'  = 'Docs CI fails https://github.com/Azure/azure-sdk-for-js/issues/16675';
+  '@azure/identity-vscode'            = 'Fails type2docfx execution https://github.com/Azure/azure-sdk-for-js/issues/16303';
+  '@azure/identity-cache-persistence' = 'Fails typedoc2fx execution https://github.com/Azure/azure-sdk-for-js/issues/16310';
 }
 
 function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata, $DocValidationImageId) {
@@ -270,17 +246,17 @@ function Update-javascript-DocsMsPackages($DocsRepoLocation, $DocsMetadata, $Doc
   $FilteredMetadata = $DocsMetadata.Where({ !($PackageExclusions.ContainsKey($_.Package)) })
 
   UpdateDocsMsPackages `
-    (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json') `
+  (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json') `
     'preview' `
     $FilteredMetadata `
-    (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json.log') `
+  (Join-Path $DocsRepoLocation 'ci-configs/packages-preview.json.log') `
     $DocValidationImageId
   
   UpdateDocsMsPackages `
-    (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json') `
+  (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json') `
     'latest' `
     $FilteredMetadata `
-    (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json.log') `
+  (Join-Path $DocsRepoLocation 'ci-configs/packages-latest.json.log') `
     $DocValidationImageId
 }
 
@@ -348,12 +324,13 @@ function UpdateDocsMsPackages($DocConfigFile, $Mode, $DocsMetadata, $PackageHist
   $remainingPackages = @() 
   if ($Mode -eq 'preview') { 
     $remainingPackages = $DocsMetadata.Where({
-      $_.VersionPreview.Trim() -and !$outputPackagesHash.ContainsKey($_.Package)
-    })
-  } else {
+        $_.VersionPreview.Trim() -and !$outputPackagesHash.ContainsKey($_.Package)
+      })
+  }
+  else {
     $remainingPackages = $DocsMetadata.Where({
-      $_.VersionGA.Trim() -and !$outputPackagesHash.ContainsKey($_.Package)
-    })
+        $_.VersionGA.Trim() -and !$outputPackagesHash.ContainsKey($_.Package)
+      })
   }
 
   # Add packages that exist in the metadata but are not onboarded in docs config
@@ -406,28 +383,23 @@ Removed $($package.name) because of docs package validation failure on $(Get-Dat
 }
 
 # function is used to auto generate API View
-function Find-javascript-Artifacts-For-Apireview($artifactDir, $packageName)
-{
+function Find-javascript-Artifacts-For-Apireview($artifactDir, $packageName) {
   $artifactPath = Join-Path $artifactDir $packageName
-  if (Test-Path $artifactPath)
-  {
+  if (Test-Path $artifactPath) {
     Write-Host "Searching for *.api.json in path $($artifactPath)"
     $files = Get-ChildItem "${artifactPath}" | Where-Object -FilterScript { $_.Name.EndsWith(".api.json") }
-    if (!$files)
-    {
+    if (!$files) {
       Write-Host "$($packageName) does not have api review json"
       Write-Host "API Extractor must be enabled for $($packageName). Please ensure api-extractor.json is present in package directory and api extract script included in build script"
       return $null
     }
-    elseif ($files.Count -ne 1)
-    {
+    elseif ($files.Count -ne 1) {
       Write-Host "$($artifactPath) should contain only one api review for $($packageName)"
       Write-Host "No of files $($files.Count)"
       return $null
     }
   }
-  else
-  {
+  else {
     Write-Host "$($pkgName) does not have api review json"
     return $null
   } 
@@ -437,10 +409,8 @@ function Find-javascript-Artifacts-For-Apireview($artifactDir, $packageName)
   return $packages
 }
 
-function SetPackageVersion ($PackageName, $Version, $ReleaseDate, $ReplaceLatestEntryTitle = $true)
-{
-  if ($null -eq $ReleaseDate)
-  {
+function SetPackageVersion ($PackageName, $Version, $ReleaseDate, $ReplaceLatestEntryTitle = $true) {
+  if ($null -eq $ReleaseDate) {
     $ReleaseDate = Get-Date -Format "yyyy-MM-dd"
   }
   Push-Location "$EngDir/tools/versioning"
@@ -448,50 +418,58 @@ function SetPackageVersion ($PackageName, $Version, $ReleaseDate, $ReplaceLatest
   npm install
   $artifactName = $PackageName.Replace("@", "").Replace("/", "-")
   node ./set-version.js --artifact-name $artifactName --new-version $Version --release-date $ReleaseDate `
-  --replace-latest-entry-title $ReplaceLatestEntryTitle --repo-root $RepoRoot
+    --replace-latest-entry-title $ReplaceLatestEntryTitle --repo-root $RepoRoot
   Pop-Location
 }
 
 # PackageName: Pass full package name e.g. @azure/abort-controller
 # You can obtain full pacakge name using the 'Get-PkgProperties' function in 'eng\common\scripts\Package-Properties.Ps1'
-function GetExistingPackageVersions ($PackageName, $GroupId = $null)
-{
-  try
-  {
+function GetExistingPackageVersions ($PackageName, $GroupId = $null) {
+  try {
     $existingVersion = Invoke-RestMethod -Method GET -Uri "http://registry.npmjs.com/${PackageName}"
     return ($existingVersion.versions | Get-Member -MemberType NoteProperty).Name
   }
-  catch
-  {
-    if ($_.Exception.Response.StatusCode -ne 404) 
-    {
+  catch {
+    if ($_.Exception.Response.StatusCode -ne 404) {
       LogError "Failed to retrieve package versions for ${PackageName}. $($_.Exception.Message)"
     }
     return $null
   }
 }
 
-function Validate-javascript-DocMsPackages ($PackageInfo, $DocRepoLocation, $DocValidationImageId) 
-{ 
-  $fileLocation = ""
-  if ($PackageInfo.DevVersion -or $PackageInfo.Version -contains "beta") {
-    $fileLocation = (Join-Path $DocRepoLocation 'ci-configs/packages-preview.json')
-    if ($PackageInfo.DevVersion) {
-      $PackageInfo.Version = $PackageInfo.DevVersion
-    }
-  }
-  else {
-    $fileLocation = (Join-Path $DocRepoLocation 'ci-configs/packages-latest.json')
+function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRepoLocation, $DocValidationImageId) { 
+  if (!$PackageInfos) {
+    $PackageInfos = @($PackageInfo)
   }
 
-  $packageConfig = Get-Content $fileLocation -Raw | ConvertFrom-Json
-  $outputPackage = $PackageInfo
-  foreach ($package in $packageConfig.npm_package_sources) {
-    if ($package.name -eq $PackageInfo.Name) {
-      $outputPackage = $package
-      $outputPackage.name = Get-DocsMsPackageName $package.name $PackageInfo.Version
-      break
+  $outputPackages = @()
+
+  foreach ($packageInfo in $PackageInfos) {
+    $fileLocation = ""
+    if ($packageInfo.DevVersion -or $packageInfo.Version -contains "beta") {
+      $fileLocation = (Join-Path $DocRepoLocation 'ci-configs/packages-preview.json')
+      if ($packageInfo.DevVersion) {
+        $packageInfo.Version = $packageInfo.DevVersion
+      }
     }
+    else {
+      $fileLocation = (Join-Path $DocRepoLocation 'ci-configs/packages-latest.json')
+    }
+
+    $packageConfig = Get-Content $fileLocation -Raw | ConvertFrom-Json
+    
+    $outputPackage = $packageInfo
+    
+    foreach ($package in $packageConfig.npm_package_sources) {
+      if ($package.name -eq $packageInfo.Name) {
+        $outputPackage = $package
+        $outputPackage.name = Get-DocsMsPackageName $package.name $packageInfo.Version
+        break
+      }
+    }
+
+    $outputPackages += $outputPackage
   }
-  ValidatePackagesForDocs -packages $outputPackage -DocValidationImageId $DocValidationImageId
+
+  ValidatePackagesForDocs -packages $outputPackages -DocValidationImageId $DocValidationImageId
 }

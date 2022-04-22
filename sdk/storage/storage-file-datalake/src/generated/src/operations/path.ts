@@ -343,7 +343,10 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.sourceIfMatch,
     Parameters.sourceIfNoneMatch,
     Parameters.sourceIfModifiedSince,
-    Parameters.sourceIfUnmodifiedSince
+    Parameters.sourceIfUnmodifiedSince,
+    Parameters.encryptionKey,
+    Parameters.encryptionKeySha256,
+    Parameters.encryptionAlgorithm
   ],
   serializer
 };
@@ -472,6 +475,9 @@ const readOperationSpec: coreHttp.OperationSpec = {
     Parameters.leaseId,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
+    Parameters.encryptionKey,
+    Parameters.encryptionKeySha256,
+    Parameters.encryptionAlgorithm,
     Parameters.range,
     Parameters.xMsRangeGetContentMd5
   ],
@@ -627,6 +633,9 @@ const flushDataOperationSpec: coreHttp.OperationSpec = {
     Parameters.leaseId,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
+    Parameters.encryptionKey,
+    Parameters.encryptionKeySha256,
+    Parameters.encryptionAlgorithm,
     Parameters.contentLength,
     Parameters.contentMD5
   ],
@@ -655,6 +664,9 @@ const appendDataOperationSpec: coreHttp.OperationSpec = {
     Parameters.requestId,
     Parameters.version,
     Parameters.leaseId,
+    Parameters.encryptionKey,
+    Parameters.encryptionKeySha256,
+    Parameters.encryptionAlgorithm,
     Parameters.accept2,
     Parameters.contentLength,
     Parameters.contentType2,

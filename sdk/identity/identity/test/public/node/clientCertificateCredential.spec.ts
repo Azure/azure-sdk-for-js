@@ -5,10 +5,10 @@
 
 import * as path from "path";
 import fs from "fs";
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import { AbortController } from "@azure/abort-controller";
 import { env, isPlaybackMode, delay, Recorder } from "@azure-tools/test-recorder";
-import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
+import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { ClientCertificateCredential } from "../../../src";
 import { Context } from "mocha";
 import { readFileSync } from "fs";
@@ -115,7 +115,7 @@ describe("ClientCertificateCredential", function () {
     let error: Error | undefined;
     try {
       await getTokenPromise;
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error?.name, "CredentialUnavailableError");
@@ -129,24 +129,17 @@ describe("ClientCertificateCredential", function () {
       // and I'm trying to avoid having to generate one ourselves.
       this.skip();
     }
-    await testTracing({
-      test: async (tracingOptions) => {
+    await assert.supportsTracing(
+      async (tracingOptions) => {
         const credential = new ClientCertificateCredential(
           env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!,
           env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!,
           recorder.configureClientOptions({ certificatePath })
         );
 
-        await credential.getToken(scope, {
-          tracingOptions,
-        });
+        await credential.getToken(scope, tracingOptions);
       },
-      children: [
-        {
-          name: "ClientCertificateCredential.getToken",
-          children: [],
-        },
-      ],
-    });
+      ["ClientCertificateCredential.getToken"]
+    );
   });
 });

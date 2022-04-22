@@ -296,9 +296,11 @@ export class TableClient {
     return tracingClient.withSpan("TableClient.deleteTable", options, async (updatedOptions) => {
       try {
         await this.table.delete(this.tableName, updatedOptions);
-      } catch (e) {
+      } catch (e: any) {
         if (e.statusCode === 404) {
           logger.info("TableClient.deleteTable: Table doesn't exist");
+        } else {
+          throw e;
         }
       }
     });
@@ -334,7 +336,7 @@ export class TableClient {
     return tracingClient.withSpan("TableClient.createTable", options, async (updatedOptions) => {
       try {
         await this.table.create({ name: this.tableName }, updatedOptions);
-      } catch (e) {
+      } catch (e: any) {
         handleTableAlreadyExists(e, { ...updatedOptions, logger, tableName: this.tableName });
       }
     });

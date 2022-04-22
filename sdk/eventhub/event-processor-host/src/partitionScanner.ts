@@ -57,7 +57,7 @@ export class PartitionScanner {
           remainingNeeded
         );
       }
-    } catch (err) {
+    } catch (err: any) {
       didSteal = false;
       const msg =
         `An error occurred while scanning leases: ` + `${err ? err.stack : JSON.stringify(err)}.`;

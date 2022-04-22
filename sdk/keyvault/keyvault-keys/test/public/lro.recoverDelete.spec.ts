@@ -3,9 +3,9 @@
 
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 
-import { KeyClient, DeletedKey } from "../../src";
+import { DeletedKey, KeyClient } from "../../src";
 import { assertThrowsAbortError, getServiceVersion } from "./utils/common";
 import { testPollerProperties } from "./utils/recorderUtils";
 import { authenticate } from "./utils/testAuthentication";

@@ -46,7 +46,7 @@ export class BigDataPoolsImpl implements BigDataPools {
         listOperationSpec
       );
       return result as BigDataPoolsListResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -73,7 +73,7 @@ export class BigDataPoolsImpl implements BigDataPools {
         getOperationSpec
       );
       return result as BigDataPoolsGetResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -98,7 +98,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorContract
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
@@ -114,7 +114,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorContract
     }
   },
-  queryParameters: [Parameters.apiVersion3],
+  queryParameters: [Parameters.apiVersion4],
   urlParameters: [Parameters.endpoint, Parameters.bigDataPoolName],
   headerParameters: [Parameters.accept],
   serializer

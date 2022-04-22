@@ -67,7 +67,7 @@ export async function isProxyToolActive(): Promise<boolean> {
     await makeRequest("http://localhost:5000/info/available", {});
     log.info(`Proxy tool seems to be active at http://localhost:5000\n`);
     return true;
-  } catch (error) {
+  } catch (error: any) {
     return false;
   }
 }
@@ -99,7 +99,7 @@ async function getImageTag() {
 
     log.info(`Image tag obtained from the powershell script => ${tag}\n`);
     return tag;
-  } catch (_) {
+  } catch (_: any) {
     log.warn(
       `Unable to get the image tag from the powershell script, trying "latest" tag instead\n`
     );

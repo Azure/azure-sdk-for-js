@@ -239,7 +239,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       }
       try {
         fullyQualifiedNamespace = connectionStringObj.Endpoint.match(".*://([^/]*)")[1];
-      } catch (error) {
+      } catch (error: any) {
         throw new Error("Endpoint in the connection string is not valid.");
       }
       credentials = new SasServiceClientCredentials({
@@ -292,7 +292,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         updatedOptions
       );
       return this.buildNamespacePropertiesResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -341,7 +341,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return this.buildQueueResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -384,7 +384,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return this.buildQueueResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -428,7 +428,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return this.buildQueueRuntimePropertiesResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -468,7 +468,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return this.buildListQueuesResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -571,7 +571,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return this.buildListQueuesRuntimePropertiesResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -701,7 +701,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return this.buildQueueResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -744,7 +744,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return { _response: getHttpResponseOnly(response) };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -769,14 +769,14 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       logger.verbose(`Performing management operation - queueExists() for "${queueName}"`);
       try {
         await this.getQueue(queueName, updatedOptions);
-      } catch (error) {
+      } catch (error: any) {
         if (error.code === "MessageEntityNotFoundError") {
           return false;
         }
         throw error;
       }
       return true;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -825,7 +825,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return this.buildTopicResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -868,7 +868,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return this.buildTopicResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -912,7 +912,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return this.buildTopicRuntimePropertiesResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -952,7 +952,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return this.buildListTopicsResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1056,7 +1056,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return this.buildListTopicsRuntimePropertiesResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1189,7 +1189,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return this.buildTopicResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1232,7 +1232,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return { _response: getHttpResponseOnly(response) };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1257,14 +1257,14 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       logger.verbose(`Performing management operation - topicExists() for "${topicName}"`);
       try {
         await this.getTopic(topicName, updatedOptions);
-      } catch (error) {
+      } catch (error: any) {
         if (error.code === "MessageEntityNotFoundError") {
           return false;
         }
         throw error;
       }
       return true;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1315,7 +1315,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return this.buildSubscriptionResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1362,7 +1362,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return this.buildSubscriptionResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1408,7 +1408,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return this.buildSubscriptionRuntimePropertiesResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1452,7 +1452,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return this.buildListSubscriptionsResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1564,7 +1564,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return this.buildListSubscriptionsRuntimePropertiesResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1710,7 +1710,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return this.buildSubscriptionResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1757,7 +1757,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return { _response: getHttpResponseOnly(response) };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1788,14 +1788,14 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
       try {
         await this.getSubscription(topicName, subscriptionName, updatedOptions);
-      } catch (error) {
+      } catch (error: any) {
         if (error.code === "MessageEntityNotFoundError") {
           return false;
         }
         throw error;
       }
       return true;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1894,7 +1894,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         updatedOptions
       );
       return this.buildRuleResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1939,7 +1939,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return this.buildRuleResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1978,7 +1978,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return this.buildListRulesResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2112,7 +2112,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return this.buildRuleResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2158,7 +2158,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return { _response: getHttpResponseOnly(response) };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2188,14 +2188,14 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       logger.verbose(`Performing management operation - ruleExists() for "${ruleName}"`);
       try {
         await this.getRule(topicName, subscriptionName, ruleName, updatedOptions);
-      } catch (error) {
+      } catch (error: any) {
         if (error.code === "MessageEntityNotFoundError") {
           return false;
         }
         throw error;
       }
       return true;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2267,7 +2267,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       request.headers.set("content-type", "application/atom+xml;type=entry;charset=utf-8");
 
       return executeAtomXmlOperation(this, request, serializer, updatedOptions, entityFields);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2313,7 +2313,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         throw err;
       }
       return response;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2353,7 +2353,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       });
 
       return executeAtomXmlOperation(this, request, serializer, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2382,7 +2382,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         method: "DELETE",
       });
       return executeAtomXmlOperation(this, request, serializer, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2423,7 +2423,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     try {
       const value = parseURL(url).searchParams.get(Constants.XML_METADATA_MARKER + "skip");
       return value !== null ? value : undefined;
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(
         `Unable to parse the '${Constants.XML_METADATA_MARKER}skip' from the next-link in the response ` +
           error
@@ -2442,7 +2442,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         { value: getHttpResponseOnly(response) }
       );
       return namespaceResponse;
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a namespace object using the response from the service.`,
@@ -2481,7 +2481,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
       listQueuesResponse.continuationToken = nextMarker;
       return listQueuesResponse;
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of queues using the response from the service.`,
@@ -2520,7 +2520,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
       listQueuesResponse.continuationToken = nextMarker;
       return listQueuesResponse;
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of queues using the response from the service.`,
@@ -2545,7 +2545,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         }
       );
       return queueResponse;
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a queue object using the response from the service.`,
@@ -2572,7 +2572,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         }
       );
       return queueResponse;
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a queue object using the response from the service.`,
@@ -2611,7 +2611,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
       listTopicsResponse.continuationToken = nextMarker;
       return listTopicsResponse;
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of topics using the response from the service.`,
@@ -2650,7 +2650,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
       listTopicsResponse.continuationToken = nextMarker;
       return listTopicsResponse;
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of topics using the response from the service.`,
@@ -2674,7 +2674,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         }
       );
       return topicResponse;
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a topic object using the response from the service.`,
@@ -2701,7 +2701,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         }
       );
       return topicResponse;
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a topic object using the response from the service.`,
@@ -2737,7 +2737,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         });
       listSubscriptionsResponse.continuationToken = nextMarker;
       return listSubscriptionsResponse;
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of subscriptions using the response from the service.`,
@@ -2773,7 +2773,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         });
       listSubscriptionsResponse.continuationToken = nextMarker;
       return listSubscriptionsResponse;
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of subscriptions using the response from the service.`,
@@ -2800,7 +2800,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         }
       );
       return subscriptionResponse;
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a subscription object using the response from the service.`,
@@ -2824,7 +2824,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           value: getHttpResponseOnly(response),
         });
       return subscriptionResponse;
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a subscription object using the response from the service.`,
@@ -2863,7 +2863,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
       listRulesResponse.continuationToken = nextMarker;
       return listRulesResponse;
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of rules using the response from the service.`,
@@ -2888,7 +2888,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         }
       );
       return ruleResponse;
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a rule object using the response from the service.`,

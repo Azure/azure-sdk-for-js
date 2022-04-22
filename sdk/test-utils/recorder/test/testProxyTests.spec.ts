@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { ServiceClient } from "@azure/core-client";
+import { isNode } from "@azure/core-util";
 import { CustomMatcherOptions, isPlaybackMode, Recorder } from "../src";
 import { isLiveMode, TestMode } from "../src/utils/utils";
 import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils";
@@ -34,6 +35,46 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
         { path: `/sample_response`, method: "GET" },
         { val: "abc" }
       );
+    });
+
+    it("redirect (redirect location has host)", async function (this: Mocha.Context) {
+      await recorder.start({ envSetupForPlayback: {} });
+
+      if (!isNode) {
+        // In the browser, redirects get handled by fetch/XHR and we can't guarantee redirect behavior.
+        this.skip();
+      }
+
+      await makeRequestAndVerifyResponse(
+        client,
+        { path: `/redirectWithHost`, method: "GET" },
+        { val: "abc" }
+      );
+    });
+
+    it("redirect (redirect location is relative)", async function (this: Mocha.Context) {
+      await recorder.start({ envSetupForPlayback: {} });
+
+      if (!isNode) {
+        // In the browser, redirects get handled by fetch/XHR and we can't guarantee redirect behavior.
+        this.skip();
+      }
+
+      await makeRequestAndVerifyResponse(
+        client,
+        { path: `/redirectWithoutHost`, method: "GET" },
+        { val: "abc" }
+      );
+    });
+
+    it("retry", async () => {
+      await recorder.start({ envSetupForPlayback: {} });
+      await makeRequestAndVerifyResponse(
+        client,
+        { path: "/reset_retry", method: "GET" },
+        undefined
+      );
+      await makeRequestAndVerifyResponse(client, { path: "/retry", method: "GET" }, { val: "abc" });
     });
 
     it("sample_response with random string in path", async () => {

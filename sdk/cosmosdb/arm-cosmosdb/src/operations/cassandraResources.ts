@@ -388,10 +388,12 @@ export class CassandraResourcesImpl implements CassandraResources {
       },
       createUpdateCassandraKeyspaceOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -477,10 +479,12 @@ export class CassandraResourcesImpl implements CassandraResources {
       { resourceGroupName, accountName, keyspaceName, options },
       deleteCassandraKeyspaceOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -598,10 +602,12 @@ export class CassandraResourcesImpl implements CassandraResources {
       },
       updateCassandraKeyspaceThroughputOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -694,10 +700,12 @@ export class CassandraResourcesImpl implements CassandraResources {
       { resourceGroupName, accountName, keyspaceName, options },
       migrateCassandraKeyspaceToAutoscaleOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -786,10 +794,12 @@ export class CassandraResourcesImpl implements CassandraResources {
       { resourceGroupName, accountName, keyspaceName, options },
       migrateCassandraKeyspaceToManualThroughputOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -930,10 +940,12 @@ export class CassandraResourcesImpl implements CassandraResources {
       },
       createUpdateCassandraTableOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1024,10 +1036,12 @@ export class CassandraResourcesImpl implements CassandraResources {
       { resourceGroupName, accountName, keyspaceName, tableName, options },
       deleteCassandraTableOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1153,10 +1167,12 @@ export class CassandraResourcesImpl implements CassandraResources {
       },
       updateCassandraTableThroughputOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1254,10 +1270,12 @@ export class CassandraResourcesImpl implements CassandraResources {
       { resourceGroupName, accountName, keyspaceName, tableName, options },
       migrateCassandraTableToAutoscaleOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1351,10 +1369,12 @@ export class CassandraResourcesImpl implements CassandraResources {
       { resourceGroupName, accountName, keyspaceName, tableName, options },
       migrateCassandraTableToManualThroughputOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1497,10 +1517,12 @@ export class CassandraResourcesImpl implements CassandraResources {
       },
       createUpdateCassandraViewOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1590,10 +1612,12 @@ export class CassandraResourcesImpl implements CassandraResources {
       { resourceGroupName, accountName, keyspaceName, viewName, options },
       deleteCassandraViewOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1719,10 +1743,12 @@ export class CassandraResourcesImpl implements CassandraResources {
       },
       updateCassandraViewThroughputOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1820,10 +1846,12 @@ export class CassandraResourcesImpl implements CassandraResources {
       { resourceGroupName, accountName, keyspaceName, viewName, options },
       migrateCassandraViewToAutoscaleOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1917,10 +1945,12 @@ export class CassandraResourcesImpl implements CassandraResources {
       { resourceGroupName, accountName, keyspaceName, viewName, options },
       migrateCassandraViewToManualThroughputOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

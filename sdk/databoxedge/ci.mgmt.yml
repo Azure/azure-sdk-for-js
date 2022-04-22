@@ -9,8 +9,8 @@ trigger:
   paths:
     include:
       - sdk/databoxedge/ci.mgmt.yml
-      - sdk/databoxedge/arm-databoxedge/
       - sdk/databoxedge/arm-databoxedge-profile-2020-09-01-hybrid
+      - sdk/databoxedge/arm-databoxedge
 pr:
   branches:
     include:
@@ -23,8 +23,8 @@ pr:
   paths:
     include:
       - sdk/databoxedge/ci.mgmt.yml
-      - sdk/databoxedge/arm-databoxedge/
       - sdk/databoxedge/arm-databoxedge-profile-2020-09-01-hybrid
+      - sdk/databoxedge/arm-databoxedge
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

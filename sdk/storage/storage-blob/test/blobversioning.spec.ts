@@ -121,7 +121,7 @@ describe("Blob versioning", () => {
     let exceptionCaught = false;
     try {
       await blobVersionClient.withSnapshot(snapshotRes.snapshot!).getProperties();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.details.errorCode, "MutuallyExclusiveQueryParameters");
       exceptionCaught = true;
     }
@@ -215,7 +215,7 @@ describe("Blob versioning", () => {
       await containerClient.deleteBlob(blobName, {
         versionId: uploadRes2.versionId,
       });
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.details.errorCode, "OperationNotAllowedOnRootBlob");
       exceptionCaught = true;
     }
@@ -243,7 +243,7 @@ describe("Blob versioning", () => {
     let exceptionCaught: boolean = false;
     try {
       await blobClient.delete();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.details.errorCode, "SnapshotsPresent");
       exceptionCaught = true;
     }
@@ -264,7 +264,7 @@ describe("Blob versioning", () => {
     const blobVersionClient = blobClient.withVersion(uploadRes.versionId!);
     try {
       await blobVersionClient.delete({ deleteSnapshots: "include" });
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.details.errorCode, "InvalidQueryParameterValue");
       exceptionCaught = true;
     }
@@ -274,7 +274,7 @@ describe("Blob versioning", () => {
     const blobVersionClient2 = blobClient.withVersion(uploadRes2.versionId!);
     try {
       await blobVersionClient2.delete({ deleteSnapshots: "only" });
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.details.errorCode, "InvalidQueryParameterValue");
       exceptionCaught2 = true;
     }

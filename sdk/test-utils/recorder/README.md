@@ -1,4 +1,4 @@
-## Azure @azure-tools/test-recorder-new library for JavaScript
+## Azure @azure-tools/test-recorder library for JavaScript
 
 **Note: This project is a test utility that assits with testing the packages maintained at the Azure SDK for JavaScript repository. This is not intended for the public utilization.**
 

@@ -141,7 +141,7 @@ export function toBuffer(input: unknown): Buffer {
     try {
       const inputStr = JSON.stringify(input);
       result = Buffer.from(inputStr, "utf8");
-    } catch (err) {
+    } catch (err: any) {
       const msg =
         `An error occurred while executing JSON.stringify() on the given input ` +
         input +

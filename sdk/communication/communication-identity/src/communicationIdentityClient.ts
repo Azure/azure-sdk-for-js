@@ -112,7 +112,7 @@ export class CommunicationIdentityClient {
         scopes,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -139,7 +139,7 @@ export class CommunicationIdentityClient {
         user.communicationUserId,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -162,7 +162,7 @@ export class CommunicationIdentityClient {
       return {
         communicationUserId: result.identity.id,
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -196,7 +196,7 @@ export class CommunicationIdentityClient {
         ...accessToken!,
         user: { communicationUserId: identity.id },
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -223,7 +223,7 @@ export class CommunicationIdentityClient {
         user.communicationUserId,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -253,7 +253,7 @@ export class CommunicationIdentityClient {
         teamsUserAadToken,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

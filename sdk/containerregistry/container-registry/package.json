@@ -6,7 +6,6 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "./dist-esm/src/utils/url.js": "./dist-esm/src/utils/url.browser.js",
     "./dist-esm/src/utils/base64.js": "./dist-esm/src/utils/base64.browser.js",
     "./dist-esm/test/utils/isNode.js": "./dist-esm/src/test/isNode.browser.js"
   },
@@ -89,7 +88,7 @@
     "@azure/test-utils": "^1.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "@azure-tools/test-recorder": "^2.0.0",
-    "@microsoft/api-extractor": "^7.18.11",
+    "@microsoft/api-extractor": "7.18.11",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^7.0.2",
