@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { CommonClientOptions } from "@azure/core-client";
-import { CommunicationUserIdentifier } from "@azure/communication-common";
+import { CommunicationUserIdentifier, CommunicationAccessToken } from "@azure/communication-common";
 
 /**
  * Represents the scope of the token.
@@ -17,16 +17,7 @@ export interface CommunicationIdentityClientOptions extends CommonClientOptions 
 /**
  * The access token for a user.
  */
-export interface CommunicationAccessToken {
-  /**
-   * The access token issued for the user.
-   */
-  token: string;
-  /**
-   * The expiry time of the token.
-   */
-  expiresOn: Date;
-}
+export { CommunicationAccessToken };
 
 /**
  * The issued token and the user it was issued for.

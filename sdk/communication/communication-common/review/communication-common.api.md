@@ -19,6 +19,15 @@ export class AzureCommunicationTokenCredential implements CommunicationTokenCred
 }
 
 // @public
+export interface CommunicationAccessToken {
+    expiresOn: Date;
+    resourceId: string | null;
+    scheme: string | null;
+    token: string;
+    user: CommunicationUserIdentifier | null;
+}
+
+// @public
 export interface CommunicationGetTokenOptions {
     abortSignal?: AbortSignalLike;
 }

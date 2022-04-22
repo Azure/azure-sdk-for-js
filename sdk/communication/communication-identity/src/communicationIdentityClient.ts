@@ -107,11 +107,17 @@ export class CommunicationIdentityClient {
   ): Promise<CommunicationAccessToken> {
     const { span, updatedOptions } = createSpan("CommunicationIdentity-issueToken", options);
     try {
-      return await this.client.communicationIdentityOperations.issueAccessToken(
+      const token = await this.client.communicationIdentityOperations.issueAccessToken(
         user.communicationUserId,
         scopes,
         updatedOptions
       );
+      return {
+        resourceId: null,
+        scheme: null,
+        user: null,
+        ...token,
+      };
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -193,6 +199,8 @@ export class CommunicationIdentityClient {
         ...updatedOptions,
       });
       return {
+        resourceId: null,
+        scheme: null,
         ...accessToken!,
         user: { communicationUserId: identity.id },
       };
@@ -249,10 +257,16 @@ export class CommunicationIdentityClient {
       options
     );
     try {
-      return await this.client.communicationIdentityOperations.exchangeTeamsUserAccessToken(
+      const token = await this.client.communicationIdentityOperations.exchangeTeamsUserAccessToken(
         teamsUserAadToken,
         updatedOptions
       );
+      return {
+        resourceId: null, //TODO: this will be retrieved from the response
+        scheme: null, //TODO: this will be retrieved from the response
+        user: null, //TODO: this will be retrieved from the response
+        ...token,
+      };
     } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
