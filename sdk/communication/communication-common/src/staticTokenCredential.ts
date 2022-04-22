@@ -4,6 +4,7 @@
 import { AccessToken } from "@azure/core-auth";
 import { CommunicationToken } from "./models";
 import { TokenCredential } from "./communicationTokenCredential";
+import { convertToAccessToken } from "./tokenParser";
 
 /**
  * StaticTokenCredential
@@ -13,10 +14,7 @@ export class StaticTokenCredential implements TokenCredential {
 
   public async getToken(): Promise<AccessToken> {
     const communicationToken = await this.getCommunicationToken();
-    return {
-      token: communicationToken.token,
-      expiresOnTimestamp: communicationToken.expiresOn.getTime(),
-    };
+    return convertToAccessToken(communicationToken);
   }
 
   public async getCommunicationToken(): Promise<CommunicationToken> {

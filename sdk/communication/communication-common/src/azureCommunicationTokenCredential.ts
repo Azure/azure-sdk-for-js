@@ -14,8 +14,7 @@ import {
 import { AccessToken } from "@azure/core-auth";
 import { CommunicationToken } from "./models";
 import { StaticTokenCredential } from "./staticTokenCredential";
-import { createIdentifierFromRawId } from "./identifierModels";
-import { parseToken } from "./tokenParser";
+import { parseCommunicationToken } from "./tokenParser";
 
 /**
  * The CommunicationTokenCredential implementation with support for proactive token refresh.
@@ -40,13 +39,8 @@ export class AzureCommunicationTokenCredential implements CommunicationTokenCred
     tokenOrRefreshOptions: string | CommunicationTokenRefreshOptions | TeamsTokenRefreshOptions
   ) {
     if (typeof tokenOrRefreshOptions === "string") {
-      const parsedToken = parseToken(tokenOrRefreshOptions);
-      const communicationToken = {
-        token: parsedToken.token,
-        identity: createIdentifierFromRawId(parsedToken.rawId),
-        expiresOn: new Date(parsedToken.expiresOnTimestamp),
-      };
-      this.tokenCredential = new StaticTokenCredential(communicationToken);
+      const parsedToken = parseCommunicationToken(tokenOrRefreshOptions);
+      this.tokenCredential = new StaticTokenCredential(parsedToken);
     } else {
       this.tokenCredential = new AutoRefreshTokenCredential(tokenOrRefreshOptions);
     }

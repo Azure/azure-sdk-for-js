@@ -2,11 +2,10 @@
 // Licensed under the MIT license.
 
 import { CommunicationGetTokenOptions, TokenCredential } from "./communicationTokenCredential";
+import { convertToAccessToken, parseCommunicationToken } from "./tokenParser";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { AccessToken } from "@azure/core-auth";
 import { CommunicationToken } from "./models";
-import { createIdentifierFromRawId } from "./identifierModels";
-import { parseToken } from "./tokenParser";
 
 /**
  * Options for auto-refreshing a Communication Token credential.
@@ -79,24 +78,12 @@ export class AutoRefreshTokenCredential implements TokenCredential {
     const tra = refreshArgs as TeamsTokenRefreshOptions;
 
     if (cra !== null) {
-      const parsedToken = cra.token ? parseToken(cra.token) : null;
-      this.currentToken =
-        cra.token && parsedToken !== null
-          ? {
-              token: parsedToken.token,
-              expiresOn: new Date(parsedToken.expiresOnTimestamp),
-              identity: createIdentifierFromRawId(parsedToken.rawId),
-            }
-          : expiredToken;
+      const parsedToken = cra.token ? parseCommunicationToken(cra.token) : null;
+      this.currentToken = cra.token && parsedToken !== null ? parsedToken : expiredToken;
 
       this.refresh = async (abortSignal?: AbortSignalLike): Promise<CommunicationToken> => {
         const response = await cra.tokenRefresher(abortSignal);
-        const { token, expiresOnTimestamp, rawId } = parseToken(response);
-        return {
-          token: token,
-          expiresOn: new Date(expiresOnTimestamp),
-          identity: createIdentifierFromRawId(rawId),
-        };
+        return parseCommunicationToken(response);
       };
     } else if (tra !== null) {
       this.currentToken = tra.token ?? expiredToken;
@@ -127,10 +114,7 @@ export class AutoRefreshTokenCredential implements TokenCredential {
 
   public async getToken(options?: CommunicationGetTokenOptions): Promise<AccessToken> {
     const communicationToken = await this.getCommunicationToken(options);
-    return {
-      token: communicationToken.token,
-      expiresOnTimestamp: communicationToken.expiresOn.getTime(),
-    };
+    return convertToAccessToken(communicationToken);
   }
 
   public dispose(): void {
