@@ -21,6 +21,7 @@ specifiers:
   '@rush-temp/arm-attestation': file:./projects/arm-attestation.tgz
   '@rush-temp/arm-authorization': file:./projects/arm-authorization.tgz
   '@rush-temp/arm-authorization-profile-2020-09-01-hybrid': file:./projects/arm-authorization-profile-2020-09-01-hybrid.tgz
+  '@rush-temp/arm-automanage': file:./projects/arm-automanage.tgz
   '@rush-temp/arm-avs': file:./projects/arm-avs.tgz
   '@rush-temp/arm-azureadexternalidentities': file:./projects/arm-azureadexternalidentities.tgz
   '@rush-temp/arm-azurestack': file:./projects/arm-azurestack.tgz
@@ -296,6 +297,7 @@ dependencies:
   '@rush-temp/arm-attestation': file:projects/arm-attestation.tgz
   '@rush-temp/arm-authorization': file:projects/arm-authorization.tgz
   '@rush-temp/arm-authorization-profile-2020-09-01-hybrid': file:projects/arm-authorization-profile-2020-09-01-hybrid.tgz
+  '@rush-temp/arm-automanage': file:projects/arm-automanage.tgz
   '@rush-temp/arm-avs': file:projects/arm-avs.tgz
   '@rush-temp/arm-azureadexternalidentities': file:projects/arm-azureadexternalidentities.tgz
   '@rush-temp/arm-azurestack': file:projects/arm-azurestack.tgz
@@ -9585,6 +9587,33 @@ packages:
       uglify-js: 3.15.4
     dev: false
 
+  file:projects/arm-automanage.tgz:
+    resolution: {integrity: sha512-nc7N5CrXs/10uR3d7A1qxufgt3pq+5yg1Q9we9Wcurtqg4yTzEUjsAodC2tFgwsg7BoPkjmLBzhlchuUlO/xIA==, tarball: file:projects/arm-automanage.tgz}
+    name: '@rush-temp/arm-automanage'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.22.1
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      tslib: 2.3.1
+      typescript: 4.2.4
+      uglify-js: 3.15.4
+    transitivePeerDependencies:
+      - debug
+      - encoding
+      - supports-color
+    dev: false
+
   file:projects/arm-avs.tgz:
     resolution: {integrity: sha512-9/axUWcLrV5AM6vc/AUhwPKkto9Kqp6xRyTZMpj8v1yrEWcD2ZL3yYpkRwdisYlbsouuujiEESnQOHjImfvphg==, tarball: file:projects/arm-avs.tgz}
     name: '@rush-temp/arm-avs'
@@ -15021,7 +15050,7 @@ packages:
     dev: false
 
   file:projects/dtdl-parser.tgz:
-    resolution: {integrity: sha512-/Dpf2haY7btQZGQuvHBOvp+FV73jJdRtvEb9Iq2FlChhxnlxi3rnU+c5d3RiTER/V7CN2eTqZTmGqU81I5hofA==, tarball: file:projects/dtdl-parser.tgz}
+    resolution: {integrity: sha512-4fU57xg4ogr10JRjNfFZSQHD/efBKZZGYEsX6yLNQLr7d+v8DeUkBR6wL01Eu2X4BVVSWkhB+Hg+cgnbhlxQfg==, tarball: file:projects/dtdl-parser.tgz}
     name: '@rush-temp/dtdl-parser'
     version: 0.0.0
     dependencies:
@@ -15468,7 +15497,7 @@ packages:
     dev: false
 
   file:projects/iot-device-update.tgz:
-    resolution: {integrity: sha512-eYZc1OhjpW+iMs7ckvpoPSXLSq0Z4otKFuEFl8wcsvlTyeqq/bjRElOHVmNwl4dtRw1fNy4DGQUdoH5aXsT17w==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-qEzFrCUOGxmgQ19d6cFJDtwdEhlb6Dn9yYLO5yrMg8KYyH6hLQa5JaxVbgvfK6ZFneTaYVaLnEMiZzmzXMgZVg==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:
@@ -15989,7 +16018,7 @@ packages:
     dev: false
 
   file:projects/opentelemetry-instrumentation-azure-sdk.tgz:
-    resolution: {integrity: sha512-Fe2F+/VXo+2tFHmXPDJLFMmhQOYnX5wSqu+TG6Msek9ViI1x/cL8DhW3LcMwUvw5ohysFX8QsTfd9OPKO1msaQ==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
+    resolution: {integrity: sha512-rWiPsZxSnuYGdFux77mxyZBjJ1I9LgMWvb+x04sDyizzAp4495+V81pN9O+9btqu1hr72zKv/hNseMEpUEf31A==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
     name: '@rush-temp/opentelemetry-instrumentation-azure-sdk'
     version: 0.0.0
     dependencies:
