@@ -15,6 +15,7 @@ export class AzureCommunicationTokenCredential implements CommunicationTokenCred
     constructor(token: string);
     constructor(refreshOptions: CommunicationTokenRefreshOptions);
     dispose(): void;
+    getCommunicationToken(options?: CommunicationGetTokenOptions): Promise<CommunicationAccessToken>;
     getToken(options?: CommunicationGetTokenOptions): Promise<AccessToken>;
 }
 
@@ -41,6 +42,7 @@ export type CommunicationIdentifierKind = CommunicationUserKind | PhoneNumberKin
 // @public
 export interface CommunicationTokenCredential {
     dispose(): void;
+    getCommunicationToken(options?: CommunicationGetTokenOptions): Promise<CommunicationAccessToken>;
     getToken(options?: CommunicationGetTokenOptions): Promise<AccessToken>;
 }
 

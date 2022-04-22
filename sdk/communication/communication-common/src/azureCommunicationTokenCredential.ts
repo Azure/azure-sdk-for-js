@@ -4,6 +4,7 @@
 import {
   AutoRefreshTokenCredential,
   CommunicationTokenRefreshOptions,
+  TeamsTokenRefreshOptions,
 } from "./autoRefreshTokenCredential";
 import {
   CommunicationGetTokenOptions,
@@ -13,6 +14,7 @@ import {
 import { AccessToken } from "@azure/core-auth";
 import { StaticTokenCredential } from "./staticTokenCredential";
 import { parseToken } from "./tokenParser";
+import { CommunicationAccessToken } from "./models";
 
 /**
  * The CommunicationTokenCredential implementation with support for proactive token refresh.
@@ -33,12 +35,35 @@ export class AzureCommunicationTokenCredential implements CommunicationTokenCred
    * @param refreshOptions - Options to configure refresh and opt-in to proactive refreshing.
    */
   constructor(refreshOptions: CommunicationTokenRefreshOptions);
-  constructor(tokenOrRefreshOptions: string | CommunicationTokenRefreshOptions) {
+  constructor(
+    tokenOrRefreshOptions: string | CommunicationTokenRefreshOptions | TeamsTokenRefreshOptions
+  ) {
     if (typeof tokenOrRefreshOptions === "string") {
-      this.tokenCredential = new StaticTokenCredential(parseToken(tokenOrRefreshOptions));
+      const parsedToken = parseToken(tokenOrRefreshOptions);
+      const communicationToken = {
+        token: parsedToken.token,
+        expiresOn: new Date(parsedToken.expiresOnTimestamp),
+        resourceId: null,
+        user: null,
+        scheme: null,
+      };
+      this.tokenCredential = new StaticTokenCredential(communicationToken);
     } else {
       this.tokenCredential = new AutoRefreshTokenCredential(tokenOrRefreshOptions);
     }
+  }
+
+  /**
+   * Gets an Communication access token for the user. Throws if already disposed.
+   * @param abortSignal - An implementation of `AbortSignalLike` to cancel the operation.
+   */
+  public async getCommunicationToken(
+    options?: CommunicationGetTokenOptions
+  ): Promise<CommunicationAccessToken> {
+    this.throwIfDisposed();
+    const token = await this.tokenCredential.getCommunicationToken(options);
+    this.throwIfDisposed();
+    return token;
   }
 
   /**

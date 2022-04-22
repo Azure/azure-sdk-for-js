@@ -80,7 +80,7 @@ export class AutoRefreshTokenCredential implements TokenCredential {
     const tra = refreshArgs as TeamsTokenRefreshOptions;
 
     if (cra !== null) {
-      let parsedToken = cra.token ? parseToken(cra.token) : null;
+      const parsedToken = cra.token ? parseToken(cra.token) : null;
       this.currentToken =
         cra.token && parsedToken !== null
           ? {
@@ -115,9 +115,11 @@ export class AutoRefreshTokenCredential implements TokenCredential {
     }
   }
 
-  public async getToken(options?: CommunicationGetTokenOptions): Promise<AccessToken> {
+  public async getCommunicationToken(
+    options?: CommunicationGetTokenOptions
+  ): Promise<CommunicationAccessToken> {
     if (!this.isTokenExpiringSoon(this.currentToken)) {
-      return parseToken(this.currentToken.token);
+      return this.currentToken;
     }
 
     if (!this.isTokenValid(this.currentToken)) {
@@ -125,7 +127,15 @@ export class AutoRefreshTokenCredential implements TokenCredential {
       await updatePromise;
     }
 
-    return parseToken(this.currentToken.token);
+    return this.currentToken;
+  }
+
+  public async getToken(options?: CommunicationGetTokenOptions): Promise<AccessToken> {
+    const communicationToken = await this.getCommunicationToken(options);
+    return {
+      token: communicationToken.token,
+      expiresOnTimestamp: communicationToken.expiresOn.getTime(),
+    };
   }
 
   public dispose(): void {
