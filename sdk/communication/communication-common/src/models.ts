@@ -20,15 +20,15 @@ export interface CommunicationAccessToken {
   /**
    * Stable Communication resource identifier.
    */
-  resourceId: string | null;
+  resourceId?: string;
 
   /**
    * Communication user identifier.
    */
-  user: CommunicationUserIdentifier | null;
+  user?: CommunicationUserIdentifier;
 
   /**
    * HTTP Authentication scheme associated with the token.
    */
-  scheme: string | null;
+  scheme?: string;
 }

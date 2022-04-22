@@ -43,9 +43,6 @@ export class AzureCommunicationTokenCredential implements CommunicationTokenCred
       const communicationToken = {
         token: parsedToken.token,
         expiresOn: new Date(parsedToken.expiresOnTimestamp),
-        resourceId: null,
-        user: null,
-        scheme: null,
       };
       this.tokenCredential = new StaticTokenCredential(communicationToken);
     } else {

@@ -113,9 +113,6 @@ export class CommunicationIdentityClient {
         updatedOptions
       );
       return {
-        resourceId: null,
-        scheme: null,
-        user: null,
         ...token,
       };
     } catch (e: any) {
@@ -199,8 +196,6 @@ export class CommunicationIdentityClient {
         ...updatedOptions,
       });
       return {
-        resourceId: null,
-        scheme: null,
         ...accessToken!,
         user: { communicationUserId: identity.id },
       };
@@ -262,9 +257,9 @@ export class CommunicationIdentityClient {
         updatedOptions
       );
       return {
-        resourceId: null, //TODO: this will be retrieved from the response
-        scheme: null, //TODO: this will be retrieved from the response
-        user: null, //TODO: this will be retrieved from the response
+        resourceId: "", //TODO: this will be retrieved from the response
+        scheme: "", //TODO: this will be retrieved from the response
+        user: { communicationUserId: "" }, //TODO: this will be retrieved from the response
         ...token,
       };
     } catch (e: any) {

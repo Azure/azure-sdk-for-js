@@ -22,10 +22,10 @@ export class AzureCommunicationTokenCredential implements CommunicationTokenCred
 // @public
 export interface CommunicationAccessToken {
     expiresOn: Date;
-    resourceId: string | null;
-    scheme: string | null;
+    resourceId?: string;
+    scheme?: string;
     token: string;
-    user: CommunicationUserIdentifier | null;
+    user?: CommunicationUserIdentifier;
 }
 
 // @public

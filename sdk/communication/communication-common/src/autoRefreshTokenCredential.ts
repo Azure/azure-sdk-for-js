@@ -54,9 +54,6 @@ export interface TeamsTokenRefreshOptions {
 const expiredToken: CommunicationAccessToken = {
   token: "",
   expiresOn: new Date(-10),
-  resourceId: null,
-  user: null,
-  scheme: null,
 };
 const minutesToMs = (minutes: number): number => minutes * 1000 * 60;
 const defaultExpiringSoonInterval = minutesToMs(10);
@@ -86,9 +83,6 @@ export class AutoRefreshTokenCredential implements TokenCredential {
           ? {
               token: parsedToken.token,
               expiresOn: new Date(parsedToken.expiresOnTimestamp),
-              resourceId: null,
-              user: null,
-              scheme: null,
             }
           : expiredToken;
 
@@ -96,11 +90,8 @@ export class AutoRefreshTokenCredential implements TokenCredential {
         const response = await cra.tokenRefresher(abortSignal);
         const { token, expiresOnTimestamp } = parseToken(response);
         return {
-          user: null,
-          scheme: null,
           token: token,
           expiresOn: new Date(expiresOnTimestamp),
-          resourceId: null,
         };
       };
     } else if (tra !== null) {
