@@ -184,7 +184,7 @@ export const getIdentifierKind = (
 
 export const createIdentifierFromRawId = (rawId: string): CommunicationIdentifierKind => {
   return {
-    kind: "unknown", //TODO
+    kind: "unknown", // TODO
     id: rawId,
   };
 };
