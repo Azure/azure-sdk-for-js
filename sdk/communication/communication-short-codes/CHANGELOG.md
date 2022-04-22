@@ -1,4 +1,7 @@
 # Release History
+## 1.0.0-beta.3 (Unreleased)
+### Features Added
+- Management of Program Brief Attachments
 
 ## 1.0.0-beta.2 (2022-03-31)
 ### Features Added
