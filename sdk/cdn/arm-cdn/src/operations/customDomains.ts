@@ -423,23 +423,9 @@ export class CustomDomainsImpl implements CustomDomains {
     customDomainName: string,
     options?: CustomDomainsEnableCustomHttpsOptionalParams
   ): Promise<CustomDomainsEnableCustomHttpsResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        profileName,
-        endpointName,
-        customDomainName,
-        options
-      },
-      enableCustomHttpsOperationSpec
-    );
     // #region Added default values to add backwards compatibility
     let newOptions: Models.CustomDomainsEnableCustomHttpsOptionalParams = {};
-    if (typeof options === "function") {
-
-    } else {
-      newOptions = options as Models.CustomDomainsEnableCustomHttpsOptionalParams;
-    }
+    newOptions = options as Models.CustomDomainsEnableCustomHttpsOptionalParams;
 
     if (!newOptions) {
       newOptions = {};
