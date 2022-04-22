@@ -119,7 +119,7 @@ export class AzurePowerShellCredential implements TokenCredential {
     for (const powerShellCommand of [...commandStack]) {
       try {
         await runCommands([[powerShellCommand, "/?"]]);
-      } catch (e) {
+      } catch (e: any) {
         // Remove this credential from the original stack so that we don't try it again.
         commandStack.shift();
         continue;
@@ -146,7 +146,7 @@ export class AzurePowerShellCredential implements TokenCredential {
       const result = results[1];
       try {
         return JSON.parse(result);
-      } catch (e) {
+      } catch (e: any) {
         throw new Error(`Unable to parse the output of PowerShell. Received output: ${result}`);
       }
     }
@@ -183,7 +183,7 @@ export class AzurePowerShellCredential implements TokenCredential {
           token: response.Token,
           expiresOnTimestamp: new Date(response.ExpiresOn).getTime(),
         };
-      } catch (err) {
+      } catch (err: any) {
         if (isNotInstalledError(err)) {
           const error = new CredentialUnavailableError(powerShellPublicErrorMessages.installed);
           logger.getToken.info(formatError(scope, error));

@@ -279,7 +279,7 @@ export async function sendGetRequest<TOptions extends OperationOptions>(
       flatResponse: flatResponse,
       rawResponse,
     };
-  } catch (e) {
+  } catch (e: any) {
     span.setStatus({
       code: SpanStatusCode.ERROR,
       message: e.message,

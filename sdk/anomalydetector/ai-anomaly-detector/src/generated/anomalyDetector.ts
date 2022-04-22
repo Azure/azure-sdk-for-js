@@ -130,7 +130,7 @@ export class AnomalyDetector extends AnomalyDetectorContext {
         detectEntireSeriesOperationSpec
       );
       return result as AnomalyDetectorDetectEntireSeriesResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -167,7 +167,7 @@ export class AnomalyDetector extends AnomalyDetectorContext {
         detectLastPointOperationSpec
       );
       return result as AnomalyDetectorDetectLastPointResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -202,7 +202,7 @@ export class AnomalyDetector extends AnomalyDetectorContext {
         detectChangePointOperationSpec
       );
       return result as AnomalyDetectorDetectChangePointResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -239,7 +239,7 @@ export class AnomalyDetector extends AnomalyDetectorContext {
         trainMultivariateModelOperationSpec
       );
       return result as AnomalyDetectorTrainMultivariateModelResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -270,7 +270,7 @@ export class AnomalyDetector extends AnomalyDetectorContext {
         listMultivariateModelOperationSpec
       );
       return result as AnomalyDetectorListMultivariateModelResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -305,7 +305,7 @@ export class AnomalyDetector extends AnomalyDetectorContext {
         getMultivariateModelOperationSpec
       );
       return result as AnomalyDetectorGetMultivariateModelResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -339,7 +339,7 @@ export class AnomalyDetector extends AnomalyDetectorContext {
         deleteMultivariateModelOperationSpec
       );
       return result as coreHttp.RestResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -378,7 +378,7 @@ export class AnomalyDetector extends AnomalyDetectorContext {
         detectAnomalyOperationSpec
       );
       return result as AnomalyDetectorDetectAnomalyResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -412,7 +412,7 @@ export class AnomalyDetector extends AnomalyDetectorContext {
         getDetectionResultOperationSpec
       );
       return result as AnomalyDetectorGetDetectionResultResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -443,7 +443,7 @@ export class AnomalyDetector extends AnomalyDetectorContext {
         exportModelOperationSpec
       );
       return result as AnomalyDetectorExportModelResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -480,7 +480,7 @@ export class AnomalyDetector extends AnomalyDetectorContext {
         lastDetectAnomalyOperationSpec
       );
       return result as AnomalyDetectorLastDetectAnomalyResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -514,7 +514,7 @@ export class AnomalyDetector extends AnomalyDetectorContext {
         listMultivariateModelNextOperationSpec
       );
       return result as AnomalyDetectorListMultivariateModelNextResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message

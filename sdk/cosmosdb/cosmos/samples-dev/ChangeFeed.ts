@@ -158,7 +158,7 @@ async function run(): Promise<void> {
       [4],
       fromNowResults2.map((v) => parseInt(v.id))
     );
-  } catch (err) {
+  } catch (err: any) {
     if (err) {
       console.log("Threw, as expected");
     } else {

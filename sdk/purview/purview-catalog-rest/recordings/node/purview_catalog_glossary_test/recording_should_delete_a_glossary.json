@@ -1,0 +1,61 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/catalog/api/atlas/v2/entity/guid/5fb8514d-9cb8-4d5f-b4ea-056c727bbfd1?api-version=2021-05-01-preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-purview-catalog-rest/1.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v17.8.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "d1292876-98a5-4413-ada8-fad9486416ee"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Headers": "authorization,content-type,x-xsrf-header,x-ms-client-request-id,lastmodifiedts",
+        "Access-Control-Allow-Methods": "GET,OPTIONS,HEAD,PUT,POST,DELETE,PATCH",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "x-ms-request-id,lastmodifiedts",
+        "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
+        "Content-Security-Policy": "default-src \u0027self\u0027; script-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 blob: data:; connect-src \u0027self\u0027; img-src \u0027self\u0027 blob: data:; style-src \u0027self\u0027 \u0027unsafe-inline\u0027;font-src \u0027self\u0027 data:",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 19 Apr 2022 07:33:52 GMT",
+        "Expires": "0",
+        "Pragma": "no-cache",
+        "Server": "AzurePurview",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "DENY",
+        "x-ms-correlation-request-id": "330061f3-7ff9-43ca-82aa-b43e5b7d702a",
+        "x-ms-request-id": "d1292876-98a5-4413-ada8-fad9486416ee",
+        "X-XSS-Protection": "1; mode=block"
+      },
+      "ResponseBody": {
+        "mutatedEntities": {
+          "DELETE": [
+            {
+              "typeName": "AtlasGlossary",
+              "attributes": {
+                "qualifiedName": "jsLROTesting-2",
+                "name": "jsLROTesting-2"
+              },
+              "lastModifiedTS": "2",
+              "guid": "5fb8514d-9cb8-4d5f-b4ea-056c727bbfd1",
+              "status": "ACTIVE",
+              "displayText": "jsLROTesting-2",
+              "classificationNames": [],
+              "meaningNames": [],
+              "meanings": [],
+              "isIncomplete": false,
+              "labels": []
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

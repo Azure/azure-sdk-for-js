@@ -36,7 +36,7 @@ export class DetectLanguageTest extends PerfTest<DetectLanguagePerfTestOptions> 
 
     try {
       credential = new DefaultAzureCredential();
-    } catch (e) {
+    } catch (e: any) {
       credential = new AzureKeyCredential(process.env.TEXT_ANALYTICS_API_KEY ?? "");
     }
 

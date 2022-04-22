@@ -113,7 +113,7 @@ export class SparkJobDefinitionOperationsImpl
         getSparkJobDefinitionsByWorkspaceOperationSpec
       );
       return result as SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -153,7 +153,7 @@ export class SparkJobDefinitionOperationsImpl
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as SparkJobDefinitionCreateOrUpdateSparkJobDefinitionResponse;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -247,7 +247,7 @@ export class SparkJobDefinitionOperationsImpl
         getSparkJobDefinitionOperationSpec
       );
       return result as SparkJobDefinitionGetSparkJobDefinitionResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -278,7 +278,7 @@ export class SparkJobDefinitionOperationsImpl
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -375,7 +375,7 @@ export class SparkJobDefinitionOperationsImpl
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as SparkJobDefinitionExecuteSparkJobDefinitionResponse;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -470,7 +470,7 @@ export class SparkJobDefinitionOperationsImpl
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -570,7 +570,7 @@ export class SparkJobDefinitionOperationsImpl
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as SparkJobDefinitionDebugSparkJobDefinitionResponse;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -663,7 +663,7 @@ export class SparkJobDefinitionOperationsImpl
         getSparkJobDefinitionsByWorkspaceNextOperationSpec
       );
       return result as SparkJobDefinitionGetSparkJobDefinitionsByWorkspaceNextResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message

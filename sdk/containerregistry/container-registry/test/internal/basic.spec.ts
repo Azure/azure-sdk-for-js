@@ -27,7 +27,7 @@ describe("ContainerRegistryClient functional test", async function () {
       try {
         await client.deleteRepository(value as any);
         assert.fail("should have thrown already");
-      } catch (e) {
+      } catch (e: any) {
         assert.equal((e as Error).message, "invalid repositoryName");
       }
     });
@@ -89,7 +89,7 @@ describe("RegistryArtifact functional test", async function () {
       try {
         await artifact.deleteTag(value as any);
         assert.fail("should have thrown already");
-      } catch (e) {
+      } catch (e: any) {
         assert.equal((e as Error).message, "invalid tag");
       }
     });
@@ -98,7 +98,7 @@ describe("RegistryArtifact functional test", async function () {
       try {
         await artifact.getTagProperties(value as any);
         assert.fail("should have thrown already");
-      } catch (e) {
+      } catch (e: any) {
         assert.equal((e as Error).message, "invalid tag");
       }
     });
@@ -107,7 +107,7 @@ describe("RegistryArtifact functional test", async function () {
       try {
         await artifact.updateTagProperties(value as any, {});
         assert.fail("should have thrown already");
-      } catch (e) {
+      } catch (e: any) {
         assert.equal((e as Error).message, "invalid tag");
       }
     });

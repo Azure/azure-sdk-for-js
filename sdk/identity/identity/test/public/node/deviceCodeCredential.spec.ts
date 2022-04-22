@@ -125,7 +125,7 @@ describe("DeviceCodeCredential", function () {
     let error: AbortError | undefined;
     try {
       await getTokenPromise;
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
 
@@ -147,7 +147,7 @@ describe("DeviceCodeCredential", function () {
     let error: AbortError | undefined;
     try {
       await credential.getToken(scope);
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(

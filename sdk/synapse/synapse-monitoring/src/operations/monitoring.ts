@@ -42,7 +42,7 @@ export class Monitoring {
         getSparkJobListOperationSpec
       );
       return result as MonitoringGetSparkJobListResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: error.message
@@ -70,7 +70,7 @@ export class Monitoring {
         getSqlJobQueryStringOperationSpec
       );
       return result as MonitoringGetSqlJobQueryStringResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: error.message

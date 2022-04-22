@@ -23,7 +23,7 @@ describe("CbsClient", function () {
       try {
         await cbsClient.init({ abortSignal: signal });
         throw new Error(TEST_FAILURE);
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.name, "AbortError");
       }
     });
@@ -54,7 +54,7 @@ describe("CbsClient", function () {
       try {
         await cbsClient.init({ abortSignal: signal });
         throw new Error(TEST_FAILURE);
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.name, "AbortError");
       }
     });
@@ -74,7 +74,7 @@ describe("CbsClient", function () {
       try {
         await cbsClient.init({ abortSignal: signal });
         throw new Error(TEST_FAILURE);
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.name, "AbortError");
       }
     });
@@ -88,7 +88,7 @@ describe("CbsClient", function () {
       try {
         await cbsClient.negotiateClaim("audience", "token", TokenType.CbsTokenTypeSas);
         throw new Error(TEST_FAILURE);
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(
           err.message,
           "Attempted to negotiate a claim but the CBS link does not exist."
@@ -112,7 +112,7 @@ describe("CbsClient", function () {
             abortSignal: signal,
           });
           throw new Error(TEST_FAILURE);
-        } catch (err) {
+        } catch (err: any) {
           assert.equal(err.name, "AbortError");
         }
       });
@@ -134,7 +134,7 @@ describe("CbsClient", function () {
             abortSignal: signal,
           });
           throw new Error(TEST_FAILURE);
-        } catch (err) {
+        } catch (err: any) {
           assert.equal(err.name, "AbortError");
         }
       });

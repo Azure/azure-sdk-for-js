@@ -43,7 +43,7 @@ describe("clientHelpers", () => {
     try {
       createDefaultPipeline(mockBaseUrl, { key: "mockKey" });
       fail("Expected to throw an error");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal((error as Error).message, "Missing API Key Header Name");
     }
   });

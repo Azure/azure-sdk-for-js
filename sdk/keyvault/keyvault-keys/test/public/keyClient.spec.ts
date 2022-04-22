@@ -4,13 +4,13 @@
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
 import { AbortController } from "@azure/abort-controller";
-import { env, isPlaybackMode, isRecordMode, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 
 import {
-  KeyClient,
   CreateEcKeyOptions,
-  UpdateKeyPropertiesOptions,
   GetKeyOptions,
+  KeyClient,
+  UpdateKeyPropertiesOptions,
 } from "../../src";
 import {
   assertThrowsAbortError,
@@ -85,7 +85,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     try {
       await client.createKey(keyName, "RSA");
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(
@@ -280,7 +280,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     try {
       await client.getKey(keyName);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       if (e.name === "RestError") {
         assert.equal(e.code, "KeyNotFound");
         assert.equal(e.statusCode, 404);
@@ -311,7 +311,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     try {
       await client.getKey(keyName);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       if (e.name === "RestError") {
         assert.equal(e.code, "KeyNotFound");
         assert.equal(e.statusCode, 404);
@@ -380,7 +380,7 @@ describe("Keys client - create, read, update and delete operations", () => {
       const poller = await client.beginDeleteKey(keyName, testPollerProperties);
       await poller.pollUntilDone();
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error.code, "KeyNotFound");

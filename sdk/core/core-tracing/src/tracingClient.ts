@@ -72,7 +72,7 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
       );
       span.setStatus({ status: "success" });
       return result as ReturnType<typeof withSpan>;
-    } catch (err) {
+    } catch (err: any) {
       span.setStatus({ status: "error", error: err });
       throw err;
     } finally {

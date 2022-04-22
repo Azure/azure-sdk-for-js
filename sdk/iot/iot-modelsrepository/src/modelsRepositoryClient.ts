@@ -201,7 +201,7 @@ export class ModelsRepositoryClient {
       try {
         logger.info(`Retreiving expanded model(s): ${dtmis}...`);
         modelMap = await this._resolver.resolve(dtmis, true, options);
-      } catch (e) {
+      } catch (e: any) {
         if (e.name === "RestError" && e.code === "ResouceNotFound") {
           logger.info("Could not retrieve model(s) from expanded model DTDL - ");
           const baseModelMap: { [dtmi: string]: unknown } = await this._resolver.resolve(

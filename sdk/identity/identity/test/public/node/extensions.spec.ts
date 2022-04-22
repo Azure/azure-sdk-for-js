@@ -11,7 +11,7 @@ import { VisualStudioCodeCredential } from "../../../src";
 async function assertRejects(p: Promise<unknown>, regexp: RegExp): Promise<void> {
   try {
     await p;
-  } catch (e) {
+  } catch (e: any) {
     if (!regexp.test(e.message)) {
       throw new AssertionError(
         `The input did not match the regular expression ${regexp}. Input:\n\n'${e.message}'`

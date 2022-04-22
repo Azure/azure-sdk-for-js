@@ -69,7 +69,7 @@ export function createEventHubsClient(settings: {
             ++currEventCount;
           }
         }
-      } catch (error) {
+      } catch (error: any) {
         await this.cleanup();
         throw error;
       }

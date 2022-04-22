@@ -256,7 +256,7 @@ describe("ThrottlingRetryPolicy", () => {
       let errorWasThrown = false;
       try {
         await policy.sendRequest(request);
-      } catch (error) {
+      } catch (error: any) {
         errorWasThrown = true;
         assert.equal((error as any).name, "AbortError", "Unexpected error thrown");
       }

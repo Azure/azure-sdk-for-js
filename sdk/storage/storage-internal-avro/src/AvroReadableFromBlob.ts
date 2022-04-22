@@ -28,17 +28,18 @@ export class AvroReadableFromBlob extends AvroReadable {
 
     const fileReader = new FileReader();
     return new Promise<Uint8Array>((resolve, reject) => {
-      const cleanUp = () => {
+
+      function cleanUp(): void {
         if (options.abortSignal) {
           options.abortSignal!.removeEventListener("abort", abortHandler);
         }
-      };
+      }
 
-      const abortHandler = () => {
+      function abortHandler(): void {
         fileReader.abort();
         cleanUp();
         reject(ABORT_ERROR);
-      };
+      }
 
       if (options.abortSignal) {
         options.abortSignal.addEventListener("abort", abortHandler);

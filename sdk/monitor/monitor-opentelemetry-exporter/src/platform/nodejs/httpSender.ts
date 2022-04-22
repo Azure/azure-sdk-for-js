@@ -65,7 +65,7 @@ export class HttpSender implements Sender {
       });
 
       return { statusCode: response?.status, result: response?.bodyAsText ?? "" };
-    } catch (e) {
+    } catch (e: any) {
       throw e;
     }
   }

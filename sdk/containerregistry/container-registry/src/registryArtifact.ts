@@ -286,7 +286,7 @@ export class RegistryArtifactImpl {
         await this.getDigest(),
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
@@ -308,7 +308,7 @@ export class RegistryArtifactImpl {
 
     try {
       await this.client.containerRegistry.deleteTag(this.repositoryName, tag, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
@@ -332,7 +332,7 @@ export class RegistryArtifactImpl {
         updatedOptions
       );
       return toArtifactManifestProperties(result, this.repositoryName, result.registryLoginServer!);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
@@ -377,7 +377,7 @@ export class RegistryArtifactImpl {
         updatedOptions
       );
       return toArtifactManifestProperties(result, this.repositoryName, result.registryLoginServer!);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
@@ -405,7 +405,7 @@ export class RegistryArtifactImpl {
         tag,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
@@ -455,7 +455,7 @@ export class RegistryArtifactImpl {
         tag,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
