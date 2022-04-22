@@ -7,27 +7,27 @@ import { ShortCodesGetShortCodesOptionalParams } from ".";
 /**
  * Additional options for the delete US Program Brief request.
  */
-export interface DeleteUSProgramBriefOptions extends OperationOptions {}
+export interface DeleteUSProgramBriefOptions extends OperationOptions { }
 
 /**
  * Additional options for the Get US Program Brief request.
  */
-export interface GetUSProgramBriefOptions extends OperationOptions {}
+export interface GetUSProgramBriefOptions extends OperationOptions { }
 
 /**
  * Additional options for the Submit US Program Brief request.
  */
-export interface SubmitUSProgramBriefOptions extends OperationOptions {}
+export interface SubmitUSProgramBriefOptions extends OperationOptions { }
 
 /**
  * Additional options for the List Short Codes request.
  */
-export interface ListShortCodesOptions extends ShortCodesGetShortCodesOptionalParams {}
+export interface ListShortCodesOptions extends ShortCodesGetShortCodesOptionalParams { }
 
 /**
  * Additional options for the List US Program Brief request.
  */
-export interface ListUSProgramBriefsOptions extends OperationOptions {}
+export interface ListUSProgramBriefsOptions extends OperationOptions { }
 
 export {
   ShortCode,
@@ -59,4 +59,7 @@ export {
   ShortCodesGetUSProgramBriefAttachmentsOptionalParams,
   ShortCodesGetUSProgramBriefAttachmentOptionalParams,
   ProgramBriefAttachment,
+  AttachmentType,
+  FileType,
+  ProgramBriefAttachmentSummary
 } from "./generated/src/models/";
