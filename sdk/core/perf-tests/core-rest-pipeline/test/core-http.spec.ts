@@ -2,19 +2,16 @@
 // Licensed under the MIT license.
 
 import { ServiceClient, WebResource } from "@azure/core-http";
-import { PerfOptionDictionary } from "@azure/test-utils-perf";
 import { BaseHttpTest } from "./baseHttpTest";
-import { TEST_SERVER_URL } from "./utils/serverUrl";
 
 export class CoreHTTPTest extends BaseHttpTest {
-  options: PerfOptionDictionary<Record<string, unknown>> = {};
   client: ServiceClient;
   webResource: WebResource;
   constructor() {
     super();
     this.client = new ServiceClient();
     this.webResource = new WebResource(
-      TEST_SERVER_URL,
+      this.url,
       undefined,
       undefined,
       undefined,
