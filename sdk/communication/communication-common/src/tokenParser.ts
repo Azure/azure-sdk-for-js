@@ -6,12 +6,18 @@ import jwtDecode from "jwt-decode";
 
 interface JwtToken {
   exp: number;
+  skypeid: string;
 }
 
-export const parseToken = (token: string): AccessToken => {
-  const { exp } = jwtDecode<JwtToken>(token);
+interface AccessTokenWithIdentity extends AccessToken {
+  rawId: string;
+}
+
+export const parseToken = (token: string): AccessTokenWithIdentity => {
+  const { exp, skypeid } = jwtDecode<JwtToken>(token);
   return {
     token,
     expiresOnTimestamp: exp * 1000,
+    rawId: `8:${skypeid}`,
   };
 };

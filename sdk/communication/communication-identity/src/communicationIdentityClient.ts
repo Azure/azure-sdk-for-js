@@ -114,6 +114,7 @@ export class CommunicationIdentityClient {
       );
       return {
         ...token,
+        identity: user,
       };
     } catch (e: any) {
       span.setStatus({
@@ -197,6 +198,7 @@ export class CommunicationIdentityClient {
       });
       return {
         ...accessToken!,
+        identity: { communicationUserId: identity.id },
         user: { communicationUserId: identity.id },
       };
     } catch (e: any) {
@@ -257,9 +259,9 @@ export class CommunicationIdentityClient {
         updatedOptions
       );
       return {
-        resourceId: "", //TODO: this will be retrieved from the response
-        scheme: "", //TODO: this will be retrieved from the response
-        user: { communicationUserId: "" }, //TODO: this will be retrieved from the response
+        resourceId: "", //TODO: this will be populated from the response
+        scheme: "", //TODO: this will be populated from the response
+        identity: { microsoftTeamsUserId: "", cloud: "public" }, //TODO: this will be populated from the response
         ...token,
       };
     } catch (e: any) {

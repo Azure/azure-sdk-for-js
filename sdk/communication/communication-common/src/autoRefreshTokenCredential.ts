@@ -6,6 +6,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { AccessToken } from "@azure/core-auth";
 import { parseToken } from "./tokenParser";
 import { CommunicationAccessToken } from "./models";
+import { createIdentifierFromRawId } from "./identifierModels";
 
 /**
  * Options for auto-refreshing a Communication Token credential.
@@ -54,6 +55,7 @@ export interface TeamsTokenRefreshOptions {
 const expiredToken: CommunicationAccessToken = {
   token: "",
   expiresOn: new Date(-10),
+  identity: { id: "" },
 };
 const minutesToMs = (minutes: number): number => minutes * 1000 * 60;
 const defaultExpiringSoonInterval = minutesToMs(10);
@@ -83,15 +85,17 @@ export class AutoRefreshTokenCredential implements TokenCredential {
           ? {
               token: parsedToken.token,
               expiresOn: new Date(parsedToken.expiresOnTimestamp),
+              identity: createIdentifierFromRawId(parsedToken.rawId),
             }
           : expiredToken;
 
       this.refresh = async (abortSignal?: AbortSignalLike): Promise<CommunicationAccessToken> => {
         const response = await cra.tokenRefresher(abortSignal);
-        const { token, expiresOnTimestamp } = parseToken(response);
+        const { token, expiresOnTimestamp, rawId } = parseToken(response);
         return {
           token: token,
           expiresOn: new Date(expiresOnTimestamp),
+          identity: createIdentifierFromRawId(rawId),
         };
       };
     } else if (tra !== null) {

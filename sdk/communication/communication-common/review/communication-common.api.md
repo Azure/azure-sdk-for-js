@@ -22,9 +22,11 @@ export class AzureCommunicationTokenCredential implements CommunicationTokenCred
 // @public
 export interface CommunicationAccessToken {
     expiresOn: Date;
+    identity: CommunicationIdentifier;
     resourceId?: string;
     scheme?: string;
     token: string;
+    // @deprecated (undocumented)
     user?: CommunicationUserIdentifier;
 }
 
@@ -69,6 +71,9 @@ export function createCommunicationAccessKeyCredentialPolicy(credential: KeyCred
 // @public
 export function createCommunicationAuthPolicy(credential: KeyCredential | TokenCredential): PipelinePolicy;
 
+// @public (undocumented)
+export const createIdentifierFromRawId: (rawId: string) => CommunicationIdentifierKind;
+
 // @public
 export const deserializeCommunicationIdentifier: (serializedIdentifier: SerializedCommunicationIdentifier) => CommunicationIdentifierKind;
 
@@ -80,6 +85,9 @@ export interface EndpointCredential {
 
 // @public
 export const getIdentifierKind: (identifier: CommunicationIdentifier) => CommunicationIdentifierKind;
+
+// @public (undocumented)
+export const getRawIdForIdentifier: (identifier: CommunicationIdentifier) => string;
 
 // @public
 export const isCommunicationUserIdentifier: (identifier: CommunicationIdentifier) => identifier is CommunicationUserIdentifier;

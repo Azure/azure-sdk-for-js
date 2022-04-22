@@ -33,6 +33,7 @@ const tokenResponse = {
   id: "identity",
   token: "token",
   expiresOn: new Date("2011/11/30"),
+  identity: { id: "" },
 };
 
 export const getTokenHttpClient: HttpClient = createMockHttpClient<CommunicationAccessToken>(
