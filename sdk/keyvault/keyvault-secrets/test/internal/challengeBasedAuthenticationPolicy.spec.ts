@@ -3,14 +3,14 @@
 
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { createSandbox } from "sinon";
 
 import {
-  AuthenticationChallengeCache,
   AuthenticationChallenge,
-  parseWWWAuthenticate,
+  AuthenticationChallengeCache,
   challengeBasedAuthenticationPolicy,
+  parseWWWAuthenticate,
 } from "../../../keyvault-common/src";
 import { SecretClient } from "../../src";
 import { authenticate } from "../public/utils/testAuthentication";

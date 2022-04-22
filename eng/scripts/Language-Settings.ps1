@@ -38,7 +38,8 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory) {
 # Returns the npm publish status of a package id and version.
 function IsNPMPackageVersionPublished ($pkgId, $pkgVersion) {
   Confirm-NodeInstallation
-  $npmVersions = (npm show $pkgId versions)
+  $packageAndVersion = $pkgId + "@" + $pkgVersion
+  $npmVersion = (npm show $packageAndVersion version)
   if ($LastExitCode -ne 0) {
     npm ping
     if ($LastExitCode -eq 0) {
@@ -47,8 +48,7 @@ function IsNPMPackageVersionPublished ($pkgId, $pkgVersion) {
     Write-Host "Could not find a deployed version of $pkgId, and NPM connectivity check failed."
     exit(1)
   }
-  $npmVersionList = $npmVersions.split(",") | ForEach-Object { return $_.replace("[", "").replace("]", "").Trim() }
-  return $npmVersionList.Contains($pkgVersion)
+  return $npmVersion -eq $pkgVersion
 }
 
 # make certain to always take the package json closest to the top
@@ -444,13 +444,12 @@ function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRep
 
   $outputPackages = @()
 
-  foreach ($packageInfo in $PackageInfos)
-  {
+  foreach ($packageInfo in $PackageInfos) {
     $fileLocation = ""
     if ($packageInfo.DevVersion -or $packageInfo.Version -contains "beta") {
       $fileLocation = (Join-Path $DocRepoLocation 'ci-configs/packages-preview.json')
       if ($packageInfo.DevVersion) {
-        $package.Version = $package.DevVersion
+        $packageInfo.Version = $packageInfo.DevVersion
       }
     }
     else {
