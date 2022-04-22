@@ -101,11 +101,7 @@
   "//metadata": {
     "constantPaths": [
       {
-<<<<<<< HEAD
-        "path": "src/connectedKubernetesClient.ts",
-=======
         "path": "src/ConnectedKubernetesClient.ts",
->>>>>>> 11c2645581a710478bfc7b5c07c06a911b5ff4e0
         "prefix": "packageDetails"
       }
     ]
