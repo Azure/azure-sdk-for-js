@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RestError } from "@azure/core-rest-pipeline";
 import { ProgramBriefAttachment } from "../../../src";
@@ -39,7 +42,7 @@ export async function assertProgramBriefAttachmentPageableApiReachable<T>(
   context: string
 ): Promise<void> {
   await assertProgramBriefAttachmentApiReachable(async () => {
-    var page = spec();
+    let page = spec();
     await page.next();
   }, context);
 }
