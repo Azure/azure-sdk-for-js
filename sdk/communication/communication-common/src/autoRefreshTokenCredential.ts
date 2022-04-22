@@ -4,9 +4,9 @@
 import { CommunicationGetTokenOptions, TokenCredential } from "./communicationTokenCredential";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { AccessToken } from "@azure/core-auth";
-import { parseToken } from "./tokenParser";
 import { CommunicationToken } from "./models";
 import { createIdentifierFromRawId } from "./identifierModels";
+import { parseToken } from "./tokenParser";
 
 /**
  * Options for auto-refreshing a Communication Token credential.

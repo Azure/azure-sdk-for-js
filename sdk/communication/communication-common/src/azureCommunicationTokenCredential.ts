@@ -12,10 +12,10 @@ import {
   TokenCredential,
 } from "./communicationTokenCredential";
 import { AccessToken } from "@azure/core-auth";
-import { StaticTokenCredential } from "./staticTokenCredential";
-import { parseToken } from "./tokenParser";
 import { CommunicationToken } from "./models";
+import { StaticTokenCredential } from "./staticTokenCredential";
 import { createIdentifierFromRawId } from "./identifierModels";
+import { parseToken } from "./tokenParser";
 
 /**
  * The CommunicationTokenCredential implementation with support for proactive token refresh.

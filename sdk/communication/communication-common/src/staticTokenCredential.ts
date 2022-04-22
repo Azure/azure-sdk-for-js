@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { AccessToken } from "@azure/core-auth";
-import { TokenCredential } from "./communicationTokenCredential";
 import { CommunicationToken } from "./models";
+import { TokenCredential } from "./communicationTokenCredential";
 
 /**
  * StaticTokenCredential
