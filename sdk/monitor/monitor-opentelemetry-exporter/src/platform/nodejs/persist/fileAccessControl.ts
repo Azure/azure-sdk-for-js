@@ -165,7 +165,7 @@ export class FileAccessControl {
       if (psProc.error) {
         throw psProc.error;
       } else if (psProc.status !== 0) {
-        throw new Error(`Getting ACL identity did not succeed (PS returned code ${psProc.status!})`);
+        throw new Error(`Getting ACL identity did not succeed ${psProc.status ? `(PS returned code ${psProc.status})` : "");
       }
       FileAccessControl.ACL_IDENTITY = psProc.stdout && psProc.stdout.toString().trim();
       return FileAccessControl.ACL_IDENTITY;
