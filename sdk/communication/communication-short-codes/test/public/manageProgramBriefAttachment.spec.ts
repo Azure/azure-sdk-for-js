@@ -13,7 +13,7 @@ import {
 } from "./utils/testProgramBriefAttachment";
 import { doesProgramBriefExist, getTestUSProgramBrief } from "./utils/testUSProgramBrief";
 
-describe(`ShortCodesClient - creates, gets, updates, lists, and deletes Program Brief Attachments`, function () {
+describe(`ShortCodesClient - manage Attachments`, function () {
   let recorder: Recorder;
   let client: ShortCodesClient;
 
@@ -27,7 +27,7 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes Program 
     }
   });
 
-  it("can create, get, update, list, and delete a Program Brief Attachment", async function () {
+  it("can manage Attachments", async function () {
     const uspb = getTestUSProgramBrief();
     const programBriefRequest: ShortCodesUpsertUSProgramBriefOptionalParams = {
       body: uspb,
