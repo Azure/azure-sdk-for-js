@@ -42,7 +42,7 @@ export async function assertProgramBriefAttachmentPageableApiReachable<T>(
   context: string
 ): Promise<void> {
   await assertProgramBriefAttachmentApiReachable(async () => {
-    let page = spec();
+    const page = spec();
     await page.next();
   }, context);
 }
