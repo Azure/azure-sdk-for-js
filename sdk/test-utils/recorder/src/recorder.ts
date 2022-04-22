@@ -300,6 +300,18 @@ export class Recorder {
     return { ...options, httpClient: once(() => this.createHttpClientCoreV1())() };
   }
 
+  private handleTestProxyErrors(response: HttpOperationResponse | PipelineResponse) {
+    if (response.headers.get("x-request-mismatch") === "true") {
+      const errorMessage = atob(response.headers.get("x-request-mismatch-error") ?? "");
+      throw new RecorderError(errorMessage);
+    }
+
+    if (response.headers.get("x-request-known-exception") === "true") {
+      const errorMessage = atob(response.headers.get("x-request-known-exception-error") ?? "");
+      throw new RecorderError(errorMessage);
+    }
+  }
+
   /**
    * recorderHttpPolicy that can be added as a pipeline policy for any of the core-v2 SDKs(SDKs depending on core-rest-pipeline)
    */
@@ -311,7 +323,10 @@ export class Recorder {
         next: SendRequest
       ): Promise<PipelineResponse> => {
         this.redirectRequest(request);
-        return next(request);
+        const response = await next(request);
+        this.handleTestProxyErrors(response);
+
+        return response;
       },
     };
   }
@@ -325,7 +340,10 @@ export class Recorder {
     return {
       sendRequest: async (request: WebResourceLike): Promise<HttpOperationResponse> => {
         this.redirectRequest(request);
-        return client.sendRequest(request);
+        const response = await client.sendRequest(request);
+        this.handleTestProxyErrors(response);
+
+        return response;
       },
     };
   }
