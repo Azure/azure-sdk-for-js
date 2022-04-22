@@ -1,15 +1,15 @@
 # Release History
+    
+## 2.2.0-beta.1 (2022-04-22)
+    
+**Features**
 
-## 2.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface FhirServiceImportConfiguration
+  - Added Interface ServiceImportConfigurationInfo
+  - Interface ServicesProperties has a new optional parameter importConfiguration
+  - Type Alias FhirService has a new parameter importConfiguration
+    
+    
 ## 2.1.0 (2022-03-22)
     
 **Features**

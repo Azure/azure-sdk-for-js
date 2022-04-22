@@ -157,6 +157,7 @@ export type FhirService = TaggedResource & ServiceManagedIdentity & {
     publicNetworkAccess?: PublicNetworkAccess;
     readonly eventState?: ServiceEventState;
     resourceVersionPolicyConfiguration?: ResourceVersionPolicyConfiguration;
+    importConfiguration?: FhirServiceImportConfiguration;
 };
 
 // @public
@@ -195,6 +196,13 @@ export interface FhirServiceCorsConfiguration {
 // @public
 export interface FhirServiceExportConfiguration {
     storageAccountName?: string;
+}
+
+// @public
+export interface FhirServiceImportConfiguration {
+    enabled?: boolean;
+    initialImportMode?: boolean;
+    integrationDataStore?: string;
 }
 
 // @public
@@ -906,6 +914,13 @@ export interface ServiceExportConfigurationInfo {
 }
 
 // @public
+export interface ServiceImportConfigurationInfo {
+    enabled?: boolean;
+    initialImportMode?: boolean;
+    integrationDataStore?: string;
+}
+
+// @public
 export interface ServiceManagedIdentity {
     identity?: ServiceManagedIdentityIdentity;
 }
@@ -1045,6 +1060,7 @@ export interface ServicesProperties {
     corsConfiguration?: ServiceCorsConfigurationInfo;
     cosmosDbConfiguration?: ServiceCosmosDbConfigurationInfo;
     exportConfiguration?: ServiceExportConfigurationInfo;
+    importConfiguration?: ServiceImportConfigurationInfo;
     privateEndpointConnections?: PrivateEndpointConnection[];
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;

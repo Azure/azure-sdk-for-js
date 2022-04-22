@@ -84,6 +84,13 @@ export const ServicesProperties: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ServiceAcrConfigurationInfo"
         }
+      },
+      importConfiguration: {
+        serializedName: "importConfiguration",
+        type: {
+          name: "Composite",
+          className: "ServiceImportConfigurationInfo"
+        }
       }
     }
   }
@@ -366,6 +373,33 @@ export const ServiceOciArtifactEntry: coreClient.CompositeMapper = {
         serializedName: "digest",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ServiceImportConfigurationInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ServiceImportConfigurationInfo",
+    modelProperties: {
+      integrationDataStore: {
+        serializedName: "integrationDataStore",
+        type: {
+          name: "String"
+        }
+      },
+      initialImportMode: {
+        serializedName: "initialImportMode",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -1290,6 +1324,33 @@ export const ResourceVersionPolicyConfiguration: coreClient.CompositeMapper = {
   }
 };
 
+export const FhirServiceImportConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FhirServiceImportConfiguration",
+    modelProperties: {
+      integrationDataStore: {
+        serializedName: "integrationDataStore",
+        type: {
+          name: "String"
+        }
+      },
+      initialImportMode: {
+        serializedName: "initialImportMode",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const ListOperations: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2032,6 +2093,13 @@ export const FhirService: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ResourceVersionPolicyConfiguration"
+        }
+      },
+      importConfiguration: {
+        serializedName: "properties.importConfiguration",
+        type: {
+          name: "Composite",
+          className: "FhirServiceImportConfiguration"
         }
       }
     }

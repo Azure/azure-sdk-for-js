@@ -31,6 +31,8 @@ export interface ServicesProperties {
   publicNetworkAccess?: PublicNetworkAccess;
   /** The azure container registry settings used for convert data operation of the service instance. */
   acrConfiguration?: ServiceAcrConfigurationInfo;
+  /** The settings for the import operation of the service instance. */
+  importConfiguration?: ServiceImportConfigurationInfo;
 }
 
 /** An access policy entry. */
@@ -131,6 +133,16 @@ export interface ServiceOciArtifactEntry {
   imageName?: string;
   /** The artifact digest. */
   digest?: string;
+}
+
+/** Import operation configuration information */
+export interface ServiceImportConfigurationInfo {
+  /** The name of the default integration storage account. */
+  integrationDataStore?: string;
+  /** If the FHIR service is in InitialImportMode. */
+  initialImportMode?: boolean;
+  /** If the import operation is enabled. */
+  enabled?: boolean;
 }
 
 /** Metadata pertaining to creation and last modification of the resource. */
@@ -489,6 +501,16 @@ export interface ResourceVersionPolicyConfiguration {
   resourceTypeOverrides?: { [propertyName: string]: FhirResourceVersionPolicy };
 }
 
+/** Import operation configuration information */
+export interface FhirServiceImportConfiguration {
+  /** The name of the default integration storage account. */
+  integrationDataStore?: string;
+  /** If the FHIR service is in InitialImportMode. */
+  initialImportMode?: boolean;
+  /** If the import operation is enabled. */
+  enabled?: boolean;
+}
+
 /** Available operations of the service */
 export interface ListOperations {
   /**
@@ -803,6 +825,8 @@ export type FhirService = TaggedResource &
     readonly eventState?: ServiceEventState;
     /** Determines tracking of history for resources. */
     resourceVersionPolicyConfiguration?: ResourceVersionPolicyConfiguration;
+    /** Fhir Service import configuration. */
+    importConfiguration?: FhirServiceImportConfiguration;
   };
 
 /** IoT Connector destination properties for an Azure FHIR service. */
