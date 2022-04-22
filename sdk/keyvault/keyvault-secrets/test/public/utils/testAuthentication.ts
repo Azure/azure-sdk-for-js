@@ -48,7 +48,10 @@ export async function authenticate(
     throw new Error("Missing KEYVAULT_URI environment variable.");
   }
 
-  const client = new SecretClient(keyVaultUrl, credential, { serviceVersion });
+  const client = new SecretClient(keyVaultUrl, credential, {
+    serviceVersion,
+    httpClient: isNode ? undefined : createXhrHttpClient(),
+  });
   const testClient = new TestClient(client);
 
   return { recorder, client, testClient, secretSuffix, credential };
