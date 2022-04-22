@@ -6,7 +6,7 @@ Mixed Reality Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/mixedreality/arm-mixedreality) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-mixedreality) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-mixedreality) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-mixedreality?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
