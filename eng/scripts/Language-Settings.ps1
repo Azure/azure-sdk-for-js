@@ -444,13 +444,12 @@ function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRep
 
   $outputPackages = @()
 
-  foreach ($packageInfo in $PackageInfos)
-  {
+  foreach ($packageInfo in $PackageInfos) {
     $fileLocation = ""
     if ($packageInfo.DevVersion -or $packageInfo.Version -contains "beta") {
       $fileLocation = (Join-Path $DocRepoLocation 'ci-configs/packages-preview.json')
       if ($packageInfo.DevVersion) {
-        $package.Version = $package.DevVersion
+        $packageInfo.Version = $packageInfo.DevVersion
       }
     }
     else {
