@@ -1,4 +1,5 @@
 **/src/generated/
+*.ejs
 **/review/*.api.md
 **/recordings/**
 **/*.yml
