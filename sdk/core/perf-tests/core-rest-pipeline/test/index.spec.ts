@@ -4,6 +4,7 @@ import { CoreHTTPTest } from "./core-http.spec";
 import { CoreRestPipelineTest } from "./core-rest-pipeline.spec";
 import { FetchTest } from "./fetch.spec";
 import { HttpRequestTest} from "./http-request.spec";
+import { UndiciRequestTest} from "./undici-request.spec";
 // import { NodeFetchTest } from "./node-fetch.spec";
 /* Commenting NodeFetch test because of the following error
 
@@ -17,6 +18,6 @@ Instead change the require of index.js in /workspaces/azure - sdk -for-js / sdk 
 
 console.log("=== Starting the perf test ===");
 
-const perfProgram = new PerfProgram(selectPerfTest([BearerTokenAuthenticationPolicyChallengeTest, CoreHTTPTest, CoreRestPipelineTest, FetchTest, HttpRequestTest, /*NodeFetchTest*/]));
+const perfProgram = new PerfProgram(selectPerfTest([BearerTokenAuthenticationPolicyChallengeTest, CoreHTTPTest, CoreRestPipelineTest, FetchTest, HttpRequestTest, UndiciRequestTest, /*NodeFetchTest*/]));
 
 perfProgram.run();
