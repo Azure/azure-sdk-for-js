@@ -9,9 +9,6 @@ trigger:
   paths:
     include:
       - sdk/machinelearning/ci.mgmt.yml
-      - sdk/machinelearning/arm-workspaces/
-      - sdk/machinelearning/arm-webservices/
-      - sdk/machinelearning/arm-commitmentplans/
       - sdk/machinelearning/arm-commitmentplans
       - sdk/machinelearning/arm-webservices
       - sdk/machinelearning/arm-workspaces
@@ -27,9 +24,6 @@ pr:
   paths:
     include:
       - sdk/machinelearning/ci.mgmt.yml
-      - sdk/machinelearning/arm-workspaces/
-      - sdk/machinelearning/arm-webservices/
-      - sdk/machinelearning/arm-commitmentplans/
       - sdk/machinelearning/arm-commitmentplans
       - sdk/machinelearning/arm-webservices
       - sdk/machinelearning/arm-workspaces
