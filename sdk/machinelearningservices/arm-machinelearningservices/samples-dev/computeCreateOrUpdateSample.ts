@@ -10,7 +10,9 @@
 // Licensed under the MIT License.
 import {
   ComputeResource,
-  AzureMachineLearningWorkspaces
+  AzureMachineLearningWorkspaces,
+  Kubernetes,
+  ComputeInstance
 } from "@azure/arm-machinelearningservices";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -25,27 +27,24 @@ async function attachAKubernetesCompute() {
   const resourceGroupName = "testrg123";
   const workspaceName = "workspaces123";
   const computeName = "compute123";
-  const parameters: ComputeResource = {
-    location: "eastus",
+  const properties: Kubernetes = {
+    description: "some compute",
+    computeType: "Kubernetes",
     properties: {
-      description: "some compute",
-      computeType: "Kubernetes",
-      properties: {
-        defaultInstanceType: "defaultInstanceType",
-        instanceTypes: {
-          defaultInstanceType: {
-            nodeSelector: {},
-            resources: {
-              limits: { cpu: "1", memory: "4Gi", "nvidiaCom/gpu": undefined },
-              requests: { cpu: "1", memory: "4Gi", "nvidiaCom/gpu": undefined }
-            }
+      defaultInstanceType: "defaultInstanceType",
+      instanceTypes: {
+        defaultInstanceType: {
+          nodeSelector: {},
+          resources: {
+            limits: { cpu: "1", memory: "4Gi", "nvidiaCom/gpu": "" },
+            requests: { cpu: "1", memory: "4Gi", "nvidiaCom/gpu": "" }
           }
-        },
-        namespace: "default"
+        }
       },
-      resourceId:
-        "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/testrg123/providers/Microsoft.ContainerService/managedClusters/compute123-56826-c9b00420020b2"
-    }
+      namespace: "default"
+    },
+    resourceId:
+      "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/testrg123/providers/Microsoft.ContainerService/managedClusters/compute123-56826-c9b00420020b2"
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
@@ -53,7 +52,7 @@ async function attachAKubernetesCompute() {
     resourceGroupName,
     workspaceName,
     computeName,
-    parameters
+    { location: "eastus", properties: properties }
   );
   console.log(result);
 }
@@ -174,32 +173,29 @@ async function createAnComputeInstanceCompute() {
   const resourceGroupName = "testrg123";
   const workspaceName = "workspaces123";
   const computeName = "compute123";
-  const parameters: ComputeResource = {
-    location: "eastus",
+  const properties: ComputeInstance = {
+    computeType: "ComputeInstance",
     properties: {
-      computeType: "ComputeInstance",
-      properties: {
-        applicationSharingPolicy: "Personal",
-        computeInstanceAuthorizationType: "personal",
-        personalComputeInstanceSettings: {
-          assignedUser: {
-            objectId: "00000000-0000-0000-0000-000000000000",
-            tenantId: "00000000-0000-0000-0000-000000000000"
-          }
-        },
-        sshSettings: { sshPublicAccess: "Disabled" },
-        subnet: {},
-        vmSize: "STANDARD_NC6"
-      }
+      applicationSharingPolicy: "Personal",
+      computeInstanceAuthorizationType: "personal",
+      personalComputeInstanceSettings: {
+        assignedUser: {
+          objectId: "00000000-0000-0000-0000-000000000000",
+          tenantId: "00000000-0000-0000-0000-000000000000"
+        }
+      },
+      sshSettings: { sshPublicAccess: "Disabled" },
+      subnet: { id: "" },
+      vmSize: "STANDARD_NC6"
     }
-  };
+  }
   const credential = new DefaultAzureCredential();
   const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
   const result = await client.computeOperations.beginCreateOrUpdateAndWait(
     resourceGroupName,
     workspaceName,
     computeName,
-    parameters
+    { location: "eastus", properties: properties }
   );
   console.log(result);
 }
