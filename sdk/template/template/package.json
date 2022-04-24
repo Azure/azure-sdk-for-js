@@ -53,7 +53,8 @@
     "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
     "unit-test:browser": "npm run integration-test:browser",
     "unit-test:node": "npm run integration-test:node",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "scaffold-template": "dev-tool scaffolding template-clone --force=true --name=template --service-folder=template --tracing-namespace='Microsoft.Learn' --version='1.0.11-beta.1' --package-description='Example project for learning how to build a client library' --product-name='Azure Template'"
   },
   "files": [
     "dist/",

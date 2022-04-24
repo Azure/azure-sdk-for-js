@@ -45,6 +45,12 @@ export const commandInfo = makeCommandInfo(
       description: `Whether or not to build the project after scaffolding completed`,
       default: false,
     },
+    force: {
+      kind: "boolean",
+      description: "Forces scaffolding overwriting existing files",
+      default: false,
+      shortName: "t",
+    },
   }
 );
 
@@ -64,6 +70,7 @@ export default leafCommand(commandInfo, async (options) => {
     tracingNamespace: options["tracing-namespace"],
     version: options["version"],
     generator: "template-clone",
+    force: options["force"],
   };
 
   await scaffold(scaffoldingOptions);

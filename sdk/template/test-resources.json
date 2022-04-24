@@ -45,7 +45,9 @@
         "name": "keyValueCopy",
         "count": 1
       },
-      "dependsOn": ["[variables('accountName')]"],
+      "dependsOn": [
+        "[variables('accountName')]"
+      ],
       "properties": {
         "value": "[parameters('uniqueString')]",
         "contentType": "text/plain"

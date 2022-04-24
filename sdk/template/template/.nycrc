@@ -16,4 +16,4 @@
     "produce-source-map": true,
     "instrument": true,
     "all": true
-  }
+}

@@ -14,6 +14,7 @@ export interface ScaffoldingOptions {
   packageDescription?: string;
   productName?: string;
   generator: "template-clone";
+  force?: boolean;
 }
 
 const log = createPrinter("scaffolding");
@@ -37,6 +38,22 @@ export async function runAutorest(projectPath: string): Promise<void> {
 }
 
 export async function buildProject(projectPath: string): Promise<void> {
+  const format = spawn("rushx", ["format"], {
+    cwd: projectPath,
+    shell: true,
+    stdio: "inherit",
+  });
+
+  await new Promise<void>((resolve, reject) => {
+    format.on("exit", (code) => {
+      if (code === 0) {
+        resolve();
+      } else {
+        reject(new Error(`Could not complete rush update\n`));
+      }
+    });
+  });
+
   const update = spawn("rush", ["update"], {
     cwd: projectPath,
     shell: true,
@@ -90,13 +107,18 @@ export async function scaffold(options: ScaffoldingOptions): Promise<void> {
       options.generator,
       "new",
       options.name,
-      `--service-folder=${options.folderName}`,
-      `--repo-root=${repoRoot}`,
+      `--service-folder="${options.folderName}"`,
+      `--repo-root="${repoRoot}"`,
+      ...getOptionalParameters(options),
     ],
     {
       cwd: scaffoldingPath,
       shell: true,
       stdio: "inherit",
+      env: {
+        ...process.env,
+        ...(options.force && { HYGEN_OVERWRITE: "1" }),
+      },
     }
   );
 
@@ -109,4 +131,26 @@ export async function scaffold(options: ScaffoldingOptions): Promise<void> {
       }
     });
   });
+}
+
+function getOptionalParameters(options: ScaffoldingOptions) {
+  const params: string[] = [];
+
+  if (options.packageDescription) {
+    params.push(`--packageDescription="${options.packageDescription}"`);
+  }
+
+  if (options.productName) {
+    params.push(`--productName="${options.productName}"`);
+  }
+
+  if (options.version) {
+    params.push(`--version="${options.version}"`);
+  }
+
+  if (options.tracingNamespace) {
+    params.push(`--tracingNamespace="${options.tracingNamespace}"`);
+  }
+
+  return params;
 }

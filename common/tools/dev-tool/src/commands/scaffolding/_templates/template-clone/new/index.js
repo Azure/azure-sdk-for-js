@@ -15,9 +15,6 @@ module.exports = {
     const swaggerUrl =
       args.swaggerUrl ??
       "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/c26ac441d8222146b035adada7bc9c61116571c9/sdk/template/template/swagger/appconfiguration.json";
-    const addCredentials = args.addCredentials ?? true;
-    const disablePagination = Boolean(args.disablePagination);
-    const hideClients = Boolean(args.hideClients);
 
     return {
       monorepoRoot,
@@ -29,9 +26,6 @@ module.exports = {
       productName,
       tracingNamespace,
       swaggerUrl,
-      addCredentials,
-      disablePagination,
-      hideClients,
       isTemplateProject
     };
   },

@@ -1,6 +1,6 @@
 # Azure Template client library for JavaScript
 
-<!-- NOTE: This README file is a template. Read through it and replace the instructions (keeping an eye out for package names like "@azure/template") with the ones that pertain to your package. For a complete example based on the real Azure App Configuration SDK, see README-TEMPLATE.md in this directory. -->
+<!-- NOTE: This README file is a template. Read through it and replace the instructions with the ones that pertain to your package. For a complete example based on the real Azure App Configuration SDK, see README-TEMPLATE.md in this directory. -->
 
 This project is used as a template package for the Azure SDK for JavaScript. It is intended to help Azure SDK developers bootstrap new packages, and it provides an example of how to organize the code and documentation of a client library for an Azure service.
 
@@ -21,7 +21,7 @@ Usually you'd put a shell command for provisioning the necessary Azure services 
 
 ### Install the `@azure/template` package
 
-Install the Template client library for JavaScript with `npm`:
+Install the Azure Template client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/template
@@ -39,7 +39,7 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 NOTE: if your service supports CORS natively please provide instructions for enabling CORS at the service level (similar to the sample below), otherwise replace this section with guidance such as:
 
-Due to Azure template service CORS limitation this library cannot be used to make direct calls to the template service from a browser. Please refer to [this document](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/cors/ts/README.md) for guidance.
+Due to Azure Template service CORS limitation this library cannot be used to make direct calls to the Azure Template service from a browser. Please refer to [this document](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/cors/ts/README.md) for guidance.
 
 -->
 
