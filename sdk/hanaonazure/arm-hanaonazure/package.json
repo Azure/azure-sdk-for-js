@@ -98,7 +98,6 @@
     "docs": "echo skipped"
   },
   "sideEffects": false,
-<<<<<<< HEAD
   "//metadata": {
     "constantPaths": [
       {
@@ -116,7 +115,4 @@
     "disableDocsMs": true,
     "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-hanaonazure?view=azure-node-preview"
   }
-=======
-  "autoPublish": true
->>>>>>> b1dc0fab33b1d191685764477207e1f85a65c997
 }
