@@ -3,7 +3,7 @@
 
 import { Context } from "mocha";
 import { assert } from "@azure/test-utils";
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 
 import { SecretClient } from "../../src";

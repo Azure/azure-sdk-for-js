@@ -22,7 +22,7 @@ import {
 type AddSanitizer<T> = (
   httpClient: HttpClient,
   url: string,
-  recordingId: string,
+  recordingId: string | undefined,
   sanitizer: T
 ) => Promise<void>;
 
@@ -32,7 +32,7 @@ type AddSanitizer<T> = (
  */
 const pluralize =
   <T>(singular: AddSanitizer<T>): AddSanitizer<T[]> =>
-  async (httpClient: HttpClient, url: string, recordingId: string, sanitizers: T[]) => {
+  async (httpClient, url, recordingId, sanitizers) => {
     await Promise.all(
       sanitizers.map((sanitizer) => singular(httpClient, url, recordingId, sanitizer))
     );
@@ -43,12 +43,7 @@ const pluralize =
  */
 const makeAddSanitizer =
   (sanitizerName: ProxyToolSanitizers): AddSanitizer<Record<string, unknown>> =>
-  async (
-    httpClient: HttpClient,
-    url: string,
-    recordingId: string,
-    sanitizer: Record<string, unknown>
-  ) => {
+  async (httpClient, url, recordingId, sanitizer) => {
     await addSanitizer(httpClient, url, recordingId, {
       sanitizer: sanitizerName,
       body: sanitizer,
@@ -61,7 +56,7 @@ const makeAddSanitizer =
  */
 const makeAddBodilessSanitizer =
   (sanitizerName: ProxyToolSanitizers): AddSanitizer<boolean> =>
-  async (httpClient: HttpClient, url: string, recordingId: string, enable: boolean) => {
+  async (httpClient, url, recordingId, enable) => {
     if (enable) {
       await addSanitizer(httpClient, url, recordingId, {
         sanitizer: sanitizerName,
@@ -80,12 +75,7 @@ const makeAddFindReplaceSanitizer =
     regexSanitizerName: ProxyToolSanitizers,
     stringSanitizerName: ProxyToolSanitizers
   ): AddSanitizer<FindReplaceSanitizer> =>
-  async (
-    httpClient: HttpClient,
-    url: string,
-    recordingId: string,
-    sanitizer: FindReplaceSanitizer
-  ): Promise<void> => {
+  async (httpClient, url, recordingId, sanitizer): Promise<void> => {
     if (isStringSanitizer(sanitizer)) {
       await addSanitizer(httpClient, url, recordingId, {
         sanitizer: stringSanitizerName,
@@ -112,12 +102,12 @@ const makeAddFindReplaceSanitizer =
  * - each part of the connection string is mapped with its corresponding fake value
  * - GeneralStringSanitizer is applied for each of the parts with the real and fake values that are parsed
  */
-async function addConnectionStringSanitizer(
-  httpClient: HttpClient,
-  url: string,
-  recordingId: string,
-  { actualConnString, fakeConnString }: ConnectionStringSanitizer
-): Promise<void> {
+const addConnectionStringSanitizer: AddSanitizer<ConnectionStringSanitizer> = async (
+  httpClient,
+  url,
+  recordingId,
+  { actualConnString, fakeConnString }
+) => {
   if (!actualConnString) {
     if (!isRecordMode()) return;
     throw new RecorderError(
@@ -134,17 +124,17 @@ async function addConnectionStringSanitizer(
       return { value, target: key };
     }),
   });
-}
+};
 
 /**
  * Adds a ContinuationSanitizer with the given options.
  */
-async function addContinuationSanitizer(
-  httpClient: HttpClient,
-  url: string,
-  recordingId: string,
-  sanitizer: ContinuationSanitizer
-) {
+const addContinuationSanitizer: AddSanitizer<ContinuationSanitizer> = async (
+  httpClient,
+  url,
+  recordingId,
+  sanitizer
+) => {
   await addSanitizer(httpClient, url, recordingId, {
     sanitizer: "ContinuationSanitizer",
     body: {
@@ -152,24 +142,24 @@ async function addContinuationSanitizer(
       resetAfterFirst: sanitizer.resetAfterFirst.toString(),
     },
   });
-}
+};
 
 /**
  * Adds a RemoveHeaderSanitizer with the given options.
  */
-async function addRemoveHeaderSanitizer(
-  httpClient: HttpClient,
-  url: string,
-  recordingId: string,
-  sanitizer: RemoveHeaderSanitizer
-) {
+const addRemoveHeaderSanitizer: AddSanitizer<RemoveHeaderSanitizer> = async (
+  httpClient,
+  url,
+  recordingId,
+  sanitizer
+) => {
   await addSanitizer(httpClient, url, recordingId, {
     sanitizer: "RemoveHeaderSanitizer",
     body: {
       headersForRemoval: sanitizer.headersForRemoval.toString(),
     },
   });
-}
+};
 
 /**
  * Adds a HeaderRegexSanitizer or HeaderStringSanitizer.
@@ -178,12 +168,12 @@ async function addRemoveHeaderSanitizer(
  * Additionally, the 'target' option is not required. If target is unspecified, the header's value will always
  * be replaced.
  */
-async function addHeaderSanitizer(
-  httpClient: HttpClient,
-  url: string,
-  recordingId: string,
-  sanitizer: HeaderSanitizer
-) {
+const addHeaderSanitizer: AddSanitizer<HeaderSanitizer> = async (
+  httpClient,
+  url,
+  recordingId,
+  sanitizer
+) => {
   if (sanitizer.regex || !sanitizer.target) {
     await addSanitizer(httpClient, url, recordingId, {
       sanitizer: "HeaderRegexSanitizer",
@@ -204,7 +194,7 @@ async function addHeaderSanitizer(
       },
     });
   }
-}
+};
 
 const addSanitizersActions: {
   [K in keyof SanitizerOptions]: AddSanitizer<Exclude<SanitizerOptions[K], undefined>>;
@@ -229,7 +219,7 @@ const addSanitizersActions: {
 export async function addSanitizers(
   httpClient: HttpClient,
   url: string,
-  recordingId: string,
+  recordingId: string | undefined,
   options: SanitizerOptions
 ): Promise<void> {
   await Promise.all(
@@ -250,7 +240,7 @@ export async function addSanitizers(
 async function addSanitizer(
   httpClient: HttpClient,
   url: string,
-  recordingId: string,
+  recordingId: string | undefined,
   options: {
     sanitizer: ProxyToolSanitizers;
     body: Record<string, unknown> | undefined;
