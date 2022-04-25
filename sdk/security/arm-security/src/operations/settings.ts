@@ -17,7 +17,7 @@ import {
   SettingsListNextOptionalParams,
   SettingsListOptionalParams,
   SettingsListResponse,
-  Enum73,
+  SettingName,
   SettingsGetOptionalParams,
   SettingsGetResponse,
   SettingsUpdateOptionalParams,
@@ -96,7 +96,7 @@ export class SettingsImpl implements Settings {
    * @param options The options parameters.
    */
   get(
-    settingName: Enum73,
+    settingName: SettingName,
     options?: SettingsGetOptionalParams
   ): Promise<SettingsGetResponse> {
     return this.client.sendOperationRequest(
@@ -112,7 +112,7 @@ export class SettingsImpl implements Settings {
    * @param options The options parameters.
    */
   update(
-    settingName: Enum73,
+    settingName: SettingName,
     setting: SettingUnion,
     options?: SettingsUpdateOptionalParams
   ): Promise<SettingsUpdateResponse> {

@@ -17,7 +17,7 @@ export async function settleAllTasks(tasks: Promise<any>[]): Promise<any[]> {
     try {
       const result = await task;
       results.push(result);
-    } catch (err) {
+    } catch (err: any) {
       results.push(err);
     }
   }

@@ -1,14 +1,17 @@
 # Release History
 
-## 12.9.1 (Unreleased)
+## 12.10.0-beta.1 (2022-04-19)
 
 ### Features Added
 
-### Breaking Changes
+- Added support for service version 2021-06-08.
+- Added pageable output of PageBlobClient.listPageRanges() and PageBlobClient.listPageRangesDiff().
+- Added ability to copy source blob tags for BlobClient.syncCopyFromURL().
 
 ### Bugs Fixed
 
-### Other Changes
+- Fix incorrect browser mapping path for BufferScheduler.js
+- Add `react-native` mapping to ESM entrypoint
 
 ## 12.9.0 (2022-03-11)
 

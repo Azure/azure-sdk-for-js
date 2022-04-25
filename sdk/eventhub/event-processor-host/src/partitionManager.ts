@@ -41,7 +41,7 @@ export class PartitionManager {
       await this._cachePartitionIds();
       await this._initializeStores();
       this._runTask = this._run();
-    } catch (err) {
+    } catch (err: any) {
       this._isRunning = false;
       throw err;
     }
@@ -57,7 +57,7 @@ export class PartitionManager {
     if (localRunTask) {
       try {
         await localRunTask;
-      } catch (err) {
+      } catch (err: any) {
         const msg =
           `An error occurred while stopping the run task: ` +
           `${err ? err.stack : JSON.stringify(err)}.`;
@@ -103,7 +103,7 @@ export class PartitionManager {
     const withHost = this._context.withHost;
     try {
       await this._scan(true);
-    } catch (err) {
+    } catch (err: any) {
       const msg =
         `An error occurred in the main loop of the partition ` +
         `manager: ${err ? err.stack : JSON.stringify(err)}. Hence shutting down.`;
@@ -119,7 +119,7 @@ export class PartitionManager {
       // clean up
       log.partitionManager(withHost("Shutting down all the receivers."));
       await this._context.pumpManager.removeAllPumps(CloseReason.shutdown);
-    } catch (err) {
+    } catch (err: any) {
       const msg =
         `An error occurred while shutting down the partition ` +
         `manager: ${err ? err.stack : JSON.stringify(err)}.`;

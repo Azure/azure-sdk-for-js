@@ -181,7 +181,7 @@ export class PartitionContext {
         withHostAndPartiton(this, "Successfully persisted the checkpoint: %O."),
         checkpoint
       );
-    } catch (err) {
+    } catch (err: any) {
       const msg =
         `An error occurred while checkpointing info for partition ` +
         `'${checkpoint.partitionId}': ${err ? err.stack : JSON.stringify(err)}.`;

@@ -233,7 +233,7 @@ export class EventHubSender extends LinkEntity {
         this._deleteFromCache();
         await this._closeLink(senderLink);
       }
-    } catch (err) {
+    } catch (err: any) {
       const msg = `[${this._context.connectionId}] An error occurred while closing sender ${this.name}: ${err?.name}: ${err?.message}`;
       logger.warning(msg);
       logErrorStackTrace(err);
@@ -373,7 +373,7 @@ export class EventHubSender extends LinkEntity {
         }
       }
       return;
-    } catch (err) {
+    } catch (err: any) {
       rollbackIdempotentSequenceNumbers(events);
       logger.warning(
         `An error occurred while sending the batch message ${err?.name}: ${err?.message}`
@@ -549,7 +549,7 @@ export class EventHubSender extends LinkEntity {
           this.name,
           delivery.id
         );
-      } catch (err) {
+      } catch (err: any) {
         const error = err.innerError || err;
         const translatedError = translateError(error);
         throw translatedError;
@@ -566,7 +566,7 @@ export class EventHubSender extends LinkEntity {
 
     try {
       await retry<void>(config);
-    } catch (err) {
+    } catch (err: any) {
       const translatedError = translate(err);
       logger.warning(
         "[%s] Sender '%s', An error occurred while sending the message %s",
@@ -620,7 +620,7 @@ export class EventHubSender extends LinkEntity {
 
     try {
       return await retry<AwaitableSender>(config);
-    } catch (err) {
+    } catch (err: any) {
       const translatedError = translate(err);
       logger.warning(
         "[%s] An error occurred while creating the sender %s: %s",
@@ -686,7 +686,7 @@ export class EventHubSender extends LinkEntity {
         );
         return this._sender;
       }
-    } catch (err) {
+    } catch (err: any) {
       const translatedError = translate(err);
       logger.warning(
         "[%s] An error occurred while creating the sender %s: %s",

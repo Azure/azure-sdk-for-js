@@ -434,6 +434,8 @@ const getPageRangesOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [
     Parameters.timeoutInSeconds,
+    Parameters.marker,
+    Parameters.maxPageSize,
     Parameters.snapshot,
     Parameters.comp20
   ],
@@ -468,6 +470,8 @@ const getPageRangesDiffOperationSpec: coreHttp.OperationSpec = {
   },
   queryParameters: [
     Parameters.timeoutInSeconds,
+    Parameters.marker,
+    Parameters.maxPageSize,
     Parameters.snapshot,
     Parameters.comp20,
     Parameters.prevsnapshot

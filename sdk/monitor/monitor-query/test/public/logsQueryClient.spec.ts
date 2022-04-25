@@ -47,7 +47,7 @@ describe("LogsQueryClient live tests", function () {
         duration: Durations.oneDay,
       });
       assert.fail("Should have thrown an exception");
-    } catch (err) {
+    } catch (err: any) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
       const { request: _request, response: _response, ...stringizableError }: any = err;
       const innermostError = getInnermostErrorDetails(err);
@@ -493,7 +493,7 @@ describe("LogsQueryClient live tests - server timeout", function () {
         }
       );
       assert.fail("Should have thrown a RestError for a GatewayTimeout");
-    } catch (err) {
+    } catch (err: any) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars -- eslint doesn't recognize that the extracted variables are prefixed with '_' and are purposefully unused.
       const { request: _request, response: _response, ...stringizableError }: any = err;
       const innermostError = getInnermostErrorDetails(err);

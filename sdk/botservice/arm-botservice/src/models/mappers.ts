@@ -164,6 +164,7 @@ export const BotProperties: coreClient.CompositeMapper = {
       },
       cmekEncryptionStatus: {
         serializedName: "cmekEncryptionStatus",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -176,6 +177,7 @@ export const BotProperties: coreClient.CompositeMapper = {
         }
       },
       isStreamingSupported: {
+        defaultValue: false,
         serializedName: "isStreamingSupported",
         type: {
           name: "Boolean"
@@ -183,6 +185,7 @@ export const BotProperties: coreClient.CompositeMapper = {
       },
       isDeveloperAppInsightsApiKeySet: {
         serializedName: "isDeveloperAppInsightsApiKeySet",
+        readOnly: true,
         type: {
           name: "Boolean"
         }
@@ -511,6 +514,7 @@ export const Channel: coreClient.CompositeMapper = {
       },
       etag: {
         serializedName: "etag",
+        nullable: true,
         type: {
           name: "String"
         }
@@ -523,6 +527,7 @@ export const Channel: coreClient.CompositeMapper = {
         }
       },
       location: {
+        defaultValue: "global",
         serializedName: "location",
         type: {
           name: "String"
@@ -2423,6 +2428,24 @@ export const ListChannelWithKeysResponse: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ChannelSettings"
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      entityTag: {
+        serializedName: "entityTag",
+        type: {
+          name: "String"
+        }
+      },
+      changedTime: {
+        serializedName: "changedTime",
+        type: {
+          name: "String"
         }
       }
     }

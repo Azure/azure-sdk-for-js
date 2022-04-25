@@ -447,11 +447,6 @@
       "versionPolicyName": "core"
     },
     {
-      "packageName": "@azure/core-asynciterator-polyfill",
-      "projectFolder": "sdk/core/core-asynciterator-polyfill",
-      "versionPolicyName": "core"
-    },
-    {
       "packageName": "@azure/core-auth",
       "projectFolder": "sdk/core/core-auth",
       "versionPolicyName": "core"
@@ -1674,6 +1669,21 @@
     {
       "packageName": "@azure/arm-app",
       "projectFolder": "sdk/app/arm-app",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-hardwaresecuritymodules",
+      "projectFolder": "sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-dashboard",
+      "projectFolder": "sdk/dashboard/arm-dashboard",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-azureadexternalidentities",
+      "projectFolder": "sdk/azureadexternalidentities/arm-azureadexternalidentities",
       "versionPolicyName": "management"
     }
   ]

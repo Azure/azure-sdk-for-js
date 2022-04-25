@@ -86,7 +86,7 @@ describe("utils", () => {
       try {
         await prm;
         assert.fail("Should have thrown an AbortError");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
@@ -113,7 +113,7 @@ describe("utils", () => {
         });
 
         assert.fail("Should have thrown an AbortError");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
@@ -138,7 +138,7 @@ describe("utils", () => {
         });
 
         assert.fail("Should have thrown an TimeoutError");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, "the message for the timeout");
         assert.equal(err.name, "OperationTimeoutError");
       }
@@ -159,7 +159,7 @@ describe("utils", () => {
         });
 
         assert.fail("Should have thrown an TimeoutError");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, "the message for the timeout");
         assert.equal(err.name, "OperationTimeoutError");
       }
@@ -204,7 +204,7 @@ describe("utils", () => {
         });
 
         assert.fail("Should have thrown");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, "Error thrown from action");
       }
 
@@ -225,7 +225,7 @@ describe("utils", () => {
           timeoutMs: 1,
           abortSignal,
         });
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, "the message for the timeout");
       }
 
@@ -240,7 +240,7 @@ describe("utils", () => {
           timeoutMs: neverFireMs,
           abortSignal,
         });
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, StandardAbortMessage);
       }
     });
@@ -273,7 +273,7 @@ describe("utils", () => {
           throw new Error("Will never be called");
         }, abortSignal);
         assert.fail("Should have thrown an AbortError");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.name, "AbortError");
         assert.equal(err.message, StandardAbortMessage);
       }

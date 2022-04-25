@@ -111,7 +111,7 @@ testWithServiceTypes((serviceVersion) => {
           // We expect to see an error.
           await receiver.receiveBatch(2, 60);
           throw new Error(`Test failure`);
-        } catch (err) {
+        } catch (err: any) {
           err.message.should.not.equal("Test failure");
           receiver.checkpoint.should.be.greaterThan(-1, "Did not see a message come through.");
         } finally {

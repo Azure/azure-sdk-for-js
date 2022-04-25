@@ -18,7 +18,7 @@ import { AvroSerializer, MessageAdapter } from "../../src";
 import { EventData, createEventDataAdapter } from "@azure/event-hubs";
 import { MessagingTestClient } from "./clients/models";
 import { assert } from "chai";
-import { assertSerializationError } from "./utils/assertSerializationError";
+import { assertAvroError } from "./utils/assertAvroError";
 import { createEventHubsClient } from "./clients/eventHubs";
 import { createMockedMessagingClient } from "./clients/mocked";
 import { createTestSerializer } from "./utils/mockedSerializer";
@@ -120,9 +120,9 @@ describe("With messaging clients", function () {
         } = settings;
         if (!alreadyEnqueued) {
           try {
-            const message = await serializer.serializeMessageData(value, writerSchema);
+            const message = await serializer.serialize(value, writerSchema);
             await client.send(message);
-          } catch (e) {
+          } catch (e: any) {
             await client.cleanup();
             throw e;
           }
@@ -136,11 +136,11 @@ describe("With messaging clients", function () {
         })) {
           try {
             await processMessage(
-              serializer.deserializeMessageData(receivedMessage, {
+              serializer.deserialize(receivedMessage, {
                 schema: readerSchema,
               })
             );
-          } catch (e) {
+          } catch (e: any) {
             errors.push({
               error: e as Error,
               language: receivedMessage.properties.language,
@@ -288,8 +288,9 @@ describe("With messaging clients", function () {
           writerSchema,
           readerSchema,
           processMessage: async (p: Promise<unknown>) =>
-            assertSerializationError(p, {
+            assertAvroError(p, {
               innerMessage: /no matching field for default-less/,
+              schemaId: true,
             }),
         });
       });

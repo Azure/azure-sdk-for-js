@@ -115,7 +115,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
         getOperationSpec
       );
       return result as ManagedPrivateEndpointsGetResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -154,7 +154,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
         createOperationSpec
       );
       return result as ManagedPrivateEndpointsCreateResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -186,7 +186,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
         deleteOperationSpec
       );
       return result as void;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -216,7 +216,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
         listOperationSpec
       );
       return result as ManagedPrivateEndpointsListResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -248,7 +248,7 @@ export class ManagedPrivateEndpointsImpl implements ManagedPrivateEndpoints {
         listNextOperationSpec
       );
       return result as ManagedPrivateEndpointsListNextResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message

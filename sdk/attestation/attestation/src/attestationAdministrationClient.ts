@@ -201,7 +201,7 @@ export class AttestationAdministrationClient {
         token,
         bytesToString(storedPolicy.attestationPolicy)
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
@@ -282,7 +282,7 @@ export class AttestationAdministrationClient {
       // the actual policy object being retrieved. Serialize the token to an
       // AttestationToken object so we can access the body properties on the token.
       return createAttestationResponse<PolicyResult>(token, policyResult);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
@@ -362,7 +362,7 @@ export class AttestationAdministrationClient {
       // the actual policy object being retrieved. Serialize the token to an
       // AttestationToken object so we can access the body properties on the token.
       return createAttestationResponse<PolicyResult>(token, policyResult);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
@@ -416,7 +416,7 @@ export class AttestationAdministrationClient {
       });
 
       return createAttestationResponse<AttestationSigner[]>(token, policyCertificates);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
@@ -516,7 +516,7 @@ export class AttestationAdministrationClient {
       ) as PolicyCertificatesModificationResult;
 
       return createAttestationResponse<PolicyCertificatesModificationResult>(token, result);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
@@ -634,7 +634,7 @@ export class AttestationAdministrationClient {
       ) as PolicyCertificatesModificationResult;
 
       return createAttestationResponse<PolicyCertificatesModificationResult>(token, result);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {

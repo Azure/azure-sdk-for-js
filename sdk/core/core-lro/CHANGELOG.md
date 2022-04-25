@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Removed the unused dependency `@azure/core-tracing`.
+
 ## 2.2.4 (2022-03-07)
 
 ### Bugs Fixed

@@ -9,11 +9,33 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": ["es6", "dom"],
+    "lib": [
+      "es6",
+      "dom"
+    ],
     "declaration": true,
     "outDir": "./dist-esm",
-    "importHelpers": true
+    "importHelpers": true,
+    "paths": {
+      "@azure/arm-links": [
+        "./src/index"
+      ]
+    }
   },
-  "include": ["./src/**/*.ts", "./test/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "./src/**/*.ts",
+    "./test/**/*.ts",
+    "samples-dev/**/*.ts",
+    "./test/**/*.ts",
+    "samples-dev/**/*.ts",
+    "./test/**/*.ts",
+    "samples-dev/**/*.ts",
+    "./test/**/*.ts",
+    "samples-dev/**/*.ts",
+    "./test/**/*.ts",
+    "samples-dev/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

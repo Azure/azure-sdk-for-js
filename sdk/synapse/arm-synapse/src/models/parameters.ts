@@ -45,6 +45,7 @@ import {
   ServerSecurityAlertPolicy as ServerSecurityAlertPolicyMapper,
   ServerVulnerabilityAssessment as ServerVulnerabilityAssessmentMapper,
   EncryptionProtector as EncryptionProtectorMapper,
+  DedicatedSQLminimalTlsSettings as DedicatedSQLminimalTlsSettingsMapper,
   WorkspacePatchInfo as WorkspacePatchInfoMapper,
   Workspace as WorkspaceMapper,
   WorkspaceAadAdminInfo as WorkspaceAadAdminInfoMapper,
@@ -759,6 +760,33 @@ export const parameters21: OperationParameter = {
   mapper: EncryptionProtectorMapper
 };
 
+export const parameters22: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: DedicatedSQLminimalTlsSettingsMapper
+};
+
+export const dedicatedSQLminimalTlsSettingsName: OperationURLParameter = {
+  parameterPath: "dedicatedSQLminimalTlsSettingsName",
+  mapper: {
+    serializedName: "dedicatedSQLminimalTlsSettingsName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const dedicatedSQLminimalTlsSettingsName1: OperationURLParameter = {
+  parameterPath: "dedicatedSQLminimalTlsSettingsName",
+  mapper: {
+    serializedName: "dedicatedSQLminimalTlsSettingsName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const workspacePatchInfo: OperationParameter = {
   parameterPath: "workspacePatchInfo",
   mapper: WorkspacePatchInfoMapper
@@ -953,12 +981,12 @@ export const kustoPoolName1: OperationURLParameter = {
   }
 };
 
-export const parameters22: OperationParameter = {
+export const parameters23: OperationParameter = {
   parameterPath: "parameters",
   mapper: KustoPoolMapper
 };
 
-export const parameters23: OperationParameter = {
+export const parameters24: OperationParameter = {
   parameterPath: "parameters",
   mapper: KustoPoolUpdateMapper
 };
@@ -994,7 +1022,7 @@ export const attachedDatabaseConfigurationName: OperationURLParameter = {
   }
 };
 
-export const parameters24: OperationParameter = {
+export const parameters25: OperationParameter = {
   parameterPath: "parameters",
   mapper: AttachedDatabaseConfigurationMapper
 };
@@ -1010,7 +1038,7 @@ export const databaseName: OperationURLParameter = {
   }
 };
 
-export const parameters25: OperationParameter = {
+export const parameters26: OperationParameter = {
   parameterPath: "parameters",
   mapper: DatabaseMapper
 };
@@ -1020,7 +1048,7 @@ export const dataConnectionName: OperationParameter = {
   mapper: DataConnectionCheckNameRequestMapper
 };
 
-export const parameters26: OperationParameter = {
+export const parameters27: OperationParameter = {
   parameterPath: "parameters",
   mapper: DataConnectionValidationMapper
 };
@@ -1036,7 +1064,7 @@ export const dataConnectionName1: OperationURLParameter = {
   }
 };
 
-export const parameters27: OperationParameter = {
+export const parameters28: OperationParameter = {
   parameterPath: "parameters",
   mapper: DataConnectionMapper
 };
@@ -1057,7 +1085,7 @@ export const principalAssignmentName1: OperationURLParameter = {
   }
 };
 
-export const parameters28: OperationParameter = {
+export const parameters29: OperationParameter = {
   parameterPath: "parameters",
   mapper: ClusterPrincipalAssignmentMapper
 };
@@ -1067,7 +1095,7 @@ export const principalAssignmentName2: OperationParameter = {
   mapper: DatabasePrincipalAssignmentCheckNameRequestMapper
 };
 
-export const parameters29: OperationParameter = {
+export const parameters30: OperationParameter = {
   parameterPath: "parameters",
   mapper: DatabasePrincipalAssignmentMapper
 };

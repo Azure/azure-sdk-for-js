@@ -65,7 +65,7 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as KqlScriptCreateOrUpdateResponse;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -113,10 +113,12 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
       { kqlScriptName, kqlScript, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -154,7 +156,7 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
         getByNameOperationSpec
       );
       return result as KqlScriptGetByNameResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -185,7 +187,7 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -233,10 +235,12 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
       { kqlScriptName, options },
       deleteByNameOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -271,7 +275,7 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -319,10 +323,12 @@ export class KqlScriptOperationsImpl implements KqlScriptOperations {
       { kqlScriptName, renameRequest, options },
       renameOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -368,7 +374,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.kqlScript,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.endpoint, Parameters.kqlScriptName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -385,7 +391,7 @@ const getByNameOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorContract
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.endpoint, Parameters.kqlScriptName],
   headerParameters: [Parameters.accept],
   serializer
@@ -402,7 +408,7 @@ const deleteByNameOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorContract
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.endpoint, Parameters.kqlScriptName],
   headerParameters: [Parameters.accept],
   serializer
@@ -420,7 +426,7 @@ const renameOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.renameRequest,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.endpoint, Parameters.kqlScriptName],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",

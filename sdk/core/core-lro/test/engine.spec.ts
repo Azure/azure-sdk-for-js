@@ -29,7 +29,7 @@ describe("Lro Engine", function () {
       try {
         await runMockedLro("POST", "/post/202/noretry/204");
         throw new Error("should have thrown instead");
-      } catch (e) {
+      } catch (e: any) {
         assert.equal(
           e.message,
           "Received unexpected HTTP status code 204 while polling. This may indicate a server issue."
@@ -41,7 +41,7 @@ describe("Lro Engine", function () {
       try {
         await runMockedLro("DELETE", "/delete/noheader");
         throw new Error("should have thrown instead");
-      } catch (e) {
+      } catch (e: any) {
         assert.equal(
           e.message,
           "Received unexpected HTTP status code 204 while polling. This may indicate a server issue."
@@ -82,7 +82,7 @@ describe("Lro Engine", function () {
       try {
         await runMockedLro("DELETE", "/delete/202/noretry/204");
         throw new Error("should have thrown instead");
-      } catch (e) {
+      } catch (e: any) {
         assert.equal(
           e.message,
           "Received unexpected HTTP status code 204 while polling. This may indicate a server issue."
@@ -132,7 +132,7 @@ describe("Lro Engine", function () {
       try {
         await runMockedLro("PUT", "/put/200/accepted/canceled/200");
         throw new Error("should have thrown instead");
-      } catch (e) {
+      } catch (e: any) {
         assert.equal(
           e.message,
           "The long running operation has failed. The provisioning state: canceled."
@@ -151,7 +151,7 @@ describe("Lro Engine", function () {
       try {
         await runMockedLro("PUT", "/put/201/created/failed/200");
         throw new Error("should have thrown instead");
-      } catch (e) {
+      } catch (e: any) {
         assert.equal(
           e.message,
           "The long running operation has failed. The provisioning state: failed."
@@ -215,7 +215,7 @@ describe("Lro Engine", function () {
         try {
           await runMockedLro("DELETE", `/delete${rootPrefix}/retry/canceled`);
           throw new Error("should have thrown instead");
-        } catch (e) {
+        } catch (e: any) {
           assert.equal(
             e.message,
             "The long running operation has failed. The provisioning state: canceled."
@@ -227,7 +227,7 @@ describe("Lro Engine", function () {
         try {
           await runMockedLro("DELETE", `/delete${rootPrefix}/retry/failed`);
           throw new Error("should have thrown instead");
-        } catch (e) {
+        } catch (e: any) {
           assert.equal(
             e.message,
             "The long running operation has failed. The provisioning state: failed."
@@ -255,7 +255,7 @@ describe("Lro Engine", function () {
         try {
           await runMockedLro("PUT", `/put${rootPrefix}/retry/failed`);
           throw new Error("should have thrown instead");
-        } catch (e) {
+        } catch (e: any) {
           assert.equal(
             e.message,
             "The long running operation has failed. The provisioning state: failed."
@@ -292,7 +292,7 @@ describe("Lro Engine", function () {
         try {
           await runMockedLro("PUT", `/put${rootPrefix}/noretry/canceled`);
           throw new Error("should have thrown instead");
-        } catch (e) {
+        } catch (e: any) {
           assert.equal(
             e.message,
             "The long running operation has failed. The provisioning state: canceled."
@@ -320,7 +320,7 @@ describe("Lro Engine", function () {
         try {
           await runMockedLro("POST", `/post${rootPrefix}/retry/failed`);
           throw new Error("should have thrown instead");
-        } catch (e) {
+        } catch (e: any) {
           assert.equal(
             e.message,
             "The long running operation has failed. The provisioning state: failed."
@@ -338,7 +338,7 @@ describe("Lro Engine", function () {
         try {
           await runMockedLro("POST", `/post${rootPrefix}/retry/canceled`);
           throw new Error("should have thrown instead");
-        } catch (e) {
+        } catch (e: any) {
           assert.equal(
             e.message,
             "The long running operation has failed. The provisioning state: canceled."
@@ -352,7 +352,7 @@ describe("Lro Engine", function () {
     it("should handle PutNonRetry400 ", async () => {
       try {
         await runMockedLro("PUT", "/nonretryerror/put/400");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.statusCode, 400);
       }
     });
@@ -360,7 +360,7 @@ describe("Lro Engine", function () {
     it("should handle putNonRetry201Creating400 ", async () => {
       try {
         await runMockedLro("PUT", "/nonretryerror/put/201/creating/400");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.statusCode, 400);
       }
     });
@@ -368,7 +368,7 @@ describe("Lro Engine", function () {
     it("should throw with putNonRetry201Creating400InvalidJson ", async () => {
       try {
         await runMockedLro("PUT", "/nonretryerror/put/201/creating/400/invalidjson");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.statusCode, 400);
       }
     });
@@ -376,7 +376,7 @@ describe("Lro Engine", function () {
     it("should handle putAsyncRelativeRetry400 ", async () => {
       try {
         await runMockedLro("PUT", "/nonretryerror/putasync/retry/400");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.statusCode, 400);
       }
     });
@@ -385,7 +385,7 @@ describe("Lro Engine", function () {
       try {
         await runMockedLro("DELETE", "/nonretryerror/delete/202/retry/400");
         assert.fail("Scenario should throw");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.statusCode, 400);
       }
     });
@@ -394,7 +394,7 @@ describe("Lro Engine", function () {
       try {
         await runMockedLro("DELETE", "/nonretryerror/delete/400");
         assert.fail("Scenario should throw");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.statusCode, 400);
       }
     });
@@ -403,7 +403,7 @@ describe("Lro Engine", function () {
       try {
         await runMockedLro("DELETE", "/nonretryerror/deleteasync/retry/400");
         assert.fail("Scenario should throw");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.statusCode, 400);
       }
     });
@@ -412,7 +412,7 @@ describe("Lro Engine", function () {
       try {
         await runMockedLro("POST", "/nonretryerror/post/400");
         assert.fail("Scenario should throw");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.statusCode, 400);
       }
     });
@@ -421,7 +421,7 @@ describe("Lro Engine", function () {
       try {
         await runMockedLro("POST", "/nonretryerror/post/202/retry/400");
         assert.fail("Scenario should throw");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.statusCode, 400);
       }
     });
@@ -430,7 +430,7 @@ describe("Lro Engine", function () {
       try {
         await runMockedLro("POST", "/nonretryerror/postasync/retry/400");
         assert.fail("Scenario should throw");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.statusCode, 400);
       }
     });
@@ -474,7 +474,7 @@ describe("Lro Engine", function () {
       try {
         await runMockedLro("PUT", "/error/put/200/invalidjson");
         assert.fail("Scenario should throw");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.message, "Unexpected end of JSON input");
       }
     });
@@ -483,7 +483,7 @@ describe("Lro Engine", function () {
       try {
         await runMockedLro("PUT", "/error/putasync/retry/invalidheader");
         assert.fail("Scenario should throw");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.statusCode, 404);
         // assert.equal(error.statusCode, 404); // core-client would have validated the retry-after header
       }
@@ -493,7 +493,7 @@ describe("Lro Engine", function () {
       try {
         await runMockedLro("PUT", "/error/putasync/retry/invalidjsonpolling");
         assert.fail("Scenario should throw");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.message, "Unexpected end of JSON input");
       }
     });
@@ -502,7 +502,7 @@ describe("Lro Engine", function () {
       try {
         await runMockedLro("DELETE", "/error/delete/202/retry/invalidheader");
         assert.fail("Scenario should throw");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.statusCode, 404);
       }
     });
@@ -511,7 +511,7 @@ describe("Lro Engine", function () {
       try {
         await runMockedLro("DELETE", "/error/deleteasync/retry/invalidheader");
         assert.fail("Scenario should throw");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.statusCode, 404);
       }
     });
@@ -520,7 +520,7 @@ describe("Lro Engine", function () {
       try {
         await runMockedLro("DELETE", "/error/deleteasync/retry/invalidjsonpolling");
         assert.fail("Scenario should throw");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.message, "Unexpected end of JSON input");
       }
     });
@@ -529,7 +529,7 @@ describe("Lro Engine", function () {
       try {
         await runMockedLro("POST", "/error/post/202/retry/invalidheader");
         assert.fail("Scenario should throw");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.statusCode, 404);
       }
     });
@@ -538,7 +538,7 @@ describe("Lro Engine", function () {
       try {
         await runMockedLro("POST", "/error/postasync/retry/invalidheader");
         assert.fail("Scenario should throw");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.statusCode, 404);
       }
     });
@@ -547,7 +547,7 @@ describe("Lro Engine", function () {
       try {
         await runMockedLro("POST", "/error/postasync/retry/invalidjsonpolling");
         assert.fail("Scenario should throw");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(error.message, "Unexpected end of JSON input");
       }
     });

@@ -390,7 +390,7 @@ describe("PageBlobClient Node.js only", () => {
     let exceptionCaught = false;
     try {
       await blobClient.download(0);
-    } catch (err) {
+    } catch (err: any) {
       exceptionCaught = true;
     }
     assert.ok(exceptionCaught);
@@ -444,7 +444,7 @@ describe("PageBlobClient Node.js only", () => {
     exceptionCaught = false;
     try {
       await pageBlobClient.clearPages(0, 512);
-    } catch (err) {
+    } catch (err: any) {
       exceptionCaught = true;
     }
     assert.ok(exceptionCaught);
@@ -487,7 +487,7 @@ describe("PageBlobClient Node.js only", () => {
       let expectedExceptionCaught = false;
       try {
         await promise;
-      } catch (e) {
+      } catch (e: any) {
         assert.equal(e.details?.errorCode, errorCode);
         expectedExceptionCaught = true;
       }
@@ -513,7 +513,7 @@ describe("PageBlobClient Node.js only", () => {
         /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
         try {
           await destPageBlobClient.abortCopyFromURL(copyResponse.copyId!);
-        } catch (err) {}
+        } catch (err: any) {}
       }
 
       await destPageBlobClient.setTags(tags);

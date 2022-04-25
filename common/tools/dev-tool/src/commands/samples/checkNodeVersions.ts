@@ -138,7 +138,7 @@ function createDockerContextDirectory(
     try {
       new URL(s);
       return true;
-    } catch (err) {
+    } catch (err: any) {
       return false;
     }
   };
