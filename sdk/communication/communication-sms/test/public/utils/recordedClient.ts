@@ -9,10 +9,10 @@ import {
   env,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
+import { SmsClient } from "../../../src";
+import { parseConnectionString } from "@azure/communication-common";
 import { TokenCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { parseConnectionString } from "@azure/communication-common";
-import { SmsClient } from "../../../src";
 
 export interface RecordedClient<T> {
   client: T;
@@ -36,15 +36,15 @@ const sanitizerOptions: SanitizerOptions = {
     },
   ],
   generalSanitizers: [
-    { regex: true, target: `"access_token"\s?:\s?"[^"]*"`, value: `"access_token":"sanitized"` },
+    { regex: true, target: `"access_token"\\s?:\\s?"[^"]*"`, value: `"access_token":"sanitized"` },
     {
       regex: true,
-      target: `"repeatabilityRequestId"\s?:\s?"[^"]*"`,
+      target: `"repeatabilityRequestId"\\s?:\\s?"[^"]*"`,
       value: `"repeatabilityRequestId":"sanitized"`,
     },
     {
       regex: true,
-      target: `"repeatabilityFirstSent"\s?:\s?"[^"]*"`,
+      target: `"repeatabilityFirstSent"\\s?:\\s?"[^"]*"`,
       value: `"repeatabilityFirstSent":"Thu, 01 Jan 1970 00:00:00 GMT"`,
     },
   ],
