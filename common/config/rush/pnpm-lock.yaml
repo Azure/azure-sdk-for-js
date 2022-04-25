@@ -9056,7 +9056,7 @@ packages:
     dev: false
 
   file:projects/ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-uKknccwOgLYSxvVAfmJyts5/8TC1YyaZTB/z+o0md0ZYknC/g/5Np9wZBjpP2gbZcEDrkNPinh8mFT379Y3QuA==, tarball: file:projects/ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-2RP38JOoDnlvLemEIt1DCeIKbzUifU6V9kPaCcBIcVtB+yPmvmXFzo7bPQNnzLvMGGkjfBUpOC6DbCYBxYal4w==, tarball: file:projects/ai-form-recognizer.tgz}
     name: '@rush-temp/ai-form-recognizer'
     version: 0.0.0
     dependencies:
@@ -9090,7 +9090,7 @@ packages:
       sinon: 9.2.4
       source-map-support: 0.5.21
       tslib: 2.3.1
-      typescript: 4.4.4
+      typescript: 4.6.3
     transitivePeerDependencies:
       - bufferutil
       - debug
@@ -9199,7 +9199,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-q02rcYvajK3fsgilAM+T82k+bbWiHD+IGgZBzQrqbZ3GOP39p/f7+8nktXxqQfM9Wxojrb4EiQrgiUTMf2xRdg==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-mkevIqpzPMbFuEsfEJYB1UxxXEp44OHQ2GQMmmOmreyQj2M6hHuaCAi0t2qSvYXr/jBFP/GfpPpag+00kJt5pg==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -9245,9 +9245,9 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.70.1
       rollup-plugin-terser: 5.3.1_rollup@2.70.1
       sinon: 9.2.4
-      ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
+      ts-node: 10.7.0_b65123e3711dd1b8aac681d23988aad6
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.6.3
       uglify-js: 3.15.4
       uuid: 8.3.2
     transitivePeerDependencies:
@@ -14243,7 +14243,7 @@ packages:
     dev: false
 
   file:projects/container-registry.tgz:
-    resolution: {integrity: sha512-JZxeNbLBkTPS7GP89OHU2zyoCJi2TocD/3AaV0XlCLQoMeKVr8h7Th3L4J7cLdoL6rXrqF72KwJGUsFlA3QCOQ==, tarball: file:projects/container-registry.tgz}
+    resolution: {integrity: sha512-V/p7+Cu1a49LybAJV+v1tUHitMbg1pVOSwQ6JAxkgH16EcQnohNFUpqf+QtvKXMpbI6BKVSx/9VQM5/AtUMAQw==, tarball: file:projects/container-registry.tgz}
     name: '@rush-temp/container-registry'
     version: 0.0.0
     dependencies:
@@ -14276,7 +14276,7 @@ packages:
       prettier: 2.6.2
       rimraf: 3.0.2
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.6.3
       util: 0.12.4
     transitivePeerDependencies:
       - bufferutil
@@ -15114,7 +15114,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-xgn/cKcVVEruJbtvXEEtDJ3vU09kKdf7bhtmxFVzsDnB3VkjbDgbi8ASk5e0e4qkSQMRQ0HOPgbWsiD0SmFWaw==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-+jB4D3jlHeHR8pA+wRpGmzD/yNuUMDd9OfPF6tfDDlWWrqMBYdil+C66wHC4nQTKCunOX/cF+m1PMcPKkuJiqg==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
@@ -15177,9 +15177,9 @@ packages:
       rollup-plugin-sourcemaps: 0.4.2_rollup@2.70.1
       rollup-plugin-terser: 5.3.1_rollup@2.70.1
       sinon: 9.2.4
-      ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
+      ts-node: 10.7.0_b65123e3711dd1b8aac681d23988aad6
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.6.3
       uuid: 8.3.2
       ws: 8.5.0
     transitivePeerDependencies:
@@ -15192,7 +15192,7 @@ packages:
     dev: false
 
   file:projects/eventgrid.tgz:
-    resolution: {integrity: sha512-OyWXpI/9a7zc/BoJtMEr9wHQsW5BFREm4V3wVdtlAzk4ND4Augfc+groMWoIukXoUb7Bh1tyC97MHJPrcKcwmg==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-uunt1Jgbas59TzTNtuF9aizfEO66eIxCFySrgBTBhG4hfZOXwk7qcuHvGz9FTsa0mw9eHdyxtrJRmSomsX+qbA==, tarball: file:projects/eventgrid.tgz}
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
@@ -15227,9 +15227,9 @@ packages:
       rimraf: 3.0.2
       sinon: 9.2.4
       source-map-support: 0.5.21
-      ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
+      ts-node: 10.7.0_b65123e3711dd1b8aac681d23988aad6
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.6.3
       uuid: 8.3.2
     transitivePeerDependencies:
       - '@swc/core'
@@ -15242,7 +15242,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz:
-    resolution: {integrity: sha512-llH6PwWTQ1givbM6GxiwKmJY2TBHb2OuKXWSFENouI9fnNwmkJ1iDgf9L08LYwA1WRS/JQuIHouRh9BhkouG3w==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-fJ6cZn28kU24JmLoWiHPo3PAobLpDHVym2oH/wy9csf0xLJ1GhrPVFYHiBPxWpgYC5flNiH5OBe2DsF3XLTjxQ==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
@@ -15281,9 +15281,9 @@ packages:
       nyc: 15.1.0
       prettier: 2.6.2
       rimraf: 3.0.2
-      ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
+      ts-node: 10.7.0_b65123e3711dd1b8aac681d23988aad6
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.6.3
       util: 0.12.4
     transitivePeerDependencies:
       - '@swc/core'
@@ -15295,7 +15295,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-table.tgz:
-    resolution: {integrity: sha512-0SHZh1OD2MPUrYSOA9etDgNtskgv61sTjUOCg4byh8UDUw5ugp7S31KuG7cQpTh5Ca2CR2tKYympXDZgl0s7yg==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
+    resolution: {integrity: sha512-lV2JaA7ADYooOapQrBAwk+4lQXa/VWgdJLC2WoZsAi/l5yV9hlK9GhAiX/+x3GXQGFHfsqw/oSZO929dsMf0Ag==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-table'
     version: 0.0.0
     dependencies:
@@ -15334,9 +15334,9 @@ packages:
       nyc: 15.1.0
       prettier: 2.6.2
       rimraf: 3.0.2
-      ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
+      ts-node: 10.7.0_b65123e3711dd1b8aac681d23988aad6
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.6.3
       util: 0.12.4
     transitivePeerDependencies:
       - '@swc/core'
@@ -15347,7 +15347,7 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-c1BnPVNCl6yyL+uz1tBnORXGccYMWLk9kihDVgKKVFQ5KxRDEJIwkneIvsM07JAunwwG/haxl7x98H5Iu2qjyQ==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-iO3YRZKq2OzMsGMIq0pwP79YEoQk3GcNODKwkFRMPpHCsa0W08Y4MSd2Y2A4SreTAwjOxfFSsWcOOMoJfDvIEw==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
@@ -15371,7 +15371,7 @@ packages:
       rimraf: 3.0.2
       sinon: 9.2.4
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.6.3
       util: 0.12.4
     transitivePeerDependencies:
       - bufferutil
@@ -15382,7 +15382,7 @@ packages:
     dev: false
 
   file:projects/identity-vscode.tgz:
-    resolution: {integrity: sha512-74UNInNkwQZ0weljkG0R+wEgBqIl7+tjeRq7hYhkH15jvZFhuGcM5ze+H1sPkXrPKG0ToSBfQg9Q8zKB+rLl5w==, tarball: file:projects/identity-vscode.tgz}
+    resolution: {integrity: sha512-Hw68VJ8HYBRNLp3ymwkvDmM/yyjZ3tjzPEdGk8DUI+QjOX2/wa8iQBkR415mD+8b7s8lLVJG4E6NP5dpRm8fsg==, tarball: file:projects/identity-vscode.tgz}
     name: '@rush-temp/identity-vscode'
     version: 0.0.0
     dependencies:
@@ -15405,7 +15405,7 @@ packages:
       rimraf: 3.0.2
       sinon: 9.2.4
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.6.3
       util: 0.12.4
     transitivePeerDependencies:
       - bufferutil
@@ -15415,7 +15415,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-XZj7+1rBhOdOsWbw7omPQxFvA1GboASgjbIBPIKNUSun79M3M4sxr8UqbE6kH7hnj72F7FgxiWhQwW1Sj7F3yg==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-sJuoRp2IAMTAMQ1HZTtCVjSBfeBidJicr777/fQnWoJHlWLBt7qXrOdpFDwRKncAIdDtaKpXD/rOqxpi4QdePQ==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
@@ -15456,7 +15456,7 @@ packages:
       sinon: 9.2.4
       stoppable: 1.1.0
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.6.3
       util: 0.12.4
       uuid: 8.3.2
     transitivePeerDependencies:
