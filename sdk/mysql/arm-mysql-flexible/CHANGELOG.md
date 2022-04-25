@@ -1,5 +1,15 @@
 # Release History
     
+## 3.0.0 (2022-04-25)
+    
+**Breaking Changes**
+
+  - Interface ServerForUpdate no longer has parameter dataEncryption
+  - Interface ServerForUpdate no longer has parameter identity
+  - Type Alias Server no longer has parameter identity
+  - Type Alias Server no longer has parameter dataEncryption
+    
+    
 ## 2.0.0 (2022-03-07)
 
 The package of @azure/arm-mysql-flexible is using our next generation design principles since version 2.0.0, which contains breaking changes.
