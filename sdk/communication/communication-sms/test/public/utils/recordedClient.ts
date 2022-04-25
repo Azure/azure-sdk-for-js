@@ -14,7 +14,6 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { parseConnectionString } from "@azure/communication-common";
 import { SmsClient } from "../../../src";
 
-
 export interface RecordedClient<T> {
   client: T;
   recorder: Recorder;
@@ -37,10 +36,17 @@ const sanitizerOptions: SanitizerOptions = {
     },
   ],
   generalSanitizers: [
-    { regex: true, target: "(https:\/\/)([^/',]*)", value: "$1endpoint" },
     { regex: true, target: `"access_token"\s?:\s?"[^"]*"`, value: `"access_token":"sanitized"` },
-    { regex: true, target: `"repeatabilityRequestId"\s?:\s?"[^"]*"`, value: `"repeatabilityRequestId":"sanitized"` },
-    { regex: true, target: `"repeatabilityFirstSent"\s?:\s?"[^"]*"`, value: `"repeatabilityFirstSent":"Thu, 01 Jan 1970 00:00:00 GMT"` },
+    {
+      regex: true,
+      target: `"repeatabilityRequestId"\s?:\s?"[^"]*"`,
+      value: `"repeatabilityRequestId":"sanitized"`,
+    },
+    {
+      regex: true,
+      target: `"repeatabilityFirstSent"\s?:\s?"[^"]*"`,
+      value: `"repeatabilityFirstSent":"Thu, 01 Jan 1970 00:00:00 GMT"`,
+    },
   ],
 };
 
@@ -67,7 +73,7 @@ export async function createRecordedSmsClient(
   const recorder = await createRecorder(context.currentTest);
 
   const client = new SmsClient(
-    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "", 
+    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
     recorder.configureClientOptions({})
   );
   return {
@@ -82,7 +88,9 @@ export async function createRecordedSmsClientWithToken(
   const recorder = await createRecorder(context.currentTest);
 
   let credential: TokenCredential;
-  const endpoint = parseConnectionString(env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "").endpoint;
+  const endpoint = parseConnectionString(
+    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? ""
+  ).endpoint;
 
   if (isPlaybackMode()) {
     credential = {
@@ -94,12 +102,7 @@ export async function createRecordedSmsClientWithToken(
     credential = createTestCredential();
   }
 
-  const client = new SmsClient(
-    endpoint,
-    credential,
-    recorder.configureClientOptions({})
-  );
+  const client = new SmsClient(endpoint, credential, recorder.configureClientOptions({}));
 
   return { client, recorder };
 }
-

@@ -7,14 +7,13 @@
  */
 
 import { matrix } from "@azure/test-utils";
-import { Recorder, env } from "@azure-tools/test-recorder";
-import {
-  createRecordedSmsClient,
-  createRecordedSmsClientWithToken,
-} from "./utils/recordedClient";
+import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { createRecordedSmsClient, createRecordedSmsClientWithToken } from "./utils/recordedClient";
 import { Context } from "mocha";
 import sendSmsSuites from "./suites/smsClient.send";
 import { SmsClient } from "../../src";
+import sinon from "sinon";
+import { Uuid } from "../../src/utils/uuid";
 
 matrix([[true, false]], async function (useAad: boolean) {
   describe(`SmsClient [Live]${useAad ? " [AAD]" : ""}`, async () => {
@@ -29,6 +28,10 @@ matrix([[true, false]], async function (useAad: boolean) {
     });
 
     beforeEach(async function (this: Context) {
+      if (isPlaybackMode()) {
+        sinon.stub(Uuid, "generateUuid").returns("sanitized");
+        sinon.stub(Date, "now").returns(0);
+      }
       if (useAad) {
         ({ client, recorder } = await createRecordedSmsClientWithToken(this));
       } else {
@@ -38,7 +41,12 @@ matrix([[true, false]], async function (useAad: boolean) {
     });
 
     afterEach(async function (this: Context) {
-      await recorder.stop();
+      if (!this.currentTest?.isPending()) {
+        await recorder.stop();
+      }
+      if (isPlaybackMode()) {
+        sinon.restore();
+      }
     });
 
     describe("test send method", sendSmsSuites);

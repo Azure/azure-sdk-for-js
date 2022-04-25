@@ -7,11 +7,8 @@ import {
   isKeyCredential,
   createCommunicationAuthPolicy,
 } from "@azure/communication-common";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import {
-  CommonClientOptions,
-  OperationOptions
-} from "@azure/core-client";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { SmsApiClient } from "./generated/src/smsApiClient";
@@ -89,7 +86,7 @@ export interface SmsSendResult {
  * @param options - The value being checked.
  */
 const isSmsClientOptions = (options: any): options is SmsClientOptions =>
-  !!options && !isKeyCredential(options);
+  !!options && !isTokenCredential(options) && !isKeyCredential(options);
 
 /**
  * A SmsClient represents a Client to the Azure Communication Sms service allowing you
@@ -129,7 +126,7 @@ export class SmsClient {
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
     const options = isSmsClientOptions(credentialOrOptions) ? credentialOrOptions : maybeOptions;
-    
+
     const internalPipelineOptions: InternalPipelineOptions = {
       ...options,
       ...{

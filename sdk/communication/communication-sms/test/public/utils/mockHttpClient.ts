@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createHttpHeaders, HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import {
+  createHttpHeaders,
+  HttpClient,
+  PipelineRequest,
+  PipelineResponse,
+} from "@azure/core-rest-pipeline";
 
 export class MockHttpClient implements HttpClient {
   constructor(private _phoneNumber: string) {}

@@ -1,28 +1,61 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://endpoint/sms",
-   "query": {
-    "api-version": "2021-03-07"
-   },
-   "requestBody": "{\"from\":\"+1425555012345\",\"smsRecipients\":[{\"to\":\"+14255550123\",\"repeatabilityRequestId\":\"sanitized\",\"repeatabilityFirstSent\":\"Thu, 01 Jan 1970 00:00:00 GMT\"}],\"message\":\"test message\",\"smsSendOptions\":{\"enableDeliveryReport\":false,\"tag\":\"SMS_LIVE_TEST\"}}",
-   "status": 400,
-   "response": "{\"From\":[\"Invalid from phone number format.\"]}",
-   "responseHeaders": {
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 08 Apr 2022 12:51:18 GMT",
-    "ms-cv": "NBNERT7+JUannyDetc+N+Q.0",
-    "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0xy9QYgAAAAAPvhh6sI7IQJoyOa0+3xzMV1NURURHRTA4MTIAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
-    "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "20ms"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "e830f0d478454c137a071b9e63b90611"
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/sms?api-version=2021-03-07",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "cs",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "253",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
+        "x-ms-client-request-id": "3db1359e-3f83-432b-ab6a-8b15318da8e2",
+        "x-ms-content-sha256": "XKcVNmFZX9gd0lz7f7PDFMUwa1yIkPUMwiH3KUJnI/8=",
+        "x-ms-date": "Thu, 21 Apr 2022 14:59:23 GMT",
+        "x-ms-useragent": "azsdk-js-communication-sms/1.2.0-beta.1 core-rest-pipeline/1.8.0 OS/Win32"
+      },
+      "RequestBody": {
+        "from": "\u002B1425555012345",
+        "smsRecipients": [
+          {
+            "to": "\u002B14255550123",
+            "repeatabilityRequestId": "sanitized",
+            "repeatabilityFirstSent": "Thu, 01 Jan 1970 00:00:00 GMT"
+          }
+        ],
+        "message": "test message",
+        "smsSendOptions": {
+          "enableDeliveryReport": true,
+          "tag": "SMS_LIVE_TEST"
+        }
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 21 Apr 2022 14:59:23 GMT",
+        "MS-CV": "geqdNdvp2UybD8upIgFoWg.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0S3FhYgAAAACk3QRWvl12RKxc2/Vo6OFeUFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "20ms"
+      },
+      "ResponseBody": {
+        "From": [
+          "Invalid from phone number format."
+        ]
+      }
+    }
+  ],
+  "Variables": {}
 }

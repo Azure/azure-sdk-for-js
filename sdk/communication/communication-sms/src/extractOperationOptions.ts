@@ -9,7 +9,14 @@ export const extractOperationOptions = <T extends OperationOptions>(
   operationOptions: OperationOptions;
   restOptions: Pick<T, Exclude<keyof T, keyof OperationOptions>>;
 } => {
-  const { abortSignal, onResponse, requestOptions, serializerOptions, tracingOptions, ...restOptions } = obj;
+  const {
+    abortSignal,
+    onResponse,
+    requestOptions,
+    serializerOptions,
+    tracingOptions,
+    ...restOptions
+  } = obj;
 
   return {
     operationOptions: {

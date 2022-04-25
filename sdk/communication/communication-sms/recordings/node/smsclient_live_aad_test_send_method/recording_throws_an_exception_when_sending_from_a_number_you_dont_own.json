@@ -5,24 +5,13 @@
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "cs",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "251",
         "Content-Type": "application/json",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "09d88cb1-ab34-4269-8551-18b49dd1511b",
-        "x-ms-content-sha256": "1hdxJvVLhl83MSLot6cBpzJccFcqlD5PM7eef1c0Ag0=",
-        "x-ms-date": "Thu, 21 Apr 2022 14:59:22 GMT",
-        "x-ms-useragent": "azsdk-js-communication-sms/1.2.0-beta.1 core-rest-pipeline/1.8.0 OS/Win32"
+        "User-Agent": "azsdk-js-communication-sms/1.2.0-beta.1 core-rest-pipeline/1.8.0 Node/v14.19.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "0c202dba-039b-4eee-a655-3e8a2373554b"
       },
       "RequestBody": {
         "from": "\u002B14255550123",
@@ -43,13 +32,13 @@
       "ResponseHeaders": {
         "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07",
         "Content-Type": "application/json",
-        "Date": "Thu, 21 Apr 2022 14:59:23 GMT",
-        "MS-CV": "BzMqGjjUnk\u002Bs1GMV6Y6F3g.0",
+        "Date": "Thu, 21 Apr 2022 14:59:09 GMT",
+        "MS-CV": "\u002BF\u002BNaJpK2UaueC53\u002BeV3Ug.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0SnFhYgAAAACKtql3n2AyTaFxQq72nat8UFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0PnFhYgAAAAB/ZmtRmh1TTbYBenhJFjOWUFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "191ms"
+        "X-Processing-Time": "51ms"
       },
       "ResponseBody": {
         "error": {

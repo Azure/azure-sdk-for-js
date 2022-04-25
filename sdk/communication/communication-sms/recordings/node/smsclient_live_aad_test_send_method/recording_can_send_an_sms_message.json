@@ -5,22 +5,13 @@
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "cs",
+        "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "230",
         "Content-Type": "application/json",
-        "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "",
-        "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "f21e4c75-95b8-4a32-b01a-65c9e4c231aa",
-        "x-ms-useragent": "azsdk-js-communication-sms/1.2.0-beta.1 core-rest-pipeline/1.8.0 OS/Win32"
+        "User-Agent": "azsdk-js-communication-sms/1.2.0-beta.1 core-rest-pipeline/1.8.0 Node/v14.19.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "3405de06-2db5-466d-b512-32449f29bda9"
       },
       "RequestBody": {
         "from": "\u002B14255550123",
@@ -40,19 +31,19 @@
       "ResponseHeaders": {
         "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 21 Apr 2022 14:59:17 GMT",
-        "MS-CV": "gbwA4e1w5keJTsPfpHbWGg.0",
+        "Date": "Thu, 21 Apr 2022 14:59:07 GMT",
+        "MS-CV": "rslY8uUzIUOnfKj9FI8/YA.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0RnFhYgAAAADRSDyiKG2QRL2ZGz9dOWprUFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0PHFhYgAAAAA/pzH5dgaJSLTGWxoZqnn0UFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "101ms"
+        "X-Processing-Time": "230ms"
       },
       "ResponseBody": {
         "value": [
           {
             "to": "\u002B14255550123",
-            "messageId": "Outgoing_20220421145918a340a8f1-812e-4bc3-a836-c595dbe85af8_noam",
+            "messageId": "Outgoing_202204211459088aa5006e-5a12-459b-bbc8-843f8dd4a89b_noam",
             "httpStatusCode": 202,
             "repeatabilityResult": "accepted",
             "successful": true

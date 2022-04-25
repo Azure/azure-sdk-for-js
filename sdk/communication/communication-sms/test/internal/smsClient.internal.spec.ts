@@ -26,7 +26,6 @@ matrix([[true, false]], async function (useAad: boolean) {
     let client: SmsClient;
 
     beforeEach(async function (this: Context) {
-
       if (isLiveMode()) {
         this.skip();
       } else if (isPlaybackMode()) {
