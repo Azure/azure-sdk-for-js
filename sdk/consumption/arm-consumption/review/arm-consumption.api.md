@@ -120,7 +120,6 @@ export interface BudgetComparisonExpression {
 export interface BudgetFilter {
     and?: BudgetFilterProperties[];
     dimensions?: BudgetComparisonExpression;
-    not?: BudgetFilterProperties;
     tags?: BudgetComparisonExpression;
 }
 
@@ -746,6 +745,8 @@ export type LegacyUsageDetail = UsageDetail & {
     readonly chargeType?: string;
     readonly frequency?: string;
     readonly payGPrice?: number;
+    readonly benefitId?: string;
+    readonly benefitName?: string;
     readonly pricingModel?: PricingModelType;
 };
 
@@ -789,9 +790,26 @@ export interface LotsListByBillingProfileOptionalParams extends coreClient.Opera
 export type LotsListByBillingProfileResponse = Lots;
 
 // @public
+export interface LotsListByCustomerNextOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type LotsListByCustomerNextResponse = Lots;
+
+// @public
+export interface LotsListByCustomerOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type LotsListByCustomerResponse = Lots;
+
+// @public
 export interface LotsOperations {
     listByBillingAccount(billingAccountId: string, options?: LotsListByBillingAccountOptionalParams): PagedAsyncIterableIterator<LotSummary>;
     listByBillingProfile(billingAccountId: string, billingProfileId: string, options?: LotsListByBillingProfileOptionalParams): PagedAsyncIterableIterator<LotSummary>;
+    listByCustomer(billingAccountId: string, customerId: string, options?: LotsListByCustomerOptionalParams): PagedAsyncIterableIterator<LotSummary>;
 }
 
 // @public

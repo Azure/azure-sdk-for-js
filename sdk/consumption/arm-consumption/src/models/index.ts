@@ -136,8 +136,6 @@ export interface BudgetTimePeriod {
 export interface BudgetFilter {
   /** The logical "AND" expression. Must have at least 2 items. */
   and?: BudgetFilterProperties[];
-  /** The logical "NOT" expression. */
-  not?: BudgetFilterProperties;
   /** Has comparison expression for a dimension */
   dimensions?: BudgetComparisonExpression;
   /** Has comparison expression for a tag */
@@ -2122,6 +2120,16 @@ export type LegacyUsageDetail = UsageDetail & {
    */
   readonly payGPrice?: number;
   /**
+   * Unique identifier for the applicable benefit.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly benefitId?: string;
+  /**
+   * Name of the applicable benefit.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly benefitName?: string;
+  /**
    * Identifier that indicates how the meter is priced.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -3587,6 +3595,16 @@ export interface LotsListByBillingAccountOptionalParams
 export type LotsListByBillingAccountResponse = Lots;
 
 /** Optional parameters. */
+export interface LotsListByCustomerOptionalParams
+  extends coreClient.OperationOptions {
+  /** May be used to filter the lots by Status, Source etc. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. Tag filter is a key value pair string where key and value is separated by a colon (:). */
+  filter?: string;
+}
+
+/** Contains response data for the listByCustomer operation. */
+export type LotsListByCustomerResponse = Lots;
+
+/** Optional parameters. */
 export interface LotsListByBillingProfileNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -3602,6 +3620,16 @@ export interface LotsListByBillingAccountNextOptionalParams
 
 /** Contains response data for the listByBillingAccountNext operation. */
 export type LotsListByBillingAccountNextResponse = Lots;
+
+/** Optional parameters. */
+export interface LotsListByCustomerNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** May be used to filter the lots by Status, Source etc. The filter supports 'eq', 'lt', 'gt', 'le', 'ge', and 'and'. Tag filter is a key value pair string where key and value is separated by a colon (:). */
+  filter?: string;
+}
+
+/** Contains response data for the listByCustomerNext operation. */
+export type LotsListByCustomerNextResponse = Lots;
 
 /** Optional parameters. */
 export interface CreditsGetOptionalParams extends coreClient.OperationOptions {}

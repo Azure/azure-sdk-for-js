@@ -10,16 +10,16 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   LotSummary,
   LotsListByBillingProfileOptionalParams,
-  LotsListByBillingAccountOptionalParams
+  LotsListByBillingAccountOptionalParams,
+  LotsListByCustomerOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a LotsOperations. */
 export interface LotsOperations {
   /**
-   * Lists all Azure credits and Microsoft Azure consumption commitments for a billing account or a
-   * billing profile. Microsoft Azure consumption commitments are only supported for the billing account
-   * scope.
+   * Lists all Azure credits for a billing account or a billing profile. The API is only supported for
+   * Microsoft Customer Agreements (MCA) billing accounts.
    * @param billingAccountId BillingAccount ID
    * @param billingProfileId Azure Billing Profile ID.
    * @param options The options parameters.
@@ -30,14 +30,25 @@ export interface LotsOperations {
     options?: LotsListByBillingProfileOptionalParams
   ): PagedAsyncIterableIterator<LotSummary>;
   /**
-   * Lists all Azure credits and Microsoft Azure consumption commitments for a billing account or a
-   * billing profile. Microsoft Azure consumption commitments are only supported for the billing account
-   * scope.
+   * Lists all Microsoft Azure consumption commitments for a billing account. The API is only supported
+   * for Microsoft Customer Agreements (MCA) and Direct Enterprise Agreement (EA)  billing accounts.
    * @param billingAccountId BillingAccount ID
    * @param options The options parameters.
    */
   listByBillingAccount(
     billingAccountId: string,
     options?: LotsListByBillingAccountOptionalParams
+  ): PagedAsyncIterableIterator<LotSummary>;
+  /**
+   * Lists all Azure credits for a customer. The API is only supported for Microsoft Partner  Agreements
+   * (MPA) billing accounts.
+   * @param billingAccountId BillingAccount ID
+   * @param customerId Customer ID
+   * @param options The options parameters.
+   */
+  listByCustomer(
+    billingAccountId: string,
+    customerId: string,
+    options?: LotsListByCustomerOptionalParams
   ): PagedAsyncIterableIterator<LotSummary>;
 }

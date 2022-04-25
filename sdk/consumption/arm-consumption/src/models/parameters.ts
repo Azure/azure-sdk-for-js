@@ -369,3 +369,14 @@ export const endDate1: OperationQueryParameter = {
     }
   }
 };
+
+export const customerId: OperationURLParameter = {
+  parameterPath: "customerId",
+  mapper: {
+    serializedName: "customerId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};

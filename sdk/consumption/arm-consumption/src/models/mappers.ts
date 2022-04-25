@@ -218,13 +218,6 @@ export const BudgetFilter: coreClient.CompositeMapper = {
           }
         }
       },
-      not: {
-        serializedName: "not",
-        type: {
-          name: "Composite",
-          className: "BudgetFilterProperties"
-        }
-      },
       dimensions: {
         serializedName: "dimensions",
         type: {
@@ -3023,7 +3016,6 @@ export const ReservationTransaction: coreClient.CompositeMapper = {
 };
 
 export const ModernReservationTransaction: coreClient.CompositeMapper = {
-  serializedName: "Modern",
   type: {
     name: "Composite",
     className: "ModernReservationTransaction",
@@ -3540,6 +3532,20 @@ export const LegacyUsageDetail: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Number"
+        }
+      },
+      benefitId: {
+        serializedName: "properties.benefitId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      benefitName: {
+        serializedName: "properties.benefitName",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       },
       pricingModel: {
