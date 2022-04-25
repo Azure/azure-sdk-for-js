@@ -10,6 +10,7 @@ import {
 } from "@azure/core-rest-pipeline";
 import { SerializationPolicyOptions, serializationPolicy } from "./serializationPolicy";
 import { TokenCredential } from "@azure/core-auth";
+import { createChallengeCallbacks } from "./challengeAuthenticationCallbacks";
 
 /**
  * Options for creating a Pipeline to use with ServiceClient.
@@ -44,6 +45,7 @@ export function createClientPipeline(options: InternalClientPipelineOptions = {}
       bearerTokenAuthenticationPolicy({
         credential: options.credentialOptions.credential,
         scopes: options.credentialOptions.credentialScopes,
+        challengeCallbacks: createChallengeCallbacks(),
       })
     );
   }
