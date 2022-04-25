@@ -21,7 +21,6 @@ describe("Get ledger history", () => {
   });
 
   it("should obtain ledger entries from ledger", async function () {
-
     const result = await client.path("/app/transactions").get();
 
     if (result.status !== "200") {
@@ -31,12 +30,15 @@ describe("Get ledger history", () => {
     const currentTransactionsResult = await client.path("/app/transactions/current").get();
 
     if (result.status !== "200") {
-      assert.fail(`GET "/app/transactions/current" failed with ${currentTransactionsResult.status}`);
+      assert.fail(
+        `GET "/app/transactions/current" failed with ${currentTransactionsResult.status}`
+      );
     }
 
-    let currentTransaction : GetCurrentLedgerEntry200Response = currentTransactionsResult as GetCurrentLedgerEntry200Response;
-    assert.typeOf(currentTransaction.body.contents, 'string');
-    assert.typeOf(currentTransaction.body.subLedgerId, 'string');
-    assert.typeOf(currentTransaction.body.transactionId, 'string');
+    let currentTransaction: GetCurrentLedgerEntry200Response =
+      currentTransactionsResult as GetCurrentLedgerEntry200Response;
+    assert.typeOf(currentTransaction.body.contents, "string");
+    assert.typeOf(currentTransaction.body.subLedgerId, "string");
+    assert.typeOf(currentTransaction.body.transactionId, "string");
   });
 });

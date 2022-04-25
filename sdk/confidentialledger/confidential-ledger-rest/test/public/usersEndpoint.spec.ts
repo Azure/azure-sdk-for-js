@@ -23,7 +23,6 @@ describe("Get user", () => {
   // TODO: add subLedgerIds test
 
   it("should obtain user data", async function () {
-
     // if the ledger in the .env changes, so should this
     let userId = env.USER_ID;
     const result = await client.path("/app/users/{userId}", userId).get();
@@ -32,6 +31,5 @@ describe("Get user", () => {
       assert.fail(`GET "/app/transactions" failed with ${result.status}`);
     }
     assert.equal(result.body.userId, userId);
-
   });
 });

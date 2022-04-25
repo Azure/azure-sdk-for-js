@@ -1,6 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { ConfidentialLedgerRestClient, GetConsortiumMembers200Response, GetConstitution200Response, GetEnclaveQuotes200Response } from "../../src";
+import {
+  ConfidentialLedgerRestClient,
+  GetConsortiumMembers200Response,
+  GetConstitution200Response,
+  GetEnclaveQuotes200Response,
+} from "../../src";
 import { EnclaveQuotesDictionary, EnclaveQuote } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 
@@ -30,8 +35,8 @@ describe("Colder endpoints", () => {
 
     let constResponse = result as GetConstitution200Response;
 
-    assert.typeOf(constResponse.body.digest, 'string');
-    assert.typeOf(constResponse.body.script, 'string');
+    assert.typeOf(constResponse.body.digest, "string");
+    assert.typeOf(constResponse.body.script, "string");
   });
 
   it("should retrieve a list of consortium members", async function () {
@@ -44,9 +49,9 @@ describe("Colder endpoints", () => {
     const memberResponse = result as GetConsortiumMembers200Response;
 
     memberResponse.body.members.forEach((member) => {
-      assert.typeOf(member.certificate, 'string');
-      assert.typeOf(member.id, 'string');
-    })
+      assert.typeOf(member.certificate, "string");
+      assert.typeOf(member.id, "string");
+    });
   });
 
   it("should retrieve a list of cenclve quotes", async function () {
@@ -58,14 +63,14 @@ describe("Colder endpoints", () => {
 
     const memberResponse = result as GetEnclaveQuotes200Response;
 
-    assert.typeOf(memberResponse.body.currentNodeId, 'string');
-    
+    assert.typeOf(memberResponse.body.currentNodeId, "string");
+
     var enclaveQuotes: EnclaveQuotesDictionary = memberResponse.body.enclaveQuotes;
     for (let key in enclaveQuotes) {
-      let quote : EnclaveQuote = enclaveQuotes[key];
-      assert.typeOf(quote.quoteVersion, 'string');
-      assert.typeOf(quote.nodeId, 'string');
-      assert.typeOf(quote.raw, 'string');
+      let quote: EnclaveQuote = enclaveQuotes[key];
+      assert.typeOf(quote.quoteVersion, "string");
+      assert.typeOf(quote.nodeId, "string");
+      assert.typeOf(quote.raw, "string");
     }
-    });
+  });
 });

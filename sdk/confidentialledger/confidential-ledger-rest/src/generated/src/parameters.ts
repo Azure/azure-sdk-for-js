@@ -7,10 +7,11 @@ import { LedgerEntry, LedgerUser } from "./models";
 export type GetConstitutionParameters = RequestParameters;
 export type GetConsortiumMembersParameters = RequestParameters;
 export type GetEnclaveQuotesParameters = RequestParameters;
+export type GetCollectionsParameters = RequestParameters;
 
 export interface GetLedgerEntriesQueryParamProperties {
-  /** The sub-ledger id. */
-  subLedgerId?: string;
+  /** The collection id. */
+  collectionId?: string;
   /** Specify the first transaction ID in a range. */
   fromTransactionId?: string;
   /** Specify the last transaction ID in a range. */
@@ -25,8 +26,8 @@ export type GetLedgerEntriesParameters = RequestParameters &
   GetLedgerEntriesQueryParam;
 
 export interface PostLedgerEntryQueryParamProperties {
-  /** The sub-ledger id. */
-  subLedgerId?: string;
+  /** The collection id. */
+  collectionId?: string;
 }
 
 export interface PostLedgerEntryQueryParam {
@@ -42,8 +43,8 @@ export type PostLedgerEntryParameters = RequestParameters &
   PostLedgerEntryBodyParam;
 
 export interface GetLedgerEntryQueryParamProperties {
-  /** The sub-ledger id. */
-  subLedgerId?: string;
+  /** The collection id. */
+  collectionId?: string;
 }
 
 export interface GetLedgerEntryQueryParam {
@@ -56,8 +57,8 @@ export type GetReceiptParameters = RequestParameters;
 export type GetTransactionStatusParameters = RequestParameters;
 
 export interface GetCurrentLedgerEntryQueryParamProperties {
-  /** The sub-ledger id. */
-  subLedgerId?: string;
+  /** The collection id. */
+  collectionId?: string;
 }
 
 export interface GetCurrentLedgerEntryQueryParam {

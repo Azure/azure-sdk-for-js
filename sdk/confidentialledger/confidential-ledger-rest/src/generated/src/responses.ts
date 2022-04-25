@@ -6,6 +6,7 @@ import {
   ConfidentialLedgerError,
   Consortium,
   ConfidentialLedgerEnclaves,
+  Collection,
   PagedLedgerEntries,
   LedgerWriteResult,
   LedgerQueryResult,
@@ -53,13 +54,25 @@ export interface GetEnclaveQuotesdefaultResponse extends HttpResponse {
   body: ConfidentialLedgerError;
 }
 
-/** A sub-ledger id may optionally be specified. Only entries in the specified (or default) sub-ledger will be returned. */
+/** Collection ids are user-created collections of ledger entries */
+export interface GetCollections200Response extends HttpResponse {
+  status: "200";
+  body: Collection[];
+}
+
+/** Collection ids are user-created collections of ledger entries */
+export interface GetCollectionsdefaultResponse extends HttpResponse {
+  status: "500";
+  body: ConfidentialLedgerError;
+}
+
+/** A collection id may optionally be specified. Only entries in the specified (or default) collection will be returned. */
 export interface GetLedgerEntries200Response extends HttpResponse {
   status: "200";
   body: PagedLedgerEntries;
 }
 
-/** A sub-ledger id may optionally be specified. Only entries in the specified (or default) sub-ledger will be returned. */
+/** A collection id may optionally be specified. Only entries in the specified (or default) collection will be returned. */
 export interface GetLedgerEntriesdefaultResponse extends HttpResponse {
   status: "500";
   body: ConfidentialLedgerError;
@@ -70,14 +83,14 @@ export interface PostLedgerEntry200Headers {
   "x-ms-ccf-transaction-id"?: string;
 }
 
-/** A sub-ledger id may optionally be specified. */
+/** A collection id may optionally be specified. */
 export interface PostLedgerEntry200Response extends HttpResponse {
   status: "200";
   body: LedgerWriteResult;
   headers: RawHttpHeaders & PostLedgerEntry200Headers;
 }
 
-/** A sub-ledger id may optionally be specified. */
+/** A collection id may optionally be specified. */
 export interface PostLedgerEntrydefaultResponse extends HttpResponse {
   status: "500";
   body: ConfidentialLedgerError;
@@ -119,13 +132,13 @@ export interface GetTransactionStatusdefaultResponse extends HttpResponse {
   body: ConfidentialLedgerError;
 }
 
-/** A sub-ledger id may optionally be specified. */
+/** A collection id may optionally be specified. */
 export interface GetCurrentLedgerEntry200Response extends HttpResponse {
   status: "200";
   body: LedgerEntry;
 }
 
-/** A sub-ledger id may optionally be specified. */
+/** A collection id may optionally be specified. */
 export interface GetCurrentLedgerEntrydefaultResponse extends HttpResponse {
   status: "500";
   body: ConfidentialLedgerError;

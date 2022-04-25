@@ -44,12 +44,16 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: [],
 };
 
-
 export async function createClient(): Promise<ConfidentialLedgerRestClient> {
   const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
   const credential = new DefaultAzureCredential();
-  const identity = await getLedgerIdentity(env.LEDGER_IDENTITY, "https://identity.confidential-ledger.core.azure.com");
-  return ConfidentialLedger(env.ENDPOINT, identity.ledgerTlsCertificate, credential, { httpClient });
+  const identity = await getLedgerIdentity(
+    env.LEDGER_IDENTITY,
+    "https://identity.confidential-ledger.core.azure.com"
+  );
+  return ConfidentialLedger(env.ENDPOINT, identity.ledgerTlsCertificate, credential, {
+    httpClient,
+  });
 }
 
 /**
