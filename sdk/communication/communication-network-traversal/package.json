@@ -36,6 +36,22 @@
     "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/generated/networkRelayRestClientContext.ts",
+        "prefix": "packageDetails"
+      },
+      {
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
+      }
+    ]
+  },
   "//sampleConfiguration": {
     "productName": "Azure Communication Services - Network Traversal",
     "productSlugs": [

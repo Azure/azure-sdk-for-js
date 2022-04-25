@@ -5,10 +5,10 @@
 ## Configuration
 
 ```yaml
-package-name: azure-communication-network-traversal
+package-name: "@azure/communication-network-traversal"
 override-client-name: NetworkRelayRestClient
 description: Communication Network Traversal Client
-package-version: package-2022-03-01-preview
+package-version: 1.1.0-beta.2
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated

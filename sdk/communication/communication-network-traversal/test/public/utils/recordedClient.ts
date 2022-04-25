@@ -49,7 +49,7 @@ const sanitizerOptions: SanitizerOptions = {
   generalSanitizers: [
     { regex: true, target: `"token"\\s?:\\s?"[^"]*"`, value: `"token":"sanitized"` },
     { regex: true, target: `"id"\\s?:\\s?"[^"]*"`, value: `"id":"sanitized"` },
-    { regex: true, target: `(https:\/\/)([^/',]*)`, value: "$1endpoint" },
+    { regex: true, target: `(https://)([^/',]*)`, value: "$1endpoint" },
     {
       regex: true,
       target: `"expiresOn"\\s?:\\s?"[^"]*"`,
