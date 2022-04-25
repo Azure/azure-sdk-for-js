@@ -7,7 +7,7 @@
 Now you can run this command in swagger folder you just created.
 
 ```shell
-autorest --typescript ./swagger/README-SINGLE.md
+autorest --typescript ./swagger/README-GROUP.md
 ```
 
 > see https://aka.ms/autorest
@@ -22,7 +22,7 @@ open-api: data-plane
 generate-metadata: true
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
-source-code-folder-path: ./src/generated/single
+source-code-folder-path: ./src/generated/group
 rlc-shortcut: true
 input-file: ./metricsadvisor.json
 package-version: 1.0.0-beta.2
@@ -33,6 +33,47 @@ add-credentials: true
 generate-test: true
 use-extension:
   "@autorest/typescript": "latest"
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $..[?(@.operationId !== undefined)]
+    transform: >
+      if ($.operationId == "getDataFeedById" ||
+      $.operationId == "listDataFeeds" ||
+      $.operationId == "createDataFeed" ||
+      $.operationId == "updateDataFeed" ||
+      $.operationId == "deleteDataFeed" ||
+      $.operationId == "getIngestionProgress" ||
+      $.operationId == "resetDataFeedIngestionStatus" ||
+      $.operationId == "getDataFeedIngestionStatus" ||
+
+      $.operationId == "createAnomalyDetectionConfiguration" ||
+      $.operationId == "getAnomalyDetectionConfiguration" ||
+      $.operationId == "updateAnomalyDetectionConfiguration" ||
+      $.operationId == "getAnomalyDetectionConfigurationsByMetric" ||
+      $.operationId == "deleteAnomalyDetectionConfiguration" ||
+
+      $.operationId == "createAnomalyAlertingConfiguration" ||
+      $.operationId == "updateAnomalyAlertingConfiguration" ||
+      $.operationId == "getAnomalyAlertingConfiguration" ||
+      $.operationId == "getAnomalyAlertingConfigurationsByAnomalyDetectionConfiguration" ||
+      $.operationId == "deleteAnomalyAlertingConfiguration" ||
+
+      $.operationId == "createHook" ||
+      $.operationId == "updateHook" ||
+      $.operationId == "getHook" ||
+      $.operationId == "deleteHook" ||
+      $.operationId == "listHooks" ||
+
+      $.operationId == "createCredential" ||
+      $.operationId == "updateCredential" ||
+      $.operationId == "getCredential" ||
+      $.operationId == "listCredentials" ||
+      $.operationId == "deleteCredential") {
+          $.operationId = "MetricsAdvisorAdministration_" + $.operationId;
+      }
 ```
 
 ### Metric output type - add description
