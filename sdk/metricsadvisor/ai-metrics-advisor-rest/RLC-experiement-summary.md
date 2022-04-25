@@ -9,7 +9,6 @@ Below are the summerized cases and please notice that we still have open questio
 - POST next link
 - Client structure
 - Customized authoritication
-- Mixed operation
 
 ## POST next link
 
@@ -226,5 +225,3 @@ export function createClient(
 ```
 
 </details>
-
-## Mixed operation
