@@ -6,7 +6,7 @@
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "cs",
+        "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "348",
@@ -19,7 +19,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "f7239b8f-2718-49f7-a535-56427d378684",
+        "x-ms-client-request-id": "1ae67a00-f56e-472a-b9fb-ddc2ef3ab072",
         "x-ms-useragent": "azsdk-js-communication-sms/1.2.0-beta.1 core-rest-pipeline/1.8.0 OS/Win32"
       },
       "RequestBody": {
@@ -45,19 +45,19 @@
       "ResponseHeaders": {
         "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 21 Apr 2022 14:59:19 GMT",
-        "MS-CV": "8FwMvp3tNE\u002BiF3Y1HCeaEw.0",
+        "Date": "Mon, 25 Apr 2022 01:04:20 GMT",
+        "MS-CV": "m15vRKv1n0q2\u002BP9Y3c146Q.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0R3FhYgAAAABRMvY5kDwwSLkEF8l/quIRUFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0lPNlYgAAAAA/a2pQvJ0JQoZtC862V4jYV1NURURHRTA4MTUAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "101ms"
+        "X-Processing-Time": "362ms"
       },
       "ResponseBody": {
         "value": [
           {
             "to": "\u002B14255550123",
-            "messageId": "Outgoing_202204211459207b52a54a-54bf-4a31-9755-90de879063c1_noam",
+            "messageId": "Outgoing_202204250104213a40a246-85cb-4762-b82e-9579b447e223_noam",
             "httpStatusCode": 202,
             "repeatabilityResult": "accepted",
             "successful": true

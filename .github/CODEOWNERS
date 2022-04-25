@@ -56,7 +56,7 @@
 /sdk/communication/communication-sms/ @arifibrahim4 @RoyHerrod
 
 # PRLabel: %Communication - Short Codes
-/sdk/communication/communication-short-codes/ @danielav7 @AlonsoMondal @ericasp16
+/sdk/communication/communication-short-codes/ @danielav7 @ericasp16
 
 # PRLabel: %Communication - Common
 /sdk/communication/communication-common/ @Azure/acs-identity-sdk @petrsvihlik @AikoBB @maximrytych-ms @martinbarnas-ms
