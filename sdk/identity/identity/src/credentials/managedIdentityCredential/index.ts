@@ -126,11 +126,11 @@ export class ManagedIdentityCredential implements TokenCredential {
     }
 
     const MSIs = [
+      arcMsi,
       fabricMsi,
       appServiceMsi2019,
       appServiceMsi2017,
       cloudShellMsi,
-      arcMsi,
       tokenExchangeMsi(),
       imdsMsi,
     ];

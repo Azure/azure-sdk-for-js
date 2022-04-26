@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { DeletedSecret, DeleteSecretOptions, GetDeletedSecretOptions } from "../../secretsModels";
+import { DeleteSecretOptions, DeletedSecret, GetDeletedSecretOptions } from "../../secretsModels";
 import {
   KeyVaultSecretPollOperation,
   KeyVaultSecretPollOperationState,
