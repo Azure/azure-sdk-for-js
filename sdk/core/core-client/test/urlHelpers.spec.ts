@@ -253,4 +253,17 @@ describe("getRequestUrl", function () {
       "https://management.azure.com/subscriptions/subscription-id/resourceGroups/rg2/providers/Microsoft.Network/virtualNetworks/samplename?api-version=2020-08-01&api-version=2021-08-01&api-version=2022-08-01"
     );
   });
+
+  it("should not add path twice if path is already in the url", function () {
+    const operationSpec: OperationSpec = {
+      path: "/deletedSecrets",
+      httpMethod: "DELETE",
+      responses: {},
+      urlParameters: [],
+      serializer,
+    };
+
+    const result = getRequestUrl("https://test.com/deletedSecrets", operationSpec, {}, {});
+    assert.strictEqual(result, "https://test.com/deletedSecrets");
+  });
 });
