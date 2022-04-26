@@ -8,7 +8,7 @@ Below are the summerized cases and please notice that we still have open questio
 
 - POST next link
 - Client structure
-- Customized authoritication
+- Customized authentication
 
 ## POST next link
 
@@ -162,7 +162,7 @@ const client2 = Client2.createClient(endpoint, credential);
 client2.callAnyMethodInClient2(`<parameter>`);
 ```
 
-## Customized authoritication
+## Customized authentication
 
 RLC supports AzureAD OAuth2 authentication and API key authentication. Refer [here](https://github.com/Azure/autorest/blob/main/docs/generate/authentication.md) for more detail.
 
