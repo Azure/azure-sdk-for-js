@@ -14,6 +14,9 @@ import { PollOperationState } from '@azure/core-lro';
 export type AuthType = string;
 
 // @public
+export type BackupStorageVersion = string;
+
+// @public
 export interface CertificateRequest {
     properties?: RawCertificateData;
 }
@@ -153,6 +156,16 @@ export enum KnownAuthType {
     AzureActiveDirectory = "AzureActiveDirectory",
     // (undocumented)
     Invalid = "Invalid"
+}
+
+// @public
+export enum KnownBackupStorageVersion {
+    // (undocumented)
+    Unassigned = "Unassigned",
+    // (undocumented)
+    V1 = "V1",
+    // (undocumented)
+    V2 = "V2"
 }
 
 // @public
@@ -708,6 +721,7 @@ export type VaultPrivateEndpointState = string;
 
 // @public
 export interface VaultProperties {
+    readonly backupStorageVersion?: BackupStorageVersion;
     encryption?: VaultPropertiesEncryption;
     moveDetails?: VaultPropertiesMoveDetails;
     readonly moveState?: ResourceMoveState;

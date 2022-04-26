@@ -296,6 +296,11 @@ export interface VaultProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly moveState?: ResourceMoveState;
+  /**
+   * Backup storage version
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly backupStorageVersion?: BackupStorageVersion;
 }
 
 /** Details for upgrading vault. */
@@ -891,6 +896,24 @@ export enum KnownResourceMoveState {
  * **PartialSuccess**
  */
 export type ResourceMoveState = string;
+
+/** Known values of {@link BackupStorageVersion} that the service accepts. */
+export enum KnownBackupStorageVersion {
+  V1 = "V1",
+  V2 = "V2",
+  Unassigned = "Unassigned"
+}
+
+/**
+ * Defines values for BackupStorageVersion. \
+ * {@link KnownBackupStorageVersion} can be used interchangeably with BackupStorageVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **V1** \
+ * **V2** \
+ * **Unassigned**
+ */
+export type BackupStorageVersion = string;
 
 /** Known values of {@link SkuName} that the service accepts. */
 export enum KnownSkuName {

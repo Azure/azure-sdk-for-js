@@ -677,6 +677,13 @@ export const VaultProperties: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      backupStorageVersion: {
+        serializedName: "backupStorageVersion",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }

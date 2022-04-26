@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -10,6 +10,7 @@ trigger:
     include:
       - sdk/recoveryservices/ci.mgmt.yml
       - sdk/recoveryservices/arm-recoveryservices/
+      - sdk/recoveryservices/arm-recoveryservices
 pr:
   branches:
     include:
@@ -23,7 +24,7 @@ pr:
     include:
       - sdk/recoveryservices/ci.mgmt.yml
       - sdk/recoveryservices/arm-recoveryservices/
-
+      - sdk/recoveryservices/arm-recoveryservices
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

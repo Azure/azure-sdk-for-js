@@ -1,15 +1,14 @@
 # Release History
+    
+## 5.1.0 (2022-04-26)
+    
+**Features**
 
-## 5.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Type Alias BackupStorageVersion
+  - Interface VaultProperties has a new optional parameter backupStorageVersion
+  - Added Enum KnownBackupStorageVersion
+    
+    
 ## 5.0.0 (2021-12-10)
 
 The package of @azure/arm-recoveryservices is using our next generation design principles since version 5.0.0, which contains breaking changes.
