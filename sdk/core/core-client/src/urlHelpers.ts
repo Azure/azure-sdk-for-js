@@ -42,7 +42,8 @@ export function getRequestUrl(
     if (isAbsoluteUrl(path)) {
       requestUrl = path;
       isAbsolutePath = true;
-    } else {
+    } else if (!requestUrl.match(path)) {
+      // If path is already in URL, don't add it twice
       requestUrl = appendPath(requestUrl, path);
     }
   }
