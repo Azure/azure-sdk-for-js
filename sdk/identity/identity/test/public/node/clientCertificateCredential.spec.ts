@@ -33,7 +33,7 @@ describe("ClientCertificateCredential", function () {
   const certificatePath = env.IDENTITY_SP_CERT_PEM || path.join(ASSET_PATH, "fake-cert.pem");
   const scope = "https://vault.azure.net/.default";
 
-  it("authenticates", async function (this: Context) {
+  it.only("authenticates", async function (this: Context) {
     const credential = new ClientCertificateCredential(
       env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!,
       env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!,

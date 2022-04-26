@@ -72,6 +72,7 @@ export async function parseCertificate(
     .certificatePath;
   certificateParts.certificateContents =
     certificate || (await readFileAsync(certificatePath!, "utf8"));
+  console.log(certificateParts.certificateContents);
   if (sendCertificateChain) {
     certificateParts.x5c = certificateParts.certificateContents;
   }
