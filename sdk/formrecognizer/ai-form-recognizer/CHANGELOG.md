@@ -7,6 +7,7 @@
 ### Breaking Changes
 
 - Renamed the `beginCopyModel` method of `DocumentModelAdministrationClient` to `beginCopyModelTo`. [#20775](https://github.com/Azure/azure-sdk-for-js/pull/20775) 
+- Renamed `BoundingRegion#boundingBox` to `BoundingRegion#polygon`, it now includes more points to better fit the borders of a document element.
 
 ### Bugs Fixed
 
