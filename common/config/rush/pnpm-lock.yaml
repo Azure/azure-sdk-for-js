@@ -10925,13 +10925,13 @@ packages:
     dev: false
 
   file:projects/arm-frontdoor.tgz:
-    resolution: {integrity: sha512-ULsHx3imLHirkAFUqorFrtpIDpxBkaYEQiJtNANQkVe/+Bss3uRYWo4xk5wqfsSWLo3Y7j/ye8qj2Nf7m1kb5A==, tarball: file:projects/arm-frontdoor.tgz}
+    resolution: {integrity: sha512-S8al6Hrn3ItyUhCNjJsQz6AJlYAcc+r7tHFT9C5P3WjNPXOl23erVd0bBHydTjypeqe6UjkouMy7odB7Ot7NSw==, tarball: file:projects/arm-frontdoor.tgz}
     name: '@rush-temp/arm-frontdoor'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.22.1
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -10953,13 +10953,13 @@ packages:
     dev: false
 
   file:projects/arm-hanaonazure.tgz:
-    resolution: {integrity: sha512-jD50WaHVlqEVEz389FnL33/f0qQfUHTq0x6MaZa9dOEdG2pKZGVkPhiert2azEbppyQY+wLPe0HfhB6SHoJ8sQ==, tarball: file:projects/arm-hanaonazure.tgz}
+    resolution: {integrity: sha512-HyPdhqcJ7VKjsr06mijY0OGhw/YwYSKloz6TijXhqFB2IdLv5ik59Cyj0rEE5gDoHbOAfwPABC3wVPRFggDPsQ==, tarball: file:projects/arm-hanaonazure.tgz}
     name: '@rush-temp/arm-hanaonazure'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.22.1
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -11009,13 +11009,13 @@ packages:
     dev: false
 
   file:projects/arm-hdinsight.tgz:
-    resolution: {integrity: sha512-MUw3nlFX+ahISh5Wj+p5IVpvrLcMVLbqz7XemD3s3PwPlQIDIrEHEJIQKOORxKJpeVjmeWs4Hcr0wvyRaINRFw==, tarball: file:projects/arm-hdinsight.tgz}
+    resolution: {integrity: sha512-3WWW5jDsuqbWcIvuk23sqK/p/wQn5q1/c/1RH5qn9fhJFkiGKUV8FELzwou+gpx4UvfXJL1Gx08ESuQpX2H/6A==, tarball: file:projects/arm-hdinsight.tgz}
     name: '@rush-temp/arm-hdinsight'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.22.1
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -11037,13 +11037,13 @@ packages:
     dev: false
 
   file:projects/arm-healthbot.tgz:
-    resolution: {integrity: sha512-KE3cS+vUnT+N8k/1fpvgkxYJxnak69B5GT7KJ+QQ7BtbndVFVaH0aTVPBpYtaHgeH/1gskV/TKj1JueMcLkSaA==, tarball: file:projects/arm-healthbot.tgz}
+    resolution: {integrity: sha512-bSRFWf9ALcE+ahVin7mP3Wz1zlsa/4TxlmGLaJXuTJFJ+xQvvJwCNuS52exhAW6/HmOUAaOdBfwXoRP/2Kwrhg==, tarball: file:projects/arm-healthbot.tgz}
     name: '@rush-temp/arm-healthbot'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.22.1
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -11065,13 +11065,13 @@ packages:
     dev: false
 
   file:projects/arm-healthcareapis.tgz:
-    resolution: {integrity: sha512-KPErpFjQYhKYCgW9MSXotWgeIqaTW6cVSD/nZxqdokCaGcRea+qtwUQewcPIcxprcq/f1ngE/7pUYmMo0SNaow==, tarball: file:projects/arm-healthcareapis.tgz}
+    resolution: {integrity: sha512-3dzFTr88HVrwHlFn0o3uO5thZsYR2lYgDo79u2EYbDqjuNH8ZmtXj5w3+VunGslfoHeF7p3JAYSUfLYN3NpWLA==, tarball: file:projects/arm-healthcareapis.tgz}
     name: '@rush-temp/arm-healthcareapis'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.22.1
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -11093,13 +11093,13 @@ packages:
     dev: false
 
   file:projects/arm-hybridcompute.tgz:
-    resolution: {integrity: sha512-4afuXSVTAhnvzumt2NnQ1uYcnK8ab2BOZ+wBpqDNUDpJsAI06KvtjbHiRckmks0HOshQpRrElafw1T9Q2vJFqw==, tarball: file:projects/arm-hybridcompute.tgz}
+    resolution: {integrity: sha512-D2rtn/wbxeY6eP10mUt42c7m58m7tFOGLH06X18f0CFMKmlcrht8TUUYWNEwxSRer/xRArvDHd7uS7HB7l+38Q==, tarball: file:projects/arm-hybridcompute.tgz}
     name: '@rush-temp/arm-hybridcompute'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.22.1
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -11121,13 +11121,13 @@ packages:
     dev: false
 
   file:projects/arm-hybridkubernetes.tgz:
-    resolution: {integrity: sha512-cRCOcmjnUPXcmVRAcgrEQah4SxknwaJpF36POTGe+wwJLpVN5yNdfto1AWOHVgEzs5KRG1ZtVHGnqurLmUiEOw==, tarball: file:projects/arm-hybridkubernetes.tgz}
+    resolution: {integrity: sha512-1DZ23vPtqVl86r+rUbr5IdK+0kDn6C+H6VUPmq6Ottu/8gsszj7uOaQ5W4TlbED6MSW2kSYHfbRgSF2XepgTFA==, tarball: file:projects/arm-hybridkubernetes.tgz}
     name: '@rush-temp/arm-hybridkubernetes'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.22.1
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -11149,14 +11149,14 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-xU9B037l2PYc+A57YfibDBZop9Jl74iR5xls/wU+VJ1udzGUC5tWA8LqP7J1kak8PxN0Ze714EXouJH92GJyKA==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-v7fc5NJVvw6eAgRd6Gs6mwRmJMq76vOLWmVJYQUE0dDEGMSj+gkztPpyJtL87Jcx9c4PUWxpVu46cmO0cPmmYA==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/arm-msi': 2.0.0
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.22.1
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -11167,12 +11167,11 @@ packages:
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.70.1
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.1
+      rollup-plugin-sourcemaps: 0.6.3_0b8c6e9127356138a5eb10cf645561b8
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.4
     transitivePeerDependencies:
-      - '@types/node'
       - debug
       - encoding
       - supports-color
