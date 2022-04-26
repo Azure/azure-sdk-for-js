@@ -615,7 +615,11 @@ export class SecretClient {
         "SecretClient.listPropertiesOfSecretsPage",
         options,
         (updatedOptions) =>
-          this.client.getSecrets(continuationState.continuationToken!, updatedOptions)
+          this.client.getSecretsNext(
+            this.vaultUrl,
+            continuationState.continuationToken!,
+            updatedOptions
+          )
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -707,7 +711,11 @@ export class SecretClient {
         "SecretClient.lisDeletedSecretsPage",
         options,
         (updatedOptions) =>
-          this.client.getDeletedSecrets(continuationState.continuationToken!, updatedOptions)
+          this.client.getDeletedSecretsNext(
+            this.vaultUrl,
+            continuationState.continuationToken!,
+            updatedOptions
+          )
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
