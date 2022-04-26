@@ -28,8 +28,18 @@ matrix([[true, false]], async function (useAad) {
 
     it("can get a purchased phone number", async function (this: Context) {
       const purchasedPhoneNumber = getPhoneNumber();
-      const { phoneNumber } = await client.getPurchasedPhoneNumber(purchasedPhoneNumber);
+      const { phoneNumber, phoneNumberSource } = await client.getPurchasedPhoneNumber(purchasedPhoneNumber);
 
+      assert.strictEqual(purchasedPhoneNumber, phoneNumber);
+      assert.strictEqual("cloud", phoneNumberSource)
+    }).timeout(60000);
+    
+    it("can get a purchased phone number from operator connect", async function (this: Context) {
+      const purchasedPhoneNumber = getPhoneNumber(true);
+      const { phoneNumber, phoneNumberSource, partnerName } = await client.getPurchasedPhoneNumber(purchasedPhoneNumber,);
+
+      assert.strictEqual("operatorConnect", phoneNumberSource);
+      assert.notEqual("Microsoft", partnerName)
       assert.strictEqual(purchasedPhoneNumber, phoneNumber);
     }).timeout(60000);
 

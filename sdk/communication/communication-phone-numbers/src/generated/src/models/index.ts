@@ -132,6 +132,12 @@ export interface PurchasedPhoneNumber {
   countryCode: string;
   /** The phone number's type, e.g. Geographic, TollFree. */
   phoneNumberType: PhoneNumberType;
+  /** Id of the partner which provided the number, e.g. '38d8166e-33f3-4055-986d-2cf57a1a1526' */
+  partnerId: string;
+  /** Name of the partner which provided the number e.g. 'Microsoft' */
+  partnerName: string;
+  /** The phone number's source, e.g. Cloud, OperatorConnect. */
+  phoneNumberSource: PhoneNumberSource;
   /** Capabilities of a phone number. */
   capabilities: PhoneNumberCapabilities;
   /** The assignment type of the phone number. A phone number can be assigned to a person, or to an application. */
@@ -222,6 +228,8 @@ export type PhoneNumberOperationType =
   | "releasePhoneNumber"
   | "search"
   | "updatePhoneNumberCapabilities";
+/** Defines values for PhoneNumberSource. */
+export type PhoneNumberSource = "cloud" | "operatorConnect";
 
 /** Optional parameters. */
 export interface PhoneNumbersSearchAvailablePhoneNumbersOptionalParams

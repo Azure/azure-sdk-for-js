@@ -364,6 +364,27 @@ export const PurchasedPhoneNumber: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      partnerId: {
+        serializedName: "partnerId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      partnerName: {
+        serializedName: "partnerName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      phoneNumberSource: {
+        serializedName: "phoneNumberSource",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
       capabilities: {
         serializedName: "capabilities",
         type: {
