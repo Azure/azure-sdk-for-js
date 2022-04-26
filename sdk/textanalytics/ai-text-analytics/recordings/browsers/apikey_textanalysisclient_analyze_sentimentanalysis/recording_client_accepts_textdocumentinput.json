@@ -19,7 +19,7 @@
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
-        "x-ms-client-request-id": "a013a126-c78c-44e7-8beb-4c28ce449bf5",
+        "x-ms-client-request-id": "8fbda5aa-95e6-4fb9-ab16-63eca2fefcd2",
         "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
       },
       "RequestBody": {
@@ -62,14 +62,14 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "c95c4aa9-3e1b-4a47-8156-11bbb6f60989",
+        "apim-request-id": "fc704a04-0e5e-48c9-8cbd-1a5faeb5d042",
         "Content-Length": "2355",
         "Content-Type": "application/json; charset=utf-8",
         "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=6,CognitiveServices.TextAnalytics.TextRecords=6",
-        "Date": "Mon, 18 Apr 2022 18:43:45 GMT",
+        "Date": "Tue, 26 Apr 2022 22:12:10 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "21"
+        "x-envoy-upstream-service-time": "28"
       },
       "ResponseBody": {
         "kind": "SentimentAnalysisResults",

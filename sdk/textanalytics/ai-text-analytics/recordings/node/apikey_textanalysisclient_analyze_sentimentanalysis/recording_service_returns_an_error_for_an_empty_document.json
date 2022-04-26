@@ -11,7 +11,7 @@
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
         "User-Agent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "31ac1d07-b2b1-4409-80d7-c4b580e9b2af"
+        "x-ms-client-request-id": "93895aff-1df9-46f0-b57f-a5461523076d"
       },
       "RequestBody": {
         "kind": "SentimentAnalysis",
@@ -48,14 +48,14 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "d421b807-0eaa-41c3-986d-13df2f7bed4b",
+        "apim-request-id": "775c0614-7e0b-4101-89a4-7ee5878382a4",
         "Content-Length": "1737",
         "Content-Type": "application/json; charset=utf-8",
         "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4,CognitiveServices.TextAnalytics.TextRecords=4",
-        "Date": "Mon, 18 Apr 2022 18:43:11 GMT",
+        "Date": "Tue, 26 Apr 2022 22:11:47 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "21"
+        "x-envoy-upstream-service-time": "55"
       },
       "ResponseBody": {
         "kind": "SentimentAnalysisResults",

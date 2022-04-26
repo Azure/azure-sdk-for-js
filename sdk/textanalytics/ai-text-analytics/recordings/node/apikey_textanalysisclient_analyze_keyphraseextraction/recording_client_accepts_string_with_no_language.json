@@ -11,7 +11,7 @@
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
         "User-Agent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "b7ecceec-064d-4467-b3d5-9b27eefafebf"
+        "x-ms-client-request-id": "5cfcb130-0b58-466c-af54-370de6f360e7"
       },
       "RequestBody": {
         "kind": "KeyPhraseExtraction",
@@ -43,14 +43,14 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "ecfdbf58-bde1-4006-9144-a8fa75bf16a4",
+        "apim-request-id": "180954c6-25a7-4452-a699-9d8d5c984cb7",
         "Content-Length": "375",
         "Content-Type": "application/json; charset=utf-8",
         "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4,CognitiveServices.TextAnalytics.TextRecords=4",
-        "Date": "Mon, 18 Apr 2022 18:43:13 GMT",
+        "Date": "Tue, 26 Apr 2022 22:11:49 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "15"
+        "x-envoy-upstream-service-time": "14"
       },
       "ResponseBody": {
         "kind": "KeyPhraseExtractionResults",

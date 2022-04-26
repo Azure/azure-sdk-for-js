@@ -7,11 +7,11 @@
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Connection": "keep-alive",
-        "Content-Length": "198",
+        "Content-Length": "177",
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
         "User-Agent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "0de52ea8-c016-4229-8b5d-6aece399bfd9"
+        "x-ms-client-request-id": "93665043-5348-4c1e-9a54-2a97dab182a1"
       },
       "RequestBody": {
         "kind": "PiiEntityRecognition",
@@ -25,20 +25,19 @@
           ]
         },
         "parameters": {
-          "loggingOptOut": true,
           "stringIndexType": "UnicodeCodePoint"
         }
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "5c76e841-4375-47f7-98f7-4207f7c4a7ea",
+        "apim-request-id": "4f14e20a-f97a-4e09-9e80-c3e294e97e56",
         "Content-Length": "290",
         "Content-Type": "application/json; charset=utf-8",
         "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1,CognitiveServices.TextAnalytics.TextRecords=1",
-        "Date": "Mon, 18 Apr 2022 18:43:16 GMT",
+        "Date": "Tue, 26 Apr 2022 22:11:52 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "27"
+        "x-envoy-upstream-service-time": "25"
       },
       "ResponseBody": {
         "kind": "PiiEntityRecognitionResults",

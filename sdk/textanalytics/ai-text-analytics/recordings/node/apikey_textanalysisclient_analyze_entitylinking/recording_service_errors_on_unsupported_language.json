@@ -11,7 +11,7 @@
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
         "User-Agent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "086706fb-7366-4661-a669-f5326c192f9a"
+        "x-ms-client-request-id": "5d9c6ec7-d586-4045-95bf-e45111e4ecb6"
       },
       "RequestBody": {
         "kind": "EntityLinking",
@@ -28,13 +28,13 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "4d266afc-c831-46d8-b4b1-6a5a99e2e6a1",
+        "apim-request-id": "1b214a8b-a6a2-4a69-a3c6-224eebba6460",
         "Content-Length": "393",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 18 Apr 2022 18:43:14 GMT",
+        "Date": "Tue, 26 Apr 2022 22:11:50 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "9"
+        "x-envoy-upstream-service-time": "3"
       },
       "ResponseBody": {
         "kind": "EntityLinkingResults",

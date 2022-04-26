@@ -11,7 +11,7 @@
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
         "User-Agent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "e9e194a9-aa8d-49f0-891b-e1939ef08b53"
+        "x-ms-client-request-id": "d728793e-24fe-4a28-8f12-9a67d3016686"
       },
       "RequestBody": {
         "kind": "EntityRecognition",
@@ -53,13 +53,13 @@
       },
       "StatusCode": 400,
       "ResponseHeaders": {
-        "apim-request-id": "d3126587-d11d-4d00-9700-72e9cc2b5117",
+        "apim-request-id": "7da3355a-3773-4e43-8eff-9175c26de7d0",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 18 Apr 2022 18:43:15 GMT",
+        "Date": "Tue, 26 Apr 2022 22:11:51 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "7"
+        "x-envoy-upstream-service-time": "4"
       },
       "ResponseBody": {
         "error": {

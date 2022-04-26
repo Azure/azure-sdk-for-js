@@ -11,7 +11,7 @@
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
         "User-Agent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "1c2b63cb-9aa1-4e6a-a5a6-5e8ab249faef"
+        "x-ms-client-request-id": "5672e206-f9f4-4d6c-b3c9-1d8ac575e267"
       },
       "RequestBody": {
         "kind": "LanguageDetection",
@@ -28,10 +28,10 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "985ff9c8-8f33-4ed6-afef-c3643770431f",
+        "apim-request-id": "6277ad28-3ae0-4997-a749-35cbd60dc7b5",
         "Content-Length": "325",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Mon, 18 Apr 2022 18:43:12 GMT",
+        "Date": "Tue, 26 Apr 2022 22:11:48 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "X-Content-Type-Options": "nosniff",
         "x-envoy-upstream-service-time": "2"
