@@ -255,7 +255,7 @@ describe("getRequestUrl", function () {
   });
 
   it("should not add path twice if path is already in the url", function () {
-    const operationSpec: OperationSpec = {
+    const operationSpecFixedPath: OperationSpec = {
       path: "/deletedSecrets",
       httpMethod: "DELETE",
       responses: {},
@@ -263,7 +263,7 @@ describe("getRequestUrl", function () {
       serializer,
     };
 
-    const result = getRequestUrl("https://test.com/deletedSecrets", operationSpec, {}, {});
+    const result = getRequestUrl("https://test.com/deletedSecrets", operationSpecFixedPath, {}, {});
     assert.strictEqual(result, "https://test.com/deletedSecrets");
   });
 });
