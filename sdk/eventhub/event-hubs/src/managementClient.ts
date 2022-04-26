@@ -461,7 +461,7 @@ export class ManagementClient extends LinkEntity {
             },
           },
         }
-      );
+      ) as RetryConfig<Message>;
       return (await retry<Message>(config)).body;
     } catch (err: any) {
       const translatedError = translate(err);
