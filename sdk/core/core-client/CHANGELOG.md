@@ -7,6 +7,9 @@
 - Added a new property endpoint in ServiceClientOptions and mark the baseUri as deprecated to encourage people to use endpoint. See issue link [here](https://github.com/Azure/autorest.typescript/issues/1337)
 - Upgraded our `@azure/core-tracing` dependency to version 1.0
 
+### Bugs fixed
+- Prevent adding the path twice to a request URL that already has it.
+
 ## 1.5.0 (2022-02-03)
 
 ### Features Added
