@@ -1,44 +1,44 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/identities/sanitized/:issueAccessToken?api-version=2022-06-01",
+      "RequestUri": "https://endpoint/teamsUser/:exchangeAccessToken?api-version=2022-06-01",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "26",
+        "Content-Length": "62",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-communication-identity/1.1.0 core-rest-pipeline/1.8.1 Node/v17.9.0 OS/(x64-Darwin-21.4.0)",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-content-sha256": "EqW/vFkRi/EMVlRLG6\u002Bkt0X27SowO7NytIh/miHOZlY=",
-        "x-ms-date": "Tue, 26 Apr 2022 14:17:51 GMT"
+        "x-ms-content-sha256": "Dr3uYM0rPTWLHaCCXbLlXXppwO2h4EAFR0MfYPbdk6k=",
+        "x-ms-date": "Tue, 26 Apr 2022 14:18:03 GMT"
       },
       "RequestBody": {
-        "scopes": [
-          "chat",
-          "voip"
-        ]
+        "token": "sanitized",
+        "appId": "sanitized",
+        "userId": "sanitized"
       },
-      "StatusCode": 401,
+      "StatusCode": 400,
       "ResponseHeaders": {
-        "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01",
+        "api-supported-versions": "2021-10-31-preview, 2022-06-01",
         "Content-Type": "application/json",
-        "Date": "Tue, 26 Apr 2022 14:17:51 GMT",
-        "MS-CV": "FUdgsqR4WkylPHhJ/ZYzXg.0",
+        "Date": "Tue, 26 Apr 2022 14:18:03 GMT",
+        "MS-CV": "ScXj/gxm9ESQ787Dj\u002B176A.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0D/9nYgAAAACW4uvWJ3ZyRZcmRAOQjHoVUFJHMDFFREdFMDkxOABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0G/9nYgAAAAD2ZoTYY1jcS7gIcpQcd4xJUFJHMDFFREdFMDkxOABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "24ms"
+        "X-Processing-Time": "30ms"
       },
       "ResponseBody": {
         "error": {
-          "code": "IdentityNotOwned",
-          "message": "Provided identity doesn\u0027t belong to the resource."
+          "code": "ValidationError",
+          "message": "Provided UserId has invalid format.",
+          "target": "userId"
         }
       }
     }
