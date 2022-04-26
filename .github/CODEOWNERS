@@ -41,7 +41,7 @@
 /sdk/batch/ @dpwatrous @paterasMSFT @zfengms @deyaaeldeen
 
 # PRLabel: %Communication - Identity
-/sdk/communication/communication-identity/ @Azure/acs-identity-sdk @petrsvihlik @AikoBB @maximrytych-ms @martinbarnas-ms
+/sdk/communication/communication-identity/ @petrsvihlik @AikoBB @maximrytych-ms @martinbarnas-ms
 
 # PRLabel: %Communication - Chat
 /sdk/communication/communication-chat/ @LuChen-Microsoft
@@ -56,28 +56,25 @@
 /sdk/communication/communication-sms/ @arifibrahim4 @RoyHerrod
 
 # PRLabel: %Communication - Short Codes
-/sdk/communication/communication-short-codes/ @danielav7 @AlonsoMondal @ericasp16
+/sdk/communication/communication-short-codes/ @danielav7 @AlonsoMondal
 
 # PRLabel: %Communication - Common
-/sdk/communication/communication-common/ @Azure/acs-identity-sdk @petrsvihlik @AikoBB @maximrytych-ms @martinbarnas-ms
+/sdk/communication/communication-common/ @petrsvihlik @AikoBB @maximrytych-ms @martinbarnas-ms
 
 # PRLabel: %Communication
-/sdk/communication/communication/ @Azure/acs-identity-sdk @petrsvihlik @AikoBB @maximrytych-ms @martinbarnas-ms
+/sdk/communication/communication/ @petrsvihlik @AikoBB @maximrytych-ms @martinbarnas-ms
 
 # PRLabel: %Container Registry
 /sdk/containerregistry/ @jeremymeng @timovv
 
 # PRLabel: %Cosmos
-/sdk/cosmosdb/ @jay-most @kushagraThapar @simorenoh @simplynaveen20 @xinlian12 @moderakh @sajeetharan
+/sdk/cosmosdb/ @jay-most @kushagraThapar @simorenoh @simplynaveen20 @xinlian12 @sajeetharan
 
 # ServiceLabel: %Cosmos %Service Attention
 #/<NotInRepo>/ @sajeetharan @simorenoh
 
-# ServiceLabel: %Device Update for IoT Hub %Service Attention
-/sdk/deviceupdate/ @dpokluda
-
 # PRLabel: %Digital Twins
-/sdk/digitaltwins/ @johngallardo @YoDaMa @olivakar @sjiherzig @Satya-Kolluri
+/sdk/digitaltwins/ @johngallardo @YoDaMa @olivakar @sjiherzig
 
 # PRLabel: %Event Grid
 /sdk/eventgrid/ @ellismg @xirzec
@@ -141,17 +138,9 @@
 # PRLabel: %Cognitive - Metrics Advisor
 /sdk/metricsadvisor/ @KarishmaGhiya @jeremymeng
 
-# PRLabel: %Cognitive - Anomaly Detector
-/sdk/anomalydetector/ @conhua @mengaims @juaduan @moreOver0
-
 # PRLabel: %Search
 /sdk/search/ @sarangan12 @xirzec
 
-/sdk/applicationinsights/applicationinsights-query/ @divyajay @alongafni
-/sdk/operationalinsights/loganalytics/ @divyajay @alongafni
-
-/sdk/cognitiveservices/cognitiveservices-qnamaker-runtime/ @bingisbestest @nerajput1607
-/sdk/cognitiveservices/cognitiveservices-qnamaker/ @bingisbestest @nerajput1607
 
 # PRLabel: %Mixed Reality
 /sdk/mixedreality/ @craigktreasure 
@@ -827,7 +816,7 @@ sdk/dnsresolver/arm-dnsresolver @qiaozha @dw511214992 @MaryGao
 sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Monitor
-/sdk/monitor/ @hectorhdzg @applicationinsights-js-owners
+/sdk/monitor/ @hectorhdzg
 /sdk/monitor/monitor-query @KarishmaGhiya @maorleger
 
 # ServiceLabel: %AAD %Service Attention
@@ -931,9 +920,6 @@ sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 
 # ServiceLabel: %Cognitive - Face %Service Attention
 #/<NotInRepo>/          @JinyuID @dipidoo @SteveMSFT
-
-# ServiceLabel: %Cognitive - QnA Maker %Service Attention
-#/<NotInRepo>/          @bingisbestest @nerajput1607
 
 # ServiceLabel: %Cognitive - Translator %Service Attention
 #/<NotInRepo>/          @swmachan
