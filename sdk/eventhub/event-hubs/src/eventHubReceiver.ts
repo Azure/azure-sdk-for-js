@@ -822,7 +822,7 @@ export class EventHubReceiver extends LinkEntity {
           },
         },
       }
-    );
+    ) as RetryConfig<ReceivedEventData[]>;
     return retry<ReceivedEventData[]>(config);
   }
 }
