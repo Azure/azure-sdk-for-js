@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "@azure/test-utils";
-import { createChallengeCallbacks } from "../../src/challengeAuthenticationCallbacks";
+import { createChallengeCallbacks } from "../../../keyvault-common/src/";
 import {
   AuthorizeRequestOptions,
   ChallengeCallbacks,

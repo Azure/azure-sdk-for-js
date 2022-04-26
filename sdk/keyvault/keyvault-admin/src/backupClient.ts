@@ -22,7 +22,7 @@ import { KeyVaultSelectiveKeyRestorePoller } from "./lro/selectiveKeyRestore/pol
 import { PollerLike } from "@azure/core-lro";
 import { TokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { createChallengeCallbacks } from "./challengeAuthenticationCallbacks";
+import { createChallengeCallbacks } from "../../keyvault-common/src/";
 import { logger } from "./log";
 import { mappings } from "./mappings";
 
