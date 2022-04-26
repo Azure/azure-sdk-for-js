@@ -4782,33 +4782,6 @@ export interface PageBlobListPageRangesDiffOptions extends CommonOptions {
 }
 
 /**
- * Options to configure the {@link PageBlobClient.getPageRanges} operation.
- */
-export interface PageBlobGetPageRangesDiffForManagedDisksInPagesOptions extends CommonOptions {
-  /**
-   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
-   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
-   */
-  abortSignal?: AbortSignalLike;
-  /**
-   * Conditions to meet when getting page ranges diff.
-   */
-  conditions?: BlobRequestConditions;
-  /**
-   * Starting byte position of the page ranges.
-   */
-  offset: number;
-  /**
-   * Number of bytes to get.
-   */
-  count: number;
-  /**
-   * URL of snapshot to retrieve the difference.
-   */
-  prevSnapshotUrl: string;
-}
-
-/**
  * Options to configure {@link PageBlobClient.resize} operation.
  */
 export interface PageBlobResizeOptions extends CommonOptions {
