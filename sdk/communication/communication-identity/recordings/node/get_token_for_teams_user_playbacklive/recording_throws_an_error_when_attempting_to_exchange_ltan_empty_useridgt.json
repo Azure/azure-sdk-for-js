@@ -11,7 +11,9 @@
         "Content-Length": "62",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-communication-identity/1.1.0 core-rest-pipeline/1.8.1 Node/v17.9.0 OS/(x64-Darwin-21.4.0)",
-        "x-ms-client-request-id": "sanitized"
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "uEzuedG2SKNX58x/\u002Beks9wk6mx9/aYa83K148hl5HVI=",
+        "x-ms-date": "Tue, 26 Apr 2022 16:06:22 GMT"
       },
       "RequestBody": {
         "token": "sanitized",
@@ -21,21 +23,21 @@
       "StatusCode": 400,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Tue, 26 Apr 2022 14:17:56 GMT",
-        "MS-CV": "orXP2wizqUOHweWWJqLvIg.0",
+        "Date": "Tue, 26 Apr 2022 16:06:23 GMT",
+        "MS-CV": "iEUI36RH50uq\u002BK06rMzV\u002Bg.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0FP9nYgAAAAD9f9TtxDSCT77nSjM7l\u002BFNUFJHMDFFREdFMDkxOABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0fxhoYgAAAAAiH8y1NWu6QYfvOK5ASbVDUFJHMDFFREdFMDkxMgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "24ms"
+        "X-Processing-Time": "43ms"
       },
       "ResponseBody": {
         "error": {
           "code": "ValidationError",
-          "message": "AppId: The AppId field is required.",
-          "target": "AppId"
+          "message": "UserId: The UserId field is required.",
+          "target": "UserId"
         }
       }
     }

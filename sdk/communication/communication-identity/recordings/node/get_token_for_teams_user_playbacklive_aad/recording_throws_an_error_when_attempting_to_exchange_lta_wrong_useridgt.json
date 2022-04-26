@@ -22,21 +22,21 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-31-preview, 2022-06-01",
         "Content-Type": "application/json",
-        "Date": "Tue, 26 Apr 2022 14:17:56 GMT",
-        "MS-CV": "vDW0k\u002BvoCEKkkCM\u002BCVNrLQ.0",
+        "Date": "Tue, 26 Apr 2022 16:06:20 GMT",
+        "MS-CV": "6BwFSfv6/0eIECUiDPvrkg.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0Ff9nYgAAAAC4jnTeHP31Tbzfqc\u002Bm7pwOUFJHMDFFREdFMDkxOABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0fBhoYgAAAAB5SSkoQm\u002BoQ57h/i3tKi68UFJHMDFFREdFMDkxMgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "24ms"
+        "X-Processing-Time": "25ms"
       },
       "ResponseBody": {
         "error": {
           "code": "ValidationError",
-          "message": "Provided AppId has invalid format.",
-          "target": "appId"
+          "message": "Provided UserId has invalid format.",
+          "target": "userId"
         }
       }
     }

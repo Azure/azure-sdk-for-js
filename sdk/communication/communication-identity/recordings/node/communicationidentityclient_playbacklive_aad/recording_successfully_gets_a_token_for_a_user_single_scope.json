@@ -19,14 +19,14 @@
         "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01",
         "Content-Length": "31",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 26 Apr 2022 14:17:41 GMT",
-        "MS-CV": "552wlW3aGEqIrccJbBaXjw.0",
+        "Date": "Tue, 26 Apr 2022 16:05:59 GMT",
+        "MS-CV": "p0p3rScg7kalbqlZu4AQYg.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0Bv9nYgAAAAAHZn9cEA0mRY8JLeYv0AKJUFJHMDFFREdFMDkxOABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0aBhoYgAAAAClBUByHv3tRZPDGORbUcuvUFJHMDFFREdFMDkxMgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "19ms"
+        "X-Processing-Time": "28ms"
       },
       "ResponseBody": {
         "identity": {
@@ -57,18 +57,18 @@
         "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01",
         "Content-Length": "69",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 26 Apr 2022 14:17:41 GMT",
-        "MS-CV": "w1rYtMmyT0e86ZcxfxZN6Q.0",
+        "Date": "Tue, 26 Apr 2022 16:05:59 GMT",
+        "MS-CV": "kgD/L5YAyEGp/Kg0K4n1Fg.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0Bv9nYgAAAAAsE2X3lI0aRqQf9C8MvuZcUFJHMDFFREdFMDkxOABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0aBhoYgAAAACQuRDN6IZtR6WyXLdMB7SQUFJHMDFFREdFMDkxMgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "30ms"
+        "X-Processing-Time": "35ms"
       },
       "ResponseBody": {
         "token": "sanitized",
-        "expiresOn": "2022-04-27T14:17:42.3537232\u002B00:00"
+        "expiresOn": "2022-04-27T16:06:00.6254083\u002B00:00"
       }
     }
   ],

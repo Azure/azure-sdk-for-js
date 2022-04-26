@@ -11,7 +11,9 @@
         "Content-Length": "62",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-communication-identity/1.1.0 core-rest-pipeline/1.8.1 Node/v17.9.0 OS/(x64-Darwin-21.4.0)",
-        "x-ms-client-request-id": "sanitized"
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "Uimkc4RCPqpIBdCj6dW1o\u002BTSXyEebxdthiVguJ2Puog=",
+        "x-ms-date": "Tue, 26 Apr 2022 16:06:23 GMT"
       },
       "RequestBody": {
         "token": "sanitized",
@@ -20,22 +22,23 @@
       },
       "StatusCode": 400,
       "ResponseHeaders": {
+        "api-supported-versions": "2021-10-31-preview, 2022-06-01",
         "Content-Type": "application/json",
-        "Date": "Tue, 26 Apr 2022 14:17:57 GMT",
-        "MS-CV": "hefr\u002BTWd\u002BUOFlUpbJPDrjw.0",
+        "Date": "Tue, 26 Apr 2022 16:06:23 GMT",
+        "MS-CV": "obDQi7wqhkm1Avq42wdXQg.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0Fv9nYgAAAACD1UfxlXA9Qb5sDJXlRryOUFJHMDFFREdFMDkxOABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0fxhoYgAAAADu3zIWyecgTp2/3TFQ9YtPUFJHMDFFREdFMDkxMgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "22ms"
+        "X-Processing-Time": "29ms"
       },
       "ResponseBody": {
         "error": {
           "code": "ValidationError",
-          "message": "UserId: The UserId field is required.",
-          "target": "UserId"
+          "message": "Provided UserId has invalid format.",
+          "target": "userId"
         }
       }
     }

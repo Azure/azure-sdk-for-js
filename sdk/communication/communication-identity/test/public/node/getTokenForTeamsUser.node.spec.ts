@@ -68,7 +68,7 @@ matrix([[true, false]], async function (useAad) {
       return params;
     }
 
-    it("successfully exchanges a Teams User AAD token for a Communication access token with valid parameters", async function () {
+    it("successfully exchanges a Teams User AAD token for a Communication access token", async function () {
       const { token, expiresOn }: CommunicationAccessToken = await client.getTokenForTeamsUser(
         params.teamsToken,
         params.appId,
@@ -79,11 +79,11 @@ matrix([[true, false]], async function (useAad) {
     }).timeout(5000);
 
     given([
-      { teamsToken: "", description: "an empty Teams User AAD token" },
-      { teamsToken: "invalid", description: "an invalid Teams User AAD token" },
+      { teamsToken: "", description: "an empty teamsToken" },
+      { teamsToken: "invalid", description: "an invalid teamsToken" },
       {
         teamsToken: env.COMMUNICATION_EXPIRED_TEAMS_TOKEN ?? "",
-        description: "an expired Teams User AAD token",
+        description: "an expired teamsToken",
       },
     ]).it("throws an error when attempting to exchange", async function (input) {
       try {
@@ -100,9 +100,9 @@ matrix([[true, false]], async function (useAad) {
     });
 
     given([
-      { appId: "", description: "an empty Client ID of an Azure AD application" },
-      { appId: "invalid", description: "an invalid Client ID of an Azure AD application" },
-      { appId: params.userId, description: "a wrong Client ID of an Azure AD application" },
+      { appId: "", description: "an empty appId" },
+      { appId: "invalid", description: "an invalid appId" },
+      { appId: params.userId, description: "a wrong appId" },
     ]).it("throws an error when attempting to exchange", async function (input) {
       try {
         if (isPlaybackMode()) {
@@ -118,9 +118,9 @@ matrix([[true, false]], async function (useAad) {
     });
 
     given([
-      { userId: "", description: "an empty Object ID of an Azure AD user (Teams User)" },
-      { userId: "invalid", description: "an invalid Object ID of an Azure AD user (Teams User)" },
-      { userId: params.appId, description: "a wrong Object ID of an Azure AD user (Teams User)" },
+      { userId: "", description: "an empty userId" },
+      { userId: "invalid", description: "an invalid userId" },
+      { userId: params.appId, description: "a wrong userId" },
     ]).it("throws an error when attempting to exchange", async function (input) {
       try {
         if (isPlaybackMode()) {

@@ -6202,6 +6202,7 @@ packages:
 
   /mocha-testdata/1.2.0:
     resolution: {integrity: sha1-bMDUGCDpu2aQMzRSTlrkIN537Oo=}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
     dev: false
 
   /mocha/7.2.0:
@@ -15996,7 +15997,7 @@ packages:
     dev: false
 
   file:projects/opentelemetry-instrumentation-azure-sdk.tgz:
-    resolution: {integrity: sha512-rWiPsZxSnuYGdFux77mxyZBjJ1I9LgMWvb+x04sDyizzAp4495+V81pN9O+9btqu1hr72zKv/hNseMEpUEf31A==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
+    resolution: {integrity: sha512-F8uL9sreN54VAMDwAmuidpVLNr48YcrxgPoLsWTSyXQFmo9YCtNkw/FWBqsm4dmeWSfapmmjmkJmSGLBlryHwg==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
     name: '@rush-temp/opentelemetry-instrumentation-azure-sdk'
     version: 0.0.0
     dependencies:

@@ -18,23 +18,24 @@
         "appId": "sanitized",
         "userId": "sanitized"
       },
-      "StatusCode": 401,
+      "StatusCode": 400,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Tue, 26 Apr 2022 14:17:54 GMT",
-        "MS-CV": "Qlj8nRoYd0if8HP/NtIkEQ.0",
+        "Date": "Tue, 26 Apr 2022 16:06:19 GMT",
+        "MS-CV": "HSIkv6VOYU2Cc\u002BBYZeKLhA.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0Ev9nYgAAAAAePZeyYQZSS5NTcbA5IhniUFJHMDFFREdFMDkxOABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0exhoYgAAAADmfIP9IJW7QryxHP29SiUMUFJHMDFFREdFMDkxMgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "17ms"
+        "X-Processing-Time": "30ms"
       },
       "ResponseBody": {
         "error": {
-          "code": "InvalidAccessToken",
-          "message": "Provided access token is not valid."
+          "code": "ValidationError",
+          "message": "UserId: The UserId field is required.",
+          "target": "UserId"
         }
       }
     }

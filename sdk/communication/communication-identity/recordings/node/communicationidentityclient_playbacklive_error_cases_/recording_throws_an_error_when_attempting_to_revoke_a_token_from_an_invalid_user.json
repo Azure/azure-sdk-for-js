@@ -12,22 +12,22 @@
         "User-Agent": "azsdk-js-communication-identity/1.1.0 core-rest-pipeline/1.8.1 Node/v17.9.0 OS/(x64-Darwin-21.4.0)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Tue, 26 Apr 2022 14:17:52 GMT"
+        "x-ms-date": "Tue, 26 Apr 2022 16:06:11 GMT"
       },
       "RequestBody": null,
       "StatusCode": 401,
       "ResponseHeaders": {
         "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01",
         "Content-Type": "application/json",
-        "Date": "Tue, 26 Apr 2022 14:17:51 GMT",
-        "MS-CV": "Abl1LDp3aU6SbY6080oB/g.0",
+        "Date": "Tue, 26 Apr 2022 16:06:12 GMT",
+        "MS-CV": "GnHAc5kPrEmZWG\u002BiLN2dwA.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0EP9nYgAAAADux2iXUcyVSKEpphSaZSdvUFJHMDFFREdFMDkxOABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0cxhoYgAAAADQCv2riPbZSYpmXhSCgLdcUFJHMDFFREdFMDkxMgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "19ms"
+        "X-Processing-Time": "20ms"
       },
       "ResponseBody": {
         "error": {

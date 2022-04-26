@@ -12,8 +12,8 @@
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-communication-identity/1.1.0 core-rest-pipeline/1.8.1 Node/v17.9.0 OS/(x64-Darwin-21.4.0)",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-content-sha256": "DCc495WWCKwYtz8nyhZAENSCBFEeaIxYWK0GhmdXg4U=",
-        "x-ms-date": "Tue, 26 Apr 2022 14:18:03 GMT"
+        "x-ms-content-sha256": "aIVyRLN/AIJQlEDoqKFbFh/SnbeD7vfLtzDZPKjzrnw=",
+        "x-ms-date": "Tue, 26 Apr 2022 16:06:23 GMT"
       },
       "RequestBody": {
         "token": "sanitized",
@@ -24,21 +24,21 @@
       "ResponseHeaders": {
         "api-supported-versions": "2021-10-31-preview, 2022-06-01",
         "Content-Type": "application/json",
-        "Date": "Tue, 26 Apr 2022 14:18:02 GMT",
-        "MS-CV": "FHHq46eZHk6gLtBSX5kwMg.0",
+        "Date": "Tue, 26 Apr 2022 16:06:23 GMT",
+        "MS-CV": "GnvCXz1ZnkaQggerulQdFA.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0G/9nYgAAAAA\u002BdP5PIo\u002BbTb8whiBxCindUFJHMDFFREdFMDkxOABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0fxhoYgAAAACKhQk5icJOT5NjdnkPbqZIUFJHMDFFREdFMDkxMgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "33ms"
+        "X-Processing-Time": "31ms"
       },
       "ResponseBody": {
         "error": {
           "code": "ValidationError",
-          "message": "Provided AppId has invalid format.",
-          "target": "appId"
+          "message": "Provided UserId has invalid format.",
+          "target": "userId"
         }
       }
     }

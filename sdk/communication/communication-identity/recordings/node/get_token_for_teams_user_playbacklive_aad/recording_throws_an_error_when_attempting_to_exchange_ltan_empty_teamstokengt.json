@@ -18,23 +18,24 @@
         "appId": "sanitized",
         "userId": "sanitized"
       },
-      "StatusCode": 200,
+      "StatusCode": 401,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-10-31-preview, 2022-06-01",
-        "Content-Length": "69",
-        "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 26 Apr 2022 14:17:53 GMT",
-        "MS-CV": "7suyhCwErUKa8m/wtKHaxg.0",
+        "Content-Type": "application/json",
+        "Date": "Tue, 26 Apr 2022 16:06:15 GMT",
+        "MS-CV": "PNoyj1Q\u002BW0ecUtCc3\u002ByXsQ.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0Ef9nYgAAAAAuR4gsBfPiTYI/XXAp2lEHUFJHMDFFREdFMDkxOABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0dxhoYgAAAADqh3GAL2h/QagArj7SAs0YUFJHMDFFREdFMDkxMgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "327ms"
+        "X-Processing-Time": "16ms"
       },
       "ResponseBody": {
-        "token": "sanitized",
-        "expiresOn": "2022-04-26T15:18:41.2875225\u002B00:00"
+        "error": {
+          "code": "InvalidAccessToken",
+          "message": "Provided access token is not valid."
+        }
       }
     }
   ],
