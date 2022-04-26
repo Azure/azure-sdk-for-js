@@ -25,30 +25,6 @@ import {
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 
 /**
- * Supported versions of the Cognitive Language Service API.
- */
-export const CognitiveLanguageApiVersions = {
-  /**
-   * 2022-02-01-preview
-   */
-  "2022-02-01-preview": "2022-02-01-preview",
-  /**
-   * 2022-03-01-preview
-   */
-  "2022-03-01-preview": "2022-03-01-preview",
-  /**
-   * The latest version of the Cognitive Language Service API supported by the client (default).
-   */
-  Latest: "2022-03-01-preview",
-  // TODO: "Stable" to be added when v6.0.0 is released
-} as const;
-
-/**
- * The type of supported versions of the Cognitive Language Service API.
- */
-export type CognitiveLanguageApiVersion = keyof typeof CognitiveLanguageApiVersions;
-
-/**
  * Configuration options for {@link TextAnalysisClient}.
  */
 export interface TextAnalysisClientOptions extends CommonClientOptions {
@@ -62,10 +38,9 @@ export interface TextAnalysisClientOptions extends CommonClientOptions {
    */
   defaultLanguage?: string;
   /**
-   * The version of the Cognitive Language Service API to use. {@link CognitiveLanguageApiVersions.Latest}
-   * is the default.
+   * The version of the Cognitive Language Service API to use.
    */
-  apiVersion?: CognitiveLanguageApiVersion;
+  apiVersion?: string;
 }
 
 /**
@@ -77,8 +52,7 @@ export interface TextAnalysisOperationOptions extends OperationOptions {
    */
   includeStatistics?: boolean;
   /**
-   * The version of the Cognitive Language Service API to use. {@link CognitiveLanguageApiVersions.Latest}
-   * is the default if {@link TextAnalysisClientOptions.apiVersion} was not set.
+   * The version of the Cognitive Language Service API to use.
    */
   apiVersion?: string;
 }

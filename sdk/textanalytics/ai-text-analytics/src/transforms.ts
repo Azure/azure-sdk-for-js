@@ -3,7 +3,6 @@
 
 import {
   AnalyzeActionName,
-  AnalyzeActionParameters,
   AnalyzeResult,
   EntityLinkingResult,
   EntityRecognitionResult,
@@ -36,7 +35,6 @@ import {
   KeyPhraseTaskResult,
   LanguageDetectionInput,
   LanguageDetectionTaskResult,
-  PiiEntityRecognitionAction,
   PiiTaskResult,
   SentenceTarget,
   SentimentTaskResult,
@@ -318,23 +316,4 @@ export function transformError(errorResponse: unknown): any {
     code,
     statusCode: strongErrorResponse.statusCode,
   });
-}
-
-/**
- * @internal
- */
-export function setDefaultActionParameters<ActionName extends AnalyzeActionName>(
-  actionName: AnalyzeActionName,
-  action: AnalyzeActionParameters<ActionName>
-): AnalyzeActionParameters<ActionName> {
-  switch (actionName) {
-    case "PiiEntityRecognition": {
-      const { disableServiceLogs = true, ...rest } = action as PiiEntityRecognitionAction;
-      return {
-        disableServiceLogs,
-        ...rest,
-      } as AnalyzeActionParameters<ActionName>;
-    }
-  }
-  return action;
 }

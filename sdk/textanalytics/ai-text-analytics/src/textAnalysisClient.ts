@@ -23,7 +23,7 @@ import {
   getOperationOptions,
   isStringArray,
 } from "./util";
-import { setDefaultActionParameters, transformActionResult, transformError } from "./transforms";
+import { transformActionResult, transformError } from "./transforms";
 import { GeneratedClient } from "./generated/generatedClient";
 import { logger } from "./logger";
 import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
@@ -482,7 +482,7 @@ export class TextAnalysisClient {
               analysisInput: {
                 documents: realInputs,
               },
-              parameters: setDefaultActionParameters(actionName, action),
+              parameters: action,
             } as any,
             updatedOptions
           );

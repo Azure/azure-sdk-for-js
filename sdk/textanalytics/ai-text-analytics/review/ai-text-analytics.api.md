@@ -66,16 +66,6 @@ export interface AssessmentSentiment {
 export { AzureKeyCredential }
 
 // @public
-export type CognitiveLanguageApiVersion = keyof typeof CognitiveLanguageApiVersions;
-
-// @public
-export const CognitiveLanguageApiVersions: {
-    readonly "2022-02-01-preview": "2022-02-01-preview";
-    readonly "2022-03-01-preview": "2022-03-01-preview";
-    readonly Latest: "2022-03-01-preview";
-};
-
-// @public
 export interface DetectedLanguage {
     confidenceScore: number;
     iso6391Name: string;
@@ -748,7 +738,7 @@ export class TextAnalysisClient {
 
 // @public
 export interface TextAnalysisClientOptions extends CommonClientOptions {
-    apiVersion?: CognitiveLanguageApiVersion;
+    apiVersion?: string;
     defaultCountryHint?: string;
     defaultLanguage?: string;
 }
