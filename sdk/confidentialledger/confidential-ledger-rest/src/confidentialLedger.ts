@@ -7,7 +7,6 @@ import {
   isCertificateCredential,
 } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
-import { DefaultAzureCredential } from "@azure/identity";
 
 import { certificatePolicy } from "./certificatePolicy";
 import GeneratedConfidentialLedger, {
@@ -24,7 +23,7 @@ export default function ConfidentialLedger(
   const creds = isCertificateCredential(credentials) ? undefined : credentials;
 
   const confidentialLedger = GeneratedConfidentialLedger(ledgerBaseUrl, creds, options);
-      
+
   confidentialLedger.pipeline.addPolicy(certificatePolicy(ledgerTlsCertificate, credentials));
 
   return confidentialLedger;
