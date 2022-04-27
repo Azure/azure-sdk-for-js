@@ -128,7 +128,10 @@ await client.deleteUser(user);
 Use `getTokenForTeamsUser` method to exchange an AAD access token of a Teams user for a new `CommunicationAccessToken` with a matching expiration time.
 
 ```typescript
-await client.getTokenForTeamsUser('<aad-access-token-of-a-teams-user>');
+await client.getTokenForTeamsUser(
+  '<aad-access-token-of-a-teams-user>',
+  '<cliend-id-of-an-aad-application>'
+  '<aad-object-id-of-a-teams-user>');
 ```
 
 ## Troubleshooting
