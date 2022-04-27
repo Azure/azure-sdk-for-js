@@ -13,14 +13,16 @@ import {
   SpacecraftsImpl,
   ContactsImpl,
   ContactProfilesImpl,
-  AvailableGroundStationsImpl
+  AvailableGroundStationsImpl,
+  OperationsResultsImpl
 } from "./operations";
 import {
   Operations,
   Spacecrafts,
   Contacts,
   ContactProfiles,
-  AvailableGroundStations
+  AvailableGroundStations,
+  OperationsResults
 } from "./operationsInterfaces";
 import { AzureOrbitalOptionalParams } from "./models";
 
@@ -56,7 +58,7 @@ export class AzureOrbital extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-orbital/1.0.0-beta.2`;
+    const packageDetails = `azsdk-js-arm-orbital/1.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -79,12 +81,13 @@ export class AzureOrbital extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-04-04-preview";
+    this.apiVersion = options.apiVersion || "2022-03-01";
     this.operations = new OperationsImpl(this);
     this.spacecrafts = new SpacecraftsImpl(this);
     this.contacts = new ContactsImpl(this);
     this.contactProfiles = new ContactProfilesImpl(this);
     this.availableGroundStations = new AvailableGroundStationsImpl(this);
+    this.operationsResults = new OperationsResultsImpl(this);
   }
 
   operations: Operations;
@@ -92,4 +95,5 @@ export class AzureOrbital extends coreClient.ServiceClient {
   contacts: Contacts;
   contactProfiles: ContactProfiles;
   availableGroundStations: AvailableGroundStations;
+  operationsResults: OperationsResults;
 }
