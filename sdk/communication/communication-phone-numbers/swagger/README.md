@@ -13,16 +13,3 @@ require:
 title: Phone Numbers Client
 ```
 
-## Customizations
-
-### Disable extensible enums
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions[*].properties[*]["x-ms-enum"]
-    transform: >
-      if ($.modelAsString) {
-        $.modelAsString = false
-      }
-```

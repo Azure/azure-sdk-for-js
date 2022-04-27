@@ -5,9 +5,7 @@
  * @summary Iterate operator connect operators one by one or with paing.
  */
 
-import {
-  OperatorConnectClient,
-} from "@azure/communication-phone-numbers";
+import { OperatorConnectClient } from "@azure/communication-phone-numbers";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -35,19 +33,21 @@ export async function main() {
     for (const operator of operatorsPage) {
       console.log(`Operator name '${operator.friendlyName}'`);
       console.log(` Aquaired numbers: '${operator.acquiredNumbersCount}'`);
-      if (operator.landingPage != null) {
-        console.log(` Link: '${operator.landingPage}'`);
+      if (operator.landingPageUrl != null) {
+        console.log(` Link: '${operator.landingPageUrl}'`);
       }
     }
   }
-  
+
   console.log("Iterating over operators one by one.");
-  for await (const operator of client.listOperators({ requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } } })) {
+  for await (const operator of client.listOperators({
+    requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } },
+  })) {
     // Printing single page results
     console.log(`Operator name '${operator.friendlyName}'`);
     console.log(` Aquaired numbers: '${operator.acquiredNumbersCount}'`);
-    if (operator.landingPage != null) {
-      console.log(` Link: '${operator.landingPage}'`);
+    if (operator.landingPageUrl != null) {
+      console.log(` Link: '${operator.landingPageUrl}'`);
     }
   }
 }

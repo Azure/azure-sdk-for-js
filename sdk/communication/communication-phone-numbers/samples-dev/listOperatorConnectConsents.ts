@@ -5,9 +5,7 @@
  * @summary Iterate operator connect consents one by one or with paing.
  */
 
-import {
-  OperatorConnectClient,
-} from "@azure/communication-phone-numbers";
+import { OperatorConnectClient } from "@azure/communication-phone-numbers";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -43,7 +41,9 @@ export async function main() {
 
   console.log("Iterating over consents one by one.");
 
-  for await (const consent of client.listConsents({ requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } } })) {
+  for await (const consent of client.listConsents({
+    requestOptions: { customHeaders: { "x-ms-useragent": "acs-mock-test" } },
+  })) {
     // Printing single page results
     console.log(`Company Name '${consent.companyName}'`);
     console.log(` Status: '${consent.status}'`);

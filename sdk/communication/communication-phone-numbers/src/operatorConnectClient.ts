@@ -19,17 +19,14 @@ import { createPhoneNumbersPagingPolicy } from "./utils/customPipelinePolicies";
 import {
   Consent,
   Operator,
-  CreateConsentParams,
-  UpdateConsentParams,
-  RemoveConsentParams,
-  GetConsentParams,
-  PagedOptionalParams,
+  GetConsentOptions,
+  GrantConsentOptions,
+  UpdateConsentOptions,
+  RevokeConsentOptions,
+  PagedOperationOptions,
 } from "./";
 import * as Mapper from "./mappers";
 import { OperatorConnectClient as OperatorConnectGeneratedClient } from "./generated/src/operatorConnect";
-import {
-  CreateOrUpdateConsentOptionalParams,
-} from "./generated/src/operatorConnect/models/";
 
 /**
  * Client options used to configure the OperatorConnectClient API requests.
@@ -117,9 +114,7 @@ export class OperatorConnectClient {
    *
    * @param options - Additional request options.
    */
-  public listOperators(
-    options: PagedOptionalParams = {}
-  ): PagedAsyncIterableIterator<Operator> {
+  public listOperators(options: PagedOperationOptions = {}): PagedAsyncIterableIterator<Operator> {
     const { span, updatedOptions } = createSpan("OperatorConnectClient-listOperators", options);
     const iter = this.client.listOperators(updatedOptions);
     span.end();
@@ -131,9 +126,7 @@ export class OperatorConnectClient {
    *
    * @param options - Additional request options.
    */
-  public listConsents(
-    options: PagedOptionalParams = {}
-  ): PagedAsyncIterableIterator<Consent> {
+  public listConsents(options: PagedOperationOptions = {}): PagedAsyncIterableIterator<Consent> {
     const { span, updatedOptions } = createSpan("OperatorConnectClient-listConsents", options);
     const iter = this.client.listConsents(updatedOptions);
     span.end();
@@ -143,12 +136,9 @@ export class OperatorConnectClient {
   /**
    * Gets the details of consent given for operator. Consent might not be set for some operators.
    *
-   * @param operatorId - OperatorConnect operator ID for which consent is requested. Available operators can be retrieved via 'listOperators'.
    * @param options - Additional request options.
    */
-  public async getConsent(
-    options: GetConsentParams
-  ): Promise<Consent> {
+  public async getConsent(options: GetConsentOptions): Promise<Consent> {
     const { span, updatedOptions } = createSpan("OperatorConnectClient-getConsent", options);
     try {
       var consent = await this.client.getConsent(options.operatorId, updatedOptions);
@@ -165,27 +155,24 @@ export class OperatorConnectClient {
   }
 
   /**
-   * Create new consent.
+   * Grant new consent.
    *
-   * @param operationOptions - Create consent parameters.
+   * @param options - Grant consent options.
    */
-  public async createConsent(operationOptions: CreateConsentParams): Promise<Consent> {
-    if (operationOptions.contacts == null) {
-      operationOptions.contacts = [operationOptions.consentedBy];
+  public async grantConsent(options: GrantConsentOptions): Promise<Consent> {
+    if (options.contacts == null) {
+      options.contacts = [options.consentedBy];
     }
-    if (operationOptions.status == null) {
-      operationOptions.status = "Active";
+    if (options.status == null) {
+      options.status = "active";
     }
     const { span, updatedOptions } = createSpan(
-      "OperatorConnectClient-createConsent",
-      operationOptions
+      "OperatorConnectClient-grantConsent",
+      Mapper.toConsentCreateRequest(options)
     );
 
     try {
-      const consent = await this.client.createOrUpdateConsent(
-        operationOptions.operatorId,
-        updatedOptions
-      );
+      const consent = await this.client.createOrUpdateConsent(options.operatorId, updatedOptions);
       return Mapper.toConsentResponse(consent);
     } catch (e: any) {
       span.setStatus({
@@ -201,20 +188,17 @@ export class OperatorConnectClient {
   /**
    * Remove consent.
    *
-   * @param operationOptions - Remove consent parameters.
+   * @param options - Revoke consent options.
    */
-  public async removeConsent(operationOptions: RemoveConsentParams): Promise<Consent> {
-    (operationOptions as CreateOrUpdateConsentOptionalParams).status = "Removed";
+  public async revokeConsent(options: RevokeConsentOptions): Promise<Consent> {
     const { span, updatedOptions } = createSpan(
-      "OperatorConnectClient-removeConsent",
-      operationOptions
+      "OperatorConnectClient-revokeConsent",
+      Mapper.toConsentRemoveRequest(options)
     );
+    updatedOptions.status = "removed";
 
     try {
-      const consent = await this.client.createOrUpdateConsent(
-        operationOptions.operatorId,
-        updatedOptions
-      );
+      const consent = await this.client.createOrUpdateConsent(options.operatorId, updatedOptions);
       return Mapper.toConsentResponse(consent);
     } catch (e: any) {
       span.setStatus({
@@ -230,19 +214,16 @@ export class OperatorConnectClient {
   /**
    * Update consent details.
    *
-   * @param operationOptions - Update consent parameters.
+   * @param options - Update consent options.
    */
-  public async updateConsent(operationOptions: UpdateConsentParams): Promise<Consent> {
+  public async updateConsent(options: UpdateConsentOptions): Promise<Consent> {
     const { span, updatedOptions } = createSpan(
       "OperatorConnectClient-updateConsent",
-      operationOptions
+      Mapper.toConsentUpdateRequest(options)
     );
 
     try {
-      const consent = await this.client.createOrUpdateConsent(
-        operationOptions.operatorId,
-        updatedOptions
-      );
+      const consent = await this.client.createOrUpdateConsent(options.operatorId, updatedOptions);
       return Mapper.toConsentResponse(consent);
     } catch (e: any) {
       span.setStatus({
