@@ -28,7 +28,7 @@ import {
 /** Interface representing a Workbooks. */
 export interface Workbooks {
   /**
-   * Get all private workbooks defined within a specified subscription and category.
+   * Get all Workbooks defined within a specified subscription and category.
    * @param category Category of workbook to return.
    * @param options The options parameters.
    */

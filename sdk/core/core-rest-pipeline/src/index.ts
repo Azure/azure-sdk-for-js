@@ -3,20 +3,23 @@
 
 export {
   Agent,
-  HttpClient,
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest,
   FormDataMap,
   FormDataValue,
+  HttpClient,
   HttpHeaders,
   HttpMethods,
+  KeyObject,
+  PipelineRequest,
+  PipelineResponse,
+  PipelineRetryOptions,
   ProxySettings,
+  PxfObject,
   RawHttpHeaders,
   RawHttpHeadersInput,
-  TransferProgressEvent,
   RequestBodyType,
-  PipelineRetryOptions,
+  SendRequest,
+  TlsSettings,
+  TransferProgressEvent,
 } from "./interfaces";
 export {
   AddPolicyOptions as AddPipelineOptions,
@@ -33,7 +36,7 @@ export {
 export { createDefaultHttpClient } from "./defaultHttpClient";
 export { createHttpHeaders } from "./httpHeaders";
 export { createPipelineRequest, PipelineRequestOptions } from "./pipelineRequest";
-export { RestError, RestErrorOptions } from "./restError";
+export { RestError, RestErrorOptions, isRestError } from "./restError";
 export {
   decompressResponsePolicy,
   decompressResponsePolicyName,

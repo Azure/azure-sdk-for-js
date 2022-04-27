@@ -1,5 +1,5 @@
 {
-  "name": "azure-purview-administration-samples-js",
+  "name": "@azure-samples/purview-administration-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Purview Administration rest client library samples for JavaScript",

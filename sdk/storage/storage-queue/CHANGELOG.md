@@ -1,5 +1,17 @@
 # Release History
 
+## 12.8.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Add `react-native` mapping to ESM entry point
+
+### Other Changes
+
 ## 12.8.0 (2022-03-11)
 
 ### Features Added

@@ -1,5 +1,5 @@
 {
-  "name": "azure-simple@1.0.0-beta.1-samples-js-beta",
+  "name": "@azure-samples/simple@1.0.0-beta.1-js-beta",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Template client library samples for JavaScript (Beta)",

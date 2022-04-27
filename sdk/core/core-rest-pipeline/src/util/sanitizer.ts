@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isObject, UnknownObject } from "./helpers";
-import { URL } from "./url";
+import { UnknownObject, isObject } from "@azure/core-util";
 
 /**
  * @internal

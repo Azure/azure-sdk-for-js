@@ -124,7 +124,7 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
       const diff = date - now;
 
       return Number.isNaN(diff) ? undefined : diff;
-    } catch (error) {
+    } catch (error: any) {
       return undefined;
     }
   }

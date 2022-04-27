@@ -503,23 +503,23 @@ export type DeletedCertificateBundle = CertificateBundle & {
   readonly deletedDate?: Date;
 };
 
-/** Known values of {@link ApiVersion73Preview} that the service accepts. */
-export const enum KnownApiVersion73Preview {
-  /** Api Version '7.3-preview' */
-  Seven3Preview = "7.3-preview"
+/** Known values of {@link ApiVersion73} that the service accepts. */
+export enum KnownApiVersion73 {
+  /** Api Version '7.3' */
+  Seven3 = "7.3"
 }
 
 /**
- * Defines values for ApiVersion73Preview. \
- * {@link KnownApiVersion73Preview} can be used interchangeably with ApiVersion73Preview,
+ * Defines values for ApiVersion73. \
+ * {@link KnownApiVersion73} can be used interchangeably with ApiVersion73,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **7.3-preview**: Api Version '7.3-preview'
+ * ### Known values supported by the service
+ * **7.3**: Api Version '7.3'
  */
-export type ApiVersion73Preview = string;
+export type ApiVersion73 = string;
 
 /** Known values of {@link DeletionRecoveryLevel} that the service accepts. */
-export const enum KnownDeletionRecoveryLevel {
+export enum KnownDeletionRecoveryLevel {
   /** Denotes a vault state in which deletion is an irreversible operation, without the possibility for recovery. This level corresponds to no protection being available against a Delete operation; the data is irretrievably lost upon accepting a Delete operation at the entity level or higher (vault, resource group, subscription etc.) */
   Purgeable = "Purgeable",
   /** Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval (90 days), unless a Purge operation is requested, or the subscription is cancelled. System wil permanently delete it after 90 days, if not recovered */
@@ -540,7 +540,7 @@ export const enum KnownDeletionRecoveryLevel {
  * Defines values for DeletionRecoveryLevel. \
  * {@link KnownDeletionRecoveryLevel} can be used interchangeably with DeletionRecoveryLevel,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **Purgeable**: Denotes a vault state in which deletion is an irreversible operation, without the possibility for recovery. This level corresponds to no protection being available against a Delete operation; the data is irretrievably lost upon accepting a Delete operation at the entity level or higher (vault, resource group, subscription etc.) \
  * **Recoverable+Purgeable**: Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval (90 days), unless a Purge operation is requested, or the subscription is cancelled. System wil permanently delete it after 90 days, if not recovered \
  * **Recoverable**: Denotes a vault state in which deletion is recoverable without the possibility for immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval(90 days) and while the subscription is still available. System wil permanently delete it after 90 days, if not recovered \
@@ -552,7 +552,7 @@ export const enum KnownDeletionRecoveryLevel {
 export type DeletionRecoveryLevel = string;
 
 /** Known values of {@link JsonWebKeyType} that the service accepts. */
-export const enum KnownJsonWebKeyType {
+export enum KnownJsonWebKeyType {
   EC = "EC",
   ECHSM = "EC-HSM",
   RSA = "RSA",
@@ -565,7 +565,7 @@ export const enum KnownJsonWebKeyType {
  * Defines values for JsonWebKeyType. \
  * {@link KnownJsonWebKeyType} can be used interchangeably with JsonWebKeyType,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **EC** \
  * **EC-HSM** \
  * **RSA** \
@@ -576,7 +576,7 @@ export const enum KnownJsonWebKeyType {
 export type JsonWebKeyType = string;
 
 /** Known values of {@link JsonWebKeyCurveName} that the service accepts. */
-export const enum KnownJsonWebKeyCurveName {
+export enum KnownJsonWebKeyCurveName {
   P256 = "P-256",
   P384 = "P-384",
   P521 = "P-521",
@@ -587,7 +587,7 @@ export const enum KnownJsonWebKeyCurveName {
  * Defines values for JsonWebKeyCurveName. \
  * {@link KnownJsonWebKeyCurveName} can be used interchangeably with JsonWebKeyCurveName,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **P-256** \
  * **P-384** \
  * **P-521** \
@@ -596,7 +596,7 @@ export const enum KnownJsonWebKeyCurveName {
 export type JsonWebKeyCurveName = string;
 
 /** Known values of {@link KeyUsageType} that the service accepts. */
-export const enum KnownKeyUsageType {
+export enum KnownKeyUsageType {
   DigitalSignature = "digitalSignature",
   NonRepudiation = "nonRepudiation",
   KeyEncipherment = "keyEncipherment",
@@ -612,7 +612,7 @@ export const enum KnownKeyUsageType {
  * Defines values for KeyUsageType. \
  * {@link KnownKeyUsageType} can be used interchangeably with KeyUsageType,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **digitalSignature** \
  * **nonRepudiation** \
  * **keyEncipherment** \
@@ -628,7 +628,7 @@ export type KeyUsageType = string;
 export type ActionType = "EmailContacts" | "AutoRenew";
 
 /** Optional parameters. */
-export interface KeyVaultClientGetCertificatesOptionalParams
+export interface GetCertificatesOptionalParams
   extends coreHttp.OperationOptions {
   /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
@@ -637,7 +637,7 @@ export interface KeyVaultClientGetCertificatesOptionalParams
 }
 
 /** Contains response data for the getCertificates operation. */
-export type KeyVaultClientGetCertificatesResponse = CertificateListResult & {
+export type GetCertificatesResponse = CertificateListResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -648,8 +648,12 @@ export type KeyVaultClientGetCertificatesResponse = CertificateListResult & {
   };
 };
 
+/** Optional parameters. */
+export interface DeleteCertificateOptionalParams
+  extends coreHttp.OperationOptions {}
+
 /** Contains response data for the deleteCertificate operation. */
-export type KeyVaultClientDeleteCertificateResponse = DeletedCertificateBundle & {
+export type DeleteCertificateResponse = DeletedCertificateBundle & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -660,32 +664,12 @@ export type KeyVaultClientDeleteCertificateResponse = DeletedCertificateBundle &
   };
 };
 
+/** Optional parameters. */
+export interface SetCertificateContactsOptionalParams
+  extends coreHttp.OperationOptions {}
+
 /** Contains response data for the setCertificateContacts operation. */
-export type KeyVaultClientSetCertificateContactsResponse = Contacts & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: Contacts;
-  };
-};
-
-/** Contains response data for the getCertificateContacts operation. */
-export type KeyVaultClientGetCertificateContactsResponse = Contacts & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: Contacts;
-  };
-};
-
-/** Contains response data for the deleteCertificateContacts operation. */
-export type KeyVaultClientDeleteCertificateContactsResponse = Contacts & {
+export type SetCertificateContactsResponse = Contacts & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -697,14 +681,46 @@ export type KeyVaultClientDeleteCertificateContactsResponse = Contacts & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientGetCertificateIssuersOptionalParams
+export interface GetCertificateContactsOptionalParams
+  extends coreHttp.OperationOptions {}
+
+/** Contains response data for the getCertificateContacts operation. */
+export type GetCertificateContactsResponse = Contacts & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: Contacts;
+  };
+};
+
+/** Optional parameters. */
+export interface DeleteCertificateContactsOptionalParams
+  extends coreHttp.OperationOptions {}
+
+/** Contains response data for the deleteCertificateContacts operation. */
+export type DeleteCertificateContactsResponse = Contacts & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: Contacts;
+  };
+};
+
+/** Optional parameters. */
+export interface GetCertificateIssuersOptionalParams
   extends coreHttp.OperationOptions {
   /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 
 /** Contains response data for the getCertificateIssuers operation. */
-export type KeyVaultClientGetCertificateIssuersResponse = CertificateIssuerListResult & {
+export type GetCertificateIssuersResponse = CertificateIssuerListResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -716,7 +732,7 @@ export type KeyVaultClientGetCertificateIssuersResponse = CertificateIssuerListR
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientSetCertificateIssuerOptionalParams
+export interface SetCertificateIssuerOptionalParams
   extends coreHttp.OperationOptions {
   /** The credentials to be used for the issuer. */
   credentials?: IssuerCredentials;
@@ -727,7 +743,7 @@ export interface KeyVaultClientSetCertificateIssuerOptionalParams
 }
 
 /** Contains response data for the setCertificateIssuer operation. */
-export type KeyVaultClientSetCertificateIssuerResponse = IssuerBundle & {
+export type SetCertificateIssuerResponse = IssuerBundle & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -739,7 +755,7 @@ export type KeyVaultClientSetCertificateIssuerResponse = IssuerBundle & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientUpdateCertificateIssuerOptionalParams
+export interface UpdateCertificateIssuerOptionalParams
   extends coreHttp.OperationOptions {
   /** The issuer provider. */
   provider?: string;
@@ -752,31 +768,7 @@ export interface KeyVaultClientUpdateCertificateIssuerOptionalParams
 }
 
 /** Contains response data for the updateCertificateIssuer operation. */
-export type KeyVaultClientUpdateCertificateIssuerResponse = IssuerBundle & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: IssuerBundle;
-  };
-};
-
-/** Contains response data for the getCertificateIssuer operation. */
-export type KeyVaultClientGetCertificateIssuerResponse = IssuerBundle & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: IssuerBundle;
-  };
-};
-
-/** Contains response data for the deleteCertificateIssuer operation. */
-export type KeyVaultClientDeleteCertificateIssuerResponse = IssuerBundle & {
+export type UpdateCertificateIssuerResponse = IssuerBundle & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -788,7 +780,39 @@ export type KeyVaultClientDeleteCertificateIssuerResponse = IssuerBundle & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientCreateCertificateOptionalParams
+export interface GetCertificateIssuerOptionalParams
+  extends coreHttp.OperationOptions {}
+
+/** Contains response data for the getCertificateIssuer operation. */
+export type GetCertificateIssuerResponse = IssuerBundle & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: IssuerBundle;
+  };
+};
+
+/** Optional parameters. */
+export interface DeleteCertificateIssuerOptionalParams
+  extends coreHttp.OperationOptions {}
+
+/** Contains response data for the deleteCertificateIssuer operation. */
+export type DeleteCertificateIssuerResponse = IssuerBundle & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: IssuerBundle;
+  };
+};
+
+/** Optional parameters. */
+export interface CreateCertificateOptionalParams
   extends coreHttp.OperationOptions {
   /** The management policy for the certificate. */
   certificatePolicy?: CertificatePolicy;
@@ -799,7 +823,7 @@ export interface KeyVaultClientCreateCertificateOptionalParams
 }
 
 /** Contains response data for the createCertificate operation. */
-export type KeyVaultClientCreateCertificateResponse = CertificateOperation & {
+export type CreateCertificateResponse = CertificateOperation & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -811,7 +835,7 @@ export type KeyVaultClientCreateCertificateResponse = CertificateOperation & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientImportCertificateOptionalParams
+export interface ImportCertificateOptionalParams
   extends coreHttp.OperationOptions {
   /** If the private key in base64EncodedCertificate is encrypted, the password used for encryption. */
   password?: string;
@@ -824,7 +848,7 @@ export interface KeyVaultClientImportCertificateOptionalParams
 }
 
 /** Contains response data for the importCertificate operation. */
-export type KeyVaultClientImportCertificateResponse = CertificateBundle & {
+export type ImportCertificateResponse = CertificateBundle & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -836,14 +860,14 @@ export type KeyVaultClientImportCertificateResponse = CertificateBundle & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientGetCertificateVersionsOptionalParams
+export interface GetCertificateVersionsOptionalParams
   extends coreHttp.OperationOptions {
   /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 
 /** Contains response data for the getCertificateVersions operation. */
-export type KeyVaultClientGetCertificateVersionsResponse = CertificateListResult & {
+export type GetCertificateVersionsResponse = CertificateListResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -854,20 +878,12 @@ export type KeyVaultClientGetCertificateVersionsResponse = CertificateListResult
   };
 };
 
+/** Optional parameters. */
+export interface GetCertificatePolicyOptionalParams
+  extends coreHttp.OperationOptions {}
+
 /** Contains response data for the getCertificatePolicy operation. */
-export type KeyVaultClientGetCertificatePolicyResponse = CertificatePolicy & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: CertificatePolicy;
-  };
-};
-
-/** Contains response data for the updateCertificatePolicy operation. */
-export type KeyVaultClientUpdateCertificatePolicyResponse = CertificatePolicy & {
+export type GetCertificatePolicyResponse = CertificatePolicy & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -879,7 +895,23 @@ export type KeyVaultClientUpdateCertificatePolicyResponse = CertificatePolicy & 
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientUpdateCertificateOptionalParams
+export interface UpdateCertificatePolicyOptionalParams
+  extends coreHttp.OperationOptions {}
+
+/** Contains response data for the updateCertificatePolicy operation. */
+export type UpdateCertificatePolicyResponse = CertificatePolicy & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: CertificatePolicy;
+  };
+};
+
+/** Optional parameters. */
+export interface UpdateCertificateOptionalParams
   extends coreHttp.OperationOptions {
   /** The management policy for the certificate. */
   certificatePolicy?: CertificatePolicy;
@@ -890,7 +922,7 @@ export interface KeyVaultClientUpdateCertificateOptionalParams
 }
 
 /** Contains response data for the updateCertificate operation. */
-export type KeyVaultClientUpdateCertificateResponse = CertificateBundle & {
+export type UpdateCertificateResponse = CertificateBundle & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -900,9 +932,13 @@ export type KeyVaultClientUpdateCertificateResponse = CertificateBundle & {
     parsedBody: CertificateBundle;
   };
 };
+
+/** Optional parameters. */
+export interface GetCertificateOptionalParams
+  extends coreHttp.OperationOptions {}
 
 /** Contains response data for the getCertificate operation. */
-export type KeyVaultClientGetCertificateResponse = CertificateBundle & {
+export type GetCertificateResponse = CertificateBundle & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -913,32 +949,12 @@ export type KeyVaultClientGetCertificateResponse = CertificateBundle & {
   };
 };
 
+/** Optional parameters. */
+export interface UpdateCertificateOperationOptionalParams
+  extends coreHttp.OperationOptions {}
+
 /** Contains response data for the updateCertificateOperation operation. */
-export type KeyVaultClientUpdateCertificateOperationResponse = CertificateOperation & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: CertificateOperation;
-  };
-};
-
-/** Contains response data for the getCertificateOperation operation. */
-export type KeyVaultClientGetCertificateOperationResponse = CertificateOperation & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: CertificateOperation;
-  };
-};
-
-/** Contains response data for the deleteCertificateOperation operation. */
-export type KeyVaultClientDeleteCertificateOperationResponse = CertificateOperation & {
+export type UpdateCertificateOperationResponse = CertificateOperation & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -950,7 +966,39 @@ export type KeyVaultClientDeleteCertificateOperationResponse = CertificateOperat
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientMergeCertificateOptionalParams
+export interface GetCertificateOperationOptionalParams
+  extends coreHttp.OperationOptions {}
+
+/** Contains response data for the getCertificateOperation operation. */
+export type GetCertificateOperationResponse = CertificateOperation & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: CertificateOperation;
+  };
+};
+
+/** Optional parameters. */
+export interface DeleteCertificateOperationOptionalParams
+  extends coreHttp.OperationOptions {}
+
+/** Contains response data for the deleteCertificateOperation operation. */
+export type DeleteCertificateOperationResponse = CertificateOperation & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: CertificateOperation;
+  };
+};
+
+/** Optional parameters. */
+export interface MergeCertificateOptionalParams
   extends coreHttp.OperationOptions {
   /** The attributes of the certificate (optional). */
   certificateAttributes?: CertificateAttributes;
@@ -959,7 +1007,7 @@ export interface KeyVaultClientMergeCertificateOptionalParams
 }
 
 /** Contains response data for the mergeCertificate operation. */
-export type KeyVaultClientMergeCertificateResponse = CertificateBundle & {
+export type MergeCertificateResponse = CertificateBundle & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -970,8 +1018,12 @@ export type KeyVaultClientMergeCertificateResponse = CertificateBundle & {
   };
 };
 
+/** Optional parameters. */
+export interface BackupCertificateOptionalParams
+  extends coreHttp.OperationOptions {}
+
 /** Contains response data for the backupCertificate operation. */
-export type KeyVaultClientBackupCertificateResponse = BackupCertificateResult & {
+export type BackupCertificateResponse = BackupCertificateResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -982,8 +1034,12 @@ export type KeyVaultClientBackupCertificateResponse = BackupCertificateResult & 
   };
 };
 
+/** Optional parameters. */
+export interface RestoreCertificateOptionalParams
+  extends coreHttp.OperationOptions {}
+
 /** Contains response data for the restoreCertificate operation. */
-export type KeyVaultClientRestoreCertificateResponse = CertificateBundle & {
+export type RestoreCertificateResponse = CertificateBundle & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -995,7 +1051,7 @@ export type KeyVaultClientRestoreCertificateResponse = CertificateBundle & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientGetDeletedCertificatesOptionalParams
+export interface GetDeletedCertificatesOptionalParams
   extends coreHttp.OperationOptions {
   /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
@@ -1004,7 +1060,7 @@ export interface KeyVaultClientGetDeletedCertificatesOptionalParams
 }
 
 /** Contains response data for the getDeletedCertificates operation. */
-export type KeyVaultClientGetDeletedCertificatesResponse = DeletedCertificateListResult & {
+export type GetDeletedCertificatesResponse = DeletedCertificateListResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -1015,8 +1071,12 @@ export type KeyVaultClientGetDeletedCertificatesResponse = DeletedCertificateLis
   };
 };
 
+/** Optional parameters. */
+export interface GetDeletedCertificateOptionalParams
+  extends coreHttp.OperationOptions {}
+
 /** Contains response data for the getDeletedCertificate operation. */
-export type KeyVaultClientGetDeletedCertificateResponse = DeletedCertificateBundle & {
+export type GetDeletedCertificateResponse = DeletedCertificateBundle & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -1027,8 +1087,16 @@ export type KeyVaultClientGetDeletedCertificateResponse = DeletedCertificateBund
   };
 };
 
+/** Optional parameters. */
+export interface PurgeDeletedCertificateOptionalParams
+  extends coreHttp.OperationOptions {}
+
+/** Optional parameters. */
+export interface RecoverDeletedCertificateOptionalParams
+  extends coreHttp.OperationOptions {}
+
 /** Contains response data for the recoverDeletedCertificate operation. */
-export type KeyVaultClientRecoverDeletedCertificateResponse = CertificateBundle & {
+export type RecoverDeletedCertificateResponse = CertificateBundle & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -1040,7 +1108,7 @@ export type KeyVaultClientRecoverDeletedCertificateResponse = CertificateBundle 
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientGetCertificatesNextOptionalParams
+export interface GetCertificatesNextOptionalParams
   extends coreHttp.OperationOptions {
   /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
@@ -1049,7 +1117,7 @@ export interface KeyVaultClientGetCertificatesNextOptionalParams
 }
 
 /** Contains response data for the getCertificatesNext operation. */
-export type KeyVaultClientGetCertificatesNextResponse = CertificateListResult & {
+export type GetCertificatesNextResponse = CertificateListResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -1061,14 +1129,14 @@ export type KeyVaultClientGetCertificatesNextResponse = CertificateListResult & 
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientGetCertificateIssuersNextOptionalParams
+export interface GetCertificateIssuersNextOptionalParams
   extends coreHttp.OperationOptions {
   /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 
 /** Contains response data for the getCertificateIssuersNext operation. */
-export type KeyVaultClientGetCertificateIssuersNextResponse = CertificateIssuerListResult & {
+export type GetCertificateIssuersNextResponse = CertificateIssuerListResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -1080,14 +1148,14 @@ export type KeyVaultClientGetCertificateIssuersNextResponse = CertificateIssuerL
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientGetCertificateVersionsNextOptionalParams
+export interface GetCertificateVersionsNextOptionalParams
   extends coreHttp.OperationOptions {
   /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 
 /** Contains response data for the getCertificateVersionsNext operation. */
-export type KeyVaultClientGetCertificateVersionsNextResponse = CertificateListResult & {
+export type GetCertificateVersionsNextResponse = CertificateListResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -1099,7 +1167,7 @@ export type KeyVaultClientGetCertificateVersionsNextResponse = CertificateListRe
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientGetDeletedCertificatesNextOptionalParams
+export interface GetDeletedCertificatesNextOptionalParams
   extends coreHttp.OperationOptions {
   /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
@@ -1108,7 +1176,7 @@ export interface KeyVaultClientGetDeletedCertificatesNextOptionalParams
 }
 
 /** Contains response data for the getDeletedCertificatesNext operation. */
-export type KeyVaultClientGetDeletedCertificatesNextResponse = DeletedCertificateListResult & {
+export type GetDeletedCertificatesNextResponse = DeletedCertificateListResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */

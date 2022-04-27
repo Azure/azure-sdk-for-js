@@ -6,6 +6,7 @@ import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
 import { CommonOptions } from "@azure/storage-blob";
 import { AbortSignalLike } from "@azure/core-http";
 import { AvroParseOptions } from "../../storage-internal-avro/src/AvroReader";
+import { rawEventToBlobChangeFeedEvent } from "./utils/utils.common";
 
 /**
  * Options to configure {@link Chunk.getChange} operation.
@@ -66,14 +67,7 @@ export class Chunk {
         return undefined;
       }
 
-      if (eventRaw.eventTime) {
-        eventRaw.eventTime = new Date(eventRaw.eventTime);
-      }
-      if (eventRaw.eTag) {
-        eventRaw.etag = eventRaw.eTag;
-        delete eventRaw.eTag;
-      }
-      return eventRaw as BlobChangeFeedEvent;
+      return rawEventToBlobChangeFeedEvent(eventRaw);
     }
   }
 }

@@ -4,6 +4,7 @@
    "method": "GET",
    "url": "https://endpoint/shortCodes",
    "query": {
+    "skip": "0",
     "top": "100",
     "api-version": "2021-10-25-preview"
    },
@@ -13,12 +14,12 @@
    "responseHeaders": {
     "api-supported-versions": "2021-10-25-preview",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 15 Nov 2021 22:40:34 GMT",
-    "ms-cv": "+674kVjwPES0vEbm6uOHag.0",
-    "request-context": "appId=",
-    "x-azure-ref": "04uGSYQAAAAC21OB5ieczR6VA/3Fnn9LRV1NURURHRTA4MTQAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+    "date": "Mon, 11 Apr 2022 19:08:00 GMT",
+    "ms-cv": "ktZIsXvF1EmilRMHNiVOvw.0",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0kHxUYgAAAAA2GIHaumMETozeRsJtS704TUVYMzBFREdFMDQxOAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "384ms"
+    "x-processing-time": "283ms"
    }
   }
  ],

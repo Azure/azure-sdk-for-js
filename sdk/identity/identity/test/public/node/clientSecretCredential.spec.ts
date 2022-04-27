@@ -3,10 +3,10 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import { env, delay, isRecordMode, Recorder } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
-import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
+import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { ClientSecretCredential } from "../../../src";
 import { Context } from "mocha";
 
@@ -56,17 +56,16 @@ describe("ClientSecretCredential", function () {
     let error: Error | undefined;
     try {
       await getTokenPromise;
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.ok(error?.message.includes("could not resolve endpoints"));
   });
 
-  it(
-    "supports tracing",
-    testTracing({
-      test: async (tracingOptions) => {
+  it("supports tracing", async () => {
+    await assert.supportsTracing(
+      async (tracingOptions) => {
         const credential = new ClientSecretCredential(
           env.AZURE_TENANT_ID!,
           env.AZURE_CLIENT_ID!,
@@ -74,18 +73,11 @@ describe("ClientSecretCredential", function () {
           recorder.configureClientOptions({})
         );
 
-        await credential.getToken(scope, {
-          tracingOptions,
-        });
+        await credential.getToken(scope, tracingOptions);
       },
-      children: [
-        {
-          name: "ClientSecretCredential.getToken",
-          children: [],
-        },
-      ],
-    })
-  );
+      ["ClientSecretCredential.getToken"]
+    );
+  });
 
   // TODO: Enable again once we're ready to release this feature.
   it.skip("supports specifying the regional authority", async function (this: Context) {

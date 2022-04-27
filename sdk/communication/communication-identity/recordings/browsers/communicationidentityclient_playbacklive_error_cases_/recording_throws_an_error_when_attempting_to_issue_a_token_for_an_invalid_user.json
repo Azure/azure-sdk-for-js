@@ -1,31 +1,56 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://endpoint/identities/sanitized/:issueAccessToken",
-   "query": {
-    "api-version": "2021-10-31-preview"
-   },
-   "requestBody": "{\"scopes\":[\"chat\",\"voip\"]}",
-   "status": 401,
-   "response": "{\"error\":{\"code\":\"IdentityNotOwned\",\"message\":\"Provided identity doesn't belong to the resource.\"}}",
-   "responseHeaders": {
-    "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview",
-    "content-type": "application/json",
-    "date": "Tue, 19 Oct 2021 15:50:04 GMT",
-    "ms-cv": "F9hLXWKaFkyuI0BRM8fK1w.0",
-    "request-context": "appId=",
-    "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0LeluYQAAAAB7MKqm6qCTRLCLuN1uq9BUUFJHMDFFREdFMDcxNABmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
-    "x-cache": "CONFIG_NOCACHE",
-    "x-ms-client-request-id": "00000000-0000-0000-0000-000000000000",
-    "x-processing-time": "19ms"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "10130256303a888bdac5e1fc0ff89de0"
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/identities/sanitized/:issueAccessToken?api-version=2021-10-31-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "cs",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "26",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "EqW/vFkRi/EMVlRLG6\u002Bkt0X27SowO7NytIh/miHOZlY=",
+        "x-ms-date": "Mon, 14 Mar 2022 08:16:36 GMT",
+        "x-ms-useragent": "azsdk-js-communication-identity/1.1.0-beta.2 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": {
+        "scopes": [
+          "chat",
+          "voip"
+        ]
+      },
+      "StatusCode": 401,
+      "ResponseHeaders": {
+        "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-03-31-preview1, 2021-10-31-preview, 2021-11-01, 2022-06-01",
+        "Content-Type": "application/json",
+        "Date": "Mon, 14 Mar 2022 08:16:39 GMT",
+        "MS-CV": "lZDV3hWs5UePRqwHOA08yQ.0",
+        "Request-Context": "appId=",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "05/kuYgAAAABUVQ\u002BveqB7S4ogw72UukoUUFJHMDFFREdFMDcxNQBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "x-ms-client-request-id": "sanitized",
+        "X-Processing-Time": "20ms"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "IdentityNotOwned",
+          "message": "Provided identity doesn\u0027t belong to the resource."
+        }
+      }
+    }
+  ],
+  "Variables": {}
 }

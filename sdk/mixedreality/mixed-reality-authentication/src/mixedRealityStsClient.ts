@@ -140,7 +140,7 @@ export class MixedRealityStsClient {
       const tokenResponse = await this.restClient.getToken(this.accountId, updatedOptions);
 
       return mapToAccessToken(tokenResponse);
-    } catch (e) {
+    } catch (e: any) {
       // There are different standard codes available for different errors:
       // https://github.com/open-telemetry/opentelemetry-specification/blob/master/specification/trace/api.md#status
       span.setStatus({

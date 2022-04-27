@@ -1,12 +1,10 @@
 # Release History
 
-## 7.6.0-beta.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 7.6.0-beta.1 (2022-04-05)
 
 ### Bugs Fixed
+
+- Correct typing of `propertiesToModify` options to `abandonMessages()`, `deferMessages()`, and "deadLetterMessages()" [PR #20577](https://github.com/Azure/azure-sdk-for-js/pull/20577)
 
 ### Other Changes
 

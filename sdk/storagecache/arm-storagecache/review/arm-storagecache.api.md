@@ -64,6 +64,25 @@ export interface AscOperationsGetOptionalParams extends coreClient.OperationOpti
 export type AscOperationsGetResponse = AscOperation;
 
 // @public
+export interface AscUsages {
+    list(location: string, options?: AscUsagesListOptionalParams): PagedAsyncIterableIterator<ResourceUsage>;
+}
+
+// @public
+export interface AscUsagesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AscUsagesListNextResponse = ResourceUsagesListResult;
+
+// @public
+export interface AscUsagesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AscUsagesListResponse = ResourceUsagesListResult;
+
+// @public
 export interface BlobNfsTarget {
     target?: string;
     usageModel?: string;
@@ -91,6 +110,7 @@ interface Cache_2 {
     };
     readonly type?: string;
     readonly upgradeStatus?: CacheUpgradeStatus;
+    zones?: string[];
 }
 export { Cache_2 as Cache }
 
@@ -641,6 +661,26 @@ export interface ResourceSkusResult {
 }
 
 // @public
+export interface ResourceUsage {
+    readonly currentValue?: number;
+    readonly limit?: number;
+    readonly name?: ResourceUsageName;
+    readonly unit?: string;
+}
+
+// @public
+export interface ResourceUsageName {
+    localizedValue?: string;
+    value?: string;
+}
+
+// @public
+export interface ResourceUsagesListResult {
+    readonly nextLink?: string;
+    readonly value?: ResourceUsage[];
+}
+
+// @public
 export interface Restriction {
     reasonCode?: ReasonCode;
     readonly type?: string;
@@ -675,6 +715,8 @@ export class StorageCacheManagementClient extends coreClient.ServiceClient {
     apiVersion: string;
     // (undocumented)
     ascOperations: AscOperations;
+    // (undocumented)
+    ascUsages: AscUsages;
     // (undocumented)
     caches: Caches;
     // (undocumented)
@@ -717,9 +759,17 @@ export interface StorageTargetFlushOptionalParams extends coreClient.OperationOp
 }
 
 // @public
+export interface StorageTargetInvalidateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface StorageTargetOperations {
     beginFlush(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetFlushOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginFlushAndWait(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetFlushOptionalParams): Promise<void>;
+    beginInvalidate(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetInvalidateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginInvalidateAndWait(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetInvalidateOptionalParams): Promise<void>;
     beginResume(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetResumeOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginResumeAndWait(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetResumeOptionalParams): Promise<void>;
     beginSuspend(resourceGroupName: string, cacheName: string, storageTargetName: string, options?: StorageTargetSuspendOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;

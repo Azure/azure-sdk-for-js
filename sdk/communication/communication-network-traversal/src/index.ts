@@ -7,4 +7,5 @@ export {
   CommunicationIceServer,
   CommunicationRelayConfiguration,
   RouteType,
+  KnownRouteType,
 } from "./generated/src/models";

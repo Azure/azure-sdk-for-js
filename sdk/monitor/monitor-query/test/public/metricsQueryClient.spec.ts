@@ -22,7 +22,7 @@ describe("MetricsClient live tests", function () {
     loggerForTest.verbose(`Recorder: starting...`);
     recorder = new Recorder(this.currentTest);
     const recordedClient: RecorderAndMetricsClient = await createRecorderAndMetricsClient(recorder);
-    ({ resourceId } = getMetricsArmResourceId(this));
+    ({ resourceId } = getMetricsArmResourceId());
     metricsQueryClient = recordedClient.client;
   });
 

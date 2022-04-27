@@ -1,6 +1,6 @@
 # Release History
 
-## 15.1.1 (Unreleased)
+## 15.2.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,13 @@
 
 ### Other Changes
 
+## 15.2.0 (2022-03-23)
+    
+**Features**
+
+  - Interface Resource has a new optional parameter systemData
+    
+    
 ## 15.1.0 (2022-02-24)
     
 **Features**

@@ -74,7 +74,7 @@ export function wrapProcessErrorHandler(
     try {
       args.error = translateServiceBusError(args.error);
       await handlers.processError(args);
-    } catch (err) {
+    } catch (err: any) {
       loggerParam.logError(err, `An error was thrown from the user's processError handler`);
     }
   };
@@ -108,7 +108,7 @@ export function abandonMessage(
   message: ServiceBusMessageImpl,
   context: ConnectionContext,
   entityPath: string,
-  propertiesToModify: { [key: string]: any } | undefined,
+  propertiesToModify: { [key: string]: number | boolean | string | Date | null } | undefined,
   retryOptions: RetryOptions | undefined
 ): Promise<void> {
   receiverLogger.verbose(
@@ -130,7 +130,7 @@ export function deferMessage(
   message: ServiceBusMessageImpl,
   context: ConnectionContext,
   entityPath: string,
-  propertiesToModify: { [key: string]: any } | undefined,
+  propertiesToModify: { [key: string]: number | boolean | string | Date | null } | undefined,
   retryOptions: RetryOptions | undefined
 ): Promise<void> {
   receiverLogger.verbose(
@@ -152,7 +152,9 @@ export function deadLetterMessage(
   message: ServiceBusMessageImpl,
   context: ConnectionContext,
   entityPath: string,
-  propertiesToModify: (DeadLetterOptions & { [key: string]: any }) | undefined,
+  propertiesToModify:
+    | (DeadLetterOptions & { [key: string]: number | boolean | string | Date | null })
+    | undefined,
   retryOptions: RetryOptions | undefined
 ): Promise<void> {
   receiverLogger.verbose(
@@ -344,7 +346,7 @@ export async function retryForever<T>(
 
     try {
       return await retryFn(args.retryConfig);
-    } catch (err) {
+    } catch (err: any) {
       // if the user aborts the operation we're immediately done.
       // AbortError is also thrown by linkEntity.init() if the connection has been
       // permanently closed.
@@ -357,7 +359,7 @@ export async function retryForever<T>(
       // redundant reports of errors while still providing them incremental status on failures.
       try {
         args.onError(err);
-      } catch (error) {
+      } catch (error: any) {
         logger.error("args.onerror has thrown", error);
       }
 

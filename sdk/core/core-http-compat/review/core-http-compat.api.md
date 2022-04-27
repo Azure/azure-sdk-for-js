@@ -4,9 +4,21 @@
 
 ```ts
 
+import { AbortSignalLike } from '@azure/abort-controller';
 import { CommonClientOptions } from '@azure/core-client';
+import { FullOperationResponse } from '@azure/core-client';
+import { HttpMethods } from '@azure/core-rest-pipeline';
+import { OperationArguments } from '@azure/core-client';
+import { OperationSpec } from '@azure/core-client';
+import { ProxySettings } from '@azure/core-rest-pipeline';
 import { ServiceClient } from '@azure/core-client';
 import { ServiceClientOptions } from '@azure/core-client';
+
+// @public
+export interface CompatResponse extends Omit<FullOperationResponse, "request" | "headers"> {
+    headers: HttpHeadersLike;
+    request: WebResourceLike;
+}
 
 // @public (undocumented)
 export const disbaleKeepAlivePolicyName = "DisableKeepAlivePolicy";
@@ -23,10 +35,33 @@ export type ExtendedCommonClientOptions = CommonClientOptions & ExtendedClientOp
 // @public
 export class ExtendedServiceClient extends ServiceClient {
     constructor(options: ExtendedServiceClientOptions);
+    sendOperationRequest<T>(operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<T>;
 }
 
 // @public
 export type ExtendedServiceClientOptions = ServiceClientOptions & ExtendedClientOptions;
+
+// @public
+export interface HttpHeader {
+    name: string;
+    value: string;
+}
+
+// @public
+export interface HttpHeadersLike {
+    clone(): HttpHeadersLike;
+    contains(headerName: string): boolean;
+    get(headerName: string): string | undefined;
+    headerNames(): string[];
+    headersArray(): HttpHeader[];
+    headerValues(): string[];
+    rawHeaders(): RawHttpHeaders;
+    remove(headerName: string): boolean;
+    set(headerName: string, headerValue: string | number): void;
+    toJson(options?: {
+        preserveCase?: boolean;
+    }): RawHttpHeaders;
+}
 
 // @public
 export interface KeepAliveOptions {
@@ -34,9 +69,43 @@ export interface KeepAliveOptions {
 }
 
 // @public
+export type RawHttpHeaders = {
+    [headerName: string]: string;
+};
+
+// @public
 export interface RedirectOptions {
     handleRedirects?: boolean;
     maxRetries?: number;
+}
+
+// @public
+export type TransferProgressEvent = {
+    loadedBytes: number;
+};
+
+// @public
+export interface WebResourceLike {
+    abortSignal?: AbortSignalLike;
+    body?: any;
+    decompressResponse?: boolean;
+    formData?: any;
+    headers: HttpHeadersLike;
+    keepAlive?: boolean;
+    method: HttpMethods;
+    onDownloadProgress?: (progress: TransferProgressEvent) => void;
+    onUploadProgress?: (progress: TransferProgressEvent) => void;
+    proxySettings?: ProxySettings;
+    query?: {
+        [key: string]: any;
+    };
+    requestId: string;
+    // @deprecated
+    streamResponseBody?: boolean;
+    streamResponseStatusCodes?: Set<number>;
+    timeout: number;
+    url: string;
+    withCredentials: boolean;
 }
 
 ```

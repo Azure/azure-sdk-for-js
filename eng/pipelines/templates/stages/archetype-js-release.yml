@@ -13,6 +13,8 @@ stages:
   - ${{if and(in(variables['Build.Reason'], 'Manual', ''), eq(variables['System.TeamProject'], 'internal'))}}:
     - ${{ each artifact in parameters.Artifacts }}:
       - stage:
+        variables:
+        - template: /eng/pipelines/templates/variables/globals.yml
         displayName: 'Release: ${{artifact.name}}'
         dependsOn: ${{parameters.DependsOn}}
         condition: and(succeeded(), ne(variables['SetDevVersion'], 'true'), ne(variables['Skip.Release'], 'true'), ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js-pr'))
@@ -193,9 +195,6 @@ stages:
                 name: azsdk-pool-mms-ubuntu-2004-general
                 vmImage: MMSUbuntu20.04
 
-              variables:
-                - template: /eng/pipelines/templates/variables/globals.yml
-
               strategy:
                 runOnce:
                   deploy:
@@ -243,6 +242,8 @@ stages:
 
   - stage: Integration
     dependsOn: ${{parameters.DependsOn}}
+    variables:
+    - template: /eng/pipelines/templates/variables/globals.yml
     jobs:
     - job: PublishPackages
       # Run Integration job only if SetDevVersion is set to true or ( SetDevVersion is empty and job is a scheduled CI run)
@@ -288,7 +289,7 @@ stages:
                 arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "dev" -registry "$(Registry)" -npmToken "$(NpmToken)"'
 
     - job: PublishDocsToNightlyBranch
-      condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal')))
+      condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'),  ne(variables['Skip.PublishDocs'], 'true')))
       dependsOn: PublishPackages
       pool:
         name: azsdk-pool-mms-ubuntu-2004-general

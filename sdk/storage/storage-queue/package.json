@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-queue",
   "sdk-type": "client",
-  "version": "12.8.0",
+  "version": "12.8.1",
   "description": "Microsoft Azure Storage SDK for JavaScript - Queue",
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
@@ -11,6 +11,9 @@
     "./dist-esm/test/utils/index.js": "./dist-esm/test/utils/index.browser.js",
     "os": false,
     "process": false
+  },
+  "react-native": {
+    "./dist/index.js": "./dist-esm/src/index.js"
   },
   "types": "./types/latest/storage-queue.d.ts",
   "typesVersions": {
@@ -127,7 +130,7 @@
     "@azure/identity": "^2.0.1",
     "@azure/test-utils": "^1.0.0",
     "@azure-tools/test-recorder": "^1.0.0",
-    "@microsoft/api-extractor": "^7.18.11",
+    "@microsoft/api-extractor": "7.18.11",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
@@ -156,7 +159,7 @@
     "mocha-junit-reporter": "^2.0.0",
     "nyc": "^15.0.0",
     "prettier": "^2.5.1",
-    "puppeteer": "^10.2.0",
+    "puppeteer": "^13.5.1",
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",

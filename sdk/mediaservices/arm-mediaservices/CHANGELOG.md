@@ -1,6 +1,6 @@
 # Release History
 
-## 10.0.1 (Unreleased)
+## 11.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,80 @@
 
 ### Other Changes
 
+## 11.0.0 (2022-04-14)
+    
+**Features**
+
+  - Added operation group OperationResults
+  - Added operation group OperationStatuses
+  - Added operation group Tracks
+  - Added operation StreamingEndpoints.skus
+  - Added Interface ArmStreamingEndpointCapacity
+  - Added Interface ArmStreamingEndpointCurrentSku
+  - Added Interface ArmStreamingEndpointSku
+  - Added Interface ArmStreamingEndpointSkuInfo
+  - Added Interface AssetTrackCollection
+  - Added Interface AssetTrackOperationStatus
+  - Added Interface HlsSettings
+  - Added Interface OperationResultsGetHeaders
+  - Added Interface OperationResultsGetOptionalParams
+  - Added Interface OperationStatusesGetOptionalParams
+  - Added Interface StreamingEndpointSkuInfoListResult
+  - Added Interface StreamingEndpointsSkusOptionalParams
+  - Added Interface TrackBase
+  - Added Interface TracksCreateOrUpdateHeaders
+  - Added Interface TracksCreateOrUpdateOptionalParams
+  - Added Interface TracksDeleteHeaders
+  - Added Interface TracksDeleteOptionalParams
+  - Added Interface TracksGetOptionalParams
+  - Added Interface TracksListOptionalParams
+  - Added Interface TracksUpdateHeaders
+  - Added Interface TracksUpdateOptionalParams
+  - Added Interface TracksUpdateTrackDataHeaders
+  - Added Interface TracksUpdateTrackDataOptionalParams
+  - Added Type Alias AssetTrack
+  - Added Type Alias AudioTrack
+  - Added Type Alias H264RateControlMode
+  - Added Type Alias OperationResultsGetResponse
+  - Added Type Alias OperationStatusesGetResponse
+  - Added Type Alias ProvisioningState
+  - Added Type Alias StreamingEndpointsSkusResponse
+  - Added Type Alias TextTrack_2
+  - Added Type Alias TrackBaseUnion
+  - Added Type Alias TracksCreateOrUpdateResponse
+  - Added Type Alias TracksDeleteResponse
+  - Added Type Alias TracksGetResponse
+  - Added Type Alias TracksListResponse
+  - Added Type Alias TracksUpdateResponse
+  - Added Type Alias TracksUpdateTrackDataResponse
+  - Added Type Alias VideoTrack
+  - Added Type Alias Visibility
+  - Class AzureMediaServices has a new parameter operationResults
+  - Class AzureMediaServices has a new parameter operationStatuses
+  - Class AzureMediaServices has a new parameter tracks
+  - Type Alias H264Layer has a new parameter crf
+  - Type Alias H264Video has a new parameter rateControlMode
+  - Type Alias H265Layer has a new parameter crf
+  - Type Alias StreamingEndpoint has a new parameter sku
+  - Added Enum KnownH264RateControlMode
+  - Added Enum KnownProvisioningState
+  - Added Enum KnownVisibility
+  - Enum KnownH265VideoProfile has a new value Main10
+  - Enum KnownStreamOptionsFlag has a new value LowLatencyV2
+
+**Breaking Changes**
+
+  - Interface AzureMediaServicesOptionalParams no longer has parameter apiVersion
+  - Interface Layer no longer has parameter odataType
+  - Class AzureMediaServices no longer has parameter apiVersion
+  - Type Alias H264Layer no longer has parameter odataType
+  - Type Alias H265Layer no longer has parameter odataType
+  - Type Alias H265VideoLayer no longer has parameter odataType
+  - Type Alias JpgLayer no longer has parameter odataType
+  - Type Alias PngLayer no longer has parameter odataType
+  - Type Alias VideoLayer no longer has parameter odataType
+    
+    
 ## 10.0.0 (2021-12-13)
 
 The package of @azure/arm-mediaservices is using our next generation design principles since version 10.0.0, which contains breaking changes.

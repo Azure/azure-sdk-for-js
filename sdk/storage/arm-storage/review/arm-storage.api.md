@@ -18,7 +18,7 @@ export interface AccessPolicy {
 }
 
 // @public
-export type AccessTier = "Hot" | "Cool";
+export type AccessTier = "Hot" | "Cool" | "Premium";
 
 // @public
 export interface AccountImmutabilityPolicyProperties {
@@ -308,7 +308,9 @@ export interface BlobInventoryPolicyDefinition {
 // @public
 export interface BlobInventoryPolicyFilter {
     blobTypes?: string[];
+    excludePrefix?: string[];
     includeBlobVersions?: boolean;
+    includeDeleted?: boolean;
     includeSnapshots?: boolean;
     prefixMatch?: string[];
 }
@@ -326,6 +328,7 @@ export interface BlobInventoryPolicyRule {
 
 // @public
 export interface BlobInventoryPolicySchema {
+    readonly destination?: string;
     enabled: boolean;
     rules: BlobInventoryPolicyRule[];
     type: InventoryRuleType;
@@ -459,11 +462,14 @@ export interface CustomDomain {
 // @public
 export interface DateAfterCreation {
     daysAfterCreationGreaterThan: number;
+    daysAfterLastTierChangeGreaterThan?: number;
 }
 
 // @public
 export interface DateAfterModification {
+    daysAfterCreationGreaterThan?: number;
     daysAfterLastAccessTimeGreaterThan?: number;
+    daysAfterLastTierChangeGreaterThan?: number;
     daysAfterModificationGreaterThan?: number;
 }
 
@@ -523,6 +529,7 @@ export interface DeletedShare {
 
 // @public
 export interface DeleteRetentionPolicy {
+    allowPermanentDelete?: boolean;
     days?: number;
     enabled?: boolean;
 }
@@ -535,6 +542,9 @@ export interface Dimension {
 
 // @public
 export type DirectoryServiceOptions = string;
+
+// @public
+export type DnsEndpointType = string;
 
 // @public
 export type EnabledProtocols = string;
@@ -950,6 +960,7 @@ export { KeyType_2 as KeyType }
 
 // @public
 export interface KeyVaultProperties {
+    readonly currentVersionedKeyExpirationTimestamp?: Date;
     readonly currentVersionedKeyIdentifier?: string;
     keyName?: string;
     keyVaultUri?: string;
@@ -1027,6 +1038,8 @@ export enum KnownCorsRuleAllowedMethodsItem {
     // (undocumented)
     Options = "OPTIONS",
     // (undocumented)
+    Patch = "PATCH",
+    // (undocumented)
     Post = "POST",
     // (undocumented)
     PUT = "PUT"
@@ -1064,6 +1077,14 @@ export enum KnownDirectoryServiceOptions {
     AD = "AD",
     // (undocumented)
     None = "None"
+}
+
+// @public
+export enum KnownDnsEndpointType {
+    // (undocumented)
+    AzureDnsZone = "AzureDnsZone",
+    // (undocumented)
+    Standard = "Standard"
 }
 
 // @public
@@ -1430,6 +1451,16 @@ export enum KnownSignedResourceTypes {
     O = "o",
     // (undocumented)
     S = "s"
+}
+
+// @public
+export enum KnownSkuConversionStatus {
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    InProgress = "InProgress",
+    // (undocumented)
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -2236,6 +2267,9 @@ export interface SKUCapability {
 }
 
 // @public
+export type SkuConversionStatus = string;
+
+// @public
 export interface SkuInformation {
     readonly capabilities?: SKUCapability[];
     readonly kind?: Kind;
@@ -2324,6 +2358,8 @@ export type StorageAccount = TrackedResource & {
     publicNetworkAccess?: PublicNetworkAccess;
     immutableStorageWithVersioning?: ImmutableStorageAccount;
     allowedCopyScope?: AllowedCopyScope;
+    storageAccountSkuConversionStatus?: StorageAccountSkuConversionStatus;
+    dnsEndpointType?: DnsEndpointType;
 };
 
 // @public
@@ -2342,6 +2378,7 @@ export interface StorageAccountCreateParameters {
     azureFilesIdentityBasedAuthentication?: AzureFilesIdentityBasedAuthentication;
     customDomain?: CustomDomain;
     defaultToOAuthAuthentication?: boolean;
+    dnsEndpointType?: DnsEndpointType;
     enableHttpsTrafficOnly?: boolean;
     enableNfsV3?: boolean;
     encryption?: Encryption;
@@ -2483,6 +2520,14 @@ export interface StorageAccountsHierarchicalNamespaceMigrationOptionalParams ext
 }
 
 // @public
+export interface StorageAccountSkuConversionStatus {
+    readonly endTime?: string;
+    readonly skuConversionStatus?: SkuConversionStatus;
+    readonly startTime?: string;
+    targetSkuName?: SkuName;
+}
+
+// @public
 export interface StorageAccountsListAccountSASOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -2568,6 +2613,7 @@ export interface StorageAccountUpdateParameters {
     azureFilesIdentityBasedAuthentication?: AzureFilesIdentityBasedAuthentication;
     customDomain?: CustomDomain;
     defaultToOAuthAuthentication?: boolean;
+    dnsEndpointType?: DnsEndpointType;
     enableHttpsTrafficOnly?: boolean;
     encryption?: Encryption;
     identity?: Identity;
@@ -2672,10 +2718,19 @@ export interface SystemData {
 // @public
 export type Table = Resource & {
     readonly tableName?: string;
+    signedIdentifiers?: TableSignedIdentifier[];
 };
 
 // @public
+export interface TableAccessPolicy {
+    expiryTime?: Date;
+    permission: string;
+    startTime?: Date;
+}
+
+// @public
 export interface TableCreateOptionalParams extends coreClient.OperationOptions {
+    parameters?: Table;
 }
 
 // @public
@@ -2749,7 +2804,14 @@ export interface TableServicesSetServicePropertiesOptionalParams extends coreCli
 export type TableServicesSetServicePropertiesResponse = TableServiceProperties;
 
 // @public
+export interface TableSignedIdentifier {
+    accessPolicy?: TableAccessPolicy;
+    id: string;
+}
+
+// @public
 export interface TableUpdateOptionalParams extends coreClient.OperationOptions {
+    parameters?: Table;
 }
 
 // @public

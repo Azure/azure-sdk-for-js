@@ -214,23 +214,23 @@ export type DeletedSecretItem = SecretItem & {
   readonly deletedDate?: Date;
 };
 
-/** Known values of {@link ApiVersion73Preview} that the service accepts. */
-export const enum KnownApiVersion73Preview {
-  /** Api Version '7.3-preview' */
-  Seven3Preview = "7.3-preview"
+/** Known values of {@link ApiVersion73} that the service accepts. */
+export enum KnownApiVersion73 {
+  /** Api Version '7.3' */
+  Seven3 = "7.3"
 }
 
 /**
- * Defines values for ApiVersion73Preview. \
- * {@link KnownApiVersion73Preview} can be used interchangeably with ApiVersion73Preview,
+ * Defines values for ApiVersion73. \
+ * {@link KnownApiVersion73} can be used interchangeably with ApiVersion73,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
- * **7.3-preview**: Api Version '7.3-preview'
+ * ### Known values supported by the service
+ * **7.3**: Api Version '7.3'
  */
-export type ApiVersion73Preview = string;
+export type ApiVersion73 = string;
 
 /** Known values of {@link DeletionRecoveryLevel} that the service accepts. */
-export const enum KnownDeletionRecoveryLevel {
+export enum KnownDeletionRecoveryLevel {
   /** Denotes a vault state in which deletion is an irreversible operation, without the possibility for recovery. This level corresponds to no protection being available against a Delete operation; the data is irretrievably lost upon accepting a Delete operation at the entity level or higher (vault, resource group, subscription etc.) */
   Purgeable = "Purgeable",
   /** Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval (90 days), unless a Purge operation is requested, or the subscription is cancelled. System wil permanently delete it after 90 days, if not recovered */
@@ -251,7 +251,7 @@ export const enum KnownDeletionRecoveryLevel {
  * Defines values for DeletionRecoveryLevel. \
  * {@link KnownDeletionRecoveryLevel} can be used interchangeably with DeletionRecoveryLevel,
  *  this enum contains the known values that the service supports.
- * ### Know values supported by the service
+ * ### Known values supported by the service
  * **Purgeable**: Denotes a vault state in which deletion is an irreversible operation, without the possibility for recovery. This level corresponds to no protection being available against a Delete operation; the data is irretrievably lost upon accepting a Delete operation at the entity level or higher (vault, resource group, subscription etc.) \
  * **Recoverable+Purgeable**: Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval (90 days), unless a Purge operation is requested, or the subscription is cancelled. System wil permanently delete it after 90 days, if not recovered \
  * **Recoverable**: Denotes a vault state in which deletion is recoverable without the possibility for immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval(90 days) and while the subscription is still available. System wil permanently delete it after 90 days, if not recovered \
@@ -263,8 +263,7 @@ export const enum KnownDeletionRecoveryLevel {
 export type DeletionRecoveryLevel = string;
 
 /** Optional parameters. */
-export interface KeyVaultClientSetSecretOptionalParams
-  extends coreHttp.OperationOptions {
+export interface SetSecretOptionalParams extends coreHttp.OperationOptions {
   /** Application specific metadata in the form of key-value pairs. */
   tags?: { [propertyName: string]: string };
   /** Type of the secret value such as a password. */
@@ -274,7 +273,7 @@ export interface KeyVaultClientSetSecretOptionalParams
 }
 
 /** Contains response data for the setSecret operation. */
-export type KeyVaultClientSetSecretResponse = SecretBundle & {
+export type SetSecretResponse = SecretBundle & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -285,8 +284,11 @@ export type KeyVaultClientSetSecretResponse = SecretBundle & {
   };
 };
 
+/** Optional parameters. */
+export interface DeleteSecretOptionalParams extends coreHttp.OperationOptions {}
+
 /** Contains response data for the deleteSecret operation. */
-export type KeyVaultClientDeleteSecretResponse = DeletedSecretBundle & {
+export type DeleteSecretResponse = DeletedSecretBundle & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -298,8 +300,7 @@ export type KeyVaultClientDeleteSecretResponse = DeletedSecretBundle & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientUpdateSecretOptionalParams
-  extends coreHttp.OperationOptions {
+export interface UpdateSecretOptionalParams extends coreHttp.OperationOptions {
   /** Type of the secret value such as a password. */
   contentType?: string;
   /** The secret management attributes. */
@@ -309,19 +310,7 @@ export interface KeyVaultClientUpdateSecretOptionalParams
 }
 
 /** Contains response data for the updateSecret operation. */
-export type KeyVaultClientUpdateSecretResponse = SecretBundle & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SecretBundle;
-  };
-};
-
-/** Contains response data for the getSecret operation. */
-export type KeyVaultClientGetSecretResponse = SecretBundle & {
+export type UpdateSecretResponse = SecretBundle & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -333,14 +322,28 @@ export type KeyVaultClientGetSecretResponse = SecretBundle & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientGetSecretsOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GetSecretOptionalParams extends coreHttp.OperationOptions {}
+
+/** Contains response data for the getSecret operation. */
+export type GetSecretResponse = SecretBundle & {
+  /** The underlying HTTP response. */
+  _response: coreHttp.HttpResponse & {
+    /** The response body as text (string format) */
+    bodyAsText: string;
+
+    /** The response body as parsed JSON or XML */
+    parsedBody: SecretBundle;
+  };
+};
+
+/** Optional parameters. */
+export interface GetSecretsOptionalParams extends coreHttp.OperationOptions {
   /** Maximum number of results to return in a page. If not specified, the service will return up to 25 results. */
   maxresults?: number;
 }
 
 /** Contains response data for the getSecrets operation. */
-export type KeyVaultClientGetSecretsResponse = SecretListResult & {
+export type GetSecretsResponse = SecretListResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -352,14 +355,14 @@ export type KeyVaultClientGetSecretsResponse = SecretListResult & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientGetSecretVersionsOptionalParams
+export interface GetSecretVersionsOptionalParams
   extends coreHttp.OperationOptions {
   /** Maximum number of results to return in a page. If not specified, the service will return up to 25 results. */
   maxresults?: number;
 }
 
 /** Contains response data for the getSecretVersions operation. */
-export type KeyVaultClientGetSecretVersionsResponse = SecretListResult & {
+export type GetSecretVersionsResponse = SecretListResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -371,14 +374,14 @@ export type KeyVaultClientGetSecretVersionsResponse = SecretListResult & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientGetDeletedSecretsOptionalParams
+export interface GetDeletedSecretsOptionalParams
   extends coreHttp.OperationOptions {
   /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 
 /** Contains response data for the getDeletedSecrets operation. */
-export type KeyVaultClientGetDeletedSecretsResponse = DeletedSecretListResult & {
+export type GetDeletedSecretsResponse = DeletedSecretListResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -389,8 +392,12 @@ export type KeyVaultClientGetDeletedSecretsResponse = DeletedSecretListResult & 
   };
 };
 
+/** Optional parameters. */
+export interface GetDeletedSecretOptionalParams
+  extends coreHttp.OperationOptions {}
+
 /** Contains response data for the getDeletedSecret operation. */
-export type KeyVaultClientGetDeletedSecretResponse = DeletedSecretBundle & {
+export type GetDeletedSecretResponse = DeletedSecretBundle & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -401,8 +408,16 @@ export type KeyVaultClientGetDeletedSecretResponse = DeletedSecretBundle & {
   };
 };
 
+/** Optional parameters. */
+export interface PurgeDeletedSecretOptionalParams
+  extends coreHttp.OperationOptions {}
+
+/** Optional parameters. */
+export interface RecoverDeletedSecretOptionalParams
+  extends coreHttp.OperationOptions {}
+
 /** Contains response data for the recoverDeletedSecret operation. */
-export type KeyVaultClientRecoverDeletedSecretResponse = SecretBundle & {
+export type RecoverDeletedSecretResponse = SecretBundle & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -413,8 +428,11 @@ export type KeyVaultClientRecoverDeletedSecretResponse = SecretBundle & {
   };
 };
 
+/** Optional parameters. */
+export interface BackupSecretOptionalParams extends coreHttp.OperationOptions {}
+
 /** Contains response data for the backupSecret operation. */
-export type KeyVaultClientBackupSecretResponse = BackupSecretResult & {
+export type BackupSecretResponse = BackupSecretResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -425,8 +443,12 @@ export type KeyVaultClientBackupSecretResponse = BackupSecretResult & {
   };
 };
 
+/** Optional parameters. */
+export interface RestoreSecretOptionalParams
+  extends coreHttp.OperationOptions {}
+
 /** Contains response data for the restoreSecret operation. */
-export type KeyVaultClientRestoreSecretResponse = SecretBundle & {
+export type RestoreSecretResponse = SecretBundle & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -438,14 +460,14 @@ export type KeyVaultClientRestoreSecretResponse = SecretBundle & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientGetSecretsNextOptionalParams
+export interface GetSecretsNextOptionalParams
   extends coreHttp.OperationOptions {
   /** Maximum number of results to return in a page. If not specified, the service will return up to 25 results. */
   maxresults?: number;
 }
 
 /** Contains response data for the getSecretsNext operation. */
-export type KeyVaultClientGetSecretsNextResponse = SecretListResult & {
+export type GetSecretsNextResponse = SecretListResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -457,14 +479,14 @@ export type KeyVaultClientGetSecretsNextResponse = SecretListResult & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientGetSecretVersionsNextOptionalParams
+export interface GetSecretVersionsNextOptionalParams
   extends coreHttp.OperationOptions {
   /** Maximum number of results to return in a page. If not specified, the service will return up to 25 results. */
   maxresults?: number;
 }
 
 /** Contains response data for the getSecretVersionsNext operation. */
-export type KeyVaultClientGetSecretVersionsNextResponse = SecretListResult & {
+export type GetSecretVersionsNextResponse = SecretListResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */
@@ -476,14 +498,14 @@ export type KeyVaultClientGetSecretVersionsNextResponse = SecretListResult & {
 };
 
 /** Optional parameters. */
-export interface KeyVaultClientGetDeletedSecretsNextOptionalParams
+export interface GetDeletedSecretsNextOptionalParams
   extends coreHttp.OperationOptions {
   /** Maximum number of results to return in a page. If not specified the service will return up to 25 results. */
   maxresults?: number;
 }
 
 /** Contains response data for the getDeletedSecretsNext operation. */
-export type KeyVaultClientGetDeletedSecretsNextResponse = DeletedSecretListResult & {
+export type GetDeletedSecretsNextResponse = DeletedSecretListResult & {
   /** The underlying HTTP response. */
   _response: coreHttp.HttpResponse & {
     /** The response body as text (string format) */

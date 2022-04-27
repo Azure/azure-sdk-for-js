@@ -61,6 +61,12 @@ export interface ErrorAdditionalInfo {
 export interface InterfaceProperties {
   /** The logical name for this interface. This should match one of the interfaces configured on your Azure Stack Edge machine. */
   name: string;
+  /** The IPv4 address. */
+  ipv4Address?: string;
+  /** The IPv4 subnet. */
+  ipv4Subnet?: string;
+  /** The default IPv4 gateway (router). */
+  ipv4Gateway?: string;
 }
 
 /** The Network Address and Port Translation settings to use for the attached data network. */
@@ -126,6 +132,27 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** Tags object for patch operations. */
@@ -485,18 +512,6 @@ export type PccRuleQosPolicy = QosPolicy & {
 
 /** Attached data network resource. */
 export type AttachedDataNetwork = TrackedResource & {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
   /**
    * The provisioning state of the attached data network resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -524,18 +539,6 @@ export type AttachedDataNetwork = TrackedResource & {
 
 /** Data network resource. */
 export type DataNetwork = TrackedResource & {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
   /**
    * The provisioning state of the data network resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -547,18 +550,6 @@ export type DataNetwork = TrackedResource & {
 
 /** Mobile network resource. */
 export type MobileNetwork = TrackedResource & {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
   /**
    * The provisioning state of the mobile network resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -575,18 +566,6 @@ export type MobileNetwork = TrackedResource & {
 
 /** Site resource. */
 export type Site = TrackedResource & {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
   /**
    * The provisioning state of the site resource. **TODO**: Confirm if this is needed
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -598,28 +577,16 @@ export type Site = TrackedResource & {
 
 /** Sim resource. */
 export type Sim = TrackedResource & {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
   /**
    * The provisioning state of the sim resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
   /**
-   * The configuration state of the sim resource - complete or incomplete.
+   * The state of the sim resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly configurationState?: ConfigurationState;
+  readonly simState?: SimState;
   /** The International Mobile Subscriber Identity (IMSI) for the sim. */
   internationalMobileSubscriberIdentity: string;
   /** The Integrated Circuit Card ID (ICC Id) for the sim. */
@@ -640,18 +607,6 @@ export type Sim = TrackedResource & {
 
 /** Packet core control plane resource. */
 export type PacketCoreControlPlane = TrackedResource & {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
   /**
    * The provisioning state of the packet core control plane resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -671,18 +626,6 @@ export type PacketCoreControlPlane = TrackedResource & {
 
 /** Packet core data plane resource. */
 export type PacketCoreDataPlane = TrackedResource & {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
   /**
    * The provisioning state of the packet core data plane resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -694,18 +637,6 @@ export type PacketCoreDataPlane = TrackedResource & {
 
 /** Service resource. */
 export type Service = TrackedResource & {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
   /**
    * The provisioning state of the service resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -721,18 +652,6 @@ export type Service = TrackedResource & {
 
 /** Sim policy resource. */
 export type SimPolicy = TrackedResource & {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
   /**
    * The provisioning state of the sim policy resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -752,18 +671,6 @@ export type SimPolicy = TrackedResource & {
 
 /** Network slice resource. */
 export type Slice = TrackedResource & {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
   /**
    * The provisioning state of the network slice resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -803,7 +710,9 @@ export type ProvisioningState = string;
 
 /** Known values of {@link NaptEnabled} that the service accepts. */
 export enum KnownNaptEnabled {
+  /** NAPT is enabled */
   Enabled = "Enabled",
+  /** NAPT is disabled */
   Disabled = "Disabled"
 }
 
@@ -812,8 +721,8 @@ export enum KnownNaptEnabled {
  * {@link KnownNaptEnabled} can be used interchangeably with NaptEnabled,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enabled** \
- * **Disabled**
+ * **Enabled**: NAPT is enabled \
+ * **Disabled**: NAPT is disabled
  */
 export type NaptEnabled = string;
 
@@ -837,25 +746,32 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
-/** Known values of {@link ConfigurationState} that the service accepts. */
-export enum KnownConfigurationState {
-  Incomplete = "Incomplete",
-  Complete = "Complete"
+/** Known values of {@link SimState} that the service accepts. */
+export enum KnownSimState {
+  /** The sim is disabled because not all configuration required for enabling is present. */
+  Disabled = "Disabled",
+  /** The sim is enabled. */
+  Enabled = "Enabled",
+  /** The sim cannot be enabled because some of the associated configuration is invalid. */
+  Invalid = "Invalid"
 }
 
 /**
- * Defines values for ConfigurationState. \
- * {@link KnownConfigurationState} can be used interchangeably with ConfigurationState,
+ * Defines values for SimState. \
+ * {@link KnownSimState} can be used interchangeably with SimState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Incomplete** \
- * **Complete**
+ * **Disabled**: The sim is disabled because not all configuration required for enabling is present. \
+ * **Enabled**: The sim is enabled. \
+ * **Invalid**: The sim cannot be enabled because some of the associated configuration is invalid.
  */
-export type ConfigurationState = string;
+export type SimState = string;
 
 /** Known values of {@link CoreNetworkType} that the service accepts. */
 export enum KnownCoreNetworkType {
+  /** 5G core */
   FiveGC = "5GC",
+  /** EPC / 4G core */
   EPC = "EPC"
 }
 
@@ -864,14 +780,16 @@ export enum KnownCoreNetworkType {
  * {@link KnownCoreNetworkType} can be used interchangeably with CoreNetworkType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **5GC** \
- * **EPC**
+ * **5GC**: 5G core \
+ * **EPC**: EPC \/ 4G core
  */
 export type CoreNetworkType = string;
 
 /** Known values of {@link PreemptionCapability} that the service accepts. */
 export enum KnownPreemptionCapability {
+  /** Cannot preempt */
   NotPreempt = "NotPreempt",
+  /** May preempt */
   MayPreempt = "MayPreempt"
 }
 
@@ -880,14 +798,16 @@ export enum KnownPreemptionCapability {
  * {@link KnownPreemptionCapability} can be used interchangeably with PreemptionCapability,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **NotPreempt** \
- * **MayPreempt**
+ * **NotPreempt**: Cannot preempt \
+ * **MayPreempt**: May preempt
  */
 export type PreemptionCapability = string;
 
 /** Known values of {@link PreemptionVulnerability} that the service accepts. */
 export enum KnownPreemptionVulnerability {
+  /** Cannot be preempted */
   NotPreemptable = "NotPreemptable",
+  /** May be preempted */
   Preemptable = "Preemptable"
 }
 
@@ -896,14 +816,16 @@ export enum KnownPreemptionVulnerability {
  * {@link KnownPreemptionVulnerability} can be used interchangeably with PreemptionVulnerability,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **NotPreemptable** \
- * **Preemptable**
+ * **NotPreemptable**: Cannot be preempted \
+ * **Preemptable**: May be preempted
  */
 export type PreemptionVulnerability = string;
 
 /** Known values of {@link TrafficControlPermission} that the service accepts. */
 export enum KnownTrafficControlPermission {
+  /** Traffic matching this rule is allowed to flow. */
   Enabled = "Enabled",
+  /** Traffic matching this rule is not allowed to flow. */
   Blocked = "Blocked"
 }
 
@@ -912,15 +834,18 @@ export enum KnownTrafficControlPermission {
  * {@link KnownTrafficControlPermission} can be used interchangeably with TrafficControlPermission,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Enabled** \
- * **Blocked**
+ * **Enabled**: Traffic matching this rule is allowed to flow. \
+ * **Blocked**: Traffic matching this rule is not allowed to flow.
  */
 export type TrafficControlPermission = string;
 
 /** Known values of {@link SdfDirection} that the service accepts. */
 export enum KnownSdfDirection {
+  /** Traffic flowing from the UE to the data network. */
   Uplink = "Uplink",
+  /** Traffic flowing from the data network to the UE. */
   Downlink = "Downlink",
+  /** Traffic flowing both to and from the UE. */
   Bidirectional = "Bidirectional"
 }
 
@@ -929,9 +854,9 @@ export enum KnownSdfDirection {
  * {@link KnownSdfDirection} can be used interchangeably with SdfDirection,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Uplink** \
- * **Downlink** \
- * **Bidirectional**
+ * **Uplink**: Traffic flowing from the UE to the data network. \
+ * **Downlink**: Traffic flowing from the data network to the UE. \
+ * **Bidirectional**: Traffic flowing both to and from the UE.
  */
 export type SdfDirection = string;
 

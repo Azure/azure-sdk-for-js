@@ -108,7 +108,7 @@ export class ChatThreadClient {
         updatedOptions
       );
       return mapToChatThreadPropertiesSdkModel(result);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -133,7 +133,7 @@ export class ChatThreadClient {
         { topic: topic },
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -166,7 +166,7 @@ export class ChatThreadClient {
         updatedOptions
       );
       return result;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -196,7 +196,7 @@ export class ChatThreadClient {
         updatedOptions
       );
       return mapToChatMessageSdkModel(result);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -264,7 +264,7 @@ export class ChatThreadClient {
           return this.listMessagesPage(settings, updatedOptions);
         },
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -285,7 +285,7 @@ export class ChatThreadClient {
 
     try {
       await this.client.chatThread.deleteChatMessage(this.threadId, messageId, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -311,7 +311,7 @@ export class ChatThreadClient {
         options,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -340,7 +340,7 @@ export class ChatThreadClient {
         updatedOptions
       );
       return result;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -412,7 +412,7 @@ export class ChatThreadClient {
           return this.listParticipantsPage(settings, updatedOptions);
         },
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -440,7 +440,7 @@ export class ChatThreadClient {
         serializeCommunicationIdentifier(participant),
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -478,7 +478,7 @@ export class ChatThreadClient {
 
       logger.info(`Typing Notification NOT Send. [thread_id=${this.threadId}]`);
       return false;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -503,7 +503,7 @@ export class ChatThreadClient {
 
     try {
       await this.client.chatThread.sendChatReadReceipt(this.threadId, request, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -575,7 +575,7 @@ export class ChatThreadClient {
           return this.listReadReceiptsPage(settings, updatedOptions);
         },
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

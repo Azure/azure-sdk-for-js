@@ -1,14 +1,16 @@
 # Release History
 
-## 1.1.1 (Unreleased)
+## 1.3.0 (Unreleased)
 
 ### Features Added
 
-### Breaking Changes
+- Introduces `CompatResponse` type for the `_response` property that is compatible with the response in `@azure/core-http`. Please refer [#20766](https://github.com/Azure/azure-sdk-for-js/pull/20766) for further details.
 
-### Bugs Fixed
+## 1.2.0 (2022-03-28)
 
-### Other Changes
+### Features Added
+
+- Updated response object to have a custom `_response` property. Please refer [#21004](https://github.com/Azure/azure-sdk-for-js/pull/21004) for further details.
 
 ## 1.1.0 (2022-02-25)
 

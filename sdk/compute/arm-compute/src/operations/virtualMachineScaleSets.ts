@@ -444,10 +444,12 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
       { resourceGroupName, vmScaleSetName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -534,10 +536,12 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
       { resourceGroupName, vmScaleSetName, parameters, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -617,10 +621,12 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
       { resourceGroupName, vmScaleSetName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -716,10 +722,12 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
       { resourceGroupName, vmScaleSetName, options },
       deallocateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -800,10 +808,12 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
       { resourceGroupName, vmScaleSetName, vmInstanceIDs, options },
       deleteInstancesOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -964,10 +974,12 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
       { resourceGroupName, vmScaleSetName, options },
       powerOffOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1046,10 +1058,12 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
       { resourceGroupName, vmScaleSetName, options },
       restartOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1126,10 +1140,12 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
       { resourceGroupName, vmScaleSetName, options },
       startOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1207,10 +1223,12 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
       { resourceGroupName, vmScaleSetName, options },
       redeployOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1291,10 +1309,12 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
       { resourceGroupName, vmScaleSetName, options },
       performMaintenanceOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1376,10 +1396,12 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
       { resourceGroupName, vmScaleSetName, vmInstanceIDs, options },
       updateInstancesOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1461,10 +1483,12 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
       { resourceGroupName, vmScaleSetName, options },
       reimageOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1544,10 +1568,12 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
       { resourceGroupName, vmScaleSetName, options },
       reimageAllOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1668,10 +1694,12 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
       { resourceGroupName, vmScaleSetName, parameters, options },
       setOrchestrationServiceStateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

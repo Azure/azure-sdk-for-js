@@ -220,7 +220,7 @@ export class BatchingPartitionChannel {
         }
         // Clear reference to existing event since it has been added to the batch.
         eventToAddToBatch = undefined;
-      } catch (err) {
+      } catch (err: any) {
         if (!isObjectWithProperties(err, ["name"]) || err.name !== "AbortError") {
           this._reportFailure(err);
           batch = undefined;

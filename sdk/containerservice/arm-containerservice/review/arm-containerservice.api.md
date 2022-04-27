@@ -1771,6 +1771,7 @@ export interface Resource {
     readonly id?: string;
     location: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
@@ -1814,7 +1815,6 @@ export type ScaleSetPriority = string;
 
 // @public
 export type Snapshot = Resource & {
-    readonly systemData?: SystemData;
     creationData?: CreationData;
     snapshotType?: SnapshotType;
     readonly kubernetesVersion?: string;

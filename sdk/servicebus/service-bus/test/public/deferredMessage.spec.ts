@@ -17,6 +17,7 @@ import {
 import { ServiceBusReceiver } from "../../src";
 import { ServiceBusSender } from "../../src";
 import { ServiceBusReceivedMessage } from "../../src";
+import Long from "long";
 
 describe("Deferred Messages", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
