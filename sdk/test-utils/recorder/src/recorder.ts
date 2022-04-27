@@ -37,6 +37,7 @@ import {
 import { addTransform, Transform } from "./transform";
 import { createRecordingRequest } from "./utils/createRecordingRequest";
 import { AdditionalPolicyConfig } from "@azure/core-client";
+import { logger } from "./log";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -95,8 +96,11 @@ export class Recorder {
 
     if (!isLiveMode() && !requestAlreadyRedirected) {
       if (this.recordingId === undefined) {
+        logger.error("Could not redirect request (recording ID not set)", request);
         throw new RecorderError("Recording ID must be defined to redirect a request");
       }
+
+      logger.info("Redirecting request", request);
 
       request.headers.set("x-recording-id", this.recordingId);
       request.headers.set("x-recording-mode", getTestMode());
@@ -187,6 +191,7 @@ export class Recorder {
    */
   async start(options: RecorderStartOptions): Promise<void> {
     if (isLiveMode()) return;
+    logger.info(`Starting the recorder in ${getTestMode()} mode`);
     this.stateManager.state = "started";
     if (this.recordingId === undefined) {
       const startUri = `${Recorder.url}${isPlaybackMode() ? paths.playback : paths.record}${
@@ -200,10 +205,12 @@ export class Recorder {
           allowInsecureConnection: true,
         });
         if (rsp.status !== 200) {
+          logger.error("Could not start the recorder", rsp);
           throw new RecorderError("Start request failed.");
         }
         const id = rsp.headers.get("x-recording-id");
         if (!id) {
+          logger.error("Test proxy did not provide a recording ID when starting the recorder");
           throw new RecorderError("No recording ID returned for a successful start request.");
         }
         this.recordingId = id;
@@ -235,6 +242,7 @@ export class Recorder {
     if (isLiveMode()) return;
     this.stateManager.state = "stopped";
     if (this.recordingId !== undefined) {
+      logger.info("Stopping recording", this.recordingId);
       const stopUri = `${Recorder.url}${isPlaybackMode() ? paths.playback : paths.record}${
         paths.stop
       }`;
@@ -251,10 +259,14 @@ export class Recorder {
           allowInsecureConnection: true,
         });
         if (rsp.status !== 200) {
+          logger.error("Stop request failed", rsp);
           throw new RecorderError("Stop request failed.");
         }
       }
     } else {
+      logger.error(
+        "Encountered invalid state: recordingId should have been defined when calling stop"
+      );
       throw new RecorderError("Bad state, recordingId is not defined when called stop.");
     }
   }
@@ -332,11 +344,13 @@ export class Recorder {
   private handleTestProxyErrors(response: HttpOperationResponse | PipelineResponse) {
     if (response.headers.get("x-request-mismatch") === "true") {
       const errorMessage = atob(response.headers.get("x-request-mismatch-error") ?? "");
+      logger.error("Could not match request to recording", errorMessage);
       throw new RecorderError(errorMessage);
     }
 
     if (response.headers.get("x-request-known-exception") === "true") {
       const errorMessage = atob(response.headers.get("x-request-known-exception-error") ?? "");
+      logger.error("Test proxy error encountered", errorMessage);
       throw new RecorderError(errorMessage);
     }
   }
