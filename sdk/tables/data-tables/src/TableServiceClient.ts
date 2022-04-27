@@ -44,6 +44,7 @@ import { logger } from "./logger";
 import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
 import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
 import { tracingClient } from "./utils/tracing";
+import { setTokenChallengeAuthenticationPolicy } from "./utils/challengeAuthenticationUtils";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
@@ -175,7 +176,6 @@ export class TableServiceClient {
           stringifyXML,
         },
       },
-      ...(isTokenCredential(credential) && { credential, credentialScopes: STORAGE_SCOPE }),
     };
     const client = new GeneratedClient(this.url, internalPipelineOptions);
     client.pipeline.addPolicy(tablesSecondaryEndpointPolicy);
@@ -184,6 +184,10 @@ export class TableServiceClient {
       client.pipeline.addPolicy(tablesNamedKeyCredentialPolicy(credential));
     } else if (isSASCredential(credential)) {
       client.pipeline.addPolicy(tablesSASTokenPolicy(credential));
+    }
+
+    if (isTokenCredential(credential)) {
+      setTokenChallengeAuthenticationPolicy(client.pipeline, credential, STORAGE_SCOPE);
     }
 
     this.pipeline = client.pipeline;

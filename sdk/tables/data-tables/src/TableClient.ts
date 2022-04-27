@@ -71,6 +71,7 @@ import { logger } from "./logger";
 import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
 import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
 import { tracingClient } from "./utils/tracing";
+import { setTokenChallengeAuthenticationPolicy } from "./utils/challengeAuthenticationUtils";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
@@ -245,10 +246,6 @@ export class TableClient {
       serializationOptions: {
         stringifyXML,
       },
-      ...(isTokenCredential(this.credential) && {
-        credential: this.credential,
-        credentialScopes: STORAGE_SCOPE,
-      }),
     };
 
     const generatedClient = new GeneratedClient(this.url, internalPipelineOptions);
@@ -256,6 +253,10 @@ export class TableClient {
       generatedClient.pipeline.addPolicy(tablesNamedKeyCredentialPolicy(credential));
     } else if (isSASCredential(credential)) {
       generatedClient.pipeline.addPolicy(tablesSASTokenPolicy(credential));
+    }
+
+    if (isTokenCredential(credential)) {
+      setTokenChallengeAuthenticationPolicy(generatedClient.pipeline, credential, STORAGE_SCOPE);
     }
 
     if (isCosmosEndpoint(this.url)) {
