@@ -6,145 +6,102 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
-/**
- * Request for a CommunicationRelayConfiguration.
- */
+/** Request for a CommunicationRelayConfiguration. */
 export interface CommunicationRelayConfigurationRequest {
-  /**
-   * An identity to be associated with telemetry for data relayed using the returned credentials. Must be an existing ACS user identity. If not provided, the telemetry will not contain an associated identity value.
-   */
+  /** An identity to be associated with telemetry for data relayed using the returned credentials. Must be an existing ACS user identity. If not provided, the telemetry will not contain an associated identity value. */
   id?: string;
-  /**
-   * Filter the routing methodology returned. If not provided, will return all route types in separate ICE servers.
-   */
+  /** Filter the routing methodology returned. If not provided, will return all route types in separate ICE servers. */
   routeType?: RouteType;
-  /**
-   * The credential Time-To-Live (TTL), in seconds. The default value will be used if given value exceeds it.
-   */
+  /** The credential Time-To-Live (TTL), in seconds. The default value will be used if given value exceeds it. */
   ttl?: number;
 }
 
-/**
- * A relay configuration containing the STUN/TURN URLs and credentials.
- */
+/** A relay configuration containing the STUN/TURN URLs and credentials. */
 export interface CommunicationRelayConfiguration {
-  /**
-   * The date for which the username and credentials are not longer valid. Will be 48 hours from request time.
-   */
+  /** The date for which the username and credentials are not longer valid. Will be 48 hours from request time. */
   expiresOn: Date;
-  /**
-   * An array representing the credentials and the STUN/TURN server URLs for use in ICE negotiations.
-   */
+  /** An array representing the credentials and the STUN/TURN server URLs for use in ICE negotiations. */
   iceServers: CommunicationIceServer[];
 }
 
-/**
- * An instance of a STUN/TURN server with credentials to be used for ICE negotiation.
- */
+/** An instance of a STUN/TURN server with credentials to be used for ICE negotiation. */
 export interface CommunicationIceServer {
-  /**
-   * List of STUN/TURN server URLs.
-   */
+  /** List of STUN/TURN server URLs. */
   urls: string[];
-  /**
-   * User account name which uniquely identifies the credentials.
-   */
+  /** User account name which uniquely identifies the credentials. */
   username: string;
-  /**
-   * Credential for the server.
-   */
+  /** Credential for the server. */
   credential: string;
-  /**
-   * The routing methodology to where the ICE server will be located from the client. "any" will have higher reliability while "nearest" will have lower latency. It is recommended to default to use the "any" routing method unless there are specific scenarios which minimizing latency is critical.
-   */
+  /** The routing methodology to where the ICE server will be located from the client. "any" will have higher reliability while "nearest" will have lower latency. It is recommended to default to use the "any" routing method unless there are specific scenarios which minimizing latency is critical. */
   routeType: RouteType;
 }
 
-/**
- * The Communication Services error.
- */
+/** The Communication Services error. */
 export interface CommunicationErrorResponse {
-  /**
-   * The Communication Services error.
-   */
+  /** The Communication Services error. */
   error: CommunicationError;
 }
 
-/**
- * The Communication Services error.
- */
+/** The Communication Services error. */
 export interface CommunicationError {
-  /**
-   * The error code.
-   */
+  /** The error code. */
   code: string;
-  /**
-   * The error message.
-   */
+  /** The error message. */
   message: string;
   /**
    * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly target?: string;
   /**
    * Further details about specific errors that led to this error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly details?: CommunicationError[];
   /**
    * The inner error if any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly innerError?: CommunicationError;
 }
 
-/**
- * Defines values for RouteType.
- */
-export type RouteType = "any" | "nearest";
-
-/**
- * Optional parameters.
- */
-export interface CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams
-  extends coreHttp.OperationOptions {
-  /**
-   * Optional request for providing the id and/or route type for the returned relay configuration.
-   */
-  body?: CommunicationRelayConfigurationRequest;
+/** Known values of {@link RouteType} that the service accepts. */
+export enum KnownRouteType {
+  Any = "any",
+  Nearest = "nearest"
 }
 
 /**
- * Contains response data for the issueRelayConfiguration operation.
+ * Defines values for RouteType. \
+ * {@link KnownRouteType} can be used interchangeably with RouteType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **any** \
+ * **nearest**
  */
-export type CommunicationNetworkTraversalIssueRelayConfigurationResponse = CommunicationRelayConfiguration & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: coreHttp.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+export type RouteType = string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CommunicationRelayConfiguration;
-  };
-};
+/** Optional parameters. */
+export interface CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams
+  extends coreClient.OperationOptions {
+  /** An identity to be associated with telemetry for data relayed using the returned credentials. Must be an existing ACS user identity. If not provided, the telemetry will not contain an associated identity value. */
+  id?: string;
+  /** Filter the routing methodology returned. If not provided, will return all route types in separate ICE servers. */
+  routeType?: RouteType;
+  /** The credential Time-To-Live (TTL), in seconds. The default value will be used if given value exceeds it. */
+  ttl?: number;
+}
 
-/**
- * Optional parameters.
- */
+/** Contains response data for the issueRelayConfiguration operation. */
+export type CommunicationNetworkTraversalIssueRelayConfigurationResponse = CommunicationRelayConfiguration;
+
+/** Optional parameters. */
 export interface NetworkRelayRestClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
-  /**
-   * Api Version
-   */
+  extends coreClient.ServiceClientOptions {
+  /** Api Version */
   apiVersion?: string;
-  /**
-   * Overrides client endpoint.
-   */
+  /** Overrides client endpoint. */
   endpoint?: string;
 }

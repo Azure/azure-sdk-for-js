@@ -12732,27 +12732,28 @@ packages:
     dev: false
 
   file:projects/arm-reservations.tgz:
-    resolution: {integrity: sha512-iq+XOnDwTstqVmY7CAXK3z4FXpE6LotND9ruglntiypzwMIeYSJMIgHhr/OWM3Yw0I+lnSxzaws+Wm3u3lAktw==, tarball: file:projects/arm-reservations.tgz}
+    resolution: {integrity: sha512-gO8IGPuDOcvlIn4pnKYfl0nbINAcCQCRNqP6OTF9JQzaAEX34mF6IJvYkRr5N4t0olQvoFyvG7ffCk4bHtLQ4A==, tarball: file:projects/arm-reservations.tgz}
     name: '@rush-temp/arm-reservations'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
+      '@rollup/plugin-node-resolve': 13.2.0_rollup@2.70.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup: 2.70.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.4
     transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -13854,7 +13855,7 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-FqxHOpHgvyJ+4HOwbd46Dnvs0GLTHf2yn8GXEM+q7A+SdJlVRoSFkc0p+778/j5MjMec4wUI8o9vjwqo4NpSqg==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-F2p5XwoV7jQhN9ZEN8CJLDdTq1UBXLM0Ch9Ciz0KgJIsHFEnC6gts26YWXpJnvqligsIbdgdSoEGQSGxEEcfAA==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
@@ -14150,7 +14151,7 @@ packages:
     dev: false
 
   file:projects/communication-sms.tgz:
-    resolution: {integrity: sha512-feFwthEJpuCEmaBYXcFqYkKQ4HMJue9RVMsw+Tp6zdk+qpy6T521Dq++3mlXX4xZEfAFYZpuyHX2icTz78ABXA==, tarball: file:projects/communication-sms.tgz}
+    resolution: {integrity: sha512-FLvHt8YCR95J93gFFd+J0Q6yX1RQMrjeteihyIWNmdk/tukSYrqDAWOlTgvJtPFc9Rw5wVPPkvhkY7GtEjz7xQ==, tarball: file:projects/communication-sms.tgz}
     name: '@rush-temp/communication-sms'
     version: 0.0.0
     dependencies:
@@ -14163,6 +14164,7 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
       '@types/sinon': 9.0.11
+      '@types/uuid': 8.3.4
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -14189,6 +14191,7 @@ packages:
       tslib: 2.3.1
       typescript: 4.2.4
       util: 0.12.4
+      uuid: 8.3.2
     transitivePeerDependencies:
       - bufferutil
       - debug
