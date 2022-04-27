@@ -205,7 +205,7 @@ trigger:
 pr: none
 
 variables:
-  NodeVersion: '10.x'
+  - template: /eng/pipelines/templates/variables/globals.yml
 
 jobs:
   - job: 'Build'
