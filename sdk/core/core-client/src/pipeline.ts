@@ -46,7 +46,7 @@ export function createClientPipeline(options: InternalClientPipelineOptions = {}
         credential: options.credentialOptions.credential,
         scopes: options.credentialOptions.credentialScopes,
         challengeCallbacks: createChallengeCallbacks(),
-      })
+      }), {phase: "Sign"}
     );
   }
 

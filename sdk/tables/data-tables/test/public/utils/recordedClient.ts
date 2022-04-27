@@ -188,7 +188,10 @@ export async function createTableServiceClient(
       }
 
       const credential = createTestCredential();
-      client = new TableServiceClient(env.TABLES_URL ?? "", credential, options);
+      client = new TableServiceClient(env.TABLES_URL ?? "", credential, {
+        ...options,
+        version: "2020-12-06",
+      });
       break;
     }
 
