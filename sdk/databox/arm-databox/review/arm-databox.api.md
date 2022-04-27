@@ -177,7 +177,7 @@ export type CustomerDiskJobSecrets = JobSecrets & {
 };
 
 // @public
-export type CustomerResolutionCode = "None" | "MoveToCleanUpDevice" | "Resume";
+export type CustomerResolutionCode = "None" | "MoveToCleanUpDevice" | "Resume" | "Restart" | "ReachOutToOperation";
 
 // @public
 export interface DataAccountDetails {
@@ -245,12 +245,28 @@ export interface DataBoxDiskCopyProgress {
 }
 
 // @public
+export type DataBoxDiskGranularCopyLogDetails = GranularCopyLogDetails & {
+    copyLogDetailsType: "DataBoxCustomerDisk";
+    readonly serialNumber?: string;
+    readonly accountName?: string;
+    readonly errorLogLink?: string;
+    readonly verboseLogLink?: string;
+};
+
+// @public
+export type DataBoxDiskGranularCopyProgress = GranularCopyProgress & {
+    readonly serialNumber?: string;
+    readonly copyStatus?: CopyStatus;
+};
+
+// @public
 export type DataBoxDiskJobDetails = JobDetails & {
     jobDetailsType: "DataBoxDisk";
     preferredDisks?: {
         [propertyName: string]: number;
     };
     readonly copyProgress?: DataBoxDiskCopyProgress[];
+    readonly granularCopyProgress?: DataBoxDiskGranularCopyProgress[];
     readonly disksAndSizeDetails?: {
         [propertyName: string]: number;
     };
@@ -442,6 +458,12 @@ export interface Details {
 }
 
 // @public
+export interface DeviceErasureDetails {
+    readonly deviceErasureStatus?: StageStatus;
+    readonly erasureOrDestructionCertificateSasKey?: string;
+}
+
+// @public
 export type DiskScheduleAvailabilityRequest = ScheduleAvailabilityRequest & {
     skuName: "DataBoxDisk";
     expectedDataSizeInTeraBytes: number;
@@ -490,6 +512,33 @@ export interface FilterFileDetails {
 export type FilterFileType = "AzureBlob" | "AzureFile";
 
 // @public
+export interface GranularCopyLogDetails {
+    copyLogDetailsType: "DataBoxCustomerDisk";
+}
+
+// @public (undocumented)
+export type GranularCopyLogDetailsUnion = GranularCopyLogDetails | DataBoxDiskGranularCopyLogDetails;
+
+// @public
+export interface GranularCopyProgress {
+    readonly accountId?: string;
+    readonly bytesProcessed?: number;
+    readonly dataAccountType?: DataAccountType;
+    readonly directoriesErroredOut?: number;
+    readonly filesErroredOut?: number;
+    readonly filesProcessed?: number;
+    readonly invalidDirectoriesProcessed?: number;
+    readonly invalidFileBytesUploaded?: number;
+    readonly invalidFilesProcessed?: number;
+    readonly isEnumerationInProgress?: boolean;
+    readonly renamedContainerCount?: number;
+    readonly storageAccountName?: string;
+    readonly totalBytesToProcess?: number;
+    readonly totalFilesToProcess?: number;
+    readonly transferType?: TransferType;
+}
+
+// @public
 export type HeavyScheduleAvailabilityRequest = ScheduleAvailabilityRequest & {
     skuName: "DataBoxHeavy";
 };
@@ -527,6 +576,7 @@ export interface JobDetails {
     dataExportDetails?: DataExportDetails[];
     dataImportDetails?: DataImportDetails[];
     readonly deliveryPackage?: PackageShippingDetails;
+    readonly deviceErasureDetails?: DeviceErasureDetails;
     expectedDataSizeInTeraBytes?: number;
     jobDetailsType: "DataBoxCustomerDisk" | "DataBoxDisk" | "DataBoxHeavy" | "DataBox";
     readonly jobStages?: JobStages[];
@@ -748,11 +798,15 @@ export enum KnownDataCenterCode {
     // (undocumented)
     BJB = "BJB",
     // (undocumented)
+    BJS20 = "BJS20",
+    // (undocumented)
     BL20 = "BL20",
     // (undocumented)
     BL7 = "BL7",
     // (undocumented)
     BN1 = "BN1",
+    // (undocumented)
+    BN7 = "BN7",
     // (undocumented)
     BOM01 = "BOM01",
     // (undocumented)
@@ -778,6 +832,8 @@ export enum KnownDataCenterCode {
     // (undocumented)
     DSM05 = "DSM05",
     // (undocumented)
+    DUB07 = "DUB07",
+    // (undocumented)
     FRA22 = "FRA22",
     // (undocumented)
     HKG20 = "HKG20",
@@ -800,7 +856,15 @@ export enum KnownDataCenterCode {
     // (undocumented)
     ORK70 = "ORK70",
     // (undocumented)
+    OSA02 = "OSA02",
+    // (undocumented)
     OSA20 = "OSA20",
+    // (undocumented)
+    OSA22 = "OSA22",
+    // (undocumented)
+    PAR22 = "PAR22",
+    // (undocumented)
+    PNQ01 = "PNQ01",
     // (undocumented)
     PUS20 = "PUS20",
     // (undocumented)
@@ -816,9 +880,13 @@ export enum KnownDataCenterCode {
     // (undocumented)
     SN5 = "SN5",
     // (undocumented)
+    SN6 = "SN6",
+    // (undocumented)
     SN8 = "SN8",
     // (undocumented)
     SSE90 = "SSE90",
+    // (undocumented)
+    SVG20 = "SVG20",
     // (undocumented)
     SYD03 = "SYD03",
     // (undocumented)
@@ -983,6 +1051,7 @@ export interface PackageShippingDetails {
 export interface Preferences {
     encryptionPreferences?: EncryptionPreferences;
     preferredDataCenterRegion?: string[];
+    storageAccountAccessTierPreferences?: string[];
     transportPreferences?: TransportPreferences;
 }
 
@@ -1204,7 +1273,7 @@ export type SkuName = "DataBox" | "DataBoxDisk" | "DataBoxHeavy" | "DataBoxCusto
 export type StageName = string;
 
 // @public
-export type StageStatus = "None" | "InProgress" | "Succeeded" | "Failed" | "Cancelled" | "Cancelling" | "SucceededWithErrors" | "WaitingForCustomerAction" | "SucceededWithWarnings" | "WaitingForCustomerActionForKek" | "WaitingForCustomerActionForCleanUp" | "CustomerActionPerformedForCleanUp";
+export type StageStatus = "None" | "InProgress" | "Succeeded" | "Failed" | "Cancelled" | "Cancelling" | "SucceededWithErrors" | "WaitingForCustomerAction" | "SucceededWithWarnings" | "WaitingForCustomerActionForKek" | "WaitingForCustomerActionForCleanUp" | "CustomerActionPerformedForCleanUp" | "CustomerActionPerformed";
 
 // @public
 export type StorageAccountDetails = DataAccountDetails & {

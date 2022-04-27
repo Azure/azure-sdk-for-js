@@ -225,20 +225,21 @@ export const CloudError: coreClient.CompositeMapper = {
     name: "Composite",
     className: "CloudError",
     modelProperties: {
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AdditionalErrorInfo"
+            }
+          }
+        }
+      },
       code: {
         serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        serializedName: "target",
         type: {
           name: "String"
         }
@@ -256,17 +257,16 @@ export const CloudError: coreClient.CompositeMapper = {
           }
         }
       },
-      additionalInfo: {
-        serializedName: "additionalInfo",
-        readOnly: true,
+      message: {
+        serializedName: "message",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AdditionalErrorInfo"
-            }
-          }
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "String"
         }
       }
     }
@@ -278,17 +278,17 @@ export const AdditionalErrorInfo: coreClient.CompositeMapper = {
     name: "Composite",
     className: "AdditionalErrorInfo",
     modelProperties: {
-      type: {
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
       info: {
         serializedName: "info",
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } }
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
         }
       }
     }
@@ -417,6 +417,13 @@ export const JobDetails: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      deviceErasureDetails: {
+        serializedName: "deviceErasureDetails",
+        type: {
+          name: "Composite",
+          className: "DeviceErasureDetails"
+        }
+      },
       keyEncryptionKey: {
         serializedName: "keyEncryptionKey",
         type: {
@@ -438,7 +445,13 @@ export const JobDetails: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Enum",
-              allowedValues: ["None", "MoveToCleanUpDevice", "Resume"]
+              allowedValues: [
+                "None",
+                "MoveToCleanUpDevice",
+                "Resume",
+                "Restart",
+                "ReachOutToOperation"
+              ]
             }
           }
         }
@@ -504,7 +517,8 @@ export const JobStages: coreClient.CompositeMapper = {
             "SucceededWithWarnings",
             "WaitingForCustomerActionForKek",
             "WaitingForCustomerActionForCleanUp",
-            "CustomerActionPerformedForCleanUp"
+            "CustomerActionPerformedForCleanUp",
+            "CustomerActionPerformed"
           ]
         }
       },
@@ -1066,6 +1080,19 @@ export const Preferences: coreClient.CompositeMapper = {
           name: "Composite",
           className: "EncryptionPreferences"
         }
+      },
+      storageAccountAccessTierPreferences: {
+        serializedName: "storageAccountAccessTierPreferences",
+        type: {
+          name: "Sequence",
+          element: {
+            defaultValue: "Archive",
+            isConstant: true,
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -1126,6 +1153,44 @@ export const CopyLogDetails: coreClient.CompositeMapper = {
             "DataBoxHeavy",
             "DataBoxCustomerDisk"
           ]
+        }
+      }
+    }
+  }
+};
+
+export const DeviceErasureDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DeviceErasureDetails",
+    modelProperties: {
+      deviceErasureStatus: {
+        serializedName: "deviceErasureStatus",
+        readOnly: true,
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "None",
+            "InProgress",
+            "Succeeded",
+            "Failed",
+            "Cancelled",
+            "Cancelling",
+            "SucceededWithErrors",
+            "WaitingForCustomerAction",
+            "SucceededWithWarnings",
+            "WaitingForCustomerActionForKek",
+            "WaitingForCustomerActionForCleanUp",
+            "CustomerActionPerformedForCleanUp",
+            "CustomerActionPerformed"
+          ]
+        }
+      },
+      erasureOrDestructionCertificateSasKey: {
+        serializedName: "erasureOrDestructionCertificateSasKey",
+        readOnly: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -1227,7 +1292,13 @@ export const LastMitigationActionOnJob: coreClient.CompositeMapper = {
         serializedName: "customerResolution",
         type: {
           name: "Enum",
-          allowedValues: ["None", "MoveToCleanUpDevice", "Resume"]
+          allowedValues: [
+            "None",
+            "MoveToCleanUpDevice",
+            "Resume",
+            "Restart",
+            "ReachOutToOperation"
+          ]
         }
       }
     }
@@ -1487,7 +1558,13 @@ export const MitigateJobRequest: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "Enum",
-          allowedValues: ["None", "MoveToCleanUpDevice", "Resume"]
+          allowedValues: [
+            "None",
+            "MoveToCleanUpDevice",
+            "Resume",
+            "Restart",
+            "ReachOutToOperation"
+          ]
         }
       }
     }
@@ -2605,10 +2682,153 @@ export const ArmBaseObject: coreClient.CompositeMapper = {
   }
 };
 
+export const GranularCopyLogDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GranularCopyLogDetails",
+    uberParent: "GranularCopyLogDetails",
+    polymorphicDiscriminator: {
+      serializedName: "copyLogDetailsType",
+      clientName: "copyLogDetailsType"
+    },
+    modelProperties: {
+      copyLogDetailsType: {
+        serializedName: "copyLogDetailsType",
+        required: true,
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "DataBox",
+            "DataBoxDisk",
+            "DataBoxHeavy",
+            "DataBoxCustomerDisk"
+          ]
+        }
+      }
+    }
+  }
+};
+
 export const CopyProgress: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CopyProgress",
+    modelProperties: {
+      storageAccountName: {
+        serializedName: "storageAccountName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      transferType: {
+        serializedName: "transferType",
+        readOnly: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["ImportToAzure", "ExportFromAzure"]
+        }
+      },
+      dataAccountType: {
+        serializedName: "dataAccountType",
+        readOnly: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["StorageAccount", "ManagedDisk"]
+        }
+      },
+      accountId: {
+        serializedName: "accountId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      bytesProcessed: {
+        serializedName: "bytesProcessed",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      totalBytesToProcess: {
+        serializedName: "totalBytesToProcess",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      filesProcessed: {
+        serializedName: "filesProcessed",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      totalFilesToProcess: {
+        serializedName: "totalFilesToProcess",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      invalidFilesProcessed: {
+        serializedName: "invalidFilesProcessed",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      invalidFileBytesUploaded: {
+        serializedName: "invalidFileBytesUploaded",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      renamedContainerCount: {
+        serializedName: "renamedContainerCount",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      filesErroredOut: {
+        serializedName: "filesErroredOut",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      directoriesErroredOut: {
+        serializedName: "directoriesErroredOut",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      invalidDirectoriesProcessed: {
+        serializedName: "invalidDirectoriesProcessed",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      },
+      isEnumerationInProgress: {
+        serializedName: "isEnumerationInProgress",
+        readOnly: true,
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const GranularCopyProgress: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "GranularCopyProgress",
     modelProperties: {
       storageAccountName: {
         serializedName: "storageAccountName",
@@ -3047,6 +3267,19 @@ export const DataBoxDiskJobDetails: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "DataBoxDiskCopyProgress"
+            }
+          }
+        }
+      },
+      granularCopyProgress: {
+        serializedName: "granularCopyProgress",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataBoxDiskGranularCopyProgress"
             }
           }
         }
@@ -4138,12 +4371,78 @@ export const HeavyScheduleAvailabilityRequest: coreClient.CompositeMapper = {
   }
 };
 
+export const DataBoxDiskGranularCopyLogDetails: coreClient.CompositeMapper = {
+  serializedName: "DataBoxCustomerDisk",
+  type: {
+    name: "Composite",
+    className: "DataBoxDiskGranularCopyLogDetails",
+    uberParent: "GranularCopyLogDetails",
+    polymorphicDiscriminator:
+      GranularCopyLogDetails.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...GranularCopyLogDetails.type.modelProperties,
+      serialNumber: {
+        serializedName: "serialNumber",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      accountName: {
+        serializedName: "accountName",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      errorLogLink: {
+        serializedName: "errorLogLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      verboseLogLink: {
+        serializedName: "verboseLogLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DataBoxCustomerDiskCopyProgress: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DataBoxCustomerDiskCopyProgress",
     modelProperties: {
       ...CopyProgress.type.modelProperties,
+      serialNumber: {
+        serializedName: "serialNumber",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      copyStatus: {
+        serializedName: "copyStatus",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DataBoxDiskGranularCopyProgress: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DataBoxDiskGranularCopyProgress",
+    modelProperties: {
+      ...GranularCopyProgress.type.modelProperties,
       serialNumber: {
         serializedName: "serialNumber",
         readOnly: true,
@@ -4172,6 +4471,7 @@ export let discriminators = {
   ValidationRequest: ValidationRequest,
   JobSecrets: JobSecrets,
   ScheduleAvailabilityRequest: ScheduleAvailabilityRequest,
+  GranularCopyLogDetails: GranularCopyLogDetails,
   "JobDetails.DataBoxCustomerDisk": DataBoxCustomerDiskJobDetails,
   "JobDetails.DataBoxDisk": DataBoxDiskJobDetails,
   "JobDetails.DataBoxHeavy": DataBoxHeavyJobDetails,
@@ -4203,5 +4503,6 @@ export let discriminators = {
   "JobSecrets.DataBox": DataboxJobSecrets,
   "ScheduleAvailabilityRequest.DataBox": DataBoxScheduleAvailabilityRequest,
   "ScheduleAvailabilityRequest.DataBoxDisk": DiskScheduleAvailabilityRequest,
-  "ScheduleAvailabilityRequest.DataBoxHeavy": HeavyScheduleAvailabilityRequest
+  "ScheduleAvailabilityRequest.DataBoxHeavy": HeavyScheduleAvailabilityRequest,
+  "GranularCopyLogDetails.DataBoxCustomerDisk": DataBoxDiskGranularCopyLogDetails
 };
