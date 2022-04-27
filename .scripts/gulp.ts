@@ -74,7 +74,7 @@ export async function generateSdk(azureRestAPISpecsRoot: string, azureSDKForJSRe
                     await npmInstall(packageFolderPath);
                     await npmRunTest(packageFolderPath);
                 }
-            } catch (err) {
+            } catch (err: any) {
                 _logger.log('Error:');
                 _logger.log(`An error occurred while generating client for packages: "${packageNamesString}":\nErr: ${err}\nStderr: "${err.stderr}"`);
             }
