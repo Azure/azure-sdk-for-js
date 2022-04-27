@@ -2956,6 +2956,13 @@ packages:
     hasBin: true
     dev: false
 
+  /autorest/3.6.1:
+    resolution: {integrity: sha512-tTOnfQq+LAyqnxFrOOnyCEaErXnjRTgduUN7a8LUv2u5deqDlI0zoJllHeIEYDZS2o2Kr1s8pDj2NxaFPOWldg==}
+    engines: {node: '>=12.0.0'}
+    hasBin: true
+    requiresBuild: true
+    dev: false
+
   /available-typed-arrays/1.0.5:
     resolution: {integrity: sha512-DMD0KiN46eipeziST1LPP/STfDU0sufISXmjSgvVsoU2tqxctQeASejWcfNtxYKqETM1UxQ8sp2OrSBWpHY6sw==}
     engines: {node: '>= 0.4'}
@@ -14093,7 +14100,7 @@ packages:
     dev: false
 
   file:projects/confidential-ledger.tgz:
-    resolution: {integrity: sha512-JTvMQJYyVyS/k/cio715TXanK8Z9SkIhO9t1nLn+nooySnrfiVRG4kIS8e1l45C6TgBKlQrsTjjWXZ66m+3PwA==, tarball: file:projects/confidential-ledger.tgz}
+    resolution: {integrity: sha512-Qt6Fbqhz88Hiy+WwhQfMo21RWcV4JQnfUWRFMB6Zl+PbOB/Y4pxC/bY/QBLclFYqKWFHqxflyBuX9dieJ+MSXg==, tarball: file:projects/confidential-ledger.tgz}
     name: '@rush-temp/confidential-ledger'
     version: 0.0.0
     dependencies:
@@ -14103,6 +14110,7 @@ packages:
       '@types/chai': 4.3.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.47
+      autorest: 3.6.1
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
@@ -16725,7 +16733,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-u3s6k4iody58TezFwH1LXZmzF4PTM5Sq8hQSFlhLoVoMpnubfFesRDa9FPn2mH6NRIxr6ldYOGRlo8RHpbMvqw==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-khw0v8SxxwedYJc7+zDN3u1gd/4IRfTD3B14006ViUnDREU/ZCeXT2AVfKPV1A/X5KM9L4o9o0HUnMkjZWtrDg==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
