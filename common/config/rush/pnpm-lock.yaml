@@ -11234,27 +11234,28 @@ packages:
     dev: false
 
   file:projects/arm-iothub.tgz:
-    resolution: {integrity: sha512-d6lUkEKI/PO5WMxFoSAkiLdfbKBkxgoNhZhMWgHct8x0dzcrImDeorDz72FXcaKZnRAU52MbEya3igSPOtotdg==, tarball: file:projects/arm-iothub.tgz}
+    resolution: {integrity: sha512-RoEWmk7eeLpimNKVZ/33YmHi0Jv/0Dw9J9I+iLXsYCXsPUz9ASCp5SmmX+Mt6LCQsszdUsVZ23gLMPue7buNWg==, tarball: file:projects/arm-iothub.tgz}
     name: '@rush-temp/arm-iothub'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
+      '@rollup/plugin-node-resolve': 13.2.0_rollup@2.70.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup: 2.70.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.4
     transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -11289,7 +11290,7 @@ packages:
     dev: false
 
   file:projects/arm-keyvault.tgz:
-    resolution: {integrity: sha512-Ar17vT1GQ9LHfDSH0FeDzlLY3oqyH0MydEPm6X8wm8/qwSJXF2DNDTV3zrLEWXwGc5FRmciWnYlFQAClapsJlg==, tarball: file:projects/arm-keyvault.tgz}
+    resolution: {integrity: sha512-QIm6hXIyYSODrwQapGif5AsREdlTxmhPF4yycw1Cv1titytE8lqe5wYWzYpIaHf78Pq3me48nZccofVuTgF9BQ==, tarball: file:projects/arm-keyvault.tgz}
     name: '@rush-temp/arm-keyvault'
     version: 0.0.0
     dependencies:
@@ -11298,18 +11299,19 @@ packages:
       '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.70.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
+      '@rollup/plugin-node-resolve': 13.2.0_rollup@2.70.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.70.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@2.70.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.4
     transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -11344,7 +11346,7 @@ packages:
     dev: false
 
   file:projects/arm-kusto.tgz:
-    resolution: {integrity: sha512-nyC2SwjgN4TdfShqpJAnbPBwcFs6Bc2At16C3XnIe9dD8w+K8lOzrpHyVXTQe+tsrM1yFRw527Bw7oJ++T2/Qg==, tarball: file:projects/arm-kusto.tgz}
+    resolution: {integrity: sha512-GPL0bzYcLkQVh5TMDG1aG/OPR/mbx3O6ztXK8yhyyoClJV2jK3IXa0Uo8sYRJGiB2fCVveI0g7qQOajIilwrKw==, tarball: file:projects/arm-kusto.tgz}
     name: '@rush-temp/arm-kusto'
     version: 0.0.0
     dependencies:
@@ -11372,27 +11374,28 @@ packages:
     dev: false
 
   file:projects/arm-labservices.tgz:
-    resolution: {integrity: sha512-4Z3kd98FdNnoxW70nrYqjCPB7DJHgTjclThHNI9lhd1csX7Ef67ffWS2Fsms2zQ+hNifWxW4tOLiIBRXARzXKw==, tarball: file:projects/arm-labservices.tgz}
+    resolution: {integrity: sha512-vSG3tNlrxZzNir3nGBFZIVRgkKVarksvUUThU6klVNnQMfHwhLOkYTbr2iPsaW5yqozQzMcvVM8zcba/FBPzQQ==, tarball: file:projects/arm-labservices.tgz}
     name: '@rush-temp/arm-labservices'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
+      '@rollup/plugin-node-resolve': 13.2.0_rollup@2.70.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup: 2.70.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.4
     transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -11427,27 +11430,28 @@ packages:
     dev: false
 
   file:projects/arm-loadtestservice.tgz:
-    resolution: {integrity: sha512-VAClkmU57BdOXpmIaKDyxb20WKFPB30dru18WhXEvz7xNF69u0l6t14S3IxBfRLdC0dOD2atz6G7YTksie/BYQ==, tarball: file:projects/arm-loadtestservice.tgz}
+    resolution: {integrity: sha512-brHj43tfs4UlJEt65ld1LzuBasRcHqGcO0GCWqrzNO4kbMOydvnEq1lAhuye+6AA92VWV6MfMyn1Pld85VxgLw==, tarball: file:projects/arm-loadtestservice.tgz}
     name: '@rush-temp/arm-loadtestservice'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.1
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
+      '@rollup/plugin-node-resolve': 13.2.0_rollup@2.70.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup: 2.70.1
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.1
       tslib: 2.3.1
       typescript: 4.2.4
       uglify-js: 3.15.4
     transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
