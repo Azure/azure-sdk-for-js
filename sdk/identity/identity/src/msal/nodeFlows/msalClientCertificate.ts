@@ -72,10 +72,6 @@ export async function parseCertificate(
     .certificatePath;
   certificateParts.certificateContents =
     certificate || (await readFileAsync(certificatePath!, "utf8"));
-  console.log(certificateParts.certificateContents);
-  if (sendCertificateChain) {
-    certificateParts.x5c = certificateParts.certificateContents;
-  }
 
   const certificatePattern =
     /(-+BEGIN CERTIFICATE-+)(\n\r?|\r\n?)([A-Za-z0-9+/\n\r]+=*)(\n\r?|\r\n?)(-+END CERTIFICATE-+)/g;
@@ -93,7 +89,9 @@ export async function parseCertificate(
   if (publicKeys.length === 0) {
     throw new Error("The file at the specified path does not contain a PEM-encoded certificate.");
   }
-
+  if (sendCertificateChain) {
+    certificateParts.x5c = publicKeys[0];
+  }
   certificateParts.thumbprint = createHash("sha1")
     .update(Buffer.from(publicKeys[0], "base64"))
     .digest("hex")
