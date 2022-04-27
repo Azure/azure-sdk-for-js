@@ -20,10 +20,8 @@ export async function assertError<T>(
     if (message) {
       assert.match(error.message, message);
     }
-    if (causeMessage) {
-      assert.isDefined(error.cause, "cause error is not found");
-      const cause = error.cause as Error;
-      assert.match(cause.message, causeMessage);
+    if (causeMessage && error.cause) {
+      assert.match((error.cause as Error).message, causeMessage);
     }
   }
 }

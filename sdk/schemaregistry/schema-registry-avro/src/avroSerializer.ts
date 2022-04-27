@@ -207,6 +207,7 @@ export class AvroSerializer<MessageT = MessageContent> {
             `Schema '${description.name}' not found in registry group '${description.groupName}', or not found to have matching definition.`,
             // TS v4.6 and below do not yet recognize the cause option in the Error constructor
             // see https://medium.com/ovrsea/power-up-your-node-js-debugging-and-error-handling-with-the-new-error-cause-feature-4136c563126a
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             {
               cause: e,
@@ -334,6 +335,7 @@ function wrapError<T>(
       message,
       // TS v4.6 and below do not yet recognize the cause option in the Error constructor
       // see https://medium.com/ovrsea/power-up-your-node-js-debugging-and-error-handling-with-the-new-error-cause-feature-4136c563126a
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       {
         cause: innerError,
