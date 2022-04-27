@@ -4,15 +4,11 @@
 
 ### Features Added
 
-- Added logging to help with debugging tests. [PR #21641](https://github.com/Azure/azure-sdk-for-js/pull/21641)
-
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
-
-- Improved formatting of error messages returned by the text proxy. [PR #21575](https://github.com/Azure/azure-sdk-for-js/pull/21575)
 
 ## 1.1.0-beta.1 (2022-04-05)
 
