@@ -47,3 +47,9 @@ Follow the below two methods if you wish to run the proxy tool yourself without 
   > `test-proxy --storage-location <root-of-the-repo>`
 
   [ `root-of-the-repo example` - `/workspaces/azure-sdk-for-js` if you're on codespaces]
+
+## Troubleshooting
+
+### Logging
+
+Enabling logging may help uncover useful information about failures. In order to see logs from the recorder client, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling the `setLogLevel` function in the `@azure/logger` package.
