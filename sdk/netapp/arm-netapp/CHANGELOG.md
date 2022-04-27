@@ -1,14 +1,10 @@
 # Release History
 
-## 15.1.1 (Unreleased)
+## 15.1.1 (2022-04-27)
 
-### Features Added
+**Features**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Bug fix
 
 ## 15.1.0 (2022-03-02)
     
