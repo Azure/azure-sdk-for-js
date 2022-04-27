@@ -26,7 +26,7 @@ export interface ChangeBase {
 }
 
 // @public
-export type ChangeCategory = "User" | "System" | "Create";
+export type ChangeCategory = "User" | "System";
 
 // @public
 export interface ChangeProperties {

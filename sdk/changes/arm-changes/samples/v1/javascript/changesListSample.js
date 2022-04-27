@@ -8,32 +8,33 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ChangesClient } from "@azure/arm-changes";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ChangesClient } = require("@azure/arm-changes");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to Obtains the specified change resource for the target resource
+ * This sample demonstrates how to Obtains a list of change resources from the past 14 days for the target resource
  *
- * @summary Obtains the specified change resource for the target resource
- * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-05-01/examples/GetChange.json
+ * @summary Obtains a list of change resources from the past 14 days for the target resource
+ * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-05-01/examples/ListChanges.json
  */
-async function getChange() {
+async function listChanges() {
   const subscriptionId = "subscriptionId1";
   const resourceGroupName = "resourceGroup1";
   const resourceProviderNamespace = "resourceProvider1";
   const resourceType = "resourceType1";
   const resourceName = "resourceName1";
-  const changeResourceId = "1d58d72f-0719-4a48-9228-b7ea682885bf";
   const credential = new DefaultAzureCredential();
   const client = new ChangesClient(credential, subscriptionId);
-  const result = await client.changes.get(
+  const resArray = new Array();
+  for await (let item of client.changes.list(
     resourceGroupName,
     resourceProviderNamespace,
     resourceType,
-    resourceName,
-    changeResourceId
-  );
-  console.log(result);
+    resourceName
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
-getChange().catch(console.error);
+listChanges().catch(console.error);

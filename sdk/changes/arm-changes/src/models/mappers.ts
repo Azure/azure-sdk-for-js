@@ -142,7 +142,7 @@ export const ChangeBase: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Enum",
-          allowedValues: ["User", "System", "Create"]
+          allowedValues: ["User", "System"]
         }
       },
       previousValue: {

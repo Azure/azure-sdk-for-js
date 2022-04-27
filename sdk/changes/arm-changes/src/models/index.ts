@@ -170,7 +170,7 @@ export type ChangeType = "Update" | "Delete" | "Create";
 /** Defines values for PropertyChangeType. */
 export type PropertyChangeType = "Update" | "Insert" | "Remove";
 /** Defines values for ChangeCategory. */
-export type ChangeCategory = "User" | "System" | "Create";
+export type ChangeCategory = "User" | "System";
 
 /** Optional parameters. */
 export interface ChangesListOptionalParams extends coreClient.OperationOptions {

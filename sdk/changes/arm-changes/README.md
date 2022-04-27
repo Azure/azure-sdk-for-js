@@ -6,7 +6,7 @@ The Resource Changes Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/changes/arm-changes) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-changes) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-changes?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-changes) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
