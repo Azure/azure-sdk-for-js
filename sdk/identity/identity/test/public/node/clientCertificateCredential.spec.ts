@@ -62,7 +62,7 @@ describe("ClientCertificateCredential", function () {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("authenticates with sendCertificateChain", async function (this: Context) {
+  it.only("authenticates with sendCertificateChain", async function (this: Context) {
     if (isPlaybackMode()) {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,

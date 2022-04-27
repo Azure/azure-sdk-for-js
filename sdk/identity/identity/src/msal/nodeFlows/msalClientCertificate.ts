@@ -91,12 +91,29 @@ export async function parseCertificate(
   }
   if (sendCertificateChain) {
     certificateParts.x5c = publicKeys[0];
+    console.log("public key=",certificateParts.x5c);
   }
   certificateParts.thumbprint = createHash("sha1")
     .update(Buffer.from(publicKeys[0], "base64"))
     .digest("hex")
     .toUpperCase();
 
+  const keyPattern = /(-+BEGIN PRIVATE KEY-+)(\n\r?|\r\n?)([A-Za-z0-9+/\n\r]+=*)(\n\r?|\r\n?)(-+END PRIVATE KEY-+)/g;
+  const privateKeys:string[] = [];
+  let match2;
+  do{
+    match2 = keyPattern.exec(certificateParts.certificateContents);
+    if(match2){
+      console.log("match2",match2);
+      privateKeys.push(match2[3]);
+    }
+  }while(match2);
+  if(privateKeys.length){
+    certificateParts.certificateContents = privateKeys[0]//.replace(/\\r\\n/gm, '\r\n');
+    console.log("private key=");
+    console.log(certificateParts.certificateContents);
+  }
+  
   return certificateParts as CertificateParts;
 }
 
@@ -119,11 +136,15 @@ export class MsalClientCertificate extends MsalNode {
   async init(options?: CredentialFlowGetTokenOptions): Promise<void> {
     try {
       const parts = await parseCertificate(this.configuration, this.sendCertificateChain);
+      console.log("parts");
+      console.log(parts);
       this.msalConfig.auth.clientCertificate = {
         thumbprint: parts.thumbprint,
         privateKey: parts.certificateContents,
         x5c: parts.x5c,
       };
+      console.log("client certificat=");
+      console.log(this.msalConfig.auth.clientCertificate);
     } catch (error: any) {
       this.logger.info(formatError("", error));
       throw error;
@@ -143,6 +164,8 @@ export class MsalClientCertificate extends MsalNode {
         authority: options.authority,
         claims: options.claims,
       });
+      console.log("result in do get token");
+      console.log(result);
       // Even though we're providing the same default in memory persistence cache that we use for DeviceCodeCredential,
       // The Client Credential flow does not return the account information from the authentication service,
       // so each time getToken gets called, we will have to acquire a new token through the service.
