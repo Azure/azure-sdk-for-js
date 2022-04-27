@@ -1,14 +1,10 @@
 # Release History
 
-## 5.0.1 (Unreleased)
+## 5.0.1 (20222-04-26)
 
-### Features Added
+**Features**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+  - Bug fix
 
 ## 5.0.0 (2022-01-13)
 
