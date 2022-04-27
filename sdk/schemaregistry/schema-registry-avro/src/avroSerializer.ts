@@ -187,7 +187,7 @@ export class AvroSerializer<MessageT = MessageContent> {
         id = (await this.registry.getSchemaProperties(description)).id;
       } catch (e) {
         if ((e as any).statusCode === 404) {
-          throw createChainError(
+          throw errorWithCause(
             `Schema '${description.name}' not found in registry group '${description.groupName}', or not found to have matching definition.`,
             e as Error
           );
@@ -297,12 +297,12 @@ function wrapError<T>(f: () => T, message: string): T {
   try {
     result = f();
   } catch (innerError) {
-    throw createChainError(message, innerError as Error);
+    throw errorWithCause(message, innerError as Error);
   }
   return result;
 }
 
-function createChainError(message: string, cause: Error): Error {
+function errorWithCause(message: string, cause: Error): Error {
   return new Error(
     message,
     // TS v4.6 and below do not yet recognize the cause option in the Error constructor
