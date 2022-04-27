@@ -22,3 +22,4 @@ export {
   DocumentCurrencyField,
   DocumentField,
 } from "./fields";
+export * from "./modified";

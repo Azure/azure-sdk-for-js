@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BoundingRegion, DocumentSpan } from "..";
+import { DocumentSpan } from "..";
 
 import { CurrencyValue, DocumentField as GeneratedDocumentField } from "../generated";
-import { capitalize } from "../util";
+import { capitalize, toBoundingRegions } from "../util";
+import { BoundingRegion } from "./modified";
 
 /**
  * Fields that are common to all DocumentField variants.
@@ -244,10 +245,10 @@ export function toDocumentField(field: GeneratedDocumentField): DocumentField {
         return {
           value:
             field[
-              ("value" + capitalize(kind)) as Extract<
-                keyof GeneratedDocumentField,
-                `value${string}`
-              >
+            ("value" + capitalize(kind)) as Extract<
+              keyof GeneratedDocumentField,
+              `value${string}`
+            >
             ],
         };
       case "array":
@@ -265,7 +266,7 @@ export function toDocumentField(field: GeneratedDocumentField): DocumentField {
   return {
     kind,
     ...value,
-    boundingRegions: field.boundingRegions,
+    boundingRegions: toBoundingRegions(field.boundingRegions),
     content: field.content,
     spans: field.spans,
     confidence: field.confidence,

@@ -7,23 +7,17 @@ import {
   AnalyzeResult as GeneratedAnalyzeResult,
   AnalyzeResultOperation,
   AnalyzeResultOperationStatus as AnalyzeOperationStatus,
-  BoundingRegion,
-  Document as GeneratedDocument,
-  DocumentEntity,
-  DocumentKeyValuePair,
-  DocumentPage as GeneratedDocumentPage,
-  DocumentLine as GeneratedDocumentLine,
-  DocumentSelectionMark,
+  DocumentLanguage,
   DocumentSpan,
   DocumentStyle,
-  DocumentTable,
-  DocumentWord,
   LengthUnit,
-  DocumentLanguage,
 } from "../generated";
 import { DocumentField, toAnalyzedDocumentFieldsFromGenerated } from "../models/fields";
 import { FormRecognizerApiVersion, PollerOptions } from "../options";
 import { AnalyzeDocumentOptions } from "../options/AnalyzeDocumentsOptions";
+import { toBoundingPolygon, toBoundingRegions } from "../util";
+import { BoundingRegion, DocumentEntity, DocumentSelectionMark, DocumentTable, DocumentWord, GeneratedDocument, DocumentKeyValuePair, GeneratedDocumentLine } from "./../models/modified";
+import { DocumentPage as GeneratedDocumentPage } from "./../generated";
 
 /**
  * A request input that can be uploaded as binary data to the Form Recognizer service. Form Recognizer treats `string`
@@ -80,6 +74,7 @@ export interface AnalyzedDocument {
 export function toAnalyzedDocumentFromGenerated(document: GeneratedDocument): AnalyzedDocument {
   return {
     ...document,
+    boundingRegions: toBoundingRegions(document.boundingRegions),
     fields: toAnalyzedDocumentFieldsFromGenerated(document.fields ?? {}),
   };
 }
@@ -379,7 +374,7 @@ function toDocumentLineFromGenerated(
   page: GeneratedDocumentPage
 ): DocumentLine {
   (generated as DocumentLine).words = () =>
-    fastGetChildren(iterFrom(generated.spans, 0), page.words);
+    fastGetChildren(iterFrom(generated.spans, 0), page.words.map(word => { return { ...word, polygon: toBoundingPolygon(word.polygon) } }));
 
   Object.defineProperty(generated, "words", {
     enumerable: false,
@@ -449,9 +444,9 @@ export function toAnalyzeResultFromGenerated<
     modelId: result.modelId,
     content: result.content,
     pages: result.pages.map((page) => toDocumentPageFromGenerated(page)),
-    tables: result.tables ?? [],
-    keyValuePairs: result.keyValuePairs ?? [],
-    entities: result.entities ?? [],
+    tables: result.tables?.map(table => { return { ...table, boundingRegions: toBoundingRegions(table.boundingRegions) } }) ?? [],
+    keyValuePairs: result.keyValuePairs?.map(pair => { return { ...pair, key: { ...pair.key, boundingRegions: toBoundingRegions(pair.key.boundingRegions) }, value: pair.value ? { ...pair.value, boundingRegions: toBoundingRegions(pair.value?.boundingRegions) } : undefined } }) ?? [],
+    entities: result.entities?.map(entity => { return { ...entity, boundingRegions: toBoundingRegions(entity.boundingRegions) } }) ?? [],
     languages: result.languages ?? [],
     styles: result.styles ?? [],
     documents: (result.documents?.map((doc) => mapDocuments(doc)) as Document[]) ?? [],

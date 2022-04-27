@@ -13,26 +13,18 @@ export { DocumentAnalysisClient } from "./documentAnalysisClient";
 export { DocumentModelAdministrationClient } from "./documentModelAdministrationClient";
 export {
   // Generated types used verbatim
-  BoundingRegion,
   ContentType,
   CopyAuthorization,
   CurrencyValue,
   DocTypeInfo,
   DocumentBuildMode,
-  DocumentEntity,
   DocumentFieldSchema,
   DocumentFieldType,
-  DocumentKeyValueElement,
-  DocumentKeyValuePair,
-  DocumentSelectionMark,
   DocumentSignatureType,
   DocumentSpan,
   DocumentLanguage,
   DocumentStyle,
-  DocumentTable,
-  DocumentTableCell,
   DocumentTableCellKind,
-  DocumentWord,
   LengthUnit,
   ModelInfo,
   ModelSummary,
@@ -42,9 +34,7 @@ export {
   GetInfoResponse,
   CustomDocumentModelsInfo,
   AnalyzeResultOperationStatus,
-  SelectionMarkState,
-  DocumentTableCaption,
-  DocumentTableFootnote
+  SelectionMarkState
 } from "./generated";
 export {
   AnalysisPoller,
@@ -61,3 +51,4 @@ export * from "./models";
 export * from "./options";
 export * from "./prebuilt";
 export { EnglishCapitalLetter, Acronymic } from "./util";
+export { Point2D } from "./util"

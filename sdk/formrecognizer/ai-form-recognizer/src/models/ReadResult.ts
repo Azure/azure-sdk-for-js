@@ -6,7 +6,6 @@ import {
   AnalyzeResult,
   AnalyzeResultCommon,
   DocumentPage,
-  toDocumentPageFromGenerated,
 } from "../lro/analyze";
 
 /**
@@ -20,7 +19,7 @@ export function toReadResult(analyzeResult: AnalyzeResult<unknown>): ReadResult 
     apiVersion,
     modelId,
     content,
-    pages: pages.map(toDocumentPageFromGenerated),
+    pages,
     languages,
     styles,
   };
