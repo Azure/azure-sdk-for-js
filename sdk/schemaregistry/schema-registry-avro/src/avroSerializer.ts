@@ -76,10 +76,7 @@ export class AvroSerializer<MessageT = MessageContent> {
     const entry = await this.getSchemaByDefinition(schema);
     const buffer = wrapError(
       () => entry.serializer.toBuffer(value),
-      "Avro serialization failed. See innerError for more details.",
-      {
-        schemaId: entry.id,
-      }
+      "Avro serialization failed. See innerError for more details."
     );
     const data = new Uint8Array(
       buffer.buffer,
@@ -120,30 +117,19 @@ export class AvroSerializer<MessageT = MessageContent> {
     const writerSchemaId = getSchemaId(contentType);
     const writerSchemaSerializer = await this.getSchemaById(writerSchemaId);
     if (readerSchema) {
-      const readerSchemaSerializer = getSerializerForSchema(readerSchema, {
-        schemaId: writerSchemaId,
-      });
+      const readerSchemaSerializer = getSerializerForSchema(readerSchema);
       const resolver = wrapError(
         () => readerSchemaSerializer.createResolver(writerSchemaSerializer),
-        `Avro reader schema is incompatible with the writer schema (schema ID: (${writerSchemaId})):\n\n\treader schema: ${readerSchema}\n\nSee innerError for more details.`,
-        {
-          schemaId: writerSchemaId,
-        }
+        `Avro reader schema is incompatible with the writer schema (schema ID: (${writerSchemaId})):\n\n\treader schema: ${readerSchema}\n\nSee innerError for more details.`
       );
       return wrapError(
         () => readerSchemaSerializer.fromBuffer(buffer, resolver, true),
-        `Avro deserialization with reader schema failed: \n\treader schema: ${readerSchema}\nSee innerError for more details.`,
-        {
-          schemaId: writerSchemaId,
-        }
+        `Avro deserialization with reader schema failed: \n\treader schema: ${readerSchema}\nSee innerError for more details.`
       );
     } else {
       return wrapError(
         () => writerSchemaSerializer.fromBuffer(buffer),
-        `Avro deserialization failed with schema ID (${writerSchemaId}). See innerError for more details.`,
-        {
-          schemaId: writerSchemaId,
-        }
+        `Avro deserialization failed with schema ID (${writerSchemaId}). See innerError for more details.`
       );
     }
   }
@@ -165,9 +151,7 @@ export class AvroSerializer<MessageT = MessageContent> {
       );
     }
 
-    const avroType = getSerializerForSchema(schemaResponse.definition, {
-      schemaId: schemaResponse.properties.id,
-    });
+    const avroType = getSerializerForSchema(schemaResponse.definition);
     return this.cache(schemaId, schemaResponse.definition, avroType).serializer;
   }
 
@@ -203,15 +187,9 @@ export class AvroSerializer<MessageT = MessageContent> {
         id = (await this.registry.getSchemaProperties(description)).id;
       } catch (e) {
         if ((e as any).statusCode === 404) {
-          throw new Error(
+          throw createChainError(
             `Schema '${description.name}' not found in registry group '${description.groupName}', or not found to have matching definition.`,
-            // TS v4.6 and below do not yet recognize the cause option in the Error constructor
-            // see https://medium.com/ovrsea/power-up-your-node-js-debugging-and-error-handling-with-the-new-error-cause-feature-4136c563126a
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            {
-              cause: e,
-            }
+            e as Error
           );
         } else {
           throw e;
@@ -307,40 +285,30 @@ function tryReadingPreambleFormat(buffer: Buffer): MessageContent {
   };
 }
 
-function getSerializerForSchema(
-  schema: string,
-  options: {
-    schemaId?: string;
-  } = {}
-): AVSCSerializer {
+function getSerializerForSchema(schema: string): AVSCSerializer {
   return wrapError(
     () => avro.Type.forSchema(JSON.parse(schema), { omitRecordMethods: true }),
-    `Parsing Avro schema failed:\n\n\t${schema}\n\nSee innerError for more details.`,
-    options
+    `Parsing Avro schema failed:\n\n\t${schema}\n\nSee innerError for more details.`
   );
 }
 
-function wrapError<T>(
-  f: () => T,
-  message: string,
-  _options: {
-    schemaId?: string;
-  } = {}
-): T {
+function wrapError<T>(f: () => T, message: string): T {
   let result: T;
   try {
     result = f();
   } catch (innerError) {
-    throw new Error(
-      message,
-      // TS v4.6 and below do not yet recognize the cause option in the Error constructor
-      // see https://medium.com/ovrsea/power-up-your-node-js-debugging-and-error-handling-with-the-new-error-cause-feature-4136c563126a
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      {
-        cause: innerError,
-      }
-    );
+    throw createChainError(message, innerError as Error);
   }
   return result;
+}
+
+function createChainError(message: string, cause: Error): Error {
+  return new Error(
+    message,
+    // TS v4.6 and below do not yet recognize the cause option in the Error constructor
+    // see https://medium.com/ovrsea/power-up-your-node-js-debugging-and-error-handling-with-the-new-error-cause-feature-4136c563126a
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    { cause }
+  );
 }
