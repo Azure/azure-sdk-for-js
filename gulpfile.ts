@@ -310,7 +310,7 @@ gulp.task("find-missing-sdks", async () => {
 
     await findMissingSdks(azureRestApiSpecsRepositoryPath);
   } catch (error) {
-    _logger.logError(error instanceof Error ? error : JSON.stringify(err));
+    _logger.logError(error instanceof Error ? error.toString() : JSON.stringify(err));
   }
 });
 
