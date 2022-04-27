@@ -12944,13 +12944,13 @@ packages:
     dev: false
 
   file:projects/arm-scvmm.tgz:
-    resolution: {integrity: sha512-euabf0ZQdg1xTwrymKa0uVVt3G4fF57azoFRGeKelxTmAFWtJKRxtwLHFQXO0M7mw9lXa64fvP7UoktVwmHwMQ==, tarball: file:projects/arm-scvmm.tgz}
+    resolution: {integrity: sha512-UxsXUDg/IyZjymFE+00igvcHk68ldF8qbSaQDTq9XQcgCJv2fhD87zXQ+oFmKKISLs0B+Bnkb94w8WkUhyQiyw==, tarball: file:projects/arm-scvmm.tgz}
     name: '@rush-temp/arm-scvmm'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.22.1
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.0.3_rollup@2.70.1
       '@rollup/plugin-json': 4.1.0_rollup@2.70.1
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.1
@@ -12967,7 +12967,6 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 
