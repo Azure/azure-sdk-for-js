@@ -34,7 +34,7 @@ export {
   GetInfoResponse,
   CustomDocumentModelsInfo,
   AnalyzeResultOperationStatus,
-  SelectionMarkState
+  SelectionMarkState,
 } from "./generated";
 export {
   AnalysisPoller,
@@ -51,4 +51,4 @@ export * from "./models";
 export * from "./options";
 export * from "./prebuilt";
 export { EnglishCapitalLetter, Acronymic } from "./util";
-export { Point2D } from "./util"
+export { Point2D } from "./util";

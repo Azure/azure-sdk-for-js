@@ -16,7 +16,16 @@ import { DocumentField, toAnalyzedDocumentFieldsFromGenerated } from "../models/
 import { FormRecognizerApiVersion, PollerOptions } from "../options";
 import { AnalyzeDocumentOptions } from "../options/AnalyzeDocumentsOptions";
 import { toBoundingPolygon, toBoundingRegions } from "../util";
-import { BoundingRegion, DocumentEntity, DocumentSelectionMark, DocumentTable, DocumentWord, GeneratedDocument, DocumentKeyValuePair, GeneratedDocumentLine } from "./../models/modified";
+import {
+  BoundingRegion,
+  DocumentEntity,
+  DocumentSelectionMark,
+  DocumentTable,
+  DocumentWord,
+  GeneratedDocument,
+  DocumentKeyValuePair,
+  GeneratedDocumentLine,
+} from "./../models/modified";
 import { DocumentPage as GeneratedDocumentPage } from "./../generated";
 
 /**
@@ -374,7 +383,12 @@ function toDocumentLineFromGenerated(
   page: GeneratedDocumentPage
 ): DocumentLine {
   (generated as DocumentLine).words = () =>
-    fastGetChildren(iterFrom(generated.spans, 0), page.words.map(word => { return { ...word, polygon: toBoundingPolygon(word.polygon) } }));
+    fastGetChildren(
+      iterFrom(generated.spans, 0),
+      page.words.map((word) => {
+        return { ...word, polygon: toBoundingPolygon(word.polygon) };
+      })
+    );
 
   Object.defineProperty(generated, "words", {
     enumerable: false,
@@ -444,9 +458,24 @@ export function toAnalyzeResultFromGenerated<
     modelId: result.modelId,
     content: result.content,
     pages: result.pages.map((page) => toDocumentPageFromGenerated(page)),
-    tables: result.tables?.map(table => { return { ...table, boundingRegions: toBoundingRegions(table.boundingRegions) } }) ?? [],
-    keyValuePairs: result.keyValuePairs?.map(pair => { return { ...pair, key: { ...pair.key, boundingRegions: toBoundingRegions(pair.key.boundingRegions) }, value: pair.value ? { ...pair.value, boundingRegions: toBoundingRegions(pair.value?.boundingRegions) } : undefined } }) ?? [],
-    entities: result.entities?.map(entity => { return { ...entity, boundingRegions: toBoundingRegions(entity.boundingRegions) } }) ?? [],
+    tables:
+      result.tables?.map((table) => {
+        return { ...table, boundingRegions: toBoundingRegions(table.boundingRegions) };
+      }) ?? [],
+    keyValuePairs:
+      result.keyValuePairs?.map((pair) => {
+        return {
+          ...pair,
+          key: { ...pair.key, boundingRegions: toBoundingRegions(pair.key.boundingRegions) },
+          value: pair.value
+            ? { ...pair.value, boundingRegions: toBoundingRegions(pair.value?.boundingRegions) }
+            : undefined,
+        };
+      }) ?? [],
+    entities:
+      result.entities?.map((entity) => {
+        return { ...entity, boundingRegions: toBoundingRegions(entity.boundingRegions) };
+      }) ?? [],
     languages: result.languages ?? [],
     styles: result.styles ?? [],
     documents: (result.documents?.map((doc) => mapDocuments(doc)) as Document[]) ?? [],
@@ -463,7 +492,7 @@ export interface AnalysisOperationDefinition<Result = AnalyzeResult> {
   transformResult: (primitiveResult: GeneratedAnalyzeResult) => Result;
   initialModelId: string;
   options: PollerOptions<DocumentAnalysisPollOperationState<Result>> &
-  AnalyzeDocumentOptions<Result>;
+    AnalyzeDocumentOptions<Result>;
 }
 
 /**

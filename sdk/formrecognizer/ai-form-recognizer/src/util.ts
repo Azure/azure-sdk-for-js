@@ -110,9 +110,9 @@ export function makeServiceClient(
 
   const authPolicy = isTokenCredential(credential)
     ? bearerTokenAuthenticationPolicy({
-      credential,
-      scopes: DEFAULT_COGNITIVE_SCOPE,
-    })
+        credential,
+        scopes: DEFAULT_COGNITIVE_SCOPE,
+      })
     : createFormRecognizerAzureKeyCredentialPolicy(credential);
 
   client.pipeline.addPolicy(authPolicy);
@@ -139,22 +139,26 @@ export function toBoundingPolygon(original: number[] | undefined): Point2D[] | u
   if (!original) return;
 
   if (original.length % 2 !== 0) {
-    throw new Error("Unexpected number of points in the response, unable to translate as 2D points");
+    throw new Error(
+      "Unexpected number of points in the response, unable to translate as 2D points"
+    );
   }
 
   for (let i = 0; i < original.length - 1; i = i + 2) {
-    points.push({ x: original[i], y: original[i + 1] })
+    points.push({ x: original[i], y: original[i + 1] });
   }
 
   return points;
 }
 
-export function toBoundingRegions(original: GeneratedBoundingRegion[] | undefined): BoundingRegion[] | undefined {
+export function toBoundingRegions(
+  original: GeneratedBoundingRegion[] | undefined
+): BoundingRegion[] | undefined {
   if (!original) return;
 
   const regions: BoundingRegion[] = [];
-  original.forEach(region =>
+  original.forEach((region) =>
     regions.push({ ...region, polygon: toBoundingPolygon(region.polygon) })
-  )
+  );
   return regions;
 }
