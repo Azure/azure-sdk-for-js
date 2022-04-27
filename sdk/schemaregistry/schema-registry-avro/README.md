@@ -74,7 +74,7 @@ This backward compatibility is temporary and will be removed in v1.0.0.
 
 ```javascript
 const { DefaultAzureCredential } = require("@azure/identity");
-import { createEventDataAdapter } from "@azure/event-hubs";
+const { createEventDataAdapter } = require("@azure/event-hubs");
 const { SchemaRegistryClient } = require("@azure/schema-registry");
 const { AvroEncoder } = require("@azure/schema-registry-avro");
 
