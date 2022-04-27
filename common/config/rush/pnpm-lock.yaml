@@ -867,6 +867,13 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/core-tracing/1.0.0:
+    resolution: {integrity: sha512-t22+vxAKHUX5BUaikagSYULtIuWrdLvm8jOLQMIu9q9oencUNT0QwSMMMXuB3NuJZhoP9vNIa+8L6v9BUsL5wA==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      tslib: 2.3.1
+    dev: false
+
   /@azure/core-tracing/1.0.0-preview.10:
     resolution: {integrity: sha512-iIwjtMwQnsxB7cYkugMx+s4W1nfy3+pT/ceo+uW1fv4YDgYe84nh+QP0fEC9IH/3UATLSWbIBemdMHzk2APUrw==}
     engines: {node: '>=8.0.0'}
@@ -9091,11 +9098,11 @@ packages:
     dev: false
 
   file:projects/ai-text-analytics.tgz:
-    resolution: {integrity: sha512-cb2SYyzNMi5HnoqVFi35GPS8GkxXHL3sSitjnoyNnLQZbeyjCaWfifrQjzpfO3B5+BMD4WV5CxDG8EXnt+QtOQ==, tarball: file:projects/ai-text-analytics.tgz}
+    resolution: {integrity: sha512-U2NPmuLNxVJ/W0WDGtdcgHF9+4+itO/jyF6cbt2OOBMCiKrfvORBKSVi9hNE6Ojn2XXdcwQqGjvFeVdHPgylnQ==, tarball: file:projects/ai-text-analytics.tgz}
     name: '@rush-temp/ai-text-analytics'
     version: 0.0.0
     dependencies:
-      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/core-tracing': 1.0.0
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.22.1
       '@types/chai': 4.3.0
