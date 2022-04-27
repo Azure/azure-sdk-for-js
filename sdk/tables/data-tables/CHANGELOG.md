@@ -8,6 +8,9 @@
 
 ### Bugs Fixed
 
+- fix react native bundling issue by adding a `react-native` mapping to ESM
+  entry point so that dependencies can be loaded asynchronously.
+
 ### Other Changes
 
 ## 13.1.1 (2022-04-14)
