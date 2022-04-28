@@ -4,16 +4,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SyncTokens, parseSyncToken } from "../../src/internal/synctokenpolicy";
+import { SyncTokens, parseSyncToken } from "../../../src/internal/synctokenpolicy";
 import { assert } from "chai";
-import { AppConfigurationClient } from "../../src";
+import { AppConfigurationClient } from "../../../src";
 import nock from "nock";
-import { InternalAppConfigurationClientOptions } from "../../src/appConfigurationClient";
+import { InternalAppConfigurationClientOptions } from "../../../src/appConfigurationClient";
 import {
   assertThrowsRestError,
   createAppConfigurationClientForTests,
   startRecorder,
-} from "../public/utils/testHelpers";
+} from "../../public/utils/testHelpers";
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
