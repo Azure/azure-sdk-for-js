@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/// <reference lib="dom" />
+declare global {
+  // stub these out for the browser
+  function btoa(input: string): string;
+  function atob(input: string): string;
+}
 
 /**
  * Converts a base64 string into a byte array.

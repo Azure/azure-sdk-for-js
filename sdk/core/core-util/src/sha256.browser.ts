@@ -1,11 +1,52 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/// <reference lib="dom" />
-
 import { base64ToBytes, bufferToBase64 } from "./base64.browser";
 import { bufferToHex } from "./hex";
 import { utf8ToBytes } from "./utf8.browser";
+
+// stubs for browser self.crypto
+interface JsonWebKey {}
+interface CryptoKey {}
+type KeyUsage =
+  | "decrypt"
+  | "deriveBits"
+  | "deriveKey"
+  | "encrypt"
+  | "sign"
+  | "unwrapKey"
+  | "verify"
+  | "wrapKey";
+interface Algorithm {
+  name: string;
+}
+interface SubtleCrypto {
+  importKey(
+    format: string,
+    keyData: JsonWebKey,
+    algorithm: HmacImportParams,
+    extractable: boolean,
+    usage: KeyUsage[]
+  ): Promise<CryptoKey>;
+  sign(
+    algorithm: HmacImportParams,
+    key: CryptoKey,
+    data: ArrayBufferView | ArrayBuffer
+  ): Promise<ArrayBuffer>;
+  digest(algorithm: Algorithm, data: ArrayBufferView | ArrayBuffer): Promise<ArrayBuffer>;
+}
+interface Crypto {
+  readonly subtle: SubtleCrypto;
+  getRandomValues<T extends ArrayBufferView | null>(array: T): T;
+}
+declare const self: {
+  crypto: Crypto;
+};
+interface HmacImportParams {
+  name: string;
+  hash: Algorithm;
+  length?: number;
+}
 
 let subtleCrypto: SubtleCrypto | undefined;
 

@@ -1,7 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/// <reference lib="dom" />
+// stubs for browser TextEncoder
+interface TextEncoder {
+  encode(input?: string): Uint8Array;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+declare const TextEncoder: {
+  prototype: TextEncoder;
+  new (): TextEncoder;
+};
 
 let encoder: TextEncoder | undefined;
 
