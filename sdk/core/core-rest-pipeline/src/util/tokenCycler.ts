@@ -110,7 +110,7 @@ export function createTokenCycler(
 ): AccessTokenGetter {
   let refreshWorker: Promise<AccessToken> | null = null;
   let token: AccessToken | null = null;
-  let tenantId: string | null = null;
+  let tenantId: string | undefined;
 
   const options = {
     ...DEFAULT_CYCLER_OPTIONS,
@@ -173,7 +173,7 @@ export function createTokenCycler(
         .then((_token) => {
           refreshWorker = null;
           token = _token;
-          tenantId = getTokenOptions.tenantId ?? null;
+          tenantId = getTokenOptions.tenantId;
           return token;
         })
         .catch((reason) => {
@@ -182,7 +182,7 @@ export function createTokenCycler(
           // new retry chain.
           refreshWorker = null;
           token = null;
-          tenantId = null;
+          tenantId = undefined;
           throw reason;
         });
     }
