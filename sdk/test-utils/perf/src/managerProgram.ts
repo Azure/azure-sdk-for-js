@@ -137,15 +137,28 @@ export class ManagerPerfProgram implements PerfProgram {
   }
 
   private createWorkers(): void {
-    const cpuOption = this.parsedOptions.cpus.value ?? 1;
-    const cpus = cpuOption === 0 ? os.cpus.length : cpuOption;
-
+    const cpuOption = this.parsedOptions.cpus.value ?? 0;
     const parallels = this.parsedOptions.parallel.value ?? 1;
+    let cpus: number;
+    if (cpuOption === 0) {
+      cpus = os.cpus().length;
+      console.log(`Setting number of CPUs to number of CPUs detected on machine (${cpus}).`);
+    } else {
+      cpus = cpuOption;
+    }
 
-    const baseParallelsPerCpu = Math.floor(parallels / cpus);
-    const remainder = parallels % cpus;
+    const numberOfWorkers = Math.min(parallels, cpus);
 
-    const allocations = Array(cpuOption).fill(baseParallelsPerCpu);
+    if (parallels < cpus) {
+      console.warn(
+        `Warning: number of parallels (${parallels}) is less than the number of CPUs (${cpus}). Tests will only be run on ${numberOfWorkers} CPU(s).`
+      );
+    }
+
+    const baseParallelsPerCpu = Math.floor(parallels / numberOfWorkers);
+    const remainder = parallels % numberOfWorkers;
+
+    const allocations = Array(numberOfWorkers).fill(baseParallelsPerCpu);
 
     // add the remainder evenly
     for (let i = 0; i < remainder; ++i) {

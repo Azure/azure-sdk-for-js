@@ -136,7 +136,7 @@ export const defaultPerfOptions: PerfOptionDictionary<DefaultPerfOptions> = {
     description:
       "Number of CPUs to use. Parallel tests will be split evenly across CPUs. Specify 0 to use the number of logical CPUs available on the machine.",
     shortName: "c",
-    defaultValue: 1,
+    defaultValue: 0,
   },
   "use-worker-threads": {
     description:
