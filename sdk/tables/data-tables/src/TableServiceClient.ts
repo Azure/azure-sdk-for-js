@@ -45,6 +45,7 @@ import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
 import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
 import { tracingClient } from "./utils/tracing";
 import { setTokenChallengeAuthenticationPolicy } from "./utils/challengeAuthenticationUtils";
+import { apiVersionPolicy } from "./utils/apiVersionPolicy";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
@@ -188,6 +189,10 @@ export class TableServiceClient {
 
     if (isTokenCredential(credential)) {
       setTokenChallengeAuthenticationPolicy(client.pipeline, credential, STORAGE_SCOPE);
+    }
+
+    if (options?.version) {
+      client.pipeline.addPolicy(apiVersionPolicy(options.version));
     }
 
     this.pipeline = client.pipeline;

@@ -44,7 +44,7 @@ export const url: OperationURLParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2020-12-06",
+    defaultValue: "2019-02-02",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {

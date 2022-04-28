@@ -72,6 +72,7 @@ import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
 import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
 import { tracingClient } from "./utils/tracing";
 import { setTokenChallengeAuthenticationPolicy } from "./utils/challengeAuthenticationUtils";
+import { apiVersionPolicy } from "./utils/apiVersionPolicy";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
@@ -261,6 +262,10 @@ export class TableClient {
 
     if (isCosmosEndpoint(this.url)) {
       generatedClient.pipeline.addPolicy(cosmosPatchPolicy());
+    }
+
+    if (options.version) {
+      generatedClient.pipeline.addPolicy(apiVersionPolicy(options.version));
     }
 
     this.generatedClient = generatedClient;
