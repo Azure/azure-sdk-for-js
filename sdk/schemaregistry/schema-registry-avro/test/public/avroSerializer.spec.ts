@@ -13,6 +13,7 @@ import { MessageContent } from "../../src/";
 import chaiPromises from "chai-as-promised";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
 import { isLive } from "./utils/isLive";
+import { v4 as uuid } from "uuid";
 
 chaiUse(chaiPromises);
 
@@ -145,9 +146,9 @@ describe("AvroSerializer", function () {
     await assert.isRejected(
       serializer.deserialize({
         data,
-        contentType: "avro/binary+000",
+        contentType: `avro/binary+${uuid()}`,
       }),
-      `Schema does not exist`
+      /Schema id .* does not exist/
     );
   });
 
