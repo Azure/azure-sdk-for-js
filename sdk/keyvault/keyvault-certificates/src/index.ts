@@ -303,7 +303,11 @@ export class CertificateClient {
         "CertificateClient.listPropertiesOfCertificatesPage",
         options,
         (updatedOptions) =>
-          this.client.getCertificates(continuationState.continuationToken!, updatedOptions)
+          this.client.getCertificatesNext(
+            this.vaultUrl,
+            continuationState.continuationToken!,
+            updatedOptions
+          )
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -1438,7 +1442,11 @@ export class CertificateClient {
         "CertificateClient.listDeletedCertificatesPage",
         options,
         (updatedOptions) =>
-          this.client.getDeletedCertificates(continuationState.continuationToken!, updatedOptions)
+          this.client.getDeletedCertificatesNext(
+            this.vaultUrl,
+            continuationState.continuationToken!,
+            updatedOptions
+          )
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {

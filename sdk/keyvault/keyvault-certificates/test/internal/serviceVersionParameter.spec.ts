@@ -77,7 +77,7 @@ describe("The Certificates client should set the serviceVersion", () => {
       const lastCall = calls[calls.length - 1];
       assert.equal(
         lastCall.args[0].url,
-        `https://keyVaultName.vault.azure.net/certificates/certificateName/?api-version=${serviceVersion}`
+        `https://keyvaultname.vault.azure.net/certificates/certificateName/?api-version=${serviceVersion}`
       );
     }
   });

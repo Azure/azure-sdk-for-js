@@ -52,7 +52,10 @@ export async function authenticate(
     throw new Error("Missing KEYVAULT_URI environment variable.");
   }
 
-  const client = new CertificateClient(keyVaultUrl, credential, { serviceVersion });
+  const client = new CertificateClient(keyVaultUrl, credential, {
+    serviceVersion,
+    httpClient: isNode ? undefined : createXhrHttpClient(),
+  });
   const testClient = new TestClient(client);
 
   return { recorder, client, credential, testClient, suffix, keyVaultUrl };

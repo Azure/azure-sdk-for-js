@@ -70,11 +70,11 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
     certificateName: string,
     options: RecoverDeletedCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
+    let parsedBody: any;
     return tracingClient.withSpan(
       "RecoverDeletedCertificatePoller.recoverDeletedCertificate",
       options,
       async (updatedOptions) => {
-        let parsedBody: any;
         await this.client.recoverDeletedCertificate(this.vaultUrl, certificateName, {
           ...updatedOptions,
           onResponse: (response) => {
