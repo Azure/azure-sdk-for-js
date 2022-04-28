@@ -13,7 +13,7 @@
 
 ### Other Changes
 
-- Improved formatting of error messages returned by the text proxy. [#21575](https://github.com/Azure/azure-sdk-for-js/pull/21575)
+- Improved formatting of error messages returned by the test proxy. [#21575](https://github.com/Azure/azure-sdk-for-js/pull/21575)
 
 ## 2.0.0 (2022-04-11)
 
