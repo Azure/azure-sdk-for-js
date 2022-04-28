@@ -17,6 +17,7 @@ export type WorkerLike = workerThreads.Worker | ChildProcess;
 export interface WorkerData {
   testClassName: string;
   assignedParallels: number;
+  parallelIndexOffset: number;
   options: ParsedPerfOptions<DefaultPerfOptions>;
 }
 

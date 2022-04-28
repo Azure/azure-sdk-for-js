@@ -152,12 +152,16 @@ export class ManagerPerfProgram implements PerfProgram {
       ++allocations[i];
     }
 
-    for (const alloc of allocations) {
+    let parallelIndexOffset = 0;
+    for (const assignedParallels of allocations) {
       this.managerUtils.createWorker({
         testClassName: this.testName,
-        assignedParallels: alloc,
+        assignedParallels: assignedParallels,
+        parallelIndexOffset,
         options: this.parsedOptions,
       });
+
+      parallelIndexOffset += assignedParallels;
     }
   }
 

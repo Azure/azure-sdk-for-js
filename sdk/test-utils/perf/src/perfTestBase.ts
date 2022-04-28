@@ -34,7 +34,9 @@ export interface PerfTestConstructor<
 export abstract class PerfTestBase<TOptions = Record<string, unknown>> {
   public completedOperations = 0;
   public lastMillisecondsElapsed = 0;
-  private static globalParallelIndex = 0;
+  private static globalParallelIndex = multicoreUtils.isManager
+    ? 0
+    : multicoreUtils.workerData.parallelIndexOffset;
   protected readonly parallelIndex: number;
 
   public abstract options: PerfOptionDictionary<TOptions>;
