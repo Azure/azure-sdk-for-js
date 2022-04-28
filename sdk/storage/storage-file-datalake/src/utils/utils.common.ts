@@ -553,7 +553,7 @@ export function getAccountNameFromUrl(blobEndpointUrl: string): string {
     }
 
     return accountName;
-  } catch (error) {
+  } catch (error: any) {
     throw new Error("Unable to extract accountName with provided information.");
   }
 }

@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// The eslint plugin mentioned below doesn't follow through the extended types.
-/* eslint-disable @azure/azure-sdk/ts-apisurface-supportcancellation */
-
 // This file makes more sense if ordered based on how meaningful are some methods in relation to others.
-/* eslint-disable @typescript-eslint/member-ordering */
 
 /// <reference lib="esnext.asynciterable" />
 

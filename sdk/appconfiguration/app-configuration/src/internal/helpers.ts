@@ -220,7 +220,7 @@ export function serializeAsConfigurationSettingParam(
     if (isConfigSettingWithSecretReferenceValue(setting)) {
       return SecretReferenceHelper.toConfigurationSettingParam(setting);
     }
-  } catch (error) {
+  } catch (error: any) {
     return setting as ConfigurationSettingParam;
   }
   throw new TypeError(

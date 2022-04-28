@@ -4,19 +4,19 @@
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
 import { createSandbox } from "sinon";
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 
 import {
-  AuthenticationChallengeCache,
   AuthenticationChallenge,
-  parseWWWAuthenticate,
+  AuthenticationChallengeCache,
   challengeBasedAuthenticationPolicy,
+  parseWWWAuthenticate,
 } from "../../../keyvault-common/src";
 import { KeyClient } from "../../src";
 import { authenticate } from "../public/utils/testAuthentication";
 import TestClient from "../public/utils/testClient";
 import { getServiceVersion } from "../public/utils/common";
-import { HttpHeaders, isNode, WebResource } from "@azure/core-http";
+import { HttpHeaders, WebResource, isNode } from "@azure/core-http";
 import { ClientSecretCredential } from "@azure/identity";
 import sinon from "sinon";
 
@@ -136,7 +136,7 @@ describe("Local Challenge based authentication tests", () => {
 
     try {
       await policy.sendRequest(request);
-    } catch (err) {
+    } catch (err: any) {
       // the next policy throws
     }
 

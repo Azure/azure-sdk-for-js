@@ -65,7 +65,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
           canDelete: false,
         });
         assert.fail("should have thrown already");
-      } catch (e) {
+      } catch (e: any) {
         assert.strictEqual((e as any).statusCode, 401);
         assert.strictEqual((e as any).details.errors[0].code, "UNAUTHORIZED");
       }

@@ -96,7 +96,7 @@ describe("BatchingReceiver unit tests", () => {
           abortSignal: abortController.signal,
         });
         assert.fail("Should have thrown");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
@@ -157,7 +157,7 @@ describe("BatchingReceiver unit tests", () => {
       try {
         await receiver.receive(1, 60 * 1000, 60 * 1000, { abortSignal: abortController.signal });
         assert.fail("Should have thrown");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
@@ -587,7 +587,7 @@ describe("BatchingReceiver unit tests", () => {
       try {
         await receiveMessagesPromise;
         assert.fail("Test should have thrown");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, "actual error");
       }
     });

@@ -193,7 +193,7 @@ describe("TracingClient", () => {
         let errorThrown = false;
         try {
           await client.withSpan(spanName, {}, () => Promise.reject(new Error("test")));
-        } catch (err) {
+        } catch (err: any) {
           errorThrown = true;
           assert.isTrue(setStatusSpy.calledWith(sinon.match({ status: "error", error: err })));
         }

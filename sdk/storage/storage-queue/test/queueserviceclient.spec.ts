@@ -310,7 +310,7 @@ describe("QueueServiceClient", () => {
     let queueServiceClient: QueueServiceClient | undefined;
     try {
       queueServiceClient = getAlternateQSU();
-    } catch (err) {
+    } catch (err: any) {
       done();
       return;
     }
@@ -357,7 +357,7 @@ describe("QueueServiceClient", () => {
     let err;
     try {
       await queueServiceClient.getQueueClient(queueName).getProperties();
-    } catch (error) {
+    } catch (error: any) {
       err = error;
     }
     assert.equal(err.details.errorCode, "QueueNotFound", "Error does not contain details property");

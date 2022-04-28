@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import {
+  MessageAdapter as EHMessageAdapter,
   EventData,
   EventDataAdapterParameters,
-  MessageAdapter as EHMessageAdapter,
   createEventDataAdapter,
 } from "@azure/event-hubs";
 import { AssertEqualKeys } from "../utils/utils";

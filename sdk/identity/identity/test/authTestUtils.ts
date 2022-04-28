@@ -14,7 +14,7 @@ export async function getError<T = Error>(promise: Promise<any>): Promise<T> {
   try {
     const result = await promise;
     throw new Error(`Expected an error. Received: ${result}`);
-  } catch (error) {
+  } catch (error: any) {
     return error;
   }
 }

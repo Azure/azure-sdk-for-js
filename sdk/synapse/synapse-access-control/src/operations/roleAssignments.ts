@@ -62,7 +62,7 @@ export class RoleAssignmentsImpl implements RoleAssignments {
         checkPrincipalAccessOperationSpec
       );
       return result as RoleAssignmentsCheckPrincipalAccessResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -90,7 +90,7 @@ export class RoleAssignmentsImpl implements RoleAssignments {
         listRoleAssignmentsOperationSpec
       );
       return result as RoleAssignmentsListRoleAssignmentsResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -126,7 +126,7 @@ export class RoleAssignmentsImpl implements RoleAssignments {
         createRoleAssignmentOperationSpec
       );
       return result as RoleAssignmentsCreateRoleAssignmentResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -156,7 +156,7 @@ export class RoleAssignmentsImpl implements RoleAssignments {
         getRoleAssignmentByIdOperationSpec
       );
       return result as RoleAssignmentsGetRoleAssignmentByIdResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -186,7 +186,7 @@ export class RoleAssignmentsImpl implements RoleAssignments {
         deleteRoleAssignmentByIdOperationSpec
       );
       return result as void;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message

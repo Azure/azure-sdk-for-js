@@ -4,7 +4,11 @@
 
 ### Features Added
 
+- Support TLS Settings for client certificate authentication. [#21172](https://github.com/Azure/azure-sdk-for-js/pull/21172)
+
 - Exposed type guard for RestError called `isRestError` for typesafe exception handling.
+
+- Improve user agent information for React-Native.
 
 ### Breaking Changes
 

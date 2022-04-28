@@ -46,7 +46,7 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
         listOperationSpec
       );
       return result as IntegrationRuntimesListResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -73,7 +73,7 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
         getOperationSpec
       );
       return result as IntegrationRuntimesGetResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message

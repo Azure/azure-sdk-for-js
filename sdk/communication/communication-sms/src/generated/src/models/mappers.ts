@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
-export const SendMessageRequest: coreHttp.CompositeMapper = {
+export const SendMessageRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SendMessageRequest",
@@ -25,7 +25,12 @@ export const SendMessageRequest: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "SmsRecipient" } }
+          element: {
+            type: {
+              name: "Composite",
+              className: "SmsRecipient"
+            }
+          }
         }
       },
       message: {
@@ -49,7 +54,7 @@ export const SendMessageRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const SmsRecipient: coreHttp.CompositeMapper = {
+export const SmsRecipient: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SmsRecipient",
@@ -77,7 +82,7 @@ export const SmsRecipient: coreHttp.CompositeMapper = {
   }
 };
 
-export const SmsSendOptions: coreHttp.CompositeMapper = {
+export const SmsSendOptions: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SmsSendOptions",
@@ -99,7 +104,7 @@ export const SmsSendOptions: coreHttp.CompositeMapper = {
   }
 };
 
-export const SmsSendResponse: coreHttp.CompositeMapper = {
+export const SmsSendResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SmsSendResponse",
@@ -110,7 +115,10 @@ export const SmsSendResponse: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "SmsSendResponseItem" }
+            type: {
+              name: "Composite",
+              className: "SmsSendResponseItem"
+            }
           }
         }
       }
@@ -118,7 +126,7 @@ export const SmsSendResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const SmsSendResponseItem: coreHttp.CompositeMapper = {
+export const SmsSendResponseItem: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SmsSendResponseItem",

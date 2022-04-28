@@ -1,17 +1,17 @@
 # Release History
 
-## 12.8.1 (Unreleased)
+## 12.9.0-beta.1 (2022-04-19)
 
 ### Features Added
 
-### Breaking Changes
+- Added support for service version 2021-06-08.
+- Added support for Customer Provided Key server-side encryption of files.
+- Added ability to retrieve path createdOn and expiresOn times with DataLakeFileSystemClient.listPaths().
 
 ### Bugs Fixed
 
 - Add missing browser mapping for `./dist-esm/storage-common/src/BufferScheduler.js`
 - Add `react-native` mapping to ESM entry point
-
-### Other Changes
 
 ## 12.8.0 (2022-03-11)
 

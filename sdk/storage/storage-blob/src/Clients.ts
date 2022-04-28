@@ -1254,7 +1254,7 @@ export class BlobClient extends StorageClient {
           onProgress: options.onProgress,
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1285,7 +1285,7 @@ export class BlobClient extends StorageClient {
         tracingOptions: updatedOptions.tracingOptions,
       });
       return true;
-    } catch (e) {
+    } catch (e: any) {
       if (e.statusCode === 404) {
         // Expected exception when checking blob existence
         return false;
@@ -1344,7 +1344,7 @@ export class BlobClient extends StorageClient {
         objectReplicationDestinationPolicyId: res.objectReplicationPolicyId,
         objectReplicationSourceProperties: parseObjectReplicationRecord(res.objectReplicationRules),
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1378,7 +1378,7 @@ export class BlobClient extends StorageClient {
         },
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1409,7 +1409,7 @@ export class BlobClient extends StorageClient {
         ...res,
         _response: res._response, // _response is made non-enumerable
       };
-    } catch (e) {
+    } catch (e: any) {
       if (e.details?.errorCode === "BlobNotFound") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
@@ -1446,7 +1446,7 @@ export class BlobClient extends StorageClient {
         abortSignal: options.abortSignal,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1491,7 +1491,7 @@ export class BlobClient extends StorageClient {
         // cpkInfo: options.customerProvidedKey, // CPK is not included in Swagger, should change this back when this issue is fixed in Swagger.
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1533,7 +1533,7 @@ export class BlobClient extends StorageClient {
         encryptionScope: options.encryptionScope,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1566,7 +1566,7 @@ export class BlobClient extends StorageClient {
         ...convertTracingToRequestOptionsBase(updatedOptions),
         tags: toBlobTags(tags),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1600,7 +1600,7 @@ export class BlobClient extends StorageClient {
         tags: toTags({ blobTagSet: response.blobTagSet }) || {},
       };
       return wrappedResponse;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1646,7 +1646,7 @@ export class BlobClient extends StorageClient {
         encryptionScope: options.encryptionScope,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1775,7 +1775,7 @@ export class BlobClient extends StorageClient {
         leaseAccessConditions: options.conditions,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1827,7 +1827,7 @@ export class BlobClient extends StorageClient {
         copySourceTags: options.copySourceTags,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1865,7 +1865,7 @@ export class BlobClient extends StorageClient {
         rehydratePriority: options.rehydratePriority,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1985,7 +1985,7 @@ export class BlobClient extends StorageClient {
       if (!buffer) {
         try {
           buffer = Buffer.alloc(count);
-        } catch (error) {
+        } catch (error: any) {
           throw new Error(
             `Unable to allocate the buffer of size: ${count}(in bytes). Please try passing your own buffer to the "downloadToBuffer" method or try using other methods like "download" or "downloadToFile".\t ${error.message}`
           );
@@ -2030,7 +2030,7 @@ export class BlobClient extends StorageClient {
       }
       await batch.do();
       return buffer;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2079,7 +2079,7 @@ export class BlobClient extends StorageClient {
       // The stream is no longer accessible so setting it to undefined.
       (response as any).blobDownloadStream = undefined;
       return response;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2138,7 +2138,7 @@ export class BlobClient extends StorageClient {
       }
 
       return { blobName, containerName };
-    } catch (error) {
+    } catch (error: any) {
       throw new Error("Unable to extract blobName and containerName with provided information.");
     }
   }
@@ -2189,7 +2189,7 @@ export class BlobClient extends StorageClient {
         sealBlob: options.sealBlob,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2248,7 +2248,7 @@ export class BlobClient extends StorageClient {
         abortSignal: options?.abortSignal,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2277,7 +2277,7 @@ export class BlobClient extends StorageClient {
         modifiedAccessConditions: options?.modifiedAccessCondition,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2303,7 +2303,7 @@ export class BlobClient extends StorageClient {
         abortSignal: options?.abortSignal,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2752,7 +2752,7 @@ export class AppendBlobClient extends BlobClient {
         blobTagsString: toBlobTagsString(options.tags),
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2785,7 +2785,7 @@ export class AppendBlobClient extends BlobClient {
         ...res,
         _response: res._response, // _response is made non-enumerable
       };
-    } catch (e) {
+    } catch (e: any) {
       if (e.details?.errorCode === "BlobAlreadyExists") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
@@ -2827,7 +2827,7 @@ export class AppendBlobClient extends BlobClient {
         },
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2889,7 +2889,7 @@ export class AppendBlobClient extends BlobClient {
         encryptionScope: options.encryptionScope,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2948,7 +2948,7 @@ export class AppendBlobClient extends BlobClient {
         encryptionScope: options.encryptionScope,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -3792,7 +3792,7 @@ export class BlockBlobClient extends BlobClient {
         onProgress: options.onProgress,
         onError: options.onError,
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -3860,7 +3860,7 @@ export class BlockBlobClient extends BlobClient {
         blobTagsString: toBlobTagsString(options.tags),
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -3920,7 +3920,7 @@ export class BlockBlobClient extends BlobClient {
         copySourceTags: options.copySourceTags,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -3963,7 +3963,7 @@ export class BlockBlobClient extends BlobClient {
         encryptionScope: options.encryptionScope,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4016,7 +4016,7 @@ export class BlockBlobClient extends BlobClient {
         copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4068,7 +4068,7 @@ export class BlockBlobClient extends BlobClient {
           ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4114,7 +4114,7 @@ export class BlockBlobClient extends BlobClient {
       }
 
       return res;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4172,7 +4172,7 @@ export class BlockBlobClient extends BlobClient {
           updatedOptions
         );
       }
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4214,7 +4214,7 @@ export class BlockBlobClient extends BlobClient {
         browserBlob.size,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4330,7 +4330,7 @@ export class BlockBlobClient extends BlobClient {
       await batch.do();
 
       return this.commitBlockList(blockList, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4379,7 +4379,7 @@ export class BlockBlobClient extends BlobClient {
           },
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -4463,7 +4463,7 @@ export class BlockBlobClient extends BlobClient {
           ...convertTracingToRequestOptionsBase(updatedOptions),
         },
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5130,7 +5130,7 @@ export class PageBlobClient extends BlobClient {
         blobTagsString: toBlobTagsString(options.tags),
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5167,7 +5167,7 @@ export class PageBlobClient extends BlobClient {
         ...res,
         _response: res._response, // _response is made non-enumerable
       };
-    } catch (e) {
+    } catch (e: any) {
       if (e.details?.errorCode === "BlobAlreadyExists") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
@@ -5228,7 +5228,7 @@ export class PageBlobClient extends BlobClient {
         encryptionScope: options.encryptionScope,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5289,7 +5289,7 @@ export class PageBlobClient extends BlobClient {
           ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5330,7 +5330,7 @@ export class PageBlobClient extends BlobClient {
         encryptionScope: options.encryptionScope,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5370,7 +5370,7 @@ export class PageBlobClient extends BlobClient {
           ...convertTracingToRequestOptionsBase(updatedOptions),
         })
         .then(rangeResponseFromModel);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5413,7 +5413,7 @@ export class PageBlobClient extends BlobClient {
         maxPageSize: options.maxPageSize,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5618,7 +5618,7 @@ export class PageBlobClient extends BlobClient {
           ...convertTracingToRequestOptionsBase(updatedOptions),
         })
         .then(rangeResponseFromModel);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5668,7 +5668,7 @@ export class PageBlobClient extends BlobClient {
         maxPageSize: options?.maxPageSize,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5894,7 +5894,7 @@ export class PageBlobClient extends BlobClient {
           ...convertTracingToRequestOptionsBase(updatedOptions),
         })
         .then(rangeResponseFromModel);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5930,7 +5930,7 @@ export class PageBlobClient extends BlobClient {
         encryptionScope: options.encryptionScope,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -5968,7 +5968,7 @@ export class PageBlobClient extends BlobClient {
         },
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -6006,7 +6006,7 @@ export class PageBlobClient extends BlobClient {
         },
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

@@ -90,7 +90,7 @@ describe("Containers", function (this: Suite) {
         containerDef.partitionKey = { paths: ["/key"] };
         await container.replace(containerDef);
         assert.fail("Replacing partitionKey must throw");
-      } catch (err) {
+      } catch (err: any) {
         const badRequestErrorCode = 400;
         assert.equal(
           err.code,
@@ -105,7 +105,7 @@ describe("Containers", function (this: Suite) {
         containerDef.id = "try_to_replace_id";
         await container.replace(containerDef);
         assert.fail("Replacing container id must throw");
-      } catch (err) {
+      } catch (err: any) {
         const notFoundErrorCode = 400;
         assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
       }
@@ -122,7 +122,7 @@ describe("Containers", function (this: Suite) {
       try {
         await container.read();
         assert.fail("Must fail to read container after delete");
-      } catch (err) {
+      } catch (err: any) {
         const notFoundErrorCode = 404;
         assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
       }
@@ -154,7 +154,7 @@ describe("Containers", function (this: Suite) {
 
         try {
           await database.containers.create(containerDefinition);
-        } catch (err) {
+        } catch (err: any) {
           assert.equal(err.code, 400);
         }
       });
@@ -174,7 +174,7 @@ describe("Containers", function (this: Suite) {
         try {
           await database.containers.create(containerDefinition);
           console.log("finish");
-        } catch (err) {
+        } catch (err: any) {
           assert.equal(err.message, "Partition key must start with '/'");
         }
       });

@@ -375,7 +375,7 @@ export function convertGeneratedTable(table: GeneratedTable): LogsTable {
       for (const dynamicIndex of dynamicsIndices) {
         try {
           row[dynamicIndex] = JSON.parse(row[dynamicIndex] as string) as Record<string, unknown>;
-        } catch (_err) {
+        } catch (_err: any) {
           /* leave as is. */
         }
       }
@@ -402,7 +402,7 @@ export function convertBatchQueryResponseHelper(
     ) as GeneratedBatchQueryResults;
 
     return computeResultType(parsedResponseBody);
-  } catch (e) {
+  } catch (e: any) {
     if (response.body) return computeResultType(response.body);
     else return {} as LogsQuerySuccessfulResult;
   }

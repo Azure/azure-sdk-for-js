@@ -254,7 +254,7 @@ describe("KeyVaultAccessControlClient", () => {
       let error: Error;
       try {
         await client.getRoleAssignment(globalScope, generateFakeUUID());
-      } catch (e) {
+      } catch (e: any) {
         error = e;
       }
       assert.ok(error!.message.match(/Requested role assignment not found/));

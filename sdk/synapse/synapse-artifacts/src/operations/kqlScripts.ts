@@ -91,7 +91,7 @@ export class KqlScriptsImpl implements KqlScripts {
         getAllOperationSpec
       );
       return result as KqlScriptsGetAllResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -118,7 +118,7 @@ export class KqlScriptsImpl implements KqlScripts {
         getAllNextOperationSpec
       );
       return result as KqlScriptsGetAllNextResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message

@@ -440,7 +440,7 @@ describe("BlobClient Node.js only", () => {
       assert.fail(
         "AbortCopyFromClient should be failed and throw exception for an completed copy operation."
       );
-    } catch (err) {
+    } catch (err: any) {
       assert.ok(err.code === "InvalidHeaderValue");
     }
   });
@@ -570,7 +570,7 @@ describe("BlobClient Node.js only", () => {
       await blockBlobClient.query("select * from BlobStorage", {
         conditions: { tagConditions: "tag = 'val1'" },
       });
-    } catch (e) {
+    } catch (e: any) {
       assert.equal(e.details?.errorCode, "ConditionNotMet");
       exceptionCaught = true;
     }
@@ -607,7 +607,7 @@ describe("BlobClient Node.js only", () => {
           ifModifiedSince: new Date("2100/01/01"),
         },
       });
-    } catch (err) {
+    } catch (err: any) {
       assert.deepStrictEqual(err.statusCode, 304);
       return;
     }
@@ -624,7 +624,7 @@ describe("BlobClient Node.js only", () => {
           leaseId: "invalid",
         },
       });
-    } catch (err) {
+    } catch (err: any) {
       assert.deepStrictEqual(err.statusCode, 400);
       return;
     }
@@ -722,7 +722,7 @@ describe("BlobClient Node.js only", () => {
 
     try {
       await readStreamToLocalFileWithLogs(response.readableStreamBody!, downloadedFile);
-    } catch (error) {
+    } catch (error: any) {
       assert.deepStrictEqual(error.name, "AbortError");
       unlinkSync(downloadedFile);
       unlinkSync(tempFileLarge);

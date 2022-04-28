@@ -191,7 +191,7 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   if (config.retryOptions.mode == undefined) {
     config.retryOptions.mode = RetryMode.Fixed;
   }
-  let lastError: MessagingError | undefined;
+  let lastError: MessagingError | Error | undefined;
   let result: any;
   let success = false;
   const totalNumberOfAttempts = config.retryOptions.maxRetries + 1;
@@ -221,19 +221,19 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
       }
       break;
     } catch (_err) {
-      let err = _err;
-      if (!err.translated) {
-        err = translate(err);
-      }
+      const err = translate(_err);
 
-      if (!err.retryable && err.name === "ServiceCommunicationError" && config.connectionHost) {
+      if (
+        !(err as any).retryable &&
+        err.name === "ServiceCommunicationError" &&
+        config.connectionHost
+      ) {
         const isConnected = await checkNetworkConnection(config.connectionHost);
         if (!isConnected) {
           err.name = "ConnectionLostError";
-          err.retryable = true;
+          (err as any).retryable = true;
         }
       }
-      lastError = err;
       logger.verbose(
         "[%s] Error occurred for '%s' in attempt number %d: %O",
         config.connectionId,
@@ -242,7 +242,8 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
         err
       );
 
-      if (lastError && lastError.retryable && totalNumberOfAttempts > i) {
+      lastError = err;
+      if ((lastError as any).retryable && totalNumberOfAttempts > i) {
         const targetDelayInMs = calculateDelay(
           i,
           config.retryOptions.retryDelayInMs,

@@ -129,7 +129,7 @@ export class ConflictWorker {
         } else {
           console.log("Retrying insert to induce conflicts");
         }
-      } catch (err) {
+      } catch (err: any) {
         p.fail();
         throw err;
       }
@@ -292,7 +292,7 @@ export class ConflictWorker {
                 `Document from region ${item.regionId} won the conflict @ ${clientRegion}`
               );
               return false;
-            } catch (err) {
+            } catch (err: any) {
               if (err.code && err.code === StatusCodes.NotFound) {
                 console.log(`Item from region ${item.regionId} not found @ ${clientRegion}`);
               }
@@ -471,7 +471,7 @@ export class ConflictWorker {
             console.log(`Delete conflict won @ ${regionName}`);
             return;
           }
-        } catch (err) {
+        } catch (err: any) {
           if (err.code === StatusCodes.NotFound) {
             console.log(`Delete conflict won @ ${regionName}`);
             return;
@@ -494,7 +494,7 @@ export class ConflictWorker {
           console.log(`Winner document from region ${currentItem.regionId} found at ${regionName}`);
           break;
         }
-      } catch (err) {
+      } catch (err: any) {
         /* No op */
       }
 
@@ -663,7 +663,7 @@ export class ConflictWorker {
             console.log(`Delete conflict won @ ${regionName}`);
             return;
           }
-        } catch (err) {
+        } catch (err: any) {
           if (err.code === StatusCodes.NotFound) {
             console.log(`Delete conflict won @ ${regionName}`);
             return;
@@ -689,7 +689,7 @@ export class ConflictWorker {
           console.log(`Winner document from region ${currentItem.regionId} found at ${regionName}`);
           break;
         }
-      } catch (err) {
+      } catch (err: any) {
         /* No op */
       }
 
@@ -703,7 +703,7 @@ export class ConflictWorker {
   private async tryInsertItem(items: Items, newDef: ItemDefinition): Promise<ItemDefinition> {
     try {
       return (await items.create(newDef)).resource;
-    } catch (err) {
+    } catch (err: any) {
       // Handle conflict error silently
       if (err.code === StatusCodes.Conflict) {
         return null;
@@ -726,7 +726,7 @@ export class ConflictWorker {
           }
         })
       ).resource;
-    } catch (err) {
+    } catch (err: any) {
       if (err.code === StatusCodes.PreconditionFailed || err.code === StatusCodes.NotFound) {
         console.log(
           `${await item.container.database.client.getWriteEndpoint()} hit ${err.code} at ${time}`
@@ -748,7 +748,7 @@ export class ConflictWorker {
         }
       });
       return newDef;
-    } catch (err) {
+    } catch (err: any) {
       if (err.code === StatusCodes.PreconditionFailed || err.code === StatusCodes.NotFound) {
         return null; // Lost synchronously or not document yet. No conflict is induced.
       } else {

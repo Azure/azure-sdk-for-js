@@ -86,7 +86,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       try {
         await container.scripts.trigger(replacedTrigger.id).read();
         assert.fail("Must fail to read after deletion");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
       }
     });
@@ -172,7 +172,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       try {
         await container.items.create({ id: "Docoptype" }, { postTriggerInclude: "triggerOpType" });
         assert.fail("Must fail");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.code, 400, "Must throw when using a DELETE trigger on a CREATE operation");
       }
     });
