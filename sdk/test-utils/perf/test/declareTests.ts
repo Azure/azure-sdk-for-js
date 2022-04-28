@@ -12,6 +12,7 @@ import { NodeFetchTest } from "./nodeFetch.spec";
 import { MockReceiverTest } from "./batch/mockReceiverTest.spec";
 import { MockEventReceiverTest } from "./event/mockEventReceiverTest.spec";
 import { MockEventHubConsumerClientTest } from "./event/mockEventHubConsumerClientTest.spec";
+import { LogTest } from "./log.spec";
 import { PerfTestConstructor } from "../src";
 
 type NormalizedTestDefinition = { testClass: PerfTestConstructor; options?: string };
@@ -40,6 +41,7 @@ const tests: TestDefinition[] = [
   MockReceiverTest,
   MockEventReceiverTest,
   MockEventHubConsumerClientTest,
+  LogTest
 ];
 
 // Normalize everything in the array above for export.
