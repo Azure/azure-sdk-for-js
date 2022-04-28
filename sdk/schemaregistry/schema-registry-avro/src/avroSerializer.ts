@@ -224,65 +224,20 @@ function getSchemaId(contentType: string): string {
   return contentTypeParts[1];
 }
 
-/**
- * Tries to deserialize data in the preamble format. If that does not succeed, it
- * returns it as is.
- * @param data - The message content
- * @param contentType - The message content type
- * @returns a message
- */
-function convertPayload(data: Uint8Array, contentType: string): MessageContent {
-  try {
-    return tryReadingPreambleFormat(Buffer.from(data));
-  } catch (_e: unknown) {
-    return {
-      data,
-      contentType,
-    };
-  }
-}
-
 function convertMessage<MessageT>(
   message: MessageT,
   adapter?: MessageAdapter<MessageT>
 ): MessageContent {
   const messageConsumer = adapter?.consume;
   if (messageConsumer) {
-    const { data, contentType } = messageConsumer(message);
-    return convertPayload(data, contentType);
+    return messageConsumer(message);
   } else if (isMessageContent(message)) {
-    return convertPayload(message.data, message.contentType);
+    return message;
   } else {
     throw new Error(
       `Expected either a message adapter to be provided to the serializer or the input message to have data and contentType fields`
     );
   }
-}
-
-/**
- * Maintains backward compatability by supporting the serialized value format created
- * by earlier beta serializers
- * @param buffer - The input buffer
- * @returns a message that contains the data and content type with the schema ID
- */
-function tryReadingPreambleFormat(buffer: Buffer): MessageContent {
-  const FORMAT_INDICATOR = 0;
-  const SCHEMA_ID_OFFSET = 4;
-  const PAYLOAD_OFFSET = 36;
-  if (buffer.length < PAYLOAD_OFFSET) {
-    throw new RangeError("Buffer is too small to have the correct format.");
-  }
-  const format = buffer.readUInt32BE(0);
-  if (format !== FORMAT_INDICATOR) {
-    throw new TypeError(`Buffer has unknown format indicator.`);
-  }
-  const schemaIdBuffer = buffer.slice(SCHEMA_ID_OFFSET, PAYLOAD_OFFSET);
-  const schemaId = schemaIdBuffer.toString("utf-8");
-  const payloadBuffer = buffer.slice(PAYLOAD_OFFSET);
-  return {
-    data: payloadBuffer,
-    contentType: `${avroMimeType}+${schemaId}`,
-  };
 }
 
 function getSerializerForSchema(schema: string): AVSCSerializer {
