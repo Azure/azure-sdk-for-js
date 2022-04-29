@@ -1706,11 +1706,11 @@ export interface SingleQueryResult {
   /** The ID of the signature */
   signatureId?: number;
   /** The current mode enforced, 0 - Disabled, 1 - Alert, 2 -Deny */
-  mode?: Enum69;
+  mode?: SingleQueryResultMode;
   /** Describes the severity of signature: 1 - Low, 2 - Medium, 3 - High */
-  severity?: Enum70;
+  severity?: SingleQueryResultSeverity;
   /** Describes in which direction signature is being enforced: 0 - Inbound, 1 - OutBound, 2 - Bidirectional */
-  direction?: Enum71;
+  direction?: SingleQueryResultDirection;
   /** Describes the groups the signature belongs to */
   group?: string;
   /** Describes what is the signature enforces */
@@ -11105,59 +11105,59 @@ export enum KnownOrderByOrder {
  */
 export type OrderByOrder = string;
 
-/** Known values of {@link Enum69} that the service accepts. */
-export enum KnownEnum69 {
+/** Known values of {@link SingleQueryResultMode} that the service accepts. */
+export enum KnownSingleQueryResultMode {
   Zero = 0,
   One = 1,
   Two = 2
 }
 
 /**
- * Defines values for Enum69. \
- * {@link KnownEnum69} can be used interchangeably with Enum69,
+ * Defines values for SingleQueryResultMode. \
+ * {@link KnownSingleQueryResultMode} can be used interchangeably with SingleQueryResultMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **0** \
  * **1** \
  * **2**
  */
-export type Enum69 = number;
+export type SingleQueryResultMode = number;
 
-/** Known values of {@link Enum70} that the service accepts. */
-export enum KnownEnum70 {
+/** Known values of {@link SingleQueryResultSeverity} that the service accepts. */
+export enum KnownSingleQueryResultSeverity {
   One = 1,
   Two = 2,
   Three = 3
 }
 
 /**
- * Defines values for Enum70. \
- * {@link KnownEnum70} can be used interchangeably with Enum70,
+ * Defines values for SingleQueryResultSeverity. \
+ * {@link KnownSingleQueryResultSeverity} can be used interchangeably with SingleQueryResultSeverity,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **1** \
  * **2** \
  * **3**
  */
-export type Enum70 = number;
+export type SingleQueryResultSeverity = number;
 
-/** Known values of {@link Enum71} that the service accepts. */
-export enum KnownEnum71 {
+/** Known values of {@link SingleQueryResultDirection} that the service accepts. */
+export enum KnownSingleQueryResultDirection {
   Zero = 0,
   One = 1,
   Two = 2
 }
 
 /**
- * Defines values for Enum71. \
- * {@link KnownEnum71} can be used interchangeably with Enum71,
+ * Defines values for SingleQueryResultDirection. \
+ * {@link KnownSingleQueryResultDirection} can be used interchangeably with SingleQueryResultDirection,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **0** \
  * **1** \
  * **2**
  */
-export type Enum71 = number;
+export type SingleQueryResultDirection = number;
 
 /** Known values of {@link IpAllocationType} that the service accepts. */
 export enum KnownIpAllocationType {
