@@ -172,12 +172,10 @@ export class ReplicationJobsImpl implements ReplicationJobs {
       { jobName, options },
       cancelOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -251,12 +249,10 @@ export class ReplicationJobsImpl implements ReplicationJobs {
       { jobName, options },
       restartOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -332,12 +328,10 @@ export class ReplicationJobsImpl implements ReplicationJobs {
       { jobName, resumeJobParams, options },
       resumeOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -413,12 +407,10 @@ export class ReplicationJobsImpl implements ReplicationJobs {
       { jobQueryParameter, options },
       exportOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**

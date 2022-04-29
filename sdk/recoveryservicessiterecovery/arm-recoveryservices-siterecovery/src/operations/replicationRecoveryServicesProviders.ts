@@ -240,12 +240,10 @@ export class ReplicationRecoveryServicesProvidersImpl
       { fabricName, providerName, addProviderInput, options },
       createOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -325,12 +323,10 @@ export class ReplicationRecoveryServicesProvidersImpl
       { fabricName, providerName, options },
       purgeOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -410,12 +406,10 @@ export class ReplicationRecoveryServicesProvidersImpl
       { fabricName, providerName, options },
       refreshProviderOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -492,12 +486,10 @@ export class ReplicationRecoveryServicesProvidersImpl
       { fabricName, providerName, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**

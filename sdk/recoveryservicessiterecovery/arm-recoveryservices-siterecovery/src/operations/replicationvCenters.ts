@@ -237,12 +237,10 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
       { fabricName, vcenterName, addVCenterRequest, options },
       createOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -322,12 +320,10 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
       { fabricName, vcenterName, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -407,12 +403,10 @@ export class ReplicationvCentersImpl implements ReplicationvCenters {
       { fabricName, vcenterName, updateVCenterRequest, options },
       updateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
