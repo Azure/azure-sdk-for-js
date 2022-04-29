@@ -1048,7 +1048,7 @@ export interface MaintenanceConfigurationsListByManagedClusterOptionalParams ext
 export type MaintenanceConfigurationsListByManagedClusterResponse = MaintenanceConfigurationListResult;
 
 // @public
-export type ManagedCluster = Resource & {
+export type ManagedCluster = TrackedResource & {
     sku?: ManagedClusterSKU;
     extendedLocation?: ExtendedLocation;
     identity?: ManagedClusterIdentity;
@@ -1100,7 +1100,7 @@ export interface ManagedClusterAADProfile {
 }
 
 // @public
-export type ManagedClusterAccessProfile = Resource & {
+export type ManagedClusterAccessProfile = TrackedResource & {
     kubeConfig?: Uint8Array;
 };
 
@@ -1548,6 +1548,28 @@ export interface ManagedClustersStopOptionalParams extends coreClient.OperationO
 }
 
 // @public
+export interface ManagedClusterStorageProfile {
+    diskCSIDriver?: ManagedClusterStorageProfileDiskCSIDriver;
+    fileCSIDriver?: ManagedClusterStorageProfileFileCSIDriver;
+    snapshotController?: ManagedClusterStorageProfileSnapshotController;
+}
+
+// @public
+export interface ManagedClusterStorageProfileDiskCSIDriver {
+    enabled?: boolean;
+}
+
+// @public
+export interface ManagedClusterStorageProfileFileCSIDriver {
+    enabled?: boolean;
+}
+
+// @public
+export interface ManagedClusterStorageProfileSnapshotController {
+    enabled?: boolean;
+}
+
+// @public
 export interface ManagedClustersUpdateTagsOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1769,12 +1791,8 @@ export type ResolvePrivateLinkServiceIdPostResponse = PrivateLinkResource;
 // @public
 export interface Resource {
     readonly id?: string;
-    location: string;
     readonly name?: string;
     readonly systemData?: SystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
     readonly type?: string;
 }
 
@@ -1814,7 +1832,7 @@ export type ScaleSetEvictionPolicy = string;
 export type ScaleSetPriority = string;
 
 // @public
-export type Snapshot = Resource & {
+export type Snapshot = TrackedResource & {
     creationData?: CreationData;
     snapshotType?: SnapshotType;
     readonly kubernetesVersion?: string;
@@ -1964,6 +1982,14 @@ export interface TimeSpan {
     end?: Date;
     start?: Date;
 }
+
+// @public
+export type TrackedResource = Resource & {
+    tags?: {
+        [propertyName: string]: string;
+    };
+    location: string;
+};
 
 // @public
 export type UpgradeChannel = string;
