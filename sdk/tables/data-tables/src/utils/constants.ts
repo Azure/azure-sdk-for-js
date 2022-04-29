@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export const SERVICE_VERSION = "2020-12-06";
+export const SERVICE_VERSION = "2019-02-02";
 export const TRANSACTION_HTTP_VERSION_1_1 = "HTTP/1.1";
 export const TRANSACTION_HTTP_LINE_ENDING = "\r\n";
 
