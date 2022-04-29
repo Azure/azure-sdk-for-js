@@ -54,6 +54,38 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
     assert.equal(getTokenStub.callCount, 1);
   });
 
+  it("should fail with 401 if no challenge is present", async () => {
+    const policy = bearerTokenAuthenticationPolicy({
+      credential: { getToken: getTokenStub },
+      scopes: ["https://example.org"],
+      challengeCallbacks: {
+        authorizeRequestOnChallenge: storageAuthorizeRequestOnChallenge,
+      },
+    });
+
+    const response = await policy.sendRequest(
+      {
+        headers: createHttpHeaders(),
+        method: "GET",
+        requestId: "",
+        timeout: 1000,
+        url: "https://example.org",
+        withCredentials: true,
+      },
+      async (req) => {
+        assert.equal(req.headers.get("authorization"), "Bearer originalToken");
+
+        return {
+          headers: createHttpHeaders({}),
+          request: req,
+          status: 401,
+        };
+      }
+    );
+
+    assert.equal(response.status, 401);
+  });
+
   it("should try to get challenge info if request succeeded initially", async () => {
     const policy = bearerTokenAuthenticationPolicy({
       credential: { getToken: getTokenStub },
@@ -97,6 +129,96 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
     assert.equal(getTokenStub.callCount, 2);
     const lastGetTokenCall = getTokenStub.getCall(1);
     assert.equal(lastGetTokenCall.args[1]?.tenantId, fakeGuid);
+  });
+
+  it("should use the scopes returned in the challenge", async () => {
+    const policy = bearerTokenAuthenticationPolicy({
+      credential: { getToken: getTokenStub },
+      scopes: ["https://example.org"],
+      challengeCallbacks: {
+        authorizeRequestOnChallenge: storageAuthorizeRequestOnChallenge,
+      },
+    });
+
+    const calledOnce = false;
+
+    await policy.sendRequest(
+      {
+        headers: createHttpHeaders(),
+        method: "GET",
+        requestId: "",
+        timeout: 1000,
+        url: "https://example.org",
+        withCredentials: true,
+      },
+      async (req) => {
+        if (!calledOnce) {
+          assert.equal(req.headers.get("authorization"), "Bearer originalToken");
+          return {
+            headers: createHttpHeaders({
+              "WWW-Authenticate": `Bearer authorization_uri=https://login.microsoftonline.com/${fakeGuid}/oauth2/authorize resource_uri=https://storage.azure.com`,
+            }),
+            request: req,
+            status: 401,
+          };
+        }
+        return {
+          headers: createHttpHeaders(),
+          request: req,
+          status: 200,
+        };
+      }
+    );
+
+    assert.equal(getTokenStub.callCount, 2);
+    const lastGetTokenCall = getTokenStub.getCall(1);
+    assert.equal(lastGetTokenCall.args[1]?.tenantId, fakeGuid);
+    assert.equal(lastGetTokenCall.args[0], "https://storage.azure.com/.default");
+  });
+
+  it("should use the original scopes returned if there is none in the challenge", async () => {
+    const policy = bearerTokenAuthenticationPolicy({
+      credential: { getToken: getTokenStub },
+      scopes: ["https://example.org/.default"],
+      challengeCallbacks: {
+        authorizeRequestOnChallenge: storageAuthorizeRequestOnChallenge,
+      },
+    });
+
+    const calledOnce = false;
+
+    await policy.sendRequest(
+      {
+        headers: createHttpHeaders(),
+        method: "GET",
+        requestId: "",
+        timeout: 1000,
+        url: "https://example.org",
+        withCredentials: true,
+      },
+      async (req) => {
+        if (!calledOnce) {
+          assert.equal(req.headers.get("authorization"), "Bearer originalToken");
+          return {
+            headers: createHttpHeaders({
+              "WWW-Authenticate": `Bearer authorization_uri=https://login.microsoftonline.com/${fakeGuid}/oauth2/authorize`,
+            }),
+            request: req,
+            status: 401,
+          };
+        }
+        return {
+          headers: createHttpHeaders(),
+          request: req,
+          status: 200,
+        };
+      }
+    );
+
+    assert.equal(getTokenStub.callCount, 2);
+    const lastGetTokenCall = getTokenStub.getCall(1);
+    assert.equal(lastGetTokenCall.args[1]?.tenantId, fakeGuid);
+    assert.equal(lastGetTokenCall.args[0], "https://example.org/.default");
   });
 
   it("should if request failed after first challenge stop retrying", async () => {

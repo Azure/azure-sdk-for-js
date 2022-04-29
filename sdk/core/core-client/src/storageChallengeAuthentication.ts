@@ -57,6 +57,11 @@ export const storageAuthorizeRequestOnChallenge: (
   return false;
 };
 
+/**
+ * Extracts the tenant id from the challenge information
+ * The tenant id is contained in the authorization_uri as the first
+ * path part.
+ */
 function extractTenantId(challengeInfo: Challenge): string {
   const parsedAuthUri = new URL(challengeInfo.authorization_uri);
   const pathSegments = parsedAuthUri.pathname.split("/");
@@ -65,15 +70,20 @@ function extractTenantId(challengeInfo: Challenge): string {
   return tenantId;
 }
 
+/**
+ * Builds the authentication scopes based on the information that comes in the
+ * challenge information. Scopes url is present in the resource_id, if it is empty
+ * we keep using the original scopes.
+ */
 function buildScopes(
   challengeOptions: AuthorizeRequestOnChallengeOptions,
   challengeInfo: Challenge
 ): string[] {
-  if (!challengeInfo.resource_id) {
+  if (!challengeInfo.resource_uri) {
     return challengeOptions.scopes;
   }
 
-  const challengeScopes = new URL(challengeInfo.resource_id);
+  const challengeScopes = new URL(challengeInfo.resource_uri);
   challengeScopes.pathname = Constants.DefaultScope;
   return [challengeScopes.toString()];
 }
@@ -95,7 +105,7 @@ function getChallenge(response: PipelineResponse): string | undefined {
  */
 interface Challenge {
   authorization_uri: string;
-  resource_id?: string;
+  resource_uri?: string;
 }
 
 /**
@@ -114,6 +124,9 @@ function parseChallenge(challenge: string): Challenge {
   return keyValuePairs.reduce((a, b) => ({ ...a, ...b }), {} as Challenge);
 }
 
+/**
+ * Extracts the options form a Pipeline Request for later re-use
+ */
 function requestToOptions(request: PipelineRequest): GetTokenOptions {
   return {
     abortSignal: request.abortSignal,
