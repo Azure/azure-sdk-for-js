@@ -517,7 +517,7 @@ describe("DataLakeServiceClient", () => {
     let serviceClient: DataLakeServiceClient;
     try {
       serviceClient = getGenericDataLakeServiceClient("DFS_SOFT_DELETE_");
-    } catch (err) {
+    } catch (err: any) {
       this.skip();
     }
 

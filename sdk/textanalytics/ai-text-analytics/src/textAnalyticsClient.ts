@@ -80,7 +80,6 @@ import {
   AnalyzeActionsPollerLike,
   AnalyzeLro,
   BeginAnalyzeActionsOptions,
-  isAnalyzeDone,
   processAnalyzeResult,
   updateAnalyzeState,
 } from "./analyzeLro";
@@ -569,7 +568,7 @@ export class TextAnalyticsClient {
       );
 
       return makeDetectLanguageResultArray(realInputs, result);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -654,7 +653,7 @@ export class TextAnalyticsClient {
       );
 
       return makeRecognizeCategorizedEntitiesResultArray(realInputs, result);
-    } catch (e) {
+    } catch (e: any) {
       /**
        * This special logic handles REST exception with code
        * InvalidDocumentBatch and is needed to maintain backward compatability
@@ -743,7 +742,7 @@ export class TextAnalyticsClient {
       );
 
       return makeAnalyzeSentimentResultArray(realInputs, result);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -819,7 +818,7 @@ export class TextAnalyticsClient {
       );
 
       return makeExtractKeyPhrasesResultArray(realInputs, result);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -895,7 +894,7 @@ export class TextAnalyticsClient {
       );
 
       return makeRecognizePiiEntitiesResultArray(realInputs, result);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -973,7 +972,7 @@ export class TextAnalyticsClient {
       );
 
       return makeRecognizeLinkedEntitiesResultArray(realInputs, result);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1163,7 +1162,6 @@ export class TextAnalyticsClient {
         tracingOptions,
         includeStatistics,
       }),
-      isDone: isAnalyzeDone,
       updateState: updateAnalyzeState,
     });
 

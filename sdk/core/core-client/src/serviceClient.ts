@@ -21,6 +21,7 @@ import { getCachedDefaultHttpClient } from "./httpClientCache";
 import { getOperationRequestInfo } from "./operationHelpers";
 import { getRequestUrl } from "./urlHelpers";
 import { getStreamingResponseStatusCodes } from "./interfaceHelpers";
+import { logger } from "./log";
 
 /**
  * Options to be provided while creating the client.
@@ -29,8 +30,15 @@ export interface ServiceClientOptions extends CommonClientOptions {
   /**
    * If specified, this is the base URI that requests will be made against for this ServiceClient.
    * If it is not specified, then all OperationSpecs must contain a baseUrl property.
+   * @deprecated This property is deprecated and will be removed soon, please use endpoint instead
    */
   baseUri?: string;
+  /**
+   * If specified, this is the endpoint that requests will be made against for this ServiceClient.
+   * If it is not specified, then all OperationSpecs must contain a baseUrl property.
+   * to encourage customer to use endpoint, we mark the baseUri as deprecated.
+   */
+  endpoint?: string;
   /**
    * If specified, will be used to build the BearerTokenAuthenticationPolicy.
    */
@@ -58,7 +66,7 @@ export class ServiceClient {
    * If specified, this is the base URI that requests will be made against for this ServiceClient.
    * If it is not specified, then all OperationSpecs must contain a baseUrl property.
    */
-  private readonly _baseUri?: string;
+  private readonly _endpoint?: string;
 
   /**
    * The default request content type for the service.
@@ -88,7 +96,12 @@ export class ServiceClient {
    */
   constructor(options: ServiceClientOptions = {}) {
     this._requestContentType = options.requestContentType;
-    this._baseUri = options.baseUri;
+    this._endpoint = options.endpoint ?? options.baseUri;
+    if (options.baseUri) {
+      logger.warning(
+        "The baseUri option for SDK Clients has been deprecated, please use endpoint instead."
+      );
+    }
     this._allowInsecureConnection = options.allowInsecureConnection;
     this._httpClient = options.httpClient || getCachedDefaultHttpClient();
 
@@ -122,17 +135,17 @@ export class ServiceClient {
     operationArguments: OperationArguments,
     operationSpec: OperationSpec
   ): Promise<T> {
-    const baseUri: string | undefined = operationSpec.baseUrl || this._baseUri;
-    if (!baseUri) {
+    const endpoint: string | undefined = operationSpec.baseUrl || this._endpoint;
+    if (!endpoint) {
       throw new Error(
-        "If operationSpec.baseUrl is not specified, then the ServiceClient must have a baseUri string property that contains the base URL to use."
+        "If operationSpec.baseUrl is not specified, then the ServiceClient must have a endpoint string property that contains the base URL to use."
       );
     }
 
     // Templatized URLs sometimes reference properties on the ServiceClient child class,
     // so we have to pass `this` below in order to search these properties if they're
     // not part of OperationArguments
-    const url = getRequestUrl(baseUri, operationSpec, operationArguments, this);
+    const url = getRequestUrl(endpoint, operationSpec, operationArguments, this);
 
     const request: OperationRequest = createPipelineRequest({
       url,
@@ -238,13 +251,17 @@ function getCredentialScopes(options: ServiceClientOptions): string | string[] |
       : new URL(scopes).toString();
   }
 
+  if (options.endpoint) {
+    return `${options.endpoint}/.default`;
+  }
+
   if (options.baseUri) {
     return `${options.baseUri}/.default`;
   }
 
   if (options.credential && !options.credentialScopes) {
     throw new Error(
-      `When using credentials, the ServiceClientOptions must contain either a baseUri or a credentialScopes. Unable to create a bearerTokenAuthenticationPolicy`
+      `When using credentials, the ServiceClientOptions must contain either a endpoint or a credentialScopes. Unable to create a bearerTokenAuthenticationPolicy`
     );
   }
 

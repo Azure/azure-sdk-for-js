@@ -103,7 +103,7 @@ function checkRPNotRegisteredError(body: string): string {
   if (body) {
     try {
       responseBody = JSON.parse(body);
-    } catch (err) {
+    } catch (err: any) {
       // do nothing;
     }
     if (

@@ -5,13 +5,13 @@ import { assert } from "chai";
 import * as sinon from "sinon";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
-  bearerTokenAuthenticationPolicy,
   AuthorizeRequestOnChallengeOptions,
+  HttpClient,
+  PipelineResponse,
+  bearerTokenAuthenticationPolicy,
   createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
-  HttpClient,
-  PipelineResponse,
 } from "../../src";
 import { TextDecoder } from "util";
 
@@ -379,7 +379,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
     let error: Error | undefined;
     try {
       await pipeline.sendRequest(testHttpsClient, pipelineRequest);
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
 

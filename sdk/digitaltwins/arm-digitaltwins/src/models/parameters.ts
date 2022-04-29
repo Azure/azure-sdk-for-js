@@ -16,7 +16,8 @@ import {
   DigitalTwinsPatchDescription as DigitalTwinsPatchDescriptionMapper,
   CheckNameRequest as CheckNameRequestMapper,
   DigitalTwinsEndpointResource as DigitalTwinsEndpointResourceMapper,
-  PrivateEndpointConnection as PrivateEndpointConnectionMapper
+  PrivateEndpointConnection as PrivateEndpointConnectionMapper,
+  TimeSeriesDatabaseConnection as TimeSeriesDatabaseConnectionMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -46,7 +47,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-12-01",
+    defaultValue: "2021-06-30-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -196,4 +197,25 @@ export const privateEndpointConnectionName: OperationURLParameter = {
 export const privateEndpointConnection: OperationParameter = {
   parameterPath: "privateEndpointConnection",
   mapper: PrivateEndpointConnectionMapper
+};
+
+export const timeSeriesDatabaseConnectionName: OperationURLParameter = {
+  parameterPath: "timeSeriesDatabaseConnectionName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^(?![0-9]+$)(?!-)[a-zA-Z0-9-]{2,49}[a-zA-Z0-9]$"),
+      MaxLength: 49,
+      MinLength: 2
+    },
+    serializedName: "timeSeriesDatabaseConnectionName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const timeSeriesDatabaseConnectionDescription: OperationParameter = {
+  parameterPath: "timeSeriesDatabaseConnectionDescription",
+  mapper: TimeSeriesDatabaseConnectionMapper
 };

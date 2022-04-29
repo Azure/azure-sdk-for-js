@@ -39,10 +39,8 @@ describe("instrumentation end-to-end tests", () => {
       assert.deepEqual(outer.status, { code: SpanStatusCode.OK });
 
       // Check instrumentationLibrary
-      assert.deepEqual(outer.instrumentationLibrary, {
-        name: tracingClientAttributes.packageName,
-        version: tracingClientAttributes.packageVersion,
-      });
+      assert.equal(outer.instrumentationLibrary.name, tracingClientAttributes.packageName);
+      assert.equal(outer.instrumentationLibrary.version, tracingClientAttributes.packageVersion);
 
       // Check attributes on all spans
       assert.equal(coreRestPipeline.attributes["az.namespace"], tracingClientAttributes.namespace);

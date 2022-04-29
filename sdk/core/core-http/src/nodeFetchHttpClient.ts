@@ -251,7 +251,7 @@ export class NodeFetchHttpClient implements HttpClient {
       await this.processRequest(operationResponse);
 
       return operationResponse;
-    } catch (error) {
+    } catch (error: any) {
       const fetchError: FetchError = error;
       if (fetchError.code === "ENOTFOUND") {
         throw new RestError(

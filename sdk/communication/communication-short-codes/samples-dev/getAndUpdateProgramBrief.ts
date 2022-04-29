@@ -42,17 +42,22 @@ export async function main() {
       },
     },
   };
-  var upsertResponse = await client.upsertUSProgramBrief(programBriefId, updateRequest);
-  if (upsertResponse._response.status == 200) {
-    console.log(
-      `Successfully updated terms of service and privacy policy for program brief ${programBriefId}`
-    );
-  } else {
-    throw new Error(`Failed to update program brief with Id ${programBriefId}.
-      Status code: ${upsertResponse._response.status}; Error: ${
-      upsertResponse._response.bodyAsText
-    }; CV: ${upsertResponse._response.headers.get("MS-CV")}`);
-  }
+  var upsertResponse = await client.upsertUSProgramBrief(programBriefId, {
+    ...updateRequest,
+    onResponse:
+      (response) =>
+      (res = response) => {
+        if (!res || res.status != 200) {
+          throw new Error(
+            `Failed to update program brief with Id ${programBriefId}.
+          Status code: ${res.status}; Error: ${res.bodyAsText}; CV: ${res.headers.get("MS-CV")}`
+          );
+        }
+      },
+  });
+  console.log(
+    `Successfully updated terms of service and privacy policy for program brief ${programBriefId} ${upsertResponse}`
+  );
 }
 
 main().catch((error) => {

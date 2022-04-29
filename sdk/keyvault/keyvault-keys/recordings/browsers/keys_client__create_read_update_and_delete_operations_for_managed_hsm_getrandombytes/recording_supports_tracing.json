@@ -4,7 +4,7 @@
    "method": "POST",
    "url": "https://azure_managedhsm.managedhsm.azure.net/rng",
    "query": {
-    "api-version": "7.3-preview"
+    "api-version": "7.3"
    },
    "requestBody": "",
    "status": 401,
@@ -18,7 +18,7 @@
     "www-authenticate": "Bearer authorization=\"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012\", resource=\"https://managedhsm.azure.net\"",
     "x-content-type-options": "nosniff",
     "x-frame-options": "SAMEORIGIN",
-    "x-ms-request-id": "5c066560-d529-11eb-b1e5-0022484f830d",
+    "x-ms-request-id": "db483aca-b11e-11ec-b2c7-0022487871ce",
     "x-ms-server-latency": "0"
    }
   },
@@ -33,40 +33,40 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1322",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 24 Jun 2021 20:18:37 GMT",
+    "date": "Thu, 31 Mar 2022 18:17:42 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+san\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11829.9 - SCUS ProdSlices",
-    "x-ms-request-id": "59b1eb01-764c-46df-9381-4b82fbd73600"
+    "x-ms-ests-server": "2.1.12570.16 - NCUS ProdSlices",
+    "x-ms-request-id": "867db65d-ab97-415c-b245-ac9679f21a00"
    }
   },
   {
    "method": "POST",
    "url": "https://azure_managedhsm.managedhsm.azure.net/rng",
    "query": {
-    "api-version": "7.3-preview"
+    "api-version": "7.3"
    },
-   "requestBody": "{\"count\":128}",
+   "requestBody": "{\"count\":1}",
    "status": 200,
-   "response": "{\"value\":\"mqFaqdp48lvoPR7mEbcRTb5y5C7ZdQRCCMLa7EyatllLmFlzaH0CNZ1AOGrVQAoubp5mRctUlZEog4mEIqjxA6D0vl1fR43Qs-ZrDpf6nHyUuRXt7gNdobWRPtHxYOCJucBwK-M_X3H7CBaSdD2pi-1B-BVxBxnYtHkBtCdcpJo\"}",
+   "response": "{\"value\":\"dA\"}",
    "responseHeaders": {
     "cache-control": "no-cache",
-    "content-length": "183",
+    "content-length": "14",
     "content-security-policy": "default-src 'self'",
     "content-type": "application/json; charset=utf-8",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-frame-options": "SAMEORIGIN",
-    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.231.105;act_addr_fam=Ipv4;",
-    "x-ms-keyvault-region": "eastus2",
-    "x-ms-request-id": "5c23b5e8-d529-11eb-b1e5-0022484f830d",
-    "x-ms-server-latency": "1"
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=131.107.147.176;act_addr_fam=Ipv4;",
+    "x-ms-keyvault-region": "westus2",
+    "x-ms-request-id": "db675c2a-b11e-11ec-b2c7-0022487871ce",
+    "x-ms-server-latency": "0"
    }
   }
  ],
@@ -74,5 +74,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "335dbe4e0cb7ae4beaa08873830ed29c"
+ "hash": "3e0666f9cff329bc1ef4c642adafcbb8"
 }

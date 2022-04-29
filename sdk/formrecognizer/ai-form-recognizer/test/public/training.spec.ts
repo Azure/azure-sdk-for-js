@@ -311,7 +311,7 @@ matrix(
         const targetModelId = recorder.variable("copyTarget", `copyTarget${getRandomNumber()}`);
         const targetAuth = await trainingClient.getCopyAuthorization(targetModelId);
 
-        const poller = await trainingClient.beginCopyModel(
+        const poller = await trainingClient.beginCopyModelTo(
           sourceModel.modelId,
           targetAuth,
           testPollingOptions

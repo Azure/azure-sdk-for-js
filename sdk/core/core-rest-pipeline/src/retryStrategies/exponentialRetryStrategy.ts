@@ -3,7 +3,7 @@
 
 import { PipelineResponse } from "../interfaces";
 import { RestError } from "../restError";
-import { getRandomIntegerInclusive } from "../util/helpers";
+import { getRandomIntegerInclusive } from "@azure/core-util";
 import { RetryStrategy } from "./retryStrategy";
 import { isThrottlingRetryResponse } from "./throttlingRetryStrategy";
 
@@ -61,7 +61,7 @@ export function exponentialRetryStrategy(
         return { skipStrategy: true };
       }
 
-      if (responseError && !matchedSystemError) {
+      if (responseError && !matchedSystemError && !isExponential) {
         return { errorToThrow: responseError };
       }
 

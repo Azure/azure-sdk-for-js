@@ -6,14 +6,14 @@ import { PipelineRetryOptions } from "./interfaces";
 import { Pipeline, createEmptyPipeline } from "./pipeline";
 import { decompressResponsePolicy } from "./policies/decompressResponsePolicy";
 import { formDataPolicy } from "./policies/formDataPolicy";
-import { logPolicy, LogPolicyOptions } from "./policies/logPolicy";
+import { LogPolicyOptions, logPolicy } from "./policies/logPolicy";
 import { proxyPolicy } from "./policies/proxyPolicy";
-import { redirectPolicy, RedirectPolicyOptions } from "./policies/redirectPolicy";
+import { RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy";
 import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy";
 import { tracingPolicy } from "./policies/tracingPolicy";
-import { userAgentPolicy, UserAgentPolicyOptions } from "./policies/userAgentPolicy";
+import { UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy";
 import { defaultRetryPolicy } from "./policies/defaultRetryPolicy";
-import { isNode } from "./util/helpers";
+import { isNode } from "@azure/core-util";
 
 /**
  * Defines options that are used to configure the HTTP pipeline for
@@ -69,7 +69,11 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
   pipeline.addPolicy(setClientRequestIdPolicy());
   pipeline.addPolicy(defaultRetryPolicy(options.retryOptions), { phase: "Retry" });
   pipeline.addPolicy(tracingPolicy(options.userAgentOptions), { afterPhase: "Retry" });
-  pipeline.addPolicy(redirectPolicy(options.redirectOptions), { afterPhase: "Retry" });
+  if (isNode) {
+    // Both XHR and Fetch expect to handle redirects automatically,
+    // so only include this policy when we're in Node.
+    pipeline.addPolicy(redirectPolicy(options.redirectOptions), { afterPhase: "Retry" });
+  }
   pipeline.addPolicy(logPolicy(options.loggingOptions), { afterPhase: "Retry" });
 
   return pipeline;

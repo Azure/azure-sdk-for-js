@@ -1,5 +1,5 @@
 {
-  "name": "azure-purview-administration-samples-ts",
+  "name": "@azure-samples/purview-administration-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Purview Administration rest client library samples for TypeScript",

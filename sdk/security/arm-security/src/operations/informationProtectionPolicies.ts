@@ -16,7 +16,7 @@ import {
   InformationProtectionPolicy,
   InformationProtectionPoliciesListNextOptionalParams,
   InformationProtectionPoliciesListOptionalParams,
-  Enum17,
+  InformationProtectionPolicyName,
   InformationProtectionPoliciesGetOptionalParams,
   InformationProtectionPoliciesGetResponse,
   InformationProtectionPoliciesCreateOrUpdateOptionalParams,
@@ -97,7 +97,7 @@ export class InformationProtectionPoliciesImpl
    */
   get(
     scope: string,
-    informationProtectionPolicyName: Enum17,
+    informationProtectionPolicyName: InformationProtectionPolicyName,
     options?: InformationProtectionPoliciesGetOptionalParams
   ): Promise<InformationProtectionPoliciesGetResponse> {
     return this.client.sendOperationRequest(
@@ -117,7 +117,7 @@ export class InformationProtectionPoliciesImpl
    */
   createOrUpdate(
     scope: string,
-    informationProtectionPolicyName: Enum17,
+    informationProtectionPolicyName: InformationProtectionPolicyName,
     informationProtectionPolicy: InformationProtectionPolicy,
     options?: InformationProtectionPoliciesCreateOrUpdateOptionalParams
   ): Promise<InformationProtectionPoliciesCreateOrUpdateResponse> {

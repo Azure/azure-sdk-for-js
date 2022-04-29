@@ -5,14 +5,14 @@
  * @summary Creates a certificate with an unknown issuer and signs it using a fake certificate authority and the mergeCertificate API.
  */
 
-import * as fs from "fs";
 import * as childProcess from "child_process";
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+import * as fs from "fs";
 
 import { CertificateClient } from "@azure/keyvault-certificates";
 import { DefaultAzureCredential } from "@azure/identity";
 
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
 dotenv.config();
 
 export async function main(): Promise<void> {
@@ -27,13 +27,13 @@ export async function main(): Promise<void> {
   const client = new CertificateClient(url, credential);
 
   const uniqueString = new Date().getTime();
-  const certificateName = `cert${uniqueString}`;
+  const certificateName = `merge-${uniqueString}`;
 
   // Creating a certificate with an Unknown issuer.
   await client.beginCreateCertificate(certificateName, {
     issuerName: "Unknown",
     certificateTransparency: false,
-    subject: "cn=MyCert"
+    subject: "cn=MyCert",
   });
 
   // Retrieving the certificate's signing request
@@ -58,12 +58,7 @@ ${base64Csr}
   childProcess.execSync(
     "openssl x509 -req -in test.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out test.crt"
   );
-  const base64Crt = fs
-    .readFileSync("test.crt")
-    .toString()
-    .split("\n")
-    .slice(1, -1)
-    .join("");
+  const base64Crt = fs.readFileSync("test.crt").toString().split("\n").slice(1, -1).join("");
 
   // Once we have the response in base64 format, we send it to mergeCertificate
   await client.mergeCertificate(certificateName, [Buffer.from(base64Crt)]);

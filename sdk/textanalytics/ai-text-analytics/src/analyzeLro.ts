@@ -149,7 +149,7 @@ export class AnalyzeLro implements LongRunningOperation<PagedAnalyzeActionsResul
         flatResponse: flatResponse as PagedAnalyzeActionsResult,
         rawResponse,
       };
-    } catch (e) {
+    } catch (e: any) {
       const exception = compileError(e);
       span.setStatus({
         code: SpanStatusCode.ERROR,
@@ -168,21 +168,6 @@ export class AnalyzeLro implements LongRunningOperation<PagedAnalyzeActionsResul
       { ...this.baseOptions, ...this.pollOptions },
       path
     ) as Promise<LroResponse<PagedAnalyzeActionsResult>>;
-  }
-}
-
-/**
- * @internal
- */
-export function isAnalyzeDone(response: unknown): boolean {
-  const castResponse = response as GeneratedClientAnalyzeStatusResponse;
-  switch (castResponse.status) {
-    case "notStarted":
-    case "running":
-      return false;
-    default: {
-      return true;
-    }
   }
 }
 

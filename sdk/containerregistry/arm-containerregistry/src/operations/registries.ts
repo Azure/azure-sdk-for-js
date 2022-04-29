@@ -48,6 +48,9 @@ import {
   RegenerateCredentialParameters,
   RegistriesRegenerateCredentialOptionalParams,
   RegistriesRegenerateCredentialResponse,
+  GenerateCredentialsParameters,
+  RegistriesGenerateCredentialsOptionalParams,
+  RegistriesGenerateCredentialsResponse,
   RunRequestUnion,
   RegistriesScheduleRunOptionalParams,
   RegistriesScheduleRunResponse,
@@ -294,10 +297,12 @@ export class RegistriesImpl implements Registries {
       { resourceGroupName, registryName, parameters, options },
       importImageOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -442,10 +447,12 @@ export class RegistriesImpl implements Registries {
       { resourceGroupName, registryName, registry, options },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -525,10 +532,12 @@ export class RegistriesImpl implements Registries {
       { resourceGroupName, registryName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -612,10 +621,12 @@ export class RegistriesImpl implements Registries {
       { resourceGroupName, registryName, registryUpdateParameters, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -736,6 +747,103 @@ export class RegistriesImpl implements Registries {
   }
 
   /**
+   * Generate keys for a token of a specified container registry.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param generateCredentialsParameters The parameters for generating credentials.
+   * @param options The options parameters.
+   */
+  async beginGenerateCredentials(
+    resourceGroupName: string,
+    registryName: string,
+    generateCredentialsParameters: GenerateCredentialsParameters,
+    options?: RegistriesGenerateCredentialsOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<RegistriesGenerateCredentialsResponse>,
+      RegistriesGenerateCredentialsResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<RegistriesGenerateCredentialsResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        registryName,
+        generateCredentialsParameters,
+        options
+      },
+      generateCredentialsOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Generate keys for a token of a specified container registry.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param generateCredentialsParameters The parameters for generating credentials.
+   * @param options The options parameters.
+   */
+  async beginGenerateCredentialsAndWait(
+    resourceGroupName: string,
+    registryName: string,
+    generateCredentialsParameters: GenerateCredentialsParameters,
+    options?: RegistriesGenerateCredentialsOptionalParams
+  ): Promise<RegistriesGenerateCredentialsResponse> {
+    const poller = await this.beginGenerateCredentials(
+      resourceGroupName,
+      registryName,
+      generateCredentialsParameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Schedules a new run based on the request parameters and add it to the run queue.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
@@ -797,10 +905,12 @@ export class RegistriesImpl implements Registries {
       { resourceGroupName, registryName, runRequest, options },
       scheduleRunOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -926,7 +1036,7 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.registryNameCheckRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -1007,7 +1117,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.registryName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -1051,7 +1161,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.registryName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -1152,7 +1262,40 @@ const regenerateCredentialOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.registryName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const generateCredentialsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/generateCredentials",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GenerateCredentialsResult
+    },
+    201: {
+      bodyMapper: Mappers.GenerateCredentialsResult
+    },
+    202: {
+      bodyMapper: Mappers.GenerateCredentialsResult
+    },
+    204: {
+      bodyMapper: Mappers.GenerateCredentialsResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.generateCredentialsParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -1185,7 +1328,7 @@ const scheduleRunOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.registryName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };

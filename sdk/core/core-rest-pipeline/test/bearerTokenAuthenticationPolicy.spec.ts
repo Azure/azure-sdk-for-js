@@ -3,14 +3,14 @@
 
 import { assert } from "chai";
 import * as sinon from "sinon";
-import { TokenCredential, AccessToken } from "@azure/core-auth";
+import { AccessToken, TokenCredential } from "@azure/core-auth";
 import {
   PipelinePolicy,
-  createPipelineRequest,
-  createHttpHeaders,
   PipelineResponse,
-  bearerTokenAuthenticationPolicy,
   SendRequest,
+  bearerTokenAuthenticationPolicy,
+  createHttpHeaders,
+  createPipelineRequest,
 } from "../src";
 import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler";
 
@@ -169,7 +169,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     let error: Error | undefined;
     try {
       await policy.sendRequest(request, next);
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error?.message, "Failed to retrieve the token");
@@ -235,7 +235,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     let error: Error | undefined;
     try {
       await policy.sendRequest(request, next);
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
 

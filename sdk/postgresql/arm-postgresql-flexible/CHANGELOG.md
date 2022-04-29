@@ -1,5 +1,17 @@
 # Release History
     
+## 6.0.0 (2022-04-28)
+    
+**Features**
+
+  - Added Interface PostgreSQLManagementFlexibleServerClientOptionalParams
+  - Added Class PostgreSQLManagementFlexibleServerClient
+
+**Breaking Changes**
+
+  - Deleted Class PostgreSQLManagementClient
+    
+    
 ## 5.0.0 (2022-01-20)
 
 The package of @azure/arm-postgresql-flexible is using our next generation design principles since version 5.0.0, which contains breaking changes.

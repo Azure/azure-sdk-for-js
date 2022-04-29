@@ -1,15 +1,34 @@
 # Release History
+    
+## 16.0.0 (2022-04-20)
+    
+**Features**
 
-## 15.1.1 (Unreleased)
+  - Added Interface ManagedClusterStorageProfile
+  - Added Interface ManagedClusterStorageProfileDiskCSIDriver
+  - Added Interface ManagedClusterStorageProfileFileCSIDriver
+  - Added Interface ManagedClusterStorageProfileSnapshotController
+  - Added Type Alias TrackedResource
+  - Add parameters of TrackedResource to TypeAlias ManagedCluster
+  - Add parameters of TrackedResource to TypeAlias ManagedClusterAccessProfile
+  - Add parameters of TrackedResource to TypeAlias Snapshot
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
+  - Interface Resource no longer has parameter location
+  - Interface Resource no longer has parameter tags
+  - Delete parameters of Resource in TypeAlias ManagedCluster
+  - Delete parameters of Resource in TypeAlias ManagedClusterAccessProfile
+  - Delete parameters of Resource in TypeAlias Snapshot
+    
+    
+## 15.2.0 (2022-03-23)
+    
+**Features**
 
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface Resource has a new optional parameter systemData
+    
+    
 ## 15.1.0 (2022-02-24)
     
 **Features**

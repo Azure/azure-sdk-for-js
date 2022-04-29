@@ -2163,6 +2163,41 @@ export const ManagedIdentityProperties: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "UserAssignedManagedIdentity"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const UserAssignedManagedIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserAssignedManagedIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      clientId: {
+        serializedName: "clientId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -4332,6 +4367,12 @@ export const CustomContainer: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ImageRegistryCredential"
+        }
+      },
+      languageFramework: {
+        serializedName: "languageFramework",
+        type: {
+          name: "String"
         }
       }
     }

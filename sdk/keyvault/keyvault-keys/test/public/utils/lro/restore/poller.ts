@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay, RequestOptionsBase } from "@azure/core-http";
+import { RequestOptionsBase, delay } from "@azure/core-http";
 import { Poller } from "@azure/core-lro";
 import {
   RestoreKeyBackupPollOperationState,
-  makeRestoreKeyBackupPollOperation,
   TestKeyClientInterface,
+  makeRestoreKeyBackupPollOperation,
 } from "./operation";
 import { KeyVaultKey } from "../../../../../src";
 

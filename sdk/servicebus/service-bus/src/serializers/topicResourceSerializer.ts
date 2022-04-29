@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpOperationResponse, OperationOptions } from "@azure/core-http";
+import { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
@@ -482,7 +482,7 @@ export class TopicResourceSerializer implements AtomXmlSerializer {
   serialize(resource: InternalTopicOptions): Record<string, unknown> {
     return serializeToAtomXmlRequest("TopicDescription", resource);
   }
-  async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {
+  async deserialize(response: FullOperationResponse): Promise<FullOperationResponse> {
     return deserializeAtomXmlResponse(["TopicName"], response);
   }
 }

@@ -36,6 +36,7 @@ export type FileSystemRenameResponse = ContainerRenameResponse;
 export type FileSystemUndeleteResponse = ContainerUndeleteResponse;
 
 import {
+  CpkInfo,
   FileSystemListBlobHierarchySegmentHeaders,
   FileSystemListPathsHeaders,
   ListBlobsHierarchySegmentResponse,
@@ -66,6 +67,8 @@ export {
   BlobItemModel,
   BlobPrefix,
   BlobPropertiesModel,
+  CpkInfo,
+  EncryptionAlgorithmType,
   FileSystemListPathsHeaders,
   FileSystemListBlobHierarchySegmentHeaders,
   FileSystemListPathsResponse as ListPathsSegmentResponse,
@@ -471,6 +474,14 @@ export interface Path {
   owner?: string;
   group?: string;
   permissions?: PathPermissions;
+  /**
+   * Creation time of the path.
+   */
+  createdOn?: Date;
+  /**
+   * Expiry time of the path.
+   */
+  expiresOn?: Date;
 }
 
 export interface PathList {
@@ -656,6 +667,10 @@ export interface PathCreateOptions extends CommonOptions {
   umask?: string; // TODO: model or string?
   conditions?: DataLakeRequestConditions;
   pathHttpHeaders?: PathCreateHttpHeaders;
+  /**
+   * Customer Provided Key Info.
+   */
+  customerProvidedKey?: CpkInfo;
 }
 
 export interface PathCreateIfNotExistsOptions extends CommonOptions {
@@ -664,6 +679,10 @@ export interface PathCreateIfNotExistsOptions extends CommonOptions {
   permissions?: string;
   umask?: string;
   pathHttpHeaders?: PathCreateHttpHeaders;
+  /**
+   * Customer Provided Key Info.
+   */
+  customerProvidedKey?: CpkInfo;
 }
 
 export interface PathDeleteOptions extends CommonOptions {
@@ -827,6 +846,10 @@ export interface PathSetPermissionsOptions extends CommonOptions {
 export interface PathGetPropertiesOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
   conditions?: DataLakeRequestConditions;
+  /**
+   * Customer Provided Key Info.
+   */
+  customerProvidedKey?: CpkInfo;
 }
 
 export type CopyStatusType = "pending" | "success" | "aborted" | "failed";
@@ -912,6 +935,10 @@ export type PathSetHttpHeadersResponse = PathSetHttpHeadersHeaders & {
 export interface PathSetMetadataOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
   conditions?: DataLakeRequestConditions;
+  /**
+   * Customer Provided Key Info.
+   */
+  customerProvidedKey?: CpkInfo;
 }
 
 export interface PathSetMetadataHeaders {
@@ -964,7 +991,10 @@ export interface PathExistsOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    */
   abortSignal?: AbortSignalLike;
-  // customerProvidedKey?: CpkInfo; not supported yet
+  /**
+   * Customer Provided Key Info.
+   */
+  customerProvidedKey?: CpkInfo;
 }
 
 /**
@@ -1049,6 +1079,10 @@ export interface FileReadOptions extends CommonOptions {
   conditions?: DataLakeRequestConditions;
   onProgress?: (progress: TransferProgressEvent) => void;
   maxRetryRequests?: number;
+  /**
+   * Customer Provided Key Info.
+   */
+  customerProvidedKey?: CpkInfo;
 }
 
 export interface FileReadHeaders {
@@ -1098,6 +1132,10 @@ export interface FileAppendOptions extends CommonOptions {
   conditions?: LeaseAccessConditions;
   transactionalContentMD5?: Uint8Array;
   onProgress?: (progress: TransferProgressEvent) => void;
+  /**
+   * Customer Provided Key Info.
+   */
+  customerProvidedKey?: CpkInfo;
 }
 
 export interface FileFlushOptions extends CommonOptions {
@@ -1106,6 +1144,10 @@ export interface FileFlushOptions extends CommonOptions {
   retainUncommittedData?: boolean;
   close?: boolean;
   pathHttpHeaders?: PathHttpHeaders;
+  /**
+   * Customer Provided Key Info.
+   */
+  customerProvidedKey?: CpkInfo;
 }
 
 export interface FileCreateOptions extends PathCreateOptions {}
@@ -1201,6 +1243,10 @@ export interface FileParallelUploadOptions extends CommonOptions {
    * Max concurrency of parallel uploading. Must be greater than or equal to 0. Its default value is DEFAULT_HIGH_LEVEL_CONCURRENCY.
    */
   maxConcurrency?: number;
+  /**
+   * Customer Provided Key Info.
+   */
+  customerProvidedKey?: CpkInfo;
 }
 
 /**
@@ -1244,6 +1290,10 @@ export interface FileReadToBufferOptions extends CommonOptions {
    * Concurrency of parallel read.
    */
   concurrency?: number;
+  /**
+   * Customer Provided Key Info.
+   */
+  customerProvidedKey?: CpkInfo;
 }
 
 /**
@@ -1360,6 +1410,10 @@ export interface FileQueryOptions extends CommonOptions {
    * Conditions to meet when uploading to the block file.
    */
   conditions?: DataLakeRequestConditions;
+  /**
+   * Customer Provided Key Info.
+   */
+  customerProvidedKey?: CpkInfo;
 }
 
 /**

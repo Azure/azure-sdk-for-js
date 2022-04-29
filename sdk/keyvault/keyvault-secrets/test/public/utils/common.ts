@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "@azure/test-utils";
-import { SupportedVersions, supports, TestFunctionWrapper } from "@azure/test-utils";
+import { SupportedVersions, TestFunctionWrapper, supports } from "@azure/test-utils";
 import { env } from "@azure-tools/test-recorder";
 import { SecretClientOptions } from "../../../src";
 
@@ -11,7 +11,7 @@ export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<vo
   try {
     await cb();
     passed = true;
-  } catch (e) {
+  } catch (e: any) {
     console.log(`name: ${e.name}, message: ${e.message}`);
     assert.equal(e.name, "AbortError");
     assert.equal(e.message, "The operation was aborted.");
@@ -24,7 +24,7 @@ export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<vo
 /**
  * The known API versions that we support.
  */
-export const serviceVersions = ["7.0", "7.1", "7.2", "7.3-preview"] as const;
+export const serviceVersions = ["7.0", "7.1", "7.2", "7.3"] as const;
 
 /**
  * Fetches the service version to test against. This version could be configured as part of CI

@@ -1,5 +1,5 @@
 {
-  "name": "azure-eventgrid-samples-js",
+  "name": "@azure-samples/eventgrid-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Event Grid client library samples for JavaScript",

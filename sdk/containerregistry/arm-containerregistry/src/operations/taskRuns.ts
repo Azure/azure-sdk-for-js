@@ -187,10 +187,12 @@ export class TaskRunsImpl implements TaskRuns {
       { resourceGroupName, registryName, taskRunName, taskRun, options },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -275,10 +277,12 @@ export class TaskRunsImpl implements TaskRuns {
       { resourceGroupName, registryName, taskRunName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -373,10 +377,12 @@ export class TaskRunsImpl implements TaskRuns {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -515,7 +521,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.registryName,
     Parameters.taskRunName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
@@ -573,7 +579,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.registryName,
     Parameters.taskRunName
   ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };

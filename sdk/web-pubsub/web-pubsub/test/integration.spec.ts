@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 /* eslint-disable no-invalid-this */
 import { WebPubSubServiceClient } from "../src/index";
-import { env, isLiveMode } from "@azure-tools/test-recorder";
+import { isLiveMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { assert } from "chai";
 import ws from "ws";
@@ -89,14 +89,18 @@ function getEndSignal(): Uint8Array {
 }
 
 describe("ServiceClient to manage the connected WebSocket connections", function () {
-  it("Simple clients can receive expected messages with different content types", async function (this: Context) {
+  // Issue - https://github.com/Azure/azure-sdk-for-js/issues/20571 waiting for service fix
+  it.skip("Simple clients can receive expected messages with different content types", async function (this: Context) {
     if (!isLiveMode()) this.skip();
     const hub = "SimpleClientCanReceiveMessage";
 
     const messages: SimpleWebSocketFrame[] = [];
 
     // Get token
-    const serviceClient = new WebPubSubServiceClient(env.WPS_CONNECTION_STRING, hub);
+    const serviceClient = new WebPubSubServiceClient(
+      assertEnvironmentVariable("WPS_CONNECTION_STRING"),
+      hub
+    );
     const token = await serviceClient.getClientAccessToken();
     const endSignal = defer<void>();
     // Start simple WebSocket connections
@@ -136,7 +140,10 @@ describe("ServiceClient to manage the connected WebSocket connections", function
     const messages: PubSubWebSocketFrame[] = [];
 
     // Get token
-    const serviceClient = new WebPubSubServiceClient(env.WPS_CONNECTION_STRING, hub);
+    const serviceClient = new WebPubSubServiceClient(
+      assertEnvironmentVariable("WPS_CONNECTION_STRING"),
+      hub
+    );
     const token = await serviceClient.getClientAccessToken();
     const endSignal = defer<void>();
     const connectedSignal = defer<void>();

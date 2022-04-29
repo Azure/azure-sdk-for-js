@@ -93,7 +93,6 @@ const examplePackageGood = `{
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-amqp": "^3.0.0",
-    "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-auth": "^1.3.0",
     "@azure/core-tracing": "1.0.0-preview.13",
     "@azure/logger": "^1.0.0",
@@ -112,7 +111,7 @@ const examplePackageGood = `{
     "@azure/mock-hub": "^1.0.0",
     "@azure/test-utils": "^1.0.0",
     "@azure/test-utils-perf": "^1.0.0",
-    "@microsoft/api-extractor": "^7.18.11",
+    "@microsoft/api-extractor": "7.18.11",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-inject": "^4.0.0",
     "@rollup/plugin-json": "^4.0.0",
@@ -251,7 +250,6 @@ const examplePackageBad = `{
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-amqp": "^3.0.0",
-    "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-auth": "^1.3.0",
     "@azure/core-tracing": "1.0.0-preview.13",
     "@azure/logger": "^1.0.0",
@@ -270,7 +268,7 @@ const examplePackageBad = `{
     "@azure/mock-hub": "^1.0.0",
     "@azure/test-utils": "^1.0.0",
     "@azure/test-utils-perf": "^1.0.0",
-    "@microsoft/api-extractor": "^7.18.11",
+    "@microsoft/api-extractor": "7.18.11",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-inject": "^4.0.0",
     "@rollup/plugin-json": "^4.0.0",

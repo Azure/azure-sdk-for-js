@@ -66,7 +66,7 @@ export async function main() {
       try {
         // save a checkpoint for the last event now that we've processed this batch.
         await context.updateCheckpoint(events[events.length - 1]);
-      } catch (err) {
+      } catch (err: any) {
         console.log(`Error when checkpointing on partition ${context.partitionId}: `, err);
         throw err;
       }

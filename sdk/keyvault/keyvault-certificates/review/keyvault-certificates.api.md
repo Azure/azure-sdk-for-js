@@ -86,7 +86,7 @@ export class CertificateClient {
 
 // @public
 export interface CertificateClientOptions extends coreHttp.PipelineOptions {
-    serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3-preview";
+    serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3";
 }
 
 // @public
@@ -372,7 +372,7 @@ export enum KnownCertificateKeyTypes {
 }
 
 // @public
-export const enum KnownDeletionRecoveryLevels {
+export enum KnownDeletionRecoveryLevels {
     CustomizedRecoverable = "CustomizedRecoverable",
     CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
     CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
@@ -383,7 +383,7 @@ export const enum KnownDeletionRecoveryLevels {
 }
 
 // @public
-export const enum KnownKeyUsageTypes {
+export enum KnownKeyUsageTypes {
     CRLSign = "cRLSign",
     DataEncipherment = "dataEncipherment",
     DecipherOnly = "decipherOnly",

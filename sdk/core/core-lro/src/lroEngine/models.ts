@@ -83,7 +83,7 @@ export interface LroResponse<T> {
 }
 
 /** The type of which LRO implementation being followed by a specific API. */
-export type LroMode = "AzureAsync" | "Location" | "Body";
+export type LroMode = "Location" | "Body";
 
 /**
  * The configuration of a LRO to determine how to perform polling and checking whether the operation has completed.

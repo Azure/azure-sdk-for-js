@@ -176,11 +176,13 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -284,11 +286,13 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
       { resourceGroupName, networkWatcherName, connectionMonitorName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -397,11 +401,13 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
       { resourceGroupName, networkWatcherName, connectionMonitorName, options },
       stopOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -483,11 +489,13 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
       { resourceGroupName, networkWatcherName, connectionMonitorName, options },
       startOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -574,11 +582,13 @@ export class ConnectionMonitorsImpl implements ConnectionMonitors {
       { resourceGroupName, networkWatcherName, connectionMonitorName, options },
       queryOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

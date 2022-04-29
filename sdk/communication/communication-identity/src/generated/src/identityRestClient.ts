@@ -6,13 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as operations from "./operations";
-import * as Models from "./models";
-import * as Mappers from "./models/mappers";
+import { CommunicationIdentityOperationsImpl } from "./operations";
+import { CommunicationIdentityOperations } from "./operationsInterfaces";
 import { IdentityRestClientContext } from "./identityRestClientContext";
 import { IdentityRestClientOptionalParams } from "./models";
 
-class IdentityRestClient extends IdentityRestClientContext {
+export class IdentityRestClient extends IdentityRestClientContext {
   /**
    * Initializes a new instance of the IdentityRestClient class.
    * @param endpoint The communication resource, for example https://my-resource.communication.azure.com
@@ -20,18 +19,10 @@ class IdentityRestClient extends IdentityRestClientContext {
    */
   constructor(endpoint: string, options?: IdentityRestClientOptionalParams) {
     super(endpoint, options);
-    this.communicationIdentity = new operations.CommunicationIdentity(this);
+    this.communicationIdentityOperations = new CommunicationIdentityOperationsImpl(
+      this
+    );
   }
 
-  communicationIdentity: operations.CommunicationIdentity;
+  communicationIdentityOperations: CommunicationIdentityOperations;
 }
-
-// Operation Specifications
-
-export {
-  IdentityRestClient,
-  IdentityRestClientContext,
-  Models as IdentityRestModels,
-  Mappers as IdentityRestMappers
-};
-export * from "./operations";

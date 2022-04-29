@@ -11,6 +11,8 @@ import {
   Identity,
   UserAssignedIdentitiesListBySubscriptionOptionalParams,
   UserAssignedIdentitiesListByResourceGroupOptionalParams,
+  AzureResource,
+  UserAssignedIdentitiesListAssociatedResourcesOptionalParams,
   UserAssignedIdentitiesCreateOrUpdateOptionalParams,
   UserAssignedIdentitiesCreateOrUpdateResponse,
   IdentityUpdate,
@@ -40,6 +42,17 @@ export interface UserAssignedIdentities {
     resourceGroupName: string,
     options?: UserAssignedIdentitiesListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<Identity>;
+  /**
+   * Lists the associated resources for this identity.
+   * @param resourceGroupName The name of the Resource Group to which the identity belongs.
+   * @param resourceName The name of the identity resource.
+   * @param options The options parameters.
+   */
+  listAssociatedResources(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: UserAssignedIdentitiesListAssociatedResourcesOptionalParams
+  ): PagedAsyncIterableIterator<AzureResource>;
   /**
    * Create or update an identity in the specified subscription and resource group.
    * @param resourceGroupName The name of the Resource Group to which the identity belongs.

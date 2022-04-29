@@ -17,6 +17,35 @@ export type ACLAction = string;
 export type CreatedByType = string;
 
 // @public
+export type CustomCertificate = ProxyResource & {
+    readonly systemData?: SystemData;
+    readonly provisioningState?: ProvisioningState;
+    keyVaultBaseUri: string;
+    keyVaultSecretName: string;
+    keyVaultSecretVersion?: string;
+};
+
+// @public
+export interface CustomCertificateList {
+    nextLink?: string;
+    value?: CustomCertificate[];
+}
+
+// @public
+export type CustomDomain = ProxyResource & {
+    readonly systemData?: SystemData;
+    readonly provisioningState?: ProvisioningState;
+    domainName: string;
+    customCertificate: ResourceReference;
+};
+
+// @public
+export interface CustomDomainList {
+    nextLink?: string;
+    value?: CustomDomain[];
+}
+
+// @public
 export interface Dimension {
     displayName?: string;
     internalName?: string;
@@ -202,6 +231,18 @@ export enum KnownUpstreamAuthType {
 }
 
 // @public
+export interface LiveTraceCategory {
+    enabled?: string;
+    name?: string;
+}
+
+// @public
+export interface LiveTraceConfiguration {
+    categories?: LiveTraceCategory[];
+    enabled?: string;
+}
+
+// @public
 export interface LogSpecification {
     displayName?: string;
     name?: string;
@@ -382,6 +423,11 @@ export interface ResourceLogConfiguration {
 }
 
 // @public
+export interface ResourceReference {
+    id?: string;
+}
+
+// @public
 export interface ResourceSku {
     capacity?: number;
     readonly family?: string;
@@ -481,6 +527,95 @@ export interface SignalRCreateOrUpdateOptionalParams extends coreClient.Operatio
 export type SignalRCreateOrUpdateResponse = SignalRResource;
 
 // @public
+export interface SignalRCustomCertificates {
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, certificateName: string, parameters: CustomCertificate, options?: SignalRCustomCertificatesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SignalRCustomCertificatesCreateOrUpdateResponse>, SignalRCustomCertificatesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, certificateName: string, parameters: CustomCertificate, options?: SignalRCustomCertificatesCreateOrUpdateOptionalParams): Promise<SignalRCustomCertificatesCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, resourceName: string, certificateName: string, options?: SignalRCustomCertificatesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, resourceName: string, certificateName: string, options?: SignalRCustomCertificatesGetOptionalParams): Promise<SignalRCustomCertificatesGetResponse>;
+    list(resourceGroupName: string, resourceName: string, options?: SignalRCustomCertificatesListOptionalParams): PagedAsyncIterableIterator<CustomCertificate>;
+}
+
+// @public
+export interface SignalRCustomCertificatesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SignalRCustomCertificatesCreateOrUpdateResponse = CustomCertificate;
+
+// @public
+export interface SignalRCustomCertificatesDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface SignalRCustomCertificatesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SignalRCustomCertificatesGetResponse = CustomCertificate;
+
+// @public
+export interface SignalRCustomCertificatesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SignalRCustomCertificatesListNextResponse = CustomCertificateList;
+
+// @public
+export interface SignalRCustomCertificatesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SignalRCustomCertificatesListResponse = CustomCertificateList;
+
+// @public
+export interface SignalRCustomDomains {
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, name: string, parameters: CustomDomain, options?: SignalRCustomDomainsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<SignalRCustomDomainsCreateOrUpdateResponse>, SignalRCustomDomainsCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, name: string, parameters: CustomDomain, options?: SignalRCustomDomainsCreateOrUpdateOptionalParams): Promise<SignalRCustomDomainsCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, resourceName: string, name: string, options?: SignalRCustomDomainsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, resourceName: string, name: string, options?: SignalRCustomDomainsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, resourceName: string, name: string, options?: SignalRCustomDomainsGetOptionalParams): Promise<SignalRCustomDomainsGetResponse>;
+    list(resourceGroupName: string, resourceName: string, options?: SignalRCustomDomainsListOptionalParams): PagedAsyncIterableIterator<CustomDomain>;
+}
+
+// @public
+export interface SignalRCustomDomainsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type SignalRCustomDomainsCreateOrUpdateResponse = CustomDomain;
+
+// @public
+export interface SignalRCustomDomainsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface SignalRCustomDomainsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SignalRCustomDomainsGetResponse = CustomDomain;
+
+// @public
+export interface SignalRCustomDomainsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SignalRCustomDomainsListNextResponse = CustomDomainList;
+
+// @public
+export interface SignalRCustomDomainsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type SignalRCustomDomainsListResponse = CustomDomainList;
+
+// @public
 export interface SignalRDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -563,6 +698,10 @@ export class SignalRManagementClient extends coreClient.ServiceClient {
     operations: Operations;
     // (undocumented)
     signalR: SignalR;
+    // (undocumented)
+    signalRCustomCertificates: SignalRCustomCertificates;
+    // (undocumented)
+    signalRCustomDomains: SignalRCustomDomains;
     // (undocumented)
     signalRPrivateEndpointConnections: SignalRPrivateEndpointConnections;
     // (undocumented)
@@ -680,6 +819,7 @@ export type SignalRResource = TrackedResource & {
     tls?: SignalRTlsSettings;
     readonly hostNamePrefix?: string;
     features?: SignalRFeature[];
+    liveTraceConfiguration?: LiveTraceConfiguration;
     resourceLogConfiguration?: ResourceLogConfiguration;
     cors?: SignalRCorsSettings;
     upstream?: ServerlessUpstreamSettings;

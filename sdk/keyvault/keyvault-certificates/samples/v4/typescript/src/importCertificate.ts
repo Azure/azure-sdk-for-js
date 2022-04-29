@@ -5,11 +5,13 @@
  * @summary Imports a PFX and PEM certificate and then deletes them.
  */
 
-import { CertificateClient, WellKnownIssuer } from "@azure/keyvault-certificates";
-import { DefaultAzureCredential } from "@azure/identity";
-
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
+
+import { CertificateClient, WellKnownIssuer } from "@azure/keyvault-certificates";
+
+import { DefaultAzureCredential } from "@azure/identity";
+
 dotenv.config();
 
 // For convenience in this sample we'll use some self-signed test certificates
@@ -137,14 +139,14 @@ export async function main(): Promise<void> {
   // When importing a PFX containing your key pair, the policy is needed if you want the
   // private key to be exportable or to configure actions when a certificate is close to expiration.
   let importedCertificate = await client.importCertificate(
-    `cert${Date.now()}`,
+    `import-${Date.now()}`,
     Buffer.from(samplePfxBase64, "base64"),
     {
       policy: {
         contentType: "application/x-pkcs12",
         issuerName: WellKnownIssuer.Self,
-        subject: "CN=contoso.com"
-      }
+        subject: "CN=contoso.com",
+      },
     }
   );
 
@@ -166,8 +168,8 @@ export async function main(): Promise<void> {
       policy: {
         contentType: "application/x-pem-file",
         issuerName: WellKnownIssuer.Self,
-        subject: "CN=contoso.com"
-      }
+        subject: "CN=contoso.com",
+      },
     }
   );
 

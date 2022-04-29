@@ -1,6 +1,6 @@
 # Release History
 
-## 13.1.0 (Unreleased)
+## 13.1.2 (Unreleased)
 
 ### Features Added
 
@@ -8,13 +8,29 @@
 
 ### Bugs Fixed
 
+- fix react native bundling issue by adding a `react-native` mapping to ESM
+  entry point so that dependencies can be loaded asynchronously.
+
+### Other Changes
+
+## 13.1.1 (2022-04-14)
+
+### Bugs Fixed
+- Fixed issue where `deleteTable()` doesn't throw any errors [21408](https://github.com/Azure/azure-sdk-for-js/pull/21408).
+
+## 13.1.0 (2022-04-07)
+
+### Bugs Fixed
+
+- Fix issue when the Service returns an empty nextRowKey. [#20916](https://github.com/Azure/azure-sdk-for-js/pull/20916).
 - Fix issue with `getStatistics()` operation consistently failing and added test. [#20398](https://github.com/Azure/azure-sdk-for-js/pull/20398)
 
 ### Other Changes
 
-- Updated our `@azure/core-tracing` dependency to the latest version (1.0.0-preview.14)
+- Updated our `@azure/core-tracing` dependency to the latest version (1.0.0)
   - Notable changes include Removal of `@opentelemetry/api` as a transitive dependency and ensuring that the active context is properly propagated.
   - Customers who would like to continue using OpenTelemetry driven tracing should visit our [OpenTelemetry Instrumentation](https://www.npmjs.com/package/@azure/opentelemetry-instrumentation-azure-sdk) package for instructions.
+- Export NamedKeyCredential [#20935](https://github.com/Azure/azure-sdk-for-js/pull/20935). (A community contribution, courtesy of _[dhensby](https://github.com/dhensby))_
 
 ## 13.0.1 (2022-01-12)
 

@@ -1,5 +1,5 @@
 {
-  "name": "azure-communication-identity-samples-ts",
+  "name": "@azure-samples/communication-identity-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Communication Services - Identity client library samples for TypeScript",

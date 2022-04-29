@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 
-export const CommunicationRelayConfigurationRequest: coreHttp.CompositeMapper = {
+export const CommunicationRelayConfigurationRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CommunicationRelayConfigurationRequest",
@@ -24,12 +24,23 @@ export const CommunicationRelayConfigurationRequest: coreHttp.CompositeMapper = 
         type: {
           name: "String"
         }
+      },
+      ttl: {
+        defaultValue: 172800,
+        constraints: {
+          InclusiveMaximum: 172800,
+          InclusiveMinimum: 0
+        },
+        serializedName: "ttl",
+        type: {
+          name: "Number"
+        }
       }
     }
   }
 };
 
-export const CommunicationRelayConfiguration: coreHttp.CompositeMapper = {
+export const CommunicationRelayConfiguration: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CommunicationRelayConfiguration",
@@ -47,7 +58,10 @@ export const CommunicationRelayConfiguration: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "CommunicationIceServer" }
+            type: {
+              name: "Composite",
+              className: "CommunicationIceServer"
+            }
           }
         }
       }
@@ -55,7 +69,7 @@ export const CommunicationRelayConfiguration: coreHttp.CompositeMapper = {
   }
 };
 
-export const CommunicationIceServer: coreHttp.CompositeMapper = {
+export const CommunicationIceServer: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CommunicationIceServer",
@@ -65,7 +79,11 @@ export const CommunicationIceServer: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "String" } }
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       },
       username: {
@@ -93,7 +111,7 @@ export const CommunicationIceServer: coreHttp.CompositeMapper = {
   }
 };
 
-export const CommunicationErrorResponse: coreHttp.CompositeMapper = {
+export const CommunicationErrorResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CommunicationErrorResponse",
@@ -109,7 +127,7 @@ export const CommunicationErrorResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const CommunicationError: coreHttp.CompositeMapper = {
+export const CommunicationError: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CommunicationError",
@@ -141,7 +159,10 @@ export const CommunicationError: coreHttp.CompositeMapper = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "CommunicationError" }
+            type: {
+              name: "Composite",
+              className: "CommunicationError"
+            }
           }
         }
       },

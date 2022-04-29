@@ -24,7 +24,7 @@ import {
 import { getDeliveryProperty } from "./utils/misc";
 import { verifyMessageCount } from "../public/utils/managementUtils";
 import sinon from "sinon";
-import { isNode } from "@azure/core-http";
+import { isNode } from "@azure/core-util";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -452,7 +452,7 @@ describe("Streaming Receiver Tests", () => {
           },
           processError,
         });
-      } catch (err) {
+      } catch (err: any) {
         errorMessage = err && err.message;
       }
       should.equal(
@@ -465,7 +465,7 @@ describe("Streaming Receiver Tests", () => {
       errorMessage = "";
       try {
         await receiver.receiveMessages(1);
-      } catch (err) {
+      } catch (err: any) {
         errorMessage = err && err.message;
       }
       should.equal(

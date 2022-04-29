@@ -17,7 +17,7 @@ import {
   ThreatIntelligenceFilteringCriteria,
   ThreatIntelligenceIndicatorQueryIndicatorsNextOptionalParams,
   ThreatIntelligenceIndicatorQueryIndicatorsOptionalParams,
-  ThreatIntelligenceIndicatorModelForRequestBody,
+  ThreatIntelligenceIndicatorModel,
   ThreatIntelligenceIndicatorCreateIndicatorOptionalParams,
   ThreatIntelligenceIndicatorCreateIndicatorResponse,
   ThreatIntelligenceIndicatorGetOptionalParams,
@@ -139,7 +139,7 @@ export class ThreatIntelligenceIndicatorImpl
   createIndicator(
     resourceGroupName: string,
     workspaceName: string,
-    threatIntelligenceProperties: ThreatIntelligenceIndicatorModelForRequestBody,
+    threatIntelligenceProperties: ThreatIntelligenceIndicatorModel,
     options?: ThreatIntelligenceIndicatorCreateIndicatorOptionalParams
   ): Promise<ThreatIntelligenceIndicatorCreateIndicatorResponse> {
     return this.client.sendOperationRequest(
@@ -185,7 +185,7 @@ export class ThreatIntelligenceIndicatorImpl
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    threatIntelligenceProperties: ThreatIntelligenceIndicatorModelForRequestBody,
+    threatIntelligenceProperties: ThreatIntelligenceIndicatorModel,
     options?: ThreatIntelligenceIndicatorCreateOptionalParams
   ): Promise<ThreatIntelligenceIndicatorCreateResponse> {
     return this.client.sendOperationRequest(
@@ -283,7 +283,7 @@ export class ThreatIntelligenceIndicatorImpl
     resourceGroupName: string,
     workspaceName: string,
     name: string,
-    threatIntelligenceReplaceTags: ThreatIntelligenceIndicatorModelForRequestBody,
+    threatIntelligenceReplaceTags: ThreatIntelligenceIndicatorModel,
     options?: ThreatIntelligenceIndicatorReplaceTagsOptionalParams
   ): Promise<ThreatIntelligenceIndicatorReplaceTagsResponse> {
     return this.client.sendOperationRequest(

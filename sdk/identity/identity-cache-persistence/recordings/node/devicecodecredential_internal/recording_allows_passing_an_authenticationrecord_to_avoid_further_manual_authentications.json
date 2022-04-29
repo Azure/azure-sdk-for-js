@@ -1,0 +1,567 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://login.microsoftonline.com/common/discovery/instance?api-version=1.1\u0026authorization_endpoint=https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "e82790f3-f221-441d-8052-dd6813a98dd8"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Methods": "GET, OPTIONS",
+        "Access-Control-Allow-Origin": "*",
+        "Cache-Control": "max-age=86400, private",
+        "Content-Length": "957",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Mar 2022 00:52:58 GMT",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Set-Cookie": "fpc=secret_cookie; expires=Thu, 07-Apr-2022 00:52:59 GMT; path=/; secure; HttpOnly; SameSite=None",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-ests-server": "2.1.12529.17 - EUS ProdSlices",
+        "x-ms-request-id": "9aa9e2ef-778c-4c13-bc0e-203e5909a200"
+      },
+      "ResponseBody": {
+        "tenant_discovery_endpoint": "https://login.microsoftonline.com/organizations/v2.0/.well-known/openid-configuration",
+        "api-version": "1.1",
+        "metadata": [
+          {
+            "preferred_network": "login.microsoftonline.com",
+            "preferred_cache": "login.windows.net",
+            "aliases": [
+              "login.microsoftonline.com",
+              "login.windows.net",
+              "login.microsoft.com",
+              "sts.windows.net"
+            ]
+          },
+          {
+            "preferred_network": "login.partner.microsoftonline.cn",
+            "preferred_cache": "login.partner.microsoftonline.cn",
+            "aliases": [
+              "login.partner.microsoftonline.cn",
+              "login.chinacloudapi.cn"
+            ]
+          },
+          {
+            "preferred_network": "login.microsoftonline.de",
+            "preferred_cache": "login.microsoftonline.de",
+            "aliases": [
+              "login.microsoftonline.de"
+            ]
+          },
+          {
+            "preferred_network": "login.microsoftonline.us",
+            "preferred_cache": "login.microsoftonline.us",
+            "aliases": [
+              "login.microsoftonline.us",
+              "login.usgovcloudapi.net"
+            ]
+          },
+          {
+            "preferred_network": "login-us.microsoftonline.com",
+            "preferred_cache": "login-us.microsoftonline.com",
+            "aliases": [
+              "login-us.microsoftonline.com"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://login.microsoftonline.com/organizations/v2.0/.well-known/openid-configuration",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "bf847cf5-4e5c-49d6-9936-880ba155ee85"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Methods": "GET, OPTIONS",
+        "Access-Control-Allow-Origin": "*",
+        "Cache-Control": "max-age=86400, private",
+        "Content-Length": "1589",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Mar 2022 00:52:58 GMT",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Set-Cookie": "fpc=secret_cookie; expires=Thu, 07-Apr-2022 00:52:59 GMT; path=/; secure; HttpOnly; SameSite=None",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-ests-server": "2.1.12529.17 - SCUS ProdSlices",
+        "x-ms-request-id": "e60500fa-2b90-4858-b20b-8c3ae44d8d00"
+      },
+      "ResponseBody": {
+        "token_endpoint": "https://login.microsoftonline.com/organizations/oauth2/v2.0/token",
+        "token_endpoint_auth_methods_supported": [
+          "client_secret_post",
+          "private_key_jwt",
+          "client_secret_basic"
+        ],
+        "jwks_uri": "https://login.microsoftonline.com/organizations/discovery/v2.0/keys",
+        "response_modes_supported": [
+          "query",
+          "fragment",
+          "form_post"
+        ],
+        "subject_types_supported": [
+          "pairwise"
+        ],
+        "id_token_signing_alg_values_supported": [
+          "RS256"
+        ],
+        "response_types_supported": [
+          "code",
+          "id_token",
+          "code id_token",
+          "id_token token"
+        ],
+        "scopes_supported": [
+          "openid",
+          "profile",
+          "email",
+          "offline_access"
+        ],
+        "issuer": "https://login.microsoftonline.com/{tenantid}/v2.0",
+        "request_uri_parameter_supported": false,
+        "userinfo_endpoint": "https://graph.microsoft.com/oidc/userinfo",
+        "authorization_endpoint": "https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize",
+        "device_authorization_endpoint": "https://login.microsoftonline.com/organizations/oauth2/v2.0/devicecode",
+        "http_logout_supported": true,
+        "frontchannel_logout_supported": true,
+        "end_session_endpoint": "https://login.microsoftonline.com/organizations/oauth2/v2.0/logout",
+        "claims_supported": [
+          "sub",
+          "iss",
+          "cloud_instance_name",
+          "cloud_instance_host_name",
+          "cloud_graph_host_name",
+          "msgraph_host",
+          "aud",
+          "exp",
+          "iat",
+          "auth_time",
+          "acr",
+          "nonce",
+          "preferred_username",
+          "name",
+          "tid",
+          "ver",
+          "at_hash",
+          "c_hash",
+          "email"
+        ],
+        "kerberos_endpoint": "https://login.microsoftonline.com/organizations/kerberos",
+        "tenant_region_scope": null,
+        "cloud_instance_name": "microsoftonline.com",
+        "cloud_graph_host_name": "graph.windows.net",
+        "msgraph_host": "graph.microsoft.com",
+        "rbac_url": "https://pas.windows.net"
+      }
+    },
+    {
+      "RequestUri": "https://login.microsoftonline.com/organizations/oauth2/v2.0/devicecode",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "225",
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "eeafd5d7-5539-49a1-9d3a-bc68c4a37ce6"
+      },
+      "RequestBody": "scope=https%3A%2F%2Fgraph.microsoft.com%2F.default%20openid%20profile%20offline_access\u0026client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "277",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Mar 2022 00:52:58 GMT",
+        "Expires": "-1",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Pragma": "no-cache",
+        "Set-Cookie": "fpc=secret_cookie; expires=Thu, 07-Apr-2022 00:52:59 GMT; path=/; secure; HttpOnly; SameSite=None",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-ests-server": "2.1.12507.17 - EUS ProdSlices",
+        "x-ms-request-id": "7a5322c2-deb7-49fc-8851-ba43145d0a01"
+      },
+      "ResponseBody": {
+        "user_code": "ARB9B84G4",
+        "device_code": "DEVICE_CODE",
+        "verification_uri": "https://microsoft.com/devicelogin",
+        "expires_in": 900,
+        "interval": 0,
+        "message": "To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code USER_CODE to authenticate."
+      }
+    },
+    {
+      "RequestUri": "https://login.microsoftonline.com/organizations/oauth2/v2.0/token",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "529",
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "a64103e7-5cee-486c-b7c1-24a0824c5c3d"
+      },
+      "RequestBody": "scope=https%3A%2F%2Fgraph.microsoft.com%2F.default%20openid%20profile%20offline_access\u0026client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "510",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Mar 2022 00:52:58 GMT",
+        "Expires": "-1",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Pragma": "no-cache",
+        "Set-Cookie": "fpc=secret_cookie; expires=Thu, 07-Apr-2022 00:52:59 GMT; path=/; secure; HttpOnly; SameSite=None",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-clitelem": "1,70016,0,,",
+        "x-ms-ests-server": "2.1.12529.17 - WUS2 ProdSlices",
+        "x-ms-request-id": "27eb7a16-da89-4b49-94ac-b9e8fc7fe900"
+      },
+      "ResponseBody": {
+        "error": "authorization_pending",
+        "error_description": "AADSTS70016: OAuth 2.0 device flow error. Authorization is pending. Continue polling.\r\nTrace ID: 27eb7a16-da89-4b49-94ac-b9e8fc7fe900\r\nCorrelation ID: eeafd5d7-5539-49a1-9d3a-bc68c4a37ce6\r\nTimestamp: 2022-03-08 00:52:59Z",
+        "error_codes": [
+          70016
+        ],
+        "timestamp": "2022-03-08 00:52:59Z",
+        "trace_id": "27eb7a16-da89-4b49-94ac-b9e8fc7fe900",
+        "correlation_id": "eeafd5d7-5539-49a1-9d3a-bc68c4a37ce6",
+        "error_uri": "https://login.microsoftonline.com/error?code=70016"
+      }
+    },
+    {
+      "RequestUri": "https://login.microsoftonline.com/organizations/oauth2/v2.0/token",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "529",
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "99596d79-168e-4059-b130-5350dbe1cc4f"
+      },
+      "RequestBody": "scope=https%3A%2F%2Fgraph.microsoft.com%2F.default%20openid%20profile%20offline_access\u0026client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "1133",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Mar 2022 00:53:21 GMT",
+        "Expires": "-1",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Pragma": "no-cache",
+        "Set-Cookie": "fpc=secret_cookie; expires=Thu, 07-Apr-2022 00:53:21 GMT; path=/; secure; HttpOnly; SameSite=None",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-clitelem": "1,0,0,,",
+        "x-ms-ests-server": "2.1.12529.17 - WUS2 ProdSlices",
+        "x-ms-request-id": "1f07898d-bc79-43d0-a624-9bea9e935c00"
+      },
+      "ResponseBody": {
+        "token_type": "Bearer",
+        "scope": "email openid profile https://graph.microsoft.com/AuditLog.Read.All https://graph.microsoft.com/Directory.AccessAsUser.All https://graph.microsoft.com/Group.ReadWrite.All https://graph.microsoft.com/User.ReadWrite.All https://graph.microsoft.com/.default",
+        "expires_in": 4359,
+        "ext_expires_in": 4359,
+        "access_token": "access_token",
+        "refresh_token": "refresh_token",
+        "foci": "1",
+        "id_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImtpZCJ9.eyJhdWQiOiJhdWQiLCJpc3MiOiJodHRwczovL2xvZ2luLm1pY3Jvc29mdG9ubGluZS5jb20vMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyL3YyLjAiLCJpYXQiOjE2MTUzMzcxNjMsIm5iZiI6MTYxNTMzNzE2MywiZXhwIjoxNjE1MzQxMDYzLCJhaW8iOiJhaW8iLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC9pZHAvIiwibmFtZSI6IkRhbmllbCBSb2Ryw61ndWV6Iiwib2lkIjoib2lkIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiZGFucm9kcmlAbWljcm9zb2Z0LmNvbSIsInJoIjoicmguIiwic3ViIjoic3ViIiwidGlkIjoiMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyIiwidXRpIjoidXRpIiwidmVyIjoiMi4wIn0=.bm9faWRlYV93aGF0c190aGlz",
+        "client_info": "eyJ1aWQiOiIxMjM0NTY3OC0xMjM0LTEyMzQtMTIzNC0xMjM0NTY3ODkwMTIiLCJ1dGlkIjoiMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyIn0K"
+      }
+    },
+    {
+      "RequestUri": "https://login.microsoftonline.com/common/discovery/instance?api-version=1.1\u0026authorization_endpoint=https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "654437a7-382e-4deb-96f1-801565c8781a"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Methods": "GET, OPTIONS",
+        "Access-Control-Allow-Origin": "*",
+        "Cache-Control": "max-age=86400, private",
+        "Content-Length": "957",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Mar 2022 00:53:21 GMT",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Set-Cookie": "fpc=secret_cookie; expires=Thu, 07-Apr-2022 00:53:22 GMT; path=/; secure; HttpOnly; SameSite=None",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-ests-server": "2.1.12529.17 - WUS2 ProdSlices",
+        "x-ms-request-id": "b0d248d9-6dcd-40e1-99c9-dfa470134d00"
+      },
+      "ResponseBody": {
+        "tenant_discovery_endpoint": "https://login.microsoftonline.com/organizations/v2.0/.well-known/openid-configuration",
+        "api-version": "1.1",
+        "metadata": [
+          {
+            "preferred_network": "login.microsoftonline.com",
+            "preferred_cache": "login.windows.net",
+            "aliases": [
+              "login.microsoftonline.com",
+              "login.windows.net",
+              "login.microsoft.com",
+              "sts.windows.net"
+            ]
+          },
+          {
+            "preferred_network": "login.partner.microsoftonline.cn",
+            "preferred_cache": "login.partner.microsoftonline.cn",
+            "aliases": [
+              "login.partner.microsoftonline.cn",
+              "login.chinacloudapi.cn"
+            ]
+          },
+          {
+            "preferred_network": "login.microsoftonline.de",
+            "preferred_cache": "login.microsoftonline.de",
+            "aliases": [
+              "login.microsoftonline.de"
+            ]
+          },
+          {
+            "preferred_network": "login.microsoftonline.us",
+            "preferred_cache": "login.microsoftonline.us",
+            "aliases": [
+              "login.microsoftonline.us",
+              "login.usgovcloudapi.net"
+            ]
+          },
+          {
+            "preferred_network": "login-us.microsoftonline.com",
+            "preferred_cache": "login-us.microsoftonline.com",
+            "aliases": [
+              "login-us.microsoftonline.com"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://login.microsoftonline.com/organizations/v2.0/.well-known/openid-configuration",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "13d6d9d4-d021-4dd8-98c9-1bce15093783"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Methods": "GET, OPTIONS",
+        "Access-Control-Allow-Origin": "*",
+        "Cache-Control": "max-age=86400, private",
+        "Content-Length": "1589",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Mar 2022 00:53:21 GMT",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Set-Cookie": "fpc=secret_cookie; expires=Thu, 07-Apr-2022 00:53:22 GMT; path=/; secure; HttpOnly; SameSite=None",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-ests-server": "2.1.12529.17 - NCUS ProdSlices",
+        "x-ms-request-id": "86ab9db0-49ae-4f44-b971-4fa70839cd00"
+      },
+      "ResponseBody": {
+        "token_endpoint": "https://login.microsoftonline.com/organizations/oauth2/v2.0/token",
+        "token_endpoint_auth_methods_supported": [
+          "client_secret_post",
+          "private_key_jwt",
+          "client_secret_basic"
+        ],
+        "jwks_uri": "https://login.microsoftonline.com/organizations/discovery/v2.0/keys",
+        "response_modes_supported": [
+          "query",
+          "fragment",
+          "form_post"
+        ],
+        "subject_types_supported": [
+          "pairwise"
+        ],
+        "id_token_signing_alg_values_supported": [
+          "RS256"
+        ],
+        "response_types_supported": [
+          "code",
+          "id_token",
+          "code id_token",
+          "id_token token"
+        ],
+        "scopes_supported": [
+          "openid",
+          "profile",
+          "email",
+          "offline_access"
+        ],
+        "issuer": "https://login.microsoftonline.com/{tenantid}/v2.0",
+        "request_uri_parameter_supported": false,
+        "userinfo_endpoint": "https://graph.microsoft.com/oidc/userinfo",
+        "authorization_endpoint": "https://login.microsoftonline.com/organizations/oauth2/v2.0/authorize",
+        "device_authorization_endpoint": "https://login.microsoftonline.com/organizations/oauth2/v2.0/devicecode",
+        "http_logout_supported": true,
+        "frontchannel_logout_supported": true,
+        "end_session_endpoint": "https://login.microsoftonline.com/organizations/oauth2/v2.0/logout",
+        "claims_supported": [
+          "sub",
+          "iss",
+          "cloud_instance_name",
+          "cloud_instance_host_name",
+          "cloud_graph_host_name",
+          "msgraph_host",
+          "aud",
+          "exp",
+          "iat",
+          "auth_time",
+          "acr",
+          "nonce",
+          "preferred_username",
+          "name",
+          "tid",
+          "ver",
+          "at_hash",
+          "c_hash",
+          "email"
+        ],
+        "kerberos_endpoint": "https://login.microsoftonline.com/organizations/kerberos",
+        "tenant_region_scope": null,
+        "cloud_instance_name": "microsoftonline.com",
+        "cloud_graph_host_name": "graph.windows.net",
+        "msgraph_host": "graph.microsoft.com",
+        "rbac_url": "https://pas.windows.net"
+      }
+    },
+    {
+      "RequestUri": "https://login.microsoftonline.com/organizations/oauth2/v2.0/devicecode",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "225",
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "47cb7aed-4868-4331-88b1-3b58b675df67"
+      },
+      "RequestBody": "scope=https%3A%2F%2Fgraph.microsoft.com%2F.default%20openid%20profile%20offline_access\u0026client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "277",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Mar 2022 00:53:21 GMT",
+        "Expires": "-1",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Pragma": "no-cache",
+        "Set-Cookie": "fpc=secret_cookie; expires=Thu, 07-Apr-2022 00:53:22 GMT; path=/; secure; HttpOnly; SameSite=None",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-ests-server": "2.1.12529.17 - NCUS ProdSlices",
+        "x-ms-request-id": "83aa73d9-f311-41fe-9641-1af39fa78800"
+      },
+      "ResponseBody": {
+        "user_code": "E63L8VH5N",
+        "device_code": "DEVICE_CODE",
+        "verification_uri": "https://microsoft.com/devicelogin",
+        "expires_in": 900,
+        "interval": 0,
+        "message": "To sign in, use a web browser to open the page https://microsoft.com/devicelogin and enter the code USER_CODE to authenticate."
+      }
+    },
+    {
+      "RequestUri": "https://login.microsoftonline.com/organizations/oauth2/v2.0/token",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "529",
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "9b73454a-f86b-4382-9aca-1b78efb600c8"
+      },
+      "RequestBody": "scope=https%3A%2F%2Fgraph.microsoft.com%2F.default%20openid%20profile%20offline_access\u0026client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "510",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Mar 2022 00:53:21 GMT",
+        "Expires": "-1",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Pragma": "no-cache",
+        "Set-Cookie": "fpc=secret_cookie; expires=Thu, 07-Apr-2022 00:53:22 GMT; path=/; secure; HttpOnly; SameSite=None",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-clitelem": "1,70016,0,,",
+        "x-ms-ests-server": "2.1.12529.17 - NCUS ProdSlices",
+        "x-ms-request-id": "83aa73d9-f311-41fe-9641-1af3aaa78800"
+      },
+      "ResponseBody": {
+        "error": "authorization_pending",
+        "error_description": "AADSTS70016: OAuth 2.0 device flow error. Authorization is pending. Continue polling.\r\nTrace ID: 83aa73d9-f311-41fe-9641-1af3aaa78800\r\nCorrelation ID: 47cb7aed-4868-4331-88b1-3b58b675df67\r\nTimestamp: 2022-03-08 00:53:22Z",
+        "error_codes": [
+          70016
+        ],
+        "timestamp": "2022-03-08 00:53:22Z",
+        "trace_id": "83aa73d9-f311-41fe-9641-1af3aaa78800",
+        "correlation_id": "47cb7aed-4868-4331-88b1-3b58b675df67",
+        "error_uri": "https://login.microsoftonline.com/error?code=70016"
+      }
+    },
+    {
+      "RequestUri": "https://login.microsoftonline.com/organizations/oauth2/v2.0/token",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "529",
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        "User-Agent": "User-Agent",
+        "x-ms-client-request-id": "ff455013-5e5e-4f79-bd46-8c27fd8b5577"
+      },
+      "RequestBody": "scope=https%3A%2F%2Fgraph.microsoft.com%2F.default%20openid%20profile%20offline_access\u0026client_id=04b07795-8ddb-461a-bbee-02f9e1bf7b46\u0026grant_type=device_code\u0026device_code=DEVICE_CODE\u0026client-request-id=client-request-id\u0026client_info=1\u0026x-client-SKU=msal.js.node\u0026x-client-VER=identity-client-version\u0026x-client-OS=x-client-OS\u0026x-client-CPU=x-client-CPU\u0026x-ms-lib-capability=retry-after, h429\u0026x-client-current-telemetry=5|671,0,,,|,\u0026x-client-last-telemetry=5|0|||0,0\u0026claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D",
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "1133",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 08 Mar 2022 00:53:37 GMT",
+        "Expires": "-1",
+        "P3P": "CP=\u0022DSP CUR OTPi IND OTRi ONL FIN\u0022",
+        "Pragma": "no-cache",
+        "Set-Cookie": "fpc=secret_cookie; expires=Thu, 07-Apr-2022 00:53:38 GMT; path=/; secure; HttpOnly; SameSite=None",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-clitelem": "1,0,0,,",
+        "x-ms-ests-server": "2.1.12529.17 - NCUS ProdSlices",
+        "x-ms-request-id": "a995b239-096c-49f2-8732-05dc55116f00"
+      },
+      "ResponseBody": {
+        "token_type": "Bearer",
+        "scope": "email openid profile https://graph.microsoft.com/AuditLog.Read.All https://graph.microsoft.com/Directory.AccessAsUser.All https://graph.microsoft.com/Group.ReadWrite.All https://graph.microsoft.com/User.ReadWrite.All https://graph.microsoft.com/.default",
+        "expires_in": 4045,
+        "ext_expires_in": 4045,
+        "access_token": "access_token",
+        "refresh_token": "refresh_token",
+        "foci": "1",
+        "id_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6ImtpZCJ9.eyJhdWQiOiJhdWQiLCJpc3MiOiJodHRwczovL2xvZ2luLm1pY3Jvc29mdG9ubGluZS5jb20vMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyL3YyLjAiLCJpYXQiOjE2MTUzMzcxNjMsIm5iZiI6MTYxNTMzNzE2MywiZXhwIjoxNjE1MzQxMDYzLCJhaW8iOiJhaW8iLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC9pZHAvIiwibmFtZSI6IkRhbmllbCBSb2Ryw61ndWV6Iiwib2lkIjoib2lkIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiZGFucm9kcmlAbWljcm9zb2Z0LmNvbSIsInJoIjoicmguIiwic3ViIjoic3ViIiwidGlkIjoiMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyIiwidXRpIjoidXRpIiwidmVyIjoiMi4wIn0=.bm9faWRlYV93aGF0c190aGlz",
+        "client_info": "eyJ1aWQiOiIxMjM0NTY3OC0xMjM0LTEyMzQtMTIzNC0xMjM0NTY3ODkwMTIiLCJ1dGlkIjoiMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyIn0K"
+      }
+    }
+  ],
+  "Variables": {}
+}

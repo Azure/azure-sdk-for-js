@@ -1,5 +1,5 @@
 {
-  "name": "azure-ai-anomaly-detector-samples-ts",
+  "name": "@azure-samples/ai-anomaly-detector-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Data Tables client library samples for TypeScript",

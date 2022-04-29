@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -9,7 +9,7 @@ trigger:
   paths:
     include:
       - sdk/machinelearningexperimentation/ci.mgmt.yml
-      - sdk/machinelearningexperimentation/arm-machinelearningexperimentation/
+      - sdk/machinelearningexperimentation/arm-machinelearningexperimentation
 pr:
   branches:
     include:
@@ -22,12 +22,11 @@ pr:
   paths:
     include:
       - sdk/machinelearningexperimentation/ci.mgmt.yml
-      - sdk/machinelearningexperimentation/arm-machinelearningexperimentation/
-
+      - sdk/machinelearningexperimentation/arm-machinelearningexperimentation
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: machinelearningexperimentation
     Artifacts:
       - name: azure-arm-machinelearningexperimentation
-        safeName: azurearmmachinelearningexperimentation       
+        safeName: azurearmmachinelearningexperimentation

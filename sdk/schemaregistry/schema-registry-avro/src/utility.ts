@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { MessageWithMetadata } from "./models";
+import { MessageContent } from "./models";
 
-export function isMessageWithMetadata(message: unknown): message is MessageWithMetadata {
-  const castMessage = message as MessageWithMetadata;
-  return castMessage.body !== undefined && castMessage.contentType !== undefined;
+export function isMessageContent(message: unknown): message is MessageContent {
+  const castMessage = message as MessageContent;
+  return castMessage.data !== undefined && castMessage.contentType !== undefined;
 }

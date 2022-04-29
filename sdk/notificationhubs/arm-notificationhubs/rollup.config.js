@@ -14,62 +14,14 @@ import json from "@rollup/plugin-json";
 
 import nodeBuiltins from "builtin-modules";
 
-/**
- * Gets the proper configuration needed for rollup's commonJS plugin for @opentelemetry/api.
- *
- * NOTE: this manual configuration is only needed because OpenTelemetry uses an
- * __exportStar downleveled helper function to declare its exports which confuses
- * rollup's automatic discovery mechanism.
- *
- * @returns an object reference that can be `...`'d into your cjs() configuration.
- */
-export function openTelemetryCommonJs() {
-  const namedExports = {};
-
-  for (const key of [
-    "@opentelemetry/api",
-    "@azure/core-tracing/node_modules/@opentelemetry/api"
-  ]) {
-    namedExports[key] = [
-      "SpanKind",
-      "TraceFlags",
-      "getSpan",
-      "setSpan",
-      "SpanStatusCode",
-      "getSpanContext",
-      "setSpanContext"
-    ];
-  }
-
-  const releasedOpenTelemetryVersions = ["0.10.2", "1.0.0-rc.0"];
-
-  for (const version of releasedOpenTelemetryVersions) {
-    namedExports[
-      // working around a limitation in the rollup common.js plugin - it's not able to resolve these modules so the named exports listed above will not get applied. We have to drill down to the actual path.
-      `../../../common/temp/node_modules/.pnpm/@opentelemetry/api@${version}/node_modules/@opentelemetry/api/build/src/index.js`
-    ] = [
-      "SpanKind",
-      "TraceFlags",
-      "getSpan",
-      "setSpan",
-      "StatusCode",
-      "CanonicalCode",
-      "getSpanContext",
-      "setSpanContext"
-    ];
-  }
-
-  return namedExports;
-}
-
 // #region Warning Handler
 
 /**
- * A function that can determine whether a rollupwarning should be ignored. If
+ * A function that can determine whether a rollup warning should be ignored. If
  * the function returns `true`, then the warning will not be displayed.
  */
 
-function ignoreNiseSinonEvalWarnings(warning) {
+function ignoreNiseSinonEval(warning) {
   return (
     warning.code === "EVAL" &&
     warning.id &&
@@ -78,17 +30,14 @@ function ignoreNiseSinonEvalWarnings(warning) {
   );
 }
 
-function ignoreChaiCircularDependencyWarnings(warning) {
+function ignoreChaiCircularDependency(warning) {
   return (
     warning.code === "CIRCULAR_DEPENDENCY" &&
     warning.importer && warning.importer.includes("node_modules/chai") === true
   );
 }
 
-const warningInhibitors = [
-  ignoreChaiCircularDependencyWarnings,
-  ignoreNiseSinonEvalWarnings
-];
+const warningInhibitors = [ignoreChaiCircularDependency, ignoreNiseSinonEval];
 
 /**
  * Construct a warning handler for the shared rollup configuration
@@ -122,22 +71,7 @@ function makeBrowserTestConfig() {
       nodeResolve({
         mainFields: ["module", "browser"]
       }),
-      cjs({
-        namedExports: {
-          // Chai's strange internal architecture makes it impossible to statically
-          // analyze its exports.
-          chai: [
-            "version",
-            "use",
-            "util",
-            "config",
-            "expect",
-            "should",
-            "assert"
-          ],
-          ...openTelemetryCommonJs()
-        }
-      }),
+      cjs(),
       json(),
       sourcemaps()
       //viz({ filename: "dist-test/browser-stats.html", sourcemap: true })
@@ -173,7 +107,7 @@ export function makeConfig(pkg, options) {
     ],
     output: { file: "dist/index.js", format: "cjs", sourcemap: true },
     preserveSymlinks: false,
-    plugins: [sourcemaps(), nodeResolve(), cjs()]
+    plugins: [sourcemaps(), nodeResolve()]
   };
 
   const config = [baseConfig];

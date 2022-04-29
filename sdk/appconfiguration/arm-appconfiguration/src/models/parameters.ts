@@ -58,7 +58,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-03-01-preview",
+    defaultValue: "2021-10-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -129,6 +129,17 @@ export const configStoreUpdateParameters: OperationParameter = {
 export const regenerateKeyParameters: OperationParameter = {
   parameterPath: "regenerateKeyParameters",
   mapper: RegenerateKeyParametersMapper
+};
+
+export const location: OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    serializedName: "location",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const nextLink: OperationURLParameter = {

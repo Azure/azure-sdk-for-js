@@ -1,5 +1,5 @@
 {
-  "name": "azure-core-rest-pipeline-samples-js",
+  "name": "@azure-samples/core-rest-pipeline-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure SDK Core client library samples for JavaScript",

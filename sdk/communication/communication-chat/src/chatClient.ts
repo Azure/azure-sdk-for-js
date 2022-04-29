@@ -57,7 +57,7 @@ export class ChatClient {
   /**
    * Creates an instance of the ChatClient for a given resource and user.
    *
-   * @param endpoint - The url of the Communication Services resouce.
+   * @param endpoint - The url of the Communication Services resource.
    * @param credential - The token credential. Use AzureCommunicationTokenCredential from \@azure/communication-common to create a credential.
    * @param options - Additional client options.
    */
@@ -128,7 +128,7 @@ export class ChatClient {
         updatedRestModelOptions
       );
       return mapToCreateChatThreadResultSdkModel(result);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -194,7 +194,7 @@ export class ChatClient {
           return this.listChatThreadsPage(settings, updatedOptions);
         },
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -218,7 +218,7 @@ export class ChatClient {
 
     try {
       await this.client.chat.deleteChatThread(threadId, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

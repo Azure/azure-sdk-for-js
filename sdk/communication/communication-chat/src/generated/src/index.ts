@@ -8,5 +8,4 @@
 
 export * from "./models";
 export { ChatApiClient } from "./chatApiClient";
-export { ChatApiClientContext } from "./chatApiClientContext";
 export * from "./operationsInterfaces";

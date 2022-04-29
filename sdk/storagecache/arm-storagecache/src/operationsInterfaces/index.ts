@@ -10,6 +10,7 @@ export * from "./operations";
 export * from "./skus";
 export * from "./usageModels";
 export * from "./ascOperations";
+export * from "./ascUsages";
 export * from "./caches";
 export * from "./storageTargets";
 export * from "./storageTargetOperations";

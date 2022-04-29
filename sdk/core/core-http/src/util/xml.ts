@@ -85,7 +85,7 @@ export function parseXML(str: string, opts: SerializerOptions = {}): Promise<any
     if (!str) {
       reject(new Error("Document is empty"));
     } else {
-      xmlParser.parseString(str, (err?: Error, res?: any) => {
+      xmlParser.parseString(str, (err, res) => {
         if (err) {
           reject(err);
         } else {

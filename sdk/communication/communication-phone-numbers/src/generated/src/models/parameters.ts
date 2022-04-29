@@ -10,7 +10,7 @@ import {
   OperationParameter,
   OperationURLParameter,
   OperationQueryParameter
-} from "@azure/core-http";
+} from "@azure/core-client";
 import {
   PhoneNumberSearchRequest as PhoneNumberSearchRequestMapper,
   PhoneNumberPurchaseRequest as PhoneNumberPurchaseRequestMapper,
@@ -164,6 +164,7 @@ export const phoneNumber: OperationURLParameter = {
 export const skip: OperationQueryParameter = {
   parameterPath: ["options", "skip"],
   mapper: {
+    defaultValue: 0,
     serializedName: "skip",
     type: {
       name: "Number"

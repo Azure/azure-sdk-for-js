@@ -86,7 +86,7 @@ export class ShardFactory {
       }
 
       return new Shard(containerClient, this.chunkFactory, chunks, currentChunk, shardPath);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

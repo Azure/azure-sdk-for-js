@@ -16,7 +16,7 @@ import { env } from "@azure-tools/test-recorder";
 import { URL } from "url";
 
 // Adding this to the source would change the public API.
-type ApiVersions = "7.2" | "7.3-preview";
+type ApiVersions = "7.2" | "7.3";
 
 const baseUrl = "https://managed_hsm.managedhsm.azure.net/";
 

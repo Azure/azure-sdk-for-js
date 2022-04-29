@@ -1,5 +1,23 @@
 # Release History
 
+## 1.1.0-beta.2 (2022-04-25)
+
+### Features Added
+
+- Migrated from using `@azure/core-http` to `@azure/core-rest-pipeline` for the handling of HTTP requests. See [Azure Core v1 vs v2](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-rest-pipeline/documentation/core2.md) for more on the difference and benefits of the move.
+
+## 1.1.0-beta.1 (2022-03-10)
+
+### Features Added
+
+- Adding optional parameter to GetRelayConfiguration to choose credential Time-To-Live in seconds of max 48 hours.
+  The default value will be used if given value exceeds it.
+
+### Breaking Changes
+
+- Making User, RouteType and Ttl part of the options parameter
+- getRelayConfiguration can be called without parameters or passing the GetRelayConfigurationOptions parameter
+
 ## 1.0.0 (2022-02-04) (Deprecated)
 
 ### Other Changes

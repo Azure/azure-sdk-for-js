@@ -83,7 +83,7 @@ export class MsalOpenBrowser extends MsalNode {
         let url: URL;
         try {
           url = new URL(req.url, this.redirectUri);
-        } catch (e) {
+        } catch (e: any) {
           reject(
             new Error(
               `Interactive Browser Authentication Error "Did not receive token with a valid expiration"`
@@ -245,7 +245,7 @@ export class MsalOpenBrowser extends MsalNode {
 
     try {
       await interactiveBrowserMockable.open(response, { wait: true });
-    } catch (e) {
+    } catch (e: any) {
       throw new CredentialUnavailableError(
         `InteractiveBrowserCredential: Could not open a browser window. Error: ${e.message}`
       );

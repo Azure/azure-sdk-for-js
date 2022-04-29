@@ -56,9 +56,6 @@ const getOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.OperationResultsDescription
     },
-    404: {
-      bodyMapper: Mappers.ErrorDetails
-    },
     default: {
       bodyMapper: Mappers.ErrorDetails
     }

@@ -6,7 +6,6 @@ import { Context } from "mocha";
 import fs from "fs";
 import childProcess from "child_process";
 import { assert } from "@azure/test-utils";
-import { supportsTracing } from "../../../keyvault-common/test/utils/supportsTracing";
 
 import { env, Recorder } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
@@ -107,7 +106,7 @@ describe("Certificates client - create, read, update and delete", () => {
         testPollerProperties
       );
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(
@@ -342,7 +341,7 @@ describe("Certificates client - create, read, update and delete", () => {
     try {
       await client.getCertificate(certificateName);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error.code, "CertificateNotFound");
@@ -367,7 +366,7 @@ describe("Certificates client - create, read, update and delete", () => {
     try {
       await client.getCertificate(certificateName);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       if (e.statusCode === 404) {
         assert.equal(e.code, "CertificateNotFound");
       } else {
@@ -403,7 +402,7 @@ describe("Certificates client - create, read, update and delete", () => {
     try {
       await client.beginDeleteCertificate(certificateName, testPollerProperties);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error.code, "CertificateNotFound");
@@ -461,7 +460,7 @@ describe("Certificates client - create, read, update and delete", () => {
       try {
         await client.beginDeleteCertificate(certificateName, testPollerProperties);
         throw Error("Expecting an error but not catching one.");
-      } catch (e) {
+      } catch (e: any) {
         error = e;
       }
       assert.equal(error.code, "CertificateNotFound");
@@ -530,7 +529,7 @@ describe("Certificates client - create, read, update and delete", () => {
     try {
       await client.getIssuer(issuerName);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error.message, "Issuer not found");
@@ -587,7 +586,7 @@ describe("Certificates client - create, read, update and delete", () => {
     try {
       await client.getCertificateOperation(certificateName);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error.message, `Pending certificate not found: ${certificateName}`);
@@ -625,7 +624,7 @@ describe("Certificates client - create, read, update and delete", () => {
     try {
       await client.getContacts();
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error.code, "ContactsNotFound");
@@ -633,24 +632,24 @@ describe("Certificates client - create, read, update and delete", () => {
 
   it("supports tracing", async function (this: Context) {
     const certificateName = testClient.formatName(`${prefix}-${this!.test!.title}-${suffix}`);
-    await supportsTracing(
+    await assert.supportsTracing(
       async (tracingOptions) => {
         const poller = await client.beginCreateCertificate(
           certificateName,
           basicCertificatePolicy,
           {
             ...testPollerProperties,
-            tracingOptions,
+            ...tracingOptions,
           }
         );
         await poller.pollUntilDone();
-        await client.getCertificate(certificateName, { tracingOptions });
+        await client.getCertificate(certificateName, { ...tracingOptions });
       },
       [
-        "Azure.KeyVault.Certificates.CreateCertificatePoller.createCertificate",
-        "Azure.KeyVault.Certificates.CreateCertificatePoller.getPlainCertificateOperation",
-        "Azure.KeyVault.Certificates.CreateCertificatePoller.getCertificate",
-        "Azure.KeyVault.Certificates.CertificateClient.getCertificate",
+        "CreateCertificatePoller.createCertificate",
+        "CreateCertificatePoller.getPlainCertificateOperation",
+        "CreateCertificatePoller.getCertificate",
+        "CertificateClient.getCertificate",
       ]
     );
   });

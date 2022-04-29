@@ -1,5 +1,36 @@
 # Release History
 
+## 2.1.0-beta.3 (Unknown)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fixed a bug that would break the AzureCliCredential if the Azure CLI reported a warning. See: [21075](https://github.com/Azure/azure-sdk-for-js/issues/21075).
+- Fixed a bug in `AuthorizationCodeCredential` where the tenant id was not being used. The `common` tenant was the only tenant being used by this credential.
+- Fixed a bug in `AuthorizationCodeCredential` where the public client was not being used. Due to this bug, without passing in the client secret, this credential would fail.
+
+### Other Changes
+
+- Upgraded to `@azure/core-tracing` version `^1.0.0`.
+- Improved the errors displayed on the `AzureCliCredential`.
+
+## 2.1.0-beta.2 (2022-03-22)
+
+### Features Added
+
+- Added stronger types to the `DefaultAzureCredential` and `ManagedIdentityCredential` constructors so that TypeScript users will trigger a type error by providing both a Managed Identity client ID and resource ID to the same credential instance.
+- Added stronger types to the `ClientCertificateCredential` and `OnBehalfOfCredential` constructors so that TypeScript users will trigger a type error by providing both a Client certificate and certificate path to the same credential instance.
+- Added support for App Service 2019 resource in Managed Identity Credential.
+- All of our credentials now support a new option on their constructor: `loggingOptions`, which allows configuring the logging options of the HTTP pipelines.
+- Within the new `loggingOptions` we have also added `allowLoggingAccountIdentifiers`, a property that if set to true logs information specific to the authenticated account after each successful authentication, including: the Client ID, the Tenant ID, the Object ID of the authenticated user, and if possible the User Principal Name.
+
+### Bugs Fixed
+
+- Fixed a bug that caused [Continuous Access Enforcement (CAE)](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation) and [Conditional Access authentication context](https://techcommunity.microsoft.com/t5/azure-active-directory-identity/granular-conditional-access-for-sensitive-data-and-actions/ba-p/1751775) authentication to fail with newer versions of MSAL.
+
 ## 2.1.0-beta.1 (2022-03-02)
 
 ### Features Added
@@ -57,7 +88,7 @@
 
 After multiple beta releases over the past year, we're proud to announce the general availability of version 2 of the `@azure/identity` package. This version includes the best parts of v1, plus several improvements.
 
-This changelog entry showcases the changes that have been made from version 1 of this package. See the [v1-to-v2 migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/migration-v1-v2.md) for details on how to upgrade your application to use the version 2 of `@azure/identity`. For information on troubleshooting the Identity package, see the [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/Troubleshooting.md).
+This changelog entry showcases the changes that have been made from version 1 of this package. See the [v1-to-v2 migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/migration-v1-v2.md) for details on how to upgrade your application to use the version 2 of `@azure/identity`. For information on troubleshooting the Identity package, see the [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/TROUBLESHOOTING.md).
 
 ### Features Added
 
@@ -138,7 +169,7 @@ Azure Service Fabric support hasn't been added on the initial version 2 of Ident
 - `InteractiveBrowserCredential` has a new `loginHint` constructor option, which allows a username to be pre-selected for interactive logins.
 - In `AzureCliCredential`, we allow specifying a `tenantId` in the parameters through the `AzureCliCredentialOptions`.
 - A new error, named `AuthenticationRequiredError`, has been added. This error shows up when a credential fails to authenticate silently.
-- Errors and logged exceptions may point to the new [troubleshooting guidelines](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/Troubleshooting.md).
+- Errors and logged exceptions may point to the new [troubleshooting guidelines](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/TROUBLESHOOTING.md).
 - On all of the credentials we're providing, the initial authentication attempt in the lifetime of your app will include an additional request to first discover relevant endpoint metadata information from Azure.
 
 ### Breaking changes

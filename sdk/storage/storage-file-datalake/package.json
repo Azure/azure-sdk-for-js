@@ -1,6 +1,6 @@
 {
   "name": "@azure/storage-file-datalake",
-  "version": "12.8.0-beta.2",
+  "version": "12.9.0-beta.1",
   "description": "Microsoft Azure Storage SDK for JavaScript - DataLake",
   "sdk-type": "client",
   "main": "./dist/index.js",
@@ -20,9 +20,13 @@
     "./dist-esm/storage-file-datalake/src/utils/utils.node.js": "./dist-esm/storage-file-datalake/src/utils/utils.browser.js",
     "./dist-esm/storage-file-datalake/test/utils/index.js": "./dist-esm/storage-file-datalake/test/utils/index.browser.js",
     "./dist-esm/storage-common/src/index.js": "./dist-esm/storage-common/src/index.browser.js",
+    "./dist-esm/storage-common/src/BufferScheduler.js": "./dist-esm/storage-common/src/BufferScheduler.browser.js",
     "fs": false,
     "os": false,
     "process": false
+  },
+  "react-native": {
+    "./dist/index.js": "./dist-esm/storage-file-datalake/src/index.js"
   },
   "engines": {
     "node": ">=12.0.0"
@@ -118,7 +122,7 @@
     "@azure/core-paging": "^1.1.1",
     "@azure/core-tracing": "1.0.0-preview.13",
     "@azure/logger": "^1.0.0",
-    "@azure/storage-blob": "^12.9.0-beta.1",
+    "@azure/storage-blob": "^12.10.0-beta.1",
     "events": "^3.0.0",
     "tslib": "^2.2.0"
   },
@@ -129,7 +133,7 @@
     "@azure/test-utils": "^1.0.0",
     "@azure-tools/test-recorder": "^1.0.0",
     "@azure/test-utils-perf": "^1.0.0",
-    "@microsoft/api-extractor": "^7.18.11",
+    "@microsoft/api-extractor": "7.18.11",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
@@ -159,7 +163,7 @@
     "mocha-junit-reporter": "^2.0.0",
     "nyc": "^15.0.0",
     "prettier": "^2.5.1",
-    "puppeteer": "^10.2.0",
+    "puppeteer": "^13.5.1",
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",

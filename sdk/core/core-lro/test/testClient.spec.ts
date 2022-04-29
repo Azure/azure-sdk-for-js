@@ -74,7 +74,7 @@ describe("Long Running Operations - custom client", function () {
       try {
         await client.startLRO();
         throw new Error("Test failure");
-      } catch (err) {
+      } catch (err: any) {
         assert.notEqual(err.message, "Test failure", "client.startLRO did not throw an error.");
         // delay(0) gives the event loop a chance emit the UnhandledPromiseRejectionWarning so we can catch it.
         await delay(0);
@@ -151,7 +151,7 @@ describe("Long Running Operations - custom client", function () {
     let error: any;
     try {
       await poller.cancelOperation();
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error.message, "Cancellation not supported");
