@@ -27,7 +27,7 @@
     "test:node": "echo skipped",
     "test": "npm run clean && npm run build && npm run unit-test:node && npm run unit-test:browser && npm run integration-test",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "cross-env TS_NODE_FILES=true mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 50000 --full-trace \"test/**/*.spec.ts\"",
+    "unit-test:node": "cross-env TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\" }' mocha -r esm -r ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 50000 --full-trace \"test/**/*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
@@ -64,7 +64,7 @@
     "@azure/dev-tool": "^1.0.0",
     "@microsoft/api-extractor": "7.18.11",
     "mocha-junit-reporter": "^2.0.0",
-    "mocha": "^7.1.1",
+    "mocha": "^9.2.0",
     "eslint": "^7.15.0",
     "rimraf": "^3.0.0",
     "downlevel-dts": "^0.8.0",
