@@ -132,7 +132,7 @@ describe("SystemErrorRetryPolicy", () => {
       try {
         await policy.sendRequest(request);
         assert.fail("Expecting that an error has been thrown");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal((err as Error).message, "Error message for NonRetriableError");
       }
     });
@@ -165,7 +165,7 @@ describe("SystemErrorRetryPolicy", () => {
         try {
           await policy.sendRequest(request);
           assert.fail("Expecting that an error has been thrown");
-        } catch (err) {
+        } catch (err: any) {
           assert.equal((err as Error).message, `Error message for ${code}`);
         }
       });

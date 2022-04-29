@@ -122,10 +122,10 @@ describe("AzureCliCredential (internal)", function () {
 
       try {
         await credential.getToken("https://service/.default");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(
           error.message,
-          "Azure CLI could not be found.  Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
+          "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
         );
       }
     } else {
@@ -135,10 +135,10 @@ describe("AzureCliCredential (internal)", function () {
 
       try {
         await credential.getToken("https://service/.default");
-      } catch (error) {
+      } catch (error: any) {
         assert.equal(
           error.message,
-          "Azure CLI could not be found.  Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
+          "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
         );
       }
     }
@@ -151,7 +151,7 @@ describe("AzureCliCredential (internal)", function () {
     const credential = new AzureCliCredential();
     try {
       await credential.getToken("https://service/.default");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         error.message,
         "Please run 'az login' from a command prompt to authenticate before using this credential."
@@ -165,8 +165,60 @@ describe("AzureCliCredential (internal)", function () {
     const credential = new AzureCliCredential();
     try {
       await credential.getToken("https://service/.default");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(error.message, "mock other access token error");
     }
+  });
+
+  // Reported by https://github.com/Azure/azure-sdk-for-js/issues/21151
+  it("get access token when having an error about an unknown platform", async () => {
+    stdout = "";
+    stderr = `ERROR: AADSTS50005: User tried to log in to a device from a platform (Unknown) that's currently not supported through Conditional Access policy. Supported device platforms are: iOS, Android, Mac, and Windows flavors.
+Trace ID: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+Correlation ID: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+Timestamp: 2022-02-22 10:11:12Z
+To re-authenticate, please run:
+az login --scope https://database.windows.net//.default`;
+    const credential = new AzureCliCredential();
+    try {
+      await credential.getToken("https://service/.default");
+    } catch (error: any) {
+      assert.equal(error.message, stderr);
+    }
+  });
+
+  it("get access token when having an error about a resource principal not found", async () => {
+    stdout = "";
+    stderr = `ERROR: AADSTS500011: The resource principal named https://test.windows.net was not found in the tenant named Default Directory. This can happen if the application has not been installed by the administrator of the tenant or consented to by any user in the tenant. You might have sent your authentication request to the wrong tenant.
+Trace ID: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+Correlation ID: XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+Timestamp: 2022-04-20 22:10:51Z
+To re-authenticate, please run:
+az login --scope https://test.windows.net/.default`;
+    const credential = new AzureCliCredential();
+    try {
+      await credential.getToken("https://service/.default");
+    } catch (error: any) {
+      assert.equal(error.message, stderr);
+    }
+  });
+
+  it("get access token when having a warning on stderr", async () => {
+    stdout = '{"accessToken": "token","expiresOn": "01/01/1900 00:00:00 +00:00"}';
+    stderr = "Argument '--tenant' is in preview. It may be changed/removed in a future release.";
+    const credential = new AzureCliCredential();
+    const actualToken = await credential.getToken("https://service/.default");
+    assert.equal(actualToken!.token, "token");
+    assert.deepEqual(azArgs, [
+      ["account", "get-access-token", "--output", "json", "--resource", "https://service"],
+    ]);
+    // Used a working directory, and a shell
+    assert.deepEqual(
+      {
+        cwd: [process.env.SystemRoot, "/bin"].includes(azOptions[0].cwd),
+        shell: azOptions[0].shell,
+      },
+      { cwd: true, shell: true }
+    );
   });
 });

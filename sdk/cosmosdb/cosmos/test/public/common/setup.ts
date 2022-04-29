@@ -8,7 +8,7 @@ process.on("unhandledRejection", (error: any) => {
   if (error.body) {
     try {
       error.body = JSON.parse(error.body);
-    } catch (err) {
+    } catch (err: any) {
       /* NO OP */
     }
   }

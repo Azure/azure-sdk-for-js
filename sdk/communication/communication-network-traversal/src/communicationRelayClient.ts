@@ -1,31 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
+import {
+  CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams,
+  CommunicationRelayConfiguration,
+} from "./generated/src/models";
+import { CommunicationRelayClientOptions, GetRelayConfigurationOptions } from "./models";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
   createCommunicationAuthPolicy,
   isKeyCredential,
   parseClientArguments,
 } from "@azure/communication-common";
-import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
-import {
-  createPipelineFromOptions,
-  InternalPipelineOptions,
-  operationOptionsToRequestOptionsBase,
-} from "@azure/core-http";
+import { InternalClientPipelineOptions } from "@azure/core-client";
+import { NetworkRelayRestClient } from "./generated/src/networkRelayRestClient";
 import { SpanStatusCode } from "@azure/core-tracing";
-import {
-  CommunicationNetworkTraversal,
-  NetworkRelayRestClient,
-} from "./generated/src/networkRelayRestClient";
-
-import { SDK_VERSION } from "./constants";
-import { logger } from "./common/logger";
 import { createSpan } from "./common/tracing";
-import { CommunicationRelayClientOptions, GetRelayConfigurationOptions } from "./models";
-import {
-  CommunicationRelayConfiguration,
-  CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams,
-} from "./generated/src/models";
+import { logger } from "./common/logger";
 
 const isCommunicationRelayClientOptions = (
   options: any
@@ -39,7 +29,7 @@ export class CommunicationRelayClient {
   /**
    * A reference to the auto-generated UserToken HTTP client.
    */
-  private readonly client: CommunicationNetworkTraversal;
+  private readonly client: NetworkRelayRestClient;
 
   /**
    * Initializes a new instance of the CommunicationRelayClient class.
@@ -90,19 +80,8 @@ export class CommunicationRelayClient {
     const options = isCommunicationRelayClientOptions(credentialOrOptions)
       ? credentialOrOptions
       : maybeOptions;
-    const libInfo = `azsdk-js-communication-network-traversal/${SDK_VERSION}`;
 
-    if (!options.userAgentOptions) {
-      options.userAgentOptions = {};
-    }
-
-    if (options.userAgentOptions.userAgentPrefix) {
-      options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${libInfo}`;
-    } else {
-      options.userAgentOptions.userAgentPrefix = libInfo;
-    }
-
-    const internalPipelineOptions: InternalPipelineOptions = {
+    const internalPipelineOptions: InternalClientPipelineOptions = {
       ...options,
       ...{
         loggingOptions: {
@@ -111,9 +90,13 @@ export class CommunicationRelayClient {
       },
     };
 
+    this.client = new NetworkRelayRestClient(url, {
+      endpoint: url,
+      ...internalPipelineOptions,
+    });
+
     const authPolicy = createCommunicationAuthPolicy(credential);
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new NetworkRelayRestClient(url, pipeline).communicationNetworkTraversal;
+    this.client.pipeline.addPolicy(authPolicy);
   }
 
   /**
@@ -140,7 +123,9 @@ export class CommunicationRelayClient {
       options;
 
     if (options !== "undefined") {
-      requestOptions.body = { id: options.id, routeType: options.routeType, ttl: options.ttl };
+      requestOptions.id = options.id;
+      requestOptions.routeType = options.routeType;
+      requestOptions.ttl = options.ttl;
     }
 
     const { span, updatedOptions } = createSpan(
@@ -149,10 +134,9 @@ export class CommunicationRelayClient {
     );
 
     try {
-      const { ...result } = await this.client.issueRelayConfiguration(
-        operationOptionsToRequestOptionsBase(updatedOptions)
+      return await this.client.communicationNetworkTraversal.issueRelayConfiguration(
+        updatedOptions
       );
-      return result;
     } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,

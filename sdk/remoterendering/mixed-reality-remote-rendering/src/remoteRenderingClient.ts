@@ -387,7 +387,7 @@ export class RemoteRenderingClient {
       await poller.poll();
 
       return poller;
-    } catch (e) {
+    } catch (e: any) {
       // There are different standard codes available for different errors:
       // https://github.com/open-telemetry/opentelemetry-specification/blob/master/specification/trace/api.md#status
       span.setStatus({
@@ -469,7 +469,7 @@ export class RemoteRenderingClient {
           return this.getAllConversionsPagingPage(updatedOptions);
         },
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -550,7 +550,7 @@ export class RemoteRenderingClient {
       await poller.poll();
 
       return poller;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -607,7 +607,7 @@ export class RemoteRenderingClient {
         updatedOptions
       );
       return renderingSessionFromSessionProperties(sessionProperties);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -679,7 +679,7 @@ export class RemoteRenderingClient {
           return this.getAllSessionsPagingPage(updatedOptions);
         },
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

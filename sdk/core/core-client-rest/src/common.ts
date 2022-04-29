@@ -87,49 +87,78 @@ export interface Client {
 }
 
 /**
+ * Http Response which body is a NodeJS stream object
+ */
+export type HttpNodeStreamResponse = HttpResponse & {
+  /**
+   * Streamable body
+   */
+  body?: NodeJS.ReadableStream;
+};
+
+/**
+ * Http Response which body is a NodeJS stream object
+ */
+export type HttpBrowserStreamResponse = HttpResponse & {
+  /**
+   * Streamable body
+   */
+  body?: ReadableStream<Uint8Array>;
+};
+
+/**
+ * Defines the type for a method that supports getting the response body as
+ * a raw stream
+ */
+export type StreamableMethod<TResponse = PathUncheckedResponse> = PromiseLike<TResponse> & {
+  asNodeStream: () => Promise<HttpNodeStreamResponse>;
+  asBrowserStream: () => Promise<HttpBrowserStreamResponse>;
+};
+
+/**
  * Defines the signature for pathUnchecked.
  */
 export type PathUnchecked = <TPath extends string>(
   path: TPath,
   ...args: PathParameters<TPath>
-) => ResourceMethods;
+) => ResourceMethods<StreamableMethod>;
 
 /**
  * Defines the methods that can be called on a resource
  */
-export interface ResourceMethods {
+export interface ResourceMethods<TResponse = PromiseLike<PathUncheckedResponse>> {
   /**
    * Definition of the GET HTTP method for a resource
    */
-  get: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+  get: (options?: RequestParameters) => TResponse;
   /**
    * Definition of the POST HTTP method for a resource
    */
-  post: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+  post: (options?: RequestParameters) => TResponse;
   /**
    * Definition of the PUT HTTP method for a resource
    */
-  put: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+  put: (options?: RequestParameters) => TResponse;
   /**
    * Definition of the PATCH HTTP method for a resource
    */
-  patch: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+  patch: (options?: RequestParameters) => TResponse;
   /**
    * Definition of the DELETE HTTP method for a resource
    */
-  delete: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+  delete: (options?: RequestParameters) => TResponse;
   /**
    * Definition of the HEAD HTTP method for a resource
    */
-  head: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+  head: (options?: RequestParameters) => TResponse;
   /**
    * Definition of the OPTIONS HTTP method for a resource
    */
-  options: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+  options: (options?: RequestParameters) => TResponse;
   /**
    * Definition of the TRACE HTTP method for a resource
    */
-  trace: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+  trace: (options?: RequestParameters) => TResponse;
 }
 
 /**

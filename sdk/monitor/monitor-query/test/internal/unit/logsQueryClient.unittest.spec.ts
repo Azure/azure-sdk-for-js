@@ -33,12 +33,12 @@ describe("LogsQueryClient unit tests", () => {
     });
 
     assert.equal(client["_logAnalytics"].$host, "https://customEndpoint1");
-    assert.equal(client["_logAnalytics"]["_baseUri"], "https://customEndpoint1");
+    assert.equal(client["_logAnalytics"]["_endpoint"], "https://customEndpoint1");
 
     try {
       await client.queryWorkspace("workspaceId", "query", { duration: Durations.fiveMinutes });
       assert.fail("Should have thrown");
-    } catch (err) {
+    } catch (err: any) {
       assert.deepNestedInclude(err, {
         message: "Shortcircuit auth exception",
       });

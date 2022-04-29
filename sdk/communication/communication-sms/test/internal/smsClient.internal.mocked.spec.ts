@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpClient } from "@azure/core-http";
+import { HttpClient } from "@azure/core-rest-pipeline";
 
 import { Uuid } from "../../src/utils/uuid";
 import { generateSendMessageRequest } from "../../src/utils/smsUtils";
@@ -16,7 +16,7 @@ const API_VERSION = apiVersion.mapper.defaultValue;
 const TEST_NUMBER = "+14255550123";
 
 describe("[mocked] SmsClient Internal", async () => {
-  const baseUri = "https://contoso.api.fake:443";
+  const baseUri = "https://contoso.api.fake";
   const connectionString = `endpoint=${baseUri};accesskey=banana`;
   let sendRequestSpy: sinon.SinonSpy;
   let uuidStub: sinon.SinonStub;
@@ -46,7 +46,7 @@ describe("[mocked] SmsClient Internal", async () => {
       assert.equal(request.url, `${baseUri}/sms?api-version=${API_VERSION}`);
       assert.equal(request.method, "POST");
       const expectedRequestBody = generateSendMessageRequest(testSendRequest);
-      assert.deepEqual(JSON.parse(request.body), expectedRequestBody);
+      assert.deepEqual(JSON.parse(request.body as string), expectedRequestBody);
     });
 
     it("generates a new repeatability id each time", async () => {

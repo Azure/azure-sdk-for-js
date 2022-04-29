@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-/* eslint @typescript-eslint/member-ordering: 0 */
 /// <reference lib="esnext.asynciterable" />
 
 import { CommonClientOptions } from "@azure/core-client";
@@ -13,13 +12,13 @@ import { logger } from "./log";
 
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { PollOperationState, PollerLike } from "@azure/core-lro";
 import {
-  DeletionRecoveryLevel,
-  KnownDeletionRecoveryLevel,
-  GetSecretsOptionalParams,
-  SecretBundle,
   DeletedSecretBundle,
+  DeletionRecoveryLevel,
+  GetSecretsOptionalParams,
+  KnownDeletionRecoveryLevel,
+  SecretBundle,
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { authenticationScopes } from "./constants";
@@ -29,24 +28,24 @@ import { DeleteSecretPoller } from "./lro/delete/poller";
 import { RecoverDeletedSecretPoller } from "./lro/recover/poller";
 
 import {
-  KeyVaultSecret,
-  DeletedSecret,
-  SecretPollerOptions,
+  BackupSecretOptions,
   BeginDeleteSecretOptions,
   BeginRecoverDeletedSecretOptions,
-  SetSecretOptions,
-  UpdateSecretPropertiesOptions,
-  GetSecretOptions,
+  DeletedSecret,
   GetDeletedSecretOptions,
-  PurgeDeletedSecretOptions,
-  BackupSecretOptions,
-  RestoreSecretBackupOptions,
+  GetSecretOptions,
+  KeyVaultSecret,
+  LATEST_API_VERSION,
+  ListDeletedSecretsOptions,
   ListPropertiesOfSecretVersionsOptions,
   ListPropertiesOfSecretsOptions,
-  ListDeletedSecretsOptions,
-  SecretProperties,
+  PurgeDeletedSecretOptions,
+  RestoreSecretBackupOptions,
   SecretClientOptions,
-  LATEST_API_VERSION,
+  SecretPollerOptions,
+  SecretProperties,
+  SetSecretOptions,
+  UpdateSecretPropertiesOptions,
 } from "./secretsModels";
 import { KeyVaultSecretIdentifier, parseKeyVaultSecretIdentifier } from "./identifier";
 import { getSecretFromSecretBundle } from "./transformations";

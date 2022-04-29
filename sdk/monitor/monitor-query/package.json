@@ -112,7 +112,7 @@
     "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.4",
     "@azure/test-utils": "^1.0.0",
     "@azure-tools/test-recorder": "^2.0.0",
-    "@microsoft/api-extractor": "^7.18.11",
+    "@microsoft/api-extractor": "7.18.11",
     "@opentelemetry/api": "^1.0.1",
     "@opentelemetry/node": "^0.24.0",
     "@opentelemetry/tracing": "^0.24.0",
@@ -144,7 +144,7 @@
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.9",
-    "typescript": "~4.2.0",
+    "typescript": "~4.6.0",
     "@azure-tools/test-credential": "^1.0.0"
   },
   "//sampleConfiguration": {

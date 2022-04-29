@@ -238,10 +238,12 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
       },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -326,10 +328,12 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
       { resourceGroupName, workspaceName, integrationRuntimeName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -452,10 +456,12 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
       { resourceGroupName, workspaceName, integrationRuntimeName, options },
       startOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -537,10 +543,12 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
       { resourceGroupName, workspaceName, integrationRuntimeName, options },
       stopOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -643,10 +651,12 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
       { resourceGroupName, workspaceName, integrationRuntimeName, options },
       enableInteractiveQueryOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -728,10 +738,12 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
       { resourceGroupName, workspaceName, integrationRuntimeName, options },
       disableInteractiveQueryOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

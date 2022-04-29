@@ -6,8 +6,8 @@ import { delay } from "@azure/core-util";
 import { Poller } from "@azure/core-lro";
 import {
   RestoreKeyBackupPollOperationState,
-  makeRestoreKeyBackupPollOperation,
   TestKeyClientInterface,
+  makeRestoreKeyBackupPollOperation,
 } from "./operation";
 import { KeyVaultKey } from "../../../../../src";
 

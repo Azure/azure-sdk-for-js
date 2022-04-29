@@ -24,6 +24,7 @@ import {
   recorderEnvSetup,
   getDataLakeFileSystemClientWithSASCredential,
 } from "../utils";
+import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 
 describe("DataLakePathClient Node.js only", () => {
   let fileSystemName: string;
@@ -443,6 +444,25 @@ describe("DataLakePathClient Node.js only", () => {
 
     assert.deepStrictEqual(await bodyToString(response), "0,mdifjt55.ea3,mdifjt55.ea3\n");
   });
+
+  it("quick query with CPK", async () => {
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    const fileClient2 = fileSystemClient.getFileClient(fileName + "2");
+    await fileClient2.create({
+      customerProvidedKey: Test_CPK_INFO,
+    });
+    await fileClient2.append(csvContent, 0, csvContent.length, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+    await fileClient2.flush(csvContent.length, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    const response = await fileClient2.query("select * from BlobStorage", {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+    assert.deepStrictEqual(await bodyToString(response), csvContent);
+  });
 });
 
 describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
@@ -677,7 +697,7 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
           abortSignal: aborter.signal,
         }
       );
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "DataLakeAclChangeFailedError");
       assert.equal(err.innerError.name, "AbortError");
       assert.equal(

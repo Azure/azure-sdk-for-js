@@ -59,7 +59,7 @@ describe("Should not retry forever", () => {
         );
       }
       await Promise.all(promises);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       chai.assert.equal((error as any).name, "AbortError", "Unexpected error thrown");
     }
@@ -84,7 +84,7 @@ describe("Should not retry forever", () => {
         key: key,
         value: "added",
       });
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       const err = error as RestError;
       chai.assert.equal(err.name, "RestError", "Unexpected error thrown");

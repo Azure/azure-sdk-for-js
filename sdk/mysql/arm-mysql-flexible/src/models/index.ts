@@ -8,44 +8,12 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** Properties to configure Identity for Bring your Own Keys */
-export interface Identity {
-  /**
-   * ObjectId from the KeyVault
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * TenantId from the KeyVault
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /** Type of managed service identity. */
-  type?: "UserAssigned";
-  /** Metadata of user assigned identity. */
-  userAssignedIdentities?: { [propertyName: string]: Record<string, unknown> };
-}
-
 /** Billing information related properties of a server. */
 export interface Sku {
   /** The name of the sku, e.g. Standard_D32s_v3. */
   name: string;
   /** The tier of the particular SKU, e.g. GeneralPurpose. */
   tier: SkuTier;
-}
-
-/** The date encryption for cmk. */
-export interface DataEncryption {
-  /** Primary user identity resource id */
-  primaryUserAssignedIdentityId?: string;
-  /** Primary key uri */
-  primaryKeyUri?: string;
-  /** Geo backup user identity resource id as identity can't cross region, need identity in same region as geo backup */
-  geoBackupUserAssignedIdentityId?: string;
-  /** Geo backup key uri as key vault can't cross region, need cmk in same region as geo backup */
-  geoBackupKeyUri?: string;
-  /** The key type, AzureKeyVault for enable cmk, SystemManaged for disable cmk. */
-  type?: DataEncryptionType;
 }
 
 /** Storage Profile properties of a server */
@@ -200,8 +168,6 @@ export interface ErrorAdditionalInfo {
 
 /** Parameters allowed to update for a server. */
 export interface ServerForUpdate {
-  /** The cmk identity for the server. */
-  identity?: Identity;
   /** The SKU (pricing tier) of the server. */
   sku?: Sku;
   /** Application-specific metadata in the form of key-value pairs. */
@@ -221,8 +187,6 @@ export interface ServerForUpdate {
   maintenanceWindow?: MaintenanceWindow;
   /** The replication role of the server. */
   replicationRole?: ReplicationRole;
-  /** The Data Encryption for CMK. */
-  dataEncryption?: DataEncryption;
 }
 
 /** A list of servers. */
@@ -498,20 +462,6 @@ export interface OperationDisplay {
   description?: string;
 }
 
-/** Metadata of user assigned identity. */
-export interface UserAssignedIdentity {
-  /**
-   * Principal Id of user assigned identity
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * Client Id of user assigned identity
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clientId?: string;
-}
-
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export type TrackedResource = Resource & {
   /** Resource tags. */
@@ -525,8 +475,6 @@ export type ProxyResource = Resource & {};
 
 /** Represents a server. */
 export type Server = TrackedResource & {
-  /** The cmk identity for the server. */
-  identity?: Identity;
   /** The SKU (pricing tier) of the server. */
   sku?: Sku;
   /**
@@ -558,8 +506,6 @@ export type Server = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly replicaCapacity?: number;
-  /** The Data Encryption for CMK. */
-  dataEncryption?: DataEncryption;
   /**
    * The state of a server.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -908,8 +854,6 @@ export enum KnownIsDynamicConfig {
  * **False**
  */
 export type IsDynamicConfig = string;
-/** Defines values for DataEncryptionType. */
-export type DataEncryptionType = "AzureKeyVault" | "SystemManaged";
 
 /** Optional parameters. */
 export interface ServersCreateOptionalParams

@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import * as fs from "fs";
-import { assert } from "chai";
-import { AvroReader, AvroReadableFromStream } from "../../src";
-import { arraysEqual } from "../../src/utils/utils.common";
+import { AvroReadableFromStream, AvroReader } from "../../src";
 import { AbortController } from "@azure/abort-controller";
 import { Readable } from "stream";
+import { arraysEqual } from "../../src/utils/utils.common";
+import { assert } from "chai";
 
 type Action = (o: Record<string, any> | null) => void;
 class TestCase {
@@ -19,10 +19,7 @@ class TestCase {
 }
 
 describe("AvroReader", () => {
-  if (typeof TextEncoder === "undefined" && typeof require !== "undefined") {
-    (global as any).TextEncoder = require("util").TextEncoder;
-  }
-
+  
   it("test with local avro files", async () => {
     const testCases: TestCase[] = [
       new TestCase("test_null_0.avro", (o) => assert.strictEqual(null, o)), // null
@@ -82,7 +79,7 @@ describe("AvroReader", () => {
     let AbortErrorCaught = false;
     try {
       await iter.next();
-    } catch (err) {
+    } catch (err: any) {
       if (err.name === "AbortError") {
         AbortErrorCaught = true;
       }

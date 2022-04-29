@@ -352,7 +352,7 @@ describe("[Mocked] ChatThreadClient", async () => {
     try {
       await chatThreadClient.sendTypingNotification();
       assert.fail("Should have thrown an error");
-    } catch (e) {
+    } catch (e: any) {
       assert.equal(e.statusCode, 400);
     } finally {
       const result = await chatThreadClient.sendTypingNotification();

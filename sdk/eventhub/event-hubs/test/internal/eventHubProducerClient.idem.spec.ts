@@ -114,7 +114,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
           try {
             await (producerClient as any).getPartitionPublishingProperties(undefined as any);
             throw new Error(TEST_FAILURE);
-          } catch (err) {
+          } catch (err: any) {
             should.equal(err.name, "TypeError");
             should.equal(
               err.message,
@@ -133,7 +133,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             try {
               await producerClient.createBatch({ partitionKey: "foo" });
               throw new Error(TEST_FAILURE);
-            } catch (err) {
+            } catch (err: any) {
               should.equal(
                 err.message,
                 `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
@@ -148,7 +148,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             try {
               await producerClient.sendBatch([{ body: "test" }], { partitionKey: "foo" });
               throw new Error(TEST_FAILURE);
-            } catch (err) {
+            } catch (err: any) {
               should.equal(
                 err.message,
                 `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
@@ -186,7 +186,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
               // Don't set partitionId, this should trigger the error.
               await producerClient.createBatch();
               throw new Error(TEST_FAILURE);
-            } catch (err) {
+            } catch (err: any) {
               should.equal(
                 err.message,
                 `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
@@ -202,7 +202,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
               // Don't set partitionId on the sendBatch call.
               await producerClient.sendBatch([{ body: "test" }]);
               throw new Error(TEST_FAILURE);
-            } catch (err) {
+            } catch (err: any) {
               should.equal(
                 err.message,
                 `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentPartitions" set to true.`
@@ -227,7 +227,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
                 producerClient.sendBatch([{ body: "two" }], { partitionId: "0" }),
               ]);
               throw new Error(TEST_FAILURE);
-            } catch (err) {
+            } catch (err: any) {
               should.equal(
                 err.message,
                 `There can only be 1 "sendBatch" call in-flight per partition while "enableIdempotentPartitions" is set to true.`
@@ -372,7 +372,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
               // Calling sendBatch with producerClient1 (lower ownerLevel) should fail.
               await producerClient1.sendBatch([{ body: "should fail" }], { partitionId: "0" });
               throw new Error(TEST_FAILURE);
-            } catch (err) {
+            } catch (err: any) {
               should.equal(err.name, "MessagingError");
               should.equal(err.code, "ProducerDisconnectedError");
               should.not.equal(err.message, TEST_FAILURE);
@@ -393,7 +393,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             try {
               await producerClient.sendBatch([{ body: "one" }], { partitionId: "0" });
               throw new Error(TEST_FAILURE);
-            } catch (err) {
+            } catch (err: any) {
               should.equal(err.name, "MessagingError");
               should.equal(err.code, "ArgumentOutOfRangeError");
               should.not.equal(err.message, TEST_FAILURE);
@@ -444,7 +444,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
               // Calling sendBatch with producerClient1 (lower ownerLevel) should fail.
               await producerClient2.sendBatch([{ body: "six as two" }], { partitionId: "0" });
               throw new Error(TEST_FAILURE);
-            } catch (err) {
+            } catch (err: any) {
               should.equal(err.name, "MessagingError");
               should.equal(err.code, "SequenceOutOfOrderError");
               should.not.equal(err.message, TEST_FAILURE);
@@ -553,7 +553,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             try {
               await producerClient.sendBatch(batch, { abortSignal: abortController.signal });
               throw new Error(TEST_FAILURE);
-            } catch (err) {
+            } catch (err: any) {
               should.not.equal(err.message, TEST_FAILURE);
               should.not.exist(
                 (batch as EventDataBatchImpl).startingPublishedSequenceNumber,
@@ -625,7 +625,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
                 abortSignal: abortController.signal,
               });
               throw new Error(TEST_FAILURE);
-            } catch (err) {
+            } catch (err: any) {
               should.not.equal(err.message, TEST_FAILURE);
               for (const event of events) {
                 should.not.exist(
@@ -651,7 +651,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             try {
               await producerClient.sendBatch(events, { partitionId: "0" });
               throw new Error(TEST_FAILURE);
-            } catch (err) {
+            } catch (err: any) {
               should.equal(
                 err.message,
                 "1 or more of these events have already been successfully published. When idempotent publishing is enabled, events that were acknowledged by the Event Hubs service may not be published again."
@@ -672,7 +672,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             try {
               await producerClient.sendBatch(batch);
               throw new Error(TEST_FAILURE);
-            } catch (err) {
+            } catch (err: any) {
               should.equal(
                 err.message,
                 "These events have already been successfully published. When idempotent publishing is enabled, events that were acknowledged by the Event Hubs service may not be published again."

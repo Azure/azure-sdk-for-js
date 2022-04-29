@@ -6,20 +6,20 @@ import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { authenticationScopes } from "../constants";
 
 import {
-  EncryptParameters,
+  DecryptOptions,
+  DecryptParameters,
+  DecryptResult,
   EncryptOptions,
+  EncryptParameters,
   EncryptResult,
   KeyWrapAlgorithm,
-  WrapKeyOptions,
-  WrapResult,
-  VerifyOptions,
-  VerifyResult,
-  DecryptParameters,
-  DecryptOptions,
-  DecryptResult,
-  UnwrapKeyOptions,
   SignOptions,
   SignResult,
+  UnwrapKeyOptions,
+  VerifyOptions,
+  VerifyResult,
+  WrapKeyOptions,
+  WrapResult,
 } from "../cryptographyClientModels";
 import { SDK_VERSION } from "../constants";
 import { UnwrapResult } from "../cryptographyClientModels";
@@ -72,7 +72,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
       this.vaultUrl = parsed.vaultUrl;
       this.name = parsed.name;
       this.version = parsed.version ?? "";
-    } catch (err) {
+    } catch (err: any) {
       logger.error(err);
 
       throw new Error(`${keyId} is not a valid Key Vault key ID`);

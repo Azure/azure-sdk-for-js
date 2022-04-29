@@ -95,7 +95,7 @@ describe("Long Running Operations - working with abort signals", function () {
       await poller.poll({
         abortSignal: abortController.signal,
       });
-    } catch (e) {
+    } catch (e: any) {
       pollError = e;
     }
     assert.equal(pollError!.message, "The operation was aborted.");
@@ -103,7 +103,7 @@ describe("Long Running Operations - working with abort signals", function () {
     let doneError: Error | undefined;
     try {
       await donePromise;
-    } catch (e) {
+    } catch (e: any) {
       doneError = e;
     }
     assert.equal(doneError!.message, "The operation was aborted.");
@@ -139,7 +139,7 @@ describe("Long Running Operations - working with abort signals", function () {
     let cancelError: Error | undefined;
     try {
       await poller.cancelOperation();
-    } catch (e) {
+    } catch (e: any) {
       cancelError = e;
     }
 
@@ -181,7 +181,7 @@ describe("Long Running Operations - working with abort signals", function () {
       await poller.cancelOperation({
         abortSignal: abortController.signal,
       });
-    } catch (e) {
+    } catch (e: any) {
       cancelError = e;
     }
 

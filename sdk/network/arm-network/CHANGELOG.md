@@ -1,6 +1,6 @@
 # Release History
 
-## 26.0.1 (Unreleased)
+## 27.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,24 @@
 
 ### Other Changes
 
+## 27.0.0 (2022-04-27)
+    
+**Features**
+
+  - Added Type Alias SingleQueryResultDirection
+  - Added Type Alias SingleQueryResultMode
+  - Added Type Alias SingleQueryResultSeverity
+  - Added Enum KnownSingleQueryResultDirection
+  - Added Enum KnownSingleQueryResultMode
+  - Added Enum KnownSingleQueryResultSeverity
+
+**Breaking Changes**
+
+  - Removed Enum KnownEnum69
+  - Removed Enum KnownEnum70
+  - Removed Enum KnownEnum71
+    
+    
 ## 26.0.0 (2021-12-06)
 
 The package of @azure/arm-network is using our next generation design principles since version 26.0.0, which contains breaking changes.

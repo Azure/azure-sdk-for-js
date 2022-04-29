@@ -46,7 +46,7 @@ export class MsalDeviceCode extends MsalNode {
         requestOptions.cancel = true;
       });
       return this.handleResult(scopes, this.clientId, deviceResponse || undefined);
-    } catch (error) {
+    } catch (error: any) {
       throw this.handleError(scopes, error, options);
     }
   }

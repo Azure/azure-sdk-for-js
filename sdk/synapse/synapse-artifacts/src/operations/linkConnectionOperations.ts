@@ -117,7 +117,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
         listLinkConnectionsByWorkspaceOperationSpec
       );
       return result as LinkConnectionListLinkConnectionsByWorkspaceResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -149,7 +149,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
         createOrUpdateLinkConnectionOperationSpec
       );
       return result as LinkConnectionCreateOrUpdateLinkConnectionResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -179,7 +179,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
         getLinkConnectionOperationSpec
       );
       return result as LinkConnectionGetLinkConnectionResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -209,7 +209,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
         deleteLinkConnectionOperationSpec
       );
       return result as void;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -238,7 +238,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
         editTablesOperationSpec
       );
       return result as void;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -265,7 +265,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
         startOperationSpec
       );
       return result as void;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -292,7 +292,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
         stopOperationSpec
       );
       return result as void;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -322,7 +322,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
         getDetailedStatusOperationSpec
       );
       return result as LinkConnectionGetDetailedStatusResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -352,7 +352,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
         listLinkTablesOperationSpec
       );
       return result as LinkConnectionListLinkTablesResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -384,7 +384,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
         queryTableStatusOperationSpec
       );
       return result as LinkConnectionQueryTableStatusResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -416,7 +416,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
         updateLandingZoneCredentialOperationSpec
       );
       return result as void;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -447,7 +447,7 @@ export class LinkConnectionOperationsImpl implements LinkConnectionOperations {
         listLinkConnectionsByWorkspaceNextOperationSpec
       );
       return result as LinkConnectionListLinkConnectionsByWorkspaceNextResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message

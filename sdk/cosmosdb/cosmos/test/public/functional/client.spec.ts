@@ -32,7 +32,7 @@ describe("Client Tests", function (this: Suite) {
       try {
         await getTestDatabase("request timeout", client);
         assert.fail("Must throw when trying to connect to database");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.name, "TimeoutError", "client should throw exception");
       }
     });
@@ -72,7 +72,7 @@ describe("Client Tests", function (this: Suite) {
           connectionPolicy: { enableBackgroundEndpointRefreshing: false },
         });
         await client.databases.readAll().fetchAll();
-      } catch (e) {
+      } catch (e: any) {
         assert.equal(e.name, "CredentialUnavailableError");
       }
     });
@@ -86,7 +86,7 @@ describe("Client Tests", function (this: Suite) {
         setTimeout(() => controller.abort(), 1);
         await client.getDatabaseAccount({ abortSignal: signal });
         assert.fail("Must throw when trying to connect to database");
-      } catch (err) {
+      } catch (err: any) {
         console.log(err);
         assert.equal(err.name, "AbortError", "client should throw exception");
       }
@@ -100,7 +100,7 @@ describe("Client Tests", function (this: Suite) {
         controller.abort();
         await client.getDatabaseAccount({ abortSignal: signal });
         assert.fail("Must throw when trying to connect to database");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.name, "AbortError", "client should throw exception");
       }
       client.dispose();
@@ -117,7 +117,7 @@ describe("Client Tests", function (this: Suite) {
           .query("SELECT * from c", { abortSignal: signal, maxItemCount: 1 })
           .fetchAll();
         assert.fail("Must throw");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.name, "AbortError", "client should throw exception");
       }
     });
@@ -128,7 +128,7 @@ describe("Client Tests", function (this: Suite) {
         const controller = new AbortController();
         const signal = controller.signal;
         await client.getDatabaseAccount({ abortSignal: signal });
-      } catch (err) {
+      } catch (err: any) {
         assert.fail(err);
       }
       client.dispose();

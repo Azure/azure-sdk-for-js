@@ -115,7 +115,7 @@ export class RecoverDeletedSecretPollOperation extends KeyVaultSecretPollOperati
       try {
         state.result = (await this.getSecret(name, this.options)).properties;
         state.isCompleted = true;
-      } catch (error) {
+      } catch (error: any) {
         if (error.statusCode === 403) {
           // At this point, the resource exists but the user doesn't have access to it.
           state.isCompleted = true;

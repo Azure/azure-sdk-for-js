@@ -268,7 +268,7 @@ describe("BlockBlobClient", () => {
     try {
       new BlockBlobClient(getSASConnectionStringFromEnvironment(), "", "blobName");
       assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         "Expecting non-empty strings for containerName and blobName parameters",
         error.message,
@@ -282,7 +282,7 @@ describe("BlockBlobClient", () => {
       // tslint:disable-next-line: no-unused-expression
       new BlockBlobClient(getSASConnectionStringFromEnvironment(), "containerName", "");
       assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         "Expecting non-empty strings for containerName and blobName parameters",
         error.message,
@@ -383,7 +383,7 @@ describe("BlockBlobClient", () => {
     let exceptionCaught = false;
     try {
       await blobClient.download(0);
-    } catch (error) {
+    } catch (error: any) {
       // HTTP/1.1 409 The blob is encrypted with customer specified encryption, but it was not provided in the request.
       exceptionCaught = true;
     }
@@ -398,7 +398,7 @@ describe("BlockBlobClient", () => {
       await blockBlobClient.stageBlock(base64encode("1"), content, content.length, {
         transactionalContentCrc64: new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8]),
       });
-    } catch (err) {
+    } catch (err: any) {
       if (
         err instanceof Error &&
         err.message.startsWith(
@@ -439,7 +439,7 @@ describe("BlockBlobClient", () => {
         }
       );
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.deepStrictEqual(err.code, "BlobAlreadyExists");
     }
   });

@@ -106,7 +106,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
         getSqlScriptsByWorkspaceOperationSpec
       );
       return result as SqlScriptGetSqlScriptsByWorkspaceResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -144,7 +144,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as SqlScriptCreateOrUpdateSqlScriptResponse;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -235,7 +235,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
         getSqlScriptOperationSpec
       );
       return result as SqlScriptGetSqlScriptResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -266,7 +266,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -357,7 +357,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -452,7 +452,7 @@ export class SqlScriptOperationsImpl implements SqlScriptOperations {
         getSqlScriptsByWorkspaceNextOperationSpec
       );
       return result as SqlScriptGetSqlScriptsByWorkspaceNextResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message

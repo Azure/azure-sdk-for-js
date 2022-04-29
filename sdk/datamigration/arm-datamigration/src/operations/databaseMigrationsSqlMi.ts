@@ -127,10 +127,12 @@ export class DatabaseMigrationsSqlMiImpl implements DatabaseMigrationsSqlMi {
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -225,10 +227,12 @@ export class DatabaseMigrationsSqlMiImpl implements DatabaseMigrationsSqlMi {
       },
       cancelOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -323,10 +327,12 @@ export class DatabaseMigrationsSqlMiImpl implements DatabaseMigrationsSqlMi {
       },
       cutoverOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

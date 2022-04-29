@@ -52,9 +52,6 @@
       }
     ]
   },
-  "browser": {
-    "./dist-esm/src/util/url.js": "./dist-esm/src/util/url.browser.js"
-  },
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",
@@ -85,7 +82,7 @@
     "@azure/test-utils": "^1.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "@azure-tools/test-recorder": "^2.0.0",
-    "@microsoft/api-extractor": "^7.18.11",
+    "@microsoft/api-extractor": "7.18.11",
     "@types/chai": "^4.1.6",
     "@types/jsonwebtoken": "~8.5.0",
     "@types/mocha": "^7.0.2",
