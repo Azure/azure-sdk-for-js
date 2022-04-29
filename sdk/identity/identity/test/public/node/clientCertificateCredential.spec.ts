@@ -46,6 +46,24 @@ describe("ClientCertificateCredential", function () {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
+  it("authenticates with a SNI certificate", async function (this: Context) {
+    if (!env.IDENTITY_SP_CERT_SNI_PEM) {
+      this.skip();
+    }
+    const credential = new ClientCertificateCredential(
+      env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!,
+      env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!,
+      env.IDENTITY_SP_CERT_SNI_PEM,
+      recorder.configureClientOptions({
+        sendCertificateChain: true,
+      })
+    );
+
+    const token = await credential.getToken(scope);
+    assert.ok(token?.token);
+    assert.ok(token?.expiresOnTimestamp! > Date.now());
+  });
+
   it("authenticates with a PEM certificate string directly", async function (this: Context) {
     const credential = new ClientCertificateCredential(
       env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!,

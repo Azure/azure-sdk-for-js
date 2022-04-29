@@ -104,6 +104,7 @@ export async function msalNodeTestSetup(
       IDENTITY_SP_CERT_PEM: "",
       AZURE_CAE_MANAGEMENT_ENDPOINT: "https://management.azure.com/",
       AZURE_CLIENT_CERTIFICATE_PATH: "assets/fake-cert.pem",
+      IDENTITY_SP_CERT_SNI_PEM: "assets/fake-cert.pem",
     },
     sanitizerOptions: {
       headerSanitizers: [
