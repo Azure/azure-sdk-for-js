@@ -63,7 +63,6 @@ export interface ServiceBusClientOptions {
   userAgentOptions?: UserAgentPolicyOptions;
 }
 
-
 // TODO: extract parseEndpoint and setCustomEndpointAddress into core-amqp
 // ConnectionConfig so that it can be shared between Event Hubs and Service Bus
 /**
@@ -93,7 +92,7 @@ function setCustomEndpointAddress(config: ConnectionConfig, customEndpointAddres
   const { hostname, port } = parseEndpoint(customEndpointAddress);
   // Since we specify the port separately, set host to the customEndpointAddress hostname.
   config.host = hostname;
-  if(port) {
+  if (port) {
     config.port = parseInt(port, 10);
   }
 }
@@ -116,7 +115,6 @@ export function createConnectionContext(
   if (options?.customEndpointAddress) {
     setCustomEndpointAddress(config, options.customEndpointAddress);
   }
-
 
   return ConnectionContext.create(config, credential, options);
 }
