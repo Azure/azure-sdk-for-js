@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { ServiceBusClient, TokenCredential } from "../../../src";
 
 describe("ServiceBusClient unit tests", function(): void {
