@@ -32,9 +32,12 @@ export = {
       // callback functions
 
       // call on Client classes
-      "CatchClause": (node: CatchClause): void => {
+      CatchClause: (node: CatchClause): void => {
         // TODO: better to cast to a typescript node instead of `any`?
-        if (node.param && (node.param as any).typeAnnotation?.typeAnnotation?.type === "TSAnyKeyword") {
+        if (
+          node.param &&
+          (node.param as any).typeAnnotation?.typeAnnotation?.type === "TSAnyKeyword"
+        ) {
           context.report({
             node: node.param!,
             message: "please verify the usage of `any` type for the catch variable",
