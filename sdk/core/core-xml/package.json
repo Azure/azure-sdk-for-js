@@ -79,7 +79,6 @@
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
     "@types/sinon": "^9.0.4",
-    "@types/xml2js": "^0.4.3",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "chai": "^4.2.0",
     "downlevel-dts": "^0.8.0",

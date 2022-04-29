@@ -8,6 +8,8 @@
 
 - Exposed type guard for RestError called `isRestError` for typesafe exception handling.
 
+- Improve user agent information for React-Native.
+
 ### Breaking Changes
 
 ### Bugs Fixed

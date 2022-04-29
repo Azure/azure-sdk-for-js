@@ -101,7 +101,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/AzureReservationAPI.ts",
+        "path": "src/azureReservationAPI.ts",
         "prefix": "packageDetails"
       }
     ]
