@@ -3,4 +3,4 @@
 
 export const SDK_VERSION: string = "4.5.0-beta.1";
 
-export const authenticationScopes: string[] = ["https://keyVaultName.vault.azure.net/.default"];
+export const authenticationScopes: string[] = ["https://vault.azure.net/.default"];

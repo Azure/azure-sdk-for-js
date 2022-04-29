@@ -944,7 +944,12 @@ export class KeyClient {
         "KeyClient.listPropertiesOfKeyVersionsPage",
         options || {},
         async (updatedOptions) =>
-          this.client.getKeyVersions(continuationState.continuationToken!, name, updatedOptions)
+          this.client.getKeyVersionsNext(
+            this.vaultUrl,
+            continuationState.continuationToken!,
+            name,
+            updatedOptions
+          )
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -1036,7 +1041,11 @@ export class KeyClient {
         "KeyClient.listPropertiesOfKeysPage",
         options || {},
         async (updatedOptions) =>
-          this.client.getKeys(continuationState.continuationToken!, updatedOptions)
+          this.client.getKeysNext(
+            this.vaultUrl,
+            continuationState.continuationToken!,
+            updatedOptions
+          )
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -1123,7 +1132,11 @@ export class KeyClient {
         "KeyClient.listDeletedKeysPage",
         options || {},
         async (updatedOptions) =>
-          this.client.getDeletedKeys(continuationState.continuationToken!, updatedOptions)
+          this.client.getDeletedKeysNext(
+            this.vaultUrl,
+            continuationState.continuationToken!,
+            updatedOptions
+          )
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {

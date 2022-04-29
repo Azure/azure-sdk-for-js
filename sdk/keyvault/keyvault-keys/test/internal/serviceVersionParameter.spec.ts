@@ -17,7 +17,7 @@ import { versionsToTest } from "@azure/test-utils";
 import { serviceVersions } from "../public/utils/common";
 
 describe("The Keys client should set the serviceVersion", () => {
-  const keyVaultUrl = `https://keyVaultName.vault.azure.net`;
+  const keyVaultUrl = `https://keyvaultname.vault.azure.net`;
 
   const mockHttpClient: HttpClient = {
     async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
