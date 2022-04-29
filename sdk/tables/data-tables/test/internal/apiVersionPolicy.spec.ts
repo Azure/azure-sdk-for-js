@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { apiVersionPolicy } from "../../src/utils/apiVersionPolicy";
 import {
-  createEmptyPipeline,
-  createHttpHeaders,
   HttpClient,
   PipelineRequest,
+  createEmptyPipeline,
+  createHttpHeaders,
 } from "@azure/core-rest-pipeline";
+import { apiVersionPolicy } from "../../src/utils/apiVersionPolicy";
+import { assert } from "chai";
 
 describe("apiVersionPolicy", () => {
   it("should override the default api-version", async () => {

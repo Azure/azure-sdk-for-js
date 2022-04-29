@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { Pipeline, bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+
 import { TokenCredential } from "@azure/core-auth";
-import { storageBearerTokenChallengeAuthenticationPolicy } from "@azure/core-client";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import { storageAuthorizeRequestOnChallenge } from "@azure/core-client";
 
 /**
  * @internal
@@ -13,10 +14,17 @@ export function setTokenChallengeAuthenticationPolicy(
   pipeline: Pipeline,
   credential: TokenCredential,
   scopes: string | string[]
-) {
+): void {
   // Make sure no bearerTokenPolicy is set.
   pipeline.removePolicy({ name: "bearerTokenPolicy" });
-  pipeline.addPolicy(storageBearerTokenChallengeAuthenticationPolicy(credential, scopes), {
-    phase: "Sign",
-  });
+  pipeline.addPolicy(
+    bearerTokenAuthenticationPolicy({
+      credential,
+      scopes,
+      challengeCallbacks: { authorizeRequestOnChallenge: storageAuthorizeRequestOnChallenge },
+    }),
+    {
+      phase: "Sign",
+    }
+  );
 }

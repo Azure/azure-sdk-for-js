@@ -348,7 +348,7 @@ export interface SpanConfig {
 }
 
 // @public
-export function storageBearerTokenChallengeAuthenticationPolicy(credential: TokenCredential, scopes: string | string[]): PipelinePolicy;
+export const storageAuthorizeRequestOnChallenge: (challengeOptions: AuthorizeRequestOnChallengeOptions) => Promise<boolean>;
 
 // @public
 export const XML_ATTRKEY = "$";

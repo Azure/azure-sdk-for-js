@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { storageBearerTokenChallengeAuthenticationPolicy } from "../src";
-import sinon from "sinon";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicy, createHttpHeaders } from "@azure/core-rest-pipeline";
+
+import { assert } from "chai";
+import sinon from "sinon";
+import { storageAuthorizeRequestOnChallenge } from "../src";
 
 describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
   const fakeGuid = "3a4e2c3b-defc-466c-b0c8-6a419bf92858";
@@ -20,12 +21,13 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
   });
 
   it("should not try to get challenge info if request succeeded initially", async () => {
-    const policy = storageBearerTokenChallengeAuthenticationPolicy(
-      {
-        getToken: getTokenStub,
+    const policy = bearerTokenAuthenticationPolicy({
+      credential: { getToken: getTokenStub },
+      scopes: ["https://example.org"],
+      challengeCallbacks: {
+        authorizeRequestOnChallenge: storageAuthorizeRequestOnChallenge,
       },
-      ["https://example.org"]
-    );
+    });
 
     await policy.sendRequest(
       {
@@ -53,14 +55,15 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
   });
 
   it("should try to get challenge info if request succeeded initially", async () => {
-    const policy = storageBearerTokenChallengeAuthenticationPolicy(
-      {
-        getToken: getTokenStub,
+    const policy = bearerTokenAuthenticationPolicy({
+      credential: { getToken: getTokenStub },
+      scopes: ["https://example.org"],
+      challengeCallbacks: {
+        authorizeRequestOnChallenge: storageAuthorizeRequestOnChallenge,
       },
-      ["https://example.org"]
-    );
+    });
 
-    let calledOnce = false;
+    const calledOnce = false;
 
     await policy.sendRequest(
       {
@@ -97,12 +100,13 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
   });
 
   it("should if request failed after first challenge stop retrying", async () => {
-    const policy = storageBearerTokenChallengeAuthenticationPolicy(
-      {
-        getToken: getTokenStub,
+    const policy = bearerTokenAuthenticationPolicy({
+      credential: { getToken: getTokenStub },
+      scopes: ["https://example.org"],
+      challengeCallbacks: {
+        authorizeRequestOnChallenge: storageAuthorizeRequestOnChallenge,
       },
-      ["https://example.org"]
-    );
+    });
 
     const response = await policy.sendRequest(
       {
@@ -134,12 +138,13 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
       .stub<[string | string[], GetTokenOptions | undefined], Promise<AccessToken | null>>()
       .resolves({ expiresOnTimestamp: Date.now() + 100000000, token: "originalToken" });
 
-    const policy = storageBearerTokenChallengeAuthenticationPolicy(
-      {
-        getToken: getTokenStub,
+    const policy = bearerTokenAuthenticationPolicy({
+      credential: { getToken: getTokenStub },
+      scopes: ["https://example.org"],
+      challengeCallbacks: {
+        authorizeRequestOnChallenge: storageAuthorizeRequestOnChallenge,
       },
-      ["https://example.org"]
-    );
+    });
 
     const sendTestRequest = () =>
       policy.sendRequest(
@@ -174,12 +179,13 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
       .stub<[string | string[], GetTokenOptions | undefined], Promise<AccessToken | null>>()
       .resolves({ expiresOnTimestamp: Date.now() - 1000000, token: "originalToken" });
 
-    const policy = storageBearerTokenChallengeAuthenticationPolicy(
-      {
-        getToken: getTokenStub,
+    const policy = bearerTokenAuthenticationPolicy({
+      credential: { getToken: getTokenStub },
+      scopes: ["https://example.org"],
+      challengeCallbacks: {
+        authorizeRequestOnChallenge: storageAuthorizeRequestOnChallenge,
       },
-      ["https://example.org"]
-    );
+    });
 
     const sendTestRequest = () =>
       policy.sendRequest(
@@ -217,12 +223,13 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
       // Refresh window is 1000ms setting 999 to make sure we are in the refresh window
       .resolves({ expiresOnTimestamp: Date.now() + 999, token: "originalToken" });
 
-    const policy = storageBearerTokenChallengeAuthenticationPolicy(
-      {
-        getToken: getTokenStub,
+    const policy = bearerTokenAuthenticationPolicy({
+      credential: { getToken: getTokenStub },
+      scopes: ["https://example.org"],
+      challengeCallbacks: {
+        authorizeRequestOnChallenge: storageAuthorizeRequestOnChallenge,
       },
-      ["https://example.org"]
-    );
+    });
 
     const sendTestRequest = () =>
       policy.sendRequest(

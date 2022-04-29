@@ -1,14 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
-  PipelinePolicy,
-  PipelineResponse,
-  bearerTokenAuthenticationPolicy,
-  PipelineRequest,
   AuthorizeRequestOnChallengeOptions,
+  PipelineRequest,
+  PipelineResponse,
 } from "@azure/core-rest-pipeline";
+
+import { GetTokenOptions } from "@azure/core-auth";
 
 /**
  * A set of constants used internally when processing requests.
@@ -26,56 +25,35 @@ const Constants = {
   },
 };
 
-export const storageBearerTokenChallengeAuthenticationPolicyName =
-  "storageBearerTokenChallengeAuthenticationPolicy";
 /**
- * Creates a new factory for a RequestPolicy that applies a bearer token to
- * the requests' `Authorization` headers.
- *
- * @param credential - The TokenCredential implementation that can supply the bearer token.
- * @param scopes - The scopes for which the bearer token applies.
- */
+ * Defines a callback to handle auth challenge for Storage APIs
+ **/
+export const storageAuthorizeRequestOnChallenge: (
+  challengeOptions: AuthorizeRequestOnChallengeOptions
+) => Promise<boolean> = async (challengeOptions) => {
+  const requestOptions = requestToOptions(challengeOptions.request);
+  const challenge = getChallenge(challengeOptions.response);
+  if (challenge) {
+    const challengeInfo: Challenge = parseChallenge(challenge);
+    const challengeScopes = buildScopes(challengeOptions, challengeInfo);
+    const tenantId = extractTenantId(challengeInfo);
+    const accessToken = await challengeOptions.getAccessToken(challengeScopes, {
+      ...requestOptions,
+      tenantId,
+    });
 
-export function storageBearerTokenChallengeAuthenticationPolicy(
-  credential: TokenCredential,
-  scopes: string | string[]
-): PipelinePolicy {
-  const bearerPolicy = bearerTokenAuthenticationPolicy({
-    scopes,
-    credential,
-    challengeCallbacks: {
-      authorizeRequestOnChallenge: async (challengeOptions) => {
-        const requestOptions = requestToOptions(challengeOptions.request);
-        const challenge = getChallenge(challengeOptions.response);
-        if (challenge) {
-          const challengeInfo: Challenge = parseChallenge(challenge);
-          const challengeScopes = buildScopes(challengeOptions, challengeInfo);
-          const tenantId = extractTenantId(challengeInfo);
-          const accessToken = await challengeOptions.getAccessToken(challengeScopes, {
-            ...requestOptions,
-            tenantId,
-          });
+    if (!accessToken) {
+      return false;
+    }
 
-          if (!accessToken) {
-            return false;
-          }
-
-          challengeOptions.request.headers.set(
-            Constants.HeaderConstants.AUTHORIZATION,
-            `Bearer ${accessToken.token}`
-          );
-          return true;
-        }
-        return false;
-      },
-    },
-  });
-
-  return {
-    name: storageBearerTokenChallengeAuthenticationPolicyName,
-    sendRequest: bearerPolicy.sendRequest,
-  };
-}
+    challengeOptions.request.headers.set(
+      Constants.HeaderConstants.AUTHORIZATION,
+      `Bearer ${accessToken.token}`
+    );
+    return true;
+  }
+  return false;
+};
 
 function extractTenantId(challengeInfo: Challenge): string {
   const parsedAuthUri = new URL(challengeInfo.authorization_uri);

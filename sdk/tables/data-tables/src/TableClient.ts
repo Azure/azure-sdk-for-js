@@ -61,6 +61,7 @@ import { Pipeline } from "@azure/core-rest-pipeline";
 import { Table } from "./generated/operationsInterfaces";
 import { TableQueryEntitiesOptionalParams } from "./generated/models";
 import { Uuid } from "./utils/uuid";
+import { apiVersionPolicy } from "./utils/apiVersionPolicy";
 import { cosmosPatchPolicy } from "./cosmosPathPolicy";
 import { escapeQuotes } from "./odata";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
@@ -68,11 +69,10 @@ import { handleTableAlreadyExists } from "./utils/errorHelpers";
 import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
 import { isCredential } from "./utils/isCredential";
 import { logger } from "./logger";
+import { setTokenChallengeAuthenticationPolicy } from "./utils/challengeAuthenticationUtils";
 import { tablesNamedKeyCredentialPolicy } from "./tablesNamedCredentialPolicy";
 import { tablesSASTokenPolicy } from "./tablesSASTokenPolicy";
 import { tracingClient } from "./utils/tracing";
-import { setTokenChallengeAuthenticationPolicy } from "./utils/challengeAuthenticationUtils";
-import { apiVersionPolicy } from "./utils/apiVersionPolicy";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
