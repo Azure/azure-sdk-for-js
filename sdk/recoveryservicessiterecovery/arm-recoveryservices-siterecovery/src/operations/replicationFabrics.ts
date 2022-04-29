@@ -178,10 +178,12 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
       { fabricName, input, options },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -252,10 +254,12 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
       { fabricName, options },
       purgeOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -329,10 +333,12 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
       { fabricName, options },
       checkConsistencyOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -401,10 +407,12 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
       { fabricName, options },
       migrateToAadOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -480,10 +488,12 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
       { fabricName, failoverProcessServerRequest, options },
       reassociateGatewayOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -558,10 +568,12 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
       { fabricName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -637,10 +649,12 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
       { fabricName, renewCertificate, options },
       renewCertificateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

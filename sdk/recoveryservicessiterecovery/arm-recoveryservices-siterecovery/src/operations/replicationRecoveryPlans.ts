@@ -189,10 +189,12 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
       { recoveryPlanName, input, options },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -263,10 +265,12 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
       { recoveryPlanName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -342,10 +346,12 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
       { recoveryPlanName, input, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -421,10 +427,12 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
       { recoveryPlanName, options },
       failoverCancelOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -498,10 +506,12 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
       { recoveryPlanName, options },
       failoverCommitOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -577,10 +587,12 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
       { recoveryPlanName, input, options },
       plannedFailoverOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -660,10 +672,12 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
       { recoveryPlanName, options },
       reprotectOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -739,10 +753,12 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
       { recoveryPlanName, input, options },
       testFailoverOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -824,10 +840,12 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
       { recoveryPlanName, input, options },
       testFailoverCleanupOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -909,10 +927,12 @@ export class ReplicationRecoveryPlansImpl implements ReplicationRecoveryPlans {
       { recoveryPlanName, input, options },
       unplannedFailoverOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
