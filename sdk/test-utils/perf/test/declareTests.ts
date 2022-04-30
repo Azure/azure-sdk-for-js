@@ -4,7 +4,6 @@
 import { NoOp } from "./noop.spec";
 import { OptionsTest } from "./options.spec";
 import { SetupCleanupTest } from "./setupCleanup.spec";
-import { Delay500ms } from "./delay.spec";
 import { Exception } from "./exception.spec";
 import { PerfPolicyTest } from "./perfPolicy.spec";
 import { SleepTest } from "./sleep.spec";
@@ -26,7 +25,6 @@ type TestDefinition = PerfTestConstructor | NormalizedTestDefinition;
 const tests: TestDefinition[] = [
   NoOp,
   SetupCleanupTest,
-  Delay500ms,
   Exception,
   SleepTest,
   NodeFetchTest,
