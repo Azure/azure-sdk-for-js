@@ -401,7 +401,7 @@ function getOrInitializeClient(
     },
   };
 
-  let client = new KeyVaultClient(
+  const client = new KeyVaultClient(
     options.serviceVersion || LATEST_API_VERSION,
     internalPipelineOptions
   );

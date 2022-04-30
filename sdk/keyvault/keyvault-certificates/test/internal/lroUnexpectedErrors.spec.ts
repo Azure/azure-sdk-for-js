@@ -5,8 +5,8 @@ import { assert } from "@azure/test-utils";
 import { RestError, createHttpHeaders, PipelineRequest } from "@azure/core-rest-pipeline";
 import { DeleteCertificatePoller } from "../../src/lro/delete/poller";
 import { RecoverDeletedCertificatePoller } from "../../src/lro/recover/poller";
-import { KeyVaultClient } from '../../src/generated';
-import { FullOperationResponse } from '@azure/core-client';
+import { KeyVaultClient } from "../../src/generated";
+import { FullOperationResponse } from "@azure/core-client";
 
 describe("The LROs properly throw on unexpected errors", () => {
   const vaultUrl = `https://keyvaultname.vault.azure.net`;
@@ -98,20 +98,29 @@ describe("The LROs properly throw on unexpected errors", () => {
       const code = 403;
 
       const fooClient: Partial<KeyVaultClient> = {
-        async recoverDeletedCertificate(_a,_b,c): Promise<any> {
-          const request: PipelineRequest = {url: "", method: "GET", headers: createHttpHeaders(), timeout: 100, withCredentials: false, requestId: "something"};
+        async recoverDeletedCertificate(_a, _b, c): Promise<any> {
+          const request: PipelineRequest = {
+            url: "",
+            method: "GET",
+            headers: createHttpHeaders(),
+            timeout: 100,
+            withCredentials: false,
+            requestId: "something",
+          };
           const body = {
             id: "/version/name/version",
             recoveryId: "something",
-          }
-          const response : FullOperationResponse = {
+          };
+          const response: FullOperationResponse = {
             request: request,
             bodyAsText: JSON.stringify(body),
             status: code,
             headers: createHttpHeaders(),
             parsedBody: body,
           };
-          c?.onResponse && c.onResponse(response, response , {});
+          if (c?.onResponse !== undefined) {
+            c.onResponse(response, response, {});
+          }
         },
 
         async getCertificate(): Promise<any> {
@@ -134,20 +143,29 @@ describe("The LROs properly throw on unexpected errors", () => {
       const code = 404;
 
       const fooClient: Partial<KeyVaultClient> = {
-        async recoverDeletedCertificate(_a,_b,c): Promise<any> {
-          const request: PipelineRequest = {url: "", method: "GET", headers: createHttpHeaders(), timeout: 100, withCredentials: false, requestId: "something"};
+        async recoverDeletedCertificate(_a, _b, c): Promise<any> {
+          const request: PipelineRequest = {
+            url: "",
+            method: "GET",
+            headers: createHttpHeaders(),
+            timeout: 100,
+            withCredentials: false,
+            requestId: "something",
+          };
           const body = {
             id: "/version/name/version",
             recoveryId: "something",
-          }
-          const response : FullOperationResponse = {
+          };
+          const response: FullOperationResponse = {
             request: request,
             bodyAsText: JSON.stringify(body),
             status: code,
             headers: createHttpHeaders(),
             parsedBody: body,
           };
-          c?.onResponse && c.onResponse(response, response , {});
+          if (c?.onResponse !== undefined) {
+            c.onResponse(response, response, {});
+          }
         },
 
         async getCertificate(): Promise<any> {
@@ -170,24 +188,32 @@ describe("The LROs properly throw on unexpected errors", () => {
     it("Errors other than 403 and 404 throw", async function () {
       const codes = [401, 402, 405, 500];
       for (const code of codes) {
-        
         const fooClient: Partial<KeyVaultClient> = {
-          async recoverDeletedCertificate(_a,_b,c): Promise<any> {
-            const request: PipelineRequest = {url: "", method: "GET", headers: createHttpHeaders(), timeout: 100, withCredentials: false, requestId: "something"};
+          async recoverDeletedCertificate(_a, _b, c): Promise<any> {
+            const request: PipelineRequest = {
+              url: "",
+              method: "GET",
+              headers: createHttpHeaders(),
+              timeout: 100,
+              withCredentials: false,
+              requestId: "something",
+            };
             const body = {
               id: "/version/name/version",
               recoveryId: "something",
-            }
-            const response : FullOperationResponse = {
+            };
+            const response: FullOperationResponse = {
               request: request,
               bodyAsText: JSON.stringify(body),
               status: code,
               headers: createHttpHeaders(),
               parsedBody: body,
             };
-            c?.onResponse && c.onResponse(response, response , {});
+            if (c?.onResponse !== undefined) {
+              c.onResponse(response, response, {});
+            }
           },
-  
+
           async getCertificate(): Promise<any> {
             throw new RestError(`${code}`, { statusCode: code });
           },

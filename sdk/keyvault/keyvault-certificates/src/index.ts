@@ -239,13 +239,13 @@ export class CertificateClient {
    * Creates an instance of CertificateClient.
    * @param vaultUrl - the base URL to the vault.
    * @param credential - An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the \@azure/identity package to create a credential that suits your needs.
-   * @param CommonClientOptions - Pipeline options used to configure Key Vault API requests.
+   * @param ClientOptions - Pipeline options used to configure Key Vault API requests.
    *                          Omit this parameter to use the default pipeline configuration.
    */
   constructor(
     vaultUrl: string,
     credential: TokenCredential,
-    CommonClientOptions: CertificateClientOptions = {}
+    ClientOptions: CertificateClientOptions = {}
   ) {
     this.vaultUrl = vaultUrl;
 
@@ -256,7 +256,7 @@ export class CertificateClient {
     });
 
     const internalClientPipelineOptions: InternalClientPipelineOptions = {
-      ...CommonClientOptions,
+      ...ClientOptions,
       loggingOptions: {
         logger: logger.info,
         additionalAllowedHeaderNames: [
@@ -268,7 +268,7 @@ export class CertificateClient {
     };
 
     this.client = new KeyVaultClient(
-      CommonClientOptions.serviceVersion || LATEST_API_VERSION,
+      ClientOptions.serviceVersion || LATEST_API_VERSION,
       internalClientPipelineOptions
     );
     this.client.pipeline.addPolicy(authPolicy);
