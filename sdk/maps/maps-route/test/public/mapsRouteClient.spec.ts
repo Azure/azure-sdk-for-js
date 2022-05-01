@@ -89,20 +89,10 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
             additionalParams
           );
 
-          // TODO: Test result difference on supportingPoints / avoidAreas
-
           assert.isNotEmpty(routeDirectionsResult.routes);
         });
 
-        it("should throw error on empty routePoints array or additionParameters", async function () {
-          const routePoints = [
-            {
-              latitude: 52.50931,
-              longitude: 13.42936,
-            },
-            { latitude: 52.50274, longitude: 13.43872 },
-          ];
-
+        it("should throw error on empty routePoints array", async function () {
           const additionalParams: RouteDirectionParameters = {
             avoidVignette: ["AUS", "CHE"],
           };
@@ -111,9 +101,6 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
           assert.isRejected(
             client.getRouteDirectionsWithAdditionalParameters([], additionalParams)
           );
-
-          // "routePoints must be a non-empty array"
-          assert.isRejected(client.getRouteDirectionsWithAdditionalParameters(routePoints, {}));
         });
       });
 
@@ -124,7 +111,6 @@ matrix([["SubscriptionKey", "AAD"]] as const, async (authMethod: AuthMethod) => 
 
           const routeRangeResult = await client.getRouteRange(startCoordinates, routeRangeBudget);
 
-          // TODO: Should we add required attributes for reachableRange?
           assert.isNotEmpty(routeRangeResult.reachableRange);
         });
       });

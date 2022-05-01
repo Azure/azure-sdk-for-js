@@ -1,19 +1,19 @@
 let nock = require('nock');
 
-module.exports.hash = "e6a5ce799eeee9ea80058fc5d653c55e";
+module.exports.hash = "9b7519af99da16e2a354b4a17184a010";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   .get('/route/range/json')
   .query(true)
-  .reply(200, {"formatVersion":"0.0.1","reachableRange":{"center":{"latitude":50.97452,"longitude":5.86605},"boundary":[{"latitude":52.03715,"longitude":5.73477},{"latitude":52.05073,"longitude":5.67691},{"latitude":52.03153,"longitude":5.59823},{"latitude":51.94693,"longitude":5.377},{"latitude":52.11651,"longitude":5.1469},{"latitude":52.07936,"longitude":4.99724},{"latitude":52.00064,"longitude":5.01301},{"latitude":51.82168,"longitude":4.82726},{"latitude":51.7694,"longitude":4.64843},{"latitude":51.65688,"longitude":4.57573},{"latitude":51.52962,"longitude":4.44082},{"latitude":51.41012,"longitude":4.28201},{"latitude":50.92411,"longitude":4.02261},{"latitude":50.88799,"longitude":4.13681},{"latitude":50.55808,"longitude":4.1346},{"latitude":50.49163,"longitude":3.98586},{"latitude":50.33119,"longitude":4.4756},{"latitude":50.26405,"longitude":4.61686},{"latitude":50.24469,"longitude":4.89991},{"latitude":50.08232,"longitude":5.07133},{"latitude":50.00741,"longitude":5.21825},{"latitude":49.8863,"longitude":5.38002},{"latitude":49.78034,"longitude":5.53919},{"latitude":49.86207,"longitude":5.72069},{"latitude":49.83205,"longitude":5.74274},{"latitude":50.05247,"longitude":5.91182},{"latitude":50.02737,"longitude":6.0894},{"latitude":50.04983,"longitude":6.09715},{"latitude":50.08942,"longitude":6.2758},{"latitude":50.07496,"longitude":6.42298},{"latitude":50.00492,"longitude":6.6107},{"latitude":49.9908,"longitude":6.78183},{"latitude":50.31714,"longitude":6.62736},{"latitude":50.36904,"longitude":6.79277},{"latitude":50.31662,"longitude":7.31737},{"latitude":50.36466,"longitude":7.58792},{"latitude":50.52278,"longitude":7.6439},{"latitude":50.99622,"longitude":7.84859},{"latitude":51.19797,"longitude":7.41418},{"latitude":51.36876,"longitude":7.45892},{"latitude":51.42659,"longitude":7.54433},{"latitude":51.59279,"longitude":7.23798},{"latitude":51.70242,"longitude":7.14382},{"latitude":51.68029,"longitude":6.8068},{"latitude":51.79378,"longitude":6.57752},{"latitude":51.80435,"longitude":6.48029},{"latitude":51.84846,"longitude":6.24024},{"latitude":51.84243,"longitude":6.21931},{"latitude":51.97178,"longitude":5.99319},{"latitude":52.09529,"longitude":5.95075}]}}, [
+  .reply(200, {"formatVersion":"0.0.1","reachableRange":{"center":{"latitude":50.97452,"longitude":5.86605},"boundary":[{"latitude":52.03715,"longitude":5.73477},{"latitude":52.08415,"longitude":5.59697},{"latitude":52.04443,"longitude":5.52563},{"latitude":51.94774,"longitude":5.37826},{"latitude":52.14076,"longitude":5.15791},{"latitude":52.12627,"longitude":5.01854},{"latitude":52.08066,"longitude":4.95975},{"latitude":51.83382,"longitude":4.73585},{"latitude":51.82313,"longitude":4.62683},{"latitude":51.64283,"longitude":4.39611},{"latitude":51.58383,"longitude":4.28928},{"latitude":51.48177,"longitude":3.87926},{"latitude":51.03359,"longitude":3.64115},{"latitude":50.83463,"longitude":3.99934},{"latitude":50.68658,"longitude":3.98163},{"latitude":50.46702,"longitude":3.9324},{"latitude":50.2967,"longitude":4.48246},{"latitude":50.21565,"longitude":4.6204},{"latitude":50.0975,"longitude":5.01501},{"latitude":50.09283,"longitude":5.02918},{"latitude":49.94517,"longitude":5.23621},{"latitude":49.88822,"longitude":5.36313},{"latitude":49.77322,"longitude":5.54862},{"latitude":49.86207,"longitude":5.72069},{"latitude":49.82696,"longitude":5.74609},{"latitude":50.02215,"longitude":5.88487},{"latitude":49.99854,"longitude":6.08625},{"latitude":50.0297,"longitude":6.10561},{"latitude":50.08942,"longitude":6.2758},{"latitude":49.91384,"longitude":6.53898},{"latitude":50.00492,"longitude":6.6107},{"latitude":49.9755,"longitude":6.82508},{"latitude":50.224,"longitude":6.65718},{"latitude":50.36904,"longitude":6.79277},{"latitude":50.19298,"longitude":7.58632},{"latitude":50.32964,"longitude":7.60718},{"latitude":50.48146,"longitude":7.75576},{"latitude":50.96323,"longitude":7.98195},{"latitude":51.067,"longitude":7.70357},{"latitude":51.38756,"longitude":7.72626},{"latitude":51.52843,"longitude":7.80865},{"latitude":51.64829,"longitude":7.33906},{"latitude":51.80999,"longitude":7.19671},{"latitude":51.92395,"longitude":7.03427},{"latitude":51.82713,"longitude":6.67268},{"latitude":51.81133,"longitude":6.48424},{"latitude":51.88711,"longitude":6.28151},{"latitude":51.91122,"longitude":6.15532},{"latitude":52.01699,"longitude":6.07666},{"latitude":52.13868,"longitude":5.98767}]}}, [
   'Cache-Control',
   'no-transform, no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '2195',
+  '2196',
   'Content-Type',
   'application/json; charset=utf-8',
   'Vary',
@@ -27,7 +27,7 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-MSEdge-Ref',
-  'Ref A: 7F99339176C641F88895813EC3BD4ED3 Ref B: TPE30EDGE0411 Ref C: 2022-03-15T05:37:08Z',
+  'Ref A: 2754AFC968704DB98519AF1EB96DF50C Ref B: TPE30EDGE0618 Ref C: 2022-05-01T07:30:55Z',
   'Date',
-  'Tue, 15 Mar 2022 05:37:09 GMT'
+  'Sun, 01 May 2022 07:30:55 GMT'
 ]);

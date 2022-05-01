@@ -63,8 +63,15 @@ export {
   KnownResponseTravelMode,
 } from "../generated/models";
 
+/**
+ * RequireAtLeastOne helps create a type where at least one of the properties of an interface is required to exist.
+ */
+export type RequireAtLeastOne<T> = {
+  [K in keyof T]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<keyof T, K>>>;
+}[keyof T];
+
 /** Post body parameters for Route directions. */
-export interface RouteDirectionParameters {
+export type RouteDirectionParameters = RequireAtLeastOne<{
   /**
    * A GeoJSON Geometry collection representing sequence of coordinates used as input for route reconstruction and for calculating zero or more alternative routes to this reference route.
    *   - The provided sequence of supporting points is used as input for route reconstruction.
@@ -82,4 +89,4 @@ export interface RouteDirectionParameters {
   allowVignette?: string[];
   /** A GeoJSON MultiPolygon representing list of areas to avoid. Only rectangle polygons are supported. The maximum size of a rectangle is about 160x160 km. Maximum number of avoided areas is **10**. It cannot cross the 180th meridian. It must be between -80 and +80 degrees of latitude. */
   avoidAreas?: GeoJsonMultiPolygon;
-}
+}>;

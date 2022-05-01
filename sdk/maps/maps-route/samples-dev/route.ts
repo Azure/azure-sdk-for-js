@@ -115,9 +115,6 @@ async function main() {
   );
   console.log(getRouteDirectionsResult);
 
-  // TODO: Find ways to remote undefined props
-  // TODO: Mapper code removeUndefinedProperties may need to be revisited. Not type checks actually
-
   console.log(" --- Get route range:");
   const routeRangeBudget: RouteRangeBudget = { timeBudgetInSec: 6000 };
 

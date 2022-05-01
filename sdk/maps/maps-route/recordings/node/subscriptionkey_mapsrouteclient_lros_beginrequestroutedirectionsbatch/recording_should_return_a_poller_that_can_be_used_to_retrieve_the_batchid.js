@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "b3e44808ccc6d5c8cf10f97f5fb8471d";
+module.exports.hash = "24a597d2cbbd989522c5e2da6382697b";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -23,15 +23,15 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-MSEdge-Ref',
-  'Ref A: AC820C71B7AF45AAA40386C74EBD7929 Ref B: TPE30EDGE0411 Ref C: 2022-03-15T05:37:12Z',
+  'Ref A: 828840EBAA164B5A8DCA99C9A4C8EBC7 Ref B: TPE30EDGE0618 Ref C: 2022-05-01T07:30:59Z',
   'Date',
-  'Tue, 15 Mar 2022 05:37:12 GMT'
+  'Sun, 01 May 2022 07:30:59 GMT'
 ]);
 
 nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   .get('/route/directions/batch/<batch-id>')
   .query(true)
-  .reply(200, {"batchItems":[{"statusCode":200,"response":{"formatVersion":"0.0.12","routes":[{"summary":{"lengthInMeters":1754,"travelTimeInSeconds":396,"trafficDelayInSeconds":0,"departureTime":"2022-03-15T05:37:13+00:00","arrivalTime":"2022-03-15T05:43:48+00:00"},"legs":[{"summary":{"lengthInMeters":1754,"travelTimeInSeconds":396,"trafficDelayInSeconds":0,"departureTime":"2022-03-15T05:37:13+00:00","arrivalTime":"2022-03-15T05:43:48+00:00"},"points":[{"latitude":47.62095,"longitude":-122.34892},{"latitude":47.62094,"longitude":-122.3485},{"latitude":47.62094,"longitude":-122.34767},{"latitude":47.62095,"longitude":-122.3476},{"latitude":47.62079,"longitude":-122.34761},{"latitude":47.62066,"longitude":-122.34761},{"latitude":47.62026,"longitude":-122.34761},{"latitude":47.61973,"longitude":-122.34761},{"latitude":47.61958,"longitude":-122.34761},{"latitude":47.61934,"longitude":-122.34761},{"latitude":47.61904,"longitude":-122.34761},{"latitude":47.61898,"longitude":-122.34762},{"latitude":47.6188,"longitude":-122.34762},{"latitude":47.61857,"longitude":-122.34762},{"latitude":47.61833,"longitude":-122.34763},{"latitude":47.61815,"longitude":-122.34766},{"latitude":47.61812,"longitude":-122.34767},{"latitude":47.61805,"longitude":-122.34771},{"latitude":47.6178,"longitude":-122.34805},{"latitude":47.61764,"longitude":-122.34825},{"latitude":47.61745,"longitude":-122.34849},{"latitude":47.61712,"longitude":-122.34889},{"latitude":47.61679,"longitude":-122.34932},{"latitude":47.61645,"longitude":-122.34977},{"latitude":47.61612,"longitude":-122.35019},{"latitude":47.61579,"longitude":-122.35062},{"latitude":47.61557,"longitude":-122.35025},{"latitude":47.61523,"longitude":-122.34968},{"latitude":47.61475,"longitude":-122.34886},{"latitude":47.61468,"longitude":-122.34875},{"latitude":47.61415,"longitude":-122.34786},{"latitude":47.61412,"longitude":-122.3478},{"latitude":47.61408,"longitude":-122.34772},{"latitude":47.614,"longitude":-122.34759},{"latitude":47.6137,"longitude":-122.34709},{"latitude":47.61336,"longitude":-122.34651},{"latitude":47.61284,"longitude":-122.34563},{"latitude":47.61259,"longitude":-122.34521},{"latitude":47.61229,"longitude":-122.34472},{"latitude":47.61183,"longitude":-122.34394},{"latitude":47.61171,"longitude":-122.34375},{"latitude":47.61166,"longitude":-122.34366},{"latitude":47.61149,"longitude":-122.34337},{"latitude":47.61135,"longitude":-122.34312},{"latitude":47.61104,"longitude":-122.3426},{"latitude":47.61038,"longitude":-122.34152},{"latitude":47.61028,"longitude":-122.34136},{"latitude":47.61025,"longitude":-122.3414},{"latitude":47.60996,"longitude":-122.34174},{"latitude":47.61011,"longitude":-122.342}]}],"sections":[{"startPointIndex":0,"endPointIndex":49,"sectionType":"TRAVEL_MODE","travelMode":"bicycle"}]}]}}],"summary":{"successfulRequests":1,"totalRequests":1}}, [
+  .reply(200, {"batchItems":[{"statusCode":200,"response":{"formatVersion":"0.0.12","routes":[{"summary":{"lengthInMeters":1754,"travelTimeInSeconds":396,"trafficDelayInSeconds":0,"departureTime":"2022-05-01T07:31:00+00:00","arrivalTime":"2022-05-01T07:37:35+00:00"},"legs":[{"summary":{"lengthInMeters":1754,"travelTimeInSeconds":396,"trafficDelayInSeconds":0,"departureTime":"2022-05-01T07:31:00+00:00","arrivalTime":"2022-05-01T07:37:35+00:00"},"points":[{"latitude":47.62095,"longitude":-122.34892},{"latitude":47.62094,"longitude":-122.3485},{"latitude":47.62094,"longitude":-122.34767},{"latitude":47.62095,"longitude":-122.3476},{"latitude":47.62079,"longitude":-122.34761},{"latitude":47.62066,"longitude":-122.34761},{"latitude":47.62026,"longitude":-122.34761},{"latitude":47.61973,"longitude":-122.34761},{"latitude":47.61958,"longitude":-122.34761},{"latitude":47.61934,"longitude":-122.34761},{"latitude":47.61904,"longitude":-122.34761},{"latitude":47.61898,"longitude":-122.34762},{"latitude":47.6188,"longitude":-122.34762},{"latitude":47.61857,"longitude":-122.34762},{"latitude":47.61833,"longitude":-122.34763},{"latitude":47.61815,"longitude":-122.34766},{"latitude":47.61812,"longitude":-122.34767},{"latitude":47.61805,"longitude":-122.34771},{"latitude":47.6178,"longitude":-122.34805},{"latitude":47.61764,"longitude":-122.34825},{"latitude":47.61745,"longitude":-122.34849},{"latitude":47.61712,"longitude":-122.34889},{"latitude":47.61679,"longitude":-122.34932},{"latitude":47.61645,"longitude":-122.34977},{"latitude":47.61612,"longitude":-122.35019},{"latitude":47.61579,"longitude":-122.35062},{"latitude":47.61557,"longitude":-122.35025},{"latitude":47.61542,"longitude":-122.34999},{"latitude":47.61526,"longitude":-122.34969},{"latitude":47.61475,"longitude":-122.34886},{"latitude":47.61468,"longitude":-122.34875},{"latitude":47.61415,"longitude":-122.34786},{"latitude":47.61412,"longitude":-122.3478},{"latitude":47.61407,"longitude":-122.34772},{"latitude":47.614,"longitude":-122.34759},{"latitude":47.6137,"longitude":-122.34709},{"latitude":47.61338,"longitude":-122.34654},{"latitude":47.61284,"longitude":-122.34563},{"latitude":47.61259,"longitude":-122.34521},{"latitude":47.61229,"longitude":-122.34472},{"latitude":47.61183,"longitude":-122.34394},{"latitude":47.61171,"longitude":-122.34375},{"latitude":47.61166,"longitude":-122.34366},{"latitude":47.61149,"longitude":-122.34337},{"latitude":47.61135,"longitude":-122.34312},{"latitude":47.61104,"longitude":-122.3426},{"latitude":47.61038,"longitude":-122.34152},{"latitude":47.61028,"longitude":-122.34136},{"latitude":47.61025,"longitude":-122.3414},{"latitude":47.60996,"longitude":-122.34174},{"latitude":47.61011,"longitude":-122.342}]}],"sections":[{"startPointIndex":0,"endPointIndex":50,"sectionType":"TRAVEL_MODE","travelMode":"bicycle"}]}]}}],"summary":{"successfulRequests":1,"totalRequests":1}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -45,7 +45,7 @@ nock('https://atlas.microsoft.com:443', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-MSEdge-Ref',
-  'Ref A: 5D39B8547849467193195CA95CC8C55B Ref B: TPE30EDGE0411 Ref C: 2022-03-15T05:37:12Z',
+  'Ref A: EE720B80AB3E4CB9BDB53D0A89C7C32E Ref B: TPE30EDGE0618 Ref C: 2022-05-01T07:30:59Z',
   'Date',
-  'Tue, 15 Mar 2022 05:37:12 GMT'
+  'Sun, 01 May 2022 07:30:59 GMT'
 ]);
