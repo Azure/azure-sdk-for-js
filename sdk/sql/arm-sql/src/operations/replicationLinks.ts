@@ -281,10 +281,12 @@ export class ReplicationLinksImpl implements ReplicationLinks {
       { resourceGroupName, serverName, databaseName, linkId, options },
       failoverOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -374,10 +376,12 @@ export class ReplicationLinksImpl implements ReplicationLinks {
       { resourceGroupName, serverName, databaseName, linkId, options },
       failoverAllowDataLossOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -476,10 +480,12 @@ export class ReplicationLinksImpl implements ReplicationLinks {
       },
       unlinkOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
