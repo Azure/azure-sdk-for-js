@@ -172,15 +172,6 @@ export class MapsRouteClient {
       "MapsRouteClient-getRouteDirectionsWithAdditionalParameters",
       options
     );
-    // TODO: Other ways to check this?
-    if (
-      !routeDirectionParameters.supportingPoints &&
-      !routeDirectionParameters.allowVignette &&
-      !routeDirectionParameters.avoidAreas &&
-      !routeDirectionParameters.avoidVignette
-    ) {
-      throw new Error("At least one of the parameters must be provided.");
-    }
     try {
       const result = await this.client.routeOperations.getRouteDirectionsWithAdditionalParameters(
         this.defaultFormat,
@@ -352,6 +343,8 @@ export class MapsRouteClient {
    * Calculates a matrix of route summaries for a set of routes defined by origin and destination locations.
    * The method return the result directly.
    *
+   * The maximum size of a matrix for this method is 100 (the number of origins multiplied by the number of destinations)
+   *
    * @param routeMatrixQuery - The matrix of origin and destination coordinates to compute the routes.
    * @param options - Optional parameters for the operation
    */
@@ -381,6 +374,8 @@ export class MapsRouteClient {
   /**
    * Calculates a matrix of route summaries for a set of routes defined by origin and destination locations.
    * The method returns a poller for retrieving the result later.
+   *
+   * The maximum size of a matrix for this method is 700 (the number of origins multiplied by the number of destinations)
    *
    * @param routeMatrixQuery - The matrix of origin and destination coordinates to compute the routes.
    * @param options - Optional parameters for the operation
