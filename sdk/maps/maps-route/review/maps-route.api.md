@@ -327,6 +327,11 @@ export type MapsRouteClientOptions = CommonClientOptions;
 export type Report = string;
 
 // @public
+export type RequireAtLeastOne<T> = {
+    [K in keyof T]-?: Required<Pick<T, K>> & Partial<Pick<T, Exclude<keyof T, K>>>;
+}[keyof T];
+
+// @public
 export type RequireOnlyOne<T> = {
     [K in keyof T]-?: Required<Pick<T, K>> & Partial<Record<Exclude<keyof T, K>, undefined>>;
 }[keyof T];
@@ -381,12 +386,12 @@ export interface RouteBaseOptions {
 }
 
 // @public
-export interface RouteDirectionParameters {
+export type RouteDirectionParameters = RequireAtLeastOne<{
+    supportingPoints?: GeoJsonGeometryCollection;
+    avoidVignette?: string[];
     allowVignette?: string[];
     avoidAreas?: GeoJsonMultiPolygon;
-    avoidVignette?: string[];
-    supportingPoints?: GeoJsonGeometryCollection;
-}
+}>;
 
 // @public
 export interface RouteDirections {

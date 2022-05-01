@@ -83,7 +83,6 @@ export interface RouteBaseOptions {
   isCommercialVehicle?: boolean;
   /** Engine type of the vehicle. When a detailed Consumption Model is specified, it must be consistent with the value of **vehicleEngineType**. */
   vehicleEngineType?: VehicleEngineType;
-  // [TODO] Check content
   /**
    *
    * Specifies the speed-dependent component of consumption.
@@ -117,7 +116,6 @@ export interface RouteBaseOptions {
    * Sensible Values : 0.2
    */
   auxiliaryPowerInLitersPerHour?: number;
-  // [TODO] Check content
   /**
    * Specifies the amount of chemical energy stored in one liter of fuel in megajoules (MJ).
    * It is used in conjunction with the ***Efficiency** parameters for conversions between saved or consumed energy and fuel.
@@ -168,7 +166,6 @@ export interface RouteBaseOptions {
    * Sensible Values : for **Combustion Model** : 0.51, for **Electric Model** : 0.73
    */
   downhillEfficiency?: number;
-  // [TODO]
   /**
    * Specifies the speed-dependent component of consumption.
    *
@@ -252,7 +249,6 @@ export interface RouteDirectionsOptions extends RouteBaseOptions {
    * Default value is 0.
    */
   minDeviationTime?: number;
-  // [TODO] content check
   /** If specified, guidance instructions will be returned. Note that the instructionsType parameter cannot be used in conjunction with routeRepresentation=none */
   instructionsType?: RouteInstructionsType;
   /**
@@ -291,7 +287,7 @@ export interface RouteDirectionsOptions extends RouteBaseOptions {
 }
 
 /**
- * RequireOnlyOne helps create a type where only one of the properties of an interface (can be any property) is required to exist.
+ * RequireOnlyOne helps create a type where only one of the properties of an interface is required to exist.
  */
 export type RequireOnlyOne<T> = {
   [K in keyof T]-?: Required<Pick<T, K>> & Partial<Record<Exclude<keyof T, K>, undefined>>;
