@@ -10,23 +10,18 @@ import { TokenCredential } from "@azure/core-auth";
 import { assert } from "@azure/test-utils";
 import fs from "fs";
 import path from "path";
-import { env } from "@azure-tools/test-recorder";
-import { ClientSecretCredential } from "@azure/identity";
 
 describe("Keys client's user agent", () => {
   it("SDK_VERSION and user-agent should match", async function () {
     let userAgent: string | undefined;
-    const client = new KeyClient(
-      "https://myvault.vault.azure.net",{} as TokenCredential
-      {
-        httpClient: {
-          sendRequest: async (request) => {
-            userAgent = request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
-            throw new Error("only a test");
-          },
+    const client = new KeyClient("https://myvault.vault.azure.net", {} as TokenCredential, {
+      httpClient: {
+        sendRequest: async (request) => {
+          userAgent = request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
+          throw new Error("only a test");
         },
-      }
-    );
+      },
+    });
 
     try {
       await client.getKey("foo");
