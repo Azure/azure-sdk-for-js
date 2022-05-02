@@ -7,6 +7,12 @@ These sample programs show how to use the JavaScript client libraries for in som
 | [deletePartnerDetails.js][deletepartnerdetails] | Delete the management partner for the objectId and tenantId. x-ms-original-file: specification/managementpartner/resource-manager/Microsoft.ManagementPartner/preview/2018-02-01/examples/DeletePartnerDetails.json        |
 | [getOperations.js][getoperations]               | List all the operations. x-ms-original-file: specification/managementpartner/resource-manager/Microsoft.ManagementPartner/preview/2018-02-01/examples/GetOperations.json                                                   |
 | [getPartnerDetails.js][getpartnerdetails]       | Get the management partner using the objectId and tenantId. x-ms-original-file: specification/managementpartner/resource-manager/Microsoft.ManagementPartner/preview/2018-02-01/examples/GetPartnerDetailsNoPartnerId.json |
+| [operationListSample.js][operationlistsample]   | List all the operations. x-ms-original-file: specification/managementpartner/resource-manager/Microsoft.ManagementPartner/preview/2018-02-01/examples/GetOperations.json                                                   |
+| [partnerCreateSample.js][partnercreatesample]   | Create a management partner for the objectId and tenantId. x-ms-original-file: specification/managementpartner/resource-manager/Microsoft.ManagementPartner/preview/2018-02-01/examples/PutPartnerDetails.json             |
+| [partnerDeleteSample.js][partnerdeletesample]   | Delete the management partner for the objectId and tenantId. x-ms-original-file: specification/managementpartner/resource-manager/Microsoft.ManagementPartner/preview/2018-02-01/examples/DeletePartnerDetails.json        |
+| [partnerGetSample.js][partnergetsample]         | Get the management partner using the partnerId, objectId and tenantId. x-ms-original-file: specification/managementpartner/resource-manager/Microsoft.ManagementPartner/preview/2018-02-01/examples/GetPartnerDetails.json |
+| [partnerUpdateSample.js][partnerupdatesample]   | Update the management partner for the objectId and tenantId. x-ms-original-file: specification/managementpartner/resource-manager/Microsoft.ManagementPartner/preview/2018-02-01/examples/PatchPartnerDetails.json         |
+| [partnersGetSample.js][partnersgetsample]       | Get the management partner using the objectId and tenantId. x-ms-original-file: specification/managementpartner/resource-manager/Microsoft.ManagementPartner/preview/2018-02-01/examples/GetPartnerDetailsNoPartnerId.json |
 | [patchPartnerDetails.js][patchpartnerdetails]   | Update the management partner for the objectId and tenantId. x-ms-original-file: specification/managementpartner/resource-manager/Microsoft.ManagementPartner/preview/2018-02-01/examples/PatchPartnerDetails.json         |
 | [putPartnerDetails.js][putpartnerdetails]       | Create a management partner for the objectId and tenantId. x-ms-original-file: specification/managementpartner/resource-manager/Microsoft.ManagementPartner/preview/2018-02-01/examples/PutPartnerDetails.json             |
 
@@ -51,6 +57,12 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [deletepartnerdetails]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/javascript/deletePartnerDetails.js
 [getoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/javascript/getOperations.js
 [getpartnerdetails]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/javascript/getPartnerDetails.js
+[operationlistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/javascript/operationListSample.js
+[partnercreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/javascript/partnerCreateSample.js
+[partnerdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/javascript/partnerDeleteSample.js
+[partnergetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/javascript/partnerGetSample.js
+[partnerupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/javascript/partnerUpdateSample.js
+[partnersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/javascript/partnersGetSample.js
 [patchpartnerdetails]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/javascript/patchPartnerDetails.js
 [putpartnerdetails]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/managementpartner/arm-managementpartner/samples/v2/javascript/putPartnerDetails.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-managementpartner?view=azure-node-preview

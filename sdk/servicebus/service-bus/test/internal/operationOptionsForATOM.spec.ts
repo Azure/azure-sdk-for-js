@@ -259,12 +259,7 @@ describe("Operation Options", () => {
                 name: "Azure.ServiceBus.ServiceBusAdministrationClient-getNamespaceProperties",
                 children: [
                   {
-                    children: [
-                      {
-                        children: [],
-                        name: "HTTP GET",
-                      },
-                    ],
+                    children: [],
                     name: "Azure.ServiceBus.ServiceBusAdministrationClient-getResource",
                   },
                 ],
