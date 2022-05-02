@@ -4,7 +4,7 @@
 import { Pipeline, bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 
 import { TokenCredential } from "@azure/core-auth";
-import { storageAuthorizeRequestOnChallenge } from "@azure/core-client";
+import { authorizeRequestOnTenantChallenge } from "@azure/core-client";
 
 /**
  * @internal
@@ -21,7 +21,7 @@ export function setTokenChallengeAuthenticationPolicy(
     bearerTokenAuthenticationPolicy({
       credential,
       scopes,
-      challengeCallbacks: { authorizeRequestOnChallenge: storageAuthorizeRequestOnChallenge },
+      challengeCallbacks: { authorizeRequestOnChallenge: authorizeRequestOnTenantChallenge },
     }),
     {
       phase: "Sign",

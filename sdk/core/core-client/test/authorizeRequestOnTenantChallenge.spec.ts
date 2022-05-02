@@ -5,8 +5,8 @@ import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy, createHttpHeaders } from "@azure/core-rest-pipeline";
 
 import { assert } from "chai";
+import { authorizeRequestOnTenantChallenge } from "../src";
 import sinon from "sinon";
-import { storageAuthorizeRequestOnChallenge } from "../src";
 
 describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
   const fakeGuid = "3a4e2c3b-defc-466c-b0c8-6a419bf92858";
@@ -25,7 +25,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
       credential: { getToken: getTokenStub },
       scopes: ["https://example.org"],
       challengeCallbacks: {
-        authorizeRequestOnChallenge: storageAuthorizeRequestOnChallenge,
+        authorizeRequestOnChallenge: authorizeRequestOnTenantChallenge,
       },
     });
 
@@ -59,7 +59,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
       credential: { getToken: getTokenStub },
       scopes: ["https://example.org"],
       challengeCallbacks: {
-        authorizeRequestOnChallenge: storageAuthorizeRequestOnChallenge,
+        authorizeRequestOnChallenge: authorizeRequestOnTenantChallenge,
       },
     });
 
@@ -91,7 +91,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
       credential: { getToken: getTokenStub },
       scopes: ["https://example.org"],
       challengeCallbacks: {
-        authorizeRequestOnChallenge: storageAuthorizeRequestOnChallenge,
+        authorizeRequestOnChallenge: authorizeRequestOnTenantChallenge,
       },
     });
 
@@ -136,7 +136,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
       credential: { getToken: getTokenStub },
       scopes: ["https://example.org"],
       challengeCallbacks: {
-        authorizeRequestOnChallenge: storageAuthorizeRequestOnChallenge,
+        authorizeRequestOnChallenge: authorizeRequestOnTenantChallenge,
       },
     });
 
@@ -181,7 +181,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
       credential: { getToken: getTokenStub },
       scopes: ["https://example.org/.default"],
       challengeCallbacks: {
-        authorizeRequestOnChallenge: storageAuthorizeRequestOnChallenge,
+        authorizeRequestOnChallenge: authorizeRequestOnTenantChallenge,
       },
     });
 
@@ -226,7 +226,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
       credential: { getToken: getTokenStub },
       scopes: ["https://example.org"],
       challengeCallbacks: {
-        authorizeRequestOnChallenge: storageAuthorizeRequestOnChallenge,
+        authorizeRequestOnChallenge: authorizeRequestOnTenantChallenge,
       },
     });
 
@@ -264,7 +264,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
       credential: { getToken: getTokenStub },
       scopes: ["https://example.org"],
       challengeCallbacks: {
-        authorizeRequestOnChallenge: storageAuthorizeRequestOnChallenge,
+        authorizeRequestOnChallenge: authorizeRequestOnTenantChallenge,
       },
     });
 
@@ -305,7 +305,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
       credential: { getToken: getTokenStub },
       scopes: ["https://example.org"],
       challengeCallbacks: {
-        authorizeRequestOnChallenge: storageAuthorizeRequestOnChallenge,
+        authorizeRequestOnChallenge: authorizeRequestOnTenantChallenge,
       },
     });
 
@@ -349,7 +349,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
       credential: { getToken: getTokenStub },
       scopes: ["https://example.org"],
       challengeCallbacks: {
-        authorizeRequestOnChallenge: storageAuthorizeRequestOnChallenge,
+        authorizeRequestOnChallenge: authorizeRequestOnTenantChallenge,
       },
     });
 

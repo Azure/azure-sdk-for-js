@@ -28,6 +28,9 @@ export interface AdditionalPolicyConfig {
 export function authorizeRequestOnClaimChallenge(onChallengeOptions: AuthorizeRequestOnChallengeOptions): Promise<boolean>;
 
 // @public
+export const authorizeRequestOnTenantChallenge: (challengeOptions: AuthorizeRequestOnChallengeOptions) => Promise<boolean>;
+
+// @public
 export interface BaseMapper {
     constraints?: MapperConstraints;
     defaultValue?: any;
@@ -346,9 +349,6 @@ export interface SpanConfig {
     namespace: string;
     packagePrefix: string;
 }
-
-// @public
-export const storageAuthorizeRequestOnChallenge: (challengeOptions: AuthorizeRequestOnChallengeOptions) => Promise<boolean>;
 
 // @public
 export const XML_ATTRKEY = "$";

@@ -30,7 +30,7 @@ const Constants = {
  * This implements the bearer challenge process described here: https://docs.microsoft.com/rest/api/storageservices/authorize-with-azure-active-directory#bearer-challenge
  * Handling has specific features for storage that departs to the general AAD challenge docs.
  **/
-export const storageAuthorizeRequestOnChallenge: (
+export const authorizeRequestOnTenantChallenge: (
   challengeOptions: AuthorizeRequestOnChallengeOptions
 ) => Promise<boolean> = async (challengeOptions) => {
   const requestOptions = requestToOptions(challengeOptions.request);

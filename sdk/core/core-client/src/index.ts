@@ -54,4 +54,4 @@ export {
   SerializationPolicyOptions,
 } from "./serializationPolicy";
 export { authorizeRequestOnClaimChallenge } from "./authorizeRequestOnClaimChallenge";
-export { storageAuthorizeRequestOnChallenge } from "./storageChallengeAuthentication";
+export { authorizeRequestOnTenantChallenge } from "./authorizeRequestOnTenantChallenge";
