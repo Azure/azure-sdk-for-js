@@ -232,6 +232,18 @@ export const USProgramBrief: coreClient.CompositeMapper = {
           name: "Composite",
           className: "TrafficDetails"
         }
+      },
+      attachments: {
+        serializedName: "attachments",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ProgramBriefAttachmentSummary"
+            }
+          }
+        }
       }
     }
   }
@@ -679,6 +691,33 @@ export const TrafficDetails: coreClient.CompositeMapper = {
   }
 };
 
+export const ProgramBriefAttachmentSummary: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProgramBriefAttachmentSummary",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "Uuid"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      friendlyName: {
+        serializedName: "friendlyName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const USProgramBriefs: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -692,6 +731,79 @@ export const USProgramBriefs: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "USProgramBrief"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ProgramBriefAttachment: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProgramBriefAttachment",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      friendlyName: {
+        serializedName: "friendlyName",
+        type: {
+          name: "String"
+        }
+      },
+      fileSize: {
+        serializedName: "fileSize",
+        type: {
+          name: "Number"
+        }
+      },
+      fileType: {
+        serializedName: "fileType",
+        type: {
+          name: "String"
+        }
+      },
+      fileContent: {
+        serializedName: "fileContent",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ProgramBriefAttachments: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ProgramBriefAttachments",
+    modelProperties: {
+      attachments: {
+        serializedName: "attachments",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ProgramBriefAttachment"
             }
           }
         }
