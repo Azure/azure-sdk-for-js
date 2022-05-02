@@ -2,16 +2,16 @@
 // Licensed under the MIT license.
 
 import {
+  CommunicationIdentifier,
+  CommunicationIdentifierKind,
   PhoneNumberIdentifier,
+  createIdentifierFromRawId,
   getIdentifierKind,
+  getIdentifierRawId,
   isCommunicationUserIdentifier,
   isMicrosoftTeamsUserIdentifier,
   isPhoneNumberIdentifier,
   isUnknownIdentifier,
-  getRawId,
-  CommunicationIdentifier,
-  CommunicationIdentifierKind,
-  createIdentifierFromRawId,
 } from "../src";
 import { assert } from "chai";
 
@@ -36,7 +36,7 @@ describe("Identifier models", () => {
 
   it("get raw id of identifier", () => {
     const assertRawId = (identifier: CommunicationIdentifier, expectedRawId: string) =>
-      assert.strictEqual(getRawId(identifier), expectedRawId);
+      assert.strictEqual(getIdentifierRawId(identifier), expectedRawId);
 
     assertRawId(
       {
@@ -222,7 +222,7 @@ describe("Identifier models", () => {
 
   it("rawId stays the same after conversion to identifier and back", () => {
     const assertRoundtrip = (rawId: string) =>
-      assert.strictEqual(getRawId(createIdentifierFromRawId(rawId)), rawId);
+      assert.strictEqual(getIdentifierRawId(createIdentifierFromRawId(rawId)), rawId);
 
     assertRoundtrip(
       "8:acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130"

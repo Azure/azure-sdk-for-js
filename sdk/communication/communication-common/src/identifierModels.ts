@@ -187,7 +187,7 @@ export const getIdentifierKind = (
  *
  * @param identifier - The identifier to be translated to its rawId.
  */
-export const getRawId = (identifier: CommunicationIdentifier): string => {
+export const getIdentifierRawId = (identifier: CommunicationIdentifier): string => {
   const identifierKind = getIdentifierKind(identifier);
   switch (identifierKind.kind) {
     case "communicationUser":
@@ -224,7 +224,8 @@ export const getRawId = (identifier: CommunicationIdentifier): string => {
  * @param rawId - The rawId to be translated to its identifier representation.
  */
 export const createIdentifierFromRawId = (rawId: string): CommunicationIdentifierKind => {
-  if (rawId.startsWith("4:")) return { kind: "phoneNumber", phoneNumber: `+${rawId.substring(2)}` };
+  if (rawId.startsWith("4:"))
+    {return { kind: "phoneNumber", phoneNumber: `+${rawId.substring("4:".length)}` };}
 
   const segments = rawId.split(":");
   if (segments.length < 3) return { kind: "unknown", id: rawId };
@@ -257,11 +258,8 @@ export const createIdentifierFromRawId = (rawId: string): CommunicationIdentifie
         cloud: "gcch",
       };
     case "8:acs:":
-      return { kind: "communicationUser", communicationUserId: rawId };
     case "8:spool:":
-      return { kind: "communicationUser", communicationUserId: rawId };
     case "8:dod-acs:":
-      return { kind: "communicationUser", communicationUserId: rawId };
     case "8:gcch-acs:":
       return { kind: "communicationUser", communicationUserId: rawId };
   }

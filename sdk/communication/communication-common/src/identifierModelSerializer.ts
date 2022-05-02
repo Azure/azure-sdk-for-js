@@ -5,7 +5,7 @@ import {
   CommunicationIdentifier,
   CommunicationIdentifierKind,
   getIdentifierKind,
-  getRawId,
+  getIdentifierRawId,
 } from "./identifierModels";
 
 /**
@@ -114,19 +114,19 @@ export const serializeCommunicationIdentifier = (
   switch (identifierKind.kind) {
     case "communicationUser":
       return {
-        rawId: getRawId(identifierKind),
+        rawId: getIdentifierRawId(identifierKind),
         communicationUser: { id: identifierKind.communicationUserId },
       };
     case "phoneNumber":
       return {
-        rawId: identifierKind.rawId ?? getRawId(identifierKind),
+        rawId: identifierKind.rawId ?? getIdentifierRawId(identifierKind),
         phoneNumber: {
           value: identifierKind.phoneNumber,
         },
       };
     case "microsoftTeamsUser":
       return {
-        rawId: identifierKind.rawId ?? getRawId(identifierKind),
+        rawId: identifierKind.rawId ?? getIdentifierRawId(identifierKind),
         microsoftTeamsUser: {
           userId: identifierKind.microsoftTeamsUserId,
           isAnonymous: identifierKind.isAnonymous ?? false,

@@ -74,7 +74,7 @@ export interface EndpointCredential {
 export const getIdentifierKind: (identifier: CommunicationIdentifier) => CommunicationIdentifierKind;
 
 // @public
-export const getRawId: (identifier: CommunicationIdentifier) => string;
+export const getIdentifierRawId: (identifier: CommunicationIdentifier) => string;
 
 // @public
 export const isCommunicationUserIdentifier: (identifier: CommunicationIdentifier) => identifier is CommunicationUserIdentifier;
