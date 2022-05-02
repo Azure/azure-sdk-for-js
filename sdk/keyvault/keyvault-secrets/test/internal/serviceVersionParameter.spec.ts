@@ -39,9 +39,9 @@ describe("The Secrets client should set the serviceVersion", () => {
     spy = sandbox.spy(mockHttpClient, "sendRequest");
 
     credential = await new ClientSecretCredential(
-      env.AZURE_TENANT_ID!,
-      env.AZURE_CLIENT_ID!,
-      env.AZURE_CLIENT_SECRET!
+      env.AZURE_TENANT_ID || "tenant",
+      env.AZURE_CLIENT_ID || "client",
+      env.AZURE_CLIENT_SECRET || "secret"
     );
   });
 
