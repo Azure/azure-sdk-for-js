@@ -6,6 +6,7 @@ import { isNode } from "@azure/core-util";
 import { Context } from "mocha";
 import { KeyClient } from "../../src";
 import { SDK_VERSION } from "../../src/constants";
+import { TokenCredential } from "@azure/core-auth";
 import { assert } from "@azure/test-utils";
 import fs from "fs";
 import path from "path";
@@ -16,8 +17,7 @@ describe("Keys client's user agent", () => {
   it("SDK_VERSION and user-agent should match", async function () {
     let userAgent: string | undefined;
     const client = new KeyClient(
-      "https://myvault.vault.azure.net",
-      new ClientSecretCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, env.AZURE_CLIENT_SECRET),
+      "https://myvault.vault.azure.net",{} as TokenCredential
       {
         httpClient: {
           sendRequest: async (request) => {
