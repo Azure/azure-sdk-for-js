@@ -1,6 +1,6 @@
 # Release History
 
-## 10.1.0-beta.2 (Unreleased)
+## 10.1.0-beta.3 (Unreleased)
 
 ### Features Added
 
@@ -10,7 +10,7 @@
 
 ### Other Changes
 
-## 10.1.0-beta.1 (2022-03-02)
+## 10.1.0-beta.2 (2022-04-12)
     
 **Features**
 
@@ -164,6 +164,7 @@
   - Added Enum KnownTokenCertificateName
   - Added Enum KnownTokenPasswordName
   - Added Enum KnownTokenStatus
+  - Bug fix
     
     
 ## 10.0.0 (2021-12-28)

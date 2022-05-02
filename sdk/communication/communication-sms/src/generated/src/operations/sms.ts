@@ -6,23 +6,26 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import { Sms } from "../operationsInterfaces";
+import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { SmsApiClient } from "../smsApiClient";
-import { SendMessageRequest, SmsSendOperationResponse } from "../models";
+import { SmsApiClientContext } from "../smsApiClientContext";
+import {
+  SendMessageRequest,
+  SmsSendOptionalParams,
+  SmsSendOperationResponse
+} from "../models";
 
-/**
- * Class representing a Sms.
- */
-export class Sms {
-  private readonly client: SmsApiClient;
+/** Class containing Sms operations. */
+export class SmsImpl implements Sms {
+  private readonly client: SmsApiClientContext;
 
   /**
    * Initialize a new instance of the class Sms class.
    * @param client Reference to the service client
    */
-  constructor(client: SmsApiClient) {
+  constructor(client: SmsApiClientContext) {
     this.client = client;
   }
 
@@ -33,22 +36,18 @@ export class Sms {
    */
   send(
     sendMessageRequest: SendMessageRequest,
-    options?: coreHttp.OperationOptions
+    options?: SmsSendOptionalParams
   ): Promise<SmsSendOperationResponse> {
-    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
-      options || {}
-    );
     return this.client.sendOperationRequest(
-      { sendMessageRequest, options: operationOptions },
+      { sendMessageRequest, options },
       sendOperationSpec
-    ) as Promise<SmsSendOperationResponse>;
+    );
   }
 }
 // Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
-
-const sendOperationSpec: coreHttp.OperationSpec = {
+const sendOperationSpec: coreClient.OperationSpec = {
   path: "/sms",
   httpMethod: "POST",
   responses: {
@@ -59,7 +58,7 @@ const sendOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.sendMessageRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

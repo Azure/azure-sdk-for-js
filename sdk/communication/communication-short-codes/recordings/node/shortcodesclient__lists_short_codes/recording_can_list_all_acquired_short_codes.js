@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "5961d6997afea3ffd1118dfacea58c64";
+module.exports.hash = "249aab18203729a212201d3b43328029";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -12,18 +12,18 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
-  'Request-Context',
-  'appId=',
   'MS-CV',
-  'v8XKfIEgoEGkN9iaiACDlA.0',
+  '8SX/6CBWzEiAP1yOkfnHNg.0',
+  'Strict-Transport-Security',
+  'max-age=2592000',
   'api-supported-versions',
   '2021-10-25-preview',
   'X-Processing-Time',
-  '1505ms',
+  '321ms',
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '0fP7mYQAAAAAv7CxNa0R1SrLrvV+6+FWATUlBRURHRTIyMTMAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx',
+  '0dHxUYgAAAACzFspg7/ijRY9u8ctjdC/yTUVYMzBFREdFMDQwNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=',
   'Date',
-  'Tue, 18 Jan 2022 17:53:01 GMT'
+  'Mon, 11 Apr 2022 19:07:32 GMT'
 ]);

@@ -1,5 +1,5 @@
 {
-  "name": "azure-arm-digitaltwins-samples-ts-beta",
+  "name": "@azure-samples/arm-digitaltwins-ts-beta",
   "private": true,
   "version": "1.0.0",
   "description": " client library samples for TypeScript (Beta)",

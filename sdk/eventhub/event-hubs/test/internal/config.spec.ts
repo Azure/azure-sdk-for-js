@@ -15,7 +15,7 @@ testWithServiceTypes(() => {
         try {
           EventHubConnectionConfig.create(connectionString);
           done(new Error("Should not have reached here."));
-        } catch (err) {
+        } catch (err: any) {
           err.message.should.match(/Either provide "path" or the "connectionString".*/gi);
         }
         done();

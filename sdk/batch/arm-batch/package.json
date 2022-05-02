@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for BatchManagementClient.",
-  "version": "7.1.0",
+  "version": "7.1.2",
   "engines": {
     "node": ">=12.0.0"
   },
@@ -28,7 +28,7 @@
   "module": "./dist-esm/src/index.js",
   "types": "./types/arm-batch.d.ts",
   "devDependencies": {
-    "@microsoft/api-extractor": "^7.18.11",
+    "@microsoft/api-extractor": "7.18.11",
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-multi-entry": "^4.1.0",

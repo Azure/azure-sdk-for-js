@@ -1,5 +1,5 @@
 {
-  "name": "azure-iot-modelsrepository-samples-js",
+  "name": "@azure-samples/iot-modelsrepository-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure IoT Models Repository client library samples for JavaScript",

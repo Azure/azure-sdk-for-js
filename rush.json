@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */ {
+ */{
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -447,11 +447,6 @@
       "versionPolicyName": "core"
     },
     {
-      "packageName": "@azure/core-asynciterator-polyfill",
-      "projectFolder": "sdk/core/core-asynciterator-polyfill",
-      "versionPolicyName": "core"
-    },
-    {
       "packageName": "@azure/core-auth",
       "projectFolder": "sdk/core/core-auth",
       "versionPolicyName": "core"
@@ -849,6 +844,11 @@
     {
       "packageName": "@azure-tests/perf-template",
       "projectFolder": "sdk/template/perf-tests/template",
+      "versionPolicyName": "test"
+    },
+    {
+      "packageName": "@azure-tests/perf-schema-registry-avro",
+      "projectFolder": "sdk/schemaregistry/perf-tests/schema-registry-avro",
       "versionPolicyName": "test"
     },
     {
@@ -1669,6 +1669,26 @@
     {
       "packageName": "@azure/arm-app",
       "projectFolder": "sdk/app/arm-app",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-hardwaresecuritymodules",
+      "projectFolder": "sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-dashboard",
+      "projectFolder": "sdk/dashboard/arm-dashboard",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-azureadexternalidentities",
+      "projectFolder": "sdk/azureadexternalidentities/arm-azureadexternalidentities",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-scvmm",
+      "projectFolder": "sdk/scvmm/arm-scvmm",
       "versionPolicyName": "management"
     }
   ]

@@ -9,8 +9,8 @@ trigger:
   paths:
     include:
       - sdk/appservice/ci.mgmt.yml
-      - sdk/appservice/arm-appservice/
       - sdk/appservice/arm-appservice-profile-2020-09-01-hybrid
+      - sdk/appservice/arm-appservice
 pr:
   branches:
     include:
@@ -23,8 +23,8 @@ pr:
   paths:
     include:
       - sdk/appservice/ci.mgmt.yml
-      - sdk/appservice/arm-appservice/
       - sdk/appservice/arm-appservice-profile-2020-09-01-hybrid
+      - sdk/appservice/arm-appservice
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:

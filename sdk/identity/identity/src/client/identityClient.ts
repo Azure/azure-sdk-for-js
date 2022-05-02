@@ -3,7 +3,6 @@
 
 import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-common";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { ServiceClient } from "@azure/core-client";
 import { isNode } from "@azure/core-util";
 import {
@@ -15,8 +14,8 @@ import {
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { AuthenticationError, AuthenticationErrorName } from "../errors";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
-import { DefaultAuthorityHost } from "../constants";
-import { createSpan } from "../util/tracing";
+import { SDK_VERSION, DefaultAuthorityHost } from "../constants";
+import { tracingClient } from "../util/tracing";
 import { logger } from "../util/logging";
 import { TokenCredentialOptions } from "../tokenCredentialOptions";
 
@@ -80,7 +79,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
   private abortControllers: Map<string, AbortController[] | undefined>;
 
   constructor(options?: TokenCredentialOptions) {
-    const packageDetails = `azsdk-js-identity/2.1.0-beta.2`;
+    const packageDetails = `azsdk-js-identity/${SDK_VERSION}`;
     const userAgentPrefix = options?.userAgentOptions?.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
       : `${packageDetails}`;
@@ -157,7 +156,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     refreshToken: string | undefined,
     clientSecret: string | undefined,
     expiresOnParser?: (responseBody: TokenResponseParsedBody) => number,
-    options?: GetTokenOptions
+    options: GetTokenOptions = {}
   ): Promise<TokenResponse | null> {
     if (refreshToken === undefined) {
       return null;
@@ -165,8 +164,6 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     logger.info(
       `IdentityClient: refreshing access token with client ID: ${clientId}, scopes: ${scopes} started`
     );
-
-    const { span, updatedOptions } = createSpan("IdentityClient-refreshAccessToken", options);
 
     const refreshParams = {
       grant_type: "refresh_token",
@@ -181,51 +178,46 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
     const query = new URLSearchParams(refreshParams);
 
-    try {
-      const urlSuffix = getIdentityTokenEndpointSuffix(tenantId);
-      const request = createPipelineRequest({
-        url: `${this.authorityHost}/${tenantId}/${urlSuffix}`,
-        method: "POST",
-        body: query.toString(),
-        abortSignal: options && options.abortSignal,
-        headers: createHttpHeaders({
-          Accept: "application/json",
-          "Content-Type": "application/x-www-form-urlencoded",
-        }),
-        tracingOptions: updatedOptions?.tracingOptions,
-      });
+    return tracingClient.withSpan(
+      "IdentityClient.refreshAccessToken",
+      options,
+      async (updatedOptions) => {
+        try {
+          const urlSuffix = getIdentityTokenEndpointSuffix(tenantId);
+          const request = createPipelineRequest({
+            url: `${this.authorityHost}/${tenantId}/${urlSuffix}`,
+            method: "POST",
+            body: query.toString(),
+            abortSignal: options.abortSignal,
+            headers: createHttpHeaders({
+              Accept: "application/json",
+              "Content-Type": "application/x-www-form-urlencoded",
+            }),
+            tracingOptions: updatedOptions.tracingOptions,
+          });
 
-      const response = await this.sendTokenRequest(request, expiresOnParser);
-      logger.info(`IdentityClient: refreshed token for client ID: ${clientId}`);
-      return response;
-    } catch (err) {
-      if (
-        err.name === AuthenticationErrorName &&
-        err.errorResponse.error === "interaction_required"
-      ) {
-        // It's likely that the refresh token has expired, so
-        // return null so that the credential implementation will
-        // initiate the authentication flow again.
-        logger.info(`IdentityClient: interaction required for client ID: ${clientId}`);
-        span.setStatus({
-          code: SpanStatusCode.ERROR,
-          message: err.message,
-        });
-
-        return null;
-      } else {
-        logger.warning(
-          `IdentityClient: failed refreshing token for client ID: ${clientId}: ${err}`
-        );
-        span.setStatus({
-          code: SpanStatusCode.ERROR,
-          message: err.message,
-        });
-        throw err;
+          const response = await this.sendTokenRequest(request, expiresOnParser);
+          logger.info(`IdentityClient: refreshed token for client ID: ${clientId}`);
+          return response;
+        } catch (err: any) {
+          if (
+            err.name === AuthenticationErrorName &&
+            err.errorResponse.error === "interaction_required"
+          ) {
+            // It's likely that the refresh token has expired, so
+            // return null so that the credential implementation will
+            // initiate the authentication flow again.
+            logger.info(`IdentityClient: interaction required for client ID: ${clientId}`);
+            return null;
+          } else {
+            logger.warning(
+              `IdentityClient: failed refreshing token for client ID: ${clientId}: ${err}`
+            );
+            throw err;
+          }
+        }
       }
-    } finally {
-      span.end();
-    }
+    );
   }
 
   // Here is a custom layer that allows us to abort requests that go through MSAL,
@@ -353,7 +345,7 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
           upn || unavailableUpn
         }. Object ID (user): ${oid}`
       );
-    } catch (e) {
+    } catch (e: any) {
       logger.warning(
         "allowLoggingAccountIdentifiers was set, but we couldn't log the account information. Error:",
         e.message

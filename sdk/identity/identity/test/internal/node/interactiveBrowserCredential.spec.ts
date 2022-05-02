@@ -58,7 +58,7 @@ describe("InteractiveBrowserCredential (internal)", function () {
     let error: Error | undefined;
     try {
       await credential.getToken(scope);
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
 
@@ -81,7 +81,7 @@ describe("InteractiveBrowserCredential (internal)", function () {
     let port = "1337";
     try {
       listen = await asyncListen(port);
-    } catch (e) {
+    } catch (e: any) {
       port = "1338";
       listen = await asyncListen(port);
     }
@@ -97,7 +97,7 @@ describe("InteractiveBrowserCredential (internal)", function () {
     let error: Error | undefined;
     try {
       await credential.getToken(scope);
-    } catch (e) {
+    } catch (e: any) {
       error = e as Error;
     }
 

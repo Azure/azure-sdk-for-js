@@ -24,6 +24,9 @@ const groupName = process.env["SCHEMA_REGISTRY_GROUP"] || "AzureSdkSampleGroup";
 // The connection string for Event Hubs
 const eventHubsConnectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
 
+// The name of Event Hub the client will connect to
+const eventHubName = process.env["EVENTHUB_NAME"] || "";
+
 // Sample Avro Schema for user with first and last names
 const schemaObject = {
   type: "record",
@@ -69,7 +72,7 @@ export async function main() {
   );
 
   // Register the schema. This would generally have been done somewhere else.
-  // You can also skip this step and let `serializeMessageData` automatically register
+  // You can also skip this step and let `serialize` automatically register
   // schemas using autoRegisterSchemas=true, but that is NOT recommended in production.
   await schemaRegistryClient.registerSchema(schemaDescription);
 
@@ -81,6 +84,7 @@ export async function main() {
 
   const eventHubsBufferedProducerClient = new EventHubBufferedProducerClient(
     eventHubsConnectionString,
+    eventHubName,
     {
       onSendEventsErrorHandler: handleError,
     }
@@ -88,7 +92,7 @@ export async function main() {
 
   // serialize an object that matches the schema
   const value: User = { firstName: "Jane", lastName: "Doe" };
-  const message = await serializer.serializeMessageData(value, schema);
+  const message = await serializer.serialize(value, schema);
   console.log("Created message:");
   console.log(message);
 

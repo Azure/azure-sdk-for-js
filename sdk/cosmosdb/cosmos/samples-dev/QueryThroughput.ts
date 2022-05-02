@@ -44,7 +44,7 @@ async function run() {
       console.log(
         'Scenario complete: "' + scenario.query + '" - took ' + (Date.now() - start) / 1000 + "s"
       );
-    } catch (e) {
+    } catch (e: any) {
       console.log("Scenario failed: " + scenario.query + " - " + JSON.stringify(scenario.options));
     }
   }

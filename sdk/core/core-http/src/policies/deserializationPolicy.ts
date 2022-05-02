@@ -205,7 +205,7 @@ export function deserializeResponseBody(
               "operationRes.parsedBody",
               options
             );
-          } catch (innerError) {
+          } catch (innerError: any) {
             const restError = new RestError(
               `Error ${innerError} occurred in deserializing the responseBody - ${parsedResponse.bodyAsText}`,
               undefined,
@@ -326,7 +326,7 @@ function handleErrorResponse(
         "operationRes.parsedHeaders"
       );
     }
-  } catch (defaultError) {
+  } catch (defaultError: any) {
     error.message = `Error "${defaultError.message}" occurred in deserializing the responseBody - "${parsedResponse.bodyAsText}" for the default response.`;
   }
 

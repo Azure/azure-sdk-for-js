@@ -42,7 +42,7 @@ to get schema IDs from schema definition or vice versa. The provided API has int
 
 By default, the serializer will create messages structured as follows:
 
-- `body`: a byte array containing data in the Avro Binary Encoding. Note that it
+- `data`: a byte array containing data in the Avro Binary Encoding. Note that it
   is NOT Avro Object Container File. The latter includes the schema and creating
   it defeats the purpose of using this serializer to move the schema out of the
   message payload and into the schema registry.
@@ -57,16 +57,6 @@ integration with such services, the serializer can act on custom message structu
 by setting the `messageAdapter` option in the constructor with a corresponding
 message producer and consumer. Azure messaging client libraries export default
 adapters for their message types.
-
-### Backward Compatibility
-
-The serializer v1.0.0-beta.5 and under serializes data into binary arrays. Starting from
-v1.0.0-beta.6, the serializer returns messages instead that contain the serialized payload.
-For a smooth transition to using the newer versions, the serializer also supports
-deserializing messages with payloads that follow the old format where the schema ID
-is part of the payload.
-
-This backward compatibility is temporary and will be removed in v1.0.0.
 
 ## Examples
 
@@ -99,13 +89,15 @@ const schema = JSON.stringify({
 const value = { score: 42 };
 
 // Serialize value to a message
-const message = await serializer.serializeMessageData(value, schema);
+const message = await serializer.serialize(value, schema);
 
 // Deserialize a message to value
-const deserializedValue = await serializer.deserializeMessageData(message);
+const deserializedValue = await serializer.deserialize(message);
 ```
 
 ## Troubleshooting
+
+The Avro serializer communicates with the [Schema Registry][schema_registry] service as needed to register or query schemas and those service calls could throw a [RestError][resterror]. Furthermore, errors of type `Error` will be thrown when serialization or deserialization fails. The `cause` property will contain the underlying error that was thrown from the Avro implementation library.
 
 ### Logging
 
@@ -160,3 +152,5 @@ learn more about how to build and test the code.
 [azure_portal]: https://portal.azure.com
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
+[resterror]: https://docs.microsoft.com/javascript/api/@azure/core-rest-pipeline/resterror?view=azure-node-latest
+[schema_registry]: https://docs.microsoft.com/javascript/api/overview/azure/schema-registry-readme?view=azure-node-latest

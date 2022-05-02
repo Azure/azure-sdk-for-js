@@ -1,5 +1,5 @@
 {
-  "name": "azure-agrifood-farming-samples-ts",
+  "name": "@azure-samples/agrifood-farming-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure FarmBeats rest client library samples for TypeScript",

@@ -84,12 +84,15 @@ export class AllowedConnectionsImpl implements AllowedConnections {
 
   /**
    * Gets the list of all possible traffic between resources for the subscription and location.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param options The options parameters.
    */
   public listByHomeRegion(
+    ascLocation: string,
     options?: AllowedConnectionsListByHomeRegionOptionalParams
   ): PagedAsyncIterableIterator<AllowedConnectionsResource> {
-    const iter = this.listByHomeRegionPagingAll(options);
+    const iter = this.listByHomeRegionPagingAll(ascLocation, options);
     return {
       next() {
         return iter.next();
@@ -98,28 +101,37 @@ export class AllowedConnectionsImpl implements AllowedConnections {
         return this;
       },
       byPage: () => {
-        return this.listByHomeRegionPagingPage(options);
+        return this.listByHomeRegionPagingPage(ascLocation, options);
       }
     };
   }
 
   private async *listByHomeRegionPagingPage(
+    ascLocation: string,
     options?: AllowedConnectionsListByHomeRegionOptionalParams
   ): AsyncIterableIterator<AllowedConnectionsResource[]> {
-    let result = await this._listByHomeRegion(options);
+    let result = await this._listByHomeRegion(ascLocation, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._listByHomeRegionNext(continuationToken, options);
+      result = await this._listByHomeRegionNext(
+        ascLocation,
+        continuationToken,
+        options
+      );
       continuationToken = result.nextLink;
       yield result.value || [];
     }
   }
 
   private async *listByHomeRegionPagingAll(
+    ascLocation: string,
     options?: AllowedConnectionsListByHomeRegionOptionalParams
   ): AsyncIterableIterator<AllowedConnectionsResource> {
-    for await (const page of this.listByHomeRegionPagingPage(options)) {
+    for await (const page of this.listByHomeRegionPagingPage(
+      ascLocation,
+      options
+    )) {
       yield* page;
     }
   }
@@ -136,13 +148,16 @@ export class AllowedConnectionsImpl implements AllowedConnections {
 
   /**
    * Gets the list of all possible traffic between resources for the subscription and location.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param options The options parameters.
    */
   private _listByHomeRegion(
+    ascLocation: string,
     options?: AllowedConnectionsListByHomeRegionOptionalParams
   ): Promise<AllowedConnectionsListByHomeRegionResponse> {
     return this.client.sendOperationRequest(
-      { options },
+      { ascLocation, options },
       listByHomeRegionOperationSpec
     );
   }
@@ -152,16 +167,19 @@ export class AllowedConnectionsImpl implements AllowedConnections {
    * connection type.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param connectionType The type of allowed connections (Internal, External)
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
+    ascLocation: string,
     connectionType: ConnectionType,
     options?: AllowedConnectionsGetOptionalParams
   ): Promise<AllowedConnectionsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, connectionType, options },
+      { resourceGroupName, ascLocation, connectionType, options },
       getOperationSpec
     );
   }
@@ -183,15 +201,18 @@ export class AllowedConnectionsImpl implements AllowedConnections {
 
   /**
    * ListByHomeRegionNext
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param nextLink The nextLink from the previous successful call to the ListByHomeRegion method.
    * @param options The options parameters.
    */
   private _listByHomeRegionNext(
+    ascLocation: string,
     nextLink: string,
     options?: AllowedConnectionsListByHomeRegionNextOptionalParams
   ): Promise<AllowedConnectionsListByHomeRegionNextResponse> {
     return this.client.sendOperationRequest(
-      { nextLink, options },
+      { ascLocation, nextLink, options },
       listByHomeRegionNextOperationSpec
     );
   }

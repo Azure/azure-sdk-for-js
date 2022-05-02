@@ -9,30 +9,23 @@
  */
 
 import { matrix } from "@azure/test-utils";
-import { isLiveMode, isPlaybackMode, record, Recorder } from "@azure-tools/test-recorder";
-import { isNode } from "@azure/core-http";
-import * as dotenv from "dotenv";
+import { isLiveMode, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import * as sinon from "sinon";
 import { Uuid } from "../../src/utils/uuid";
 import {
-  createSmsClient,
-  createSmsClientWithToken,
-  recorderConfiguration,
+  createRecordedSmsClient,
+  createRecordedSmsClientWithToken,
 } from "../public/utils/recordedClient";
 import { Context } from "mocha";
 import sendSmsSuites from "../public/suites/smsClient.send";
+import { SmsClient } from "../../src";
 
-if (isNode) {
-  dotenv.config();
-}
-
-matrix([[true, false]], async function (useAad) {
+matrix([[true, false]], async function (useAad: boolean) {
   describe(`SmsClient [Playback/Record]${useAad ? " [AAD]" : ""}`, async () => {
     let recorder: Recorder;
+    let client: SmsClient;
 
     beforeEach(async function (this: Context) {
-      recorder = record(this, recorderConfiguration);
-
       if (isLiveMode()) {
         this.skip();
       } else if (isPlaybackMode()) {
@@ -41,10 +34,11 @@ matrix([[true, false]], async function (useAad) {
       }
 
       if (useAad) {
-        this.smsClient = createSmsClientWithToken();
+        ({ client, recorder } = await createRecordedSmsClientWithToken(this));
       } else {
-        this.smsClient = createSmsClient();
+        ({ client, recorder } = await createRecordedSmsClient(this));
       }
+      this.smsClient = client;
     });
 
     afterEach(async function (this: Context) {

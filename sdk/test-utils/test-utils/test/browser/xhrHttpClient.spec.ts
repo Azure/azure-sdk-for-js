@@ -49,7 +49,7 @@ describe("XhrHttpClient", function () {
     try {
       await promise;
       assert.fail("Expected await to throw");
-    } catch (e) {
+    } catch (e: any) {
       assert.strictEqual(e.name, "AbortError");
     }
   });
@@ -66,7 +66,7 @@ describe("XhrHttpClient", function () {
     try {
       await promise;
       assert.fail("Expected await to throw");
-    } catch (e) {
+    } catch (e: any) {
       assert.strictEqual(e.name, "AbortError");
     }
   });
@@ -110,7 +110,7 @@ describe("XhrHttpClient", function () {
     try {
       await promise;
       assert.fail("Expected await to throw");
-    } catch (e) {
+    } catch (e: any) {
       assert.strictEqual(e.name, "AbortError");
     }
   });
@@ -193,7 +193,7 @@ describe("XhrHttpClient", function () {
     try {
       await promise;
       assert.fail("Expected await to throw");
-    } catch (e) {
+    } catch (e: any) {
       assert.match(e.message, /^Cannot connect/, "Error should refuse connection");
     }
   });

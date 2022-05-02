@@ -199,7 +199,7 @@ export class GlobalEndpointManager {
       // might have specified (by creating a locational endpoint)
       // and keeping eating the exception until we get the database account and return None at the end,
       // if we are not able to get that info from any endpoints
-    } catch (err) {
+    } catch (err: any) {
       // TODO: Tracing
     }
 
@@ -215,7 +215,7 @@ export class GlobalEndpointManager {
           if (databaseAccount) {
             return databaseAccount;
           }
-        } catch (err) {
+        } catch (err: any) {
           // TODO: Tracing
         }
       }

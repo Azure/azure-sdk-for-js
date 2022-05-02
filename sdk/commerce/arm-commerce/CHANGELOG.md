@@ -1,8 +1,18 @@
 # Release History
-    
-## 4.0.0-beta.1 (2022-01-18)
 
-The package of @azure/arm-commerce is using our next generation design principles since version 4.0.0-beta.1, which contains breaking changes.
+## 4.0.0-beta.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 4.0.0-beta.2 (2022-04-11)
+
+The package of @azure/arm-commerce is using our next generation design principles since version 4.0.0-beta.2, which contains breaking changes.
 
 To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
 

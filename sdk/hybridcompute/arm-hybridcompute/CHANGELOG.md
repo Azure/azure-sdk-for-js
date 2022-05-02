@@ -1,4 +1,29 @@
 # Release History
+
+## 3.1.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 3.1.0-beta.1 (2022-04-26)
+    
+**Features**
+
+  - Added Interface OSProfileLinuxConfiguration
+  - Added Interface OSProfileWindowsConfiguration
+  - Added Interface PrivateEndpointConnectionDataModel
+  - Interface HybridComputePrivateLinkScopeProperties has a new optional parameter privateEndpointConnections
+  - Interface MachineProperties has a new optional parameter mssqlDiscovered
+  - Interface MachineProperties has a new optional parameter osType
+  - Interface MachineUpdateProperties has a new optional parameter osProfile
+  - Interface OSProfile has a new optional parameter linuxConfiguration
+  - Interface OSProfile has a new optional parameter windowsConfiguration
+    
     
 ## 3.0.0 (2022-01-18)
 

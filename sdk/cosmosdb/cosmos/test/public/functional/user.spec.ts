@@ -72,7 +72,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       try {
         await user.read();
         assert.fail("Must fail to read user after deletion");
-      } catch (err) {
+      } catch (err: any) {
         const notFoundErrorCode = 404;
         assert.equal(err.code, notFoundErrorCode, "response should return error code 404");
       }

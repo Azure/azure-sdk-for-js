@@ -582,7 +582,7 @@ describe("BlobBatch", () => {
     try {
       const tmpBlobClient = containerClient.getBlobClient(`blobexceed`);
       await batchSetTierRequest.setBlobAccessTier(tmpBlobClient.url, credential, "Cool");
-    } catch (err) {
+    } catch (err: any) {
       if (
         err instanceof RangeError &&
         err.message === "Cannot exceed 256 sub requests in a single batch"
@@ -600,7 +600,7 @@ describe("BlobBatch", () => {
 
     try {
       await batchSetTierRequest.setBlobAccessTier("invalidurl", credential, "Cool");
-    } catch (err) {
+    } catch (err: any) {
       if (
         err instanceof RangeError &&
         err.message.indexOf("Invalid url for sub request: ") !== -1
@@ -617,7 +617,7 @@ describe("BlobBatch", () => {
     let exceptionCaught = false;
     try {
       await blobBatchClient.submitBatch(batchDeleteRequest);
-    } catch (err) {
+    } catch (err: any) {
       if (
         err instanceof RangeError &&
         err.message === "Batch request should contain one or more sub requests."
@@ -649,7 +649,7 @@ describe("BlobBatch", () => {
     // Submit batch request and verify response.
     try {
       await invalidCredServiceClient.submitBatch(batchSetTierRequest, {});
-    } catch (err) {
+    } catch (err: any) {
       // Error: Unexpected status code: 403
       // at new RestError (C:\SDKRoot\Type\azure-sdk-for-js\common\temp\node_modules\.registry.npmjs.org\@azure\ms-rest-js\2.0.4\node_modules\@azure\ms-rest-js\lib\restError.ts:18:5)
       // at C:\SDKRoot\Type\azure-sdk-for-js\common\temp\node_modules\.registry.npmjs.org\@azure\ms-rest-js\2.0.4\node_modules\@azure\ms-rest-js\lib\policies\deserializationPolicy.ts:117:27
@@ -667,7 +667,7 @@ describe("BlobBatch", () => {
     try {
       await batchRequest.deleteBlob(blockBlobClients[0].url, credential);
       await batchRequest.setBlobAccessTier(blockBlobClients[0].url, credential, "Cool");
-    } catch (err) {
+    } catch (err: any) {
       if (
         err instanceof RangeError &&
         err.message ===
@@ -738,7 +738,7 @@ describe("BlobBatch Token auth", () => {
     // Try to get serviceURL object with TokenCredential when ACCOUNT_TOKEN environment variable is set
     try {
       blobServiceClient = getTokenBSU();
-    } catch (err) {
+    } catch (err: any) {
       console.log(err);
       this.skip();
     }

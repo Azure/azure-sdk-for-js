@@ -1,9 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { createTestCredential } from "@azure-tools/test-credential";
-import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import {
+  env,
+  Recorder,
+  RecorderStartOptions,
+  assertEnvironmentVariable,
+} from "@azure-tools/test-recorder";
 import * as assert from "assert";
-import { Context } from "mocha";
 import { createClientLogger } from "@azure/logger";
 import { LogsTable, LogsQueryClient, MetricsQueryClient } from "../../../src";
 import { ExponentialRetryPolicyOptions } from "@azure/core-rest-pipeline";
@@ -70,21 +74,20 @@ export async function createRecorderAndLogsClient(
   };
 }
 
-export function getMonitorWorkspaceId(mochaContext: Pick<Context, "skip">): string {
-  return getRequiredEnvVar(mochaContext, "MONITOR_WORKSPACE_ID");
+export function getMonitorWorkspaceId(): string {
+  return assertEnvironmentVariable("MONITOR_WORKSPACE_ID");
 }
 
-export function getMetricsArmResourceId(mochaContext: Pick<Context, "skip">): {
+export function getMetricsArmResourceId(): {
   resourceId: string;
 } {
   return {
-    resourceId: getRequiredEnvVar(mochaContext, "METRICS_RESOURCE_ID"),
+    resourceId: assertEnvironmentVariable("METRICS_RESOURCE_ID"),
   };
 }
 
-export function getAppInsightsConnectionString(mochaContext: Pick<Context, "skip">): string {
-  let appInsightsConnectionString = getRequiredEnvVar(
-    mochaContext,
+export function getAppInsightsConnectionString(): string {
+  let appInsightsConnectionString = assertEnvironmentVariable(
     "MQ_APPLICATIONINSIGHTS_CONNECTION_STRING"
   );
 
@@ -96,21 +99,6 @@ export function getAppInsightsConnectionString(mochaContext: Pick<Context, "skip
   );
 
   return appInsightsConnectionString;
-}
-
-function getRequiredEnvVar(mochaContext: Pick<Context, "skip">, variableName: string): string {
-  const envVar = env[variableName];
-
-  if (!envVar) {
-    console.log(
-      `TODO: live tests skipped until test-resources + data population is set up (missing ${variableName} env var).`
-    );
-    mochaContext.skip();
-
-    throw new Error(`Missing ${variableName} env var`);
-  }
-
-  return envVar ?? "";
 }
 
 export function printLogQueryTables(tables: LogsTable[]): void {
