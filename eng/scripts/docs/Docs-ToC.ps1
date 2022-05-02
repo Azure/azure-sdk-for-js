@@ -20,7 +20,8 @@ function Get-javascript-OnboardedDocsMsPackages($DocRepoLocation) {
   return $onboardedPackages
 }
 
-function Get-javascript-DocsMsTocData($packageMetadata, $docRepoLocation) {
+function Get-javascript-PackageLevelReadme($packageMetadata)
+{
   # Fallback to get package-level readme name if metadata file info does not exist
   $packageLevelReadmeName = $packageMetadata.Package.Replace('@azure/', '').Replace('@azure-tools/', '').Replace('azure-', '');
 
@@ -35,7 +36,11 @@ function Get-javascript-DocsMsTocData($packageMetadata, $docRepoLocation) {
     $readmeMetadata = &$GetDocsMsMetadataForPackageFn -PackageInfo $packageMetadata.FileMetadata
     $packageLevelReadmeName = $readmeMetadata.DocsMsReadMeName
   }
+  return $packageLevelReadmeName
+}
 
+function Get-javascript-DocsMsTocData($packageMetadata, $docRepoLocation) {
+  $packageLevelReadmeName = Get-javascript-PackageLevelReadme -packageMetadata $packageMetadata
 
   $packageTocHeader = $packageMetadata.Package
   if ($clientPackage.DisplayName) {

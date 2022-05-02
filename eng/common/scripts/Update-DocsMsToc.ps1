@@ -40,6 +40,7 @@ param(
 )
 . $PSScriptRoot/common.ps1
 . $PSScriptRoot/Helpers/PSModule-Helpers.ps1
+. $PSScriptRoot/Helpers/Metadata-Helpers.ps1
 
 Install-ModuleIfNotInstalled "powershell-yaml" "0.4.1" | Import-Module
 
@@ -93,6 +94,101 @@ function GetPackageLookup($packageList) {
   }
 
   return $packageLookup
+}
+
+function generate-service-level-readme($readmeBaseName, $pathPrefix, $clientPackageInfo, $mgmtPackageInfo, $serviceName) {
+  # Add ability to override
+  # Fetch the service readme name
+  $monikers = @("latest", "preview")
+
+  for($i=0; $i -lt $monikers.Length; $i++) {
+    $serviceReadme = "$pathPrefix/$($monikers[$i])/$readmeBaseName.md"
+    $overrideReadme = "$pathPrefix/$($monikers[$i])/$readmeBaseName-override.md"
+    if (Test-Path $overrideReadme) {
+      Copy-Item $overrideReadme -Destination $serviceReadme
+      return
+    }
+    if(Test-Path $serviceReadme) {
+      continue
+    }
+    update-service-readme -serviceBaseName $readmeBaseName -readmePath $serviceReadme -moniker $monikers[$i] -clientPackageInfo $clientPackageInfo -mgmtPackageInfo $mgmtPackageInfo -serviceName $serviceName
+  } 
+}
+
+function update-service-readme($serviceBaseName, $readmePath, $moniker, $clientPackageInfo, $mgmtPackageInfo, $serviceName)
+{
+  # Add metadata header
+  $lang = &$GetLanguageDisplayNameFn
+  $langTitle = "Azure $serviceName SDK for $lang"
+  $langDescription = "Reference for Azure $serviceName SDK for $lang"
+  $githubUrl = &$GetLanguageGithubUrlFn
+  # Github url for source code: e.g. https://github.com/Azure/azure-sdk-for-js
+  $author = GetPrimaryCodeOwner -TargetDirectory "sdk/$serviceBaseName"
+  if (!$author) {
+    LogError "Cannot fetch the author from CODEOWNER file."
+    $author = "sima-zhu"
+    $msauthor = "sizhu"
+  }
+  else {
+    $msauthor = GetMsAliasFromGithub -TenantId $TenantId -ClientId $ClientId -ClientSecret $ClientSecret -GithubUser $author
+  }
+  # Default value
+  if (!$msauthor) {
+    $msauthor = $author
+  }
+  $date = Get-Date -Format "MM/dd/yyyy"
+  if ($clientPackageInfo -and $clientPackageInfo.MSDocService) {
+    # Use MSDocService in csv metadata to override the service directory
+    # TODO: Use taxonomy for service name -- https://github.com/Azure/azure-sdk-tools/issues/1442
+    $service = $clientPackageInfo.MSDocService
+  }
+  elseif ($mgmtPackageInfo -and $mgmtPackageInfo.MSDocService) {
+    $service = $mgmtPackageInfo.MSDocService
+  }
+  Write-Host "The service of package: $service"
+  $header = @"
+---
+title: $langTitle
+description: $langDescription
+author: $author
+ms.author: $msauthor
+ms.date: $date
+ms.topic: reference
+ms.devlang: $lang
+ms.service: $service
+---
+"@
+
+  Add-Content -Path $readmePath -Value $header
+
+  # Add tables, seperate client and mgmt.
+  $tableHeader = "## $langTitle - $moniker"
+  Add-Content -Path $readmePath -Value $tableHeader
+  if ($clientPackageInfo) {
+    $clientTableHeader = "## Client packages - $moniker"
+    Add-Content -Path $readmePath -Value $clientTableHeader
+    $clentTable = generate-markdown-table -packageInfo $clientPackageInfo -githubUrl $githubUrl -moniker $moniker
+    Add-Content -Path $readmePath -Value $clentTable
+  }
+  if ($mgmtPackageInfo) {
+    $clientTableHeader = "## Management packages - $moniker"
+    Add-Content -Path $readmePath -Value $clientTableHeader
+    $mgmtTable = generate-markdown-table -packageInfo $mgmtPackageInfo -githubUrl $githubUrl -moniker $moniker
+    Add-Content -Path $readmePath -Value $mgmtTable
+  }
+}
+
+function generate-markdown-table($packageInfo, $githubUrl, $moniker) {
+  $content = "| Reference | Package | Source |`r`n|---|---|---|`r`n" 
+  # Here is the table, the versioned value will
+  foreach ($pkg in $packageInfo) {
+    $repositoryLink = &$GetPackageRepostoryFn 
+    $packageLevelReame = &$GetPackageLevelReadmeFn -packageMetadata $pkg
+    $referenceLink = "javascript/api/overview/azure/$packageLevelReame-readme"
+    $line = "|[$($pkg.DisplayName)]($referenceLink)|[$($pkg.Package)]('$repositoryLink/$($pkg.Package)')|[Github]($($pkg.RepoPath))|`r`n"
+    $content += $line
+  }
+  return $content
 }
 
 $onboardedPackages = &$GetOnboardedDocsMsPackagesFn `
@@ -203,10 +299,13 @@ foreach ($service in $serviceNameList) {
   }
 
   $serviceReadmeBaseName = $service.ToLower().Replace(' ', '-')
+  $hrefPrefix = "~/docs-ref-services"
 
+  generate-service-level-readme -readmeBaseName $serviceReadmeBaseName -pathPrefix $hrefPrefix `
+    -clientPackageInfo $clientPackages -mgmtPackageInfo $mgmtPackages -serviceName $service
   $serviceTocEntry = [PSCustomObject]@{
     name            = $service;
-    href            = "~/docs-ref-services/{moniker}/$serviceReadmeBaseName.md"
+    href            = "$hrefPrefix/{moniker}/$serviceReadmeBaseName.md"
     landingPageType = 'Service'
     items           = @($packageItems)
   }
