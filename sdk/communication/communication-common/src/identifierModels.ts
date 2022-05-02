@@ -224,8 +224,9 @@ export const getIdentifierRawId = (identifier: CommunicationIdentifier): string 
  * @param rawId - The rawId to be translated to its identifier representation.
  */
 export const createIdentifierFromRawId = (rawId: string): CommunicationIdentifierKind => {
-  if (rawId.startsWith("4:"))
-    {return { kind: "phoneNumber", phoneNumber: `+${rawId.substring("4:".length)}` };}
+  if (rawId.startsWith("4:")) {
+    return { kind: "phoneNumber", phoneNumber: `+${rawId.substring("4:".length)}` };
+  }
 
   const segments = rawId.split(":");
   if (segments.length < 3) return { kind: "unknown", id: rawId };
