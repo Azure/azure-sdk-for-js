@@ -7,6 +7,6 @@ import { CustomModelRecognitionTest } from "./custom.spec";
 import dotenv from "dotenv";
 dotenv.config();
 
-const perfProgram = createPerfProgram([CustomModelRecognitionTest]);
+const perfProgram = createPerfProgram(CustomModelRecognitionTest);
 
 perfProgram.run();

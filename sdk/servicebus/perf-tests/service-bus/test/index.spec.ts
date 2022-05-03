@@ -6,6 +6,6 @@ import { BatchReceiveTest } from "./receiveBatch.spec";
 import { BatchSendTest } from "./sendBatch.spec";
 import { SubscribeTest } from "./subscribe.spec";
 
-const perfProgram = createPerfProgram([BatchSendTest, BatchReceiveTest, SubscribeTest]);
+const perfProgram = createPerfProgram(BatchSendTest, BatchReceiveTest, SubscribeTest);
 
 perfProgram.run();

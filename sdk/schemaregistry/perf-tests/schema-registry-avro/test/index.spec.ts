@@ -8,6 +8,6 @@ import { DeserializeTest } from "./deserialize.spec";
 import dotenv from "dotenv";
 dotenv.config();
 
-const perfProgram = createPerfProgram([SerializeTest, DeserializeTest]);
+const perfProgram = createPerfProgram(SerializeTest, DeserializeTest);
 
 perfProgram.run();

@@ -7,11 +7,11 @@ import { StorageDFSReadTest } from "./read.spec";
 import { StorageDFSUploadTest } from "./upload.spec";
 import { StorageDFSUploadFromFileTest } from "./uploadFromFile.spec";
 
-const perfProgram = createPerfProgram([
+const perfProgram = createPerfProgram(
   StorageDFSAppendTest,
   StorageDFSReadTest,
   StorageDFSUploadTest,
-  StorageDFSUploadFromFileTest,
-]);
+  StorageDFSUploadFromFileTest
+);
 
 perfProgram.run();

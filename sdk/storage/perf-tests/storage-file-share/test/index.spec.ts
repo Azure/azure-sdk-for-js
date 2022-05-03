@@ -7,11 +7,11 @@ import { StorageFileShareDownloadToFileTest } from "./downloadToFile.spec";
 import { StorageFileShareUploadTest } from "./upload.spec";
 import { StorageFileShareUploadFromFileTest } from "./uploadFromFile.spec";
 
-const perfProgram = createPerfProgram([
+const perfProgram = createPerfProgram(
   StorageFileShareDownloadTest,
   StorageFileShareDownloadToFileTest,
   StorageFileShareUploadTest,
-  StorageFileShareUploadFromFileTest,
-]);
+  StorageFileShareUploadFromFileTest
+);
 
 perfProgram.run();

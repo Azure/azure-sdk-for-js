@@ -6,10 +6,10 @@ import { StorageBlobDownloadTest } from "./download.spec";
 import { StorageBlobUploadTest } from "./upload.spec";
 import { StorageBlobListTest } from "./listBlobs.spec";
 
-const perfProgram = createPerfProgram([
+const perfProgram = createPerfProgram(
   StorageBlobDownloadTest,
   StorageBlobUploadTest,
-  StorageBlobListTest,
-]);
+  StorageBlobListTest
+);
 
 perfProgram.run();

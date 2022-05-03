@@ -7,6 +7,6 @@ import { DetectLanguageTest } from "./detectLanguage.spec";
 import dotenv from "dotenv";
 dotenv.config();
 
-const perfProgram = createPerfProgram([DetectLanguageTest]);
+const perfProgram = createPerfProgram(DetectLanguageTest);
 
 perfProgram.run();

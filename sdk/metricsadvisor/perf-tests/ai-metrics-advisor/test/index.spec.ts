@@ -6,5 +6,5 @@ import { AnomaliesListTest } from "./listAnomalies.spec";
 import { IncidentsListTest } from "./listIncidents.spec";
 import { RootCauseTest } from "./rootCauses.spec";
 
-const perfProgram = createPerfProgram([AnomaliesListTest, IncidentsListTest, RootCauseTest]);
+const perfProgram = createPerfProgram(AnomaliesListTest, IncidentsListTest, RootCauseTest);
 perfProgram.run();

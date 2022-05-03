@@ -11,13 +11,13 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
-const perfProgram = createPerfProgram([
+const perfProgram = createPerfProgram(
   CreateSimpleEntityTest,
   CreateSimpleEntityBatchTest,
   CreateComplexEntityTest,
   CreateComplexEntityBatchTest,
   ListSimpleEntitiesTest,
-  ListComplexEntitiesTest,
-]);
+  ListComplexEntitiesTest
+);
 
 perfProgram.run();

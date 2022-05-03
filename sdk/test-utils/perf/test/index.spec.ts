@@ -4,4 +4,4 @@
 import { createPerfProgram } from "../src";
 import { allTestClasses } from "./declareTests";
 
-createPerfProgram(allTestClasses).run();
+createPerfProgram(...allTestClasses).run();

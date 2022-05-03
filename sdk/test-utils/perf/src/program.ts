@@ -11,15 +11,8 @@ export interface PerfProgram {
   run(): Promise<void>;
 }
 
-export function createPerfProgram(testClass: PerfTestConstructor): PerfProgram;
-export function createPerfProgram(testClasses: PerfTestConstructor[]): PerfProgram;
-
-export function createPerfProgram(
-  testClassOrClasses: PerfTestConstructor | PerfTestConstructor[]
-): PerfProgram {
-  const testClass = Array.isArray(testClassOrClasses)
-    ? selectPerfTest(testClassOrClasses)
-    : testClassOrClasses;
+export function createPerfProgram(...testClasses: PerfTestConstructor[]): PerfProgram {
+  const testClass = selectPerfTest(testClasses);
 
   if (multicoreUtils.isManager) {
     return new ManagerPerfProgram(testClass);

@@ -10,11 +10,11 @@ import { SuggestTest } from "./suggestTest.spec";
 import dotenv from "dotenv";
 dotenv.config();
 
-const perfProgram = createPerfProgram([
+const perfProgram = createPerfProgram(
   AutoCompleteTest,
   IndexDocumentsTest,
   SearchDocumentsTest,
-  SuggestTest,
-]);
+  SuggestTest
+);
 
 perfProgram.run();

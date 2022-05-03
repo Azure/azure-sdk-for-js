@@ -4,6 +4,6 @@
 import { createPerfProgram } from "@azure/test-utils-perf";
 import { SendTest } from "./send.spec";
 
-const perfProgram = createPerfProgram([SendTest]);
+const perfProgram = createPerfProgram(SendTest);
 
 perfProgram.run();

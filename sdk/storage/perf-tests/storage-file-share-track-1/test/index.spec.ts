@@ -4,6 +4,7 @@
 import { createPerfProgram } from "@azure/test-utils-perf";
 import { StorageFileShareDownloadTest } from "./download.spec";
 import { StorageFileShareUploadTest } from "./upload.spec";
-console.log("");
+
+const perfProgram = createPerfProgram(StorageFileShareDownloadTest, StorageFileShareUploadTest);
 
 perfProgram.run();
