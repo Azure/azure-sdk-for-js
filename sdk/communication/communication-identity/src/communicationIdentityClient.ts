@@ -261,7 +261,7 @@ export class CommunicationIdentityClient {
       return {
         resourceId: "", // TODO: this will be populated from the response
         scheme: "", // TODO: this will be populated from the response
-        identity: { microsoftTeamsUserId: "", cloud: "public" }, // TODO: this will be populated from the response
+        identity: { microsoftTeamsUserId: "", cloud: "public" }, // TODO: this will be populated from the response by calling createIdentifierFromRawId (PR #21699)
         ...token,
       };
     } catch (e: any) {
