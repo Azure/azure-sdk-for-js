@@ -119,8 +119,8 @@ function generate-service-level-readme($readmeBaseName, $pathPrefix, $clientPack
   $monikers = @("latest", "preview")
 
   for($i=0; $i -lt $monikers.Length; $i++) {
-    $serviceReadme = "$pathPrefix/$($monikers[$i])/$readmeBaseName.md"
-    $overrideReadme = "$pathPrefix/$($monikers[$i])/$readmeBaseName-override.md"
+    $serviceReadme = "$DocRepoLocation/$pathPrefix/$($monikers[$i])/$readmeBaseName.md"
+    $overrideReadme = "$DocRepoLocation/$pathPrefix/$($monikers[$i])/$readmeBaseName-override.md"
     if (Test-Path $overrideReadme) {
       Copy-Item $overrideReadme -Destination $serviceReadme
       return
