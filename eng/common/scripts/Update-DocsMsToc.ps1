@@ -322,13 +322,13 @@ foreach ($service in $serviceNameList) {
   }
 
   $serviceReadmeBaseName = $service.ToLower().Replace(' ', '-').Replace('/', '-')
-  $hrefPrefix = "~/docs-ref-services"
+  $hrefPrefix = "docs-ref-services"
 
   generate-service-level-readme -readmeBaseName $serviceReadmeBaseName -pathPrefix $hrefPrefix `
     -clientPackageInfo $clientPackages -mgmtPackageInfo $mgmtPackages -serviceName $service
   $serviceTocEntry = [PSCustomObject]@{
     name            = $service;
-    href            = "$hrefPrefix/{moniker}/$serviceReadmeBaseName.md"
+    href            = "~/$hrefPrefix/{moniker}/$serviceReadmeBaseName.md"
     landingPageType = 'Service'
     items           = @($packageItems)
   }
