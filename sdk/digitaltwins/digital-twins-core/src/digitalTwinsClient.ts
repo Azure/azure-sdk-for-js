@@ -138,20 +138,6 @@ export class DigitalTwinsClient {
     digitalTwinId: string,
     options: OperationOptions = {}
   ): Promise<DigitalTwinsGetByIdResponse> {
-<<<<<<< HEAD
-    const { span, updatedOptions } = createSpan("DigitalTwinsClient-getDigitalTwin", options);
-    try {
-      return this.client.digitalTwins.getById(digitalTwinId, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
-=======
     return tracingClient.withSpan(
       "DigitalTwinsClient.getDigitalTwin",
       options,
@@ -159,7 +145,6 @@ export class DigitalTwinsClient {
         return this.client.digitalTwins.getById(digitalTwinId, updatedOptions);
       }
     );
->>>>>>> digital twins and models repository
   }
 
   /**
