@@ -71,7 +71,7 @@ function createPutBody(): Processor {
               `"}, "id": "100", "name": "foo" }`
           );
         }
-      } catch (e) {
+      } catch (e: any) {
         return undefined;
       }
     }
@@ -133,7 +133,7 @@ function createRetries(): Processor {
           return buildResponse(request, finalCode);
         }
       }
-    } catch (e) {
+    } catch (e: any) {
       return undefined;
     }
     return undefined;
@@ -192,7 +192,7 @@ function createDeleteProvisioning(): Processor {
           );
         }
       }
-    } catch (e) {
+    } catch (e: any) {
       return undefined;
     }
     return undefined;
@@ -246,7 +246,7 @@ function createDeleteAsyncRetry(options: Options): Processor {
           }
           return buildResponse(request, 202, `{ "status": "Accepted"}`, headers);
         }
-      } catch (e) {
+      } catch (e: any) {
         return undefined;
       }
     }
@@ -317,7 +317,7 @@ function createPutAsyncRetry(options: Options): Processor {
           }
           return buildResponse(request, 202, `{ "status": "Accepted"}`, headers);
         }
-      } catch (e) {
+      } catch (e: any) {
         return undefined;
       }
     }
@@ -401,7 +401,7 @@ function createPostasyncRetry(options: Options): Processor {
           }
           return buildResponse(request, 202, `{ "status": "Accepted"}`, headers);
         }
-      } catch (e) {
+      } catch (e: any) {
         return undefined;
       }
     }

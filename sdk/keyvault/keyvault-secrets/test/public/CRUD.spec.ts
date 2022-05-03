@@ -3,7 +3,7 @@
 
 import { Context } from "mocha";
 import { assert } from "@azure/test-utils";
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { AbortController } from "@azure/abort-controller";
 
 import { SecretClient } from "../../src";
@@ -79,7 +79,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     try {
       await client.setSecret(secretName, secretValue);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(
@@ -237,7 +237,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     try {
       await client.getSecret(secretName);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error.code, "SecretNotFound");
@@ -272,7 +272,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     try {
       await client.getSecret(secretName);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       if (e.statusCode === 404) {
         assert.equal(e.code, "SecretNotFound");
       } else {
@@ -306,7 +306,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     try {
       await client.beginDeleteSecret(secretName, testPollerProperties);
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error.code, "SecretNotFound");
@@ -348,7 +348,7 @@ describe("Secret client - create, read, update and delete operations", () => {
       const deletePoller = await client.beginDeleteSecret(secretName, testPollerProperties);
       await deletePoller.pollUntilDone();
       throw Error("Expecting an error but not catching one.");
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error.code, "SecretNotFound");

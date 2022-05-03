@@ -53,11 +53,12 @@
     "./dist-esm/src/util/base64.js": "./dist-esm/src/util/base64.browser.js",
     "./dist-esm/src/util/xml.js": "./dist-esm/src/util/xml.browser.js",
     "./dist-esm/src/defaultHttpClient.js": "./dist-esm/src/defaultHttpClient.browser.js",
-    "./dist-esm/src/util/inspect.js": "./dist-esm/src/util/inspect.browser.js",
-    "./dist-esm/src/util/url.js": "./dist-esm/src/util/url.browser.js"
+    "./dist-esm/src/util/inspect.js": "./dist-esm/src/util/inspect.browser.js"
   },
   "react-native": {
-    "./dist/index.js": "./dist-esm/src/coreHttp.js"
+    "./dist/index.js": "./dist-esm/src/coreHttp.js",
+    "./dist-esm/src/util/xml.js": "./dist-esm/src/util/xml.js",
+    "./dist-esm/src/policies/msRestUserAgentPolicy.js": "./dist-esm/src/policies/msRestUserAgentPolicy.native.js"
   },
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-http/README.md",
@@ -75,7 +76,7 @@
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
     "execute:samples": "echo skipped",
     "extract-api": "tsc -p tsconfig.es.json && api-extractor run --local",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -134,7 +135,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/logger-js": "^1.0.2",
-    "@microsoft/api-extractor": "^7.18.11",
+    "@microsoft/api-extractor": "7.18.11",
     "@opentelemetry/api": "^1.0.1",
     "@types/chai": "^4.1.6",
     "@types/express": "^4.16.0",
@@ -144,7 +145,7 @@
     "@types/sinon": "^9.0.4",
     "@types/tough-cookie": "^4.0.0",
     "@types/uuid": "^8.0.0",
-    "@types/xml2js": "^0.4.3",
+    "@types/xml2js": "^0.4.11",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "downlevel-dts": "^0.8.0",
@@ -170,7 +171,7 @@
     "shx": "^0.3.2",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~4.2.0",
+    "typescript": "~4.6.0",
     "uglify-js": "^3.4.9",
     "xhr-mock": "^2.4.1"
   }

@@ -445,7 +445,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           try {
             await client.recognizeEntities(allInputs);
             assert.fail("Oops, an exception didn't happen.");
-          } catch (e) {
+          } catch (e: any) {
             assert.equal(e.statusCode, 400);
             assert.equal(e.code, "InvalidDocumentBatch");
             assert.equal(
@@ -721,7 +721,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           try {
             await client.recognizeEntities(allInputs);
             assert.fail("Oops, an exception didn't happen.");
-          } catch (e) {
+          } catch (e: any) {
             assert.equal(e.statusCode, 400);
             assert.equal(e.code, "InvalidDocumentBatch");
             assert.equal(
@@ -1582,7 +1582,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               }
             );
             await poller.pollUntilDone();
-          } catch (e) {
+          } catch (e: any) {
             assert.equal(e.statusCode, 400);
           }
         });
@@ -2231,7 +2231,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               }
             );
             throw new Error("Expected an error to occur");
-          } catch (e) {
+          } catch (e: any) {
             assert.equal(e.statusCode, 400);
             assert.equal(e.code, "InvalidRequest");
           }
@@ -2260,7 +2260,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 2
               )}`
             );
-          } catch (e) {
+          } catch (e: any) {
             assert.equal(e.code, "InvalidRequest");
             assert.include(e.message, "Duplicate task name");
           }
@@ -2493,7 +2493,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             });
             assert.fail("Oops, an exception didn't happen.");
-          } catch (e) {
+          } catch (e: any) {
             assert.equal(e.statusCode, 400);
             assert.equal(e.code, "InvalidDocumentBatch");
             assert.equal(
@@ -2524,7 +2524,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             });
             assert.fail("Oops, an exception didn't happen.");
-          } catch (e) {
+          } catch (e: any) {
             assert.equal(e.statusCode, 413);
             assert.equal(e.code, "InvalidDocumentBatch");
             assert.equal(
@@ -2716,7 +2716,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             });
             assert.fail("Oops, an exception didn't happen.");
-          } catch (e) {
+          } catch (e: any) {
             assert.equal(e.code, "ModelVersionIncorrect");
           }
         });
@@ -2770,7 +2770,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               updateIntervalInMs: pollingInterval,
             });
             assert.fail("Oops, an exception didn't happen.");
-          } catch (e) {
+          } catch (e: any) {
             assert.equal(e.code, "InvalidRequest");
           }
         });

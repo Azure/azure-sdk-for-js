@@ -105,7 +105,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     let error;
     try {
       await serviceClientWithSAS.listFileSystems().next();
-    } catch (err) {
+    } catch (err: any) {
       error = err;
     }
 
@@ -139,7 +139,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     let error;
     try {
       await serviceClientWithSAS.listFileSystems().next();
-    } catch (err) {
+    } catch (err: any) {
       error = err;
     }
 
@@ -176,7 +176,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     let error;
     try {
       await serviceClientWithSAS.listFileSystems().next();
-    } catch (err) {
+    } catch (err: any) {
       error = err;
     }
 
@@ -840,7 +840,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     let exceptionCaught = false;
     try {
       serviceClientWithSAS.generateAccountSasUrl();
-    } catch (err) {
+    } catch (err: any) {
       assert.ok(err instanceof RangeError);
       exceptionCaught = true;
     }
@@ -891,7 +891,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     let exceptionCaught = false;
     try {
       await fileSystemClientWithSAS.generateSasUrl({});
-    } catch (err) {
+    } catch (err: any) {
       assert.ok(err instanceof RangeError);
       exceptionCaught = true;
     }
@@ -1136,7 +1136,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
     let exceptionCaught = false;
     try {
       await directoryClientWithSAS.generateSasUrl({});
-    } catch (err) {
+    } catch (err: any) {
       assert.ok(err instanceof RangeError);
       exceptionCaught = true;
     }
@@ -1167,7 +1167,7 @@ describe("SAS generation Node.js only for directory SAS", () => {
     let exceptionCaught = false;
     try {
       await fileClientWithSAS.generateSasUrl({});
-    } catch (err) {
+    } catch (err: any) {
       assert.ok(err instanceof RangeError);
       exceptionCaught = true;
     }
@@ -1250,7 +1250,7 @@ describe("SAS generation Node.js only for delegation SAS", () => {
     accountName = process.env["DFS_ACCOUNT_NAME"] || "";
     try {
       oauthServiceClient = getDataLakeServiceClientWithDefaultCredential();
-    } catch (err) {
+    } catch (err: any) {
       console.log(err);
       this.skip();
     }
@@ -1353,7 +1353,7 @@ describe("SAS generation Node.js only for delegation SAS", () => {
     const newFileClientWithSAS2 = new DataLakeFileClient(`${newFileClient.url}?${fileSystemSAS2}`);
     try {
       await newFileClientWithSAS2.createIfNotExists();
-    } catch (err) {
+    } catch (err: any) {
       assert.deepStrictEqual(err.details.errorCode, "AuthorizationPermissionMismatch");
     }
 

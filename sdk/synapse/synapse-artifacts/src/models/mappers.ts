@@ -8,6 +8,661 @@
 
 import * as coreClient from "@azure/core-client";
 
+export const LinkConnectionListResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LinkConnectionListResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LinkConnectionResource"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LinkConnectionResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LinkConnectionResource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "LinkConnection"
+        }
+      }
+    }
+  }
+};
+
+export const LinkConnection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LinkConnection",
+    modelProperties: {
+      sourceDatabase: {
+        serializedName: "sourceDatabase",
+        type: {
+          name: "Composite",
+          className: "LinkConnectionSourceDatabase"
+        }
+      },
+      targetDatabase: {
+        serializedName: "targetDatabase",
+        type: {
+          name: "Composite",
+          className: "LinkConnectionTargetDatabase"
+        }
+      },
+      landingZone: {
+        serializedName: "landingZone",
+        type: {
+          name: "Composite",
+          className: "LinkConnectionLandingZone"
+        }
+      },
+      compute: {
+        serializedName: "compute",
+        type: {
+          name: "Composite",
+          className: "LinkConnectionCompute"
+        }
+      }
+    }
+  }
+};
+
+export const LinkConnectionSourceDatabase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LinkConnectionSourceDatabase",
+    modelProperties: {
+      linkedService: {
+        serializedName: "linkedService",
+        type: {
+          name: "Composite",
+          className: "LinkedServiceReference"
+        }
+      },
+      typeProperties: {
+        serializedName: "typeProperties",
+        type: {
+          name: "Composite",
+          className: "LinkConnectionSourceDatabaseTypeProperties"
+        }
+      }
+    }
+  }
+};
+
+export const LinkedServiceReference: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LinkedServiceReference",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      referenceName: {
+        serializedName: "referenceName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const LinkConnectionSourceDatabaseTypeProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LinkConnectionSourceDatabaseTypeProperties",
+    modelProperties: {
+      resourceId: {
+        serializedName: "resourceId",
+        type: {
+          name: "String"
+        }
+      },
+      principalId: {
+        serializedName: "principalId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LinkConnectionTargetDatabase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LinkConnectionTargetDatabase",
+    modelProperties: {
+      linkedService: {
+        serializedName: "linkedService",
+        type: {
+          name: "Composite",
+          className: "LinkedServiceReference"
+        }
+      }
+    }
+  }
+};
+
+export const LinkConnectionLandingZone: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LinkConnectionLandingZone",
+    modelProperties: {
+      linkedService: {
+        serializedName: "linkedService",
+        type: {
+          name: "Composite",
+          className: "LinkedServiceReference"
+        }
+      },
+      fileSystem: {
+        serializedName: "fileSystem",
+        type: {
+          name: "String"
+        }
+      },
+      folderPath: {
+        serializedName: "folderPath",
+        type: {
+          name: "String"
+        }
+      },
+      sasToken: {
+        serializedName: "sasToken",
+        type: {
+          name: "Composite",
+          className: "SecureString"
+        }
+      }
+    }
+  }
+};
+
+export const SecretBase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SecretBase",
+    uberParent: "SecretBase",
+    polymorphicDiscriminator: {
+      serializedName: "type",
+      clientName: "type"
+    },
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LinkConnectionCompute: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LinkConnectionCompute",
+    modelProperties: {
+      coreCount: {
+        serializedName: "coreCount",
+        type: {
+          name: "Number"
+        }
+      },
+      computeType: {
+        serializedName: "computeType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CloudError: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CloudError",
+    modelProperties: {
+      code: {
+        serializedName: "error.code",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "error.message",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "error.target",
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "error.details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CloudError"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const EditTablesRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EditTablesRequest",
+    modelProperties: {
+      linkTables: {
+        serializedName: "linkTables",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LinkTableRequest"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const LinkTableRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LinkTableRequest",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      source: {
+        serializedName: "source",
+        type: {
+          name: "Composite",
+          className: "LinkTableRequestSource"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "Composite",
+          className: "LinkTableRequestTarget"
+        }
+      },
+      operationType: {
+        serializedName: "operationType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LinkTableRequestSource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LinkTableRequestSource",
+    modelProperties: {
+      tableName: {
+        serializedName: "tableName",
+        type: {
+          name: "String"
+        }
+      },
+      schemaName: {
+        serializedName: "schemaName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LinkTableRequestTarget: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LinkTableRequestTarget",
+    modelProperties: {
+      tableName: {
+        serializedName: "tableName",
+        type: {
+          name: "String"
+        }
+      },
+      schemaName: {
+        serializedName: "schemaName",
+        type: {
+          name: "String"
+        }
+      },
+      distributionOptions: {
+        serializedName: "distributionOptions",
+        type: {
+          name: "Composite",
+          className: "LinkTableRequestTargetDistributionOptions"
+        }
+      }
+    }
+  }
+};
+
+export const LinkTableRequestTargetDistributionOptions: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LinkTableRequestTargetDistributionOptions",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      distributionColumn: {
+        serializedName: "distributionColumn",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const LinkConnectionDetailedStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LinkConnectionDetailedStatus",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      isApplyingChanges: {
+        serializedName: "isApplyingChanges",
+        type: {
+          name: "Boolean"
+        }
+      },
+      isPartiallyFailed: {
+        serializedName: "isPartiallyFailed",
+        type: {
+          name: "Boolean"
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
+        type: {
+          name: "any"
+        }
+      },
+      stopTime: {
+        serializedName: "stopTime",
+        type: {
+          name: "any"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      continuousRunId: {
+        serializedName: "continuousRunId",
+        type: {
+          name: "String"
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "any"
+        }
+      }
+    }
+  }
+};
+
+export const LinkTableListResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LinkTableListResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LinkTableResource"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const LinkTableResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LinkTableResource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      source: {
+        serializedName: "source",
+        type: {
+          name: "Composite",
+          className: "LinkTableRequestSource"
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "Composite",
+          className: "LinkTableRequestTarget"
+        }
+      }
+    }
+  }
+};
+
+export const QueryTableStatusRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "QueryTableStatusRequest",
+    modelProperties: {
+      maxSegmentCount: {
+        serializedName: "maxSegmentCount",
+        type: {
+          name: "Number"
+        }
+      },
+      continuationToken: {
+        serializedName: "continuationToken",
+        type: {
+          name: "any"
+        }
+      }
+    }
+  }
+};
+
+export const LinkConnectionQueryTableStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LinkConnectionQueryTableStatus",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LinkTableStatus"
+            }
+          }
+        }
+      },
+      continuationToken: {
+        serializedName: "continuationToken",
+        type: {
+          name: "any"
+        }
+      }
+    }
+  }
+};
+
+export const LinkTableStatus: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LinkTableStatus",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      errorMessage: {
+        serializedName: "errorMessage",
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
+        type: {
+          name: "any"
+        }
+      },
+      stopTime: {
+        serializedName: "stopTime",
+        type: {
+          name: "any"
+        }
+      }
+    }
+  }
+};
+
+export const UpdateLandingZoneCredential: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UpdateLandingZoneCredential",
+    modelProperties: {
+      sasToken: {
+        serializedName: "sasToken",
+        type: {
+          name: "Composite",
+          className: "SecureString"
+        }
+      }
+    }
+  }
+};
+
 export const KqlScriptsResourceCollectionResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -471,47 +1126,6 @@ export const Resource: coreClient.CompositeMapper = {
   }
 };
 
-export const CloudError: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CloudError",
-    modelProperties: {
-      code: {
-        serializedName: "error.code",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "error.message",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        serializedName: "error.target",
-        type: {
-          name: "String"
-        }
-      },
-      details: {
-        serializedName: "error.details",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "CloudError"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
 export const BigDataPoolResourceInfoListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -737,47 +1351,6 @@ export const DataFlowFolder: coreClient.CompositeMapper = {
         serializedName: "name",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CloudErrorAutoGenerated: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "CloudErrorAutoGenerated",
-    modelProperties: {
-      code: {
-        serializedName: "error.code",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "error.message",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        serializedName: "error.target",
-        type: {
-          name: "String"
-        }
-      },
-      details: {
-        serializedName: "error.details",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "CloudErrorAutoGenerated"
-            }
-          }
         }
       }
     }
@@ -1138,36 +1711,6 @@ export const Dataset: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DatasetFolder"
-        }
-      }
-    }
-  }
-};
-
-export const LinkedServiceReference: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "LinkedServiceReference",
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      referenceName: {
-        serializedName: "referenceName",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      parameters: {
-        serializedName: "parameters",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } }
         }
       }
     }
@@ -1795,7 +2338,7 @@ export const OperationResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "CloudErrorAutoGenerated"
+              className: "CloudError"
             }
           }
         }
@@ -4262,27 +4805,6 @@ export const Expression: coreClient.CompositeMapper = {
       },
       value: {
         serializedName: "value",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const SecretBase: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SecretBase",
-    uberParent: "SecretBase",
-    polymorphicDiscriminator: {
-      serializedName: "type",
-      clientName: "type"
-    },
-    modelProperties: {
-      type: {
-        serializedName: "type",
         required: true,
         type: {
           name: "String"
@@ -7271,6 +7793,59 @@ export const LinkedIntegrationRuntimeType: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SecureString: coreClient.CompositeMapper = {
+  serializedName: "SecureString",
+  type: {
+    name: "Composite",
+    className: "SecureString",
+    uberParent: "SecretBase",
+    polymorphicDiscriminator: SecretBase.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...SecretBase.type.modelProperties,
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureKeyVaultSecretReference: coreClient.CompositeMapper = {
+  serializedName: "AzureKeyVaultSecret",
+  type: {
+    name: "Composite",
+    className: "AzureKeyVaultSecretReference",
+    uberParent: "SecretBase",
+    polymorphicDiscriminator: SecretBase.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...SecretBase.type.modelProperties,
+      store: {
+        serializedName: "store",
+        type: {
+          name: "Composite",
+          className: "LinkedServiceReference"
+        }
+      },
+      secretName: {
+        serializedName: "secretName",
+        required: true,
+        type: {
+          name: "any"
+        }
+      },
+      secretVersion: {
+        serializedName: "secretVersion",
+        type: {
+          name: "any"
         }
       }
     }
@@ -16606,59 +17181,6 @@ export const ChainingTrigger: coreClient.CompositeMapper = {
   }
 };
 
-export const SecureString: coreClient.CompositeMapper = {
-  serializedName: "SecureString",
-  type: {
-    name: "Composite",
-    className: "SecureString",
-    uberParent: "SecretBase",
-    polymorphicDiscriminator: SecretBase.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...SecretBase.type.modelProperties,
-      value: {
-        serializedName: "value",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AzureKeyVaultSecretReference: coreClient.CompositeMapper = {
-  serializedName: "AzureKeyVaultSecret",
-  type: {
-    name: "Composite",
-    className: "AzureKeyVaultSecretReference",
-    uberParent: "SecretBase",
-    polymorphicDiscriminator: SecretBase.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...SecretBase.type.modelProperties,
-      store: {
-        serializedName: "store",
-        type: {
-          name: "Composite",
-          className: "LinkedServiceReference"
-        }
-      },
-      secretName: {
-        serializedName: "secretName",
-        required: true,
-        type: {
-          name: "any"
-        }
-      },
-      secretVersion: {
-        serializedName: "secretVersion",
-        type: {
-          name: "any"
-        }
-      }
-    }
-  }
-};
-
 export const DataFlowSource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -22451,10 +22973,7 @@ export const SqlServerStoredProcedureActivity: coreClient.CompositeMapper = {
       storedProcedureParameters: {
         serializedName: "typeProperties.storedProcedureParameters",
         type: {
-          name: "Dictionary",
-          value: {
-            type: { name: "Composite", className: "StoredProcedureParameter" }
-          }
+          name: "any"
         }
       }
     }
@@ -25228,13 +25747,13 @@ export const DataFlowDebugSessionExecuteCommandHeaders: coreClient.CompositeMapp
 };
 
 export let discriminators = {
+  SecretBase: SecretBase,
   DataFlow: DataFlow,
   IntegrationRuntime: IntegrationRuntime,
   Dataset: Dataset,
   LinkedService: LinkedService,
   Activity: Activity,
   Trigger: Trigger,
-  SecretBase: SecretBase,
   DatasetLocation: DatasetLocation,
   DatasetStorageFormat: DatasetStorageFormat,
   WebLinkedServiceTypeProperties: WebLinkedServiceTypeProperties,
@@ -25251,6 +25770,8 @@ export let discriminators = {
   DependencyReference: DependencyReference,
   "CustomSetupBase.undefined": CustomSetupBase,
   LinkedIntegrationRuntimeType: LinkedIntegrationRuntimeType,
+  "SecretBase.SecureString": SecureString,
+  "SecretBase.AzureKeyVaultSecret": AzureKeyVaultSecretReference,
   "DataFlow.MappingDataFlow": MappingDataFlow,
   "DataFlow.Flowlet": Flowlet,
   "IntegrationRuntime.Managed": ManagedIntegrationRuntime,
@@ -25461,8 +25982,6 @@ export let discriminators = {
   "Trigger.MultiplePipelineTrigger": MultiplePipelineTrigger,
   "Trigger.TumblingWindowTrigger": TumblingWindowTrigger,
   "Trigger.ChainingTrigger": ChainingTrigger,
-  "SecretBase.SecureString": SecureString,
-  "SecretBase.AzureKeyVaultSecret": AzureKeyVaultSecretReference,
   "DatasetLocation.AzureBlobStorageLocation": AzureBlobStorageLocation,
   "DatasetLocation.AzureBlobFSLocation": AzureBlobFSLocation,
   "DatasetLocation.AzureDataLakeStoreLocation": AzureDataLakeStoreLocation,

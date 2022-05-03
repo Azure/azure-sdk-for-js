@@ -406,7 +406,7 @@ describe("Send Batch", () => {
       let errorIsThrown = false;
       try {
         await sender.createMessageBatch({ maxSizeInBytes });
-      } catch (error) {
+      } catch (error: any) {
         const maxSize = await (sender as ServiceBusSenderImpl)["_sender"].getMaxMessageSize();
         should.equal(
           error.message,
@@ -445,7 +445,7 @@ describe("Send Batch", () => {
         } as OperationOptions
       );
       should.fail("Should have thrown - the batch is too big");
-    } catch (err) {
+    } catch (err: any) {
       should.equal(
         "Messages were too big to fit in a single batch. Remove some messages and try again or create your own batch using createBatch(), which gives more fine-grained control.",
         err.message

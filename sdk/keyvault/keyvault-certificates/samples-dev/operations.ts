@@ -53,7 +53,7 @@ export async function main(): Promise<void> {
   try {
     await client.getCertificateOperation(certificateName);
     throw Error("Expecting an error but not catching one.");
-  } catch (e) {
+  } catch (e: any) {
     error = e;
   }
   console.log(error.message); // Pending certificate not found

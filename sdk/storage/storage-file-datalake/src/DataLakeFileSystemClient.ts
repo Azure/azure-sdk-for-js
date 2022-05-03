@@ -45,7 +45,11 @@ import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import { toContainerPublicAccessType, toPublicAccessType, toPermissions } from "./transforms";
 import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
-import { appendToURLPath, appendToURLQuery } from "./utils/utils.common";
+import {
+  appendToURLPath,
+  appendToURLQuery,
+  windowsFileTimeTicksToTime,
+} from "./utils/utils.common";
 import { DataLakeFileClient, DataLakeDirectoryClient } from "./clients";
 import { generateDataLakeSASQueryParameters } from "./sas/DataLakeSASSignatureValues";
 import { DeletionIdKey, PathResultTypeConstants } from "./utils/constants";
@@ -191,7 +195,7 @@ export class DataLakeFileSystemClient extends StorageClient {
         access: toContainerPublicAccessType(options.access),
         tracingOptions: updatedOptions.tracingOptions,
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -223,7 +227,7 @@ export class DataLakeFileSystemClient extends StorageClient {
         access: toContainerPublicAccessType(options.access),
         tracingOptions: updatedOptions.tracingOptions,
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -247,7 +251,7 @@ export class DataLakeFileSystemClient extends StorageClient {
     const { span, updatedOptions } = createSpan("DataLakeFileSystemClient-exists", options);
     try {
       return await this.blobContainerClient.exists(updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -272,7 +276,7 @@ export class DataLakeFileSystemClient extends StorageClient {
         ...options,
         tracingOptions: updatedOptions.tracingOptions,
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -296,7 +300,7 @@ export class DataLakeFileSystemClient extends StorageClient {
     const { span, updatedOptions } = createSpan("DataLakeFileSystemClient-deleteIfExists", options);
     try {
       return await this.blobContainerClient.deleteIfExists(updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -340,7 +344,7 @@ export class DataLakeFileSystemClient extends StorageClient {
       delete rawResponse._response.parsedHeaders.blobPublicAccess;
 
       return response;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -373,7 +377,7 @@ export class DataLakeFileSystemClient extends StorageClient {
         ...options,
         tracingOptions: updatedOptions.tracingOptions,
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -418,7 +422,7 @@ export class DataLakeFileSystemClient extends StorageClient {
       delete rawResponse._response.parsedHeaders.blobPublicAccess;
 
       return response;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -461,7 +465,7 @@ export class DataLakeFileSystemClient extends StorageClient {
           tracingOptions: updatedOptions.tracingOptions,
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -607,12 +611,14 @@ export class DataLakeFileSystemClient extends StorageClient {
         response.pathItems.push({
           ...path,
           permissions: toPermissions(path.permissions),
+          createdOn: windowsFileTimeTicksToTime(path.creationTime),
+          expiresOn: windowsFileTimeTicksToTime(path.expiryTime),
         });
       }
       delete rawResponse.paths;
 
       return response;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -767,7 +773,7 @@ export class DataLakeFileSystemClient extends StorageClient {
       }
 
       return response;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -818,7 +824,7 @@ export class DataLakeFileSystemClient extends StorageClient {
           ...rawResponse,
         };
       }
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

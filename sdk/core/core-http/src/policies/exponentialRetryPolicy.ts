@@ -182,7 +182,7 @@ async function retry(
       await delay(retryData.retryInterval);
       const res = await policy._nextPolicy.sendRequest(request.clone());
       return retry(policy, request, res, retryData);
-    } catch (err) {
+    } catch (err: any) {
       return retry(policy, request, response, retryData, err);
     }
   } else if (isAborted || requestError || !response) {

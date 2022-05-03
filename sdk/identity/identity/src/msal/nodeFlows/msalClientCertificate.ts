@@ -125,7 +125,7 @@ export class MsalClientCertificate extends MsalNode {
         privateKey: parts.certificateContents,
         x5c: parts.x5c,
       };
-    } catch (error) {
+    } catch (error: any) {
       this.logger.info(formatError("", error));
       throw error;
     }
@@ -148,7 +148,7 @@ export class MsalClientCertificate extends MsalNode {
       // The Client Credential flow does not return the account information from the authentication service,
       // so each time getToken gets called, we will have to acquire a new token through the service.
       return this.handleResult(scopes, this.clientId, result || undefined);
-    } catch (err) {
+    } catch (err: any) {
       throw this.handleError(scopes, err, options);
     }
   }

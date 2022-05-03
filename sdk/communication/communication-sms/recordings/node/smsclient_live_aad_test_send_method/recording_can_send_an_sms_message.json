@@ -1,0 +1,56 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/sms?api-version=2021-03-07",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "230",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-communication-sms/1.2.0-beta.1 core-rest-pipeline/1.8.0 Node/v14.17.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "ecfa6014-9edc-46bc-ad07-ff0b2494b056"
+      },
+      "RequestBody": {
+        "from": "\u002B14255550123",
+        "smsRecipients": [
+          {
+            "to": "\u002B14255550123",
+            "repeatabilityRequestId": "sanitized",
+            "repeatabilityFirstSent": "Thu, 01 Jan 1970 00:00:00 GMT"
+          }
+        ],
+        "message": "test message",
+        "smsSendOptions": {
+          "enableDeliveryReport": false
+        }
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 25 Apr 2022 01:04:03 GMT",
+        "MS-CV": "WMeHaE0XCE\u002Bxz6\u002B5JXJoBg.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0g/NlYgAAAABhQXJLo/4YSZSYiyDhd5j4V1NURURHRTA4MTUAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "373ms"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "to": "\u002B14255550123",
+            "messageId": "Outgoing_20220425010403db590b8e-dddd-4db5-99d1-7e421299f176_noam",
+            "httpStatusCode": 202,
+            "repeatabilityResult": "accepted",
+            "successful": true
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

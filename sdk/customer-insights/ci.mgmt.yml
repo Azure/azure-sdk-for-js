@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -9,7 +9,7 @@ trigger:
   paths:
     include:
       - sdk/customer-insights/ci.mgmt.yml
-      - sdk/customer-insights/arm-customerinsights/
+      - sdk/customer-insights/arm-customerinsights
 pr:
   branches:
     include:
@@ -22,12 +22,11 @@ pr:
   paths:
     include:
       - sdk/customer-insights/ci.mgmt.yml
-      - sdk/customer-insights/arm-customerinsights/
-
+      - sdk/customer-insights/arm-customerinsights
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: customer-insights
     Artifacts:
       - name: azure-arm-customerinsights
-        safeName: azurearmcustomerinsights      
+        safeName: azurearmcustomerinsights

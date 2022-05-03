@@ -128,7 +128,7 @@ export class ChatClient {
         updatedRestModelOptions
       );
       return mapToCreateChatThreadResultSdkModel(result);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -194,7 +194,7 @@ export class ChatClient {
           return this.listChatThreadsPage(settings, updatedOptions);
         },
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -218,7 +218,7 @@ export class ChatClient {
 
     try {
       await this.client.chat.deleteChatThread(threadId, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

@@ -425,7 +425,7 @@ export function getAccountNameFromUrl(url: string): string {
       accountName = "";
     }
     return accountName;
-  } catch (error) {
+  } catch (error: any) {
     throw new Error("Unable to extract accountName with provided information.");
   }
 }
@@ -503,7 +503,7 @@ export function getShareNameAndPathFromUrl(url: string): {
     } else {
       return { baseName, shareName, path };
     }
-  } catch (error) {
+  } catch (error: any) {
     throw new Error(
       "Unable to extract shareName and filePath/directoryPath with provided information."
     );

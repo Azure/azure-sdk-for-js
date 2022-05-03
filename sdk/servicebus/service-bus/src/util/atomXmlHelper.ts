@@ -108,7 +108,7 @@ export async function executeAtomXmlOperation(
         includeRoot: true,
       });
     }
-  } catch (err) {
+  } catch (err: any) {
     const error = new RestError(
       `Error occurred while parsing the response body - expected the service to return valid xml content.`,
       {

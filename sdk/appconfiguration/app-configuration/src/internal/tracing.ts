@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { createTracingClient } from "@azure/core-tracing";
-import { packageVersion } from "../appConfigurationClient";
+import { packageVersion } from "./constants";
 
 /** @internal */
 export const tracingClient = createTracingClient({

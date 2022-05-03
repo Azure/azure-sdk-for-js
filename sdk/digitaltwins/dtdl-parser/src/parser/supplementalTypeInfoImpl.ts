@@ -20,7 +20,6 @@ import { ParsedObjectPropertyInfo } from "./internal";
 import { EntityKinds } from "./internal";
 import { Model } from "./internal";
 import { ExtensionKind } from "./internal";
-import { URL } from "../utils/url";
 /**
  * Class that provides information about a type is not materialized as a TS class.
  **/

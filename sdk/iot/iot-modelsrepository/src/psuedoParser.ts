@@ -56,7 +56,7 @@ export class PseudoParser {
           dependenciesToResolve,
           tryFromExpanded
         );
-      } catch (e) {
+      } catch (e: any) {
         if (e instanceof RestError) {
           resolvedDependenciesMap = await this._resolver.resolve(dependenciesToResolve, false);
         } else {

@@ -3,9 +3,8 @@
 
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
 import { Recorder, RecorderStartOptions, SanitizerOptions, env } from "@azure-tools/test-recorder";
-import { TableClient, TableServiceClient } from "../../../src";
+import { TableClient, TableServiceClient, TableServiceClientOptions } from "../../../src";
 
-import { ServiceClientOptions } from "@azure/core-client";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 const mockAccountName = "fakeaccountname";
@@ -53,12 +52,12 @@ export async function createTableClient(
   mode: CreateClientMode = "SASConnectionString",
   recorder?: Recorder
 ): Promise<TableClient> {
-  let options: ServiceClientOptions | undefined;
+  let options: TableServiceClientOptions = {};
 
   if (recorder) {
     await recorder.start(recorderOptions);
     await recorder.setMatcher("HeaderlessMatcher");
-    options = recorder.configureClientOptions({ allowInsecureConnection: true });
+    options = { ...options, ...recorder.configureClientOptions({ allowInsecureConnection: true }) };
   }
 
   let client: TableClient;
@@ -135,12 +134,12 @@ export async function createTableServiceClient(
   mode: CreateClientMode = "SASConnectionString",
   recorder?: Recorder
 ): Promise<TableServiceClient> {
-  let options: ServiceClientOptions | undefined;
+  let options: TableServiceClientOptions = {};
 
   if (recorder) {
     await recorder.start(recorderOptions);
     await recorder.setMatcher("HeaderlessMatcher");
-    options = recorder.configureClientOptions({ allowInsecureConnection: true });
+    options = { ...options, ...recorder.configureClientOptions({ allowInsecureConnection: true }) };
   }
 
   let client: TableServiceClient;
@@ -188,7 +187,10 @@ export async function createTableServiceClient(
       }
 
       const credential = createTestCredential();
-      client = new TableServiceClient(env.TABLES_URL ?? "", credential, options);
+      client = new TableServiceClient(env.TABLES_URL ?? "", credential, {
+        ...options,
+        version: "2020-12-06",
+      });
       break;
     }
 

@@ -454,7 +454,7 @@ export class Items {
             response.result.forEach((operationResponse: OperationResponse, index: number) => {
               orderedResponses[batch.indexes[index]] = operationResponse;
             });
-          } catch (err) {
+          } catch (err: any) {
             // In the case of 410 errors, we need to recompute the partition key ranges
             // and redo the batch request, however, 410 errors occur for unsupported
             // partition key types as well since we don't support them, so for now we throw
@@ -518,7 +518,7 @@ export class Items {
         options,
       });
       return response;
-    } catch (err) {
+    } catch (err: any) {
       throw new Error(`Batch request error: ${err.message}`);
     }
   }

@@ -187,7 +187,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
       };
       this.sandbox.replace(providerObject, "request", fakeRequest);
       this.sandbox.replace(providerObject.Agent.prototype as any, "request", fakeRequest);
-    } catch (e) {
+    } catch (e: any) {
       console.debug(
         "Failed to replace the request. This might be expected if you're running multiple sendCredentialRequests() calls."
       );
@@ -278,7 +278,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
       // All the errors will be safely be caught by the try surrounding the getToken request.
       this.clock.runAllAsync();
       result = await credential.getToken(scopes, getTokenOptions);
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
 

@@ -234,7 +234,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       const result = await this._sender.sendBatch(batch, options);
       sendSpan.setStatus({ code: SpanStatusCode.OK });
       return result;
-    } catch (error) {
+    } catch (error: any) {
       sendSpan.setStatus({
         code: SpanStatusCode.ERROR,
         message: error.message,
@@ -350,7 +350,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
     try {
       this._isClosed = true;
       await this._sender.close();
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, `${this.logPrefix} An error occurred while closing the Sender`);
       throw err;
     }

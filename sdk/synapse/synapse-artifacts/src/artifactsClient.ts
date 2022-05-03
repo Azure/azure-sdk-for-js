@@ -9,6 +9,7 @@
 import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
 import {
+  LinkConnectionOperationsImpl,
   KqlScriptsImpl,
   KqlScriptOperationsImpl,
   MetastoreImpl,
@@ -33,6 +34,7 @@ import {
   WorkspaceOperationsImpl
 } from "./operations";
 import {
+  LinkConnectionOperations,
   KqlScripts,
   KqlScriptOperations,
   Metastore,
@@ -89,7 +91,7 @@ export class ArtifactsClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-synapse-artifacts/1.0.0-beta.10`;
+    const packageDetails = `azsdk-js-synapse-artifacts/1.0.0-beta.11`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -104,11 +106,12 @@ export class ArtifactsClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint || "{endpoint}"
+      baseUri: options.endpoint ?? options.baseUri ?? "{endpoint}"
     };
     super(optionsWithDefaults);
     // Parameter assignments
     this.endpoint = endpoint;
+    this.linkConnectionOperations = new LinkConnectionOperationsImpl(this);
     this.kqlScripts = new KqlScriptsImpl(this);
     this.kqlScriptOperations = new KqlScriptOperationsImpl(this);
     this.metastore = new MetastoreImpl(this);
@@ -137,6 +140,7 @@ export class ArtifactsClient extends coreClient.ServiceClient {
     this.workspaceOperations = new WorkspaceOperationsImpl(this);
   }
 
+  linkConnectionOperations: LinkConnectionOperations;
   kqlScripts: KqlScripts;
   kqlScriptOperations: KqlScriptOperations;
   metastore: Metastore;

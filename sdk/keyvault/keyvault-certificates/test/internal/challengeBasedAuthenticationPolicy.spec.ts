@@ -148,7 +148,7 @@ describe("Local Challenge based authentication tests", () => {
 
     try {
       await policy.sendRequest(request);
-    } catch (err) {
+    } catch (err: any) {
       // the next policy throws
     }
 

@@ -77,14 +77,20 @@ export interface BotProperties {
   isCmekEnabled?: boolean;
   /** The CMK Url */
   cmekKeyVaultUrl?: string;
-  /** The CMK encryption status */
-  cmekEncryptionStatus?: string;
+  /**
+   * The CMK encryption status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly cmekEncryptionStatus?: string;
   /** Whether the bot is in an isolated network */
   publicNetworkAccess?: PublicNetworkAccess;
   /** Whether the bot is streaming supported */
   isStreamingSupported?: boolean;
-  /** Whether the bot is developerAppInsightsApiKey set */
-  isDeveloperAppInsightsApiKeySet?: boolean;
+  /**
+   * Whether the bot is developerAppInsightsApiKey set
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDeveloperAppInsightsApiKeySet?: boolean;
   /**
    * Token used to migrate non Azure bot to azure subscription
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1009,6 +1015,12 @@ export type ListChannelWithKeysResponse = BotChannel & {
   resource?: ChannelUnion;
   /** Channel settings */
   setting?: ChannelSettings;
+  /** Provisioning state of the resource */
+  provisioningState?: string;
+  /** Entity tag of the resource */
+  entityTag?: string;
+  /** Changed time of the resource */
+  changedTime?: string;
 };
 
 /** Known values of {@link MsaAppType} that the service accepts. */
@@ -1172,7 +1184,8 @@ export type ChannelName =
   | "DirectLineChannel"
   | "SmsChannel"
   | "LineChannel"
-  | "DirectLineSpeechChannel";
+  | "DirectLineSpeechChannel"
+  | "OutlookChannel";
 /** Defines values for RegenerateKeysChannelName. */
 export type RegenerateKeysChannelName = "WebChatChannel" | "DirectLineChannel";
 /** Defines values for Key. */
