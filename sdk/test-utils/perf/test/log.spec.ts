@@ -22,7 +22,7 @@ export class LogTest extends PerfTest {
     this.secondsPerOperation = 1.0 / (this.parallelIndex + 1);
   }
 
-  public globalSetup() : void {
+  public globalSetup(): void {
     this.log("globalSetup()");
   }
 
@@ -36,12 +36,14 @@ export class LogTest extends PerfTest {
     LogTest.loggedGlobalCompletedOperations++;
   }
 
-  public cleanup() : void {
+  public cleanup(): void {
     this.log(`cleanup() - Completed Operations: ${this.loggedCompletedOperations}`);
   }
 
-  public globalCleanup() : void {
-    this.log(`globalCleanup() - GlobalCompleted Operations: ${LogTest.loggedGlobalCompletedOperations}`);
+  public globalCleanup(): void {
+    this.log(
+      `globalCleanup() - GlobalCompleted Operations: ${LogTest.loggedGlobalCompletedOperations}`
+    );
   }
 
   private log(message: string) {

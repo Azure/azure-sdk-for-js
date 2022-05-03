@@ -39,7 +39,7 @@ const tests: TestDefinition[] = [
   MockReceiverTest,
   MockEventReceiverTest,
   MockEventHubConsumerClientTest,
-  LogTest
+  LogTest,
 ];
 
 // Normalize everything in the array above for export.
