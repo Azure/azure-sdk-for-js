@@ -127,7 +127,8 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       await client.deleteManifest(uploadResult.digest);
     });
 
-    it("can upload OCI manifest stream with tag", async () => {
+    // Tempoarily skip while dealing with recorder issue
+    it.skip("can upload OCI manifest stream with tag", async () => {
       await uploadManifestPrerequisites();
 
       await mockDockerContentDigestHeader();
