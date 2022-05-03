@@ -29,6 +29,14 @@ depending on the requirements for the domain
 .PARAMETER OutputLocation
 Output location for unified reference yml file
 
+.PARAMETER TenantId
+The aad tenant id/object id for ms.author.
+
+.PARAMETER ClientId
+The add client id/application id for ms.author.
+
+.PARAMETER ClientSecret
+The client secret of add app for ms.author.
 #>
 
 param(
@@ -36,7 +44,16 @@ param(
   [string] $DocRepoLocation,
 
   [Parameter(Mandatory = $true)]
-  [string] $OutputLocation
+  [string] $OutputLocation,
+
+  [Parameter(Mandatory = $false)]
+  [string]$TenantId,
+
+  [Parameter(Mandatory = $false)]
+  [string]$ClientId,
+
+  [Parameter(Mandatory = $false)]
+  [string]$ClientSecret
 )
 . $PSScriptRoot/common.ps1
 . $PSScriptRoot/Helpers/PSModule-Helpers.ps1
@@ -129,11 +146,12 @@ function update-service-readme($serviceBaseName, $readmePath, $moniker, $clientP
     $author = "sima-zhu"
     $msauthor = "sizhu"
   }
-  else {
+  elseif ($TenantId -and $ClientId -and $ClientSecret) {
     $msauthor = GetMsAliasFromGithub -TenantId $TenantId -ClientId $ClientId -ClientSecret $ClientSecret -GithubUser $author
   }
   # Default value
   if (!$msauthor) {
+    LogWarning "No ms.author found for $author. Please check your app credential."
     $msauthor = $author
   }
   $date = Get-Date -Format "MM/dd/yyyy"
@@ -302,7 +320,7 @@ foreach ($service in $serviceNameList) {
       LogWarning "Uncategorized package for service: $service - $($package.Package). Package not onboarded."
     }
   }
-  
+
   $serviceReadmeBaseName = $service.ToLower().Replace(' ', '-').Replace('/', '-')
   $hrefPrefix = "~/docs-ref-services"
 
