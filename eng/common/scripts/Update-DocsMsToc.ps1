@@ -140,7 +140,7 @@ function update-service-readme($serviceBaseName, $readmePath, $moniker, $clientP
   $langDescription = "Reference for Azure $serviceName SDK for $lang"
   $githubUrl = &$GetLanguageGithubUrlFn
   # Github url for source code: e.g. https://github.com/Azure/azure-sdk-for-js
-  $author = GetPrimaryCodeOwner -TargetDirectory "sdk/$serviceBaseName"
+  $author = GetPrimaryCodeOwner -TargetDirectory "/sdk/$serviceBaseName"
   if (!$author) {
     LogError "Cannot fetch the author from CODEOWNER file."
     $author = "sima-zhu"
