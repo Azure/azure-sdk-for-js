@@ -21,6 +21,7 @@ jobs:
             - ci-configs/
             - metadata/
             - docs-ref-mapping/
+            - docs-ref-services/
           Repositories:
             - Name: $(DocRepoOwner)/$(DocRepoName)
               WorkingDirectory: $(DocRepoLocation)
