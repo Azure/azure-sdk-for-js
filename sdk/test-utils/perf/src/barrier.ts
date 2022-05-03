@@ -56,7 +56,7 @@ export const performStage = async (stage: Stage) => {
 
   // Send messages to all the workers saying everyone is done. We require acknowledgements for these messages so that the
   // manager doesn't continue until all of the workers are guaranteed to have received the completion message. Again,
-  // we start waiting for acknoledgements before broadcasting the completion message so that we don't miss any acks.
+  // we start waiting for acknowledgements before broadcasting the completion message so that we don't miss any acks.
   const allAcked = multicoreUtils.getMessageFromAll(
     (msg) => msg.tag === "barrier" && msg.stage === stage && msg.message === "acknowledgeCompletion"
   );

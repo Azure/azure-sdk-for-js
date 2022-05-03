@@ -155,14 +155,9 @@ export class ManagerPerfProgram implements PerfProgram {
       );
     }
 
-    const baseParallelsPerCpu = Math.floor(parallels / numberOfWorkers);
-    const remainder = parallels % numberOfWorkers;
-
-    const allocations = Array(numberOfWorkers).fill(baseParallelsPerCpu);
-
-    // add the remainder evenly
-    for (let i = 0; i < remainder; ++i) {
-      ++allocations[i];
+    const allocations = Array(numberOfWorkers).fill(0);
+    for (let i = 0; i < parallels; ++i) {
+      ++allocations[i % numberOfWorkers];
     }
 
     let parallelIndexOffset = 0;
