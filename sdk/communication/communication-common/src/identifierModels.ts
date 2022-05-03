@@ -189,6 +189,6 @@ export const createIdentifierFromRawId = (rawId: string): CommunicationIdentifie
   };
 };
 
-export const getRawIdForIdentifier = (identifier: CommunicationIdentifier): string => {
+export const getIdentifierRawId = (identifier: CommunicationIdentifier): string => {
   return typeof identifier; // TODO
 };
