@@ -140,7 +140,7 @@ function update-service-readme($serviceBaseName, $readmePath, $moniker, $clientP
   $langDescription = "Reference for Azure $serviceName SDK for $lang"
   $githubUrl = &$GetLanguageGithubUrlFn
   # Github url for source code: e.g. https://github.com/Azure/azure-sdk-for-js
-  $author = GetPrimaryCodeOwner -TargetDirectory "/sdk/$serviceBaseName"
+  $author = GetPrimaryCodeOwner -TargetDirectory "/sdk/$serviceBaseName/"
   if (!$author) {
     LogError "Cannot fetch the author from CODEOWNER file."
     $author = "sima-zhu"
@@ -203,7 +203,7 @@ function generate-markdown-table($packageInfo, $githubUrl, $moniker) {
     $repositoryLink = &$GetPackageRepostoryFn 
     $packageLevelReame = &$GetPackageLevelReadmeFn -packageMetadata $pkg
     $referenceLink = "javascript/api/overview/azure/$packageLevelReame-readme"
-    $line = "|[$($pkg.DisplayName)]($referenceLink)|[$($pkg.Package)]('$repositoryLink/$($pkg.Package)')|[Github]($($pkg.RepoPath))|`r`n"
+    $line = "|[$($pkg.DisplayName)]($referenceLink)|[$($pkg.Package)]($repositoryLink/$($pkg.Package))|[Github]($($pkg.RepoPath))|`r`n"
     $content += $line
   }
   return $content
