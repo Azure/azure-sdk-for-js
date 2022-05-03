@@ -50,7 +50,8 @@ jobs:
             -OutputLocation $(DocRepoLocation)/docs-ref-mapping/reference-unified.yml
             -TenantId '$(opensource-aad-tenant-id)' 
             -ClientId '$(opensource-aad-app-id)' 
-            -ClientSecret '$(opensource-aad-secret)' 
+            -ClientSecret '$(opensource-aad-secret)'
+            -EnableServiceReadmeGen 
         displayName: Generate ToC
         condition: and(succeeded(), or(eq(variables['Build.Reason'], 'Schedule'), eq(variables['Force.MainUpdate'], 'true')))
 

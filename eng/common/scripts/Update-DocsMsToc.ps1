@@ -53,7 +53,9 @@ param(
   [string]$ClientId,
 
   [Parameter(Mandatory = $false)]
-  [string]$ClientSecret
+  [string]$ClientSecret,
+
+  [switch]$EnableServiceReadmeGen
 )
 . $PSScriptRoot/common.ps1
 . $PSScriptRoot/Helpers/PSModule-Helpers.ps1
@@ -116,10 +118,10 @@ function GetPackageLookup($packageList) {
 function update-service-readme($readmePath, $moniker, $clientPackageInfo, $mgmtPackageInfo, $serviceName)
 {
   # Add metadata header
-  $lang = &$GetLanguageDisplayNameFn
+  $lang = $LanguageDisplayName
   $langTitle = "Azure $serviceName SDK for $lang"
   $langDescription = "Reference for Azure $serviceName SDK for $lang"
-  $githubUrl = &$GetLanguageGithubUrlFn
+  $githubUrl = $GithubUri
   # Github url for source code: e.g. https://github.com/Azure/azure-sdk-for-js
   $serviceBaseName = $serviceName.ToLower().Replace(' ', '').Replace('/', '-')
   $author = GetPrimaryCodeOwner -TargetDirectory "/sdk/$serviceBaseName/"
@@ -201,10 +203,10 @@ function generate-markdown-table($packageInfo, $githubUrl, $moniker) {
   $content = "| Reference | Package | Source |`r`n|---|---|---|`r`n" 
   # Here is the table, the versioned value will
   foreach ($pkg in $packageInfo) {
-    $repositoryLink = &$GetPackageRepostoryFn 
+    $repositoryLink = $RepositoryUri
     $packageLevelReame = &$GetPackageLevelReadmeFn -packageMetadata $pkg
     $referenceLink = "javascript/api/overview/azure/$packageLevelReame-readme"
-    $line = "|[$($pkg.DisplayName)]($referenceLink)|[$($pkg.Package)]($repositoryLink/$($pkg.Package))|[Github]($($pkg.RepoPath))|`r`n"
+    $line = "|[$($pkg.DisplayName)]($referenceLink)|[$($pkg.Package)]($repositoryLink/$($pkg.Package))|[Github]($githubUrl/blob/main/$($pkg.DirectoryPath))|`r`n"
     $content += $line
   }
   return $content
@@ -325,8 +327,10 @@ foreach ($service in $serviceNameList) {
   $serviceReadmeBaseName = $service.ToLower().Replace(' ', '-').Replace('/', '-')
   $hrefPrefix = "docs-ref-services"
 
-  generate-service-level-readme -readmeBaseName $serviceReadmeBaseName -pathPrefix $hrefPrefix `
+  if($EnableServiceReadmeGen) {
+    generate-service-level-readme -readmeBaseName $serviceReadmeBaseName -pathPrefix $hrefPrefix `
     -clientPackageInfo $clientPackages -mgmtPackageInfo $mgmtPackages -serviceName $service
+  }
   $serviceTocEntry = [PSCustomObject]@{
     name            = $service;
     href            = "~/$hrefPrefix/{moniker}/$serviceReadmeBaseName.md"
