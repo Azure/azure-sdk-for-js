@@ -149,12 +149,6 @@ export class ManagerPerfProgram implements PerfProgram {
 
     const numberOfWorkers = Math.min(parallels, cpus);
 
-    if (parallels < cpus) {
-      console.warn(
-        `Warning: number of parallels (${parallels}) is less than the number of CPUs (${cpus}). Tests will only be run on ${numberOfWorkers} CPU(s).`
-      );
-    }
-
     const allocations = Array(numberOfWorkers).fill(0);
     for (let i = 0; i < parallels; ++i) {
       ++allocations[i % numberOfWorkers];
