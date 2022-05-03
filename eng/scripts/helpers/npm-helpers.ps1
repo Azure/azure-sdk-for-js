@@ -71,7 +71,7 @@ function GetNewNpmTags($packageName, $packageVersion)
   $setLatest = $false
   $setNext = $false
   # Set Latest tag if new version is higher than current GA or if package has never GA released before
-  if ((!$newVersion.IsPreRelease) -and ($latestVersion -eq $null -or $newVersion.CompareTo($latestVersion) -eq 1)) {
+  if ((!$newVersion.IsPreRelease) -and ($latestVersion -eq $null -or $newVersion.CompareTo($latestVersion) -ge 0)) {
     $setLatest = $true
   }
 
@@ -81,7 +81,7 @@ function GetNewNpmTags($packageName, $packageVersion)
     $highestNpmVersion = FindRecentPackageVersion -packageName $packageName
     $highestNpmVersion = [AzureEngSemanticVersion]::ParseVersionString($highestNpmVersion)
     # New version is preview and if package is getting released first time or higher than currently available
-    if ($highestNpmVersion -eq $null -or $newVersion.CompareTo($highestNpmVersion) -eq 1)
+    if ($highestNpmVersion -eq $null -or $newVersion.CompareTo($highestNpmVersion) -ge 0)
     {
       $setNext = $true
       # Set latest tag if package was never GA released
@@ -112,22 +112,6 @@ function GetNewNpmTags($packageName, $packageVersion)
   return $result
 }
 
-function GetCurrentNpmTags($packageName, $packageVersion)
-{
-  $newVersion = [AzureEngSemanticVersion]::ParseVersionString($packageVersion)
-  Write-Host "Package name: $packageName"
-  Write-Host "Package version: $packageVersion"
-  Write-Host "Find latest and next versions in npm registry for package"
-
-
-  $npmVersionInfo = GetNpmTagVersions -packageName $packageName
-  $nextVersion = [AzureEngSemanticVersion]::ParseVersionString($npmVersionInfo.next)
-  if ($nextVersion -ne $null -and $newVersion.CompareTo($nextVersion) -eq 0) {
-    return "next"
-  }
-  return "latest"
-}
-
 function CreateTestCase($packageName, $packageVersion, $eTag, $eAdditional) 
 {
   $r = GetNewNpmTags -packageName $packageName -packageVersion $packageVersion
@@ -139,19 +123,6 @@ function CreateTestCase($packageName, $packageVersion, $eTag, $eAdditional)
   }
   else{
     Write-Host "Succeeded test case for $packageName version $packageVersion"
-  }
-}
-
-function CreateCurrentTestCase($packageName, $packageVersion, $tag) 
-{
-  $r = GetCurrentNpmTags -packageName $packageName -packageVersion $packageVersion
-  if ($r -ne $tag)
-  {
-    Write-Error "Failed test case."
-    Write-Host "Extected tag: '$($tag)'' Actual tag: '$($r)'"
-  }
-  else{
-    Write-Host "> Succeeded test case for $packageName version $packageVersion"
   }
 }
 
@@ -176,13 +147,4 @@ function TestNewTags()
     CreateTestCase -packageName "@azure/dummy-new-package" -packageVersion "1.0.0-preview.1" -eTag "latest" -eAdditional "next"
     CreateTestCase -packageName "@azure/arm-apimanagement" -packageVersion "8.0.0-beta.2" -eTag "next" -eAdditional ""
     CreateTestCase -packageName "@azure/arm-apimanagement" -packageVersion "8.0.0" -eTag "latest" -eAdditional ""
-}
-
-
-function TestCurrentTags()
-{
-  CreateCurrentTestCase "@azure/core-http" -packageVersion "2.2.4" -tag "latest"
-  CreateCurrentTestCase "@azure/keyvault-secrets" -packageVersion "4.4.0" -tag "latest"
-  CreateCurrentTestCase "@azure/keyvault-keys" -packageVersion "4.4.0" -tag "latest"
-  CreateCurrentTestCase "@azure/identity" -packageVersion "2.1.0-beta.2" -tag "next"
 }

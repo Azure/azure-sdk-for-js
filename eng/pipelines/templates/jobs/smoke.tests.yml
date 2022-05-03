@@ -157,7 +157,7 @@ jobs:
               Write-Error "Got $packageArtifact.count packages, expecting 1."
               exit 1
             }
-            $result = $(System.DefaultWorkingDirectory)/eng/scripts/get-npm-tags-for-version.ps1 -packageArtifact $packageArtifact -workingDirectory $(System.DefaultWorkingDirectory)/temp
+            $result = $(System.DefaultWorkingDirectory)/eng/scripts/get-npm-tags.ps1 -packageArtifact $packageArtifact -workingDirectory $(System.DefaultWorkingDirectory)/temp
             $packageInfo = Get-Content -Path "$(Pipeline.Workspace)/${{parameters.ArtifactName}}/PackageInfo/${{parameters.Artifact.name}}.json" 
               | ConvertFrom-Json -AsHashtable
 
