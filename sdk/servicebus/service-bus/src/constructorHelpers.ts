@@ -41,9 +41,9 @@ import {
  */
 export interface ServiceBusClientOptions {
   /**
-   * A custom endpoint to use when connecting to the Event Hubs service.
+   * A custom endpoint to use when connecting to the Service Bus service.
    * This can be useful when your network does not allow connecting to the
-   * standard Azure Event Hubs endpoint address, but does allow connecting
+   * standard Azure Service Bus endpoint address, but does allow connecting
    * through an intermediary.
    *
    * Example: "https://my.custom.endpoint:100/"
