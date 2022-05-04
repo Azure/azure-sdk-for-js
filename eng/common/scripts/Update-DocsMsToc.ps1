@@ -206,7 +206,11 @@ function generate-markdown-table($packageInfo, $githubUrl, $moniker) {
     $repositoryLink = $RepositoryUri
     $packageLevelReame = &$GetPackageLevelReadmeFn -packageMetadata $pkg
     $referenceLink = "javascript/api/overview/azure/$packageLevelReame-readme"
-    $line = "|[$($pkg.DisplayName)]($referenceLink)|[$($pkg.Package)]($repositoryLink/$($pkg.Package))|[Github]($githubUrl/blob/main/$($pkg.DirectoryPath))|`r`n"
+    $githubLink = $githubUrl
+    if ($pkg.FileMetadata) {
+      $githubLink = "$githubUrl/blob/main/$($pkg.FileMetadata.DirectoryPath)"
+    }
+    $line = "|[$($pkg.DisplayName)]($referenceLink)|[$($pkg.Package)]($repositoryLink/$($pkg.Package))|[Github]($githubLink)|`r`n"
     $content += $line
   }
   return $content
@@ -328,7 +332,6 @@ foreach ($service in $serviceNameList) {
   $hrefPrefix = "docs-ref-services"
 
   if($EnableServiceReadmeGen) {
-    Write-Host "Hello"
     generate-service-level-readme -readmeBaseName $serviceReadmeBaseName -pathPrefix $hrefPrefix `
     -clientPackageInfo $clientPackages -mgmtPackageInfo $mgmtPackages -serviceName $service
   }
