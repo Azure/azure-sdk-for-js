@@ -197,7 +197,7 @@ export class Recorder {
       const req = createRecordingRequest(startUri, this.sessionFile, this.recordingId);
 
       if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient")) {
-        await setRecordingOptions(Recorder.url, this.httpClient, { HandleRedirects: isNode });
+        await setRecordingOptions(Recorder.url, this.httpClient, { handleRedirects: isNode });
         const rsp = await this.httpClient.sendRequest({
           ...req,
           allowInsecureConnection: true,

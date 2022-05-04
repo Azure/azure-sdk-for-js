@@ -3,15 +3,17 @@ import { paths } from "./utils/paths";
 import { RecorderError } from "./utils/utils";
 
 export type RecordingOptions = {
-  HandleRedirects?: boolean;
+  handleRedirects?: boolean;
 };
 
 export async function setRecordingOptions(
   recorderUrl: string,
   httpClient: HttpClient,
-  options: RecordingOptions
+  { handleRedirects }: RecordingOptions
 ) {
-  const body = JSON.stringify(options);
+  const body = JSON.stringify({
+    HandleRedirects: handleRedirects,
+  });
 
   const request = createPipelineRequest({
     url: `${recorderUrl}${paths.admin}${paths.setRecordingOptions}`,
