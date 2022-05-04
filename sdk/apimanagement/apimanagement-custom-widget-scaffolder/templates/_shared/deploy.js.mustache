@@ -1,0 +1,7 @@
+const deploy = require("scaffold/node/deploy")
+
+const serviceInformation = {{&configDeploy}}
+const name = "{{name}}"
+const fallbackConfigPath = "./static/config.msapim.json"
+
+deploy(serviceInformation, name, fallbackConfigPath)

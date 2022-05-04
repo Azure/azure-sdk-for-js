@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Custom widget</title>
+  <style>
+      input[type=text] {
+          display: block;
+      }
+  </style>
+</head>
+<body>
+<h1>Custom widget</h1>
+<form>
+  <div>
+    <label for="name">Name of your widget:</label>
+    <input id="name" name="name" type="text" required>
+  </div>
+  <div>
+    <p>Choose tech:</p>
+    <input type="radio" name="tech" id="typescript" value="typescript" required>
+    <label for="typescript">TypeScript</label>
+    <input type="radio" name="tech" id="react" value="react">
+    <label for="react">React</label>
+    <input type="radio" name="tech" id="vue" value="vue" disabled>
+    <label for="vue">Vue (coming soon)</label>
+  </div>
+  <!--
+  <div>
+    <p>Choose source control:</p>
+    <input type="radio" name="control" id="git" value="git">
+    <label for="git">GIT</label>
+    <input type="radio" name="control" id="azure" value="azure">
+    <label for="azure">Backup to Azure</label>
+    <input type="radio" name="control" id="none" value="none">
+    <label for="none">Nothing</label>
+  </div>
+  -->
+  <br />
+  <button id="submit" type="submit">Submit</button>
+</form>
+<script type="module">
+  import {saveAs} from "file-saver"
+  import {scaffold} from './src'
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+
+    const data = new FormData(event.target)
+    const formValues = Object.fromEntries(data.entries())
+    formValues.displayName = formValues.name
+    formValues.name = encodeURIComponent(formValues.name)
+
+    const {blob} = await scaffold(formValues, __CONFIG_DEPLOY__)
+    if (confirm("Do you want to download your widget?")) saveAs(blob, formValues.name + ".zip")
+    else console.log(blob, formValues.name + ".zip")
+  }
+
+  const form = document.querySelector("form")
+  form?.addEventListener("submit", handleSubmit)
+</script>
+</body>
+</html>
