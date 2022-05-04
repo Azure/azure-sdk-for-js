@@ -207,7 +207,7 @@ function generate-markdown-table($packageInfo, $githubUrl, $moniker) {
     $packageLevelReame = &$GetPackageLevelReadmeFn -packageMetadata $pkg
     $referenceLink = "javascript/api/overview/azure/$packageLevelReame-readme"
     $githubLink = $githubUrl
-    if ($pkg.FileMetadata) {
+    if ($pkg.PSObject.Members.Name -contains "FileMetadata") {
       $githubLink = "$githubUrl/blob/main/$($pkg.FileMetadata.DirectoryPath)"
     }
     $line = "|[$($pkg.DisplayName)]($referenceLink)|[$($pkg.Package)]($repositoryLink/$($pkg.Package))|[Github]($githubLink)|`r`n"
