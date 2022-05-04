@@ -1,6 +1,6 @@
 # Release History
 
-## 1.8.1 (Unreleased)
+## 1.8.1 (2022-05-05)
 
 ### Features Added
 
@@ -9,10 +9,6 @@
 - Exposed type guard for RestError called `isRestError` for typesafe exception handling.
 
 - Improve user agent information for React-Native.
-
-### Breaking Changes
-
-### Bugs Fixed
 
 ### Other Changes
 
