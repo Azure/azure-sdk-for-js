@@ -328,6 +328,7 @@ foreach ($service in $serviceNameList) {
   $hrefPrefix = "docs-ref-services"
 
   if($EnableServiceReadmeGen) {
+    Write-Host "Hello"
     generate-service-level-readme -readmeBaseName $serviceReadmeBaseName -pathPrefix $hrefPrefix `
     -clientPackageInfo $clientPackages -mgmtPackageInfo $mgmtPackages -serviceName $service
   }
