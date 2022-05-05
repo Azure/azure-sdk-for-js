@@ -1123,7 +1123,7 @@ packages:
     resolution: {integrity: sha512-qxyWmsP/pf+xJFEhMgiJ0r1v6TjF+x8iMWYU5R63Lb/fjQfKalaNX9f5D6GbJYJS5s9OF3abtdGtB/Lxea15mQ==}
     engines: {node: '>=0.8.0'}
     dependencies:
-      '@azure/msal-common': 6.2.0
+      '@azure/msal-common': 6.3.0
     dev: false
 
   /@azure/msal-common/4.5.1:
@@ -1144,8 +1144,8 @@ packages:
       - supports-color
     dev: false
 
-  /@azure/msal-common/6.2.0:
-    resolution: {integrity: sha512-SU2/vfbKn1WvtKM8tsBKZAbmRJvO8E3H773ZT0GGKuO9rwLfxP5qOzTHV5crCEm8DgvL/IppmWh2lsUFieDi1A==}
+  /@azure/msal-common/6.3.0:
+    resolution: {integrity: sha512-ZyLq9GdnLBi/83YpysE86TFKbA0TuvfNAN5Psqu20cdAjLo/4rw4ttiItdh1G//XeGErHk9qn57gi2AYU1b5/Q==}
     engines: {node: '>=0.8.0'}
     dev: false
 
@@ -1178,7 +1178,7 @@ packages:
     resolution: {integrity: sha512-rA5KzhvNuNef6Bzap8Sm/LbuesvA1yY2dj/W+QZuKMtT5nboZ4n4w8LRjwMMxucvYfizybPbLGTFpbq2IJtOfQ==}
     engines: {node: 10 || 12 || 14 || 16}
     dependencies:
-      '@azure/msal-common': 6.2.0
+      '@azure/msal-common': 6.3.0
       axios: 0.21.4
       https-proxy-agent: 5.0.1
       jsonwebtoken: 8.5.1
@@ -1192,7 +1192,7 @@ packages:
     resolution: {integrity: sha512-rA5KzhvNuNef6Bzap8Sm/LbuesvA1yY2dj/W+QZuKMtT5nboZ4n4w8LRjwMMxucvYfizybPbLGTFpbq2IJtOfQ==}
     engines: {node: 10 || 12 || 14 || 16}
     dependencies:
-      '@azure/msal-common': 6.2.0
+      '@azure/msal-common': 6.3.0
       axios: 0.21.4_debug@4.3.4
       https-proxy-agent: 5.0.1
       jsonwebtoken: 8.5.1
@@ -15391,7 +15391,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-table.tgz:
-    resolution: {integrity: sha512-lV2JaA7ADYooOapQrBAwk+4lQXa/VWgdJLC2WoZsAi/l5yV9hlK9GhAiX/+x3GXQGFHfsqw/oSZO929dsMf0Ag==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
+    resolution: {integrity: sha512-TUGShiiPux1M2OTQRjDWGHM6uwmGI1iiCTccm9q9OiImdj3wnes/xn44h3Wvv3gzqkA0Fj8Xeo/DGJLt1RGitg==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-table'
     version: 0.0.0
     dependencies:
@@ -15511,13 +15511,13 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-sJuoRp2IAMTAMQ1HZTtCVjSBfeBidJicr777/fQnWoJHlWLBt7qXrOdpFDwRKncAIdDtaKpXD/rOqxpi4QdePQ==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-HUgTi0UX+OhFi4lMKdNUYK/EDlInSizjj3OYRISa+tb0I+DapyschUK9ilOOGTIa3doqZ0Av3TnpnRAC84IlUw==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
       '@azure/keyvault-keys': 4.2.0
       '@azure/msal-browser': 2.23.0
-      '@azure/msal-common': 4.5.1
+      '@azure/msal-common': 6.3.0
       '@azure/msal-node': 1.8.0
       '@microsoft/api-extractor': 7.18.11
       '@types/chai': 4.3.1
@@ -16284,7 +16284,7 @@ packages:
     dev: false
 
   file:projects/perf-event-hubs.tgz:
-    resolution: {integrity: sha512-0Shj+f5HUSjnyL56js5KhwURz4fwSgQu9vAxnC5DawSdWpExDLiGSLG+pVm7YuDQ432ondadTZDYgdkVqlFE5A==, tarball: file:projects/perf-event-hubs.tgz}
+    resolution: {integrity: sha512-BHwbm1iu6BThr0P43MEqVdgEpQ984u4C6M9orgaZdvJXRqU9YvoSedqmIu4XNcBbIY1MsiH1DUT+gU6zDCudaw==, tarball: file:projects/perf-event-hubs.tgz}
     name: '@rush-temp/perf-event-hubs'
     version: 0.0.0
     dependencies:
