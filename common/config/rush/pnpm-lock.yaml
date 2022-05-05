@@ -9217,7 +9217,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-tfYFgMt7oaqHCLIeeByvWtflMUHQc9zpmf03PSskcdJACyubBwfg3AjAZ97Q4Ui032dPXic4O3hqsZiC464SaA==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-mgBqLgANN5GfvaBoC8b8M+0kupymQe4VEtqebrPmON2T7RjuaEy02HZ0BfAqC5Ag+ea8O9+ZC2TrjGHfE3DV5w==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -12680,27 +12680,28 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservicesbackup.tgz:
-    resolution: {integrity: sha512-/ZNkT8840JUYTLPCf1y41eB/FuqkuZfm0izKZpVf2KU53dFcCd4/E4qhQZ7rhyV8RkUiqG8UmrSk+n7BNhRmmA==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
+    resolution: {integrity: sha512-pvkYevi18ehKi+JCBw+ux1TVpKZ7n6K6w+SzvvUUiu1My/QJJ2Y4BaD2/KnnWxqBmXw4VycluU4zQvjzyENShg==, tarball: file:projects/arm-recoveryservicesbackup.tgz}
     name: '@rush-temp/arm-recoveryservicesbackup'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@microsoft/api-extractor': 7.23.0
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.70.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.2
+      '@rollup/plugin-node-resolve': 13.2.1_rollup@2.70.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup: 2.70.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.15.4
     transitivePeerDependencies:
+      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -13944,7 +13945,7 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-FqxHOpHgvyJ+4HOwbd46Dnvs0GLTHf2yn8GXEM+q7A+SdJlVRoSFkc0p+778/j5MjMec4wUI8o9vjwqo4NpSqg==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-+8VZZdu1Fu/lKPyvi/37fpg6+S7upYhys4DsaznSQ+ulmGfBnw0P7bYej9X9FpYgA+efyZX0TlI9WhSaWXNV8Q==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
@@ -14040,7 +14041,7 @@ packages:
     dev: false
 
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-vxgXni5XMG17f4VN9oUMwK92VPtbzVp0QEuMUunxHkN3Php0q1wkEzXOQYH6e3LJ9gPF3f5OO9SlhOQZLZmJXA==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-AkTEHTicK1ekCwVX6HT+2OtonFbaage4MyKFk7wTSQHhK02WtcfKrubzcYxbPUA5+A5pc9yiLJdNqk56e3zxvA==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
@@ -14084,7 +14085,7 @@ packages:
     dev: false
 
   file:projects/communication-network-traversal.tgz:
-    resolution: {integrity: sha512-iED6nE4NRyd7+qNY65Ss9/lngc0U4xh7DrfmtP5DMt2w6Cm2UGghNmpTZam4ImgvOd4+EWYWPbKLF8/MqxL38w==, tarball: file:projects/communication-network-traversal.tgz}
+    resolution: {integrity: sha512-6ZYXWgB9oALo9Rc7xHYhVbsqpW+exsd1L55nltwzNwt8vpW7+Yc8BLGEUknfFyQO259w75AEpRZe4UL8W0HxcA==, tarball: file:projects/communication-network-traversal.tgz}
     name: '@rush-temp/communication-network-traversal'
     version: 0.0.0
     dependencies:
@@ -14140,7 +14141,7 @@ packages:
     dev: false
 
   file:projects/communication-phone-numbers.tgz:
-    resolution: {integrity: sha512-TY1dj2joVG2RJ2GGtfpTOu780pBjScLNmyCZyvE6dloZPrV5zWnBX/h3sRoYu3uAyk8pZoPlmo6mxcIGzQHSLw==, tarball: file:projects/communication-phone-numbers.tgz}
+    resolution: {integrity: sha512-IJc+4F/LXXmhwoJYyN+JQL18SJ4tHlOkqdk4j0kwa+hgTu3UKy0kaFpiSJ4eIttK0CZ4aFwVwd/oJnHabAc3Aw==, tarball: file:projects/communication-phone-numbers.tgz}
     name: '@rush-temp/communication-phone-numbers'
     version: 0.0.0
     dependencies:
@@ -14188,7 +14189,7 @@ packages:
     dev: false
 
   file:projects/communication-short-codes.tgz:
-    resolution: {integrity: sha512-Iy050FwINEEFX1maUdTLOiOyqT/KKTDLcBUDnNKvbzYHEYwO5vTeTc8tRQmVGsiIGaTjQOAfg1MEekMQolQxUQ==, tarball: file:projects/communication-short-codes.tgz}
+    resolution: {integrity: sha512-93KQ1ue9OxVCFXCRO1kvR82UE9E06ufrpRfwEr6U7eqro2a2e+IXl66cgA1T1q4pwDZSp0HgQ0au3c0sfwcO8A==, tarball: file:projects/communication-short-codes.tgz}
     name: '@rush-temp/communication-short-codes'
     version: 0.0.0
     dependencies:
@@ -14236,7 +14237,7 @@ packages:
     dev: false
 
   file:projects/communication-sms.tgz:
-    resolution: {integrity: sha512-E/nwbz1Zg3kgLv1+MLlZeHvQByxJ2oNMrPKsRs1C0qF1T+T3lVNHUjQfoCYT/PiQZ9JG0VBP3IMSE9Wseb2dgg==, tarball: file:projects/communication-sms.tgz}
+    resolution: {integrity: sha512-PzOvaS727+n8TUBbTTgBRf3DfYxAczzVlfb2430AWyb0H1LXtbMcwBUNNxoPSKbkZ3//6FjfCsb6Hz6ODPztNQ==, tarball: file:projects/communication-sms.tgz}
     name: '@rush-temp/communication-sms'
     version: 0.0.0
     dependencies:
@@ -14454,7 +14455,7 @@ packages:
     dev: false
 
   file:projects/core-client-1.tgz:
-    resolution: {integrity: sha512-YVRueduM5XqOb2/bGEpUPclRvtfNt94OijJSFZBuobcIG+rjBny/AjYlBA3WCorxiRykA1pgO5iOWwrL8X061A==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-pKMx4lsB6VWxrN4kxJ4vnj5dVJXzZ4y3ej0DVGSy6m4OXzToIATJ+gAlJrKJkl2siLVVi8DuBBTWFK6jIQDJag==, tarball: file:projects/core-client-1.tgz}
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
