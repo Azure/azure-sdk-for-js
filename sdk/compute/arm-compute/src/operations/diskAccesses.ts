@@ -291,12 +291,10 @@ export class DiskAccessesImpl implements DiskAccesses {
       { resourceGroupName, diskAccessName, diskAccess, options },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -387,12 +385,10 @@ export class DiskAccessesImpl implements DiskAccesses {
       { resourceGroupName, diskAccessName, diskAccess, options },
       updateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -495,12 +491,10 @@ export class DiskAccessesImpl implements DiskAccesses {
       { resourceGroupName, diskAccessName, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -642,12 +636,10 @@ export class DiskAccessesImpl implements DiskAccesses {
       },
       updateAPrivateEndpointConnectionOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -769,12 +761,10 @@ export class DiskAccessesImpl implements DiskAccesses {
       },
       deleteAPrivateEndpointConnectionOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**

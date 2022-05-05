@@ -210,12 +210,10 @@ export class CloudServicesImpl implements CloudServices {
       { resourceGroupName, cloudServiceName, options },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -298,12 +296,10 @@ export class CloudServicesImpl implements CloudServices {
       { resourceGroupName, cloudServiceName, options },
       updateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -380,12 +376,10 @@ export class CloudServicesImpl implements CloudServices {
       { resourceGroupName, cloudServiceName, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -524,12 +518,10 @@ export class CloudServicesImpl implements CloudServices {
       { resourceGroupName, cloudServiceName, options },
       startOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -607,12 +599,10 @@ export class CloudServicesImpl implements CloudServices {
       { resourceGroupName, cloudServiceName, options },
       powerOffOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -690,12 +680,10 @@ export class CloudServicesImpl implements CloudServices {
       { resourceGroupName, cloudServiceName, options },
       restartOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -773,12 +761,10 @@ export class CloudServicesImpl implements CloudServices {
       { resourceGroupName, cloudServiceName, options },
       reimageOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -858,12 +844,10 @@ export class CloudServicesImpl implements CloudServices {
       { resourceGroupName, cloudServiceName, options },
       rebuildOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -942,12 +926,10 @@ export class CloudServicesImpl implements CloudServices {
       { resourceGroupName, cloudServiceName, options },
       deleteInstancesOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
