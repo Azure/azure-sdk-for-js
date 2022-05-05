@@ -122,7 +122,7 @@ export interface EventHubBufferedProducerClientOptions extends EventHubClientOpt
     enableIdempotentRetries?: boolean;
     maxEventBufferLengthPerPartition?: number;
     maxWaitTimeInMs?: number;
-    onSendEventsErrorHandler: (ctx: OnSendEventsErrorContext) => Promise<void>;
+    onSendEventsErrorHandler: (ctx: OnSendEventsErrorContext) => void;
     onSendEventsSuccessHandler?: (ctx: OnSendEventsSuccessContext) => Promise<void>;
 }
 

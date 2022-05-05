@@ -295,11 +295,13 @@ export class BatchingPartitionChannel {
   private _reportFailure(err: any, event?: EventData | AmqpAnnotatedMessage) {
     this._bufferCount = this._bufferCount - (event ? 1 : this._batchedEvents.length);
     this._updateFlushState();
-    this._onSendEventsErrorHandler({
-      error: err,
-      events: event ? [event] : this._batchedEvents,
-      partitionId: this._partitionId,
-    }).catch((e) => {
+    try {
+      this._onSendEventsErrorHandler({
+        error: err,
+        events: event ? [event] : this._batchedEvents,
+        partitionId: this._partitionId,
+      });
+    } catch (e: unknown) {
       logger.error(
         `The following error occured in the onSendEventsErrorHandler: ${JSON.stringify(
           e,
@@ -307,7 +309,7 @@ export class BatchingPartitionChannel {
           "  "
         )}`
       );
-    });
+    }
   }
 
   /**
