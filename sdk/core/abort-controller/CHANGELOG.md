@@ -1,5 +1,15 @@
 # Release History
 
+## 1.1.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.1.0 (2022-05-05)
 
 - Changed TS compilation target to ES2017 in order to produce smaller bundles and use more native platform features
