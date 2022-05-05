@@ -42,6 +42,7 @@ import {
   ExpressRoutePortsLocationsImpl,
   ExpressRoutePortsImpl,
   ExpressRouteLinksImpl,
+  ExpressRoutePortAuthorizationsImpl,
   FirewallPoliciesImpl,
   FirewallPolicyRuleCollectionGroupsImpl,
   FirewallPolicyIdpsSignaturesImpl,
@@ -107,6 +108,7 @@ import {
   VpnSiteLinksImpl,
   VpnSitesConfigurationImpl,
   VpnServerConfigurationsImpl,
+  ConfigurationPolicyGroupsImpl,
   VirtualHubsImpl,
   HubVirtualNetworkConnectionsImpl,
   VpnGatewaysImpl,
@@ -156,6 +158,7 @@ import {
   ExpressRoutePortsLocations,
   ExpressRoutePorts,
   ExpressRouteLinks,
+  ExpressRoutePortAuthorizations,
   FirewallPolicies,
   FirewallPolicyRuleCollectionGroups,
   FirewallPolicyIdpsSignatures,
@@ -221,6 +224,7 @@ import {
   VpnSiteLinks,
   VpnSitesConfiguration,
   VpnServerConfigurations,
+  ConfigurationPolicyGroups,
   VirtualHubs,
   HubVirtualNetworkConnections,
   VpnGateways,
@@ -308,7 +312,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-network/27.0.1`;
+    const packageDetails = `azsdk-js-arm-network/28.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -406,6 +410,9 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     this.expressRoutePortsLocations = new ExpressRoutePortsLocationsImpl(this);
     this.expressRoutePorts = new ExpressRoutePortsImpl(this);
     this.expressRouteLinks = new ExpressRouteLinksImpl(this);
+    this.expressRoutePortAuthorizations = new ExpressRoutePortAuthorizationsImpl(
+      this
+    );
     this.firewallPolicies = new FirewallPoliciesImpl(this);
     this.firewallPolicyRuleCollectionGroups = new FirewallPolicyRuleCollectionGroupsImpl(
       this
@@ -505,6 +512,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
     this.vpnSiteLinks = new VpnSiteLinksImpl(this);
     this.vpnSitesConfiguration = new VpnSitesConfigurationImpl(this);
     this.vpnServerConfigurations = new VpnServerConfigurationsImpl(this);
+    this.configurationPolicyGroups = new ConfigurationPolicyGroupsImpl(this);
     this.virtualHubs = new VirtualHubsImpl(this);
     this.hubVirtualNetworkConnections = new HubVirtualNetworkConnectionsImpl(
       this
@@ -1358,6 +1366,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
   expressRoutePortsLocations: ExpressRoutePortsLocations;
   expressRoutePorts: ExpressRoutePorts;
   expressRouteLinks: ExpressRouteLinks;
+  expressRoutePortAuthorizations: ExpressRoutePortAuthorizations;
   firewallPolicies: FirewallPolicies;
   firewallPolicyRuleCollectionGroups: FirewallPolicyRuleCollectionGroups;
   firewallPolicyIdpsSignatures: FirewallPolicyIdpsSignatures;
@@ -1423,6 +1432,7 @@ export class NetworkManagementClient extends coreClient.ServiceClient {
   vpnSiteLinks: VpnSiteLinks;
   vpnSitesConfiguration: VpnSitesConfiguration;
   vpnServerConfigurations: VpnServerConfigurations;
+  configurationPolicyGroups: ConfigurationPolicyGroups;
   virtualHubs: VirtualHubs;
   hubVirtualNetworkConnections: HubVirtualNetworkConnections;
   vpnGateways: VpnGateways;
