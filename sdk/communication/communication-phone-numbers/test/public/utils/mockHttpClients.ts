@@ -45,6 +45,9 @@ export const getPhoneNumberHttpClient: HttpClient = createMockHttpClient<Purchas
       currencyCode: "USD",
       billingFrequency: "monthly",
     },
+    operatorId: "1",
+    operatorName: "Microsoft",
+    phoneNumberSource: "operatorConnect",
   }
 );
 
@@ -66,6 +69,9 @@ export const mockListPhoneNumbersHttpClient = createMockHttpClient<PurchasedPhon
         currencyCode: "USD",
         billingFrequency: "monthly",
       },
+      operatorId: "1",
+      operatorName: "Microsoft",
+      phoneNumberSource: "operatorConnect",
     },
   ],
   nextLink: "/phoneNumbers?api-version=2022-01-11-preview2&skip=1&top=1",

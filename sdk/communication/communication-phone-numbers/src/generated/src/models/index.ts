@@ -93,8 +93,9 @@ export interface PhoneNumberPurchaseRequest {
   searchId?: string;
 }
 
-/** Long running operation. */
 export interface PhoneNumberOperation {
+  /** The type of operation, e.g. Search */
+  operationType: PhoneNumberOperationType;
   /** Status of operation. */
   status: PhoneNumberOperationStatus;
   /** URL for retrieving the result of the operation, if any. */
@@ -105,8 +106,6 @@ export interface PhoneNumberOperation {
   error?: CommunicationError;
   /** Id of operation. */
   id: string;
-  /** The type of operation, e.g. Search */
-  operationType: PhoneNumberOperationType;
   /**
    * The most recent date that the operation was changed.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -130,7 +129,7 @@ export interface PurchasedPhoneNumber {
   phoneNumber: string;
   /** The ISO 3166-2 code of the phone number's country, e.g. US. */
   countryCode: string;
-  /** The phone number's type, e.g. Geographic, TollFree. */
+  /** The phone number's type, e.g. geographic, tollFree. */
   phoneNumberType: PhoneNumberType;
   /** Capabilities of a phone number. */
   capabilities: PhoneNumberCapabilities;
@@ -140,6 +139,12 @@ export interface PurchasedPhoneNumber {
   purchaseDate: Date;
   /** The incurred cost for a single phone number. */
   cost: PhoneNumberCost;
+  /** Id of the operator that provided the number */
+  operatorId: string;
+  /** Name of the operator that provided the number */
+  operatorName: string;
+  /** Source of the number, e.g. Cloud or OperatorConnect */
+  phoneNumberSource: PhoneNumberSource;
 }
 
 /** The list of purchased phone numbers. */
@@ -210,18 +215,20 @@ export type PhoneNumberCapabilityType =
   | "inbound"
   | "outbound"
   | "inbound+outbound";
-/** Defines values for PhoneNumberOperationStatus. */
-export type PhoneNumberOperationStatus =
-  | "notStarted"
-  | "running"
-  | "succeeded"
-  | "failed";
 /** Defines values for PhoneNumberOperationType. */
 export type PhoneNumberOperationType =
   | "purchase"
   | "releasePhoneNumber"
   | "search"
   | "updatePhoneNumberCapabilities";
+/** Defines values for PhoneNumberOperationStatus. */
+export type PhoneNumberOperationStatus =
+  | "notStarted"
+  | "running"
+  | "succeeded"
+  | "failed";
+/** Defines values for PhoneNumberSource. */
+export type PhoneNumberSource = "cloud" | "operatorConnect";
 
 /** Optional parameters. */
 export interface PhoneNumbersSearchAvailablePhoneNumbersOptionalParams
