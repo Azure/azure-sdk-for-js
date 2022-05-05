@@ -11,9 +11,9 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SpanStatusCode } from "@azure/core-tracing";
 import { createSpan } from "./tracing";
 import {
-  SendReadReceiptRequest,
   AddParticipantsRequest,
   SendMessageRequest,
+  SendReadReceiptRequest,
 } from "./models/requests";
 
 import {
@@ -22,8 +22,8 @@ import {
   ChatMessageReadReceipt,
   ChatParticipant,
   ChatThreadProperties,
-  SendChatMessageResult,
   ListPageSettings,
+  SendChatMessageResult,
 } from "./models/models";
 import {
   mapToAddChatParticipantsRequestRestModel,
@@ -33,20 +33,20 @@ import {
   mapToReadReceiptSdkModel,
 } from "./models/mappers";
 import {
+  AddParticipantsOptions,
   ChatThreadClientOptions,
-  SendMessageOptions,
-  GetMessageOptions,
   DeleteMessageOptions,
+  GetMessageOptions,
+  GetPropertiesOptions,
   ListMessagesOptions,
+  ListParticipantsOptions,
+  ListReadReceiptsOptions,
+  RemoveParticipantOptions,
+  SendMessageOptions,
+  SendReadReceiptOptions,
+  SendTypingNotificationOptions,
   UpdateMessageOptions,
   UpdateTopicOptions,
-  AddParticipantsOptions,
-  ListParticipantsOptions,
-  RemoveParticipantOptions,
-  SendTypingNotificationOptions,
-  SendReadReceiptOptions,
-  ListReadReceiptsOptions,
-  GetPropertiesOptions,
 } from "./models/options";
 import { ChatApiClient } from "./generated/src";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";

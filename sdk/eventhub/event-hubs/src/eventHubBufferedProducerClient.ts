@@ -83,7 +83,7 @@ export interface EventHubBufferedProducerClientOptions extends EventHubClientOpt
    * nor will it be able to use a partition key.
    * Default: false
    */
-  enableIdempotentPartitions?: boolean;
+  enableIdempotentRetries?: boolean;
 }
 
 /**
@@ -292,8 +292,7 @@ export class EventHubBufferedProducerClient {
     }
 
     // setting internal idempotent publishing option on the standard producer.
-    (this._producer as any)._enableIdempotentPartitions =
-      this._clientOptions.enableIdempotentPartitions;
+    (this._producer as any)._enableIdempotentRetries = this._clientOptions.enableIdempotentRetries;
   }
 
   /**
