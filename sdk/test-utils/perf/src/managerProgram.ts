@@ -275,7 +275,7 @@ export class ManagerPerfProgram implements PerfProgram {
 
     await performStage("postSetup");
 
-    if (Number(options.warmup.value) > 0) {
+    if (options.warmup.value > 0) {
       await this.runTests(0, "warmup");
     }
 
