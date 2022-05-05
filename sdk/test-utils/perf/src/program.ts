@@ -10,7 +10,25 @@ import { multicoreUtils } from "./multicore";
 export interface PerfProgram {
   run(): Promise<void>;
 }
-
+/**
+ * createPerfProgram
+ * receives a series of class(es) extending PerfTest. It selects the appropriate test out of those provided based on command-line arguments, and creates an instance of PerfProgram that can be used to run the perf tests.
+ *
+ * Use it like:
+ *
+ * ```ts
+ * export class Delay500ms extends PerfTest {
+ *   public options = {};
+ *   async run(): Promise<void> {
+ *     await delay(500);
+ *   }
+ * }
+ *
+ * const perfProgram = createPerfProgram(Delay500ms);
+ *
+ * perfProgram.run();
+ * ```
+ */
 export function createPerfProgram(...testClasses: PerfTestConstructor[]): PerfProgram {
   const testClass = selectPerfTest(testClasses);
 

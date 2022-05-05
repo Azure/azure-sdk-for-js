@@ -13,26 +13,6 @@ import { PerfTestBase, PerfTestConstructor } from "./perfTestBase";
 import { PerfProgram } from "./program";
 import { formatDuration } from "./utils";
 
-/**
- * PerfProgram
- * receives a class extending PerfTest with specific command line parameter names (or just "string"),
- * then gets the test ready for a performance/stress test run.
- *
- * Use it like:
- *
- * ```ts
- * export class Delay500ms extends PerfTest {
- *   public options = {};
- *   async run(): Promise<void> {
- *     await delay(500);
- *   }
- * }
- *
- * const perfProgram = new PerfProgram(Delay500ms);
- *
- * perfProgram.run();
- * ```
- */
 export class ManagerPerfProgram implements PerfProgram {
   private testName: string;
   private parallelNumber: number;
