@@ -9,7 +9,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  EventSourceUpdateParametersUnion,
+  EventSourceUpdateParameters,
   TimeSeriesInsightsClient
 } from "@azure/arm-timeseriesinsights";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -25,7 +25,8 @@ async function updateEventSource() {
   const resourceGroupName = "rg1";
   const environmentName = "env1";
   const eventSourceName = "es1";
-  const eventSourceUpdateParameters: EventSourceUpdateParametersUnion = {
+  const eventSourceUpdateParameters: EventSourceUpdateParameters = {
+    kind: "Microsoft.EventHub",
     tags: { someKey: "someValue" }
   };
   const credential = new DefaultAzureCredential();

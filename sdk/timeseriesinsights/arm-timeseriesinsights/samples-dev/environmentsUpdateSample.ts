@@ -9,7 +9,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  EnvironmentUpdateParametersUnion,
+  EnvironmentUpdateParameters,
   TimeSeriesInsightsClient
 } from "@azure/arm-timeseriesinsights";
 import { DefaultAzureCredential } from "@azure/identity";
@@ -24,7 +24,8 @@ async function environmentsUpdate() {
   const subscriptionId = "subid";
   const resourceGroupName = "rg1";
   const environmentName = "env1";
-  const environmentUpdateParameters: EnvironmentUpdateParametersUnion = {
+  const environmentUpdateParameters: EnvironmentUpdateParameters = {
+    kind: "Gen1",
     tags: { someTag: "someTagValue" }
   };
   const credential = new DefaultAzureCredential();
