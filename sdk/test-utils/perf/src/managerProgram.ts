@@ -279,7 +279,7 @@ export class ManagerPerfProgram implements PerfProgram {
       await this.runTests(0, "warmup");
     }
 
-    const iterations = Number(options.iterations.value);
+    const iterations = options.iterations.value;
     for (let i = 0; i < iterations; i++) {
       await this.runTests(i, "test");
     }
