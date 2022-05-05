@@ -10,21 +10,6 @@ $RepositoryUri = "https://www.npmjs.com/package"
 
 . "$PSScriptRoot/docs/Docs-ToC.ps1"
 
-function Get-javascript-DisplayName
-{
-  return $LanguageDisplayName
-}
-
-function Get-javascript-GithubUrl
-{
-  return $GithubUri
-}
-
-function Get-javascript-PackageRepostory
-{
-  return $RepositoryUri
-}
-
 function Confirm-NodeInstallation
 {
   if (!(Get-Command npm -ErrorAction SilentlyContinue))
