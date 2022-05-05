@@ -13675,13 +13675,13 @@ packages:
     dev: false
 
   file:projects/arm-timeseriesinsights.tgz:
-    resolution: {integrity: sha512-qfOtc+uIxERF8co7GZpmcX2V101J9kqN7ius/uvyHq/7A/vs7aDs8bDvnAoa9v7Fj9IY9uEO+rupgm9yvUggLQ==, tarball: file:projects/arm-timeseriesinsights.tgz}
+    resolution: {integrity: sha512-AVnyRYDaZ+pLhNyr4HDTr1GrL671V5hZHaKl27OT1zEH0+JPSAOfJ9OHtsh9DSvSSZo3p9G9xEzpG2HfdE97hw==, tarball: file:projects/arm-timeseriesinsights.tgz}
     name: '@rush-temp/arm-timeseriesinsights'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.23.0
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.70.2
       '@rollup/plugin-json': 4.1.0_rollup@2.70.2
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.2
@@ -13813,7 +13813,7 @@ packages:
     dev: false
 
   file:projects/arm-webpubsub.tgz:
-    resolution: {integrity: sha512-0sA4SymOvc9bTV9UMRqyAYpMOP4KP1XmNxFONgVK4wrWweJABt/cwOaz+FROdewuzgspv13PNiTKDDfaFdC0sQ==, tarball: file:projects/arm-webpubsub.tgz}
+    resolution: {integrity: sha512-xrXWHKQC0KPWEIPSuiWKbVniPiThRvAWSlPkko3/QNDFETCDcoRXSK/R86vW3egTM6Xc4IqfvdpDbJPx64eJAg==, tarball: file:projects/arm-webpubsub.tgz}
     name: '@rush-temp/arm-webpubsub'
     version: 0.0.0
     dependencies:
@@ -13822,19 +13822,18 @@ packages:
       '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.70.2
       '@rollup/plugin-json': 4.1.0_rollup@2.70.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.2
-      '@rollup/plugin-node-resolve': 13.2.1_rollup@2.70.2
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@2.70.2
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@2.70.2
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.70.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.2
+      rollup-plugin-sourcemaps: 0.4.2_rollup@2.70.2
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.15.4
     transitivePeerDependencies:
-      - '@types/node'
       - debug
       - encoding
       - supports-color
