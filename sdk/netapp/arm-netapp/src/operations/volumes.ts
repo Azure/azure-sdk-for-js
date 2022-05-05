@@ -241,11 +241,13 @@ export class VolumesImpl implements Volumes {
       { resourceGroupName, accountName, poolName, volumeName, body, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -339,11 +341,13 @@ export class VolumesImpl implements Volumes {
       { resourceGroupName, accountName, poolName, volumeName, body, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -433,11 +437,13 @@ export class VolumesImpl implements Volumes {
       { resourceGroupName, accountName, poolName, volumeName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -526,11 +532,13 @@ export class VolumesImpl implements Volumes {
       { resourceGroupName, accountName, poolName, volumeName, body, options },
       revertOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -620,11 +628,13 @@ export class VolumesImpl implements Volumes {
       { resourceGroupName, accountName, poolName, volumeName, options },
       breakReplicationOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -733,11 +743,13 @@ export class VolumesImpl implements Volumes {
       { resourceGroupName, accountName, poolName, volumeName, options },
       resyncReplicationOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -826,11 +838,13 @@ export class VolumesImpl implements Volumes {
       { resourceGroupName, accountName, poolName, volumeName, options },
       deleteReplicationOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -920,11 +934,13 @@ export class VolumesImpl implements Volumes {
       { resourceGroupName, accountName, poolName, volumeName, body, options },
       authorizeReplicationOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1014,11 +1030,13 @@ export class VolumesImpl implements Volumes {
       { resourceGroupName, accountName, poolName, volumeName, options },
       reInitializeReplicationOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1107,11 +1125,13 @@ export class VolumesImpl implements Volumes {
       { resourceGroupName, accountName, poolName, volumeName, body, options },
       poolChangeOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

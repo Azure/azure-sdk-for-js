@@ -569,10 +569,10 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public (undocumented)
-export class PostgreSQLManagementClient extends coreClient.ServiceClient {
+export class PostgreSQLManagementFlexibleServerClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: PostgreSQLManagementClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: PostgreSQLManagementFlexibleServerClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -598,7 +598,7 @@ export class PostgreSQLManagementClient extends coreClient.ServiceClient {
 }
 
 // @public
-export interface PostgreSQLManagementClientOptionalParams extends coreClient.ServiceClientOptions {
+export interface PostgreSQLManagementFlexibleServerClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
     apiVersion?: string;
     endpoint?: string;

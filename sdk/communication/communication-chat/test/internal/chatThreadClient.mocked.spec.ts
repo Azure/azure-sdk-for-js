@@ -8,22 +8,22 @@ import {
   CommunicationUserIdentifier,
 } from "@azure/communication-common";
 import {
-  ChatThreadClient,
-  SendMessageRequest,
-  SendMessageOptions,
-  UpdateMessageOptions,
   AddParticipantsRequest,
+  ChatThreadClient,
+  SendMessageOptions,
+  SendMessageRequest,
+  UpdateMessageOptions,
 } from "../../src";
 import * as RestModel from "../../src/generated/src/models";
 import { apiVersion } from "../../src/generated/src/models/parameters";
 import { baseUri, generateToken } from "../public/utils/connectionUtils";
 import {
-  generateHttpClient,
   createChatThreadClient,
+  generateHttpClient,
+  mockChatMessageReadReceipt,
   mockMessage,
   mockParticipant,
   mockSdkModelParticipant,
-  mockChatMessageReadReceipt,
   mockThread,
 } from "./utils/mockClient";
 

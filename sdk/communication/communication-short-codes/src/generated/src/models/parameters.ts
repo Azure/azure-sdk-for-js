@@ -11,7 +11,10 @@ import {
   OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-client";
-import { USProgramBrief as USProgramBriefMapper } from "../models/mappers";
+import {
+  USProgramBrief as USProgramBriefMapper,
+  ProgramBriefAttachment as ProgramBriefAttachmentMapper
+} from "../models/mappers";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -92,6 +95,59 @@ export const programBriefId: OperationURLParameter = {
   parameterPath: "programBriefId",
   mapper: {
     serializedName: "programBriefId",
+    required: true,
+    type: {
+      name: "Uuid"
+    }
+  }
+};
+
+export const contentType1: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const id: OperationParameter = {
+  parameterPath: "id",
+  mapper: ProgramBriefAttachmentMapper
+};
+
+export const typeParam: OperationParameter = {
+  parameterPath: ["options", "typeParam"],
+  mapper: ProgramBriefAttachmentMapper
+};
+
+export const friendlyName: OperationParameter = {
+  parameterPath: ["options", "friendlyName"],
+  mapper: ProgramBriefAttachmentMapper
+};
+
+export const fileSize: OperationParameter = {
+  parameterPath: ["options", "fileSize"],
+  mapper: ProgramBriefAttachmentMapper
+};
+
+export const fileType: OperationParameter = {
+  parameterPath: ["options", "fileType"],
+  mapper: ProgramBriefAttachmentMapper
+};
+
+export const fileContent: OperationParameter = {
+  parameterPath: ["options", "fileContent"],
+  mapper: ProgramBriefAttachmentMapper
+};
+
+export const attachmentId: OperationURLParameter = {
+  parameterPath: "attachmentId",
+  mapper: {
+    serializedName: "attachmentId",
     required: true,
     type: {
       name: "Uuid"
