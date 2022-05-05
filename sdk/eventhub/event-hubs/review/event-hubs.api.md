@@ -123,7 +123,7 @@ export interface EventHubBufferedProducerClientOptions extends EventHubClientOpt
     maxEventBufferLengthPerPartition?: number;
     maxWaitTimeInMs?: number;
     onSendEventsErrorHandler: (ctx: OnSendEventsErrorContext) => void;
-    onSendEventsSuccessHandler?: (ctx: OnSendEventsSuccessContext) => Promise<void>;
+    onSendEventsSuccessHandler?: (ctx: OnSendEventsSuccessContext) => void;
 }
 
 // @public

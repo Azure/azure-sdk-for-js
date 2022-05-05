@@ -274,18 +274,20 @@ export class BatchingPartitionChannel {
   private _reportSuccess() {
     this._bufferCount = this._bufferCount - this._batchedEvents.length;
     this._updateFlushState();
-    this._onSendEventsSuccessHandler?.({
-      events: this._batchedEvents,
-      partitionId: this._partitionId,
-    }).catch((e) => {
+    try {
+      this._onSendEventsSuccessHandler?.({
+        events: this._batchedEvents,
+        partitionId: this._partitionId,
+      });
+    } catch (e: unknown) {
       logger.error(
-        `The following error occured in the onSendEventsSuccessHandler: ${JSON.stringify(
+        `The following error occurred in the onSendEventsSuccessHandler: ${JSON.stringify(
           e,
           undefined,
           "  "
         )}`
       );
-    });
+    }
   }
 
   /**
@@ -303,7 +305,7 @@ export class BatchingPartitionChannel {
       });
     } catch (e: unknown) {
       logger.error(
-        `The following error occured in the onSendEventsErrorHandler: ${JSON.stringify(
+        `The following error occurred in the onSendEventsErrorHandler: ${JSON.stringify(
           e,
           undefined,
           "  "

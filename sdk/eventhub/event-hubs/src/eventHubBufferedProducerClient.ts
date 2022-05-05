@@ -71,7 +71,7 @@ export interface EventHubBufferedProducerClientOptions extends EventHubClientOpt
   /**
    * The handler to call once a batch has successfully published.
    */
-  onSendEventsSuccessHandler?: (ctx: OnSendEventsSuccessContext) => Promise<void>;
+  onSendEventsSuccessHandler?: (ctx: OnSendEventsSuccessContext) => void;
   /**
    * The handler to call when a batch fails to publish.
    */
