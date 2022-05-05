@@ -252,12 +252,10 @@ export class VirtualMachinesImpl implements VirtualMachines {
       { resourceGroupName, virtualMachineName, virtualMachineRequest, options },
       createOrUpdateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -342,12 +340,10 @@ export class VirtualMachinesImpl implements VirtualMachines {
       { resourceGroupName, virtualMachineName, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -431,12 +427,10 @@ export class VirtualMachinesImpl implements VirtualMachines {
       { resourceGroupName, virtualMachineName, virtualMachineRequest, options },
       updateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -516,12 +510,10 @@ export class VirtualMachinesImpl implements VirtualMachines {
       { resourceGroupName, virtualMachineName, options },
       startOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -598,12 +590,10 @@ export class VirtualMachinesImpl implements VirtualMachines {
       { resourceGroupName, virtualMachineName, options },
       stopOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
