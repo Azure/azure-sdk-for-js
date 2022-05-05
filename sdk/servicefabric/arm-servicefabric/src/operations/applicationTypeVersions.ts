@@ -131,10 +131,12 @@ export class ApplicationTypeVersionsImpl implements ApplicationTypeVersions {
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -224,10 +226,12 @@ export class ApplicationTypeVersionsImpl implements ApplicationTypeVersions {
       { resourceGroupName, clusterName, applicationTypeName, version, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
