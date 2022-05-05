@@ -20,6 +20,8 @@
   - Notable changes include Removal of `@opentelemetry/api` as a transitive dependency and ensuring that the active context is properly propagated.
   - Customers who would like to continue using OpenTelemetry driven tracing should visit our [OpenTelemetry Instrumentation](https://www.npmjs.com/package/@azure/opentelemetry-instrumentation-azure-sdk) package for instructions.
 
+- Move to depend on `@azure/core-util` for SHA256 Digest and HMAC computing.
+
 ## 1.3.1 (2021-12-14)
 
 ### Bugs Fixed

@@ -1,10 +1,18 @@
 # Release History
-    
-## 3.0.0-beta.2 (Unreleased)
 
-## 3.0.0-beta.1 (2022-01-17)
+## 3.0.0-beta.3 (Unreleased)
 
-The package of @azure/arm-machinelearningcompute is using our next generation design principles since version 3.0.0-beta.1, which contains breaking changes.
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 3.0.0-beta.2 (2022-04-24)
+
+The package of @azure/arm-machinelearningcompute is using our next generation design principles since version 3.0.0-beta.2, which contains breaking changes.
 
 To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
 

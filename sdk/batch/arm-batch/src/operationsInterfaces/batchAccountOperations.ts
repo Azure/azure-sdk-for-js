@@ -32,7 +32,7 @@ import {
   BatchAccountGetKeysOptionalParams,
   BatchAccountGetKeysResponse,
   BatchAccountGetDetectorOptionalParams,
-  BatchAccountGetDetectorResponse
+  BatchAccountGetDetectorResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -42,9 +42,7 @@ export interface BatchAccountOperations {
    * Gets information about the Batch accounts associated with the subscription.
    * @param options The options parameters.
    */
-  list(
-    options?: BatchAccountListOptionalParams
-  ): PagedAsyncIterableIterator<BatchAccount>;
+  list(options?: BatchAccountListOptionalParams): PagedAsyncIterableIterator<BatchAccount>;
   /**
    * Gets information about the Batch accounts associated with the specified resource group.
    * @param resourceGroupName The name of the resource group that contains the Batch account.
@@ -71,7 +69,7 @@ export interface BatchAccountOperations {
    * you must make sure your network allows outbound access to these endpoints. Failure to allow access
    * to these endpoints may cause Batch to mark the affected nodes as unusable. For more information
    * about creating a pool inside of a virtual network, see
-   * https://docs.microsoft.com/en-us/azure/batch/batch-virtual-network.
+   * https://docs.microsoft.com/azure/batch/batch-virtual-network.
    * @param resourceGroupName The name of the resource group that contains the Batch account.
    * @param accountName The name of the Batch account.
    * @param options The options parameters.
@@ -98,10 +96,7 @@ export interface BatchAccountOperations {
     parameters: BatchAccountCreateParameters,
     options?: BatchAccountCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<BatchAccountCreateResponse>,
-      BatchAccountCreateResponse
-    >
+    PollerLike<PollOperationState<BatchAccountCreateResponse>, BatchAccountCreateResponse>
   >;
   /**
    * Creates a new Batch account with the specified parameters. Existing accounts cannot be updated with

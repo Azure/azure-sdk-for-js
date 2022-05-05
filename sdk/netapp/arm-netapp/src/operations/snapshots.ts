@@ -245,11 +245,13 @@ export class SnapshotsImpl implements Snapshots {
       },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -359,11 +361,13 @@ export class SnapshotsImpl implements Snapshots {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -465,11 +469,13 @@ export class SnapshotsImpl implements Snapshots {
       },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -571,10 +577,12 @@ export class SnapshotsImpl implements Snapshots {
       },
       restoreFilesOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

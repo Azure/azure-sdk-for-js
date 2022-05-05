@@ -2634,15 +2634,6 @@ export type PageBlobCreateResponse = PageBlobCreateHeaders & {
 };
 
 // @public
-export interface PageBlobGetPageRangesDiffForManagedDisksInPagesOptions extends CommonOptions {
-    abortSignal?: AbortSignalLike;
-    conditions?: BlobRequestConditions;
-    count: number;
-    offset: number;
-    prevSnapshotUrl: string;
-}
-
-// @public
 export interface PageBlobGetPageRangesDiffHeaders {
     blobContentLength?: number;
     clientRequestId?: string;

@@ -18,8 +18,9 @@ input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/4a8cd09
 add-credentials: false
 override-client-name: GeneratedClient
 use-extension:
-  "@autorest/typescript": "latest"
+  "@autorest/typescript": "6.0.0-alpha.19.20220425.1"
 hide-clients: true
+openapi-type: data-plane
 ```
 
 ```yaml

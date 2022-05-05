@@ -86,6 +86,8 @@ export interface USProgramBrief {
   companyInformation?: CompanyInformation;
   messageDetails?: MessageDetails;
   trafficDetails?: TrafficDetails;
+  /** A list of summarized data of attachments currently added to the Program Brief */
+  attachments?: ProgramBriefAttachmentSummary[];
 }
 
 /** Holds a note about a Program Brief that has gone thru stages of review process. */
@@ -240,10 +242,59 @@ export interface TrafficDetails {
   estimatedRampUpTimeInDays?: number;
 }
 
+/** A summary of Program Brief File Attachment data */
+export interface ProgramBriefAttachmentSummary {
+  /** Program Brief Attachment Id. */
+  id?: string;
+  /**
+   * Attachment type describing the purpose of the attachment
+   * e.g. 'callToAction', 'termsOfService'
+   */
+  type?: AttachmentType;
+  /**
+   * A friendly name to refer to the attachment
+   * e.g. 'myFile01'
+   */
+  friendlyName?: string;
+}
+
 /** A wrapper for a list of USProgramBrief entities. */
 export interface USProgramBriefs {
   /** List of Program Briefs. */
   programBriefs?: USProgramBrief[];
+  /** Represents the URL link to the next page. */
+  nextLink?: string;
+}
+
+/** A File Attachment for a Program Brief */
+export interface ProgramBriefAttachment {
+  /** Program Brief Attachment Id. */
+  id: string;
+  /**
+   * Attachment type describing the purpose of the attachment
+   * e.g. 'callToAction', 'termsOfService'
+   */
+  type?: AttachmentType;
+  /**
+   * A friendly name to refer to the attachment
+   * e.g. 'myFile01'
+   */
+  friendlyName?: string;
+  /** File size in bytes. */
+  fileSize?: number;
+  /**
+   * The type of file being attached
+   * e.g. 'pdf', 'jpg', 'png'
+   */
+  fileType?: FileType;
+  /** File content as base 64 encoded string */
+  fileContent?: string;
+}
+
+/** A wrapper for a list of ProgramBriefAttachment entities. */
+export interface ProgramBriefAttachments {
+  /** List of Program Brief attachments. */
+  attachments?: ProgramBriefAttachment[];
   /** Represents the URL link to the next page. */
   nextLink?: string;
 }
@@ -317,6 +368,14 @@ export type MessageContentCategory =
   | "other";
 /** Defines values for MessageDirection. */
 export type MessageDirection = "toUser" | "fromUser";
+/** Defines values for AttachmentType. */
+export type AttachmentType =
+  | "callToAction"
+  | "termsOfService"
+  | "privacyPolicy"
+  | "other";
+/** Defines values for FileType. */
+export type FileType = "png" | "jpg" | "jpeg" | "pdf";
 
 /** Optional parameters. */
 export interface ShortCodesGetShortCodesOptionalParams
@@ -371,6 +430,56 @@ export interface ShortCodesGetUSProgramBriefsOptionalParams
 export type ShortCodesGetUSProgramBriefsResponse = USProgramBriefs;
 
 /** Optional parameters. */
+export interface ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams
+  extends coreClient.OperationOptions {
+  /**
+   * Attachment type describing the purpose of the attachment
+   * e.g. 'callToAction', 'termsOfService'
+   */
+  typeParam?: AttachmentType;
+  /**
+   * A friendly name to refer to the attachment
+   * e.g. 'myFile01'
+   */
+  friendlyName?: string;
+  /** File size in bytes. */
+  fileSize?: number;
+  /**
+   * The type of file being attached
+   * e.g. 'pdf', 'jpg', 'png'
+   */
+  fileType?: FileType;
+  /** File content as base 64 encoded string */
+  fileContent?: string;
+}
+
+/** Contains response data for the createOrReplaceUSProgramBriefAttachment operation. */
+export type ShortCodesCreateOrReplaceUSProgramBriefAttachmentResponse = ProgramBriefAttachment;
+
+/** Optional parameters. */
+export interface ShortCodesGetUSProgramBriefAttachmentOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getUSProgramBriefAttachment operation. */
+export type ShortCodesGetUSProgramBriefAttachmentResponse = ProgramBriefAttachment;
+
+/** Optional parameters. */
+export interface ShortCodesDeleteUSProgramBriefAttachmentOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ShortCodesGetUSProgramBriefAttachmentsOptionalParams
+  extends coreClient.OperationOptions {
+  /** An optional parameter for how many entries to skip, for pagination purposes. */
+  skip?: number;
+  /** An optional parameter for how many entries to return, for pagination purposes. */
+  top?: number;
+}
+
+/** Contains response data for the getUSProgramBriefAttachments operation. */
+export type ShortCodesGetUSProgramBriefAttachmentsResponse = ProgramBriefAttachments;
+
+/** Optional parameters. */
 export interface ShortCodesGetShortCodesNextOptionalParams
   extends coreClient.OperationOptions {
   /** An optional parameter for how many entries to skip, for pagination purposes. */
@@ -393,6 +502,18 @@ export interface ShortCodesGetUSProgramBriefsNextOptionalParams
 
 /** Contains response data for the getUSProgramBriefsNext operation. */
 export type ShortCodesGetUSProgramBriefsNextResponse = USProgramBriefs;
+
+/** Optional parameters. */
+export interface ShortCodesGetUSProgramBriefAttachmentsNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** An optional parameter for how many entries to skip, for pagination purposes. */
+  skip?: number;
+  /** An optional parameter for how many entries to return, for pagination purposes. */
+  top?: number;
+}
+
+/** Contains response data for the getUSProgramBriefAttachmentsNext operation. */
+export type ShortCodesGetUSProgramBriefAttachmentsNextResponse = ProgramBriefAttachments;
 
 /** Optional parameters. */
 export interface ShortCodesClientOptionalParams
