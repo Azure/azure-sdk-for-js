@@ -14,7 +14,8 @@ import {
 import {
   CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
   EnergyService as EnergyServiceMapper,
-  EnergyResourceUpdate as EnergyResourceUpdateMapper
+  EnergyResourceUpdate as EnergyResourceUpdateMapper,
+  DataPartitionAddOrRemoveRequest as DataPartitionAddOrRemoveRequestMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -90,7 +91,7 @@ export const resourceGroupName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-06-01-preview",
+    defaultValue: "2022-04-04-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -118,6 +119,11 @@ export const body1: OperationParameter = {
 export const body2: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: EnergyResourceUpdateMapper
+};
+
+export const body3: OperationParameter = {
+  parameterPath: ["options", "body"],
+  mapper: DataPartitionAddOrRemoveRequestMapper
 };
 
 export const nextLink: OperationURLParameter = {

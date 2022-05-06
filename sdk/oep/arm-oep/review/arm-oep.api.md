@@ -33,9 +33,31 @@ export interface CheckNameAvailabilityResponse {
 export type CreatedByType = string;
 
 // @public
+export interface DataPartitionAddOrRemoveRequest {
+    name?: string;
+}
+
+// @public
 export interface DataPartitionNames {
     // (undocumented)
     name?: string;
+}
+
+// @public
+export interface DataPartitionProperties {
+    name?: string;
+    provisioningState?: string;
+}
+
+// @public
+export interface DataPartitionsList {
+    // (undocumented)
+    dataPartitionNames?: DataPartitionNames[];
+}
+
+// @public
+export interface DataPartitionsListResult {
+    value?: DataPartitionProperties[];
 }
 
 // @public
@@ -72,15 +94,27 @@ export interface EnergyServiceProperties {
 
 // @public
 export interface EnergyServices {
+    beginAddPartition(resourceGroupName: string, resourceName: string, options?: EnergyServicesAddPartitionOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginAddPartitionAndWait(resourceGroupName: string, resourceName: string, options?: EnergyServicesAddPartitionOptionalParams): Promise<void>;
     beginCreate(resourceGroupName: string, resourceName: string, options?: EnergyServicesCreateOptionalParams): Promise<PollerLike<PollOperationState<EnergyServicesCreateResponse>, EnergyServicesCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, resourceName: string, options?: EnergyServicesCreateOptionalParams): Promise<EnergyServicesCreateResponse>;
     beginDelete(resourceGroupName: string, resourceName: string, options?: EnergyServicesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, resourceName: string, options?: EnergyServicesDeleteOptionalParams): Promise<void>;
+    beginRemovePartition(resourceGroupName: string, resourceName: string, options?: EnergyServicesRemovePartitionOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRemovePartitionAndWait(resourceGroupName: string, resourceName: string, options?: EnergyServicesRemovePartitionOptionalParams): Promise<void>;
     get(resourceGroupName: string, resourceName: string, options?: EnergyServicesGetOptionalParams): Promise<EnergyServicesGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: EnergyServicesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<EnergyService>;
     listBySubscription(options?: EnergyServicesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<EnergyService>;
+    listPartitions(resourceGroupName: string, resourceName: string, options?: EnergyServicesListPartitionsOptionalParams): Promise<EnergyServicesListPartitionsResponse>;
     // (undocumented)
     update(resourceGroupName: string, resourceName: string, options?: EnergyServicesUpdateOptionalParams): Promise<EnergyServicesUpdateResponse>;
+}
+
+// @public
+export interface EnergyServicesAddPartitionOptionalParams extends coreClient.OperationOptions {
+    body?: DataPartitionAddOrRemoveRequest;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -133,6 +167,20 @@ export interface EnergyServicesListBySubscriptionOptionalParams extends coreClie
 
 // @public
 export type EnergyServicesListBySubscriptionResponse = EnergyServiceList;
+
+// @public
+export interface EnergyServicesListPartitionsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type EnergyServicesListPartitionsResponse = DataPartitionsListResult;
+
+// @public
+export interface EnergyServicesRemovePartitionOptionalParams extends coreClient.OperationOptions {
+    body?: DataPartitionAddOrRemoveRequest;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
 
 // @public
 export interface EnergyServicesUpdateOptionalParams extends coreClient.OperationOptions {

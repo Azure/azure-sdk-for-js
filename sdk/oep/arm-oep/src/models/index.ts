@@ -143,6 +143,26 @@ export interface EnergyResourceUpdate {
   tags?: { [propertyName: string]: string };
 }
 
+/** Defines the partition add/ delete action properties. */
+export interface DataPartitionAddOrRemoveRequest {
+  /** Name of the data partition */
+  name?: string;
+}
+
+/** List of data partitions. */
+export interface DataPartitionsListResult {
+  /** List of data partitions along with their properties in a given OEP resource. */
+  value?: DataPartitionProperties[];
+}
+
+/** Defines the properties of an individual data partition. */
+export interface DataPartitionProperties {
+  /** Name of the data partition */
+  name?: string;
+  /** Name of the data partition */
+  provisioningState?: string;
+}
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface OperationListResult {
   /**
@@ -205,6 +225,11 @@ export interface OperationDisplay {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly description?: string;
+}
+
+/** List of data partitions */
+export interface DataPartitionsList {
+  dataPartitionNames?: DataPartitionNames[];
 }
 
 export type EnergyService = Resource & {
@@ -369,6 +394,35 @@ export interface EnergyServicesDeleteOptionalParams
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Optional parameters. */
+export interface EnergyServicesAddPartitionOptionalParams
+  extends coreClient.OperationOptions {
+  /** add partition action payload */
+  body?: DataPartitionAddOrRemoveRequest;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface EnergyServicesRemovePartitionOptionalParams
+  extends coreClient.OperationOptions {
+  /** remove partition action payload */
+  body?: DataPartitionAddOrRemoveRequest;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface EnergyServicesListPartitionsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listPartitions operation. */
+export type EnergyServicesListPartitionsResponse = DataPartitionsListResult;
 
 /** Optional parameters. */
 export interface EnergyServicesListByResourceGroupNextOptionalParams

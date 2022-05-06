@@ -12180,28 +12180,27 @@ packages:
     dev: false
 
   file:projects/arm-oep.tgz:
-    resolution: {integrity: sha512-BWUReMOwb+P0wAvpNNgamc+P4tYEazNt05InG9C8t2zgp8j34jWx7sL8twDmk8T97qHAGv8cxQpcDYAKSuxTuQ==, tarball: file:projects/arm-oep.tgz}
+    resolution: {integrity: sha512-YJxMEAk4N5+xLLYcIFRU9jgmJKOuZfJfZgTyFKfbJEfKhoYBSWw3JmEnLoVh9ct2bL6ClGFUeeeJT4NTEsIbeg==, tarball: file:projects/arm-oep.tgz}
     name: '@rush-temp/arm-oep'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 21.1.0_rollup@2.70.2
-      '@rollup/plugin-json': 4.1.0_rollup@2.70.2
-      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.2
-      '@rollup/plugin-node-resolve': 13.2.1_rollup@2.70.2
+      '@microsoft/api-extractor': 7.23.0
+      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
+      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
+      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
+      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 2.70.2
-      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.2
+      rollup: 1.32.1
+      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.15.4
     transitivePeerDependencies:
-      - '@types/node'
       - debug
       - encoding
       - supports-color
@@ -15429,7 +15428,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-table.tgz:
-    resolution: {integrity: sha512-lV2JaA7ADYooOapQrBAwk+4lQXa/VWgdJLC2WoZsAi/l5yV9hlK9GhAiX/+x3GXQGFHfsqw/oSZO929dsMf0Ag==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
+    resolution: {integrity: sha512-TUGShiiPux1M2OTQRjDWGHM6uwmGI1iiCTccm9q9OiImdj3wnes/xn44h3Wvv3gzqkA0Fj8Xeo/DGJLt1RGitg==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-table'
     version: 0.0.0
     dependencies:
@@ -16322,7 +16321,7 @@ packages:
     dev: false
 
   file:projects/perf-event-hubs.tgz:
-    resolution: {integrity: sha512-0Shj+f5HUSjnyL56js5KhwURz4fwSgQu9vAxnC5DawSdWpExDLiGSLG+pVm7YuDQ432ondadTZDYgdkVqlFE5A==, tarball: file:projects/perf-event-hubs.tgz}
+    resolution: {integrity: sha512-BHwbm1iu6BThr0P43MEqVdgEpQ984u4C6M9orgaZdvJXRqU9YvoSedqmIu4XNcBbIY1MsiH1DUT+gU6zDCudaw==, tarball: file:projects/perf-event-hubs.tgz}
     name: '@rush-temp/perf-event-hubs'
     version: 0.0.0
     dependencies:
