@@ -10,7 +10,6 @@ import { fromBase64url, toBase64url } from "./base64url";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { createXhrHttpClient, isNode } from "@azure/test-utils";
 
-
 const replaceableVariables = {
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
@@ -55,14 +54,16 @@ export async function authenticate(that: Context, version: string): Promise<any>
   }
 
   const client = new KeyClient(keyVaultUrl, credential, {
-    serviceVersion: version, 
+    serviceVersion: version,
     httpClient: isNode ? undefined : createXhrHttpClient(),
   });
   const testClient = new TestClient(client);
 
   let hsmClient: KeyClient | undefined = undefined;
   if (env.AZURE_MANAGEDHSM_URI) {
-    hsmClient = new KeyClient(env.AZURE_MANAGEDHSM_URI, credential, {httpClient: isNode ? undefined : createXhrHttpClient()});
+    hsmClient = new KeyClient(env.AZURE_MANAGEDHSM_URI, credential, {
+      httpClient: isNode ? undefined : createXhrHttpClient(),
+    });
   }
 
   return { recorder, client, credential, testClient, hsmClient, keySuffix };
