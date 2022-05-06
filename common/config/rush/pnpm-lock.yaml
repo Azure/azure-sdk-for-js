@@ -13778,13 +13778,13 @@ packages:
     dev: false
 
   file:projects/arm-vmwarecloudsimple.tgz:
-    resolution: {integrity: sha512-km8kTd/jRXzQyE6JbxCfBnhGPUkXaJ+rKJLaLFAgDpYM2z8iA1fDY5uxjR3lvqEOBQgJB3hyTuNFp0UHt0iluA==, tarball: file:projects/arm-vmwarecloudsimple.tgz}
+    resolution: {integrity: sha512-pkLpYUn6X8dMwRvRn3fitJHhFvpdtlVBbWYZwVjIdfBPWvQzzrQcxkWKdM+41oHbpHnQNMJrab3fX9oStvTPWg==, tarball: file:projects/arm-vmwarecloudsimple.tgz}
     name: '@rush-temp/arm-vmwarecloudsimple'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.23.0
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.70.2
       '@rollup/plugin-json': 4.1.0_rollup@2.70.2
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.2
