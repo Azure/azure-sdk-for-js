@@ -17,3 +17,4 @@ https://docs.microsoft.com/javascript/api/@azure/arm-azureadexternalidentities?v
 https://docs.microsoft.com/javascript/api/@azure/arm-scvmm?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-servicelinker
 https://docs.microsoft.com/javascript/api/@azure/arm-servicelinker?view=azure-node-preview
+https://docs.microsoft.com/en-us/rest/api/index
