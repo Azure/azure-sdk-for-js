@@ -71,11 +71,11 @@ export interface EventHubBufferedProducerClientOptions extends EventHubClientOpt
   /**
    * The handler to call once a batch has successfully published.
    */
-  onSendEventsSuccessHandler?: (ctx: OnSendEventsSuccessContext) => Promise<void>;
+  onSendEventsSuccessHandler?: (ctx: OnSendEventsSuccessContext) => void;
   /**
    * The handler to call when a batch fails to publish.
    */
-  onSendEventsErrorHandler: (ctx: OnSendEventsErrorContext) => Promise<void>;
+  onSendEventsErrorHandler: (ctx: OnSendEventsErrorContext) => void;
   /**
    * Indicates whether or not the EventHubProducerClient should enable idempotent publishing to Event Hub partitions.
    * If enabled, the producer will only be able to publish directly to partitions;
