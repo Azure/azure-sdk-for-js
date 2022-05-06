@@ -209,12 +209,10 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
       },
       createOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -299,12 +297,10 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
       { resourceGroupName, registryName, connectedRegistryName, options },
       deleteOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -399,12 +395,10 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
       },
       updateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
@@ -489,12 +483,10 @@ export class ConnectedRegistriesImpl implements ConnectedRegistries {
       { resourceGroupName, registryName, connectedRegistryName, options },
       deactivateOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
