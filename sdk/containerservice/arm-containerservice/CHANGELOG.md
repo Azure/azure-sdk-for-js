@@ -1,5 +1,5 @@
 # Release History
-    
+
 ## 16.1.0-beta.1 (2022-05-06)
     
 **Features**
@@ -53,8 +53,7 @@
   - Type Alias ManagedCluster has a new parameter enableNamespaceResources
   - Type Alias ManagedCluster has a new parameter ingressProfile
   - Enum KnownNetworkPlugin has a new value None
-  - Enum KnownSnapshotType has a new value ManagedCluster
-    
+  - Enum KnownSnapshotType has a new value ManagedCluster  
     
 ## 16.0.0 (2022-04-20)
     
