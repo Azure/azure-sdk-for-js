@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ClientSecretCredential } from "@azure/identity";
 import { KeyClient } from "../../../src";
-import { RecorderEnvironmentSetup, env, isLiveMode, record } from "@azure-tools/test-recorder";
+import { RecorderEnvironmentSetup, env, record } from "@azure-tools/test-recorder";
 import { uniqueString } from "./recorderUtils";
 import TestClient from "./testClient";
 import { Context } from "mocha";
 import { fromBase64url, toBase64url } from "./base64url";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { createXhrHttpClient, isNode } from "@azure/test-utils";
+
 
 const replaceableVariables = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -46,16 +47,7 @@ export async function authenticate(that: Context, version: string): Promise<any>
     queryParametersToSkip: [],
   };
   const recorder = record(that, recorderEnvSetup);
-  const identityHttpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
-  const credential = new ClientSecretCredential(
-    env.AZURE_TENANT_ID,
-    env.AZURE_CLIENT_ID,
-    env.AZURE_CLIENT_SECRET,
-    {
-      authorityHost: env.AZURE_AUTHORITY_HOST,
-      httpClient: identityHttpClient,
-    }
-  );
+  const credential = createTestCredential();
 
   const keyVaultUrl = env.KEYVAULT_URI;
   if (!keyVaultUrl) {
@@ -63,13 +55,14 @@ export async function authenticate(that: Context, version: string): Promise<any>
   }
 
   const client = new KeyClient(keyVaultUrl, credential, {
-    serviceVersion: version,
+    serviceVersion: version, 
+    httpClient: isNode ? undefined : createXhrHttpClient(),
   });
   const testClient = new TestClient(client);
 
   let hsmClient: KeyClient | undefined = undefined;
   if (env.AZURE_MANAGEDHSM_URI) {
-    hsmClient = new KeyClient(env.AZURE_MANAGEDHSM_URI, credential);
+    hsmClient = new KeyClient(env.AZURE_MANAGEDHSM_URI, credential, {httpClient: isNode ? undefined : createXhrHttpClient()});
   }
 
   return { recorder, client, credential, testClient, hsmClient, keySuffix };
