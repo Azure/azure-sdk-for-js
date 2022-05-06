@@ -150,6 +150,7 @@ specifiers:
   '@rush-temp/arm-servicebus': file:./projects/arm-servicebus.tgz
   '@rush-temp/arm-servicefabric': file:./projects/arm-servicefabric.tgz
   '@rush-temp/arm-servicefabricmesh': file:./projects/arm-servicefabricmesh.tgz
+  '@rush-temp/arm-servicelinker': file:./projects/arm-servicelinker.tgz
   '@rush-temp/arm-servicemap': file:./projects/arm-servicemap.tgz
   '@rush-temp/arm-signalr': file:./projects/arm-signalr.tgz
   '@rush-temp/arm-sql': file:./projects/arm-sql.tgz
@@ -426,6 +427,7 @@ dependencies:
   '@rush-temp/arm-servicebus': file:projects/arm-servicebus.tgz
   '@rush-temp/arm-servicefabric': file:projects/arm-servicefabric.tgz
   '@rush-temp/arm-servicefabricmesh': file:projects/arm-servicefabricmesh.tgz
+  '@rush-temp/arm-servicelinker': file:projects/arm-servicelinker.tgz
   '@rush-temp/arm-servicemap': file:projects/arm-servicemap.tgz
   '@rush-temp/arm-signalr': file:projects/arm-signalr.tgz
   '@rush-temp/arm-sql': file:projects/arm-sql.tgz
@@ -13193,6 +13195,34 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.70.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.2
+      '@rollup/plugin-node-resolve': 13.2.1_rollup@2.70.2
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.70.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.2
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.15.4
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-servicelinker.tgz:
+    resolution: {integrity: sha512-9uRGegk2PugMoa2TF31FkZMpzlh2u4pRzGCDfVyIefc27kr58nfoH0LYEBJj89oGBYjVNOc6uUZu8dagKX0/nQ==, tarball: file:projects/arm-servicelinker.tgz}
+    name: '@rush-temp/arm-servicelinker'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.23.0
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.70.2
       '@rollup/plugin-json': 4.1.0_rollup@2.70.2
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.2
