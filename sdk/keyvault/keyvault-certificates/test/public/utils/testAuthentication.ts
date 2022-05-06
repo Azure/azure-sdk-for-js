@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ClientSecretCredential } from "@azure/identity";
 import { CertificateClient } from "../../../src";
 import { uniqueString } from "./recorderUtils";
-import { env, isLiveMode, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import { env, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 import { getServiceVersion } from "./common";
 import TestClient from "./testClient";
 import { Context } from "mocha";
 import { createXhrHttpClient, isNode } from "@azure/test-utils";
+import { createTestCredential } from "@azure-tools/test-credential";
 
 export async function authenticate(
   that: Context,
@@ -36,16 +36,7 @@ export async function authenticate(
     queryParametersToSkip: [],
   };
   const recorder = record(that, recorderEnvSetup);
-  const identityHttpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
-  const credential = new ClientSecretCredential(
-    env.AZURE_TENANT_ID,
-    env.AZURE_CLIENT_ID,
-    env.AZURE_CLIENT_SECRET,
-    {
-      authorityHost: env.AZURE_AUTHORITY_HOST,
-      httpClient: identityHttpClient,
-    }
-  );
+  const credential = createTestCredential();
 
   const keyVaultUrl = env.KEYVAULT_URI;
   if (!keyVaultUrl) {
