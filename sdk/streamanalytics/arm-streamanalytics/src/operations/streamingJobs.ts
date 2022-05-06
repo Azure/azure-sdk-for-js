@@ -207,10 +207,12 @@ export class StreamingJobsImpl implements StreamingJobs {
       { resourceGroupName, jobName, streamingJob, options },
       createOrReplaceOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -314,10 +316,12 @@ export class StreamingJobsImpl implements StreamingJobs {
       { resourceGroupName, jobName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -433,10 +437,12 @@ export class StreamingJobsImpl implements StreamingJobs {
       { resourceGroupName, jobName, options },
       startOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -511,10 +517,12 @@ export class StreamingJobsImpl implements StreamingJobs {
       { resourceGroupName, jobName, options },
       stopOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -588,10 +596,12 @@ export class StreamingJobsImpl implements StreamingJobs {
       { resourceGroupName, jobName, options },
       scaleOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
