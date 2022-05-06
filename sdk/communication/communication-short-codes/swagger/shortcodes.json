@@ -698,7 +698,7 @@
             }
           }
         },
-        "signUpUrl": {
+        "callToActionUrl": {
           "format": "uri",
           "description": "URL for \"call to action\" image for the program.",
           "type": "string"
@@ -817,56 +817,39 @@
       "description": "Describes a messaging use case for a given content type by providing example messages.",
       "type": "object",
       "properties": {
-        "contentCategory": {
-          "description": "Indicates the messaging content category used in the program e.g. 'ringTones', 'smsChat', 'video', 'loyaltyProgramPointsPrizes', 'gifting', 'inApplicationBilling', 'textToScreen'.",
+        "contentType": {
+          "description": "Indicates the messaging content type used in the program e.g. 'accountNotificationInformationalAlerts', 'chatConversationalMessaging', 'mmsVideo', 'socialMedia'.",
           "enum": [
-            "ringTones",
-            "smsChat",
-            "video",
-            "loyaltyProgramPointsPrizes",
-            "gifting",
-            "inApplicationBilling",
-            "textToScreen",
-            "games",
-            "audioChat",
-            "mmsPictures",
-            "sweepstakesContestAuction",
-            "financialBanking",
-            "premiumWap",
-            "queryService",
-            "wallpaperScreensaver",
-            "voting",
-            "application",
-            "mobileGivingDonations",
-            "coupons",
-            "loyaltyProgram",
-            "noPointsPrizes",
-            "informationalAlerts",
-            "microBilling",
-            "trivia",
-            "entertainmentAlerts",
-            "accountNotification",
+            "accountNotificationInformationalAlerts",
             "ageGatedContent",
-            "conversationalMessaging",
+            "chatConversationalMessaging",
             "deliveryNotification",
+            "donationsPledge",
             "education",
-            "emergencyAlerts",
             "fraudAlerts",
             "loanArrangement",
-            "onBehalfOfCarrier",
+            "loyaltyProgram",
+            "marketingAndPromotion",
+            "mmsPicture",
+            "mmsVideo",
+            "oneTimePasswordOrMultiFactorAuthentication",
             "political",
-            "promotionalMarketing",
             "publicServiceAnnouncements",
             "securityAlerts",
             "socialMedia",
-            "twoFactorAuthentication",
+            "sweepstakesOrContest",
+            "votingOrPolling",
             "other"
           ],
           "type": "string",
           "x-ms-enum": {
-            "name": "MessageContentCategory",
+            "name": "MessageContentType",
             "modelAsString": true
           }
+        },
+        "customContentType": {
+          "description": "Indicates the messaging content type used in the program whenever it is not any of the pre-defined content types",
+          "type": "string"
         },
         "examples": {
           "description": "Example messages to be sent to and from the end user for the indicated content type.",
@@ -880,20 +863,16 @@
     "MessageDetails": {
       "type": "object",
       "properties": {
-        "supportedProtocols": {
-          "description": "Applicable message protocols used in the program e.g. SMS, MMS.",
-          "type": "array",
-          "items": {
-            "description": "Applicable message protocols to be used in a program.",
-            "enum": [
-              "sms",
-              "mms"
-            ],
-            "type": "string",
-            "x-ms-enum": {
-              "name": "MessageProtocol",
-              "modelAsString": true
-            }
+        "supportedProtocol": {
+          "description": "Applicable message protocol used in the program e.g. SMS or MMS.",
+          "enum": [
+            "sms",
+            "mms"
+          ],
+          "type": "string",
+          "x-ms-enum": {
+            "name": "MessageProtocol",
+            "modelAsString": true
           }
         },
         "recurrence": {
@@ -1011,8 +990,8 @@
             "modelAsString": true
           }
         },
-        "friendlyName": {
-          "description": "A friendly name to refer to the attachment\r\ne.g. 'myFile01'",
+        "fileName": {
+          "description": "The name of the attached file\r\ne.g. 'myFile01'",
           "type": "string"
         }
       }
@@ -1114,7 +1093,11 @@
     "ProgramBriefAttachment": {
       "description": "A File Attachment for a Program Brief",
       "required": [
-        "id"
+        "fileContent",
+        "fileName",
+        "fileType",
+        "id",
+        "type"
       ],
       "type": "object",
       "properties": {
@@ -1137,8 +1120,8 @@
             "modelAsString": true
           }
         },
-        "friendlyName": {
-          "description": "A friendly name to refer to the attachment\r\ne.g. 'myFile01'",
+        "fileName": {
+          "description": "The name of the file being attached\r\ne.g. 'myFile01'",
           "type": "string"
         },
         "fileSize": {

@@ -369,8 +369,8 @@ export const ProgramDetails: coreClient.CompositeMapper = {
           }
         }
       },
-      signUpUrl: {
-        serializedName: "signUpUrl",
+      callToActionUrl: {
+        serializedName: "callToActionUrl",
         type: {
           name: "String"
         }
@@ -491,16 +491,10 @@ export const MessageDetails: coreClient.CompositeMapper = {
     name: "Composite",
     className: "MessageDetails",
     modelProperties: {
-      supportedProtocols: {
-        serializedName: "supportedProtocols",
+      supportedProtocol: {
+        serializedName: "supportedProtocol",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Enum",
-              allowedValues: ["sms", "mms"]
-            }
-          }
+          name: "String"
         }
       },
       recurrence: {
@@ -566,8 +560,14 @@ export const UseCase: coreClient.CompositeMapper = {
     name: "Composite",
     className: "UseCase",
     modelProperties: {
-      contentCategory: {
-        serializedName: "contentCategory",
+      contentType: {
+        serializedName: "contentType",
+        type: {
+          name: "String"
+        }
+      },
+      customContentType: {
+        serializedName: "customContentType",
         type: {
           name: "String"
         }
@@ -708,8 +708,8 @@ export const ProgramBriefAttachmentSummary: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      friendlyName: {
-        serializedName: "friendlyName",
+      fileName: {
+        serializedName: "fileName",
         type: {
           name: "String"
         }
@@ -759,12 +759,14 @@ export const ProgramBriefAttachment: coreClient.CompositeMapper = {
       },
       type: {
         serializedName: "type",
+        required: true,
         type: {
           name: "String"
         }
       },
-      friendlyName: {
-        serializedName: "friendlyName",
+      fileName: {
+        serializedName: "fileName",
+        required: true,
         type: {
           name: "String"
         }
@@ -777,12 +779,14 @@ export const ProgramBriefAttachment: coreClient.CompositeMapper = {
       },
       fileType: {
         serializedName: "fileType",
+        required: true,
         type: {
           name: "String"
         }
       },
       fileContent: {
         serializedName: "fileContent",
+        required: true,
         type: {
           name: "String"
         }

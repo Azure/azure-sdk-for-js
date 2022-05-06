@@ -16,8 +16,10 @@ import {
 } from "./generated/src/models/";
 import { SpanStatusCode } from "@azure/core-tracing";
 import {
+  AttachmentType,
   DeleteUSProgramBriefOptions,
   GetUSProgramBriefOptions,
+  FileType,
   ListShortCodesOptions,
   ListUSProgramBriefsOptions,
   SubmitUSProgramBriefOptions,
@@ -31,7 +33,7 @@ import { createCommunicationAuthPolicy } from "@azure/communication-common";
 /**
  * Client options used to configure the ShortCodesClient API requests.
  */
-export interface ShortCodesClientOptions extends CommonClientOptions {}
+export interface ShortCodesClientOptions extends CommonClientOptions { }
 
 const isShortCodesClientOptions = (options: any): options is ShortCodesClientOptions =>
   options && !isKeyCredential(options) && !isTokenCredential(options);
@@ -277,6 +279,10 @@ export class ShortCodesClient {
   public async createOrReplaceUSProgramBriefAttachment(
     programBriefId: string,
     attachmentId: string,
+    fileName: string,
+    fileType: FileType,
+    fileContent: string,
+    attachmentType: AttachmentType,
     options: ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams = {}
   ): Promise<USProgramBrief> {
     const { span, updatedOptions } = createSpan(
@@ -288,6 +294,10 @@ export class ShortCodesClient {
         programBriefId,
         attachmentId,
         attachmentId,
+        fileName,
+        fileType,
+        fileContent,
+        attachmentType,
         updatedOptions
       );
     } catch (e) {

@@ -31,6 +31,8 @@ import {
   ShortCodesSubmitUSProgramBriefOptionalParams,
   ShortCodesSubmitUSProgramBriefResponse,
   ShortCodesGetUSProgramBriefsResponse,
+  AttachmentType,
+  FileType,
   ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams,
   ShortCodesCreateOrReplaceUSProgramBriefAttachmentResponse,
   ShortCodesGetUSProgramBriefAttachmentOptionalParams,
@@ -292,16 +294,36 @@ export class ShortCodesOperationsImpl implements ShortCodesOperations {
    * @param programBriefId Program Brief Id. Must be a valid GUID
    * @param attachmentId Attachment Id. Must be a valid GUID
    * @param id Program Brief Attachment Id.
+   * @param fileName The name of the file being attached
+   *                 e.g. 'myFile01'
+   * @param fileType The type of file being attached
+   *                 e.g. 'pdf', 'jpg', 'png'
+   * @param fileContent File content as base 64 encoded string
+   * @param typeParam Attachment type describing the purpose of the attachment
+   *                  e.g. 'callToAction', 'termsOfService'
    * @param options The options parameters.
    */
   createOrReplaceUSProgramBriefAttachment(
     programBriefId: string,
     attachmentId: string,
     id: string,
+    fileName: string,
+    fileType: FileType,
+    fileContent: string,
+    typeParam: AttachmentType,
     options?: ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams
   ): Promise<ShortCodesCreateOrReplaceUSProgramBriefAttachmentResponse> {
     return this.client.sendOperationRequest(
-      { programBriefId, attachmentId, id, options },
+      {
+        programBriefId,
+        attachmentId,
+        id,
+        fileName,
+        fileType,
+        fileContent,
+        typeParam,
+        options
+      },
       createOrReplaceUSProgramBriefAttachmentOperationSpec
     );
   }
@@ -523,11 +545,11 @@ const createOrReplaceUSProgramBriefAttachmentOperationSpec: coreClient.Operation
   requestBody: {
     parameterPath: {
       id: ["id"],
-      typeParam: ["options", "typeParam"],
-      friendlyName: ["options", "friendlyName"],
+      typeParam: ["typeParam"],
+      fileName: ["fileName"],
       fileSize: ["options", "fileSize"],
-      fileType: ["options", "fileType"],
-      fileContent: ["options", "fileContent"]
+      fileType: ["fileType"],
+      fileContent: ["fileContent"]
     },
     mapper: { ...Mappers.ProgramBriefAttachment, required: true }
   },

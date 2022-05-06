@@ -10,7 +10,8 @@ export function getTestProgramBriefAttachment(): ProgramBriefAttachment {
     id: "00000000-0000-0000-0000-000000000000",
     fileType: "png",
     type: "callToAction",
-    friendlyName: "testFriendlyName",
+    fileName: "testFileName",
+    fileContent: "iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAIAAAACUFjqAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAALEoAACxKAXd6dE0AAAAOSURBVChTYxgFJAMGBgABNgABY8OiGAAAAABJRU5ErkJggg=="
   };
 
   return testProgramBriefAttachment;

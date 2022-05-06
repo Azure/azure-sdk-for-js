@@ -20,7 +20,7 @@ export function getTestUSProgramBrief(): USProgramBrief {
       signUpTypes: ["sms", "website"],
       termsOfServiceUrl: "https://contoso.com/terms",
       url: "https://endpoint/loyalty-program",
-      signUpUrl: "https://contoso.com/sign-up",
+      callToActionUrl: "https://contoso.com/sign-up",
     },
     companyInformation: {
       address: "1 Contoso Way Redmond, WA 98052",
@@ -37,19 +37,19 @@ export function getTestUSProgramBrief(): USProgramBrief {
       },
     },
     messageDetails: {
-      supportedProtocols: ["sms"],
+      supportedProtocol: "sms",
       recurrence: "subscription",
       useCases: [
         {
-          contentCategory: "coupons",
+          contentType: "marketingAndPromotion",
           examples: [{ messages: [{ direction: "fromUser", text: "txtMessage" }] }],
         },
         {
-          contentCategory: "loyaltyProgram",
+          contentType: "loyaltyProgram",
           examples: [{ messages: [{ direction: "toUser", text: "txtMessage" }] }],
         },
         {
-          contentCategory: "loyaltyProgramPointsPrizes",
+          contentType: "sweepstakesOrContest",
           examples: [{ messages: [{ direction: "toUser", text: "txtMessage" }] }],
         },
       ],

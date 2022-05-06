@@ -35,7 +35,7 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
       body: {
         id: uspb.id,
         programDetails: {
-          signUpUrl: "https://endpoint/updated-sign-up",
+          callToActionUrl: "https://endpoint/updated-sign-up",
           privacyPolicyUrl: "https://endpoint/updated-privacy",
           termsOfServiceUrl: "https://endpoint/updated-terms",
         },
@@ -64,7 +64,7 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
 
     // update program brief by calling upsert
     if (uspb.programDetails) {
-      uspb.programDetails.signUpUrl = updateRequest.body?.programDetails?.signUpUrl;
+      uspb.programDetails.callToActionUrl = updateRequest.body?.programDetails?.callToActionUrl;
       uspb.programDetails.privacyPolicyUrl = updateRequest.body?.programDetails?.privacyPolicyUrl;
       uspb.programDetails.termsOfServiceUrl = updateRequest.body?.programDetails?.termsOfServiceUrl;
     }

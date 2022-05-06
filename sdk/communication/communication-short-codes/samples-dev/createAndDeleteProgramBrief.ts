@@ -42,7 +42,7 @@ export async function main() {
         signUpTypes: ["sms", "website"],
         termsOfServiceUrl: "https://contoso.com/terms",
         url: "https://contoso.com/loyalty-program",
-        signUpUrl: "https://contoso.com/sign-up",
+        callToActionUrl: "https://contoso.com/sign-up",
       },
       companyInformation: {
         address: "1 Contoso Way Redmond, WA 98052",
@@ -59,19 +59,19 @@ export async function main() {
         },
       },
       messageDetails: {
-        supportedProtocols: ["sms"],
+        supportedProtocol: "sms",
         recurrence: "subscription",
         useCases: [
           {
-            contentCategory: "coupons",
+            contentType: "marketingAndPromotion",
             examples: [{ messages: [{ direction: "fromUser", text: "txtMessage" }] }],
           },
           {
-            contentCategory: "loyaltyProgram",
+            contentType: "loyaltyProgram",
             examples: [{ messages: [{ direction: "toUser", text: "txtMessage" }] }],
           },
           {
-            contentCategory: "loyaltyProgramPointsPrizes",
+            contentType: "sweepstakesOrContest",
             examples: [{ messages: [{ direction: "toUser", text: "txtMessage" }] }],
           },
         ],
@@ -99,16 +99,16 @@ export async function main() {
     ...programBriefRequest,
     onResponse:
       (response) =>
-      (res = response) => {
-        if (!res || res.status != 201) {
-          throw new Error(
-            `Program brief creation failed.
+        (res = response) => {
+          if (!res || res.status != 201) {
+            throw new Error(
+              `Program brief creation failed.
           Status code: ${res.status}; 
           Error: ${res.bodyAsText}; 
           CV: ${res.headers.get("MS-CV")}`
-          );
-        }
-      },
+            );
+          }
+        },
   });
   console.log(`Successfully created a new program brief with Id ${createResponse.id}`);
 
@@ -116,16 +116,16 @@ export async function main() {
   var deleteResponse = client.deleteUSProgramBrief(programBriefId, {
     onResponse:
       (response) =>
-      (res = response) => {
-        if (!res || res.status != 204) {
-          throw new Error(
-            `Program brief deletion failed.
+        (res = response) => {
+          if (!res || res.status != 204) {
+            throw new Error(
+              `Program brief deletion failed.
           Status code: ${res.status}; 
           Error: ${res.bodyAsText}; 
           CV: ${res.headers.get("MS-CV")}`
-          );
-        }
-      },
+            );
+          }
+        },
   });
   console.log(
     `Successfully deleted draft program brief with Id ${programBriefId} ${deleteResponse}`
