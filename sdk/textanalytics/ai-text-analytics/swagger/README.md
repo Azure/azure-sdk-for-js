@@ -7,12 +7,11 @@
 ```yaml
 package-name: "@azure/ai-text-analytics"
 title: GeneratedClient
-description: TextAnalytics Client
+description: Text Analysis Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-# FHIR PR: https://github.com/Azure/azure-rest-api-specs/pull/17710
 input-file: https://github.com/Azure/azure-rest-api-specs/blob/cognitiveservices-Language-2022-04-01-preview/specification/cognitiveservices/data-plane/Language/preview/2022-04-01-preview/textanalytics.json
 add-credentials: false
 package-version: 6.0.0-beta.1
@@ -25,15 +24,6 @@ typescript: true
 
 See the [AutoRest samples](https://github.com/Azure/autorest/tree/master/Samples/3b-custom-transformations)
 for more about how we're customizing things.
-
-### Update version
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.info
-    transform: $.version = "2022-03-01-preview";
-```
 
 ### Fixes
 
@@ -57,6 +47,19 @@ directive:
   - from: swagger-document
     where: $.definitions.LanguageDetectionTaskResult
     transform: $.required = ["results"];
+  - from: swagger-document
+    where: $["paths"]["/analyze-text/jobs/{jobId}:cancel"]["post"]
+    transform: >
+      if ($.parameters.filter((val) => val["$ref"].includes("ApiVersionParameter")).length === 0) {
+        $.parameters.unshift({});
+        $.parameters[0]["$ref"] = "https://github.com/Azure/azure-rest-api-specs/blob/cognitiveservices-Language-2022-04-01-preview/specification/cognitiveservices/data-plane/Language/preview/2022-04-01-preview/common.json#/parameters/ApiVersionParameter";
+      }
+  - from: swagger-document
+    where: $.definitions.HealthcareTaskParameters
+    transform:
+      $.properties.fhirVersion["x-ms-enum"] =  {};
+      $.properties.fhirVersion["x-ms-enum"].name = "fhirVersion";
+      $.properties.fhirVersion["x-ms-enum"].modelAsString = true;
 ```
 
 ### Rename analyze-text to Analyze and analyze-test/jobs to AnalyzeBatch
@@ -69,6 +72,24 @@ directive:
   - from: swagger-document
     where: $["paths"]["/:analyze-text/jobs"]["post"]
     transform: $.operationId = "AnalyzeBatch";
+```
+
+### Rename JobState
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.JobState
+    transform: $.properties.createdDateTime["x-ms-client-name"] = "createdOn";
+  - from: swagger-document
+    where: $.definitions.JobState
+    transform: $.properties.expirationDateTime["x-ms-client-name"] = "expiresOn";
+  - from: swagger-document
+    where: $.definitions.JobState
+    transform: $.properties.jobId["x-ms-client-name"] = "operationId";
+  - from: swagger-document
+    where: $.definitions.JobState
+    transform: $.properties.lastUpdateDateTime["x-ms-client-name"] = "lastModifiedOn";
 ```
 
 ### Task renames
@@ -91,15 +112,21 @@ directive:
       $["x-ms-client-name"] = "ActionCommon";
       $.description = "Configuration common to all actions."
   - from: swagger-document
+    where: $.definitions.PreBuiltTaskParameters.properties.modelVersion
+    transform:
+      $.description = "The version of the model to be used by the action.";
+  - from: swagger-document
     where: $.definitions.PreBuiltTaskParameters
     transform:
-      $["x-ms-client-name"] = "ActionPrebuilt";
       $.description = "Configuration common to all actions that use prebuilt models.";
-      $.properties.modelVersion.description = "The version of the model to be used by the action.";
+      $["x-ms-client-name"] = "ActionPrebuilt";
   - from: swagger-document
     where: $.definitions.CustomTaskParameters
     transform:
       $["x-ms-client-name"] = "ActionCustom";
+  - from: swagger-document
+    where: $.definitions.ActionCustom
+    transform:
       $.description = "Configuration common to all actions that use custom models.";
       $.properties.projectName.description = "The project name for the model to be used by the action.";
       $.properties.deploymentName.description = "The deployment name for the model to be used by the action.";
@@ -142,11 +169,79 @@ directive:
   - from: swagger-document
     where: $.definitions.HealthcareTaskParameters
     transform:
-      $["x-ms-client-name"] = "HealthcareAnalysisAction";
+      $["x-ms-client-name"] = "HealthcareAction";
+      $.properties.fhirVersion["x-ms-client-name"] = "setFhirVersion";
+  - from: swagger-document
+    where: $.definitions.CustomEntitiesTaskParameters
+    transform:
+      $["x-ms-client-name"] = "CustomEntityRecognitionAction";
+  - from: swagger-document
+    where: $.definitions.CustomSingleLabelClassificationTaskParameters
+    transform:
+      $["x-ms-client-name"] = "CustomSingleLabelClassificationAction";
+      $.description = "Options for a single-label classification custom action";
+  - from: swagger-document
+    where: $.definitions.CustomMultiLabelClassificationTaskParameters
+    transform:
+      $["x-ms-client-name"] = "CustomMultiLabelClassificationAction";
+      $.description = "Options for a multi-label classification custom action";
+  - from: swagger-document
+    where: $.definitions.TaskIdentifier
+    transform:
+      $["x-ms-client-name"] = "BatchActionState";
+      $.description = "The State of a batched action";
+      $.properties.taskName.description = "The name of the action";
+      $.properties.taskName["x-ms-client-name"] = "actionName";
   - from: swagger-document
     where: $.definitions..properties.stringIndexType
     transform: >
       $.description = "Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.\n\nThe default is the JavaScript's default which is \"Utf16CodeUnit\".";
+```
+
+### Rename HealthcareEntityLink => EntityDataSource
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.HealthcareEntityLink
+    transform:
+      $["x-ms-client-name"] = "EntityDataSource";
+      $.description = "A type representing a reference for the healthcare entity into a specific entity catalog.";
+      $.properties.dataSource["x-ms-client-name"] = "name";
+      $.properties.id["x-ms-client-name"] = "entityId";
+  - from: swagger-document
+    where: $.definitions.HealthcareEntity.properties.links
+    transform: >
+      $["x-ms-client-name"] = "dataSources";
+```
+
+### Rename name to normalizedText
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.HealthcareEntity.properties.name
+    transform: >
+      $["x-ms-client-name"] = "normalizedText";
+```
+
+### Rename class => classification
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SingleClassificationDocumentResult.properties.class
+    transform:
+      $["x-ms-client-name"] = "classification";
+  - from: swagger-document
+    where: $.definitions.MultiClassificationDocumentResult.properties.class
+    transform:
+      $["x-ms-client-name"] = "classifications";
+  - from: swagger-document
+    where: $.definitions.ClassificationResult
+    transform:
+      $["x-ms-client-name"] = "ClassificationCategory";
+      $.description = "A classification result from a custom classify document single category action";
 ```
 
 ### Set Utf16CodeUnit as the default for StringIndexType because this is what JavaScript uses
@@ -325,6 +420,10 @@ directive:
     where: $.definitions.Entity.properties.subcategory
     transform: >
       $["x-ms-client-name"] = "subCategory";
+  - from: swagger-document
+    where: $.definitions.HealthcareEntity.properties.subcategory
+    transform: >
+      $["x-ms-client-name"] = "subCategory";
 ```
 
 ### WarningCodeValue => WarningCode
@@ -424,5 +523,7 @@ directive:
   - from: swagger-document    
     where: $.definitions.SentenceAssessment
     transform: $.description = "An object that contains the predicted sentiment, confidence scores and other information about an assessment of a target. For example, in the sentence \"The food is good\", the assessment of the target 'food' is 'good'."
-  - from: swagger-document
+  - from: swagger-document    
+    where: $.definitions.HealthcareAssertion
+    transform: $.description = "An object that describes metadata about the healthcare entity such as whether it is hypothetical or conditional.";
 ```

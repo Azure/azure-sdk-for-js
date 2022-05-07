@@ -134,6 +134,7 @@ const cancelJobOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.jobId],
   headerParameters: [Parameters.accept],
   serializer

@@ -8,11 +8,25 @@ import { AzureKeyCredential } from '@azure/core-auth';
 import { CommonClientOptions } from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PollerLike } from '@azure/core-lro';
+import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface ActionCommon {
     disableServiceLogs?: boolean;
+}
+
+// @public
+export type ActionCustom = ActionCommon & {
+    projectName: string;
+    deploymentName: string;
+};
+
+// @public
+export interface ActionMetadata {
+    readonly modelVersion: string;
 }
 
 // @public
@@ -44,6 +58,83 @@ export type AnalyzeActionParameters<ActionName extends AnalyzeActionName> = {
 }[ActionName];
 
 // @public
+export type AnalyzeBatchAction = {
+    actionName?: string;
+} & ((EntityLinkingAction & {
+    kind: "EntityLinking";
+}) | (EntityRecognitionAction & {
+    kind: "EntityRecognition";
+}) | (KeyPhraseExtractionAction & {
+    kind: "KeyPhraseExtraction";
+}) | (PiiEntityRecognitionAction & {
+    kind: "PiiEntityRecognition";
+}) | (SentimentAnalysisAction & {
+    kind: "SentimentAnalysis";
+}) | (HealthcareAction & {
+    kind: "Healthcare";
+}) | (CustomEntityRecognitionAction & {
+    kind: "CustomEntityRecognition";
+}) | (CustomSingleLabelClassificationAction & {
+    kind: "CustomSingleLabelClassification";
+}) | (CustomMultiLabelClassificationAction & {
+    kind: "CustomMultiLabelClassification";
+}));
+
+// @public
+export const AnalyzeBatchActionNames: {
+    readonly SentimentAnalysis: "SentimentAnalysis";
+    readonly EntityRecognition: "EntityRecognition";
+    readonly PiiEntityRecognition: "PiiEntityRecognition";
+    readonly KeyPhraseExtraction: "KeyPhraseExtraction";
+    readonly EntityLinking: "EntityLinking";
+    readonly Healthcare: "Healthcare";
+    readonly CustomEntityRecognition: "CustomEntityRecognition";
+    readonly CustomSingleLabelClassification: "CustomSingleLabelClassification";
+    readonly CustomMultiLabelClassification: "CustomMultiLabelClassification";
+};
+
+// @public
+export interface AnalyzeBatchOperationMetadata {
+    actionFailedCount: number;
+    actionInProgressCount: number;
+    actionSucceededCount: number;
+    createdOn: Date;
+    displayName?: string;
+    expiresOn?: Date;
+    lastModifiedOn: Date;
+    operationId: string;
+    status: State;
+}
+
+// @public
+export interface AnalyzeBatchOperationState extends PollOperationState<PagedAnalyzeBatchResult>, AnalyzeBatchOperationMetadata {
+}
+
+// @public
+export type AnalyzeBatchPoller = PollerLike<AnalyzeBatchOperationState, PagedAnalyzeBatchResult>;
+
+// @public
+export type AnalyzeBatchResult = (BatchActionResult<EntityLinkingResult> & ActionMetadata & {
+    kind: "EntityLinking";
+}) | (BatchActionResult<EntityRecognitionResult> & ActionMetadata & {
+    kind: "EntityRecognition";
+}) | (BatchActionResult<KeyPhraseExtractionResult> & ActionMetadata & {
+    kind: "KeyPhraseExtraction";
+}) | (BatchActionResult<PiiEntityRecognitionResult> & ActionMetadata & {
+    kind: "PiiEntityRecognition";
+}) | (BatchActionResult<SentimentAnalysisResult> & ActionMetadata & {
+    kind: "SentimentAnalysis";
+}) | (BatchActionResult<HealthcareResult> & ActionMetadata & {
+    kind: "Healthcare";
+}) | (BatchActionResult<CustomEntityRecognitionResult> & CustomActionMetadata & {
+    kind: "CustomEntityRecognition";
+}) | (BatchActionResult<CustomSingleLabelClassificationResult> & CustomActionMetadata & {
+    kind: "CustomSingleLabelClassification";
+}) | (BatchActionResult<CustomMultiLabelClassificationResult> & CustomActionMetadata & {
+    kind: "CustomMultiLabelClassification";
+});
+
+// @public
 export type AnalyzeResult<ActionName extends AnalyzeActionName> = {
     EntityLinking: EntityLinkingResult[];
     EntityRecognition: EntityRecognitionResult[];
@@ -63,7 +154,106 @@ export interface AssessmentSentiment {
     text: string;
 }
 
+// @public
+export type Association = "subject" | "other";
+
 export { AzureKeyCredential }
+
+// @public
+export interface BatchActionErrorResult extends BatchActionState {
+    readonly error: TextAnalysisError;
+    readonly failedOn: Date;
+}
+
+// @public
+export type BatchActionResult<T> = BatchActionSuccessResult<T> | BatchActionErrorResult;
+
+// @public
+export interface BatchActionState {
+    readonly actionName?: string;
+    readonly statistics?: TextDocumentBatchStatistics;
+}
+
+// @public
+export interface BatchActionSuccessResult<T> extends BatchActionState {
+    readonly completedOn: Date;
+    readonly error?: undefined;
+    readonly results: T[];
+}
+
+// @public
+export interface BeginAnalyzeBatchOptions extends TextAnalysisOperationOptions {
+    displayName?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type Certainty = "positive" | "positivePossible" | "neutralPossible" | "negativePossible" | "negative";
+
+// @public
+export interface ClassificationCategory {
+    category: string;
+    confidenceScore: number;
+}
+
+// @public
+export type Conditionality = "hypothetical" | "conditional";
+
+// @public
+export interface CreateAnalyzeBatchPollerOptions extends TextAnalysisOperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface CustomActionMetadata {
+    readonly deploymentName: string;
+    readonly projectName: string;
+}
+
+// @public
+export type CustomEntityRecognitionAction = ActionCustom & {
+    stringIndexType?: StringIndexType;
+};
+
+// @public
+export type CustomEntityRecognitionErrorResult = TextAnalysisErrorResult;
+
+// @public
+export type CustomEntityRecognitionResult = CustomEntityRecognitionSuccessResult | CustomEntityRecognitionErrorResult;
+
+// @public
+export interface CustomEntityRecognitionSuccessResult extends TextAnalysisSuccessResult {
+    entities: Entity[];
+}
+
+// @public
+export type CustomMultiLabelClassificationAction = ActionCustom & {};
+
+// @public
+export type CustomMultiLabelClassificationErrorResult = TextAnalysisErrorResult;
+
+// @public
+export type CustomMultiLabelClassificationResult = CustomMultiLabelClassificationSuccessResult | CustomMultiLabelClassificationErrorResult;
+
+// @public
+export interface CustomMultiLabelClassificationSuccessResult extends TextAnalysisSuccessResult {
+    classifications: ClassificationCategory[];
+}
+
+// @public
+export type CustomSingleLabelClassificationAction = ActionCustom & {};
+
+// @public
+export type CustomSingleLabelClassificationErrorResult = TextAnalysisErrorResult;
+
+// @public
+export type CustomSingleLabelClassificationResult = CustomSingleLabelClassificationSuccessResult | CustomSingleLabelClassificationErrorResult;
+
+// @public
+export interface CustomSingleLabelClassificationSuccessResult extends TextAnalysisSuccessResult {
+    classification: ClassificationCategory;
+}
 
 // @public
 export interface DetectedLanguage {
@@ -89,6 +279,12 @@ export interface Entity {
     offset: number;
     subCategory?: string;
     text: string;
+}
+
+// @public
+export interface EntityDataSource {
+    entityId: string;
+    name: string;
 }
 
 // @public
@@ -121,6 +317,63 @@ export type EntityRecognitionResult = EntityRecognitionSuccessResult | EntityRec
 // @public
 export interface EntityRecognitionSuccessResult extends TextAnalysisSuccessResult {
     readonly entities: Entity[];
+}
+
+// @public
+export type FhirVersion = string;
+
+// @public
+export type HealthcareAction = ActionPrebuilt & {
+    setFhirVersion?: FhirVersion;
+    stringIndexType?: StringIndexType;
+};
+
+// @public
+export interface HealthcareAssertion {
+    association?: Association;
+    certainty?: Certainty;
+    conditionality?: Conditionality;
+}
+
+// @public
+export interface HealthcareEntity extends Entity {
+    assertion?: HealthcareAssertion;
+    category: HealthcareEntityCategory;
+    dataSources: EntityDataSource[];
+    normalizedText?: string;
+}
+
+// @public
+export type HealthcareEntityCategory = string;
+
+// @public
+export interface HealthcareEntityRelation {
+    relationType: RelationType;
+    roles: HealthcareEntityRelationRole[];
+}
+
+// @public
+export interface HealthcareEntityRelationRole {
+    entity: HealthcareEntity;
+    name: HealthcareEntityRelationRoleType;
+}
+
+// @public
+export type HealthcareEntityRelationRoleType = string;
+
+// @public
+export type HealthcareErrorResult = TextAnalysisErrorResult;
+
+// @public
+export type HealthcareResult = HealthcareSuccessResult | HealthcareErrorResult;
+
+// @public
+export interface HealthcareSuccessResult extends TextAnalysisSuccessResult {
+    entities: HealthcareEntity[];
+    entityRelations: HealthcareEntityRelation[];
+    fhirBundle?: {
+        [propertyName: string]: any;
+    };
 }
 
 // @public
@@ -167,6 +420,12 @@ export enum KnownErrorCode {
     TooManyRequests = "TooManyRequests",
     // (undocumented)
     Unauthorized = "Unauthorized"
+}
+
+// @public
+export enum KnownFhirVersion {
+    // (undocumented)
+    Four01 = "4.0.1"
 }
 
 // @public
@@ -640,6 +899,9 @@ export interface Opinion {
 }
 
 // @public
+export type PagedAnalyzeBatchResult = PagedAsyncIterableIterator<AnalyzeBatchResult>;
+
+// @public
 export type PiiCategory = string;
 
 // @public
@@ -663,6 +925,9 @@ export interface PiiEntityRecognitionSuccessResult extends TextAnalysisSuccessRe
     readonly entities: Entity[];
     readonly redactedText: string;
 }
+
+// @public
+export type RelationType = string;
 
 // @public
 export interface SentenceSentiment {
@@ -707,6 +972,9 @@ export interface SentimentConfidenceScores {
 }
 
 // @public
+export type State = "notStarted" | "running" | "succeeded" | "partiallySucceeded" | "failed" | "cancelled" | "cancelling";
+
+// @public
 export type StringIndexType = string;
 
 // @public
@@ -734,6 +1002,9 @@ export class TextAnalysisClient {
     analyze<ActionName extends "LanguageDetection">(actionName: ActionName, documents: string[], countryHint?: string, options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions): Promise<AnalyzeResult<ActionName>>;
     analyze<ActionName extends AnalyzeActionName = AnalyzeActionName>(actionName: ActionName, documents: TextDocumentInput[], options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions): Promise<AnalyzeResult<ActionName>>;
     analyze<ActionName extends AnalyzeActionName = AnalyzeActionName>(actionName: ActionName, documents: string[], language?: string, options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions): Promise<AnalyzeResult<ActionName>>;
+    beginAnalyzeBatch(actions: AnalyzeBatchAction[], documents: string[], language?: string, options?: BeginAnalyzeBatchOptions): Promise<AnalyzeBatchPoller>;
+    beginAnalyzeBatch(actions: AnalyzeBatchAction[], documents: TextDocumentInput[], options?: BeginAnalyzeBatchOptions): Promise<AnalyzeBatchPoller>;
+    createAnalyzeBatchPoller(serializedState: string, options?: CreateAnalyzeBatchPollerOptions): Promise<AnalyzeBatchPoller>;
 }
 
 // @public

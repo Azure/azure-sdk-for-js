@@ -129,17 +129,18 @@ export interface TextDocumentInput {
   language?: string;
 }
 
-/** Base task object. */
-export interface TaskIdentifier {
-  taskName?: string;
+/** The State of a batched action */
+export interface BatchActionState {
+  /** The name of the action */
+  actionName?: string;
 }
 
 export interface JobState {
   displayName?: string;
-  createdDateTime: Date;
-  expirationDateTime?: Date;
-  jobId: string;
-  lastUpdateDateTime: Date;
+  createdOn: Date;
+  expiresOn?: Date;
+  operationId: string;
+  lastModifiedOn: Date;
   status: State;
   errors?: ErrorModel[];
   nextLink?: string;
@@ -271,7 +272,8 @@ export interface TextDocumentStatistics {
   transactionCount: number;
 }
 
-export interface ClassificationResult {
+/** A classification result from a custom classify document single category action */
+export interface ClassificationCategory {
   /** Classification type. */
   category: string;
   /** Confidence score between 0 and 1 of the recognized class. */
@@ -284,20 +286,22 @@ export interface HealthcareEntity {
   /** Healthcare Entity Category. */
   category: HealthcareEntityCategory;
   /** (Optional) Entity sub type. */
-  subcategory?: string;
+  subCategory?: string;
   /** Start position for the entity text. Use of different 'stringIndexType' values can affect the offset returned. */
   offset: number;
   /** Length for the entity text. Use of different 'stringIndexType' values can affect the length returned. */
   length: number;
   /** Confidence score between 0 and 1 of the extracted entity. */
   confidenceScore: number;
+  /** An object that describes metadata about the healthcare entity such as whether it is hypothetical or conditional. */
   assertion?: HealthcareAssertion;
   /** Preferred name for the entity. Example: 'histologically' would have a 'name' of 'histologic'. */
-  name?: string;
+  normalizedText?: string;
   /** Entity references in known data sources. */
-  links?: HealthcareEntityLink[];
+  dataSources?: EntityDataSource[];
 }
 
+/** An object that describes metadata about the healthcare entity such as whether it is hypothetical or conditional. */
 export interface HealthcareAssertion {
   /** Describes any conditionality on the entity. */
   conditionality?: Conditionality;
@@ -307,11 +311,12 @@ export interface HealthcareAssertion {
   association?: Association;
 }
 
-export interface HealthcareEntityLink {
+/** A type representing a reference for the healthcare entity into a specific entity catalog. */
+export interface EntityDataSource {
   /** Entity Catalog. Examples include: UMLS, CHV, MSH, etc. */
-  dataSource: string;
+  name: string;
   /** Entity id in the given source catalog. */
-  id: string;
+  entityId: string;
 }
 
 /** Every relation is an entity graph of a certain relationType, where all entities are connected and have specific roles within the relation context. */
@@ -550,13 +555,13 @@ export type LanguageDetectionTaskResult = AnalyzeTextTaskResult & {
   results: LanguageDetectionResult;
 };
 
-export type AnalyzeBatchAction = TaskIdentifier & {
+export type AnalyzeBatchAction = BatchActionState & {
   /** Enumeration of supported long-running Text Analysis tasks. */
   kind: AnalyzeTextLROTaskKind;
 };
 
 export type AnalyzeTextLROResult = TaskState &
-  TaskIdentifier & {
+  BatchActionState & {
     /** Enumeration of supported Text Analysis long-running operation task results. */
     kind: AnalyzeTextLROResultsKind;
   };
@@ -571,11 +576,9 @@ export type ActionPrebuilt = ActionCommon & {
   modelVersion?: string;
 };
 
-/** Configuration common to all actions that use custom models. */
+/** Parameters object for a text analysis task using custom models. */
 export type ActionCustom = ActionCommon & {
-  /** The project name for the model to be used by the action. */
   projectName: string;
-  /** The deployment name for the model to be used by the action. */
   deploymentName: string;
 };
 
@@ -639,11 +642,12 @@ export type EntitiesDocumentResult = DocumentResult & {
 };
 
 export type SingleClassificationDocumentResult = DocumentResult & {
-  class: ClassificationResult;
+  /** A classification result from a custom classify document single category action */
+  classification: ClassificationCategory;
 };
 
 export type MultiClassificationDocumentResult = DocumentResult & {
-  class: ClassificationResult[];
+  classifications: ClassificationCategory[];
 };
 
 export type HealthcareEntitiesDocumentResult = DocumentResult & {
@@ -651,6 +655,8 @@ export type HealthcareEntitiesDocumentResult = DocumentResult & {
   entities: HealthcareEntity[];
   /** Healthcare entity relations. */
   relations: HealthcareRelation[];
+  /** JSON bundle containing a FHIR compatible object for consumption in other Healthcare tools. For additional information see https://www.hl7.org/fhir/overview.html. */
+  fhirBundle?: { [propertyName: string]: any };
 };
 
 export type SentimentDocumentResult = DocumentResult & {
@@ -692,24 +698,24 @@ export type LanguageDetectionDocumentResult = DocumentResult & {
 /** Use custom models to ease the process of information extraction from unstructured documents like contracts or financial documents */
 export type CustomEntitiesLROTask = AnalyzeBatchAction & {
   /** Supported parameters for a Custom Entities task. */
-  parameters?: CustomEntitiesTaskParameters;
+  parameters?: CustomEntityRecognitionAction;
 };
 
 /** Use custom models to classify text into single label taxonomy */
 export type CustomSingleLabelClassificationLROTask = AnalyzeBatchAction & {
-  /** Supported parameters for a Custom Single Classification task. */
-  parameters?: CustomSingleLabelClassificationTaskParameters;
+  /** Options for a single-label classification custom action */
+  parameters?: CustomSingleLabelClassificationAction;
 };
 
 /** Use custom models to classify text into multi label taxonomy */
 export type CustomMultiLabelClassificationLROTask = AnalyzeBatchAction & {
-  /** Supported parameters for a Custom Multi Classification task. */
-  parameters?: CustomMultiLabelClassificationTaskParameters;
+  /** Options for a multi-label classification custom action */
+  parameters?: CustomMultiLabelClassificationAction;
 };
 
 export type HealthcareLROTask = AnalyzeBatchAction & {
   /** Supported parameters for a Healthcare task. */
-  parameters?: HealthcareAnalysisAction;
+  parameters?: HealthcareAction;
 };
 
 /** An object representing the task definition for a Sentiment Analysis task. */
@@ -845,7 +851,9 @@ export type SentimentAnalysisAction = ActionPrebuilt & {
 };
 
 /** Supported parameters for a Healthcare task. */
-export type HealthcareAnalysisAction = ActionPrebuilt & {
+export type HealthcareAction = ActionPrebuilt & {
+  /** The FHIR Spec version that the result will use to format the fhirBundle. For additional information see https://www.hl7.org/fhir/overview.html. */
+  setFhirVersion?: FhirVersion;
   /**
    * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
    *
@@ -868,7 +876,7 @@ export type ExtractiveSummarizationTaskParameters = ActionPrebuilt & {
 };
 
 /** Supported parameters for a Custom Entities task. */
-export type CustomEntitiesTaskParameters = ActionCustom & {
+export type CustomEntityRecognitionAction = ActionCustom & {
   /**
    * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
    *
@@ -877,11 +885,11 @@ export type CustomEntitiesTaskParameters = ActionCustom & {
   stringIndexType?: StringIndexType;
 };
 
-/** Supported parameters for a Custom Single Classification task. */
-export type CustomSingleLabelClassificationTaskParameters = ActionCustom & {};
+/** Options for a single-label classification custom action */
+export type CustomSingleLabelClassificationAction = ActionCustom & {};
 
-/** Supported parameters for a Custom Multi Classification task. */
-export type CustomMultiLabelClassificationTaskParameters = ActionCustom & {};
+/** Options for a multi-label classification custom action */
+export type CustomMultiLabelClassificationAction = ActionCustom & {};
 
 export type CustomEntitiesResultDocumentsItem = EntitiesDocumentResult & {};
 
@@ -1517,6 +1525,20 @@ export enum KnownWarningCode {
  * **DocumentTruncated**
  */
 export type WarningCode = string;
+
+/** Known values of {@link FhirVersion} that the service accepts. */
+export enum KnownFhirVersion {
+  Four01 = "4.0.1"
+}
+
+/**
+ * Defines values for FhirVersion. \
+ * {@link KnownFhirVersion} can be used interchangeably with FhirVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **4.0.1**
+ */
+export type FhirVersion = string;
 
 /** Known values of {@link HealthcareEntityCategory} that the service accepts. */
 export enum KnownHealthcareEntityCategory {

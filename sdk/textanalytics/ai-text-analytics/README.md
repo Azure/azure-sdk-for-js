@@ -9,10 +9,9 @@
 - Key Phrase Extraction
 - Named Entity Recognition
 - Recognition of Personally Identifiable Information
-- Linked Entity Recognition
-- Extractive Summarization
+- Entity Linking
 - Healthcare Analysis
-- Custom Entities Recognition
+- Custom Entity Recognition
 - Custom Document Classification
 - Support Multiple Actions Per Document
 
@@ -142,9 +141,9 @@ See [service limitations][data_limits] for the input, including document length 
 
 ### Return Value
 
-The return value corresponding to a single document is either a successful result or an error object. Each `TextAnalysisClient` method returns a heterogeneous array of results and errors that correspond to the inputs by index. A text input and its result will have the same index in the input and result collections. The collection may also optionally include information about the input batch and how it was processed in the `statistics` field.
+The return value corresponding to a single document is either a successful result or an error object. Each `TextAnalysisClient` method returns a heterogeneous array of results and errors that correspond to the inputs by index. A text input and its result will have the same index in the input and result collections.
 
-An **result**, such as `AnalyzeSentimentResult`, is the result of a Language operation, containing a prediction or predictions about a single text input. An operation's result type also may optionally include information about the input document and how it was processed.
+An **result**, such as `SentimentAnalysisResult`, is the result of a Language operation, containing a prediction or predictions about a single text input. An operation's result type also may optionally include information about the input document and how it was processed.
 
 The **error** object, `TextAnalysisErrorResult`, indicates that the service encountered an error while processing the document and contains information about the error.
 
@@ -175,7 +174,7 @@ if (result.error !== undefined) {
 
 ## Examples
 
-### Analyze Sentiment
+### Sentiment Analysis
 
 Analyze sentiment of text to determine if it is positive, negative, neutral, or mixed, including per-sentence sentiment analysis and confidence scores.
 
@@ -208,7 +207,7 @@ main();
 
 To get more granular information about the opinions related to aspects of a product/service, also known as Aspect-based Sentiment Analysis in Natural Language Processing (NLP), see a sample on sentiment analysis with opinion mining [here][analyze_sentiment_opinion_mining_sample].
 
-### Recognize Entities
+### Entity Recognition
 
 Recognize and categorize entities in text as people, places, organizations, dates/times, quantities, currencies, etc.
 
@@ -243,9 +242,9 @@ async function main() {
 main();
 ```
 
-### Recognize PII Entities
+### PII Entity Recognition
 
-There is a separate endpoint and operation for recognizing Personally Identifiable Information (PII) in text such as Social Security Numbers, bank account information, credit card numbers, etc. Its usage is very similar to the standard entity recognition above:
+There is a separate action for recognizing Personally Identifiable Information (PII) in text such as Social Security Numbers, bank account information, credit card numbers, etc. Its usage is very similar to the standard entity recognition above:
 
 ```javascript
 const { TextAnalysisClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
@@ -270,9 +269,9 @@ async function main() {
 main();
 ```
 
-### Recognize Linked Entities
+### Entity Linking
 
-A "Linked" entity is one that exists in a knowledge base (such as Wikipedia). The `recognizeLinkedEntities` operation can disambiguate entities by determining which entry in a knowledge base they likely refer to (for example, in a piece of text, does the word "Mars" refer to the planet, or to the Roman god of war). Linked entities contain associated URLs to the knowledge base that provides the definition of the entity.
+A "Linked" entity is one that exists in a knowledge base (such as Wikipedia). The `EntityLinking` action can disambiguate entities by determining which entry in a knowledge base they likely refer to (for example, in a piece of text, does the word "Mars" refer to the planet, or to the Roman god of war). Linked entities contain associated URLs to the knowledge base that provides the definition of the entity.
 
 ```javascript
 const { TextAnalysisClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
@@ -312,7 +311,7 @@ async function main() {
 main();
 ```
 
-### Extract Key Phrases
+### Key Phrase Extraction
 
 Key Phrase extraction identifies the main talking points in a document. For example, given input text "The food was delicious and there were wonderful staff", the service returns "food" and "wonderful staff".
 
@@ -343,7 +342,7 @@ async function main() {
 main();
 ```
 
-### Detect Language
+### Language Detection
 
 Determine the language of a piece of text.
 
@@ -386,7 +385,7 @@ async function main() {
 main();
 ```
 
-### Analyze Healthcare Entities
+### Healthcare Analysis
 
 Healthcare analysis identifies healthcare entities. For example, given input text "Prescribed 100mg ibuprofen, taken twice daily", the service returns "100mg" categorized as Dosage, "ibuprofen" as MedicationName, and "twice daily" as Frequency.
 
@@ -401,26 +400,199 @@ const documents = [
 ];
 
 async function main() {
-  const poller = await client.beginAnalyzeHealthcareEntities(documents);
+  const poller = await client.beginAnalyzeBatch(
+    [
+      {
+        kind: "Healthcare",
+      },
+    ],
+    documents
+  );
   const results = await poller.pollUntilDone();
-
-  for await (const result of results) {
-    console.log(`- Document ${result.id}`);
-    if (!result.error) {
+  for await (const actionResult of results) {
+    if (actionResult.kind !== "Healthcare") {
+      throw new Error(`Expected a healthcare results but got: ${actionResult.kind}`);
+    }
+    if (actionResult.error) {
+      const { code, message } = actionResult.error;
+      throw new Error(`Unexpected error (${code}): ${message}`);
+    }
+    for (const result of actionResult.results) {
+      console.log(`- Document ${result.id}`);
+      if (result.error) {
+        const { code, message } = result.error;
+        throw new Error(`Unexpected error (${code}): ${message}`);
+      }
       console.log("\tRecognized Entities:");
       for (const entity of result.entities) {
-        console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
+        console.log(`\t- Entity "${entity.text}" of type ${entity.category}`);
+        if (entity.dataSources.length > 0) {
+          console.log("\t and it can be referenced in the following data sources:");
+          for (const ds of entity.dataSources) {
+            console.log(`\t\t- ${ds.name} with Entity ID: ${ds.entityId}`);
+          }
+        }
       }
-    } else console.error("\tError:", result.error);
+    }
   }
 }
 
 main();
 ```
 
-### Analyze Actions
+### Custom Entity Recognition
 
-Analyze actions enables the application of multiple analyses (named actions) at once.
+Recognize and categorize entities in text as entities using custom entity detection models built using [Azure Language Studio][lang_studio].
+
+```javascript
+const { TextAnalysisClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
+
+const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+
+const documents = [
+  "We love this trail and make the trip every year. The views are breathtaking and well worth the hike! Yesterday was foggy though, so we missed the spectacular views. We tried again today and it was amazing. Everyone in my family liked the trail although it was too challenging for the less athletic among us.",
+  "Last week we stayed at Hotel Foo to celebrate our anniversary. The staff knew about our anniversary so they helped me organize a little surprise for my partner. The room was clean and with the decoration I requested. It was perfect!",
+];
+
+async function main() {
+  const poller = await client.beginAnalyzeBatch(
+    [
+      {
+        kind: "CustomEntityRecognition",
+        deploymentName,
+        projectName
+      },
+    ],
+    documents
+  );
+  const results = await poller.pollUntilDone();
+  for await (const actionResult of results) {
+    if (actionResult.kind !== "CustomEntityRecognition") {
+      throw new Error(`Expected a CustomEntityRecognition results but got: ${actionResult.kind}`);
+    }
+    if (actionResult.error) {
+      const { code, message } = actionResult.error;
+      throw new Error(`Unexpected error (${code}): ${message}`);
+    }
+    for (const result of actionResult.results) {
+      console.log(`- Document ${result.id}`);
+      if (result.error) {
+        const { code, message } = result.error;
+        throw new Error(`Unexpected error (${code}): ${message}`);
+      }
+      console.log("\tRecognized Entities:");
+      for (const entity of result.entities) {
+        console.log(`\t- Entity "${entity.text}" of type ${entity.category}`);
+      }
+    }
+  }
+}
+
+main();
+```
+
+### Custom Single-label Classification
+
+Classify documents using custom single-label models built using [Azure Language Studio][lang_studio].
+
+```javascript
+const { TextAnalysisClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
+
+const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+
+const documents = [
+  "The plot begins with a large group of characters where everyone thinks that the two main ones should be together but foolish things keep them apart. Misunderstandings, miscommunication, and confusion cause a series of humorous situations.",
+];
+
+async function main() {
+   const poller = await client.beginAnalyzeBatch(
+    [
+      {
+        kind: "CustomSingleLabelClassification",
+        deploymentName,
+        projectName
+      },
+    ],
+    documents
+  );
+  const results = await poller.pollUntilDone();
+
+  for await (const actionResult of results) {
+    if (actionResult.kind !== "CustomSingleLabelClassification") {
+      throw new Error(`Expected a CustomSingleLabelClassification results but got: ${actionResult.kind}`);
+    }
+    if (actionResult.error) {
+      const { code, message } = actionResult.error;
+      throw new Error(`Unexpected error (${code}): ${message}`);
+    }
+    for (const result of actionResult.results) {
+      console.log(`- Document ${result.id}`);
+      if (result.error) {
+        const { code, message } = result.error;
+        throw new Error(`Unexpected error (${code}): ${message}`);
+      }
+      console.log(`\tClassification: ${result.classification.category}`);
+    }
+  }
+}
+
+main();
+```
+
+### Custom Multi-label Classification
+
+Classify documents using custom multi-label models built using [Azure Language Studio][lang_studio].
+
+```javascript
+const { TextAnalysisClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
+
+const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+
+const documents = [
+  "The plot begins with a large group of characters where everyone thinks that the two main ones should be together but foolish things keep them apart. Misunderstandings, miscommunication, and confusion cause a series of humorous situations.",
+];
+
+async function main() {
+     const poller = await client.beginAnalyzeBatch(
+    [
+      {
+        kind: "CustomMultiLabelClassification",
+        deploymentName,
+        projectName
+      },
+    ],
+    documents
+  );
+  const results = await poller.pollUntilDone();
+
+  for await (const actionResult of results) {
+    if (actionResult.kind !== "CustomMultiLabelClassification") {
+      throw new Error(`Expected a CustomMultiLabelClassification results but got: ${actionResult.kind}`);
+    }
+    if (actionResult.error) {
+      const { code, message } = actionResult.error;
+      throw new Error(`Unexpected error (${code}): ${message}`);
+    }
+    for (const result of actionResult.results) {
+      console.log(`- Document ${result.id}`);
+      if (result.error) {
+        const { code, message } = result.error;
+        throw new Error(`Unexpected error (${code}): ${message}`);
+      }
+      console.log(`\tClassification:`);
+      for (const classification of result.classifications) {
+        console.log(`\t\t-category: ${classification.category}`);
+      }
+    }
+  }
+}
+
+main();
+```
+
+### Action Batching
+
+Applies multiple actions on each input document in one service request.
 
 ```javascript
 const { TextAnalysisClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
@@ -435,56 +607,75 @@ const documents = [
 ];
 
 async function main() {
-  const actions = {
-    recognizeEntitiesActions: [{ modelVersion: "latest" }],
-    recognizePiiEntitiesActions: [{ modelVersion: "latest" }],
-    extractKeyPhrasesActions: [{ modelVersion: "latest" }]
-  };
-  const poller = await client.beginAnalyzeActions(documents, actions);
-  const resultPages = await poller.pollUntilDone();
-  for await (const page of resultPages) {
-    const keyPhrasesAction = page.extractKeyPhrasesResults[0];
-    if (!keyPhrasesAction.error) {
-      for (const doc of keyPhrasesAction.results) {
-        console.log(`- Document ${doc.id}`);
-        if (!doc.error) {
-          console.log("\tKey phrases:");
-          for (const phrase of doc.keyPhrases) {
-            console.log(`\t- ${phrase}`);
-          }
-        } else {
-          console.error("\tError:", doc.error);
-        }
-      }
+  const poller = await client.beginAnalyzeBatch(
+    [
+      {
+        kind: "EntityRecognition",
+        modelVersion: "latest",
+      },
+      {
+        kind: "PiiEntityRecognition",
+        modelVersion: "latest",
+      },
+      {
+        kind: "KeyPhraseExtraction",
+        modelVersion: "latest",
+      },
+    ],
+    documents,
+    "en"
+  );
+  const actionResults = await poller.pollUntilDone();
+    for await (const actionResult of actionResults) {
+    if (actionResult.error) {
+      const { code, message } = actionResult.error;
+      throw new Error(`Unexpected error (${code}): ${message}`);
     }
-
-    const entitiesAction = page.recognizeEntitiesResults[0];
-    if (!entitiesAction.error) {
-      for (const doc of entitiesAction.results) {
-        console.log(`- Document ${doc.id}`);
-        if (!doc.error) {
-          console.log("\tEntities:");
-          for (const entity of doc.entities) {
-            console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
+    switch (actionResult.kind) {
+      case "KeyPhraseExtraction": {
+        for (const doc of actionResult.results) {
+          console.log(`- Document ${doc.id}`);
+          if (!doc.error) {
+            console.log("\tKey phrases:");
+            for (const phrase of doc.keyPhrases) {
+              console.log(`\t- ${phrase}`);
+            }
+          } else {
+            console.error("\tError:", doc.error);
           }
-        } else {
-          console.error("\tError:", doc.error);
         }
+        break;
       }
-    }
-
-    const piiEntitiesAction = page.recognizePiiEntitiesResults[0];
-    if (!piiEntitiesAction.error) {
-      for (const doc of piiEntitiesAction.results) {
-        console.log(`- Document ${doc.id}`);
-        if (!doc.error) {
-          console.log("\tPii Entities:");
-          for (const entity of doc.entities) {
-            console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
+      case "EntityRecognition": {
+        for (const doc of actionResult.results) {
+          console.log(`- Document ${doc.id}`);
+          if (!doc.error) {
+            console.log("\tEntities:");
+            for (const entity of doc.entities) {
+              console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
+            }
+          } else {
+            console.error("\tError:", doc.error);
           }
-        } else {
-          console.error("\tError:", doc.error);
         }
+        break;
+      }
+      case "PiiEntityRecognition": {
+        for (const doc of actionResult.results) {
+          console.log(`- Document ${doc.id}`);
+          if (!doc.error) {
+            console.log("\tPii Entities:");
+            for (const entity of doc.entities) {
+              console.log(`\t- Entity ${entity.text} of type ${entity.category}`);
+            }
+          } else {
+            console.error("\tError:", doc.error);
+          }
+        }
+        break;
+      }
+      default: {
+        throw new Error(`Unexpected action results: ${actionResult.kind}`);
       }
     }
   }
@@ -530,4 +721,5 @@ If you'd like to contribute to this library, please read the [contributing guide
 [register_aad_app]: https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [data_limits]: https://docs.microsoft.com/azure/cognitive-services/language-service/concepts/data-limits
-[analyze_sentiment_opinion_mining_sample]: https://github.com/deyaaeldeen/azure-sdk-for-js/tree/textanalytics/regenerate-with-language/sdk/textanalytics/ai-text-analytics/samples/v6-beta/typescript/src/opinionMining.ts
+[analyze_sentiment_opinion_mining_sample]: https://github.com/deyaaeldeen/azure-sdk-for-js/blob/ee7fe80d5f02a018a23bd604a8168cca8cba094a/sdk/textanalytics/ai-text-analytics/samples-dev/opinionMining.ts
+[lang_studio]: https://docs.microsoft.com/azure/cognitive-services/language-service/language-studio
