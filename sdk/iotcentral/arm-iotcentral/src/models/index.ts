@@ -22,6 +22,11 @@ export interface NetworkRuleSets {
 
 /** An object for an IP range that will be allowed access. */
 export interface NetworkRuleSetIpRule {
+  /**
+   * The network action for the IP mask.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly action?: IpRuleAction;
   /** The readable name of the IP rule. */
   filterName?: string;
   /** The CIDR block defining the IP range. */
@@ -567,6 +572,20 @@ export enum KnownNetworkAction {
  * **Deny**
  */
 export type NetworkAction = string;
+
+/** Known values of {@link IpRuleAction} that the service accepts. */
+export enum KnownIpRuleAction {
+  Allow = "Allow"
+}
+
+/**
+ * Defines values for IpRuleAction. \
+ * {@link KnownIpRuleAction} can be used interchangeably with IpRuleAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Allow**
+ */
+export type IpRuleAction = string;
 
 /** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
 export enum KnownPrivateEndpointServiceConnectionStatus {

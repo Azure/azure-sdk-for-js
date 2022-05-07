@@ -267,6 +267,9 @@ export interface IotCentralClientOptionalParams extends coreClient.ServiceClient
 }
 
 // @public
+export type IpRuleAction = string;
+
+// @public
 export enum KnownAppSku {
     // (undocumented)
     ST0 = "ST0",
@@ -294,6 +297,12 @@ export enum KnownCreatedByType {
     ManagedIdentity = "ManagedIdentity",
     // (undocumented)
     User = "User"
+}
+
+// @public
+export enum KnownIpRuleAction {
+    // (undocumented)
+    Allow = "Allow"
 }
 
 // @public
@@ -363,6 +372,7 @@ export type NetworkAction = string;
 
 // @public
 export interface NetworkRuleSetIpRule {
+    readonly action?: IpRuleAction;
     filterName?: string;
     ipMask?: string;
 }

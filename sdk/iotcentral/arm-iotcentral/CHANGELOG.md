@@ -1,16 +1,6 @@
 # Release History
-
-## 7.0.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 7.0.0-beta.1 (2022-04-06)
+    
+## 7.0.0-beta.2 (2022-05-07)
     
 **Features**
 
@@ -39,6 +29,7 @@
   - Added Interface SystemData
   - Added Type Alias AppsDeleteResponse
   - Added Type Alias CreatedByType
+  - Added Type Alias IpRuleAction
   - Added Type Alias NetworkAction
   - Added Type Alias PrivateEndpointConnection
   - Added Type Alias PrivateEndpointConnectionProvisioningState
@@ -67,6 +58,7 @@
   - Type Alias App has a new parameter networkRuleSets
   - Type Alias App has a new parameter privateEndpointConnections
   - Added Enum KnownCreatedByType
+  - Added Enum KnownIpRuleAction
   - Added Enum KnownNetworkAction
   - Added Enum KnownPrivateEndpointConnectionProvisioningState
   - Added Enum KnownPrivateEndpointServiceConnectionStatus

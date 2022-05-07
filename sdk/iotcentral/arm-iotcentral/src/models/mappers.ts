@@ -52,6 +52,13 @@ export const NetworkRuleSetIpRule: coreClient.CompositeMapper = {
     name: "Composite",
     className: "NetworkRuleSetIpRule",
     modelProperties: {
+      action: {
+        serializedName: "action",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
       filterName: {
         serializedName: "filterName",
         type: {
