@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -9,9 +9,9 @@ trigger:
   paths:
     include:
       - sdk/machinelearning/ci.mgmt.yml
-      - sdk/machinelearning/arm-workspaces/
-      - sdk/machinelearning/arm-webservices/
-      - sdk/machinelearning/arm-commitmentplans/
+      - sdk/machinelearning/arm-commitmentplans
+      - sdk/machinelearning/arm-webservices
+      - sdk/machinelearning/arm-workspaces
 pr:
   branches:
     include:
@@ -24,10 +24,9 @@ pr:
   paths:
     include:
       - sdk/machinelearning/ci.mgmt.yml
-      - sdk/machinelearning/arm-workspaces/
-      - sdk/machinelearning/arm-webservices/
-      - sdk/machinelearning/arm-commitmentplans/
-
+      - sdk/machinelearning/arm-commitmentplans
+      - sdk/machinelearning/arm-webservices
+      - sdk/machinelearning/arm-workspaces
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -38,4 +37,4 @@ extends:
       - name: azure-arm-webservices
         safeName: azurearmwebservices
       - name: azure-arm-commitmentplans
-        safeName: azurearmcommitmentplans        
+        safeName: azurearmcommitmentplans

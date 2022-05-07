@@ -181,11 +181,13 @@ export class VirtualNetworkGatewayConnectionsImpl
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -283,11 +285,13 @@ export class VirtualNetworkGatewayConnectionsImpl
       { resourceGroupName, virtualNetworkGatewayConnectionName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -376,11 +380,13 @@ export class VirtualNetworkGatewayConnectionsImpl
       },
       updateTagsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -475,11 +481,13 @@ export class VirtualNetworkGatewayConnectionsImpl
       },
       setSharedKeyOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -614,11 +622,13 @@ export class VirtualNetworkGatewayConnectionsImpl
       },
       resetSharedKeyOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -709,11 +719,13 @@ export class VirtualNetworkGatewayConnectionsImpl
       { resourceGroupName, virtualNetworkGatewayConnectionName, options },
       startPacketCaptureOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -805,11 +817,13 @@ export class VirtualNetworkGatewayConnectionsImpl
       },
       stopPacketCaptureOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -896,11 +910,13 @@ export class VirtualNetworkGatewayConnectionsImpl
       { resourceGroupName, virtualNetworkGatewayConnectionName, options },
       getIkeSasOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -978,11 +994,13 @@ export class VirtualNetworkGatewayConnectionsImpl
       { resourceGroupName, virtualNetworkGatewayConnectionName, options },
       resetConnectionOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

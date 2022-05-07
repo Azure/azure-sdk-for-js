@@ -109,7 +109,7 @@ testWithServiceTypes((serviceVersion) => {
 
       beforeEach("Populate EventDataBatch", async () => {
         const producerClient = new EventHubProducerClient(service.connectionString, service.path);
-        (producerClient as any)._enableIdempotentPartitions = true;
+        (producerClient as any)._enableIdempotentRetries = true;
         batch = await producerClient.createBatch({ partitionId: "0" });
 
         for (let i = 1; i <= 10; i++) {
