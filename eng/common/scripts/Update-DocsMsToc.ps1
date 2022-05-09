@@ -177,7 +177,7 @@ function generate-markdown-table($readmePath, $packageInfo) {
     $line = "|[$($pkg.DisplayName)]($referenceLink)|[$($pkg.Package)]($repositoryLink/$($pkg.Package))|[Github]($githubLink)|`r`n"
     $content += $line
   }
-  Add-Content -Path $readmePath -Value $content
+  Set-Content -Path $readmePath -Value $content
 }
 
 function generate-service-level-readme($readmeBaseName, $pathPrefix, $clientPackageInfo, $mgmtPackageInfo, $serviceName) {
