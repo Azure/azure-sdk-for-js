@@ -89,12 +89,10 @@ export class ValidateOperationImpl implements ValidateOperation {
       { vaultName, resourceGroupName, parameters, options },
       triggerOperationSpec
     );
-    const poller = new LroEngine(lro, {
+    return new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
-    await poller.poll();
-    return poller;
   }
 
   /**
