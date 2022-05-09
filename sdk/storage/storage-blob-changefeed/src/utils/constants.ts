@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export const SDK_VERSION: string = "12.0.0-preview.3";
+export const SDK_VERSION: string = "12.0.0-preview.4";
 
 export const CHANGE_FEED_CONTAINER_NAME: string = "$blobchangefeed";
 export const CHANGE_FEED_META_SEGMENT_PATH: string = "meta/segments.json";

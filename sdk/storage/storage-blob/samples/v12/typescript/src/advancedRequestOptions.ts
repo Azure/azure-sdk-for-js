@@ -33,8 +33,8 @@ async function main() {
     userAgentOptions: { userAgentPrefix: "AdvancedSample V1.0.0" }, // Customized telemetry string
     keepAliveOptions: {
       // Keep alive is enabled by default, disable keep alive by setting false
-      enable: false
-    }
+      enable: false,
+    },
   });
 
   const blobServiceClient = new BlobServiceClient(
@@ -49,7 +49,7 @@ async function main() {
     await containerClient.create();
   } catch (err: any) {
     console.log(
-      `Creating a container failed, requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+      `Creating a container failed, requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
     );
   }
 
@@ -63,12 +63,12 @@ async function main() {
     await blockBlobClient.uploadFile(localFilePath, {
       blockSize: 4 * 1024 * 1024, // 4MB block size
       concurrency: 20, // 20 concurrency
-      onProgress: (ev) => console.log(ev)
+      onProgress: (ev) => console.log(ev),
     });
     console.log("Successfully uploaded file:", blockBlobClient.name);
   } catch (err: any) {
     console.log(
-      `uploadFile failed, requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+      `uploadFile failed, requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
     );
   }
 
@@ -77,12 +77,12 @@ async function main() {
   try {
     await blockBlobClient.uploadStream(fs.createReadStream(localFilePath), 4 * 1024 * 1024, 20, {
       abortSignal: AbortController.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
-      onProgress: (ev) => console.log(ev)
+      onProgress: (ev) => console.log(ev),
     });
     console.log("uploadStream succeeds");
   } catch (err: any) {
     console.log(
-      `uploadStream failed, requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+      `uploadStream failed, requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
     );
   }
 
@@ -106,12 +106,12 @@ async function main() {
       abortSignal: AbortController.timeout(30 * 60 * 1000), // Abort uploading with timeout in 30mins
       blockSize: 4 * 1024 * 1024, // 4MB block size
       concurrency: 20, // 20 concurrency
-      onProgress: (ev) => console.log(ev)
+      onProgress: (ev) => console.log(ev),
     });
     console.log("downloadToBuffer succeeds");
   } catch (err: any) {
     console.log(
-      `downloadToBuffer failed, requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+      `downloadToBuffer failed, requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
     );
   }
 
@@ -124,7 +124,7 @@ async function main() {
   } catch (err: any) {
     // BlobArchived	Conflict (409)	This operation is not permitted on an archived blob.
     console.log(
-      `requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+      `requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
     );
     console.log(`error message - ${err.details.message}\n`);
   }
