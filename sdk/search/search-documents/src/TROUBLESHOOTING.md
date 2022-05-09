@@ -17,7 +17,7 @@ See [this page](https://docs.microsoft.com/rest/api/searchservice/http-status-co
 
 ### 207 Multi-Status
 
-This response status indicates a partial success for an indexing operation. Some documents were successfully processed, but at least one failed. Details of the failed documents are present in the individual `IndexingResult` objects within the `IndexDocumentsResult`. If you want the [`indexDocuments`](https://docs.microsoft.com/en-us/javascript/api/@azure/search-documents/searchclient?view=azure-node-latest#@azure-search-documents-searchclient-indexdocuments) method call to throw an exception on any failure, set [`IndexDocumentsOptions.throwOnAnyError`](https://docs.microsoft.com/en-us/javascript/api/@azure/search-documents/indexdocumentsoptions?view=azure-node-latest#@azure-search-documents-indexdocumentsoptions-throwonanyfailure)
+This response status indicates a partial success for an indexing operation. Some documents were successfully processed, but at least one failed. Details of the failed documents are present in the individual `IndexingResult` objects within the `IndexDocumentsResult`. If you want the [`indexDocuments`](https://docs.microsoft.com/javascript/api/@azure/search-documents/searchclient?view=azure-node-latest#@azure-search-documents-searchclient-indexdocuments) method call to throw an exception on any failure, set [`IndexDocumentsOptions.throwOnAnyError`](https://docs.microsoft.com/javascript/api/@azure/search-documents/indexdocumentsoptions?view=azure-node-latest#@azure-search-documents-indexdocumentsoptions-throwonanyfailure)
 to `true`. Each failure is then recorded in a separate `IndexingResult` and a single `IndexBatchException` is thrown by the method.
 
 ### 403 Forbidden
@@ -37,7 +37,7 @@ Returned when a resource does not exist on the server. If you are managing or qu
 
 If this error occurs while you are trying to create an index, it means you already have the maximum number of indexes allowed for your pricing tier. A count of the indexes stored in Azure Cognitive Search is visible in the search service dashboard on the [Azure portal](https://portal.azure.com/). To view the indexes by name, click the Index tile.
 
-Alternatively, you can also get a list of the indexes by name using the [listIndexNames() method](https://docs.microsoft.com/en-us/javascript/api/@azure/search-documents/searchindexclient?view=azure-node-latest#@azure-search-documents-searchindexclient-listindexesnames).
+Alternatively, you can also get a list of the indexes by name using the [listIndexNames() method](https://docs.microsoft.com/javascript/api/@azure/search-documents/searchindexclient?view=azure-node-latest#@azure-search-documents-searchindexclient-listindexesnames).
 
 If this error occurs during document upload, it indicates that you've exceeded your quota on the number of documents per index. You must either create a new index or upgrade for higher capacity limits.
 
