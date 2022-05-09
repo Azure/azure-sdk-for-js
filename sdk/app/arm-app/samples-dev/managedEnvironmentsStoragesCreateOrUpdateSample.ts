@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Create or update storage for a managedEnvironment.
  *
  * @summary Create or update storage for a managedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-01-01-preview/examples/ManagedEnvironmentsStorages_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/ManagedEnvironmentsStorages_CreateOrUpdate.json
  */
 async function createOrUpdateEnvironmentsStorage() {
   const subscriptionId = "8efdecc5-919e-44eb-b179-915dca89ebf9";

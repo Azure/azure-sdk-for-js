@@ -12,24 +12,24 @@ import { ContainerAppsAPIClient } from "@azure/arm-app";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Get a revision of a Container App.
+ * This sample demonstrates how to List secrets for a dapr component
  *
- * @summary Get a revision of a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-01-01-preview/examples/Revisions_Get.json
+ * @summary List secrets for a dapr component
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/DaprComponents_ListSecrets.json
  */
-async function getContainerAppRevision() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "rg";
-  const containerAppName = "testcontainerApp0";
-  const name = "testcontainerApp0-pjxhsye";
+async function listContainerAppsSecrets() {
+  const subscriptionId = "8efdecc5-919e-44eb-b179-915dca89ebf9";
+  const resourceGroupName = "examplerg";
+  const environmentName = "myenvironment";
+  const name = "reddog";
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result = await client.containerAppsRevisions.getRevision(
+  const result = await client.daprComponents.listSecrets(
     resourceGroupName,
-    containerAppName,
+    environmentName,
     name
   );
   console.log(result);
 }
 
-getContainerAppRevision().catch(console.error);
+listContainerAppsSecrets().catch(console.error);

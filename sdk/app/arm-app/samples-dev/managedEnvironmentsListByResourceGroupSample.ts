@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Get all the Managed Environments in a resource group.
  *
  * @summary Get all the Managed Environments in a resource group.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-01-01-preview/examples/ManagedEnvironments_ListByResourceGroup.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/ManagedEnvironments_ListByResourceGroup.json
  */
 async function listEnvironmentsByResourceGroup() {
   const subscriptionId = "8efdecc5-919e-44eb-b179-915dca89ebf9";

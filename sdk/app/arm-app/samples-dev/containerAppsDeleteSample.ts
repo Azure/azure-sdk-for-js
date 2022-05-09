@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Description for Delete a Container App.
  *
  * @summary Description for Delete a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-01-01-preview/examples/ContainerApps_Delete.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/ContainerApps_Delete.json
  */
 async function deleteContainerApp() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

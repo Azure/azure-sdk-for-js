@@ -229,6 +229,22 @@ export interface CertificatesUpdateOptionalParams extends coreClient.OperationOp
 export type CertificatesUpdateResponse = Certificate;
 
 // @public
+export type CheckNameAvailabilityReason = string;
+
+// @public
+export interface CheckNameAvailabilityRequest {
+    name?: string;
+    type?: string;
+}
+
+// @public
+export interface CheckNameAvailabilityResponse {
+    message?: string;
+    nameAvailable?: boolean;
+    reason?: CheckNameAvailabilityReason;
+}
+
+// @public
 export interface ClientRegistration {
     clientId?: string;
     clientSecretSettingName?: string;
@@ -275,13 +291,6 @@ export interface ContainerAppCollection {
 }
 
 // @public
-export interface ContainerAppPatch {
-    tags?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
 export interface ContainerAppProbe {
     failureThreshold?: number;
     httpGet?: ContainerAppProbeHttpGet;
@@ -300,7 +309,7 @@ export interface ContainerAppProbeHttpGet {
     httpHeaders?: ContainerAppProbeHttpGetHttpHeadersItem[];
     path?: string;
     port: number;
-    scheme?: string;
+    scheme?: Scheme;
 }
 
 // @public
@@ -324,12 +333,13 @@ export interface ContainerApps {
     beginCreateOrUpdateAndWait(resourceGroupName: string, name: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsCreateOrUpdateOptionalParams): Promise<ContainerAppsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, name: string, options?: ContainerAppsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, name: string, options?: ContainerAppsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, name: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsUpdateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginUpdateAndWait(resourceGroupName: string, name: string, containerAppEnvelope: ContainerApp, options?: ContainerAppsUpdateOptionalParams): Promise<void>;
     get(resourceGroupName: string, name: string, options?: ContainerAppsGetOptionalParams): Promise<ContainerAppsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ContainerAppsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ContainerApp>;
     listBySubscription(options?: ContainerAppsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ContainerApp>;
     listCustomHostNameAnalysis(resourceGroupName: string, containerAppName: string, options?: ContainerAppsListCustomHostNameAnalysisOptionalParams): Promise<ContainerAppsListCustomHostNameAnalysisResponse>;
     listSecrets(resourceGroupName: string, name: string, options?: ContainerAppsListSecretsOptionalParams): Promise<ContainerAppsListSecretsResponse>;
-    update(resourceGroupName: string, name: string, containerAppEnvelope: ContainerAppPatch, options?: ContainerAppsUpdateOptionalParams): Promise<ContainerAppsUpdateResponse>;
 }
 
 // @public (undocumented)
@@ -357,6 +367,8 @@ export class ContainerAppsAPIClient extends coreClient.ServiceClient {
     managedEnvironments: ManagedEnvironments;
     // (undocumented)
     managedEnvironmentsStorages: ManagedEnvironmentsStorages;
+    // (undocumented)
+    namespaces: Namespaces;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -527,6 +539,7 @@ export type ContainerAppsRevisionsGetRevisionResponse = Revision;
 
 // @public
 export interface ContainerAppsRevisionsListRevisionsNextOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
 }
 
 // @public
@@ -534,6 +547,7 @@ export type ContainerAppsRevisionsListRevisionsNextResponse = RevisionCollection
 
 // @public
 export interface ContainerAppsRevisionsListRevisionsOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
 }
 
 // @public
@@ -591,10 +605,9 @@ export type ContainerAppsSourceControlsListByContainerAppResponse = SourceContro
 
 // @public
 export interface ContainerAppsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
-
-// @public
-export type ContainerAppsUpdateResponse = ContainerApp;
 
 // @public
 export interface ContainerResources {
@@ -678,6 +691,7 @@ export interface DaprComponents {
     delete(resourceGroupName: string, environmentName: string, name: string, options?: DaprComponentsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, environmentName: string, name: string, options?: DaprComponentsGetOptionalParams): Promise<DaprComponentsGetResponse>;
     list(resourceGroupName: string, environmentName: string, options?: DaprComponentsListOptionalParams): PagedAsyncIterableIterator<DaprComponent>;
+    listSecrets(resourceGroupName: string, environmentName: string, name: string, options?: DaprComponentsListSecretsOptionalParams): Promise<DaprComponentsListSecretsResponse>;
 }
 
 // @public
@@ -719,10 +733,22 @@ export interface DaprComponentsListOptionalParams extends coreClient.OperationOp
 export type DaprComponentsListResponse = DaprComponentsCollection;
 
 // @public
+export interface DaprComponentsListSecretsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DaprComponentsListSecretsResponse = DaprSecretsCollection;
+
+// @public
 export interface DaprMetadata {
     name?: string;
     secretRef?: string;
     value?: string;
+}
+
+// @public
+export interface DaprSecretsCollection {
+    value: Secret[];
 }
 
 // @public
@@ -793,7 +819,8 @@ export interface GitHub {
 // @public
 export interface GithubActionConfiguration {
     azureCredentials?: AzureCredentials;
-    dockerfilePath?: string;
+    contextPath?: string;
+    image?: string;
     os?: string;
     publishType?: string;
     registryInfo?: RegistryInfo;
@@ -881,9 +908,9 @@ export enum KnownAccessMode {
 // @public
 export enum KnownActiveRevisionsMode {
     // (undocumented)
-    Multiple = "multiple",
+    Multiple = "Multiple",
     // (undocumented)
-    Single = "single"
+    Single = "Single"
 }
 
 // @public
@@ -914,6 +941,14 @@ export enum KnownCertificateProvisioningState {
     Pending = "Pending",
     // (undocumented)
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownCheckNameAvailabilityReason {
+    // (undocumented)
+    AlreadyExists = "AlreadyExists",
+    // (undocumented)
+    Invalid = "Invalid"
 }
 
 // @public
@@ -1011,6 +1046,14 @@ export enum KnownRevisionProvisioningState {
 }
 
 // @public
+export enum KnownScheme {
+    // (undocumented)
+    Http = "HTTP",
+    // (undocumented)
+    Https = "HTTPS"
+}
+
+// @public
 export enum KnownSourceControlOperationState {
     // (undocumented)
     Canceled = "Canceled",
@@ -1033,11 +1076,11 @@ export enum KnownStorageType {
 // @public
 export enum KnownType {
     // (undocumented)
-    Liveness = "liveness",
+    Liveness = "Liveness",
     // (undocumented)
-    Readiness = "readiness",
+    Readiness = "Readiness",
     // (undocumented)
-    Startup = "startup"
+    Startup = "Startup"
 }
 
 // @public
@@ -1069,19 +1112,14 @@ export interface LoginScopes {
 export type ManagedEnvironment = TrackedResource & {
     readonly provisioningState?: EnvironmentProvisioningState;
     daprAIInstrumentationKey?: string;
+    daprAIConnectionString?: string;
     vnetConfiguration?: VnetConfiguration;
     readonly deploymentErrors?: string;
     readonly defaultDomain?: string;
     readonly staticIp?: string;
     appLogsConfiguration?: AppLogsConfiguration;
+    zoneRedundant?: boolean;
 };
-
-// @public
-export interface ManagedEnvironmentPatch {
-    tags?: {
-        [propertyName: string]: string;
-    };
-}
 
 // @public
 export interface ManagedEnvironments {
@@ -1089,10 +1127,11 @@ export interface ManagedEnvironments {
     beginCreateOrUpdateAndWait(resourceGroupName: string, name: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsCreateOrUpdateOptionalParams): Promise<ManagedEnvironmentsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, name: string, options?: ManagedEnvironmentsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, name: string, options?: ManagedEnvironmentsDeleteOptionalParams): Promise<void>;
+    beginUpdate(resourceGroupName: string, name: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsUpdateOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginUpdateAndWait(resourceGroupName: string, name: string, environmentEnvelope: ManagedEnvironment, options?: ManagedEnvironmentsUpdateOptionalParams): Promise<void>;
     get(resourceGroupName: string, name: string, options?: ManagedEnvironmentsGetOptionalParams): Promise<ManagedEnvironmentsGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ManagedEnvironmentsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ManagedEnvironment>;
     listBySubscription(options?: ManagedEnvironmentsListBySubscriptionOptionalParams): PagedAsyncIterableIterator<ManagedEnvironment>;
-    update(resourceGroupName: string, name: string, environmentEnvelope: ManagedEnvironmentPatch, options?: ManagedEnvironmentsUpdateOptionalParams): Promise<ManagedEnvironmentsUpdateResponse>;
 }
 
 // @public
@@ -1201,10 +1240,9 @@ export interface ManagedEnvironmentStoragesCollection {
 
 // @public
 export interface ManagedEnvironmentsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
 }
-
-// @public
-export type ManagedEnvironmentsUpdateResponse = ManagedEnvironment;
 
 // @public
 export interface ManagedServiceIdentity {
@@ -1218,6 +1256,18 @@ export interface ManagedServiceIdentity {
 
 // @public
 export type ManagedServiceIdentityType = string;
+
+// @public
+export interface Namespaces {
+    checkNameAvailability(resourceGroupName: string, managedEnvironmentName: string, checkNameAvailabilityRequest: CheckNameAvailabilityRequest, options?: NamespacesCheckNameAvailabilityOptionalParams): Promise<NamespacesCheckNameAvailabilityResponse>;
+}
+
+// @public
+export interface NamespacesCheckNameAvailabilityOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NamespacesCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
 
 // @public
 export interface Nonce {
@@ -1300,6 +1350,7 @@ export interface QueueScaleRule {
 
 // @public
 export interface RegistryCredentials {
+    identity?: string;
     passwordSecretRef?: string;
     server?: string;
     username?: string;
@@ -1387,6 +1438,9 @@ export interface ScaleRuleAuth {
 }
 
 // @public
+export type Scheme = string;
+
+// @public
 export interface Secret {
     name?: string;
     value?: string;
@@ -1445,6 +1499,7 @@ export type TrackedResource = Resource & {
 
 // @public
 export interface TrafficWeight {
+    label?: string;
     latestRevision?: boolean;
     revisionName?: string;
     weight?: number;

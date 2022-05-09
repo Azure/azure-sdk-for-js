@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Description for Create or update a Container App.
  *
  * @summary Description for Create or update a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-01-01-preview/examples/ContainerApps_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/ContainerApps_CreateOrUpdate.json
  */
 async function createOrUpdateContainerApp() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -40,7 +40,14 @@ async function createOrUpdateContainerApp() {
           }
         ],
         external: true,
-        targetPort: 3000
+        targetPort: 3000,
+        traffic: [
+          {
+            label: "production",
+            revisionName: "testcontainerApp0-ab1234",
+            weight: 100
+          }
+        ]
       }
     },
     location: "East US",
@@ -53,7 +60,7 @@ async function createOrUpdateContainerApp() {
           image: "repo/testcontainerApp0:v1",
           probes: [
             {
-              type: "liveness",
+              type: "Liveness",
               httpGet: {
                 path: "/health",
                 httpHeaders: [{ name: "Custom-Header", value: "Awesome" }],

@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to List replicas for a Container App Revision.
  *
  * @summary List replicas for a Container App Revision.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-01-01-preview/examples/Replicas_List.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/Replicas_List.json
  */
 async function listContainerAppReplicas() {
   const subscriptionId = "651f8027-33e8-4ec4-97b4-f6e9f3dc8744";

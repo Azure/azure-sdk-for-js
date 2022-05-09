@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Delete a Managed Environment if it does not have any container apps.
  *
  * @summary Delete a Managed Environment if it does not have any container apps.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-01-01-preview/examples/ManagedEnvironments_Delete.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/ManagedEnvironments_Delete.json
  */
 async function deleteEnvironmentByName() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

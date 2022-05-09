@@ -8,699 +8,6 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** Container App collection ARM resource. */
-export interface ContainerAppCollection {
-  /** Collection of resources. */
-  value: ContainerApp[];
-  /**
-   * Link to next page of resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Managed service identity (system assigned and/or user assigned identities) */
-export interface ManagedServiceIdentity {
-  /**
-   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly tenantId?: string;
-  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
-  type: ManagedServiceIdentityType;
-  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
-}
-
-/** User assigned identity properties */
-export interface UserAssignedIdentity {
-  /**
-   * The principal ID of the assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * The client ID of the assigned identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clientId?: string;
-}
-
-/** Non versioned Container App configuration properties that define the mutable settings of a Container app */
-export interface Configuration {
-  /** Collection of secrets used by a Container app */
-  secrets?: Secret[];
-  /**
-   * ActiveRevisionsMode controls how active revisions are handled for the Container app:
-   * <list><item>Multiple: multiple revisions can be active. If no value if provided, this is the default</item><item>Single: Only one revision can be active at a time. Revision weights can not be used in this mode</item></list>
-   */
-  activeRevisionsMode?: ActiveRevisionsMode;
-  /** Ingress configurations. */
-  ingress?: Ingress;
-  /** Collection of private container registry credentials for containers used by the Container app */
-  registries?: RegistryCredentials[];
-  /** Dapr configuration for the Container App. */
-  dapr?: Dapr;
-}
-
-/** Secret definition. */
-export interface Secret {
-  /** Secret Name. */
-  name?: string;
-  /** Secret Value. */
-  value?: string;
-}
-
-/** Container App Ingress configuration. */
-export interface Ingress {
-  /**
-   * Hostname.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly fqdn?: string;
-  /** Bool indicating if app exposes an external http endpoint */
-  external?: boolean;
-  /** Target Port in containers for traffic from ingress */
-  targetPort?: number;
-  /** Ingress transport protocol */
-  transport?: IngressTransportMethod;
-  /** Traffic weights for app's revisions */
-  traffic?: TrafficWeight[];
-  /** custom domain bindings for Container Apps' hostnames. */
-  customDomains?: CustomDomain[];
-  /** Bool indicating if HTTP connections to is allowed. If set to false HTTP connections are automatically redirected to HTTPS connections */
-  allowInsecure?: boolean;
-}
-
-/** Traffic weight assigned to a revision */
-export interface TrafficWeight {
-  /** Name of a revision */
-  revisionName?: string;
-  /** Traffic weight assigned to a revision */
-  weight?: number;
-  /** Indicates that the traffic weight belongs to a latest stable revision */
-  latestRevision?: boolean;
-}
-
-/** Custom Domain of a Container App */
-export interface CustomDomain {
-  /** Hostname. */
-  name: string;
-  /** Custom Domain binding type. */
-  bindingType?: BindingType;
-  /** Resource Id of the Certificate to be bound to this hostname. Must exist in the Managed Environment. */
-  certificateId: string;
-}
-
-/** Container App Private Registry */
-export interface RegistryCredentials {
-  /** Container Registry Server */
-  server?: string;
-  /** Container Registry Username */
-  username?: string;
-  /** The name of the Secret that contains the registry login password */
-  passwordSecretRef?: string;
-}
-
-/** Container App Dapr configuration. */
-export interface Dapr {
-  /** Boolean indicating if the Dapr side car is enabled */
-  enabled?: boolean;
-  /** Dapr application identifier */
-  appId?: string;
-  /** Tells Dapr which protocol your application is using. Valid options are http and grpc. Default is http */
-  appProtocol?: AppProtocol;
-  /** Tells Dapr which port your application is listening on */
-  appPort?: number;
-}
-
-/**
- * Container App versioned application definition.
- * Defines the desired state of an immutable revision.
- * Any changes to this section Will result in a new revision being created
- */
-export interface Template {
-  /** User friendly suffix that is appended to the revision name */
-  revisionSuffix?: string;
-  /** List of container definitions for the Container App. */
-  containers?: Container[];
-  /** Scaling properties for the Container App. */
-  scale?: Scale;
-  /** List of volume definitions for the Container App. */
-  volumes?: Volume[];
-}
-
-/** Container App container definition. */
-export interface Container {
-  /** Container image tag. */
-  image?: string;
-  /** Custom container name. */
-  name?: string;
-  /** Container start command. */
-  command?: string[];
-  /** Container start command arguments. */
-  args?: string[];
-  /** Container environment variables. */
-  env?: EnvironmentVar[];
-  /** Container resource requirements. */
-  resources?: ContainerResources;
-  /** List of probes for the container. */
-  probes?: ContainerAppProbe[];
-  /** Container volume mounts. */
-  volumeMounts?: VolumeMount[];
-}
-
-/** Container App container environment variable. */
-export interface EnvironmentVar {
-  /** Environment variable name. */
-  name?: string;
-  /** Non-secret environment variable value. */
-  value?: string;
-  /** Name of the Container App secret from which to pull the environment variable value. */
-  secretRef?: string;
-}
-
-/** Container App container resource requirements. */
-export interface ContainerResources {
-  /** Required CPU in cores, e.g. 0.5 */
-  cpu?: number;
-  /** Required memory, e.g. "250Mb" */
-  memory?: string;
-  /**
-   * Ephemeral Storage, e.g. "1Gi"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly ephemeralStorage?: string;
-}
-
-/** Probe describes a health check to be performed against a container to determine whether it is alive or ready to receive traffic. */
-export interface ContainerAppProbe {
-  /** Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1. Maximum value is 10. */
-  failureThreshold?: number;
-  /** HTTPGet specifies the http request to perform. */
-  httpGet?: ContainerAppProbeHttpGet;
-  /** Number of seconds after the container has started before liveness probes are initiated. Minimum value is 1. Maximum value is 60. */
-  initialDelaySeconds?: number;
-  /** How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1. Maximum value is 240. */
-  periodSeconds?: number;
-  /** Minimum consecutive successes for the probe to be considered successful after having failed. Defaults to 1. Must be 1 for liveness and startup. Minimum value is 1. Maximum value is 10. */
-  successThreshold?: number;
-  /** TCPSocket specifies an action involving a TCP port. TCP hooks not yet supported. */
-  tcpSocket?: ContainerAppProbeTcpSocket;
-  /** Optional duration in seconds the pod needs to terminate gracefully upon probe failure. The grace period is the duration in seconds after the processes running in the pod are sent a termination signal and the time when the processes are forcibly halted with a kill signal. Set this value longer than the expected cleanup time for your process. If this value is nil, the pod's terminationGracePeriodSeconds will be used. Otherwise, this value overrides the value provided by the pod spec. Value must be non-negative integer. The value zero indicates stop immediately via the kill signal (no opportunity to shut down). This is an alpha field and requires enabling ProbeTerminationGracePeriod feature gate. Maximum value is 3600 seconds (1 hour) */
-  terminationGracePeriodSeconds?: number;
-  /** Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. Maximum value is 240. */
-  timeoutSeconds?: number;
-  /** The type of probe. */
-  type?: Type;
-}
-
-/** HTTPGet specifies the http request to perform. */
-export interface ContainerAppProbeHttpGet {
-  /** Host name to connect to, defaults to the pod IP. You probably want to set "Host" in httpHeaders instead. */
-  host?: string;
-  /** Custom headers to set in the request. HTTP allows repeated headers. */
-  httpHeaders?: ContainerAppProbeHttpGetHttpHeadersItem[];
-  /** Path to access on the HTTP server. */
-  path?: string;
-  /** Name or number of the port to access on the container. Number must be in the range 1 to 65535. Name must be an IANA_SVC_NAME. */
-  port: number;
-  /** Scheme to use for connecting to the host. Defaults to HTTP. */
-  scheme?: string;
-}
-
-/** HTTPHeader describes a custom header to be used in HTTP probes */
-export interface ContainerAppProbeHttpGetHttpHeadersItem {
-  /** The header field name */
-  name: string;
-  /** The header field value */
-  value: string;
-}
-
-/** TCPSocket specifies an action involving a TCP port. TCP hooks not yet supported. */
-export interface ContainerAppProbeTcpSocket {
-  /** Optional: Host name to connect to, defaults to the pod IP. */
-  host?: string;
-  /** Number or name of the port to access on the container. Number must be in the range 1 to 65535. Name must be an IANA_SVC_NAME. */
-  port: number;
-}
-
-/** Volume mount for the Container App. */
-export interface VolumeMount {
-  /** This must match the Name of a Volume. */
-  volumeName?: string;
-  /** Path within the container at which the volume should be mounted.Must not contain ':'. */
-  mountPath?: string;
-}
-
-/** Container App scaling configurations. */
-export interface Scale {
-  /** Optional. Minimum number of container replicas. */
-  minReplicas?: number;
-  /** Optional. Maximum number of container replicas. Defaults to 10 if not set. */
-  maxReplicas?: number;
-  /** Scaling rules. */
-  rules?: ScaleRule[];
-}
-
-/** Container App container scaling rule. */
-export interface ScaleRule {
-  /** Scale Rule Name */
-  name?: string;
-  /** Azure Queue based scaling. */
-  azureQueue?: QueueScaleRule;
-  /** Custom scale rule. */
-  custom?: CustomScaleRule;
-  /** HTTP requests based scaling. */
-  http?: HttpScaleRule;
-}
-
-/** Container App container Azure Queue based scaling rule. */
-export interface QueueScaleRule {
-  /** Queue name. */
-  queueName?: string;
-  /** Queue length. */
-  queueLength?: number;
-  /** Authentication secrets for the queue scale rule. */
-  auth?: ScaleRuleAuth[];
-}
-
-/** Auth Secrets for Container App Scale Rule */
-export interface ScaleRuleAuth {
-  /** Name of the Container App secret from which to pull the auth params. */
-  secretRef?: string;
-  /** Trigger Parameter that uses the secret */
-  triggerParameter?: string;
-}
-
-/** Container App container Custom scaling rule. */
-export interface CustomScaleRule {
-  /**
-   * Type of the custom scale rule
-   * eg: azure-servicebus, redis etc.
-   */
-  type?: string;
-  /** Metadata properties to describe custom scale rule. */
-  metadata?: { [propertyName: string]: string };
-  /** Authentication secrets for the custom scale rule. */
-  auth?: ScaleRuleAuth[];
-}
-
-/** Container App container Custom scaling rule. */
-export interface HttpScaleRule {
-  /** Metadata properties to describe http scale rule. */
-  metadata?: { [propertyName: string]: string };
-  /** Authentication secrets for the custom scale rule. */
-  auth?: ScaleRuleAuth[];
-}
-
-/** Volume definitions for the Container App. */
-export interface Volume {
-  /** Volume name. */
-  name?: string;
-  /** Storage type for the volume. If not provided, use EmptyDir. */
-  storageType?: StorageType;
-  /** Name of storage resource. No need to provide for EmptyDir. */
-  storageName?: string;
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /**
-   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
-}
-
-/** App Service error response. */
-export interface DefaultErrorResponse {
-  /**
-   * Error model.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly error?: DefaultErrorResponseError;
-}
-
-/** Error model. */
-export interface DefaultErrorResponseError {
-  /**
-   * Standardized string to programmatically identify the error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * Detailed error description and debugging information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * Detailed error description and debugging information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /** Details or the error */
-  details?: DefaultErrorResponseErrorDetailsItem[];
-  /**
-   * More information to debug error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly innererror?: string;
-}
-
-/** Detailed errors. */
-export interface DefaultErrorResponseErrorDetailsItem {
-  /**
-   * Standardized string to programmatically identify the error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * Detailed error description and debugging information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * Detailed error description and debugging information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-}
-
-/** Container App Patch. */
-export interface ContainerAppPatch {
-  /** Application-specific metadata in the form of key-value pairs. */
-  tags?: { [propertyName: string]: string };
-}
-
-/** Container App Secrets Collection ARM resource. */
-export interface SecretsCollection {
-  /** Collection of resources. */
-  value: ContainerAppSecret[];
-}
-
-/** Container App Secret. */
-export interface ContainerAppSecret {
-  /**
-   * Secret Name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Secret Value.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: string;
-}
-
-/** Container App Revisions collection ARM resource. */
-export interface RevisionCollection {
-  /** Collection of resources. */
-  value: Revision[];
-  /**
-   * Link to next page of resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Container object under Container App Revision Replica. */
-export interface ReplicaContainer {
-  /** The Name of the Container */
-  name?: string;
-  /** The Id of the Container */
-  containerId?: string;
-  /** The container ready status */
-  ready?: boolean;
-  /** The container start status */
-  started?: boolean;
-  /** The container restart count */
-  restartCount?: number;
-}
-
-/** Container App Revision Replicas collection ARM resource. */
-export interface ReplicaCollection {
-  /** Collection of resources. */
-  value: Replica[];
-}
-
-/** Collection of Environments */
-export interface ManagedEnvironmentsCollection {
-  /** Collection of resources. */
-  value: ManagedEnvironment[];
-  /**
-   * Link to next page of resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Configuration properties for apps environment to join a Virtual Network */
-export interface VnetConfiguration {
-  /** Boolean indicating the environment only has an internal load balancer. These environments do not have a public static IP resource, must provide ControlPlaneSubnetResourceId and AppSubnetResourceId if enabling this property */
-  internal?: boolean;
-  /** Resource ID of a subnet for infrastructure components. This subnet must be in the same VNET as the subnet defined in runtimeSubnetId. Must not overlap with any other provided IP ranges. */
-  infrastructureSubnetId?: string;
-  /** Resource ID of a subnet that Container App containers are injected into. This subnet must be in the same VNET as the subnet defined in infrastructureSubnetId. Must not overlap with any other provided IP ranges. */
-  runtimeSubnetId?: string;
-  /** CIDR notation IP range assigned to the Docker bridge, network. Must not overlap with any other provided IP ranges. */
-  dockerBridgeCidr?: string;
-  /** IP range in CIDR notation that can be reserved for environment infrastructure IP addresses. Must not overlap with any other provided IP ranges. */
-  platformReservedCidr?: string;
-  /**  An IP address from the IP range defined by platformReservedCidr that will be reserved for the internal DNS server. */
-  platformReservedDnsIP?: string;
-}
-
-/** Configuration of application logs */
-export interface AppLogsConfiguration {
-  /** Logs destination */
-  destination?: string;
-  /** Log Analytics configuration */
-  logAnalyticsConfiguration?: LogAnalyticsConfiguration;
-}
-
-/** Log analytics configuration */
-export interface LogAnalyticsConfiguration {
-  /** Log analytics customer id */
-  customerId?: string;
-  /** Log analytics customer key */
-  sharedKey?: string;
-}
-
-/** An environment for hosting container apps */
-export interface ManagedEnvironmentPatch {
-  /** Application-specific metadata in the form of key-value pairs. */
-  tags?: { [propertyName: string]: string };
-}
-
-/** Collection of Certificates. */
-export interface CertificateCollection {
-  /** Collection of resources. */
-  value: Certificate[];
-  /**
-   * Link to next page of resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Certificate resource specific properties */
-export interface CertificateProperties {
-  /**
-   * Provisioning state of the certificate.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: CertificateProvisioningState;
-  /** Certificate password. */
-  password?: string;
-  /**
-   * Subject name of the certificate.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly subjectName?: string;
-  /** PFX or PEM blob */
-  value?: Uint8Array;
-  /**
-   * Certificate issuer.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly issuer?: string;
-  /**
-   * Certificate issue Date.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly issueDate?: Date;
-  /**
-   * Certificate expiration date.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly expirationDate?: Date;
-  /**
-   * Certificate thumbprint.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly thumbprint?: string;
-  /**
-   * Is the certificate valid?.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly valid?: boolean;
-  /**
-   * Public key hash.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly publicKeyHash?: string;
-}
-
-/** A certificate to update */
-export interface CertificatePatch {
-  /** Application-specific metadata in the form of key-value pairs. */
-  tags?: { [propertyName: string]: string };
-}
-
-/** Available operations of the service */
-export interface AvailableOperations {
-  /** Collection of available operation details */
-  value?: OperationDetail[];
-  /**
-   * URL client should use to fetch the next page (per server side paging).
-   * It's null for now, added for future use.
-   */
-  nextLink?: string;
-}
-
-/** Operation detail payload */
-export interface OperationDetail {
-  /** Name of the operation */
-  name?: string;
-  /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
-  /** Display of the operation */
-  display?: OperationDisplay;
-  /** Origin of the operation */
-  origin?: string;
-}
-
-/** Operation display payload */
-export interface OperationDisplay {
-  /** Resource provider of the operation */
-  provider?: string;
-  /** Resource of the operation */
-  resource?: string;
-  /** Localized friendly name for the operation */
-  operation?: string;
-  /** Localized friendly description for the operation */
-  description?: string;
-}
-
-/** SourceControl collection ARM resource. */
-export interface SourceControlCollection {
-  /** Collection of resources. */
-  value: SourceControl[];
-  /**
-   * Link to next page of resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Configuration properties that define the mutable settings of a Container App SourceControl */
-export interface GithubActionConfiguration {
-  /** Registry configurations. */
-  registryInfo?: RegistryInfo;
-  /** AzureCredentials configurations. */
-  azureCredentials?: AzureCredentials;
-  /** Docker file path */
-  dockerfilePath?: string;
-  /** Code or Image */
-  publishType?: string;
-  /** Operation system */
-  os?: string;
-  /** Runtime stack */
-  runtimeStack?: string;
-  /** Runtime Version */
-  runtimeVersion?: string;
-}
-
-/** Container App registry information. */
-export interface RegistryInfo {
-  /** registry server Url. */
-  registryUrl?: string;
-  /** registry username. */
-  registryUserName?: string;
-  /** registry secret. */
-  registryPassword?: string;
-}
-
-/** Container App credentials. */
-export interface AzureCredentials {
-  /** Client Id. */
-  clientId?: string;
-  /** Client Secret. */
-  clientSecret?: string;
-  /** Tenant Id. */
-  tenantId?: string;
-  /** Subscription Id. */
-  subscriptionId?: string;
-}
-
-/** Dapr Components ARM resource. */
-export interface DaprComponentsCollection {
-  /** Collection of resources. */
-  value: DaprComponent[];
-  /**
-   * Link to next page of resources.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** Dapr component metadata. */
-export interface DaprMetadata {
-  /** Metadata property name. */
-  name?: string;
-  /** Metadata property value. */
-  value?: string;
-  /** Name of the Dapr Component secret from which to pull the metadata property value. */
-  secretRef?: string;
-}
-
 /** AuthConfig collection ARM resource. */
 export interface AuthConfigCollection {
   /** Collection of resources. */
@@ -1093,6 +400,664 @@ export interface ForwardProxy {
   customProtoHeaderName?: string;
 }
 
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** App Service error response. */
+export interface DefaultErrorResponse {
+  /**
+   * Error model.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: DefaultErrorResponseError;
+}
+
+/** Error model. */
+export interface DefaultErrorResponseError {
+  /**
+   * Standardized string to programmatically identify the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Detailed error description and debugging information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * Detailed error description and debugging information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /** Details or the error */
+  details?: DefaultErrorResponseErrorDetailsItem[];
+  /**
+   * More information to debug error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly innererror?: string;
+}
+
+/** Detailed errors. */
+export interface DefaultErrorResponseErrorDetailsItem {
+  /**
+   * Standardized string to programmatically identify the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * Detailed error description and debugging information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * Detailed error description and debugging information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+}
+
+/** Container App collection ARM resource. */
+export interface ContainerAppCollection {
+  /** Collection of resources. */
+  value: ContainerApp[];
+  /**
+   * Link to next page of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /**
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
+/** Non versioned Container App configuration properties that define the mutable settings of a Container app */
+export interface Configuration {
+  /** Collection of secrets used by a Container app */
+  secrets?: Secret[];
+  /**
+   * ActiveRevisionsMode controls how active revisions are handled for the Container app:
+   * <list><item>Multiple: multiple revisions can be active.</item><item>Single: Only one revision can be active at a time. Revision weights can not be used in this mode. If no value if provided, this is the default.</item></list>
+   */
+  activeRevisionsMode?: ActiveRevisionsMode;
+  /** Ingress configurations. */
+  ingress?: Ingress;
+  /** Collection of private container registry credentials for containers used by the Container app */
+  registries?: RegistryCredentials[];
+  /** Dapr configuration for the Container App. */
+  dapr?: Dapr;
+}
+
+/** Secret definition. */
+export interface Secret {
+  /** Secret Name. */
+  name?: string;
+  /** Secret Value. */
+  value?: string;
+}
+
+/** Container App Ingress configuration. */
+export interface Ingress {
+  /**
+   * Hostname.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fqdn?: string;
+  /** Bool indicating if app exposes an external http endpoint */
+  external?: boolean;
+  /** Target Port in containers for traffic from ingress */
+  targetPort?: number;
+  /** Ingress transport protocol */
+  transport?: IngressTransportMethod;
+  /** Traffic weights for app's revisions */
+  traffic?: TrafficWeight[];
+  /** custom domain bindings for Container Apps' hostnames. */
+  customDomains?: CustomDomain[];
+  /** Bool indicating if HTTP connections to is allowed. If set to false HTTP connections are automatically redirected to HTTPS connections */
+  allowInsecure?: boolean;
+}
+
+/** Traffic weight assigned to a revision */
+export interface TrafficWeight {
+  /** Name of a revision */
+  revisionName?: string;
+  /** Traffic weight assigned to a revision */
+  weight?: number;
+  /** Indicates that the traffic weight belongs to a latest stable revision */
+  latestRevision?: boolean;
+  /** Associates a traffic label with a revision */
+  label?: string;
+}
+
+/** Custom Domain of a Container App */
+export interface CustomDomain {
+  /** Hostname. */
+  name: string;
+  /** Custom Domain binding type. */
+  bindingType?: BindingType;
+  /** Resource Id of the Certificate to be bound to this hostname. Must exist in the Managed Environment. */
+  certificateId: string;
+}
+
+/** Container App Private Registry */
+export interface RegistryCredentials {
+  /** Container Registry Server */
+  server?: string;
+  /** Container Registry Username */
+  username?: string;
+  /** The name of the Secret that contains the registry login password */
+  passwordSecretRef?: string;
+  /** A Managed Identity to use to authenticate with Azure Container Registry. For user-assigned identities, use the full user-assigned identity Resource ID. For system-assigned identities, use 'system' */
+  identity?: string;
+}
+
+/** Container App Dapr configuration. */
+export interface Dapr {
+  /** Boolean indicating if the Dapr side car is enabled */
+  enabled?: boolean;
+  /** Dapr application identifier */
+  appId?: string;
+  /** Tells Dapr which protocol your application is using. Valid options are http and grpc. Default is http */
+  appProtocol?: AppProtocol;
+  /** Tells Dapr which port your application is listening on */
+  appPort?: number;
+}
+
+/**
+ * Container App versioned application definition.
+ * Defines the desired state of an immutable revision.
+ * Any changes to this section Will result in a new revision being created
+ */
+export interface Template {
+  /** User friendly suffix that is appended to the revision name */
+  revisionSuffix?: string;
+  /** List of container definitions for the Container App. */
+  containers?: Container[];
+  /** Scaling properties for the Container App. */
+  scale?: Scale;
+  /** List of volume definitions for the Container App. */
+  volumes?: Volume[];
+}
+
+/** Container App container definition. */
+export interface Container {
+  /** Container image tag. */
+  image?: string;
+  /** Custom container name. */
+  name?: string;
+  /** Container start command. */
+  command?: string[];
+  /** Container start command arguments. */
+  args?: string[];
+  /** Container environment variables. */
+  env?: EnvironmentVar[];
+  /** Container resource requirements. */
+  resources?: ContainerResources;
+  /** List of probes for the container. */
+  probes?: ContainerAppProbe[];
+  /** Container volume mounts. */
+  volumeMounts?: VolumeMount[];
+}
+
+/** Container App container environment variable. */
+export interface EnvironmentVar {
+  /** Environment variable name. */
+  name?: string;
+  /** Non-secret environment variable value. */
+  value?: string;
+  /** Name of the Container App secret from which to pull the environment variable value. */
+  secretRef?: string;
+}
+
+/** Container App container resource requirements. */
+export interface ContainerResources {
+  /** Required CPU in cores, e.g. 0.5 */
+  cpu?: number;
+  /** Required memory, e.g. "250Mb" */
+  memory?: string;
+  /**
+   * Ephemeral Storage, e.g. "1Gi"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ephemeralStorage?: string;
+}
+
+/** Probe describes a health check to be performed against a container to determine whether it is alive or ready to receive traffic. */
+export interface ContainerAppProbe {
+  /** Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1. Maximum value is 10. */
+  failureThreshold?: number;
+  /** HTTPGet specifies the http request to perform. */
+  httpGet?: ContainerAppProbeHttpGet;
+  /** Number of seconds after the container has started before liveness probes are initiated. Minimum value is 1. Maximum value is 60. */
+  initialDelaySeconds?: number;
+  /** How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1. Maximum value is 240. */
+  periodSeconds?: number;
+  /** Minimum consecutive successes for the probe to be considered successful after having failed. Defaults to 1. Must be 1 for liveness and startup. Minimum value is 1. Maximum value is 10. */
+  successThreshold?: number;
+  /** TCPSocket specifies an action involving a TCP port. TCP hooks not yet supported. */
+  tcpSocket?: ContainerAppProbeTcpSocket;
+  /** Optional duration in seconds the pod needs to terminate gracefully upon probe failure. The grace period is the duration in seconds after the processes running in the pod are sent a termination signal and the time when the processes are forcibly halted with a kill signal. Set this value longer than the expected cleanup time for your process. If this value is nil, the pod's terminationGracePeriodSeconds will be used. Otherwise, this value overrides the value provided by the pod spec. Value must be non-negative integer. The value zero indicates stop immediately via the kill signal (no opportunity to shut down). This is an alpha field and requires enabling ProbeTerminationGracePeriod feature gate. Maximum value is 3600 seconds (1 hour) */
+  terminationGracePeriodSeconds?: number;
+  /** Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. Maximum value is 240. */
+  timeoutSeconds?: number;
+  /** The type of probe. */
+  type?: Type;
+}
+
+/** HTTPGet specifies the http request to perform. */
+export interface ContainerAppProbeHttpGet {
+  /** Host name to connect to, defaults to the pod IP. You probably want to set "Host" in httpHeaders instead. */
+  host?: string;
+  /** Custom headers to set in the request. HTTP allows repeated headers. */
+  httpHeaders?: ContainerAppProbeHttpGetHttpHeadersItem[];
+  /** Path to access on the HTTP server. */
+  path?: string;
+  /** Name or number of the port to access on the container. Number must be in the range 1 to 65535. Name must be an IANA_SVC_NAME. */
+  port: number;
+  /** Scheme to use for connecting to the host. Defaults to HTTP. */
+  scheme?: Scheme;
+}
+
+/** HTTPHeader describes a custom header to be used in HTTP probes */
+export interface ContainerAppProbeHttpGetHttpHeadersItem {
+  /** The header field name */
+  name: string;
+  /** The header field value */
+  value: string;
+}
+
+/** TCPSocket specifies an action involving a TCP port. TCP hooks not yet supported. */
+export interface ContainerAppProbeTcpSocket {
+  /** Optional: Host name to connect to, defaults to the pod IP. */
+  host?: string;
+  /** Number or name of the port to access on the container. Number must be in the range 1 to 65535. Name must be an IANA_SVC_NAME. */
+  port: number;
+}
+
+/** Volume mount for the Container App. */
+export interface VolumeMount {
+  /** This must match the Name of a Volume. */
+  volumeName?: string;
+  /** Path within the container at which the volume should be mounted.Must not contain ':'. */
+  mountPath?: string;
+}
+
+/** Container App scaling configurations. */
+export interface Scale {
+  /** Optional. Minimum number of container replicas. */
+  minReplicas?: number;
+  /** Optional. Maximum number of container replicas. Defaults to 10 if not set. */
+  maxReplicas?: number;
+  /** Scaling rules. */
+  rules?: ScaleRule[];
+}
+
+/** Container App container scaling rule. */
+export interface ScaleRule {
+  /** Scale Rule Name */
+  name?: string;
+  /** Azure Queue based scaling. */
+  azureQueue?: QueueScaleRule;
+  /** Custom scale rule. */
+  custom?: CustomScaleRule;
+  /** HTTP requests based scaling. */
+  http?: HttpScaleRule;
+}
+
+/** Container App container Azure Queue based scaling rule. */
+export interface QueueScaleRule {
+  /** Queue name. */
+  queueName?: string;
+  /** Queue length. */
+  queueLength?: number;
+  /** Authentication secrets for the queue scale rule. */
+  auth?: ScaleRuleAuth[];
+}
+
+/** Auth Secrets for Container App Scale Rule */
+export interface ScaleRuleAuth {
+  /** Name of the Container App secret from which to pull the auth params. */
+  secretRef?: string;
+  /** Trigger Parameter that uses the secret */
+  triggerParameter?: string;
+}
+
+/** Container App container Custom scaling rule. */
+export interface CustomScaleRule {
+  /**
+   * Type of the custom scale rule
+   * eg: azure-servicebus, redis etc.
+   */
+  type?: string;
+  /** Metadata properties to describe custom scale rule. */
+  metadata?: { [propertyName: string]: string };
+  /** Authentication secrets for the custom scale rule. */
+  auth?: ScaleRuleAuth[];
+}
+
+/** Container App container Custom scaling rule. */
+export interface HttpScaleRule {
+  /** Metadata properties to describe http scale rule. */
+  metadata?: { [propertyName: string]: string };
+  /** Authentication secrets for the custom scale rule. */
+  auth?: ScaleRuleAuth[];
+}
+
+/** Volume definitions for the Container App. */
+export interface Volume {
+  /** Volume name. */
+  name?: string;
+  /** Storage type for the volume. If not provided, use EmptyDir. */
+  storageType?: StorageType;
+  /** Name of storage resource. No need to provide for EmptyDir. */
+  storageName?: string;
+}
+
+/** Container App Secrets Collection ARM resource. */
+export interface SecretsCollection {
+  /** Collection of resources. */
+  value: ContainerAppSecret[];
+}
+
+/** Container App Secret. */
+export interface ContainerAppSecret {
+  /**
+   * Secret Name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Secret Value.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: string;
+}
+
+/** Container App Revisions collection ARM resource. */
+export interface RevisionCollection {
+  /** Collection of resources. */
+  value: Revision[];
+  /**
+   * Link to next page of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Container object under Container App Revision Replica. */
+export interface ReplicaContainer {
+  /** The Name of the Container */
+  name?: string;
+  /** The Id of the Container */
+  containerId?: string;
+  /** The container ready status */
+  ready?: boolean;
+  /** The container start status */
+  started?: boolean;
+  /** The container restart count */
+  restartCount?: number;
+}
+
+/** Container App Revision Replicas collection ARM resource. */
+export interface ReplicaCollection {
+  /** Collection of resources. */
+  value: Replica[];
+}
+
+/** Dapr Components ARM resource. */
+export interface DaprComponentsCollection {
+  /** Collection of resources. */
+  value: DaprComponent[];
+  /**
+   * Link to next page of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Dapr component metadata. */
+export interface DaprMetadata {
+  /** Metadata property name. */
+  name?: string;
+  /** Metadata property value. */
+  value?: string;
+  /** Name of the Dapr Component secret from which to pull the metadata property value. */
+  secretRef?: string;
+}
+
+/** Dapr component Secrets Collection ARM resource. */
+export interface DaprSecretsCollection {
+  /** Collection of secrets used by a Dapr component */
+  value: Secret[];
+}
+
+/** Available operations of the service */
+export interface AvailableOperations {
+  /** Collection of available operation details */
+  value?: OperationDetail[];
+  /**
+   * URL client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   */
+  nextLink?: string;
+}
+
+/** Operation detail payload */
+export interface OperationDetail {
+  /** Name of the operation */
+  name?: string;
+  /** Indicates whether the operation is a data action */
+  isDataAction?: boolean;
+  /** Display of the operation */
+  display?: OperationDisplay;
+  /** Origin of the operation */
+  origin?: string;
+}
+
+/** Operation display payload */
+export interface OperationDisplay {
+  /** Resource provider of the operation */
+  provider?: string;
+  /** Resource of the operation */
+  resource?: string;
+  /** Localized friendly name for the operation */
+  operation?: string;
+  /** Localized friendly description for the operation */
+  description?: string;
+}
+
+/** Collection of Environments */
+export interface ManagedEnvironmentsCollection {
+  /** Collection of resources. */
+  value: ManagedEnvironment[];
+  /**
+   * Link to next page of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Configuration properties for apps environment to join a Virtual Network */
+export interface VnetConfiguration {
+  /** Boolean indicating the environment only has an internal load balancer. These environments do not have a public static IP resource, must provide ControlPlaneSubnetResourceId and AppSubnetResourceId if enabling this property */
+  internal?: boolean;
+  /** Resource ID of a subnet for infrastructure components. This subnet must be in the same VNET as the subnet defined in runtimeSubnetId. Must not overlap with any other provided IP ranges. */
+  infrastructureSubnetId?: string;
+  /** Resource ID of a subnet that Container App containers are injected into. This subnet must be in the same VNET as the subnet defined in infrastructureSubnetId. Must not overlap with any other provided IP ranges. */
+  runtimeSubnetId?: string;
+  /** CIDR notation IP range assigned to the Docker bridge, network. Must not overlap with any other provided IP ranges. */
+  dockerBridgeCidr?: string;
+  /** IP range in CIDR notation that can be reserved for environment infrastructure IP addresses. Must not overlap with any other provided IP ranges. */
+  platformReservedCidr?: string;
+  /**  An IP address from the IP range defined by platformReservedCidr that will be reserved for the internal DNS server. */
+  platformReservedDnsIP?: string;
+}
+
+/** Configuration of application logs */
+export interface AppLogsConfiguration {
+  /** Logs destination */
+  destination?: string;
+  /** Log Analytics configuration */
+  logAnalyticsConfiguration?: LogAnalyticsConfiguration;
+}
+
+/** Log analytics configuration */
+export interface LogAnalyticsConfiguration {
+  /** Log analytics customer id */
+  customerId?: string;
+  /** Log analytics customer key */
+  sharedKey?: string;
+}
+
+/** Collection of Certificates. */
+export interface CertificateCollection {
+  /** Collection of resources. */
+  value: Certificate[];
+  /**
+   * Link to next page of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Certificate resource specific properties */
+export interface CertificateProperties {
+  /**
+   * Provisioning state of the certificate.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: CertificateProvisioningState;
+  /** Certificate password. */
+  password?: string;
+  /**
+   * Subject name of the certificate.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subjectName?: string;
+  /** PFX or PEM blob */
+  value?: Uint8Array;
+  /**
+   * Certificate issuer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly issuer?: string;
+  /**
+   * Certificate issue Date.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly issueDate?: Date;
+  /**
+   * Certificate expiration date.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly expirationDate?: Date;
+  /**
+   * Certificate thumbprint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly thumbprint?: string;
+  /**
+   * Is the certificate valid?.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly valid?: boolean;
+  /**
+   * Public key hash.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publicKeyHash?: string;
+}
+
+/** A certificate to update */
+export interface CertificatePatch {
+  /** Application-specific metadata in the form of key-value pairs. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** The check availability request body. */
+export interface CheckNameAvailabilityRequest {
+  /** The name of the resource for which availability needs to be checked. */
+  name?: string;
+  /** The resource type. */
+  type?: string;
+}
+
+/** The check availability result. */
+export interface CheckNameAvailabilityResponse {
+  /** Indicates if the resource name is available. */
+  nameAvailable?: boolean;
+  /** The reason why the given name is not available. */
+  reason?: CheckNameAvailabilityReason;
+  /** Detailed reason why the given name is available. */
+  message?: string;
+}
+
 /** Collection of Storage for Environments */
 export interface ManagedEnvironmentStoragesCollection {
   /** Collection of storage resources. */
@@ -1117,6 +1082,62 @@ export interface AzureFileProperties {
   shareName?: string;
 }
 
+/** SourceControl collection ARM resource. */
+export interface SourceControlCollection {
+  /** Collection of resources. */
+  value: SourceControl[];
+  /**
+   * Link to next page of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Configuration properties that define the mutable settings of a Container App SourceControl */
+export interface GithubActionConfiguration {
+  /** Registry configurations. */
+  registryInfo?: RegistryInfo;
+  /** AzureCredentials configurations. */
+  azureCredentials?: AzureCredentials;
+  /** Context path */
+  contextPath?: string;
+  /** Image name */
+  image?: string;
+  /** Code or Image */
+  publishType?: string;
+  /** Operation system */
+  os?: string;
+  /** Runtime stack */
+  runtimeStack?: string;
+  /** Runtime version */
+  runtimeVersion?: string;
+}
+
+/** Container App registry information. */
+export interface RegistryInfo {
+  /** registry server Url. */
+  registryUrl?: string;
+  /** registry username. */
+  registryUserName?: string;
+  /** registry secret. */
+  registryPassword?: string;
+}
+
+/** Container App credentials. */
+export interface AzureCredentials {
+  /** Client Id. */
+  clientId?: string;
+  /** Client Secret. */
+  clientSecret?: string;
+  /** Tenant Id. */
+  tenantId?: string;
+  /** Subscription Id. */
+  subscriptionId?: string;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export type ProxyResource = Resource & {};
+
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export type TrackedResource = Resource & {
   /** Resource tags. */
@@ -1125,84 +1146,18 @@ export type TrackedResource = Resource & {
   location: string;
 };
 
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
-
-/** Container App. */
-export type ContainerApp = TrackedResource & {
-  /** managed identities for the Container App to interact with other Azure services without maintaining any secrets or credentials in code. */
-  identity?: ManagedServiceIdentity;
-  /**
-   * Provisioning state of the Container App.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ContainerAppProvisioningState;
-  /** Resource ID of the Container App's environment. */
-  managedEnvironmentId?: string;
-  /**
-   * Name of the latest revision of the Container App.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly latestRevisionName?: string;
-  /**
-   * Fully Qualified Domain Name of the latest revision of the Container App.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly latestRevisionFqdn?: string;
-  /**
-   * Id used to verify domain name ownership
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly customDomainVerificationId?: string;
-  /** Non versioned Container App configuration properties. */
-  configuration?: Configuration;
-  /** Container App versioned application definition. */
-  template?: Template;
-  /**
-   * Outbound IP Addresses for container app.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly outboundIPAddresses?: string[];
-};
-
-/** An environment for hosting container apps */
-export type ManagedEnvironment = TrackedResource & {
-  /**
-   * Provisioning state of the Environment.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: EnvironmentProvisioningState;
-  /** Azure Monitor instrumentation key used by Dapr to export Service to Service communication telemetry */
-  daprAIInstrumentationKey?: string;
-  /** Vnet configuration for the environment */
-  vnetConfiguration?: VnetConfiguration;
-  /**
-   * Any errors that occurred during deployment or deployment validation
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly deploymentErrors?: string;
-  /**
-   * Default Domain Name for the cluster
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly defaultDomain?: string;
-  /**
-   * Static IP of the Environment
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly staticIp?: string;
-  /**
-   * Cluster configuration which enables the log daemon to export
-   * app logs to a destination. Currently only "log-analytics" is
-   * supported
-   */
-  appLogsConfiguration?: AppLogsConfiguration;
-};
-
-/** Certificate used for Custom Domain bindings of Container Apps in a Managed Environment */
-export type Certificate = TrackedResource & {
-  /** Certificate resource specific properties */
-  properties?: CertificateProperties;
+/** Configuration settings for the Azure ContainerApp Service Authentication / Authorization feature. */
+export type AuthConfig = ProxyResource & {
+  /** The configuration settings of the platform of ContainerApp Service Authentication/Authorization. */
+  platform?: AuthPlatform;
+  /** The configuration settings that determines the validation flow of users using  Service Authentication/Authorization. */
+  globalValidation?: GlobalValidation;
+  /** The configuration settings of each of the identity providers used to configure ContainerApp Service Authentication/Authorization. */
+  identityProviders?: IdentityProviders;
+  /** The configuration settings of the login flow of users using ContainerApp Service Authentication/Authorization. */
+  login?: Login;
+  /** The configuration settings of the HTTP requests for authentication and authorization requests made against ContainerApp Service Authentication/Authorization. */
+  httpSettings?: HttpSettings;
 };
 
 /** Custom domain analysis. */
@@ -1312,6 +1267,30 @@ export type Replica = ProxyResource & {
   containers?: ReplicaContainer[];
 };
 
+/** Dapr Component. */
+export type DaprComponent = ProxyResource & {
+  /** Component type */
+  componentType?: string;
+  /** Component version */
+  version?: string;
+  /** Boolean describing if the component errors are ignores */
+  ignoreErrors?: boolean;
+  /** Initialization timeout */
+  initTimeout?: string;
+  /** Collection of secrets used by a Dapr component */
+  secrets?: Secret[];
+  /** Component metadata */
+  metadata?: DaprMetadata[];
+  /** Names of container apps that can use this Dapr component */
+  scopes?: string[];
+};
+
+/** Storage resource for managedEnvironment. */
+export type ManagedEnvironmentStorage = ProxyResource & {
+  /** Storage properties */
+  properties?: ManagedEnvironmentStorageProperties;
+};
+
 /** Container App SourceControl. */
 export type SourceControl = ProxyResource & {
   /**
@@ -1331,43 +1310,106 @@ export type SourceControl = ProxyResource & {
   githubActionConfiguration?: GithubActionConfiguration;
 };
 
-/** Dapr Component. */
-export type DaprComponent = ProxyResource & {
-  /** Component type */
-  componentType?: string;
-  /** Component version */
-  version?: string;
-  /** Boolean describing if the component errors are ignores */
-  ignoreErrors?: boolean;
-  /** Initialization timeout */
-  initTimeout?: string;
-  /** Collection of secrets used by a Dapr component */
-  secrets?: Secret[];
-  /** Component metadata */
-  metadata?: DaprMetadata[];
-  /** Names of container apps that can use this Dapr component */
-  scopes?: string[];
+/** Container App. */
+export type ContainerApp = TrackedResource & {
+  /** managed identities for the Container App to interact with other Azure services without maintaining any secrets or credentials in code. */
+  identity?: ManagedServiceIdentity;
+  /**
+   * Provisioning state of the Container App.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ContainerAppProvisioningState;
+  /** Resource ID of the Container App's environment. */
+  managedEnvironmentId?: string;
+  /**
+   * Name of the latest revision of the Container App.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly latestRevisionName?: string;
+  /**
+   * Fully Qualified Domain Name of the latest revision of the Container App.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly latestRevisionFqdn?: string;
+  /**
+   * Id used to verify domain name ownership
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customDomainVerificationId?: string;
+  /** Non versioned Container App configuration properties. */
+  configuration?: Configuration;
+  /** Container App versioned application definition. */
+  template?: Template;
+  /**
+   * Outbound IP Addresses for container app.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly outboundIPAddresses?: string[];
 };
 
-/** Configuration settings for the Azure ContainerApp Service Authentication / Authorization feature. */
-export type AuthConfig = ProxyResource & {
-  /** The configuration settings of the platform of ContainerApp Service Authentication/Authorization. */
-  platform?: AuthPlatform;
-  /** The configuration settings that determines the validation flow of users using  Service Authentication/Authorization. */
-  globalValidation?: GlobalValidation;
-  /** The configuration settings of each of the identity providers used to configure ContainerApp Service Authentication/Authorization. */
-  identityProviders?: IdentityProviders;
-  /** The configuration settings of the login flow of users using ContainerApp Service Authentication/Authorization. */
-  login?: Login;
-  /** The configuration settings of the HTTP requests for authentication and authorization requests made against ContainerApp Service Authentication/Authorization. */
-  httpSettings?: HttpSettings;
+/** An environment for hosting container apps */
+export type ManagedEnvironment = TrackedResource & {
+  /**
+   * Provisioning state of the Environment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: EnvironmentProvisioningState;
+  /** Azure Monitor instrumentation key used by Dapr to export Service to Service communication telemetry */
+  daprAIInstrumentationKey?: string;
+  /** Application Insights connection string used by Dapr to export Service to Service communication telemetry */
+  daprAIConnectionString?: string;
+  /** Vnet configuration for the environment */
+  vnetConfiguration?: VnetConfiguration;
+  /**
+   * Any errors that occurred during deployment or deployment validation
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly deploymentErrors?: string;
+  /**
+   * Default Domain Name for the cluster
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly defaultDomain?: string;
+  /**
+   * Static IP of the Environment
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly staticIp?: string;
+  /**
+   * Cluster configuration which enables the log daemon to export
+   * app logs to a destination. Currently only "log-analytics" is
+   * supported
+   */
+  appLogsConfiguration?: AppLogsConfiguration;
+  /** Whether or not this Managed Environment is zone-redundant. */
+  zoneRedundant?: boolean;
 };
 
-/** Storage resource for managedEnvironment. */
-export type ManagedEnvironmentStorage = ProxyResource & {
-  /** Storage properties */
-  properties?: ManagedEnvironmentStorageProperties;
+/** Certificate used for Custom Domain bindings of Container Apps in a Managed Environment */
+export type Certificate = TrackedResource & {
+  /** Certificate resource specific properties */
+  properties?: CertificateProperties;
 };
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  User = "User",
+  Application = "Application",
+  ManagedIdentity = "ManagedIdentity",
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
 
 /** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
 export enum KnownManagedServiceIdentityType {
@@ -1411,8 +1453,8 @@ export type ContainerAppProvisioningState = string;
 
 /** Known values of {@link ActiveRevisionsMode} that the service accepts. */
 export enum KnownActiveRevisionsMode {
-  Multiple = "multiple",
-  Single = "single"
+  Multiple = "Multiple",
+  Single = "Single"
 }
 
 /**
@@ -1420,8 +1462,8 @@ export enum KnownActiveRevisionsMode {
  * {@link KnownActiveRevisionsMode} can be used interchangeably with ActiveRevisionsMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **multiple** \
- * **single**
+ * **Multiple** \
+ * **Single**
  */
 export type ActiveRevisionsMode = string;
 
@@ -1475,11 +1517,27 @@ export enum KnownAppProtocol {
  */
 export type AppProtocol = string;
 
+/** Known values of {@link Scheme} that the service accepts. */
+export enum KnownScheme {
+  Http = "HTTP",
+  Https = "HTTPS"
+}
+
+/**
+ * Defines values for Scheme. \
+ * {@link KnownScheme} can be used interchangeably with Scheme,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **HTTP** \
+ * **HTTPS**
+ */
+export type Scheme = string;
+
 /** Known values of {@link Type} that the service accepts. */
 export enum KnownType {
-  Liveness = "liveness",
-  Readiness = "readiness",
-  Startup = "startup"
+  Liveness = "Liveness",
+  Readiness = "Readiness",
+  Startup = "Startup"
 }
 
 /**
@@ -1487,9 +1545,9 @@ export enum KnownType {
  * {@link KnownType} can be used interchangeably with Type,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **liveness** \
- * **readiness** \
- * **startup**
+ * **Liveness** \
+ * **Readiness** \
+ * **Startup**
  */
 export type Type = string;
 
@@ -1508,26 +1566,6 @@ export enum KnownStorageType {
  * **EmptyDir**
  */
 export type StorageType = string;
-
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  User = "User",
-  Application = "Application",
-  ManagedIdentity = "ManagedIdentity",
-  Key = "Key"
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
 
 /** Known values of {@link RevisionHealthState} that the service accepts. */
 export enum KnownRevisionHealthState {
@@ -1623,6 +1661,38 @@ export enum KnownCertificateProvisioningState {
  */
 export type CertificateProvisioningState = string;
 
+/** Known values of {@link CheckNameAvailabilityReason} that the service accepts. */
+export enum KnownCheckNameAvailabilityReason {
+  Invalid = "Invalid",
+  AlreadyExists = "AlreadyExists"
+}
+
+/**
+ * Defines values for CheckNameAvailabilityReason. \
+ * {@link KnownCheckNameAvailabilityReason} can be used interchangeably with CheckNameAvailabilityReason,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Invalid** \
+ * **AlreadyExists**
+ */
+export type CheckNameAvailabilityReason = string;
+
+/** Known values of {@link AccessMode} that the service accepts. */
+export enum KnownAccessMode {
+  ReadOnly = "ReadOnly",
+  ReadWrite = "ReadWrite"
+}
+
+/**
+ * Defines values for AccessMode. \
+ * {@link KnownAccessMode} can be used interchangeably with AccessMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ReadOnly** \
+ * **ReadWrite**
+ */
+export type AccessMode = string;
+
 /** Known values of {@link SourceControlOperationState} that the service accepts. */
 export enum KnownSourceControlOperationState {
   InProgress = "InProgress",
@@ -1642,24 +1712,6 @@ export enum KnownSourceControlOperationState {
  * **Canceled**
  */
 export type SourceControlOperationState = string;
-
-/** Known values of {@link AccessMode} that the service accepts. */
-export enum KnownAccessMode {
-  ReadOnly = "ReadOnly",
-  ReadWrite = "ReadWrite"
-}
-
-/**
- * Defines values for AccessMode. \
- * {@link KnownAccessMode} can be used interchangeably with AccessMode,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ReadOnly** \
- * **ReadWrite**
- */
-export type AccessMode = string;
-/** Defines values for DnsVerificationTestResult. */
-export type DnsVerificationTestResult = "Passed" | "Failed" | "Skipped";
 /** Defines values for UnauthenticatedClientActionV2. */
 export type UnauthenticatedClientActionV2 =
   | "RedirectToLoginPage"
@@ -1672,6 +1724,40 @@ export type CookieExpirationConvention =
   | "IdentityProviderDerived";
 /** Defines values for ForwardProxyConvention. */
 export type ForwardProxyConvention = "NoProxy" | "Standard" | "Custom";
+/** Defines values for DnsVerificationTestResult. */
+export type DnsVerificationTestResult = "Passed" | "Failed" | "Skipped";
+
+/** Optional parameters. */
+export interface ContainerAppsAuthConfigsListByContainerAppOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByContainerApp operation. */
+export type ContainerAppsAuthConfigsListByContainerAppResponse = AuthConfigCollection;
+
+/** Optional parameters. */
+export interface ContainerAppsAuthConfigsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ContainerAppsAuthConfigsGetResponse = AuthConfig;
+
+/** Optional parameters. */
+export interface ContainerAppsAuthConfigsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ContainerAppsAuthConfigsCreateOrUpdateResponse = AuthConfig;
+
+/** Optional parameters. */
+export interface ContainerAppsAuthConfigsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ContainerAppsAuthConfigsListByContainerAppNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByContainerAppNext operation. */
+export type ContainerAppsAuthConfigsListByContainerAppNextResponse = AuthConfigCollection;
 
 /** Optional parameters. */
 export interface ContainerAppsListBySubscriptionOptionalParams
@@ -1717,10 +1803,12 @@ export interface ContainerAppsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface ContainerAppsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type ContainerAppsUpdateResponse = ContainerApp;
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface ContainerAppsListCustomHostNameAnalysisOptionalParams
@@ -1755,7 +1843,10 @@ export type ContainerAppsListByResourceGroupNextResponse = ContainerAppCollectio
 
 /** Optional parameters. */
 export interface ContainerAppsRevisionsListRevisionsOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. */
+  filter?: string;
+}
 
 /** Contains response data for the listRevisions operation. */
 export type ContainerAppsRevisionsListRevisionsResponse = RevisionCollection;
@@ -1781,7 +1872,10 @@ export interface ContainerAppsRevisionsRestartRevisionOptionalParams
 
 /** Optional parameters. */
 export interface ContainerAppsRevisionsListRevisionsNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** The filter to apply on the operation. */
+  filter?: string;
+}
 
 /** Contains response data for the listRevisionsNext operation. */
 export type ContainerAppsRevisionsListRevisionsNextResponse = RevisionCollection;
@@ -1799,6 +1893,59 @@ export interface ContainerAppsRevisionReplicasListReplicasOptionalParams
 
 /** Contains response data for the listReplicas operation. */
 export type ContainerAppsRevisionReplicasListReplicasResponse = ReplicaCollection;
+
+/** Optional parameters. */
+export interface DaprComponentsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type DaprComponentsListResponse = DaprComponentsCollection;
+
+/** Optional parameters. */
+export interface DaprComponentsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DaprComponentsGetResponse = DaprComponent;
+
+/** Optional parameters. */
+export interface DaprComponentsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type DaprComponentsCreateOrUpdateResponse = DaprComponent;
+
+/** Optional parameters. */
+export interface DaprComponentsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface DaprComponentsListSecretsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSecrets operation. */
+export type DaprComponentsListSecretsResponse = DaprSecretsCollection;
+
+/** Optional parameters. */
+export interface DaprComponentsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type DaprComponentsListNextResponse = DaprComponentsCollection;
+
+/** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = AvailableOperations;
+
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = AvailableOperations;
 
 /** Optional parameters. */
 export interface ManagedEnvironmentsListBySubscriptionOptionalParams
@@ -1844,10 +1991,12 @@ export interface ManagedEnvironmentsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface ManagedEnvironmentsUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the update operation. */
-export type ManagedEnvironmentsUpdateResponse = ManagedEnvironment;
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface ManagedEnvironmentsListBySubscriptionNextOptionalParams
@@ -1906,18 +2055,36 @@ export interface CertificatesListNextOptionalParams
 export type CertificatesListNextResponse = CertificateCollection;
 
 /** Optional parameters. */
-export interface OperationsListOptionalParams
+export interface NamespacesCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkNameAvailability operation. */
+export type NamespacesCheckNameAvailabilityResponse = CheckNameAvailabilityResponse;
+
+/** Optional parameters. */
+export interface ManagedEnvironmentsStoragesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type OperationsListResponse = AvailableOperations;
+export type ManagedEnvironmentsStoragesListResponse = ManagedEnvironmentStoragesCollection;
 
 /** Optional parameters. */
-export interface OperationsListNextOptionalParams
+export interface ManagedEnvironmentsStoragesGetOptionalParams
   extends coreClient.OperationOptions {}
 
-/** Contains response data for the listNext operation. */
-export type OperationsListNextResponse = AvailableOperations;
+/** Contains response data for the get operation. */
+export type ManagedEnvironmentsStoragesGetResponse = ManagedEnvironmentStorage;
+
+/** Optional parameters. */
+export interface ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ManagedEnvironmentsStoragesCreateOrUpdateResponse = ManagedEnvironmentStorage;
+
+/** Optional parameters. */
+export interface ManagedEnvironmentsStoragesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ContainerAppsSourceControlsListByContainerAppOptionalParams
@@ -1960,95 +2127,6 @@ export interface ContainerAppsSourceControlsListByContainerAppNextOptionalParams
 
 /** Contains response data for the listByContainerAppNext operation. */
 export type ContainerAppsSourceControlsListByContainerAppNextResponse = SourceControlCollection;
-
-/** Optional parameters. */
-export interface DaprComponentsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type DaprComponentsListResponse = DaprComponentsCollection;
-
-/** Optional parameters. */
-export interface DaprComponentsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type DaprComponentsGetResponse = DaprComponent;
-
-/** Optional parameters. */
-export interface DaprComponentsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type DaprComponentsCreateOrUpdateResponse = DaprComponent;
-
-/** Optional parameters. */
-export interface DaprComponentsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface DaprComponentsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type DaprComponentsListNextResponse = DaprComponentsCollection;
-
-/** Optional parameters. */
-export interface ContainerAppsAuthConfigsListByContainerAppOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByContainerApp operation. */
-export type ContainerAppsAuthConfigsListByContainerAppResponse = AuthConfigCollection;
-
-/** Optional parameters. */
-export interface ContainerAppsAuthConfigsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ContainerAppsAuthConfigsGetResponse = AuthConfig;
-
-/** Optional parameters. */
-export interface ContainerAppsAuthConfigsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type ContainerAppsAuthConfigsCreateOrUpdateResponse = AuthConfig;
-
-/** Optional parameters. */
-export interface ContainerAppsAuthConfigsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface ContainerAppsAuthConfigsListByContainerAppNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByContainerAppNext operation. */
-export type ContainerAppsAuthConfigsListByContainerAppNextResponse = AuthConfigCollection;
-
-/** Optional parameters. */
-export interface ManagedEnvironmentsStoragesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ManagedEnvironmentsStoragesListResponse = ManagedEnvironmentStoragesCollection;
-
-/** Optional parameters. */
-export interface ManagedEnvironmentsStoragesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ManagedEnvironmentsStoragesGetResponse = ManagedEnvironmentStorage;
-
-/** Optional parameters. */
-export interface ManagedEnvironmentsStoragesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type ManagedEnvironmentsStoragesCreateOrUpdateResponse = ManagedEnvironmentStorage;
-
-/** Optional parameters. */
-export interface ManagedEnvironmentsStoragesDeleteOptionalParams
-  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
 export interface ContainerAppsAPIClientOptionalParams

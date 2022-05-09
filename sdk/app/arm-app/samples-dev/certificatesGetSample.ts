@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Get the specified Certificate.
  *
  * @summary Get the specified Certificate.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-01-01-preview/examples/Certificate_Get.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/Certificate_Get.json
  */
 async function getCertificate() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";

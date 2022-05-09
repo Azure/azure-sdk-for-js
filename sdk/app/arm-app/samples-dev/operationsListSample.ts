@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Lists all of the available RP operations.
  *
  * @summary Lists all of the available RP operations.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-01-01-preview/examples/Operations_List.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/Operations_List.json
  */
 async function listAllOperations() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

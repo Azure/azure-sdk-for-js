@@ -19,7 +19,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Create or Update a Certificate.
  *
  * @summary Create or Update a Certificate.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-01-01-preview/examples/Certificate_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/Certificate_CreateOrUpdate.json
  */
 async function createOrUpdateCertificate() {
   const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
@@ -30,7 +30,7 @@ async function createOrUpdateCertificate() {
     location: "East US",
     properties: {
       password: "private key password",
-      value: new Uint8Array()
+      value: PFX - or - PEM - blob
     }
   };
   const options: CertificatesCreateOrUpdateOptionalParams = {

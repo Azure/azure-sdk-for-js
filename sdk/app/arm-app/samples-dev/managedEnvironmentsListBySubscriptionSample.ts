@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Get all Managed Environments for a subscription.
  *
  * @summary Get all Managed Environments for a subscription.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2022-01-01-preview/examples/ManagedEnvironments_ListBySubscription.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/ManagedEnvironments_ListBySubscription.json
  */
 async function listEnvironmentsBySubscription() {
   const subscriptionId = "8efdecc5-919e-44eb-b179-915dca89ebf9";
