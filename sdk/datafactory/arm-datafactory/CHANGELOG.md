@@ -1,5 +1,14 @@
 # Release History
     
+## 10.5.0 (2022-05-09)
+    
+**Features**
+
+  - Added Interface PrivateEndpoint
+  - Interface PrivateLinkConnectionApprovalRequest has a new optional parameter privateEndpoint
+  - Type Alias DataFlowSink has a new parameter rejectedDataLinkedService
+    
+    
 ## 10.4.0 (2022-04-20)
     
 **Features**
