@@ -1,5 +1,11 @@
 # Customization on the RLC rest-level client libraries
 
+There are cases where an RLC will require customizations, we have identified a few common cases which we'll present next. Our customization strategy has the following principles:
+
+- Expose custom functionality as helper functions that users can opt-in
+- Never force customers to use a customized function or operation
+- The only exception is if we need to add custom policies to the client, it is okay to wrap the generated client factory and exposed the wrapped factory instead of the generated one.
+
 ## Generate RLC Client
 
 Follow [Quickstart](https://aka.ms/azsdk/rlc/js) to generate the rest-level client from OpenAPI specs.
@@ -10,7 +16,29 @@ It's advised to put the generated code into the folder `generated`, add your cus
 source-code-folder-path: ./src/generated
 ```
 
-## Creating a wrapper factory
+## Custom authentication
+
+Some services require a custom authentication flow. For example Metrics Advisor uses Key Authentication, however MA requires 2 headers for key authentication `Ocp-Apim-Subscription-Key` and `x-api-key`, which is different to the usual key authentication which only requires a single key.
+
+In this case we customize as follows:
+
+1. Hand author a `PipelinePolicy` that takes values for both keys and sign the request
+2. Hand author a wrapping client factory function
+3. In the wapping factory, we create a new client with the generated factory
+4. Inject the new policy to the client
+5. Return the client
+6. Only expose the wrapping factory and hide the generated factory.
+
+With this user experience is the same as it is with any other RLC, as they just need to create a new client from the default exported factory function.
+
+```typescript
+import MetricsAdvisor, { paginate } from "@azure-rest/ai-metricsadvisor";
+
+const client = MetricsAdvisor("https://<endopoint>", {
+  key: "<apiKey>",
+  subscriptionKey: "<subscriptionKey>",
+});
+```
 
 In order to enable the client to use the custom Key authentication, we need to add the policy to the Pipeline to act on each request, we can do this by creating a wapper factory function which calls the generated one and adds the pipeline policy. The public API would expose the wapper factory and hide the generated one.
 
