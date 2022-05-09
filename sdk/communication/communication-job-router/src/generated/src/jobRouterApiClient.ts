@@ -6,19 +6,52 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import * as coreHttp from "@azure/core-http";
 import { JobRouterImpl } from "./operations";
 import { JobRouter } from "./operationsInterfaces";
-import { JobRouterApiClientContext } from "./jobRouterApiClientContext";
 import { JobRouterApiClientOptionalParams } from "./models";
 
-export class JobRouterApiClient extends JobRouterApiClientContext {
+const packageName = "azure-communication-jobrouter";
+const packageVersion = "1.0.0-beta.1";
+
+export class JobRouterApiClient extends coreHttp.ServiceClient {
+  endpoint: string;
+  apiVersion?: string;
+
   /**
    * Initializes a new instance of the JobRouterApiClient class.
    * @param endpoint The endpoint of the Azure Communication resource.
    * @param options The parameter options
    */
   constructor(endpoint: string, options?: JobRouterApiClientOptionalParams) {
-    super(endpoint, options);
+    if (endpoint === undefined) {
+      throw new Error("'endpoint' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+
+    const defaultUserAgent = `azsdk-js-${packageName.replace(
+      /@.*\//,
+      ""
+    )}/${packageVersion} ${coreHttp.getDefaultUserAgentValue()}`;
+
+    super(undefined, {
+      ...options,
+      userAgent: options.userAgent
+        ? `${options.userAgent} ${defaultUserAgent}`
+        : `${defaultUserAgent}`
+    });
+
+    this.requestContentType = "application/json; charset=utf-8";
+    this.baseUri = options.endpoint ?? "{endpoint}";
+    // Parameter assignments
+    this.endpoint = endpoint;
+
+    // Assigning values to Constant parameters
+    this.apiVersion = options.apiVersion || "2021-10-20-preview2";
     this.jobRouter = new JobRouterImpl(this);
   }
 

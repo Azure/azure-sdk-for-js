@@ -12,20 +12,15 @@ import {
   OperationQueryParameter
 } from "@azure/core-http";
 import {
-  UpsertChannelRequest as UpsertChannelRequestMapper,
-  UpsertClassificationPolicyRequest as UpsertClassificationPolicyRequestMapper,
-  UpsertDistributionPolicyRequest as UpsertDistributionPolicyRequestMapper,
-  UpsertExceptionPolicyRequest as UpsertExceptionPolicyRequestMapper,
-  CreateJobRequest as CreateJobRequestMapper,
-  UpdateJobLabelsRequest as UpdateJobLabelsRequestMapper,
-  ReclassifyJobRequest as ReclassifyJobRequestMapper,
-  UpdateJobClassificationRequest as UpdateJobClassificationRequestMapper,
+  ClassificationPolicy as ClassificationPolicyMapper,
+  DistributionPolicy as DistributionPolicyMapper,
+  ExceptionPolicy as ExceptionPolicyMapper,
+  RouterJob as RouterJobMapper,
   CancelJobRequest as CancelJobRequestMapper,
   CompleteJobRequest as CompleteJobRequestMapper,
   CloseJobRequest as CloseJobRequestMapper,
-  UpsertQueueRequest as UpsertQueueRequestMapper,
-  RegisterWorkerRequest as RegisterWorkerRequestMapper,
-  ReleaseAssignmentRequest as ReleaseAssignmentRequestMapper
+  JobQueue as JobQueueMapper,
+  RouterWorker as RouterWorkerMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -40,9 +35,9 @@ export const contentType: OperationParameter = {
   }
 };
 
-export const body: OperationParameter = {
-  parameterPath: "body",
-  mapper: UpsertChannelRequestMapper
+export const classificationPolicy: OperationParameter = {
+  parameterPath: "classificationPolicy",
+  mapper: ClassificationPolicyMapper
 };
 
 export const accept: OperationParameter = {
@@ -69,10 +64,20 @@ export const endpoint: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const ifMatch: OperationParameter = {
-  parameterPath: ["options", "ifMatch"],
+export const repeatabilityRequestId: OperationParameter = {
+  parameterPath: ["options", "repeatabilityRequestId"],
   mapper: {
-    serializedName: "if-Match",
+    serializedName: "repeatability-request-id",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const repeatabilityFirstSent: OperationParameter = {
+  parameterPath: ["options", "repeatabilityFirstSent"],
+  mapper: {
+    serializedName: "repeatability-first-sent",
     type: {
       name: "String"
     }
@@ -82,7 +87,7 @@ export const ifMatch: OperationParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-04-07-preview1",
+    defaultValue: "2021-10-20-preview2",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -91,35 +96,32 @@ export const apiVersion: OperationQueryParameter = {
   }
 };
 
-export const typeParam: OperationQueryParameter = {
-  parameterPath: ["options", "typeParam"],
-  mapper: {
-    serializedName: "type",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const maxPageSize: OperationQueryParameter = {
-  parameterPath: ["options", "maxPageSize"],
+export const maxpagesize: OperationQueryParameter = {
+  parameterPath: ["options", "maxpagesize"],
   mapper: {
     defaultValue: 20,
-    serializedName: "maxPageSize",
+    serializedName: "maxpagesize",
     type: {
       name: "Number"
     }
   }
 };
 
-export const continuationToken: OperationQueryParameter = {
-  parameterPath: ["options", "continuationToken"],
+export const contentType1: OperationParameter = {
+  parameterPath: ["options", "contentType"],
   mapper: {
-    serializedName: "continuationToken",
+    defaultValue: "application/merge-patch+json",
+    isConstant: true,
+    serializedName: "Content-Type",
     type: {
       name: "String"
     }
   }
+};
+
+export const patch: OperationParameter = {
+  parameterPath: "patch",
+  mapper: ClassificationPolicyMapper
 };
 
 export const id: OperationURLParameter = {
@@ -133,30 +135,35 @@ export const id: OperationURLParameter = {
   }
 };
 
-export const body1: OperationParameter = {
-  parameterPath: "body",
-  mapper: UpsertClassificationPolicyRequestMapper
+export const distributionPolicy: OperationParameter = {
+  parameterPath: "distributionPolicy",
+  mapper: DistributionPolicyMapper
 };
 
-export const body2: OperationParameter = {
-  parameterPath: "body",
-  mapper: UpsertDistributionPolicyRequestMapper
+export const patch1: OperationParameter = {
+  parameterPath: ["options", "patch"],
+  mapper: DistributionPolicyMapper
 };
 
-export const body3: OperationParameter = {
-  parameterPath: "body",
-  mapper: UpsertExceptionPolicyRequestMapper
+export const exceptionPolicy: OperationParameter = {
+  parameterPath: "exceptionPolicy",
+  mapper: ExceptionPolicyMapper
 };
 
-export const body4: OperationParameter = {
-  parameterPath: "body",
-  mapper: CreateJobRequestMapper
+export const patch2: OperationParameter = {
+  parameterPath: ["options", "patch"],
+  mapper: ExceptionPolicyMapper
+};
+
+export const routerJob: OperationParameter = {
+  parameterPath: "routerJob",
+  mapper: RouterJobMapper
 };
 
 export const status: OperationQueryParameter = {
   parameterPath: ["options", "status"],
   mapper: {
-    defaultValue: "All",
+    defaultValue: "all",
     serializedName: "status",
     type: {
       name: "Enum",
@@ -175,64 +182,43 @@ export const status: OperationQueryParameter = {
   }
 };
 
-export const jobId: OperationURLParameter = {
-  parameterPath: "jobId",
-  mapper: {
-    serializedName: "jobId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const queueId: OperationURLParameter = {
-  parameterPath: "queueId",
+export const queueId: OperationQueryParameter = {
+  parameterPath: ["options", "queueId"],
   mapper: {
     serializedName: "queueId",
-    required: true,
     type: {
       name: "String"
     }
   }
 };
 
-export const labels: OperationParameter = {
-  parameterPath: "labels",
-  mapper: UpdateJobLabelsRequestMapper
+export const channelId: OperationQueryParameter = {
+  parameterPath: ["options", "channelId"],
+  mapper: {
+    serializedName: "channelId",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const patch3: OperationParameter = {
+  parameterPath: ["options", "patch"],
+  mapper: RouterJobMapper
+};
+
+export const forceClassification: OperationQueryParameter = {
+  parameterPath: ["options", "forceClassification"],
+  mapper: {
+    defaultValue: false,
+    serializedName: "forceClassification",
+    type: {
+      name: "Boolean"
+    }
+  }
 };
 
 export const note: OperationParameter = {
-  parameterPath: ["options", "note"],
-  mapper: UpdateJobLabelsRequestMapper
-};
-
-export const body6: OperationParameter = {
-  parameterPath: "body",
-  mapper: ReclassifyJobRequestMapper
-};
-
-export const queueId1: OperationParameter = {
-  parameterPath: ["options", "queueId"],
-  mapper: UpdateJobClassificationRequestMapper
-};
-
-export const priority: OperationParameter = {
-  parameterPath: ["options", "priority"],
-  mapper: UpdateJobClassificationRequestMapper
-};
-
-export const workerSelectors: OperationParameter = {
-  parameterPath: ["options", "workerSelectors"],
-  mapper: UpdateJobClassificationRequestMapper
-};
-
-export const note1: OperationParameter = {
-  parameterPath: ["options", "note"],
-  mapper: UpdateJobClassificationRequestMapper
-};
-
-export const note2: OperationParameter = {
   parameterPath: ["options", "note"],
   mapper: CancelJobRequestMapper
 };
@@ -247,7 +233,7 @@ export const assignmentId: OperationParameter = {
   mapper: CompleteJobRequestMapper
 };
 
-export const note3: OperationParameter = {
+export const note1: OperationParameter = {
   parameterPath: ["options", "note"],
   mapper: CompleteJobRequestMapper
 };
@@ -262,12 +248,12 @@ export const dispositionCode1: OperationParameter = {
   mapper: CloseJobRequestMapper
 };
 
-export const releaseTime: OperationParameter = {
-  parameterPath: ["options", "releaseTime"],
+export const closeTime: OperationParameter = {
+  parameterPath: ["options", "closeTime"],
   mapper: CloseJobRequestMapper
 };
 
-export const note4: OperationParameter = {
+export const note2: OperationParameter = {
   parameterPath: ["options", "note"],
   mapper: CloseJobRequestMapper
 };
@@ -294,44 +280,29 @@ export const workerId: OperationURLParameter = {
   }
 };
 
-export const body11: OperationParameter = {
-  parameterPath: "body",
-  mapper: UpsertQueueRequestMapper
+export const jobQueue: OperationParameter = {
+  parameterPath: "jobQueue",
+  mapper: JobQueueMapper
 };
 
-export const body12: OperationParameter = {
-  parameterPath: "body",
-  mapper: RegisterWorkerRequestMapper
+export const patch4: OperationParameter = {
+  parameterPath: ["options", "patch"],
+  mapper: JobQueueMapper
+};
+
+export const routerWorker: OperationParameter = {
+  parameterPath: "routerWorker",
+  mapper: RouterWorkerMapper
 };
 
 export const status1: OperationQueryParameter = {
   parameterPath: ["options", "status"],
   mapper: {
-    defaultValue: "All",
+    defaultValue: "all",
     serializedName: "status",
     type: {
       name: "Enum",
       allowedValues: ["active", "draining", "inactive", "all"]
-    }
-  }
-};
-
-export const channelId: OperationQueryParameter = {
-  parameterPath: ["options", "channelId"],
-  mapper: {
-    serializedName: "channelId",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const queueId2: OperationQueryParameter = {
-  parameterPath: ["options", "queueId"],
-  mapper: {
-    serializedName: "queueId",
-    type: {
-      name: "String"
     }
   }
 };
@@ -346,20 +317,9 @@ export const hasCapacity: OperationQueryParameter = {
   }
 };
 
-export const body13: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: ReleaseAssignmentRequestMapper
-};
-
-export const assignmentId2: OperationURLParameter = {
-  parameterPath: "assignmentId",
-  mapper: {
-    serializedName: "assignmentId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
+export const patch5: OperationParameter = {
+  parameterPath: ["options", "patch"],
+  mapper: RouterWorkerMapper
 };
 
 export const nextLink: OperationURLParameter = {

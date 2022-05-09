@@ -9,5 +9,4 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { JobRouterApiClient } from "./jobRouterApiClient";
-export { JobRouterApiClientContext } from "./jobRouterApiClientContext";
 export * from "./operationsInterfaces";

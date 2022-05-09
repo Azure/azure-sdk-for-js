@@ -18,12 +18,11 @@ export const mockWorker: RouterWorker = {
   labels: {
     name: "testworker"
   },
-  channelConfigurations: [
-    {
-      channelId: "channel-id-123",
+  channelConfigurations: {
+    "chat-channel": {
       capacityCostPerJob: 1
     }
-  ]
+  }
 };
 
 export const mockRegisterWorkerResult = mockWorker;

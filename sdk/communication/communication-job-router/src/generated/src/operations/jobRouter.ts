@@ -11,102 +11,98 @@ import { JobRouter } from "../operationsInterfaces";
 import * as coreHttp from "@azure/core-http";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { JobRouterApiClientContext } from "../jobRouterApiClientContext";
+import { JobRouterApiClient } from "../jobRouterApiClient";
 import {
-  RouterChannel,
-  JobRouterListChannelsNextOptionalParams,
-  JobRouterListChannelsOptionalParams,
-  ClassificationPolicy,
+  PagedClassificationPolicy,
   JobRouterListClassificationPoliciesNextOptionalParams,
   JobRouterListClassificationPoliciesOptionalParams,
-  DistributionPolicy,
+  PagedDistributionPolicy,
   JobRouterListDistributionPoliciesNextOptionalParams,
   JobRouterListDistributionPoliciesOptionalParams,
-  ExceptionPolicy,
+  PagedExceptionPolicy,
   JobRouterListExceptionPoliciesNextOptionalParams,
   JobRouterListExceptionPoliciesOptionalParams,
-  RouterJob,
+  PagedJob,
   JobRouterListJobsNextOptionalParams,
   JobRouterListJobsOptionalParams,
-  JobRouterListEnqueuedJobsNextOptionalParams,
-  JobRouterListEnqueuedJobsOptionalParams,
-  JobQueue,
+  PagedQueue,
   JobRouterListQueuesNextOptionalParams,
   JobRouterListQueuesOptionalParams,
-  RouterWorker,
+  PagedWorker,
   JobRouterListWorkersNextOptionalParams,
   JobRouterListWorkersOptionalParams,
-  UpsertChannelRequest,
-  JobRouterCreateOrUpdateChannelOptionalParams,
-  JobRouterCreateOrUpdateChannelResponse,
-  JobRouterListChannelsResponse,
-  JobRouterGetChannelOptionalParams,
-  JobRouterGetChannelResponse,
-  JobRouterDeleteChannelOptionalParams,
-  UpsertClassificationPolicyRequest,
-  JobRouterCreateOrUpdateClassificationPolicyOptionalParams,
-  JobRouterCreateOrUpdateClassificationPolicyResponse,
+  ClassificationPolicy,
+  JobRouterCreateClassificationPolicyOptionalParams,
+  JobRouterCreateClassificationPolicyResponse,
   JobRouterListClassificationPoliciesResponse,
+  JobRouterUpdateClassificationPolicyOptionalParams,
+  JobRouterUpdateClassificationPolicyResponse,
   JobRouterGetClassificationPolicyOptionalParams,
   JobRouterGetClassificationPolicyResponse,
   JobRouterDeleteClassificationPolicyOptionalParams,
-  UpsertDistributionPolicyRequest,
-  JobRouterCreateOrUpdateDistributionPolicyOptionalParams,
-  JobRouterCreateOrUpdateDistributionPolicyResponse,
+  DistributionPolicy,
+  JobRouterCreateDistributionPolicyOptionalParams,
+  JobRouterCreateDistributionPolicyResponse,
   JobRouterListDistributionPoliciesResponse,
+  JobRouterUpdateDistributionPolicyOptionalParams,
+  JobRouterUpdateDistributionPolicyResponse,
   JobRouterGetDistributionPolicyOptionalParams,
   JobRouterGetDistributionPolicyResponse,
   JobRouterDeleteDistributionPolicyOptionalParams,
-  UpsertExceptionPolicyRequest,
-  JobRouterCreateOrUpdateExceptionPolicyOptionalParams,
-  JobRouterCreateOrUpdateExceptionPolicyResponse,
+  ExceptionPolicy,
+  JobRouterCreateExceptionPolicyOptionalParams,
+  JobRouterCreateExceptionPolicyResponse,
   JobRouterListExceptionPoliciesResponse,
+  JobRouterUpdateExceptionPolicyOptionalParams,
+  JobRouterUpdateExceptionPolicyResponse,
   JobRouterGetExceptionPolicyOptionalParams,
   JobRouterGetExceptionPolicyResponse,
   JobRouterDeleteExceptionPolicyOptionalParams,
-  CreateJobRequest,
+  RouterJob,
   JobRouterCreateJobOptionalParams,
   JobRouterCreateJobResponse,
   JobRouterListJobsResponse,
   JobRouterGetJobOptionalParams,
   JobRouterGetJobResponse,
-  JobRouterListEnqueuedJobsResponse,
-  JobRouterUpdateJobLabelsOptionalParams,
-  JobRouterUpdateJobLabelsResponse,
-  ReclassifyJobRequest,
-  JobRouterReclassifyJobOptionalParams,
-  JobRouterReclassifyJobResponse,
-  JobRouterUpdateJobClassificationOptionalParams,
-  JobRouterUpdateJobClassificationResponse,
-  JobRouterCancelJobOptionalParams,
-  JobRouterCompleteJobOptionalParams,
-  JobRouterCloseJobOptionalParams,
+  JobRouterUpdateJobOptionalParams,
+  JobRouterUpdateJobResponse,
+  JobRouterDeleteJobOptionalParams,
+  JobRouterCancelJobActionOptionalParams,
+  JobRouterCancelJobActionResponse,
+  JobRouterCompleteJobActionOptionalParams,
+  JobRouterCompleteJobActionResponse,
+  JobRouterCloseJobActionOptionalParams,
+  JobRouterCloseJobActionResponse,
   JobRouterGetInQueuePositionOptionalParams,
   JobRouterGetInQueuePositionResponse,
-  JobRouterAcceptJobOptionalParams,
-  JobRouterAcceptJobResponse,
-  JobRouterDeclineJobOptionalParams,
-  UpsertQueueRequest,
-  JobRouterCreateOrUpdateQueueOptionalParams,
-  JobRouterCreateOrUpdateQueueResponse,
+  JobRouterAcceptJobActionOptionalParams,
+  JobRouterAcceptJobActionResponse,
+  JobRouterDeclineJobActionOptionalParams,
+  JobRouterDeclineJobActionResponse,
+  JobQueue,
+  JobRouterCreateQueueOptionalParams,
+  JobRouterCreateQueueResponse,
   JobRouterListQueuesResponse,
+  JobRouterUpdateQueueOptionalParams,
+  JobRouterUpdateQueueResponse,
   JobRouterGetQueueOptionalParams,
   JobRouterGetQueueResponse,
   JobRouterDeleteQueueOptionalParams,
-  RegisterWorkerRequest,
-  JobRouterRegisterWorkerOptionalParams,
-  JobRouterRegisterWorkerResponse,
+  JobRouterGetQueueStatisticsOptionalParams,
+  JobRouterGetQueueStatisticsResponse,
+  RouterWorker,
+  JobRouterCreateWorkerOptionalParams,
+  JobRouterCreateWorkerResponse,
   JobRouterListWorkersResponse,
-  JobRouterDeregisterWorkerOptionalParams,
+  JobRouterUpdateWorkerOptionalParams,
+  JobRouterUpdateWorkerResponse,
   JobRouterGetWorkerOptionalParams,
   JobRouterGetWorkerResponse,
-  JobRouterReleaseAssignmentOptionalParams,
-  JobRouterListChannelsNextResponse,
+  JobRouterDeleteWorkerOptionalParams,
   JobRouterListClassificationPoliciesNextResponse,
   JobRouterListDistributionPoliciesNextResponse,
   JobRouterListExceptionPoliciesNextResponse,
   JobRouterListJobsNextResponse,
-  JobRouterListEnqueuedJobsNextResponse,
   JobRouterListQueuesNextResponse,
   JobRouterListWorkersNextResponse
 } from "../models";
@@ -114,56 +110,14 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing JobRouter operations. */
 export class JobRouterImpl implements JobRouter {
-  private readonly client: JobRouterApiClientContext;
+  private readonly client: JobRouterApiClient;
 
   /**
    * Initialize a new instance of the class JobRouter class.
    * @param client Reference to the service client
    */
-  constructor(client: JobRouterApiClientContext) {
+  constructor(client: JobRouterApiClient) {
     this.client = client;
-  }
-
-  /**
-   * Retrieves custom channels
-   * @param options The options parameters.
-   */
-  public listChannels(
-    options?: JobRouterListChannelsOptionalParams
-  ): PagedAsyncIterableIterator<RouterChannel> {
-    const iter = this.listChannelsPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listChannelsPagingPage(options);
-      }
-    };
-  }
-
-  private async *listChannelsPagingPage(
-    options?: JobRouterListChannelsOptionalParams
-  ): AsyncIterableIterator<RouterChannel[]> {
-    let result = await this._listChannels(options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listChannelsNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listChannelsPagingAll(
-    options?: JobRouterListChannelsOptionalParams
-  ): AsyncIterableIterator<RouterChannel> {
-    for await (const page of this.listChannelsPagingPage(options)) {
-      yield* page;
-    }
   }
 
   /**
@@ -172,7 +126,7 @@ export class JobRouterImpl implements JobRouter {
    */
   public listClassificationPolicies(
     options?: JobRouterListClassificationPoliciesOptionalParams
-  ): PagedAsyncIterableIterator<ClassificationPolicy> {
+  ): PagedAsyncIterableIterator<PagedClassificationPolicy> {
     const iter = this.listClassificationPoliciesPagingAll(options);
     return {
       next() {
@@ -189,7 +143,7 @@ export class JobRouterImpl implements JobRouter {
 
   private async *listClassificationPoliciesPagingPage(
     options?: JobRouterListClassificationPoliciesOptionalParams
-  ): AsyncIterableIterator<ClassificationPolicy[]> {
+  ): AsyncIterableIterator<PagedClassificationPolicy[]> {
     let result = await this._listClassificationPolicies(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -205,7 +159,7 @@ export class JobRouterImpl implements JobRouter {
 
   private async *listClassificationPoliciesPagingAll(
     options?: JobRouterListClassificationPoliciesOptionalParams
-  ): AsyncIterableIterator<ClassificationPolicy> {
+  ): AsyncIterableIterator<PagedClassificationPolicy> {
     for await (const page of this.listClassificationPoliciesPagingPage(
       options
     )) {
@@ -219,7 +173,7 @@ export class JobRouterImpl implements JobRouter {
    */
   public listDistributionPolicies(
     options?: JobRouterListDistributionPoliciesOptionalParams
-  ): PagedAsyncIterableIterator<DistributionPolicy> {
+  ): PagedAsyncIterableIterator<PagedDistributionPolicy> {
     const iter = this.listDistributionPoliciesPagingAll(options);
     return {
       next() {
@@ -236,7 +190,7 @@ export class JobRouterImpl implements JobRouter {
 
   private async *listDistributionPoliciesPagingPage(
     options?: JobRouterListDistributionPoliciesOptionalParams
-  ): AsyncIterableIterator<DistributionPolicy[]> {
+  ): AsyncIterableIterator<PagedDistributionPolicy[]> {
     let result = await this._listDistributionPolicies(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -252,7 +206,7 @@ export class JobRouterImpl implements JobRouter {
 
   private async *listDistributionPoliciesPagingAll(
     options?: JobRouterListDistributionPoliciesOptionalParams
-  ): AsyncIterableIterator<DistributionPolicy> {
+  ): AsyncIterableIterator<PagedDistributionPolicy> {
     for await (const page of this.listDistributionPoliciesPagingPage(options)) {
       yield* page;
     }
@@ -264,7 +218,7 @@ export class JobRouterImpl implements JobRouter {
    */
   public listExceptionPolicies(
     options?: JobRouterListExceptionPoliciesOptionalParams
-  ): PagedAsyncIterableIterator<ExceptionPolicy> {
+  ): PagedAsyncIterableIterator<PagedExceptionPolicy> {
     const iter = this.listExceptionPoliciesPagingAll(options);
     return {
       next() {
@@ -281,7 +235,7 @@ export class JobRouterImpl implements JobRouter {
 
   private async *listExceptionPoliciesPagingPage(
     options?: JobRouterListExceptionPoliciesOptionalParams
-  ): AsyncIterableIterator<ExceptionPolicy[]> {
+  ): AsyncIterableIterator<PagedExceptionPolicy[]> {
     let result = await this._listExceptionPolicies(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -297,7 +251,7 @@ export class JobRouterImpl implements JobRouter {
 
   private async *listExceptionPoliciesPagingAll(
     options?: JobRouterListExceptionPoliciesOptionalParams
-  ): AsyncIterableIterator<ExceptionPolicy> {
+  ): AsyncIterableIterator<PagedExceptionPolicy> {
     for await (const page of this.listExceptionPoliciesPagingPage(options)) {
       yield* page;
     }
@@ -309,7 +263,7 @@ export class JobRouterImpl implements JobRouter {
    */
   public listJobs(
     options?: JobRouterListJobsOptionalParams
-  ): PagedAsyncIterableIterator<RouterJob> {
+  ): PagedAsyncIterableIterator<PagedJob> {
     const iter = this.listJobsPagingAll(options);
     return {
       next() {
@@ -326,7 +280,7 @@ export class JobRouterImpl implements JobRouter {
 
   private async *listJobsPagingPage(
     options?: JobRouterListJobsOptionalParams
-  ): AsyncIterableIterator<RouterJob[]> {
+  ): AsyncIterableIterator<PagedJob[]> {
     let result = await this._listJobs(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -339,61 +293,8 @@ export class JobRouterImpl implements JobRouter {
 
   private async *listJobsPagingAll(
     options?: JobRouterListJobsOptionalParams
-  ): AsyncIterableIterator<RouterJob> {
+  ): AsyncIterableIterator<PagedJob> {
     for await (const page of this.listJobsPagingPage(options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Retrieves existing jobs by queue
-   * @param queueId
-   * @param options The options parameters.
-   */
-  public listEnqueuedJobs(
-    queueId: string,
-    options?: JobRouterListEnqueuedJobsOptionalParams
-  ): PagedAsyncIterableIterator<RouterJob> {
-    const iter = this.listEnqueuedJobsPagingAll(queueId, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listEnqueuedJobsPagingPage(queueId, options);
-      }
-    };
-  }
-
-  private async *listEnqueuedJobsPagingPage(
-    queueId: string,
-    options?: JobRouterListEnqueuedJobsOptionalParams
-  ): AsyncIterableIterator<RouterJob[]> {
-    let result = await this._listEnqueuedJobs(queueId, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listEnqueuedJobsNext(
-        queueId,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listEnqueuedJobsPagingAll(
-    queueId: string,
-    options?: JobRouterListEnqueuedJobsOptionalParams
-  ): AsyncIterableIterator<RouterJob> {
-    for await (const page of this.listEnqueuedJobsPagingPage(
-      queueId,
-      options
-    )) {
       yield* page;
     }
   }
@@ -404,7 +305,7 @@ export class JobRouterImpl implements JobRouter {
    */
   public listQueues(
     options?: JobRouterListQueuesOptionalParams
-  ): PagedAsyncIterableIterator<JobQueue> {
+  ): PagedAsyncIterableIterator<PagedQueue> {
     const iter = this.listQueuesPagingAll(options);
     return {
       next() {
@@ -421,7 +322,7 @@ export class JobRouterImpl implements JobRouter {
 
   private async *listQueuesPagingPage(
     options?: JobRouterListQueuesOptionalParams
-  ): AsyncIterableIterator<JobQueue[]> {
+  ): AsyncIterableIterator<PagedQueue[]> {
     let result = await this._listQueues(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -434,7 +335,7 @@ export class JobRouterImpl implements JobRouter {
 
   private async *listQueuesPagingAll(
     options?: JobRouterListQueuesOptionalParams
-  ): AsyncIterableIterator<JobQueue> {
+  ): AsyncIterableIterator<PagedQueue> {
     for await (const page of this.listQueuesPagingPage(options)) {
       yield* page;
     }
@@ -446,7 +347,7 @@ export class JobRouterImpl implements JobRouter {
    */
   public listWorkers(
     options?: JobRouterListWorkersOptionalParams
-  ): PagedAsyncIterableIterator<RouterWorker> {
+  ): PagedAsyncIterableIterator<PagedWorker> {
     const iter = this.listWorkersPagingAll(options);
     return {
       next() {
@@ -463,7 +364,7 @@ export class JobRouterImpl implements JobRouter {
 
   private async *listWorkersPagingPage(
     options?: JobRouterListWorkersOptionalParams
-  ): AsyncIterableIterator<RouterWorker[]> {
+  ): AsyncIterableIterator<PagedWorker[]> {
     let result = await this._listWorkers(options);
     yield result.value || [];
     let continuationToken = result.nextLink;
@@ -476,102 +377,29 @@ export class JobRouterImpl implements JobRouter {
 
   private async *listWorkersPagingAll(
     options?: JobRouterListWorkersOptionalParams
-  ): AsyncIterableIterator<RouterWorker> {
+  ): AsyncIterableIterator<PagedWorker> {
     for await (const page of this.listWorkersPagingPage(options)) {
       yield* page;
     }
   }
 
   /**
-   * Creates or updates a channel
-   * @param body Model of channel to be created or updated
-   * @param options The options parameters.
-   */
-  createOrUpdateChannel(
-    body: UpsertChannelRequest,
-    options?: JobRouterCreateOrUpdateChannelOptionalParams
-  ): Promise<JobRouterCreateOrUpdateChannelResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      body,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      createOrUpdateChannelOperationSpec
-    ) as Promise<JobRouterCreateOrUpdateChannelResponse>;
-  }
-
-  /**
-   * Retrieves custom channels
-   * @param options The options parameters.
-   */
-  private _listChannels(
-    options?: JobRouterListChannelsOptionalParams
-  ): Promise<JobRouterListChannelsResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      listChannelsOperationSpec
-    ) as Promise<JobRouterListChannelsResponse>;
-  }
-
-  /**
-   * Retrieves an existing channel by Id
-   * @param id Id of the channel to retrieve
-   * @param options The options parameters.
-   */
-  getChannel(
-    id: string,
-    options?: JobRouterGetChannelOptionalParams
-  ): Promise<JobRouterGetChannelResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      getChannelOperationSpec
-    ) as Promise<JobRouterGetChannelResponse>;
-  }
-
-  /**
-   * Deletes a channel by Id
-   * @param id Id of the channel to delete
-   * @param options The options parameters.
-   */
-  deleteChannel(
-    id: string,
-    options?: JobRouterDeleteChannelOptionalParams
-  ): Promise<coreHttp.RestResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      id,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      deleteChannelOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
-  }
-
-  /**
    * Creates a new classification policy.
-   * @param body Request payload for creating or updating a Classification Policy
+   * @param classificationPolicy Model of classification policy to create
    * @param options The options parameters.
    */
-  createOrUpdateClassificationPolicy(
-    body: UpsertClassificationPolicyRequest,
-    options?: JobRouterCreateOrUpdateClassificationPolicyOptionalParams
-  ): Promise<JobRouterCreateOrUpdateClassificationPolicyResponse> {
+  createClassificationPolicy(
+    classificationPolicy: ClassificationPolicy,
+    options?: JobRouterCreateClassificationPolicyOptionalParams
+  ): Promise<JobRouterCreateClassificationPolicyResponse> {
     const operationArguments: coreHttp.OperationArguments = {
-      body,
+      classificationPolicy,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      createOrUpdateClassificationPolicyOperationSpec
-    ) as Promise<JobRouterCreateOrUpdateClassificationPolicyResponse>;
+      createClassificationPolicyOperationSpec
+    ) as Promise<JobRouterCreateClassificationPolicyResponse>;
   }
 
   /**
@@ -591,8 +419,30 @@ export class JobRouterImpl implements JobRouter {
   }
 
   /**
+   * Updates a classification policy.
+   * @param id The id of classification policy.
+   * @param patch JSON Document contained the partial update for the classification policy.
+   * @param options The options parameters.
+   */
+  updateClassificationPolicy(
+    id: string,
+    patch: ClassificationPolicy,
+    options?: JobRouterUpdateClassificationPolicyOptionalParams
+  ): Promise<JobRouterUpdateClassificationPolicyResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      id,
+      patch,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      updateClassificationPolicyOperationSpec
+    ) as Promise<JobRouterUpdateClassificationPolicyResponse>;
+  }
+
+  /**
    * Retrieves an existing classification policy by Id
-   * @param id
+   * @param id Id of the classification policy
    * @param options The options parameters.
    */
   getClassificationPolicy(
@@ -611,7 +461,7 @@ export class JobRouterImpl implements JobRouter {
 
   /**
    * Delete a classification policy by Id
-   * @param id
+   * @param id Id of the classification policy
    * @param options The options parameters.
    */
   deleteClassificationPolicy(
@@ -630,21 +480,21 @@ export class JobRouterImpl implements JobRouter {
 
   /**
    * Creates a new distribution policy.
-   * @param body Request payload for creating or updating a distribution policy
+   * @param distributionPolicy Request to create distribution policy
    * @param options The options parameters.
    */
-  createOrUpdateDistributionPolicy(
-    body: UpsertDistributionPolicyRequest,
-    options?: JobRouterCreateOrUpdateDistributionPolicyOptionalParams
-  ): Promise<JobRouterCreateOrUpdateDistributionPolicyResponse> {
+  createDistributionPolicy(
+    distributionPolicy: DistributionPolicy,
+    options?: JobRouterCreateDistributionPolicyOptionalParams
+  ): Promise<JobRouterCreateDistributionPolicyResponse> {
     const operationArguments: coreHttp.OperationArguments = {
-      body,
+      distributionPolicy,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      createOrUpdateDistributionPolicyOperationSpec
-    ) as Promise<JobRouterCreateOrUpdateDistributionPolicyResponse>;
+      createDistributionPolicyOperationSpec
+    ) as Promise<JobRouterCreateDistributionPolicyResponse>;
   }
 
   /**
@@ -664,8 +514,27 @@ export class JobRouterImpl implements JobRouter {
   }
 
   /**
+   * Updates a distribution policy.
+   * @param id Id of the distribution policy
+   * @param options The options parameters.
+   */
+  updateDistributionPolicy(
+    id: string,
+    options?: JobRouterUpdateDistributionPolicyOptionalParams
+  ): Promise<JobRouterUpdateDistributionPolicyResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      id,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      updateDistributionPolicyOperationSpec
+    ) as Promise<JobRouterUpdateDistributionPolicyResponse>;
+  }
+
+  /**
    * Retrieves an existing distribution policy by Id
-   * @param id
+   * @param id Id of the distribution policy
    * @param options The options parameters.
    */
   getDistributionPolicy(
@@ -684,7 +553,7 @@ export class JobRouterImpl implements JobRouter {
 
   /**
    * Delete a distribution policy by Id
-   * @param id
+   * @param id Id of the distribution policy
    * @param options The options parameters.
    */
   deleteDistributionPolicy(
@@ -702,22 +571,22 @@ export class JobRouterImpl implements JobRouter {
   }
 
   /**
-   * Creates a new exception policy
-   * @param body Model of Exception Policy to be created
+   * Creates an exception policy
+   * @param exceptionPolicy Model of exception policy to be created
    * @param options The options parameters.
    */
-  createOrUpdateExceptionPolicy(
-    body: UpsertExceptionPolicyRequest,
-    options?: JobRouterCreateOrUpdateExceptionPolicyOptionalParams
-  ): Promise<JobRouterCreateOrUpdateExceptionPolicyResponse> {
+  createExceptionPolicy(
+    exceptionPolicy: ExceptionPolicy,
+    options?: JobRouterCreateExceptionPolicyOptionalParams
+  ): Promise<JobRouterCreateExceptionPolicyResponse> {
     const operationArguments: coreHttp.OperationArguments = {
-      body,
+      exceptionPolicy,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      createOrUpdateExceptionPolicyOperationSpec
-    ) as Promise<JobRouterCreateOrUpdateExceptionPolicyResponse>;
+      createExceptionPolicyOperationSpec
+    ) as Promise<JobRouterCreateExceptionPolicyResponse>;
   }
 
   /**
@@ -734,6 +603,25 @@ export class JobRouterImpl implements JobRouter {
       operationArguments,
       listExceptionPoliciesOperationSpec
     ) as Promise<JobRouterListExceptionPoliciesResponse>;
+  }
+
+  /**
+   * Updates an exception policy
+   * @param id Id of the exception policy
+   * @param options The options parameters.
+   */
+  updateExceptionPolicy(
+    id: string,
+    options?: JobRouterUpdateExceptionPolicyOptionalParams
+  ): Promise<JobRouterUpdateExceptionPolicyResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      id,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      updateExceptionPolicyOperationSpec
+    ) as Promise<JobRouterUpdateExceptionPolicyResponse>;
   }
 
   /**
@@ -776,15 +664,15 @@ export class JobRouterImpl implements JobRouter {
 
   /**
    * Creates a new job to be routed.
-   * @param body Request payload for creating new jobs
+   * @param routerJob Model of job to be created
    * @param options The options parameters.
    */
   createJob(
-    body: CreateJobRequest,
+    routerJob: RouterJob,
     options?: JobRouterCreateJobOptionalParams
   ): Promise<JobRouterCreateJobResponse> {
     const operationArguments: coreHttp.OperationArguments = {
-      body,
+      routerJob,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
@@ -811,15 +699,15 @@ export class JobRouterImpl implements JobRouter {
 
   /**
    * Retrieves an existing job by Id
-   * @param jobId
+   * @param id Id of the job to retrieve
    * @param options The options parameters.
    */
   getJob(
-    jobId: string,
+    id: string,
     options?: JobRouterGetJobOptionalParams
   ): Promise<JobRouterGetJobResponse> {
     const operationArguments: coreHttp.OperationArguments = {
-      jobId,
+      id,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
@@ -829,170 +717,117 @@ export class JobRouterImpl implements JobRouter {
   }
 
   /**
-   * Retrieves existing jobs by queue
-   * @param queueId
+   * Update job by id.
+   * @param id Id of the job
    * @param options The options parameters.
    */
-  private _listEnqueuedJobs(
-    queueId: string,
-    options?: JobRouterListEnqueuedJobsOptionalParams
-  ): Promise<JobRouterListEnqueuedJobsResponse> {
+  updateJob(
+    id: string,
+    options?: JobRouterUpdateJobOptionalParams
+  ): Promise<JobRouterUpdateJobResponse> {
     const operationArguments: coreHttp.OperationArguments = {
-      queueId,
+      id,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      listEnqueuedJobsOperationSpec
-    ) as Promise<JobRouterListEnqueuedJobsResponse>;
+      updateJobOperationSpec
+    ) as Promise<JobRouterUpdateJobResponse>;
   }
 
   /**
-   * Update or insert labels of a job by Id.
-   * @param jobId
-   * @param labels A set of key/value pairs used as metadata for a job.
+   * Deletes a job and all of its traces.
+   * @param id
    * @param options The options parameters.
    */
-  updateJobLabels(
-    jobId: string,
-    labels: { [propertyName: string]: any },
-    options?: JobRouterUpdateJobLabelsOptionalParams
-  ): Promise<JobRouterUpdateJobLabelsResponse> {
+  deleteJob(
+    id: string,
+    options?: JobRouterDeleteJobOptionalParams
+  ): Promise<coreHttp.RestResponse> {
     const operationArguments: coreHttp.OperationArguments = {
-      jobId,
-      labels,
+      id,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      updateJobLabelsOperationSpec
-    ) as Promise<JobRouterUpdateJobLabelsResponse>;
-  }
-
-  /**
-   * Updates an existing job by Id and forcing it to be reclassified.
-   * The following attributes can be updated:
-   * 1. ClassificationPolicyId: (Optional) The classification policy that will determine queue, priority
-   * and required abilities.
-   * 2. LabelsToUpsert: (Optional) Update or insert labels associated to a job.
-   * @param jobId
-   * @param body Request payload to update existing job and submit for classification
-   * @param options The options parameters.
-   */
-  reclassifyJob(
-    jobId: string,
-    body: ReclassifyJobRequest,
-    options?: JobRouterReclassifyJobOptionalParams
-  ): Promise<JobRouterReclassifyJobResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      jobId,
-      body,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      reclassifyJobOperationSpec
-    ) as Promise<JobRouterReclassifyJobResponse>;
-  }
-
-  /**
-   * Updates an existing job's queueId, priority, requiredAbilities and labels.
-   * The following attributes can be updated:
-   * 1. QueuedId: (Optional) Can be used to assign a job to particular queue.
-   * 2. Priority: (Optional) Can be used to set job priority.
-   * 3. RequiredAbilities: (Optional) Can be used to set required abilities on a job. Note, that all
-   * previous abilities will be overridden.
-   * @param jobId
-   * @param options The options parameters.
-   */
-  updateJobClassification(
-    jobId: string,
-    options?: JobRouterUpdateJobClassificationOptionalParams
-  ): Promise<JobRouterUpdateJobClassificationResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      jobId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      updateJobClassificationOperationSpec
-    ) as Promise<JobRouterUpdateJobClassificationResponse>;
+      deleteJobOperationSpec
+    ) as Promise<coreHttp.RestResponse>;
   }
 
   /**
    * Submits request to cancel an existing job by Id while supplying free-form cancellation reason.
-   * @param jobId
+   * @param id Id of the job
    * @param options The options parameters.
    */
-  cancelJob(
-    jobId: string,
-    options?: JobRouterCancelJobOptionalParams
-  ): Promise<coreHttp.RestResponse> {
+  cancelJobAction(
+    id: string,
+    options?: JobRouterCancelJobActionOptionalParams
+  ): Promise<JobRouterCancelJobActionResponse> {
     const operationArguments: coreHttp.OperationArguments = {
-      jobId,
+      id,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      cancelJobOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+      cancelJobActionOperationSpec
+    ) as Promise<JobRouterCancelJobActionResponse>;
   }
 
   /**
    * Completes an assigned job.
-   * @param jobId
+   * @param id Id of the job
    * @param assignmentId The assignment within the job to complete.
    * @param options The options parameters.
    */
-  completeJob(
-    jobId: string,
+  completeJobAction(
+    id: string,
     assignmentId: string,
-    options?: JobRouterCompleteJobOptionalParams
-  ): Promise<coreHttp.RestResponse> {
+    options?: JobRouterCompleteJobActionOptionalParams
+  ): Promise<JobRouterCompleteJobActionResponse> {
     const operationArguments: coreHttp.OperationArguments = {
-      jobId,
+      id,
       assignmentId,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      completeJobOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+      completeJobActionOperationSpec
+    ) as Promise<JobRouterCompleteJobActionResponse>;
   }
 
   /**
    * Closes a completed job.
-   * @param jobId
+   * @param id Id of the job
    * @param assignmentId The assignment within which the job is to be closed.
    * @param options The options parameters.
    */
-  closeJob(
-    jobId: string,
+  closeJobAction(
+    id: string,
     assignmentId: string,
-    options?: JobRouterCloseJobOptionalParams
-  ): Promise<coreHttp.RestResponse> {
+    options?: JobRouterCloseJobActionOptionalParams
+  ): Promise<JobRouterCloseJobActionResponse> {
     const operationArguments: coreHttp.OperationArguments = {
-      jobId,
+      id,
       assignmentId,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      closeJobOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+      closeJobActionOperationSpec
+    ) as Promise<JobRouterCloseJobActionResponse>;
   }
 
   /**
    * Gets a job's position details.
-   * @param jobId
+   * @param id Id of the job
    * @param options The options parameters.
    */
   getInQueuePosition(
-    jobId: string,
+    id: string,
     options?: JobRouterGetInQueuePositionOptionalParams
   ): Promise<JobRouterGetInQueuePositionResponse> {
     const operationArguments: coreHttp.OperationArguments = {
-      jobId,
+      id,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
@@ -1004,15 +839,15 @@ export class JobRouterImpl implements JobRouter {
   /**
    * Accepts an offer to work on a job and returns a 409/Conflict if another agent accepted the job
    * already.
-   * @param offerId
-   * @param workerId
+   * @param offerId Id of the offer
+   * @param workerId Id of the worker
    * @param options The options parameters.
    */
-  acceptJob(
+  acceptJobAction(
     offerId: string,
     workerId: string,
-    options?: JobRouterAcceptJobOptionalParams
-  ): Promise<JobRouterAcceptJobResponse> {
+    options?: JobRouterAcceptJobActionOptionalParams
+  ): Promise<JobRouterAcceptJobActionResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       offerId,
       workerId,
@@ -1020,21 +855,21 @@ export class JobRouterImpl implements JobRouter {
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      acceptJobOperationSpec
-    ) as Promise<JobRouterAcceptJobResponse>;
+      acceptJobActionOperationSpec
+    ) as Promise<JobRouterAcceptJobActionResponse>;
   }
 
   /**
    * Declines an offer to work on a job.
-   * @param offerId
-   * @param workerId
+   * @param offerId Id of the offer
+   * @param workerId Id of the worker
    * @param options The options parameters.
    */
-  declineJob(
+  declineJobAction(
     offerId: string,
     workerId: string,
-    options?: JobRouterDeclineJobOptionalParams
-  ): Promise<coreHttp.RestResponse> {
+    options?: JobRouterDeclineJobActionOptionalParams
+  ): Promise<JobRouterDeclineJobActionResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       offerId,
       workerId,
@@ -1042,27 +877,27 @@ export class JobRouterImpl implements JobRouter {
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      declineJobOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+      declineJobActionOperationSpec
+    ) as Promise<JobRouterDeclineJobActionResponse>;
   }
 
   /**
-   * Creates or updates a queue.
-   * @param body Model of queue to be created or Updated
+   * Creates a queue.
+   * @param jobQueue Model of queue to be created
    * @param options The options parameters.
    */
-  createOrUpdateQueue(
-    body: UpsertQueueRequest,
-    options?: JobRouterCreateOrUpdateQueueOptionalParams
-  ): Promise<JobRouterCreateOrUpdateQueueResponse> {
+  createQueue(
+    jobQueue: JobQueue,
+    options?: JobRouterCreateQueueOptionalParams
+  ): Promise<JobRouterCreateQueueResponse> {
     const operationArguments: coreHttp.OperationArguments = {
-      body,
+      jobQueue,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      createOrUpdateQueueOperationSpec
-    ) as Promise<JobRouterCreateOrUpdateQueueResponse>;
+      createQueueOperationSpec
+    ) as Promise<JobRouterCreateQueueResponse>;
   }
 
   /**
@@ -1079,6 +914,25 @@ export class JobRouterImpl implements JobRouter {
       operationArguments,
       listQueuesOperationSpec
     ) as Promise<JobRouterListQueuesResponse>;
+  }
+
+  /**
+   * Updates a queue.
+   * @param id Id of the queue
+   * @param options The options parameters.
+   */
+  updateQueue(
+    id: string,
+    options?: JobRouterUpdateQueueOptionalParams
+  ): Promise<JobRouterUpdateQueueResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      id,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      updateQueueOperationSpec
+    ) as Promise<JobRouterUpdateQueueResponse>;
   }
 
   /**
@@ -1120,22 +974,41 @@ export class JobRouterImpl implements JobRouter {
   }
 
   /**
-   * Registers a worker to process jobs.
-   * @param body Request payload for registering workers.
+   * Retrieves a queue's statistics
+   * @param id Id of the queue to retrieve statistics
    * @param options The options parameters.
    */
-  registerWorker(
-    body: RegisterWorkerRequest,
-    options?: JobRouterRegisterWorkerOptionalParams
-  ): Promise<JobRouterRegisterWorkerResponse> {
+  getQueueStatistics(
+    id: string,
+    options?: JobRouterGetQueueStatisticsOptionalParams
+  ): Promise<JobRouterGetQueueStatisticsResponse> {
     const operationArguments: coreHttp.OperationArguments = {
-      body,
+      id,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      registerWorkerOperationSpec
-    ) as Promise<JobRouterRegisterWorkerResponse>;
+      getQueueStatisticsOperationSpec
+    ) as Promise<JobRouterGetQueueStatisticsResponse>;
+  }
+
+  /**
+   * Create a worker to process jobs.
+   * @param routerWorker Request to create a worker
+   * @param options The options parameters.
+   */
+  createWorker(
+    routerWorker: RouterWorker,
+    options?: JobRouterCreateWorkerOptionalParams
+  ): Promise<JobRouterCreateWorkerResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      routerWorker,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      createWorkerOperationSpec
+    ) as Promise<JobRouterCreateWorkerResponse>;
   }
 
   /**
@@ -1155,27 +1028,27 @@ export class JobRouterImpl implements JobRouter {
   }
 
   /**
-   * Deregisters a worker from processing jobs.
-   * @param workerId
+   * Updates a worker.
+   * @param workerId Id of the worker
    * @param options The options parameters.
    */
-  deregisterWorker(
+  updateWorker(
     workerId: string,
-    options?: JobRouterDeregisterWorkerOptionalParams
-  ): Promise<coreHttp.RestResponse> {
+    options?: JobRouterUpdateWorkerOptionalParams
+  ): Promise<JobRouterUpdateWorkerResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       workerId,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      deregisterWorkerOperationSpec
-    ) as Promise<coreHttp.RestResponse>;
+      updateWorkerOperationSpec
+    ) as Promise<JobRouterUpdateWorkerResponse>;
   }
 
   /**
    * Retrieves an existing worker by Id
-   * @param workerId
+   * @param workerId Id of the worker to retrieve
    * @param options The options parameters.
    */
   getWorker(
@@ -1193,44 +1066,22 @@ export class JobRouterImpl implements JobRouter {
   }
 
   /**
-   * Releases capacity consumed by an assignment within a workers socket collection.
-   * @param workerId
-   * @param assignmentId
+   * Deletes a worker and all of its traces.
+   * @param workerId Id of the worker to delete
    * @param options The options parameters.
    */
-  releaseAssignment(
+  deleteWorker(
     workerId: string,
-    assignmentId: string,
-    options?: JobRouterReleaseAssignmentOptionalParams
+    options?: JobRouterDeleteWorkerOptionalParams
   ): Promise<coreHttp.RestResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       workerId,
-      assignmentId,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
       operationArguments,
-      releaseAssignmentOperationSpec
+      deleteWorkerOperationSpec
     ) as Promise<coreHttp.RestResponse>;
-  }
-
-  /**
-   * ListChannelsNext
-   * @param nextLink The nextLink from the previous successful call to the ListChannels method.
-   * @param options The options parameters.
-   */
-  private _listChannelsNext(
-    nextLink: string,
-    options?: JobRouterListChannelsNextOptionalParams
-  ): Promise<JobRouterListChannelsNextResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      listChannelsNextOperationSpec
-    ) as Promise<JobRouterListChannelsNextResponse>;
   }
 
   /**
@@ -1312,28 +1163,6 @@ export class JobRouterImpl implements JobRouter {
   }
 
   /**
-   * ListEnqueuedJobsNext
-   * @param queueId
-   * @param nextLink The nextLink from the previous successful call to the ListEnqueuedJobs method.
-   * @param options The options parameters.
-   */
-  private _listEnqueuedJobsNext(
-    queueId: string,
-    nextLink: string,
-    options?: JobRouterListEnqueuedJobsNextOptionalParams
-  ): Promise<JobRouterListEnqueuedJobsNextResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      queueId,
-      nextLink,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
-    return this.client.sendOperationRequest(
-      operationArguments,
-      listEnqueuedJobsNextOperationSpec
-    ) as Promise<JobRouterListEnqueuedJobsNextResponse>;
-  }
-
-  /**
    * ListQueuesNext
    * @param nextLink The nextLink from the previous successful call to the ListQueues method.
    * @param options The options parameters.
@@ -1374,329 +1203,72 @@ export class JobRouterImpl implements JobRouter {
 // Operation Specifications
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
-const createOrUpdateChannelOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/channels",
-  httpMethod: "PUT",
+const createClassificationPolicyOperationSpec: coreHttp.OperationSpec = {
+  path: "/routing/classificationPolicies",
+  httpMethod: "POST",
   responses: {
-    200: {
-      bodyMapper: Mappers.UpsertChannelResponse
+    201: {
+      bodyMapper: Mappers.ClassificationPolicy
     },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  requestBody: Parameters.body,
+  requestBody: Parameters.classificationPolicy,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
-    Parameters.ifMatch
+    Parameters.repeatabilityRequestId,
+    Parameters.repeatabilityFirstSent
   ],
-  mediaType: "json",
-  serializer
-};
-const listChannelsOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/channels",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ChannelCollection
-    },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    }
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.typeParam,
-    Parameters.maxPageSize,
-    Parameters.continuationToken
-  ],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getChannelOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/channels/{id}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RouterChannel
-    },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.id],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const deleteChannelOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/channels/{id}",
-  httpMethod: "DELETE",
-  responses: {
-    204: {},
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.id],
-  headerParameters: [Parameters.accept, Parameters.ifMatch],
-  serializer
-};
-const createOrUpdateClassificationPolicyOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/classificationpolicies",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.UpsertClassificationPolicyResponse
-    },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    }
-  },
-  requestBody: Parameters.body1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
 const listClassificationPoliciesOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/classificationpolicies",
+  path: "/routing/classificationPolicies",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.ClassificationPolicyCollection
     },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.maxPageSize,
-    Parameters.continuationToken
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.maxpagesize],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
 };
+const updateClassificationPolicyOperationSpec: coreHttp.OperationSpec = {
+  path: "/routing/classificationPolicies/{id}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ClassificationPolicy
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  requestBody: Parameters.patch,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.id],
+  headerParameters: [Parameters.accept, Parameters.contentType1],
+  mediaType: "json",
+  serializer
+};
 const getClassificationPolicyOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/classificationpolicies/{id}",
+  path: "/routing/classificationPolicies/{id}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.ClassificationPolicy
     },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -1705,182 +1277,85 @@ const getClassificationPolicyOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 const deleteClassificationPolicyOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/classificationpolicies/{id}",
+  path: "/routing/classificationPolicies/{id}",
   httpMethod: "DELETE",
   responses: {
     204: {},
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.id],
-  headerParameters: [Parameters.accept, Parameters.ifMatch],
+  headerParameters: [Parameters.accept],
   serializer
 };
-const createOrUpdateDistributionPolicyOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/distributionpolicies",
-  httpMethod: "PUT",
+const createDistributionPolicyOperationSpec: coreHttp.OperationSpec = {
+  path: "/routing/distributionPolicies",
+  httpMethod: "POST",
   responses: {
-    200: {
-      bodyMapper: Mappers.UpsertDistributionPolicyResponse
+    201: {
+      bodyMapper: Mappers.DistributionPolicy
     },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  requestBody: Parameters.body2,
+  requestBody: Parameters.distributionPolicy,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.repeatabilityRequestId,
+    Parameters.repeatabilityFirstSent
+  ],
   mediaType: "json",
   serializer
 };
 const listDistributionPoliciesOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/distributionpolicies",
+  path: "/routing/distributionPolicies",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.DistributionPolicyCollection
     },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.maxPageSize,
-    Parameters.continuationToken
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.maxpagesize],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
 };
+const updateDistributionPolicyOperationSpec: coreHttp.OperationSpec = {
+  path: "/routing/distributionPolicies/{id}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.DistributionPolicy
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  requestBody: Parameters.patch1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.id],
+  headerParameters: [Parameters.accept, Parameters.contentType1],
+  mediaType: "json",
+  serializer
+};
 const getDistributionPolicyOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/distributionpolicies/{id}",
+  path: "/routing/distributionPolicies/{id}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.DistributionPolicy
     },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -1889,182 +1364,85 @@ const getDistributionPolicyOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 const deleteDistributionPolicyOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/distributionpolicies/{id}",
+  path: "/routing/distributionPolicies/{id}",
   httpMethod: "DELETE",
   responses: {
     204: {},
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.id],
-  headerParameters: [Parameters.accept, Parameters.ifMatch],
+  headerParameters: [Parameters.accept],
   serializer
 };
-const createOrUpdateExceptionPolicyOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/exceptionpolicies",
-  httpMethod: "PUT",
+const createExceptionPolicyOperationSpec: coreHttp.OperationSpec = {
+  path: "/routing/exceptionPolicies",
+  httpMethod: "POST",
   responses: {
-    200: {
-      bodyMapper: Mappers.UpsertExceptionPolicyResponse
+    201: {
+      bodyMapper: Mappers.ExceptionPolicy
     },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  requestBody: Parameters.body3,
+  requestBody: Parameters.exceptionPolicy,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.repeatabilityRequestId,
+    Parameters.repeatabilityFirstSent
+  ],
   mediaType: "json",
   serializer
 };
 const listExceptionPoliciesOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/exceptionpolicies",
+  path: "/routing/exceptionPolicies",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.ExceptionPolicyCollection
     },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.maxPageSize,
-    Parameters.continuationToken
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.maxpagesize],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
 };
+const updateExceptionPolicyOperationSpec: coreHttp.OperationSpec = {
+  path: "/routing/exceptionPolicies/{id}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ExceptionPolicy
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  requestBody: Parameters.patch2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.id],
+  headerParameters: [Parameters.accept, Parameters.contentType1],
+  mediaType: "json",
+  serializer
+};
 const getExceptionPolicyOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/exceptionpolicies/{id}",
+  path: "/routing/exceptionPolicies/{id}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.ExceptionPolicy
     },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -2073,46 +1451,17 @@ const getExceptionPolicyOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 const deleteExceptionPolicyOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/exceptionpolicies/{id}",
+  path: "/routing/exceptionPolicies/{id}",
   httpMethod: "DELETE",
   responses: {
     204: {},
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.id],
-  headerParameters: [Parameters.accept, Parameters.ifMatch],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const createJobOperationSpec: coreHttp.OperationSpec = {
@@ -2120,45 +1469,21 @@ const createJobOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   responses: {
     201: {
-      bodyMapper: Mappers.CreateJobResponse
+      bodyMapper: Mappers.RouterJob
     },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  requestBody: Parameters.body4,
+  requestBody: Parameters.routerJob,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.repeatabilityRequestId,
+    Parameters.repeatabilityFirstSent
+  ],
   mediaType: "json",
   serializer
 };
@@ -2169,331 +1494,78 @@ const listJobsOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.JobCollection
     },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.maxPageSize,
-    Parameters.continuationToken,
-    Parameters.status
+    Parameters.maxpagesize,
+    Parameters.status,
+    Parameters.queueId,
+    Parameters.channelId
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getJobOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/jobs/{jobId}",
+  path: "/routing/jobs/{id}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.RouterJob
     },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.jobId],
+  urlParameters: [Parameters.endpoint, Parameters.id],
   headerParameters: [Parameters.accept],
   serializer
 };
-const listEnqueuedJobsOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/queues/{queueId}/jobs",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.JobCollection
-    },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    }
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.maxPageSize,
-    Parameters.continuationToken
-  ],
-  urlParameters: [Parameters.endpoint, Parameters.queueId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const updateJobLabelsOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/jobs/{jobId}/updatelabels",
+const updateJobOperationSpec: coreHttp.OperationSpec = {
+  path: "/routing/jobs/{id}",
   httpMethod: "PATCH",
   responses: {
     200: {
       bodyMapper: Mappers.RouterJob
     },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  requestBody: {
-    parameterPath: { labels: ["labels"], note: ["options", "note"] },
-    mapper: { ...Mappers.UpdateJobLabelsRequest, required: true }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.jobId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  requestBody: Parameters.patch3,
+  queryParameters: [Parameters.apiVersion, Parameters.forceClassification],
+  urlParameters: [Parameters.endpoint, Parameters.id],
+  headerParameters: [Parameters.accept, Parameters.contentType1],
   mediaType: "json",
   serializer
 };
-const reclassifyJobOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/jobs/{jobId}/reclassify",
+const deleteJobOperationSpec: coreHttp.OperationSpec = {
+  path: "/routing/jobs/{id}",
+  httpMethod: "DELETE",
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.id],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const cancelJobActionOperationSpec: coreHttp.OperationSpec = {
+  path: "/routing/jobs/{id}:cancel",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.RouterJob
+      bodyMapper: { type: { name: "any" } }
     },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    }
-  },
-  requestBody: Parameters.body6,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.jobId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const updateJobClassificationOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/jobs/{jobId}/updateclassification",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.RouterJob
-    },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    }
-  },
-  requestBody: {
-    parameterPath: {
-      queueId: ["options", "queueId"],
-      priority: ["options", "priority"],
-      workerSelectors: ["options", "workerSelectors"],
-      note: ["options", "note"]
-    },
-    mapper: { ...Mappers.UpdateJobClassificationRequest, required: true }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.jobId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const cancelJobOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/jobs/{jobId}/cancel",
-  httpMethod: "POST",
-  responses: {
-    202: {},
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   requestBody: {
@@ -2504,47 +1576,20 @@ const cancelJobOperationSpec: coreHttp.OperationSpec = {
     mapper: Mappers.CancelJobRequest
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.jobId],
+  urlParameters: [Parameters.endpoint, Parameters.id],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
-const completeJobOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/jobs/{jobId}/complete",
+const completeJobActionOperationSpec: coreHttp.OperationSpec = {
+  path: "/routing/jobs/{id}:complete",
   httpMethod: "POST",
   responses: {
-    204: {},
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    200: {
+      bodyMapper: { type: { name: "any" } }
     },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   requestBody: {
@@ -2555,147 +1600,65 @@ const completeJobOperationSpec: coreHttp.OperationSpec = {
     mapper: { ...Mappers.CompleteJobRequest, required: true }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.jobId],
+  urlParameters: [Parameters.endpoint, Parameters.id],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
-const closeJobOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/jobs/{jobId}/close",
+const closeJobActionOperationSpec: coreHttp.OperationSpec = {
+  path: "/routing/jobs/{id}:close",
   httpMethod: "POST",
   responses: {
-    204: {},
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    200: {
+      bodyMapper: { type: { name: "any" } }
     },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    202: {
+      bodyMapper: { type: { name: "any" } }
     },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   requestBody: {
     parameterPath: {
       assignmentId: ["assignmentId"],
       dispositionCode: ["options", "dispositionCode"],
-      releaseTime: ["options", "releaseTime"],
+      closeTime: ["options", "closeTime"],
       note: ["options", "note"]
     },
     mapper: { ...Mappers.CloseJobRequest, required: true }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.jobId],
+  urlParameters: [Parameters.endpoint, Parameters.id],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
 const getInQueuePositionOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/jobs/{jobId}/position",
+  path: "/routing/jobs/{id}/position",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.JobPositionDetails
     },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.jobId],
+  urlParameters: [Parameters.endpoint, Parameters.id],
   headerParameters: [Parameters.accept],
   serializer
 };
-const acceptJobOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/workers/{workerId}/offers/{offerId}/accept",
+const acceptJobActionOperationSpec: coreHttp.OperationSpec = {
+  path: "/routing/workers/{workerId}/offers/{offerId}:accept",
   httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.AcceptJobOfferResponse
     },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -2703,42 +1666,15 @@ const acceptJobOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const declineJobOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/workers/{workerId}/offers/{offerId}/decline",
+const declineJobActionOperationSpec: coreHttp.OperationSpec = {
+  path: "/routing/workers/{workerId}/offers/{offerId}:decline",
   httpMethod: "POST",
   responses: {
-    204: {},
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    200: {
+      bodyMapper: { type: { name: "any" } }
     },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -2746,50 +1682,26 @@ const declineJobOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const createOrUpdateQueueOperationSpec: coreHttp.OperationSpec = {
+const createQueueOperationSpec: coreHttp.OperationSpec = {
   path: "/routing/queues",
-  httpMethod: "PUT",
+  httpMethod: "POST",
   responses: {
-    200: {
-      bodyMapper: Mappers.UpsertQueueResponse
+    201: {
+      bodyMapper: Mappers.JobQueue
     },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  requestBody: Parameters.body11,
+  requestBody: Parameters.jobQueue,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.repeatabilityRequestId,
+    Parameters.repeatabilityFirstSent
+  ],
   mediaType: "json",
   serializer
 };
@@ -2800,46 +1712,31 @@ const listQueuesOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.QueueCollection
     },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.maxPageSize,
-    Parameters.continuationToken
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.maxpagesize],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const updateQueueOperationSpec: coreHttp.OperationSpec = {
+  path: "/routing/queues/{id}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.JobQueue
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  requestBody: Parameters.patch4,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.id],
+  headerParameters: [Parameters.accept, Parameters.contentType1],
+  mediaType: "json",
   serializer
 };
 const getQueueOperationSpec: coreHttp.OperationSpec = {
@@ -2849,37 +1746,8 @@ const getQueueOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.JobQueue
     },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -2892,88 +1760,51 @@ const deleteQueueOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     204: {},
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.id],
-  headerParameters: [Parameters.accept, Parameters.ifMatch],
+  headerParameters: [Parameters.accept],
   serializer
 };
-const registerWorkerOperationSpec: coreHttp.OperationSpec = {
+const getQueueStatisticsOperationSpec: coreHttp.OperationSpec = {
+  path: "/routing/queues/{id}/statistics",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.QueueStatistics
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.id],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createWorkerOperationSpec: coreHttp.OperationSpec = {
   path: "/routing/workers",
-  httpMethod: "PUT",
+  httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.RouterWorker
     },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  requestBody: Parameters.body12,
+  requestBody: Parameters.routerWorker,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.repeatabilityRequestId,
+    Parameters.repeatabilityFirstSent
+  ],
   mediaType: "json",
   serializer
 };
@@ -2984,93 +1815,38 @@ const listWorkersOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.WorkerCollection
     },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.maxPageSize,
-    Parameters.continuationToken,
-    Parameters.status1,
+    Parameters.maxpagesize,
+    Parameters.queueId,
     Parameters.channelId,
-    Parameters.queueId2,
+    Parameters.status1,
     Parameters.hasCapacity
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
   serializer
 };
-const deregisterWorkerOperationSpec: coreHttp.OperationSpec = {
+const updateWorkerOperationSpec: coreHttp.OperationSpec = {
   path: "/routing/workers/{workerId}",
-  httpMethod: "DELETE",
+  httpMethod: "PATCH",
   responses: {
-    204: {},
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    200: {
+      bodyMapper: Mappers.RouterWorker
     },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
+  requestBody: Parameters.patch5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.workerId],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType1],
+  mediaType: "json",
   serializer
 };
 const getWorkerOperationSpec: coreHttp.OperationSpec = {
@@ -3080,37 +1856,8 @@ const getWorkerOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.RouterWorker
     },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -3118,102 +1865,17 @@ const getWorkerOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
-const releaseAssignmentOperationSpec: coreHttp.OperationSpec = {
-  path: "/routing/workers/{workerId}/assignments/{assignmentId}/release",
-  httpMethod: "POST",
+const deleteWorkerOperationSpec: coreHttp.OperationSpec = {
+  path: "/routing/workers/{workerId}",
+  httpMethod: "DELETE",
   responses: {
-    200: {},
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    204: {},
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  requestBody: Parameters.body13,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.workerId,
-    Parameters.assignmentId2
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer
-};
-const listChannelsNextOperationSpec: coreHttp.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ChannelCollection
-    },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    }
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.typeParam,
-    Parameters.maxPageSize,
-    Parameters.continuationToken
-  ],
-  urlParameters: [Parameters.endpoint, Parameters.nextLink],
+  urlParameters: [Parameters.endpoint, Parameters.workerId],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -3224,44 +1886,11 @@ const listClassificationPoliciesNextOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.ClassificationPolicyCollection
     },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.maxPageSize,
-    Parameters.continuationToken
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.maxpagesize],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
@@ -3273,44 +1902,11 @@ const listDistributionPoliciesNextOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.DistributionPolicyCollection
     },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.maxPageSize,
-    Parameters.continuationToken
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.maxpagesize],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
@@ -3322,44 +1918,11 @@ const listExceptionPoliciesNextOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.ExceptionPolicyCollection
     },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.maxPageSize,
-    Parameters.continuationToken
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.maxpagesize],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
@@ -3371,95 +1934,18 @@ const listJobsNextOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.JobCollection
     },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.maxPageSize,
-    Parameters.continuationToken,
-    Parameters.status
+    Parameters.maxpagesize,
+    Parameters.status,
+    Parameters.queueId,
+    Parameters.channelId
   ],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listEnqueuedJobsNextOperationSpec: coreHttp.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.JobCollection
-    },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    }
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.maxPageSize,
-    Parameters.continuationToken
-  ],
-  urlParameters: [Parameters.endpoint, Parameters.queueId, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -3470,44 +1956,11 @@ const listQueuesNextOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.QueueCollection
     },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.maxPageSize,
-    Parameters.continuationToken
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.maxpagesize],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer
@@ -3519,46 +1972,16 @@ const listWorkersNextOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.WorkerCollection
     },
-    400: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    401: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    403: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    404: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    409: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    412: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    429: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
-    },
-    503: {
-      bodyMapper: Mappers.CommunicationErrorResponse,
-      isError: true
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.maxPageSize,
-    Parameters.continuationToken,
-    Parameters.status1,
+    Parameters.maxpagesize,
+    Parameters.queueId,
     Parameters.channelId,
-    Parameters.queueId2,
+    Parameters.status1,
     Parameters.hasCapacity
   ],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],

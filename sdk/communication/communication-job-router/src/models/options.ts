@@ -1,45 +1,45 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { PipelineOptions, OperationOptions } from "@azure/core-http";
+
+import { PipelineOptions } from "@azure/core-http";
 import {
-  JobRouterCloseJobOptionalParams,
-  JobRouterCompleteJobOptionalParams,
-  JobRouterCreateOrUpdateChannelOptionalParams,
-  JobRouterDeleteChannelOptionalParams,
   JobRouterDeleteClassificationPolicyOptionalParams,
   JobRouterDeleteDistributionPolicyOptionalParams,
   JobRouterDeleteExceptionPolicyOptionalParams,
   JobRouterDeleteQueueOptionalParams,
-  JobRouterListChannelsOptionalParams,
   JobRouterListClassificationPoliciesOptionalParams,
   JobRouterListDistributionPoliciesOptionalParams,
   JobRouterListExceptionPoliciesOptionalParams,
-  JobRouterListEnqueuedJobsOptionalParams,
   JobRouterListQueuesOptionalParams,
   JobRouterListWorkersOptionalParams,
   JobRouterListJobsOptionalParams,
-  JobRouterReleaseAssignmentOptionalParams,
   JobRouterGetWorkerOptionalParams,
-  JobRouterDeregisterWorkerOptionalParams,
-  JobRouterRegisterWorkerOptionalParams,
   JobRouterGetQueueOptionalParams,
-  JobRouterCreateOrUpdateQueueOptionalParams,
-  JobRouterDeclineJobOptionalParams,
-  JobRouterAcceptJobOptionalParams,
-  JobRouterCancelJobOptionalParams,
+  JobRouterCreateQueueOptionalParams,
   JobRouterGetJobOptionalParams,
   JobRouterGetInQueuePositionOptionalParams,
-  JobRouterUpdateJobClassificationOptionalParams,
-  JobRouterUpdateJobLabelsOptionalParams,
   JobRouterCreateJobOptionalParams,
   JobRouterGetExceptionPolicyOptionalParams,
-  JobRouterCreateOrUpdateExceptionPolicyOptionalParams,
+  JobRouterCreateExceptionPolicyOptionalParams,
+  JobRouterUpdateExceptionPolicyOptionalParams,
   JobRouterGetDistributionPolicyOptionalParams,
-  JobRouterCreateOrUpdateDistributionPolicyOptionalParams,
+  JobRouterCreateDistributionPolicyOptionalParams,
+  JobRouterUpdateDistributionPolicyOptionalParams,
   JobRouterGetClassificationPolicyOptionalParams,
-  JobRouterCreateOrUpdateClassificationPolicyOptionalParams,
-  JobRouterGetChannelOptionalParams
-} from "../generated/src/models";
+  JobRouterCreateClassificationPolicyOptionalParams,
+  JobRouterUpdateClassificationPolicyOptionalParams,
+  JobRouterUpdateJobOptionalParams,
+  JobRouterDeleteJobOptionalParams,
+  JobRouterCancelJobActionOptionalParams,
+  JobRouterCreateWorkerOptionalParams,
+  JobRouterUpdateWorkerOptionalParams,
+  JobRouterAcceptJobActionOptionalParams,
+  JobRouterCloseJobActionOptionalParams,
+  JobRouterCompleteJobActionOptionalParams,
+  JobRouterDeclineJobActionOptionalParams,
+  JobRouterDeleteWorkerOptionalParams,
+  JobRouterUpdateQueueOptionalParams
+} from "../generated/src";
 
 /**
  * Options to create router client.
@@ -48,47 +48,6 @@ export interface RouterClientOptions extends PipelineOptions {
   /** The headers to be set on requests **/
   headers?: { [propertyName: string]: any };
 }
-
-/**
- * Options to create a channel.
- */
-export interface UpsertChannelOptions extends JobRouterCreateOrUpdateChannelOptionalParams {}
-
-/**
- * Options to update a channel.
- */
-export interface UpdateChannelOptions extends OperationOptions {}
-
-/**
- * Options to get a channel.
- */
-export interface GetChannelOptions extends JobRouterGetChannelOptionalParams {}
-
-/**
- * Options to delete a channel.
- */
-export interface DeleteChannelOptions extends JobRouterDeleteChannelOptionalParams {}
-
-/**
- * Options to get all channels.
- */
-export interface ListChannelsOptions extends JobRouterListChannelsOptionalParams {}
-
-/**
- * Options to get managed channels.
- */
-export interface ListManagedChannelsOptions extends OperationOptions {}
-
-/**
- * Options to create or update a classification policy.
- */
-export interface UpsertClassificationPolicyOptions
-  extends JobRouterCreateOrUpdateClassificationPolicyOptionalParams {}
-
-/**
- * Options to update a classification policy.
- */
-export interface UpdateClassificationPolicyOptions extends OperationOptions {}
 
 /**
  * Options to get a classification policy.
@@ -109,10 +68,16 @@ export interface ListClassificationPoliciesOptions
   extends JobRouterListClassificationPoliciesOptionalParams {}
 
 /**
- * Options to create or update a distribution policy.
+ * Options to create a distribution policy.
  */
-export interface UpsertDistributionPolicyOptions
-  extends JobRouterCreateOrUpdateDistributionPolicyOptionalParams {}
+export interface CreateDistributionPolicyOptions
+  extends JobRouterCreateDistributionPolicyOptionalParams {}
+
+/**
+ * Options to update a distribution policy.
+ */
+export interface UpdateDistributionPolicyOptions
+  extends JobRouterUpdateDistributionPolicyOptionalParams {}
 
 /**
  * Options to get a distribution policy.
@@ -133,10 +98,16 @@ export interface ListDistributionPoliciesOptions
   extends JobRouterListDistributionPoliciesOptionalParams {}
 
 /**
- * Options to create or update a exception policy.
+ * Options to create a exception policy.
  */
-export interface UpsertExceptionPolicyOptions
-  extends JobRouterCreateOrUpdateExceptionPolicyOptionalParams {}
+export interface CreateExceptionPolicyOptions
+  extends JobRouterCreateExceptionPolicyOptionalParams {}
+
+/**
+ * Options to update a exception policy.
+ */
+export interface UpdateExceptionPolicyOptions
+  extends JobRouterUpdateExceptionPolicyOptionalParams {}
 
 /**
  * Options to get a exception policy.
@@ -164,15 +135,31 @@ export interface CreateJobOptions extends JobRouterCreateJobOptionalParams {
 }
 
 /**
- * Options to update or insert a job's labels.
+ * Options to update a job.
  */
-export interface UpdateJobLabelsOptions extends JobRouterUpdateJobLabelsOptionalParams {}
+export interface UpdateJobOptions extends JobRouterUpdateJobOptionalParams {}
 
 /**
- * Options to update and classify a job.
+ * Options to update or insert a job's labels.
  */
-export interface UpdateJobClassificationOptions
-  extends JobRouterUpdateJobClassificationOptionalParams {}
+export interface UpdateJobLabelsOptions extends JobRouterUpdateJobOptionalParams {}
+
+/**
+ * Options to update a job's classification.
+ */
+export interface UpdateJobClassificationOptions extends JobRouterUpdateJobOptionalParams {}
+
+/**
+ * Options to create a classification policy.
+ */
+export interface CreateClassificationPolicyOptions
+  extends JobRouterCreateClassificationPolicyOptionalParams {}
+
+/**
+ * Options to update a classification policy.
+ */
+export interface UpdateClassificationPolicyOptions
+  extends JobRouterUpdateClassificationPolicyOptionalParams {}
 
 /**
  * Options to get a job's position details.
@@ -187,27 +174,27 @@ export interface GetJobOptions extends JobRouterGetJobOptionalParams {}
 /**
  * Options to cancel a job.
  */
-export interface CancelJobOptions extends JobRouterCancelJobOptionalParams {}
+export interface CancelJobOptions extends JobRouterCancelJobActionOptionalParams {}
 
 /**
  * Options to accept a job.
  */
-export interface AcceptJobOptions extends JobRouterAcceptJobOptionalParams {}
+export interface AcceptJobOptions extends JobRouterAcceptJobActionOptionalParams {}
 
 /**
  * Options to decline a job.
  */
-export interface DeclineJobOptions extends JobRouterDeclineJobOptionalParams {}
+export interface DeclineJobOptions extends JobRouterDeclineJobActionOptionalParams {}
 
 /**
  * Options to complete a job.
  */
-export interface CompleteJobOptions extends JobRouterCompleteJobOptionalParams {}
+export interface CompleteJobOptions extends JobRouterCompleteJobActionOptionalParams {}
 
 /**
  * Options to close a job.
  */
-export interface CloseJobOptions extends JobRouterCloseJobOptionalParams {}
+export interface CloseJobOptions extends JobRouterCloseJobActionOptionalParams {}
 
 /**
  * Options to get router jobs.
@@ -215,24 +202,19 @@ export interface CloseJobOptions extends JobRouterCloseJobOptionalParams {}
 export interface ListJobsOptions extends JobRouterListJobsOptionalParams {}
 
 /**
- * Options to get enqueued router jobs.
+ * Options to delete a job.
  */
-export interface ListEnqueuedJobsOptions extends JobRouterListEnqueuedJobsOptionalParams {}
+export interface DeleteJobOptions extends JobRouterDeleteJobOptionalParams {}
 
 /**
- * Options to register a worker.
+ * Options to create a worker.
  */
-export interface RegisterWorkerOptions extends JobRouterRegisterWorkerOptionalParams {}
+export interface CreateWorkerOptions extends JobRouterCreateWorkerOptionalParams {}
 
 /**
- * Options to deregister a worker.
+ * Options to update a worker.
  */
-export interface DeregisterWorkerOptions extends JobRouterDeregisterWorkerOptionalParams {}
-
-/**
- * Options to release a worker.
- */
-export interface ReleaseWorkerOptions extends JobRouterReleaseAssignmentOptionalParams {}
+export interface UpdateWorkerOptions extends JobRouterUpdateWorkerOptionalParams {}
 
 /**
  * Options to get a worker.
@@ -245,9 +227,19 @@ export interface GetWorkerOptions extends JobRouterGetWorkerOptionalParams {}
 export interface ListWorkersOptions extends JobRouterListWorkersOptionalParams {}
 
 /**
- * Options to create or update a queue.
+ * Options to delete a worker.
  */
-export interface UpsertQueueOptions extends JobRouterCreateOrUpdateQueueOptionalParams {}
+export interface DeleteWorkerOptions extends JobRouterDeleteWorkerOptionalParams {}
+
+/**
+ * Options to create a queue.
+ */
+export interface CreateQueueOptions extends JobRouterCreateQueueOptionalParams {}
+
+/**
+ * Options to update a queue.
+ */
+export interface UpdateQueueOptions extends JobRouterUpdateQueueOptionalParams {}
 
 /**
  * Options to get a queue.
