@@ -32,7 +32,7 @@
 
 # Service teams
 # PRLabel: %App Configuration
-/sdk/appconfiguration/ @HarshaNalluru
+/sdk/appconfiguration/ @sima-zhu @HarshaNalluru
 
 # PRLabel: %Attestation
 /sdk/attestation/ @LarryOsterman @deyaaeldeen
