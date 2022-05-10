@@ -1,5 +1,8 @@
-import mustache from "mustache"
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import JSZip from "jszip"
+import mustache from "mustache"
 import templates from "virtual:templates"
 
 export const OVERRIDE_PORT_KEY = "MS_APIM_CW_localhost_port"
@@ -44,10 +47,10 @@ export type TConfigDeploy = {
   openUrl?: string;
 }
 
-function goToFolder(path: string, zip: JSZip) {
+function goToFolder(path: string, zip: JSZip): JSZip {
   let resZip = zip
 
-  for (let dir of path.split("/")) {
+  for (const dir of path.split("/")) {
     if (dir === "") continue
     resZip = resZip.folder(dir) ?? zip
   }
@@ -69,7 +72,7 @@ export async function generateBlob(customWidgetConfig: TCustomWidgetConfig, {
     open: openUrlParsed ? openUrlParsed.toString() : true,
   }, null, "\t")
 
-  const renderTemplate = ({dir, name, fileData, isTemplate, encoding}: TemplateFile) => {
+  const renderTemplate = ({dir, name, fileData, isTemplate, encoding}: TemplateFile): void => {
     const dirForFile = dir !== "" ? goToFolder(dir, zip) : zip
     dirForFile.file(name, !isTemplate ? fileData : mustache.render(fileData, {
       name: customWidgetConfig.name,

@@ -14,6 +14,9 @@ export default defineConfig({
       name: "Custom widget scaffolder",
       fileName: (format) => `index.${format}.js`,
     },
+    rollupOptions: {
+      preserveSymlinks: false,
+    },
   },
   plugins: [
     virtual({

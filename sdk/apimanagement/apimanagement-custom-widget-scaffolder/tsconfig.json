@@ -15,7 +15,7 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
-    "outDir": "dist",
+    "outFile": "dist/apimanagement-custom-widget-scaffolder.d.ts",
     "declaration": true,
     "jsx": "react-jsx"
   },
