@@ -11,8 +11,6 @@ import { DEFAULT_GENERATED_CLIENT_OPTIONS } from "./options/FormRecognizerClient
 import * as Mappers from "./generated/models/mappers";
 import { createSerializer } from "@azure/core-client";
 export { Mappers };
-import { BoundingRegion as GeneratedBoundingRegion } from "./generated";
-import { BoundingRegion } from "./models/modified";
 
 // This is used for URL request processing.
 export const SERIALIZER = createSerializer(Mappers, false);
@@ -110,55 +108,12 @@ export function makeServiceClient(
 
   const authPolicy = isTokenCredential(credential)
     ? bearerTokenAuthenticationPolicy({
-        credential,
-        scopes: DEFAULT_COGNITIVE_SCOPE,
-      })
+      credential,
+      scopes: DEFAULT_COGNITIVE_SCOPE,
+    })
     : createFormRecognizerAzureKeyCredentialPolicy(credential);
 
   client.pipeline.addPolicy(authPolicy);
 
   return client;
-}
-
-/**
- * Represents a point used to define bounding polygons. The unit is either 'pixel' or 'inch' (See {link @LengthUnit}).
- */
-export interface Point2D {
-  /**
-   * x coordinate
-   */
-  x: number;
-  /**
-   * y coordinate
-   */
-  y: number;
-}
-
-export function toBoundingPolygon(original: number[] | undefined): Point2D[] | undefined {
-  const points: Point2D[] = [];
-  if (!original) return;
-
-  if (original.length % 2 !== 0) {
-    throw new Error(
-      "Unexpected number of points in the response, unable to translate as 2D points"
-    );
-  }
-
-  for (let i = 0; i < original.length - 1; i = i + 2) {
-    points.push({ x: original[i], y: original[i + 1] });
-  }
-
-  return points;
-}
-
-export function toBoundingRegions(
-  original: GeneratedBoundingRegion[] | undefined
-): BoundingRegion[] | undefined {
-  if (!original) return;
-
-  const regions: BoundingRegion[] = [];
-  original.forEach((region) =>
-    regions.push({ ...region, polygon: toBoundingPolygon(region.polygon) })
-  );
-  return regions;
 }
