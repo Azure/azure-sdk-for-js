@@ -9034,7 +9034,7 @@ packages:
     dev: false
 
   file:projects/ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-8nfO8GUFtqYDD3IZqe/e2skZAdyrGmMILxiBu5J97qbpBEHtR78QWfaBwH0wQjwB3qYvqtyxKO76G3OXPaNTPw==, tarball: file:projects/ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-ipULEeBQA6K7kMKiVfH4RtiAWdMPc1TBEK4/qhaaMb4I0VsTza+jOwKPQWOms1a+Jh/ILcWyCyJaif6tq/CSQg==, tarball: file:projects/ai-form-recognizer.tgz}
     name: '@rush-temp/ai-form-recognizer'
     version: 0.0.0
     dependencies:
@@ -9049,6 +9049,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       eslint: 7.32.0
+      esm: 3.2.25
       karma: 6.3.18
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
@@ -17534,7 +17535,7 @@ packages:
     dev: false
 
   file:projects/test-recorder.tgz:
-    resolution: {integrity: sha512-B93X36qy6MzbmwmJTI9M56ciGzXk7pxYC69kGsF4p6Ume78JsRW/moamW9oUYvzPqI02ADCjlN921XKQC8RijQ==, tarball: file:projects/test-recorder.tgz}
+    resolution: {integrity: sha512-3p9OFq1/8KPglmW2HeFhw9UDAQ09Uql8+Wkzl6WgGT+VjPd+3zaxprTZRLMNZPx8u+keyJhQVTAxNikKTg5EXQ==, tarball: file:projects/test-recorder.tgz}
     name: '@rush-temp/test-recorder'
     version: 0.0.0
     dependencies:
