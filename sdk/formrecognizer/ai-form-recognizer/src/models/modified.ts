@@ -1,4 +1,4 @@
-import { Point2D } from "../util";
+import { Point2D } from "../transforms/polygon";
 import {
   DocumentWord as GeneratedDocumentWord,
   DocumentSelectionMark as GeneratedDocumentSelectionMark,
@@ -30,7 +30,7 @@ export {
   GeneratedDocument,
 };
 
-export interface BoundingPolygonProperty {
+export interface HasBoundingPolygon {
   /** Bounding polygon of the entity. */
   polygon?: Point2D[];
 }
@@ -38,7 +38,7 @@ export interface BoundingPolygonProperty {
 /** Bounding polygon on a specific page of the input. */
 export interface BoundingRegion
   extends Omit<GeneratedBoundingRegion, "polygon">,
-    BoundingPolygonProperty {}
+  HasBoundingPolygon { }
 
 export interface BoundingRegionsProperty {
   /** Bounding regions covering the entity. */
@@ -48,62 +48,62 @@ export interface BoundingRegionsProperty {
 /** A word object consisting of a contiguous sequence of characters.  For non-space delimited languages, such as Chinese, Japanese, and Korean, each character is represented as its own word. */
 export interface DocumentWord
   extends Omit<GeneratedDocumentWord, "polygon">,
-    BoundingPolygonProperty {}
+  HasBoundingPolygon { }
 
 /** A selection mark object representing check boxes, radio buttons, and other elements indicating a selection. */
 export interface DocumentSelectionMark
   extends Omit<GeneratedDocumentSelectionMark, "polygon">,
-    BoundingPolygonProperty {}
+  HasBoundingPolygon { }
 
 /** An image object detected in the page. */
 export interface DocumentImage
   extends Omit<GeneratedDocumentImage, "polygon">,
-    BoundingPolygonProperty {}
+  HasBoundingPolygon { }
 
 /** A content line object consisting of an adjacent sequence of content elements, such as words and selection marks. */
 export interface DocumentLine
   extends Omit<GeneratedDocumentLine, "polygon">,
-    BoundingPolygonProperty {}
+  HasBoundingPolygon { }
 
 /** A paragraph object consisting with contiguous lines generally with common alignment and spacing. */
 export interface DocumentParagraph
   extends Omit<GeneratedDocumentParagraph, "boundingRegions">,
-    BoundingRegionsProperty {}
+  BoundingRegionsProperty { }
 
 /** A table object consisting table cells arranged in a rectangular layout. */
 export interface DocumentTable
   extends Omit<GeneratedDocumentTable, "boundingRegions">,
-    BoundingRegionsProperty {}
+  BoundingRegionsProperty { }
 
 /** An object representing the location and content of a table cell. */
 export interface DocumentTableCell
   extends Omit<GeneratedDocumentTableCell, "boundingRegions">,
-    BoundingRegionsProperty {}
+  BoundingRegionsProperty { }
 
 /** An object representing the location and content of a table caption. */
 export interface DocumentTableCaption
   extends Omit<GeneratedDocumentTableCaption, "boundingRegions">,
-    BoundingRegionsProperty {}
+  BoundingRegionsProperty { }
 
 /** An object representing the location and content of a table footnote. */
 export interface DocumentTableFootnote
   extends Omit<GeneratedDocumentTableFootnote, "boundingRegions">,
-    BoundingRegionsProperty {}
+  BoundingRegionsProperty { }
 
 /** An object representing the field key or value in a key-value pair. */
 export interface DocumentKeyValueElement
   extends Omit<GeneratedDocumentKeyValueElement, "boundingRegions">,
-    BoundingRegionsProperty {}
+  BoundingRegionsProperty { }
 
 /** An object representing various categories of entities. */
 export interface DocumentEntity
   extends Omit<GeneratedDocumentEntity, "boundingRegions">,
-    BoundingRegionsProperty {}
+  BoundingRegionsProperty { }
 
 /** An object describing the location and semantic content of a document. */
 export interface Document
   extends Omit<GeneratedDocument, "boundingRegions">,
-    BoundingRegionsProperty {}
+  BoundingRegionsProperty { }
 
 /** An object representing a form field with distinct field label (key) and field value (may be empty). */
 export interface DocumentKeyValuePair {
