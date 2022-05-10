@@ -1,6 +1,6 @@
 # Release History
 
-## 5.8.0 (Unreleased)
+## 5.8.0 (2022-05-10)
 
 ### Breaking Changes
 
