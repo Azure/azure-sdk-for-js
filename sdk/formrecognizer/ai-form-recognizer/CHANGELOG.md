@@ -5,7 +5,7 @@
 ### Features Added
 
 - Added `caption` and `footnotes` properties on `DocumentTable`.
-- Added `DocumentCaption` and `DocumentFootnote` models to represent captions and footnotes found in the document.
+- Added `DocumentTableCaption` and `DocumentTableFootnote` interfaces to represent captions and footnotes found in the document tables.
 
 ### Breaking Changes
 
