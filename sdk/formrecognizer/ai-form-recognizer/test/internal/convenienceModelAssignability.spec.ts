@@ -11,6 +11,7 @@ import {
   DocumentKeyValueElement as GeneratedDocumentKeyValueElement,
   DocumentEntity as GeneratedDocumentEntity,
   Document as GeneratedDocument,
+  DocumentPage as GeneratedDocumentPage
 } from "../../src/generated";
 import {
   Document,
@@ -18,6 +19,7 @@ import {
   DocumentImage,
   DocumentKeyValueElement,
   DocumentLine,
+  DocumentPage,
   DocumentParagraph,
   DocumentSelectionMark,
   DocumentTable,
@@ -27,7 +29,7 @@ import {
   DocumentWord,
 } from "../../src/models/modified";
 
-function checkAssign<Generated>(_model: Generated) {}
+function checkAssign<Generated>(_model: Generated) { }
 
 declare const word: DocumentWord;
 declare const selectionMark: DocumentSelectionMark;
@@ -41,6 +43,7 @@ declare const documentTableFootnote: DocumentTableFootnote;
 declare const documentKeyValueElement: DocumentKeyValueElement;
 declare const documentEntity: DocumentEntity;
 declare const document: Document;
+declare const documentPage: DocumentPage;
 
 checkAssign<Omit<GeneratedDocumentWord, "polygon">>(word);
 checkAssign<Omit<GeneratedDocumentSelectionMark, "polygon">>(selectionMark);
@@ -56,3 +59,4 @@ checkAssign<Omit<GeneratedDocumentTable, "boundingRegions" | "cells" | "caption"
 checkAssign<Omit<GeneratedDocumentKeyValueElement, "boundingRegions">>(documentKeyValueElement);
 checkAssign<Omit<GeneratedDocumentEntity, "boundingRegions">>(documentEntity);
 checkAssign<Omit<GeneratedDocument, "boundingRegions">>(document);
+checkAssign<Omit<GeneratedDocumentPage, "images" | "words" | "selectionMarks" | "lines">>(documentPage);
