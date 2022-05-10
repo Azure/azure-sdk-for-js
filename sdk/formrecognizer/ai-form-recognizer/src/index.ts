@@ -35,7 +35,7 @@ export {
   GetInfoResponse,
   CustomDocumentModelsInfo,
   AnalyzeResultOperationStatus,
-  SelectionMarkState,
+  SelectionMarkState
 } from "./generated";
 export {
   AnalysisPoller,

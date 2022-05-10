@@ -250,17 +250,6 @@ export interface DocTypeInfo {
 }
 
 // @public
-export interface Document {
-    boundingRegions?: BoundingRegion[];
-    confidence: number;
-    docType: string;
-    fields: {
-        [propertyName: string]: DocumentField_2;
-    };
-    spans: DocumentSpan[];
-}
-
-// @public
 export class DocumentAnalysisClient {
     constructor(endpoint: string, credential: TokenCredential, options?: DocumentAnalysisClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: DocumentAnalysisClientOptions);
@@ -1789,9 +1778,5 @@ export interface TrainingPollOperationState extends PollOperationState<ModelInfo
 export interface WellKnownObjectFieldSchema<Type extends "currency" = "currency"> {
     readonly type: Type;
 }
-
-// Warnings were encountered during analysis:
-//
-// src/models/modified.ts:179:13 - (ae-forgotten-export) The symbol "DocumentField" needs to be exported by the entry point index.d.ts
 
 ```

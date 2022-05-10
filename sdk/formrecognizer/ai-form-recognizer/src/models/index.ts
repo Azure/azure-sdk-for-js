@@ -22,4 +22,4 @@ export {
   DocumentCurrencyField,
   DocumentField,
 } from "./fields";
-export * from "./modified";
+export { BoundingRegion, DocumentEntity, DocumentImage, DocumentKeyValueElement, DocumentKeyValuePair, DocumentLine, DocumentParagraph, DocumentSelectionMark, DocumentTable, DocumentTableCaption, DocumentTableCell, DocumentTableFootnote, DocumentWord, HasBoundingPolygon } from "./modified";

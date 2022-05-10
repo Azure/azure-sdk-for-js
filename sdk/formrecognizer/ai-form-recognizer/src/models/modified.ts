@@ -4,7 +4,7 @@ import {
   SelectionMarkState,
   ParagraphRole,
   DocumentTableCellKind,
-  DocumentField,
+  DocumentField as GeneratedDocumentField
 } from "./../generated";
 
 export interface HasBoundingPolygon {
@@ -176,7 +176,7 @@ export interface Document {
   /** Location of the document in the reading order concatenated content. */
   spans: DocumentSpan[];
   /** Dictionary of named field values. */
-  fields: { [propertyName: string]: DocumentField };
+  fields: { [propertyName: string]: GeneratedDocumentField };
   /** Confidence of correctly extracting the document. */
   confidence: number;
 }
