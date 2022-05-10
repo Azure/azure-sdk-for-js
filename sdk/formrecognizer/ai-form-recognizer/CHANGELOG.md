@@ -4,9 +4,12 @@
 
 ### Features Added
 
+- Added `caption` and `footnotes` properties on `DocumentTable`.
+- Added `DocumentCaption` and `DocumentFootnote` models to represent captions and footnotes found in the document.
+
 ### Breaking Changes
 
-- Renamed the `beginCopyModel` method of `DocumentModelAdministrationClient` to `beginCopyModelTo`. [#20775](https://github.com/Azure/azure-sdk-for-js/pull/20775) 
+- Renamed the `beginCopyModel` method of `DocumentModelAdministrationClient` to `beginCopyModelTo`. [#20775](https://github.com/Azure/azure-sdk-for-js/pull/20775)
 
 ### Bugs Fixed
 
