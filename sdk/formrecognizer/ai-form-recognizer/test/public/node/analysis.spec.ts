@@ -708,7 +708,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
         validator(invoice as AnalyzedDocument);
       });
 
-      it.only("url", async () => {
+      it("url", async () => {
         const url = makeTestUrl("/Invoice_1.pdf");
 
         const poller = await client.beginAnalyzeDocument(
@@ -729,7 +729,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
         const [table] = tables!;
         assert.ok(table.boundingRegions?.[0].polygon);
         assert.equal(table.boundingRegions?.[0].pageNumber, 1);
-        console.log(table.caption)
+        // console.log(table.caption)
 
         validator(invoice as AnalyzedDocument);
       });
