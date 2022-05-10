@@ -130,12 +130,12 @@ function create-metadata-table($readmePath, $moniker, $msService, $clientTableLi
   Add-Content -Path $readmePath -Value $readmeHeader
   if ($clientExists) {
     $clientTable = "## Client packages - $moniker`r`n"
-    $clientTable += "[!INCLUDE [client-packages](/$clientTableLink)]`r`n"
+    $clientTable += "[!INCLUDE [client-packages]($clientTableLink)]`r`n"
     Add-Content -Path $readmePath -Value $clientTable
   }
   if ($mgmtExists) {
     $mgmtTable = "## Management packages - $moniker`r`n"
-    $mgmtTable += "[!INCLUDE [mgmt-packages](/$mgmtTableLink)]`r`n"
+    $mgmtTable += "[!INCLUDE [mgmt-packages]($mgmtTableLink)]`r`n"
     Add-Content -Path $readmePath -Value $mgmtTable
   }
 }
@@ -161,7 +161,7 @@ function update-metadata-table($readmePath, $serviceName, $msService)
   }
   $metadataTable["ms.author"] = $msauthor
   $metadataTable["ms.service"] =  $msService
-  Set-Content -Path $readmeContent -Value "$metadataTable$restContent"
+  Set-Content -Path $readmeContent -Value "$metadataTable$restContent" -NoNewline
 }
 
 function generate-markdown-table($readmePath, $packageInfo) {
@@ -178,7 +178,7 @@ function generate-markdown-table($readmePath, $packageInfo) {
     $line = "|[$($pkg.DisplayName)]($referenceLink)|[$($pkg.Package)]($repositoryLink/$($pkg.Package))|[Github]($githubLink)|`r`n"
     $content += $line
   }
-  Set-Content -Path $readmePath -Value $content
+  Set-Content -Path $readmePath -Value $content -NoNewline
 }
 
 function generate-service-level-readme($readmeBaseName, $pathPrefix, $clientPackageInfo, $mgmtPackageInfo, $serviceName) {
@@ -427,4 +427,4 @@ if (Test-Path "Function:$UpdateDocsMsTocFn") {
 }
 
 $outputYaml = ConvertTo-Yaml $output
-Set-Content -Path $OutputLocation -Value $outputYaml
+Set-Content -Path $OutputLocation -Value $outputYaml -NoNewline
