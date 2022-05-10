@@ -34,7 +34,8 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
     private lroResourceLocationConfig?: LroResourceLocationConfig,
     private processResult?: (result: unknown, state: TState) => TResult,
     private updateState?: (state: TState, lastResponse: RawResponse) => void,
-    private isDone?: (lastResponse: TResult, state: TState) => boolean
+    private isDone?: (lastResponse: TResult, state: TState) => boolean,
+    private cancelOp?: (state: TState) => Promise<void>
   ) {}
 
   public setPollerConfig(pollerConfig: PollerConfig): void {
@@ -122,6 +123,7 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
 
   async cancel(): Promise<PollOperation<TState, TResult>> {
     this.state.isCancelled = true;
+    await this.cancelOp?.(this.state);
     return this;
   }
 

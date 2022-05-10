@@ -1,8 +1,10 @@
 # Release History
 
-## 2.2.5 (Unreleased)
+## 2.3.0 (Unreleased)
 
 ### Features Added
+
+- `lroEngine` now supports cancellation of the long-running operation.
 
 ### Breaking Changes
 
