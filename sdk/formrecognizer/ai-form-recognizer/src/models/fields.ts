@@ -4,7 +4,8 @@
 import { DocumentSpan } from "..";
 
 import { CurrencyValue, DocumentField as GeneratedDocumentField } from "../generated";
-import { capitalize, toBoundingRegions } from "../util";
+import { toBoundingRegions } from "../transforms/polygon";
+import { capitalize } from "../util";
 import { BoundingRegion } from "./modified";
 
 /**
@@ -245,10 +246,10 @@ export function toDocumentField(field: GeneratedDocumentField): DocumentField {
         return {
           value:
             field[
-              ("value" + capitalize(kind)) as Extract<
-                keyof GeneratedDocumentField,
-                `value${string}`
-              >
+            ("value" + capitalize(kind)) as Extract<
+              keyof GeneratedDocumentField,
+              `value${string}`
+            >
             ],
         };
       case "array":

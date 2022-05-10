@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BoundingRegion as GeneratedBoundingRegion } from "../generated";
-import { BoundingRegion } from "../models/modified";
+import { BoundingRegion as GeneratedBoundingRegion, DocumentTable as GeneratedDocumentTable, DocumentKeyValuePair as GeneratedDocumentKeyValuePair } from "../generated";
+import { BoundingRegion, DocumentKeyValuePair, DocumentTable } from "../models/modified";
+
 
 /**
  * Represents a point used to define bounding polygons. The unit is either 'pixel' or 'inch' (See {@link LengthUnit}).
@@ -39,4 +40,23 @@ export function toBoundingRegions(
   original: GeneratedBoundingRegion[] | undefined
 ): BoundingRegion[] | undefined {
   return original?.map((region) => ({ ...region, polygon: toBoundingPolygon(region.polygon) }));
+}
+
+export function toDocumentTableFromGenerated(table: GeneratedDocumentTable): DocumentTable {
+  return {
+    ...table, boundingRegions: toBoundingRegions(table.boundingRegions),
+    cells: table.cells.map(cell => { return { ...cell, boundingRegions: toBoundingRegions(cell.boundingRegions) } }),
+    caption: table.caption ? { ...table.caption, boundingRegions: toBoundingRegions(table.caption?.boundingRegions) } : undefined,
+    footnotes: table.footnotes?.map(footnote => { return { ...footnote, boundingRegions: toBoundingRegions(footnote.boundingRegions) } })
+  };
+}
+
+export function toKeyValuePairFromGenerated(pair: GeneratedDocumentKeyValuePair): DocumentKeyValuePair {
+  return {
+    ...pair,
+    key: { ...pair.key, boundingRegions: toBoundingRegions(pair.key.boundingRegions) },
+    value: pair.value
+      ? { ...pair.value, boundingRegions: toBoundingRegions(pair.value?.boundingRegions) }
+      : undefined,
+  };
 }

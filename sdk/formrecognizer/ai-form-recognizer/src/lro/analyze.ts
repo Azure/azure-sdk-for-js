@@ -15,17 +15,16 @@ import {
 import { DocumentField, toAnalyzedDocumentFieldsFromGenerated } from "../models/fields";
 import { FormRecognizerApiVersion, PollerOptions } from "../options";
 import { AnalyzeDocumentOptions } from "../options/AnalyzeDocumentsOptions";
-import { toBoundingPolygon, toBoundingRegions } from "../util";
+import { toBoundingPolygon, toBoundingRegions, toDocumentTableFromGenerated, toKeyValuePairFromGenerated } from "../transforms/polygon";
 import {
   BoundingRegion,
   DocumentEntity,
   DocumentSelectionMark,
   DocumentTable,
   DocumentWord,
-  GeneratedDocument,
   DocumentKeyValuePair,
-  GeneratedDocumentLine,
 } from "./../models/modified";
+import { Document as GeneratedDocument, DocumentLine as GeneratedDocumentLine } from '../generated'
 import { DocumentPage as GeneratedDocumentPage } from "./../generated";
 
 /**
@@ -459,19 +458,9 @@ export function toAnalyzeResultFromGenerated<
     content: result.content,
     pages: result.pages.map((page) => toDocumentPageFromGenerated(page)),
     tables:
-      result.tables?.map((table) => {
-        return { ...table, boundingRegions: toBoundingRegions(table.boundingRegions) };
-      }) ?? [],
+      result.tables?.map((table) => toDocumentTableFromGenerated(table)) ?? [],
     keyValuePairs:
-      result.keyValuePairs?.map((pair) => {
-        return {
-          ...pair,
-          key: { ...pair.key, boundingRegions: toBoundingRegions(pair.key.boundingRegions) },
-          value: pair.value
-            ? { ...pair.value, boundingRegions: toBoundingRegions(pair.value?.boundingRegions) }
-            : undefined,
-        };
-      }) ?? [],
+      result.keyValuePairs?.map((pair) => toKeyValuePairFromGenerated(pair)) ?? [],
     entities:
       result.entities?.map((entity) => {
         return { ...entity, boundingRegions: toBoundingRegions(entity.boundingRegions) };
@@ -492,7 +481,7 @@ export interface AnalysisOperationDefinition<Result = AnalyzeResult> {
   transformResult: (primitiveResult: GeneratedAnalyzeResult) => Result;
   initialModelId: string;
   options: PollerOptions<DocumentAnalysisPollOperationState<Result>> &
-    AnalyzeDocumentOptions<Result>;
+  AnalyzeDocumentOptions<Result>;
 }
 
 /**

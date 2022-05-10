@@ -67,18 +67,9 @@ export interface ArrayFieldSchema<Item extends Readonly<FieldSchema> = Readonly<
 
 export { AzureKeyCredential }
 
-// @public (undocumented)
-export interface BoundingPolygonProperty {
-    polygon?: Point2D[];
-}
-
 // @public
-export interface BoundingRegion extends Omit<GeneratedBoundingRegion, "polygon">, BoundingPolygonProperty {
-}
-
-// @public (undocumented)
-export interface BoundingRegionsProperty {
-    boundingRegions?: BoundingRegion[];
+export interface BoundingRegion extends HasBoundingPolygon {
+    pageNumber: number;
 }
 
 // @public
@@ -259,7 +250,14 @@ export interface DocTypeInfo {
 }
 
 // @public
-export interface Document extends Omit<GeneratedDocument, "boundingRegions">, BoundingRegionsProperty {
+export interface Document {
+    boundingRegions?: BoundingRegion[];
+    confidence: number;
+    docType: string;
+    fields: {
+        [propertyName: string]: DocumentField_2;
+    };
+    spans: DocumentSpan[];
 }
 
 // @public
@@ -315,7 +313,13 @@ export interface DocumentDateField extends DocumentValueField<Date> {
 }
 
 // @public
-export interface DocumentEntity extends Omit<GeneratedDocumentEntity, "boundingRegions">, BoundingRegionsProperty {
+export interface DocumentEntity {
+    boundingRegions?: BoundingRegion[];
+    category: string;
+    confidence: number;
+    content: string;
+    spans: DocumentSpan[];
+    subCategory?: string;
 }
 
 // @public
@@ -344,7 +348,10 @@ export interface DocumentFieldSchema {
 export type DocumentFieldType = string;
 
 // @public
-export interface DocumentImage extends Omit<GeneratedDocumentImage, "polygon">, BoundingPolygonProperty {
+export interface DocumentImage extends HasBoundingPolygon {
+    confidence: number;
+    pageRef: number;
+    span: DocumentSpan;
 }
 
 // @public
@@ -353,7 +360,10 @@ export interface DocumentIntegerField extends DocumentValueField<number> {
 }
 
 // @public
-export interface DocumentKeyValueElement extends Omit<GeneratedDocumentKeyValueElement, "boundingRegions">, BoundingRegionsProperty {
+export interface DocumentKeyValueElement {
+    boundingRegions?: BoundingRegion[];
+    content: string;
+    spans: DocumentSpan[];
 }
 
 // @public
@@ -442,7 +452,12 @@ export interface DocumentPage {
 }
 
 // @public
-export interface DocumentParagraph extends Omit<GeneratedDocumentParagraph, "boundingRegions">, BoundingRegionsProperty {
+export interface DocumentParagraph {
+    boundingRegions?: BoundingRegion[];
+    content: string;
+    // Warning: (ae-forgotten-export) The symbol "ParagraphRole" needs to be exported by the entry point index.d.ts
+    role?: ParagraphRole;
+    spans: DocumentSpan[];
 }
 
 // @public
@@ -452,7 +467,10 @@ export interface DocumentPhoneNumberField extends DocumentFieldCommon {
 }
 
 // @public
-export interface DocumentSelectionMark extends Omit<GeneratedDocumentSelectionMark, "polygon">, BoundingPolygonProperty {
+export interface DocumentSelectionMark extends HasBoundingPolygon {
+    confidence: number;
+    span: DocumentSpan;
+    state: SelectionMarkState;
 }
 
 // @public
@@ -489,22 +507,43 @@ export interface DocumentStyle {
 }
 
 // @public
-export interface DocumentTable extends Omit<GeneratedDocumentTable, "boundingRegions">, BoundingRegionsProperty {
+export interface DocumentTable {
+    boundingRegions?: BoundingRegion[];
+    caption?: DocumentTableCaption;
+    cells: DocumentTableCell[];
+    columnCount: number;
+    footnotes?: DocumentTableFootnote[];
+    rowCount: number;
+    spans: DocumentSpan[];
 }
 
 // @public
-export interface DocumentTableCaption extends Omit<GeneratedDocumentTableCaption, "boundingRegions">, BoundingRegionsProperty {
+export interface DocumentTableCaption {
+    boundingRegions?: BoundingRegion[];
+    content: string;
+    spans: DocumentSpan[];
 }
 
 // @public
-export interface DocumentTableCell extends Omit<GeneratedDocumentTableCell, "boundingRegions">, BoundingRegionsProperty {
+export interface DocumentTableCell {
+    boundingRegions?: BoundingRegion[];
+    columnIndex: number;
+    columnSpan?: number;
+    content: string;
+    kind?: DocumentTableCellKind;
+    rowIndex: number;
+    rowSpan?: number;
+    spans: DocumentSpan[];
 }
 
 // @public
 export type DocumentTableCellKind = string;
 
 // @public
-export interface DocumentTableFootnote extends Omit<GeneratedDocumentTableFootnote, "boundingRegions">, BoundingRegionsProperty {
+export interface DocumentTableFootnote {
+    boundingRegions?: BoundingRegion[];
+    content: string;
+    spans: DocumentSpan[];
 }
 
 // @public
@@ -519,7 +558,10 @@ export interface DocumentValueField<T> extends DocumentFieldCommon {
 }
 
 // @public
-export interface DocumentWord extends Omit<GeneratedDocumentWord, "polygon">, BoundingPolygonProperty {
+export interface DocumentWord extends HasBoundingPolygon {
+    confidence: number;
+    content: string;
+    span: DocumentSpan;
 }
 
 // @public
@@ -551,117 +593,6 @@ export interface GeneralDocumentResult extends LayoutResult {
 }
 
 // @public
-export interface GeneratedBoundingRegion {
-    pageNumber: number;
-    polygon: number[];
-}
-
-// @public
-export interface GeneratedDocument {
-    boundingRegions?: GeneratedBoundingRegion[];
-    confidence: number;
-    docType: string;
-    fields: {
-        [propertyName: string]: DocumentField_2;
-    };
-    spans: DocumentSpan[];
-}
-
-// @public
-export interface GeneratedDocumentEntity {
-    boundingRegions?: GeneratedBoundingRegion[];
-    category: string;
-    confidence: number;
-    content: string;
-    spans: DocumentSpan[];
-    subCategory?: string;
-}
-
-// @public
-export interface GeneratedDocumentImage {
-    confidence: number;
-    pageRef: number;
-    polygon?: number[];
-    span: DocumentSpan;
-}
-
-// @public
-export interface GeneratedDocumentKeyValueElement {
-    boundingRegions?: GeneratedBoundingRegion[];
-    content: string;
-    spans: DocumentSpan[];
-}
-
-// @public
-export interface GeneratedDocumentLine {
-    content: string;
-    polygon?: number[];
-    spans: DocumentSpan[];
-}
-
-// @public
-export interface GeneratedDocumentParagraph {
-    boundingRegions?: GeneratedBoundingRegion[];
-    content: string;
-    // Warning: (ae-forgotten-export) The symbol "ParagraphRole" needs to be exported by the entry point index.d.ts
-    role?: ParagraphRole;
-    spans: DocumentSpan[];
-}
-
-// @public
-export interface GeneratedDocumentSelectionMark {
-    confidence: number;
-    polygon?: number[];
-    span: DocumentSpan;
-    state: SelectionMarkState;
-}
-
-// @public
-export interface GeneratedDocumentTable {
-    boundingRegions?: GeneratedBoundingRegion[];
-    caption?: GeneratedDocumentTableCaption;
-    cells: GeneratedDocumentTableCell[];
-    columnCount: number;
-    footnotes?: GeneratedDocumentTableFootnote[];
-    rowCount: number;
-    spans: DocumentSpan[];
-}
-
-// @public
-export interface GeneratedDocumentTableCaption {
-    boundingRegions?: GeneratedBoundingRegion[];
-    content: string;
-    spans: DocumentSpan[];
-}
-
-// @public
-export interface GeneratedDocumentTableCell {
-    boundingRegions?: GeneratedBoundingRegion[];
-    columnIndex: number;
-    columnSpan?: number;
-    content: string;
-    kind?: DocumentTableCellKind;
-    rowIndex: number;
-    rowSpan?: number;
-    spans: DocumentSpan[];
-}
-
-// @public
-export interface GeneratedDocumentTableFootnote {
-    boundingRegions?: GeneratedBoundingRegion[];
-    content: string;
-    spans: DocumentSpan[];
-}
-
-// @public
-export interface GeneratedDocumentWord {
-    confidence: number;
-    content: string;
-    polygon?: number[];
-    span: DocumentSpan;
-}
-
-// @public
 export interface GetCopyAuthorizationOptions extends OperationOptions, CommonModelCreationOptions {
 }
 
@@ -680,6 +611,11 @@ export interface GetModelOptions extends OperationOptions {
 
 // @public
 export interface GetOperationOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface HasBoundingPolygon {
+    polygon?: Point2D[];
 }
 
 // @public
@@ -1857,6 +1793,6 @@ export interface WellKnownObjectFieldSchema<Type extends "currency" = "currency"
 
 // Warnings were encountered during analysis:
 //
-// src/generated/models/index.ts:315:13 - (ae-forgotten-export) The symbol "DocumentField" needs to be exported by the entry point index.d.ts
+// src/models/modified.ts:173:13 - (ae-forgotten-export) The symbol "DocumentField" needs to be exported by the entry point index.d.ts
 
 ```
