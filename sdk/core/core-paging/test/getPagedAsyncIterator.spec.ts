@@ -31,13 +31,6 @@ describe("getPagedAsyncIterator", function () {
     assert.deepEqual(expected, collection);
   });
 
-  it("should return an iterator over an non-collection", async function () {
-    const iterator = buildIterator({});
-    for await (const val of iterator) {
-      assert.deepEqual(val, {});
-    }
-  });
-
   it("should return an iterator over no pages", async function () {
     const iterator = buildIterator([]);
     for await (const val of iterator.byPage({ maxPageSize: 5 })) {
@@ -45,7 +38,7 @@ describe("getPagedAsyncIterator", function () {
     }
   });
 
-  it("should return an iterator over multiple pages (collections)", async function () {
+  it("should return an iterator over multiple pages", async function () {
     const collection = Array.from(Array(10), (_, i) => i + 1);
     const pagedResult: PagedResult<number[], PageSettings, number> = {
       firstPageLink: 0,
@@ -74,50 +67,6 @@ describe("getPagedAsyncIterator", function () {
       ++pagesCount;
       assert.isAtMost(val.length, maxPageSize);
       receivedPages.push(val);
-    }
-    assert.equal(pagesCount, Math.ceil(collection.length / maxPageSize));
-    assert.deepEqual([].concat(...receivedPages), collection);
-  });
-
-  it("should return an iterator over multiple pages (non-collections)", async function () {
-    const maxPageSize = 5;
-    const collection = Array.from(Array(10), (_, i) => i + 1);
-    const pagedResult: PagedResult<Record<string, unknown>, PageSettings, number> = {
-      firstPageLink: 0,
-      async getPage(pageLink, maxPageSize) {
-        const top = maxPageSize || 5;
-        if (pageLink < collection.length) {
-          return Promise.resolve({
-            page: {
-              res: collection.slice(pageLink, Math.min(pageLink + top, collection.length)),
-            },
-            nextPageLink: top < collection.length - pageLink ? pageLink + top : undefined,
-          });
-        } else {
-          throw new Error("should not get here");
-        }
-      },
-    };
-    const iterator = getPagedAsyncIterator<
-      Record<string, any>,
-      Record<string, any>,
-      PageSettings,
-      number
-    >(pagedResult);
-    let receivedItems = []; // they're pages too
-    let pagesCount = 0;
-    for await (const val of iterator) {
-      ++pagesCount;
-      receivedItems.push((val as any).res);
-    }
-    assert.equal(pagesCount, Math.ceil(collection.length / maxPageSize));
-    assert.deepEqual([].concat(...receivedItems), collection);
-    pagesCount = 0;
-    const receivedPages = [];
-    for await (const val of iterator.byPage({ maxPageSize: maxPageSize })) {
-      ++pagesCount;
-      assert.isAtMost(val.res.length, maxPageSize);
-      receivedPages.push(val.res);
     }
     assert.equal(pagesCount, Math.ceil(collection.length / maxPageSize));
     assert.deepEqual([].concat(...receivedPages), collection);
