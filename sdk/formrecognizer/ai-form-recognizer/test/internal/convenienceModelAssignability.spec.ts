@@ -12,10 +12,22 @@ import {
   DocumentEntity as GeneratedDocumentEntity,
   Document as GeneratedDocument,
 } from "../../src/generated";
-import { Document, DocumentEntity, DocumentImage, DocumentKeyValueElement, DocumentLine, DocumentParagraph, DocumentSelectionMark, DocumentTable, DocumentTableCaption, DocumentTableCell, DocumentTableFootnote, DocumentWord } from "../../src/models/modified";
+import {
+  Document,
+  DocumentEntity,
+  DocumentImage,
+  DocumentKeyValueElement,
+  DocumentLine,
+  DocumentParagraph,
+  DocumentSelectionMark,
+  DocumentTable,
+  DocumentTableCaption,
+  DocumentTableCell,
+  DocumentTableFootnote,
+  DocumentWord,
+} from "../../src/models/modified";
 
-
-function checkAssign<Generated>(_model: Generated) { }
+function checkAssign<Generated>(_model: Generated) {}
 
 declare const word: DocumentWord;
 declare const selectionMark: DocumentSelectionMark;
@@ -38,7 +50,9 @@ checkAssign<Omit<GeneratedDocumentParagraph, "boundingRegions">>(documentParagra
 checkAssign<Omit<GeneratedDocumentTableCell, "boundingRegions">>(documentTableCell);
 checkAssign<Omit<GeneratedDocumentTableCaption, "boundingRegions">>(documentTableCaption);
 checkAssign<Omit<GeneratedDocumentTableFootnote, "boundingRegions">>(documentTableFootnote);
-checkAssign<Omit<GeneratedDocumentTable, "boundingRegions" | "cells" | "caption" | "footnotes">>(documentTable);
+checkAssign<Omit<GeneratedDocumentTable, "boundingRegions" | "cells" | "caption" | "footnotes">>(
+  documentTable
+);
 checkAssign<Omit<GeneratedDocumentKeyValueElement, "boundingRegions">>(documentKeyValueElement);
 checkAssign<Omit<GeneratedDocumentEntity, "boundingRegions">>(documentEntity);
 checkAssign<Omit<GeneratedDocument, "boundingRegions">>(document);

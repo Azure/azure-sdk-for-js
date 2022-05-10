@@ -14,7 +14,12 @@ import {
 import { DocumentField, toAnalyzedDocumentFieldsFromGenerated } from "../models/fields";
 import { FormRecognizerApiVersion, PollerOptions } from "../options";
 import { AnalyzeDocumentOptions } from "../options/AnalyzeDocumentsOptions";
-import { toBoundingPolygon, toBoundingRegions, toDocumentTableFromGenerated, toKeyValuePairFromGenerated } from "../transforms/polygon";
+import {
+  toBoundingPolygon,
+  toBoundingRegions,
+  toDocumentTableFromGenerated,
+  toKeyValuePairFromGenerated,
+} from "../transforms/polygon";
 import {
   BoundingRegion,
   DocumentEntity,
@@ -23,7 +28,11 @@ import {
   DocumentPage,
   DocumentLine,
 } from "./../models/modified";
-import { Document as GeneratedDocument, DocumentPage as GeneratedDocumentPage, DocumentLine as GeneratedDocumentLine } from '../generated'
+import {
+  Document as GeneratedDocument,
+  DocumentPage as GeneratedDocumentPage,
+  DocumentLine as GeneratedDocumentLine,
+} from "../generated";
 
 /**
  * A request input that can be uploaded as binary data to the Form Recognizer service. Form Recognizer treats `string`
@@ -182,7 +191,6 @@ export function* iterFrom<T>(items: T[], idx: number): Generator<T> {
   }
 }
 
-
 export function toDocumentLineFromGenerated(
   generated: GeneratedDocumentLine,
   page: GeneratedDocumentPage
@@ -202,14 +210,19 @@ export function toDocumentLineFromGenerated(
   return generated as DocumentLine;
 }
 
-
 export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): DocumentPage {
   return {
     ...generated,
     lines: generated.lines?.map((line) => toDocumentLineFromGenerated(line, generated)),
-    selectionMarks: generated.selectionMarks?.map(mark => { return { ...mark, polygon: toBoundingPolygon(mark.polygon) } }),
-    words: generated.words.map(word => { return { ...word, polygon: toBoundingPolygon(word.polygon) } }),
-    images: generated.images?.map(image => { return { ...image, polygon: toBoundingPolygon(image.polygon) } })
+    selectionMarks: generated.selectionMarks?.map((mark) => {
+      return { ...mark, polygon: toBoundingPolygon(mark.polygon) };
+    }),
+    words: generated.words.map((word) => {
+      return { ...word, polygon: toBoundingPolygon(word.polygon) };
+    }),
+    images: generated.images?.map((image) => {
+      return { ...image, polygon: toBoundingPolygon(image.polygon) };
+    }),
   };
 }
 
@@ -357,10 +370,8 @@ export function toAnalyzeResultFromGenerated<
     modelId: result.modelId,
     content: result.content,
     pages: result.pages.map((page) => toDocumentPageFromGenerated(page)),
-    tables:
-      result.tables?.map((table) => toDocumentTableFromGenerated(table)) ?? [],
-    keyValuePairs:
-      result.keyValuePairs?.map((pair) => toKeyValuePairFromGenerated(pair)) ?? [],
+    tables: result.tables?.map((table) => toDocumentTableFromGenerated(table)) ?? [],
+    keyValuePairs: result.keyValuePairs?.map((pair) => toKeyValuePairFromGenerated(pair)) ?? [],
     entities:
       result.entities?.map((entity) => {
         return { ...entity, boundingRegions: toBoundingRegions(entity.boundingRegions) };
@@ -381,7 +392,7 @@ export interface AnalysisOperationDefinition<Result = AnalyzeResult> {
   transformResult: (primitiveResult: GeneratedAnalyzeResult) => Result;
   initialModelId: string;
   options: PollerOptions<DocumentAnalysisPollOperationState<Result>> &
-  AnalyzeDocumentOptions<Result>;
+    AnalyzeDocumentOptions<Result>;
 }
 
 /**

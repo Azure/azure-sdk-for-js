@@ -246,10 +246,10 @@ export function toDocumentField(field: GeneratedDocumentField): DocumentField {
         return {
           value:
             field[
-            ("value" + capitalize(kind)) as Extract<
-              keyof GeneratedDocumentField,
-              `value${string}`
-            >
+              ("value" + capitalize(kind)) as Extract<
+                keyof GeneratedDocumentField,
+                `value${string}`
+              >
             ],
         };
       case "array":

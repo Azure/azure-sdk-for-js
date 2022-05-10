@@ -6,7 +6,7 @@ import {
   DocumentTableCellKind,
   DocumentField as GeneratedDocumentField,
   LengthUnit,
-  DocumentPageKind
+  DocumentPageKind,
 } from "./../generated";
 
 export interface HasBoundingPolygon {
@@ -15,13 +15,13 @@ export interface HasBoundingPolygon {
 }
 
 // ------------------------------------
-// Following are the interfaces that are redefined with the property `polygon?: Point2D[];` 
+// Following are the interfaces that are redefined with the property `polygon?: Point2D[];`
 // instead of the generated `polygon?: number[];` for the interfaces in the generated code with the same names.
 //
 // To avoid going out-of-sync with the generated types, we test the re-constructed interfaces are following the shapes in the generated interfaces in the following test file.
 // `test/internal/convenienceModelAssignability.spec.ts`
-// 
-// If the generated code is updated and if there are new additions in the generated interfaces, the function calls "checkAssign" would fail in the test file, which would mean we need to revisit the re-constructed shapes here. 
+//
+// If the generated code is updated and if there are new additions in the generated interfaces, the function calls "checkAssign" would fail in the test file, which would mean we need to revisit the re-constructed shapes here.
 
 /** Bounding polygon on a specific page of the input. */
 export interface BoundingRegion extends HasBoundingPolygon {

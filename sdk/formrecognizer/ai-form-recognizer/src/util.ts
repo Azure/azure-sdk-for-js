@@ -108,9 +108,9 @@ export function makeServiceClient(
 
   const authPolicy = isTokenCredential(credential)
     ? bearerTokenAuthenticationPolicy({
-      credential,
-      scopes: DEFAULT_COGNITIVE_SCOPE,
-    })
+        credential,
+        scopes: DEFAULT_COGNITIVE_SCOPE,
+      })
     : createFormRecognizerAzureKeyCredentialPolicy(credential);
 
   client.pipeline.addPolicy(authPolicy);
