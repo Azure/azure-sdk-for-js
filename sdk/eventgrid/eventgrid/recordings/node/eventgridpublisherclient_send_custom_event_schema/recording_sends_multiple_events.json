@@ -9,18 +9,18 @@
         "Connection": "keep-alive",
         "Content-Length": "181",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-eventgrid/4.7.1 core-rest-pipeline/1.5.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
-        "x-ms-client-request-id": "2766a6d8-00e4-4005-8cd9-4d2bd5c8bdba"
+        "User-Agent": "azsdk-js-eventgrid/4.10.0-beta.2 core-rest-pipeline/1.8.2 Node/v16.13.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "1d9b529d-8407-481c-8606-427b37a16df8"
       },
       "RequestBody": "[{\u0022ver\u0022:\u00221.0\u0022,\u0022typ\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022sub\u0022:\u0022Multiple 1\u0022,\u0022payload\u0022:{\u0022hello\u0022:\u0022world\u0022}},{\u0022ver\u0022:\u00221.0\u0022,\u0022typ\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022sub\u0022:\u0022Multiple 2\u0022,\u0022payload\u0022:{\u0022hello\u0022:\u0022world\u0022}}]",
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2018-01-01",
         "Content-Length": "0",
-        "Date": "Wed, 09 Feb 2022 01:44:24 GMT",
+        "Date": "Tue, 10 May 2022 23:52:46 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "x-ms-request-id": "3cce925e-d34d-4357-941d-7a46f6fd7c12"
+        "x-ms-request-id": "9c9f71fc-779f-4323-8428-ee14bd433ad7"
       },
       "ResponseBody": null
     }
