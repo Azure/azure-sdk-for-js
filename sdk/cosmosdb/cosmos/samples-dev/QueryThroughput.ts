@@ -35,6 +35,13 @@ async function run() {
   scenarios.push({ container, query: query1, options });
   scenarios.push({ container, query: query2, options });
   scenarios.push({ container, query: query3, options });
+  scenarios.push({
+    container,
+    query: query3,
+    options: {
+      populateQueryMetrics: true,
+    },
+  });
 
   for (const scenario of scenarios) {
     try {
