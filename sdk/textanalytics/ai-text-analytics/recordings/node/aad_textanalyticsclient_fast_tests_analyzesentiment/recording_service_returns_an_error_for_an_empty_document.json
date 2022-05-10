@@ -10,9 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "531",
         "Content-Type": "application/json",
-        "traceparent": "00-00000000000000000000000000000342-0000000000000689-00",
-        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "35c90663-82b3-446a-a917-b787bb734922"
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.8.2 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "31e94953-3e48-4f29-bc30-97f4ca775011"
       },
       "RequestBody": {
         "documents": [
@@ -45,76 +44,19 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "2bf4d9e4-b0b8-46e5-ab3b-78371a09f38c",
+        "apim-request-id": "f231483e-6b03-4888-a6fb-d438133f33b4",
         "Content-Type": "application/json; charset=utf-8",
         "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4,CognitiveServices.TextAnalytics.TextRecords=4",
-        "Date": "Fri, 18 Feb 2022 19:03:58 GMT",
+        "Date": "Tue, 10 May 2022 00:09:36 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "116"
+        "x-envoy-upstream-service-time": "53"
       },
       "ResponseBody": {
         "documents": [
           {
             "id": "0",
-            "sentiment": "positive",
-            "confidenceScores": {
-              "positive": 0.99,
-              "neutral": 0.01,
-              "negative": 0.0
-            },
-            "sentences": [
-              {
-                "sentiment": "positive",
-                "confidenceScores": {
-                  "positive": 0.99,
-                  "neutral": 0.01,
-                  "negative": 0.0
-                },
-                "offset": 0,
-                "length": 86,
-                "text": "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!"
-              }
-            ],
-            "warnings": []
-          },
-          {
-            "id": "2",
-            "sentiment": "negative",
-            "confidenceScores": {
-              "positive": 0.0,
-              "neutral": 0.0,
-              "negative": 1.0
-            },
-            "sentences": [
-              {
-                "sentiment": "negative",
-                "confidenceScores": {
-                  "positive": 0.0,
-                  "neutral": 0.0,
-                  "negative": 1.0
-                },
-                "offset": 0,
-                "length": 58,
-                "text": "Unfortunately, it rained during my entire trip to Seattle."
-              },
-              {
-                "sentiment": "neutral",
-                "confidenceScores": {
-                  "positive": 0.01,
-                  "neutral": 0.7,
-                  "negative": 0.29
-                },
-                "offset": 59,
-                "length": 43,
-                "text": "I didn\u0027t even get to visit the Space Needle"
-              }
-            ],
-            "warnings": []
-          },
-          {
-            "id": "3",
             "sentiment": "positive",
             "confidenceScores": {
               "positive": 1.0,
@@ -130,6 +72,63 @@
                   "negative": 0.0
                 },
                 "offset": 0,
+                "length": 86,
+                "text": "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!"
+              }
+            ],
+            "warnings": []
+          },
+          {
+            "id": "2",
+            "sentiment": "negative",
+            "confidenceScores": {
+              "positive": 0.0,
+              "neutral": 0.01,
+              "negative": 0.99
+            },
+            "sentences": [
+              {
+                "sentiment": "negative",
+                "confidenceScores": {
+                  "positive": 0.0,
+                  "neutral": 0.01,
+                  "negative": 0.99
+                },
+                "offset": 0,
+                "length": 59,
+                "text": "Unfortunately, it rained during my entire trip to Seattle. "
+              },
+              {
+                "sentiment": "neutral",
+                "confidenceScores": {
+                  "positive": 0.03,
+                  "neutral": 0.58,
+                  "negative": 0.39
+                },
+                "offset": 59,
+                "length": 43,
+                "text": "I didn\u0027t even get to visit the Space Needle"
+              }
+            ],
+            "warnings": []
+          },
+          {
+            "id": "3",
+            "sentiment": "positive",
+            "confidenceScores": {
+              "positive": 0.71,
+              "neutral": 0.06,
+              "negative": 0.23
+            },
+            "sentences": [
+              {
+                "sentiment": "positive",
+                "confidenceScores": {
+                  "positive": 0.71,
+                  "neutral": 0.06,
+                  "negative": 0.23
+                },
+                "offset": 0,
                 "length": 101,
                 "text": "I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected."
               }
@@ -141,16 +140,16 @@
             "sentiment": "negative",
             "confidenceScores": {
               "positive": 0.01,
-              "neutral": 0.03,
-              "negative": 0.96
+              "neutral": 0.01,
+              "negative": 0.99
             },
             "sentences": [
               {
                 "sentiment": "negative",
                 "confidenceScores": {
                   "positive": 0.01,
-                  "neutral": 0.03,
-                  "negative": 0.96
+                  "neutral": 0.01,
+                  "negative": 0.99
                 },
                 "offset": 0,
                 "length": 42,
@@ -165,7 +164,7 @@
             "id": "1",
             "error": {
               "code": "InvalidArgument",
-              "message": "Invalid document in request.",
+              "message": "Invalid Document in request.",
               "innererror": {
                 "code": "InvalidDocument",
                 "message": "Document text is empty."
@@ -173,7 +172,7 @@
             }
           }
         ],
-        "modelVersion": "2020-04-01"
+        "modelVersion": "2021-10-01"
       }
     }
   ],
