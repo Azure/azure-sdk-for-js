@@ -209,7 +209,7 @@ function generate-service-level-readme($readmeBaseName, $pathPrefix, $clientPack
         -serviceName $serviceName
     }
     else {
-      update-matadata-table -readmePath "$absolutePath$serviceReadme" -serviceName $serviceName -msService $msService
+      update-metadata-table -readmePath "$absolutePath$serviceReadme" -serviceName $serviceName -msService $msService
     }
   } 
 }
