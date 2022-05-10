@@ -167,7 +167,7 @@ const examplePackageGood = `{
     "ts-node": "^10.0.0",
     "typescript": "~4.2.0",
     "ws": "^7.1.1",
-    "typedoc": "0.15.2"
+    "typedoc": "0.22.15"
   }
 }`;
 
@@ -324,7 +324,7 @@ const examplePackageBad = `{
     "ts-node": "^10.0.0",
     "typescript": "~4.2.0",
     "ws": "^7.1.1",
-    "typedoc": "0.15.2"
+    "typedoc": "0.22.15"
   }
 }`;
 
