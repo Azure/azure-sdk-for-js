@@ -443,7 +443,6 @@ export interface DocumentPage {
 export interface DocumentParagraph {
     boundingRegions?: BoundingRegion[];
     content: string;
-    // Warning: (ae-forgotten-export) The symbol "ParagraphRole" needs to be exported by the entry point index.d.ts
     role?: ParagraphRole;
     spans: DocumentSpan[];
 }
@@ -1043,6 +1042,9 @@ export type OperationKind = string;
 
 // @public
 export type OperationStatus = "notStarted" | "running" | "failed" | "succeeded" | "canceled";
+
+// @public
+export type ParagraphRole = string;
 
 // @public
 export interface Point2D {
