@@ -14,13 +14,35 @@ import {
 
 export type WorkerLike = workerThreads.Worker | ChildProcess;
 
+/**
+ * Information shared with each worker when it is created
+ */
 export interface WorkerData {
+  /**
+   * Name of the test class the worker should initialize.
+   */
   testClassName: string;
+
+  /**
+   * The number of parallel runs this worker should create.
+   */
   assignedParallels: number;
+
+  /**
+   * To ensure that each parallel run has a unique index across workers, an offset is provided.
+   * The first parallel run for this worker is assigned the index equal to this offset.
+   */
   parallelIndexOffset: number;
+
+  /**
+   * The options passed to this perf test run as parsed by the manager program.
+   */
   options: ParsedPerfOptions<DefaultPerfOptions>;
 }
 
+/**
+ * A filter used to determine whether to handle the given message.
+ */
 type MessageFilter<T> = (message: T) => boolean;
 
 export interface WorkerMulticoreUtils {
@@ -50,6 +72,13 @@ export interface ManagerMulticoreUtils {
 
 export type MulticoreUtils = WorkerMulticoreUtils | ManagerMulticoreUtils;
 
+/**
+ * Template for the getMessage function made available by multicoreUtils function.
+ *
+ * Creates a getMessage function from the onMessage and offMessage callbacks which are
+ * provided by e.g. process.parentPort. The created function, when called, returns a promise
+ * that resolves when a message that matches the provided filter is received.
+ */
 const makeGetMessage =
   <T>(
     onMessage: (callback: (message: T) => void) => void,
@@ -82,7 +111,16 @@ const createWorkerUtils = (
 });
 
 const createChildProcess = (data: WorkerData): WorkerLike =>
-  fork(process.argv[1], [JSON.stringify(data)], { stdio: [0, 0, 0, "ipc"] });
+  fork(
+    process.argv[1],
+    // We pass the worker data by serializing it as JSON and passing it as a command-line argument.
+    [JSON.stringify(data)],
+    {
+      // Configure an IPC channel so that messages can be sent via process.send.
+      stdio: [0, 0, 0, "ipc"],
+    }
+  );
+
 const createWorkerThread = (data: WorkerData): WorkerLike =>
   new workerThreads.Worker(process.argv[1], { workerData: data });
 
@@ -90,6 +128,8 @@ const createManagerUtils = (mode: "worker_threads" | "child_processes"): Manager
   const workers: WorkerLike[] = [];
   const workerMessageHandlers = new Set<(message: WorkerToManagerMessageWithId) => void>();
 
+  // distributeMessage is used so we can send messages we receive from a worker
+  // to multiple handlers (all stored in workerMessageHandlers).
   const distributeMessage = (message: WorkerToManagerMessageWithId) => {
     for (const handler of workerMessageHandlers) {
       handler(message);
@@ -111,6 +151,7 @@ const createManagerUtils = (mode: "worker_threads" | "child_processes"): Manager
 
   const getMessage = makeGetMessage<WorkerToManagerMessageWithId>(onMessage, offMessage);
 
+  // Wait for a message that matches the filter from each worker.
   const getMessageFromAll = (filter: MessageFilter<WorkerToManagerMessage>) =>
     Promise.all(
       workers.map((_, i) => getMessage(({ workerId, ...msg }) => filter(msg) && workerId === i))

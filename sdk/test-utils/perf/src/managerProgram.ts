@@ -13,6 +13,13 @@ import { PerfTestBase, PerfTestConstructor } from "./perfTestBase";
 import { PerfProgram } from "./program";
 import { formatDuration } from "./utils";
 
+/**
+ * The manager program which is responsible for spawning workers which run the actual perf test.
+ *
+ * The manager program is created when the user first starts the perf test. It creates separate worker
+ * processes, which create instances of WorkerPerfProgram. The manager is responsible for synchronizing
+ * the workers and for collating and reporting results from each of the workers.
+ */
 export class ManagerPerfProgram implements PerfProgram {
   private testName: string;
   private parallelNumber: number;
