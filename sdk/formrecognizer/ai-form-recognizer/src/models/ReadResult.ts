@@ -2,7 +2,8 @@
 // Licensed under the MIT license.
 
 import { DocumentLanguage, DocumentStyle } from "../generated";
-import { AnalyzeResult, AnalyzeResultCommon, DocumentPage } from "../lro/analyze";
+import { AnalyzeResult, AnalyzeResultCommon } from "../lro/analyze";
+import { DocumentPage } from "./modified";
 
 /**
  * Extract from an AnalyzeResult the fields that are produced from document reading.

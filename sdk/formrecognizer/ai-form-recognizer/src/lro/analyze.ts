@@ -10,7 +10,6 @@ import {
   DocumentLanguage,
   DocumentSpan,
   DocumentStyle,
-  LengthUnit,
 } from "../generated";
 import { DocumentField, toAnalyzedDocumentFieldsFromGenerated } from "../models/fields";
 import { FormRecognizerApiVersion, PollerOptions } from "../options";
@@ -19,14 +18,12 @@ import { toBoundingPolygon, toBoundingRegions, toDocumentTableFromGenerated, toK
 import {
   BoundingRegion,
   DocumentEntity,
-  DocumentSelectionMark,
   DocumentTable,
-  DocumentWord,
   DocumentKeyValuePair,
+  DocumentPage,
   DocumentLine,
 } from "./../models/modified";
-import { Document as GeneratedDocument, DocumentLine as GeneratedDocumentLine } from '../generated'
-import { DocumentPage as GeneratedDocumentPage } from "./../generated";
+import { Document as GeneratedDocument, DocumentPage as GeneratedDocumentPage, DocumentLine as GeneratedDocumentLine } from '../generated'
 
 /**
  * A request input that can be uploaded as binary data to the Form Recognizer service. Form Recognizer treats `string`
@@ -151,78 +148,6 @@ export interface AnalyzeResult<Document = AnalyzedDocument> extends AnalyzeResul
 }
 
 /**
- * A page within an analysis result.
- */
-export interface DocumentPage {
-  /**
-   * The kind of page. One of:
-   *
-   * - "document"
-   * - "sheet"
-   * - "slide"
-   * - "image"
-   *
-   * This list is non-exhaustive, and new values may be introduced in future versions of the Form Recognizer service.
-   */
-  kind: string;
-  /**
-   * 1-based page number in the input document.
-   */
-  pageNumber: number;
-
-  /**
-   * The general orientation of the content in clockwise direction, measured in degrees between (-180, 180].
-   */
-  angle: number;
-
-  /**
-   * The width of the image/PDF in pixels/inches, respectively.
-   */
-  width: number;
-
-  /**
-   * The height of the image/PDF in pixels/inches, respectively.
-   */
-  height: number;
-
-  /**
-   * The unit used by the width, height, and boundingBox properties. For images, the unit is "pixel". For PDF, the unit is "inch".
-   */
-  unit: LengthUnit;
-
-  /**
-   * Location of the page in the reading order concatenated content.
-   */
-  spans: DocumentSpan[];
-
-  /**
-   * Extracted words from the page.
-   */
-  words: DocumentWord[];
-
-  /**
-   * Extracted selection marks from the page.
-   */
-  selectionMarks?: DocumentSelectionMark[];
-
-  /**
-   * Extracted lines from the page, potentially containing both textual and visual elements.
-   */
-  lines?: DocumentLine[];
-}
-
-/**
- * Convert a REST-level DocumentPage into a convenience layer version.
- *
- * @internal
- * @param generated - a REST-level DocumentPage.
- * @returns
- */
-export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): DocumentPage {
-  return { ...generated, lines: generated.lines?.map((line) => toDocumentLineFromGenerated(line, generated)) } as DocumentPage;
-}
-
-/**
  * Tests if one span contains another, by testing that the outer span starts before or at the same character as the
  * inner span, and that the end position of the outer span is greater than or equal to the end position of the inner
  * span.
@@ -249,12 +174,43 @@ function* empty(): Generator<never> {
  * @param items - the items to iterate over
  * @param idx - the index of the first item to begin iterating from
  */
-function* iterFrom<T>(items: T[], idx: number): Generator<T> {
+export function* iterFrom<T>(items: T[], idx: number): Generator<T> {
   let i = idx;
 
   while (i < items.length) {
     yield items[i++];
   }
+}
+
+
+export function toDocumentLineFromGenerated(
+  generated: GeneratedDocumentLine,
+  page: GeneratedDocumentPage
+): DocumentLine {
+  (generated as DocumentLine).words = () =>
+    fastGetChildren(
+      iterFrom(generated.spans, 0),
+      page.words.map((word) => {
+        return { ...word, polygon: toBoundingPolygon(word.polygon) };
+      })
+    );
+
+  Object.defineProperty(generated, "words", {
+    enumerable: false,
+  });
+
+  return generated as DocumentLine;
+}
+
+
+export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): DocumentPage {
+  return {
+    ...generated,
+    lines: generated.lines?.map((line) => toDocumentLineFromGenerated(line, generated)),
+    selectionMarks: generated.selectionMarks?.map(mark => { return { ...mark, polygon: toBoundingPolygon(mark.polygon) } }),
+    words: generated.words.map(word => { return { ...word, polygon: toBoundingPolygon(word.polygon) } }),
+    images: generated.images?.map(image => { return { ...image, polygon: toBoundingPolygon(image.polygon) } })
+  };
 }
 
 /**
@@ -338,32 +294,6 @@ export function* fastGetChildren<Spanned extends { span: DocumentSpan }>(
       curChild = children.next();
     }
   }
-}
-
-/**
- * Transforms a REST-level document line into a convenience layer version.
- *
- * @param generated - a REST-level DocumentLine
- * @param page - the page where the DocumentLine appeared
- * @returns a convenience layer DocumentLine
- */
-function toDocumentLineFromGenerated(
-  generated: GeneratedDocumentLine,
-  page: GeneratedDocumentPage
-): DocumentLine {
-  (generated as DocumentLine).words = () =>
-    fastGetChildren(
-      iterFrom(generated.spans, 0),
-      page.words.map((word) => {
-        return { ...word, polygon: toBoundingPolygon(word.polygon) };
-      })
-    );
-
-  Object.defineProperty(generated, "words", {
-    enumerable: false,
-  });
-
-  return generated as DocumentLine;
 }
 
 /**

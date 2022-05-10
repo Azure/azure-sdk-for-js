@@ -36,13 +36,13 @@ export {
   CustomDocumentModelsInfo,
   AnalyzeResultOperationStatus,
   SelectionMarkState,
-  ParagraphRole
+  ParagraphRole,
+  DocumentPageKind
 } from "./generated";
 export {
   AnalysisPoller,
   AnalyzeResult,
   AnalyzeResultCommon,
-  DocumentPage,
   DocumentAnalysisPollOperationState,
   AnalyzedDocument,
   FormRecognizerRequestBody,

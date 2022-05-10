@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DocumentTable } from "../models/modified";
-import { AnalyzeResult, DocumentPage } from "../lro/analyze";
+import { DocumentPage, DocumentTable } from "../models/modified";
+import { AnalyzeResult } from "../lro/analyze";
 import { DocumentStyle } from "../generated";
 
 /**

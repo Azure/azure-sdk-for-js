@@ -427,17 +427,21 @@ export interface DocumentObjectField<Properties = {
 
 // @public
 export interface DocumentPage {
-    angle: number;
-    height: number;
-    kind: string;
+    angle?: number;
+    height?: number;
+    images?: DocumentImage[];
+    kind: DocumentPageKind;
     lines?: DocumentLine[];
-    pageNumber: number;
+    pageNumber?: number;
     selectionMarks?: DocumentSelectionMark[];
     spans: DocumentSpan[];
-    unit: LengthUnit;
-    width: number;
+    unit?: LengthUnit;
+    width?: number;
     words: DocumentWord[];
 }
+
+// @public
+export type DocumentPageKind = string;
 
 // @public
 export interface DocumentParagraph {

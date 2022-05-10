@@ -4,7 +4,9 @@ import {
   SelectionMarkState,
   ParagraphRole,
   DocumentTableCellKind,
-  DocumentField as GeneratedDocumentField
+  DocumentField as GeneratedDocumentField,
+  LengthUnit,
+  DocumentPageKind
 } from "./../generated";
 
 export interface HasBoundingPolygon {
@@ -189,4 +191,30 @@ export interface DocumentKeyValuePair {
   value?: DocumentKeyValueElement;
   /** Confidence of correctly extracting the key-value pair. */
   confidence: number;
+}
+
+/** Content and layout elements extracted from a page from the input. */
+export interface DocumentPage {
+  /** Kind of document page. */
+  kind: DocumentPageKind;
+  /** 1-based page number in the input document. */
+  pageNumber?: number;
+  /** The general orientation of the content in clockwise direction, measured in degrees between (-180, 180]. */
+  angle?: number;
+  /** The width of the image/PDF in pixels/inches, respectively. */
+  width?: number;
+  /** The height of the image/PDF in pixels/inches, respectively. */
+  height?: number;
+  /** The unit used by the width, height, and polygon properties. For images, the unit is "pixel". For PDF, the unit is "inch". */
+  unit?: LengthUnit;
+  /** Location of the page in the reading order concatenated content. */
+  spans: DocumentSpan[];
+  /** Extracted words from the page. */
+  words: DocumentWord[];
+  /** Extracted selection marks from the page. */
+  selectionMarks?: DocumentSelectionMark[];
+  /** Extracted images from the page. */
+  images?: DocumentImage[];
+  /** Extracted lines from the page, potentially containing both textual and visual elements. */
+  lines?: DocumentLine[];
 }
