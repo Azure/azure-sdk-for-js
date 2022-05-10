@@ -381,8 +381,7 @@ export interface DocumentLanguage {
 }
 
 // @public
-export interface DocumentLine {
-    boundingBox?: number[];
+export interface DocumentLine extends HasBoundingPolygon {
     content: string;
     spans: DocumentSpan[];
     words: () => IterableIterator<DocumentWord>;
@@ -1793,6 +1792,6 @@ export interface WellKnownObjectFieldSchema<Type extends "currency" = "currency"
 
 // Warnings were encountered during analysis:
 //
-// src/models/modified.ts:173:13 - (ae-forgotten-export) The symbol "DocumentField" needs to be exported by the entry point index.d.ts
+// src/models/modified.ts:179:13 - (ae-forgotten-export) The symbol "DocumentField" needs to be exported by the entry point index.d.ts
 
 ```

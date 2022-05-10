@@ -63,6 +63,12 @@ export interface DocumentLine extends HasBoundingPolygon {
   content: string;
   /** Location of the line in the reading order concatenated content. */
   spans: DocumentSpan[];
+  /**
+   * Compute the `DocumentWord`s that are related to this line.
+   *
+   * This function produces a lazy iterator that will yield one word before computing the next.
+   */
+  words: () => IterableIterator<DocumentWord>;
 }
 
 /** A paragraph object consisting with contiguous lines generally with common alignment and spacing. */

@@ -23,6 +23,7 @@ import {
   DocumentTable,
   DocumentWord,
   DocumentKeyValuePair,
+  DocumentLine,
 } from "./../models/modified";
 import { Document as GeneratedDocument, DocumentLine as GeneratedDocumentLine } from '../generated'
 import { DocumentPage as GeneratedDocumentPage } from "./../generated";
@@ -218,38 +219,7 @@ export interface DocumentPage {
  * @returns
  */
 export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): DocumentPage {
-  // We will just overwrite the `lines` property with the transformed one rather than create a new object.
-  if (generated.lines) {
-    generated.lines = generated.lines.map((line) => toDocumentLineFromGenerated(line, generated));
-  }
-  return generated as DocumentPage;
-}
-
-/**
- * A line of adjacent content elements on a page.
- */
-export interface DocumentLine {
-  /**
-   * Concatenated content of the contained elements in reading order.
-   */
-  content: string;
-
-  /**
-   * Bounding box of the line.
-   */
-  boundingBox?: number[];
-
-  /**
-   * Location of the line in the reading order concatenated content.
-   */
-  spans: DocumentSpan[];
-
-  /**
-   * Compute the `DocumentWord`s that are related to this line.
-   *
-   * This function produces a lazy iterator that will yield one word before computing the next.
-   */
-  words: () => IterableIterator<DocumentWord>;
+  return { ...generated, lines: generated.lines?.map((line) => toDocumentLineFromGenerated(line, generated)) } as DocumentPage;
 }
 
 /**

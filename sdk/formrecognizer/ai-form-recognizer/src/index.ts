@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+
 /**
  * Azure Cognitive Services [Form Recognizer](https://azure.microsoft.com/services/cognitive-services/form-recognizer/)
  * uses cloud-based machine learning to extract structured data from form documents.
@@ -41,7 +42,6 @@ export {
   AnalyzeResult,
   AnalyzeResultCommon,
   DocumentPage,
-  DocumentLine,
   DocumentAnalysisPollOperationState,
   AnalyzedDocument,
   FormRecognizerRequestBody,
