@@ -33,23 +33,48 @@ const firstSetOfMessages: ServiceBusMessage[] = [
   { subject: "Green", body: "test", correlationId: "important"},
 ];
 
-  const NoFilterSubscriptionName = "NoFilterSubscription";
-  const SqlFilterOnlySubscriptionName = "RedSqlFilterSubscription";
-  const SqlFilterWithActionSubscriptionName = "BlueSqlFilterWithActionSubscription";
-  const CorrelationFilterSubscriptionName = "ImportantCorrelationFilterSubscription";
+const NoFilterSubscriptionName = "NoFilterSubscription";
+const SqlFilterOnlySubscriptionName = "RedSqlFilterSubscription";
+const SqlFilterWithActionSubscriptionName = "BlueSqlFilterWithActionSubscription";
+const CorrelationFilterSubscriptionName = "ImportantCorrelationFilterSubscription";
 
 export async function main() {
   const sbClient = new ServiceBusClient(connectionString);
   const sbAdminClient = new ServiceBusAdministrationClient(connectionString);
 
-  beforeEach(async () => {
-    await sbAdminClient.createTopic(topicName);
-    await sbAdminClient.createSubscription(topicName, NoFilterSubscriptionName);
-    await sbAdminClient.createSubscription(topicName, SqlFilterOnlySubscriptionName);
-    await sbAdminClient.createSubscription(topicName, SqlFilterWithActionSubscriptionName);
-    await sbAdminClient.createSubscription(topicName, CorrelationFilterSubscriptionName);
-    await sbAdminClient.deleteRule(topicName, NoFilterSubscriptionName, DEFAULT_RULE_NAME);
-  });
+  await sbAdminClient.createTopic(topicName);
+  await sbAdminClient.createSubscription(topicName, NoFilterSubscriptionName);
+  await sbAdminClient.createSubscription(topicName, SqlFilterOnlySubscriptionName);
+  await sbAdminClient.createSubscription(topicName, SqlFilterWithActionSubscriptionName);
+  await sbAdminClient.createSubscription(topicName, CorrelationFilterSubscriptionName);
+  await sbAdminClient.deleteRule(topicName, NoFilterSubscriptionName, DEFAULT_RULE_NAME);
+
+  await sbAdminClient.createRule(topicName, NoFilterSubscriptionName, DEFAULT_RULE_NAME, { sqlExpression: "1=1" });
+
+  await sbAdminClient.createSubscription(topicName, SqlFilterWithActionSubscriptionName,
+    {
+      defaultRuleOptions: {
+        name: "RedSqlRule",
+        filter: {sqlExpression: "Color = 'Red'"}
+      }
+    });
+
+  await sbAdminClient.createSubscription(topicName, SqlFilterWithActionSubscriptionName,
+    {
+      defaultRuleOptions: {
+        name: "BlueSqlRule",
+        filter: {sqlExpression: "Color = 'Blue'"},
+        action: {sqlExpression: "SET Color = 'BlueProcessed'"}
+      }
+    });
+
+  await sbAdminClient.createSubscription(topicName, CorrelationFilterSubscriptionName,
+    {
+      defaultRuleOptions: {
+        name: "ImportantCorrelationRule",
+        filter: {subject: "Red", correlationId: "important"}
+      }
+    });
 
 /**
  * CURRENTLY REFERENCING
