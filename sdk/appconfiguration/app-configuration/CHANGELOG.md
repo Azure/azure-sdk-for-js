@@ -1,5 +1,15 @@
 # Release History
 
+## 1.4.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.4.0-beta.1 (2022-05-10)
 
 ### Features Added
@@ -15,6 +25,7 @@
 ### Other Changes
 
 - Updated our `@azure/core-tracing` dependency to the latest version (1.0.0).
+
   - Notable changes include Removal of `@opentelemetry/api` as a transitive dependency and ensuring that the active context is properly propagated.
   - Customers who would like to continue using OpenTelemetry driven tracing should visit our [OpenTelemetry Instrumentation](https://www.npmjs.com/package/@azure/opentelemetry-instrumentation-azure-sdk) package for instructions.
 
