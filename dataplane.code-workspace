@@ -69,10 +69,6 @@
       "path": "sdk/agrifood/agrifood-farming-rest"
     },
     {
-      "name": "core-crypto",
-      "path": "sdk/core/core-crypto"
-    },
-    {
       "name": "core-http",
       "path": "sdk/core/core-http"
     },
@@ -115,10 +111,6 @@
     {
       "name": "eventhubs-checkpointstore-blob",
       "path": "sdk/eventhub/eventhubs-checkpointstore-blob"
-    },
-    {
-      "name": "event-processor-host",
-      "path": "sdk/eventhub/event-processor-host"
     },
     {
       "name": "form-recognizer",

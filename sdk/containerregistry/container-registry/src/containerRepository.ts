@@ -188,7 +188,7 @@ export class ContainerRepositoryImpl {
 
     try {
       await this.client.containerRegistry.deleteRepository(this.name, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
@@ -218,7 +218,7 @@ export class ContainerRepositoryImpl {
 
     try {
       return await this.client.containerRegistry.getProperties(this.name, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
@@ -259,7 +259,7 @@ export class ContainerRepositoryImpl {
 
     try {
       return await this.client.containerRegistry.updateProperties(this.name, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {

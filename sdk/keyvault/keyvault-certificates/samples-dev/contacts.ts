@@ -49,7 +49,7 @@ export async function main(): Promise<void> {
   try {
     await client.getContacts();
     throw Error("Expecting an error but not catching one.");
-  } catch (e) {
+  } catch (e: any) {
     error = e;
   }
 

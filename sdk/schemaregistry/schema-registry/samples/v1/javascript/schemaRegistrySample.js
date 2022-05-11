@@ -9,8 +9,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
 const { SchemaRegistryClient } = require("@azure/schema-registry");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 // Set these environment variables or edit the following values
 const fullyQualifiedNamespace =
@@ -25,13 +24,13 @@ const schemaObject = {
   fields: [
     {
       name: "firstName",
-      type: "string"
+      type: "string",
     },
     {
       name: "lastName",
-      type: "string"
-    }
-  ]
+      type: "string",
+    },
+  ],
 };
 
 // Description of the schema for registration
@@ -39,7 +38,7 @@ const schemaDescription = {
   name: `${schemaObject.namespace}-${schemaObject.name}`,
   groupName: group,
   format: "Avro",
-  definition: JSON.stringify(schemaObject)
+  definition: JSON.stringify(schemaObject),
 };
 
 async function main() {
@@ -67,3 +66,5 @@ async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };

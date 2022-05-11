@@ -94,7 +94,7 @@ export class ClientSecretCredential implements TokenCredential {
           const tokenResponse = await this.identityClient.sendTokenRequest(request);
           logger.getToken.info(formatSuccess(scopes));
           return (tokenResponse && tokenResponse.accessToken) || null;
-        } catch (err) {
+        } catch (err: any) {
           logger.getToken.info(formatError(scopes, err));
           throw err;
         }

@@ -555,6 +555,26 @@ export type DataWarehouseUserActivityName = string;
 export type DayOfWeek = string;
 
 // @public
+export type DedicatedSQLminimalTlsSettings = ProxyResource & {
+    readonly location?: string;
+    minimalTlsVersion?: string;
+};
+
+// @public
+export interface DedicatedSQLminimalTlsSettingsListResult {
+    readonly nextLink?: string;
+    readonly value?: DedicatedSQLminimalTlsSettings[];
+}
+
+// @public
+export type DedicatedSQLMinimalTlsSettingsName = string;
+
+// @public
+export interface DedicatedSQLminimalTlsSettingsPatchInfo {
+    minimalTlsVersion?: string;
+}
+
+// @public
 export type DefaultPrincipalsModificationKind = string;
 
 // @public
@@ -1568,6 +1588,12 @@ export enum KnownDayOfWeek {
     Tuesday = "Tuesday",
     // (undocumented)
     Wednesday = "Wednesday"
+}
+
+// @public
+export enum KnownDedicatedSQLMinimalTlsSettingsName {
+    // (undocumented)
+    Default = "default"
 }
 
 // @public
@@ -4964,6 +4990,8 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     workspaceManagedSqlServerBlobAuditingPolicies: WorkspaceManagedSqlServerBlobAuditingPolicies;
     // (undocumented)
+    workspaceManagedSqlServerDedicatedSQLMinimalTlsSettings: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettings;
+    // (undocumented)
     workspaceManagedSqlServerEncryptionProtector: WorkspaceManagedSqlServerEncryptionProtector;
     // (undocumented)
     workspaceManagedSqlServerExtendedBlobAuditingPolicies: WorkspaceManagedSqlServerExtendedBlobAuditingPolicies;
@@ -5293,6 +5321,44 @@ export interface WorkspaceManagedSqlServerBlobAuditingPoliciesListByWorkspaceOpt
 
 // @public
 export type WorkspaceManagedSqlServerBlobAuditingPoliciesListByWorkspaceResponse = ServerBlobAuditingPolicyListResult;
+
+// @public
+export interface WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettings {
+    beginUpdate(resourceGroupName: string, workspaceName: string, dedicatedSQLminimalTlsSettingsName: DedicatedSQLMinimalTlsSettingsName, parameters: DedicatedSQLminimalTlsSettings, options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateOptionalParams): Promise<PollerLike<PollOperationState<WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse>, WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, workspaceName: string, dedicatedSQLminimalTlsSettingsName: DedicatedSQLMinimalTlsSettingsName, parameters: DedicatedSQLminimalTlsSettings, options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateOptionalParams): Promise<WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse>;
+    get(resourceGroupName: string, workspaceName: string, dedicatedSQLminimalTlsSettingsName: string, options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsGetOptionalParams): Promise<WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsGetResponse>;
+    list(resourceGroupName: string, workspaceName: string, options?: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListOptionalParams): PagedAsyncIterableIterator<DedicatedSQLminimalTlsSettings>;
+}
+
+// @public
+export interface WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsGetResponse = DedicatedSQLminimalTlsSettings;
+
+// @public
+export interface WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListNextResponse = DedicatedSQLminimalTlsSettingsListResult;
+
+// @public
+export interface WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsListResponse = DedicatedSQLminimalTlsSettingsListResult;
+
+// @public
+export interface WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsUpdateResponse = DedicatedSQLminimalTlsSettings;
 
 // @public
 export interface WorkspaceManagedSqlServerEncryptionProtector {

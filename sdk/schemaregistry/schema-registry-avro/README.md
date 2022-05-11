@@ -58,16 +58,6 @@ by setting the `messageAdapter` option in the constructor with a corresponding
 message producer and consumer. Azure messaging client libraries export default
 adapters for their message types.
 
-### Backward Compatibility
-
-The serializer v1.0.0-beta.5 and under serializes data into binary arrays. Starting from
-v1.0.0-beta.6, the serializer returns messages instead that contain the serialized payload.
-For a smooth transition to using the newer versions, the serializer also supports
-deserializing messages with payloads that follow the old format where the schema ID
-is part of the payload.
-
-This backward compatibility is temporary and will be removed in v1.0.0.
-
 ## Examples
 
 ### Serialize and deserialize an `@azure/event-hubs`'s `EventData`
@@ -107,7 +97,7 @@ const deserializedValue = await serializer.deserialize(message);
 
 ## Troubleshooting
 
-The Avro serializer communicates with the [Schema Registry][schema_registry] service as needed to register or query schemas and those service calls could throw a [RestError][resterror]. Furthermore, errors of type `AvroError` will be thrown when serialization or deserialization fails. The `innerError` property will contain the underlying error that was thrown from the Avro implementation library.
+The Avro serializer communicates with the [Schema Registry][schema_registry] service as needed to register or query schemas and those service calls could throw a [RestError][resterror]. Furthermore, errors of type `Error` will be thrown when serialization or deserialization fails. The `cause` property will contain the underlying error that was thrown from the Avro implementation library.
 
 ### Logging
 

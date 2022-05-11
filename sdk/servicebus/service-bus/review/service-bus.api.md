@@ -338,6 +338,7 @@ export class ServiceBusClient {
 
 // @public
 export interface ServiceBusClientOptions {
+    customEndpointAddress?: string;
     retryOptions?: RetryOptions;
     userAgentOptions?: UserAgentPolicyOptions;
     webSocketOptions?: WebSocketOptions;

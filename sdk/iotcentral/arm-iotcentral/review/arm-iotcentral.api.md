@@ -11,14 +11,18 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
-export type App = Resource & {
+export type App = TrackedResource & {
     sku: AppSkuInfo;
     identity?: SystemAssignedServiceIdentity;
+    readonly provisioningState?: ProvisioningState;
     readonly applicationId?: string;
     displayName?: string;
     subdomain?: string;
     template?: string;
     readonly state?: AppState;
+    publicNetworkAccess?: PublicNetworkAccess;
+    networkRuleSets?: NetworkRuleSets;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
 };
 
 // @public
@@ -39,6 +43,10 @@ export interface AppPatch {
     readonly applicationId?: string;
     displayName?: string;
     identity?: SystemAssignedServiceIdentity;
+    networkRuleSets?: NetworkRuleSets;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
     sku?: AppSkuInfo;
     readonly state?: AppState;
     subdomain?: string;
@@ -52,8 +60,8 @@ export interface AppPatch {
 export interface Apps {
     beginCreateOrUpdate(resourceGroupName: string, resourceName: string, app: App, options?: AppsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<AppsCreateOrUpdateResponse>, AppsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, app: App, options?: AppsCreateOrUpdateOptionalParams): Promise<AppsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, resourceName: string, options?: AppsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, resourceName: string, options?: AppsDeleteOptionalParams): Promise<void>;
+    beginDelete(resourceGroupName: string, resourceName: string, options?: AppsDeleteOptionalParams): Promise<PollerLike<PollOperationState<AppsDeleteResponse>, AppsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, resourceName: string, options?: AppsDeleteOptionalParams): Promise<AppsDeleteResponse>;
     beginUpdate(resourceGroupName: string, resourceName: string, appPatch: AppPatch, options?: AppsUpdateOptionalParams): Promise<PollerLike<PollOperationState<AppsUpdateResponse>, AppsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, resourceName: string, appPatch: AppPatch, options?: AppsUpdateOptionalParams): Promise<AppsUpdateResponse>;
     checkNameAvailability(operationInputs: OperationInputs, options?: AppsCheckNameAvailabilityOptionalParams): Promise<AppsCheckNameAvailabilityResponse>;
@@ -79,19 +87,35 @@ export interface AppsCheckSubdomainAvailabilityOptionalParams extends coreClient
 export type AppsCheckSubdomainAvailabilityResponse = AppAvailabilityInfo;
 
 // @public
+export interface AppsCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: string;
+}
+
+// @public
 export interface AppsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AppsCreateOrUpdateResponse = App;
+export type AppsCreateOrUpdateResponse = AppsCreateOrUpdateHeaders & App;
+
+// @public
+export interface AppsDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: string;
+}
 
 // @public
 export interface AppsDeleteOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export type AppsDeleteResponse = AppsDeleteHeaders;
 
 // @public
 export interface AppsGetOptionalParams extends coreClient.OperationOptions {
@@ -154,13 +178,20 @@ export type AppsListTemplatesResponse = AppTemplatesResult;
 export type AppState = string;
 
 // @public
+export interface AppsUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: string;
+}
+
+// @public
 export interface AppsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export type AppsUpdateResponse = App;
+export type AppsUpdateResponse = AppsUpdateHeaders;
 
 // @public
 export interface AppTemplate {
@@ -187,19 +218,26 @@ export interface AppTemplatesResult {
 }
 
 // @public
-export interface CloudError {
+export type CreatedByType = string;
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
     readonly code?: string;
-    details?: CloudErrorBody[];
+    readonly details?: ErrorDetail[];
     readonly message?: string;
     readonly target?: string;
 }
 
 // @public
-export interface CloudErrorBody {
-    readonly code?: string;
-    details?: CloudErrorBody[];
-    readonly message?: string;
-    readonly target?: string;
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public (undocumented)
@@ -213,6 +251,10 @@ export class IotCentralClient extends coreClient.ServiceClient {
     apps: Apps;
     // (undocumented)
     operations: Operations;
+    // (undocumented)
+    privateEndpointConnections: PrivateEndpointConnections;
+    // (undocumented)
+    privateLinks: PrivateLinks;
     // (undocumented)
     subscriptionId: string;
 }
@@ -243,11 +285,94 @@ export enum KnownAppState {
 }
 
 // @public
+export enum KnownCreatedByType {
+    // (undocumented)
+    Application = "Application",
+    // (undocumented)
+    Key = "Key",
+    // (undocumented)
+    ManagedIdentity = "ManagedIdentity",
+    // (undocumented)
+    User = "User"
+}
+
+// @public
+export enum KnownNetworkAction {
+    // (undocumented)
+    Allow = "Allow",
+    // (undocumented)
+    Deny = "Deny"
+}
+
+// @public
+export enum KnownPrivateEndpointConnectionProvisioningState {
+    // (undocumented)
+    Creating = "Creating",
+    // (undocumented)
+    Deleting = "Deleting",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownPrivateEndpointServiceConnectionStatus {
+    // (undocumented)
+    Approved = "Approved",
+    // (undocumented)
+    Pending = "Pending",
+    // (undocumented)
+    Rejected = "Rejected"
+}
+
+// @public
+export enum KnownProvisioningState {
+    // (undocumented)
+    Canceled = "Canceled",
+    // (undocumented)
+    Creating = "Creating",
+    // (undocumented)
+    Deleting = "Deleting",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Succeeded = "Succeeded",
+    // (undocumented)
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownPublicNetworkAccess {
+    // (undocumented)
+    Disabled = "Disabled",
+    // (undocumented)
+    Enabled = "Enabled"
+}
+
+// @public
 export enum KnownSystemAssignedServiceIdentityType {
     // (undocumented)
     None = "None",
     // (undocumented)
     SystemAssigned = "SystemAssigned"
+}
+
+// @public
+export type NetworkAction = string;
+
+// @public
+export interface NetworkRuleSetIpRule {
+    filterName?: string;
+    ipMask?: string;
+}
+
+// @public
+export interface NetworkRuleSets {
+    applyToDevices?: boolean;
+    applyToIoTCentral?: boolean;
+    defaultAction?: NetworkAction;
+    ipRules?: NetworkRuleSetIpRule[];
 }
 
 // @public
@@ -298,13 +423,134 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
+export interface PrivateEndpoint {
+    readonly id?: string;
+}
+
+// @public
+export type PrivateEndpointConnection = Resource & {
+    readonly groupIds?: string[];
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+};
+
+// @public
+export interface PrivateEndpointConnectionListResult {
+    value?: PrivateEndpointConnection[];
+}
+
+// @public
+export type PrivateEndpointConnectionProvisioningState = string;
+
+// @public
+export interface PrivateEndpointConnections {
+    beginCreate(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionsCreateResponse>, PrivateEndpointConnectionsCreateResponse>>;
+    beginCreateAndWait(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOptionalParams): Promise<PrivateEndpointConnectionsCreateResponse>;
+    beginDelete(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionsDeleteResponse>, PrivateEndpointConnectionsDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PrivateEndpointConnectionsDeleteResponse>;
+    get(resourceGroupName: string, resourceName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
+    list(resourceGroupName: string, resourceName: string, options?: PrivateEndpointConnectionsListOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
+}
+
+// @public
+export interface PrivateEndpointConnectionsCreateHeaders {
+    azureAsyncOperation?: string;
+    retryAfter?: string;
+}
+
+// @public
+export interface PrivateEndpointConnectionsCreateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PrivateEndpointConnectionsCreateResponse = PrivateEndpointConnectionsCreateHeaders & PrivateEndpointConnection;
+
+// @public
+export interface PrivateEndpointConnectionsDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: string;
+}
+
+// @public
+export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type PrivateEndpointConnectionsDeleteResponse = PrivateEndpointConnectionsDeleteHeaders;
+
+// @public
+export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
+
+// @public
+export interface PrivateEndpointConnectionsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
+
+// @public
+export type PrivateEndpointServiceConnectionStatus = string;
+
+// @public
+export type PrivateLinkResource = Resource & {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
+};
+
+// @public
+export interface PrivateLinkResourceListResult {
+    value?: PrivateLinkResource[];
+}
+
+// @public
+export interface PrivateLinks {
+    get(resourceGroupName: string, resourceName: string, groupId: string, options?: PrivateLinksGetOptionalParams): Promise<PrivateLinksGetResponse>;
+    list(resourceGroupName: string, resourceName: string, options?: PrivateLinksListOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
+}
+
+// @public
+export interface PrivateLinkServiceConnectionState {
+    actionsRequired?: string;
+    description?: string;
+    status?: PrivateEndpointServiceConnectionStatus;
+}
+
+// @public
+export interface PrivateLinksGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinksGetResponse = PrivateLinkResource;
+
+// @public
+export interface PrivateLinksListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinksListResponse = PrivateLinkResourceListResult;
+
+// @public
+export type ProvisioningState = string;
+
+// @public
+export type PublicNetworkAccess = string;
+
+// @public
 export interface Resource {
     readonly id?: string;
-    location: string;
     readonly name?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -317,6 +563,24 @@ export interface SystemAssignedServiceIdentity {
 
 // @public
 export type SystemAssignedServiceIdentityType = string;
+
+// @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
+export type TrackedResource = Resource & {
+    tags?: {
+        [propertyName: string]: string;
+    };
+    location: string;
+};
 
 // (No @packageDocumentation comment for this package)
 

@@ -490,7 +490,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
 
     try {
       this._messageSession.subscribe(onMessage, onError, options);
-    } catch (err) {
+    } catch (err: any) {
       onError({
         error: err,
         errorSource: "receive",
@@ -562,7 +562,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
   async close(): Promise<void> {
     try {
       await this._messageSession.close();
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(
         err,
         "%s An error occurred while closing the SessionReceiver for session %s",

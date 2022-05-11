@@ -139,7 +139,7 @@ export function isSuperSet(m1?: BlobMetadata, m2?: BlobMetadata): boolean {
 /**
  * Sleep for seconds.
  *
- * @param seconds -
+ * @param seconds - duration to sleep in seconds
  */
 export function sleep(seconds: number): Promise<void> {
   return new Promise((resolve) => {
@@ -147,13 +147,12 @@ export function sleep(seconds: number): Promise<void> {
   });
 }
 /**
- * Read text content from a stream
- * @param stream
- * @returns
+ * Read text content from a stream as string
+ * @param stream - stream to read from
+ * @returns a utf-8 string that is the whole content of the stream
  */
 export function streamToString(stream: Readable): Promise<string> {
-  let chunks: any[];
-  chunks = [];
+  const chunks: any[] = [];
   return new Promise((resolve, reject) => {
     stream.on("data", (chunk) => chunks.push(Buffer.from(chunk)));
     stream.on("error", (err) => reject(err));

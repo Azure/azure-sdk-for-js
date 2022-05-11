@@ -131,7 +131,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
         ]);
 
         rejected = false;
-      } catch (error) {
+      } catch (error: any) {
         assert.equal((error as RestError).statusCode, 404);
       }
 
@@ -311,7 +311,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
           },
         ]);
         rejected = false;
-      } catch (error) {
+      } catch (error: any) {
         assert.equal((error as RestError).statusCode, 404);
       }
 
@@ -419,7 +419,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
         ]);
 
         rejected = false;
-      } catch (error) {
+      } catch (error: any) {
         assert.equal((error as RestError).statusCode, 404);
       }
 

@@ -35,7 +35,7 @@ describe("Operation Options", () => {
       try {
         await func();
         assert.fail();
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.name, "AbortError");
       }
     }
@@ -207,7 +207,7 @@ describe("Operation Options", () => {
           requestOptions: { timeout: 1 },
         });
         assert.fail();
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.name, "AbortError");
       }
     });
@@ -259,12 +259,7 @@ describe("Operation Options", () => {
                 name: "Azure.ServiceBus.ServiceBusAdministrationClient-getNamespaceProperties",
                 children: [
                   {
-                    children: [
-                      {
-                        children: [],
-                        name: "HTTP GET",
-                      },
-                    ],
+                    children: [],
                     name: "Azure.ServiceBus.ServiceBusAdministrationClient-getResource",
                   },
                 ],

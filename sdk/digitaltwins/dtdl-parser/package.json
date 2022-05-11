@@ -6,7 +6,6 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "./dist-esm/src/utils/url.js": "./dist-esm/src/utils/url.browser.js",
     "./dist-esm/src/utils/getFilenames.js": "./dist-esm/src/utils/getFilenames.browser.js",
     "./dist-esm/src/utils/getTestcase.js": "./dist-esm/src/utils/getTestcase.browser.js"
   },
@@ -112,7 +111,6 @@
     "rollup-plugin-visualizer": "^5.5.2",
     "sinon": "^9.0.2",
     "ts-node": "^9.0.0",
-    "typedoc": "0.15.2",
     "typescript": "~4.2.0",
     "util": "^0.12.1"
   },

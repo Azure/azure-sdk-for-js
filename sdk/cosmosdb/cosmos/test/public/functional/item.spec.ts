@@ -61,7 +61,7 @@ describe("Item CRUD", function (this: Suite) {
         isUpsertTest
       );
       assert.fail("id generation disabled must throw with invalid id");
-    } catch (err) {
+    } catch (err: any) {
       assert(
         err !== undefined,
         "should throw an error because automatic id generation is disabled"

@@ -7,7 +7,7 @@ import { createHash } from "crypto";
 import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 
-import { CryptographyClient, KeyVaultKey, KeyClient } from "../../src";
+import { CryptographyClient, KeyClient, KeyVaultKey } from "../../src";
 import { authenticate } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto";

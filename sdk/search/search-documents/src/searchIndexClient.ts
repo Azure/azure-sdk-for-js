@@ -194,7 +194,7 @@ export class SearchIndexClient {
       const result = await this.client.indexes.list(updatedOptions);
       const mapped = result.indexes.map(utils.generatedIndexToPublicIndex);
       yield mapped;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -240,7 +240,7 @@ export class SearchIndexClient {
     try {
       const result = await this.client.aliases.list(updatedOptions);
       yield result.aliases;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -290,7 +290,7 @@ export class SearchIndexClient {
       });
       const mapped = result.indexes.map((idx) => idx.name);
       yield mapped;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -338,7 +338,7 @@ export class SearchIndexClient {
     try {
       const result = await this.client.synonymMaps.list(updatedOptions);
       return result.synonymMaps.map(utils.generatedSynonymMapToPublicSynonymMap);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -361,7 +361,7 @@ export class SearchIndexClient {
         select: "name",
       });
       return result.synonymMaps.map((sm) => sm.name);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -382,7 +382,7 @@ export class SearchIndexClient {
     try {
       const result = await this.client.indexes.get(indexName, updatedOptions);
       return utils.generatedIndexToPublicIndex(result);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -406,7 +406,7 @@ export class SearchIndexClient {
     try {
       const result = await this.client.synonymMaps.get(synonymMapName, updatedOptions);
       return utils.generatedSynonymMapToPublicSynonymMap(result);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -433,7 +433,7 @@ export class SearchIndexClient {
         updatedOptions
       );
       return utils.generatedIndexToPublicIndex(result);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -460,7 +460,7 @@ export class SearchIndexClient {
         updatedOptions
       );
       return utils.generatedSynonymMapToPublicSynonymMap(result);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -493,7 +493,7 @@ export class SearchIndexClient {
         }
       );
       return utils.generatedIndexToPublicIndex(result);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -529,7 +529,7 @@ export class SearchIndexClient {
         }
       );
       return utils.generatedSynonymMapToPublicSynonymMap(result);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -559,7 +559,7 @@ export class SearchIndexClient {
         ...updatedOptions,
         ifMatch: etag,
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -593,7 +593,7 @@ export class SearchIndexClient {
         ...updatedOptions,
         ifMatch: etag,
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -622,7 +622,7 @@ export class SearchIndexClient {
         ifMatch: etag,
       });
       return result;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -646,7 +646,7 @@ export class SearchIndexClient {
     try {
       const result = await this.client.aliases.create(alias, updatedOptions);
       return result;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -677,7 +677,7 @@ export class SearchIndexClient {
         ...updatedOptions,
         ifMatch: etag,
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -701,7 +701,7 @@ export class SearchIndexClient {
     try {
       const result = await this.client.aliases.get(aliasName, updatedOptions);
       return result;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -726,7 +726,7 @@ export class SearchIndexClient {
     try {
       const result = await this.client.indexes.getStatistics(indexName, updatedOptions);
       return result;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -764,7 +764,7 @@ export class SearchIndexClient {
         updatedOptions
       );
       return result;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -786,7 +786,7 @@ export class SearchIndexClient {
     try {
       const result = await this.client.getServiceStatistics(updatedOptions);
       return result;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

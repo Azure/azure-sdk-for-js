@@ -196,7 +196,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
       const promise = credential.getToken(scopes, getTokenOptions);
       await this.clock.runAllAsync();
       result = await promise;
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
 

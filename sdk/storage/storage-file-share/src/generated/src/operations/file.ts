@@ -67,22 +67,16 @@ export class File {
    * @param fileContentLength Specifies the maximum size for the file, up to 4 TB.
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
    *                       ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
-   * @param fileCreatedOn Creation time for the file/directory. Default value: Now.
-   * @param fileLastWriteOn Last write time for the file/directory. Default value: Now.
    * @param options The options parameters.
    */
   create(
     fileContentLength: number,
     fileAttributes: string,
-    fileCreatedOn: string,
-    fileLastWriteOn: string,
     options?: FileCreateOptionalParams
   ): Promise<FileCreateResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       fileContentLength,
       fileAttributes,
-      fileCreatedOn,
-      fileLastWriteOn,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
@@ -142,20 +136,14 @@ export class File {
    * Sets HTTP headers on the file.
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
    *                       ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
-   * @param fileCreatedOn Creation time for the file/directory. Default value: Now.
-   * @param fileLastWriteOn Last write time for the file/directory. Default value: Now.
    * @param options The options parameters.
    */
   setHttpHeaders(
     fileAttributes: string,
-    fileCreatedOn: string,
-    fileLastWriteOn: string,
     options?: FileSetHttpHeadersOptionalParams
   ): Promise<FileSetHttpHeadersResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       fileAttributes,
-      fileCreatedOn,
-      fileLastWriteOn,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
@@ -462,6 +450,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.fileAttributes,
     Parameters.fileCreatedOn,
     Parameters.fileLastWriteOn,
+    Parameters.fileChangeOn,
     Parameters.fileContentLength,
     Parameters.fileTypeConstant,
     Parameters.fileContentType,
@@ -576,6 +565,7 @@ const setHttpHeadersOperationSpec: coreHttp.OperationSpec = {
     Parameters.fileAttributes,
     Parameters.fileCreatedOn,
     Parameters.fileLastWriteOn,
+    Parameters.fileChangeOn,
     Parameters.fileContentType,
     Parameters.fileContentEncoding,
     Parameters.fileContentLanguage,
@@ -731,8 +721,9 @@ const uploadRangeOperationSpec: coreHttp.OperationSpec = {
     Parameters.range1,
     Parameters.fileRangeWrite,
     Parameters.contentLength,
-    Parameters.contentMD5
-  ],
+    Parameters.contentMD5,
+    Parameters.fileLastWrittenMode
+  ],  
   contentType: "application/octet-stream",
   isXML: true,
   serializer: xmlSerializer
@@ -757,6 +748,7 @@ const uploadRangeFromURLOperationSpec: coreHttp.OperationSpec = {
     Parameters.leaseId,
     Parameters.range1,
     Parameters.contentLength,
+    Parameters.fileLastWrittenMode,
     Parameters.copySource,
     Parameters.sourceRange,
     Parameters.fileRangeWriteFromUrl,
@@ -821,6 +813,7 @@ const startCopyOperationSpec: coreHttp.OperationSpec = {
     Parameters.fileAttributes1,
     Parameters.fileCreationTime,
     Parameters.fileLastWriteTime,
+    Parameters.fileChangeTime,
     Parameters.copySource,
     Parameters.filePermissionCopyMode,
     Parameters.ignoreReadOnly1,
@@ -935,7 +928,9 @@ const renameOperationSpec: coreHttp.OperationSpec = {
     Parameters.destinationLeaseId,
     Parameters.fileAttributes1,
     Parameters.fileCreationTime,
-    Parameters.fileLastWriteTime
+    Parameters.fileLastWriteTime,
+    Parameters.fileChangeTime,
+    Parameters.fileContentType
   ],
   isXML: true,
   serializer: xmlSerializer

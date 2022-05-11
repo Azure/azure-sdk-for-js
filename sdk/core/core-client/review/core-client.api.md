@@ -28,6 +28,9 @@ export interface AdditionalPolicyConfig {
 export function authorizeRequestOnClaimChallenge(onChallengeOptions: AuthorizeRequestOnChallengeOptions): Promise<boolean>;
 
 // @public
+export const authorizeRequestOnTenantChallenge: (challengeOptions: AuthorizeRequestOnChallengeOptions) => Promise<boolean>;
+
+// @public
 export interface BaseMapper {
     constraints?: MapperConstraints;
     defaultValue?: any;
@@ -327,9 +330,11 @@ export class ServiceClient {
 
 // @public
 export interface ServiceClientOptions extends CommonClientOptions {
+    // @deprecated
     baseUri?: string;
     credential?: TokenCredential;
     credentialScopes?: string | string[];
+    endpoint?: string;
     pipeline?: Pipeline;
     requestContentType?: string;
 }

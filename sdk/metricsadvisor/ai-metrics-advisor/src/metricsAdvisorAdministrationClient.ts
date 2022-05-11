@@ -285,7 +285,7 @@ export class MetricsAdvisorAdministrationClient {
       const lastSlashIndex = result.location.lastIndexOf("/");
       const feedId = result.location.substring(lastSlashIndex + 1);
       return this.getDataFeed(feedId);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -314,7 +314,7 @@ export class MetricsAdvisorAdministrationClient {
       const result = await this.client.getDataFeedById(id, finalOptions);
       const resultDataFeed: MetricsAdvisorDataFeed = fromServiceDataFeedDetailUnion(result);
       return resultDataFeed;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -512,7 +512,7 @@ export class MetricsAdvisorAdministrationClient {
       const result = await this.client.updateDataFeed(dataFeedId, patchBody, finalOptions);
       const resultDataFeed: MetricsAdvisorDataFeed = fromServiceDataFeedDetailUnion(result);
       return resultDataFeed;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -540,7 +540,7 @@ export class MetricsAdvisorAdministrationClient {
         ...options,
       });
       return { _response: response.rawResponse };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -577,7 +577,7 @@ export class MetricsAdvisorAdministrationClient {
       const lastSlashIndex = result.location.lastIndexOf("/");
       const configId = result.location.substring(lastSlashIndex + 1);
       return this.getDetectionConfig(configId);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -606,7 +606,7 @@ export class MetricsAdvisorAdministrationClient {
     try {
       const result = await this.client.getAnomalyDetectionConfiguration(id, finalOptions);
       return fromServiceAnomalyDetectionConfiguration(result);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -642,7 +642,7 @@ export class MetricsAdvisorAdministrationClient {
         finalOptions
       );
       return fromServiceAnomalyDetectionConfiguration(result);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -676,7 +676,7 @@ export class MetricsAdvisorAdministrationClient {
         }
       );
       return { _response: response.rawResponse };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -712,7 +712,7 @@ export class MetricsAdvisorAdministrationClient {
       const lastSlashIndex = result.location.lastIndexOf("/");
       const configId = result.location.substring(lastSlashIndex + 1);
       return this.getAlertConfig(configId);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -747,7 +747,7 @@ export class MetricsAdvisorAdministrationClient {
         finalOptions
       );
       return fromServiceAlertConfiguration(result);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -776,7 +776,7 @@ export class MetricsAdvisorAdministrationClient {
     try {
       const result = await this.client.getAnomalyAlertingConfiguration(id, finalOptions);
       return fromServiceAlertConfiguration(result);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -810,7 +810,7 @@ export class MetricsAdvisorAdministrationClient {
         }
       );
       return { _response: response.rawResponse };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -969,7 +969,7 @@ export class MetricsAdvisorAdministrationClient {
       const lastSlashIndex = result.location.lastIndexOf("/");
       const hookId = result.location.substring(lastSlashIndex + 1);
       return this.getHook(hookId);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -995,7 +995,7 @@ export class MetricsAdvisorAdministrationClient {
       const result = await this.client.getHook(id, finalOptions);
       const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(result);
       return resultHookResponse;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1143,7 +1143,7 @@ export class MetricsAdvisorAdministrationClient {
       const result = await this.client.updateHook(id, patch, finalOptions);
       const resultHookResponse: NotificationHookUnion = fromServiceHookInfoUnion(result);
       return resultHookResponse;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1170,7 +1170,7 @@ export class MetricsAdvisorAdministrationClient {
         ...options,
       });
       return { _response: response.rawResponse };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1313,7 +1313,7 @@ export class MetricsAdvisorAdministrationClient {
         latestActiveTimestamp: response.latestActiveTimestamp?.getTime(),
         latestSuccessTimestamp: response.latestSuccessTimestamp?.getTime(),
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1546,7 +1546,7 @@ export class MetricsAdvisorAdministrationClient {
       );
       logger.info(response);
       return { _response: response.rawResponse };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1580,7 +1580,7 @@ export class MetricsAdvisorAdministrationClient {
       const lastSlashIndex = result.location.lastIndexOf("/");
       const credEntityId = result.location.substring(lastSlashIndex + 1);
       return this.getDataSourceCredential(credEntityId);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1609,7 +1609,7 @@ export class MetricsAdvisorAdministrationClient {
       const result = await this.client.getCredential(id, finalOptions);
       const resultCred = fromServiceCredential(result);
       return resultCred;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1770,7 +1770,7 @@ export class MetricsAdvisorAdministrationClient {
       );
       const resultCred = fromServiceCredential(result);
       return resultCred;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1800,7 +1800,7 @@ export class MetricsAdvisorAdministrationClient {
         ...options,
       });
       return { _response: response.rawResponse };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

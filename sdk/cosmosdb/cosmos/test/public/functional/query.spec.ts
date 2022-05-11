@@ -144,7 +144,7 @@ describe("Queries", function (this: Suite) {
 
       try {
         await queryIterator.fetchNext();
-      } catch (e) {
+      } catch (e: any) {
         assert(e.message.includes("Invalid Continuation Token"));
       }
     });

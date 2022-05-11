@@ -423,6 +423,8 @@ export type Gen2EnvironmentCreateOrUpdateParameters = EnvironmentCreateOrUpdateP
     timeSeriesIdProperties: TimeSeriesIdProperty[];
     storageConfiguration: Gen2StorageConfigurationInput;
     warmStoreConfiguration?: WarmStoreConfigurationProperties;
+    publicNetworkAccess?: PublicNetworkAccess;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
 };
 
 // @public
@@ -435,6 +437,8 @@ export type Gen2EnvironmentResource = EnvironmentResource & {
     timeSeriesIdProperties: TimeSeriesIdProperty[];
     storageConfiguration: Gen2StorageConfigurationOutput;
     warmStoreConfiguration?: WarmStoreConfigurationProperties;
+    publicNetworkAccess?: PublicNetworkAccess;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
 };
 
 // @public
@@ -442,6 +446,8 @@ export type Gen2EnvironmentResourceProperties = EnvironmentResourceProperties & 
     timeSeriesIdProperties: TimeSeriesIdProperty[];
     storageConfiguration: Gen2StorageConfigurationOutput;
     warmStoreConfiguration?: WarmStoreConfigurationProperties;
+    publicNetworkAccess?: PublicNetworkAccess;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
 };
 
 // @public
@@ -614,6 +620,28 @@ export enum KnownLocalTimestampFormat {
 }
 
 // @public
+export enum KnownPrivateEndpointConnectionProvisioningState {
+    // (undocumented)
+    Creating = "Creating",
+    // (undocumented)
+    Deleting = "Deleting",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownPrivateEndpointServiceConnectionStatus {
+    // (undocumented)
+    Approved = "Approved",
+    // (undocumented)
+    Pending = "Pending",
+    // (undocumented)
+    Rejected = "Rejected"
+}
+
+// @public
 export enum KnownPropertyType {
     // (undocumented)
     String = "String"
@@ -633,6 +661,14 @@ export enum KnownProvisioningState {
     Succeeded = "Succeeded",
     // (undocumented)
     Updating = "Updating"
+}
+
+// @public
+export enum KnownPublicNetworkAccess {
+    // (undocumented)
+    Disabled = "disabled",
+    // (undocumented)
+    Enabled = "enabled"
 }
 
 // @public
@@ -760,10 +796,101 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = OperationListResult;
 
 // @public
+export interface PrivateEndpoint {
+    readonly id?: string;
+}
+
+// @public
+export type PrivateEndpointConnection = Resource & {
+    readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+    privateEndpoint?: PrivateEndpoint;
+    groupIds?: string[];
+    privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+};
+
+// @public
+export interface PrivateEndpointConnectionListResult {
+    value?: PrivateEndpointConnection[];
+}
+
+// @public
+export type PrivateEndpointConnectionProvisioningState = string;
+
+// @public
+export interface PrivateEndpointConnections {
+    createOrUpdate(resourceGroupName: string, environmentName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, environmentName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, environmentName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
+    listByEnvironment(resourceGroupName: string, environmentName: string, options?: PrivateEndpointConnectionsListByEnvironmentOptionalParams): Promise<PrivateEndpointConnectionsListByEnvironmentResponse>;
+}
+
+// @public
+export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
+
+// @public
+export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface PrivateEndpointConnectionsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
+
+// @public
+export interface PrivateEndpointConnectionsListByEnvironmentOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateEndpointConnectionsListByEnvironmentResponse = PrivateEndpointConnectionListResult;
+
+// @public
+export type PrivateEndpointServiceConnectionStatus = string;
+
+// @public
+export type PrivateLinkResource = Resource & {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
+};
+
+// @public
+export interface PrivateLinkResourceListResult {
+    value?: PrivateLinkResource[];
+}
+
+// @public
+export interface PrivateLinkResources {
+    listSupported(resourceGroupName: string, environmentName: string, options?: PrivateLinkResourcesListSupportedOptionalParams): PagedAsyncIterableIterator<PrivateLinkResource>;
+}
+
+// @public
+export interface PrivateLinkResourcesListSupportedOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type PrivateLinkResourcesListSupportedResponse = PrivateLinkResourceListResult;
+
+// @public
+export interface PrivateLinkServiceConnectionState {
+    actionsRequired?: string;
+    description?: string;
+    status?: PrivateEndpointServiceConnectionStatus;
+}
+
+// @public
 export type PropertyType = string;
 
 // @public
 export type ProvisioningState = string;
+
+// @public
+export type PublicNetworkAccess = string;
 
 // @public
 export type ReferenceDataKeyPropertyType = string;
@@ -902,6 +1029,10 @@ export class TimeSeriesInsightsClient extends coreClient.ServiceClient {
     eventSources: EventSources;
     // (undocumented)
     operations: Operations;
+    // (undocumented)
+    privateEndpointConnections: PrivateEndpointConnections;
+    // (undocumented)
+    privateLinkResources: PrivateLinkResources;
     // (undocumented)
     referenceDataSets: ReferenceDataSets;
     // (undocumented)

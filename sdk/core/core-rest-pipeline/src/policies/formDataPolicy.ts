@@ -78,7 +78,7 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
       });
     });
     request.headers.set("Content-Length", contentLength);
-  } catch (e) {
+  } catch (e: any) {
     // ignore setting the length if this fails
   }
 }

@@ -485,7 +485,7 @@ describe("ServiceBusClient live tests", () => {
     it("throws error for invalid tokenCredentials", async function (): Promise<void> {
       try {
         new ServiceBusClient(serviceBusEndpoint, [] as any);
-      } catch (err) {
+      } catch (err: any) {
         errorWasThrown = true;
         should.equal(
           err.message,
@@ -500,7 +500,7 @@ describe("ServiceBusClient live tests", () => {
     it("throws error for undefined tokenCredentials", async function (): Promise<void> {
       try {
         new ServiceBusClient(serviceBusEndpoint, undefined as any);
-      } catch (err) {
+      } catch (err: any) {
         errorWasThrown = true;
         should.equal(
           err.message,
@@ -516,7 +516,7 @@ describe("ServiceBusClient live tests", () => {
       it("throws error for invalid host name", async function (): Promise<void> {
         try {
           new ServiceBusClient(123 as any, getDefaultTokenCredential());
-        } catch (error) {
+        } catch (error: any) {
           errorWasThrown = true;
           should.equal(
             error.message,
@@ -640,7 +640,7 @@ describe("ServiceBusClient live tests", () => {
           default:
             break;
         }
-      } catch (error) {
+      } catch (error: any) {
         caughtError = error;
       }
 
@@ -708,7 +708,7 @@ describe("ServiceBusClient live tests", () => {
       let errorNewSender: string = "";
       try {
         sbClient.createSender(entityName.queue ?? entityName.topic!);
-      } catch (err) {
+      } catch (err: any) {
         errorNewSender = err.message;
       }
       should.equal(
@@ -744,7 +744,7 @@ describe("ServiceBusClient live tests", () => {
             console.log(e);
           },
         });
-      } catch (err) {
+      } catch (err: any) {
         errorReceiveStream = err.message;
       }
       should.equal(
@@ -781,7 +781,7 @@ describe("ServiceBusClient live tests", () => {
       let errorNewReceiver: string = "";
       try {
         receiver = await sbClient.test.createPeekLockReceiver(entityName);
-      } catch (err) {
+      } catch (err: any) {
         errorNewReceiver = err.message;
       }
       should.equal(
