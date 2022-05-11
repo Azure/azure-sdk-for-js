@@ -56,7 +56,7 @@
 /sdk/communication/communication-sms/ @DimaKolomiiets
 
 # PRLabel: %Communication - Short Codes
-/sdk/communication/communication-short-codes/ @danielav7
+/sdk/communication/communication-short-codes/ @guilhermeluizsp @rtrevino89 @danielav7
 
 # PRLabel: %Communication - Common
 /sdk/communication/communication-common/ @petrsvihlik @AikoBB @maximrytych-ms @martinbarnas-ms
