@@ -60,7 +60,7 @@ export async function main() {
         const { code, message } = result.error;
         throw new Error(`Unexpected error (${code}): ${message}`);
       }
-      console.log(`\tClassification: ${result.classification.category}`);
+      console.log(`\tClassification: ${result.classifications[0].category}`);
     }
   }
 }

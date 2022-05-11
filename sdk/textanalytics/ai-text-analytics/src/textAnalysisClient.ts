@@ -435,11 +435,13 @@ export class TextAnalysisClient {
    * @param actionName - the name of the action to be performed on the input
    *   documents, see ${@link AnalyzeActionName}
    * @param documents - the input documents to be analyzed
-   * @param language - the language that all the input strings are
+   * @param languageCode - the code of the language that all the input strings are
    *    written in. If unspecified, this value will be set to the default
    *    language in `TextAnalysisClientOptions`. If set to an empty string,
    *    the service will apply a model where the language is explicitly set to
-   *    "None".
+   *    "None". Language support varies per action, for example, more information
+   *    about the languages supported for Entity Recognition actions can be
+   *    found in {@link https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/named-entity-recognition/language-support}
    * @param options - optional action parameters and settings for the operation
    *
    * @returns an array of results corresponding to the input documents
@@ -447,7 +449,7 @@ export class TextAnalysisClient {
   public async analyze<ActionName extends AnalyzeActionName = AnalyzeActionName>(
     actionName: ActionName,
     documents: string[],
-    language?: string,
+    languageCode?: string,
     options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions
   ): Promise<AnalyzeResult<ActionName>>;
   // implementation
@@ -559,11 +561,13 @@ export class TextAnalysisClient {
    *
    * @param actions - an array of actions that will be run on the input documents
    * @param documents - the input documents to be analyzed
-   * @param language - the language that all the input strings are
+   * @param languageCode - the code of the language that all the input strings are
    *    written in. If unspecified, this value will be set to the default
    *    language in `TextAnalysisClientOptions`. If set to an empty string,
    *    the service will apply a model where the language is explicitly set to
-   *    "None".
+   *    "None". Language support varies per action, for example, more information
+   *    about the languages supported for Entity Recognition actions can be
+   *    found in {@link https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/named-entity-recognition/language-support}
    * @param options - optional settings for the operation
    *
    * @returns an array of results corresponding to the input actions
@@ -571,7 +575,7 @@ export class TextAnalysisClient {
   async beginAnalyzeBatch(
     actions: AnalyzeBatchAction[],
     documents: string[],
-    language?: string,
+    languageCode?: string,
     options?: BeginAnalyzeBatchOptions
   ): Promise<AnalyzeBatchPoller>;
   /**
@@ -658,7 +662,7 @@ export class TextAnalysisClient {
         parameters: rest,
       })
     );
-    const { includeStatistics, resumeFrom, updateIntervalInMs, displayName, ...rest } = realOptions;
+    const { includeStatistics, updateIntervalInMs, displayName, ...rest } = realOptions;
     const lro = createAnalyzeBatchLro({
       client: this._client,
       commonOptions: rest,
@@ -673,7 +677,6 @@ export class TextAnalysisClient {
       lro as LongRunningOperation<PagedAnalyzeBatchResult>,
       {
         intervalInMs: updateIntervalInMs,
-        resumeFrom: resumeFrom,
         processResult: processAnalyzeResult({
           client: this._client,
           tracing: this._tracing,

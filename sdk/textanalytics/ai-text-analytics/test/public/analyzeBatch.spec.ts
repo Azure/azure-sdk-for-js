@@ -268,7 +268,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
               [
                 {
                   kind: AnalyzeBatchActionNames.Healthcare,
-                  setFhirVersion: KnownFhirVersion.Four01,
+                  fhirVersion: KnownFhirVersion.Four01,
                 },
               ],
               docs,

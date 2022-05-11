@@ -2931,7 +2931,7 @@ export const HealthcareAction: coreClient.CompositeMapper = {
     className: "HealthcareAction",
     modelProperties: {
       ...ActionPrebuilt.type.modelProperties,
-      setFhirVersion: {
+      fhirVersion: {
         serializedName: "fhirVersion",
         type: {
           name: "String"

@@ -46,7 +46,7 @@ export {
   CustomEntityRecognitionAction,
   CustomSingleLabelClassificationAction,
   CustomMultiLabelClassificationAction,
-  State,
+  OperationStatus,
   ActionCustom,
   ClassificationCategory,
   HealthcareAssertion,

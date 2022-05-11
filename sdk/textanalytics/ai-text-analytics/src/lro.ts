@@ -42,13 +42,13 @@ const jobStatusOperationSpec: OperationSpec = {
   serializer,
 };
 
-async function getRawResponse<TOptions extends OperationOptions, TResult>(
-  f: (options: TOptions) => Promise<TResult>,
+async function getRawResponse<TOptions extends OperationOptions, TResponse>(
+  getResponse: (options: TOptions) => Promise<TResponse>,
   options: TOptions
-): Promise<LroResponse<TResult>> {
+): Promise<LroResponse<TResponse>> {
   const { onResponse } = options || {};
   let rawResponse: FullOperationResponse | undefined = undefined;
-  const flatResponse = await f({
+  const flatResponse = await getResponse({
     ...options,
     onResponse: (response: FullOperationResponse, flatResponseParam: unknown) => {
       rawResponse = response;

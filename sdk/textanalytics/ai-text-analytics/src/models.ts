@@ -22,12 +22,12 @@ import {
   KnownInnerErrorCode,
   LanguageDetectionAction,
   LinkedEntity,
+  OperationStatus,
   PiiEntityRecognitionAction,
   RelationType,
   SentenceSentimentLabel,
   SentimentAnalysisAction,
   SentimentConfidenceScores,
-  State,
   TargetConfidenceScores,
   TextDocumentBatchStatistics,
   TextDocumentStatistics,
@@ -75,13 +75,9 @@ export interface TextAnalysisOperationOptions extends OperationOptions {
  */
 export interface BeginAnalyzeBatchOptions extends TextAnalysisOperationOptions {
   /**
-   * Delay to wait until next poll, in milliseconds.
+   * Time delay between poll requests, in milliseconds.
    */
   updateIntervalInMs?: number;
-  /**
-   * A serialized poller which can be used to poll an existing Long-Running-Operation.
-   */
-  resumeFrom?: string;
   /**
    * The operation's display name.
    */
@@ -93,7 +89,7 @@ export interface BeginAnalyzeBatchOptions extends TextAnalysisOperationOptions {
  */
 export interface CreateAnalyzeBatchPollerOptions extends TextAnalysisOperationOptions {
   /**
-   * Delay to wait until next poll, in milliseconds.
+   * Time delay between poll requests, in milliseconds.
    */
   updateIntervalInMs?: number;
 }
@@ -597,9 +593,9 @@ export type CustomSingleLabelClassificationResult =
  */
 export interface CustomSingleLabelClassificationSuccessResult extends TextAnalysisSuccessResult {
   /**
-   * The classification result of the input document.
+   * The collection of classifications in the input document.
    */
-  classification: ClassificationCategory;
+  classifications: ClassificationCategory[];
 }
 
 /**
@@ -631,24 +627,126 @@ export interface CustomMultiLabelClassificationSuccessResult extends TextAnalysi
 export type CustomMultiLabelClassificationErrorResult = TextAnalysisErrorResult;
 
 /**
+ * Options common to all batch actions.
+ */
+export interface AnalyzeBatchActionCommon {
+  /**
+   * The name of the action.
+   */
+  actionName?: string;
+}
+
+/** Options for an entity linking batch action. */
+export interface EntityLinkingBatchAction extends AnalyzeBatchActionCommon, EntityLinkingAction {
+  /**
+   * The kind of the action.
+   */
+  kind: "EntityLinking";
+}
+
+/** Options for an entity recognition batch action. */
+export interface EntityRecognitionBatchAction
+  extends AnalyzeBatchActionCommon,
+    EntityRecognitionAction {
+  /**
+   * The kind of the action.
+   */
+  kind: "EntityRecognition";
+}
+
+/** Options for an key phrase extraction batch action. */
+export interface KeyPhraseExtractionBatchAction
+  extends AnalyzeBatchActionCommon,
+    KeyPhraseExtractionAction {
+  /**
+   * The kind of the action.
+   */
+  kind: "KeyPhraseExtraction";
+}
+
+/** Options for a pii entity recognition batch action. */
+export interface PiiEntityRecognitionBatchAction
+  extends AnalyzeBatchActionCommon,
+    PiiEntityRecognitionAction {
+  /**
+   * The kind of the action.
+   */
+  kind: "PiiEntityRecognition";
+}
+
+/** Options for a healthcare batch action. */
+export interface HealthcareBatchAction extends AnalyzeBatchActionCommon, HealthcareAction {
+  /**
+   * The kind of the action.
+   */
+  kind: "Healthcare";
+}
+
+/** Options for a sentiment analysis batch action. */
+export interface SentimentAnalysisBatchAction
+  extends AnalyzeBatchActionCommon,
+    SentimentAnalysisAction {
+  /**
+   * The kind of the action.
+   */
+  kind: "SentimentAnalysis";
+}
+
+/** Options for a custom entity recognition batch action. */
+export interface CustomEntityRecognitionBatchAction
+  extends AnalyzeBatchActionCommon,
+    CustomEntityRecognitionAction {
+  /**
+   * The kind of the action.
+   */
+  kind: "CustomEntityRecognition";
+}
+
+/** Options for a custom single-label classification batch action. */
+export interface CustomSingleLabelClassificationBatchAction
+  extends AnalyzeBatchActionCommon,
+    CustomSingleLabelClassificationAction {
+  /**
+   * The kind of the action.
+   */
+  kind: "CustomSingleLabelClassification";
+}
+
+/** Options for a custom multi-label classification batch action. */
+export interface CustomMultiLabelClassificationBatchAction
+  extends AnalyzeBatchActionCommon,
+    CustomMultiLabelClassificationAction {
+  /**
+   * The kind of the action.
+   */
+  kind: "CustomMultiLabelClassification";
+}
+
+/**
  * Batch of actions.
  */
-export type AnalyzeBatchAction = {
-  actionName?: string;
-} & (
-  | (EntityLinkingAction & { kind: "EntityLinking" })
-  | (EntityRecognitionAction & { kind: "EntityRecognition" })
-  | (KeyPhraseExtractionAction & { kind: "KeyPhraseExtraction" })
-  | (PiiEntityRecognitionAction & { kind: "PiiEntityRecognition" })
-  | (SentimentAnalysisAction & { kind: "SentimentAnalysis" })
-  | (HealthcareAction & { kind: "Healthcare" })
-  | (CustomEntityRecognitionAction & { kind: "CustomEntityRecognition" })
-  | (CustomSingleLabelClassificationAction & { kind: "CustomSingleLabelClassification" })
-  | (CustomMultiLabelClassificationAction & { kind: "CustomMultiLabelClassification" })
-);
+export type AnalyzeBatchAction =
+  | EntityLinkingBatchAction
+  | EntityRecognitionBatchAction
+  | KeyPhraseExtractionBatchAction
+  | PiiEntityRecognitionBatchAction
+  | HealthcareBatchAction
+  | SentimentAnalysisBatchAction
+  | CustomEntityRecognitionBatchAction
+  | CustomSingleLabelClassificationBatchAction
+  | CustomMultiLabelClassificationBatchAction;
+
+/**
+ * Type of actions supported by the {@link TextAnalysisClient.beginAnalyzeBatch} method.
+ */
+export type AnalyzeBatchActionName = keyof typeof AnalyzeBatchActionNames;
 
 /** The State of a batched action */
-export interface BatchActionState {
+export interface BatchActionState<Kind extends AnalyzeBatchActionName> {
+  /**
+   * The kind of the action results.
+   */
+  kind: Kind;
   /**
    * The name of the action.
    */
@@ -686,7 +784,8 @@ export interface CustomActionMetadata {
 /**
  * The state of a succeeded batched action.
  */
-export interface BatchActionSuccessResult<T> extends BatchActionState {
+export interface BatchActionSuccessResult<T, Kind extends AnalyzeBatchActionName>
+  extends BatchActionState<Kind> {
   /**
    * The list of document results.
    */
@@ -704,7 +803,8 @@ export interface BatchActionSuccessResult<T> extends BatchActionState {
 /**
  * The error of an analyze batch action.
  */
-export interface BatchActionErrorResult extends BatchActionState {
+export interface BatchActionErrorResult<Kind extends AnalyzeBatchActionName>
+  extends BatchActionState<Kind> {
   /**
    * When this action was completed by the service.
    */
@@ -718,34 +818,76 @@ export interface BatchActionErrorResult extends BatchActionState {
 /**
  * The result of a batched action.
  */
-export type BatchActionResult<T> = BatchActionSuccessResult<T> | BatchActionErrorResult;
+export type BatchActionResult<T, Kind extends AnalyzeBatchActionName> =
+  | BatchActionSuccessResult<T, Kind>
+  | BatchActionErrorResult<Kind>;
 
+/**
+ * The result of an entity linking batch action.
+ */
+export type EntityLinkingBatchResult = ActionMetadata &
+  BatchActionResult<EntityLinkingResult, "EntityLinking">;
+
+/**
+ * The result of an entity recognition batch action.
+ */
+export type EntityRecognitionBatchResult = ActionMetadata &
+  BatchActionResult<EntityRecognitionResult, "EntityRecognition">;
+
+/**
+ * The result of a key phrase extraction batch action.
+ */
+export type KeyPhraseExtractionBatchResult = ActionMetadata &
+  BatchActionResult<KeyPhraseExtractionResult, "KeyPhraseExtraction">;
+
+/**
+ * The result of a pii entity recognition batch action.
+ */
+export type PiiEntityRecognitionBatchResult = ActionMetadata &
+  BatchActionResult<PiiEntityRecognitionResult, "PiiEntityRecognition">;
+
+/**
+ * The result of a sentiment analysis batch action.
+ */
+export type SentimentAnalysisBatchResult = ActionMetadata &
+  BatchActionResult<SentimentAnalysisResult, "SentimentAnalysis">;
+
+/**
+ * The result of a healthcare batch action.
+ */
+export type HealthcareBatchResult = ActionMetadata &
+  BatchActionResult<HealthcareResult, "Healthcare">;
+
+/**
+ * The result of a custom entity recognition batch action.
+ */
+export type CustomEntityRecognitionBatchResult = CustomActionMetadata &
+  BatchActionResult<CustomEntityRecognitionResult, "CustomEntityRecognition">;
+
+/**
+ * The result of a custom single-label classification batch action.
+ */
+export type CustomSingleLabelClassificationBatchResult = CustomActionMetadata &
+  BatchActionResult<CustomSingleLabelClassificationResult, "CustomSingleLabelClassification">;
+
+/**
+ * The result of a custom multi-label classification batch action.
+ */
+export type CustomMultiLabelClassificationBatchResult = CustomActionMetadata &
+  BatchActionResult<CustomMultiLabelClassificationResult, "CustomMultiLabelClassification">;
 /**
  * Results of a batch of actions.
  */
 export type AnalyzeBatchResult =
-  | (BatchActionResult<EntityLinkingResult> & ActionMetadata & { kind: "EntityLinking" })
-  | (BatchActionResult<EntityRecognitionResult> & ActionMetadata & { kind: "EntityRecognition" })
-  | (BatchActionResult<KeyPhraseExtractionResult> &
-      ActionMetadata & { kind: "KeyPhraseExtraction" })
-  | (BatchActionResult<PiiEntityRecognitionResult> &
-      ActionMetadata & {
-        kind: "PiiEntityRecognition";
-      })
-  | (BatchActionResult<SentimentAnalysisResult> & ActionMetadata & { kind: "SentimentAnalysis" })
-  | (BatchActionResult<HealthcareResult> & ActionMetadata & { kind: "Healthcare" })
-  | (BatchActionResult<CustomEntityRecognitionResult> &
-      CustomActionMetadata & {
-        kind: "CustomEntityRecognition";
-      })
-  | (BatchActionResult<CustomSingleLabelClassificationResult> &
-      CustomActionMetadata & {
-        kind: "CustomSingleLabelClassification";
-      })
-  | (BatchActionResult<CustomMultiLabelClassificationResult> &
-      CustomActionMetadata & {
-        kind: "CustomMultiLabelClassification";
-      });
+  | EntityLinkingBatchResult
+  | EntityRecognitionBatchResult
+  | KeyPhraseExtractionBatchResult
+  | PiiEntityRecognitionBatchResult
+  | SentimentAnalysisBatchResult
+  | HealthcareBatchResult
+  | CustomEntityRecognitionBatchResult
+  | CustomSingleLabelClassificationBatchResult
+  | CustomMultiLabelClassificationBatchResult;
 
 /**
  * An error result from a sentiment analysis action on a single document.
@@ -785,7 +927,7 @@ export interface AnalyzeBatchOperationMetadata {
   /**
    * The current status of the operation.
    */
-  status: State;
+  status: OperationStatus;
   /**
    * Number of successfully completed actions.
    */

@@ -132,7 +132,7 @@ export const expectation2: AnalyzeBatchResult[] = [
       {
         id: "0",
         warnings: [],
-        classification: { category: "RateBook", confidenceScore: 0.76 },
+        classifications: [{ category: "RateBook", confidenceScore: 0.76 }],
       },
     ],
     deploymentName,

@@ -141,7 +141,7 @@ export interface JobState {
   expiresOn?: Date;
   operationId: string;
   lastModifiedOn: Date;
-  status: State;
+  status: OperationStatus;
   errors?: ErrorModel[];
   nextLink?: string;
 }
@@ -568,7 +568,7 @@ export type AnalyzeTextLROResult = TaskState &
 
 export type AnalyzeTextJobState = JobState &
   TasksState &
-  AnalyzeTextJobStatistics & {};
+  AnalyzeTextJobStatistics;
 
 /** Configuration common to all actions that use prebuilt models. */
 export type ActionPrebuilt = ActionCommon & {
@@ -815,7 +815,7 @@ export type EntityRecognitionAction = ActionPrebuilt & {
 };
 
 /** Options for a key phrase recognition action. */
-export type KeyPhraseExtractionAction = ActionPrebuilt & {};
+export type KeyPhraseExtractionAction = ActionPrebuilt;
 
 /** Options for a Pii entity recognition action. */
 export type PiiEntityRecognitionAction = ActionPrebuilt & {
@@ -836,7 +836,7 @@ export type PiiEntityRecognitionAction = ActionPrebuilt & {
 };
 
 /** Options for a language detection action. */
-export type LanguageDetectionAction = ActionPrebuilt & {};
+export type LanguageDetectionAction = ActionPrebuilt;
 
 /** Options for a sentiment analysis action. */
 export type SentimentAnalysisAction = ActionPrebuilt & {
@@ -853,7 +853,7 @@ export type SentimentAnalysisAction = ActionPrebuilt & {
 /** Supported parameters for a Healthcare task. */
 export type HealthcareAction = ActionPrebuilt & {
   /** The FHIR Spec version that the result will use to format the fhirBundle. For additional information see https://www.hl7.org/fhir/overview.html. */
-  setFhirVersion?: FhirVersion;
+  fhirVersion?: FhirVersion;
   /**
    * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
    *
@@ -886,30 +886,30 @@ export type CustomEntityRecognitionAction = ActionCustom & {
 };
 
 /** Options for a single-label classification custom action */
-export type CustomSingleLabelClassificationAction = ActionCustom & {};
+export type CustomSingleLabelClassificationAction = ActionCustom;
 
 /** Options for a multi-label classification custom action */
-export type CustomMultiLabelClassificationAction = ActionCustom & {};
+export type CustomMultiLabelClassificationAction = ActionCustom;
 
-export type CustomEntitiesResultDocumentsItem = EntitiesDocumentResult & {};
+export type CustomEntitiesResultDocumentsItem = EntitiesDocumentResult;
 
-export type EntitiesResultDocumentsItem = EntitiesDocumentResult & {};
+export type EntitiesResultDocumentsItem = EntitiesDocumentResult;
 
-export type CustomSingleLabelClassificationResultDocumentsItem = SingleClassificationDocumentResult & {};
+export type CustomSingleLabelClassificationResultDocumentsItem = SingleClassificationDocumentResult;
 
-export type CustomMultiLabelClassificationResultDocumentsItem = MultiClassificationDocumentResult & {};
+export type CustomMultiLabelClassificationResultDocumentsItem = MultiClassificationDocumentResult;
 
-export type HealthcareResultDocumentsItem = HealthcareEntitiesDocumentResult & {};
+export type HealthcareResultDocumentsItem = HealthcareEntitiesDocumentResult;
 
-export type SentimentResponseDocumentsItem = SentimentDocumentResult & {};
+export type SentimentResponseDocumentsItem = SentimentDocumentResult;
 
-export type EntityLinkingResultDocumentsItem = LinkedEntitiesDocumentResult & {};
+export type EntityLinkingResultDocumentsItem = LinkedEntitiesDocumentResult;
 
-export type PiiResultDocumentsItem = PiiEntitiesDocumentResult & {};
+export type PiiResultDocumentsItem = PiiEntitiesDocumentResult;
 
-export type ExtractiveSummarizationResultDocumentsItem = ExtractedSummaryDocumentResult & {};
+export type ExtractiveSummarizationResultDocumentsItem = ExtractedSummaryDocumentResult;
 
-export type KeyPhraseResultDocumentsItem = KeyPhrasesDocumentResult & {};
+export type KeyPhraseResultDocumentsItem = KeyPhrasesDocumentResult;
 
 /** Defines headers for AnalyzeText_submitJob operation. */
 export interface AnalyzeTextSubmitJobHeaders {
@@ -1675,6 +1675,15 @@ export enum KnownExtractiveSummarizationSortingCriteria {
  * **Rank**: Indicates that results should be sorted in order of importance (i.e. rank score) according to the model.
  */
 export type ExtractiveSummarizationSortingCriteria = string;
+/** Defines values for OperationStatus. */
+export type OperationStatus =
+  | "notStarted"
+  | "running"
+  | "succeeded"
+  | "partiallySucceeded"
+  | "failed"
+  | "cancelled"
+  | "cancelling";
 /** Defines values for State. */
 export type State =
   | "notStarted"

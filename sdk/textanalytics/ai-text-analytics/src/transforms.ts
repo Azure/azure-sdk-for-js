@@ -5,6 +5,8 @@ import {
   AnalyzeActionName,
   AnalyzeBatchResult,
   AnalyzeResult,
+  CustomSingleLabelClassificationResult,
+  CustomSingleLabelClassificationSuccessResult,
   EntityLinkingResult,
   EntityRecognitionResult,
   HealthcareEntity,
@@ -36,6 +38,7 @@ import {
   EntityRecognitionLROResult,
   ErrorModel,
   ErrorResponse,
+  CustomSingleLabelClassificationResult as GeneratedCustomSingleLabelClassificationResult,
   EntityLinkingResult as GeneratedEntityLinkingResult,
   EntitiesResult as GeneratedEntityRecognitionResult,
   HealthcareEntity as GeneratedHealthcareEntity,
@@ -60,6 +63,7 @@ import {
   SentenceTarget,
   SentimentLROResult,
   SentimentTaskResult,
+  SingleClassificationDocumentResult,
   TargetRelation,
   TextDocumentInput,
 } from "./generated";
@@ -72,14 +76,13 @@ import {
 import { RestError } from "@azure/core-rest-pipeline";
 
 /**
- * Helper function for converting nested service error into
- * the unified TextAnalyticsError
+ * Helper function for converting nested service error to the unified
+ * TextAnalysisError
  */
-function intoTextAnalyticsError(errorModel: ErrorModel | InnerErrorModel): TextAnalysisError {
-  // Return the deepest error. This will always be at most
-  // one level for TextAnalytics
+function toTextAnalysisError(errorModel: ErrorModel | InnerErrorModel): TextAnalysisError {
+  // Return the deepest error.
   if (errorModel.innererror !== undefined) {
-    return intoTextAnalyticsError(errorModel.innererror);
+    return toTextAnalysisError(errorModel.innererror);
   }
 
   return {
@@ -87,10 +90,10 @@ function intoTextAnalyticsError(errorModel: ErrorModel | InnerErrorModel): TextA
   };
 }
 
-function makeTextAnalyticsErrorResult(id: string, error: ErrorModel): TextAnalysisErrorResult {
+function makeTextAnalysisErrorResult(id: string, error: ErrorModel): TextAnalysisErrorResult {
   return {
     id,
-    error: intoTextAnalyticsError(error),
+    error: toTextAnalysisError(error),
   };
 }
 
@@ -116,7 +119,7 @@ function transformDocumentResults<
     processError?: (id: string, error: ErrorModel) => TError;
   }
 ): (PublicDocumentSuccess | TextAnalysisErrorResult)[] {
-  const { processError = makeTextAnalyticsErrorResult, processSuccess } = options || {};
+  const { processError = makeTextAnalysisErrorResult, processSuccess } = options || {};
   const successResults = processSuccess
     ? response.documents.map(processSuccess)
     : response.documents;
@@ -355,6 +358,23 @@ function toHealthcareResult(
   );
 }
 
+function toCustomEntityRecognitionResult(
+  documents: TextDocumentInput[],
+  results: GeneratedCustomSingleLabelClassificationResult
+): CustomSingleLabelClassificationResult[] {
+  return transformDocumentResults<
+    SingleClassificationDocumentResult,
+    CustomSingleLabelClassificationSuccessResult
+  >(documents, results, {
+    processSuccess: ({ classification, ...rest }) => {
+      return {
+        classifications: [classification],
+        ...rest,
+      };
+    },
+  });
+}
+
 /**
  * @internal
  */
@@ -455,7 +475,7 @@ export function transformAnalyzeBatchResults(
         const { deploymentName, projectName, statistics } = results;
         return {
           kind: "CustomSingleLabelClassification",
-          results: transformDocumentResults(documents, results),
+          results: toCustomEntityRecognitionResult(documents, results),
           completedOn,
           ...(actionName ? { actionName } : {}),
           ...(statistics ? { statistics } : {}),

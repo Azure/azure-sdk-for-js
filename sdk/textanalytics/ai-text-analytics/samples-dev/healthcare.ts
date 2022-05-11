@@ -35,7 +35,7 @@ export async function main() {
     [
       {
         kind: "Healthcare",
-        setFhirVersion: "4.0.1",
+        fhirVersion: "4.0.1",
       },
     ],
     documents

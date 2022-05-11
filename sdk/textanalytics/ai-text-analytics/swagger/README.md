@@ -47,19 +47,6 @@ directive:
   - from: swagger-document
     where: $.definitions.LanguageDetectionTaskResult
     transform: $.required = ["results"];
-  - from: swagger-document
-    where: $["paths"]["/analyze-text/jobs/{jobId}:cancel"]["post"]
-    transform: >
-      if ($.parameters.filter((val) => val["$ref"].includes("ApiVersionParameter")).length === 0) {
-        $.parameters.unshift({});
-        $.parameters[0]["$ref"] = "https://github.com/Azure/azure-rest-api-specs/blob/cognitiveservices-Language-2022-04-01-preview/specification/cognitiveservices/data-plane/Language/preview/2022-04-01-preview/common.json#/parameters/ApiVersionParameter";
-      }
-  - from: swagger-document
-    where: $.definitions.HealthcareTaskParameters
-    transform:
-      $.properties.fhirVersion["x-ms-enum"] =  {};
-      $.properties.fhirVersion["x-ms-enum"].name = "fhirVersion";
-      $.properties.fhirVersion["x-ms-enum"].modelAsString = true;
 ```
 
 ### Rename analyze-text to Analyze and analyze-test/jobs to AnalyzeBatch
@@ -90,6 +77,9 @@ directive:
   - from: swagger-document
     where: $.definitions.JobState
     transform: $.properties.lastUpdateDateTime["x-ms-client-name"] = "lastModifiedOn";
+  - from: swagger-document
+    where: $.definitions.JobState
+    transform: $.properties.status["x-ms-enum"].name = "OperationStatus";
 ```
 
 ### Task renames
@@ -170,7 +160,6 @@ directive:
     where: $.definitions.HealthcareTaskParameters
     transform:
       $["x-ms-client-name"] = "HealthcareAction";
-      $.properties.fhirVersion["x-ms-client-name"] = "setFhirVersion";
   - from: swagger-document
     where: $.definitions.CustomEntitiesTaskParameters
     transform:
