@@ -13,14 +13,15 @@ export function getDefaultUserAgentKey(): string {
 }
 
 export function getPlatformSpecificData(): TelemetryInfo[] {
+  const { major, minor, patch } = Platform.constants.reactNativeVersion;
   const runtimeInfo = {
     key: "react-native",
-    value: Platform.reactNativeVersion,
+    value: `${major}.${minor}.${patch}`,
   };
 
   const osInfo = {
     key: "OS",
-    value: `${Platform.OS}-${String(Platform.Version)}`,
+    value: `${Platform.OS}-${Platform.Version}`,
   };
 
   return [runtimeInfo, osInfo];

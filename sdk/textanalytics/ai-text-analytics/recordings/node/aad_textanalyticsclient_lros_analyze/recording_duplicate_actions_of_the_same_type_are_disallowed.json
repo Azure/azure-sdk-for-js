@@ -10,9 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "268",
         "Content-Type": "application/json",
-        "traceparent": "00-00000000000000000000000000000567-0000000000001226-00",
-        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "5ff7784c-ac2b-4817-b61d-c6364aaf9c4e"
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.8.2 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "ba3cbfa6-8c1e-4981-996c-2f2d8dfa4f02"
       },
       "RequestBody": {
         "analysisInput": {
@@ -42,9 +41,9 @@
       },
       "StatusCode": 400,
       "ResponseHeaders": {
-        "apim-request-id": "adfb0dd5-09a3-4683-8c7f-3879030b2fcf",
+        "apim-request-id": "da3fa432-93c2-46a0-ab22-b39ac0de5802",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 18 Feb 2022 19:08:20 GMT",
+        "Date": "Tue, 10 May 2022 00:12:19 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",

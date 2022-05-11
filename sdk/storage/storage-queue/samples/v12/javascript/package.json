@@ -28,8 +28,8 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue",
   "dependencies": {
-    "@azure/storage-queue": "latest",
-    "dotenv": "latest",
-    "@azure/identity": "^2.0.1"
+    "@azure/identity": "^2.0.1",
+    "@azure/storage-queue": "^12.8.0",
+    "dotenv": "latest"
   }
 }

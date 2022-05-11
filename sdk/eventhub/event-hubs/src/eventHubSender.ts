@@ -343,7 +343,7 @@ export class EventHubSender extends LinkEntity {
       );
       if (this._isIdempotentProducer && this._hasPendingSend) {
         throw new Error(
-          `There can only be 1 "sendBatch" call in-flight per partition while "enableIdempotentPartitions" is set to true.`
+          `There can only be 1 "sendBatch" call in-flight per partition while "enableIdempotentRetries" is set to true.`
         );
       }
 

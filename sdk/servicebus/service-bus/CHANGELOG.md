@@ -1,5 +1,21 @@
 # Release History
 
+## 7.6.0-beta.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 7.6.0-beta.2 (2022-05-10)
+
+### Features Added
+
+- Adds the `customEndpointAddress` field to `ServiceBusClientOptions`. This allows for specifying a custom endpoint to use when communicating with the Service Bus service, which is useful when your network does not allow communicating to the standard endpoint. Resolves [#21574](https://github.com/Azure/azure-sdk-for-js/issues/21574).
+
 ## 7.6.0-beta.1 (2022-04-05)
 
 ### Bugs Fixed

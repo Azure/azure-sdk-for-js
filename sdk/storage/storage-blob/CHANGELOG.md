@@ -1,5 +1,17 @@
 # Release History
 
+## 12.10.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Refined user-agent value to avoid failure when os information is not available on some platforms.
+
+### Other Changes
+
 ## 12.10.0-beta.1 (2022-04-19)
 
 ### Features Added

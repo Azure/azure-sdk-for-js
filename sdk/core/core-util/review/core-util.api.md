@@ -5,6 +5,12 @@
 ```ts
 
 // @public
+export function computeSha256Hash(content: string, encoding: "base64" | "hex"): Promise<string>;
+
+// @public
+export function computeSha256Hmac(key: string, stringToSign: string, encoding: "base64" | "hex"): Promise<string>;
+
+// @public
 export function delay(timeInMs: number): Promise<void>;
 
 // @public

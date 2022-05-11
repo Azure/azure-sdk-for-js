@@ -7,7 +7,7 @@
 
 import { parseConnectionString } from "@azure/communication-common";
 import { SmsClient, SmsSendRequest } from "@azure/communication-sms";
-import { isNode } from "@azure/core-http";
+import { isNode } from "@azure/core-util";
 import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from "@azure/identity";
 
 // Load the .env file if it exists

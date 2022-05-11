@@ -37,6 +37,8 @@ import {
 import { addTransform, Transform } from "./transform";
 import { createRecordingRequest } from "./utils/createRecordingRequest";
 import { AdditionalPolicyConfig } from "@azure/core-client";
+import { setRecordingOptions } from "./options";
+import { isNode } from "@azure/core-util";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -195,6 +197,7 @@ export class Recorder {
       const req = createRecordingRequest(startUri, this.sessionFile, this.recordingId);
 
       if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient")) {
+        await setRecordingOptions(Recorder.url, this.httpClient, { handleRedirects: isNode });
         const rsp = await this.httpClient.sendRequest({
           ...req,
           allowInsecureConnection: true,
@@ -329,6 +332,18 @@ export class Recorder {
     return { ...options, httpClient: once(() => this.createHttpClientCoreV1())() };
   }
 
+  private handleTestProxyErrors(response: HttpOperationResponse | PipelineResponse) {
+    if (response.headers.get("x-request-mismatch") === "true") {
+      const errorMessage = atob(response.headers.get("x-request-mismatch-error") ?? "");
+      throw new RecorderError(errorMessage);
+    }
+
+    if (response.headers.get("x-request-known-exception") === "true") {
+      const errorMessage = atob(response.headers.get("x-request-known-exception-error") ?? "");
+      throw new RecorderError(errorMessage);
+    }
+  }
+
   /**
    * recorderHttpPolicy that can be added as a pipeline policy for any of the core-v2 SDKs(SDKs depending on core-rest-pipeline)
    */
@@ -340,7 +355,10 @@ export class Recorder {
         next: SendRequest
       ): Promise<PipelineResponse> => {
         this.redirectRequest(request);
-        return next(request);
+        const response = await next(request);
+        this.handleTestProxyErrors(response);
+
+        return response;
       },
     };
   }
@@ -354,7 +372,10 @@ export class Recorder {
     return {
       sendRequest: async (request: WebResourceLike): Promise<HttpOperationResponse> => {
         this.redirectRequest(request);
-        return client.sendRequest(request);
+        const response = await client.sendRequest(request);
+        this.handleTestProxyErrors(response);
+
+        return response;
       },
     };
   }

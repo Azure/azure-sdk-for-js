@@ -274,18 +274,20 @@ export class BatchingPartitionChannel {
   private _reportSuccess() {
     this._bufferCount = this._bufferCount - this._batchedEvents.length;
     this._updateFlushState();
-    this._onSendEventsSuccessHandler?.({
-      events: this._batchedEvents,
-      partitionId: this._partitionId,
-    }).catch((e) => {
+    try {
+      this._onSendEventsSuccessHandler?.({
+        events: this._batchedEvents,
+        partitionId: this._partitionId,
+      });
+    } catch (e: unknown) {
       logger.error(
-        `The following error occured in the onSendEventsSuccessHandler: ${JSON.stringify(
+        `The following error occurred in the onSendEventsSuccessHandler: ${JSON.stringify(
           e,
           undefined,
           "  "
         )}`
       );
-    });
+    }
   }
 
   /**
@@ -295,19 +297,21 @@ export class BatchingPartitionChannel {
   private _reportFailure(err: any, event?: EventData | AmqpAnnotatedMessage) {
     this._bufferCount = this._bufferCount - (event ? 1 : this._batchedEvents.length);
     this._updateFlushState();
-    this._onSendEventsErrorHandler({
-      error: err,
-      events: event ? [event] : this._batchedEvents,
-      partitionId: this._partitionId,
-    }).catch((e) => {
+    try {
+      this._onSendEventsErrorHandler({
+        error: err,
+        events: event ? [event] : this._batchedEvents,
+        partitionId: this._partitionId,
+      });
+    } catch (e: unknown) {
       logger.error(
-        `The following error occured in the onSendEventsErrorHandler: ${JSON.stringify(
+        `The following error occurred in the onSendEventsErrorHandler: ${JSON.stringify(
           e,
           undefined,
           "  "
         )}`
       );
-    });
+    }
   }
 
   /**

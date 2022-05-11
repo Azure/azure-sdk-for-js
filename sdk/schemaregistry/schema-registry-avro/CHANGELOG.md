@@ -1,19 +1,15 @@
 # Release History
 
-## 1.0.0-beta.9 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.0.0 (2022-05-10)
 
 ### Other Changes
+
+- Compatability for old payload format has been removed.
+- Errors may include a `cause` field that stores inner errors if any.
 
 ## 1.0.0-beta.8 (2022-04-05)
 
 ### Features Added
-- A new error type, `AvroError`, is added and is thrown in all error cases except for service calls.
 
 ### Breaking Changes
 - The `encodeMessageData` method has been renamed to `serialize`.

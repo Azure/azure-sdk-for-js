@@ -13,6 +13,7 @@ import { MessageContent } from "../../src/";
 import chaiPromises from "chai-as-promised";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
 import { isLive } from "./utils/isLive";
+import { v4 as uuid } from "uuid";
 
 chaiUse(chaiPromises);
 
@@ -130,7 +131,7 @@ describe("AvroSerializer", function () {
     assert.equal(deserializedValue.age, 30);
   });
 
-  it("deserializes from the old format", async () => {
+  it("ignores the old format", async () => {
     const registry = createTestRegistry();
     const schemaId = await registerTestSchema(registry);
     const serializer = await createTestSerializer<MessageContent>({
@@ -142,12 +143,12 @@ describe("AvroSerializer", function () {
 
     data.write(schemaId, 4, 32, "utf-8");
     payload.copy(data, 36);
-    assert.deepStrictEqual(
-      await serializer.deserialize({
+    await assert.isRejected(
+      serializer.deserialize({
         data,
-        contentType: "avro/binary+000",
+        contentType: `avro/binary+${uuid()}`,
       }),
-      testValue
+      /Schema id .* does not exist/
     );
   });
 

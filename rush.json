@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -454,11 +454,6 @@
     {
       "packageName": "@azure/core-client",
       "projectFolder": "sdk/core/core-client",
-      "versionPolicyName": "core"
-    },
-    {
-      "packageName": "@azure/core-crypto",
-      "projectFolder": "sdk/core/core-crypto",
       "versionPolicyName": "core"
     },
     {
@@ -1684,6 +1679,16 @@
     {
       "packageName": "@azure/arm-azureadexternalidentities",
       "projectFolder": "sdk/azureadexternalidentities/arm-azureadexternalidentities",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-scvmm",
+      "projectFolder": "sdk/scvmm/arm-scvmm",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-servicelinker",
+      "projectFolder": "sdk/servicelinker/arm-servicelinker",
       "versionPolicyName": "management"
     },
     {

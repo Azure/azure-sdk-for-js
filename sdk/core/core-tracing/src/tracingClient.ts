@@ -54,7 +54,7 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
   }
 
   async function withSpan<
-    Options extends { tracingOptions?: { tracingContext?: TracingContext } },
+    Options extends { tracingOptions?: OperationTracingOptions },
     Callback extends (
       updatedOptions: Options,
       span: Omit<TracingSpan, "end">

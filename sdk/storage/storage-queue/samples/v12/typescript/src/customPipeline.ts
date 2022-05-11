@@ -24,15 +24,15 @@ export async function main() {
   const pipeline = newPipeline(sharedKeyCredential, {
     // httpClient: MyHTTPClient, // A customized HTTP client implementing IHttpClient interface
     retryOptions: {
-      maxTries: 4
+      maxTries: 4,
     }, // Retry options
     userAgentOptions: {
-      userAgentPrefix: "BasicSample V10.0.0"
+      userAgentPrefix: "BasicSample V10.0.0",
     }, // Customized telemetry string
     keepAliveOptions: {
       // Keep alive is enabled by default, disable keep alive by setting false
-      enable: false
-    }
+      enable: false,
+    },
   });
 
   const queueServiceClient = new QueueServiceClient(

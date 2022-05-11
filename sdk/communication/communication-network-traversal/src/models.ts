@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 // delete this pipeline options
-import { OperationOptions, PipelineOptions } from "@azure/core-http";
+import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { RouteType } from "./generated/src/models";
 
 /**
  * Client options used to configure the CommunicationNetworkTraversal API requests.
  */
-export interface CommunicationRelayClientOptions extends PipelineOptions {}
+export interface CommunicationRelayClientOptions extends CommonClientOptions {}
 
 /**
  * GetRelayConfiguration operation options for the request
