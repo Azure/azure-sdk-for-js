@@ -29,7 +29,7 @@ const envSetupForPlayback: { [k: string]: string } = {
 };
 
 /**
- * In some tests the endpoints  appear without the /api/events suffix
+ * In some tests the endpoints appear without the /api/events suffix
  * so make sure to sanitize them in this case as well (it doesn't get
  * covered automatically by envSetupForPlayback).
  */
