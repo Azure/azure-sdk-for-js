@@ -43,8 +43,6 @@ async function* getItemAsyncIterator<TElement, TPage, TLink, TPageSettings>(
 ): AsyncIterableIterator<TElement> {
   const pages = getPageAsyncIterator(pagedResult);
   for await (const page of pages) {
-    // pages is of type `AsyncIterableIterator<TPage>` so `page` is of type `TPage`. In this branch,
-    // it must be the case that `TPage = TElement[]`
     yield* page as unknown as TElement[];
   }
 }
