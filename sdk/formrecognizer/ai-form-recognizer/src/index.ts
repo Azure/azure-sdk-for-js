@@ -46,7 +46,7 @@ export {
   DocumentTableCaption,
   DocumentTableFootnote,
   DocumentParagraph,
-  ParagraphRole
+  ParagraphRole,
 } from "./generated";
 export {
   AnalysisPoller,

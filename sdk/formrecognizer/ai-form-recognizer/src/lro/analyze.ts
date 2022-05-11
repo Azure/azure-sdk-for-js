@@ -461,7 +461,7 @@ export function toAnalyzeResultFromGenerated<
     languages: result.languages ?? [],
     styles: result.styles ?? [],
     documents: (result.documents?.map((doc) => mapDocuments(doc)) as Document[]) ?? [],
-    paragraphs: result.paragraphs ?? []
+    paragraphs: result.paragraphs ?? [],
   };
 }
 
@@ -475,7 +475,7 @@ export interface AnalysisOperationDefinition<Result = AnalyzeResult> {
   transformResult: (primitiveResult: GeneratedAnalyzeResult) => Result;
   initialModelId: string;
   options: PollerOptions<DocumentAnalysisPollOperationState<Result>> &
-  AnalyzeDocumentOptions<Result>;
+    AnalyzeDocumentOptions<Result>;
 }
 
 /**
