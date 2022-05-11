@@ -8,6 +8,9 @@
 
 ### Bugs Fixed
 
+- "\0" as the `labelFilter` in the listing methods `AppConfgurationClient#listConfigurationSettings` would return the settings without any labels. Docs were updated to reflect that.
+   [#21309](https://github.com/Azure/azure-sdk-for-js/pull/21039)
+
 ### Other Changes
 
 ## 1.4.0-beta.1 (2022-05-10)

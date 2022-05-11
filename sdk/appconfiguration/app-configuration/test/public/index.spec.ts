@@ -847,7 +847,11 @@ describe("AppConfigurationClient", () => {
           })
         )
       ).forEach(async (setting) => {
-        await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
+        try {
+          await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
+        } catch (_) {
+          /** empty code block */
+        }
       });
     });
   });
