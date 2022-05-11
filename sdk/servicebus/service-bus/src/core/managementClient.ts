@@ -393,9 +393,11 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * also fetch even Deferred messages (but not Deadlettered message).
    *
    * @param messageCount - The number of messages to retrieve. Default value `1`.
+   * @param omitMessageBody - Whether to omit message body when peeking. Default value `false`.
    */
   async peek(
     messageCount: number,
+    omitMessageBody?: boolean,
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<ServiceBusReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context);
@@ -403,6 +405,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       this._lastPeekedSequenceNumber.add(1),
       messageCount,
       undefined,
+      omitMessageBody,
       options
     );
   }
@@ -418,10 +421,12 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    *
    * @param sessionId - The sessionId from which messages need to be peeked.
    * @param messageCount - The number of messages to retrieve. Default value `1`.
+   * @param omitMessageBody - Whether to omit message body when peeking Default value `false`.
    */
   async peekMessagesBySession(
     sessionId: string,
     messageCount: number,
+    omitMessageBody?: boolean,
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<ServiceBusReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context);
@@ -429,6 +434,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       this._lastPeekedSequenceNumber.add(1),
       messageCount,
       sessionId,
+      omitMessageBody,
       options
     );
   }
@@ -439,11 +445,13 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * @param fromSequenceNumber - The sequence number from where to read the message.
    * @param messageCount - The number of messages to retrieve. Default value `1`.
    * @param sessionId - The sessionId from which messages need to be peeked.
+   * @param omitMessageBody - Whether to omit message body when peeking. Default value `false`.
    */
   async peekBySequenceNumber(
     fromSequenceNumber: Long,
     maxMessageCount: number,
     sessionId?: string,
+    omitMessageBody?: boolean,
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<ServiceBusReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context);
@@ -479,6 +487,10 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       messageBody[Constants.messageCount] = types.wrap_int(maxMessageCount!);
       if (isDefined(sessionId)) {
         messageBody[Constants.sessionIdMapKey] = sessionId;
+      }
+      if (isDefined(omitMessageBody)) {
+        const omitMessageBodyKey = "omit-message-body"; // TODO: Service Bus specific. Put it somewhere
+        messageBody[omitMessageBodyKey] = types.wrap_boolean(omitMessageBody);
       }
       const request: RheaMessage = {
         body: messageBody,
