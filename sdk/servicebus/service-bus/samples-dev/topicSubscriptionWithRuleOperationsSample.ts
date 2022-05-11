@@ -10,16 +10,16 @@
  * @azsdk-weight 100
  */
 
-import { ServiceBusClient, ServiceBusMessage } from "@azure/service-bus";
+import { ServiceBusClient, ServiceBusAdministrationClient, ServiceBusMessage } from "@azure/service-bus";
+import { DEFAULT_RULE_NAME } from "../src/util/constants";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-import { TopicResourceSerializer } from "../src/serializers/topicResourceSerializer";
 dotenv.config();
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
-const topicName = process.env.TOPIC_NAME || "<topic name>";
+const topicName = "TopicSubscriptionWithRuleOperationsSample";
 
 const firstSetOfMessages: ServiceBusMessage[] = [
   { subject: "Red", body: "test"},
@@ -33,24 +33,43 @@ const firstSetOfMessages: ServiceBusMessage[] = [
   { subject: "Green", body: "test", correlationId: "important"},
 ];
 
-// Simply create 4 default subscriptions (no rules specified explicitly) and provide subscription names.
-// The Rule addition will be done as part of the sample depending on the subscription behavior expected.
-const allMessagesSubscriptionName = process.env.SUBSCRIPTION_NAME_1 || "<subscription name 1>";
-const sqlFilterOnlySubscriptionName = process.env.SUBSCRIPTION_NAME_2 || "<subscription name 2>";
-const sqlFilterWithActionSubscriptionName = process.env.SUBSCRIPTION_NAME_3 || "<subscription name 3>";
-const correlationFilterSubscriptionName = process.env.SUBSCRIPTION_NAME_4 || "<subscription name 4>";
+  const NoFilterSubscriptionName = "NoFilterSubscription";
+  const SqlFilterOnlySubscriptionName = "RedSqlFilterSubscription";
+  const SqlFilterWithActionSubscriptionName = "BlueSqlFilterWithActionSubscription";
+  const CorrelationFilterSubscriptionName = "ImportantCorrelationFilterSubscription";
 
 export async function main() {
   const sbClient = new ServiceBusClient(connectionString);
+  const sbAdminClient = new ServiceBusAdministrationClient(connectionString);
 
-  const sender = sbClient.createSender(topicName);
+  beforeEach(async () => {
+    await sbAdminClient.createTopic(topicName);
+    await sbAdminClient.createSubscription(topicName, NoFilterSubscriptionName);
+    await sbAdminClient.createSubscription(topicName, SqlFilterOnlySubscriptionName);
+    await sbAdminClient.createSubscription(topicName, SqlFilterWithActionSubscriptionName);
+    await sbAdminClient.createSubscription(topicName, CorrelationFilterSubscriptionName);
+    await sbAdminClient.deleteRule(topicName, NoFilterSubscriptionName, DEFAULT_RULE_NAME);
+  });
+
+/**
+ * CURRENTLY REFERENCING
+ * sdk/servicebus/service-bus/test/internal/atomE2ETests.spec.ts
+ * for guidance on method usage with topics
+ */
 
   try {
     // Tries to send all messages in a single batch.
     // Will fail if the messages cannot fit in a batch.
     console.log(`Sending the all messages (as an array)`);
-    await sender.sendMessages(firstSetOfMessages);
-  }
+    await sbClient.createSender(topicName).sendMessages(firstSetOfMessages);
 
-  // create a topic filter and receive messages, filtering them out
+    // create a topic filter and receive messages, filtering them out
+  } finally {
+    await sbClient.close();
+  }
 }
+
+main().catch((err) => {
+  console.log("sendMessages Sample: Error occurred: ", err);
+  process.exit(1);
+});
