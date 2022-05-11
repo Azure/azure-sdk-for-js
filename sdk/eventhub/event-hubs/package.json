@@ -50,7 +50,7 @@
     "build:samples": "echo Obsolete.",
     "build:test:browser": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
     "build:test:node": "tsc -p . && dev-tool run bundle",
-    "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1 && npm run generate-certs",
+    "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1 && npm run generate-certs && copyfiles -f ./test/internal/node/partitionKeyHashMap.json ./dist-esm/test/internal/node",
     "build:types": "downlevel-dts types/latest types/3.1",
     "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local && npm run build:types",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
@@ -70,7 +70,7 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "copyfiles -f ./test/internal/partitionKeyHashMap.json ./dist-esm/test/internal && cross-env NODE_EXTRA_CA_CERTS=\"./certs/my-private-root-ca.crt.pem\" TEST_TARGET=mock DISABLE_MULTI_VERSION_TESTING=true nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"dist-esm/test/internal/*.spec.js\" \"dist-esm/test/public/*.spec.js\" \"dist-esm/test/public/**/*.spec.js\" \"dist-esm/test/internal/**/*.spec.js\"",
+    "unit-test:node": "cross-env NODE_EXTRA_CA_CERTS=\"./certs/my-private-root-ca.crt.pem\" TEST_TARGET=mock DISABLE_MULTI_VERSION_TESTING=true nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"dist-esm/test/internal/*.spec.js\" \"dist-esm/test/public/*.spec.js\" \"dist-esm/test/public/**/*.spec.js\" \"dist-esm/test/internal/**/*.spec.js\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "//metadata": {
