@@ -40,13 +40,6 @@ const suffixlessEndpointSanitizer = (endpointEnv: string): FindReplaceSanitizer 
 
 export const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
-  sanitizerOptions: {
-    generalSanitizers: [
-      suffixlessEndpointSanitizer("EVENT_GRID_EVENT_GRID_SCHEMA_ENDPOINT"),
-      suffixlessEndpointSanitizer("EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT"),
-      suffixlessEndpointSanitizer("EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT"),
-    ],
-  },
 };
 
 export async function createRecordedClient<T extends InputSchema>(
@@ -61,6 +54,14 @@ export async function createRecordedClient<T extends InputSchema>(
 ): Promise<RecordedClient<T>> {
   const recorder = new Recorder(currentTest);
   await recorder.start(recorderOptions);
+  await recorder.addSanitizers({
+    generalSanitizers: [
+      suffixlessEndpointSanitizer("EVENT_GRID_EVENT_GRID_SCHEMA_ENDPOINT"),
+      suffixlessEndpointSanitizer("EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT"),
+      suffixlessEndpointSanitizer("EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT"),
+    ],
+  });
+
   return {
     client: new EventGridPublisherClient(
       options.removeApiEventsSuffixBool

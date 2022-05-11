@@ -12,23 +12,23 @@
         "traceparent": "00-00000000000000000000000000000001-0000000000000003-00",
         "tracestate": "00-123",
         "User-Agent": "azsdk-js-eventgrid/4.10.0-beta.2 core-rest-pipeline/1.8.2 Node/v16.13.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "18e54ff5-136f-4da3-9133-d88b86436974"
+        "x-ms-client-request-id": "24ed6887-9346-4a3b-8626-d346e64408ea"
       },
-      "RequestBody": "[{\u0022id\u0022:\u0022cloudTracingEventId100864\u0022,\u0022source\u0022:\u0022/earth/unitedstates/washington/kirkland/finnhill\u0022,\u0022data\u0022:{\u0022hello\u0022:\u0022world\u0022},\u0022type\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022time\u0022:\u00222022-05-10T23:52:45.000Z\u0022,\u0022specversion\u0022:\u00221.0\u0022,\u0022datacontenttype\u0022:\u0022application/json\u0022,\u0022subject\u0022:\u0022Single with Trace Parent\u0022,\u0022traceparent\u0022:\u002200-00000000000000000000000000000001-0000000000000003-00\u0022,\u0022tracestate\u0022:\u002200-123\u0022}]",
+      "RequestBody": "[{\u0022id\u0022:\u0022cloudTracingEventId100927\u0022,\u0022source\u0022:\u0022/earth/unitedstates/washington/kirkland/finnhill\u0022,\u0022data\u0022:{\u0022hello\u0022:\u0022world\u0022},\u0022type\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022time\u0022:\u00222022-05-11T00:24:44.000Z\u0022,\u0022specversion\u0022:\u00221.0\u0022,\u0022datacontenttype\u0022:\u0022application/json\u0022,\u0022subject\u0022:\u0022Single with Trace Parent\u0022,\u0022traceparent\u0022:\u002200-00000000000000000000000000000001-0000000000000003-00\u0022,\u0022tracestate\u0022:\u002200-123\u0022}]",
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2018-01-01",
         "Content-Length": "0",
-        "Date": "Tue, 10 May 2022 23:52:46 GMT",
+        "Date": "Wed, 11 May 2022 00:24:45 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "x-ms-request-id": "4337a9d2-6ca7-4f6a-b7d9-6d48d768f9e1"
+        "x-ms-request-id": "d7935a14-77a5-43fc-8b47-94d1d84d9466"
       },
       "ResponseBody": null
     }
   ],
   "Variables": {
-    "cloudTracingEventDate": "Tue May 10 2022 16:52:45 GMT-0700 (Pacific Daylight Time)",
-    "cloudTracingEventId": "cloudTracingEventId100864"
+    "cloudTracingEventDate": "Tue May 10 2022 17:24:44 GMT-0700 (Pacific Daylight Time)",
+    "cloudTracingEventId": "cloudTracingEventId100927"
   }
 }

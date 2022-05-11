@@ -10,23 +10,23 @@
         "Content-Length": "241",
         "Content-Type": "application/cloudevents-batch\u002Bjson; charset=utf-8",
         "User-Agent": "azsdk-js-eventgrid/4.10.0-beta.2 core-rest-pipeline/1.8.2 Node/v16.13.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "cea4b901-a81f-4a7a-b6a9-845b016dbfdf"
+        "x-ms-client-request-id": "6b094a99-12c8-4d0b-b60d-927a990a39a1"
       },
-      "RequestBody": "[{\u0022id\u0022:\u0022cloudSingleEventId100983\u0022,\u0022source\u0022:\u0022/earth/unitedstates/washington/kirkland/finnhill\u0022,\u0022data\u0022:{\u0022hello\u0022:\u0022world\u0022},\u0022type\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022time\u0022:\u00222022-05-10T23:52:45.000Z\u0022,\u0022specversion\u0022:\u00221.0\u0022,\u0022datacontenttype\u0022:\u0022application/json\u0022}]",
+      "RequestBody": "[{\u0022id\u0022:\u0022cloudSingleEventId100866\u0022,\u0022source\u0022:\u0022/earth/unitedstates/washington/kirkland/finnhill\u0022,\u0022data\u0022:{\u0022hello\u0022:\u0022world\u0022},\u0022type\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022time\u0022:\u00222022-05-11T00:24:43.000Z\u0022,\u0022specversion\u0022:\u00221.0\u0022,\u0022datacontenttype\u0022:\u0022application/json\u0022}]",
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2018-01-01",
         "Content-Length": "0",
-        "Date": "Tue, 10 May 2022 23:52:45 GMT",
+        "Date": "Wed, 11 May 2022 00:24:45 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "x-ms-request-id": "c28aac70-74bf-42ee-a965-f096ac7785e4"
+        "x-ms-request-id": "ec7d5de6-6ea5-4da8-8bf7-949c543a0af9"
       },
       "ResponseBody": null
     }
   ],
   "Variables": {
-    "cloudSingleEventDate": "Tue May 10 2022 16:52:45 GMT-0700 (Pacific Daylight Time)",
-    "cloudSingleEventId": "cloudSingleEventId100983"
+    "cloudSingleEventDate": "Tue May 10 2022 17:24:43 GMT-0700 (Pacific Daylight Time)",
+    "cloudSingleEventId": "cloudSingleEventId100866"
   }
 }
