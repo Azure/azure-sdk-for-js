@@ -44,7 +44,9 @@ export {
   AnalyzeResultOperationStatus,
   SelectionMarkState,
   DocumentTableCaption,
-  DocumentTableFootnote
+  DocumentTableFootnote,
+  DocumentParagraph,
+  ParagraphRole
 } from "./generated";
 export {
   AnalysisPoller,

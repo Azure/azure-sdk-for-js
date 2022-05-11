@@ -45,6 +45,7 @@ export interface AnalyzeResult<Document = AnalyzedDocument> extends AnalyzeResul
     keyValuePairs: DocumentKeyValuePair[];
     languages: DocumentLanguage[];
     pages: DocumentPage[];
+    paragraphs: DocumentParagraph[];
     styles: DocumentStyle[];
     tables: DocumentTable[];
 }
@@ -432,6 +433,14 @@ export interface DocumentPage {
     unit: LengthUnit;
     width: number;
     words: DocumentWord[];
+}
+
+// @public
+export interface DocumentParagraph {
+    boundingRegions?: BoundingRegion[];
+    content: string;
+    role?: ParagraphRole;
+    spans: DocumentSpan[];
 }
 
 // @public
@@ -1026,6 +1035,9 @@ export type OperationKind = string;
 
 // @public
 export type OperationStatus = "notStarted" | "running" | "failed" | "succeeded" | "canceled";
+
+// @public
+export type ParagraphRole = string;
 
 // @public
 export interface PollerOptions<TState extends PollOperationState<unknown>> extends OperationOptions {
