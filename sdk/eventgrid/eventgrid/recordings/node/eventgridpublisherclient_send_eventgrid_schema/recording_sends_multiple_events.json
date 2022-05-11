@@ -9,26 +9,26 @@
         "Connection": "keep-alive",
         "Content-Length": "343",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-eventgrid/4.10.0-beta.2 core-rest-pipeline/1.8.2 Node/v16.13.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
-        "x-ms-client-request-id": "b74d1894-caca-4a70-9a36-ed90ded2bcae"
+        "User-Agent": "azsdk-js-eventgrid/4.7.1 core-rest-pipeline/1.5.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "b6d2c741-8c18-48e1-88d7-c6d8d60b990c"
       },
-      "RequestBody": "[{\u0022id\u0022:\u0022multiEventId1100468\u0022,\u0022subject\u0022:\u0022Multiple 1\u0022,\u0022data\u0022:{\u0022hello\u0022:\u0022world\u0022},\u0022eventType\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022eventTime\u0022:\u00222022-05-11T00:24:43.000Z\u0022,\u0022dataVersion\u0022:\u00221.0\u0022},{\u0022id\u0022:\u0022multiEventId2100761\u0022,\u0022subject\u0022:\u0022Multiple 2\u0022,\u0022data\u0022:{\u0022hello\u0022:\u0022world\u0022},\u0022eventType\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022eventTime\u0022:\u00222022-05-11T00:24:43.000Z\u0022,\u0022dataVersion\u0022:\u00221.0\u0022}]",
+      "RequestBody": "[{\u0022id\u0022:\u0022multiEventId1100522\u0022,\u0022subject\u0022:\u0022Multiple 1\u0022,\u0022data\u0022:{\u0022hello\u0022:\u0022world\u0022},\u0022eventType\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022eventTime\u0022:\u00222022-02-09T01:44:23.000Z\u0022,\u0022dataVersion\u0022:\u00221.0\u0022},{\u0022id\u0022:\u0022multiEventId2100036\u0022,\u0022subject\u0022:\u0022Multiple 2\u0022,\u0022data\u0022:{\u0022hello\u0022:\u0022world\u0022},\u0022eventType\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022eventTime\u0022:\u00222022-02-09T01:44:23.000Z\u0022,\u0022dataVersion\u0022:\u00221.0\u0022}]",
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2018-01-01",
         "Content-Length": "0",
-        "Date": "Wed, 11 May 2022 00:24:44 GMT",
+        "Date": "Wed, 09 Feb 2022 01:44:22 GMT",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "x-ms-request-id": "8184bf2f-1880-4c2d-b983-2301e01db743"
+        "x-ms-request-id": "065bb6a9-e020-4e3e-82f0-ee675535c71a"
       },
       "ResponseBody": null
     }
   ],
   "Variables": {
-    "multiEventDate1": "Tue May 10 2022 17:24:43 GMT-0700 (Pacific Daylight Time)",
-    "multiEventDate2": "Tue May 10 2022 17:24:43 GMT-0700 (Pacific Daylight Time)",
-    "multiEventId1": "multiEventId1100468",
-    "multiEventId2": "multiEventId2100761"
+    "multiEventDate1": "Wed Feb 09 2022 01:44:23 GMT\u002B0000 (Coordinated Universal Time)",
+    "multiEventDate2": "Wed Feb 09 2022 01:44:23 GMT\u002B0000 (Coordinated Universal Time)",
+    "multiEventId1": "multiEventId1100522",
+    "multiEventId2": "multiEventId2100036"
   }
 }
