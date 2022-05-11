@@ -65,7 +65,7 @@ export async function main() {
   const serializedState = poller.toString();
 
   /** Create a new poller from the serialized state */
-  const rehydratedPoller = await client.createAnalyzeBatchPoller(serializedState);
+  const rehydratedPoller = await client.restoreAnalyzeBatchPoller(serializedState);
 
   /** Use the new poller to get the operation results */
   const actionResults = await rehydratedPoller.pollUntilDone();

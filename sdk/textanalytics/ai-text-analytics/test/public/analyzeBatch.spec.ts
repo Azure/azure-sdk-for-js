@@ -924,7 +924,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
           }
           const serializedState = originalPoller.toString();
           assert.deepEqual(getDocsFromState(serializedState), docs);
-          const rehydratedPoller = await client.createAnalyzeBatchPoller(serializedState);
+          const rehydratedPoller = await client.restoreAnalyzeBatchPoller(serializedState);
           await assertActionResults(await rehydratedPoller.pollUntilDone(), expectation26);
           await assertActionResults(await originalPoller.pollUntilDone(), expectation26);
         });

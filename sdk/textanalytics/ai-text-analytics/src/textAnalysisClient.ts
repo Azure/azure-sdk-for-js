@@ -716,12 +716,12 @@ export class TextAnalysisClient {
    * const actionResults = await rehydratedPoller.pollUntilDone();
    * ```
    */
-  async createAnalyzeBatchPoller(
+  async restoreAnalyzeBatchPoller(
     serializedState: string,
     options?: CreateAnalyzeBatchPollerOptions
   ): Promise<AnalyzeBatchPoller>;
   // implementation
-  async createAnalyzeBatchPoller(
+  async restoreAnalyzeBatchPoller(
     serializedState: string,
     options: CreateAnalyzeBatchPollerOptions = {}
   ): Promise<AnalyzeBatchPoller> {

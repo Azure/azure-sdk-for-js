@@ -1046,7 +1046,7 @@ export class TextAnalysisClient {
     analyze<ActionName extends AnalyzeActionName = AnalyzeActionName>(actionName: ActionName, documents: string[], languageCode?: string, options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions): Promise<AnalyzeResult<ActionName>>;
     beginAnalyzeBatch(actions: AnalyzeBatchAction[], documents: string[], languageCode?: string, options?: BeginAnalyzeBatchOptions): Promise<AnalyzeBatchPoller>;
     beginAnalyzeBatch(actions: AnalyzeBatchAction[], documents: TextDocumentInput[], options?: BeginAnalyzeBatchOptions): Promise<AnalyzeBatchPoller>;
-    createAnalyzeBatchPoller(serializedState: string, options?: CreateAnalyzeBatchPollerOptions): Promise<AnalyzeBatchPoller>;
+    restoreAnalyzeBatchPoller(serializedState: string, options?: CreateAnalyzeBatchPollerOptions): Promise<AnalyzeBatchPoller>;
 }
 
 // @public

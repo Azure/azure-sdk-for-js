@@ -25,30 +25,6 @@ typescript: true
 See the [AutoRest samples](https://github.com/Azure/autorest/tree/master/Samples/3b-custom-transformations)
 for more about how we're customizing things.
 
-### Fixes
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions.EntitiesTaskResult
-    transform: $.required = ["results"];
-  - from: swagger-document
-    where: $.definitions.EntityLinkingTaskResult
-    transform: $.required = ["results"];
-  - from: swagger-document
-    where: $.definitions.PiiTaskResult
-    transform: $.required = ["results"];
-  - from: swagger-document
-    where: $.definitions.SentimentTaskResult
-    transform: $.required = ["results"];
-  - from: swagger-document
-    where: $.definitions.KeyPhraseTaskResult
-    transform: $.required = ["results"];
-  - from: swagger-document
-    where: $.definitions.LanguageDetectionTaskResult
-    transform: $.required = ["results"];
-```
-
 ### Rename analyze-text to Analyze and analyze-test/jobs to AnalyzeBatch
 
 ```yaml
