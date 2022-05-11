@@ -280,7 +280,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         (await this.confidentialApp?.acquireTokenSilent(silentRequest)) ??
         (await this.publicApp!.acquireTokenSilent(silentRequest));
       return this.handleResult(scopes, this.clientId, response || undefined);
-    } catch (err) {
+    } catch (err: any) {
       throw this.handleError(scopes, err, options);
     }
   }
@@ -318,7 +318,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       }
       // We don't return the promise since we want to catch errors right here.
       return await this.getTokenSilent(scopes, options);
-    } catch (err) {
+    } catch (err: any) {
       if (err.name !== "AuthenticationRequiredError") {
         throw err;
       }

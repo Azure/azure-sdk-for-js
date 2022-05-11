@@ -229,7 +229,7 @@ export class MessageSession extends LinkEntity<Receiver> {
             this.sessionId
           );
           this._ensureSessionLockRenewal();
-        } catch (err) {
+        } catch (err: any) {
           logger.logError(
             err,
             "%s An error occurred while renewing the session lock for MessageSession '%s'",
@@ -308,7 +308,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       }
       this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
       this._ensureSessionLockRenewal();
-    } catch (err) {
+    } catch (err: any) {
       const errObj = translateServiceBusError(err);
       logger.logError(errObj, "%s An error occured while creating the receiver", this.logPrefix);
 
@@ -482,7 +482,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         );
         try {
           await this.close();
-        } catch (err) {
+        } catch (err: any) {
           logger.logError(
             err,
             "%s An error occurred while closing the receiver for sessionId '%s'.",
@@ -525,7 +525,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         );
         try {
           await this.close();
-        } catch (err) {
+        } catch (err: any) {
           logger.logError(
             err,
             "%s An error occurred while closing the receiver for sessionId '%s'",
@@ -560,7 +560,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       await super.close();
 
       this._batchingReceiverLite.terminate(error);
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(
         err,
         "%s An error occurred while closing the message session with id '%s'",
@@ -642,7 +642,7 @@ export class MessageSession extends LinkEntity<Receiver> {
 
         try {
           await this._onMessage(bMessage);
-        } catch (err) {
+        } catch (err: any) {
           logger.logError(
             err,
             "%s An error occurred while running user's message handler for the message " +
@@ -678,7 +678,7 @@ export class MessageSession extends LinkEntity<Receiver> {
                 undefined,
                 this._retryOptions
               );
-            } catch (abandonError) {
+            } catch (abandonError: any) {
               const translatedError = translateServiceBusError(abandonError);
               logger.logError(
                 translatedError,
@@ -700,7 +700,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         } finally {
           try {
             this.receiverHelper.addCredit(1);
-          } catch (err) {
+          } catch (err: any) {
             // this isn't something we expect in normal operation - we'd only get here
             // because of a bug in our code.
             this.processCreditError(err);
@@ -721,7 +721,7 @@ export class MessageSession extends LinkEntity<Receiver> {
               bMessage.messageId
             );
             await completeMessage(bMessage, this._context, this.entityPath, this._retryOptions);
-          } catch (completeError) {
+          } catch (completeError: any) {
             const translatedError = translateServiceBusError(completeError);
             logger.logError(
               translatedError,
@@ -743,7 +743,7 @@ export class MessageSession extends LinkEntity<Receiver> {
 
       try {
         this.receiverHelper.addCredit(this.maxConcurrentCalls);
-      } catch (err) {
+      } catch (err: any) {
         // this isn't something we expect in normal operation - we'd only get here
         // because of a bug in our code.
         this.processCreditError(err);
@@ -815,7 +815,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         maxTimeAfterFirstMessageInMs,
         ...options,
       });
-    } catch (error) {
+    } catch (error: any) {
       logger.logError(error, `${this.logPrefix} Rejecting receiveMessages() with error`);
       throw error;
     }
@@ -838,7 +838,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         error: translateServiceBusError(connectionError),
         errorSource: "receive",
       });
-    } catch (error) {
+    } catch (error: any) {
       logger.error(
         translateServiceBusError(error),
         `${

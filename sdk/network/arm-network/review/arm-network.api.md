@@ -2738,15 +2738,6 @@ export interface EndpointServicesListResult {
 export type EndpointType = string;
 
 // @public
-export type Enum69 = number;
-
-// @public
-export type Enum70 = number;
-
-// @public
-export type Enum71 = number;
-
-// @public
 export interface ErrorDetails {
     code?: string;
     message?: string;
@@ -5598,36 +5589,6 @@ export enum KnownEndpointType {
 }
 
 // @public
-export enum KnownEnum69 {
-    // (undocumented)
-    One = 1,
-    // (undocumented)
-    Two = 2,
-    // (undocumented)
-    Zero = 0
-}
-
-// @public
-export enum KnownEnum70 {
-    // (undocumented)
-    One = 1,
-    // (undocumented)
-    Three = 3,
-    // (undocumented)
-    Two = 2
-}
-
-// @public
-export enum KnownEnum71 {
-    // (undocumented)
-    One = 1,
-    // (undocumented)
-    Two = 2,
-    // (undocumented)
-    Zero = 0
-}
-
-// @public
 export enum KnownEvaluationState {
     // (undocumented)
     Completed = "Completed",
@@ -6487,6 +6448,36 @@ export enum KnownSeverity {
     Error = "Error",
     // (undocumented)
     Warning = "Warning"
+}
+
+// @public
+export enum KnownSingleQueryResultDirection {
+    // (undocumented)
+    One = 1,
+    // (undocumented)
+    Two = 2,
+    // (undocumented)
+    Zero = 0
+}
+
+// @public
+export enum KnownSingleQueryResultMode {
+    // (undocumented)
+    One = 1,
+    // (undocumented)
+    Two = 2,
+    // (undocumented)
+    Zero = 0
+}
+
+// @public
+export enum KnownSingleQueryResultSeverity {
+    // (undocumented)
+    One = 1,
+    // (undocumented)
+    Three = 3,
+    // (undocumented)
+    Two = 2
 }
 
 // @public
@@ -11200,16 +11191,25 @@ export interface SignaturesOverridesProperties {
 export interface SingleQueryResult {
     description?: string;
     destinationPorts?: string[];
-    direction?: Enum71;
+    direction?: SingleQueryResultDirection;
     group?: string;
     inheritedFromParentPolicy?: boolean;
     lastUpdated?: string;
-    mode?: Enum69;
+    mode?: SingleQueryResultMode;
     protocol?: string;
-    severity?: Enum70;
+    severity?: SingleQueryResultSeverity;
     signatureId?: number;
     sourcePorts?: string[];
 }
+
+// @public
+export type SingleQueryResultDirection = number;
+
+// @public
+export type SingleQueryResultMode = number;
+
+// @public
+export type SingleQueryResultSeverity = number;
 
 // @public
 export interface Sku {

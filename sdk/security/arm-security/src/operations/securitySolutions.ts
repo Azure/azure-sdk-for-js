@@ -91,16 +91,19 @@ export class SecuritySolutionsImpl implements SecuritySolutions {
    * Gets a specific Security Solution.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param securitySolutionName Name of security solution.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
+    ascLocation: string,
     securitySolutionName: string,
     options?: SecuritySolutionsGetOptionalParams
   ): Promise<SecuritySolutionsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, securitySolutionName, options },
+      { resourceGroupName, ascLocation, securitySolutionName, options },
       getOperationSpec
     );
   }

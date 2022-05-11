@@ -90,7 +90,7 @@ export class Item {
         options,
         partitionKey: this.partitionKey,
       });
-    } catch (error) {
+    } catch (error: any) {
       if (error.code !== StatusCodes.NotFound) {
         throw error;
       }

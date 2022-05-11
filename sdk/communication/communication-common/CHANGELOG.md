@@ -1,5 +1,12 @@
 # Release History
 
+## 2.1.0 (Unreleased)
+
+### Features Added
+
+- Added `getIdentifierRawId` and `createIdentifierFromRawId` to translate between a `CommunicationIdentifier` and its underlying canonical rawId representation. Developers can now use the rawId as an encoded format for identifiers to store in their databases or as stable keys in general.
+- Always include `rawId` when serializing identifiers to wire format.
+
 ## 2.0.0 (2022-03-08)
 
 ### Features Added

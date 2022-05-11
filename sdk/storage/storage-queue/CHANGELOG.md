@@ -8,6 +8,10 @@
 
 ### Bugs Fixed
 
+- Add `react-native` mapping to ESM entry point
+- Fixed a bug where customized `ProxyOptions` is overwrited by a default one when initializing `QueueServiceClient` or `QueueClient` with connection string.
+- Refined user-agent value to avoid failure when os information is not available on some platforms.
+
 ### Other Changes
 
 ## 12.8.0 (2022-03-11)

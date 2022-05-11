@@ -1,4 +1,26 @@
 # Release History
+
+## 6.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 6.0.0 (2022-04-28)
+    
+**Features**
+
+  - Added Interface PostgreSQLManagementFlexibleServerClientOptionalParams
+  - Added Class PostgreSQLManagementFlexibleServerClient
+
+**Breaking Changes**
+
+  - Deleted Class PostgreSQLManagementClient
+    
     
 ## 5.0.0 (2022-01-20)
 

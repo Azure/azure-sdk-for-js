@@ -4,10 +4,10 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import sinon from "sinon";
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { EnvironmentCredential, UsernamePasswordCredential } from "../../../src";
-import { MsalTestCleanup, msalNodeTestSetup, testTracing } from "../../msalTestUtils";
+import { MsalTestCleanup, msalNodeTestSetup } from "../../msalTestUtils";
 import { Context } from "mocha";
 import { getError } from "../../authTestUtils";
 
@@ -88,7 +88,7 @@ describe("EnvironmentCredential", function () {
     try {
       const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
       await credential.getToken("scope");
-    } catch (e) {
+    } catch (e: any) {
       // To avoid having to store passwords anywhere, this getToken request will fail.
       // We will focus our test on making sure the underlying getToken was called.
     }
@@ -100,10 +100,9 @@ describe("EnvironmentCredential", function () {
     );
   });
 
-  it(
-    "supports tracing with environment client secret",
-    testTracing({
-      test: async (tracingOptions) => {
+  it("supports tracing with environment client secret", async () => {
+    await assert.supportsTracing(
+      async (tracingOptions) => {
         // The following environment variables must be set for this to work.
         // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
         process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
@@ -112,31 +111,19 @@ describe("EnvironmentCredential", function () {
 
         const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
 
-        await credential.getToken(scope, {
-          tracingOptions,
-        });
+        await credential.getToken(scope, tracingOptions);
       },
-      children: [
-        {
-          name: "EnvironmentCredential.getToken",
-          children: [
-            {
-              name: "ClientSecretCredential.getToken",
-              children: [],
-            },
-          ],
-        },
-      ],
-    })
-  );
+      ["EnvironmentCredential.getToken"]
+    );
+  });
 
   it("supports tracing with environment client certificate", async function (this: Context) {
     if (isLiveMode()) {
       // Live test run not supported on CI at the moment. Locally should work though.
       this.skip();
     }
-    await testTracing({
-      test: async (tracingOptions) => {
+    await assert.supportsTracing(
+      async (tracingOptions) => {
         // The following environment variables must be set for this to work.
         // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
         process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
@@ -146,28 +133,15 @@ describe("EnvironmentCredential", function () {
 
         const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
 
-        await credential.getToken(scope, {
-          tracingOptions,
-        });
+        await credential.getToken(scope, tracingOptions);
       },
-      children: [
-        {
-          name: "EnvironmentCredential.getToken",
-          children: [
-            {
-              name: "ClientCertificateCredential.getToken",
-              children: [],
-            },
-          ],
-        },
-      ],
-    })();
+      ["EnvironmentCredential.getToken"]
+    );
   });
 
-  it(
-    "supports tracing with environment username/password",
-    testTracing({
-      test: async (tracingOptions) => {
+  it("supports tracing with environment username/password", async () => {
+    await assert.supportsTracing(
+      async (tracingOptions) => {
         // The following environment variables must be set for this to work.
         // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
         process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
@@ -178,27 +152,15 @@ describe("EnvironmentCredential", function () {
         const credential = new EnvironmentCredential(recorder.configureClientOptions({}));
 
         try {
-          await credential.getToken(scope, {
-            tracingOptions,
-          });
-        } catch (e) {
+          await credential.getToken(scope, tracingOptions);
+        } catch (e: any) {
           // To avoid having to store passwords anywhere, this getToken request will fail.
           // We will focus our test on making sure the underlying getToken was called.
         }
       },
-      children: [
-        {
-          name: "EnvironmentCredential.getToken",
-          children: [
-            {
-              name: "UsernamePasswordCredential.getToken",
-              children: [],
-            },
-          ],
-        },
-      ],
-    })
-  );
+      ["EnvironmentCredential.getToken"]
+    );
+  });
 
   it("throws an CredentialUnavailable when getToken is called and no credential was configured", async () => {
     const credential = new EnvironmentCredential(recorder.configureClientOptions({}));

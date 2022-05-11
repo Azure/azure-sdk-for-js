@@ -86,7 +86,7 @@ export class BlobCheckpointStore implements CheckpointStore {
         partitionOwnershipArray.push(partitionOwnership);
       }
       return partitionOwnershipArray;
-    } catch (err) {
+    } catch (err: any) {
       logger.warning(`Error occurred while fetching the list of blobs`, err.message);
       logErrorStackTrace(err);
 
@@ -133,7 +133,7 @@ export class BlobCheckpointStore implements CheckpointStore {
           `[${ownership.ownerId}] Claimed ownership successfully for partition: ${ownership.partitionId}`,
           `LastModifiedTime: ${ownership.lastModifiedTimeInMs}, ETag: ${ownership.etag}`
         );
-      } catch (err) {
+      } catch (err: any) {
         const restError = err as RestError;
 
         if (restError.statusCode === 412) {
@@ -254,7 +254,7 @@ export class BlobCheckpointStore implements CheckpointStore {
         }`
       );
       return;
-    } catch (err) {
+    } catch (err: any) {
       logger.warning(
         `Error occurred while upating the checkpoint for partition: ${checkpoint.partitionId}.`,
         err.message
@@ -317,7 +317,7 @@ export class BlobCheckpointStore implements CheckpointStore {
           abortSignal,
           tracingOptions,
         });
-      } catch (err) {
+      } catch (err: any) {
         // Check if the error is `BlobNotFound` and fallback to `upload` if it is.
         if (err?.name !== "RestError") {
           throw err;

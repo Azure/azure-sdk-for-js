@@ -1,5 +1,35 @@
 # Release History
+    
+## 4.1.0-beta.1 (2022-04-25)
+    
+**Features**
 
+  - Added operation group ObjectAnchorsAccounts
+  - Added Interface ObjectAnchorsAccountPage
+  - Added Interface ObjectAnchorsAccountsCreateOptionalParams
+  - Added Interface ObjectAnchorsAccountsDeleteOptionalParams
+  - Added Interface ObjectAnchorsAccountsGetOptionalParams
+  - Added Interface ObjectAnchorsAccountsListByResourceGroupNextOptionalParams
+  - Added Interface ObjectAnchorsAccountsListByResourceGroupOptionalParams
+  - Added Interface ObjectAnchorsAccountsListBySubscriptionNextOptionalParams
+  - Added Interface ObjectAnchorsAccountsListBySubscriptionOptionalParams
+  - Added Interface ObjectAnchorsAccountsListKeysOptionalParams
+  - Added Interface ObjectAnchorsAccountsRegenerateKeysOptionalParams
+  - Added Interface ObjectAnchorsAccountsUpdateOptionalParams
+  - Added Type Alias ObjectAnchorsAccount
+  - Added Type Alias ObjectAnchorsAccountIdentity
+  - Added Type Alias ObjectAnchorsAccountsCreateResponse
+  - Added Type Alias ObjectAnchorsAccountsGetResponse
+  - Added Type Alias ObjectAnchorsAccountsListByResourceGroupNextResponse
+  - Added Type Alias ObjectAnchorsAccountsListByResourceGroupResponse
+  - Added Type Alias ObjectAnchorsAccountsListBySubscriptionNextResponse
+  - Added Type Alias ObjectAnchorsAccountsListBySubscriptionResponse
+  - Added Type Alias ObjectAnchorsAccountsListKeysResponse
+  - Added Type Alias ObjectAnchorsAccountsRegenerateKeysResponse
+  - Added Type Alias ObjectAnchorsAccountsUpdateResponse
+  - Interface MetricDimension has a new optional parameter toBeExportedForShoebox
+  - Class MixedRealityClient has a new parameter objectAnchorsAccounts
+    
 ## 4.0.1 (2022-01-20)
 
 **Feature**

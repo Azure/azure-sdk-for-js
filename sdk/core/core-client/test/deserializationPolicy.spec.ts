@@ -464,7 +464,7 @@ describe("deserializationPolicy", function () {
           status: 500,
         });
         assert.fail();
-      } catch (e) {
+      } catch (e: any) {
         assert.exists(e);
         assert.strictEqual(e.response.parsedHeaders.errorCode, "InvalidResourceNameHeader");
         assert.strictEqual(e.response.parsedBody.message, "InvalidResourceNameBody");
@@ -525,7 +525,7 @@ describe("deserializationPolicy", function () {
           status: 500,
         });
         assert.fail();
-      } catch (e) {
+      } catch (e: any) {
         assert.exists(e);
         assert.strictEqual(e.response.parsedHeaders.errorCode, "InvalidResourceNameHeader");
         assert.strictEqual(e.response.parsedBody.message, "InvalidResourceNameBody");
@@ -550,7 +550,7 @@ describe("deserializationPolicy", function () {
           status: 400,
         });
         assert.fail();
-      } catch (e) {
+      } catch (e: any) {
         assert(e);
         assert.strictEqual(e.statusCode, 400);
         assert.include(e.message, "InternalServerError");
@@ -622,7 +622,7 @@ describe("deserializationPolicy", function () {
           status: 503,
         });
         assert.fail();
-      } catch (e) {
+      } catch (e: any) {
         assert.exists(e);
         assert.strictEqual(e.response.parsedHeaders.errorCode, "InvalidResourceNameHeader");
         assert.strictEqual(e.response.parsedBody.message1, "InvalidResourceNameBody1");
@@ -677,7 +677,7 @@ describe("deserializationPolicy", function () {
           status: 500,
         });
         assert.fail();
-      } catch (e) {
+      } catch (e: any) {
         assert.exists(e);
         assert.strictEqual(e.code, "ContainerAlreadyExists");
         assert.strictEqual(e.message, "The specified container already exists.");

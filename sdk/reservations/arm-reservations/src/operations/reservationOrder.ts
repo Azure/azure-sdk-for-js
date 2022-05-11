@@ -172,11 +172,13 @@ export class ReservationOrderImpl implements ReservationOrder {
       { reservationOrderId, body, options },
       purchaseOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

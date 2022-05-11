@@ -798,7 +798,7 @@ export class ContainerClient extends StorageClient {
         ...options,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -827,7 +827,7 @@ export class ContainerClient extends StorageClient {
         ...res,
         _response: res._response, // _response is made non-enumerable
       };
-    } catch (e) {
+    } catch (e: any) {
       if (e.details?.errorCode === "ContainerAlreadyExists") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
@@ -868,7 +868,7 @@ export class ContainerClient extends StorageClient {
         tracingOptions: updatedOptions.tracingOptions,
       });
       return true;
-    } catch (e) {
+    } catch (e: any) {
       if (e.statusCode === 404) {
         span.setStatus({
           code: SpanStatusCode.ERROR,
@@ -968,7 +968,7 @@ export class ContainerClient extends StorageClient {
         ...options.conditions,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1001,7 +1001,7 @@ export class ContainerClient extends StorageClient {
         modifiedAccessConditions: options.conditions,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1031,7 +1031,7 @@ export class ContainerClient extends StorageClient {
         ...res,
         _response: res._response, // _response is made non-enumerable
       };
-    } catch (e) {
+    } catch (e: any) {
       if (e.details?.errorCode === "ContainerNotFound") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
@@ -1089,7 +1089,7 @@ export class ContainerClient extends StorageClient {
         modifiedAccessConditions: options.conditions,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1163,7 +1163,7 @@ export class ContainerClient extends StorageClient {
       }
 
       return res;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1223,7 +1223,7 @@ export class ContainerClient extends StorageClient {
         modifiedAccessConditions: options.conditions,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1280,7 +1280,7 @@ export class ContainerClient extends StorageClient {
         blockBlobClient,
         response,
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1313,7 +1313,7 @@ export class ContainerClient extends StorageClient {
         blobClient = blobClient.withVersion(options.versionId);
       }
       return await blobClient.delete(updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1373,7 +1373,7 @@ export class ContainerClient extends StorageClient {
         },
       };
       return wrappedResponse;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1412,13 +1412,15 @@ export class ContainerClient extends StorageClient {
       });
 
       response.segment.blobItems = [];
-      if (response.segment["Blob"] !== undefined) {
-        response.segment.blobItems = ProcessBlobItems(response.segment["Blob"]);
+      if ((response.segment as any)["Blob"] !== undefined) {
+        response.segment.blobItems = ProcessBlobItems((response.segment as any)["Blob"]);
       }
 
       response.segment.blobPrefixes = [];
-      if (response.segment["BlobPrefix"] !== undefined) {
-        response.segment.blobPrefixes = ProcessBlobPrefixes(response.segment["BlobPrefix"]);
+      if ((response.segment as any)["BlobPrefix"] !== undefined) {
+        response.segment.blobPrefixes = ProcessBlobPrefixes(
+          (response.segment as any)["BlobPrefix"]
+        );
       }
 
       const wrappedResponse: ContainerListBlobHierarchySegmentResponse = {
@@ -1449,7 +1451,7 @@ export class ContainerClient extends StorageClient {
         },
       };
       return wrappedResponse;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1903,7 +1905,7 @@ export class ContainerClient extends StorageClient {
         }),
       };
       return wrappedResponse;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -2116,7 +2118,7 @@ export class ContainerClient extends StorageClient {
       }
 
       return containerName;
-    } catch (error) {
+    } catch (error: any) {
       throw new Error("Unable to extract containerName with provided information.");
     }
   }

@@ -45,10 +45,6 @@
       "path": "sdk/core/core-amqp"
     },
     {
-      "name": "core-asynciterator-polyfill",
-      "path": "sdk/core/core-asynciterator-polyfill"
-    },
-    {
       "name": "core-auth",
       "path": "sdk/core/core-auth"
     },
@@ -71,10 +67,6 @@
     {
       "name": "agrifood-farming",
       "path": "sdk/agrifood/agrifood-farming-rest"
-    },
-    {
-      "name": "core-crypto",
-      "path": "sdk/core/core-crypto"
     },
     {
       "name": "core-http",
@@ -119,10 +111,6 @@
     {
       "name": "eventhubs-checkpointstore-blob",
       "path": "sdk/eventhub/eventhubs-checkpointstore-blob"
-    },
-    {
-      "name": "event-processor-host",
-      "path": "sdk/eventhub/event-processor-host"
     },
     {
       "name": "form-recognizer",
@@ -283,6 +271,9 @@
     },
     {
       "path": "sdk/purview/purview-administration-rest"
+    },
+    {
+      "path": "sdk/instrumentation/opentelemetry-instrumentation-azure-sdk"
     }
   ],
   "settings": {

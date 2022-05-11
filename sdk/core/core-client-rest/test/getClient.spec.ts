@@ -6,16 +6,16 @@ import { getCachedDefaultHttpsClient } from "../src/clientHelpers";
 import { getClient } from "../src/getClient";
 import sinon from "sinon";
 import {
-  createHttpHeaders,
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
   SendRequest,
+  createHttpHeaders,
 } from "@azure/core-rest-pipeline";
 
 describe("getClient", () => {
   afterEach(() => {
-    sinon.reset();
+    sinon.restore();
   });
 
   it("should add apiVersion to requests", async () => {

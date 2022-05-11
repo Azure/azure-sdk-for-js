@@ -11,7 +11,7 @@ import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { GeneratedClientContext } from "../generatedClientContext";
+import { GeneratedClient } from "../generatedClient";
 import {
   ContainerRegistryBlobGetBlobOptionalParams,
   ContainerRegistryBlobGetBlobResponse,
@@ -38,13 +38,13 @@ import {
 
 /** Class containing ContainerRegistryBlob operations. */
 export class ContainerRegistryBlobImpl implements ContainerRegistryBlob {
-  private readonly client: GeneratedClientContext;
+  private readonly client: GeneratedClient;
 
   /**
    * Initialize a new instance of the class ContainerRegistryBlob class.
    * @param client Reference to the service client
    */
-  constructor(client: GeneratedClientContext) {
+  constructor(client: GeneratedClient) {
     this.client = client;
   }
 
@@ -121,34 +121,34 @@ export class ContainerRegistryBlobImpl implements ContainerRegistryBlob {
   /**
    * Retrieve status of upload identified by uuid. The primary purpose of this endpoint is to resolve the
    * current status of a resumable upload.
-   * @param location Link acquired from upload start or previous chunk. Note, do not include initial /
+   * @param nextLink Link acquired from upload start or previous chunk. Note, do not include initial /
    *                 (must do substring(1) )
    * @param options The options parameters.
    */
   getUploadStatus(
-    location: string,
+    nextLink: string,
     options?: ContainerRegistryBlobGetUploadStatusOptionalParams
   ): Promise<ContainerRegistryBlobGetUploadStatusResponse> {
     return this.client.sendOperationRequest(
-      { location, options },
+      { nextLink, options },
       getUploadStatusOperationSpec
     );
   }
 
   /**
    * Upload a stream of data without completing the upload.
-   * @param location Link acquired from upload start or previous chunk. Note, do not include initial /
+   * @param nextLink Link acquired from upload start or previous chunk. Note, do not include initial /
    *                 (must do substring(1) )
    * @param value Raw data of blob
    * @param options The options parameters.
    */
   uploadChunk(
-    location: string,
+    nextLink: string,
     value: coreRestPipeline.RequestBodyType,
     options?: ContainerRegistryBlobUploadChunkOptionalParams
   ): Promise<ContainerRegistryBlobUploadChunkResponse> {
     return this.client.sendOperationRequest(
-      { location, value, options },
+      { nextLink, value, options },
       uploadChunkOperationSpec
     );
   }
@@ -157,17 +157,17 @@ export class ContainerRegistryBlobImpl implements ContainerRegistryBlob {
    * Complete the upload, providing all the data in the body, if necessary. A request without a body will
    * just complete the upload with previously uploaded content.
    * @param digest Digest of a BLOB
-   * @param location Link acquired from upload start or previous chunk. Note, do not include initial /
+   * @param nextLink Link acquired from upload start or previous chunk. Note, do not include initial /
    *                 (must do substring(1) )
    * @param options The options parameters.
    */
   completeUpload(
     digest: string,
-    location: string,
+    nextLink: string,
     options?: ContainerRegistryBlobCompleteUploadOptionalParams
   ): Promise<ContainerRegistryBlobCompleteUploadResponse> {
     return this.client.sendOperationRequest(
-      { digest, location, options },
+      { digest, nextLink, options },
       completeUploadOperationSpec
     );
   }
@@ -175,16 +175,16 @@ export class ContainerRegistryBlobImpl implements ContainerRegistryBlob {
   /**
    * Cancel outstanding upload processes, releasing associated resources. If this is not called, the
    * unfinished uploads will eventually timeout.
-   * @param location Link acquired from upload start or previous chunk. Note, do not include initial /
+   * @param nextLink Link acquired from upload start or previous chunk. Note, do not include initial /
    *                 (must do substring(1) )
    * @param options The options parameters.
    */
   cancelUpload(
-    location: string,
+    nextLink: string,
     options?: ContainerRegistryBlobCancelUploadOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { location, options },
+      { nextLink, options },
       cancelUploadOperationSpec
     );
   }
@@ -264,7 +264,7 @@ const getBlobOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   urlParameters: [Parameters.url, Parameters.name, Parameters.digest1],
-  headerParameters: [Parameters.accept2],
+  headerParameters: [Parameters.accept3],
   serializer
 };
 const checkBlobExistsOperationSpec: coreClient.OperationSpec = {
@@ -299,7 +299,7 @@ const deleteBlobOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   urlParameters: [Parameters.url, Parameters.name, Parameters.digest1],
-  headerParameters: [Parameters.accept2],
+  headerParameters: [Parameters.accept3],
   serializer
 };
 const mountBlobOperationSpec: coreClient.OperationSpec = {
@@ -329,7 +329,7 @@ const getUploadStatusOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AcrErrors
     }
   },
-  urlParameters: [Parameters.url, Parameters.location],
+  urlParameters: [Parameters.url, Parameters.nextLink1],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -345,8 +345,8 @@ const uploadChunkOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.value3,
-  urlParameters: [Parameters.url, Parameters.location],
-  headerParameters: [Parameters.contentType2, Parameters.accept3],
+  urlParameters: [Parameters.url, Parameters.nextLink1],
+  headerParameters: [Parameters.accept2, Parameters.contentType2],
   mediaType: "binary",
   serializer
 };
@@ -363,8 +363,8 @@ const completeUploadOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.value4,
   queryParameters: [Parameters.digest2],
-  urlParameters: [Parameters.url, Parameters.location],
-  headerParameters: [Parameters.contentType2, Parameters.accept3],
+  urlParameters: [Parameters.url, Parameters.nextLink1],
+  headerParameters: [Parameters.accept2, Parameters.contentType2],
   mediaType: "binary",
   serializer
 };
@@ -377,7 +377,7 @@ const cancelUploadOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AcrErrors
     }
   },
-  urlParameters: [Parameters.url, Parameters.location],
+  urlParameters: [Parameters.url, Parameters.nextLink1],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -410,7 +410,7 @@ const getChunkOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   urlParameters: [Parameters.url, Parameters.name, Parameters.digest1],
-  headerParameters: [Parameters.accept2, Parameters.range],
+  headerParameters: [Parameters.accept3, Parameters.range],
   serializer
 };
 const checkChunkExistsOperationSpec: coreClient.OperationSpec = {

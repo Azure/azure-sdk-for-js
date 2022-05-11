@@ -31,7 +31,7 @@ export function isHubRuntimeInfo(entityPath: string, message: Message): boolean 
     if (Array.isArray(body) && !body.length) {
       return true;
     }
-  } catch (err) {
+  } catch (err: any) {
     return false;
   }
   return false;

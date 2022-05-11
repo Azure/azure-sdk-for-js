@@ -7,7 +7,6 @@ import {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { URL, URLSearchParams } from "./utils/url";
 import { SASCredential } from "@azure/core-auth";
 
 /**

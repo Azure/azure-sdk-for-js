@@ -16,7 +16,7 @@ function deserializeState<TResult, TState>(
 ): TState & ResumablePollOperationState<TResult> {
   try {
     return JSON.parse(serializedState).state;
-  } catch (e) {
+  } catch (e: any) {
     throw new Error(`LroEngine: Unable to deserialize state: ${serializedState}`);
   }
 }

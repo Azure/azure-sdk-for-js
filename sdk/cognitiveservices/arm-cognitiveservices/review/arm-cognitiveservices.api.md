@@ -30,6 +30,23 @@ export interface AccountListResult {
 }
 
 // @public
+export type AccountModel = DeploymentModel & {
+    baseModel?: DeploymentModel;
+    maxCapacity?: number;
+    capabilities?: {
+        [propertyName: string]: string;
+    };
+    deprecation?: ModelDeprecationInfo;
+    readonly systemData?: SystemData;
+};
+
+// @public
+export interface AccountModelListResult {
+    nextLink?: string;
+    value?: AccountModel[];
+}
+
+// @public
 export interface AccountProperties {
     // (undocumented)
     allowedFqdnList?: string[];
@@ -38,8 +55,10 @@ export interface AccountProperties {
     readonly capabilities?: SkuCapability[];
     customSubDomainName?: string;
     readonly dateCreated?: string;
+    readonly deletionDate?: string;
     // (undocumented)
     disableLocalAuth?: boolean;
+    dynamicThrottlingEnabled?: boolean;
     encryption?: Encryption;
     readonly endpoint?: string;
     readonly endpoints?: {
@@ -57,6 +76,7 @@ export interface AccountProperties {
     restore?: boolean;
     // (undocumented)
     restrictOutboundNetworkAccess?: boolean;
+    readonly scheduledPurgeDate?: string;
     readonly skuChangeInfo?: SkuChangeInfo;
     userOwnedStorage?: UserOwnedStorage[];
 }
@@ -73,6 +93,7 @@ export interface Accounts {
     list(options?: AccountsListOptionalParams): PagedAsyncIterableIterator<Account>;
     listByResourceGroup(resourceGroupName: string, options?: AccountsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Account>;
     listKeys(resourceGroupName: string, accountName: string, options?: AccountsListKeysOptionalParams): Promise<AccountsListKeysResponse>;
+    listModels(resourceGroupName: string, accountName: string, options?: AccountsListModelsOptionalParams): PagedAsyncIterableIterator<AccountModel>;
     listSkus(resourceGroupName: string, accountName: string, options?: AccountsListSkusOptionalParams): Promise<AccountsListSkusResponse>;
     listUsages(resourceGroupName: string, accountName: string, options?: AccountsListUsagesOptionalParams): Promise<AccountsListUsagesResponse>;
     regenerateKey(resourceGroupName: string, accountName: string, keyName: KeyName, options?: AccountsRegenerateKeyOptionalParams): Promise<AccountsRegenerateKeyResponse>;
@@ -131,6 +152,20 @@ export interface AccountsListKeysOptionalParams extends coreClient.OperationOpti
 
 // @public
 export type AccountsListKeysResponse = ApiKeys;
+
+// @public
+export interface AccountsListModelsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccountsListModelsNextResponse = AccountModelListResult;
+
+// @public
+export interface AccountsListModelsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AccountsListModelsResponse = AccountModelListResult;
 
 // @public
 export interface AccountsListNextOptionalParams extends coreClient.OperationOptions {
@@ -485,6 +520,7 @@ export interface Deployments {
 
 // @public
 export interface DeploymentScaleSettings {
+    readonly activeCapacity?: number;
     capacity?: number;
     scaleType?: DeploymentScaleType;
 }
@@ -776,6 +812,12 @@ export enum KnownUnitType {
 export interface MetricName {
     localizedValue?: string;
     value?: string;
+}
+
+// @public
+export interface ModelDeprecationInfo {
+    fineTune?: string;
+    inference?: string;
 }
 
 // @public
