@@ -50,7 +50,7 @@
     "build:samples": "echo Obsolete.",
     "build:test:browser": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
     "build:test:node": "tsc -p . && dev-tool run bundle",
-    "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1 && npm run generate-certs && copyfiles -f ./test/internal/partitionKeyHashMap.json ./dist-esm/test/internal",
+    "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1 && npm run generate-certs && copyfiles -f ./test/internal/node/partitionKeyHashMap.json ./dist-esm/test/internal/node",
     "build:types": "downlevel-dts types/latest types/3.1",
     "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local && npm run build:types",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
