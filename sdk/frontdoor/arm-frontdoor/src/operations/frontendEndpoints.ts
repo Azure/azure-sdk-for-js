@@ -212,11 +212,13 @@ export class FrontendEndpointsImpl implements FrontendEndpoints {
       },
       enableHttpsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -301,11 +303,13 @@ export class FrontendEndpointsImpl implements FrontendEndpoints {
       { resourceGroupName, frontDoorName, frontendEndpointName, options },
       disableHttpsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

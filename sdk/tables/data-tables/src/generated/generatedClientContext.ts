@@ -51,6 +51,6 @@ export class GeneratedClientContext extends coreClient.ServiceClient {
     this.url = url;
 
     // Assigning values to Constant parameters
-    this.version = options.version || "2019-02-02";
+    this.version = options.version || "2020-12-06";
   }
 }

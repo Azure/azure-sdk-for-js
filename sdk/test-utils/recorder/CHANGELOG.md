@@ -10,6 +10,8 @@
 
 ### Bugs Fixed
 
+- Fixed redirects not being passed to the test proxy in the browser. [#21713](https://github.com/Azure/azure-sdk-for-js/pull/21713)
+
 ### Other Changes
 
 ## 2.0.0 (2022-04-11)

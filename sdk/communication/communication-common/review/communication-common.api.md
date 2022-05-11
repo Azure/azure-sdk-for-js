@@ -59,6 +59,9 @@ export function createCommunicationAccessKeyCredentialPolicy(credential: KeyCred
 export function createCommunicationAuthPolicy(credential: KeyCredential | TokenCredential): PipelinePolicy;
 
 // @public
+export const createIdentifierFromRawId: (rawId: string) => CommunicationIdentifierKind;
+
+// @public
 export const deserializeCommunicationIdentifier: (serializedIdentifier: SerializedCommunicationIdentifier) => CommunicationIdentifierKind;
 
 // @public
@@ -69,6 +72,9 @@ export interface EndpointCredential {
 
 // @public
 export const getIdentifierKind: (identifier: CommunicationIdentifier) => CommunicationIdentifierKind;
+
+// @public
+export const getIdentifierRawId: (identifier: CommunicationIdentifier) => string;
 
 // @public
 export const isCommunicationUserIdentifier: (identifier: CommunicationIdentifier) => identifier is CommunicationUserIdentifier;

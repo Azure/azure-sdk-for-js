@@ -11,8 +11,8 @@ trigger:
       - sdk/keyvault/
     exclude:
       - sdk/keyvault/ci.mgmt.yml
-      - sdk/keyvault/arm-keyvault/
       - sdk/keyvault/arm-keyvault-profile-2020-09-01-hybrid
+      - sdk/keyvault/arm-keyvault
 pr:
   branches:
     include:

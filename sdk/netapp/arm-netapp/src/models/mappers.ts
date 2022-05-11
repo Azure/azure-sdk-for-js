@@ -305,7 +305,7 @@ export const ResourceNameAvailabilityRequest: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      type: {
+      typeParam: {
         serializedName: "type",
         required: true,
         type: {
@@ -385,7 +385,7 @@ export const QuotaAvailabilityRequest: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      type: {
+      typeParam: {
         serializedName: "type",
         required: true,
         type: {

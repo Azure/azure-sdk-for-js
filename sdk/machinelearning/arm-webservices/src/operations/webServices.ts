@@ -210,10 +210,12 @@ export class WebServicesImpl implements WebServices {
       { resourceGroupName, webServiceName, createOrUpdatePayload, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -322,10 +324,12 @@ export class WebServicesImpl implements WebServices {
       { resourceGroupName, webServiceName, patchPayload, options },
       patchOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -406,10 +410,12 @@ export class WebServicesImpl implements WebServices {
       { resourceGroupName, webServiceName, options },
       removeOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -497,10 +503,12 @@ export class WebServicesImpl implements WebServices {
       { resourceGroupName, webServiceName, region, options },
       createRegionalPropertiesOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

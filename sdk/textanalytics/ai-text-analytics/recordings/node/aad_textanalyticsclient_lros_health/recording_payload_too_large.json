@@ -10,9 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "710405",
         "Content-Type": "application/json",
-        "traceparent": "00-00000000000000000000000000000599-0000000000001298-00",
-        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "ed79061e-5f3c-4167-b931-6dc2f5d902d5"
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.8.2 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "4c9375ef-8aea-4a4d-8236-d69f30809ebc"
       },
       "RequestBody": {
         "documents": [
@@ -2520,18 +2519,18 @@
       },
       "StatusCode": 413,
       "ResponseHeaders": {
-        "apim-request-id": "8f1f7d5e-a5dd-4788-ac75-901db12ff134",
+        "apim-request-id": "7990f5f4-8577-4167-b8b1-713c5f9ef3a3",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 18 Feb 2022 19:08:44 GMT",
+        "Date": "Tue, 10 May 2022 00:12:38 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "94"
+        "x-envoy-upstream-service-time": "45"
       },
       "ResponseBody": {
         "error": {
           "code": "InvalidRequest",
-          "message": "Invalid document in request.",
+          "message": "Invalid Document in request.",
           "innererror": {
             "code": "InvalidDocumentBatch",
             "message": "Request Payload sent is too large to be processed. Limit request size to: 524288"

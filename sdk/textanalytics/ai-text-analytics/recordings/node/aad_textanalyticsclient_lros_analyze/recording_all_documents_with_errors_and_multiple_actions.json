@@ -10,9 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "497",
         "Content-Type": "application/json",
-        "traceparent": "00-00000000000000000000000000000473-0000000000001025-00",
-        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "e2bfda08-f9fe-478a-818c-f23e0f820e7b"
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.8.2 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "5e09e4ae-8b1d-4bea-be09-592f3ea71c29"
       },
       "RequestBody": {
         "analysisInput": {
@@ -62,45 +61,44 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "apim-request-id": "b03a92e7-d759-4daf-81e2-8684bf03d269",
-        "Date": "Fri, 18 Feb 2022 19:06:16 GMT",
-        "operation-location": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/21084029-c4bc-49b5-ba75-c42fadbd1b6b",
+        "apim-request-id": "74b2ed00-0b3a-48fb-8d9a-e1af00e82dc7",
+        "Date": "Tue, 10 May 2022 00:10:50 GMT",
+        "operation-location": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/310a73e5-5601-43ff-a1c1-227f5ab52252",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "234"
+        "x-envoy-upstream-service-time": "276"
       },
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/21084029-c4bc-49b5-ba75-c42fadbd1b6b?$top=20\u0026$skip=0",
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/310a73e5-5601-43ff-a1c1-227f5ab52252?$top=20\u0026$skip=0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json, text/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "traceparent": "00-00000000000000000000000000000474-0000000000001027-00",
-        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "26a307cd-d8fc-4649-8627-8c1e93bbe3e6"
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.8.2 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "f576fcdc-6d74-4c74-a441-e4f4e338f935"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "70bc8cc1-b432-4921-b7af-c21037bc1bbe",
+        "apim-request-id": "15621d79-589b-4cd7-9d0b-10e62c1796c2",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 18 Feb 2022 19:06:16 GMT",
+        "Date": "Tue, 10 May 2022 00:10:50 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "13"
+        "x-envoy-upstream-service-time": "6"
       },
       "ResponseBody": {
-        "jobId": "21084029-c4bc-49b5-ba75-c42fadbd1b6b",
-        "lastUpdateDateTime": "2022-02-18T19:06:17Z",
-        "createdDateTime": "2022-02-18T19:06:16Z",
-        "expirationDateTime": "2022-02-19T19:06:16Z",
-        "status": "running",
+        "jobId": "310a73e5-5601-43ff-a1c1-227f5ab52252",
+        "lastUpdateDateTime": "2022-05-10T00:10:50Z",
+        "createdDateTime": "2022-05-10T00:10:50Z",
+        "expirationDateTime": "2022-05-11T00:10:50Z",
+        "status": "notStarted",
         "errors": [],
         "tasks": {
           "completed": 0,
@@ -111,34 +109,33 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/21084029-c4bc-49b5-ba75-c42fadbd1b6b?$top=20\u0026$skip=0",
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/310a73e5-5601-43ff-a1c1-227f5ab52252?$top=20\u0026$skip=0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json, text/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "traceparent": "00-00000000000000000000000000000475-0000000000001029-00",
-        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "5748b41e-ef18-46d3-84ea-7eb36becbf78"
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.8.2 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "c1db0a69-1804-4f16-af96-e4b31fdfa030"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "af72cda7-2a95-4b8f-922e-4457498cb2e2",
+        "apim-request-id": "2a2a3c5f-517e-454b-ab4b-602fb3ddf96a",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 18 Feb 2022 19:06:16 GMT",
+        "Date": "Tue, 10 May 2022 00:10:50 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "8"
+        "x-envoy-upstream-service-time": "9"
       },
       "ResponseBody": {
-        "jobId": "21084029-c4bc-49b5-ba75-c42fadbd1b6b",
-        "lastUpdateDateTime": "2022-02-18T19:06:17Z",
-        "createdDateTime": "2022-02-18T19:06:16Z",
-        "expirationDateTime": "2022-02-19T19:06:16Z",
-        "status": "running",
+        "jobId": "310a73e5-5601-43ff-a1c1-227f5ab52252",
+        "lastUpdateDateTime": "2022-05-10T00:10:50Z",
+        "createdDateTime": "2022-05-10T00:10:50Z",
+        "expirationDateTime": "2022-05-11T00:10:50Z",
+        "status": "notStarted",
         "errors": [],
         "tasks": {
           "completed": 0,
@@ -149,43 +146,42 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/21084029-c4bc-49b5-ba75-c42fadbd1b6b?$top=20\u0026$skip=0",
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/310a73e5-5601-43ff-a1c1-227f5ab52252?$top=20\u0026$skip=0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json, text/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "traceparent": "00-00000000000000000000000000000476-0000000000001031-00",
-        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "d1b33e69-d1e7-49e6-9b1e-658fa56bdea4"
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.8.2 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "e31cdee6-4f04-4006-ae2d-22811e7a63ae"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "7397440b-4764-43d8-811a-bafc572201f3",
+        "apim-request-id": "56a34b03-aea2-475f-b511-08b133562d95",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 18 Feb 2022 19:06:19 GMT",
+        "Date": "Tue, 10 May 2022 00:10:52 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "476"
+        "x-envoy-upstream-service-time": "83"
       },
       "ResponseBody": {
-        "jobId": "21084029-c4bc-49b5-ba75-c42fadbd1b6b",
-        "lastUpdateDateTime": "2022-02-18T19:06:18Z",
-        "createdDateTime": "2022-02-18T19:06:16Z",
-        "expirationDateTime": "2022-02-19T19:06:16Z",
+        "jobId": "310a73e5-5601-43ff-a1c1-227f5ab52252",
+        "lastUpdateDateTime": "2022-05-10T00:10:52Z",
+        "createdDateTime": "2022-05-10T00:10:50Z",
+        "expirationDateTime": "2022-05-11T00:10:50Z",
         "status": "running",
         "errors": [],
         "tasks": {
-          "completed": 2,
+          "completed": 1,
           "failed": 0,
-          "inProgress": 1,
+          "inProgress": 2,
           "total": 3,
           "entityRecognitionTasks": [
             {
-              "lastUpdateDateTime": "2022-02-18T19:06:18.544939Z",
+              "lastUpdateDateTime": "2022-05-10T00:10:52.4001644Z",
               "state": "succeeded",
               "results": {
                 "documents": [],
@@ -194,7 +190,7 @@
                     "id": "1",
                     "error": {
                       "code": "InvalidArgument",
-                      "message": "Invalid document in request.",
+                      "message": "Invalid Document in request.",
                       "innererror": {
                         "code": "InvalidDocument",
                         "message": "Document text is empty."
@@ -216,7 +212,7 @@
                     "id": "3",
                     "error": {
                       "code": "InvalidArgument",
-                      "message": "Invalid document in request.",
+                      "message": "Invalid Document in request.",
                       "innererror": {
                         "code": "InvalidDocument",
                         "message": "Document text is empty."
@@ -227,83 +223,37 @@
                 "modelVersion": "2021-06-01"
               }
             }
-          ],
-          "entityRecognitionPiiTasks": [
-            {
-              "lastUpdateDateTime": "2022-02-18T19:06:18.5604984Z",
-              "state": "succeeded",
-              "results": {
-                "documents": [],
-                "errors": [
-                  {
-                    "id": "1",
-                    "error": {
-                      "code": "InvalidArgument",
-                      "message": "Invalid document in request.",
-                      "innererror": {
-                        "code": "InvalidDocument",
-                        "message": "Document text is empty."
-                      }
-                    }
-                  },
-                  {
-                    "id": "2",
-                    "error": {
-                      "code": "InvalidArgument",
-                      "message": "Invalid Language Code.",
-                      "innererror": {
-                        "code": "UnsupportedLanguageCode",
-                        "message": "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition"
-                      }
-                    }
-                  },
-                  {
-                    "id": "3",
-                    "error": {
-                      "code": "InvalidArgument",
-                      "message": "Invalid document in request.",
-                      "innererror": {
-                        "code": "InvalidDocument",
-                        "message": "Document text is empty."
-                      }
-                    }
-                  }
-                ],
-                "modelVersion": "2021-01-15"
-              }
-            }
           ]
         }
       }
     },
     {
-      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/21084029-c4bc-49b5-ba75-c42fadbd1b6b?$top=20\u0026$skip=0",
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/310a73e5-5601-43ff-a1c1-227f5ab52252?$top=20\u0026$skip=0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json, text/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "traceparent": "00-00000000000000000000000000000477-0000000000001033-00",
-        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "745f9e3a-cb9d-4c8c-8a10-1b447fa6281d"
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.8.2 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "3f22862c-39a7-4666-a5a3-c167e7d6278d"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "7a8886fd-2396-4134-9b2e-7b3788dd2ad5",
+        "apim-request-id": "23f4f236-abcf-4800-bb68-b0d7d6c1d6ac",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 18 Feb 2022 19:06:22 GMT",
+        "Date": "Tue, 10 May 2022 00:10:54 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "102"
+        "x-envoy-upstream-service-time": "96"
       },
       "ResponseBody": {
-        "jobId": "21084029-c4bc-49b5-ba75-c42fadbd1b6b",
-        "lastUpdateDateTime": "2022-02-18T19:06:18Z",
-        "createdDateTime": "2022-02-18T19:06:16Z",
-        "expirationDateTime": "2022-02-19T19:06:16Z",
+        "jobId": "310a73e5-5601-43ff-a1c1-227f5ab52252",
+        "lastUpdateDateTime": "2022-05-10T00:10:52Z",
+        "createdDateTime": "2022-05-10T00:10:50Z",
+        "expirationDateTime": "2022-05-11T00:10:50Z",
         "status": "running",
         "errors": [],
         "tasks": {
@@ -313,7 +263,7 @@
           "total": 3,
           "entityRecognitionTasks": [
             {
-              "lastUpdateDateTime": "2022-02-18T19:06:18.544939Z",
+              "lastUpdateDateTime": "2022-05-10T00:10:52.4001644Z",
               "state": "succeeded",
               "results": {
                 "documents": [],
@@ -322,7 +272,7 @@
                     "id": "1",
                     "error": {
                       "code": "InvalidArgument",
-                      "message": "Invalid document in request.",
+                      "message": "Invalid Document in request.",
                       "innererror": {
                         "code": "InvalidDocument",
                         "message": "Document text is empty."
@@ -344,7 +294,7 @@
                     "id": "3",
                     "error": {
                       "code": "InvalidArgument",
-                      "message": "Invalid document in request.",
+                      "message": "Invalid Document in request.",
                       "innererror": {
                         "code": "InvalidDocument",
                         "message": "Document text is empty."
@@ -358,7 +308,7 @@
           ],
           "entityRecognitionPiiTasks": [
             {
-              "lastUpdateDateTime": "2022-02-18T19:06:18.5604984Z",
+              "lastUpdateDateTime": "2022-05-10T00:10:52.7305562Z",
               "state": "succeeded",
               "results": {
                 "documents": [],
@@ -367,7 +317,7 @@
                     "id": "1",
                     "error": {
                       "code": "InvalidArgument",
-                      "message": "Invalid document in request.",
+                      "message": "Invalid Document in request.",
                       "innererror": {
                         "code": "InvalidDocument",
                         "message": "Document text is empty."
@@ -389,7 +339,7 @@
                     "id": "3",
                     "error": {
                       "code": "InvalidArgument",
-                      "message": "Invalid document in request.",
+                      "message": "Invalid Document in request.",
                       "innererror": {
                         "code": "InvalidDocument",
                         "message": "Document text is empty."
@@ -405,33 +355,32 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/21084029-c4bc-49b5-ba75-c42fadbd1b6b?$top=20\u0026$skip=0",
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/310a73e5-5601-43ff-a1c1-227f5ab52252?$top=20\u0026$skip=0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json, text/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "traceparent": "00-00000000000000000000000000000478-0000000000001035-00",
-        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "b28fe015-549f-464b-821a-9bd884f058b2"
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.8.2 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "f752b0e2-c8ba-4df0-bf3b-5fc1f32c6a88"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "46554baf-b2a4-4013-8be7-7706ac15618a",
+        "apim-request-id": "b6bd33b8-7522-4b7c-935f-dd6f1afa7e39",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 18 Feb 2022 19:06:24 GMT",
+        "Date": "Tue, 10 May 2022 00:10:56 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "129"
+        "x-envoy-upstream-service-time": "92"
       },
       "ResponseBody": {
-        "jobId": "21084029-c4bc-49b5-ba75-c42fadbd1b6b",
-        "lastUpdateDateTime": "2022-02-18T19:06:23Z",
-        "createdDateTime": "2022-02-18T19:06:16Z",
-        "expirationDateTime": "2022-02-19T19:06:16Z",
+        "jobId": "310a73e5-5601-43ff-a1c1-227f5ab52252",
+        "lastUpdateDateTime": "2022-05-10T00:10:52Z",
+        "createdDateTime": "2022-05-10T00:10:50Z",
+        "expirationDateTime": "2022-05-11T00:10:50Z",
         "status": "running",
         "errors": [],
         "tasks": {
@@ -441,7 +390,7 @@
           "total": 3,
           "entityRecognitionTasks": [
             {
-              "lastUpdateDateTime": "2022-02-18T19:06:18.544939Z",
+              "lastUpdateDateTime": "2022-05-10T00:10:52.4001644Z",
               "state": "succeeded",
               "results": {
                 "documents": [],
@@ -450,7 +399,7 @@
                     "id": "1",
                     "error": {
                       "code": "InvalidArgument",
-                      "message": "Invalid document in request.",
+                      "message": "Invalid Document in request.",
                       "innererror": {
                         "code": "InvalidDocument",
                         "message": "Document text is empty."
@@ -472,7 +421,7 @@
                     "id": "3",
                     "error": {
                       "code": "InvalidArgument",
-                      "message": "Invalid document in request.",
+                      "message": "Invalid Document in request.",
                       "innererror": {
                         "code": "InvalidDocument",
                         "message": "Document text is empty."
@@ -486,7 +435,7 @@
           ],
           "entityRecognitionPiiTasks": [
             {
-              "lastUpdateDateTime": "2022-02-18T19:06:18.5604984Z",
+              "lastUpdateDateTime": "2022-05-10T00:10:52.7305562Z",
               "state": "succeeded",
               "results": {
                 "documents": [],
@@ -495,7 +444,7 @@
                     "id": "1",
                     "error": {
                       "code": "InvalidArgument",
-                      "message": "Invalid document in request.",
+                      "message": "Invalid Document in request.",
                       "innererror": {
                         "code": "InvalidDocument",
                         "message": "Document text is empty."
@@ -517,7 +466,7 @@
                     "id": "3",
                     "error": {
                       "code": "InvalidArgument",
-                      "message": "Invalid document in request.",
+                      "message": "Invalid Document in request.",
                       "innererror": {
                         "code": "InvalidDocument",
                         "message": "Document text is empty."
@@ -533,33 +482,32 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/21084029-c4bc-49b5-ba75-c42fadbd1b6b?$top=20\u0026$skip=0",
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/310a73e5-5601-43ff-a1c1-227f5ab52252?$top=20\u0026$skip=0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json, text/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "traceparent": "00-00000000000000000000000000000479-0000000000001037-00",
-        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "6ca9c54a-b15d-4c51-b785-de698cc330d9"
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.8.2 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "a4e4441f-17da-484e-b008-0e2d1f32aa64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "bf2b7b4e-5df7-446d-b29d-41388cfc11b2",
+        "apim-request-id": "c215a504-3609-41b9-b2bf-c30a2996bdf8",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 18 Feb 2022 19:06:26 GMT",
+        "Date": "Tue, 10 May 2022 00:10:58 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "209"
+        "x-envoy-upstream-service-time": "190"
       },
       "ResponseBody": {
-        "jobId": "21084029-c4bc-49b5-ba75-c42fadbd1b6b",
-        "lastUpdateDateTime": "2022-02-18T19:06:25Z",
-        "createdDateTime": "2022-02-18T19:06:16Z",
-        "expirationDateTime": "2022-02-19T19:06:16Z",
+        "jobId": "310a73e5-5601-43ff-a1c1-227f5ab52252",
+        "lastUpdateDateTime": "2022-05-10T00:10:58Z",
+        "createdDateTime": "2022-05-10T00:10:50Z",
+        "expirationDateTime": "2022-05-11T00:10:50Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -569,7 +517,7 @@
           "total": 3,
           "entityRecognitionTasks": [
             {
-              "lastUpdateDateTime": "2022-02-18T19:06:18.544939Z",
+              "lastUpdateDateTime": "2022-05-10T00:10:52.4001644Z",
               "state": "succeeded",
               "results": {
                 "documents": [],
@@ -578,7 +526,7 @@
                     "id": "1",
                     "error": {
                       "code": "InvalidArgument",
-                      "message": "Invalid document in request.",
+                      "message": "Invalid Document in request.",
                       "innererror": {
                         "code": "InvalidDocument",
                         "message": "Document text is empty."
@@ -600,7 +548,7 @@
                     "id": "3",
                     "error": {
                       "code": "InvalidArgument",
-                      "message": "Invalid document in request.",
+                      "message": "Invalid Document in request.",
                       "innererror": {
                         "code": "InvalidDocument",
                         "message": "Document text is empty."
@@ -614,7 +562,7 @@
           ],
           "entityRecognitionPiiTasks": [
             {
-              "lastUpdateDateTime": "2022-02-18T19:06:18.5604984Z",
+              "lastUpdateDateTime": "2022-05-10T00:10:52.7305562Z",
               "state": "succeeded",
               "results": {
                 "documents": [],
@@ -623,7 +571,7 @@
                     "id": "1",
                     "error": {
                       "code": "InvalidArgument",
-                      "message": "Invalid document in request.",
+                      "message": "Invalid Document in request.",
                       "innererror": {
                         "code": "InvalidDocument",
                         "message": "Document text is empty."
@@ -645,7 +593,7 @@
                     "id": "3",
                     "error": {
                       "code": "InvalidArgument",
-                      "message": "Invalid document in request.",
+                      "message": "Invalid Document in request.",
                       "innererror": {
                         "code": "InvalidDocument",
                         "message": "Document text is empty."
@@ -659,7 +607,7 @@
           ],
           "keyPhraseExtractionTasks": [
             {
-              "lastUpdateDateTime": "2022-02-18T19:06:25.9334594Z",
+              "lastUpdateDateTime": "2022-05-10T00:10:58.2920256Z",
               "state": "succeeded",
               "results": {
                 "documents": [],
@@ -668,7 +616,7 @@
                     "id": "1",
                     "error": {
                       "code": "InvalidArgument",
-                      "message": "Invalid document in request.",
+                      "message": "Invalid Document in request.",
                       "innererror": {
                         "code": "InvalidDocument",
                         "message": "Document text is empty."
@@ -690,7 +638,7 @@
                     "id": "3",
                     "error": {
                       "code": "InvalidArgument",
-                      "message": "Invalid document in request.",
+                      "message": "Invalid Document in request.",
                       "innererror": {
                         "code": "InvalidDocument",
                         "message": "Document text is empty."
@@ -706,33 +654,32 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/21084029-c4bc-49b5-ba75-c42fadbd1b6b?$top=20\u0026$skip=0",
+      "RequestUri": "https://endpoint/text/analytics/v3.2-preview.2/analyze/jobs/310a73e5-5601-43ff-a1c1-227f5ab52252?$top=20\u0026$skip=0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json, text/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "traceparent": "00-00000000000000000000000000000480-0000000000001039-00",
-        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "e74e63bc-928e-46eb-a081-425f428b94f8"
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.8.2 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "01b1ed99-8e41-4fbc-826e-9f4779d7c940"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "d9d3ea4b-4d40-4f1d-beb7-a06f049b7d11",
+        "apim-request-id": "89acebaa-9675-461a-aca2-38b2617d4db1",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 18 Feb 2022 19:06:26 GMT",
+        "Date": "Tue, 10 May 2022 00:10:59 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "194"
+        "x-envoy-upstream-service-time": "141"
       },
       "ResponseBody": {
-        "jobId": "21084029-c4bc-49b5-ba75-c42fadbd1b6b",
-        "lastUpdateDateTime": "2022-02-18T19:06:25Z",
-        "createdDateTime": "2022-02-18T19:06:16Z",
-        "expirationDateTime": "2022-02-19T19:06:16Z",
+        "jobId": "310a73e5-5601-43ff-a1c1-227f5ab52252",
+        "lastUpdateDateTime": "2022-05-10T00:10:58Z",
+        "createdDateTime": "2022-05-10T00:10:50Z",
+        "expirationDateTime": "2022-05-11T00:10:50Z",
         "status": "succeeded",
         "errors": [],
         "tasks": {
@@ -742,7 +689,7 @@
           "total": 3,
           "entityRecognitionTasks": [
             {
-              "lastUpdateDateTime": "2022-02-18T19:06:18.544939Z",
+              "lastUpdateDateTime": "2022-05-10T00:10:52.4001644Z",
               "state": "succeeded",
               "results": {
                 "documents": [],
@@ -751,7 +698,7 @@
                     "id": "1",
                     "error": {
                       "code": "InvalidArgument",
-                      "message": "Invalid document in request.",
+                      "message": "Invalid Document in request.",
                       "innererror": {
                         "code": "InvalidDocument",
                         "message": "Document text is empty."
@@ -773,7 +720,7 @@
                     "id": "3",
                     "error": {
                       "code": "InvalidArgument",
-                      "message": "Invalid document in request.",
+                      "message": "Invalid Document in request.",
                       "innererror": {
                         "code": "InvalidDocument",
                         "message": "Document text is empty."
@@ -787,7 +734,7 @@
           ],
           "entityRecognitionPiiTasks": [
             {
-              "lastUpdateDateTime": "2022-02-18T19:06:18.5604984Z",
+              "lastUpdateDateTime": "2022-05-10T00:10:52.7305562Z",
               "state": "succeeded",
               "results": {
                 "documents": [],
@@ -796,7 +743,7 @@
                     "id": "1",
                     "error": {
                       "code": "InvalidArgument",
-                      "message": "Invalid document in request.",
+                      "message": "Invalid Document in request.",
                       "innererror": {
                         "code": "InvalidDocument",
                         "message": "Document text is empty."
@@ -818,7 +765,7 @@
                     "id": "3",
                     "error": {
                       "code": "InvalidArgument",
-                      "message": "Invalid document in request.",
+                      "message": "Invalid Document in request.",
                       "innererror": {
                         "code": "InvalidDocument",
                         "message": "Document text is empty."
@@ -832,7 +779,7 @@
           ],
           "keyPhraseExtractionTasks": [
             {
-              "lastUpdateDateTime": "2022-02-18T19:06:25.9334594Z",
+              "lastUpdateDateTime": "2022-05-10T00:10:58.2920256Z",
               "state": "succeeded",
               "results": {
                 "documents": [],
@@ -841,7 +788,7 @@
                     "id": "1",
                     "error": {
                       "code": "InvalidArgument",
-                      "message": "Invalid document in request.",
+                      "message": "Invalid Document in request.",
                       "innererror": {
                         "code": "InvalidDocument",
                         "message": "Document text is empty."
@@ -863,7 +810,7 @@
                     "id": "3",
                     "error": {
                       "code": "InvalidArgument",
-                      "message": "Invalid document in request.",
+                      "message": "Invalid Document in request.",
                       "innererror": {
                         "code": "InvalidDocument",
                         "message": "Document text is empty."

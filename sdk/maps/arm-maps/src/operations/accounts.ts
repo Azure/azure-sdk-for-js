@@ -28,6 +28,9 @@ import {
   AccountsGetResponse,
   AccountsListByResourceGroupResponse,
   AccountsListBySubscriptionResponse,
+  AccountSasParameters,
+  AccountsListSasOptionalParams,
+  AccountsListSasResponse,
   AccountsListKeysOptionalParams,
   AccountsListKeysResponse,
   MapsKeySpecification,
@@ -248,6 +251,32 @@ export class AccountsImpl implements Accounts {
   }
 
   /**
+   * Create and list an account shared access signature token. Use this SAS token for authentication to
+   * Azure Maps REST APIs through various Azure Maps SDKs. As prerequisite to create a SAS Token.
+   *
+   * Prerequisites:
+   * 1. Create or have an existing User Assigned Managed Identity in the same Azure region as the
+   * account.
+   * 2. Create or update an Azure Map account with the same Azure region as the User Assigned Managed
+   * Identity is placed.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the Maps Account.
+   * @param mapsAccountSasParameters The updated parameters for the Maps Account.
+   * @param options The options parameters.
+   */
+  listSas(
+    resourceGroupName: string,
+    accountName: string,
+    mapsAccountSasParameters: AccountSasParameters,
+    options?: AccountsListSasOptionalParams
+  ): Promise<AccountsListSasResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, accountName, mapsAccountSasParameters, options },
+      listSasOperationSpec
+    );
+  }
+
+  /**
    * Get the keys to use with the Maps APIs. A key is used to authenticate and authorize access to the
    * Maps REST APIs. Only one key is needed at a time; two are given to provide seamless key
    * regeneration.
@@ -450,6 +479,30 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const listSasOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Maps/accounts/{accountName}/listSas",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MapsAccountSasToken
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.mapsAccountSasParameters,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
   serializer
 };
 const listKeysOperationSpec: coreClient.OperationSpec = {

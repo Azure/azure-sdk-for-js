@@ -93,6 +93,7 @@ export interface HybridComputePrivateLinkScopeListResult {
 
 // @public
 export interface HybridComputePrivateLinkScopeProperties {
+    readonly privateEndpointConnections?: PrivateEndpointConnectionDataModel[];
     readonly privateLinkScopeId?: string;
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccessType;
@@ -313,9 +314,11 @@ export interface MachineProperties {
     readonly lastStatusChange?: Date;
     locationData?: LocationData;
     readonly machineFqdn?: string;
+    mssqlDiscovered?: string;
     readonly osName?: string;
-    readonly osProfile?: OSProfile;
+    osProfile?: OSProfile;
     readonly osSku?: string;
+    osType?: string;
     readonly osVersion?: string;
     parentClusterResourceId?: string;
     privateLinkScopeResourceId?: string;
@@ -382,6 +385,7 @@ export type MachineUpdate = ResourceUpdate & {
 // @public
 export interface MachineUpdateProperties {
     locationData?: LocationData;
+    osProfile?: OSProfile;
     parentClusterResourceId?: string;
     privateLinkScopeResourceId?: string;
 }
@@ -421,6 +425,18 @@ export interface OperationValueDisplay {
 // @public
 export interface OSProfile {
     readonly computerName?: string;
+    linuxConfiguration?: OSProfileLinuxConfiguration;
+    windowsConfiguration?: OSProfileWindowsConfiguration;
+}
+
+// @public
+export interface OSProfileLinuxConfiguration {
+    assessmentMode?: string;
+}
+
+// @public
+export interface OSProfileWindowsConfiguration {
+    assessmentMode?: string;
 }
 
 // @public
@@ -428,6 +444,14 @@ export type PrivateEndpointConnection = ProxyResource & {
     properties?: PrivateEndpointConnectionProperties;
     readonly systemData?: SystemData;
 };
+
+// @public
+export interface PrivateEndpointConnectionDataModel {
+    readonly id?: string;
+    readonly name?: string;
+    properties?: PrivateEndpointConnectionProperties;
+    readonly type?: string;
+}
 
 // @public
 export interface PrivateEndpointConnectionListResult {
