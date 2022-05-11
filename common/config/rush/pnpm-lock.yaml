@@ -64,6 +64,7 @@ specifiers:
   '@rush-temp/arm-dns-profile-2020-09-01-hybrid': file:./projects/arm-dns-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-dnsresolver': file:./projects/arm-dnsresolver.tgz
   '@rush-temp/arm-domainservices': file:./projects/arm-domainservices.tgz
+  '@rush-temp/arm-dynatrace': file:./projects/arm-dynatrace.tgz
   '@rush-temp/arm-eventgrid': file:./projects/arm-eventgrid.tgz
   '@rush-temp/arm-eventhub': file:./projects/arm-eventhub.tgz
   '@rush-temp/arm-eventhub-profile-2020-09-01-hybrid': file:./projects/arm-eventhub-profile-2020-09-01-hybrid.tgz
@@ -340,6 +341,7 @@ dependencies:
   '@rush-temp/arm-dns-profile-2020-09-01-hybrid': file:projects/arm-dns-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-dnsresolver': file:projects/arm-dnsresolver.tgz
   '@rush-temp/arm-domainservices': file:projects/arm-domainservices.tgz
+  '@rush-temp/arm-dynatrace': file:projects/arm-dynatrace.tgz
   '@rush-temp/arm-eventgrid': file:projects/arm-eventgrid.tgz
   '@rush-temp/arm-eventhub': file:projects/arm-eventhub.tgz
   '@rush-temp/arm-eventhub-profile-2020-09-01-hybrid': file:projects/arm-eventhub-profile-2020-09-01-hybrid.tgz
@@ -10837,6 +10839,34 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-dynatrace.tgz:
+    resolution: {integrity: sha512-+a9WJzK37VvUvmrR43FLcMa4JpDru5qU5RlATVdZn8ObitTHYXO1MNmd+ZzWh/uhjV/J0eCW1UOlpFJ7oSDkEw==, tarball: file:projects/arm-dynatrace.tgz}
+    name: '@rush-temp/arm-dynatrace'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.72.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.72.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.72.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.72.0
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.72.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.72.0
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.15.4
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
+      - encoding
+      - supports-color
+    dev: false
+
   file:projects/arm-eventgrid.tgz:
     resolution: {integrity: sha512-XscA7PNd+AncG9fYsHq0qfE3n7vA1whsgIEJxPoELsmZMlst8wc+n55LeYiEROwpemNQrAzUddFYWoa3/Hk0Jg==, tarball: file:projects/arm-eventgrid.tgz}
     name: '@rush-temp/arm-eventgrid'
@@ -15864,7 +15894,7 @@ packages:
     dev: false
 
   file:projects/logger.tgz:
-    resolution: {integrity: sha512-4oFLfXF58h4vd0ye9yIrJqV8ICk41YWvs7BAp3qJK08zbvY4hS3bdm5DmsuW313e61nlxd+eTEebgd1lWzIOpA==, tarball: file:projects/logger.tgz}
+    resolution: {integrity: sha512-KR3Qu673FyXbtGvsdldXeuWMlXPYtnDYHo9nuPbVSOxPBZATFR+JF6pM+2hH5Vrk5gW50qb72p8Ns7QMkScRwA==, tarball: file:projects/logger.tgz}
     name: '@rush-temp/logger'
     version: 0.0.0
     dependencies:
