@@ -794,6 +794,64 @@ describe("AppConfigurationClient", () => {
     });
   });
 
+  describe("listConfigSettings", function () {
+    let key1: string;
+    let key2: string;
+
+    it("matches any key without label - `\0`", async () => {
+      key1 = recorder.getUniqueName("backslash-zero-label-1");
+      key2 = recorder.getUniqueName("backslash-zero-label-2");
+      await client.addConfigurationSetting({
+        key: key1,
+        value: "[A] production value",
+      });
+      await client.addConfigurationSetting({
+        key: key2,
+        value: "[A] value",
+      });
+
+      await client.addConfigurationSetting({
+        key: key2,
+        value: "[B] value",
+        label: "with label",
+      });
+
+      const byLabelIterator = client.listConfigurationSettings({
+        keyFilter: "backslash-zero-label-*",
+        labelFilter: "\0",
+      });
+      const byLabelSettings = await toSortedArray(byLabelIterator);
+      assert.equal(byLabelSettings.length, 2, "got more settings than expected");
+      assertEqualSettings(
+        [
+          {
+            key: key1,
+            value: "[A] production value",
+            label: undefined,
+            isReadOnly: false,
+          },
+          {
+            key: key2,
+            value: "[A] value",
+            label: undefined,
+            isReadOnly: false,
+          },
+        ],
+        byLabelSettings
+      );
+
+      (
+        await toSortedArray(
+          client.listConfigurationSettings({
+            keyFilter: "backslash-zero-label-*",
+          })
+        )
+      ).forEach(async (setting) => {
+        await client.deleteConfigurationSetting({ key: setting.key, label: setting.label });
+      });
+    });
+  });
+
   describe("listRevisions", () => {
     let key: string;
     let labelA: string;
