@@ -268,7 +268,8 @@ export interface PeekMessagesOptions extends OperationOptionsBase {
    */
   fromSequenceNumber?: Long;
   /**
-   * (Experimental for diagnostic purpose) Specifies whether to omit the body when peeking messages.
+   * @beta
+   * (Experimental for diagnostic purpose) Specifies whether to omit the body when peeking messages. Default  value `false`.
    */
   omitMessageBody?: boolean;
 }

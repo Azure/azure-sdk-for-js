@@ -393,7 +393,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * also fetch even Deferred messages (but not Deadlettered message).
    *
    * @param messageCount - The number of messages to retrieve. Default value `1`.
-   * @param omitMessageBody - Whether to omit message body when peeking
+   * @param omitMessageBody - Whether to omit message body when peeking. Default value `false`.
    */
   async peek(
     messageCount: number,
@@ -421,7 +421,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    *
    * @param sessionId - The sessionId from which messages need to be peeked.
    * @param messageCount - The number of messages to retrieve. Default value `1`.
-   * @param omitMessageBody - Whether to omit message body when peeking
+   * @param omitMessageBody - Whether to omit message body when peeking Default value `false`.
    */
   async peekMessagesBySession(
     sessionId: string,
@@ -445,7 +445,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * @param fromSequenceNumber - The sequence number from where to read the message.
    * @param messageCount - The number of messages to retrieve. Default value `1`.
    * @param sessionId - The sessionId from which messages need to be peeked.
-   * @param omitMessageBody - Whether to omit message body when peeking
+   * @param omitMessageBody - Whether to omit message body when peeking. Default value `false`.
    */
   async peekBySequenceNumber(
     fromSequenceNumber: Long,

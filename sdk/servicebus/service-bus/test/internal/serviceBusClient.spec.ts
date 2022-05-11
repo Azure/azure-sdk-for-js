@@ -98,7 +98,7 @@ describe("ServiceBusClient live tests", () => {
       await sbClientWithRelaxedEndPoint.close();
     });
 
-    it(
+    it.skip(
       noSessionTestClientType + ":can omit message body when peeking",
       async function (): Promise<void> {
         // Create a test client to get the entity types
@@ -135,7 +135,6 @@ describe("ServiceBusClient live tests", () => {
             peekedMsgs[0]._rawAmqpMessage.deliveryAnnotations!["omitted-message-body-size"]
           );
           should.equal(omittedSize > 0, true);
-          // console.dir(peekedMsgs[0]);
 
           peekedMsgs = await receiver.peekMessages(2, {
             omitMessageBody: false,
