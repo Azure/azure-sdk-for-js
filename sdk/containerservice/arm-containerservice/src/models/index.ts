@@ -194,7 +194,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
   maxPods?: number;
   /** The operating system type. The default is Linux. */
   osType?: OSType;
-  /** Specifies an OS SKU. This value must not be specified if OSType is Windows. */
+  /** Specifies the OS SKU used by the agent pool. If not specified, the default is Ubuntu if OSType=Linux or Windows2019 if OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 after Windows2019 is deprecated. */
   osSKU?: Ossku;
   /** The maximum number of nodes for auto-scaling */
   maxCount?: number;
@@ -230,6 +230,8 @@ export interface ManagedClusterAgentPoolProfileProperties {
   availabilityZones?: string[];
   /** Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false. */
   enableNodePublicIP?: boolean;
+  /** When set to true, AKS deploys a daemonset and host services to sync custom certificate authorities from a user-provided config map into node trust stores. Defaults to false. */
+  enableCustomCATrust?: boolean;
   /** This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName} */
   nodePublicIPPrefixID?: string;
   /** The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'. */
@@ -524,6 +526,8 @@ export interface ManagedClusterOidcIssuerProfile {
 export interface ContainerServiceNetworkProfile {
   /** Network plugin used for building the Kubernetes network. */
   networkPlugin?: NetworkPlugin;
+  /** Network plugin mode used for building the Kubernetes network. */
+  networkPluginMode?: NetworkPluginMode;
   /** Network policy used for building the Kubernetes network. */
   networkPolicy?: NetworkPolicy;
   /** This cannot be specified if networkPlugin is anything other than 'azure'. */
@@ -686,6 +690,10 @@ export interface ManagedClusterAPIServerAccessProfile {
   enablePrivateClusterPublicFqdn?: boolean;
   /** Whether to disable run command for the cluster or not. */
   disableRunCommand?: boolean;
+  /** Whether to enable apiserver vnet integration for the cluster or not. */
+  enableVnetIntegration?: boolean;
+  /** It is required when: 1. creating a new cluster with BYO Vnet; 2. updating an existing cluster to enable apiserver vnet integration. */
+  subnetId?: string;
 }
 
 /** A private link resource */
@@ -753,6 +761,36 @@ export interface AzureKeyVaultKms {
 /** Workload Identity settings for the security profile. */
 export interface ManagedClusterSecurityProfileWorkloadIdentity {
   /** Whether to enable Workload Identity */
+  enabled?: boolean;
+}
+
+/** Storage profile for the container service cluster. */
+export interface ManagedClusterStorageProfile {
+  /** AzureDisk CSI Driver settings for the storage profile. */
+  diskCSIDriver?: ManagedClusterStorageProfileDiskCSIDriver;
+  /** AzureFile CSI Driver settings for the storage profile. */
+  fileCSIDriver?: ManagedClusterStorageProfileFileCSIDriver;
+  /** Snapshot Controller settings for the storage profile. */
+  snapshotController?: ManagedClusterStorageProfileSnapshotController;
+}
+
+/** AzureDisk CSI Driver settings for the storage profile. */
+export interface ManagedClusterStorageProfileDiskCSIDriver {
+  /** Whether to enable AzureDisk CSI Driver. The default value is true. */
+  enabled?: boolean;
+  /** The version of AzureDisk CSI Driver. The default value is v1. */
+  version?: string;
+}
+
+/** AzureFile CSI Driver settings for the storage profile. */
+export interface ManagedClusterStorageProfileFileCSIDriver {
+  /** Whether to enable AzureFile CSI Driver. The default value is true. */
+  enabled?: boolean;
+}
+
+/** Snapshot Controller settings for the storage profile. */
+export interface ManagedClusterStorageProfileSnapshotController {
+  /** Whether to enable Snapshot Controller. The default value is true. */
   enabled?: boolean;
 }
 
@@ -1185,12 +1223,87 @@ export interface ManagedClusterPropertiesForSnapshot {
 export interface NetworkProfileForSnapshot {
   /** networkPlugin for managed cluster snapshot. */
   networkPlugin?: NetworkPlugin;
+  /** NetworkPluginMode for managed cluster snapshot. */
+  networkPluginMode?: NetworkPluginMode;
   /** networkPolicy for managed cluster snapshot. */
   networkPolicy?: NetworkPolicy;
   /** networkMode for managed cluster snapshot. */
   networkMode?: NetworkMode;
   /** loadBalancerSku for managed cluster snapshot. */
   loadBalancerSku?: LoadBalancerSku;
+}
+
+/** List of trusted access roles */
+export interface TrustedAccessRoleListResult {
+  /**
+   * Role list
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: TrustedAccessRole[];
+  /**
+   * Link to next page of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Trusted access role definition. */
+export interface TrustedAccessRole {
+  /**
+   * Resource type of Azure resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sourceResourceType?: string;
+  /**
+   * Name of role, name is unique under a source resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * List of rules for the role. This maps to 'rules' property of [Kubernetes Cluster Role](https://kubernetes.io/docs/reference/kubernetes-api/authorization-resources/cluster-role-v1/#ClusterRole).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly rules?: TrustedAccessRoleRule[];
+}
+
+/** Rule for trusted access role */
+export interface TrustedAccessRoleRule {
+  /**
+   * List of allowed verbs
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly verbs?: string[];
+  /**
+   * List of allowed apiGroups
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly apiGroups?: string[];
+  /**
+   * List of allowed resources
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resources?: string[];
+  /**
+   * List of allowed names
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceNames?: string[];
+  /**
+   * List of allowed nonResourceURLs
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nonResourceURLs?: string[];
+}
+
+/** List of trusted access role bindings */
+export interface TrustedAccessRoleBindingListResult {
+  /** Role binding list */
+  value?: TrustedAccessRoleBinding[];
+  /**
+   * Link to next page of resources.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /** Profile for the container service master. */
@@ -1233,36 +1346,6 @@ export interface ContainerServiceVMDiagnostics {
   readonly storageUri?: string;
 }
 
-/** Storage profile for the container service cluster. */
-export interface ManagedClusterStorageProfile {
-  /** AzureDisk CSI Driver settings for the storage profile. */
-  diskCSIDriver?: ManagedClusterStorageProfileDiskCSIDriver;
-  /** AzureFile CSI Driver settings for the storage profile. */
-  fileCSIDriver?: ManagedClusterStorageProfileFileCSIDriver;
-  /** Snapshot Controller settings for the storage profile. */
-  snapshotController?: ManagedClusterStorageProfileSnapshotController;
-}
-
-/** AzureDisk CSI Driver settings for the storage profile. */
-export interface ManagedClusterStorageProfileDiskCSIDriver {
-  /** Whether to enable AzureDisk CSI Driver. The default value is true. */
-  enabled?: boolean;
-  /** The version of AzureDisk CSI Driver. The default value is v1. */
-  version?: string;
-}
-
-/** AzureFile CSI Driver settings for the storage profile. */
-export interface ManagedClusterStorageProfileFileCSIDriver {
-  /** Whether to enable AzureFile CSI Driver. The default value is true. */
-  enabled?: boolean;
-}
-
-/** Snapshot Controller settings for the storage profile. */
-export interface ManagedClusterStorageProfileSnapshotController {
-  /** Whether to enable Snapshot Controller. The default value is true. */
-  enabled?: boolean;
-}
-
 /** Profile for the container service agent pool. */
 export type ManagedClusterAgentPoolProfile = ManagedClusterAgentPoolProfileProperties & {
   /** Windows agent pool names must be 6 characters or less. */
@@ -1278,6 +1361,19 @@ export type TrackedResource = Resource & {
   tags?: { [propertyName: string]: string };
   /** The geo-location where the resource lives */
   location: string;
+};
+
+/** Defines binding between a resource and role */
+export type TrustedAccessRoleBinding = Resource & {
+  /**
+   * The current provisioning state of trusted access role binding.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: TrustedAccessRoleBindingProvisioningState;
+  /** The ARM resource ID of source resource that trusted access is configured for. */
+  sourceResourceId: string;
+  /** A list of roles to bind, each item is a resource type qualified role name. For example: 'Microsoft.MachineLearningServices/workspaces/reader'. */
+  roles: string[];
 };
 
 /** See [planned maintenance](https://docs.microsoft.com/azure/aks/planned-maintenance) for more information about planned maintenance. */
@@ -1317,7 +1413,7 @@ export type AgentPool = SubResource & {
   maxPods?: number;
   /** The operating system type. The default is Linux. */
   osType?: OSType;
-  /** Specifies an OS SKU. This value must not be specified if OSType is Windows. */
+  /** Specifies the OS SKU used by the agent pool. If not specified, the default is Ubuntu if OSType=Linux or Windows2019 if OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 after Windows2019 is deprecated. */
   osSKU?: Ossku;
   /** The maximum number of nodes for auto-scaling */
   maxCount?: number;
@@ -1353,6 +1449,8 @@ export type AgentPool = SubResource & {
   availabilityZones?: string[];
   /** Some scenarios may require nodes in a node pool to receive their own dedicated public IP addresses. A common scenario is for gaming workloads, where a console needs to make a direct connection to a cloud virtual machine to minimize hops. For more information see [assigning a public IP per node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools). The default is false. */
   enableNodePublicIP?: boolean;
+  /** When set to true, AKS deploys a daemonset and host services to sync custom certificate authorities from a user-provided config map into node trust stores. Defaults to false. */
+  enableCustomCATrust?: boolean;
   /** This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName} */
   nodePublicIPPrefixID?: string;
   /** The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'. */
@@ -1484,6 +1582,8 @@ export type ManagedCluster = TrackedResource & {
   httpProxyConfig?: ManagedClusterHttpProxyConfig;
   /** Security profile for the managed cluster. */
   securityProfile?: ManagedClusterSecurityProfile;
+  /** Storage profile for the managed cluster. */
+  storageProfile?: ManagedClusterStorageProfile;
   /** Ingress profile for the managed cluster. */
   ingressProfile?: ManagedClusterIngressProfile;
   /** Allow or deny public network access for AKS */
@@ -1518,7 +1618,7 @@ export type Snapshot = TrackedResource & {
    */
   readonly osType?: OSType;
   /**
-   * Specifies an OS SKU. This value must not be specified if OSType is Windows.
+   * Specifies the OS SKU used by the agent pool. If not specified, the default is Ubuntu if OSType=Linux or Windows2019 if OSType=Windows. And the default Windows OSSKU will be changed to Windows2022 after Windows2019 is deprecated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly osSku?: Ossku;
@@ -1692,7 +1792,9 @@ export type OSType = string;
 /** Known values of {@link Ossku} that the service accepts. */
 export enum KnownOssku {
   Ubuntu = "Ubuntu",
-  CBLMariner = "CBLMariner"
+  CBLMariner = "CBLMariner",
+  Windows2019 = "Windows2019",
+  Windows2022 = "Windows2022"
 }
 
 /**
@@ -1701,7 +1803,9 @@ export enum KnownOssku {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Ubuntu** \
- * **CBLMariner**
+ * **CBLMariner** \
+ * **Windows2019** \
+ * **Windows2022**
  */
 export type Ossku = string;
 
@@ -1875,6 +1979,21 @@ export enum KnownNetworkPlugin {
  * **none**: Do not use a network plugin. A custom CNI will need to be installed after cluster creation for networking functionality.
  */
 export type NetworkPlugin = string;
+
+/** Known values of {@link NetworkPluginMode} that the service accepts. */
+export enum KnownNetworkPluginMode {
+  /** Pods are given IPs from the PodCIDR address space but use Azure Routing Domains rather than Kubenet reference plugins host-local and bridge. */
+  Overlay = "Overlay"
+}
+
+/**
+ * Defines values for NetworkPluginMode. \
+ * {@link KnownNetworkPluginMode} can be used interchangeably with NetworkPluginMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Overlay**: Pods are given IPs from the PodCIDR address space but use Azure Routing Domains rather than Kubenet reference plugins host-local and bridge.
+ */
+export type NetworkPluginMode = string;
 
 /** Known values of {@link NetworkPolicy} that the service accepts. */
 export enum KnownNetworkPolicy {
@@ -2158,6 +2277,26 @@ export enum KnownSnapshotType {
  * **ManagedCluster**: The snapshot is a snapshot of a managed cluster.
  */
 export type SnapshotType = string;
+
+/** Known values of {@link TrustedAccessRoleBindingProvisioningState} that the service accepts. */
+export enum KnownTrustedAccessRoleBindingProvisioningState {
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Updating = "Updating",
+  Deleting = "Deleting"
+}
+
+/**
+ * Defines values for TrustedAccessRoleBindingProvisioningState. \
+ * {@link KnownTrustedAccessRoleBindingProvisioningState} can be used interchangeably with TrustedAccessRoleBindingProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Updating** \
+ * **Deleting**
+ */
+export type TrustedAccessRoleBindingProvisioningState = string;
 
 /** Known values of {@link ContainerServiceVMSizeTypes} that the service accepts. */
 export enum KnownContainerServiceVMSizeTypes {
@@ -3007,6 +3146,52 @@ export interface ManagedClusterSnapshotsListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type ManagedClusterSnapshotsListByResourceGroupNextResponse = ManagedClusterSnapshotListResult;
+
+/** Optional parameters. */
+export interface TrustedAccessRolesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type TrustedAccessRolesListResponse = TrustedAccessRoleListResult;
+
+/** Optional parameters. */
+export interface TrustedAccessRolesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type TrustedAccessRolesListNextResponse = TrustedAccessRoleListResult;
+
+/** Optional parameters. */
+export interface TrustedAccessRoleBindingsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type TrustedAccessRoleBindingsListResponse = TrustedAccessRoleBindingListResult;
+
+/** Optional parameters. */
+export interface TrustedAccessRoleBindingsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type TrustedAccessRoleBindingsGetResponse = TrustedAccessRoleBinding;
+
+/** Optional parameters. */
+export interface TrustedAccessRoleBindingsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type TrustedAccessRoleBindingsCreateOrUpdateResponse = TrustedAccessRoleBinding;
+
+/** Optional parameters. */
+export interface TrustedAccessRoleBindingsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface TrustedAccessRoleBindingsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type TrustedAccessRoleBindingsListNextResponse = TrustedAccessRoleBindingListResult;
 
 /** Optional parameters. */
 export interface ContainerServiceClientOptionalParams
