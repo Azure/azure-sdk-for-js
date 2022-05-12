@@ -4,9 +4,11 @@
 
 ### Features Added
 
+- Added `caption` and `footnotes` properties to the `DocumentTable` type. These properties represent an optional caption and footnotes (as `DocumentTableCaption` and `DocumentTableFootnote`) that were attached to extracted tables in the input documents.
+
 ### Breaking Changes
 
-- Renamed the `beginCopyModel` method of `DocumentModelAdministrationClient` to `beginCopyModelTo`. [#20775](https://github.com/Azure/azure-sdk-for-js/pull/20775) 
+- Renamed the `beginCopyModel` method of `DocumentModelAdministrationClient` to `beginCopyModelTo`. [#20775](https://github.com/Azure/azure-sdk-for-js/pull/20775)
 
 ### Bugs Fixed
 
