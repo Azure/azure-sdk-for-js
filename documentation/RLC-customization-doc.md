@@ -265,16 +265,15 @@ input-file: /your/swagger/folder/metricsadvisor-admin.json
 When generating the code specify that what we want is multi-client so append the flag in command line `--multi-client`. After generation the folder structure would be like below:
 
 ```
-sdk/
-├─ ${PROJECT_ROOT}/
-│  ├─ src/
-│  │  ├─ client/
-│  │  │  ├─ MetricsAdvisorClient.ts
-│  │  │  ├─ index.ts
-│  │  ├─ admin/
-│  │  │  ├─ MetricsAdvisorAdministrationClient.ts
-│  │  │  ├─ index.ts
+${PROJECT_ROOT}/
+├─ src/
+│  ├─ client/
+│  │  ├─ MetricsAdvisorClient.ts
 │  │  ├─ index.ts
+│  ├─ admin/
+│  │  ├─ MetricsAdvisorAdministrationClient.ts
+│  │  ├─ index.ts
+│  ├─ index.ts
 ```
 
 ### Example code to call any client
