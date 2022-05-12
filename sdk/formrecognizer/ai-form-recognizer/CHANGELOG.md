@@ -5,6 +5,7 @@
 ### Features Added
 
 - Added `paragraphs` property on `AnalyzeResult`. Added a new `DocumentParagraph` type to represent document paragraphs.
+- Added `caption` and `footnotes` properties to the `DocumentTable` type. These properties represent an optional caption and footnotes (as `DocumentTableCaption` and `DocumentTableFootnote`) that were attached to extracted tables in the input documents.
 
 ### Breaking Changes
 
