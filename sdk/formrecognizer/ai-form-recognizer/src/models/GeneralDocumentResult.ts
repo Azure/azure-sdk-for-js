@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DocumentEntity, DocumentKeyValuePair } from "../generated";
+import { DocumentEntity, DocumentKeyValuePair } from "./documentElements";
 import { AnalyzeResult } from "../lro/analyze";
 import { LayoutResult, toLayoutResult } from "./LayoutResult";
 

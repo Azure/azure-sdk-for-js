@@ -69,9 +69,8 @@ export interface ArrayFieldSchema<Item extends Readonly<FieldSchema> = Readonly<
 export { AzureKeyCredential }
 
 // @public
-export interface BoundingRegion {
+export interface BoundingRegion extends HasBoundingPolygon {
     pageNumber: number;
-    polygon: number[];
 }
 
 // @public
@@ -339,6 +338,13 @@ export interface DocumentFieldSchema {
 export type DocumentFieldType = string;
 
 // @public
+export interface DocumentImage extends HasBoundingPolygon {
+    confidence: number;
+    pageRef: number;
+    span: DocumentSpan;
+}
+
+// @public
 export interface DocumentIntegerField extends DocumentValueField<number> {
     kind: "integer";
 }
@@ -365,8 +371,7 @@ export interface DocumentLanguage {
 }
 
 // @public
-export interface DocumentLine {
-    boundingBox?: number[];
+export interface DocumentLine extends HasBoundingPolygon {
     content: string;
     spans: DocumentSpan[];
     words: () => IterableIterator<DocumentWord>;
@@ -423,17 +428,21 @@ export interface DocumentObjectField<Properties = {
 
 // @public
 export interface DocumentPage {
-    angle: number;
-    height: number;
-    kind: string;
+    angle?: number;
+    height?: number;
+    images?: DocumentImage[];
+    kind: DocumentPageKind;
     lines?: DocumentLine[];
-    pageNumber: number;
+    pageNumber?: number;
     selectionMarks?: DocumentSelectionMark[];
     spans: DocumentSpan[];
-    unit: LengthUnit;
-    width: number;
+    unit?: LengthUnit;
+    width?: number;
     words: DocumentWord[];
 }
+
+// @public
+export type DocumentPageKind = string;
 
 // @public
 export interface DocumentParagraph {
@@ -450,9 +459,8 @@ export interface DocumentPhoneNumberField extends DocumentFieldCommon {
 }
 
 // @public
-export interface DocumentSelectionMark {
+export interface DocumentSelectionMark extends HasBoundingPolygon {
     confidence: number;
-    polygon?: number[];
     span: DocumentSpan;
     state: SelectionMarkState;
 }
@@ -542,10 +550,9 @@ export interface DocumentValueField<T> extends DocumentFieldCommon {
 }
 
 // @public
-export interface DocumentWord {
+export interface DocumentWord extends HasBoundingPolygon {
     confidence: number;
     content: string;
-    polygon?: number[];
     span: DocumentSpan;
 }
 
@@ -596,6 +603,11 @@ export interface GetModelOptions extends OperationOptions {
 
 // @public
 export interface GetOperationOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface HasBoundingPolygon {
+    polygon?: Point2D[];
 }
 
 // @public
@@ -1038,6 +1050,12 @@ export type OperationStatus = "notStarted" | "running" | "failed" | "succeeded" 
 
 // @public
 export type ParagraphRole = string;
+
+// @public
+export interface Point2D {
+    x: number;
+    y: number;
+}
 
 // @public
 export interface PollerOptions<TState extends PollOperationState<unknown>> extends OperationOptions {
