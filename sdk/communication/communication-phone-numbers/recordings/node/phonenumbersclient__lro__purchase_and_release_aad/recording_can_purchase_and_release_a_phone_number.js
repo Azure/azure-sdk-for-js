@@ -198,7 +198,7 @@ nock('https://endpoint', {"encodedQueryParams":false})
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .get('/availablePhoneNumbers/searchResults/sanitized')
-  .query(false)
+  .query(true)
   .reply(200, {"searchId":"sanitized","phoneNumbers":["+14155550100"],"phoneNumberType":"tollFree","assignmentType":"application","capabilities":{"calling":"outbound","sms":"none"},"cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"},"searchExpiresBy":"2022-05-12T16:09:54.4881215+00:00"}, [
   'Transfer-Encoding',
   'chunked',
