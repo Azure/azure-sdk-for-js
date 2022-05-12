@@ -268,6 +268,7 @@ curl 'http://169.254.169.254/metadata/identity/oauth2/token?resource=https://man
 | Error Message |Description| Mitigation |
 |---|---|---|
 |ManagedIdentityCredential authentication unavailable.|The environment variables configured by the App Services host weren't present.|<ul><li>Ensure the managed identity has been properly configured on the App Service. Instructions for configuring the managed identity can be found [here](https://docs.microsoft.com/azure/app-service/overview-managed-identity?tabs=portal%2Cjavascript).</li><li>Verify the App Service environment is properly configured and the managed identity endpoint is available. See [below](#verify-the-app-service-managed-identity-endpoint-is-available) for instructions.</li></ul>|
+
 #### Verify the App Service managed identity endpoint is available
 
 If you have access to SSH into the App Service, you can verify managed identity is available in the environment. First, ensure the environment variables `MSI_ENDPOINT` and `MSI_SECRET` have been set in the environment. Then you can verify the managed identity endpoint is available using curl.
@@ -280,8 +281,8 @@ curl 'http://169.254.169.254/metadata/identity/oauth2/token?resource=https://man
 
 ## Troubleshoot Visual Studio Code authentication issues
 
-> It's a [known issue](https://github.com/Azure/azure-sdk-for-js/issues/20500) that `VisualStudioCodeCredential` doesn't work with [Azure Account extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.azure-account) versions newer than **0.9.11**. If you're using Azure Account extension version 0.10.0 or later, downgrading to **version 0.9.11** will resolve this issue. A long-term fix to this problem is in progress.
-  
+> It's a [known issue](https://github.com/Azure/azure-sdk-for-js/issues/20500) that `VisualStudioCodeCredential` doesn't work with [Azure Account extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.azure-account) versions newer than **0.9.11**. A long-term fix to this problem is in progress. In the meantime, consider [authenticating via the Azure CLI](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#authenticating-via-the-azure-cli).
+
 ### CredentialUnavailableError
 
 | Error Message |Description| Mitigation |
