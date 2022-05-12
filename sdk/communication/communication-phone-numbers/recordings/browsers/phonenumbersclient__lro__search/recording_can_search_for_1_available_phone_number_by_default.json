@@ -13,16 +13,16 @@
     "access-control-expose-headers": "Location,Operation-Location,operation-id,search-id",
     "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview",
     "content-length": "0",
-    "date": "Thu, 12 May 2022 10:39:52 GMT",
+    "date": "Thu, 12 May 2022 16:42:19 GMT",
     "location": "/availablePhoneNumbers/searchResults/sanitized?api-version=2022-06-01-preview",
-    "ms-cv": "qG2kprDE5EmOIOHGF0wjpA.0",
+    "ms-cv": "9zNfDiNF+E6BD8pRBhtOXw.0",
     "operation-id": "search_sanitized",
     "operation-location": "/phoneNumbers/operations/search_sanitized?api-version=2022-06-01-preview",
     "search-id": "sanitized",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "09eN8YgAAAAAYzyw2xdgcQ721r3FC3+zsUFJHMDFFREdFMDYxNABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+    "x-azure-ref": "06Dh9YgAAAABdYE7YVAVaRLAZqC0giSEjUFJHMDFFREdFMDkyMQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "2625ms"
+    "x-processing-time": "2875ms"
    }
   },
   {
@@ -33,18 +33,18 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"operationType\":\"search\",\"status\":\"notStarted\",\"resourceLocation\":\"/availablePhoneNumbers/searchResults/sanitized?api-version=2022-06-01-preview\",\"createdDateTime\":\"2022-05-12T10:39:52.812992+00:00\",\"id\":\"search_sanitized\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+   "response": "{\"operationType\":\"search\",\"status\":\"succeeded\",\"resourceLocation\":\"/availablePhoneNumbers/searchResults/sanitized?api-version=2022-06-01-preview\",\"createdDateTime\":\"2022-05-12T16:42:19.3390584+00:00\",\"id\":\"search_sanitized\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
    "responseHeaders": {
     "access-control-expose-headers": "Location",
     "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 12 May 2022 10:39:53 GMT",
+    "date": "Thu, 12 May 2022 16:42:19 GMT",
     "location": "/availablePhoneNumbers/searchResults/sanitized?api-version=2022-06-01-preview",
-    "ms-cv": "E8QHpphNLEO0OdRiYrt/hw.0",
+    "ms-cv": "nwzMhVlhY0+8OoW2DdxE4Q.0",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0+eN8YgAAAAB/uNFEDrqrQ5KR5NVNpCFiUFJHMDFFREdFMDYxNABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+    "x-azure-ref": "06zh9YgAAAABvCZwvjg2gS4dy4T4xbkn8UFJHMDFFREdFMDkyMQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "368ms"
+    "x-processing-time": "393ms"
    }
   },
   {
@@ -55,36 +55,16 @@
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"searchId\":\"sanitized\",\"phoneNumbers\":[\"+14155550100\"],\"phoneNumberType\":\"tollFree\",\"assignmentType\":\"application\",\"capabilities\":{\"calling\":\"outbound\",\"sms\":\"none\"},\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"},\"searchExpiresBy\":\"2022-05-12T10:55:54.1133148+00:00\"}",
+   "response": "{\"searchId\":\"sanitized\",\"phoneNumbers\":[\"+14155550100\"],\"phoneNumberType\":\"tollFree\",\"assignmentType\":\"application\",\"capabilities\":{\"calling\":\"outbound\",\"sms\":\"none\"},\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"},\"searchExpiresBy\":\"2022-05-12T16:58:19.8367474+00:00\"}",
    "responseHeaders": {
     "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 12 May 2022 10:39:56 GMT",
-    "ms-cv": "AOtOJzj/vUiKI5SiV407uA.0",
+    "date": "Thu, 12 May 2022 16:42:23 GMT",
+    "ms-cv": "cm2RFgaoC0q3gMWPQN8Cqg.0",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0++N8YgAAAADzI6bLlL7+T5Rfw2K++ZH9UFJHMDFFREdFMDYxNABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+    "x-azure-ref": "07jh9YgAAAAAig1dMiIU4Rpl1wqRfB9GTUFJHMDFFREdFMDkyMQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "1273ms"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/availablePhoneNumbers/searchResults/sanitized",
-   "query": {
-    "api-version": "2022-06-01-preview"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"searchId\":\"sanitized\",\"phoneNumbers\":[\"+14155550100\"],\"phoneNumberType\":\"tollFree\",\"assignmentType\":\"application\",\"capabilities\":{\"calling\":\"outbound\",\"sms\":\"none\"},\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"},\"searchExpiresBy\":\"2022-05-12T10:55:54.1133148+00:00\"}",
-   "responseHeaders": {
-    "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 12 May 2022 10:40:00 GMT",
-    "ms-cv": "M8mDudvVkUy9S+3MTHeVqw.0",
-    "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0/+N8YgAAAAAGhOlrwa25Rpc7fALJ3g7yUFJHMDFFREdFMDYxNABjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
-    "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "1764ms"
+    "x-processing-time": "1164ms"
    }
   }
  ],

@@ -39,6 +39,8 @@ directive:
       }
 ```
 
+### Change naming of update capabilities to ommit the OC specification
+
 ``` yaml
 directive:
   from: swagger-document
