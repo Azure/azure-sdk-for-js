@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { SharedOptions } from "./SharedOptions";
+import { DedicatedGatewayRequestOptions, SharedOptions } from "..";
 
 /**
  * Options that can be specified for a requested issued to the Azure Cosmos DB servers.=
  */
-export interface RequestOptions extends SharedOptions {
+export interface RequestOptions extends SharedOptions, DedicatedGatewayRequestOptions {
   /** Conditions Associated with the request. */
   accessCondition?: {
     /** Conditional HTTP method header type (IfMatch or IfNoneMatch). */
