@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added `paragraphs` property on `AnalyzeResult`. Added a new `DocumentParagraph` type to represent document paragraphs.
+- Added a `paragraphs` property to the `AnalyzeResult` type and a new `DocumentParagraph` type. This property represents the paragraph structure of the input document's text.
 
 ### Breaking Changes
 
