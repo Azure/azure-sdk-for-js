@@ -25,14 +25,14 @@ import {
 /** Interface representing a Certificates. */
 export interface Certificates {
   /**
-   * Description for Get all certificates for a subscription.
+   * Get all certificates for a subscription.
    * @param options The options parameters.
    */
   list(
     options?: CertificatesListOptionalParams
   ): PagedAsyncIterableIterator<Certificate>;
   /**
-   * Description for Get all certificates in a resource group.
+   * Get all certificates in a resource group.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param options The options parameters.
    */
@@ -41,7 +41,7 @@ export interface Certificates {
     options?: CertificatesListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<Certificate>;
   /**
-   * Description for Get a certificate.
+   * Get a certificate.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate.
    * @param options The options parameters.
@@ -52,7 +52,7 @@ export interface Certificates {
     options?: CertificatesGetOptionalParams
   ): Promise<CertificatesGetResponse>;
   /**
-   * Description for Create or update a certificate.
+   * Create or update a certificate.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate.
    * @param certificateEnvelope Details of certificate, if it exists already.
@@ -65,7 +65,7 @@ export interface Certificates {
     options?: CertificatesCreateOrUpdateOptionalParams
   ): Promise<CertificatesCreateOrUpdateResponse>;
   /**
-   * Description for Delete a certificate.
+   * Delete a certificate.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate.
    * @param options The options parameters.
@@ -76,7 +76,7 @@ export interface Certificates {
     options?: CertificatesDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Description for Create or update a certificate.
+   * Create or update a certificate.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate.
    * @param certificateEnvelope Details of certificate, if it exists already.

@@ -93,14 +93,14 @@ import {
 /** Interface representing a AppServiceEnvironments. */
 export interface AppServiceEnvironments {
   /**
-   * Description for Get all App Service Environments for a subscription.
+   * Get all App Service Environments for a subscription.
    * @param options The options parameters.
    */
   list(
     options?: AppServiceEnvironmentsListOptionalParams
   ): PagedAsyncIterableIterator<AppServiceEnvironmentResource>;
   /**
-   * Description for Get all App Service Environments in a resource group.
+   * Get all App Service Environments in a resource group.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param options The options parameters.
    */
@@ -109,7 +109,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<AppServiceEnvironmentResource>;
   /**
-   * Description for Get the used, available, and total worker capacity an App Service Environment.
+   * Get the used, available, and total worker capacity an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -120,7 +120,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsListCapacitiesOptionalParams
   ): PagedAsyncIterableIterator<StampCapacity>;
   /**
-   * Description for Move an App Service Environment to a different VNET.
+   * Move an App Service Environment to a different VNET.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param vnetInfo Details for the new virtual network.
@@ -133,7 +133,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsChangeVnetOptionalParams
   ): PagedAsyncIterableIterator<Site>;
   /**
-   * Description for Get the network endpoints of all inbound dependencies of an App Service Environment.
+   * Get the network endpoints of all inbound dependencies of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -144,7 +144,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsGetInboundNetworkDependenciesEndpointsOptionalParams
   ): PagedAsyncIterableIterator<InboundEnvironmentEndpoint>;
   /**
-   * Description for Get all multi-role pools.
+   * Get all multi-role pools.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -155,8 +155,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsListMultiRolePoolsOptionalParams
   ): PagedAsyncIterableIterator<WorkerPoolResource>;
   /**
-   * Description for Get metric definitions for a specific instance of a multi-role pool of an App
-   * Service Environment.
+   * Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param instance Name of the instance in the multi-role pool.
@@ -169,7 +168,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsListMultiRolePoolInstanceMetricDefinitionsOptionalParams
   ): PagedAsyncIterableIterator<ResourceMetricDefinition>;
   /**
-   * Description for Get metric definitions for a multi-role pool of an App Service Environment.
+   * Get metric definitions for a multi-role pool of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -180,7 +179,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsListMultiRoleMetricDefinitionsOptionalParams
   ): PagedAsyncIterableIterator<ResourceMetricDefinition>;
   /**
-   * Description for Get available SKUs for scaling a multi-role pool.
+   * Get available SKUs for scaling a multi-role pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -191,7 +190,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsListMultiRolePoolSkusOptionalParams
   ): PagedAsyncIterableIterator<SkuInfo>;
   /**
-   * Description for Get usage metrics for a multi-role pool of an App Service Environment.
+   * Get usage metrics for a multi-role pool of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -202,8 +201,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsListMultiRoleUsagesOptionalParams
   ): PagedAsyncIterableIterator<Usage>;
   /**
-   * Description for Get the network endpoints of all outbound dependencies of an App Service
-   * Environment.
+   * Get the network endpoints of all outbound dependencies of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -214,7 +212,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsOptionalParams
   ): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
   /**
-   * Description for Gets the list of private endpoints associated with a hosting environment
+   * Gets the list of private endpoints associated with a hosting environment
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -225,7 +223,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsGetPrivateEndpointConnectionListOptionalParams
   ): PagedAsyncIterableIterator<RemotePrivateEndpointConnectionARMResource>;
   /**
-   * Description for Resume an App Service Environment.
+   * Resume an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -236,7 +234,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsResumeOptionalParams
   ): PagedAsyncIterableIterator<Site>;
   /**
-   * Description for Get all App Service plans in an App Service Environment.
+   * Get all App Service plans in an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -247,7 +245,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsListAppServicePlansOptionalParams
   ): PagedAsyncIterableIterator<AppServicePlan>;
   /**
-   * Description for Get all apps in an App Service Environment.
+   * Get all apps in an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -258,7 +256,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsListWebAppsOptionalParams
   ): PagedAsyncIterableIterator<Site>;
   /**
-   * Description for Suspend an App Service Environment.
+   * Suspend an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -269,7 +267,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsSuspendOptionalParams
   ): PagedAsyncIterableIterator<Site>;
   /**
-   * Description for Get global usage metrics of an App Service Environment.
+   * Get global usage metrics of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -280,7 +278,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsListUsagesOptionalParams
   ): PagedAsyncIterableIterator<CsmUsageQuota>;
   /**
-   * Description for Get all worker pools of an App Service Environment.
+   * Get all worker pools of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -291,8 +289,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsListWorkerPoolsOptionalParams
   ): PagedAsyncIterableIterator<WorkerPoolResource>;
   /**
-   * Description for Get metric definitions for a specific instance of a worker pool of an App Service
-   * Environment.
+   * Get metric definitions for a specific instance of a worker pool of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param workerPoolName Name of the worker pool.
@@ -307,7 +304,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsListWorkerPoolInstanceMetricDefinitionsOptionalParams
   ): PagedAsyncIterableIterator<ResourceMetricDefinition>;
   /**
-   * Description for Get metric definitions for a worker pool of an App Service Environment.
+   * Get metric definitions for a worker pool of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param workerPoolName Name of the worker pool.
@@ -320,7 +317,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsListWebWorkerMetricDefinitionsOptionalParams
   ): PagedAsyncIterableIterator<ResourceMetricDefinition>;
   /**
-   * Description for Get available SKUs for scaling a worker pool.
+   * Get available SKUs for scaling a worker pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param workerPoolName Name of the worker pool.
@@ -333,7 +330,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsListWorkerPoolSkusOptionalParams
   ): PagedAsyncIterableIterator<SkuInfo>;
   /**
-   * Description for Get usage metrics for a worker pool of an App Service Environment.
+   * Get usage metrics for a worker pool of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param workerPoolName Name of the worker pool.
@@ -346,7 +343,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsListWebWorkerUsagesOptionalParams
   ): PagedAsyncIterableIterator<Usage>;
   /**
-   * Description for Get the properties of an App Service Environment.
+   * Get the properties of an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -357,7 +354,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsGetOptionalParams
   ): Promise<AppServiceEnvironmentsGetResponse>;
   /**
-   * Description for Create or update an App Service Environment.
+   * Create or update an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param hostingEnvironmentEnvelope Configuration details of the App Service Environment.
@@ -375,7 +372,7 @@ export interface AppServiceEnvironments {
     >
   >;
   /**
-   * Description for Create or update an App Service Environment.
+   * Create or update an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param hostingEnvironmentEnvelope Configuration details of the App Service Environment.
@@ -388,7 +385,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsCreateOrUpdateOptionalParams
   ): Promise<AppServiceEnvironmentsCreateOrUpdateResponse>;
   /**
-   * Description for Delete an App Service Environment.
+   * Delete an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -399,7 +396,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
-   * Description for Delete an App Service Environment.
+   * Delete an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -410,7 +407,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Description for Create or update an App Service Environment.
+   * Create or update an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param hostingEnvironmentEnvelope Configuration details of the App Service Environment.
@@ -423,7 +420,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsUpdateOptionalParams
   ): Promise<AppServiceEnvironmentsUpdateResponse>;
   /**
-   * Description for Get IP addresses assigned to an App Service Environment.
+   * Get IP addresses assigned to an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -434,7 +431,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsGetVipInfoOptionalParams
   ): Promise<AppServiceEnvironmentsGetVipInfoResponse>;
   /**
-   * Description for Get networking configuration of an App Service Environment
+   * Get networking configuration of an App Service Environment
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -445,7 +442,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsGetAseV3NetworkingConfigurationOptionalParams
   ): Promise<AppServiceEnvironmentsGetAseV3NetworkingConfigurationResponse>;
   /**
-   * Description for Update networking configuration of an App Service Environment
+   * Update networking configuration of an App Service Environment
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param aseNetworkingConfiguration Full view of networking configuration for an ASE.
@@ -458,7 +455,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsUpdateAseNetworkingConfigurationOptionalParams
   ): Promise<AppServiceEnvironmentsUpdateAseNetworkingConfigurationResponse>;
   /**
-   * Description for Get diagnostic information for an App Service Environment.
+   * Get diagnostic information for an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -469,7 +466,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsListDiagnosticsOptionalParams
   ): Promise<AppServiceEnvironmentsListDiagnosticsResponse>;
   /**
-   * Description for Get a diagnostics item for an App Service Environment.
+   * Get a diagnostics item for an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param diagnosticsName Name of the diagnostics item.
@@ -482,7 +479,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsGetDiagnosticsItemOptionalParams
   ): Promise<AppServiceEnvironmentsGetDiagnosticsItemResponse>;
   /**
-   * Description for Get properties of a multi-role pool.
+   * Get properties of a multi-role pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -493,7 +490,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsGetMultiRolePoolOptionalParams
   ): Promise<AppServiceEnvironmentsGetMultiRolePoolResponse>;
   /**
-   * Description for Create or update a multi-role pool.
+   * Create or update a multi-role pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param multiRolePoolEnvelope Properties of the multi-role pool.
@@ -513,7 +510,7 @@ export interface AppServiceEnvironments {
     >
   >;
   /**
-   * Description for Create or update a multi-role pool.
+   * Create or update a multi-role pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param multiRolePoolEnvelope Properties of the multi-role pool.
@@ -526,7 +523,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsCreateOrUpdateMultiRolePoolOptionalParams
   ): Promise<AppServiceEnvironmentsCreateOrUpdateMultiRolePoolResponse>;
   /**
-   * Description for Create or update a multi-role pool.
+   * Create or update a multi-role pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param multiRolePoolEnvelope Properties of the multi-role pool.
@@ -539,7 +536,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsUpdateMultiRolePoolOptionalParams
   ): Promise<AppServiceEnvironmentsUpdateMultiRolePoolResponse>;
   /**
-   * Description for List all currently running operations on the App Service Environment.
+   * List all currently running operations on the App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -550,7 +547,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsListOperationsOptionalParams
   ): Promise<AppServiceEnvironmentsListOperationsResponse>;
   /**
-   * Description for Gets a private endpoint connection
+   * Gets a private endpoint connection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param privateEndpointConnectionName Name of the private endpoint connection.
@@ -563,7 +560,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsGetPrivateEndpointConnectionOptionalParams
   ): Promise<AppServiceEnvironmentsGetPrivateEndpointConnectionResponse>;
   /**
-   * Description for Approves or rejects a private endpoint connection
+   * Approves or rejects a private endpoint connection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param privateEndpointConnectionName
@@ -585,7 +582,7 @@ export interface AppServiceEnvironments {
     >
   >;
   /**
-   * Description for Approves or rejects a private endpoint connection
+   * Approves or rejects a private endpoint connection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param privateEndpointConnectionName
@@ -602,7 +599,7 @@ export interface AppServiceEnvironments {
     AppServiceEnvironmentsApproveOrRejectPrivateEndpointConnectionResponse
   >;
   /**
-   * Description for Deletes a private endpoint connection
+   * Deletes a private endpoint connection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param privateEndpointConnectionName
@@ -622,7 +619,7 @@ export interface AppServiceEnvironments {
     >
   >;
   /**
-   * Description for Deletes a private endpoint connection
+   * Deletes a private endpoint connection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param privateEndpointConnectionName
@@ -635,7 +632,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsDeletePrivateEndpointConnectionOptionalParams
   ): Promise<AppServiceEnvironmentsDeletePrivateEndpointConnectionResponse>;
   /**
-   * Description for Gets the private link resources
+   * Gets the private link resources
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -646,7 +643,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsGetPrivateLinkResourcesOptionalParams
   ): Promise<AppServiceEnvironmentsGetPrivateLinkResourcesResponse>;
   /**
-   * Description for Reboot all machines in an App Service Environment.
+   * Reboot all machines in an App Service Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param options The options parameters.
@@ -657,7 +654,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsRebootOptionalParams
   ): Promise<void>;
   /**
-   * Description for Get properties of a worker pool.
+   * Get properties of a worker pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param workerPoolName Name of the worker pool.
@@ -670,7 +667,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsGetWorkerPoolOptionalParams
   ): Promise<AppServiceEnvironmentsGetWorkerPoolResponse>;
   /**
-   * Description for Create or update a worker pool.
+   * Create or update a worker pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param workerPoolName Name of the worker pool.
@@ -692,7 +689,7 @@ export interface AppServiceEnvironments {
     >
   >;
   /**
-   * Description for Create or update a worker pool.
+   * Create or update a worker pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param workerPoolName Name of the worker pool.
@@ -707,7 +704,7 @@ export interface AppServiceEnvironments {
     options?: AppServiceEnvironmentsCreateOrUpdateWorkerPoolOptionalParams
   ): Promise<AppServiceEnvironmentsCreateOrUpdateWorkerPoolResponse>;
   /**
-   * Description for Create or update a worker pool.
+   * Create or update a worker pool.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service Environment.
    * @param workerPoolName Name of the worker pool.

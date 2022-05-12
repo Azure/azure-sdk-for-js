@@ -40,7 +40,7 @@ export class DeletedWebAppsImpl implements DeletedWebApps {
   }
 
   /**
-   * Description for Get all deleted apps for a subscription.
+   * Get all deleted apps for a subscription.
    * @param options The options parameters.
    */
   public list(
@@ -82,7 +82,7 @@ export class DeletedWebAppsImpl implements DeletedWebApps {
   }
 
   /**
-   * Description for Get all deleted apps for a subscription at location
+   * Get all deleted apps for a subscription at location
    * @param location
    * @param options The options parameters.
    */
@@ -132,7 +132,7 @@ export class DeletedWebAppsImpl implements DeletedWebApps {
   }
 
   /**
-   * Description for Get all deleted apps for a subscription.
+   * Get all deleted apps for a subscription.
    * @param options The options parameters.
    */
   private _list(
@@ -142,7 +142,7 @@ export class DeletedWebAppsImpl implements DeletedWebApps {
   }
 
   /**
-   * Description for Get all deleted apps for a subscription at location
+   * Get all deleted apps for a subscription at location
    * @param location
    * @param options The options parameters.
    */
@@ -157,7 +157,7 @@ export class DeletedWebAppsImpl implements DeletedWebApps {
   }
 
   /**
-   * Description for Get deleted app for a subscription at location.
+   * Get deleted app for a subscription at location.
    * @param location
    * @param deletedSiteId The numeric ID of the deleted app, e.g. 12345
    * @param options The options parameters.

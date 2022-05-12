@@ -46,7 +46,7 @@ export class CertificatesImpl implements Certificates {
   }
 
   /**
-   * Description for Get all certificates for a subscription.
+   * Get all certificates for a subscription.
    * @param options The options parameters.
    */
   public list(
@@ -88,7 +88,7 @@ export class CertificatesImpl implements Certificates {
   }
 
   /**
-   * Description for Get all certificates in a resource group.
+   * Get all certificates in a resource group.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param options The options parameters.
    */
@@ -141,7 +141,7 @@ export class CertificatesImpl implements Certificates {
   }
 
   /**
-   * Description for Get all certificates for a subscription.
+   * Get all certificates for a subscription.
    * @param options The options parameters.
    */
   private _list(
@@ -151,7 +151,7 @@ export class CertificatesImpl implements Certificates {
   }
 
   /**
-   * Description for Get all certificates in a resource group.
+   * Get all certificates in a resource group.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param options The options parameters.
    */
@@ -166,7 +166,7 @@ export class CertificatesImpl implements Certificates {
   }
 
   /**
-   * Description for Get a certificate.
+   * Get a certificate.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate.
    * @param options The options parameters.
@@ -183,7 +183,7 @@ export class CertificatesImpl implements Certificates {
   }
 
   /**
-   * Description for Create or update a certificate.
+   * Create or update a certificate.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate.
    * @param certificateEnvelope Details of certificate, if it exists already.
@@ -202,7 +202,7 @@ export class CertificatesImpl implements Certificates {
   }
 
   /**
-   * Description for Delete a certificate.
+   * Delete a certificate.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate.
    * @param options The options parameters.
@@ -219,7 +219,7 @@ export class CertificatesImpl implements Certificates {
   }
 
   /**
-   * Description for Create or update a certificate.
+   * Create or update a certificate.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate.
    * @param certificateEnvelope Details of certificate, if it exists already.

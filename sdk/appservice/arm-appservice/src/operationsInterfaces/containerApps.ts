@@ -52,7 +52,7 @@ export interface ContainerApps {
     options?: ContainerAppsGetOptionalParams
   ): Promise<ContainerAppsGetResponse>;
   /**
-   * Description for Create or update a Container App.
+   * Create or update a Container App.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the Container App.
    * @param containerAppEnvelope Container App.
@@ -70,7 +70,7 @@ export interface ContainerApps {
     >
   >;
   /**
-   * Description for Create or update a Container App.
+   * Create or update a Container App.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the Container App.
    * @param containerAppEnvelope Container App.
@@ -83,7 +83,7 @@ export interface ContainerApps {
     options?: ContainerAppsCreateOrUpdateOptionalParams
   ): Promise<ContainerAppsCreateOrUpdateResponse>;
   /**
-   * Description for Delete a Container App.
+   * Delete a Container App.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the Container App.
    * @param options The options parameters.
@@ -94,7 +94,7 @@ export interface ContainerApps {
     options?: ContainerAppsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
-   * Description for Delete a Container App.
+   * Delete a Container App.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the Container App.
    * @param options The options parameters.

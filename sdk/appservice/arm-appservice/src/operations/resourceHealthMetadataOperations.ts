@@ -51,7 +51,7 @@ export class ResourceHealthMetadataOperationsImpl
   }
 
   /**
-   * Description for List all ResourceHealthMetadata for all sites in the subscription.
+   * List all ResourceHealthMetadata for all sites in the subscription.
    * @param options The options parameters.
    */
   public list(
@@ -93,8 +93,7 @@ export class ResourceHealthMetadataOperationsImpl
   }
 
   /**
-   * Description for List all ResourceHealthMetadata for all sites in the resource group in the
-   * subscription.
+   * List all ResourceHealthMetadata for all sites in the resource group in the subscription.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param options The options parameters.
    */
@@ -147,8 +146,7 @@ export class ResourceHealthMetadataOperationsImpl
   }
 
   /**
-   * Description for Gets the category of ResourceHealthMetadata to use for the given site as a
-   * collection
+   * Gets the category of ResourceHealthMetadata to use for the given site as a collection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param options The options parameters.
@@ -207,8 +205,7 @@ export class ResourceHealthMetadataOperationsImpl
   }
 
   /**
-   * Description for Gets the category of ResourceHealthMetadata to use for the given site as a
-   * collection
+   * Gets the category of ResourceHealthMetadata to use for the given site as a collection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param slot Name of web app slot. If not specified then will default to production slot.
@@ -288,7 +285,7 @@ export class ResourceHealthMetadataOperationsImpl
   }
 
   /**
-   * Description for List all ResourceHealthMetadata for all sites in the subscription.
+   * List all ResourceHealthMetadata for all sites in the subscription.
    * @param options The options parameters.
    */
   private _list(
@@ -298,8 +295,7 @@ export class ResourceHealthMetadataOperationsImpl
   }
 
   /**
-   * Description for List all ResourceHealthMetadata for all sites in the resource group in the
-   * subscription.
+   * List all ResourceHealthMetadata for all sites in the resource group in the subscription.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param options The options parameters.
    */
@@ -314,8 +310,7 @@ export class ResourceHealthMetadataOperationsImpl
   }
 
   /**
-   * Description for Gets the category of ResourceHealthMetadata to use for the given site as a
-   * collection
+   * Gets the category of ResourceHealthMetadata to use for the given site as a collection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param options The options parameters.
@@ -332,7 +327,7 @@ export class ResourceHealthMetadataOperationsImpl
   }
 
   /**
-   * Description for Gets the category of ResourceHealthMetadata to use for the given site
+   * Gets the category of ResourceHealthMetadata to use for the given site
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app
    * @param options The options parameters.
@@ -349,8 +344,7 @@ export class ResourceHealthMetadataOperationsImpl
   }
 
   /**
-   * Description for Gets the category of ResourceHealthMetadata to use for the given site as a
-   * collection
+   * Gets the category of ResourceHealthMetadata to use for the given site as a collection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param slot Name of web app slot. If not specified then will default to production slot.
@@ -369,7 +363,7 @@ export class ResourceHealthMetadataOperationsImpl
   }
 
   /**
-   * Description for Gets the category of ResourceHealthMetadata to use for the given site
+   * Gets the category of ResourceHealthMetadata to use for the given site
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app
    * @param slot Name of web app slot. If not specified then will default to production slot.

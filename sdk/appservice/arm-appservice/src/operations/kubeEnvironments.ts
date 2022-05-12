@@ -48,7 +48,7 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
   }
 
   /**
-   * Description for Get all Kubernetes Environments for a subscription.
+   * Get all Kubernetes Environments for a subscription.
    * @param options The options parameters.
    */
   public listBySubscription(
@@ -90,7 +90,7 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
   }
 
   /**
-   * Description for Get all the Kubernetes Environments in a resource group.
+   * Get all the Kubernetes Environments in a resource group.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param options The options parameters.
    */
@@ -143,7 +143,7 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
   }
 
   /**
-   * Description for Get all Kubernetes Environments for a subscription.
+   * Get all Kubernetes Environments for a subscription.
    * @param options The options parameters.
    */
   private _listBySubscription(
@@ -156,7 +156,7 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
   }
 
   /**
-   * Description for Get all the Kubernetes Environments in a resource group.
+   * Get all the Kubernetes Environments in a resource group.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param options The options parameters.
    */
@@ -171,7 +171,7 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
   }
 
   /**
-   * Description for Get the properties of a Kubernetes Environment.
+   * Get the properties of a Kubernetes Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the Kubernetes Environment.
    * @param options The options parameters.
@@ -188,7 +188,7 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
   }
 
   /**
-   * Description for Creates or updates a Kubernetes Environment.
+   * Creates or updates a Kubernetes Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the Kubernetes Environment.
    * @param kubeEnvironmentEnvelope Configuration details of the Kubernetes Environment.
@@ -258,7 +258,7 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
   }
 
   /**
-   * Description for Creates or updates a Kubernetes Environment.
+   * Creates or updates a Kubernetes Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the Kubernetes Environment.
    * @param kubeEnvironmentEnvelope Configuration details of the Kubernetes Environment.
@@ -280,7 +280,7 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
   }
 
   /**
-   * Description for Delete a Kubernetes Environment.
+   * Delete a Kubernetes Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the Kubernetes Environment.
    * @param options The options parameters.
@@ -343,7 +343,7 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
   }
 
   /**
-   * Description for Delete a Kubernetes Environment.
+   * Delete a Kubernetes Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the Kubernetes Environment.
    * @param options The options parameters.
@@ -358,7 +358,7 @@ export class KubeEnvironmentsImpl implements KubeEnvironments {
   }
 
   /**
-   * Description for Creates or updates a Kubernetes Environment.
+   * Creates or updates a Kubernetes Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the Kubernetes Environment.
    * @param kubeEnvironmentEnvelope Configuration details of the Kubernetes Environment.

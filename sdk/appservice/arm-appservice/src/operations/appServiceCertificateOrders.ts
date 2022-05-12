@@ -78,7 +78,7 @@ export class AppServiceCertificateOrdersImpl
   }
 
   /**
-   * Description for List all certificate orders in a subscription.
+   * List all certificate orders in a subscription.
    * @param options The options parameters.
    */
   public list(
@@ -120,7 +120,7 @@ export class AppServiceCertificateOrdersImpl
   }
 
   /**
-   * Description for Get certificate orders in a resource group.
+   * Get certificate orders in a resource group.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param options The options parameters.
    */
@@ -173,7 +173,7 @@ export class AppServiceCertificateOrdersImpl
   }
 
   /**
-   * Description for List all certificates associated with a certificate order.
+   * List all certificates associated with a certificate order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param options The options parameters.
@@ -244,7 +244,7 @@ export class AppServiceCertificateOrdersImpl
   }
 
   /**
-   * Description for List all certificate orders in a subscription.
+   * List all certificate orders in a subscription.
    * @param options The options parameters.
    */
   private _list(
@@ -254,7 +254,7 @@ export class AppServiceCertificateOrdersImpl
   }
 
   /**
-   * Description for Validate information for a certificate order.
+   * Validate information for a certificate order.
    * @param appServiceCertificateOrder Information for a certificate order.
    * @param options The options parameters.
    */
@@ -269,7 +269,7 @@ export class AppServiceCertificateOrdersImpl
   }
 
   /**
-   * Description for Get certificate orders in a resource group.
+   * Get certificate orders in a resource group.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param options The options parameters.
    */
@@ -284,7 +284,7 @@ export class AppServiceCertificateOrdersImpl
   }
 
   /**
-   * Description for Get a certificate order.
+   * Get a certificate order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order..
    * @param options The options parameters.
@@ -301,7 +301,7 @@ export class AppServiceCertificateOrdersImpl
   }
 
   /**
-   * Description for Create or update a certificate purchase order.
+   * Create or update a certificate purchase order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param certificateDistinguishedName Distinguished name to use for the certificate order.
@@ -376,7 +376,7 @@ export class AppServiceCertificateOrdersImpl
   }
 
   /**
-   * Description for Create or update a certificate purchase order.
+   * Create or update a certificate purchase order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param certificateDistinguishedName Distinguished name to use for the certificate order.
@@ -398,7 +398,7 @@ export class AppServiceCertificateOrdersImpl
   }
 
   /**
-   * Description for Delete an existing certificate order.
+   * Delete an existing certificate order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param options The options parameters.
@@ -415,7 +415,7 @@ export class AppServiceCertificateOrdersImpl
   }
 
   /**
-   * Description for Create or update a certificate purchase order.
+   * Create or update a certificate purchase order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param certificateDistinguishedName Distinguished name to use for the certificate order.
@@ -439,7 +439,7 @@ export class AppServiceCertificateOrdersImpl
   }
 
   /**
-   * Description for List all certificates associated with a certificate order.
+   * List all certificates associated with a certificate order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param options The options parameters.
@@ -456,7 +456,7 @@ export class AppServiceCertificateOrdersImpl
   }
 
   /**
-   * Description for Get the certificate associated with a certificate order.
+   * Get the certificate associated with a certificate order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param name Name of the certificate.
@@ -475,7 +475,7 @@ export class AppServiceCertificateOrdersImpl
   }
 
   /**
-   * Description for Creates or updates a certificate and associates with key vault secret.
+   * Creates or updates a certificate and associates with key vault secret.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param name Name of the certificate.
@@ -555,7 +555,7 @@ export class AppServiceCertificateOrdersImpl
   }
 
   /**
-   * Description for Creates or updates a certificate and associates with key vault secret.
+   * Creates or updates a certificate and associates with key vault secret.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param name Name of the certificate.
@@ -580,7 +580,7 @@ export class AppServiceCertificateOrdersImpl
   }
 
   /**
-   * Description for Delete the certificate associated with a certificate order.
+   * Delete the certificate associated with a certificate order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param name Name of the certificate.
@@ -599,7 +599,7 @@ export class AppServiceCertificateOrdersImpl
   }
 
   /**
-   * Description for Creates or updates a certificate and associates with key vault secret.
+   * Creates or updates a certificate and associates with key vault secret.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param name Name of the certificate.
@@ -626,7 +626,7 @@ export class AppServiceCertificateOrdersImpl
   }
 
   /**
-   * Description for Reissue an existing certificate order.
+   * Reissue an existing certificate order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param reissueCertificateOrderRequest Parameters for the reissue.
@@ -650,7 +650,7 @@ export class AppServiceCertificateOrdersImpl
   }
 
   /**
-   * Description for Renew an existing certificate order.
+   * Renew an existing certificate order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param renewCertificateOrderRequest Renew parameters
@@ -674,7 +674,7 @@ export class AppServiceCertificateOrdersImpl
   }
 
   /**
-   * Description for Resend certificate email.
+   * Resend certificate email.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param options The options parameters.
@@ -736,7 +736,7 @@ export class AppServiceCertificateOrdersImpl
   }
 
   /**
-   * Description for Verify domain ownership for this certificate order.
+   * Verify domain ownership for this certificate order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param options The options parameters.
@@ -753,7 +753,7 @@ export class AppServiceCertificateOrdersImpl
   }
 
   /**
-   * Description for Retrieve the list of certificate actions.
+   * Retrieve the list of certificate actions.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate order.
    * @param options The options parameters.
@@ -770,7 +770,7 @@ export class AppServiceCertificateOrdersImpl
   }
 
   /**
-   * Description for Retrieve email history.
+   * Retrieve email history.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate order.
    * @param options The options parameters.

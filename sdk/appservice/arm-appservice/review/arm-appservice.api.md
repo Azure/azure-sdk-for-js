@@ -7472,6 +7472,7 @@ export interface WebApps {
     beginSwapSlotWithProductionAndWait(resourceGroupName: string, name: string, slotSwapEntity: CsmSlotEntity, options?: WebAppsSwapSlotWithProductionOptionalParams): Promise<void>;
     createDeployment(resourceGroupName: string, name: string, id: string, deployment: Deployment, options?: WebAppsCreateDeploymentOptionalParams): Promise<WebAppsCreateDeploymentResponse>;
     createDeploymentSlot(resourceGroupName: string, name: string, id: string, slot: string, deployment: Deployment, options?: WebAppsCreateDeploymentSlotOptionalParams): Promise<WebAppsCreateDeploymentSlotResponse>;
+    createOneDeployOperation(resourceGroupName: string, name: string, options?: WebAppsCreateOneDeployOperationOptionalParams): Promise<WebAppsCreateOneDeployOperationResponse>;
     createOrUpdateConfiguration(resourceGroupName: string, name: string, siteConfig: SiteConfigResource, options?: WebAppsCreateOrUpdateConfigurationOptionalParams): Promise<WebAppsCreateOrUpdateConfigurationResponse>;
     createOrUpdateConfigurationSlot(resourceGroupName: string, name: string, slot: string, siteConfig: SiteConfigResource, options?: WebAppsCreateOrUpdateConfigurationSlotOptionalParams): Promise<WebAppsCreateOrUpdateConfigurationSlotResponse>;
     createOrUpdateDomainOwnershipIdentifier(resourceGroupName: string, name: string, domainOwnershipIdentifierName: string, domainOwnershipIdentifier: Identifier, options?: WebAppsCreateOrUpdateDomainOwnershipIdentifierOptionalParams): Promise<WebAppsCreateOrUpdateDomainOwnershipIdentifierResponse>;
@@ -7548,6 +7549,7 @@ export interface WebApps {
     getAuthSettingsV2(resourceGroupName: string, name: string, options?: WebAppsGetAuthSettingsV2OptionalParams): Promise<WebAppsGetAuthSettingsV2Response>;
     getAuthSettingsV2Slot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetAuthSettingsV2SlotOptionalParams): Promise<WebAppsGetAuthSettingsV2SlotResponse>;
     getAuthSettingsV2WithoutSecrets(resourceGroupName: string, name: string, options?: WebAppsGetAuthSettingsV2WithoutSecretsOptionalParams): Promise<WebAppsGetAuthSettingsV2WithoutSecretsResponse>;
+    getAuthSettingsV2WithoutSecretsSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams): Promise<WebAppsGetAuthSettingsV2WithoutSecretsSlotResponse>;
     getBackupConfiguration(resourceGroupName: string, name: string, options?: WebAppsGetBackupConfigurationOptionalParams): Promise<WebAppsGetBackupConfigurationResponse>;
     getBackupConfigurationSlot(resourceGroupName: string, name: string, slot: string, options?: WebAppsGetBackupConfigurationSlotOptionalParams): Promise<WebAppsGetBackupConfigurationSlotResponse>;
     getBackupStatus(resourceGroupName: string, name: string, backupId: string, options?: WebAppsGetBackupStatusOptionalParams): Promise<WebAppsGetBackupStatusResponse>;
@@ -7602,6 +7604,7 @@ export interface WebApps {
     getNetworkTracesSlot(resourceGroupName: string, name: string, operationId: string, slot: string, options?: WebAppsGetNetworkTracesSlotOptionalParams): Promise<WebAppsGetNetworkTracesSlotResponse>;
     getNetworkTracesSlotV2(resourceGroupName: string, name: string, operationId: string, slot: string, options?: WebAppsGetNetworkTracesSlotV2OptionalParams): Promise<WebAppsGetNetworkTracesSlotV2Response>;
     getNetworkTracesV2(resourceGroupName: string, name: string, operationId: string, options?: WebAppsGetNetworkTracesV2OptionalParams): Promise<WebAppsGetNetworkTracesV2Response>;
+    getOneDeployStatus(resourceGroupName: string, name: string, options?: WebAppsGetOneDeployStatusOptionalParams): Promise<WebAppsGetOneDeployStatusResponse>;
     getPremierAddOn(resourceGroupName: string, name: string, premierAddOnName: string, options?: WebAppsGetPremierAddOnOptionalParams): Promise<WebAppsGetPremierAddOnResponse>;
     getPremierAddOnSlot(resourceGroupName: string, name: string, premierAddOnName: string, slot: string, options?: WebAppsGetPremierAddOnSlotOptionalParams): Promise<WebAppsGetPremierAddOnSlotResponse>;
     getPrivateAccess(resourceGroupName: string, name: string, options?: WebAppsGetPrivateAccessOptionalParams): Promise<WebAppsGetPrivateAccessResponse>;
@@ -7959,6 +7962,13 @@ export interface WebAppsCreateMSDeployOperationSlotOptionalParams extends coreCl
 
 // @public
 export type WebAppsCreateMSDeployOperationSlotResponse = MSDeployStatus;
+
+// @public
+export interface WebAppsCreateOneDeployOperationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppsCreateOneDeployOperationResponse = Record<string, unknown>;
 
 // @public
 export interface WebAppsCreateOrUpdateConfigurationOptionalParams extends coreClient.OperationOptions {
@@ -8444,6 +8454,13 @@ export interface WebAppsGetAuthSettingsV2WithoutSecretsOptionalParams extends co
 export type WebAppsGetAuthSettingsV2WithoutSecretsResponse = SiteAuthSettingsV2;
 
 // @public
+export interface WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppsGetAuthSettingsV2WithoutSecretsSlotResponse = SiteAuthSettingsV2;
+
+// @public
 export interface WebAppsGetBackupConfigurationOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -8836,6 +8853,13 @@ export interface WebAppsGetNetworkTracesV2OptionalParams extends coreClient.Oper
 
 // @public
 export type WebAppsGetNetworkTracesV2Response = NetworkTrace[];
+
+// @public
+export interface WebAppsGetOneDeployStatusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebAppsGetOneDeployStatusResponse = Record<string, unknown>;
 
 // @public
 export interface WebAppsGetOptionalParams extends coreClient.OperationOptions {

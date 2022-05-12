@@ -61,7 +61,7 @@ export class ProviderImpl implements Provider {
   }
 
   /**
-   * Description for Get available application frameworks and their versions
+   * Get available application frameworks and their versions
    * @param options The options parameters.
    */
   public listAvailableStacks(
@@ -103,7 +103,7 @@ export class ProviderImpl implements Provider {
   }
 
   /**
-   * Description for Get available Function app frameworks and their versions
+   * Get available Function app frameworks and their versions
    * @param options The options parameters.
    */
   public listFunctionAppStacks(
@@ -145,7 +145,7 @@ export class ProviderImpl implements Provider {
   }
 
   /**
-   * Description for Get available Function app frameworks and their versions for location
+   * Get available Function app frameworks and their versions for location
    * @param location Function App stack location.
    * @param options The options parameters.
    */
@@ -204,7 +204,7 @@ export class ProviderImpl implements Provider {
   }
 
   /**
-   * Description for Get available Web app frameworks and their versions for location
+   * Get available Web app frameworks and their versions for location
    * @param location Web App stack location.
    * @param options The options parameters.
    */
@@ -257,8 +257,8 @@ export class ProviderImpl implements Provider {
   }
 
   /**
-   * Description for Gets all available operations for the Microsoft.Web resource provider. Also exposes
-   * resource metric definitions
+   * Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric
+   * definitions
    * @param options The options parameters.
    */
   public listOperations(
@@ -300,7 +300,7 @@ export class ProviderImpl implements Provider {
   }
 
   /**
-   * Description for Get available Web app frameworks and their versions
+   * Get available Web app frameworks and their versions
    * @param options The options parameters.
    */
   public listWebAppStacks(
@@ -342,7 +342,7 @@ export class ProviderImpl implements Provider {
   }
 
   /**
-   * Description for Get available application frameworks and their versions
+   * Get available application frameworks and their versions
    * @param options The options parameters.
    */
   public listAvailableStacksOnPrem(
@@ -387,7 +387,7 @@ export class ProviderImpl implements Provider {
   }
 
   /**
-   * Description for Get available application frameworks and their versions
+   * Get available application frameworks and their versions
    * @param options The options parameters.
    */
   private _getAvailableStacks(
@@ -400,7 +400,7 @@ export class ProviderImpl implements Provider {
   }
 
   /**
-   * Description for Get available Function app frameworks and their versions
+   * Get available Function app frameworks and their versions
    * @param options The options parameters.
    */
   private _getFunctionAppStacks(
@@ -413,7 +413,7 @@ export class ProviderImpl implements Provider {
   }
 
   /**
-   * Description for Get available Function app frameworks and their versions for location
+   * Get available Function app frameworks and their versions for location
    * @param location Function App stack location.
    * @param options The options parameters.
    */
@@ -428,7 +428,7 @@ export class ProviderImpl implements Provider {
   }
 
   /**
-   * Description for Get available Web app frameworks and their versions for location
+   * Get available Web app frameworks and their versions for location
    * @param location Web App stack location.
    * @param options The options parameters.
    */
@@ -443,8 +443,8 @@ export class ProviderImpl implements Provider {
   }
 
   /**
-   * Description for Gets all available operations for the Microsoft.Web resource provider. Also exposes
-   * resource metric definitions
+   * Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric
+   * definitions
    * @param options The options parameters.
    */
   private _listOperations(
@@ -457,7 +457,7 @@ export class ProviderImpl implements Provider {
   }
 
   /**
-   * Description for Get available Web app frameworks and their versions
+   * Get available Web app frameworks and their versions
    * @param options The options parameters.
    */
   private _getWebAppStacks(
@@ -470,7 +470,7 @@ export class ProviderImpl implements Provider {
   }
 
   /**
-   * Description for Get available application frameworks and their versions
+   * Get available application frameworks and their versions
    * @param options The options parameters.
    */
   private _getAvailableStacksOnPrem(

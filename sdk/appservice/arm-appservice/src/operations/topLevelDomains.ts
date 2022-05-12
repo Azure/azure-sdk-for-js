@@ -42,7 +42,7 @@ export class TopLevelDomainsImpl implements TopLevelDomains {
   }
 
   /**
-   * Description for Get all top-level domains supported for registration.
+   * Get all top-level domains supported for registration.
    * @param options The options parameters.
    */
   public list(
@@ -84,7 +84,7 @@ export class TopLevelDomainsImpl implements TopLevelDomains {
   }
 
   /**
-   * Description for Gets all legal agreements that user needs to accept before purchasing a domain.
+   * Gets all legal agreements that user needs to accept before purchasing a domain.
    * @param name Name of the top-level domain.
    * @param agreementOption Domain agreement options.
    * @param options The options parameters.
@@ -143,7 +143,7 @@ export class TopLevelDomainsImpl implements TopLevelDomains {
   }
 
   /**
-   * Description for Get all top-level domains supported for registration.
+   * Get all top-level domains supported for registration.
    * @param options The options parameters.
    */
   private _list(
@@ -153,7 +153,7 @@ export class TopLevelDomainsImpl implements TopLevelDomains {
   }
 
   /**
-   * Description for Get details of a top-level domain.
+   * Get details of a top-level domain.
    * @param name Name of the top-level domain.
    * @param options The options parameters.
    */
@@ -168,7 +168,7 @@ export class TopLevelDomainsImpl implements TopLevelDomains {
   }
 
   /**
-   * Description for Gets all legal agreements that user needs to accept before purchasing a domain.
+   * Gets all legal agreements that user needs to accept before purchasing a domain.
    * @param name Name of the top-level domain.
    * @param agreementOption Domain agreement options.
    * @param options The options parameters.

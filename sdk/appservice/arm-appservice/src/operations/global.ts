@@ -32,7 +32,7 @@ export class GlobalImpl implements Global {
   }
 
   /**
-   * Description for Get deleted app for a subscription.
+   * Get deleted app for a subscription.
    * @param deletedSiteId The numeric ID of the deleted app, e.g. 12345
    * @param options The options parameters.
    */
@@ -47,7 +47,7 @@ export class GlobalImpl implements Global {
   }
 
   /**
-   * Description for Get all deleted apps for a subscription.
+   * Get all deleted apps for a subscription.
    * @param deletedSiteId The numeric ID of the deleted app, e.g. 12345
    * @param options The options parameters.
    */
@@ -62,7 +62,7 @@ export class GlobalImpl implements Global {
   }
 
   /**
-   * Description for Gets an operation in a subscription and given region
+   * Gets an operation in a subscription and given region
    * @param location Location name
    * @param operationId Operation Id
    * @param options The options parameters.

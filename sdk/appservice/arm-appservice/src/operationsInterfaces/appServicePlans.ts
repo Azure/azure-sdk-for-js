@@ -65,14 +65,14 @@ import {
 /** Interface representing a AppServicePlans. */
 export interface AppServicePlans {
   /**
-   * Description for Get all App Service plans for a subscription.
+   * Get all App Service plans for a subscription.
    * @param options The options parameters.
    */
   list(
     options?: AppServicePlansListOptionalParams
   ): PagedAsyncIterableIterator<AppServicePlan>;
   /**
-   * Description for Get all App Service plans in a resource group.
+   * Get all App Service plans in a resource group.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param options The options parameters.
    */
@@ -81,7 +81,7 @@ export interface AppServicePlans {
     options?: AppServicePlansListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<AppServicePlan>;
   /**
-   * Description for Get all apps that use a Hybrid Connection in an App Service Plan.
+   * Get all apps that use a Hybrid Connection in an App Service Plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param namespaceName Name of the Hybrid Connection namespace.
@@ -96,7 +96,7 @@ export interface AppServicePlans {
     options?: AppServicePlansListWebAppsByHybridConnectionOptionalParams
   ): PagedAsyncIterableIterator<string>;
   /**
-   * Description for Retrieve all Hybrid Connections in use in an App Service plan.
+   * Retrieve all Hybrid Connections in use in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param options The options parameters.
@@ -107,7 +107,7 @@ export interface AppServicePlans {
     options?: AppServicePlansListHybridConnectionsOptionalParams
   ): PagedAsyncIterableIterator<HybridConnection>;
   /**
-   * Description for Get all apps associated with an App Service plan.
+   * Get all apps associated with an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param options The options parameters.
@@ -118,7 +118,7 @@ export interface AppServicePlans {
     options?: AppServicePlansListWebAppsOptionalParams
   ): PagedAsyncIterableIterator<Site>;
   /**
-   * Description for Gets server farm usage information
+   * Gets server farm usage information
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of App Service Plan
    * @param options The options parameters.
@@ -129,7 +129,7 @@ export interface AppServicePlans {
     options?: AppServicePlansListUsagesOptionalParams
   ): PagedAsyncIterableIterator<CsmUsageQuota>;
   /**
-   * Description for Get an App Service plan.
+   * Get an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param options The options parameters.
@@ -140,7 +140,7 @@ export interface AppServicePlans {
     options?: AppServicePlansGetOptionalParams
   ): Promise<AppServicePlansGetResponse>;
   /**
-   * Description for Creates or updates an App Service Plan.
+   * Creates or updates an App Service Plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param appServicePlan Details of the App Service plan.
@@ -158,7 +158,7 @@ export interface AppServicePlans {
     >
   >;
   /**
-   * Description for Creates or updates an App Service Plan.
+   * Creates or updates an App Service Plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param appServicePlan Details of the App Service plan.
@@ -171,7 +171,7 @@ export interface AppServicePlans {
     options?: AppServicePlansCreateOrUpdateOptionalParams
   ): Promise<AppServicePlansCreateOrUpdateResponse>;
   /**
-   * Description for Delete an App Service plan.
+   * Delete an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param options The options parameters.
@@ -182,7 +182,7 @@ export interface AppServicePlans {
     options?: AppServicePlansDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Description for Creates or updates an App Service Plan.
+   * Creates or updates an App Service Plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param appServicePlan Details of the App Service plan.
@@ -195,7 +195,7 @@ export interface AppServicePlans {
     options?: AppServicePlansUpdateOptionalParams
   ): Promise<AppServicePlansUpdateResponse>;
   /**
-   * Description for List all capabilities of an App Service plan.
+   * List all capabilities of an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param options The options parameters.
@@ -206,7 +206,7 @@ export interface AppServicePlans {
     options?: AppServicePlansListCapabilitiesOptionalParams
   ): Promise<AppServicePlansListCapabilitiesResponse>;
   /**
-   * Description for Retrieve a Hybrid Connection in use in an App Service plan.
+   * Retrieve a Hybrid Connection in use in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param namespaceName Name of the Service Bus namespace.
@@ -221,7 +221,7 @@ export interface AppServicePlans {
     options?: AppServicePlansGetHybridConnectionOptionalParams
   ): Promise<AppServicePlansGetHybridConnectionResponse>;
   /**
-   * Description for Delete a Hybrid Connection in use in an App Service plan.
+   * Delete a Hybrid Connection in use in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param namespaceName Name of the Service Bus namespace.
@@ -236,7 +236,7 @@ export interface AppServicePlans {
     options?: AppServicePlansDeleteHybridConnectionOptionalParams
   ): Promise<void>;
   /**
-   * Description for Get the send key name and value of a Hybrid Connection.
+   * Get the send key name and value of a Hybrid Connection.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param namespaceName The name of the Service Bus namespace.
@@ -251,7 +251,7 @@ export interface AppServicePlans {
     options?: AppServicePlansListHybridConnectionKeysOptionalParams
   ): Promise<AppServicePlansListHybridConnectionKeysResponse>;
   /**
-   * Description for Get the maximum number of Hybrid Connections allowed in an App Service plan.
+   * Get the maximum number of Hybrid Connections allowed in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param options The options parameters.
@@ -262,7 +262,7 @@ export interface AppServicePlans {
     options?: AppServicePlansGetHybridConnectionPlanLimitOptionalParams
   ): Promise<AppServicePlansGetHybridConnectionPlanLimitResponse>;
   /**
-   * Description for Restart all apps in an App Service plan.
+   * Restart all apps in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param options The options parameters.
@@ -273,7 +273,7 @@ export interface AppServicePlans {
     options?: AppServicePlansRestartWebAppsOptionalParams
   ): Promise<void>;
   /**
-   * Description for Gets all selectable SKUs for a given App Service Plan
+   * Gets all selectable SKUs for a given App Service Plan
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of App Service Plan
    * @param options The options parameters.
@@ -284,7 +284,7 @@ export interface AppServicePlans {
     options?: AppServicePlansGetServerFarmSkusOptionalParams
   ): Promise<AppServicePlansGetServerFarmSkusResponse>;
   /**
-   * Description for Get all Virtual Networks associated with an App Service plan.
+   * Get all Virtual Networks associated with an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param options The options parameters.
@@ -295,7 +295,7 @@ export interface AppServicePlans {
     options?: AppServicePlansListVnetsOptionalParams
   ): Promise<AppServicePlansListVnetsResponse>;
   /**
-   * Description for Get a Virtual Network associated with an App Service plan.
+   * Get a Virtual Network associated with an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param vnetName Name of the Virtual Network.
@@ -308,7 +308,7 @@ export interface AppServicePlans {
     options?: AppServicePlansGetVnetFromServerFarmOptionalParams
   ): Promise<AppServicePlansGetVnetFromServerFarmResponse>;
   /**
-   * Description for Get a Virtual Network gateway.
+   * Get a Virtual Network gateway.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param vnetName Name of the Virtual Network.
@@ -323,7 +323,7 @@ export interface AppServicePlans {
     options?: AppServicePlansGetVnetGatewayOptionalParams
   ): Promise<AppServicePlansGetVnetGatewayResponse>;
   /**
-   * Description for Update a Virtual Network gateway.
+   * Update a Virtual Network gateway.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param vnetName Name of the Virtual Network.
@@ -340,7 +340,7 @@ export interface AppServicePlans {
     options?: AppServicePlansUpdateVnetGatewayOptionalParams
   ): Promise<AppServicePlansUpdateVnetGatewayResponse>;
   /**
-   * Description for Get all routes that are associated with a Virtual Network in an App Service plan.
+   * Get all routes that are associated with a Virtual Network in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param vnetName Name of the Virtual Network.
@@ -353,7 +353,7 @@ export interface AppServicePlans {
     options?: AppServicePlansListRoutesForVnetOptionalParams
   ): Promise<AppServicePlansListRoutesForVnetResponse>;
   /**
-   * Description for Get a Virtual Network route in an App Service plan.
+   * Get a Virtual Network route in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param vnetName Name of the Virtual Network.
@@ -368,7 +368,7 @@ export interface AppServicePlans {
     options?: AppServicePlansGetRouteForVnetOptionalParams
   ): Promise<AppServicePlansGetRouteForVnetResponse>;
   /**
-   * Description for Create or update a Virtual Network route in an App Service plan.
+   * Create or update a Virtual Network route in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param vnetName Name of the Virtual Network.
@@ -385,7 +385,7 @@ export interface AppServicePlans {
     options?: AppServicePlansCreateOrUpdateVnetRouteOptionalParams
   ): Promise<AppServicePlansCreateOrUpdateVnetRouteResponse>;
   /**
-   * Description for Delete a Virtual Network route in an App Service plan.
+   * Delete a Virtual Network route in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param vnetName Name of the Virtual Network.
@@ -400,7 +400,7 @@ export interface AppServicePlans {
     options?: AppServicePlansDeleteVnetRouteOptionalParams
   ): Promise<void>;
   /**
-   * Description for Create or update a Virtual Network route in an App Service plan.
+   * Create or update a Virtual Network route in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param vnetName Name of the Virtual Network.
@@ -417,7 +417,7 @@ export interface AppServicePlans {
     options?: AppServicePlansUpdateVnetRouteOptionalParams
   ): Promise<AppServicePlansUpdateVnetRouteResponse>;
   /**
-   * Description for Reboot a worker machine in an App Service plan.
+   * Reboot a worker machine in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param workerName Name of worker machine, which typically starts with RD.

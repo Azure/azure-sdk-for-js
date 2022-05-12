@@ -73,7 +73,7 @@ export class DomainsImpl implements Domains {
   }
 
   /**
-   * Description for Get all domains in a subscription.
+   * Get all domains in a subscription.
    * @param options The options parameters.
    */
   public list(
@@ -115,7 +115,7 @@ export class DomainsImpl implements Domains {
   }
 
   /**
-   * Description for Get domain name recommendations based on keywords.
+   * Get domain name recommendations based on keywords.
    * @param parameters Search parameters for domain name recommendations.
    * @param options The options parameters.
    */
@@ -168,7 +168,7 @@ export class DomainsImpl implements Domains {
   }
 
   /**
-   * Description for Get all domains in a resource group.
+   * Get all domains in a resource group.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param options The options parameters.
    */
@@ -221,7 +221,7 @@ export class DomainsImpl implements Domains {
   }
 
   /**
-   * Description for Lists domain ownership identifiers.
+   * Lists domain ownership identifiers.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of domain.
    * @param options The options parameters.
@@ -292,7 +292,7 @@ export class DomainsImpl implements Domains {
   }
 
   /**
-   * Description for Check if a domain is available for registration.
+   * Check if a domain is available for registration.
    * @param identifier Name of the domain.
    * @param options The options parameters.
    */
@@ -307,7 +307,7 @@ export class DomainsImpl implements Domains {
   }
 
   /**
-   * Description for Get all domains in a subscription.
+   * Get all domains in a subscription.
    * @param options The options parameters.
    */
   private _list(
@@ -317,7 +317,7 @@ export class DomainsImpl implements Domains {
   }
 
   /**
-   * Description for Generate a single sign-on request for the domain management portal.
+   * Generate a single sign-on request for the domain management portal.
    * @param options The options parameters.
    */
   getControlCenterSsoRequest(
@@ -330,7 +330,7 @@ export class DomainsImpl implements Domains {
   }
 
   /**
-   * Description for Get domain name recommendations based on keywords.
+   * Get domain name recommendations based on keywords.
    * @param parameters Search parameters for domain name recommendations.
    * @param options The options parameters.
    */
@@ -345,7 +345,7 @@ export class DomainsImpl implements Domains {
   }
 
   /**
-   * Description for Get all domains in a resource group.
+   * Get all domains in a resource group.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param options The options parameters.
    */
@@ -360,7 +360,7 @@ export class DomainsImpl implements Domains {
   }
 
   /**
-   * Description for Get a domain.
+   * Get a domain.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of the domain.
    * @param options The options parameters.
@@ -377,7 +377,7 @@ export class DomainsImpl implements Domains {
   }
 
   /**
-   * Description for Creates or updates a domain.
+   * Creates or updates a domain.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of the domain.
    * @param domain Domain registration information.
@@ -447,7 +447,7 @@ export class DomainsImpl implements Domains {
   }
 
   /**
-   * Description for Creates or updates a domain.
+   * Creates or updates a domain.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of the domain.
    * @param domain Domain registration information.
@@ -469,7 +469,7 @@ export class DomainsImpl implements Domains {
   }
 
   /**
-   * Description for Delete a domain.
+   * Delete a domain.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of the domain.
    * @param options The options parameters.
@@ -486,7 +486,7 @@ export class DomainsImpl implements Domains {
   }
 
   /**
-   * Description for Creates or updates a domain.
+   * Creates or updates a domain.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of the domain.
    * @param domain Domain registration information.
@@ -505,7 +505,7 @@ export class DomainsImpl implements Domains {
   }
 
   /**
-   * Description for Lists domain ownership identifiers.
+   * Lists domain ownership identifiers.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of domain.
    * @param options The options parameters.
@@ -522,7 +522,7 @@ export class DomainsImpl implements Domains {
   }
 
   /**
-   * Description for Get ownership identifier for domain
+   * Get ownership identifier for domain
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of domain.
    * @param name Name of identifier.
@@ -541,8 +541,8 @@ export class DomainsImpl implements Domains {
   }
 
   /**
-   * Description for Creates an ownership identifier for a domain or updates identifier details for an
-   * existing identifier
+   * Creates an ownership identifier for a domain or updates identifier details for an existing
+   * identifier
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of domain.
    * @param name Name of identifier.
@@ -569,7 +569,7 @@ export class DomainsImpl implements Domains {
   }
 
   /**
-   * Description for Delete ownership identifier for domain
+   * Delete ownership identifier for domain
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of domain.
    * @param name Name of identifier.
@@ -588,8 +588,8 @@ export class DomainsImpl implements Domains {
   }
 
   /**
-   * Description for Creates an ownership identifier for a domain or updates identifier details for an
-   * existing identifier
+   * Creates an ownership identifier for a domain or updates identifier details for an existing
+   * identifier
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of domain.
    * @param name Name of identifier.
@@ -616,7 +616,7 @@ export class DomainsImpl implements Domains {
   }
 
   /**
-   * Description for Renew a domain.
+   * Renew a domain.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param domainName Name of the domain.
    * @param options The options parameters.

@@ -305,6 +305,10 @@ import {
   WebAppsCreateMSDeployOperationResponse,
   WebAppsGetMSDeployLogOptionalParams,
   WebAppsGetMSDeployLogResponse,
+  WebAppsGetOneDeployStatusOptionalParams,
+  WebAppsGetOneDeployStatusResponse,
+  WebAppsCreateOneDeployOperationOptionalParams,
+  WebAppsCreateOneDeployOperationResponse,
   WebAppsListFunctionsResponse,
   WebAppsGetFunctionsAdminTokenOptionalParams,
   WebAppsGetFunctionsAdminTokenResponse,
@@ -509,6 +513,8 @@ import {
   WebAppsUpdateAuthSettingsSlotResponse,
   WebAppsGetAuthSettingsSlotOptionalParams,
   WebAppsGetAuthSettingsSlotResponse,
+  WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams,
+  WebAppsGetAuthSettingsV2WithoutSecretsSlotResponse,
   WebAppsUpdateAuthSettingsV2SlotOptionalParams,
   WebAppsUpdateAuthSettingsV2SlotResponse,
   WebAppsGetAuthSettingsV2SlotOptionalParams,
@@ -911,7 +917,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get all apps for a subscription.
+   * Get all apps for a subscription.
    * @param options The options parameters.
    */
   public list(
@@ -953,7 +959,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets all web, mobile, and API apps in the specified resource group.
+   * Gets all web, mobile, and API apps in the specified resource group.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param options The options parameters.
    */
@@ -1006,7 +1012,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets existing backups of an app.
+   * Gets existing backups of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -1065,8 +1071,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Returns whether Scm basic auth is allowed and whether Ftp is allowed for a given
-   * site.
+   * Returns whether Scm basic auth is allowed and whether Ftp is allowed for a given site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -1137,7 +1142,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List the configurations of an app
+   * List the configurations of an app
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -1208,7 +1213,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the config reference app settings and status of an app
+   * Gets the config reference app settings and status of an app
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -1279,7 +1284,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the config reference app settings and status of an app
+   * Gets the config reference app settings and status of an app
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -1350,8 +1355,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a list of web app configuration snapshots identifiers. Each element of the list
-   * contains a timestamp and the ID of the snapshot.
+   * Gets a list of web app configuration snapshots identifiers. Each element of the list contains a
+   * timestamp and the ID of the snapshot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -1422,7 +1427,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List continuous web jobs for an app, or a deployment slot.
+   * List continuous web jobs for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param options The options parameters.
@@ -1493,7 +1498,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List deployments for an app, or a deployment slot.
+   * List deployments for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -1556,7 +1561,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Lists ownership identifiers for domain associated with web app.
+   * Lists ownership identifiers for domain associated with web app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -1627,7 +1632,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List the functions for a web site, or a deployment slot.
+   * List the functions for a web site, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param options The options parameters.
@@ -1686,7 +1691,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get hostname bindings for an app or a deployment slot.
+   * Get hostname bindings for an app or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -1757,7 +1762,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets all scale-out instances of an app.
+   * Gets all scale-out instances of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -1828,8 +1833,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get list of processes for a web site, or a deployment slot, or for a specific
-   * scaled-out instance in a web site.
+   * Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in
+   * a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param instanceId ID of a specific scaled-out instance. This is the value of the name property in
@@ -1910,8 +1915,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List module information for a process by its ID for a specific scaled-out instance
-   * in a web site.
+   * List module information for a process by its ID for a specific scaled-out instance in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -2001,8 +2005,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List the threads in a process by its ID for a specific scaled-out instance in a web
-   * site.
+   * List the threads in a process by its ID for a specific scaled-out instance in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -2092,7 +2095,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets existing backups of an app.
+   * Gets existing backups of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -2155,7 +2158,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets perfmon counters for web app.
+   * Gets perfmon counters for web app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param options The options parameters.
@@ -2226,7 +2229,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the list of private endpoint connections associated with a site
+   * Gets the list of private endpoint connections associated with a site
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
    * @param options The options parameters.
@@ -2297,8 +2300,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get list of processes for a web site, or a deployment slot, or for a specific
-   * scaled-out instance in a web site.
+   * Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in
+   * a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param options The options parameters.
@@ -2357,8 +2360,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List module information for a process by its ID for a specific scaled-out instance
-   * in a web site.
+   * List module information for a process by its ID for a specific scaled-out instance in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -2438,8 +2440,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List the threads in a process by its ID for a specific scaled-out instance in a web
-   * site.
+   * List the threads in a process by its ID for a specific scaled-out instance in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -2519,7 +2520,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get public certificates for an app or a deployment slot.
+   * Get public certificates for an app or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -2590,7 +2591,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get list of siteextensions for a web site, or a deployment slot.
+   * Get list of siteextensions for a web site, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param options The options parameters.
@@ -2661,7 +2662,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets an app's deployment slots.
+   * Gets an app's deployment slots.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -2720,7 +2721,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets existing backups of an app.
+   * Gets existing backups of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will get backups of the
@@ -2801,8 +2802,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Returns whether Scm basic auth is allowed and whether Ftp is allowed for a given
-   * site.
+   * Returns whether Scm basic auth is allowed and whether Ftp is allowed for a given site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot
@@ -2882,7 +2882,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List the configurations of an app
+   * List the configurations of an app
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will return
@@ -2963,7 +2963,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the config reference app settings and status of an app
+   * Gets the config reference app settings and status of an app
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot
@@ -3043,7 +3043,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the config reference app settings and status of an app
+   * Gets the config reference app settings and status of an app
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot
@@ -3123,8 +3123,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a list of web app configuration snapshots identifiers. Each element of the list
-   * contains a timestamp and the ID of the snapshot.
+   * Gets a list of web app configuration snapshots identifiers. Each element of the list contains a
+   * timestamp and the ID of the snapshot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will return
@@ -3205,7 +3205,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List continuous web jobs for an app, or a deployment slot.
+   * List continuous web jobs for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment
@@ -3286,7 +3286,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List deployments for an app, or a deployment slot.
+   * List deployments for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API returns deployments for
@@ -3367,7 +3367,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Lists ownership identifiers for domain associated with web app.
+   * Lists ownership identifiers for domain associated with web app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will delete the binding
@@ -3448,7 +3448,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List the functions for a web site, or a deployment slot.
+   * List the functions for a web site, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param slot Name of the deployment slot.
@@ -3528,7 +3528,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get hostname bindings for an app or a deployment slot.
+   * Get hostname bindings for an app or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API gets hostname bindings
@@ -3609,7 +3609,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets all scale-out instances of an app.
+   * Gets all scale-out instances of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API gets the production
@@ -3690,8 +3690,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get list of processes for a web site, or a deployment slot, or for a specific
-   * scaled-out instance in a web site.
+   * Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in
+   * a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param slot Name of the deployment slot. If a slot is not specified, the API returns deployments for
@@ -3782,8 +3782,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List module information for a process by its ID for a specific scaled-out instance
-   * in a web site.
+   * List module information for a process by its ID for a specific scaled-out instance in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -3883,8 +3882,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List the threads in a process by its ID for a specific scaled-out instance in a web
-   * site.
+   * List the threads in a process by its ID for a specific scaled-out instance in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -3984,7 +3982,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets existing backups of an app.
+   * Gets existing backups of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will get backups of the
@@ -4065,7 +4063,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets perfmon counters for web app.
+   * Gets perfmon counters for web app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param slot Name of web app slot. If not specified then will default to production slot.
@@ -4145,7 +4143,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the list of private endpoint connections associated with a site
+   * Gets the list of private endpoint connections associated with a site
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
    * @param slot Name of the site deployment slot.
@@ -4225,8 +4223,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get list of processes for a web site, or a deployment slot, or for a specific
-   * scaled-out instance in a web site.
+   * Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in
+   * a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param slot Name of the deployment slot. If a slot is not specified, the API returns deployments for
@@ -4307,8 +4305,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List module information for a process by its ID for a specific scaled-out instance
-   * in a web site.
+   * List module information for a process by its ID for a specific scaled-out instance in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -4398,8 +4395,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List the threads in a process by its ID for a specific scaled-out instance in a web
-   * site.
+   * List the threads in a process by its ID for a specific scaled-out instance in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -4489,7 +4485,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get public certificates for an app or a deployment slot.
+   * Get public certificates for an app or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API gets hostname bindings
@@ -4570,7 +4566,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get list of siteextensions for a web site, or a deployment slot.
+   * Get list of siteextensions for a web site, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param slot Name of the deployment slot. If a slot is not specified, the API uses the production
@@ -4651,7 +4647,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get the difference in configuration settings between two web app slots.
+   * Get the difference in configuration settings between two web app slots.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the source slot. If a slot is not specified, the production slot is used as the
@@ -4741,7 +4737,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Returns all Snapshots to the user.
+   * Returns all Snapshots to the user.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Website Name.
    * @param slot Website Slot.
@@ -4821,7 +4817,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Returns all Snapshots to the user from DRSecondary endpoint.
+   * Returns all Snapshots to the user from DRSecondary endpoint.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Website Name.
    * @param slot Website Slot.
@@ -4901,7 +4897,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List triggered web jobs for an app, or a deployment slot.
+   * List triggered web jobs for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment
@@ -4982,7 +4978,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List a triggered web job's history for an app, or a deployment slot.
+   * List a triggered web job's history for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param webJobName Name of Web Job.
@@ -5072,7 +5068,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the quota usage information of an app (or deployment slot, if specified).
+   * Gets the quota usage information of an app (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will get quota
@@ -5153,7 +5149,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List webjobs for an app, or a deployment slot.
+   * List webjobs for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param slot Name of the deployment slot. If a slot is not specified, the API returns deployments for
@@ -5234,7 +5230,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get the difference in configuration settings between two web app slots.
+   * Get the difference in configuration settings between two web app slots.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slotSwapEntity JSON object that contains the target slot name. See example.
@@ -5314,7 +5310,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Returns all Snapshots to the user.
+   * Returns all Snapshots to the user.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Website Name.
    * @param options The options parameters.
@@ -5373,7 +5369,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Returns all Snapshots to the user from DRSecondary endpoint.
+   * Returns all Snapshots to the user from DRSecondary endpoint.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Website Name.
    * @param options The options parameters.
@@ -5444,7 +5440,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List triggered web jobs for an app, or a deployment slot.
+   * List triggered web jobs for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param options The options parameters.
@@ -5515,7 +5511,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List a triggered web job's history for an app, or a deployment slot.
+   * List a triggered web job's history for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param webJobName Name of Web Job.
@@ -5595,7 +5591,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the quota usage information of an app (or deployment slot, if specified).
+   * Gets the quota usage information of an app (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -5654,7 +5650,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List webjobs for an app, or a deployment slot.
+   * List webjobs for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param options The options parameters.
@@ -5713,7 +5709,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get all apps for a subscription.
+   * Get all apps for a subscription.
    * @param options The options parameters.
    */
   private _list(
@@ -5723,7 +5719,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets all web, mobile, and API apps in the specified resource group.
+   * Gets all web, mobile, and API apps in the specified resource group.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param options The options parameters.
    */
@@ -5738,7 +5734,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the details of a web, mobile, or API app.
+   * Gets the details of a web, mobile, or API app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -5755,8 +5751,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Creates a new web, mobile, or API app in an existing resource group, or updates an
-   * existing app.
+   * Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Unique name of the app to create or update. To create or update a deployment slot, use
    *             the {slot} parameter.
@@ -5827,8 +5822,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Creates a new web, mobile, or API app in an existing resource group, or updates an
-   * existing app.
+   * Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Unique name of the app to create or update. To create or update a deployment slot, use
    *             the {slot} parameter.
@@ -5851,7 +5845,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Deletes a web, mobile, or API app, or one of the deployment slots.
+   * Deletes a web, mobile, or API app, or one of the deployment slots.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app to delete.
    * @param options The options parameters.
@@ -5868,8 +5862,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Creates a new web, mobile, or API app in an existing resource group, or updates an
-   * existing app.
+   * Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Unique name of the app to create or update. To create or update a deployment slot, use
    *             the {slot} parameter.
@@ -5889,7 +5882,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Analyze a custom hostname.
+   * Analyze a custom hostname.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param options The options parameters.
@@ -5906,7 +5899,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Applies the configuration settings from the target slot onto the current slot.
+   * Applies the configuration settings from the target slot onto the current slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slotSwapEntity JSON object that contains the target slot name. See example.
@@ -5925,7 +5918,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Creates a backup of an app.
+   * Creates a backup of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param request Backup configuration. You can use the JSON response from the POST action as input
@@ -5945,7 +5938,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets existing backups of an app.
+   * Gets existing backups of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -5962,7 +5955,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a backup of an app by its ID.
+   * Gets a backup of an app by its ID.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param backupId ID of the backup.
@@ -5981,7 +5974,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Deletes a backup of an app by its ID.
+   * Deletes a backup of an app by its ID.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param backupId ID of the backup.
@@ -6000,9 +5993,9 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets status of a web app backup that may be in progress, including secrets
-   * associated with the backup, such as the Azure Storage SAS URL. Also can be used to update the SAS
-   * URL for the backup if a new URL is passed in the request body.
+   * Gets status of a web app backup that may be in progress, including secrets associated with the
+   * backup, such as the Azure Storage SAS URL. Also can be used to update the SAS URL for the backup if
+   * a new URL is passed in the request body.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param backupId ID of backup.
@@ -6023,7 +6016,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Restores a specific backup to another app (or deployment slot, if specified).
+   * Restores a specific backup to another app (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param backupId ID of the backup.
@@ -6090,7 +6083,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Restores a specific backup to another app (or deployment slot, if specified).
+   * Restores a specific backup to another app (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param backupId ID of the backup.
@@ -6115,8 +6108,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Returns whether Scm basic auth is allowed and whether Ftp is allowed for a given
-   * site.
+   * Returns whether Scm basic auth is allowed and whether Ftp is allowed for a given site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -6133,7 +6125,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Returns whether FTP is allowed on the site or not.
+   * Returns whether FTP is allowed on the site or not.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -6150,7 +6142,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates whether FTP is allowed on the site or not.
+   * Updates whether FTP is allowed on the site or not.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param csmPublishingAccessPoliciesEntity Publishing Credentials Policies parameters.
@@ -6169,7 +6161,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Returns whether Scm basic auth is allowed on the site or not.
+   * Returns whether Scm basic auth is allowed on the site or not.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -6186,7 +6178,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates whether user publishing credentials are allowed on the site or not.
+   * Updates whether user publishing credentials are allowed on the site or not.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param csmPublishingAccessPoliciesEntity Publishing Credentials Policies parameters.
@@ -6205,7 +6197,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List the configurations of an app
+   * List the configurations of an app
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -6222,7 +6214,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Replaces the application settings of an app.
+   * Replaces the application settings of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param appSettings Application settings of the app.
@@ -6241,7 +6233,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the application settings of an app.
+   * Gets the application settings of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -6258,7 +6250,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates the Authentication / Authorization settings associated with web app.
+   * Updates the Authentication / Authorization settings associated with web app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param siteAuthSettings Auth settings associated with web app.
@@ -6277,7 +6269,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the Authentication/Authorization settings of an app.
+   * Gets the Authentication/Authorization settings of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -6294,7 +6286,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets site's Authentication / Authorization settings for apps via the V2 format
+   * Gets site's Authentication / Authorization settings for apps via the V2 format
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -6311,7 +6303,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates site's Authentication / Authorization settings for apps via the V2 format
+   * Updates site's Authentication / Authorization settings for apps via the V2 format
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param siteAuthSettingsV2 Auth settings associated with web app.
@@ -6330,7 +6322,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets site's Authentication / Authorization settings for apps via the V2 format
+   * Gets site's Authentication / Authorization settings for apps via the V2 format
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -6347,7 +6339,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates the Azure storage account configurations of an app.
+   * Updates the Azure storage account configurations of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param azureStorageAccounts Azure storage accounts of the app.
@@ -6366,7 +6358,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the Azure storage account configurations of an app.
+   * Gets the Azure storage account configurations of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -6383,7 +6375,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates the backup configuration of an app.
+   * Updates the backup configuration of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param request Edited backup configuration.
@@ -6402,7 +6394,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Deletes the backup configuration of an app.
+   * Deletes the backup configuration of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -6419,7 +6411,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the backup configuration of an app.
+   * Gets the backup configuration of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -6436,7 +6428,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the config reference app settings and status of an app
+   * Gets the config reference app settings and status of an app
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -6453,7 +6445,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the config reference and status of an app
+   * Gets the config reference and status of an app
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param appSettingKey App Setting key name.
@@ -6472,7 +6464,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the config reference app settings and status of an app
+   * Gets the config reference app settings and status of an app
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -6489,7 +6481,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the config reference and status of an app
+   * Gets the config reference and status of an app
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param connectionStringKey
@@ -6508,7 +6500,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Replaces the connection strings of an app.
+   * Replaces the connection strings of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param connectionStrings Connection strings of the app or deployment slot. See example.
@@ -6527,7 +6519,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the connection strings of an app.
+   * Gets the connection strings of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -6544,7 +6536,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the logging configuration of an app.
+   * Gets the logging configuration of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -6561,7 +6553,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates the logging configuration of an app.
+   * Updates the logging configuration of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param siteLogsConfig A SiteLogsConfig JSON object that contains the logging configuration to change
@@ -6581,7 +6573,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Replaces the metadata of an app.
+   * Replaces the metadata of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param metadata Edited metadata of the app or deployment slot. See example.
@@ -6600,7 +6592,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the metadata of an app.
+   * Gets the metadata of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -6617,7 +6609,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the Git/FTP publishing credentials of an app.
+   * Gets the Git/FTP publishing credentials of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -6685,7 +6677,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the Git/FTP publishing credentials of an app.
+   * Gets the Git/FTP publishing credentials of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -6704,7 +6696,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates the Push settings associated with web app.
+   * Updates the Push settings associated with web app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param pushSettings Push settings associated with web app.
@@ -6723,7 +6715,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the Push settings associated with web app.
+   * Gets the Push settings associated with web app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param options The options parameters.
@@ -6740,8 +6732,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the names of app settings and connection strings that stick to the slot (not
-   * swapped).
+   * Gets the names of app settings and connection strings that stick to the slot (not swapped).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -6758,8 +6749,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates the names of application settings and connection string that remain with the
-   * slot during swap operation.
+   * Updates the names of application settings and connection string that remain with the slot during
+   * swap operation.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slotConfigNames Names of application settings and connection strings. See example.
@@ -6778,8 +6769,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the configuration of an app, such as platform version and bitness, default
-   * documents, virtual applications, Always On, etc.
+   * Gets the configuration of an app, such as platform version and bitness, default documents, virtual
+   * applications, Always On, etc.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -6796,7 +6787,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates the configuration of an app.
+   * Updates the configuration of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param siteConfig JSON representation of a SiteConfig object. See example.
@@ -6815,7 +6806,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates the configuration of an app.
+   * Updates the configuration of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param siteConfig JSON representation of a SiteConfig object. See example.
@@ -6834,8 +6825,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a list of web app configuration snapshots identifiers. Each element of the list
-   * contains a timestamp and the ID of the snapshot.
+   * Gets a list of web app configuration snapshots identifiers. Each element of the list contains a
+   * timestamp and the ID of the snapshot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -6852,7 +6843,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a snapshot of the configuration of an app at a previous point in time.
+   * Gets a snapshot of the configuration of an app at a previous point in time.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param snapshotId The ID of the snapshot to read.
@@ -6871,7 +6862,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Reverts the configuration of an app to a previous snapshot.
+   * Reverts the configuration of an app to a previous snapshot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param snapshotId The ID of the snapshot to read.
@@ -6890,7 +6881,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the last lines of docker logs for the given site
+   * Gets the last lines of docker logs for the given site
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param options The options parameters.
@@ -6907,7 +6898,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the ZIP archived docker log files for the given site
+   * Gets the ZIP archived docker log files for the given site
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param options The options parameters.
@@ -6924,7 +6915,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List continuous web jobs for an app, or a deployment slot.
+   * List continuous web jobs for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param options The options parameters.
@@ -6941,7 +6932,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a continuous web job by its ID for an app, or a deployment slot.
+   * Gets a continuous web job by its ID for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param webJobName Name of Web Job.
@@ -6960,7 +6951,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Delete a continuous web job by its ID for an app, or a deployment slot.
+   * Delete a continuous web job by its ID for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param webJobName Name of Web Job.
@@ -6979,7 +6970,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Start a continuous web job for an app, or a deployment slot.
+   * Start a continuous web job for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param webJobName Name of Web Job.
@@ -6998,7 +6989,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Stop a continuous web job for an app, or a deployment slot.
+   * Stop a continuous web job for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param webJobName Name of Web Job.
@@ -7017,7 +7008,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List deployments for an app, or a deployment slot.
+   * List deployments for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -7034,7 +7025,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get a deployment by its ID for an app, or a deployment slot.
+   * Get a deployment by its ID for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param id Deployment ID.
@@ -7053,7 +7044,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Create a deployment for an app, or a deployment slot.
+   * Create a deployment for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param id ID of an existing deployment.
@@ -7074,7 +7065,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Delete a deployment by its ID for an app, or a deployment slot.
+   * Delete a deployment by its ID for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param id Deployment ID.
@@ -7093,7 +7084,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List deployment log for specific deployment for an app, or a deployment slot.
+   * List deployment log for specific deployment for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param id The ID of a specific deployment. This is the value of the name property in the JSON
@@ -7113,8 +7104,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Discovers an existing app backup that can be restored from a blob in Azure storage.
-   * Use this to get information about the databases stored in a backup.
+   * Discovers an existing app backup that can be restored from a blob in Azure storage. Use this to get
+   * information about the databases stored in a backup.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param request A RestoreRequest object that includes Azure storage URL and blog name for discovery
@@ -7134,7 +7125,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Lists ownership identifiers for domain associated with web app.
+   * Lists ownership identifiers for domain associated with web app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -7151,7 +7142,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get domain ownership identifier for web app.
+   * Get domain ownership identifier for web app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param domainOwnershipIdentifierName Name of domain ownership identifier.
@@ -7170,8 +7161,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Creates a domain ownership identifier for web app, or updates an existing ownership
-   * identifier.
+   * Creates a domain ownership identifier for web app, or updates an existing ownership identifier.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param domainOwnershipIdentifierName Name of domain ownership identifier.
@@ -7198,7 +7188,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Deletes a domain ownership identifier for a web app.
+   * Deletes a domain ownership identifier for a web app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param domainOwnershipIdentifierName Name of domain ownership identifier.
@@ -7217,8 +7207,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Creates a domain ownership identifier for web app, or updates an existing ownership
-   * identifier.
+   * Creates a domain ownership identifier for web app, or updates an existing ownership identifier.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param domainOwnershipIdentifierName Name of domain ownership identifier.
@@ -7245,7 +7234,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get the status of the last MSDeploy operation.
+   * Get the status of the last MSDeploy operation.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param options The options parameters.
@@ -7262,7 +7251,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Invoke the MSDeploy web app extension.
+   * Invoke the MSDeploy web app extension.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param mSDeploy Details of MSDeploy operation
@@ -7332,7 +7321,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Invoke the MSDeploy web app extension.
+   * Invoke the MSDeploy web app extension.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param mSDeploy Details of MSDeploy operation
@@ -7354,7 +7343,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get the MSDeploy Log for the last MSDeploy operation.
+   * Get the MSDeploy Log for the last MSDeploy operation.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param options The options parameters.
@@ -7371,7 +7360,41 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List the functions for a web site, or a deployment slot.
+   * Invoke onedeploy status API /api/deployments and gets the deployment status for the site
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of web app.
+   * @param options The options parameters.
+   */
+  getOneDeployStatus(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsGetOneDeployStatusOptionalParams
+  ): Promise<WebAppsGetOneDeployStatusResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, options },
+      getOneDeployStatusOperationSpec
+    );
+  }
+
+  /**
+   * Invoke the OneDeploy publish web app extension.
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of web app.
+   * @param options The options parameters.
+   */
+  createOneDeployOperation(
+    resourceGroupName: string,
+    name: string,
+    options?: WebAppsCreateOneDeployOperationOptionalParams
+  ): Promise<WebAppsCreateOneDeployOperationResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, options },
+      createOneDeployOperationOperationSpec
+    );
+  }
+
+  /**
+   * List the functions for a web site, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param options The options parameters.
@@ -7388,7 +7411,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Fetch a short lived token that can be exchanged for a master key.
+   * Fetch a short lived token that can be exchanged for a master key.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param options The options parameters.
@@ -7405,7 +7428,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get function information by its ID for web site, or a deployment slot.
+   * Get function information by its ID for web site, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param functionName Function name.
@@ -7424,7 +7447,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Create function for web site, or a deployment slot.
+   * Create function for web site, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param functionName Function name.
@@ -7496,7 +7519,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Create function for web site, or a deployment slot.
+   * Create function for web site, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param functionName Function name.
@@ -7521,7 +7544,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Delete a function for web site, or a deployment slot.
+   * Delete a function for web site, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param functionName Function name.
@@ -7540,7 +7563,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Add or update a function secret.
+   * Add or update a function secret.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param functionName The name of the function.
@@ -7563,7 +7586,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Delete a function secret.
+   * Delete a function secret.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param functionName The name of the function.
@@ -7584,7 +7607,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get function keys for a function in a web site, or a deployment slot.
+   * Get function keys for a function in a web site, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param functionName Function name.
@@ -7603,7 +7626,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get function secrets for a function in a web site, or a deployment slot.
+   * Get function secrets for a function in a web site, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param functionName Function name.
@@ -7622,7 +7645,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get host secrets for a function app.
+   * Get host secrets for a function app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param options The options parameters.
@@ -7639,7 +7662,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for This is to allow calling via powershell and ARM template.
+   * This is to allow calling via powershell and ARM template.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -7656,7 +7679,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Syncs function trigger metadata to the management database
+   * Syncs function trigger metadata to the management database
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -7673,7 +7696,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Add or update a host level secret.
+   * Add or update a host level secret.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param keyType The type of host key.
@@ -7696,7 +7719,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Delete a host level secret.
+   * Delete a host level secret.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param keyType The type of host key.
@@ -7717,7 +7740,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get hostname bindings for an app or a deployment slot.
+   * Get hostname bindings for an app or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -7734,7 +7757,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get the named hostname binding for an app (or deployment slot, if specified).
+   * Get the named hostname binding for an app (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param hostName Hostname in the hostname binding.
@@ -7753,7 +7776,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Creates a hostname binding for an app.
+   * Creates a hostname binding for an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param hostName Hostname in the hostname binding.
@@ -7774,7 +7797,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Deletes a hostname binding for an app.
+   * Deletes a hostname binding for an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param hostName Hostname in the hostname binding.
@@ -7793,7 +7816,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Retrieves a specific Service Bus Hybrid Connection used by this Web App.
+   * Retrieves a specific Service Bus Hybrid Connection used by this Web App.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name The name of the web app.
    * @param namespaceName The namespace for this hybrid connection.
@@ -7814,7 +7837,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Creates a new Hybrid Connection using a Service Bus relay.
+   * Creates a new Hybrid Connection using a Service Bus relay.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name The name of the web app.
    * @param namespaceName The namespace for this hybrid connection.
@@ -7844,7 +7867,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Removes a Hybrid Connection from this site.
+   * Removes a Hybrid Connection from this site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name The name of the web app.
    * @param namespaceName The namespace for this hybrid connection.
@@ -7865,7 +7888,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Creates a new Hybrid Connection using a Service Bus relay.
+   * Creates a new Hybrid Connection using a Service Bus relay.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name The name of the web app.
    * @param namespaceName The namespace for this hybrid connection.
@@ -7895,7 +7918,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Retrieves all Service Bus Hybrid Connections used by this Web App.
+   * Retrieves all Service Bus Hybrid Connections used by this Web App.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name The name of the web app.
    * @param options The options parameters.
@@ -7912,7 +7935,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets hybrid connections configured for an app (or deployment slot, if specified).
+   * Gets hybrid connections configured for an app (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -7929,7 +7952,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a hybrid connection configuration by its name.
+   * Gets a hybrid connection configuration by its name.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param entityName Name of the hybrid connection.
@@ -7948,8 +7971,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Creates a new hybrid connection configuration (PUT), or updates an existing one
-   * (PATCH).
+   * Creates a new hybrid connection configuration (PUT), or updates an existing one (PATCH).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param entityName Name of the hybrid connection configuration.
@@ -7970,7 +7992,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Deletes a relay service connection by its name.
+   * Deletes a relay service connection by its name.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param entityName Name of the hybrid connection configuration.
@@ -7989,8 +8011,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Creates a new hybrid connection configuration (PUT), or updates an existing one
-   * (PATCH).
+   * Creates a new hybrid connection configuration (PUT), or updates an existing one (PATCH).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param entityName Name of the hybrid connection configuration.
@@ -8011,7 +8032,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets all scale-out instances of an app.
+   * Gets all scale-out instances of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -8028,7 +8049,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets all scale-out instances of an app.
+   * Gets all scale-out instances of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param instanceId
@@ -8047,7 +8068,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get the status of the last MSDeploy operation.
+   * Get the status of the last MSDeploy operation.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param instanceId ID of web app instance.
@@ -8066,7 +8087,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Invoke the MSDeploy web app extension.
+   * Invoke the MSDeploy web app extension.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param instanceId ID of web app instance.
@@ -8138,7 +8159,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Invoke the MSDeploy web app extension.
+   * Invoke the MSDeploy web app extension.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param instanceId ID of web app instance.
@@ -8163,7 +8184,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get the MSDeploy Log for the last MSDeploy operation.
+   * Get the MSDeploy Log for the last MSDeploy operation.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param instanceId ID of web app instance.
@@ -8182,8 +8203,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get list of processes for a web site, or a deployment slot, or for a specific
-   * scaled-out instance in a web site.
+   * Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in
+   * a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param instanceId ID of a specific scaled-out instance. This is the value of the name property in
@@ -8203,7 +8224,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get process information by its ID for a specific scaled-out instance in a web site.
+   * Get process information by its ID for a specific scaled-out instance in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -8225,8 +8246,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Terminate a process by its ID for a web site, or a deployment slot, or specific
-   * scaled-out instance in a web site.
+   * Terminate a process by its ID for a web site, or a deployment slot, or specific scaled-out instance
+   * in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -8248,8 +8269,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get a memory dump of a process by its ID for a specific scaled-out instance in a web
-   * site.
+   * Get a memory dump of a process by its ID for a specific scaled-out instance in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -8271,8 +8291,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List module information for a process by its ID for a specific scaled-out instance
-   * in a web site.
+   * List module information for a process by its ID for a specific scaled-out instance in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -8294,7 +8313,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get process information by its ID for a specific scaled-out instance in a web site.
+   * Get process information by its ID for a specific scaled-out instance in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -8318,8 +8337,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List the threads in a process by its ID for a specific scaled-out instance in a web
-   * site.
+   * List the threads in a process by its ID for a specific scaled-out instance in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -8341,7 +8359,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Shows whether an app can be cloned to another resource group or subscription.
+   * Shows whether an app can be cloned to another resource group or subscription.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -8358,7 +8376,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets existing backups of an app.
+   * Gets existing backups of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -8375,7 +8393,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for This is to allow calling via powershell and ARM template.
+   * This is to allow calling via powershell and ARM template.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -8392,7 +8410,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Restores a web app.
+   * Restores a web app.
    * @param subscriptionName Azure subscription.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
@@ -8464,7 +8482,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Restores a web app.
+   * Restores a web app.
    * @param subscriptionName Azure subscription.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
@@ -8489,7 +8507,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Migrates a local (in-app) MySql database to a remote MySql database.
+   * Migrates a local (in-app) MySql database to a remote MySql database.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param migrationRequestEnvelope MySql migration options.
@@ -8559,7 +8577,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Migrates a local (in-app) MySql database to a remote MySql database.
+   * Migrates a local (in-app) MySql database to a remote MySql database.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param migrationRequestEnvelope MySql migration options.
@@ -8581,8 +8599,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Returns the status of MySql in app migration, if one is active, and whether or not
-   * MySql in app is enabled
+   * Returns the status of MySql in app migration, if one is active, and whether or not MySql in app is
+   * enabled
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param options The options parameters.
@@ -8599,7 +8617,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a Swift Virtual Network connection.
+   * Gets a Swift Virtual Network connection.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -8616,9 +8634,9 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Integrates this Web App with a Virtual Network. This requires that 1)
-   * "swiftSupported" is true when doing a GET against this resource, and 2) that the target Subnet has
-   * already been delegated, and is not
+   * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true when
+   * doing a GET against this resource, and 2) that the target Subnet has already been delegated, and is
+   * not
    * in use by another App Service Plan other than the one this App is in.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
@@ -8640,7 +8658,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Deletes a Swift Virtual Network connection from an app (or deployment slot).
+   * Deletes a Swift Virtual Network connection from an app (or deployment slot).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -8657,9 +8675,9 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Integrates this Web App with a Virtual Network. This requires that 1)
-   * "swiftSupported" is true when doing a GET against this resource, and 2) that the target Subnet has
-   * already been delegated, and is not
+   * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true when
+   * doing a GET against this resource, and 2) that the target Subnet has already been delegated, and is
+   * not
    * in use by another App Service Plan other than the one this App is in.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
@@ -8679,7 +8697,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets all network features used by the app (or deployment slot, if specified).
+   * Gets all network features used by the app (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param view The type of view. Only "summary" is supported at this time.
@@ -8698,8 +8716,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a named operation for a network trace capturing (or deployment slot, if
-   * specified).
+   * Gets a named operation for a network trace capturing (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param operationId GUID of the operation.
@@ -8718,7 +8735,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Start capturing network packets for the site (To be deprecated).
+   * Start capturing network packets for the site (To be deprecated).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name The name of the web app.
    * @param options The options parameters.
@@ -8735,7 +8752,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Start capturing network packets for the site.
+   * Start capturing network packets for the site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name The name of the web app.
    * @param options The options parameters.
@@ -8803,7 +8820,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Start capturing network packets for the site.
+   * Start capturing network packets for the site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name The name of the web app.
    * @param options The options parameters.
@@ -8822,7 +8839,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Stop ongoing capturing network packets for the site.
+   * Stop ongoing capturing network packets for the site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name The name of the web app.
    * @param options The options parameters.
@@ -8839,8 +8856,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a named operation for a network trace capturing (or deployment slot, if
-   * specified).
+   * Gets a named operation for a network trace capturing (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param operationId GUID of the operation.
@@ -8859,8 +8875,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a named operation for a network trace capturing (or deployment slot, if
-   * specified).
+   * Gets a named operation for a network trace capturing (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param operationId GUID of the operation.
@@ -8879,8 +8894,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a named operation for a network trace capturing (or deployment slot, if
-   * specified).
+   * Gets a named operation for a network trace capturing (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param operationId GUID of the operation.
@@ -8899,7 +8913,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Generates a new publishing password for an app (or deployment slot, if specified).
+   * Generates a new publishing password for an app (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -8916,7 +8930,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets perfmon counters for web app.
+   * Gets perfmon counters for web app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param options The options parameters.
@@ -8933,7 +8947,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets web app's event logs.
+   * Gets web app's event logs.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param options The options parameters.
@@ -8950,7 +8964,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the premier add-ons of an app.
+   * Gets the premier add-ons of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -8967,7 +8981,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a named add-on of an app.
+   * Gets a named add-on of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param premierAddOnName Add-on name.
@@ -8986,7 +9000,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates a named add-on of an app.
+   * Updates a named add-on of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param premierAddOnName Add-on name.
@@ -9007,7 +9021,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Delete a premier add-on from an app.
+   * Delete a premier add-on from an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param premierAddOnName Add-on name.
@@ -9026,7 +9040,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates a named add-on of an app.
+   * Updates a named add-on of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param premierAddOnName Add-on name.
@@ -9047,8 +9061,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets data around private site access enablement and authorized Virtual Networks that
-   * can access the site.
+   * Gets data around private site access enablement and authorized Virtual Networks that can access the
+   * site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name The name of the web app.
    * @param options The options parameters.
@@ -9065,8 +9079,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Sets data around private site access enablement and authorized Virtual Networks that
-   * can access the site.
+   * Sets data around private site access enablement and authorized Virtual Networks that can access the
+   * site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name The name of the web app.
    * @param access The information for the private access
@@ -9085,7 +9099,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the list of private endpoint connections associated with a site
+   * Gets the list of private endpoint connections associated with a site
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
    * @param options The options parameters.
@@ -9102,7 +9116,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a private endpoint connection
+   * Gets a private endpoint connection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
    * @param privateEndpointConnectionName Name of the private endpoint connection.
@@ -9121,7 +9135,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Approves or rejects a private endpoint connection
+   * Approves or rejects a private endpoint connection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
    * @param privateEndpointConnectionName
@@ -9201,7 +9215,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Approves or rejects a private endpoint connection
+   * Approves or rejects a private endpoint connection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
    * @param privateEndpointConnectionName
@@ -9226,7 +9240,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Deletes a private endpoint connection
+   * Deletes a private endpoint connection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
    * @param privateEndpointConnectionName
@@ -9296,7 +9310,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Deletes a private endpoint connection
+   * Deletes a private endpoint connection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
    * @param privateEndpointConnectionName
@@ -9318,7 +9332,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the private link resources
+   * Gets the private link resources
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
    * @param options The options parameters.
@@ -9335,8 +9349,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get list of processes for a web site, or a deployment slot, or for a specific
-   * scaled-out instance in a web site.
+   * Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in
+   * a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param options The options parameters.
@@ -9353,7 +9367,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get process information by its ID for a specific scaled-out instance in a web site.
+   * Get process information by its ID for a specific scaled-out instance in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -9372,8 +9386,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Terminate a process by its ID for a web site, or a deployment slot, or specific
-   * scaled-out instance in a web site.
+   * Terminate a process by its ID for a web site, or a deployment slot, or specific scaled-out instance
+   * in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -9392,8 +9406,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get a memory dump of a process by its ID for a specific scaled-out instance in a web
-   * site.
+   * Get a memory dump of a process by its ID for a specific scaled-out instance in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -9412,8 +9425,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List module information for a process by its ID for a specific scaled-out instance
-   * in a web site.
+   * List module information for a process by its ID for a specific scaled-out instance in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -9432,7 +9444,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get process information by its ID for a specific scaled-out instance in a web site.
+   * Get process information by its ID for a specific scaled-out instance in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -9453,8 +9465,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List the threads in a process by its ID for a specific scaled-out instance in a web
-   * site.
+   * List the threads in a process by its ID for a specific scaled-out instance in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -9473,7 +9484,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get public certificates for an app or a deployment slot.
+   * Get public certificates for an app or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -9490,7 +9501,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get the named public certificate for an app (or deployment slot, if specified).
+   * Get the named public certificate for an app (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param publicCertificateName Public certificate name.
@@ -9509,7 +9520,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Creates a hostname binding for an app.
+   * Creates a hostname binding for an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param publicCertificateName Public certificate name.
@@ -9537,7 +9548,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Deletes a hostname binding for an app.
+   * Deletes a hostname binding for an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param publicCertificateName Public certificate name.
@@ -9556,7 +9567,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the publishing profile for an app (or deployment slot, if specified).
+   * Gets the publishing profile for an app (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param publishingProfileOptions Specifies publishingProfileOptions for publishing profile. For
@@ -9576,8 +9587,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Resets the configuration settings of the current slot if they were previously
-   * modified by calling the API with POST.
+   * Resets the configuration settings of the current slot if they were previously modified by calling
+   * the API with POST.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -9594,7 +9605,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Restarts an app (or deployment slot, if specified).
+   * Restarts an app (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -9611,7 +9622,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Restores an app from a backup blob in Azure Storage.
+   * Restores an app from a backup blob in Azure Storage.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param request Information on restore request .
@@ -9676,7 +9687,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Restores an app from a backup blob in Azure Storage.
+   * Restores an app from a backup blob in Azure Storage.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param request Information on restore request .
@@ -9698,7 +9709,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Restores a deleted web app to this web app.
+   * Restores a deleted web app to this web app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param restoreRequest Deleted web app restore information.
@@ -9763,7 +9774,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Restores a deleted web app to this web app.
+   * Restores a deleted web app to this web app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param restoreRequest Deleted web app restore information.
@@ -9785,7 +9796,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Restores a web app from a snapshot.
+   * Restores a web app from a snapshot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param restoreRequest Snapshot restore settings. Snapshot information can be obtained by calling
@@ -9851,7 +9862,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Restores a web app from a snapshot.
+   * Restores a web app from a snapshot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param restoreRequest Snapshot restore settings. Snapshot information can be obtained by calling
@@ -9874,7 +9885,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get list of siteextensions for a web site, or a deployment slot.
+   * Get list of siteextensions for a web site, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param options The options parameters.
@@ -9891,7 +9902,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get site extension information by its ID for a web site, or a deployment slot.
+   * Get site extension information by its ID for a web site, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param siteExtensionId Site extension name.
@@ -9910,7 +9921,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Install site extension on a web site, or a deployment slot.
+   * Install site extension on a web site, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param siteExtensionId Site extension name.
@@ -9980,7 +9991,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Install site extension on a web site, or a deployment slot.
+   * Install site extension on a web site, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param siteExtensionId Site extension name.
@@ -10002,7 +10013,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Remove a site extension from a web site, or a deployment slot.
+   * Remove a site extension from a web site, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param siteExtensionId Site extension name.
@@ -10021,7 +10032,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets an app's deployment slots.
+   * Gets an app's deployment slots.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -10038,7 +10049,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the details of a web, mobile, or API app.
+   * Gets the details of a web, mobile, or API app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. By default, this API returns the production slot.
@@ -10057,8 +10068,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Creates a new web, mobile, or API app in an existing resource group, or updates an
-   * existing app.
+   * Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Unique name of the app to create or update. To create or update a deployment slot, use
    *             the {slot} parameter.
@@ -10132,8 +10142,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Creates a new web, mobile, or API app in an existing resource group, or updates an
-   * existing app.
+   * Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Unique name of the app to create or update. To create or update a deployment slot, use
    *             the {slot} parameter.
@@ -10160,7 +10169,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Deletes a web, mobile, or API app, or one of the deployment slots.
+   * Deletes a web, mobile, or API app, or one of the deployment slots.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app to delete.
    * @param slot Name of the deployment slot to delete. By default, the API deletes the production slot.
@@ -10179,8 +10188,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Creates a new web, mobile, or API app in an existing resource group, or updates an
-   * existing app.
+   * Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Unique name of the app to create or update. To create or update a deployment slot, use
    *             the {slot} parameter.
@@ -10203,7 +10211,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Analyze a custom hostname.
+   * Analyze a custom hostname.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param slot Name of web app slot. If not specified then will default to production slot.
@@ -10222,7 +10230,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Applies the configuration settings from the target slot onto the current slot.
+   * Applies the configuration settings from the target slot onto the current slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the source slot. If a slot is not specified, the production slot is used as the
@@ -10244,7 +10252,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Creates a backup of an app.
+   * Creates a backup of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will create a backup
@@ -10267,7 +10275,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets existing backups of an app.
+   * Gets existing backups of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will get backups of the
@@ -10287,7 +10295,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a backup of an app by its ID.
+   * Gets a backup of an app by its ID.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param backupId ID of the backup.
@@ -10309,7 +10317,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Deletes a backup of an app by its ID.
+   * Deletes a backup of an app by its ID.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param backupId ID of the backup.
@@ -10331,9 +10339,9 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets status of a web app backup that may be in progress, including secrets
-   * associated with the backup, such as the Azure Storage SAS URL. Also can be used to update the SAS
-   * URL for the backup if a new URL is passed in the request body.
+   * Gets status of a web app backup that may be in progress, including secrets associated with the
+   * backup, such as the Azure Storage SAS URL. Also can be used to update the SAS URL for the backup if
+   * a new URL is passed in the request body.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param backupId ID of backup.
@@ -10356,7 +10364,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Restores a specific backup to another app (or deployment slot, if specified).
+   * Restores a specific backup to another app (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param backupId ID of the backup.
@@ -10426,7 +10434,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Restores a specific backup to another app (or deployment slot, if specified).
+   * Restores a specific backup to another app (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param backupId ID of the backup.
@@ -10455,8 +10463,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Returns whether Scm basic auth is allowed and whether Ftp is allowed for a given
-   * site.
+   * Returns whether Scm basic auth is allowed and whether Ftp is allowed for a given site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot
@@ -10475,7 +10482,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Returns whether FTP is allowed on the site or not.
+   * Returns whether FTP is allowed on the site or not.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot
@@ -10494,7 +10501,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates whether FTP is allowed on the site or not.
+   * Updates whether FTP is allowed on the site or not.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot
@@ -10521,7 +10528,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Returns whether Scm basic auth is allowed on the site or not.
+   * Returns whether Scm basic auth is allowed on the site or not.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot
@@ -10540,7 +10547,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates whether user publishing credentials are allowed on the site or not.
+   * Updates whether user publishing credentials are allowed on the site or not.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot
@@ -10567,7 +10574,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List the configurations of an app
+   * List the configurations of an app
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will return
@@ -10587,7 +10594,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Replaces the application settings of an app.
+   * Replaces the application settings of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will update the
@@ -10609,7 +10616,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the application settings of an app.
+   * Gets the application settings of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will get the
@@ -10629,7 +10636,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates the Authentication / Authorization settings associated with web app.
+   * Updates the Authentication / Authorization settings associated with web app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param slot Name of web app slot. If not specified then will default to production slot.
@@ -10650,7 +10657,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the Authentication/Authorization settings of an app.
+   * Gets the Authentication/Authorization settings of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will get the settings
@@ -10670,7 +10677,27 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates site's Authentication / Authorization settings for apps via the V2 format
+   * Gets site's Authentication / Authorization settings for apps via the V2 format
+   * @param resourceGroupName Name of the resource group to which the resource belongs.
+   * @param name Name of the app.
+   * @param slot Name of the deployment slot. If a slot is not specified, the API will get the settings
+   *             for the production slot.
+   * @param options The options parameters.
+   */
+  getAuthSettingsV2WithoutSecretsSlot(
+    resourceGroupName: string,
+    name: string,
+    slot: string,
+    options?: WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams
+  ): Promise<WebAppsGetAuthSettingsV2WithoutSecretsSlotResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, name, slot, options },
+      getAuthSettingsV2WithoutSecretsSlotOperationSpec
+    );
+  }
+
+  /**
+   * Updates site's Authentication / Authorization settings for apps via the V2 format
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param slot Name of web app slot. If not specified then will default to production slot.
@@ -10691,7 +10718,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets site's Authentication / Authorization settings for apps via the V2 format
+   * Gets site's Authentication / Authorization settings for apps via the V2 format
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will get the settings
@@ -10711,7 +10738,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates the Azure storage account configurations of an app.
+   * Updates the Azure storage account configurations of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will update the Azure
@@ -10733,7 +10760,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the Azure storage account configurations of an app.
+   * Gets the Azure storage account configurations of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will update the Azure
@@ -10753,7 +10780,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates the backup configuration of an app.
+   * Updates the backup configuration of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will update the backup
@@ -10775,7 +10802,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Deletes the backup configuration of an app.
+   * Deletes the backup configuration of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will delete the backup
@@ -10795,7 +10822,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the backup configuration of an app.
+   * Gets the backup configuration of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will get the backup
@@ -10815,7 +10842,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the config reference app settings and status of an app
+   * Gets the config reference app settings and status of an app
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot
@@ -10834,7 +10861,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the config reference and status of an app
+   * Gets the config reference and status of an app
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param appSettingKey App Setting key name.
@@ -10855,7 +10882,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the config reference app settings and status of an app
+   * Gets the config reference app settings and status of an app
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot
@@ -10874,7 +10901,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the config reference and status of an app
+   * Gets the config reference and status of an app
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param connectionStringKey
@@ -10895,7 +10922,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Replaces the connection strings of an app.
+   * Replaces the connection strings of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will update the
@@ -10917,7 +10944,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the connection strings of an app.
+   * Gets the connection strings of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will get the connection
@@ -10937,7 +10964,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the logging configuration of an app.
+   * Gets the logging configuration of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will get the logging
@@ -10957,7 +10984,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates the logging configuration of an app.
+   * Updates the logging configuration of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will update the logging
@@ -10980,7 +11007,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Replaces the metadata of an app.
+   * Replaces the metadata of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will update the
@@ -11002,7 +11029,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the metadata of an app.
+   * Gets the metadata of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will get the metadata
@@ -11022,7 +11049,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the Git/FTP publishing credentials of an app.
+   * Gets the Git/FTP publishing credentials of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will get the publishing
@@ -11093,7 +11120,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the Git/FTP publishing credentials of an app.
+   * Gets the Git/FTP publishing credentials of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will get the publishing
@@ -11116,7 +11143,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates the Push settings associated with web app.
+   * Updates the Push settings associated with web app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param slot Name of web app slot. If not specified then will default to production slot.
@@ -11137,7 +11164,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the Push settings associated with web app.
+   * Gets the Push settings associated with web app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param slot Name of web app slot. If not specified then will default to production slot.
@@ -11156,8 +11183,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the configuration of an app, such as platform version and bitness, default
-   * documents, virtual applications, Always On, etc.
+   * Gets the configuration of an app, such as platform version and bitness, default documents, virtual
+   * applications, Always On, etc.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will return
@@ -11177,7 +11204,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates the configuration of an app.
+   * Updates the configuration of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will update
@@ -11199,7 +11226,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates the configuration of an app.
+   * Updates the configuration of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will update
@@ -11221,8 +11248,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a list of web app configuration snapshots identifiers. Each element of the list
-   * contains a timestamp and the ID of the snapshot.
+   * Gets a list of web app configuration snapshots identifiers. Each element of the list contains a
+   * timestamp and the ID of the snapshot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will return
@@ -11242,7 +11269,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a snapshot of the configuration of an app at a previous point in time.
+   * Gets a snapshot of the configuration of an app at a previous point in time.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param snapshotId The ID of the snapshot to read.
@@ -11264,7 +11291,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Reverts the configuration of an app to a previous snapshot.
+   * Reverts the configuration of an app to a previous snapshot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param snapshotId The ID of the snapshot to read.
@@ -11286,7 +11313,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the last lines of docker logs for the given site
+   * Gets the last lines of docker logs for the given site
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param slot Name of web app slot. If not specified then will default to production slot.
@@ -11305,7 +11332,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the ZIP archived docker log files for the given site
+   * Gets the ZIP archived docker log files for the given site
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param slot Name of web app slot. If not specified then will default to production slot.
@@ -11324,7 +11351,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List continuous web jobs for an app, or a deployment slot.
+   * List continuous web jobs for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment
@@ -11344,7 +11371,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a continuous web job by its ID for an app, or a deployment slot.
+   * Gets a continuous web job by its ID for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param webJobName Name of Web Job.
@@ -11366,7 +11393,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Delete a continuous web job by its ID for an app, or a deployment slot.
+   * Delete a continuous web job by its ID for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param webJobName Name of Web Job.
@@ -11388,7 +11415,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Start a continuous web job for an app, or a deployment slot.
+   * Start a continuous web job for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param webJobName Name of Web Job.
@@ -11410,7 +11437,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Stop a continuous web job for an app, or a deployment slot.
+   * Stop a continuous web job for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param webJobName Name of Web Job.
@@ -11432,7 +11459,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List deployments for an app, or a deployment slot.
+   * List deployments for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API returns deployments for
@@ -11452,7 +11479,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get a deployment by its ID for an app, or a deployment slot.
+   * Get a deployment by its ID for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param id Deployment ID.
@@ -11474,7 +11501,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Create a deployment for an app, or a deployment slot.
+   * Create a deployment for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param id ID of an existing deployment.
@@ -11498,7 +11525,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Delete a deployment by its ID for an app, or a deployment slot.
+   * Delete a deployment by its ID for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param id Deployment ID.
@@ -11520,7 +11547,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List deployment log for specific deployment for an app, or a deployment slot.
+   * List deployment log for specific deployment for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param id The ID of a specific deployment. This is the value of the name property in the JSON
@@ -11543,8 +11570,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Discovers an existing app backup that can be restored from a blob in Azure storage.
-   * Use this to get information about the databases stored in a backup.
+   * Discovers an existing app backup that can be restored from a blob in Azure storage. Use this to get
+   * information about the databases stored in a backup.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will perform discovery
@@ -11567,7 +11594,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Lists ownership identifiers for domain associated with web app.
+   * Lists ownership identifiers for domain associated with web app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will delete the binding
@@ -11587,7 +11614,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get domain ownership identifier for web app.
+   * Get domain ownership identifier for web app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param domainOwnershipIdentifierName Name of domain ownership identifier.
@@ -11609,8 +11636,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Creates a domain ownership identifier for web app, or updates an existing ownership
-   * identifier.
+   * Creates a domain ownership identifier for web app, or updates an existing ownership identifier.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param domainOwnershipIdentifierName Name of domain ownership identifier.
@@ -11641,7 +11667,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Deletes a domain ownership identifier for a web app.
+   * Deletes a domain ownership identifier for a web app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param domainOwnershipIdentifierName Name of domain ownership identifier.
@@ -11663,8 +11689,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Creates a domain ownership identifier for web app, or updates an existing ownership
-   * identifier.
+   * Creates a domain ownership identifier for web app, or updates an existing ownership identifier.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param domainOwnershipIdentifierName Name of domain ownership identifier.
@@ -11695,7 +11720,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get the status of the last MSDeploy operation.
+   * Get the status of the last MSDeploy operation.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param slot Name of web app slot. If not specified then will default to production slot.
@@ -11714,7 +11739,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Invoke the MSDeploy web app extension.
+   * Invoke the MSDeploy web app extension.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param slot Name of web app slot. If not specified then will default to production slot.
@@ -11786,7 +11811,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Invoke the MSDeploy web app extension.
+   * Invoke the MSDeploy web app extension.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param slot Name of web app slot. If not specified then will default to production slot.
@@ -11811,7 +11836,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get the MSDeploy Log for the last MSDeploy operation.
+   * Get the MSDeploy Log for the last MSDeploy operation.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param slot Name of web app slot. If not specified then will default to production slot.
@@ -11830,7 +11855,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List the functions for a web site, or a deployment slot.
+   * List the functions for a web site, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param slot Name of the deployment slot.
@@ -11849,7 +11874,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Fetch a short lived token that can be exchanged for a master key.
+   * Fetch a short lived token that can be exchanged for a master key.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param slot Name of web app slot. If not specified then will default to production slot.
@@ -11868,7 +11893,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get function information by its ID for web site, or a deployment slot.
+   * Get function information by its ID for web site, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param functionName Function name.
@@ -11889,7 +11914,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Create function for web site, or a deployment slot.
+   * Create function for web site, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param functionName Function name.
@@ -11970,7 +11995,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Create function for web site, or a deployment slot.
+   * Create function for web site, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param functionName Function name.
@@ -11998,7 +12023,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Delete a function for web site, or a deployment slot.
+   * Delete a function for web site, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param functionName Function name.
@@ -12019,7 +12044,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Add or update a function secret.
+   * Add or update a function secret.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param functionName The name of the function.
@@ -12044,7 +12069,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Delete a function secret.
+   * Delete a function secret.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param functionName The name of the function.
@@ -12067,7 +12092,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get function keys for a function in a web site, or a deployment slot.
+   * Get function keys for a function in a web site, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param functionName Function name.
@@ -12088,7 +12113,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get function secrets for a function in a web site, or a deployment slot.
+   * Get function secrets for a function in a web site, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param functionName Function name.
@@ -12109,7 +12134,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get host secrets for a function app.
+   * Get host secrets for a function app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param slot Name of the deployment slot.
@@ -12128,7 +12153,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for This is to allow calling via powershell and ARM template.
+   * This is to allow calling via powershell and ARM template.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot.
@@ -12147,7 +12172,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Syncs function trigger metadata to the management database
+   * Syncs function trigger metadata to the management database
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot.
@@ -12166,7 +12191,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Add or update a host level secret.
+   * Add or update a host level secret.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param keyType The type of host key.
@@ -12191,7 +12216,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Delete a host level secret.
+   * Delete a host level secret.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param keyType The type of host key.
@@ -12214,7 +12239,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get hostname bindings for an app or a deployment slot.
+   * Get hostname bindings for an app or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API gets hostname bindings
@@ -12234,7 +12259,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get the named hostname binding for an app (or deployment slot, if specified).
+   * Get the named hostname binding for an app (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API the named binding for
@@ -12256,7 +12281,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Creates a hostname binding for an app.
+   * Creates a hostname binding for an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param hostName Hostname in the hostname binding.
@@ -12280,7 +12305,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Deletes a hostname binding for an app.
+   * Deletes a hostname binding for an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will delete the binding
@@ -12302,7 +12327,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Retrieves a specific Service Bus Hybrid Connection used by this Web App.
+   * Retrieves a specific Service Bus Hybrid Connection used by this Web App.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name The name of the web app.
    * @param namespaceName The namespace for this hybrid connection.
@@ -12325,7 +12350,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Creates a new Hybrid Connection using a Service Bus relay.
+   * Creates a new Hybrid Connection using a Service Bus relay.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name The name of the web app.
    * @param namespaceName The namespace for this hybrid connection.
@@ -12358,7 +12383,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Removes a Hybrid Connection from this site.
+   * Removes a Hybrid Connection from this site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name The name of the web app.
    * @param namespaceName The namespace for this hybrid connection.
@@ -12381,7 +12406,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Creates a new Hybrid Connection using a Service Bus relay.
+   * Creates a new Hybrid Connection using a Service Bus relay.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name The name of the web app.
    * @param namespaceName The namespace for this hybrid connection.
@@ -12414,7 +12439,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Retrieves all Service Bus Hybrid Connections used by this Web App.
+   * Retrieves all Service Bus Hybrid Connections used by this Web App.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name The name of the web app.
    * @param slot The name of the slot for the web app.
@@ -12433,7 +12458,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets hybrid connections configured for an app (or deployment slot, if specified).
+   * Gets hybrid connections configured for an app (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will get hybrid
@@ -12453,7 +12478,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a hybrid connection configuration by its name.
+   * Gets a hybrid connection configuration by its name.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param entityName Name of the hybrid connection.
@@ -12475,8 +12500,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Creates a new hybrid connection configuration (PUT), or updates an existing one
-   * (PATCH).
+   * Creates a new hybrid connection configuration (PUT), or updates an existing one (PATCH).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param entityName Name of the hybrid connection configuration.
@@ -12507,7 +12531,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Deletes a relay service connection by its name.
+   * Deletes a relay service connection by its name.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param entityName Name of the hybrid connection configuration.
@@ -12529,8 +12553,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Creates a new hybrid connection configuration (PUT), or updates an existing one
-   * (PATCH).
+   * Creates a new hybrid connection configuration (PUT), or updates an existing one (PATCH).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param entityName Name of the hybrid connection configuration.
@@ -12561,7 +12584,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets all scale-out instances of an app.
+   * Gets all scale-out instances of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API gets the production
@@ -12581,7 +12604,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets all scale-out instances of an app.
+   * Gets all scale-out instances of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param instanceId
@@ -12603,7 +12626,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get the status of the last MSDeploy operation.
+   * Get the status of the last MSDeploy operation.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param slot Name of web app slot. If not specified then will default to production slot.
@@ -12624,7 +12647,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Invoke the MSDeploy web app extension.
+   * Invoke the MSDeploy web app extension.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param slot Name of web app slot. If not specified then will default to production slot.
@@ -12698,7 +12721,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Invoke the MSDeploy web app extension.
+   * Invoke the MSDeploy web app extension.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param slot Name of web app slot. If not specified then will default to production slot.
@@ -12726,7 +12749,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get the MSDeploy Log for the last MSDeploy operation.
+   * Get the MSDeploy Log for the last MSDeploy operation.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param slot Name of web app slot. If not specified then will default to production slot.
@@ -12747,8 +12770,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get list of processes for a web site, or a deployment slot, or for a specific
-   * scaled-out instance in a web site.
+   * Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in
+   * a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param slot Name of the deployment slot. If a slot is not specified, the API returns deployments for
@@ -12771,7 +12794,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get process information by its ID for a specific scaled-out instance in a web site.
+   * Get process information by its ID for a specific scaled-out instance in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -12796,8 +12819,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Terminate a process by its ID for a web site, or a deployment slot, or specific
-   * scaled-out instance in a web site.
+   * Terminate a process by its ID for a web site, or a deployment slot, or specific scaled-out instance
+   * in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -12822,8 +12845,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get a memory dump of a process by its ID for a specific scaled-out instance in a web
-   * site.
+   * Get a memory dump of a process by its ID for a specific scaled-out instance in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -12848,8 +12870,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List module information for a process by its ID for a specific scaled-out instance
-   * in a web site.
+   * List module information for a process by its ID for a specific scaled-out instance in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -12874,7 +12895,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get process information by its ID for a specific scaled-out instance in a web site.
+   * Get process information by its ID for a specific scaled-out instance in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -12909,8 +12930,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List the threads in a process by its ID for a specific scaled-out instance in a web
-   * site.
+   * List the threads in a process by its ID for a specific scaled-out instance in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -12935,7 +12955,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Shows whether an app can be cloned to another resource group or subscription.
+   * Shows whether an app can be cloned to another resource group or subscription.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. By default, this API returns information on the production
@@ -12955,7 +12975,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets existing backups of an app.
+   * Gets existing backups of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will get backups of the
@@ -12975,7 +12995,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for This is to allow calling via powershell and ARM template.
+   * This is to allow calling via powershell and ARM template.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot.
@@ -12994,8 +13014,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Returns the status of MySql in app migration, if one is active, and whether or not
-   * MySql in app is enabled
+   * Returns the status of MySql in app migration, if one is active, and whether or not MySql in app is
+   * enabled
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param slot Name of the deployment slot.
@@ -13014,7 +13034,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a Swift Virtual Network connection.
+   * Gets a Swift Virtual Network connection.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will get a gateway for
@@ -13034,9 +13054,9 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Integrates this Web App with a Virtual Network. This requires that 1)
-   * "swiftSupported" is true when doing a GET against this resource, and 2) that the target Subnet has
-   * already been delegated, and is not
+   * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true when
+   * doing a GET against this resource, and 2) that the target Subnet has already been delegated, and is
+   * not
    * in use by another App Service Plan other than the one this App is in.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
@@ -13061,7 +13081,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Deletes a Swift Virtual Network connection from an app (or deployment slot).
+   * Deletes a Swift Virtual Network connection from an app (or deployment slot).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will delete the
@@ -13081,9 +13101,9 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Integrates this Web App with a Virtual Network. This requires that 1)
-   * "swiftSupported" is true when doing a GET against this resource, and 2) that the target Subnet has
-   * already been delegated, and is not
+   * Integrates this Web App with a Virtual Network. This requires that 1) "swiftSupported" is true when
+   * doing a GET against this resource, and 2) that the target Subnet has already been delegated, and is
+   * not
    * in use by another App Service Plan other than the one this App is in.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
@@ -13106,7 +13126,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets all network features used by the app (or deployment slot, if specified).
+   * Gets all network features used by the app (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param view The type of view. Only "summary" is supported at this time.
@@ -13128,8 +13148,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a named operation for a network trace capturing (or deployment slot, if
-   * specified).
+   * Gets a named operation for a network trace capturing (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param operationId GUID of the operation.
@@ -13151,7 +13170,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Start capturing network packets for the site (To be deprecated).
+   * Start capturing network packets for the site (To be deprecated).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name The name of the web app.
    * @param slot The name of the slot for this web app.
@@ -13170,7 +13189,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Start capturing network packets for the site.
+   * Start capturing network packets for the site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name The name of the web app.
    * @param slot The name of the slot for this web app.
@@ -13240,7 +13259,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Start capturing network packets for the site.
+   * Start capturing network packets for the site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name The name of the web app.
    * @param slot The name of the slot for this web app.
@@ -13262,7 +13281,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Stop ongoing capturing network packets for the site.
+   * Stop ongoing capturing network packets for the site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name The name of the web app.
    * @param slot The name of the slot for this web app.
@@ -13281,8 +13300,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a named operation for a network trace capturing (or deployment slot, if
-   * specified).
+   * Gets a named operation for a network trace capturing (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param operationId GUID of the operation.
@@ -13304,8 +13322,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a named operation for a network trace capturing (or deployment slot, if
-   * specified).
+   * Gets a named operation for a network trace capturing (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param operationId GUID of the operation.
@@ -13327,8 +13344,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a named operation for a network trace capturing (or deployment slot, if
-   * specified).
+   * Gets a named operation for a network trace capturing (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param operationId GUID of the operation.
@@ -13350,7 +13366,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Generates a new publishing password for an app (or deployment slot, if specified).
+   * Generates a new publishing password for an app (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API generate a new
@@ -13370,7 +13386,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets perfmon counters for web app.
+   * Gets perfmon counters for web app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param slot Name of web app slot. If not specified then will default to production slot.
@@ -13389,7 +13405,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets web app's event logs.
+   * Gets web app's event logs.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param slot Name of web app slot. If not specified then will default to production slot.
@@ -13408,7 +13424,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the premier add-ons of an app.
+   * Gets the premier add-ons of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will get the premier
@@ -13428,7 +13444,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a named add-on of an app.
+   * Gets a named add-on of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param premierAddOnName Add-on name.
@@ -13450,7 +13466,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates a named add-on of an app.
+   * Updates a named add-on of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param premierAddOnName Add-on name.
@@ -13481,7 +13497,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Delete a premier add-on from an app.
+   * Delete a premier add-on from an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param premierAddOnName Add-on name.
@@ -13503,7 +13519,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates a named add-on of an app.
+   * Updates a named add-on of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param premierAddOnName Add-on name.
@@ -13534,8 +13550,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets data around private site access enablement and authorized Virtual Networks that
-   * can access the site.
+   * Gets data around private site access enablement and authorized Virtual Networks that can access the
+   * site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name The name of the web app.
    * @param slot The name of the slot for the web app.
@@ -13554,8 +13570,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Sets data around private site access enablement and authorized Virtual Networks that
-   * can access the site.
+   * Sets data around private site access enablement and authorized Virtual Networks that can access the
+   * site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name The name of the web app.
    * @param slot The name of the slot for the web app.
@@ -13576,7 +13592,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the list of private endpoint connections associated with a site
+   * Gets the list of private endpoint connections associated with a site
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
    * @param slot Name of the site deployment slot.
@@ -13595,7 +13611,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a private endpoint connection
+   * Gets a private endpoint connection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
    * @param privateEndpointConnectionName Name of the private endpoint connection.
@@ -13616,7 +13632,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Approves or rejects a private endpoint connection
+   * Approves or rejects a private endpoint connection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
    * @param privateEndpointConnectionName
@@ -13699,7 +13715,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Approves or rejects a private endpoint connection
+   * Approves or rejects a private endpoint connection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
    * @param privateEndpointConnectionName
@@ -13727,7 +13743,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Deletes a private endpoint connection
+   * Deletes a private endpoint connection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
    * @param privateEndpointConnectionName
@@ -13799,7 +13815,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Deletes a private endpoint connection
+   * Deletes a private endpoint connection
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
    * @param privateEndpointConnectionName
@@ -13824,7 +13840,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the private link resources
+   * Gets the private link resources
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the site.
    * @param slot
@@ -13843,8 +13859,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get list of processes for a web site, or a deployment slot, or for a specific
-   * scaled-out instance in a web site.
+   * Get list of processes for a web site, or a deployment slot, or for a specific scaled-out instance in
+   * a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param slot Name of the deployment slot. If a slot is not specified, the API returns deployments for
@@ -13864,7 +13880,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get process information by its ID for a specific scaled-out instance in a web site.
+   * Get process information by its ID for a specific scaled-out instance in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -13886,8 +13902,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Terminate a process by its ID for a web site, or a deployment slot, or specific
-   * scaled-out instance in a web site.
+   * Terminate a process by its ID for a web site, or a deployment slot, or specific scaled-out instance
+   * in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -13909,8 +13925,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get a memory dump of a process by its ID for a specific scaled-out instance in a web
-   * site.
+   * Get a memory dump of a process by its ID for a specific scaled-out instance in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -13932,8 +13947,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List module information for a process by its ID for a specific scaled-out instance
-   * in a web site.
+   * List module information for a process by its ID for a specific scaled-out instance in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -13955,7 +13969,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get process information by its ID for a specific scaled-out instance in a web site.
+   * Get process information by its ID for a specific scaled-out instance in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -13979,8 +13993,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List the threads in a process by its ID for a specific scaled-out instance in a web
-   * site.
+   * List the threads in a process by its ID for a specific scaled-out instance in a web site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param processId PID.
@@ -14002,7 +14015,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get public certificates for an app or a deployment slot.
+   * Get public certificates for an app or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API gets hostname bindings
@@ -14022,7 +14035,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get the named public certificate for an app (or deployment slot, if specified).
+   * Get the named public certificate for an app (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API the named binding for
@@ -14044,7 +14057,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Creates a hostname binding for an app.
+   * Creates a hostname binding for an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param publicCertificateName Public certificate name.
@@ -14076,7 +14089,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Deletes a hostname binding for an app.
+   * Deletes a hostname binding for an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will delete the binding
@@ -14098,7 +14111,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the publishing profile for an app (or deployment slot, if specified).
+   * Gets the publishing profile for an app (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will get the publishing
@@ -14121,8 +14134,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Resets the configuration settings of the current slot if they were previously
-   * modified by calling the API with POST.
+   * Resets the configuration settings of the current slot if they were previously modified by calling
+   * the API with POST.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API resets configuration
@@ -14142,7 +14155,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Restarts an app (or deployment slot, if specified).
+   * Restarts an app (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will restart the
@@ -14162,7 +14175,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Restores an app from a backup blob in Azure Storage.
+   * Restores an app from a backup blob in Azure Storage.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will restore a backup
@@ -14230,7 +14243,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Restores an app from a backup blob in Azure Storage.
+   * Restores an app from a backup blob in Azure Storage.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will restore a backup
@@ -14256,7 +14269,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Restores a deleted web app to this web app.
+   * Restores a deleted web app to this web app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param slot Name of web app slot. If not specified then will default to production slot.
@@ -14323,7 +14336,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Restores a deleted web app to this web app.
+   * Restores a deleted web app to this web app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param slot Name of web app slot. If not specified then will default to production slot.
@@ -14348,7 +14361,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Restores a web app from a snapshot.
+   * Restores a web app from a snapshot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param slot Name of web app slot. If not specified then will default to production slot.
@@ -14416,7 +14429,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Restores a web app from a snapshot.
+   * Restores a web app from a snapshot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param slot Name of web app slot. If not specified then will default to production slot.
@@ -14442,7 +14455,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get list of siteextensions for a web site, or a deployment slot.
+   * Get list of siteextensions for a web site, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param slot Name of the deployment slot. If a slot is not specified, the API uses the production
@@ -14462,7 +14475,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get site extension information by its ID for a web site, or a deployment slot.
+   * Get site extension information by its ID for a web site, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param siteExtensionId Site extension name.
@@ -14484,7 +14497,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Install site extension on a web site, or a deployment slot.
+   * Install site extension on a web site, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param siteExtensionId Site extension name.
@@ -14557,7 +14570,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Install site extension on a web site, or a deployment slot.
+   * Install site extension on a web site, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param siteExtensionId Site extension name.
@@ -14583,7 +14596,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Remove a site extension from a web site, or a deployment slot.
+   * Remove a site extension from a web site, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param siteExtensionId Site extension name.
@@ -14605,7 +14618,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get the difference in configuration settings between two web app slots.
+   * Get the difference in configuration settings between two web app slots.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the source slot. If a slot is not specified, the production slot is used as the
@@ -14627,7 +14640,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Swaps two deployment slots of an app.
+   * Swaps two deployment slots of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the source slot. If a slot is not specified, the production slot is used as the
@@ -14695,7 +14708,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Swaps two deployment slots of an app.
+   * Swaps two deployment slots of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the source slot. If a slot is not specified, the production slot is used as the
@@ -14721,7 +14734,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Returns all Snapshots to the user.
+   * Returns all Snapshots to the user.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Website Name.
    * @param slot Website Slot.
@@ -14740,7 +14753,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Returns all Snapshots to the user from DRSecondary endpoint.
+   * Returns all Snapshots to the user from DRSecondary endpoint.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Website Name.
    * @param slot Website Slot.
@@ -14759,7 +14772,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the source control configuration of an app.
+   * Gets the source control configuration of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will get the source
@@ -14779,7 +14792,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates the source control configuration of an app.
+   * Updates the source control configuration of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will update the source
@@ -14852,7 +14865,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates the source control configuration of an app.
+   * Updates the source control configuration of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will update the source
@@ -14878,7 +14891,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Deletes the source control configuration of an app.
+   * Deletes the source control configuration of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will delete the source
@@ -14898,7 +14911,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates the source control configuration of an app.
+   * Updates the source control configuration of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will update the source
@@ -14920,7 +14933,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Starts an app (or deployment slot, if specified).
+   * Starts an app (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will start the
@@ -14940,7 +14953,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Start capturing network packets for the site.
+   * Start capturing network packets for the site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name The name of the web app.
    * @param slot The name of the slot for this web app.
@@ -15010,7 +15023,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Start capturing network packets for the site.
+   * Start capturing network packets for the site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name The name of the web app.
    * @param slot The name of the slot for this web app.
@@ -15032,7 +15045,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Stops an app (or deployment slot, if specified).
+   * Stops an app (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will stop the
@@ -15052,7 +15065,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Stop ongoing capturing network packets for the site.
+   * Stop ongoing capturing network packets for the site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name The name of the web app.
    * @param slot The name of the slot for this web app.
@@ -15071,7 +15084,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Sync web app repository.
+   * Sync web app repository.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param slot Name of web app slot. If not specified then will default to production slot.
@@ -15090,7 +15103,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Syncs function trigger metadata to the management database
+   * Syncs function trigger metadata to the management database
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot.
@@ -15109,7 +15122,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List triggered web jobs for an app, or a deployment slot.
+   * List triggered web jobs for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param slot Name of the deployment slot. If a slot is not specified, the API deletes a deployment
@@ -15129,7 +15142,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a triggered web job by its ID for an app, or a deployment slot.
+   * Gets a triggered web job by its ID for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param webJobName Name of Web Job.
@@ -15151,7 +15164,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Delete a triggered web job by its ID for an app, or a deployment slot.
+   * Delete a triggered web job by its ID for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param webJobName Name of Web Job.
@@ -15173,7 +15186,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List a triggered web job's history for an app, or a deployment slot.
+   * List a triggered web job's history for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param webJobName Name of Web Job.
@@ -15195,7 +15208,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a triggered web job's history by its ID for an app, , or a deployment slot.
+   * Gets a triggered web job's history by its ID for an app, , or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param webJobName Name of Web Job.
@@ -15219,7 +15232,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Run a triggered web job for an app, or a deployment slot.
+   * Run a triggered web job for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param webJobName Name of Web Job.
@@ -15241,7 +15254,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the quota usage information of an app (or deployment slot, if specified).
+   * Gets the quota usage information of an app (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will get quota
@@ -15261,7 +15274,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the virtual networks the app (or deployment slot) is connected to.
+   * Gets the virtual networks the app (or deployment slot) is connected to.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slot Name of the deployment slot. If a slot is not specified, the API will get virtual
@@ -15281,7 +15294,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a virtual network the app (or deployment slot) is connected to by name.
+   * Gets a virtual network the app (or deployment slot) is connected to by name.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param vnetName Name of the virtual network.
@@ -15303,8 +15316,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Adds a Virtual Network connection to an app or slot (PUT) or updates the connection
-   * properties (PATCH).
+   * Adds a Virtual Network connection to an app or slot (PUT) or updates the connection properties
+   * (PATCH).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param vnetName Name of an existing Virtual Network.
@@ -15328,7 +15341,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Deletes a connection from an app (or deployment slot to a named virtual network.
+   * Deletes a connection from an app (or deployment slot to a named virtual network.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param vnetName Name of the virtual network.
@@ -15350,8 +15363,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Adds a Virtual Network connection to an app or slot (PUT) or updates the connection
-   * properties (PATCH).
+   * Adds a Virtual Network connection to an app or slot (PUT) or updates the connection properties
+   * (PATCH).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param vnetName Name of an existing Virtual Network.
@@ -15375,7 +15388,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets an app's Virtual Network gateway.
+   * Gets an app's Virtual Network gateway.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param vnetName Name of the Virtual Network.
@@ -15399,7 +15412,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Adds a gateway to a connected Virtual Network (PUT) or updates it (PATCH).
+   * Adds a gateway to a connected Virtual Network (PUT) or updates it (PATCH).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param vnetName Name of the Virtual Network.
@@ -15433,7 +15446,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Adds a gateway to a connected Virtual Network (PUT) or updates it (PATCH).
+   * Adds a gateway to a connected Virtual Network (PUT) or updates it (PATCH).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param vnetName Name of the Virtual Network.
@@ -15467,7 +15480,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List webjobs for an app, or a deployment slot.
+   * List webjobs for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param slot Name of the deployment slot. If a slot is not specified, the API returns deployments for
@@ -15487,7 +15500,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get webjob information for an app, or a deployment slot.
+   * Get webjob information for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param webJobName Name of the web job.
@@ -15509,7 +15522,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get the difference in configuration settings between two web app slots.
+   * Get the difference in configuration settings between two web app slots.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slotSwapEntity JSON object that contains the target slot name. See example.
@@ -15528,7 +15541,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Swaps two deployment slots of an app.
+   * Swaps two deployment slots of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slotSwapEntity JSON object that contains the target slot name. See example.
@@ -15593,7 +15606,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Swaps two deployment slots of an app.
+   * Swaps two deployment slots of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param slotSwapEntity JSON object that contains the target slot name. See example.
@@ -15615,7 +15628,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Returns all Snapshots to the user.
+   * Returns all Snapshots to the user.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Website Name.
    * @param options The options parameters.
@@ -15632,7 +15645,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Returns all Snapshots to the user from DRSecondary endpoint.
+   * Returns all Snapshots to the user from DRSecondary endpoint.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Website Name.
    * @param options The options parameters.
@@ -15649,7 +15662,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the source control configuration of an app.
+   * Gets the source control configuration of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -15666,7 +15679,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates the source control configuration of an app.
+   * Updates the source control configuration of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param siteSourceControl JSON representation of a SiteSourceControl object. See example.
@@ -15736,7 +15749,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates the source control configuration of an app.
+   * Updates the source control configuration of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param siteSourceControl JSON representation of a SiteSourceControl object. See example.
@@ -15758,7 +15771,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Deletes the source control configuration of an app.
+   * Deletes the source control configuration of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -15775,7 +15788,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Updates the source control configuration of an app.
+   * Updates the source control configuration of an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param siteSourceControl JSON representation of a SiteSourceControl object. See example.
@@ -15794,7 +15807,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Starts an app (or deployment slot, if specified).
+   * Starts an app (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -15811,7 +15824,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Start capturing network packets for the site.
+   * Start capturing network packets for the site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name The name of the web app.
    * @param options The options parameters.
@@ -15879,7 +15892,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Start capturing network packets for the site.
+   * Start capturing network packets for the site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name The name of the web app.
    * @param options The options parameters.
@@ -15898,7 +15911,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Stops an app (or deployment slot, if specified).
+   * Stops an app (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -15915,7 +15928,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Stop ongoing capturing network packets for the site.
+   * Stop ongoing capturing network packets for the site.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name The name of the web app.
    * @param options The options parameters.
@@ -15932,7 +15945,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Sync web app repository.
+   * Sync web app repository.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of web app.
    * @param options The options parameters.
@@ -15949,7 +15962,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Syncs function trigger metadata to the management database
+   * Syncs function trigger metadata to the management database
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -15966,7 +15979,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List triggered web jobs for an app, or a deployment slot.
+   * List triggered web jobs for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param options The options parameters.
@@ -15983,7 +15996,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a triggered web job by its ID for an app, or a deployment slot.
+   * Gets a triggered web job by its ID for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param webJobName Name of Web Job.
@@ -16002,7 +16015,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Delete a triggered web job by its ID for an app, or a deployment slot.
+   * Delete a triggered web job by its ID for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param webJobName Name of Web Job.
@@ -16021,7 +16034,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List a triggered web job's history for an app, or a deployment slot.
+   * List a triggered web job's history for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param webJobName Name of Web Job.
@@ -16040,7 +16053,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a triggered web job's history by its ID for an app, , or a deployment slot.
+   * Gets a triggered web job's history by its ID for an app, , or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param webJobName Name of Web Job.
@@ -16061,7 +16074,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Run a triggered web job for an app, or a deployment slot.
+   * Run a triggered web job for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param webJobName Name of Web Job.
@@ -16080,7 +16093,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the quota usage information of an app (or deployment slot, if specified).
+   * Gets the quota usage information of an app (or deployment slot, if specified).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -16097,7 +16110,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets the virtual networks the app (or deployment slot) is connected to.
+   * Gets the virtual networks the app (or deployment slot) is connected to.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param options The options parameters.
@@ -16114,7 +16127,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets a virtual network the app (or deployment slot) is connected to by name.
+   * Gets a virtual network the app (or deployment slot) is connected to by name.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param vnetName Name of the virtual network.
@@ -16133,8 +16146,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Adds a Virtual Network connection to an app or slot (PUT) or updates the connection
-   * properties (PATCH).
+   * Adds a Virtual Network connection to an app or slot (PUT) or updates the connection properties
+   * (PATCH).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param vnetName Name of an existing Virtual Network.
@@ -16155,7 +16168,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Deletes a connection from an app (or deployment slot to a named virtual network.
+   * Deletes a connection from an app (or deployment slot to a named virtual network.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param vnetName Name of the virtual network.
@@ -16174,8 +16187,8 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Adds a Virtual Network connection to an app or slot (PUT) or updates the connection
-   * properties (PATCH).
+   * Adds a Virtual Network connection to an app or slot (PUT) or updates the connection properties
+   * (PATCH).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param vnetName Name of an existing Virtual Network.
@@ -16196,7 +16209,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Gets an app's Virtual Network gateway.
+   * Gets an app's Virtual Network gateway.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param vnetName Name of the Virtual Network.
@@ -16217,7 +16230,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Adds a gateway to a connected Virtual Network (PUT) or updates it (PATCH).
+   * Adds a gateway to a connected Virtual Network (PUT) or updates it (PATCH).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param vnetName Name of the Virtual Network.
@@ -16247,7 +16260,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Adds a gateway to a connected Virtual Network (PUT) or updates it (PATCH).
+   * Adds a gateway to a connected Virtual Network (PUT) or updates it (PATCH).
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the app.
    * @param vnetName Name of the Virtual Network.
@@ -16277,7 +16290,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for List webjobs for an app, or a deployment slot.
+   * List webjobs for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param options The options parameters.
@@ -16294,7 +16307,7 @@ export class WebAppsImpl implements WebApps {
   }
 
   /**
-   * Description for Get webjob information for an app, or a deployment slot.
+   * Get webjob information for an app, or a deployment slot.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site name.
    * @param webJobName Name of the web job.
@@ -19409,6 +19422,54 @@ const getMSDeployLogOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const getOneDeployStatusOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/extensions/onedeploy",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const createOneDeployOperationOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/extensions/onedeploy",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listFunctionsOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/functions",
@@ -22363,6 +22424,29 @@ const getAuthSettingsSlotOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.SiteAuthSettings
+    },
+    default: {
+      bodyMapper: Mappers.DefaultErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.name,
+    Parameters.slot
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const getAuthSettingsV2WithoutSecretsSlotOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/authsettingsV2",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SiteAuthSettingsV2
     },
     default: {
       bodyMapper: Mappers.DefaultErrorResponse

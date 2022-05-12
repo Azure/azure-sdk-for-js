@@ -35,8 +35,7 @@ export class DomainRegistrationProviderImpl
   }
 
   /**
-   * Description for Implements Csm operations Api to exposes the list of available Csm Apis under the
-   * resource provider
+   * Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider
    * @param options The options parameters.
    */
   public listOperations(
@@ -78,8 +77,7 @@ export class DomainRegistrationProviderImpl
   }
 
   /**
-   * Description for Implements Csm operations Api to exposes the list of available Csm Apis under the
-   * resource provider
+   * Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider
    * @param options The options parameters.
    */
   private _listOperations(

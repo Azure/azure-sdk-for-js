@@ -53,7 +53,7 @@ import {
 /** Interface representing a Diagnostics. */
 export interface Diagnostics {
   /**
-   * Description for List Hosting Environment Detector Responses
+   * List Hosting Environment Detector Responses
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site Name
    * @param options The options parameters.
@@ -64,7 +64,7 @@ export interface Diagnostics {
     options?: DiagnosticsListHostingEnvironmentDetectorResponsesOptionalParams
   ): PagedAsyncIterableIterator<DetectorResponse>;
   /**
-   * Description for List Site Detector Responses
+   * List Site Detector Responses
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param options The options parameters.
@@ -75,7 +75,7 @@ export interface Diagnostics {
     options?: DiagnosticsListSiteDetectorResponsesOptionalParams
   ): PagedAsyncIterableIterator<DetectorResponse>;
   /**
-   * Description for Get Diagnostics Categories
+   * Get Diagnostics Categories
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param options The options parameters.
@@ -86,7 +86,7 @@ export interface Diagnostics {
     options?: DiagnosticsListSiteDiagnosticCategoriesOptionalParams
   ): PagedAsyncIterableIterator<DiagnosticCategory>;
   /**
-   * Description for Get Site Analyses
+   * Get Site Analyses
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Diagnostic Category
@@ -99,7 +99,7 @@ export interface Diagnostics {
     options?: DiagnosticsListSiteAnalysesOptionalParams
   ): PagedAsyncIterableIterator<AnalysisDefinition>;
   /**
-   * Description for Get Detectors
+   * Get Detectors
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Diagnostic Category
@@ -112,7 +112,7 @@ export interface Diagnostics {
     options?: DiagnosticsListSiteDetectorsOptionalParams
   ): PagedAsyncIterableIterator<DetectorDefinitionResource>;
   /**
-   * Description for List Site Detector Responses
+   * List Site Detector Responses
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param slot Slot Name
@@ -125,7 +125,7 @@ export interface Diagnostics {
     options?: DiagnosticsListSiteDetectorResponsesSlotOptionalParams
   ): PagedAsyncIterableIterator<DetectorResponse>;
   /**
-   * Description for Get Diagnostics Categories
+   * Get Diagnostics Categories
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param slot Slot Name
@@ -138,7 +138,7 @@ export interface Diagnostics {
     options?: DiagnosticsListSiteDiagnosticCategoriesSlotOptionalParams
   ): PagedAsyncIterableIterator<DiagnosticCategory>;
   /**
-   * Description for Get Site Analyses
+   * Get Site Analyses
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Diagnostic Category
@@ -153,7 +153,7 @@ export interface Diagnostics {
     options?: DiagnosticsListSiteAnalysesSlotOptionalParams
   ): PagedAsyncIterableIterator<AnalysisDefinition>;
   /**
-   * Description for Get Detectors
+   * Get Detectors
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Diagnostic Category
@@ -168,7 +168,7 @@ export interface Diagnostics {
     options?: DiagnosticsListSiteDetectorsSlotOptionalParams
   ): PagedAsyncIterableIterator<DetectorDefinitionResource>;
   /**
-   * Description for Get Hosting Environment Detector Response
+   * Get Hosting Environment Detector Response
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name App Service Environment Name
    * @param detectorName Detector Resource Name
@@ -181,7 +181,7 @@ export interface Diagnostics {
     options?: DiagnosticsGetHostingEnvironmentDetectorResponseOptionalParams
   ): Promise<DiagnosticsGetHostingEnvironmentDetectorResponseResponse>;
   /**
-   * Description for Get site detector response
+   * Get site detector response
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param detectorName Detector Resource Name
@@ -194,7 +194,7 @@ export interface Diagnostics {
     options?: DiagnosticsGetSiteDetectorResponseOptionalParams
   ): Promise<DiagnosticsGetSiteDetectorResponseResponse>;
   /**
-   * Description for Get Diagnostics Category
+   * Get Diagnostics Category
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Diagnostic Category
@@ -207,7 +207,7 @@ export interface Diagnostics {
     options?: DiagnosticsGetSiteDiagnosticCategoryOptionalParams
   ): Promise<DiagnosticsGetSiteDiagnosticCategoryResponse>;
   /**
-   * Description for Get Site Analysis
+   * Get Site Analysis
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Diagnostic Category
@@ -222,7 +222,7 @@ export interface Diagnostics {
     options?: DiagnosticsGetSiteAnalysisOptionalParams
   ): Promise<DiagnosticsGetSiteAnalysisResponse>;
   /**
-   * Description for Execute Analysis
+   * Execute Analysis
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Category Name
@@ -237,7 +237,7 @@ export interface Diagnostics {
     options?: DiagnosticsExecuteSiteAnalysisOptionalParams
   ): Promise<DiagnosticsExecuteSiteAnalysisResponse>;
   /**
-   * Description for Get Detector
+   * Get Detector
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Diagnostic Category
@@ -252,7 +252,7 @@ export interface Diagnostics {
     options?: DiagnosticsGetSiteDetectorOptionalParams
   ): Promise<DiagnosticsGetSiteDetectorResponse>;
   /**
-   * Description for Execute Detector
+   * Execute Detector
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param detectorName Detector Resource Name
@@ -267,7 +267,7 @@ export interface Diagnostics {
     options?: DiagnosticsExecuteSiteDetectorOptionalParams
   ): Promise<DiagnosticsExecuteSiteDetectorResponse>;
   /**
-   * Description for Get site detector response
+   * Get site detector response
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param detectorName Detector Resource Name
@@ -282,7 +282,7 @@ export interface Diagnostics {
     options?: DiagnosticsGetSiteDetectorResponseSlotOptionalParams
   ): Promise<DiagnosticsGetSiteDetectorResponseSlotResponse>;
   /**
-   * Description for Get Diagnostics Category
+   * Get Diagnostics Category
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Diagnostic Category
@@ -297,7 +297,7 @@ export interface Diagnostics {
     options?: DiagnosticsGetSiteDiagnosticCategorySlotOptionalParams
   ): Promise<DiagnosticsGetSiteDiagnosticCategorySlotResponse>;
   /**
-   * Description for Get Site Analysis
+   * Get Site Analysis
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Diagnostic Category
@@ -314,7 +314,7 @@ export interface Diagnostics {
     options?: DiagnosticsGetSiteAnalysisSlotOptionalParams
   ): Promise<DiagnosticsGetSiteAnalysisSlotResponse>;
   /**
-   * Description for Execute Analysis
+   * Execute Analysis
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Category Name
@@ -331,7 +331,7 @@ export interface Diagnostics {
     options?: DiagnosticsExecuteSiteAnalysisSlotOptionalParams
   ): Promise<DiagnosticsExecuteSiteAnalysisSlotResponse>;
   /**
-   * Description for Get Detector
+   * Get Detector
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Diagnostic Category
@@ -348,7 +348,7 @@ export interface Diagnostics {
     options?: DiagnosticsGetSiteDetectorSlotOptionalParams
   ): Promise<DiagnosticsGetSiteDetectorSlotResponse>;
   /**
-   * Description for Execute Detector
+   * Execute Detector
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param detectorName Detector Resource Name

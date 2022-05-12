@@ -95,7 +95,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for List Hosting Environment Detector Responses
+   * List Hosting Environment Detector Responses
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site Name
    * @param options The options parameters.
@@ -166,7 +166,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for List Site Detector Responses
+   * List Site Detector Responses
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param options The options parameters.
@@ -237,7 +237,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for Get Diagnostics Categories
+   * Get Diagnostics Categories
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param options The options parameters.
@@ -308,7 +308,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for Get Site Analyses
+   * Get Site Analyses
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Diagnostic Category
@@ -388,7 +388,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for Get Detectors
+   * Get Detectors
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Diagnostic Category
@@ -468,7 +468,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for List Site Detector Responses
+   * List Site Detector Responses
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param slot Slot Name
@@ -548,7 +548,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for Get Diagnostics Categories
+   * Get Diagnostics Categories
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param slot Slot Name
@@ -628,7 +628,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for Get Site Analyses
+   * Get Site Analyses
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Diagnostic Category
@@ -717,7 +717,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for Get Detectors
+   * Get Detectors
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Diagnostic Category
@@ -806,7 +806,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for List Hosting Environment Detector Responses
+   * List Hosting Environment Detector Responses
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Site Name
    * @param options The options parameters.
@@ -823,7 +823,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for Get Hosting Environment Detector Response
+   * Get Hosting Environment Detector Response
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name App Service Environment Name
    * @param detectorName Detector Resource Name
@@ -842,7 +842,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for List Site Detector Responses
+   * List Site Detector Responses
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param options The options parameters.
@@ -859,7 +859,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for Get site detector response
+   * Get site detector response
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param detectorName Detector Resource Name
@@ -878,7 +878,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for Get Diagnostics Categories
+   * Get Diagnostics Categories
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param options The options parameters.
@@ -895,7 +895,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for Get Diagnostics Category
+   * Get Diagnostics Category
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Diagnostic Category
@@ -914,7 +914,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for Get Site Analyses
+   * Get Site Analyses
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Diagnostic Category
@@ -933,7 +933,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for Get Site Analysis
+   * Get Site Analysis
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Diagnostic Category
@@ -960,7 +960,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for Execute Analysis
+   * Execute Analysis
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Category Name
@@ -987,7 +987,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for Get Detectors
+   * Get Detectors
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Diagnostic Category
@@ -1006,7 +1006,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for Get Detector
+   * Get Detector
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Diagnostic Category
@@ -1033,7 +1033,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for Execute Detector
+   * Execute Detector
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param detectorName Detector Resource Name
@@ -1060,7 +1060,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for List Site Detector Responses
+   * List Site Detector Responses
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param slot Slot Name
@@ -1079,7 +1079,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for Get site detector response
+   * Get site detector response
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param detectorName Detector Resource Name
@@ -1100,7 +1100,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for Get Diagnostics Categories
+   * Get Diagnostics Categories
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param slot Slot Name
@@ -1119,7 +1119,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for Get Diagnostics Category
+   * Get Diagnostics Category
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Diagnostic Category
@@ -1140,7 +1140,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for Get Site Analyses
+   * Get Site Analyses
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Diagnostic Category
@@ -1161,7 +1161,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for Get Site Analysis
+   * Get Site Analysis
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Diagnostic Category
@@ -1191,7 +1191,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for Execute Analysis
+   * Execute Analysis
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Category Name
@@ -1221,7 +1221,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for Get Detectors
+   * Get Detectors
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Diagnostic Category
@@ -1242,7 +1242,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for Get Detector
+   * Get Detector
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param diagnosticCategory Diagnostic Category
@@ -1272,7 +1272,7 @@ export class DiagnosticsImpl implements Diagnostics {
   }
 
   /**
-   * Description for Execute Detector
+   * Execute Detector
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site Name
    * @param detectorName Detector Resource Name

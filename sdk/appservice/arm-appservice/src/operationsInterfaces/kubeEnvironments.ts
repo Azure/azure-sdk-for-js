@@ -26,14 +26,14 @@ import {
 /** Interface representing a KubeEnvironments. */
 export interface KubeEnvironments {
   /**
-   * Description for Get all Kubernetes Environments for a subscription.
+   * Get all Kubernetes Environments for a subscription.
    * @param options The options parameters.
    */
   listBySubscription(
     options?: KubeEnvironmentsListBySubscriptionOptionalParams
   ): PagedAsyncIterableIterator<KubeEnvironment>;
   /**
-   * Description for Get all the Kubernetes Environments in a resource group.
+   * Get all the Kubernetes Environments in a resource group.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param options The options parameters.
    */
@@ -42,7 +42,7 @@ export interface KubeEnvironments {
     options?: KubeEnvironmentsListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<KubeEnvironment>;
   /**
-   * Description for Get the properties of a Kubernetes Environment.
+   * Get the properties of a Kubernetes Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the Kubernetes Environment.
    * @param options The options parameters.
@@ -53,7 +53,7 @@ export interface KubeEnvironments {
     options?: KubeEnvironmentsGetOptionalParams
   ): Promise<KubeEnvironmentsGetResponse>;
   /**
-   * Description for Creates or updates a Kubernetes Environment.
+   * Creates or updates a Kubernetes Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the Kubernetes Environment.
    * @param kubeEnvironmentEnvelope Configuration details of the Kubernetes Environment.
@@ -71,7 +71,7 @@ export interface KubeEnvironments {
     >
   >;
   /**
-   * Description for Creates or updates a Kubernetes Environment.
+   * Creates or updates a Kubernetes Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the Kubernetes Environment.
    * @param kubeEnvironmentEnvelope Configuration details of the Kubernetes Environment.
@@ -84,7 +84,7 @@ export interface KubeEnvironments {
     options?: KubeEnvironmentsCreateOrUpdateOptionalParams
   ): Promise<KubeEnvironmentsCreateOrUpdateResponse>;
   /**
-   * Description for Delete a Kubernetes Environment.
+   * Delete a Kubernetes Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the Kubernetes Environment.
    * @param options The options parameters.
@@ -95,7 +95,7 @@ export interface KubeEnvironments {
     options?: KubeEnvironmentsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
-   * Description for Delete a Kubernetes Environment.
+   * Delete a Kubernetes Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the Kubernetes Environment.
    * @param options The options parameters.
@@ -106,7 +106,7 @@ export interface KubeEnvironments {
     options?: KubeEnvironmentsDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Description for Creates or updates a Kubernetes Environment.
+   * Creates or updates a Kubernetes Environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the Kubernetes Environment.
    * @param kubeEnvironmentEnvelope Configuration details of the Kubernetes Environment.

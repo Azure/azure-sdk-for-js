@@ -19,14 +19,14 @@ import {
 /** Interface representing a DeletedWebApps. */
 export interface DeletedWebApps {
   /**
-   * Description for Get all deleted apps for a subscription.
+   * Get all deleted apps for a subscription.
    * @param options The options parameters.
    */
   list(
     options?: DeletedWebAppsListOptionalParams
   ): PagedAsyncIterableIterator<DeletedSite>;
   /**
-   * Description for Get all deleted apps for a subscription at location
+   * Get all deleted apps for a subscription at location
    * @param location
    * @param options The options parameters.
    */
@@ -35,7 +35,7 @@ export interface DeletedWebApps {
     options?: DeletedWebAppsListByLocationOptionalParams
   ): PagedAsyncIterableIterator<DeletedSite>;
   /**
-   * Description for Get deleted app for a subscription at location.
+   * Get deleted app for a subscription at location.
    * @param location
    * @param deletedSiteId The numeric ID of the deleted app, e.g. 12345
    * @param options The options parameters.

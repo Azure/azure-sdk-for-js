@@ -32,14 +32,14 @@ import {
 /** Interface representing a Recommendations. */
 export interface Recommendations {
   /**
-   * Description for List all recommendations for a subscription.
+   * List all recommendations for a subscription.
    * @param options The options parameters.
    */
   list(
     options?: RecommendationsListOptionalParams
   ): PagedAsyncIterableIterator<Recommendation>;
   /**
-   * Description for Get past recommendations for an app, optionally specified by the time range.
+   * Get past recommendations for an app, optionally specified by the time range.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param hostingEnvironmentName Name of the hosting environment.
    * @param options The options parameters.
@@ -50,7 +50,7 @@ export interface Recommendations {
     options?: RecommendationsListHistoryForHostingEnvironmentOptionalParams
   ): PagedAsyncIterableIterator<Recommendation>;
   /**
-   * Description for Get all recommendations for a hosting environment.
+   * Get all recommendations for a hosting environment.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param hostingEnvironmentName Name of the app.
    * @param options The options parameters.
@@ -61,7 +61,7 @@ export interface Recommendations {
     options?: RecommendationsListRecommendedRulesForHostingEnvironmentOptionalParams
   ): PagedAsyncIterableIterator<Recommendation>;
   /**
-   * Description for Get past recommendations for an app, optionally specified by the time range.
+   * Get past recommendations for an app, optionally specified by the time range.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Name of the app.
    * @param options The options parameters.
@@ -72,7 +72,7 @@ export interface Recommendations {
     options?: RecommendationsListHistoryForWebAppOptionalParams
   ): PagedAsyncIterableIterator<Recommendation>;
   /**
-   * Description for Get all recommendations for an app.
+   * Get all recommendations for an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Name of the app.
    * @param options The options parameters.
@@ -83,14 +83,14 @@ export interface Recommendations {
     options?: RecommendationsListRecommendedRulesForWebAppOptionalParams
   ): PagedAsyncIterableIterator<Recommendation>;
   /**
-   * Description for Reset all recommendation opt-out settings for a subscription.
+   * Reset all recommendation opt-out settings for a subscription.
    * @param options The options parameters.
    */
   resetAllFilters(
     options?: RecommendationsResetAllFiltersOptionalParams
   ): Promise<void>;
   /**
-   * Description for Disables the specified rule so it will not apply to a subscription in the future.
+   * Disables the specified rule so it will not apply to a subscription in the future.
    * @param name Rule name
    * @param options The options parameters.
    */
@@ -99,7 +99,7 @@ export interface Recommendations {
     options?: RecommendationsDisableRecommendationForSubscriptionOptionalParams
   ): Promise<void>;
   /**
-   * Description for Disable all recommendations for an app.
+   * Disable all recommendations for an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param environmentName Name of the app.
    * @param hostingEnvironmentName
@@ -112,7 +112,7 @@ export interface Recommendations {
     options?: RecommendationsDisableAllForHostingEnvironmentOptionalParams
   ): Promise<void>;
   /**
-   * Description for Reset all recommendation opt-out settings for an app.
+   * Reset all recommendation opt-out settings for an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param environmentName Name of the app.
    * @param hostingEnvironmentName
@@ -125,7 +125,7 @@ export interface Recommendations {
     options?: RecommendationsResetAllFiltersForHostingEnvironmentOptionalParams
   ): Promise<void>;
   /**
-   * Description for Get a recommendation rule for an app.
+   * Get a recommendation rule for an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param hostingEnvironmentName Name of the hosting environment.
    * @param name Name of the recommendation.
@@ -138,7 +138,7 @@ export interface Recommendations {
     options?: RecommendationsGetRuleDetailsByHostingEnvironmentOptionalParams
   ): Promise<RecommendationsGetRuleDetailsByHostingEnvironmentResponse>;
   /**
-   * Description for Disables the specific rule for a web site permanently.
+   * Disables the specific rule for a web site permanently.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param environmentName Site name
    * @param name Rule name
@@ -153,7 +153,7 @@ export interface Recommendations {
     options?: RecommendationsDisableRecommendationForHostingEnvironmentOptionalParams
   ): Promise<void>;
   /**
-   * Description for Disable all recommendations for an app.
+   * Disable all recommendations for an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Name of the app.
    * @param options The options parameters.
@@ -164,7 +164,7 @@ export interface Recommendations {
     options?: RecommendationsDisableAllForWebAppOptionalParams
   ): Promise<void>;
   /**
-   * Description for Reset all recommendation opt-out settings for an app.
+   * Reset all recommendation opt-out settings for an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Name of the app.
    * @param options The options parameters.
@@ -175,7 +175,7 @@ export interface Recommendations {
     options?: RecommendationsResetAllFiltersForWebAppOptionalParams
   ): Promise<void>;
   /**
-   * Description for Get a recommendation rule for an app.
+   * Get a recommendation rule for an app.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Name of the app.
    * @param name Name of the recommendation.
@@ -188,7 +188,7 @@ export interface Recommendations {
     options?: RecommendationsGetRuleDetailsByWebAppOptionalParams
   ): Promise<RecommendationsGetRuleDetailsByWebAppResponse>;
   /**
-   * Description for Disables the specific rule for a web site permanently.
+   * Disables the specific rule for a web site permanently.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param siteName Site name
    * @param name Rule name

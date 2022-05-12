@@ -12045,6 +12045,20 @@ export interface WebAppsGetMSDeployLogOptionalParams
 export type WebAppsGetMSDeployLogResponse = MSDeployLog;
 
 /** Optional parameters. */
+export interface WebAppsGetOneDeployStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getOneDeployStatus operation. */
+export type WebAppsGetOneDeployStatusResponse = Record<string, unknown>;
+
+/** Optional parameters. */
+export interface WebAppsCreateOneDeployOperationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOneDeployOperation operation. */
+export type WebAppsCreateOneDeployOperationResponse = Record<string, unknown>;
+
+/** Optional parameters. */
 export interface WebAppsListFunctionsOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -12935,6 +12949,13 @@ export interface WebAppsGetAuthSettingsSlotOptionalParams
 
 /** Contains response data for the getAuthSettingsSlot operation. */
 export type WebAppsGetAuthSettingsSlotResponse = SiteAuthSettings;
+
+/** Optional parameters. */
+export interface WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAuthSettingsV2WithoutSecretsSlot operation. */
+export type WebAppsGetAuthSettingsV2WithoutSecretsSlotResponse = SiteAuthSettingsV2;
 
 /** Optional parameters. */
 export interface WebAppsUpdateAuthSettingsV2SlotOptionalParams

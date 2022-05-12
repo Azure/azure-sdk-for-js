@@ -1,15 +1,20 @@
 # Release History
+    
+## 12.1.0 (2022-05-12)
+    
+**Features**
 
-## 12.0.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation WebApps.createOneDeployOperation
+  - Added operation WebApps.getAuthSettingsV2WithoutSecretsSlot
+  - Added operation WebApps.getOneDeployStatus
+  - Added Interface WebAppsCreateOneDeployOperationOptionalParams
+  - Added Interface WebAppsGetAuthSettingsV2WithoutSecretsSlotOptionalParams
+  - Added Interface WebAppsGetOneDeployStatusOptionalParams
+  - Added Type Alias WebAppsCreateOneDeployOperationResponse
+  - Added Type Alias WebAppsGetAuthSettingsV2WithoutSecretsSlotResponse
+  - Added Type Alias WebAppsGetOneDeployStatusResponse
+    
+    
 ## 12.0.0 (2022-04-07)
     
 **Features**

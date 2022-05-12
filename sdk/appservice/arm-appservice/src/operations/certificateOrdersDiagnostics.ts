@@ -37,7 +37,7 @@ export class CertificateOrdersDiagnosticsImpl
   }
 
   /**
-   * Description for Microsoft.CertificateRegistration to get the list of detectors for this RP.
+   * Microsoft.CertificateRegistration to get the list of detectors for this RP.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName The certificate order name for which the response is needed.
    * @param options The options parameters.
@@ -108,7 +108,7 @@ export class CertificateOrdersDiagnosticsImpl
   }
 
   /**
-   * Description for Microsoft.CertificateRegistration to get the list of detectors for this RP.
+   * Microsoft.CertificateRegistration to get the list of detectors for this RP.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName The certificate order name for which the response is needed.
    * @param options The options parameters.
@@ -127,7 +127,7 @@ export class CertificateOrdersDiagnosticsImpl
   }
 
   /**
-   * Description for Microsoft.CertificateRegistration call to get a detector response from App Lens.
+   * Microsoft.CertificateRegistration call to get a detector response from App Lens.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName The certificate order name for which the response is needed.
    * @param detectorName The detector name which needs to be run.

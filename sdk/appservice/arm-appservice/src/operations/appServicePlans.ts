@@ -99,7 +99,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Get all App Service plans for a subscription.
+   * Get all App Service plans for a subscription.
    * @param options The options parameters.
    */
   public list(
@@ -141,7 +141,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Get all App Service plans in a resource group.
+   * Get all App Service plans in a resource group.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param options The options parameters.
    */
@@ -194,7 +194,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Get all apps that use a Hybrid Connection in an App Service Plan.
+   * Get all apps that use a Hybrid Connection in an App Service Plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param namespaceName Name of the Hybrid Connection namespace.
@@ -283,7 +283,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Retrieve all Hybrid Connections in use in an App Service plan.
+   * Retrieve all Hybrid Connections in use in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param options The options parameters.
@@ -354,7 +354,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Get all apps associated with an App Service plan.
+   * Get all apps associated with an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param options The options parameters.
@@ -413,7 +413,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Gets server farm usage information
+   * Gets server farm usage information
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of App Service Plan
    * @param options The options parameters.
@@ -472,7 +472,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Get all App Service plans for a subscription.
+   * Get all App Service plans for a subscription.
    * @param options The options parameters.
    */
   private _list(
@@ -482,7 +482,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Get all App Service plans in a resource group.
+   * Get all App Service plans in a resource group.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param options The options parameters.
    */
@@ -497,7 +497,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Get an App Service plan.
+   * Get an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param options The options parameters.
@@ -514,7 +514,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Creates or updates an App Service Plan.
+   * Creates or updates an App Service Plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param appServicePlan Details of the App Service plan.
@@ -584,7 +584,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Creates or updates an App Service Plan.
+   * Creates or updates an App Service Plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param appServicePlan Details of the App Service plan.
@@ -606,7 +606,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Delete an App Service plan.
+   * Delete an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param options The options parameters.
@@ -623,7 +623,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Creates or updates an App Service Plan.
+   * Creates or updates an App Service Plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param appServicePlan Details of the App Service plan.
@@ -642,7 +642,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for List all capabilities of an App Service plan.
+   * List all capabilities of an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param options The options parameters.
@@ -659,7 +659,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Retrieve a Hybrid Connection in use in an App Service plan.
+   * Retrieve a Hybrid Connection in use in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param namespaceName Name of the Service Bus namespace.
@@ -680,7 +680,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Delete a Hybrid Connection in use in an App Service plan.
+   * Delete a Hybrid Connection in use in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param namespaceName Name of the Service Bus namespace.
@@ -701,7 +701,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Get the send key name and value of a Hybrid Connection.
+   * Get the send key name and value of a Hybrid Connection.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param namespaceName The name of the Service Bus namespace.
@@ -722,7 +722,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Get all apps that use a Hybrid Connection in an App Service Plan.
+   * Get all apps that use a Hybrid Connection in an App Service Plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param namespaceName Name of the Hybrid Connection namespace.
@@ -743,7 +743,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Get the maximum number of Hybrid Connections allowed in an App Service plan.
+   * Get the maximum number of Hybrid Connections allowed in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param options The options parameters.
@@ -760,7 +760,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Retrieve all Hybrid Connections in use in an App Service plan.
+   * Retrieve all Hybrid Connections in use in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param options The options parameters.
@@ -777,7 +777,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Restart all apps in an App Service plan.
+   * Restart all apps in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param options The options parameters.
@@ -794,7 +794,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Get all apps associated with an App Service plan.
+   * Get all apps associated with an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param options The options parameters.
@@ -811,7 +811,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Gets all selectable SKUs for a given App Service Plan
+   * Gets all selectable SKUs for a given App Service Plan
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of App Service Plan
    * @param options The options parameters.
@@ -828,7 +828,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Gets server farm usage information
+   * Gets server farm usage information
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of App Service Plan
    * @param options The options parameters.
@@ -845,7 +845,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Get all Virtual Networks associated with an App Service plan.
+   * Get all Virtual Networks associated with an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param options The options parameters.
@@ -862,7 +862,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Get a Virtual Network associated with an App Service plan.
+   * Get a Virtual Network associated with an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param vnetName Name of the Virtual Network.
@@ -881,7 +881,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Get a Virtual Network gateway.
+   * Get a Virtual Network gateway.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param vnetName Name of the Virtual Network.
@@ -902,7 +902,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Update a Virtual Network gateway.
+   * Update a Virtual Network gateway.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param vnetName Name of the Virtual Network.
@@ -932,7 +932,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Get all routes that are associated with a Virtual Network in an App Service plan.
+   * Get all routes that are associated with a Virtual Network in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param vnetName Name of the Virtual Network.
@@ -951,7 +951,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Get a Virtual Network route in an App Service plan.
+   * Get a Virtual Network route in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param vnetName Name of the Virtual Network.
@@ -972,7 +972,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Create or update a Virtual Network route in an App Service plan.
+   * Create or update a Virtual Network route in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param vnetName Name of the Virtual Network.
@@ -995,7 +995,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Delete a Virtual Network route in an App Service plan.
+   * Delete a Virtual Network route in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param vnetName Name of the Virtual Network.
@@ -1016,7 +1016,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Create or update a Virtual Network route in an App Service plan.
+   * Create or update a Virtual Network route in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param vnetName Name of the Virtual Network.
@@ -1039,7 +1039,7 @@ export class AppServicePlansImpl implements AppServicePlans {
   }
 
   /**
-   * Description for Reboot a worker machine in an App Service plan.
+   * Reboot a worker machine in an App Service plan.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the App Service plan.
    * @param workerName Name of worker machine, which typically starts with RD.

@@ -52,14 +52,14 @@ import {
 /** Interface representing a AppServiceCertificateOrders. */
 export interface AppServiceCertificateOrders {
   /**
-   * Description for List all certificate orders in a subscription.
+   * List all certificate orders in a subscription.
    * @param options The options parameters.
    */
   list(
     options?: AppServiceCertificateOrdersListOptionalParams
   ): PagedAsyncIterableIterator<AppServiceCertificateOrder>;
   /**
-   * Description for Get certificate orders in a resource group.
+   * Get certificate orders in a resource group.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param options The options parameters.
    */
@@ -68,7 +68,7 @@ export interface AppServiceCertificateOrders {
     options?: AppServiceCertificateOrdersListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<AppServiceCertificateOrder>;
   /**
-   * Description for List all certificates associated with a certificate order.
+   * List all certificates associated with a certificate order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param options The options parameters.
@@ -79,7 +79,7 @@ export interface AppServiceCertificateOrders {
     options?: AppServiceCertificateOrdersListCertificatesOptionalParams
   ): PagedAsyncIterableIterator<AppServiceCertificateResource>;
   /**
-   * Description for Validate information for a certificate order.
+   * Validate information for a certificate order.
    * @param appServiceCertificateOrder Information for a certificate order.
    * @param options The options parameters.
    */
@@ -88,7 +88,7 @@ export interface AppServiceCertificateOrders {
     options?: AppServiceCertificateOrdersValidatePurchaseInformationOptionalParams
   ): Promise<void>;
   /**
-   * Description for Get a certificate order.
+   * Get a certificate order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order..
    * @param options The options parameters.
@@ -99,7 +99,7 @@ export interface AppServiceCertificateOrders {
     options?: AppServiceCertificateOrdersGetOptionalParams
   ): Promise<AppServiceCertificateOrdersGetResponse>;
   /**
-   * Description for Create or update a certificate purchase order.
+   * Create or update a certificate purchase order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param certificateDistinguishedName Distinguished name to use for the certificate order.
@@ -117,7 +117,7 @@ export interface AppServiceCertificateOrders {
     >
   >;
   /**
-   * Description for Create or update a certificate purchase order.
+   * Create or update a certificate purchase order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param certificateDistinguishedName Distinguished name to use for the certificate order.
@@ -130,7 +130,7 @@ export interface AppServiceCertificateOrders {
     options?: AppServiceCertificateOrdersCreateOrUpdateOptionalParams
   ): Promise<AppServiceCertificateOrdersCreateOrUpdateResponse>;
   /**
-   * Description for Delete an existing certificate order.
+   * Delete an existing certificate order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param options The options parameters.
@@ -141,7 +141,7 @@ export interface AppServiceCertificateOrders {
     options?: AppServiceCertificateOrdersDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Description for Create or update a certificate purchase order.
+   * Create or update a certificate purchase order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param certificateDistinguishedName Distinguished name to use for the certificate order.
@@ -154,7 +154,7 @@ export interface AppServiceCertificateOrders {
     options?: AppServiceCertificateOrdersUpdateOptionalParams
   ): Promise<AppServiceCertificateOrdersUpdateResponse>;
   /**
-   * Description for Get the certificate associated with a certificate order.
+   * Get the certificate associated with a certificate order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param name Name of the certificate.
@@ -167,7 +167,7 @@ export interface AppServiceCertificateOrders {
     options?: AppServiceCertificateOrdersGetCertificateOptionalParams
   ): Promise<AppServiceCertificateOrdersGetCertificateResponse>;
   /**
-   * Description for Creates or updates a certificate and associates with key vault secret.
+   * Creates or updates a certificate and associates with key vault secret.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param name Name of the certificate.
@@ -189,7 +189,7 @@ export interface AppServiceCertificateOrders {
     >
   >;
   /**
-   * Description for Creates or updates a certificate and associates with key vault secret.
+   * Creates or updates a certificate and associates with key vault secret.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param name Name of the certificate.
@@ -204,7 +204,7 @@ export interface AppServiceCertificateOrders {
     options?: AppServiceCertificateOrdersCreateOrUpdateCertificateOptionalParams
   ): Promise<AppServiceCertificateOrdersCreateOrUpdateCertificateResponse>;
   /**
-   * Description for Delete the certificate associated with a certificate order.
+   * Delete the certificate associated with a certificate order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param name Name of the certificate.
@@ -217,7 +217,7 @@ export interface AppServiceCertificateOrders {
     options?: AppServiceCertificateOrdersDeleteCertificateOptionalParams
   ): Promise<void>;
   /**
-   * Description for Creates or updates a certificate and associates with key vault secret.
+   * Creates or updates a certificate and associates with key vault secret.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param name Name of the certificate.
@@ -232,7 +232,7 @@ export interface AppServiceCertificateOrders {
     options?: AppServiceCertificateOrdersUpdateCertificateOptionalParams
   ): Promise<AppServiceCertificateOrdersUpdateCertificateResponse>;
   /**
-   * Description for Reissue an existing certificate order.
+   * Reissue an existing certificate order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param reissueCertificateOrderRequest Parameters for the reissue.
@@ -245,7 +245,7 @@ export interface AppServiceCertificateOrders {
     options?: AppServiceCertificateOrdersReissueOptionalParams
   ): Promise<void>;
   /**
-   * Description for Renew an existing certificate order.
+   * Renew an existing certificate order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param renewCertificateOrderRequest Renew parameters
@@ -258,7 +258,7 @@ export interface AppServiceCertificateOrders {
     options?: AppServiceCertificateOrdersRenewOptionalParams
   ): Promise<void>;
   /**
-   * Description for Resend certificate email.
+   * Resend certificate email.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param options The options parameters.
@@ -302,7 +302,7 @@ export interface AppServiceCertificateOrders {
     options?: AppServiceCertificateOrdersRetrieveSiteSealOptionalParams
   ): Promise<AppServiceCertificateOrdersRetrieveSiteSealResponse>;
   /**
-   * Description for Verify domain ownership for this certificate order.
+   * Verify domain ownership for this certificate order.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param certificateOrderName Name of the certificate order.
    * @param options The options parameters.
@@ -313,7 +313,7 @@ export interface AppServiceCertificateOrders {
     options?: AppServiceCertificateOrdersVerifyDomainOwnershipOptionalParams
   ): Promise<void>;
   /**
-   * Description for Retrieve the list of certificate actions.
+   * Retrieve the list of certificate actions.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate order.
    * @param options The options parameters.
@@ -324,7 +324,7 @@ export interface AppServiceCertificateOrders {
     options?: AppServiceCertificateOrdersRetrieveCertificateActionsOptionalParams
   ): Promise<AppServiceCertificateOrdersRetrieveCertificateActionsResponse>;
   /**
-   * Description for Retrieve email history.
+   * Retrieve email history.
    * @param resourceGroupName Name of the resource group to which the resource belongs.
    * @param name Name of the certificate order.
    * @param options The options parameters.
