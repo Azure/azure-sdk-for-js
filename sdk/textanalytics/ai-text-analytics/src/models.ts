@@ -87,7 +87,7 @@ export interface BeginAnalyzeBatchOptions extends TextAnalysisOperationOptions {
 /**
  * Options for the begin analyze actions operation.
  */
-export interface CreateAnalyzeBatchPollerOptions extends TextAnalysisOperationOptions {
+export interface RestoreAnalyzeBatchPollerOptions extends TextAnalysisOperationOptions {
   /**
    * Time delay between poll requests, in milliseconds.
    */

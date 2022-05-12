@@ -9,8 +9,8 @@ import {
   AnalyzeBatchPoller,
   AnalyzeResult,
   BeginAnalyzeBatchOptions,
-  CreateAnalyzeBatchPollerOptions,
   PagedAnalyzeBatchResult,
+  RestoreAnalyzeBatchPollerOptions,
   TextAnalysisClientOptions,
   TextAnalysisOperationOptions,
 } from "./models";
@@ -441,7 +441,7 @@ export class TextAnalysisClient {
    *    the service will apply a model where the language is explicitly set to
    *    "None". Language support varies per action, for example, more information
    *    about the languages supported for Entity Recognition actions can be
-   *    found in {@link https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/named-entity-recognition/language-support}
+   *    found in {@link https://docs.microsoft.com//azure/cognitive-services/language-service/named-entity-recognition/language-support}
    * @param options - optional action parameters and settings for the operation
    *
    * @returns an array of results corresponding to the input documents
@@ -529,7 +529,7 @@ export class TextAnalysisClient {
    *
    * ### Examples
    *
-   * #### Keyphrase extraction and Pii entity recognition
+   * #### Key phrase extraction and Pii entity recognition
    *
    * ```js
    * const poller = await client.beginAnalyzeBatch(
@@ -567,7 +567,7 @@ export class TextAnalysisClient {
    *    the service will apply a model where the language is explicitly set to
    *    "None". Language support varies per action, for example, more information
    *    about the languages supported for Entity Recognition actions can be
-   *    found in {@link https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/named-entity-recognition/language-support}
+   *    found in {@link https://docs.microsoft.com//azure/cognitive-services/language-service/named-entity-recognition/language-support}
    * @param options - optional settings for the operation
    *
    * @returns an array of results corresponding to the input actions
@@ -718,12 +718,12 @@ export class TextAnalysisClient {
    */
   async restoreAnalyzeBatchPoller(
     serializedState: string,
-    options?: CreateAnalyzeBatchPollerOptions
+    options?: RestoreAnalyzeBatchPollerOptions
   ): Promise<AnalyzeBatchPoller>;
   // implementation
   async restoreAnalyzeBatchPoller(
     serializedState: string,
-    options: CreateAnalyzeBatchPollerOptions = {}
+    options: RestoreAnalyzeBatchPollerOptions = {}
   ): Promise<AnalyzeBatchPoller> {
     const { includeStatistics, updateIntervalInMs, ...rest } = options;
     const documents = getDocsFromState(serializedState);

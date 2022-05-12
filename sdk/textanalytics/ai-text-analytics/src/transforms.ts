@@ -358,7 +358,7 @@ function toHealthcareResult(
   );
 }
 
-function toCustomEntityRecognitionResult(
+function toCustomSingleLabelClassificationResult(
   documents: TextDocumentInput[],
   results: GeneratedCustomSingleLabelClassificationResult
 ): CustomSingleLabelClassificationResult[] {
@@ -475,7 +475,7 @@ export function transformAnalyzeBatchResults(
         const { deploymentName, projectName, statistics } = results;
         return {
           kind: "CustomSingleLabelClassification",
-          results: toCustomEntityRecognitionResult(documents, results),
+          results: toCustomSingleLabelClassificationResult(documents, results),
           completedOn,
           ...(actionName ? { actionName } : {}),
           ...(statistics ? { statistics } : {}),

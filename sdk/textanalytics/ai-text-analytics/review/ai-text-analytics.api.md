@@ -171,11 +171,6 @@ export interface ClassificationCategory {
 export type Conditionality = "hypothetical" | "conditional";
 
 // @public
-export interface CreateAnalyzeBatchPollerOptions extends TextAnalysisOperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface CustomActionMetadata {
     readonly deploymentName: string;
     readonly projectName: string;
@@ -967,6 +962,11 @@ export interface PiiEntityRecognitionSuccessResult extends TextAnalysisSuccessRe
 export type RelationType = string;
 
 // @public
+export interface RestoreAnalyzeBatchPollerOptions extends TextAnalysisOperationOptions {
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface SentenceSentiment {
     readonly confidenceScores: SentimentConfidenceScores;
     readonly length: number;
@@ -1046,7 +1046,7 @@ export class TextAnalysisClient {
     analyze<ActionName extends AnalyzeActionName = AnalyzeActionName>(actionName: ActionName, documents: string[], languageCode?: string, options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions): Promise<AnalyzeResult<ActionName>>;
     beginAnalyzeBatch(actions: AnalyzeBatchAction[], documents: string[], languageCode?: string, options?: BeginAnalyzeBatchOptions): Promise<AnalyzeBatchPoller>;
     beginAnalyzeBatch(actions: AnalyzeBatchAction[], documents: TextDocumentInput[], options?: BeginAnalyzeBatchOptions): Promise<AnalyzeBatchPoller>;
-    restoreAnalyzeBatchPoller(serializedState: string, options?: CreateAnalyzeBatchPollerOptions): Promise<AnalyzeBatchPoller>;
+    restoreAnalyzeBatchPoller(serializedState: string, options?: RestoreAnalyzeBatchPollerOptions): Promise<AnalyzeBatchPoller>;
 }
 
 // @public
