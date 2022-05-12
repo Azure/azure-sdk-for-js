@@ -22,11 +22,9 @@ import {
   translate,
 } from "@azure/core-amqp";
 import {
-  commitIdempotentSequenceNumbers,
   EventData,
   EventDataInternal,
   populateIdempotentMessageAnnotations,
-  rollbackIdempotentSequenceNumbers,
   toRheaMessage,
 } from "./eventData";
 import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch";
@@ -840,5 +838,40 @@ export function transformEventsForSend(
 
     // Finally encode the envelope (batch message).
     return message.encode(batchMessage);
+  }
+}
+
+/**
+ * Commits the pending publish sequence number events.
+ * EventDataBatch exposes this as `startingPublishSequenceNumber`,
+ * EventData not in a batch exposes this as `publishedSequenceNumber`.
+ */
+function commitIdempotentSequenceNumbers(
+  events: Omit<EventDataInternal, "getRawAmqpMessage">[] | EventDataBatch
+): void {
+  if (isEventDataBatch(events)) {
+    (events as EventDataBatchImpl)._commitPublish();
+  } else {
+    // For each event, set the `publishedSequenceNumber` equal to the sequence number
+    // we set when we attempted to send the events to the service.
+    for (const event of events) {
+      event._publishedSequenceNumber = event[PENDING_PUBLISH_SEQ_NUM_SYMBOL];
+      delete event[PENDING_PUBLISH_SEQ_NUM_SYMBOL];
+    }
+  }
+}
+
+/**
+ * Rolls back any pending publish sequence number in the events.
+ */
+function rollbackIdempotentSequenceNumbers(
+  events: Omit<EventDataInternal, "getRawAmqpMessage">[] | EventDataBatch
+): void {
+  if (isEventDataBatch(events)) {
+    /* No action required. */
+  } else {
+    for (const event of events) {
+      delete event[PENDING_PUBLISH_SEQ_NUM_SYMBOL];
+    }
   }
 }
