@@ -118,7 +118,7 @@ export class RuleSetsImpl implements RuleSets {
   }
 
   /**
-   * Checks the quota and actual usage of endpoints under the given CDN profile.
+   * Checks the quota and actual usage of the given AzureFrontDoor rule set under the given CDN profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
    *                    is unique within the resource group.
@@ -350,7 +350,7 @@ export class RuleSetsImpl implements RuleSets {
   }
 
   /**
-   * Checks the quota and actual usage of endpoints under the given CDN profile.
+   * Checks the quota and actual usage of the given AzureFrontDoor rule set under the given CDN profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
    *                    is unique within the resource group.
