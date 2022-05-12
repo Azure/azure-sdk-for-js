@@ -12,7 +12,7 @@ import { getPhoneNumber } from "./utils/testPhoneNumber";
 matrix([[true, false]], async function (useAad) {
   describe(`PhoneNumbersClient - lro - update${useAad ? " [AAD]" : ""}`, function () {
     const purchasedPhoneNumber = getPhoneNumber();
-    const update: PhoneNumberCapabilitiesRequest = { calling: "none", sms: "outbound" };
+    const update: PhoneNumberCapabilitiesRequest = { calling: "outbound", sms: "none" };
     let recorder: Recorder;
     let client: PhoneNumbersClient;
 

@@ -6,7 +6,7 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .post('/availablePhoneNumbers/countries/US/:search', {"phoneNumberType":"tollFree","assignmentType":"application","capabilities":{"calling":"inbound+outbound","sms":"none"},"quantity":1})
-  .query(false)
+  .query(true)
   .reply(202, "", [
   'Location',
   '/availablePhoneNumbers/searchResults/sanitized?api-version=2022-06-01-preview',
@@ -38,7 +38,7 @@ nock('https://endpoint', {"encodedQueryParams":false})
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .get('/phoneNumbers/operations/search_sanitized')
-  .query(false)
+  .query(true)
   .reply(200, {"operationType":"search","status":"running","resourceLocation":"/availablePhoneNumbers/searchResults/sanitized?api-version=2022-06-01-preview","createdDateTime":"2022-05-11T15:18:29.7380248+00:00","id":"search_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
@@ -66,7 +66,7 @@ nock('https://endpoint', {"encodedQueryParams":false})
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .get('/availablePhoneNumbers/searchResults/sanitized')
-  .query(false)
+  .query(true)
   .reply(200, {"searchId":"sanitized","phoneNumbers":["+14155550100"],"phoneNumberType":"tollFree","assignmentType":"application","capabilities":{"calling":"inbound+outbound","sms":"none"},"cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"},"searchExpiresBy":"2022-05-11T15:34:31.1549446+00:00"}, [
   'Transfer-Encoding',
   'chunked',
@@ -90,7 +90,7 @@ nock('https://endpoint', {"encodedQueryParams":false})
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .get('/availablePhoneNumbers/searchResults/sanitized')
-  .query(false)
+  .query(true)
   .reply(200, {"searchId":"sanitized","phoneNumbers":["+14155550100"],"phoneNumberType":"tollFree","assignmentType":"application","capabilities":{"calling":"inbound+outbound","sms":"none"},"cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"},"searchExpiresBy":"2022-05-11T15:34:31.1549446+00:00"}, [
   'Transfer-Encoding',
   'chunked',
@@ -114,7 +114,7 @@ nock('https://endpoint', {"encodedQueryParams":false})
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .post('/availablePhoneNumbers/:purchase', {"searchId":"sanitized"})
-  .query(false)
+  .query(true)
   .reply(202, "", [
   'Access-Control-Expose-Headers',
   'Operation-Location,operation-id,purchase-id',
@@ -144,7 +144,7 @@ nock('https://endpoint', {"encodedQueryParams":false})
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .get('/phoneNumbers/operations/purchase_sanitized')
-  .query(false)
+  .query(true)
   .reply(200, {"operationType":"purchase","status":"notStarted","resourceLocation":null,"createdDateTime":"2022-05-11T15:18:29.7380248+00:00","id":"purchase_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
@@ -168,7 +168,7 @@ nock('https://endpoint', {"encodedQueryParams":false})
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .get('/phoneNumbers/operations/purchase_sanitized')
-  .query(false)
+  .query(true)
   .reply(200, {"operationType":"purchase","status":"succeeded","resourceLocation":null,"createdDateTime":"2022-05-11T15:18:29.7380248+00:00","id":"purchase_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
@@ -192,7 +192,7 @@ nock('https://endpoint', {"encodedQueryParams":false})
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .get('/phoneNumbers/%2B14155550100')
-  .query(false)
+  .query(true)
   .reply(200, {"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"tollFree","capabilities":{"calling":"inbound+outbound","sms":"none"},"assignmentType":"application","purchaseDate":"2022-05-11T15:18:41.2700426+00:00","cost":{"amount":2,"currencyCode":"USD","billingFrequency":"monthly"},"operatorId":"sanitized","operatorName":"Microsoft PPE (Dogfood)","phoneNumberSource":"cloud"}, [
   'Transfer-Encoding',
   'chunked',
@@ -216,7 +216,7 @@ nock('https://endpoint', {"encodedQueryParams":false})
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .delete('/phoneNumbers/%2B14155550100')
-  .query(false)
+  .query(true)
   .reply(202, "", [
   'Access-Control-Expose-Headers',
   'Operation-Location,operation-id,release-id',
@@ -246,7 +246,7 @@ nock('https://endpoint', {"encodedQueryParams":false})
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .get('/phoneNumbers/operations/release_sanitized')
-  .query(false)
+  .query(true)
   .reply(200, {"operationType":"releasePhoneNumber","status":"notStarted","resourceLocation":null,"createdDateTime":"2022-05-11T15:18:47.1285533+00:00","id":"release_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
@@ -270,7 +270,7 @@ nock('https://endpoint', {"encodedQueryParams":false})
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .get('/phoneNumbers/operations/release_sanitized')
-  .query(false)
+  .query(true)
   .reply(200, {"operationType":"releasePhoneNumber","status":"running","resourceLocation":null,"createdDateTime":"2022-05-11T15:18:47.1285533+00:00","id":"release_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
@@ -294,7 +294,7 @@ nock('https://endpoint', {"encodedQueryParams":false})
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .get('/phoneNumbers/operations/release_sanitized')
-  .query(false)
+  .query(true)
   .reply(200, {"operationType":"releasePhoneNumber","status":"succeeded","resourceLocation":null,"createdDateTime":"2022-05-11T15:18:47.1285533+00:00","id":"release_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',

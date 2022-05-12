@@ -6,7 +6,7 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .patch('/phoneNumbers/%2B14155550100/capabilities', {"calling":"outbound","sms":"none"})
-  .query(false)
+  .query(true)
   .reply(202, {"capabilitiesUpdateId":"sanitized"}, [
   'Transfer-Encoding',
   'chunked',
@@ -40,7 +40,7 @@ nock('https://endpoint', {"encodedQueryParams":false})
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .get('/phoneNumbers/operations/capabilities_sanitized')
-  .query(false)
+  .query(true)
   .reply(200, {"operationType":"updatePhoneNumberCapabilities","status":"running","resourceLocation":"/phoneNumbers/+14155550100?api-version=2022-06-01-preview","createdDateTime":"2022-05-11T15:19:05.3434832+00:00","id":"capabilities_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
@@ -68,7 +68,7 @@ nock('https://endpoint', {"encodedQueryParams":false})
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .get('/phoneNumbers/+14155550100')
-  .query(false)
+  .query(true)
   .reply(200, {"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"geographic","capabilities":{"calling":"outbound","sms":"none"},"assignmentType":"application","purchaseDate":"2022-04-14T17:41:49.974506+00:00","cost":{"amount":1,"currencyCode":"USD","billingFrequency":"monthly"},"operatorId":"sanitized","operatorName":"Microsoft PPE (Dogfood)","phoneNumberSource":"cloud"}, [
   'Transfer-Encoding',
   'chunked',
@@ -92,7 +92,7 @@ nock('https://endpoint', {"encodedQueryParams":false})
 
 nock('https://endpoint', {"encodedQueryParams":false})
   .get('/phoneNumbers/+14155550100')
-  .query(false)
+  .query(true)
   .reply(200, {"id":"14155550100","phoneNumber":"+14155550100","countryCode":"US","phoneNumberType":"geographic","capabilities":{"calling":"outbound","sms":"none"},"assignmentType":"application","purchaseDate":"2022-04-14T17:41:49.974506+00:00","cost":{"amount":1,"currencyCode":"USD","billingFrequency":"monthly"},"operatorId":"sanitized","operatorName":"Microsoft PPE (Dogfood)","phoneNumberSource":"cloud"}, [
   'Transfer-Encoding',
   'chunked',
