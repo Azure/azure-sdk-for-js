@@ -143,7 +143,6 @@
     "test/internal/unit/hashing/v2.spec.ts",
     "test/internal/unit/utils/batch.spec.ts",
     "test/internal/unit/utils/checkURL.spec.ts",
-    "test/internal/unit/dedicatedGatewayRequestOptions.spec.ts",
     "test/internal/unit/utils/offer.spec.ts",
     "test/public/common/BaselineTest.PathParser.ts",
     "test/public/common/TestData.ts",
