@@ -69,11 +69,11 @@ matrix([[true, false]], async function (useAad) {
     }
 
     it("successfully exchanges a Teams User AAD token for a Communication access token", async function () {
-      const { token, expiresOn }: CommunicationAccessToken = await client.getTokenForTeamsUser(
-        params.teamsToken,
-        params.appId,
-        params.userId
-      );
+      const { token, expiresOn }: CommunicationAccessToken = await client.getTokenForTeamsUser({
+        teamsUserAadToken: params.teamsToken,
+        appId: params.appId,
+        userId: params.userId,
+      });
       assert.isString(token);
       assert.instanceOf(expiresOn, Date);
     }).timeout(5000);
@@ -90,7 +90,11 @@ matrix([[true, false]], async function (useAad) {
         if (isPlaybackMode()) {
           input.teamsToken = sanitizedValue;
         }
-        await client.getTokenForTeamsUser(input.teamsToken, params.appId, params.userId);
+        await client.getTokenForTeamsUser({
+          teamsUserAadToken: params.teamsToken,
+          appId: params.appId,
+          userId: params.userId,
+        });
       } catch (e: any) {
         assert.equal(e.statusCode, 401);
         return;
@@ -108,7 +112,11 @@ matrix([[true, false]], async function (useAad) {
         if (isPlaybackMode()) {
           input.appId = sanitizedValue;
         }
-        await client.getTokenForTeamsUser(params.teamsToken, input.appId, params.userId);
+        await client.getTokenForTeamsUser({
+          teamsUserAadToken: params.teamsToken,
+          appId: params.appId,
+          userId: params.userId,
+        });
       } catch (e: any) {
         assert.equal(e.statusCode, 400);
         return;
@@ -126,7 +134,11 @@ matrix([[true, false]], async function (useAad) {
         if (isPlaybackMode()) {
           input.userId = sanitizedValue;
         }
-        await client.getTokenForTeamsUser(params.teamsToken, params.appId, input.userId);
+        await client.getTokenForTeamsUser({
+          teamsUserAadToken: params.teamsToken,
+          appId: params.appId,
+          userId: params.userId,
+        });
       } catch (e: any) {
         assert.equal(e.statusCode, 400);
         return;
