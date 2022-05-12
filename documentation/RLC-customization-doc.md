@@ -23,7 +23,78 @@ In this case we customize as follows:
 5. Return the client
 6. Only expose the wrapping factory and hide the generated factory.
 
-Here is an example in Metrics Advisor for the [wrapping function](https://github.com/MaryGao/azure-sdk-for-js/blob/metrix-advisor-poc/sdk/metricsadvisor/ai-metrics-advisor-rest/src/credentialHelper.ts#L10-L21) and [customized policy](https://github.com/MaryGao/azure-sdk-for-js/blob/metrix-advisor-poc/sdk/metricsadvisor/ai-metrics-advisor-rest/src/metricsAdvisorKeyCredentialPolicy.ts).
+Here is the implementation in Metrics Advisor.
+
+The wrapping function looks like:
+
+```typescript
+import MetricsAdvisor from "./generated/generatedClient";
+import { isTokenCredential, TokenCredential } from "@azure/core-auth";
+import { ClientOptions } from "@azure-rest/core-client";
+import {
+  createMetricsAdvisorKeyCredentialPolicy,
+  MetricsAdvisorKeyCredential,
+} from "./metricsAdvisorKeyCredentialPolicy";
+
+export default function createClient(
+  endpoint: string,
+  credential: TokenCredential | MetricsAdvisorKeyCredential,
+  options: ClientOptions = {}
+): GeneratedClient {
+  if (isTokenCredential(credential)) {
+    return MetricsAdvisor(endpoint, credential, options);
+  } else {
+    const client = MetricsAdvisor(endpoint, undefined as any, options);
+    const authPolicy = createMetricsAdvisorKeyCredentialPolicy(credential);
+    client.pipeline.addPolicy(authPolicy);
+    return client;
+  }
+}
+```
+
+And in `metricsAdvisorKeyCredentialPolicy.ts` file we have the customized policy and `createMetricsAdvisorKeyCredentialPolicy` function to create that policy
+
+```typescript
+import {
+  PipelinePolicy,
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
+import { KeyCredential } from "@azure/core-auth";
+export const API_KEY_HEADER_NAME = "Ocp-Apim-Subscription-Key";
+export const X_API_KEY_HEADER_NAME = "x-api-key";
+
+/**
+ * Interface parameters for updateKey function
+ */
+export interface MetricsAdvisorKeyCredential extends KeyCredential {
+  /** API key from the Metrics Advisor web portal */
+  // key?: string; // extended from KeyCredential
+  /** Subscription access key from the Azure portal */
+  subscriptionKey?: string;
+}
+
+/**
+ * Creates an HTTP pipeline policy to authenticate a request
+ * using an `MetricsAdvisorKeyCredential`
+ */
+export function createMetricsAdvisorKeyCredentialPolicy(
+  credential: MetricsAdvisorKeyCredential
+): PipelinePolicy {
+  return {
+    name: "metricsAdvisorKeyCredentialPolicy",
+    sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      if (!request) {
+        throw new Error("webResource cannot be null or undefined");
+      }
+      request.headers.set(API_KEY_HEADER_NAME, credential.subscriptionKey || "");
+      request.headers.set(X_API_KEY_HEADER_NAME, credential.key);
+      return next(request);
+    },
+  };
+}
+```
 
 With this user experience is the same as it is with any other RLC, as they just need to create a new client from the default exported factory function.
 
@@ -44,9 +115,70 @@ One example is the Metrics Advisor service, which implements a pagination patter
 
 The standard pagination pattern, assumes `GET` for getting the next pages. In this case we implemented a custom paginate helper that has the same public interface as the generated helper but under the hoods has an additional pagination implementation to use `POST`. Also this custom helper has an internal map that indicates which operations need `POST` and which need `GET`.
 
-You can find the [example code](https://github.com/MaryGao/azure-sdk-for-js/blob/metrix-advisor-poc/sdk/metricsadvisor/ai-metrics-advisor-rest/src/paginateHelper.ts#L25) to support the `POST` not `GET` method. The generated paging helper is hidden and the custom paginate helper is exposed.
+Here is the implementation in Metrics Advisor and remember to replace the `paginationMapping` as yours. The generated paging helper is hidden and the custom paginate helper is exposed.
 
-Below is the example code to call the helper.
+```typescript
+import { getPagedAsyncIterator, PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
+import { Client, createRestError, PathUncheckedResponse } from "@azure-rest/core-client";
+import { PaginateReturn, PagingOptions } from "./generated/paginateHelper";
+
+export function paginate<TResponse extends PathUncheckedResponse>(
+  client: Client,
+  initialResponse: TResponse,
+  options: PagingOptions<TResponse> = {}
+): PagedAsyncIterableIterator<PaginateReturn<TResponse>> {
+  // internal map to indicate which operation uses which method
+  const paginationMapping: Record<string, any> = {
+    "/feedback/metric/query": {
+      method: "POST",
+    },
+    "/dataFeeds": {
+      method: "GET",
+    },
+    "/hooks": {
+      method: "GET",
+    },
+  };
+
+  // Extract element type from initial response
+  type TElement = PaginateReturn<TResponse>;
+  let firstRun = true;
+  // We need to check the response for success before trying to inspect it looking for
+  // the properties to use for nextLink and itemName
+  checkPagingRequest(initialResponse);
+  const { itemName, nextLinkName } = getPaginationProperties(initialResponse);
+  const { customGetPage } = options;
+  const pagedResult: PagedResult<TElement[]> = {
+    firstPageLink: "",
+    getPage:
+      typeof customGetPage === "function"
+        ? customGetPage
+        : async (pageLink: string) => {
+            // Calculate using get or post
+            let result;
+            if (paginationMapping[initialResponse.request.url]?.method == "POST") {
+              result = firstRun
+                ? initialResponse
+                : await client.pathUnchecked(pageLink).post({ body: initialResponse.request.body });
+            } else {
+              result = firstRun ? initialResponse : await client.pathUnchecked(pageLink).get();
+            }
+            firstRun = false;
+            checkPagingRequest(result);
+            const nextLink = getNextLink(result.body, nextLinkName);
+            const values = getElements<TElement>(result.body, itemName);
+            return {
+              page: values,
+              nextPageLink: nextLink,
+            };
+          },
+  };
+
+  return getPagedAsyncIterator(pagedResult);
+}
+```
+
+The example code to call the helper.
 
 ```typescript
 import MetricsAdvisor, { paginate } from "@azure-rest/ai-metricsadvisor";
@@ -110,10 +242,12 @@ batch:
 
 For each individual clients specify your client name and swagger file. Make sure that you don't have one Swagger with operations that are designed to be in two different clients so that clients should correspond to a clear set of Swagger files.
 
+Normally, the folder structure would be something like `sdk/{servicename}/{servicename}-{modulename}-rest`. For example, we have `sdk/agrifood/agrifood-farming-rest` folder for Farmbeats account modules. That folder will be your **${PROJECT_ROOT} folder**.
+
 ```yaml $(metrics-advisor) == true
 title: MetricsAdvisorClient
 description: Metrics Advisor Client
-output-folder: ${project_folder}/src
+output-folder: ${PROJECT_ROOT}/src
 source-code-folder-path: ./client
 input-file: /your/swagger/folder/metricsadvisor.json
 ```
@@ -121,7 +255,7 @@ input-file: /your/swagger/folder/metricsadvisor.json
 ```yaml $(metrics-advisor-admin) == true
 title: MetricsAdvisorAdministrationClient
 description: Metrics Advisor Admin Client
-output-folder: ${project_folder}/src
+output-folder: ${PROJECT_ROOT}/src
 source-code-folder-path: ./admin
 input-file: /your/swagger/folder/metricsadvisor-admin.json
 ```
@@ -132,7 +266,7 @@ When generating the code specify that what we want is multi-client so append the
 
 ```
 sdk/
-├─ ${project_folder}/
+├─ ${PROJECT_ROOT}/
 │  ├─ src/
 │  │  ├─ client/
 │  │  │  ├─ MetricsAdvisorClient.ts
