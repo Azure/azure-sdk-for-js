@@ -45,6 +45,7 @@ export interface AnalyzeResult<Document = AnalyzedDocument> extends AnalyzeResul
     keyValuePairs: DocumentKeyValuePair[];
     languages: DocumentLanguage[];
     pages: DocumentPage[];
+    paragraphs: DocumentParagraph[];
     styles: DocumentStyle[];
     tables: DocumentTable[];
 }

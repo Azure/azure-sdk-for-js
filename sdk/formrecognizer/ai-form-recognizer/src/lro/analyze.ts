@@ -154,6 +154,11 @@ export interface AnalyzeResult<Document = AnalyzedDocument> extends AnalyzeResul
    * Extracted documents (instances of any of the model's document types and corresponding field schemas).
    */
   documents: Document[];
+
+  /**
+   * Extracted document paragraphs.
+   */
+  paragraphs: DocumentParagraph[];
 }
 
 /**
@@ -379,6 +384,7 @@ export function toAnalyzeResultFromGenerated<
     languages: result.languages ?? [],
     styles: result.styles ?? [],
     documents: (result.documents?.map((doc) => mapDocuments(doc)) as Document[]) ?? [],
+    paragraphs: result.paragraphs ?? [],
   };
 }
 
