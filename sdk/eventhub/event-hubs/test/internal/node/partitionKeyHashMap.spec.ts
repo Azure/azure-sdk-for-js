@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { hashPartitionKey } from "../../src/impl/partitionKeyToIdMapper";
+import { hashPartitionKey } from "../../../src/impl/partitionKeyToIdMapper";
 
 /**
  * These unit tests have been created from outputs received from the C# implementation

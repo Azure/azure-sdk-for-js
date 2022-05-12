@@ -8,8 +8,7 @@
 const { EventHubConsumerClient } = require("@azure/event-hubs");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 // Define IoT Hub Event Hubs-compatible connection string here.
 // To find the correct connection string to use, visit:
@@ -31,3 +30,5 @@ async function main() {
 main().catch((error) => {
   console.error("Error running sample:", error);
 });
+
+module.exports = { main };
