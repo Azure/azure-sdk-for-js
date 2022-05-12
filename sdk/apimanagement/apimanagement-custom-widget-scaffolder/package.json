@@ -24,12 +24,12 @@
   "files": [
     "*"
   ],
-  "main": "./index.es.js",
+  "main": "./index.umd.js",
   "module": "./index.es.js",
   "exports": {
     ".": {
       "import": "./index.es.js",
-      "require": "./index.es.js"
+      "require": "./index.umd.js"
     }
   },
   "types": "./apimanagement-custom-widget-scaffolder.d.ts",
