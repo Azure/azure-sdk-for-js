@@ -1,3 +1,15 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT Licence.
+
+/**
+ * This sample demonstrates exceeding the max delivery count for a service bus queue so that
+ * excess messages are sent to a dead letter queue. The sample then goes through the dead letter
+ * queue and processes the extra messages.
+ *
+ * @summary Demonstrates exceeding the max delivery count, then processing the messages sent to the
+ * dead letter queue
+ */
+
 import { ServiceBusClient } from "@azure/service-bus";
 
 // Load the .env file if it exists
@@ -30,11 +42,10 @@ async function exceedMaxDelivery() {
     if (msg != null && msg[0] != undefined) {
       // Now we immediately abandon the message, which increments the DeliveryCount
       console.log("Picked up message; DeliveryCount " + msg[0].deliveryCount);
-      await receiver.abandonMessage(msg[0])
-    }
-    else {
+      await receiver.abandonMessage(msg[0]);
+    } else {
       // Once the system moves the message to the DLQ, the main queue is empty
-      // and the loop exits as ReceiveAsync returns null.
+      // and the loop exits as receiveMessages returns null.
       break;
     }
   }
@@ -53,8 +64,7 @@ async function exceedMaxDelivery() {
 
       // complete and therefore remove the message from the DLQ
       await deadletterReceiver.completeMessage(msg[0]);
-    }
-    else {
+    } else {
       // DLQ was empty on last receive attempt
       break;
     }
@@ -62,6 +72,6 @@ async function exceedMaxDelivery() {
 }
 
 main().catch((err) => {
-  console.log("Moving from DLQ Sample - Error occurred: ", err);
+  console.log("Exceed Max Delivery Sample - Error occurred: ", err);
   process.exit(1);
 });
