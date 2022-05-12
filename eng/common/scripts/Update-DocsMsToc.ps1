@@ -136,7 +136,7 @@ function create-metadata-table($readmePath, $moniker, $msService, $clientTableLi
   if ($mgmtExists) {
     $mgmtTable = "## Management packages - $moniker`r`n"
     $mgmtTable += "[!INCLUDE [mgmt-packages]($mgmtTableLink)]`r`n"
-    Add-Content -Path $readmePath -Value $mgmtTable
+    Add-Content -Path $readmePath -Value $mgmtTable -NoNewline
   }
 }
 
@@ -144,12 +144,13 @@ function create-metadata-table($readmePath, $moniker, $msService, $clientTableLi
 function update-metadata-table($readmePath, $serviceName, $msService)
 {
   $readmeContent = Get-Content -Path $readmePath -Raw
-  $matchPattern = $readmeContent -match "---`n*(?<metadata>(.*`n)*)---`n*(?<content>(.*`n)*)"
-  $metadataTable = $matchPattern["metadata"]
+  $null = $readmeContent -match "---`n*(?<metadata>(.*`n)*)---`n*(?<content>(.*`n)*)"
+  $metadataTable = $Matches["metadata"]
+  $metadataTable = ConvertFrom-StringData -StringData $metadataTable -Delimiter ':'
   if (!$metadataTable) {
     return
   }
-  $restContent = $matchPattern["content"]
+  $restContent = $Matches["content"]
   $serviceBaseName = $serviceName.ToLower().Replace(' ', '').Replace('/', '-')
   $author = GetPrimaryCodeOwner -TargetDirectory "/sdk/$serviceBaseName/"
   if (!$author) {
@@ -164,7 +165,9 @@ function update-metadata-table($readmePath, $serviceName, $msService)
   }
   $metadataTable["ms.author"] = $msauthor
   $metadataTable["ms.service"] =  $msService
-  Set-Content -Path $readmeContent -Value "---`r`n$metadataTable---`r`n$restContent" -NoNewline
+  $metadataString = ""
+  $metadataTable.Keys | ForEach-Object {$metadataString += ($_ + ": " + $metadataTable[$_] + "`r`n")}
+  Set-Content -Path $readmePath -Value "---`n$metadataString---`n$restContent" -NoNewline
 }
 
 function generate-markdown-table($readmePath, $packageInfo) {
