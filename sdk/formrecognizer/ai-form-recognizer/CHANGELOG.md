@@ -4,8 +4,7 @@
 
 ### Features Added
 
-- Added `caption` and `footnotes` properties on `DocumentTable`.
-- Added `DocumentTableCaption` and `DocumentTableFootnote` interfaces to represent captions and footnotes found in the document tables.
+- Added `caption` and `footnotes` properties to the `DocumentTable` type. These properties represent an optional caption and footnotes (as `DocumentTableCaption` and `DocumentTableFootnote`) that were attached to extracted tables in the input documents.
 
 ### Breaking Changes
 
