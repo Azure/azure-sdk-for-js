@@ -286,7 +286,9 @@ export interface OperationTracingOptions {
  * A utility type for when we know a TracingContext has been set
  * as part of an operation's options.
  */
-export type OptionsWithTracingContext<Options> = Options & {
+export type OptionsWithTracingContext<
+  Options extends { tracingOptions?: OperationTracingOptions }
+> = Options & {
   tracingOptions: {
     tracingContext: TracingContext;
   };

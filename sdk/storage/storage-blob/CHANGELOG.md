@@ -1,5 +1,16 @@
 # Release History
 
+## 12.10.0 (2022-05-12)
+
+### Features Added
+
+- Includes all features released in 12.10.0-beta.1.
+
+### Bugs Fixed
+
+- Refined user-agent value to avoid failure when os information is not available on some platforms.
+- Fix an issue of not returning raw blob properties in ContainerClient.listBlobsFlat() and ContainerClient.listBlobsByHierarchy().
+
 ## 12.10.0-beta.1 (2022-04-19)
 
 ### Features Added

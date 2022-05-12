@@ -53,10 +53,10 @@
 /sdk/communication/communication-network-traversal/ @AriZavala2
 
 # PRLabel: %Communication - SMS
-/sdk/communication/communication-sms/ @arifibrahim4 @RoyHerrod
+/sdk/communication/communication-sms/ @DimaKolomiiets
 
 # PRLabel: %Communication - Short Codes
-/sdk/communication/communication-short-codes/ @danielav7 @AlonsoMondal
+/sdk/communication/communication-short-codes/ @guilhermeluizsp @rtrevino89 @danielav7
 
 # PRLabel: %Communication - Common
 /sdk/communication/communication-common/ @petrsvihlik @AikoBB @maximrytych-ms @martinbarnas-ms

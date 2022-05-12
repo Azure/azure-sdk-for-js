@@ -48,8 +48,6 @@ extends:
         safeName: azurecoreclient
       - name: azure-rest-core-client
         safeName: azurerestcoreclient
-      - name: azure-core-crypto
-        safeName: azurecorecrypto
       - name: azure-core-http
         safeName: azurecorehttp
       - name: azure-core-rest-pipeline

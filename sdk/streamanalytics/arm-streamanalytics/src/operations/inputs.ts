@@ -276,10 +276,12 @@ export class InputsImpl implements Inputs {
       { resourceGroupName, jobName, inputName, options },
       testOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

@@ -46,8 +46,9 @@ describe("CancellableAsyncLock", function () {
           { timeoutInMs: undefined, abortSignal: undefined }
         );
         throw new Error(TEST_FAILURE);
-      } catch (err: any) {
-        should.equal(err.message, "I break things!");
+      } catch (err) {
+        should.equal(true, err instanceof Error);
+        should.equal((err as Error).message, "I break things!");
       }
     });
 
@@ -274,7 +275,7 @@ describe("CancellableAsyncLock", function () {
       while (tasks.length) {
         try {
           await Promise.race(tasks);
-        } catch (err: any) {
+        } catch (err) {
           /* no-op */
         }
       }
@@ -359,7 +360,7 @@ describe("CancellableAsyncLock", function () {
       while (tasks.length) {
         try {
           await Promise.race(tasks);
-        } catch (err: any) {
+        } catch (err) {
           /* no-op */
         }
       }

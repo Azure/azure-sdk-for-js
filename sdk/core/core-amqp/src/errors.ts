@@ -5,6 +5,7 @@
 import { AmqpError, AmqpResponseStatusCode, isAmqpError as rheaIsAmqpError } from "rhea-promise";
 import { isDefined, isObjectWithProperties } from "./util/typeGuards";
 import { isNode, isNumber, isString } from "../src/util/utils";
+import { isError } from "@azure/core-util";
 
 /**
  * Maps the conditions to the numeric AMQP Response status codes.
@@ -678,7 +679,7 @@ export function translate(err: unknown): MessagingError | Error {
 
   if (err instanceof Error && err.name === "MessagingError") {
     // already translated
-    return err as MessagingError;
+    return err;
   }
 
   if (isSystemError(err)) {
@@ -710,7 +711,7 @@ export function translate(err: unknown): MessagingError | Error {
 
   // Some errors come from rhea-promise and need to be converted to MessagingError.
   // A subset of these are also retryable.
-  if (err instanceof Error && rheaPromiseErrors.indexOf(err.name) !== -1) {
+  if (isError(err) && rheaPromiseErrors.indexOf(err.name) !== -1) {
     const error = new MessagingError(err.message, err);
     error.code = err.name;
     if (error.code && retryableErrors.indexOf(error.code) === -1) {
@@ -720,7 +721,7 @@ export function translate(err: unknown): MessagingError | Error {
     return error;
   }
 
-  return err instanceof Error ? err : new Error(String(err));
+  return isError(err) ? err : new Error(String(err));
 }
 
 /**

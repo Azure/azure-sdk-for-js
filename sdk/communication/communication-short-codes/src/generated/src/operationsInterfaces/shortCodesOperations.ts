@@ -12,13 +12,20 @@ import {
   ShortCodesGetShortCodesOptionalParams,
   USProgramBrief,
   ShortCodesGetUSProgramBriefsOptionalParams,
+  ProgramBriefAttachment,
+  ShortCodesGetUSProgramBriefAttachmentsOptionalParams,
   ShortCodesUpsertUSProgramBriefOptionalParams,
   ShortCodesUpsertUSProgramBriefResponse,
   ShortCodesDeleteUSProgramBriefOptionalParams,
   ShortCodesGetUSProgramBriefOptionalParams,
   ShortCodesGetUSProgramBriefResponse,
   ShortCodesSubmitUSProgramBriefOptionalParams,
-  ShortCodesSubmitUSProgramBriefResponse
+  ShortCodesSubmitUSProgramBriefResponse,
+  ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams,
+  ShortCodesCreateOrReplaceUSProgramBriefAttachmentResponse,
+  ShortCodesGetUSProgramBriefAttachmentOptionalParams,
+  ShortCodesGetUSProgramBriefAttachmentResponse,
+  ShortCodesDeleteUSProgramBriefAttachmentOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,6 +45,15 @@ export interface ShortCodesOperations {
   listUSProgramBriefs(
     options?: ShortCodesGetUSProgramBriefsOptionalParams
   ): PagedAsyncIterableIterator<USProgramBrief>;
+  /**
+   * Gets the list of attachments from a US Program Brief.
+   * @param programBriefId
+   * @param options The options parameters.
+   */
+  listUSProgramBriefAttachments(
+    programBriefId: string,
+    options?: ShortCodesGetUSProgramBriefAttachmentsOptionalParams
+  ): PagedAsyncIterableIterator<ProgramBriefAttachment>;
   /**
    * Creates or updates a US Program Brief.
    * @param programBriefId Program Brief Id. Must be a valid GUID
@@ -74,4 +90,39 @@ export interface ShortCodesOperations {
     programBriefId: string,
     options?: ShortCodesSubmitUSProgramBriefOptionalParams
   ): Promise<ShortCodesSubmitUSProgramBriefResponse>;
+  /**
+   * Creates or replace an attachment on a US Program Brief.
+   * @param programBriefId Program Brief Id. Must be a valid GUID
+   * @param attachmentId Attachment Id. Must be a valid GUID
+   * @param id Program Brief Attachment Id.
+   * @param options The options parameters.
+   */
+  createOrReplaceUSProgramBriefAttachment(
+    programBriefId: string,
+    attachmentId: string,
+    id: string,
+    options?: ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams
+  ): Promise<ShortCodesCreateOrReplaceUSProgramBriefAttachmentResponse>;
+  /**
+   * Gets a specific an attachment from a US Program Brief.
+   * @param programBriefId Program Brief Id. Must be a valid GUID
+   * @param attachmentId Attachment Id. Must be a valid GUID
+   * @param options The options parameters.
+   */
+  getUSProgramBriefAttachment(
+    programBriefId: string,
+    attachmentId: string,
+    options?: ShortCodesGetUSProgramBriefAttachmentOptionalParams
+  ): Promise<ShortCodesGetUSProgramBriefAttachmentResponse>;
+  /**
+   * Deletes a specific attachment from a US Program Brief.
+   * @param programBriefId Program Brief Id. Must be a valid GUID
+   * @param attachmentId Attachment Id. Must be a valid GUID
+   * @param options The options parameters.
+   */
+  deleteUSProgramBriefAttachment(
+    programBriefId: string,
+    attachmentId: string,
+    options?: ShortCodesDeleteUSProgramBriefAttachmentOptionalParams
+  ): Promise<void>;
 }

@@ -13,6 +13,9 @@
     "./dist-esm/src/utils/transactionHeaders.js": "./dist-esm/src/utils/transactionHeaders.browser.js",
     "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
   },
+  "react-native": {
+    "./dist/index.js": "./dist-esm/src/index.js"
+  },
   "types": "types/latest/data-tables.d.ts",
   "typesVersions": {
     "<3.6": {

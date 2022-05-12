@@ -41,6 +41,15 @@ import {
  */
 export interface ServiceBusClientOptions {
   /**
+   * A custom endpoint to use when connecting to the Service Bus service.
+   * This can be useful when your network does not allow connecting to the
+   * standard Azure Service Bus endpoint address, but does allow connecting
+   * through an intermediary.
+   *
+   * Example: "https://my.custom.endpoint:100/"
+   */
+  customEndpointAddress?: string;
+  /**
    * Retry policy options that determine the mode, number of retries, retry interval etc.
    */
   retryOptions?: RetryOptions;
@@ -52,6 +61,40 @@ export interface ServiceBusClientOptions {
    * Options for adding user agent details to outgoing requests.
    */
   userAgentOptions?: UserAgentPolicyOptions;
+}
+
+// TODO: extract parseEndpoint and setCustomEndpointAddress into core-amqp
+// ConnectionConfig so that it can be shared between Event Hubs and Service Bus
+/**
+ * Parses the host, hostname, and port from an endpoint.
+ * @param endpoint - And endpoint to parse.
+ * @internal
+ */
+export function parseEndpoint(endpoint: string): { host: string; hostname: string; port?: string } {
+  const hostMatch = endpoint.match(/.*:\/\/([^/]*)/);
+  if (!hostMatch) {
+    throw new TypeError(`Invalid endpoint missing host: ${endpoint}`);
+  }
+
+  const [, host] = hostMatch;
+  const [hostname, port] = host.split(":");
+
+  return { host, hostname, port };
+}
+/**
+ * Updates the provided ConnectionConfig to use the custom endpoint address.
+ * @param config - An existing connection configuration to be updated.
+ * @param customEndpointAddress - The custom endpoint address to use.
+ */
+function setCustomEndpointAddress(config: ConnectionConfig, customEndpointAddress: string): void {
+  // The amqpHostname should match the host prior to using the custom endpoint.
+  config.amqpHostname = config.host;
+  const { hostname, port } = parseEndpoint(customEndpointAddress);
+  // Since we specify the port separately, set host to the customEndpointAddress hostname.
+  config.host = hostname;
+  if (port) {
+    config.port = parseInt(port, 10);
+  }
 }
 
 /**
@@ -68,6 +111,10 @@ export function createConnectionContext(
   config.webSocket = options?.webSocketOptions?.webSocket;
   config.webSocketEndpointPath = "$servicebus/websocket";
   config.webSocketConstructorOptions = options?.webSocketOptions?.webSocketConstructorOptions;
+
+  if (options?.customEndpointAddress) {
+    setCustomEndpointAddress(config, options.customEndpointAddress);
+  }
 
   return ConnectionContext.create(config, credential, options);
 }
