@@ -27,6 +27,7 @@ import {
   DocumentKeyValuePair,
   DocumentPage,
   DocumentLine,
+  DocumentParagraph,
 } from "../models/documentElements";
 import {
   Document as GeneratedDocument,
@@ -384,7 +385,7 @@ export function toAnalyzeResultFromGenerated<
     languages: result.languages ?? [],
     styles: result.styles ?? [],
     documents: (result.documents?.map((doc) => mapDocuments(doc)) as Document[]) ?? [],
-    paragraphs: result.paragraphs ?? [],
+    paragraphs: result.paragraphs?.map(para => { return { ...para, boundingRegions: toBoundingRegions(para.boundingRegions) } }) ?? [],
   };
 }
 
@@ -398,7 +399,7 @@ export interface AnalysisOperationDefinition<Result = AnalyzeResult> {
   transformResult: (primitiveResult: GeneratedAnalyzeResult) => Result;
   initialModelId: string;
   options: PollerOptions<DocumentAnalysisPollOperationState<Result>> &
-    AnalyzeDocumentOptions<Result>;
+  AnalyzeDocumentOptions<Result>;
 }
 
 /**
