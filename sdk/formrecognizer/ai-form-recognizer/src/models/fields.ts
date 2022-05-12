@@ -6,7 +6,7 @@ import { DocumentSpan } from "..";
 import { CurrencyValue, DocumentField as GeneratedDocumentField } from "../generated";
 import { toBoundingRegions } from "../transforms/polygon";
 import { capitalize } from "../util";
-import { BoundingRegion } from "./modified";
+import { BoundingRegion } from "./documentElements";
 
 /**
  * Fields that are common to all DocumentField variants.

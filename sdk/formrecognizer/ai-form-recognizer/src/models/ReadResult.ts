@@ -3,7 +3,7 @@
 
 import { DocumentLanguage, DocumentStyle } from "../generated";
 import { AnalyzeResult, AnalyzeResultCommon } from "../lro/analyze";
-import { DocumentPage } from "./modified";
+import { DocumentPage } from "./documentElements";
 
 /**
  * Extract from an AnalyzeResult the fields that are produced from document reading.

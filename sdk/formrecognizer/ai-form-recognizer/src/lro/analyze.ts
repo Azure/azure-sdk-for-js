@@ -27,7 +27,7 @@ import {
   DocumentKeyValuePair,
   DocumentPage,
   DocumentLine,
-} from "./../models/modified";
+} from "../models/documentElements";
 import {
   Document as GeneratedDocument,
   DocumentPage as GeneratedDocumentPage,

@@ -7,7 +7,7 @@ import {
   DocumentField as GeneratedDocumentField,
   LengthUnit,
   DocumentPageKind,
-} from "./../generated";
+} from "../generated";
 
 export interface HasBoundingPolygon {
   /** Bounding polygon of the entity. */

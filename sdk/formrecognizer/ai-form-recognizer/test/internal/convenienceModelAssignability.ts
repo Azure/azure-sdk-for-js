@@ -27,7 +27,7 @@ import {
   DocumentTableCell,
   DocumentTableFootnote,
   DocumentWord,
-} from "../../src/models/modified";
+} from "../../src/models/documentElements";
 
 function checkAssign<Generated>(_model: Generated) {}
 

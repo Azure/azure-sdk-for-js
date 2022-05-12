@@ -38,4 +38,4 @@ export {
   DocumentWord,
   HasBoundingPolygon,
   DocumentPage,
-} from "./modified";
+} from "./documentElements";
