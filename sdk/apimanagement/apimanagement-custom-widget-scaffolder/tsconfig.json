@@ -1,23 +1,12 @@
 {
+  "extends": "../../../tsconfig.package",
   "compilerOptions": {
     "target": "ESNext",
-    "useDefineForClassFields": true,
-    "module": "ESNext",
-    "lib": [
-      "ESNext",
-      "DOM"
-    ],
-    "moduleResolution": "Node",
-    "strict": true,
-    "sourceMap": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "outFile": "dist/apimanagement-custom-widget-scaffolder.d.ts",
-    "declaration": true,
-    "jsx": "react-jsx"
+    "outDir": "./dist",
+    "lib": ["ESNext", "DOM"],
+    "paths": {
+      "@azure/apimanagement-custom-widget-scaffolder": ["./src/index"]
+    }
   },
   "include": [
     "src"

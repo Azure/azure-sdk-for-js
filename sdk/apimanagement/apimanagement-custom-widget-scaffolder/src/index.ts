@@ -112,5 +112,3 @@ export async function scaffold(config: TConfigData, configDeploy: TConfigDeploy)
     blob: await generateBlob(customWidgetConfig, configDeploy),
   }
 }
-
-export default scaffold
