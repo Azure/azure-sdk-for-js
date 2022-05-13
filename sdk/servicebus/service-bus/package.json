@@ -40,7 +40,7 @@
     "dist/",
     "dist-esm/src/",
     "types/latest/service-bus.d.ts",
-    "types/3.1",
+    "types/3.1/service-bus.d.ts",
     "README.md",
     "LICENSE"
   ],
