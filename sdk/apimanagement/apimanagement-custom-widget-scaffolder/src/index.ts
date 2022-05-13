@@ -47,6 +47,8 @@ export type TConfigDeploy = {
   openUrl?: string;
 }
 
+export type TGenerate<TData> = (config: TCustomWidgetConfig, deploy: TConfigDeploy) => Promise<TData>
+
 function goToFolder(path: string, zip: JSZip): JSZip {
   let resZip = zip
 
@@ -58,10 +60,7 @@ function goToFolder(path: string, zip: JSZip): JSZip {
   return resZip
 }
 
-export async function generateBlob(customWidgetConfig: TCustomWidgetConfig, {
-  openUrl,
-  ...configDeploy
-}: TConfigDeploy): Promise<Blob> {
+export const generateArchive: TGenerate<JSZip> = async (customWidgetConfig, {openUrl, ...configDeploy}) => {
   const zip = new JSZip()
 
   const openUrlParsed = openUrl ? new URL(openUrl) : null
@@ -89,8 +88,13 @@ export async function generateBlob(customWidgetConfig: TCustomWidgetConfig, {
   Object.values(templates._shared).forEach(renderTemplate)
   Object.values(templates[customWidgetConfig.tech]).forEach(renderTemplate)
 
-  return zip.generateAsync({type: "blob"})
+  return zip
 }
+
+export const generateBlob: TGenerate<Blob> = async (customWidgetConfig, configDeploy) => (
+  generateArchive(customWidgetConfig, configDeploy)
+      .then(zip => zip.generateAsync({type: "blob"}))
+)
 
 export async function scaffold(config: TConfigData, configDeploy: TConfigDeploy): Promise<{config: TCustomWidgetConfig, blob: Blob}> {
   const customWidgetConfig = {
