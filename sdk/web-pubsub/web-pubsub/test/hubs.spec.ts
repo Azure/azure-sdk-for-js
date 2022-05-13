@@ -186,7 +186,7 @@ describe("HubClient", function () {
       // Service doesn't throw error for invalid connection-ids
     });
 
-    it.only("can trace through the various options", async function () {
+    it("can trace through the various options", async function () {
       await assert.supportsTracing(
         async (options) => {
           const promises: Promise<any>[] = [
