@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Fix an issue of accessing `undefined` receiver in timeout handler of `RequestResponseLink.sendRequest`.
+- Fix an issue of accessing `undefined` receiver in timeout handler of `RequestResponseLink.sendRequest`. [PR 21866](https://github.com/Azure/azure-sdk-for-js/pull/21866)
 
 ### Other Changes
 
