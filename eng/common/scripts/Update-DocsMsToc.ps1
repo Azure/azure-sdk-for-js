@@ -178,7 +178,7 @@ function generate-markdown-table($absolutePath, $readmeName, $packageInfo, $moni
     if (!$pkg.VersionGA -and "latest" -eq $moniker) {
       continue
     }
-    if (!$pkg.VersionPreview -and "preivew" -eq $moniker) {
+    if (!$pkg.VersionPreview -and "preview" -eq $moniker) {
       continue
     }
     $repositoryLink = $RepositoryUri
@@ -215,7 +215,7 @@ function generate-service-level-readme($readmeBaseName, $pathPrefix, $clientPack
       generate-markdown-table -absolutePath "$absolutePath" -readmeName "$mgmtIndexReadme" -packageInfo $mgmtPackageInfo -moniker $monikers[$i]
     }
     if (!(Test-Path "$absolutePath$serviceReadme")) {
-      create-metadata-table -absulutePath $absolutePath -readmeName $serviceReadme -moniker $monikers[$i] -msService $msService `
+      create-metadata-table -absolutePath $absolutePath -readmeName $serviceReadme -moniker $monikers[$i] -msService $msService `
         -clientTableLink $clientIndexReadme -mgmtTableLink $mgmtIndexReadme `
         -serviceName $serviceName
     }
