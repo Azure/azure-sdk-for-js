@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fix an issue of accessing `undefined` receiver in timeout handler of `RequestResponseLink.sendRequest`.
+
 ### Other Changes
 
 ## 3.1.0 (2022-02-03)
