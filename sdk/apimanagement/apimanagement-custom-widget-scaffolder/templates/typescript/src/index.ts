@@ -1,17 +1,17 @@
-import {ObjectKeys, init} from "@azure/apimanagement-custom-widget-tools"
+import {getEditorData} from "@azure/apimanagement-custom-widget-tools"
 import {valuesDefault} from "./values"
 
 function initialize() {
-  const values = init(valuesDefault)
+  const editorData = getEditorData(valuesDefault)
 
-  ObjectKeys(values).forEach(key => {
+  Object.entries(editorData).forEach(([key, value]) => {
     const element = document.getElementById(key)
-    if (element) element.innerText = (values[key] ?? "").toString()
+    if (element) element.innerText = (value ?? "").toString()
   })
 
-  ObjectKeys(values.data).forEach(key => {
+  Object.entries(editorData.values).forEach(([key, value]) => {
     const element = document.getElementById(key)
-    if (element) element.innerText = values.data[key]
+    if (element) element.innerText = value
   })
 }
 

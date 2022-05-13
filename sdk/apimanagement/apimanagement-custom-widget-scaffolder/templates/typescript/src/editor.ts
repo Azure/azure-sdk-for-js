@@ -1,14 +1,14 @@
-import {ObjectKeys, buildOnChange, initEditor} from "@azure/apimanagement-custom-widget-tools"
+import {buildOnChange, getEditorValues} from "@azure/apimanagement-custom-widget-tools"
 import {valuesDefault} from "./values"
 
 export const onChange = buildOnChange(valuesDefault)
 
 function initialize() {
-  const {data} = initEditor(valuesDefault)
+  const values = getEditorValues(valuesDefault)
 
-  ObjectKeys(data).forEach(key => {
+  Object.entries(values).forEach(([key, value]) => {
     const element = document.getElementById(key) as HTMLElement | HTMLInputElement | null
-    if (element && "value" in element) element.value = data[key]
+    if (element && "value" in element) element.value = value
   })
 }
 

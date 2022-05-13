@@ -2,10 +2,10 @@
 
 declare module "virtual:templates" {
   // @ts-ignore
-  import type {TTech, TemplateFile} from "./scaffold"
+  import type {TScaffoldTech, TemplateFile} from "index"
 
   type TTemplates = {
-    [key in "_shared" | TTech]: TemplateFile[];
+    [key in "_shared" | TScaffoldTech]: TemplateFile[];
   };
 
   const templates: TTemplates

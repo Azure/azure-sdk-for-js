@@ -8,8 +8,8 @@ import templates from "virtual:templates"
 export const OVERRIDE_PORT_KEY = "MS_APIM_CW_localhost_port"
 export const OVERRIDE_DEFAULT_PORT = 3000
 
-export type TTech = "typescript" | "react" | "vue"
-export type TControl = "git" | "azure" | "none" | null
+export type TScaffoldTech = "typescript" | "react" | "vue"
+export type TScaffoldSourceControl = "git" | "azure" | "none" | null
 
 export type TemplateFile = {
   dir: string;
@@ -22,8 +22,8 @@ export type TemplateFile = {
 export type TConfigData = {
   name: string;
   displayName: string;
-  tech: TTech;
-  control?: TControl;
+  tech: TScaffoldTech;
+  control?: TScaffoldSourceControl;
 }
 
 export type TCustomWidgetConfig = {
@@ -31,8 +31,8 @@ export type TCustomWidgetConfig = {
   displayName: string;
   category: string;
   iconUrl?: string;
-  tech: TTech;
-  control?: TControl;
+  tech: TScaffoldTech;
+  control?: TScaffoldSourceControl;
   deployed?: string;
   override?: string | boolean;
 }
@@ -72,17 +72,22 @@ export const generateArchive: TGenerate<JSZip> = async (customWidgetConfig, {ope
   }, null, "\t")
 
   const renderTemplate = ({dir, name, fileData, isTemplate, encoding}: TemplateFile): void => {
-    const dirForFile = dir !== "" ? goToFolder(dir, zip) : zip
-    dirForFile.file(name, !isTemplate ? fileData : mustache.render(fileData, {
+    const jsZipData = !isTemplate ? fileData : mustache.render(fileData, {
       name: customWidgetConfig.name,
       displayName: customWidgetConfig.displayName,
       config: JSON.stringify(customWidgetConfig, null, "\t"),
       configDeploy: JSON.stringify(configDeploy, null, "\t"),
       serverSettings,
-    }), {
-      base64: encoding === "base64",
-      binary: encoding === "binary",
     })
+
+    const encodingOptions: Partial<Record<BufferEncoding, JSZip.JSZipFileOptions>> = {
+      base64: {base64: true},
+      binary: {binary: true},
+    }
+    const jsZipOptions = encoding ? encodingOptions[encoding] : undefined
+
+    const dirForFile = dir !== "" ? goToFolder(dir, zip) : zip
+    dirForFile.file(name, jsZipData, jsZipOptions)
   }
 
   Object.values(templates._shared).forEach(renderTemplate)
