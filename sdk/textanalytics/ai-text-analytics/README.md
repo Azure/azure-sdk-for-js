@@ -441,6 +441,55 @@ async function main() {
 main();
 ```
 
+### Extractive Summarization
+
+Extractive summarization identifies sentences that summarize the article they belong to.
+
+```javascript
+const { TextAnalysisClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
+
+const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
+
+const documents = [
+  "Prescribed 100mg ibuprofen, taken twice daily.",
+  "Patient does not suffer from high blood pressure."
+];
+
+async function main() {
+  const poller = await client.beginAnalyzeBatch(
+    [
+      {
+        kind: "ExtractiveSummarization",
+        maxSentenceCount: 2,
+      },
+    ],
+    documents
+  );
+  const results = await poller.pollUntilDone();
+
+  for await (const actionResult of results) {
+    if (actionResult.kind !== "ExtractiveSummarization") {
+      throw new Error(`Expected extractive summarization results but got: ${actionResult.kind}`);
+    }
+    if (actionResult.error) {
+      const { code, message } = actionResult.error;
+      throw new Error(`Unexpected error (${code}): ${message}`);
+    }
+    for (const result of actionResult.results) {
+      console.log(`- Document ${result.id}`);
+      if (result.error) {
+        const { code, message } = result.error;
+        throw new Error(`Unexpected error (${code}): ${message}`);
+      }
+      console.log("Summary:");
+      console.log(result.sentences.map((sentence) => sentence.text).join("\n"));
+    }
+  }
+}
+
+main();
+```
+
 ### Custom Entity Recognition
 
 Recognize and categorize entities in text as entities using custom entity detection models built using [Azure Language Studio][lang_studio].

@@ -716,7 +716,7 @@ export interface HealthcareBatchAction extends AnalyzeBatchActionCommon, Healthc
   kind: "Healthcare";
 }
 
-/** Options for a healthcare batch action. */
+/** Options for an extractive summarization batch action. */
 export interface ExtractiveSummarizationBatchAction
   extends AnalyzeBatchActionCommon,
     ExtractiveSummarizationAction {
