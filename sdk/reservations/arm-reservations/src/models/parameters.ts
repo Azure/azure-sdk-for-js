@@ -89,7 +89,7 @@ export const reservationId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-07-01",
+    defaultValue: "2022-03-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -220,6 +220,36 @@ export const location: OperationQueryParameter = {
   parameterPath: ["options", "location"],
   mapper: {
     serializedName: "location",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const publisherId: OperationQueryParameter = {
+  parameterPath: ["options", "publisherId"],
+  mapper: {
+    serializedName: "publisherId",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const offerId: OperationQueryParameter = {
+  parameterPath: ["options", "offerId"],
+  mapper: {
+    serializedName: "offerId",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const planId: OperationQueryParameter = {
+  parameterPath: ["options", "planId"],
+  mapper: {
+    serializedName: "planId",
     type: {
       name: "String"
     }

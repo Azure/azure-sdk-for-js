@@ -379,7 +379,7 @@ describe("bearerTokenAuthenticationPolicy with challenge", function () {
     let error: Error | undefined;
     try {
       await pipeline.sendRequest(testHttpsClient, pipelineRequest);
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
 

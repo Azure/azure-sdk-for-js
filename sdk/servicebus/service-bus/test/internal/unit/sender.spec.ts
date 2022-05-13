@@ -65,7 +65,7 @@ describe("sender unit tests", () => {
           invalidValue
         );
         assert.fail("You should not be seeing this.");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.name, "TypeError");
         assert.equal(err.message, expectedErrorMsg);
       }
@@ -89,7 +89,7 @@ describe("sender unit tests", () => {
           invalidValue
         );
         assert.fail("You should not be seeing this.");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.name, "TypeError");
         assert.equal(err.message, expectedErrorMsg);
       }
@@ -113,7 +113,7 @@ describe("sender unit tests", () => {
           new Date()
         );
         assert.fail("You should not be seeing this.");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.name, "TypeError");
         assert.equal(err.message, expectedErrorMsg);
       }

@@ -459,12 +459,13 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
             options.fromSequenceNumber,
             maxMessageCount,
             undefined,
+            options.omitMessageBody,
             managementRequestOptions
           );
       } else {
         return this._context
           .getManagementClient(this.entityPath)
-          .peek(maxMessageCount, managementRequestOptions);
+          .peek(maxMessageCount, options.omitMessageBody, managementRequestOptions);
       }
     };
 
@@ -616,7 +617,7 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
           await this._batchingReceiver.close();
         }
       }
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, `${this.logPrefix} An error occurred while closing the Receiver`);
       throw err;
     }

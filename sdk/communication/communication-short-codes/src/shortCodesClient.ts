@@ -12,6 +12,7 @@ import {
   ShortCode,
   ShortCodesUpsertUSProgramBriefOptionalParams,
   USProgramBrief,
+  ProgramBriefAttachment,
 } from "./generated/src/models/";
 import { SpanStatusCode } from "@azure/core-tracing";
 import {
@@ -20,6 +21,10 @@ import {
   ListShortCodesOptions,
   ListUSProgramBriefsOptions,
   SubmitUSProgramBriefOptions,
+  ShortCodesGetUSProgramBriefAttachmentOptionalParams,
+  ShortCodesGetUSProgramBriefAttachmentsOptionalParams,
+  ShortCodesDeleteUSProgramBriefAttachmentOptionalParams,
+  ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams,
 } from "./models";
 import { createCommunicationAuthPolicy } from "@azure/communication-common";
 
@@ -81,7 +86,7 @@ export class ShortCodesClient {
     const { span, updatedOptions } = createSpan("ShortCodesClient-listShortCodes", options);
     try {
       return this.client.shortCodesOperations.listShortCodes(updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -102,7 +107,7 @@ export class ShortCodesClient {
         programBriefId,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -123,7 +128,7 @@ export class ShortCodesClient {
         programBriefId,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -144,7 +149,7 @@ export class ShortCodesClient {
         programBriefId,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -161,7 +166,7 @@ export class ShortCodesClient {
     const { span, updatedOptions } = createSpan("ShortCodesClient-listUSProgramBriefs", options);
     try {
       return this.client.shortCodesOperations.listUSProgramBriefs(updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -180,6 +185,109 @@ export class ShortCodesClient {
     try {
       return await this.client.shortCodesOperations.submitUSProgramBrief(
         programBriefId,
+        updatedOptions
+      );
+    } catch (e: any) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async getUSProgramBriefAttachment(
+    programBriefId: string,
+    attachmentId: string,
+    options?: ShortCodesGetUSProgramBriefAttachmentOptionalParams
+  ): Promise<ProgramBriefAttachment> {
+    const { span, updatedOptions } = createSpan(
+      "ShortCodesClient-getUSProgramBriefAttachment",
+      options
+    );
+    try {
+      return await this.client.shortCodesOperations.getUSProgramBriefAttachment(
+        programBriefId,
+        attachmentId,
+        updatedOptions
+      );
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public listUSProgramBriefAttachments(
+    programBriefId: string,
+    options: ShortCodesGetUSProgramBriefAttachmentsOptionalParams = {}
+  ): PagedAsyncIterableIterator<ProgramBriefAttachment> {
+    const { span, updatedOptions } = createSpan(
+      "ShortCodesClient-listUSProgramBriefAttachments",
+      options
+    );
+    try {
+      return this.client.shortCodesOperations.listUSProgramBriefAttachments(
+        programBriefId,
+        updatedOptions
+      );
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async deleteUSProgramBriefAttachment(
+    programBriefId: string,
+    attachmentId: string,
+    options?: ShortCodesDeleteUSProgramBriefAttachmentOptionalParams
+  ): Promise<void> {
+    const { span, updatedOptions } = createSpan(
+      "ShortCodesClient-deleteUSProgramBriefAttachment",
+      options
+    );
+    try {
+      return await this.client.shortCodesOperations.deleteUSProgramBriefAttachment(
+        programBriefId,
+        attachmentId,
+        updatedOptions
+      );
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async createOrReplaceUSProgramBriefAttachment(
+    programBriefId: string,
+    attachmentId: string,
+    options: ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams = {}
+  ): Promise<USProgramBrief> {
+    const { span, updatedOptions } = createSpan(
+      "ShortCodesClient-createOrReplaceUSProgramBriefAttachment",
+      options
+    );
+    try {
+      return await this.client.shortCodesOperations.createOrReplaceUSProgramBriefAttachment(
+        programBriefId,
+        attachmentId,
+        attachmentId,
         updatedOptions
       );
     } catch (e) {

@@ -207,6 +207,8 @@ export function parseServiceBusConnectionString(connectionString: string): Servi
 // @public
 export interface PeekMessagesOptions extends OperationOptionsBase {
     fromSequenceNumber?: Long_2;
+    // @beta
+    omitMessageBody?: boolean;
 }
 
 // @public
@@ -337,6 +339,7 @@ export class ServiceBusClient {
 
 // @public
 export interface ServiceBusClientOptions {
+    customEndpointAddress?: string;
     retryOptions?: RetryOptions;
     userAgentOptions?: UserAgentPolicyOptions;
     webSocketOptions?: WebSocketOptions;

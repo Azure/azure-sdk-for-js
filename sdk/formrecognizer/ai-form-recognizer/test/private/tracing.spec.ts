@@ -36,7 +36,7 @@ function fakeIt<Args extends unknown[]>(
   return async (...args) => {
     try {
       await h(...args);
-    } catch (e) {
+    } catch (e: any) {
       if (!(e instanceof RequestSent)) throw e;
     }
   };

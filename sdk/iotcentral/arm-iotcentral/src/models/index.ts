@@ -8,6 +8,85 @@
 
 import * as coreClient from "@azure/core-client";
 
+/** Network Rule Set Properties of this IoT Central application. */
+export interface NetworkRuleSets {
+  /** Whether these rules apply for device connectivity to IoT Hub and Device Provisioning service associated with this application. */
+  applyToDevices?: boolean;
+  /** Whether these rules apply for connectivity via IoT Central web portal and APIs. */
+  applyToIoTCentral?: boolean;
+  /** The default network action to apply. */
+  defaultAction?: NetworkAction;
+  /** List of IP rules. */
+  ipRules?: NetworkRuleSetIpRule[];
+}
+
+/** An object for an IP range that will be allowed access. */
+export interface NetworkRuleSetIpRule {
+  /** The readable name of the IP rule. */
+  filterName?: string;
+  /** The CIDR block defining the IP range. */
+  ipMask?: string;
+}
+
+/** The private endpoint resource. */
+export interface PrivateEndpoint {
+  /**
+   * The ARM identifier for private endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+/** A collection of information about the state of the connection between service consumer and provider. */
+export interface PrivateLinkServiceConnectionState {
+  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
+  status?: PrivateEndpointServiceConnectionStatus;
+  /** The reason for approval/rejection of the connection. */
+  description?: string;
+  /** A message indicating if changes on the service provider require any updates on the consumer. */
+  actionsRequired?: string;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
 /** Information about the SKU of the IoT Central application. */
 export interface AppSkuInfo {
   /** The name of the SKU. */
@@ -30,69 +109,53 @@ export interface SystemAssignedServiceIdentity {
   type: SystemAssignedServiceIdentityType;
 }
 
-/** The common properties of an ARM resource. */
-export interface Resource {
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
   /**
-   * The ARM resource identifier.
+   * The error code.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly id?: string;
+  readonly code?: string;
   /**
-   * The ARM resource name.
+   * The error message.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly name?: string;
+  readonly message?: string;
   /**
-   * The resource type.
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-  /** The resource location. */
-  location: string;
-  /** The resource tags. */
-  tags?: { [propertyName: string]: string };
-}
-
-/** Error details. */
-export interface CloudError {
   /**
-   * The error code.
+   * The additional info.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly code?: string;
-  /**
-   * The error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The target of the particular error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /** A list of additional details about the error. */
-  details?: CloudErrorBody[];
-}
-
-/** Details of error response. */
-export interface CloudErrorBody {
-  /**
-   * The error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The target of the particular error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /** A list of additional details about the error. */
-  details?: CloudErrorBody[];
+  readonly info?: Record<string, unknown>;
 }
 
 /** The description of the IoT Central application. */
@@ -103,6 +166,11 @@ export interface AppPatch {
   sku?: AppSkuInfo;
   /** The managed identities for the IoT Central application. */
   identity?: SystemAssignedServiceIdentity;
+  /**
+   * The provisioning state of the application.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
   /**
    * The ID of the application.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -119,6 +187,15 @@ export interface AppPatch {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly state?: AppState;
+  /** Whether requests from the public network are allowed. */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** Network Rule Set Properties of this IoT Central application. */
+  networkRuleSets?: NetworkRuleSets;
+  /**
+   * Private endpoint connections created on this IoT Central application.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
 }
 
 /** A list of IoT Central Applications with a next link. */
@@ -127,6 +204,18 @@ export interface AppListResult {
   nextLink?: string;
   /** A list of IoT Central Applications. */
   value?: App[];
+}
+
+/** List of private endpoint connections associated with the specified resource. */
+export interface PrivateEndpointConnectionListResult {
+  /** Array of private endpoint connections. */
+  value?: PrivateEndpointConnection[];
+}
+
+/** A list of private link resources. */
+export interface PrivateLinkResourceListResult {
+  /** Array of private link resources */
+  value?: PrivateLinkResource[];
 }
 
 /** Input values. */
@@ -281,12 +370,59 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
+/** The private endpoint connection resource. */
+export type PrivateEndpointConnection = Resource & {
+  /**
+   * The group ids for the private endpoint resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupIds?: string[];
+  /** The private endpoint resource. */
+  privateEndpoint?: PrivateEndpoint;
+  /** A collection of information about the state of the connection between service consumer and provider. */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /**
+   * The provisioning state of the private endpoint connection resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+};
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export type TrackedResource = Resource & {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+};
+
+/** A private link resource. */
+export type PrivateLinkResource = Resource & {
+  /**
+   * The private link resource group id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requiredMembers?: string[];
+  /** The private link resource private link DNS zone name. */
+  requiredZoneNames?: string[];
+};
+
 /** The IoT Central application. */
-export type App = Resource & {
+export type App = TrackedResource & {
   /** A valid instance SKU. */
   sku: AppSkuInfo;
   /** The managed identities for the IoT Central application. */
   identity?: SystemAssignedServiceIdentity;
+  /**
+   * The provisioning state of the application.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
   /**
    * The ID of the application.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -303,7 +439,86 @@ export type App = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly state?: AppState;
+  /** Whether requests from the public network are allowed. */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /** Network Rule Set Properties of this IoT Central application. */
+  networkRuleSets?: NetworkRuleSets;
+  /**
+   * Private endpoint connections created on this IoT Central application.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
 };
+
+/** Defines headers for Apps_createOrUpdate operation. */
+export interface AppsCreateOrUpdateHeaders {
+  /** URL to query for status of the operation. Returns current state, progress, and error metadata for the operation. */
+  azureAsyncOperation?: string;
+  /** How long the user should wait before making a follow-up request. */
+  retryAfter?: string;
+}
+
+/** Defines headers for Apps_update operation. */
+export interface AppsUpdateHeaders {
+  /** URL to query for status of the operation. Returns current state, progress, and error metadata for the operation. */
+  azureAsyncOperation?: string;
+  /** URL to query for status of the operation. Returns 202 Accepted while the operation is in progress. */
+  location?: string;
+  /** How long the user should wait before making a follow-up request. */
+  retryAfter?: string;
+}
+
+/** Defines headers for Apps_delete operation. */
+export interface AppsDeleteHeaders {
+  /** URL to query for status of the operation. Returns current state, progress, and error metadata for the operation. */
+  azureAsyncOperation?: string;
+  /** URL to query for status of the operation. Returns 202 Accepted while the operation is in progress. */
+  location?: string;
+  /** How long the user should wait before making a follow-up request. */
+  retryAfter?: string;
+}
+
+/** Defines headers for PrivateEndpointConnections_create operation. */
+export interface PrivateEndpointConnectionsCreateHeaders {
+  /** URL to query for status of the operation. Returns current state, progress, and error metadata for the operation. */
+  azureAsyncOperation?: string;
+  /** How long the user should wait before making a follow-up request. */
+  retryAfter?: string;
+}
+
+/** Defines headers for PrivateEndpointConnections_delete operation. */
+export interface PrivateEndpointConnectionsDeleteHeaders {
+  /** URL to query for status of the operation. Returns current state, progress, and error metadata for the operation. */
+  azureAsyncOperation?: string;
+  /** URL to query for status of the operation. Returns 202 Accepted while the operation is in progress. */
+  location?: string;
+  /** How long the user should wait before making a follow-up request. */
+  retryAfter?: string;
+}
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  Creating = "Creating",
+  Deleting = "Deleting",
+  Updating = "Updating",
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Canceled = "Canceled"
+}
+
+/**
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **Deleting** \
+ * **Updating** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled**
+ */
+export type ProvisioningState = string;
 
 /** Known values of {@link AppState} that the service accepts. */
 export enum KnownAppState {
@@ -320,6 +535,96 @@ export enum KnownAppState {
  * **suspended**
  */
 export type AppState = string;
+
+/** Known values of {@link PublicNetworkAccess} that the service accepts. */
+export enum KnownPublicNetworkAccess {
+  Enabled = "Enabled",
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for PublicNetworkAccess. \
+ * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type PublicNetworkAccess = string;
+
+/** Known values of {@link NetworkAction} that the service accepts. */
+export enum KnownNetworkAction {
+  Allow = "Allow",
+  Deny = "Deny"
+}
+
+/**
+ * Defines values for NetworkAction. \
+ * {@link KnownNetworkAction} can be used interchangeably with NetworkAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Allow** \
+ * **Deny**
+ */
+export type NetworkAction = string;
+
+/** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
+export enum KnownPrivateEndpointServiceConnectionStatus {
+  Pending = "Pending",
+  Approved = "Approved",
+  Rejected = "Rejected"
+}
+
+/**
+ * Defines values for PrivateEndpointServiceConnectionStatus. \
+ * {@link KnownPrivateEndpointServiceConnectionStatus} can be used interchangeably with PrivateEndpointServiceConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending** \
+ * **Approved** \
+ * **Rejected**
+ */
+export type PrivateEndpointServiceConnectionStatus = string;
+
+/** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
+export enum KnownPrivateEndpointConnectionProvisioningState {
+  Succeeded = "Succeeded",
+  Creating = "Creating",
+  Deleting = "Deleting",
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for PrivateEndpointConnectionProvisioningState. \
+ * {@link KnownPrivateEndpointConnectionProvisioningState} can be used interchangeably with PrivateEndpointConnectionProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Creating** \
+ * **Deleting** \
+ * **Failed**
+ */
+export type PrivateEndpointConnectionProvisioningState = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  User = "User",
+  Application = "Application",
+  ManagedIdentity = "ManagedIdentity",
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
 
 /** Known values of {@link AppSku} that the service accepts. */
 export enum KnownAppSku {
@@ -371,7 +676,7 @@ export interface AppsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type AppsCreateOrUpdateResponse = App;
+export type AppsCreateOrUpdateResponse = AppsCreateOrUpdateHeaders & App;
 
 /** Optional parameters. */
 export interface AppsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -382,7 +687,7 @@ export interface AppsUpdateOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Contains response data for the update operation. */
-export type AppsUpdateResponse = App;
+export type AppsUpdateResponse = AppsUpdateHeaders;
 
 /** Optional parameters. */
 export interface AppsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -391,6 +696,9 @@ export interface AppsDeleteOptionalParams extends coreClient.OperationOptions {
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
   resumeFrom?: string;
 }
+
+/** Contains response data for the delete operation. */
+export type AppsDeleteResponse = AppsDeleteHeaders;
 
 /** Optional parameters. */
 export interface AppsListBySubscriptionOptionalParams
@@ -447,6 +755,59 @@ export interface AppsListTemplatesNextOptionalParams
 
 /** Contains response data for the listTemplatesNext operation. */
 export type AppsListTemplatesNextResponse = AppTemplatesResult;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type PrivateEndpointConnectionsCreateResponse = PrivateEndpointConnectionsCreateHeaders &
+  PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type PrivateEndpointConnectionsDeleteResponse = PrivateEndpointConnectionsDeleteHeaders;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
+
+/** Optional parameters. */
+export interface PrivateLinksGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PrivateLinksGetResponse = PrivateLinkResource;
+
+/** Optional parameters. */
+export interface PrivateLinksListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type PrivateLinksListResponse = PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams

@@ -102,7 +102,7 @@ export class LibraryImpl implements Library {
         listOperationSpec
       );
       return result as LibraryListOperationResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -131,7 +131,7 @@ export class LibraryImpl implements Library {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -220,7 +220,7 @@ export class LibraryImpl implements Library {
         getOperationResultOperationSpec
       );
       return result as LibraryGetOperationResultResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -249,7 +249,7 @@ export class LibraryImpl implements Library {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -336,7 +336,7 @@ export class LibraryImpl implements Library {
         getOperationSpec
       );
       return result as LibraryGetResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -365,7 +365,7 @@ export class LibraryImpl implements Library {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -455,7 +455,7 @@ export class LibraryImpl implements Library {
         appendOperationSpec
       );
       return result as void;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -482,7 +482,7 @@ export class LibraryImpl implements Library {
         listNextOperationSpec
       );
       return result as LibraryListNextResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message

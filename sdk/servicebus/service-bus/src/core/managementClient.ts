@@ -261,7 +261,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         },
         abortSignal
       );
-    } catch (err) {
+    } catch (err: any) {
       const translatedError = translateServiceBusError(err);
       managementClientLogger.logError(
         translatedError,
@@ -348,7 +348,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     try {
       if (!request.message_id) request.message_id = generate_uuid();
       return await this.link!.sendRequest(request, sendRequestOptions);
-    } catch (err) {
+    } catch (err: any) {
       const translatedError = translateServiceBusError(err);
       internalLogger.logError(
         translatedError,
@@ -374,7 +374,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       // we can change this back to closeLink("permanent").
       await this.closeLink();
       managementClientLogger.verbose("Successfully closed the management session.");
-    } catch (err) {
+    } catch (err: any) {
       managementClientLogger.logError(
         err,
         `${this.logPrefix} An error occurred while closing the management session`
@@ -393,9 +393,11 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * also fetch even Deferred messages (but not Deadlettered message).
    *
    * @param messageCount - The number of messages to retrieve. Default value `1`.
+   * @param omitMessageBody - Whether to omit message body when peeking. Default value `false`.
    */
   async peek(
     messageCount: number,
+    omitMessageBody?: boolean,
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<ServiceBusReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context);
@@ -403,6 +405,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       this._lastPeekedSequenceNumber.add(1),
       messageCount,
       undefined,
+      omitMessageBody,
       options
     );
   }
@@ -418,10 +421,12 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    *
    * @param sessionId - The sessionId from which messages need to be peeked.
    * @param messageCount - The number of messages to retrieve. Default value `1`.
+   * @param omitMessageBody - Whether to omit message body when peeking Default value `false`.
    */
   async peekMessagesBySession(
     sessionId: string,
     messageCount: number,
+    omitMessageBody?: boolean,
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<ServiceBusReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context);
@@ -429,6 +434,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       this._lastPeekedSequenceNumber.add(1),
       messageCount,
       sessionId,
+      omitMessageBody,
       options
     );
   }
@@ -439,11 +445,13 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * @param fromSequenceNumber - The sequence number from where to read the message.
    * @param messageCount - The number of messages to retrieve. Default value `1`.
    * @param sessionId - The sessionId from which messages need to be peeked.
+   * @param omitMessageBody - Whether to omit message body when peeking. Default value `false`.
    */
   async peekBySequenceNumber(
     fromSequenceNumber: Long,
     maxMessageCount: number,
     sessionId?: string,
+    omitMessageBody?: boolean,
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<ServiceBusReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context);
@@ -480,6 +488,10 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       if (isDefined(sessionId)) {
         messageBody[Constants.sessionIdMapKey] = sessionId;
       }
+      if (isDefined(omitMessageBody)) {
+        const omitMessageBodyKey = "omit-message-body"; // TODO: Service Bus specific. Put it somewhere
+        messageBody[omitMessageBodyKey] = types.wrap_boolean(omitMessageBody);
+      }
       const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
@@ -513,7 +525,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           this._lastPeekedSequenceNumber = message.sequenceNumber!;
         }
       }
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err) as MessagingError;
       receiverLogger.logError(
         error,
@@ -577,7 +589,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       });
       const lockedUntilUtc = new Date(result.body.expirations[0]);
       return lockedUntilUtc;
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       receiverLogger.logError(
         error,
@@ -637,7 +649,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
 
         const wrappedEntry = types.wrap_map(entry);
         messageBody.push(wrappedEntry);
-      } catch (err) {
+      } catch (err: any) {
         const error = translateServiceBusError(err);
         senderLogger.logError(
           error,
@@ -670,7 +682,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         }
       }
       return sequenceNumbersAsLong;
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       senderLogger.logError(
         error,
@@ -698,7 +710,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       const sequenceNumber = sequenceNumbers[i];
       try {
         messageBody[Constants.sequenceNumbers].push(Buffer.from(sequenceNumber.toBytesBE()));
-      } catch (err) {
+      } catch (err: any) {
         const error = translateServiceBusError(err);
         senderLogger.logError(
           error,
@@ -734,7 +746,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
 
       await this._makeManagementRequest(request, senderLogger, options);
       return;
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       senderLogger.logError(
         error,
@@ -771,7 +783,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       const sequenceNumber = sequenceNumbers[i];
       try {
         messageBody[Constants.sequenceNumbers].push(Buffer.from(sequenceNumber.toBytesBE()));
-      } catch (err) {
+      } catch (err: any) {
         const error = translateServiceBusError(err);
         receiverLogger.logError(
           error,
@@ -826,7 +838,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         messageList.push(message);
       }
       return messageList;
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       receiverLogger.logError(
         error,
@@ -894,7 +906,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         request.body
       );
       await this._makeManagementRequest(request, receiverLogger, options);
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       receiverLogger.logError(
         error,
@@ -944,7 +956,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         lockedUntilUtc.toString()
       );
       return lockedUntilUtc;
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       receiverLogger.logError(
         error,
@@ -988,7 +1000,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         request.body
       );
       await this._makeManagementRequest(request, receiverLogger, options);
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       receiverLogger.logError(
         error,
@@ -1032,7 +1044,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       return result.body["session-state"]
         ? tryToJsonDecode(result.body["session-state"])
         : result.body["session-state"];
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       receiverLogger.logError(
         error,
@@ -1090,7 +1102,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       const response = await this._makeManagementRequest(request, managementClientLogger, options);
 
       return (response && response.body && response.body["sessions-ids"]) || [];
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       managementClientLogger.logError(
         error,
@@ -1200,7 +1212,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       });
 
       return rules;
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       managementClientLogger.logError(
         error,
@@ -1240,7 +1252,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         request.body
       );
       await this._makeManagementRequest(request, managementClientLogger, options);
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       managementClientLogger.logError(
         error,
@@ -1328,7 +1340,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
 
       managementClientLogger.verbose("%s Add Rule request body: %O.", this.logPrefix, request.body);
       await this._makeManagementRequest(request, managementClientLogger, options);
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       managementClientLogger.logError(
         error,

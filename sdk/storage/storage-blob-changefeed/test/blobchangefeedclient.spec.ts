@@ -127,7 +127,7 @@ describe("BlobChangeFeedClient", async () => {
     try {
       await iter.next();
       assert.fail("Should have been aborted.");
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
     }
   });
@@ -200,7 +200,7 @@ describe("BlobChangeFeedClient: Change Feed not configured", async () => {
     let exceptionCaught = false;
     try {
       await changeFeedClient.listChanges().next();
-    } catch (err) {
+    } catch (err: any) {
       exceptionCaught = true;
     }
     assert.ok(exceptionCaught);

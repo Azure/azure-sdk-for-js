@@ -28,8 +28,7 @@ import * as Mappers from "../generated/models/mappers";
 import { CommonClientOptions, createSerializer } from "@azure/core-client";
 import { readStreamToEnd } from "../utils/helpers";
 import { Readable } from "stream";
-import { createSpan } from "../tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
+import { tracingClient } from "../tracing";
 
 const LATEST_API_VERSION = "2021-07-01";
 
@@ -164,20 +163,18 @@ export class ContainerRegistryBlobClient {
    * @param digest - the digest of the blob to delete
    * @param options - optional configuration used to send requests to the service
    */
-  public async deleteBlob(digest: string, options?: DeleteBlobOptions): Promise<void> {
-    const { span, updatedOptions } = createSpan("ContainerRegistryBlobClient-deleteBlob", options);
-
-    try {
-      await this.client.containerRegistryBlob.deleteBlob(
-        this.repositoryName,
-        digest,
-        updatedOptions
-      );
-    } catch (e) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-    } finally {
-      span.end();
-    }
+  public async deleteBlob(digest: string, options: DeleteBlobOptions = {}): Promise<void> {
+    return tracingClient.withSpan(
+      "ContainerRegistryBlobClient.deleteBlob",
+      options,
+      async (updatedOptions) => {
+        await this.client.containerRegistryBlob.deleteBlob(
+          this.repositoryName,
+          digest,
+          updatedOptions
+        );
+      }
+    );
   }
 
   /**
@@ -189,41 +186,35 @@ export class ContainerRegistryBlobClient {
     manifest: (() => NodeJS.ReadableStream) | NodeJS.ReadableStream | OciManifest,
     options?: UploadManifestOptions
   ): Promise<UploadManifestResult> {
-    const { span, updatedOptions } = createSpan(
-      "ContainerRegistryBlobClient-uploadManifest",
-      options
-    );
+    return tracingClient.withSpan(
+      "ContainerRegistryBlobClient.uploadManifest",
+      options ?? {},
+      async (updatedOptions) => {
+        let manifestBody: Buffer | NodeJS.ReadableStream;
 
-    try {
-      let manifestBody: Buffer | NodeJS.ReadableStream;
+        if (isReadableStream(manifest)) {
+          manifestBody = await readStreamToEnd(manifest);
+        } else if (typeof manifest === "function") {
+          manifestBody = await readStreamToEnd(manifest());
+        } else {
+          const serialized = serializer.serialize(Mappers.OCIManifest, manifest);
+          manifestBody = Buffer.from(JSON.stringify(serialized));
+        }
 
-      if (isReadableStream(manifest)) {
-        manifestBody = await readStreamToEnd(manifest);
-      } else if (typeof manifest === "function") {
-        manifestBody = await readStreamToEnd(manifest());
-      } else {
-        const serialized = serializer.serialize(Mappers.OCIManifest, manifest);
-        manifestBody = Buffer.from(JSON.stringify(serialized));
+        const tagOrDigest = options?.tag ?? (await calculateDigest(manifestBody));
+
+        const createManifestResult = await this.client.containerRegistry.createManifest(
+          this.repositoryName,
+          tagOrDigest,
+          manifestBody,
+          { contentType: KnownManifestMediaType.OciManifestMediaType, ...updatedOptions }
+        );
+
+        assertHasProperty(createManifestResult, "dockerContentDigest");
+
+        return { digest: createManifestResult.dockerContentDigest };
       }
-
-      const tagOrDigest = options?.tag ?? (await calculateDigest(manifestBody));
-
-      const createManifestResult = await this.client.containerRegistry.createManifest(
-        this.repositoryName,
-        tagOrDigest,
-        manifestBody,
-        { contentType: KnownManifestMediaType.OciManifestMediaType, ...updatedOptions }
-      );
-
-      assertHasProperty(createManifestResult, "dockerContentDigest");
-
-      return { digest: createManifestResult.dockerContentDigest };
-    } catch (e) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-      throw e;
-    } finally {
-      span.end();
-    }
+    );
   }
 
   /**
@@ -234,49 +225,43 @@ export class ContainerRegistryBlobClient {
    */
   public async downloadManifest(
     tagOrDigest: string,
-    options?: DownloadManifestOptions
+    options: DownloadManifestOptions = {}
   ): Promise<DownloadManifestResult> {
-    const { span, updatedOptions } = createSpan(
-      "ContainerRegistryBlobClient-downloadManifest",
-      options
-    );
+    return tracingClient.withSpan(
+      "ContainerRegistryBlobClient.downloadManifest",
+      options,
+      async (updatedOptions) => {
+        const { dockerContentDigest, readableStreamBody } =
+          await this.client.containerRegistry.getManifest(this.repositoryName, tagOrDigest, {
+            accept: KnownManifestMediaType.OciManifestMediaType,
+            ...updatedOptions,
+          });
 
-    try {
-      const { dockerContentDigest, readableStreamBody } =
-        await this.client.containerRegistry.getManifest(this.repositoryName, tagOrDigest, {
-          accept: KnownManifestMediaType.OciManifestMediaType,
-          ...updatedOptions,
-        });
+        const bodyData = readableStreamBody
+          ? await readStreamToEnd(readableStreamBody)
+          : Buffer.alloc(0);
 
-      const bodyData = readableStreamBody
-        ? await readStreamToEnd(readableStreamBody)
-        : Buffer.alloc(0);
+        const expectedDigest = await calculateDigest(bodyData);
 
-      const expectedDigest = await calculateDigest(bodyData);
+        if (dockerContentDigest !== expectedDigest) {
+          throw new DigestMismatchError(
+            "Digest of blob to upload does not match the digest from the server."
+          );
+        }
 
-      if (dockerContentDigest !== expectedDigest) {
-        throw new DigestMismatchError(
-          "Digest of blob to upload does not match the digest from the server."
+        const manifest = serializer.deserialize(
+          Mappers.OCIManifest,
+          JSON.parse(bodyData.toString()),
+          "OCIManifest"
         );
+
+        return {
+          digest: dockerContentDigest,
+          manifest,
+          manifestStream: Readable.from(bodyData),
+        };
       }
-
-      const manifest = serializer.deserialize(
-        Mappers.OCIManifest,
-        JSON.parse(bodyData.toString()),
-        "OCIManifest"
-      );
-
-      return {
-        digest: dockerContentDigest,
-        manifest,
-        manifestStream: Readable.from(bodyData),
-      };
-    } catch (e) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-      throw e;
-    } finally {
-      span.end();
-    }
+    );
   }
 
   /**
@@ -285,24 +270,18 @@ export class ContainerRegistryBlobClient {
    * @param digest - the digest of the manifest to delete
    * @param options - optional configuration used to send requests to the service
    */
-  public async deleteManifest(digest: string, options?: DeleteManifestOptions): Promise<void> {
-    const { span, updatedOptions } = createSpan(
-      "ContainerRegistryBlobClient-deleteManifest",
-      options
+  public async deleteManifest(digest: string, options: DeleteManifestOptions = {}): Promise<void> {
+    return tracingClient.withSpan(
+      "ContainerRegistryBlobClient.deleteManifest",
+      options,
+      async (updatedOptions) => {
+        await this.client.containerRegistry.deleteManifest(
+          this.repositoryName,
+          digest,
+          updatedOptions
+        );
+      }
     );
-
-    try {
-      await this.client.containerRegistry.deleteManifest(
-        this.repositoryName,
-        digest,
-        updatedOptions
-      );
-    } catch (e) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -325,52 +304,52 @@ export class ContainerRegistryBlobClient {
   public async uploadBlob(
     blobStreamOrFactory: (() => NodeJS.ReadableStream) | NodeJS.ReadableStream
   ): Promise<UploadBlobResult> {
-    const { span } = createSpan("ContainerRegistryBlobClient-uploadBlob", undefined);
-
-    try {
-      const startUploadResult = await this.client.containerRegistryBlob.startUpload(
-        this.repositoryName
-      );
-
-      assertHasProperty(startUploadResult, "location");
-
-      let requestBody: NodeJS.ReadableStream | Buffer;
-      let digest: string;
-
-      if (typeof blobStreamOrFactory === "function") {
-        requestBody = blobStreamOrFactory();
-        digest = await calculateDigest(blobStreamOrFactory());
-      } else {
-        requestBody = await readStreamToEnd(blobStreamOrFactory);
-        digest = await calculateDigest(requestBody);
-      }
-
-      const uploadChunkResult = await this.client.containerRegistryBlob.uploadChunk(
-        startUploadResult.location.substring(1),
-        requestBody
-      );
-
-      assertHasProperty(uploadChunkResult, "location");
-
-      const { dockerContentDigest: digestFromResponse } =
-        await this.client.containerRegistryBlob.completeUpload(
-          digest,
-          uploadChunkResult.location.substring(1)
+    return tracingClient.withSpan(
+      "ContainerRegistryBlobClient.uploadBlob",
+      {},
+      async (updatedOptions) => {
+        const startUploadResult = await this.client.containerRegistryBlob.startUpload(
+          this.repositoryName,
+          updatedOptions
         );
 
-      if (digest !== digestFromResponse) {
-        throw new DigestMismatchError(
-          "Digest of blob to upload does not match the digest from the server."
-        );
-      }
+        assertHasProperty(startUploadResult, "location");
 
-      return { digest };
-    } catch (e) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-      throw e;
-    } finally {
-      span.end();
-    }
+        let requestBody: NodeJS.ReadableStream | Buffer;
+        let digest: string;
+
+        if (typeof blobStreamOrFactory === "function") {
+          requestBody = blobStreamOrFactory();
+          digest = await calculateDigest(blobStreamOrFactory());
+        } else {
+          requestBody = await readStreamToEnd(blobStreamOrFactory);
+          digest = await calculateDigest(requestBody);
+        }
+
+        const uploadChunkResult = await this.client.containerRegistryBlob.uploadChunk(
+          startUploadResult.location.substring(1),
+          requestBody,
+          updatedOptions
+        );
+
+        assertHasProperty(uploadChunkResult, "location");
+
+        const { dockerContentDigest: digestFromResponse } =
+          await this.client.containerRegistryBlob.completeUpload(
+            digest,
+            uploadChunkResult.location.substring(1),
+            updatedOptions
+          );
+
+        if (digest !== digestFromResponse) {
+          throw new DigestMismatchError(
+            "Digest of blob to upload does not match the digest from the server."
+          );
+        }
+
+        return { digest };
+      }
+    );
   }
 
   /**
@@ -382,29 +361,23 @@ export class ContainerRegistryBlobClient {
    */
   public async downloadBlob(
     digest: string,
-    options?: DownloadBlobOptions
+    options: DownloadBlobOptions = {}
   ): Promise<DownloadBlobResult> {
-    const { span, updatedOptions } = createSpan(
-      "ContainerRegistryBlobClient-downloadBlob",
-      options
+    return tracingClient.withSpan(
+      "ContainerRegistryBlobClient.downloadBlob",
+      options,
+      async (updatedOptions) => {
+        const { readableStreamBody } = await this.client.containerRegistryBlob.getBlob(
+          this.repositoryName,
+          digest,
+          updatedOptions
+        );
+
+        return {
+          digest,
+          content: readableStreamBody ?? Readable.from([]),
+        };
+      }
     );
-
-    try {
-      const { readableStreamBody } = await this.client.containerRegistryBlob.getBlob(
-        this.repositoryName,
-        digest,
-        updatedOptions
-      );
-
-      return {
-        digest,
-        content: readableStreamBody ?? Readable.from([]),
-      };
-    } catch (e) {
-      span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 }

@@ -464,7 +464,7 @@ describe("Streaming with sessions", () => {
           },
           processError,
         });
-      } catch (err) {
+      } catch (err: any) {
         errorMessage = err && err.message;
       }
       should.equal(
@@ -477,7 +477,7 @@ describe("Streaming with sessions", () => {
       errorMessage = "";
       try {
         await receiver.receiveMessages(1);
-      } catch (err) {
+      } catch (err: any) {
         errorMessage = err && err.message;
       }
       should.equal(

@@ -1,6 +1,6 @@
 # Release History
 
-## 1.6.0 (Unreleased)
+## 1.6.1 (Unreleased)
 
 ### Features Added
 
@@ -10,7 +10,13 @@
 
 ### Other Changes
 
+## 1.6.0 (2022-05-05)
+
+### Features Added
+
+- Added a new property endpoint in ServiceClientOptions and mark the baseUri as deprecated to encourage people to use endpoint. See issue link [here](https://github.com/Azure/autorest.typescript/issues/1337)
 - Upgraded our `@azure/core-tracing` dependency to version 1.0
+- Add callbacks to support Storage challenge authentication [PR#21678](https://github.com/Azure/azure-sdk-for-js/pull/21678)
 
 ## 1.5.0 (2022-02-03)
 

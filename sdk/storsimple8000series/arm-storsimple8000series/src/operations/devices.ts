@@ -471,10 +471,12 @@ export class DevicesImpl implements Devices {
       { resourceGroupName, managerName, parameters, options },
       configureOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -592,10 +594,12 @@ export class DevicesImpl implements Devices {
       { deviceName, resourceGroupName, managerName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -717,10 +721,12 @@ export class DevicesImpl implements Devices {
       { deviceName, resourceGroupName, managerName, options },
       deactivateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -802,10 +808,12 @@ export class DevicesImpl implements Devices {
       { deviceName, resourceGroupName, managerName, options },
       installUpdatesOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -948,10 +956,12 @@ export class DevicesImpl implements Devices {
       { deviceName, resourceGroupName, managerName, options },
       scanForUpdatesOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1055,10 +1065,12 @@ export class DevicesImpl implements Devices {
       { sourceDeviceName, resourceGroupName, managerName, parameters, options },
       failoverOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

@@ -117,6 +117,7 @@ export class MockEventHubConsumerClient {
     let eventsRaised = 0;
 
     while (!this.closeCalled) {
+      await this.waitForEventLoop();
       const numberOfEvents = this.getRandomInteger(1, this.maxBatchSize);
 
       if (maxEventsPerSecondPerPartition === Infinity) {
@@ -142,6 +143,10 @@ export class MockEventHubConsumerClient {
     return new Promise<void>((resolve) =>
       this.timers.push(setTimeout(async () => resolve(await func()), delayInMilliseconds))
     );
+  }
+
+  private waitForEventLoop(): Promise<void> {
+    return new Promise<void>((resolve) => setTimeout(resolve));
   }
 
   private getRandomInteger(min: number, max: number): number {

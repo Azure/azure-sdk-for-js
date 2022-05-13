@@ -162,7 +162,7 @@ export async function assertThrowsRestError(
   try {
     await testFunction();
     assert.fail(`${message}: No error thrown`);
-  } catch (err) {
+  } catch (err: any) {
     if (!(err instanceof Error)) {
       throw new Error("Error is not recognized");
     }
@@ -185,7 +185,7 @@ export async function assertThrowsAbortError(
   try {
     await testFunction();
     assert.fail(`${message}: No error thrown`);
-  } catch (e) {
+  } catch (e: any) {
     if (!(e instanceof Error)) {
       throw new Error("Error is not recognized");
     }

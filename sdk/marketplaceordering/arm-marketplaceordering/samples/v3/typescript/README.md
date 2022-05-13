@@ -2,10 +2,16 @@
 
 These sample programs show how to use the TypeScript client libraries for in some common scenarios.
 
-| **File Name**                                 | **Description**                                                                                                                                                                                            |
-| --------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [getMarketplaceTerms.ts][getmarketplaceterms] | Get marketplace terms. x-ms-original-file: specification/marketplaceordering/resource-manager/Microsoft.MarketplaceOrdering/stable/2021-01-01/examples/GetMarketplaceTerms.json                            |
-| [setMarketplaceTerms.ts][setmarketplaceterms] | List marketplace agreements in the subscription. x-ms-original-file: specification/marketplaceordering/resource-manager/Microsoft.MarketplaceOrdering/stable/2021-01-01/examples/ListMarketplaceTerms.json |
+| **File Name**                                                                         | **Description**                                                                                                                                                                                            |
+| ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [getMarketplaceTerms.ts][getmarketplaceterms]                                         | Get marketplace terms. x-ms-original-file: specification/marketplaceordering/resource-manager/Microsoft.MarketplaceOrdering/stable/2021-01-01/examples/GetMarketplaceTerms.json                            |
+| [marketplaceAgreementsCancelSample.ts][marketplaceagreementscancelsample]             | Cancel marketplace terms. x-ms-original-file: specification/marketplaceordering/resource-manager/Microsoft.MarketplaceOrdering/stable/2021-01-01/examples/CancelMarketplaceTerms.json                      |
+| [marketplaceAgreementsCreateSample.ts][marketplaceagreementscreatesample]             | Save marketplace terms. x-ms-original-file: specification/marketplaceordering/resource-manager/Microsoft.MarketplaceOrdering/stable/2021-01-01/examples/SetMarketplaceTerms.json                           |
+| [marketplaceAgreementsGetAgreementSample.ts][marketplaceagreementsgetagreementsample] | Get marketplace agreement. x-ms-original-file: specification/marketplaceordering/resource-manager/Microsoft.MarketplaceOrdering/stable/2021-01-01/examples/GetAgreementMarketplaceTerms.json               |
+| [marketplaceAgreementsGetSample.ts][marketplaceagreementsgetsample]                   | Get marketplace terms. x-ms-original-file: specification/marketplaceordering/resource-manager/Microsoft.MarketplaceOrdering/stable/2021-01-01/examples/GetMarketplaceTerms.json                            |
+| [marketplaceAgreementsListSample.ts][marketplaceagreementslistsample]                 | List marketplace agreements in the subscription. x-ms-original-file: specification/marketplaceordering/resource-manager/Microsoft.MarketplaceOrdering/stable/2021-01-01/examples/ListMarketplaceTerms.json |
+| [marketplaceAgreementsSignSample.ts][marketplaceagreementssignsample]                 | Sign marketplace terms. x-ms-original-file: specification/marketplaceordering/resource-manager/Microsoft.MarketplaceOrdering/stable/2021-01-01/examples/SignMarketplaceTerms.json                          |
+| [setMarketplaceTerms.ts][setmarketplaceterms]                                         | List marketplace agreements in the subscription. x-ms-original-file: specification/marketplaceordering/resource-manager/Microsoft.MarketplaceOrdering/stable/2021-01-01/examples/ListMarketplaceTerms.json |
 
 ## Prerequisites
 
@@ -58,6 +64,12 @@ npx cross-env  node dist/getMarketplaceTerms.js
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [getmarketplaceterms]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/marketplaceordering/arm-marketplaceordering/samples/v3/typescript/src/getMarketplaceTerms.ts
+[marketplaceagreementscancelsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/marketplaceordering/arm-marketplaceordering/samples/v3/typescript/src/marketplaceAgreementsCancelSample.ts
+[marketplaceagreementscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/marketplaceordering/arm-marketplaceordering/samples/v3/typescript/src/marketplaceAgreementsCreateSample.ts
+[marketplaceagreementsgetagreementsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/marketplaceordering/arm-marketplaceordering/samples/v3/typescript/src/marketplaceAgreementsGetAgreementSample.ts
+[marketplaceagreementsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/marketplaceordering/arm-marketplaceordering/samples/v3/typescript/src/marketplaceAgreementsGetSample.ts
+[marketplaceagreementslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/marketplaceordering/arm-marketplaceordering/samples/v3/typescript/src/marketplaceAgreementsListSample.ts
+[marketplaceagreementssignsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/marketplaceordering/arm-marketplaceordering/samples/v3/typescript/src/marketplaceAgreementsSignSample.ts
 [setmarketplaceterms]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/marketplaceordering/arm-marketplaceordering/samples/v3/typescript/src/setMarketplaceTerms.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-marketplaceordering?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/

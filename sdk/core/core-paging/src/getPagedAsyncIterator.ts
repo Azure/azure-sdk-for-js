@@ -31,7 +31,7 @@ export function getPagedAsyncIterator<
       ((settings?: PageSettings) => {
         const { continuationToken, maxPageSize } = settings ?? {};
         return getPageAsyncIterator(pagedResult as PagedResult<TPage, PageSettings, TLink>, {
-          continuationToken: continuationToken as unknown as TLink | undefined,
+          pageLink: continuationToken as unknown as TLink | undefined,
           maxPageSize,
         });
       }),
@@ -62,14 +62,11 @@ async function* getPageAsyncIterator<TPage, TLink, TPageSettings>(
   pagedResult: PagedResult<TPage, TPageSettings, TLink>,
   options: {
     maxPageSize?: number;
-    continuationToken?: TLink;
+    pageLink?: TLink;
   } = {}
 ): AsyncIterableIterator<TPage> {
-  const { continuationToken, maxPageSize } = options;
-  let response = await pagedResult.getPage(
-    continuationToken ?? pagedResult.firstPageLink,
-    maxPageSize
-  );
+  const { pageLink, maxPageSize } = options;
+  let response = await pagedResult.getPage(pageLink ?? pagedResult.firstPageLink, maxPageSize);
   yield response.page;
   while (response.nextPageLink) {
     response = await pagedResult.getPage(response.nextPageLink, maxPageSize);

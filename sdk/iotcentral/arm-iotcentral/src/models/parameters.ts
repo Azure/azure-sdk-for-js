@@ -14,7 +14,8 @@ import {
 import {
   App as AppMapper,
   AppPatch as AppPatchMapper,
-  OperationInputs as OperationInputsMapper
+  OperationInputs as OperationInputsMapper,
+  PrivateEndpointConnection as PrivateEndpointConnectionMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -44,7 +45,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-06-01",
+    defaultValue: "2021-11-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -123,4 +124,31 @@ export const nextLink: OperationURLParameter = {
     }
   },
   skipEncoding: true
+};
+
+export const privateEndpointConnectionName: OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    serializedName: "privateEndpointConnectionName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const privateEndpointConnection: OperationParameter = {
+  parameterPath: "privateEndpointConnection",
+  mapper: PrivateEndpointConnectionMapper
+};
+
+export const groupId: OperationURLParameter = {
+  parameterPath: "groupId",
+  mapper: {
+    serializedName: "groupId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };

@@ -79,7 +79,7 @@ describe("LinkEntity unit tests", () => {
       try {
         await linkEntity.initLink({});
         assert.fail("Should have thrown");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, "Link has been permanently closed. Not reopening.");
         assert.equal(err.name, "AbortError");
       }
@@ -113,7 +113,7 @@ describe("LinkEntity unit tests", () => {
         try {
           await linkEntity.initLink({});
           assert.fail("Should have thrown");
-        } catch (err) {
+        } catch (err: any) {
           assertInitAbortError(err);
         }
       });
@@ -128,7 +128,7 @@ describe("LinkEntity unit tests", () => {
 
           await linkEntity.initLink({});
           assert.fail("Should have thrown");
-        } catch (err) {
+        } catch (err: any) {
           assertInitAbortError(err);
         }
       });
@@ -143,7 +143,7 @@ describe("LinkEntity unit tests", () => {
 
           await linkEntity.initLink({});
           assert.fail("Should have thrown");
-        } catch (err) {
+        } catch (err: any) {
           assertInitAbortError(err);
         }
       });
@@ -158,7 +158,7 @@ describe("LinkEntity unit tests", () => {
 
           await linkEntity.initLink({});
           assert.fail("Should have thrown");
-        } catch (err) {
+        } catch (err: any) {
           assertInitAbortError(err);
         }
       });
@@ -215,7 +215,7 @@ describe("LinkEntity unit tests", () => {
       try {
         await linkEntity.initLink({});
         assert.fail("Should throw");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal("Link has been permanently closed. Not reopening.", err.message);
         assert.isFalse(linkEntity.isOpen(), "Link was closed and will remain closed");
         assert.isFalse(negotiateClaimSpy.called, "We shouldn't attempt to reopen the link.");
@@ -230,7 +230,7 @@ describe("LinkEntity unit tests", () => {
       try {
         await linkEntity.initLink({});
         assert.fail("Should have thrown");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, "SPECIAL ERROR THROWN FROM NEGOTIATECLAIM");
       }
     });
@@ -241,7 +241,7 @@ describe("LinkEntity unit tests", () => {
           aborted: true,
         } as AbortSignalLike);
         assert.fail("Should have thrown.");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.name, "AbortError");
       }
     });
@@ -266,7 +266,7 @@ describe("LinkEntity unit tests", () => {
       try {
         await linkEntity.initLink({}, abortController.signal);
         assert.fail("Should have thrown");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.name, "AbortError");
       }
 
@@ -300,7 +300,7 @@ describe("LinkEntity unit tests", () => {
 
         await linkEntity.initLink({}, abortController.signal);
         assert.fail("Should have thrown");
-      } catch (err) {
+      } catch (err: any) {
         assert.isTrue(sawAbortSignal, "Should have seen the abortSignal.");
         assert.deepNestedInclude(err, {
           name: "AbortError",

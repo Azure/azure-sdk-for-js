@@ -137,7 +137,7 @@ export class BatchingReceiver extends MessageReceiver {
       }
 
       return messages;
-    } catch (error) {
+    } catch (error: any) {
       logger.logError(error, "[%s] Rejecting receiveMessages()", this.logPrefix);
       throw error;
     }
@@ -459,7 +459,7 @@ export class BatchingReceiverLite {
             }`
           );
         }
-      } catch (err) {
+      } catch (err: any) {
         const errObj = err instanceof Error ? err : new Error(JSON.stringify(err));
         logger.logError(
           err,

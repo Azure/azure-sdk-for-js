@@ -82,7 +82,7 @@ export async function getYearsPaths(
       }
     }
     return years.sort((a, b) => a - b);
-  } catch (e) {
+  } catch (e: any) {
     span.setStatus({
       code: SpanStatusCode.ERROR,
       message: e.message,
@@ -133,7 +133,7 @@ export async function getSegmentsInYear(
       segments.push(item.name);
     }
     return segments;
-  } catch (e) {
+  } catch (e: any) {
     span.setStatus({
       code: SpanStatusCode.ERROR,
       message: e.message,
@@ -172,7 +172,7 @@ export function minDate(dateA: Date, dateB?: Date): Date {
   return dateA;
 }
 
-export function rawEventToBlobChangeFeedEvent(rawEvent: any): BlobChangeFeedEvent {
+export function rawEventToBlobChangeFeedEvent(rawEvent: Record<string, any>): BlobChangeFeedEvent {
   if (rawEvent.eventTime) {
     rawEvent.eventTime = new Date(rawEvent.eventTime);
   }
@@ -186,14 +186,14 @@ export function rawEventToBlobChangeFeedEvent(rawEvent: any): BlobChangeFeedEven
       delete rawEvent.data.recursive;
     }
     if (rawEvent.data.previousInfo) {
-      let previousInfo = rawEvent.data.previousInfo;
+      const previousInfo = rawEvent.data.previousInfo;
 
       if (previousInfo.SoftDeleteSnapshot) {
         previousInfo.softDeleteSnapshot = previousInfo.SoftDeleteSnapshot;
         delete previousInfo.SoftDeleteSnapshot;
       }
       if (previousInfo.WasBlobSoftDeleted) {
-        previousInfo.isBlobSoftDeleted = previousInfo.WasBlobSoftDeleted;
+        previousInfo.isBlobSoftDeleted = previousInfo.WasBlobSoftDeleted === "true";
         delete previousInfo.WasBlobSoftDeleted;
       }
       if (previousInfo.BlobVersion) {
@@ -213,7 +213,7 @@ export function rawEventToBlobChangeFeedEvent(rawEvent: any): BlobChangeFeedEven
     }
 
     if (rawEvent.data.blobPropertiesUpdated) {
-      let updatedBlobProperties: UpdatedBlobProperties = {};
+      const updatedBlobProperties: UpdatedBlobProperties = {};
       Object.entries(rawEvent.data.blobPropertiesUpdated).map((item) => {
         const blobPropertyChange = {
           propertyName: item[0],
@@ -227,7 +227,7 @@ export function rawEventToBlobChangeFeedEvent(rawEvent: any): BlobChangeFeedEven
     }
 
     if (rawEvent.data.asyncOperationInfo) {
-      let longRunningOperationInfo = rawEvent.data.asyncOperationInfo;
+      const longRunningOperationInfo = rawEvent.data.asyncOperationInfo;
       if (longRunningOperationInfo.DestinationTier) {
         longRunningOperationInfo.destinationAccessTier = longRunningOperationInfo.DestinationTier;
         delete longRunningOperationInfo.DestinationTier;

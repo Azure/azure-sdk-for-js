@@ -118,7 +118,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
       let errorThrown = false;
       try {
         await searchClient.getDocument("garbxyz");
-      } catch (ex) {
+      } catch (ex: any) {
         errorThrown = true;
       }
       assert.isTrue(errorThrown, "Expected getDocument to fail with an exception");
@@ -307,7 +307,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
             serviceVersion,
             apiVersion: "foo",
           });
-        } catch (ex) {
+        } catch (ex: any) {
           errorThrown = true;
         }
         assert.isTrue(errorThrown, "Invalid apiVersion");
@@ -320,7 +320,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
             apiVersion: serviceVersion,
             serviceVersion: "foo",
           });
-        } catch (ex) {
+        } catch (ex: any) {
           errorThrown = true;
         }
         assert.isTrue(errorThrown, "Invalid serviceVersion");

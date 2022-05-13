@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/564d0137d08defea63d9de2413ef5336fbfe2e6d/specification/storage/data-plane/Microsoft.BlobStorage/preview/2021-04-10/blob.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/e432d9cc87bfed320d8feead4b448be9481c9181/specification/storage/data-plane/Microsoft.BlobStorage/preview/2021-04-10/blob.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -20,7 +20,7 @@ disable-async-iterators: true
 add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20210218.1"
-package-version: 12.9.1
+package-version: 12.10.1
 ```
 
 ## Customizations for Track 2 Generator
@@ -1030,6 +1030,26 @@ directive:
       $["x-ms-error-code"]["description"] = "Error Code";
 ```
 
+### Hide x-ms-pageable in PageBlob_GetPageRanges
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=pagelist"]["get"]
+    transform: >
+      delete $["x-ms-pageable"];
+```
+
+### Hide x-ms-pageable in PageBlob_GetPageRangesDiff
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}?comp=pagelist&diff"]["get"]
+    transform: >
+      delete $["x-ms-pageable"];
+```
+
 ### Add error code to response header - PageBlob_CopyIncremental
 
 ```yaml
@@ -1340,6 +1360,15 @@ directive:
     where: $.parameters.EncryptionAlgorithm
     transform: >
       $["x-ms-enum"]["modelAsString"] = true;
+```
+
+### Update service version from "2021-04-10" to "2021-06-08"
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.parameters.ApiVersionParameter
+    transform: $.enum = [ "2021-06-08" ];
 ```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-blob%2Fswagger%2FREADME.png)

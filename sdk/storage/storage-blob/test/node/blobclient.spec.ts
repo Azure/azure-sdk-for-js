@@ -35,6 +35,7 @@ import { assertClientUsesTokenCredential } from "../utils/assert";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
 import { streamToBuffer3 } from "../../src/utils/utils.node";
 import { Context } from "mocha";
+import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 
 describe("BlobClient Node.js only", () => {
   let containerName: string;
@@ -351,6 +352,83 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(properties2.copyId, result.copyId);
   });
 
+  it("syncCopyFromURL - with COPY tags", async () => {
+    const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
+    await blobClient.setTags({
+      tag1: "val1",
+    });
+
+    // Different from startCopyFromURL, syncCopyFromURL requires sourceURL includes a valid SAS
+    const expiryTime = recorder.newDate("expiry");
+    expiryTime.setDate(expiryTime.getDate() + 1);
+
+    const factories = (containerClient as any).pipeline.factories;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+
+    const sas = generateBlobSASQueryParameters(
+      {
+        expiresOn: expiryTime,
+        permissions: BlobSASPermissions.parse("racwdt"),
+        containerName,
+        blobName,
+      },
+      credential
+    );
+
+    const copyURL = blobClient.url + "?" + sas;
+    const result = await newBlobClient.syncCopyFromURL(copyURL, {
+      copySourceTags: "COPY",
+    });
+
+    const properties1 = await blobClient.getProperties();
+    const properties2 = await newBlobClient.getProperties();
+    assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
+    assert.deepStrictEqual(properties2.copyId, result.copyId);
+    const sourceBlobTags = await blobClient.getTags();
+    const destBlobTags = await newBlobClient.getTags();
+    assert.deepStrictEqual(sourceBlobTags.tags, destBlobTags.tags);
+  });
+
+  it("syncCopyFromURL - with REPLACE tags", async () => {
+    const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
+    await blobClient.setTags({
+      tag1: "val1",
+    });
+
+    // Different from startCopyFromURL, syncCopyFromURL requires sourceURL includes a valid SAS
+    const expiryTime = recorder.newDate("expiry");
+    expiryTime.setDate(expiryTime.getDate() + 1);
+
+    const factories = (containerClient as any).pipeline.factories;
+    const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
+
+    const sas = generateBlobSASQueryParameters(
+      {
+        expiresOn: expiryTime,
+        permissions: BlobSASPermissions.parse("racwd"),
+        containerName,
+        blobName,
+      },
+      credential
+    );
+
+    const copyURL = blobClient.url + "?" + sas;
+    const tags = {
+      tag2: "val2",
+    };
+    const result = await newBlobClient.syncCopyFromURL(copyURL, {
+      tags: tags,
+      copySourceTags: "REPLACE",
+    });
+
+    const properties1 = await blobClient.getProperties();
+    const properties2 = await newBlobClient.getProperties();
+    assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
+    assert.deepStrictEqual(properties2.copyId, result.copyId);
+    const destBlobTags = await newBlobClient.getTags();
+    assert.deepStrictEqual(tags, destBlobTags.tags);
+  });
+
   it("abortCopyFromClient should failed for a completed copy operation", async () => {
     const newBlobClient = containerClient.getBlobClient(recorder.getUniqueName("copiedblob"));
     const result = await (await newBlobClient.beginCopyFromURL(blobClient.url)).pollUntilDone();
@@ -362,7 +440,7 @@ describe("BlobClient Node.js only", () => {
       assert.fail(
         "AbortCopyFromClient should be failed and throw exception for an completed copy operation."
       );
-    } catch (err) {
+    } catch (err: any) {
       assert.ok(err.code === "InvalidHeaderValue");
     }
   });
@@ -492,7 +570,7 @@ describe("BlobClient Node.js only", () => {
       await blockBlobClient.query("select * from BlobStorage", {
         conditions: { tagConditions: "tag = 'val1'" },
       });
-    } catch (e) {
+    } catch (e: any) {
       assert.equal(e.details?.errorCode, "ConditionNotMet");
       exceptionCaught = true;
     }
@@ -529,7 +607,7 @@ describe("BlobClient Node.js only", () => {
           ifModifiedSince: new Date("2100/01/01"),
         },
       });
-    } catch (err) {
+    } catch (err: any) {
       assert.deepStrictEqual(err.statusCode, 304);
       return;
     }
@@ -546,7 +624,7 @@ describe("BlobClient Node.js only", () => {
           leaseId: "invalid",
         },
       });
-    } catch (err) {
+    } catch (err: any) {
       assert.deepStrictEqual(err.statusCode, 400);
       return;
     }
@@ -644,7 +722,7 @@ describe("BlobClient Node.js only", () => {
 
     try {
       await readStreamToLocalFileWithLogs(response.readableStreamBody!, downloadedFile);
-    } catch (error) {
+    } catch (error: any) {
       assert.deepStrictEqual(error.name, "AbortError");
       unlinkSync(downloadedFile);
       unlinkSync(tempFileLarge);
@@ -785,7 +863,7 @@ describe("BlobClient Node.js only", () => {
     });
     assert.equal(
       (await streamToBuffer3(response.readableStreamBody!)).toString("hex"),
-      "ffffffff800000001000000000000a000c000600050008000a000000000103000c000000080008000000040008000000040000000100000014000000100014000800060007000c000000100010000000000001072400000014000000040000000000000008000c0004000800080000000400000002000000040000006e616d650000000000000000ffffffff700000001000000000000a000e000600050008000a000000000303001000000000000a000c000000040008000a0000003000000004000000020000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000"
+      "ffffffff800000001000000000000a000c000600050008000a000000000104000c000000080008000000040008000000040000000100000014000000100014000800060007000c0000001000100000000000010710000000200000000400000000000000040000006e616d650000000008000c000400080008000000040000000200000000000000ffffffff700000001000000000000a000e000600050008000a000000000304001000000000000a000c000000040008000a0000003000000004000000020000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000ffffffff00000000"
     );
   });
 
@@ -818,6 +896,18 @@ describe("BlobClient Node.js only", () => {
     });
 
     assert.deepStrictEqual(await bodyToString(response), "0,mdifjt55.ea3,mdifjt55.ea3\n");
+  });
+
+  it("query with CPK", async function () {
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    await blockBlobClient.upload(csvContent, csvContent.length, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    const response = await blockBlobClient.query("select * from BlobStorage", {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+    assert.deepStrictEqual(await bodyToString(response), csvContent);
   });
 });
 

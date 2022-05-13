@@ -405,7 +405,7 @@ describe("Sender Tests", () => {
           abortSignal: controller.signal,
         });
         throw new Error(`Test failure`);
-      } catch (err) {
+      } catch (err: any) {
         err.message.should.equal(StandardAbortMessage);
       }
     }
@@ -420,7 +420,7 @@ describe("Sender Tests", () => {
       try {
         await sender.cancelScheduledMessages([Long.ZERO], { abortSignal: controller.signal });
         throw new Error(`Test failure`);
-      } catch (err) {
+      } catch (err: any) {
         err.message.should.equal(StandardAbortMessage);
       }
     }

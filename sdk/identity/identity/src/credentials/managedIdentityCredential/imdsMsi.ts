@@ -155,7 +155,7 @@ export const imdsMsi: MSI = {
           try {
             logger.info(`${msiName}: Pinging the Azure IMDS endpoint`);
             await identityClient.sendRequest(request);
-          } catch (err) {
+          } catch (err: any) {
             if (
               (err.name === "RestError" && err.code === RestError.REQUEST_SEND_ERROR) ||
               err.name === "AbortError" ||
@@ -173,7 +173,7 @@ export const imdsMsi: MSI = {
           // If we received any response, the endpoint is available
           logger.info(`${msiName}: The Azure IMDS endpoint is available`);
           return true;
-        } catch (err) {
+        } catch (err: any) {
           // createWebResource failed.
           // This error should bubble up to the user.
           logger.info(
@@ -204,7 +204,7 @@ export const imdsMsi: MSI = {
         });
         const tokenResponse = await identityClient.sendTokenRequest(request, expiresOnParser);
         return (tokenResponse && tokenResponse.accessToken) || null;
-      } catch (error) {
+      } catch (error: any) {
         if (error.statusCode === 404) {
           await delay(nextDelayInMs);
           nextDelayInMs *= imdsMsiRetryConfig.intervalIncrement;

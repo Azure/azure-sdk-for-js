@@ -3,34 +3,34 @@
 
 import { OperationOptions, TokenCredential } from "@azure/core-http";
 import {
-  JsonWebKey,
-  KeyVaultKey,
   CryptographyClientOptions,
   GetKeyOptions,
+  JsonWebKey,
   KeyOperation,
+  KeyVaultKey,
   KnownKeyOperations,
 } from "./keysModels";
 import {
-  EncryptionAlgorithm,
-  KeyWrapAlgorithm,
-  WrapResult,
-  UnwrapResult,
-  DecryptResult,
-  SignatureAlgorithm,
-  SignResult,
-  VerifyResult,
-  EncryptResult,
-  EncryptOptions,
-  DecryptOptions,
-  WrapKeyOptions,
-  UnwrapKeyOptions,
-  EncryptParameters,
-  SignOptions,
-  VerifyOptions,
-  DecryptParameters,
-  CryptographyClientKey,
   AesCbcEncryptParameters,
   AesCbcEncryptionAlgorithm,
+  CryptographyClientKey,
+  DecryptOptions,
+  DecryptParameters,
+  DecryptResult,
+  EncryptOptions,
+  EncryptParameters,
+  EncryptResult,
+  EncryptionAlgorithm,
+  KeyWrapAlgorithm,
+  SignOptions,
+  SignResult,
+  SignatureAlgorithm,
+  UnwrapKeyOptions,
+  UnwrapResult,
+  VerifyOptions,
+  VerifyResult,
+  WrapKeyOptions,
+  WrapResult,
 } from "./cryptographyClientModels";
 import { RemoteCryptographyProvider } from "./cryptography/remoteCryptographyProvider";
 import { randomBytes } from "./cryptography/crypto";
@@ -197,7 +197,7 @@ export class CryptographyClient {
       const provider = await this.getProvider("encrypt", parameters.algorithm, updatedOptions);
       try {
         return provider.encrypt(parameters, updatedOptions);
-      } catch (error) {
+      } catch (error: any) {
         if (this.remoteProvider) {
           return this.remoteProvider.encrypt(parameters, updatedOptions);
         }
@@ -223,7 +223,7 @@ export class CryptographyClient {
         if (!cbcParams.iv) {
           cbcParams.iv = randomBytes(16);
         }
-      } catch (e) {
+      } catch (e: any) {
         throw new Error(
           `Unable to initialize IV for algorithm ${parameters.algorithm}. You may pass a valid IV to avoid this error. Error: ${e.message}`
         );
@@ -300,7 +300,7 @@ export class CryptographyClient {
       const provider = await this.getProvider("decrypt", parameters.algorithm, updatedOptions);
       try {
         return provider.decrypt(parameters, updatedOptions);
-      } catch (error) {
+      } catch (error: any) {
         if (this.remoteProvider) {
           return this.remoteProvider.decrypt(parameters, updatedOptions);
         }
@@ -353,7 +353,7 @@ export class CryptographyClient {
       const provider = await this.getProvider("wrapKey", algorithm, updatedOptions);
       try {
         return provider.wrapKey(algorithm, key, updatedOptions);
-      } catch (err) {
+      } catch (err: any) {
         if (this.remoteProvider) {
           return this.remoteProvider.wrapKey(algorithm, key, options);
         }
@@ -387,7 +387,7 @@ export class CryptographyClient {
         const provider = await this.getProvider("unwrapKey", algorithm, updatedOptions);
         try {
           return provider.unwrapKey(algorithm, encryptedKey, updatedOptions);
-        } catch (err) {
+        } catch (err: any) {
           if (this.remoteProvider) {
             return this.remoteProvider.unwrapKey(algorithm, encryptedKey, options);
           }
@@ -419,7 +419,7 @@ export class CryptographyClient {
       const provider = await this.getProvider("sign", algorithm, updatedOptions);
       try {
         return provider.sign(algorithm, digest, updatedOptions);
-      } catch (err) {
+      } catch (err: any) {
         if (this.remoteProvider) {
           return this.remoteProvider.sign(algorithm, digest, updatedOptions);
         }
@@ -452,7 +452,7 @@ export class CryptographyClient {
       const provider = await this.getProvider("verify", algorithm, updatedOptions);
       try {
         return provider.verify(algorithm, digest, signature, updatedOptions);
-      } catch (err) {
+      } catch (err: any) {
         if (this.remoteProvider) {
           return this.remoteProvider.verify(algorithm, digest, signature, updatedOptions);
         }
@@ -486,7 +486,7 @@ export class CryptographyClient {
         const provider = await this.getProvider("signData", algorithm, updatedOptions);
         try {
           return provider.signData(algorithm, data, updatedOptions);
-        } catch (err) {
+        } catch (err: any) {
           if (this.remoteProvider) {
             return this.remoteProvider.signData(algorithm, data, options);
           }
@@ -523,7 +523,7 @@ export class CryptographyClient {
         const provider = await this.getProvider("verifyData", algorithm, updatedOptions);
         try {
           return provider.verifyData(algorithm, data, signature, updatedOptions);
-        } catch (err) {
+        } catch (err: any) {
           if (this.remoteProvider) {
             return this.remoteProvider.verifyData(algorithm, data, signature, updatedOptions);
           }

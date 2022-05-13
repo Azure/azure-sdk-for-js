@@ -108,7 +108,7 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
         getLinkedServicesByWorkspaceOperationSpec
       );
       return result as LinkedServiceGetLinkedServicesByWorkspaceResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -146,7 +146,7 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as LinkedServiceCreateOrUpdateLinkedServiceResponse;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -240,7 +240,7 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
         getLinkedServiceOperationSpec
       );
       return result as LinkedServiceGetLinkedServiceResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -271,7 +271,7 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -365,7 +365,7 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
       try {
         const result = await this.client.sendOperationRequest(args, spec);
         return result as void;
-      } catch (error) {
+      } catch (error: any) {
         span.setStatus({
           code: coreTracing.SpanStatusCode.UNSET,
           message: error.message
@@ -460,7 +460,7 @@ export class LinkedServiceOperationsImpl implements LinkedServiceOperations {
         getLinkedServicesByWorkspaceNextOperationSpec
       );
       return result as LinkedServiceGetLinkedServicesByWorkspaceNextResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message

@@ -9,3 +9,4 @@
 export * from "./operations";
 export * from "./spatialAnchorsAccounts";
 export * from "./remoteRenderingAccounts";
+export * from "./objectAnchorsAccounts";

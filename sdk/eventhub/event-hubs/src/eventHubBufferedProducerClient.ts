@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EventData, EventHubProducerClient, OperationOptions } from "./index";
+import { EventData } from "./eventData";
+import { EventHubProducerClient } from "./eventHubProducerClient";
+import { OperationOptions } from "./util/operationOptions";
 import {
   EventHubClientOptions,
   GetEventHubPropertiesOptions,
@@ -71,11 +73,11 @@ export interface EventHubBufferedProducerClientOptions extends EventHubClientOpt
   /**
    * The handler to call once a batch has successfully published.
    */
-  onSendEventsSuccessHandler?: (ctx: OnSendEventsSuccessContext) => Promise<void>;
+  onSendEventsSuccessHandler?: (ctx: OnSendEventsSuccessContext) => void;
   /**
    * The handler to call when a batch fails to publish.
    */
-  onSendEventsErrorHandler: (ctx: OnSendEventsErrorContext) => Promise<void>;
+  onSendEventsErrorHandler: (ctx: OnSendEventsErrorContext) => void;
   /**
    * Indicates whether or not the EventHubProducerClient should enable idempotent publishing to Event Hub partitions.
    * If enabled, the producer will only be able to publish directly to partitions;
@@ -83,7 +85,7 @@ export interface EventHubBufferedProducerClientOptions extends EventHubClientOpt
    * nor will it be able to use a partition key.
    * Default: false
    */
-  enableIdempotentPartitions?: boolean;
+  enableIdempotentRetries?: boolean;
 }
 
 /**
@@ -292,8 +294,7 @@ export class EventHubBufferedProducerClient {
     }
 
     // setting internal idempotent publishing option on the standard producer.
-    (this._producer as any)._enableIdempotentPartitions =
-      this._clientOptions.enableIdempotentPartitions;
+    (this._producer as any)._enableIdempotentRetries = this._clientOptions.enableIdempotentRetries;
   }
 
   /**

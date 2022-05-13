@@ -12,7 +12,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 tag: package-shortcode-2021-10-25-preview
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/ca0335b44b4eca2c5b5673ee2c58a87e524b669f/specification/communication/data-plane/ShortCodes/readme.md
+input-file: ./shortcodes.json
 model-date-time-as-string: false
 optional-response-headers: true
 payload-flattening-threshold: 10

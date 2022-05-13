@@ -56,7 +56,7 @@ describe("ClientSecretCredential", function () {
     let error: Error | undefined;
     try {
       await getTokenPromise;
-    } catch (e) {
+    } catch (e: any) {
       error = e;
     }
     assert.equal(error?.name, "CredentialUnavailableError");

@@ -131,7 +131,7 @@ export class EnvironmentCredential implements TokenCredential {
           const result = await this._credential.getToken(scopes, newOptions);
           logger.getToken.info(formatSuccess(scopes));
           return result;
-        } catch (err) {
+        } catch (err: any) {
           const authenticationError = new AuthenticationError(400, {
             error: `${credentialName} authentication failed. To troubleshoot, visit https://aka.ms/azsdk/js/identity/environmentcredential/troubleshoot.`,
             error_description: err.message.toString().split("More details:").join(""),

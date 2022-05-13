@@ -238,7 +238,7 @@ function getResponseBody(
   // Default to "application/json" and fallback to string;
   try {
     return bodyToParse ? JSON.parse(bodyToParse) : undefined;
-  } catch (error) {
+  } catch (error: any) {
     // If we were supposed to get a JSON object and failed to
     // parse, throw a parse error
     if (firstType === "application/json") {

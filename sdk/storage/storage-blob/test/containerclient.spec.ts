@@ -4,6 +4,7 @@
 import { assert } from "chai";
 import { TestTracer, SpanGraph, setTracer } from "@azure/test-utils";
 import {
+  base64encode,
   bodyToString,
   getBSU,
   getSASConnectionStringFromEnvironment,
@@ -133,6 +134,35 @@ describe("ContainerClient", () => {
     assert.deepStrictEqual(result.continuationToken, "");
     assert.deepStrictEqual(result.segment.blobItems!.length, blobClients.length);
     assert.ok(blobClients[0].url.indexOf(result.segment.blobItems![0].name));
+
+    for (const blob of blobClients) {
+      await blob.delete();
+    }
+  });
+
+  it("listBlobsFlat to list uncommitted blobs", async () => {
+    const blobClients = [];
+    for (let i = 0; i < 3; i++) {
+      const blobClient = containerClient.getBlobClient(recorder.getUniqueName(`blockblob/${i}`));
+      const blockBlobClient = blobClient.getBlockBlobClient();
+      await blockBlobClient.stageBlock(base64encode("1"), "Hello", 5);
+      blobClients.push(blobClient);
+    }
+
+    const result = (
+      await containerClient
+        .listBlobsFlat({
+          includeUncommitedBlobs: true,
+        })
+        .byPage()
+        .next()
+    ).value;
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(containerClient.url.indexOf(result.containerName));
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.segment.blobItems!.length, blobClients.length);
+    assert.ok(blobClients[0].url.indexOf(result.segment.blobItems![0].name));
+    assert.ok(result.segment.blobItems![0].properties.contentMD5 === undefined);
 
     for (const blob of blobClients) {
       await blob.delete();
@@ -499,6 +529,37 @@ describe("ContainerClient", () => {
     }
   });
 
+  it("listBlobsByHierarchy to list uncommitted blobs", async () => {
+    const blobClients = [];
+    for (let i = 0; i < 3; i++) {
+      const blobClient = containerClient.getBlobClient(recorder.getUniqueName(`blockblob${i}`));
+      const blockBlobClient = blobClient.getBlockBlobClient();
+      await blockBlobClient.stageBlock(base64encode("1"), "Hello", 5);
+      blobClients.push(blobClient);
+    }
+
+    const delimiter = "/";
+    const result = (
+      await containerClient
+        .listBlobsByHierarchy(delimiter, {
+          includeUncommitedBlobs: true,
+        })
+        .byPage()
+        .next()
+    ).value;
+
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(containerClient.url.indexOf(result.containerName));
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.delimiter, delimiter);
+    assert.deepStrictEqual(result.segment.blobItems!.length, blobClients.length);
+    assert.ok(result.segment.blobItems![0].properties.contentMD5 === undefined);
+
+    for (const blob of blobClients) {
+      await blob.delete();
+    }
+  });
+
   it("listBlobsByHierarchy with special chars", async () => {
     const dirNames = ["first_dir\uFFFF/", "second_dir\uFFFF/", "normal_dir/"];
 
@@ -692,7 +753,7 @@ describe("ContainerClient", () => {
     try {
       await containerClient.listBlobsByHierarchy("", { prefix: "" }).byPage().next();
       assert.fail("Expecting an error when listBlobsByHierarchy with empty delimiter.");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         "delimiter should contain one or more characters",
         error.message,
@@ -729,7 +790,7 @@ describe("ContainerClient", () => {
       assert.fail(
         "Expecting an error in getting properties from a deleted block blob but didn't get one."
       );
-    } catch (error) {
+    } catch (error: any) {
       assert.ok((error.statusCode as number) === 404);
     }
   });
@@ -798,7 +859,7 @@ describe("ContainerClient", () => {
       assert.fail(
         "Expecting an error in getting properties from a deleted block blob but didn't get one."
       );
-    } catch (error) {
+    } catch (error: any) {
       assert.ok((error.statusCode as number) === 404);
     }
   });
@@ -844,7 +905,7 @@ describe("ContainerClient", () => {
       // tslint:disable-next-line: no-unused-expression
       new ContainerClient(getSASConnectionStringFromEnvironment(), "");
       assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         "Expecting non-empty strings for containerName parameter",
         error.message,
