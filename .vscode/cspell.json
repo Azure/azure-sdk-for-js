@@ -241,6 +241,13 @@
       ]
     },
     {
+      "filename": "sdk/communication/communication-email/review/**/*.md",
+      "words": [
+        "rpmsg",
+        "xlsb"
+      ]
+    },
+    {
       "filename": "sdk/iot/iot-modelsrepository/review/**/*.md",
       "words": [
         "Dtmi",
