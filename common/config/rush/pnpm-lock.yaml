@@ -3801,7 +3801,7 @@ packages:
     dependencies:
       semver: 7.3.7
       shelljs: 0.8.5
-      typescript: 4.5.5
+      typescript: 4.6.3
     dev: false
 
   /ecdsa-sig-formatter/1.0.11:
@@ -8142,6 +8142,37 @@ packages:
       yn: 3.1.1
     dev: false
 
+  /ts-node/10.7.0_b65123e3711dd1b8aac681d23988aad6:
+    resolution: {integrity: sha512-TbIGS4xgJoX2i3do417KSaep1uRAW/Lu+WAL2doDHC0D6ummjirVOXU5/7aiZotbQ5p1Zp9tP7U6cYhA0O7M8A==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.7.0
+      '@tsconfig/node10': 1.0.8
+      '@tsconfig/node12': 1.0.9
+      '@tsconfig/node14': 1.0.1
+      '@tsconfig/node16': 1.0.2
+      '@types/node': 12.20.47
+      acorn: 8.7.0
+      acorn-walk: 8.2.0
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 4.6.3
+      v8-compile-cache-lib: 3.0.0
+      yn: 3.1.1
+    dev: false
+
   /ts-node/10.7.0_c7b7062e0b9347939444ea76e6e422c3:
     resolution: {integrity: sha512-TbIGS4xgJoX2i3do417KSaep1uRAW/Lu+WAL2doDHC0D6ummjirVOXU5/7aiZotbQ5p1Zp9tP7U6cYhA0O7M8A==}
     hasBin: true
@@ -8332,6 +8363,12 @@ packages:
 
   /typescript/4.5.5:
     resolution: {integrity: sha512-TCTIul70LyWe6IJWT8QSYeA54WQe8EjQFU4wY52Fasj5UKx88LNYKCgBEHcOMOrFF1rKGbD8v/xcNWVUq9SymA==}
+    engines: {node: '>=4.2.0'}
+    hasBin: true
+    dev: false
+
+  /typescript/4.6.3:
+    resolution: {integrity: sha512-yNIatDa5iaofVozS/uQJEl3JRWLKKGJKh6Yaiv0GLGSuhpFJe7P3SbHZ8/yjAHRQwKRoA6YZqlfjXWmVzoVSMw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: false
@@ -9098,7 +9135,7 @@ packages:
     dev: false
 
   file:projects/ai-text-analytics.tgz:
-    resolution: {integrity: sha512-U2NPmuLNxVJ/W0WDGtdcgHF9+4+itO/jyF6cbt2OOBMCiKrfvORBKSVi9hNE6Ojn2XXdcwQqGjvFeVdHPgylnQ==, tarball: file:projects/ai-text-analytics.tgz}
+    resolution: {integrity: sha512-6G+LtZ2xufV3SoN1Dl10FLg7y6j27hOUK/TSWxIEMI7v5j4AbX42rmIKxJ1CP5XAbJwVvdlKl+11sBZcoGGbcg==, tarball: file:projects/ai-text-analytics.tgz}
     name: '@rush-temp/ai-text-analytics'
     version: 0.0.0
     dependencies:
@@ -9134,9 +9171,9 @@ packages:
       rimraf: 3.0.2
       sinon: 9.2.4
       source-map-support: 0.5.21
-      ts-node: 10.7.0_b23b0a2d2a25417b088e86bfb6fd069e
+      ts-node: 10.7.0_b65123e3711dd1b8aac681d23988aad6
       tslib: 2.3.1
-      typescript: 4.2.4
+      typescript: 4.6.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -15975,7 +16012,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-text-analytics.tgz:
-    resolution: {integrity: sha512-uq5L+xvUbCnOihVuBqg8qtvZQc9MBzbMxZEcQ0IdBGK9RgPfJQ9cQND8UppAGliOKQVXhF/Hg1sFIxp2KX9tFA==, tarball: file:projects/perf-ai-text-analytics.tgz}
+    resolution: {integrity: sha512-WHmik8Hk9YG8PyL0BBOl1W2SHKpu4DA9DoB8PrP07sFhNS7/25wFkR8ojHDwCtARogVIsWdN2f0poJQ49DksvQ==, tarball: file:projects/perf-ai-text-analytics.tgz}
     name: '@rush-temp/perf-ai-text-analytics'
     version: 0.0.0
     dependencies:

@@ -16,10 +16,9 @@ import {
 import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient";
 import { Context, Suite } from "mocha";
 import { assert, matrix } from "@azure/test-utils";
-import { assertAllSuccess, getSuccRes, isSuccess } from "./utils/resultHelper";
+import { assertAllSuccess, assertRestError, getSuccRes, isSuccess } from "./utils/resultHelper";
 import { checkEntityTextOffset, checkOffsetAndLength } from "./utils/stringIndexTypeHelpers";
 import { Recorder } from "@azure-tools/test-recorder";
-import { RestError } from "@azure/core-rest-pipeline";
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
@@ -33,8 +32,7 @@ const testDataEs = [
   "La carretera estaba atascada. Había mucho tráfico el día de ayer.",
 ];
 
-// TODO add tests for AAD when it is supported
-matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
+matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] TextAnalysisClient`, function (this: Suite) {
     let recorder: Recorder;
     let client: TextAnalysisClient;
@@ -458,19 +456,11 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
             })
           );
           const allInputs = enInputs.concat(esInputs);
-
-          try {
-            await client.analyze(AnalyzeActionNames.EntityRecognition, allInputs);
-            assert.fail("Oops, an exception didn't happen.");
-          } catch (e: unknown) {
-            const restError = e as RestError;
-            assert.equal(restError.statusCode, 400);
-            assert.equal(restError.code, KnownTextAnalysisErrorCode.InvalidDocumentBatch);
-            assert.equal(
-              restError.message,
-              "Invalid document in request. Batch request contains too many records. Max 5 records are permitted."
-            );
-          }
+          await assertRestError(client.analyze(AnalyzeActionNames.EntityRecognition, allInputs), {
+            code: KnownTextAnalysisErrorCode.InvalidDocumentBatch,
+            statusCode: 400,
+            messagePattern: /Max 5 records are permitted/,
+          });
         });
       });
 
@@ -751,18 +741,11 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
           );
           const allInputs = enInputs.concat(esInputs);
 
-          try {
-            await client.analyze(AnalyzeActionNames.EntityRecognition, allInputs);
-            assert.fail("Oops, an exception didn't happen.");
-          } catch (e: unknown) {
-            const restError = e as RestError;
-            assert.equal(restError.statusCode, 400);
-            assert.equal(restError.code, KnownTextAnalysisErrorCode.InvalidDocumentBatch);
-            assert.equal(
-              restError.message,
-              "Invalid document in request. Batch request contains too many records. Max 5 records are permitted."
-            );
-          }
+          await assertRestError(client.analyze(AnalyzeActionNames.EntityRecognition, allInputs), {
+            code: KnownTextAnalysisErrorCode.InvalidDocumentBatch,
+            statusCode: 400,
+            messagePattern: /Max 5 records are permitted/,
+          });
         });
       });
 

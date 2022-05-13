@@ -243,12 +243,12 @@ export const TextDocumentInput: coreClient.CompositeMapper = {
   }
 };
 
-export const TaskIdentifier: coreClient.CompositeMapper = {
+export const BatchActionState: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "TaskIdentifier",
+    className: "BatchActionState",
     modelProperties: {
-      taskName: {
+      actionName: {
         serializedName: "taskName",
         type: {
           name: "String"
@@ -269,27 +269,27 @@ export const JobState: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      createdDateTime: {
+      createdOn: {
         serializedName: "createdDateTime",
         required: true,
         type: {
           name: "DateTime"
         }
       },
-      expirationDateTime: {
+      expiresOn: {
         serializedName: "expirationDateTime",
         type: {
           name: "DateTime"
         }
       },
-      jobId: {
+      operationId: {
         serializedName: "jobId",
         required: true,
         type: {
           name: "Uuid"
         }
       },
-      lastUpdateDateTime: {
+      lastModifiedOn: {
         serializedName: "lastUpdateDateTime",
         required: true,
         type: {
@@ -784,10 +784,10 @@ export const TextDocumentStatistics: coreClient.CompositeMapper = {
   }
 };
 
-export const ClassificationResult: coreClient.CompositeMapper = {
+export const ClassificationCategory: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ClassificationResult",
+    className: "ClassificationCategory",
     modelProperties: {
       category: {
         serializedName: "category",
@@ -826,7 +826,7 @@ export const HealthcareEntity: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      subcategory: {
+      subCategory: {
         serializedName: "subcategory",
         type: {
           name: "String"
@@ -860,20 +860,20 @@ export const HealthcareEntity: coreClient.CompositeMapper = {
           className: "HealthcareAssertion"
         }
       },
-      name: {
+      normalizedText: {
         serializedName: "name",
         type: {
           name: "String"
         }
       },
-      links: {
+      dataSources: {
         serializedName: "links",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "HealthcareEntityLink"
+              className: "EntityDataSource"
             }
           }
         }
@@ -918,19 +918,19 @@ export const HealthcareAssertion: coreClient.CompositeMapper = {
   }
 };
 
-export const HealthcareEntityLink: coreClient.CompositeMapper = {
+export const EntityDataSource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "HealthcareEntityLink",
+    className: "EntityDataSource",
     modelProperties: {
-      dataSource: {
+      name: {
         serializedName: "dataSource",
         required: true,
         type: {
           name: "String"
         }
       },
-      id: {
+      entityId: {
         serializedName: "id",
         required: true,
         type: {
@@ -1348,10 +1348,10 @@ export const Match: coreClient.CompositeMapper = {
   }
 };
 
-export const ExtractedSummarySentence: coreClient.CompositeMapper = {
+export const SummarySentence: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ExtractedSummarySentence",
+    className: "SummarySentence",
     modelProperties: {
       text: {
         serializedName: "text",
@@ -1802,13 +1802,13 @@ export const AnalyzeBatchAction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AnalyzeBatchAction",
-    uberParent: "TaskIdentifier",
+    uberParent: "BatchActionState",
     polymorphicDiscriminator: {
       serializedName: "kind",
       clientName: "kind"
     },
     modelProperties: {
-      ...TaskIdentifier.type.modelProperties,
+      ...BatchActionState.type.modelProperties,
       kind: {
         serializedName: "kind",
         required: true,
@@ -1832,7 +1832,7 @@ export const AnalyzeTextLROResult: coreClient.CompositeMapper = {
     },
     modelProperties: {
       ...TaskState.type.modelProperties,
-      ...TaskIdentifier.type.modelProperties,
+      ...BatchActionState.type.modelProperties,
       kind: {
         serializedName: "kind",
         required: true,
@@ -2179,11 +2179,11 @@ export const SingleClassificationDocumentResult: coreClient.CompositeMapper = {
     className: "SingleClassificationDocumentResult",
     modelProperties: {
       ...DocumentResult.type.modelProperties,
-      class: {
+      classification: {
         serializedName: "class",
         type: {
           name: "Composite",
-          className: "ClassificationResult"
+          className: "ClassificationCategory"
         }
       }
     }
@@ -2196,7 +2196,7 @@ export const MultiClassificationDocumentResult: coreClient.CompositeMapper = {
     className: "MultiClassificationDocumentResult",
     modelProperties: {
       ...DocumentResult.type.modelProperties,
-      class: {
+      classifications: {
         serializedName: "class",
         required: true,
         type: {
@@ -2204,7 +2204,7 @@ export const MultiClassificationDocumentResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ClassificationResult"
+              className: "ClassificationCategory"
             }
           }
         }
@@ -2243,6 +2243,13 @@ export const HealthcareEntitiesDocumentResult: coreClient.CompositeMapper = {
               className: "HealthcareRelation"
             }
           }
+        }
+      },
+      fhirBundle: {
+        serializedName: "fhirBundle",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -2354,7 +2361,7 @@ export const ExtractedSummaryDocumentResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ExtractedSummarySentence"
+              className: "SummarySentence"
             }
           }
         }
@@ -2407,15 +2414,15 @@ export const CustomEntitiesLROTask: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "CustomEntitiesLROTask",
-    uberParent: "TaskIdentifier",
-    polymorphicDiscriminator: TaskIdentifier.type.polymorphicDiscriminator,
+    uberParent: "BatchActionState",
+    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeBatchAction.type.modelProperties,
       parameters: {
         serializedName: "parameters",
         type: {
           name: "Composite",
-          className: "CustomEntitiesTaskParameters"
+          className: "CustomEntityRecognitionAction"
         }
       }
     }
@@ -2427,15 +2434,15 @@ export const CustomSingleLabelClassificationLROTask: coreClient.CompositeMapper 
   type: {
     name: "Composite",
     className: "CustomSingleLabelClassificationLROTask",
-    uberParent: "TaskIdentifier",
-    polymorphicDiscriminator: TaskIdentifier.type.polymorphicDiscriminator,
+    uberParent: "BatchActionState",
+    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeBatchAction.type.modelProperties,
       parameters: {
         serializedName: "parameters",
         type: {
           name: "Composite",
-          className: "CustomSingleLabelClassificationTaskParameters"
+          className: "CustomSingleLabelClassificationAction"
         }
       }
     }
@@ -2447,15 +2454,15 @@ export const CustomMultiLabelClassificationLROTask: coreClient.CompositeMapper =
   type: {
     name: "Composite",
     className: "CustomMultiLabelClassificationLROTask",
-    uberParent: "TaskIdentifier",
-    polymorphicDiscriminator: TaskIdentifier.type.polymorphicDiscriminator,
+    uberParent: "BatchActionState",
+    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeBatchAction.type.modelProperties,
       parameters: {
         serializedName: "parameters",
         type: {
           name: "Composite",
-          className: "CustomMultiLabelClassificationTaskParameters"
+          className: "CustomMultiLabelClassificationAction"
         }
       }
     }
@@ -2467,15 +2474,15 @@ export const HealthcareLROTask: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "HealthcareLROTask",
-    uberParent: "TaskIdentifier",
-    polymorphicDiscriminator: TaskIdentifier.type.polymorphicDiscriminator,
+    uberParent: "BatchActionState",
+    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeBatchAction.type.modelProperties,
       parameters: {
         serializedName: "parameters",
         type: {
           name: "Composite",
-          className: "HealthcareAnalysisAction"
+          className: "HealthcareAction"
         }
       }
     }
@@ -2487,8 +2494,8 @@ export const SentimentAnalysisLROTask: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "SentimentAnalysisLROTask",
-    uberParent: "TaskIdentifier",
-    polymorphicDiscriminator: TaskIdentifier.type.polymorphicDiscriminator,
+    uberParent: "BatchActionState",
+    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeBatchAction.type.modelProperties,
       parameters: {
@@ -2507,8 +2514,8 @@ export const EntitiesLROTask: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EntitiesLROTask",
-    uberParent: "TaskIdentifier",
-    polymorphicDiscriminator: TaskIdentifier.type.polymorphicDiscriminator,
+    uberParent: "BatchActionState",
+    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeBatchAction.type.modelProperties,
       parameters: {
@@ -2527,8 +2534,8 @@ export const EntityLinkingLROTask: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "EntityLinkingLROTask",
-    uberParent: "TaskIdentifier",
-    polymorphicDiscriminator: TaskIdentifier.type.polymorphicDiscriminator,
+    uberParent: "BatchActionState",
+    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeBatchAction.type.modelProperties,
       parameters: {
@@ -2547,8 +2554,8 @@ export const PiiLROTask: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "PiiLROTask",
-    uberParent: "TaskIdentifier",
-    polymorphicDiscriminator: TaskIdentifier.type.polymorphicDiscriminator,
+    uberParent: "BatchActionState",
+    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeBatchAction.type.modelProperties,
       parameters: {
@@ -2567,15 +2574,15 @@ export const ExtractiveSummarizationLROTask: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ExtractiveSummarizationLROTask",
-    uberParent: "TaskIdentifier",
-    polymorphicDiscriminator: TaskIdentifier.type.polymorphicDiscriminator,
+    uberParent: "BatchActionState",
+    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeBatchAction.type.modelProperties,
       parameters: {
         serializedName: "parameters",
         type: {
           name: "Composite",
-          className: "ExtractiveSummarizationTaskParameters"
+          className: "ExtractiveSummarizationAction"
         }
       }
     }
@@ -2587,8 +2594,8 @@ export const KeyPhraseLROTask: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "KeyPhraseLROTask",
-    uberParent: "TaskIdentifier",
-    polymorphicDiscriminator: TaskIdentifier.type.polymorphicDiscriminator,
+    uberParent: "BatchActionState",
+    polymorphicDiscriminator: BatchActionState.type.polymorphicDiscriminator,
     modelProperties: {
       ...AnalyzeBatchAction.type.modelProperties,
       parameters: {
@@ -2918,12 +2925,18 @@ export const SentimentAnalysisAction: coreClient.CompositeMapper = {
   }
 };
 
-export const HealthcareAnalysisAction: coreClient.CompositeMapper = {
+export const HealthcareAction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "HealthcareAnalysisAction",
+    className: "HealthcareAction",
     modelProperties: {
       ...ActionPrebuilt.type.modelProperties,
+      fhirVersion: {
+        serializedName: "fhirVersion",
+        type: {
+          name: "String"
+        }
+      },
       stringIndexType: {
         defaultValue: "Utf16CodeUnit",
         serializedName: "stringIndexType",
@@ -2935,20 +2948,20 @@ export const HealthcareAnalysisAction: coreClient.CompositeMapper = {
   }
 };
 
-export const ExtractiveSummarizationTaskParameters: coreClient.CompositeMapper = {
+export const ExtractiveSummarizationAction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ExtractiveSummarizationTaskParameters",
+    className: "ExtractiveSummarizationAction",
     modelProperties: {
       ...ActionPrebuilt.type.modelProperties,
-      sentenceCount: {
+      maxSentenceCount: {
         defaultValue: 3,
         serializedName: "sentenceCount",
         type: {
           name: "Number"
         }
       },
-      sortBy: {
+      orderBy: {
         defaultValue: "Offset",
         serializedName: "sortBy",
         type: {
@@ -2966,10 +2979,10 @@ export const ExtractiveSummarizationTaskParameters: coreClient.CompositeMapper =
   }
 };
 
-export const CustomEntitiesTaskParameters: coreClient.CompositeMapper = {
+export const CustomEntityRecognitionAction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CustomEntitiesTaskParameters",
+    className: "CustomEntityRecognitionAction",
     modelProperties: {
       ...ActionCustom.type.modelProperties,
       stringIndexType: {
@@ -2983,20 +2996,20 @@ export const CustomEntitiesTaskParameters: coreClient.CompositeMapper = {
   }
 };
 
-export const CustomSingleLabelClassificationTaskParameters: coreClient.CompositeMapper = {
+export const CustomSingleLabelClassificationAction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CustomSingleLabelClassificationTaskParameters",
+    className: "CustomSingleLabelClassificationAction",
     modelProperties: {
       ...ActionCustom.type.modelProperties
     }
   }
 };
 
-export const CustomMultiLabelClassificationTaskParameters: coreClient.CompositeMapper = {
+export const CustomMultiLabelClassificationAction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CustomMultiLabelClassificationTaskParameters",
+    className: "CustomMultiLabelClassificationAction",
     modelProperties: {
       ...ActionCustom.type.modelProperties
     }
@@ -3148,18 +3161,18 @@ export let discriminators = {
   "AnalyzeTextTaskResult.PiiEntityRecognitionResults": PiiTaskResult,
   "AnalyzeTextTaskResult.KeyPhraseExtractionResults": KeyPhraseTaskResult,
   "AnalyzeTextTaskResult.LanguageDetectionResults": LanguageDetectionTaskResult,
-  "TaskIdentifier.AnalyzeBatchAction": AnalyzeBatchAction,
+  "BatchActionState.AnalyzeBatchAction": AnalyzeBatchAction,
   "TaskState.AnalyzeTextLROResult": AnalyzeTextLROResult,
-  "TaskIdentifier.CustomEntityRecognition": CustomEntitiesLROTask,
-  "TaskIdentifier.CustomSingleLabelClassification": CustomSingleLabelClassificationLROTask,
-  "TaskIdentifier.CustomMultiLabelClassification": CustomMultiLabelClassificationLROTask,
-  "TaskIdentifier.Healthcare": HealthcareLROTask,
-  "TaskIdentifier.SentimentAnalysis": SentimentAnalysisLROTask,
-  "TaskIdentifier.EntityRecognition": EntitiesLROTask,
-  "TaskIdentifier.EntityLinking": EntityLinkingLROTask,
-  "TaskIdentifier.PiiEntityRecognition": PiiLROTask,
-  "TaskIdentifier.ExtractiveSummarization": ExtractiveSummarizationLROTask,
-  "TaskIdentifier.KeyPhraseExtraction": KeyPhraseLROTask,
+  "BatchActionState.CustomEntityRecognition": CustomEntitiesLROTask,
+  "BatchActionState.CustomSingleLabelClassification": CustomSingleLabelClassificationLROTask,
+  "BatchActionState.CustomMultiLabelClassification": CustomMultiLabelClassificationLROTask,
+  "BatchActionState.Healthcare": HealthcareLROTask,
+  "BatchActionState.SentimentAnalysis": SentimentAnalysisLROTask,
+  "BatchActionState.EntityRecognition": EntitiesLROTask,
+  "BatchActionState.EntityLinking": EntityLinkingLROTask,
+  "BatchActionState.PiiEntityRecognition": PiiLROTask,
+  "BatchActionState.ExtractiveSummarization": ExtractiveSummarizationLROTask,
+  "BatchActionState.KeyPhraseExtraction": KeyPhraseLROTask,
   "TaskState.EntityRecognitionLROResults": EntityRecognitionLROResult,
   "TaskState.CustomEntityRecognitionLROResults": CustomEntityRecognitionLROResult,
   "TaskState.CustomSingleLabelClassificationLROResults": CustomSingleLabelClassificationLROResult,

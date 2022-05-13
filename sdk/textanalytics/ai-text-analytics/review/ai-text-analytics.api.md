@@ -8,11 +8,25 @@ import { AzureKeyCredential } from '@azure/core-auth';
 import { CommonClientOptions } from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PollerLike } from '@azure/core-lro';
+import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface ActionCommon {
     disableServiceLogs?: boolean;
+}
+
+// @public
+export type ActionCustom = ActionCommon & {
+    projectName: string;
+    deploymentName: string;
+};
+
+// @public
+export interface ActionMetadata {
+    readonly modelVersion: string;
 }
 
 // @public
@@ -44,6 +58,54 @@ export type AnalyzeActionParameters<ActionName extends AnalyzeActionName> = {
 }[ActionName];
 
 // @public
+export type AnalyzeBatchAction = EntityLinkingBatchAction | EntityRecognitionBatchAction | KeyPhraseExtractionBatchAction | PiiEntityRecognitionBatchAction | HealthcareBatchAction | ExtractiveSummarizationBatchAction | SentimentAnalysisBatchAction | CustomEntityRecognitionBatchAction | CustomSingleLabelClassificationBatchAction | CustomMultiLabelClassificationBatchAction;
+
+// @public
+export interface AnalyzeBatchActionCommon {
+    actionName?: string;
+}
+
+// @public
+export type AnalyzeBatchActionName = keyof typeof AnalyzeBatchActionNames;
+
+// @public
+export const AnalyzeBatchActionNames: {
+    readonly SentimentAnalysis: "SentimentAnalysis";
+    readonly EntityRecognition: "EntityRecognition";
+    readonly PiiEntityRecognition: "PiiEntityRecognition";
+    readonly KeyPhraseExtraction: "KeyPhraseExtraction";
+    readonly EntityLinking: "EntityLinking";
+    readonly Healthcare: "Healthcare";
+    readonly ExtractiveSummarization: "ExtractiveSummarization";
+    readonly CustomEntityRecognition: "CustomEntityRecognition";
+    readonly CustomSingleLabelClassification: "CustomSingleLabelClassification";
+    readonly CustomMultiLabelClassification: "CustomMultiLabelClassification";
+};
+
+// @public
+export interface AnalyzeBatchOperationMetadata {
+    readonly actionFailedCount: number;
+    readonly actionInProgressCount: number;
+    readonly actionSucceededCount: number;
+    readonly createdOn: Date;
+    readonly displayName?: string;
+    readonly expiresOn?: Date;
+    readonly lastModifiedOn: Date;
+    readonly operationId: string;
+    readonly status: OperationStatus;
+}
+
+// @public
+export interface AnalyzeBatchOperationState extends PollOperationState<PagedAnalyzeBatchResult>, AnalyzeBatchOperationMetadata {
+}
+
+// @public
+export type AnalyzeBatchPoller = PollerLike<AnalyzeBatchOperationState, PagedAnalyzeBatchResult>;
+
+// @public
+export type AnalyzeBatchResult = EntityLinkingBatchResult | EntityRecognitionBatchResult | KeyPhraseExtractionBatchResult | PiiEntityRecognitionBatchResult | SentimentAnalysisBatchResult | HealthcareBatchResult | ExtractiveSummarizationBatchResult | CustomEntityRecognitionBatchResult | CustomSingleLabelClassificationBatchResult | CustomMultiLabelClassificationBatchResult;
+
+// @public
 export type AnalyzeResult<ActionName extends AnalyzeActionName> = {
     EntityLinking: EntityLinkingResult[];
     EntityRecognition: EntityRecognitionResult[];
@@ -63,7 +125,125 @@ export interface AssessmentSentiment {
     text: string;
 }
 
+// @public
+export type Association = "subject" | "other";
+
 export { AzureKeyCredential }
+
+// @public
+export interface BatchActionErrorResult<Kind extends AnalyzeBatchActionName> extends BatchActionState<Kind> {
+    readonly error: TextAnalysisError;
+    readonly failedOn: Date;
+}
+
+// @public
+export type BatchActionResult<T, Kind extends AnalyzeBatchActionName> = BatchActionSuccessResult<T, Kind> | BatchActionErrorResult<Kind>;
+
+// @public
+export interface BatchActionState<Kind extends AnalyzeBatchActionName> {
+    readonly actionName?: string;
+    readonly kind: Kind;
+    readonly statistics?: TextDocumentBatchStatistics;
+}
+
+// @public
+export interface BatchActionSuccessResult<T, Kind extends AnalyzeBatchActionName> extends BatchActionState<Kind> {
+    readonly completedOn: Date;
+    readonly error?: undefined;
+    readonly results: T[];
+}
+
+// @public
+export interface BeginAnalyzeBatchOptions extends TextAnalysisOperationOptions {
+    displayName?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type Certainty = "positive" | "positivePossible" | "neutralPossible" | "negativePossible" | "negative";
+
+// @public
+export interface ClassificationCategory {
+    category: string;
+    confidenceScore: number;
+}
+
+// @public
+export type Conditionality = "hypothetical" | "conditional";
+
+// @public
+export interface CustomActionMetadata {
+    readonly deploymentName: string;
+    readonly projectName: string;
+}
+
+// @public
+export type CustomEntityRecognitionAction = ActionCustom & {
+    stringIndexType?: StringIndexType;
+};
+
+// @public
+export interface CustomEntityRecognitionBatchAction extends AnalyzeBatchActionCommon, CustomEntityRecognitionAction {
+    kind: "CustomEntityRecognition";
+}
+
+// @public
+export type CustomEntityRecognitionBatchResult = CustomActionMetadata & BatchActionResult<CustomEntityRecognitionResult, "CustomEntityRecognition">;
+
+// @public
+export type CustomEntityRecognitionErrorResult = TextAnalysisErrorResult;
+
+// @public
+export type CustomEntityRecognitionResult = CustomEntityRecognitionSuccessResult | CustomEntityRecognitionErrorResult;
+
+// @public
+export interface CustomEntityRecognitionSuccessResult extends TextAnalysisSuccessResult {
+    readonly entities: Entity[];
+}
+
+// @public
+export type CustomMultiLabelClassificationAction = ActionCustom;
+
+// @public
+export interface CustomMultiLabelClassificationBatchAction extends AnalyzeBatchActionCommon, CustomMultiLabelClassificationAction {
+    kind: "CustomMultiLabelClassification";
+}
+
+// @public
+export type CustomMultiLabelClassificationBatchResult = CustomActionMetadata & BatchActionResult<CustomMultiLabelClassificationResult, "CustomMultiLabelClassification">;
+
+// @public
+export type CustomMultiLabelClassificationErrorResult = TextAnalysisErrorResult;
+
+// @public
+export type CustomMultiLabelClassificationResult = CustomMultiLabelClassificationSuccessResult | CustomMultiLabelClassificationErrorResult;
+
+// @public
+export interface CustomMultiLabelClassificationSuccessResult extends TextAnalysisSuccessResult {
+    readonly classifications: ClassificationCategory[];
+}
+
+// @public
+export type CustomSingleLabelClassificationAction = ActionCustom;
+
+// @public
+export interface CustomSingleLabelClassificationBatchAction extends AnalyzeBatchActionCommon, CustomSingleLabelClassificationAction {
+    kind: "CustomSingleLabelClassification";
+}
+
+// @public
+export type CustomSingleLabelClassificationBatchResult = CustomActionMetadata & BatchActionResult<CustomSingleLabelClassificationResult, "CustomSingleLabelClassification">;
+
+// @public
+export type CustomSingleLabelClassificationErrorResult = TextAnalysisErrorResult;
+
+// @public
+export type CustomSingleLabelClassificationResult = CustomSingleLabelClassificationSuccessResult | CustomSingleLabelClassificationErrorResult;
+
+// @public
+export interface CustomSingleLabelClassificationSuccessResult extends TextAnalysisSuccessResult {
+    readonly classifications: ClassificationCategory[];
+}
 
 // @public
 export interface DetectedLanguage {
@@ -92,9 +272,23 @@ export interface Entity {
 }
 
 // @public
+export interface EntityDataSource {
+    entityId: string;
+    name: string;
+}
+
+// @public
 export type EntityLinkingAction = ActionPrebuilt & {
     stringIndexType?: StringIndexType;
 };
+
+// @public
+export interface EntityLinkingBatchAction extends AnalyzeBatchActionCommon, EntityLinkingAction {
+    kind: "EntityLinking";
+}
+
+// @public
+export type EntityLinkingBatchResult = ActionMetadata & BatchActionResult<EntityLinkingResult, "EntityLinking">;
 
 // @public
 export type EntityLinkingErrorResult = TextAnalysisErrorResult;
@@ -113,6 +307,14 @@ export type EntityRecognitionAction = ActionPrebuilt & {
 };
 
 // @public
+export interface EntityRecognitionBatchAction extends AnalyzeBatchActionCommon, EntityRecognitionAction {
+    kind: "EntityRecognition";
+}
+
+// @public
+export type EntityRecognitionBatchResult = ActionMetadata & BatchActionResult<EntityRecognitionResult, "EntityRecognition">;
+
+// @public
 export type EntityRecognitionErrorResult = TextAnalysisErrorResult;
 
 // @public
@@ -124,7 +326,96 @@ export interface EntityRecognitionSuccessResult extends TextAnalysisSuccessResul
 }
 
 // @public
-export type KeyPhraseExtractionAction = ActionPrebuilt & {};
+export type ExtractiveSummarizationAction = ActionPrebuilt & {
+    maxSentenceCount?: number;
+    orderBy?: ExtractiveSummarizationOrderingCriteria;
+    stringIndexType?: StringIndexType;
+};
+
+// @public
+export interface ExtractiveSummarizationBatchAction extends AnalyzeBatchActionCommon, ExtractiveSummarizationAction {
+    kind: "ExtractiveSummarization";
+}
+
+// @public
+export type ExtractiveSummarizationBatchResult = ActionMetadata & BatchActionResult<SummarizationExtractionResult, "ExtractiveSummarization">;
+
+// @public
+export type ExtractiveSummarizationOrderingCriteria = string;
+
+// @public
+export type FhirVersion = string;
+
+// @public
+export type HealthcareAction = ActionPrebuilt & {
+    fhirVersion?: FhirVersion;
+    stringIndexType?: StringIndexType;
+};
+
+// @public
+export interface HealthcareAssertion {
+    association?: Association;
+    certainty?: Certainty;
+    conditionality?: Conditionality;
+}
+
+// @public
+export interface HealthcareBatchAction extends AnalyzeBatchActionCommon, HealthcareAction {
+    kind: "Healthcare";
+}
+
+// @public
+export type HealthcareBatchResult = ActionMetadata & BatchActionResult<HealthcareResult, "Healthcare">;
+
+// @public
+export interface HealthcareEntity extends Entity {
+    readonly assertion?: HealthcareAssertion;
+    readonly category: HealthcareEntityCategory;
+    readonly dataSources: EntityDataSource[];
+    readonly normalizedText?: string;
+}
+
+// @public
+export type HealthcareEntityCategory = string;
+
+// @public
+export interface HealthcareEntityRelation {
+    readonly relationType: RelationType;
+    readonly roles: HealthcareEntityRelationRole[];
+}
+
+// @public
+export interface HealthcareEntityRelationRole {
+    readonly entity: HealthcareEntity;
+    readonly name: HealthcareEntityRelationRoleType;
+}
+
+// @public
+export type HealthcareEntityRelationRoleType = string;
+
+// @public
+export type HealthcareErrorResult = TextAnalysisErrorResult;
+
+// @public
+export type HealthcareResult = HealthcareSuccessResult | HealthcareErrorResult;
+
+// @public
+export interface HealthcareSuccessResult extends TextAnalysisSuccessResult {
+    readonly entities: HealthcareEntity[];
+    readonly entityRelations: HealthcareEntityRelation[];
+    readonly fhirBundle?: Record<string, any>;
+}
+
+// @public
+export type KeyPhraseExtractionAction = ActionPrebuilt;
+
+// @public
+export interface KeyPhraseExtractionBatchAction extends AnalyzeBatchActionCommon, KeyPhraseExtractionAction {
+    kind: "KeyPhraseExtraction";
+}
+
+// @public
+export type KeyPhraseExtractionBatchResult = ActionMetadata & BatchActionResult<KeyPhraseExtractionResult, "KeyPhraseExtraction">;
 
 // @public
 export type KeyPhraseExtractionErrorResult = TextAnalysisErrorResult;
@@ -167,6 +458,17 @@ export enum KnownErrorCode {
     TooManyRequests = "TooManyRequests",
     // (undocumented)
     Unauthorized = "Unauthorized"
+}
+
+// @public
+export enum KnownExtractiveSummarizationOrderingCriteria {
+    Offset = "Offset",
+    Rank = "Rank"
+}
+
+// @public
+export enum KnownFhirVersion {
+    "4.0.1" = "4.0.1"
 }
 
 // @public
@@ -594,7 +896,7 @@ export const KnownTextAnalysisErrorCode: {
 };
 
 // @public
-export type LanguageDetectionAction = ActionPrebuilt & {};
+export type LanguageDetectionAction = ActionPrebuilt;
 
 // @public
 export type LanguageDetectionErrorResult = TextAnalysisErrorResult;
@@ -634,10 +936,16 @@ export interface Match {
 }
 
 // @public
+export type OperationStatus = "notStarted" | "running" | "succeeded" | "partiallySucceeded" | "failed" | "cancelled" | "cancelling";
+
+// @public
 export interface Opinion {
     readonly assessments: AssessmentSentiment[];
     readonly target: TargetSentiment;
 }
+
+// @public
+export type PagedAnalyzeBatchResult = PagedAsyncIterableIterator<AnalyzeBatchResult>;
 
 // @public
 export type PiiCategory = string;
@@ -653,6 +961,14 @@ export type PiiEntityRecognitionAction = ActionPrebuilt & {
 };
 
 // @public
+export interface PiiEntityRecognitionBatchAction extends AnalyzeBatchActionCommon, PiiEntityRecognitionAction {
+    kind: "PiiEntityRecognition";
+}
+
+// @public
+export type PiiEntityRecognitionBatchResult = ActionMetadata & BatchActionResult<PiiEntityRecognitionResult, "PiiEntityRecognition">;
+
+// @public
 export type PiiEntityRecognitionErrorResult = TextAnalysisErrorResult;
 
 // @public
@@ -662,6 +978,14 @@ export type PiiEntityRecognitionResult = PiiEntityRecognitionSuccessResult | Pii
 export interface PiiEntityRecognitionSuccessResult extends TextAnalysisSuccessResult {
     readonly entities: Entity[];
     readonly redactedText: string;
+}
+
+// @public
+export type RelationType = string;
+
+// @public
+export interface RestoreAnalyzeBatchPollerOptions extends TextAnalysisOperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
@@ -682,6 +1006,14 @@ export type SentimentAnalysisAction = ActionPrebuilt & {
     includeOpinionMining?: boolean;
     stringIndexType?: StringIndexType;
 };
+
+// @public
+export interface SentimentAnalysisBatchAction extends AnalyzeBatchActionCommon, SentimentAnalysisAction {
+    kind: "SentimentAnalysis";
+}
+
+// @public
+export type SentimentAnalysisBatchResult = ActionMetadata & BatchActionResult<SentimentAnalysisResult, "SentimentAnalysis">;
 
 // @public
 export type SentimentAnalysisErrorResult = TextAnalysisErrorResult;
@@ -710,6 +1042,25 @@ export interface SentimentConfidenceScores {
 export type StringIndexType = string;
 
 // @public
+export type SummarizationExtractionErrorResult = TextAnalysisErrorResult;
+
+// @public
+export type SummarizationExtractionResult = SummarizationExtractionSuccessResult | SummarizationExtractionErrorResult;
+
+// @public
+export interface SummarizationExtractionSuccessResult extends TextAnalysisSuccessResult {
+    readonly sentences: SummarySentence[];
+}
+
+// @public
+export interface SummarySentence {
+    length: number;
+    offset: number;
+    rankScore: number;
+    text: string;
+}
+
+// @public
 export interface TargetConfidenceScores {
     // (undocumented)
     negative: number;
@@ -733,7 +1084,10 @@ export class TextAnalysisClient {
     analyze<ActionName extends "LanguageDetection">(actionName: ActionName, documents: LanguageDetectionInput[], options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions): Promise<AnalyzeResult<ActionName>>;
     analyze<ActionName extends "LanguageDetection">(actionName: ActionName, documents: string[], countryHint?: string, options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions): Promise<AnalyzeResult<ActionName>>;
     analyze<ActionName extends AnalyzeActionName = AnalyzeActionName>(actionName: ActionName, documents: TextDocumentInput[], options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions): Promise<AnalyzeResult<ActionName>>;
-    analyze<ActionName extends AnalyzeActionName = AnalyzeActionName>(actionName: ActionName, documents: string[], language?: string, options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions): Promise<AnalyzeResult<ActionName>>;
+    analyze<ActionName extends AnalyzeActionName = AnalyzeActionName>(actionName: ActionName, documents: string[], languageCode?: string, options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions): Promise<AnalyzeResult<ActionName>>;
+    beginAnalyzeBatch(actions: AnalyzeBatchAction[], documents: string[], languageCode?: string, options?: BeginAnalyzeBatchOptions): Promise<AnalyzeBatchPoller>;
+    beginAnalyzeBatch(actions: AnalyzeBatchAction[], documents: TextDocumentInput[], options?: BeginAnalyzeBatchOptions): Promise<AnalyzeBatchPoller>;
+    restoreAnalyzeBatchPoller(serializedState: string, options?: RestoreAnalyzeBatchPollerOptions): Promise<AnalyzeBatchPoller>;
 }
 
 // @public

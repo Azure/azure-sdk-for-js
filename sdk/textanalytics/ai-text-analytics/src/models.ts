@@ -3,26 +3,41 @@
 
 import {
   AssessmentSentiment,
+  ClassificationCategory,
+  CustomEntityRecognitionAction,
+  CustomMultiLabelClassificationAction,
+  CustomSingleLabelClassificationAction,
   DetectedLanguage,
   DocumentSentimentLabel,
   DocumentWarning,
   Entity,
+  EntityDataSource,
   EntityLinkingAction,
   EntityRecognitionAction,
+  ExtractiveSummarizationAction,
+  HealthcareAction,
+  HealthcareAssertion,
+  HealthcareEntityCategory,
   KeyPhraseExtractionAction,
   KnownErrorCode,
   KnownInnerErrorCode,
   LanguageDetectionAction,
   LinkedEntity,
+  OperationStatus,
   PiiEntityRecognitionAction,
+  RelationType,
   SentenceSentimentLabel,
   SentimentAnalysisAction,
   SentimentConfidenceScores,
+  SummarySentence,
   TargetConfidenceScores,
+  TextDocumentBatchStatistics,
   TextDocumentStatistics,
   TokenSentimentLabel,
 } from "./generated";
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import { PollOperationState, PollerLike } from "@azure/core-lro";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /**
  * Configuration options for {@link TextAnalysisClient}.
@@ -58,6 +73,30 @@ export interface TextAnalysisOperationOptions extends OperationOptions {
 }
 
 /**
+ * Options for the begin analyze actions operation.
+ */
+export interface BeginAnalyzeBatchOptions extends TextAnalysisOperationOptions {
+  /**
+   * Time delay between poll requests, in milliseconds.
+   */
+  updateIntervalInMs?: number;
+  /**
+   * The operation's display name.
+   */
+  displayName?: string;
+}
+
+/**
+ * Options for the begin analyze actions operation.
+ */
+export interface RestoreAnalyzeBatchPollerOptions extends TextAnalysisOperationOptions {
+  /**
+   * Time delay between poll requests, in milliseconds.
+   */
+  updateIntervalInMs?: number;
+}
+
+/**
  * Type of actions supported by the {@link TextAnalysisClient.analyze} method.
  */
 export const AnalyzeActionNames = {
@@ -67,6 +106,22 @@ export const AnalyzeActionNames = {
   PiiEntityRecognition: "PiiEntityRecognition",
   LanguageDetection: "LanguageDetection",
   SentimentAnalysis: "SentimentAnalysis",
+} as const;
+
+/**
+ * Type of actions supported by the {@link TextAnalysisClient.beginAnalyzeBatch} method.
+ */
+export const AnalyzeBatchActionNames = {
+  SentimentAnalysis: "SentimentAnalysis",
+  EntityRecognition: "EntityRecognition",
+  PiiEntityRecognition: "PiiEntityRecognition",
+  KeyPhraseExtraction: "KeyPhraseExtraction",
+  EntityLinking: "EntityLinking",
+  Healthcare: "Healthcare",
+  ExtractiveSummarization: "ExtractiveSummarization",
+  CustomEntityRecognition: "CustomEntityRecognition",
+  CustomSingleLabelClassification: "CustomSingleLabelClassification",
+  CustomMultiLabelClassification: "CustomMultiLabelClassification",
 } as const;
 
 /**
@@ -85,6 +140,14 @@ export type AnalyzeActionParameters<ActionName extends AnalyzeActionName> = {
   SentimentAnalysis: SentimentAnalysisAction;
   LanguageDetection: LanguageDetectionAction;
 }[ActionName];
+
+/**
+ * Known values of the {@link HealthcareAction.fhirVersion} parameter.
+ */
+export enum KnownFhirVersion {
+  /** 4.0.1 */
+  "4.0.1" = "4.0.1",
+}
 
 /**
  * The type of results of every action in ${@link AnalyzeActionNames}.
@@ -392,6 +455,552 @@ export interface Opinion {
 }
 
 /**
+ * A healthcare entity represented as a node in a directed graph where the edges are
+ * a particular type of relationship between the source and target nodes.
+ */
+export interface HealthcareEntity extends Entity {
+  /**
+   * Normalized name for the entity. For example, the normalized text for "histologically" is "histologic".
+   */
+  readonly normalizedText?: string;
+  /**
+   * Whether the entity is negated.
+   */
+  readonly assertion?: HealthcareAssertion;
+  /**
+   * Entity references in known data sources.
+   */
+  readonly dataSources: EntityDataSource[];
+  /**
+   * Defines values for HealthcareEntityCategory.
+   * {@link KnownHealthcareEntityCategory} can be used interchangeably with HealthcareEntityCategory,
+   *  this enum contains the known values that the service supports.
+   * ### Known values supported by the service
+   * **BODY_STRUCTURE**
+   * **AGE**
+   * **GENDER**
+   * **EXAMINATION_NAME**
+   * **DATE**
+   * **DIRECTION**
+   * **FREQUENCY**
+   * **MEASUREMENT_VALUE**
+   * **MEASUREMENT_UNIT**
+   * **RELATIONAL_OPERATOR**
+   * **TIME**
+   * **GENE_OR_PROTEIN**
+   * **VARIANT**
+   * **ADMINISTRATIVE_EVENT**
+   * **CARE_ENVIRONMENT**
+   * **HEALTHCARE_PROFESSION**
+   * **DIAGNOSIS**
+   * **SYMPTOM_OR_SIGN**
+   * **CONDITION_QUALIFIER**
+   * **MEDICATION_CLASS**
+   * **MEDICATION_NAME**
+   * **DOSAGE**
+   * **MEDICATION_FORM**
+   * **MEDICATION_ROUTE**
+   * **FAMILY_RELATION**
+   * **TREATMENT_NAME**
+   */
+  readonly category: HealthcareEntityCategory;
+}
+
+/**
+ * The type of different roles a healthcare entity can play in a relation.
+ */
+export type HealthcareEntityRelationRoleType = string;
+
+/**
+ * A healthcare entity that plays a specific role in a relation.
+ */
+export interface HealthcareEntityRelationRole {
+  /**
+   * A healthcare entity
+   */
+  readonly entity: HealthcareEntity;
+  /**
+   * The role of the healthcare entity in a particular relation.
+   */
+  readonly name: HealthcareEntityRelationRoleType;
+}
+
+/**
+ * A relationship between two or more healthcare entities.
+ */
+export interface HealthcareEntityRelation {
+  /**
+   * The type of the healthcare relation.
+   */
+  readonly relationType: RelationType;
+  /**
+   * The list of healthcare entities and their roles in the healthcare relation.
+   */
+  readonly roles: HealthcareEntityRelationRole[];
+}
+
+/**
+ * The results of a successful healthcare operation for a single document.
+ */
+export interface HealthcareSuccessResult extends TextAnalysisSuccessResult {
+  /**
+   * Healthcare entities.
+   */
+  readonly entities: HealthcareEntity[];
+  /**
+   * Relations between healthcare entities.
+   */
+  readonly entityRelations: HealthcareEntityRelation[];
+  /**
+   * JSON bundle containing a FHIR compatible object for consumption in other
+   * Healthcare tools. For additional information see {@link https://www.hl7.org/fhir/overview.html}.
+   */
+  readonly fhirBundle?: Record<string, any>;
+}
+
+/**
+ * An error result from the healthcare operation on a single document.
+ */
+export type HealthcareErrorResult = TextAnalysisErrorResult;
+
+/**
+ * The result of the healthcare operation on a single document.
+ */
+export type HealthcareResult = HealthcareSuccessResult | HealthcareErrorResult;
+
+/**
+ * The result of the extract summary operation on a single document.
+ */
+export type SummarizationExtractionResult =
+  | SummarizationExtractionSuccessResult
+  | SummarizationExtractionErrorResult;
+
+/**
+ * The result of the summarization extraction action on a single document,
+ * containing a collection of the summary identified in that document.
+ */
+export interface SummarizationExtractionSuccessResult extends TextAnalysisSuccessResult {
+  /**
+   * A list of sentences composing a summary of the input document.
+   */
+  readonly sentences: SummarySentence[];
+}
+
+/**
+ * An error result from the extract summary operation on a single document.
+ */
+export type SummarizationExtractionErrorResult = TextAnalysisErrorResult;
+
+/**
+ * The result of the custom recognize entities operation on a single document.
+ */
+export type CustomEntityRecognitionResult =
+  | CustomEntityRecognitionSuccessResult
+  | CustomEntityRecognitionErrorResult;
+
+/**
+ * The result of the recognize custom entities operation on a single document,
+ * containing a collection of the entities identified in that document.
+ */
+export interface CustomEntityRecognitionSuccessResult extends TextAnalysisSuccessResult {
+  /**
+   * The collection of entities identified in the input document.
+   */
+  readonly entities: Entity[];
+}
+
+/**
+ * An error result from the recognize custom entities operation on a single document.
+ */
+export type CustomEntityRecognitionErrorResult = TextAnalysisErrorResult;
+
+/**
+ * The result of the custom classify document single category operation on a single document.
+ */
+export type CustomSingleLabelClassificationResult =
+  | CustomSingleLabelClassificationSuccessResult
+  | CustomSingleLabelClassificationErrorResult;
+
+/**
+ * The result of the custom classify document single category operation on a single document,
+ * containing the result of the classification.
+ */
+export interface CustomSingleLabelClassificationSuccessResult extends TextAnalysisSuccessResult {
+  /**
+   * The collection of classifications in the input document.
+   */
+  readonly classifications: ClassificationCategory[];
+}
+
+/**
+ * An error result from the custom classify document single category operation on a single document.
+ */
+export type CustomSingleLabelClassificationErrorResult = TextAnalysisErrorResult;
+
+/**
+ * The result of the custom classify document multi categories operation on a multi document.
+ */
+export type CustomMultiLabelClassificationResult =
+  | CustomMultiLabelClassificationSuccessResult
+  | CustomMultiLabelClassificationErrorResult;
+
+/**
+ * The result of the custom classify document multi categories operation on a multi document,
+ * containing the result of the classification.
+ */
+export interface CustomMultiLabelClassificationSuccessResult extends TextAnalysisSuccessResult {
+  /**
+   * The collection of classifications in the input document.
+   */
+  readonly classifications: ClassificationCategory[];
+}
+
+/**
+ * An error result from the custom classify document multi category operation on a multi document.
+ */
+export type CustomMultiLabelClassificationErrorResult = TextAnalysisErrorResult;
+
+/**
+ * Options common to all batch actions.
+ */
+export interface AnalyzeBatchActionCommon {
+  /**
+   * The name of the action.
+   */
+  actionName?: string;
+}
+
+/** Options for an entity linking batch action. */
+export interface EntityLinkingBatchAction extends AnalyzeBatchActionCommon, EntityLinkingAction {
+  /**
+   * The kind of the action.
+   */
+  kind: "EntityLinking";
+}
+
+/** Options for an entity recognition batch action. */
+export interface EntityRecognitionBatchAction
+  extends AnalyzeBatchActionCommon,
+    EntityRecognitionAction {
+  /**
+   * The kind of the action.
+   */
+  kind: "EntityRecognition";
+}
+
+/** Options for an key phrase extraction batch action. */
+export interface KeyPhraseExtractionBatchAction
+  extends AnalyzeBatchActionCommon,
+    KeyPhraseExtractionAction {
+  /**
+   * The kind of the action.
+   */
+  kind: "KeyPhraseExtraction";
+}
+
+/** Options for a pii entity recognition batch action. */
+export interface PiiEntityRecognitionBatchAction
+  extends AnalyzeBatchActionCommon,
+    PiiEntityRecognitionAction {
+  /**
+   * The kind of the action.
+   */
+  kind: "PiiEntityRecognition";
+}
+
+/** Options for a healthcare batch action. */
+export interface HealthcareBatchAction extends AnalyzeBatchActionCommon, HealthcareAction {
+  /**
+   * The kind of the action.
+   */
+  kind: "Healthcare";
+}
+
+/** Options for an extractive summarization batch action. */
+export interface ExtractiveSummarizationBatchAction
+  extends AnalyzeBatchActionCommon,
+    ExtractiveSummarizationAction {
+  /**
+   * The kind of the action.
+   */
+  kind: "ExtractiveSummarization";
+}
+
+/** Options for a sentiment analysis batch action. */
+export interface SentimentAnalysisBatchAction
+  extends AnalyzeBatchActionCommon,
+    SentimentAnalysisAction {
+  /**
+   * The kind of the action.
+   */
+  kind: "SentimentAnalysis";
+}
+
+/** Options for a custom entity recognition batch action. */
+export interface CustomEntityRecognitionBatchAction
+  extends AnalyzeBatchActionCommon,
+    CustomEntityRecognitionAction {
+  /**
+   * The kind of the action.
+   */
+  kind: "CustomEntityRecognition";
+}
+
+/** Options for a custom single-label classification batch action. */
+export interface CustomSingleLabelClassificationBatchAction
+  extends AnalyzeBatchActionCommon,
+    CustomSingleLabelClassificationAction {
+  /**
+   * The kind of the action.
+   */
+  kind: "CustomSingleLabelClassification";
+}
+
+/** Options for a custom multi-label classification batch action. */
+export interface CustomMultiLabelClassificationBatchAction
+  extends AnalyzeBatchActionCommon,
+    CustomMultiLabelClassificationAction {
+  /**
+   * The kind of the action.
+   */
+  kind: "CustomMultiLabelClassification";
+}
+
+/**
+ * Batch of actions.
+ */
+export type AnalyzeBatchAction =
+  | EntityLinkingBatchAction
+  | EntityRecognitionBatchAction
+  | KeyPhraseExtractionBatchAction
+  | PiiEntityRecognitionBatchAction
+  | HealthcareBatchAction
+  | ExtractiveSummarizationBatchAction
+  | SentimentAnalysisBatchAction
+  | CustomEntityRecognitionBatchAction
+  | CustomSingleLabelClassificationBatchAction
+  | CustomMultiLabelClassificationBatchAction;
+
+/**
+ * Type of actions supported by the {@link TextAnalysisClient.beginAnalyzeBatch} method.
+ */
+export type AnalyzeBatchActionName = keyof typeof AnalyzeBatchActionNames;
+
+/** The State of a batched action */
+export interface BatchActionState<Kind extends AnalyzeBatchActionName> {
+  /**
+   * The kind of the action results.
+   */
+  readonly kind: Kind;
+  /**
+   * The name of the action.
+   */
+  readonly actionName?: string;
+  /**
+   * Action statistics.
+   */
+  readonly statistics?: TextDocumentBatchStatistics;
+}
+
+/**
+ * Action metadata.
+ */
+export interface ActionMetadata {
+  /**
+   * The model version used to perform the action.
+   */
+  readonly modelVersion: string;
+}
+
+/**
+ * Custom action metadata.
+ */
+export interface CustomActionMetadata {
+  /**
+   * The name of the project used to perform the action.
+   */
+  readonly projectName: string;
+  /**
+   * The name of the deployment used to perform the action.
+   */
+  readonly deploymentName: string;
+}
+
+/**
+ * The state of a succeeded batched action.
+ */
+export interface BatchActionSuccessResult<T, Kind extends AnalyzeBatchActionName>
+  extends BatchActionState<Kind> {
+  /**
+   * The list of document results.
+   */
+  readonly results: T[];
+  /**
+   * When this action was completed by the service.
+   */
+  readonly completedOn: Date;
+  /**
+   * Discriminant to determine if that this is an error result.
+   */
+  readonly error?: undefined;
+}
+
+/**
+ * The error of an analyze batch action.
+ */
+export interface BatchActionErrorResult<Kind extends AnalyzeBatchActionName>
+  extends BatchActionState<Kind> {
+  /**
+   * When this action was completed by the service.
+   */
+  readonly failedOn: Date;
+  /**
+   * The Error for this action result.
+   */
+  readonly error: TextAnalysisError;
+}
+
+/**
+ * The result of a batched action.
+ */
+export type BatchActionResult<T, Kind extends AnalyzeBatchActionName> =
+  | BatchActionSuccessResult<T, Kind>
+  | BatchActionErrorResult<Kind>;
+
+/**
+ * The result of an entity linking batch action.
+ */
+export type EntityLinkingBatchResult = ActionMetadata &
+  BatchActionResult<EntityLinkingResult, "EntityLinking">;
+
+/**
+ * The result of an entity recognition batch action.
+ */
+export type EntityRecognitionBatchResult = ActionMetadata &
+  BatchActionResult<EntityRecognitionResult, "EntityRecognition">;
+
+/**
+ * The result of a key phrase extraction batch action.
+ */
+export type KeyPhraseExtractionBatchResult = ActionMetadata &
+  BatchActionResult<KeyPhraseExtractionResult, "KeyPhraseExtraction">;
+
+/**
+ * The result of a pii entity recognition batch action.
+ */
+export type PiiEntityRecognitionBatchResult = ActionMetadata &
+  BatchActionResult<PiiEntityRecognitionResult, "PiiEntityRecognition">;
+
+/**
+ * The result of a sentiment analysis batch action.
+ */
+export type SentimentAnalysisBatchResult = ActionMetadata &
+  BatchActionResult<SentimentAnalysisResult, "SentimentAnalysis">;
+
+/**
+ * The result of a healthcare batch action.
+ */
+export type HealthcareBatchResult = ActionMetadata &
+  BatchActionResult<HealthcareResult, "Healthcare">;
+
+/**
+ * The result of an extractive summarization batch action.
+ */
+export type ExtractiveSummarizationBatchResult = ActionMetadata &
+  BatchActionResult<SummarizationExtractionResult, "ExtractiveSummarization">;
+
+/**
+ * The result of a custom entity recognition batch action.
+ */
+export type CustomEntityRecognitionBatchResult = CustomActionMetadata &
+  BatchActionResult<CustomEntityRecognitionResult, "CustomEntityRecognition">;
+
+/**
+ * The result of a custom single-label classification batch action.
+ */
+export type CustomSingleLabelClassificationBatchResult = CustomActionMetadata &
+  BatchActionResult<CustomSingleLabelClassificationResult, "CustomSingleLabelClassification">;
+
+/**
+ * The result of a custom multi-label classification batch action.
+ */
+export type CustomMultiLabelClassificationBatchResult = CustomActionMetadata &
+  BatchActionResult<CustomMultiLabelClassificationResult, "CustomMultiLabelClassification">;
+/**
+ * Results of a batch of actions.
+ */
+export type AnalyzeBatchResult =
+  | EntityLinkingBatchResult
+  | EntityRecognitionBatchResult
+  | KeyPhraseExtractionBatchResult
+  | PiiEntityRecognitionBatchResult
+  | SentimentAnalysisBatchResult
+  | HealthcareBatchResult
+  | ExtractiveSummarizationBatchResult
+  | CustomEntityRecognitionBatchResult
+  | CustomSingleLabelClassificationBatchResult
+  | CustomMultiLabelClassificationBatchResult;
+
+/**
  * An error result from a sentiment analysis action on a single document.
  */
 export type SentimentAnalysisErrorResult = TextAnalysisErrorResult;
+
+/**
+ * Paged results of the {@link TextAnalysisClient.beginAnalyzeBatch} operation.
+ */
+export type PagedAnalyzeBatchResult = PagedAsyncIterableIterator<AnalyzeBatchResult>;
+
+/**
+ * A poller that polls long-running operations started by {@link TextAnalysisClient.beginAnalyzeBatch}.
+ */
+export type AnalyzeBatchPoller = PollerLike<AnalyzeBatchOperationState, PagedAnalyzeBatchResult>;
+
+/**
+ * The metadata for long-running operations started by {@link TextAnalysisClient.beginAnalyzeBatch}.
+ */
+export interface AnalyzeBatchOperationMetadata {
+  /**
+   * The date and time the operation was created.
+   */
+  readonly createdOn: Date;
+  /**
+   * The date and time when the operation results will expire on the server.
+   */
+  readonly expiresOn?: Date;
+  /**
+   * The operation id.
+   */
+  readonly operationId: string;
+  /**
+   * The time the operation status was last updated.
+   */
+  readonly lastModifiedOn: Date;
+  /**
+   * The current status of the operation.
+   */
+  readonly status: OperationStatus;
+  /**
+   * Number of successfully completed actions.
+   */
+  readonly actionSucceededCount: number;
+  /**
+   * Number of failed actions.
+   */
+  readonly actionFailedCount: number;
+  /**
+   * Number of actions still in progress.
+   */
+  readonly actionInProgressCount: number;
+  /**
+   * The operation's display name.
+   */
+  readonly displayName?: string;
+}
+
+/**
+ * The state of the begin analyze polling operation.
+ */
+export interface AnalyzeBatchOperationState
+  extends PollOperationState<PagedAnalyzeBatchResult>,
+    AnalyzeBatchOperationMetadata {}

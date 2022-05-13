@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { LanguageDetectionInput, TextDocumentInput } from "./generated";
-import { LroResponse } from "@azure/core-lro";
 import { TextAnalysisOperationOptions } from "./models";
 import { logger } from "./logger";
 
@@ -36,12 +34,15 @@ export function sortResponseIdObjects<U extends IdObject>(
   }
 
   const result: U[] = [];
+  /**
+   * When the results are returned in pages, sortedArray will probably have more
+   * items than unsortedArray so it is ok to ignore the case when a sorted item
+   * ID is not found in `unsortedMap`.
+   */
   for (const sortedItem of sortedArray) {
     const item = unsortedMap.get(sortedItem.id);
     if (item) {
       result.push(item);
-    } else {
-      throw new Error(`Unrecognized document ID: ${sortedItem.id}`);
     }
   }
   return result;
@@ -87,69 +88,6 @@ export function parseHealthcareEntityIndex(pointer: string): number {
   } else {
     throw new Error(`Pointer "${pointer}" is not a valid healthcare entity pointer`);
   }
-}
-
-/**
- * Set the pii categories property
- * @internal
- */
-export function setCategoriesFilter<X extends { categoriesFilter?: string[] }>(
-  x: X
-): X & { piiCategories?: string[] } {
-  return { ...x, piiCategories: x.categoriesFilter };
-}
-
-export function setSentenceCount<X extends { maxSentenceCount?: number }>(
-  x: X
-): X & { sentenceCount?: number } {
-  return { ...x, sentenceCount: x.maxSentenceCount };
-}
-
-export function setOrderBy<X extends { orderBy?: string }>(x: X): X & { sortBy?: string } {
-  return { ...x, sortBy: x.orderBy };
-}
-
-/**
- * @internal
- */
-export function addParamsToTask<X extends Record<string, any>>(
-  action: X
-): { parameters?: Omit<X, "actionName">; taskName?: string } {
-  const { actionName, ...params } = action;
-  return { parameters: params, taskName: actionName };
-}
-
-/**
- * @internal
- */
-export function compose<T1, T2, T3>(fn1: (x: T1) => T2, fn2: (y: T2) => T3): (x: T1) => T3 {
-  return (value: T1) => fn2(fn1(value));
-}
-
-/**
- * @internal
- */
-export async function getRawResponse<TOptions extends OperationOptions, TResult>(
-  f: (options: TOptions) => Promise<TResult>,
-  options: TOptions
-): Promise<LroResponse<TResult>> {
-  const { onResponse } = options || {};
-  let rawResponse: FullOperationResponse | undefined = undefined;
-  const flatResponse = await f({
-    ...options,
-    onResponse: (response: FullOperationResponse, flatResponseParam: unknown) => {
-      rawResponse = response;
-      onResponse?.(response, flatResponseParam);
-    },
-  });
-  return {
-    flatResponse,
-    rawResponse: {
-      statusCode: rawResponse!.status,
-      headers: rawResponse!.headers.toJSON(),
-      body: rawResponse!.parsedBody,
-    },
-  };
 }
 
 /**

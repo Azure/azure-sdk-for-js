@@ -3,9 +3,17 @@
 
 import {
   AnalyzeActionName,
+  AnalyzeBatchResult,
   AnalyzeResult,
+  CustomSingleLabelClassificationResult,
+  CustomSingleLabelClassificationSuccessResult,
   EntityLinkingResult,
   EntityRecognitionResult,
+  HealthcareEntity,
+  HealthcareEntityRelation,
+  HealthcareEntityRelationRole,
+  HealthcareResult,
+  HealthcareSuccessResult,
   KeyPhraseExtractionResult,
   LanguageDetectionResult,
   Opinion,
@@ -18,75 +26,86 @@ import {
 } from "./models";
 import {
   AnalyzeResponse,
+  AnalyzeTextLROResultUnion,
   AssessmentSentiment,
+  CustomEntityRecognitionLROResult,
+  CustomMultiLabelClassificationLROResult,
+  CustomSingleLabelClassificationLROResult,
   DocumentError,
   EntitiesTaskResult,
+  EntityLinkingLROResult,
   EntityLinkingTaskResult,
+  EntityRecognitionLROResult,
   ErrorModel,
   ErrorResponse,
+  ExtractiveSummarizationLROResult,
+  CustomSingleLabelClassificationResult as GeneratedCustomSingleLabelClassificationResult,
   EntityLinkingResult as GeneratedEntityLinkingResult,
   EntitiesResult as GeneratedEntityRecognitionResult,
+  HealthcareEntity as GeneratedHealthcareEntity,
+  HealthcareResult as GeneratedHealthcareResult,
   KeyPhraseResult as GeneratedKeyPhraseExtractionResult,
   LanguageDetectionResult as GeneratedLanguageDetectionResult,
   PiiResult as GeneratedPiiEntityRecognitionResult,
   SentenceSentiment as GeneratedSentenceSentiment,
   SentimentResponse as GeneratedSentimentAnalysisResult,
+  HealthcareEntitiesDocumentResult,
+  HealthcareLROResult,
+  HealthcareRelation,
+  HealthcareRelationEntity,
   InnerErrorModel,
+  KeyPhraseExtractionLROResult,
   KeyPhraseTaskResult,
+  KnownAnalyzeTextLROResultsKind,
   LanguageDetectionInput,
   LanguageDetectionTaskResult,
+  PiiEntityRecognitionLROResult,
   PiiTaskResult,
   SentenceTarget,
+  SentimentLROResult,
   SentimentTaskResult,
+  SingleClassificationDocumentResult,
   TargetRelation,
   TextDocumentInput,
 } from "./generated";
-import { AssessmentIndex, parseAssessmentIndex, sortResponseIdObjects } from "./util";
+import {
+  AssessmentIndex,
+  parseAssessmentIndex,
+  parseHealthcareEntityIndex,
+  sortResponseIdObjects,
+} from "./util";
 import { RestError } from "@azure/core-rest-pipeline";
 
 /**
- * Helper function for converting nested service error into
- * the unified TextAnalyticsError
- * @internal
+ * Helper function for converting nested service error to the unified
+ * TextAnalysisError
  */
-export function intoTextAnalyticsError(
-  errorModel: ErrorModel | InnerErrorModel
-): TextAnalysisError {
-  // Return the deepest error. This will always be at most
-  // one level for TextAnalytics
+function toTextAnalysisError(errorModel: ErrorModel | InnerErrorModel): TextAnalysisError {
+  // Return the deepest error.
   if (errorModel.innererror !== undefined) {
-    return intoTextAnalyticsError(errorModel.innererror);
+    return toTextAnalysisError(errorModel.innererror);
   }
 
   return {
-    code: errorModel.code,
-    message: errorModel.message,
-    target: errorModel.target,
+    ...errorModel,
   };
 }
 
-/**
- * @internal
- */
-export function makeTextAnalyticsErrorResult(
-  id: string,
-  error: ErrorModel
-): TextAnalysisErrorResult {
+function makeTextAnalysisErrorResult(id: string, error: ErrorModel): TextAnalysisErrorResult {
   return {
     id,
-    error: intoTextAnalyticsError(error),
+    error: toTextAnalysisError(error),
   };
 }
 
 /**
- * @internal
  * combines successful and erroneous results into a single array of results and
  * sort them so that the IDs order match that of the input documents array.
  * @param input - the array of documents sent to the service for processing.
  * @param response - the response received from the service.
  * @param options - an options bag that includes functions to process the results.
  */
-export function transformDocumentResults<
+function transformDocumentResults<
   DocumentSuccess extends TextAnalysisSuccessResult,
   PublicDocumentSuccess extends TextAnalysisSuccessResult = DocumentSuccess,
   TError extends TextAnalysisErrorResult = TextAnalysisErrorResult
@@ -101,7 +120,7 @@ export function transformDocumentResults<
     processError?: (id: string, error: ErrorModel) => TError;
   }
 ): (PublicDocumentSuccess | TextAnalysisErrorResult)[] {
-  const { processError = makeTextAnalyticsErrorResult, processSuccess } = options || {};
+  const { processError = makeTextAnalysisErrorResult, processSuccess } = options || {};
   const successResults = processSuccess
     ? response.documents.map(processSuccess)
     : response.documents;
@@ -112,10 +131,7 @@ export function transformDocumentResults<
   return sortResponseIdObjects(input, unsortedResults);
 }
 
-/**
- * @internal
- */
-export function toLanguageDetectionResult(
+function toLanguageDetectionResult(
   documents: LanguageDetectionInput[],
   results: GeneratedLanguageDetectionResult
 ): LanguageDetectionResult[] {
@@ -127,20 +143,14 @@ export function toLanguageDetectionResult(
   });
 }
 
-/**
- * @internal
- */
-export function toPiiEntityRecognitionResult(
+function toPiiEntityRecognitionResult(
   documents: TextDocumentInput[],
   results: GeneratedPiiEntityRecognitionResult
 ): PiiEntityRecognitionResult[] {
   return transformDocumentResults(documents, results);
 }
 
-/**
- * @internal
- */
-export function toSentimentAnalysisResult(
+function toSentimentAnalysisResult(
   documents: TextDocumentInput[],
   results: GeneratedSentimentAnalysisResult
 ): SentimentAnalysisResult[] {
@@ -207,30 +217,21 @@ function convertTargetRelationToAssessmentSentiment(
   }
 }
 
-/**
- * @internal
- */
-export function toEntityLinkingResult(
+function toEntityLinkingResult(
   documents: TextDocumentInput[],
   results: GeneratedEntityLinkingResult
 ): EntityLinkingResult[] {
   return transformDocumentResults(documents, results);
 }
 
-/**
- * @internal
- */
-export function toKeyPhraseExtractionResult(
+function toKeyPhraseExtractionResult(
   documents: TextDocumentInput[],
   results: GeneratedKeyPhraseExtractionResult
 ): KeyPhraseExtractionResult[] {
   return transformDocumentResults(documents, results);
 }
 
-/**
- * @internal
- */
-export function toEntityRecognitionResult(
+function toEntityRecognitionResult(
   documents: TextDocumentInput[],
   results: GeneratedEntityRecognitionResult
 ): EntityRecognitionResult[] {
@@ -315,5 +316,202 @@ export function transformError(errorResponse: unknown): any {
   return new RestError(errorMessage, {
     code,
     statusCode: strongErrorResponse.statusCode,
+  });
+}
+
+function toHealthcareResult(
+  documents: TextDocumentInput[],
+  results: GeneratedHealthcareResult
+): HealthcareResult[] {
+  function makeHealthcareEntity(entity: GeneratedHealthcareEntity): HealthcareEntity {
+    const { dataSources, ...rest } = entity;
+    return {
+      dataSources: dataSources ?? [],
+      ...rest,
+    };
+  }
+  function makeHealthcareRelation(
+    entities: HealthcareEntity[]
+  ): (relation: HealthcareRelation) => HealthcareEntityRelation {
+    return (relation: HealthcareRelation): HealthcareEntityRelation => ({
+      relationType: relation.relationType,
+      roles: relation.entities.map(
+        (role: HealthcareRelationEntity): HealthcareEntityRelationRole => ({
+          entity: entities[parseHealthcareEntityIndex(role.ref)],
+          name: role.role,
+        })
+      ),
+    });
+  }
+  return transformDocumentResults<HealthcareEntitiesDocumentResult, HealthcareSuccessResult>(
+    documents,
+    results,
+    {
+      processSuccess: ({ entities, relations, ...rest }) => {
+        const newEntities = entities.map(makeHealthcareEntity);
+        return {
+          entities: newEntities,
+          entityRelations: relations.map(makeHealthcareRelation(newEntities)),
+          ...rest,
+        };
+      },
+    }
+  );
+}
+
+function toCustomSingleLabelClassificationResult(
+  documents: TextDocumentInput[],
+  results: GeneratedCustomSingleLabelClassificationResult
+): CustomSingleLabelClassificationResult[] {
+  return transformDocumentResults<
+    SingleClassificationDocumentResult,
+    CustomSingleLabelClassificationSuccessResult
+  >(documents, results, {
+    processSuccess: ({ classification, ...rest }) => {
+      return {
+        classifications: [classification],
+        ...rest,
+      };
+    },
+  });
+}
+
+/**
+ * @internal
+ */
+export function transformAnalyzeBatchResults(
+  documents: TextDocumentInput[],
+  response: AnalyzeTextLROResultUnion[] = []
+): AnalyzeBatchResult[] {
+  return response.map((actionData) => {
+    const { lastUpdateDateTime: completedOn, actionName, kind } = actionData;
+    switch (kind as KnownAnalyzeTextLROResultsKind) {
+      case "SentimentAnalysisLROResults": {
+        const { results } = actionData as SentimentLROResult;
+        const { modelVersion, statistics } = results;
+        return {
+          kind: "SentimentAnalysis",
+          results: toSentimentAnalysisResult(documents, results),
+          completedOn,
+          ...(actionName ? { actionName } : {}),
+          ...(statistics ? { statistics } : {}),
+          modelVersion,
+        };
+      }
+      case "EntityRecognitionLROResults": {
+        const { results } = actionData as EntityRecognitionLROResult;
+        const { modelVersion, statistics } = results;
+        return {
+          kind: "EntityRecognition",
+          results: toEntityRecognitionResult(documents, results),
+          completedOn,
+          ...(actionName ? { actionName } : {}),
+          ...(statistics ? { statistics } : {}),
+          modelVersion,
+        };
+      }
+      case "PiiEntityRecognitionLROResults": {
+        const { results } = actionData as PiiEntityRecognitionLROResult;
+        const { modelVersion, statistics } = results;
+        return {
+          kind: "PiiEntityRecognition",
+          results: toPiiEntityRecognitionResult(documents, results),
+          completedOn,
+          ...(actionName ? { actionName } : {}),
+          ...(statistics ? { statistics } : {}),
+          modelVersion,
+        };
+      }
+      case "KeyPhraseExtractionLROResults": {
+        const { results } = actionData as KeyPhraseExtractionLROResult;
+        const { modelVersion, statistics } = results;
+        return {
+          kind: "KeyPhraseExtraction",
+          results: toKeyPhraseExtractionResult(documents, results),
+          completedOn,
+          ...(actionName ? { actionName } : {}),
+          ...(statistics ? { statistics } : {}),
+          modelVersion,
+        };
+      }
+      case "EntityLinkingLROResults": {
+        const { results } = actionData as EntityLinkingLROResult;
+        const { modelVersion, statistics } = results;
+        return {
+          kind: "EntityLinking",
+          results: toEntityLinkingResult(documents, results),
+          completedOn,
+          ...(actionName ? { actionName } : {}),
+          ...(statistics ? { statistics } : {}),
+          modelVersion,
+        };
+      }
+      case "HealthcareLROResults": {
+        const { results } = actionData as HealthcareLROResult;
+        const { modelVersion, statistics } = results;
+        return {
+          kind: "Healthcare",
+          results: toHealthcareResult(documents, results),
+          completedOn,
+          ...(actionName ? { actionName } : {}),
+          ...(statistics ? { statistics } : {}),
+          modelVersion,
+        };
+      }
+      case "CustomEntityRecognitionLROResults": {
+        const { results } = actionData as CustomEntityRecognitionLROResult;
+        const { deploymentName, projectName, statistics } = results;
+        return {
+          kind: "CustomEntityRecognition",
+          results: transformDocumentResults(documents, results),
+          completedOn,
+          ...(actionName ? { actionName } : {}),
+          ...(statistics ? { statistics } : {}),
+          deploymentName,
+          projectName,
+        };
+      }
+      case "CustomSingleLabelClassificationLROResults": {
+        const { results } = actionData as CustomSingleLabelClassificationLROResult;
+        const { deploymentName, projectName, statistics } = results;
+        return {
+          kind: "CustomSingleLabelClassification",
+          results: toCustomSingleLabelClassificationResult(documents, results),
+          completedOn,
+          ...(actionName ? { actionName } : {}),
+          ...(statistics ? { statistics } : {}),
+          deploymentName,
+          projectName,
+        };
+      }
+      case "CustomMultiLabelClassificationLROResults": {
+        const { results } = actionData as CustomMultiLabelClassificationLROResult;
+        const { deploymentName, projectName, statistics } = results;
+        return {
+          kind: "CustomMultiLabelClassification",
+          results: transformDocumentResults(documents, results),
+          completedOn,
+          ...(actionName ? { actionName } : {}),
+          ...(statistics ? { statistics } : {}),
+          deploymentName,
+          projectName,
+        };
+      }
+      case "ExtractiveSummarizationLROResults": {
+        const { results } = actionData as ExtractiveSummarizationLROResult;
+        const { modelVersion, statistics } = results;
+        return {
+          kind: "ExtractiveSummarization",
+          results: transformDocumentResults(documents, results),
+          completedOn,
+          ...(actionName ? { actionName } : {}),
+          ...(statistics ? { statistics } : {}),
+          modelVersion,
+        };
+      }
+      default: {
+        throw new Error(`Unsupported results kind: ${kind}`);
+      }
+    }
   });
 }

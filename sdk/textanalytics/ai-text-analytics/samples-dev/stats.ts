@@ -43,27 +43,63 @@ export async function main() {
      */
     onResponse: (_rawResponse, flatResponse) => {
       const stats = (flatResponse as any).results.statistics as TextDocumentBatchStatistics;
-      console.log(`Documents count: ${stats.documentCount}`);
-      console.log(`Valid documents count: ${stats.validDocumentCount}`);
-      console.log(`Erroneous documents count: ${stats.erroneousDocumentCount}`);
-      console.log(`Transactions count: ${stats.transactionCount}`);
+      console.log(`\t- Documents count: ${stats.documentCount}`);
+      console.log(`\t- Valid documents count: ${stats.validDocumentCount}`);
+      console.log(`\t- Erroneous documents count: ${stats.erroneousDocumentCount}`);
+      console.log(`\t- Transactions count: ${stats.transactionCount}`);
     },
   });
 
   /**
    * Access statistics per document
    */
+  console.log("Statistics for analyze:");
   for (const result of results) {
-    console.log(`- Document ID: ${result.id}`);
     if (result.error) {
-      console.log(`\t-Error: ${result.error.message}`);
-    } else {
-      const stats = result.statistics;
-      if (!stats) {
-        throw new Error("Expected statistics to be returned in the response");
+      throw new Error(`Unexpected document error: ${result.error.message}`);
+    }
+    const stats = result.statistics;
+    if (!stats) {
+      throw new Error("Expected statistics to be returned in the response");
+    }
+    console.log(`\t- Document ID: ${result.id}`);
+    console.log(`\t\t-Character count: ${stats.characterCount}`);
+    console.log(`\t\t-Transaction count: ${stats.transactionCount}`);
+  }
+
+  const poller = await client.beginAnalyzeBatch(
+    [
+      {
+        kind: "Healthcare",
+      },
+    ],
+    documents,
+    "en",
+    {
+      includeStatistics: true,
+    }
+  );
+  const actions = await poller.pollUntilDone();
+  console.log("Statistics for beginAnalyzeActions:");
+  for await (const action of actions) {
+    const stats = action.statistics;
+    if (!stats) {
+      throw new Error("statistics are missing");
+    }
+    console.log("\tAction statistics: ");
+    console.log(`\t\t- Documents count: ${stats.documentCount}`);
+    console.log(`\t\t- Valid documents count: ${stats.validDocumentCount}`);
+    console.log(`\t\t- Erroneous documents count: ${stats.erroneousDocumentCount}`);
+    console.log(`\t\t- Transactions count: ${stats.transactionCount}`);
+    if (!action.error) {
+      for (const doc of action.results) {
+        if (!doc.error) {
+          console.log(`\t\t- Document ID: ${doc.id}`);
+          const stats = doc.statistics!;
+          console.log(`\t\t\t- Character count: ${stats.characterCount}`);
+          console.log(`\t\t\t- Transaction count: ${stats.transactionCount}`);
+        }
       }
-      console.log(`\t-Character count: ${stats.characterCount}`);
-      console.log(`\t-Transaction count: ${stats.transactionCount}`);
     }
   }
 }

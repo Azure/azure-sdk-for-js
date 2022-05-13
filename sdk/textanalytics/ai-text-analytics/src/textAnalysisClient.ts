@@ -4,10 +4,21 @@
 import {
   AnalyzeActionName,
   AnalyzeActionParameters,
+  AnalyzeBatchAction,
+  AnalyzeBatchOperationState,
+  AnalyzeBatchPoller,
   AnalyzeResult,
+  BeginAnalyzeBatchOptions,
+  PagedAnalyzeBatchResult,
+  RestoreAnalyzeBatchPollerOptions,
   TextAnalysisClientOptions,
   TextAnalysisOperationOptions,
 } from "./models";
+import {
+  AnalyzeBatchActionUnion,
+  LanguageDetectionInput,
+  TextDocumentInput,
+} from "./generated/models";
 import { DEFAULT_COGNITIVE_SCOPE, SDK_VERSION } from "./constants";
 import {
   InternalPipelineOptions,
@@ -15,7 +26,7 @@ import {
   bearerTokenAuthenticationPolicy,
 } from "@azure/core-rest-pipeline";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { LanguageDetectionInput, TextDocumentInput } from "./generated/models";
+import { LongRunningOperation, LroEngine } from "@azure/core-lro";
 import { TracingClient, createTracingClient } from "@azure/core-tracing";
 import {
   convertToLanguageDetectionInput,
@@ -23,6 +34,14 @@ import {
   getOperationOptions,
   isStringArray,
 } from "./util";
+import {
+  createAnalyzeBatchLro,
+  createCancelOperation,
+  createCreateAnalyzeBatchPollerLro,
+  createUpdateAnalyzeState,
+  getDocsFromState,
+  processAnalyzeResult,
+} from "./lro";
 import { transformActionResult, transformError } from "./transforms";
 import { GeneratedClient } from "./generated/generatedClient";
 import { logger } from "./logger";
@@ -416,11 +435,13 @@ export class TextAnalysisClient {
    * @param actionName - the name of the action to be performed on the input
    *   documents, see ${@link AnalyzeActionName}
    * @param documents - the input documents to be analyzed
-   * @param language - the language that all the input strings are
+   * @param languageCode - the code of the language that all the input strings are
    *    written in. If unspecified, this value will be set to the default
    *    language in `TextAnalysisClientOptions`. If set to an empty string,
    *    the service will apply a model where the language is explicitly set to
-   *    "None".
+   *    "None". Language support varies per action, for example, more information
+   *    about the languages supported for Entity Recognition actions can be
+   *    found in {@link https://docs.microsoft.com//azure/cognitive-services/language-service/named-entity-recognition/language-support}
    * @param options - optional action parameters and settings for the operation
    *
    * @returns an array of results corresponding to the input documents
@@ -428,7 +449,7 @@ export class TextAnalysisClient {
   public async analyze<ActionName extends AnalyzeActionName = AnalyzeActionName>(
     actionName: ActionName,
     documents: string[],
-    language?: string,
+    languageCode?: string,
     options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions
   ): Promise<AnalyzeResult<ActionName>>;
   // implementation
@@ -492,5 +513,247 @@ export class TextAnalysisClient {
         }
       }
     );
+  }
+
+  /**
+   * Performs an array (batch) of actions on the input documents. Each action has
+   * a `kind` field that specifies the nature of the action. See ${@link AnalyzeBatchActionNames}
+   * for a list of supported actions. In addition to `kind`, actions could also
+   * have other parameters such as `disableServiceLogs` and `modelVersion`.
+   *
+   * The results array contains the results for those input actions where each
+   * item also has a `kind` field that specifies the type of the results.
+   *
+   * See {@link https://docs.microsoft.com//azure/cognitive-services/language-service/concepts/data-limits}
+   * for data limits.
+   *
+   * ### Examples
+   *
+   * #### Key phrase extraction and Pii entity recognition
+   *
+   * ```js
+   * const poller = await client.beginAnalyzeBatch(
+   *  [{ kind: "KeyPhraseExtraction" }, { kind: "PiiEntityRecognition" }],
+   *  documents
+   * );
+   * const actionResults = await poller.pollUntilDone();
+   *
+   * for await (const actionResult of actionResults) {
+   *  if (actionResult.error) {
+   *    throw new Error(`Unexpected error`);
+   *  }
+   *  switch (actionResult.kind) {
+   *    case "KeyPhraseExtraction": {
+   *      for (const doc of actionResult.results) {
+   *        // do something
+   *      }
+   *      break;
+   *    }
+   *    case "PiiEntityRecognition": {
+   *      for (const doc of actionResult.results) {
+   *        // do something
+   *      }
+   *      break;
+   *    }
+   *  }
+   * }
+   * ```
+   *
+   * @param actions - an array of actions that will be run on the input documents
+   * @param documents - the input documents to be analyzed
+   * @param languageCode - the code of the language that all the input strings are
+   *    written in. If unspecified, this value will be set to the default
+   *    language in `TextAnalysisClientOptions`. If set to an empty string,
+   *    the service will apply a model where the language is explicitly set to
+   *    "None". Language support varies per action, for example, more information
+   *    about the languages supported for Entity Recognition actions can be
+   *    found in {@link https://docs.microsoft.com//azure/cognitive-services/language-service/named-entity-recognition/language-support}
+   * @param options - optional settings for the operation
+   *
+   * @returns an array of results corresponding to the input actions
+   */
+  async beginAnalyzeBatch(
+    actions: AnalyzeBatchAction[],
+    documents: string[],
+    languageCode?: string,
+    options?: BeginAnalyzeBatchOptions
+  ): Promise<AnalyzeBatchPoller>;
+  /**
+   * Performs an array (batch) of actions on the input documents. Each action has
+   * a `kind` field that specifies the nature of the action. See ${@link AnalyzeBatchActionNames}
+   * for a list of supported actions. In addition to `kind`, actions could also
+   * have other parameters such as `disableServiceLogs` and `modelVersion`.
+   *
+   * The results array contains the results for those input actions where each
+   * item also has a `kind` field that specifies the type of the results.
+   *
+   * See {@link https://docs.microsoft.com//azure/cognitive-services/language-service/concepts/data-limits}
+   * for data limits.
+   *
+   * ### Examples
+   *
+   * #### Keyphrase extraction and Pii entity recognition
+   *
+   * ```js
+   * const poller = await client.beginAnalyzeBatch(
+   *  [{ kind: "KeyPhraseExtraction" }, { kind: "PiiEntityRecognition" }],
+   *  documents
+   * );
+   * const actionResults = await poller.pollUntilDone();
+   *
+   * for await (const actionResult of actionResults) {
+   *  if (actionResult.error) {
+   *    throw new Error(`Unexpected error`);
+   *  }
+   *  switch (actionResult.kind) {
+   *    case "KeyPhraseExtraction": {
+   *      for (const doc of actionResult.results) {
+   *        // do something
+   *      }
+   *      break;
+   *    }
+   *    case "PiiEntityRecognition": {
+   *      for (const doc of actionResult.results) {
+   *        // do something
+   *      }
+   *      break;
+   *    }
+   *  }
+   * }
+   * ```
+   *
+   * @param actions - an array of actions that will be run on the input documents
+   * @param documents - the input documents to be analyzed
+   * @param options - optional settings for the operation
+   *
+   * @returns an array of results corresponding to the input actions
+   */
+  async beginAnalyzeBatch(
+    actions: AnalyzeBatchAction[],
+    documents: TextDocumentInput[],
+    options?: BeginAnalyzeBatchOptions
+  ): Promise<AnalyzeBatchPoller>;
+  // implementation
+  async beginAnalyzeBatch(
+    actions: AnalyzeBatchAction[],
+    documents: TextDocumentInput[] | string[],
+    languageOrOptions?: BeginAnalyzeBatchOptions | string,
+    options: BeginAnalyzeBatchOptions = {}
+  ): Promise<AnalyzeBatchPoller> {
+    let realOptions: BeginAnalyzeBatchOptions;
+    let realInputs: TextDocumentInput[];
+
+    if (!Array.isArray(documents) || documents.length === 0) {
+      throw new Error("'documents' must be a non-empty array");
+    }
+
+    if (isStringArray(documents)) {
+      const language = (languageOrOptions as string) || this.defaultLanguage;
+      realInputs = convertToTextDocumentInput(documents, language);
+      realOptions = options;
+    } else {
+      realInputs = documents;
+      realOptions = languageOrOptions as BeginAnalyzeBatchOptions;
+    }
+    const realActions = actions.map(
+      ({ kind, actionName, ...rest }): AnalyzeBatchActionUnion => ({
+        kind,
+        actionName,
+        parameters: rest,
+      })
+    );
+    const { includeStatistics, updateIntervalInMs, displayName, ...rest } = realOptions;
+    const lro = createAnalyzeBatchLro({
+      client: this._client,
+      commonOptions: rest,
+      documents: realInputs,
+      initialRequestOptions: { displayName },
+      pollRequestOptions: { includeStatistics },
+      tasks: realActions,
+      tracing: this._tracing,
+    });
+
+    const poller = new LroEngine<PagedAnalyzeBatchResult, AnalyzeBatchOperationState>(
+      lro as LongRunningOperation<PagedAnalyzeBatchResult>,
+      {
+        intervalInMs: updateIntervalInMs,
+        processResult: processAnalyzeResult({
+          client: this._client,
+          tracing: this._tracing,
+          documents: realInputs,
+          opOptions: { ...rest, includeStatistics },
+        }),
+        updateState: createUpdateAnalyzeState(realInputs),
+        cancel: createCancelOperation({
+          client: this._client,
+          tracing: this._tracing,
+          options: rest,
+        }),
+      }
+    );
+
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Creates a poller from the serialized state of another poller. This can be
+   * useful when you want to create pollers on a different host or a poller
+   * needs to be constructed after the original one is not in scope.
+   *
+   * @param serializedState - the serialized state of another poller. It is the
+   *                          result of `poller.toString()`
+   * @param options - optional settings for the operation
+   *
+   * # Example
+   *
+   * `client.beginAnalyzeBatch` returns a promise that will resolve to a poller.
+   * The state of the poller can be serialized and used to create another as follows:
+   *
+   * ```js
+   * const serializedState = poller.toString();
+   * const rehydratedPoller = await client.createAnalyzeBatchPoller(serializedState);
+   * const actionResults = await rehydratedPoller.pollUntilDone();
+   * ```
+   */
+  async restoreAnalyzeBatchPoller(
+    serializedState: string,
+    options?: RestoreAnalyzeBatchPollerOptions
+  ): Promise<AnalyzeBatchPoller>;
+  // implementation
+  async restoreAnalyzeBatchPoller(
+    serializedState: string,
+    options: RestoreAnalyzeBatchPollerOptions = {}
+  ): Promise<AnalyzeBatchPoller> {
+    const { includeStatistics, updateIntervalInMs, ...rest } = options;
+    const documents = getDocsFromState(serializedState);
+    const lro = createCreateAnalyzeBatchPollerLro({
+      client: this._client,
+      options: { ...rest, includeStatistics },
+      tracing: this._tracing,
+    });
+
+    const poller = new LroEngine<PagedAnalyzeBatchResult, AnalyzeBatchOperationState>(
+      lro as LongRunningOperation<PagedAnalyzeBatchResult>,
+      {
+        intervalInMs: updateIntervalInMs,
+        resumeFrom: serializedState,
+        processResult: processAnalyzeResult({
+          client: this._client,
+          tracing: this._tracing,
+          documents,
+          opOptions: { ...rest, includeStatistics },
+        }),
+        updateState: createUpdateAnalyzeState(),
+        cancel: createCancelOperation({
+          client: this._client,
+          tracing: this._tracing,
+          options: rest,
+        }),
+      }
+    );
+
+    await poller.poll();
+    return poller;
   }
 }

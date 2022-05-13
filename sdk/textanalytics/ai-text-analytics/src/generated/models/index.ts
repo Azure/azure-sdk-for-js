@@ -129,18 +129,19 @@ export interface TextDocumentInput {
   language?: string;
 }
 
-/** Base task object. */
-export interface TaskIdentifier {
-  taskName?: string;
+/** The State of a batched action */
+export interface BatchActionState {
+  /** The name of the action */
+  actionName?: string;
 }
 
 export interface JobState {
   displayName?: string;
-  createdDateTime: Date;
-  expirationDateTime?: Date;
-  jobId: string;
-  lastUpdateDateTime: Date;
-  status: State;
+  createdOn: Date;
+  expiresOn?: Date;
+  operationId: string;
+  lastModifiedOn: Date;
+  status: OperationStatus;
   errors?: ErrorModel[];
   nextLink?: string;
 }
@@ -271,7 +272,8 @@ export interface TextDocumentStatistics {
   transactionCount: number;
 }
 
-export interface ClassificationResult {
+/** A classification result from a custom classify document single category action */
+export interface ClassificationCategory {
   /** Classification type. */
   category: string;
   /** Confidence score between 0 and 1 of the recognized class. */
@@ -284,20 +286,22 @@ export interface HealthcareEntity {
   /** Healthcare Entity Category. */
   category: HealthcareEntityCategory;
   /** (Optional) Entity sub type. */
-  subcategory?: string;
+  subCategory?: string;
   /** Start position for the entity text. Use of different 'stringIndexType' values can affect the offset returned. */
   offset: number;
   /** Length for the entity text. Use of different 'stringIndexType' values can affect the length returned. */
   length: number;
   /** Confidence score between 0 and 1 of the extracted entity. */
   confidenceScore: number;
+  /** An object that describes metadata about the healthcare entity such as whether it is hypothetical or conditional. */
   assertion?: HealthcareAssertion;
   /** Preferred name for the entity. Example: 'histologically' would have a 'name' of 'histologic'. */
-  name?: string;
+  normalizedText?: string;
   /** Entity references in known data sources. */
-  links?: HealthcareEntityLink[];
+  dataSources?: EntityDataSource[];
 }
 
+/** An object that describes metadata about the healthcare entity such as whether it is hypothetical or conditional. */
 export interface HealthcareAssertion {
   /** Describes any conditionality on the entity. */
   conditionality?: Conditionality;
@@ -307,11 +311,12 @@ export interface HealthcareAssertion {
   association?: Association;
 }
 
-export interface HealthcareEntityLink {
+/** A type representing a reference for the healthcare entity into a specific entity catalog. */
+export interface EntityDataSource {
   /** Entity Catalog. Examples include: UMLS, CHV, MSH, etc. */
-  dataSource: string;
+  name: string;
   /** Entity id in the given source catalog. */
-  id: string;
+  entityId: string;
 }
 
 /** Every relation is an entity graph of a certain relationType, where all entities are connected and have specific roles within the relation context. */
@@ -428,7 +433,8 @@ export interface Match {
   length: number;
 }
 
-export interface ExtractedSummarySentence {
+/** A sentence that is part of the extracted summary. */
+export interface SummarySentence {
   /** The extracted sentence text. */
   text: string;
   /** A double value representing the relevance of the sentence within the summary. Higher values indicate higher importance. */
@@ -550,20 +556,20 @@ export type LanguageDetectionTaskResult = AnalyzeTextTaskResult & {
   results: LanguageDetectionResult;
 };
 
-export type AnalyzeBatchAction = TaskIdentifier & {
+export type AnalyzeBatchAction = BatchActionState & {
   /** Enumeration of supported long-running Text Analysis tasks. */
   kind: AnalyzeTextLROTaskKind;
 };
 
 export type AnalyzeTextLROResult = TaskState &
-  TaskIdentifier & {
+  BatchActionState & {
     /** Enumeration of supported Text Analysis long-running operation task results. */
     kind: AnalyzeTextLROResultsKind;
   };
 
 export type AnalyzeTextJobState = JobState &
   TasksState &
-  AnalyzeTextJobStatistics & {};
+  AnalyzeTextJobStatistics;
 
 /** Configuration common to all actions that use prebuilt models. */
 export type ActionPrebuilt = ActionCommon & {
@@ -571,11 +577,9 @@ export type ActionPrebuilt = ActionCommon & {
   modelVersion?: string;
 };
 
-/** Configuration common to all actions that use custom models. */
+/** Parameters object for a text analysis task using custom models. */
 export type ActionCustom = ActionCommon & {
-  /** The project name for the model to be used by the action. */
   projectName: string;
-  /** The deployment name for the model to be used by the action. */
   deploymentName: string;
 };
 
@@ -639,11 +643,12 @@ export type EntitiesDocumentResult = DocumentResult & {
 };
 
 export type SingleClassificationDocumentResult = DocumentResult & {
-  class: ClassificationResult;
+  /** A classification result from a custom classify document single category action */
+  classification: ClassificationCategory;
 };
 
 export type MultiClassificationDocumentResult = DocumentResult & {
-  class: ClassificationResult[];
+  classifications: ClassificationCategory[];
 };
 
 export type HealthcareEntitiesDocumentResult = DocumentResult & {
@@ -651,6 +656,8 @@ export type HealthcareEntitiesDocumentResult = DocumentResult & {
   entities: HealthcareEntity[];
   /** Healthcare entity relations. */
   relations: HealthcareRelation[];
+  /** JSON bundle containing a FHIR compatible object for consumption in other Healthcare tools. For additional information see https://www.hl7.org/fhir/overview.html. */
+  fhirBundle?: { [propertyName: string]: any };
 };
 
 export type SentimentDocumentResult = DocumentResult & {
@@ -676,7 +683,7 @@ export type PiiEntitiesDocumentResult = DocumentResult & {
 
 export type ExtractedSummaryDocumentResult = DocumentResult & {
   /** A ranked list of sentences representing the extracted summary. */
-  sentences: ExtractedSummarySentence[];
+  sentences: SummarySentence[];
 };
 
 export type KeyPhrasesDocumentResult = DocumentResult & {
@@ -692,24 +699,24 @@ export type LanguageDetectionDocumentResult = DocumentResult & {
 /** Use custom models to ease the process of information extraction from unstructured documents like contracts or financial documents */
 export type CustomEntitiesLROTask = AnalyzeBatchAction & {
   /** Supported parameters for a Custom Entities task. */
-  parameters?: CustomEntitiesTaskParameters;
+  parameters?: CustomEntityRecognitionAction;
 };
 
 /** Use custom models to classify text into single label taxonomy */
 export type CustomSingleLabelClassificationLROTask = AnalyzeBatchAction & {
-  /** Supported parameters for a Custom Single Classification task. */
-  parameters?: CustomSingleLabelClassificationTaskParameters;
+  /** Options for a single-label classification custom action */
+  parameters?: CustomSingleLabelClassificationAction;
 };
 
 /** Use custom models to classify text into multi label taxonomy */
 export type CustomMultiLabelClassificationLROTask = AnalyzeBatchAction & {
-  /** Supported parameters for a Custom Multi Classification task. */
-  parameters?: CustomMultiLabelClassificationTaskParameters;
+  /** Options for a multi-label classification custom action */
+  parameters?: CustomMultiLabelClassificationAction;
 };
 
 export type HealthcareLROTask = AnalyzeBatchAction & {
   /** Supported parameters for a Healthcare task. */
-  parameters?: HealthcareAnalysisAction;
+  parameters?: HealthcareAction;
 };
 
 /** An object representing the task definition for a Sentiment Analysis task. */
@@ -739,7 +746,7 @@ export type PiiLROTask = AnalyzeBatchAction & {
 /** An object representing the task definition for an Extractive Summarization task. */
 export type ExtractiveSummarizationLROTask = AnalyzeBatchAction & {
   /** Supported parameters for an Extractive Summarization task. */
-  parameters?: ExtractiveSummarizationTaskParameters;
+  parameters?: ExtractiveSummarizationAction;
 };
 
 /** An object representing the task definition for a Key Phrase Extraction task. */
@@ -809,7 +816,7 @@ export type EntityRecognitionAction = ActionPrebuilt & {
 };
 
 /** Options for a key phrase recognition action. */
-export type KeyPhraseExtractionAction = ActionPrebuilt & {};
+export type KeyPhraseExtractionAction = ActionPrebuilt;
 
 /** Options for a Pii entity recognition action. */
 export type PiiEntityRecognitionAction = ActionPrebuilt & {
@@ -830,7 +837,7 @@ export type PiiEntityRecognitionAction = ActionPrebuilt & {
 };
 
 /** Options for a language detection action. */
-export type LanguageDetectionAction = ActionPrebuilt & {};
+export type LanguageDetectionAction = ActionPrebuilt;
 
 /** Options for a sentiment analysis action. */
 export type SentimentAnalysisAction = ActionPrebuilt & {
@@ -845,7 +852,9 @@ export type SentimentAnalysisAction = ActionPrebuilt & {
 };
 
 /** Supported parameters for a Healthcare task. */
-export type HealthcareAnalysisAction = ActionPrebuilt & {
+export type HealthcareAction = ActionPrebuilt & {
+  /** The FHIR Spec version that the result will use to format the fhirBundle. For additional information see https://www.hl7.org/fhir/overview.html. */
+  fhirVersion?: FhirVersion;
   /**
    * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
    *
@@ -855,10 +864,10 @@ export type HealthcareAnalysisAction = ActionPrebuilt & {
 };
 
 /** Supported parameters for an Extractive Summarization task. */
-export type ExtractiveSummarizationTaskParameters = ActionPrebuilt & {
-  sentenceCount?: number;
+export type ExtractiveSummarizationAction = ActionPrebuilt & {
+  maxSentenceCount?: number;
   /** The sorting criteria to use for the results of Extractive Summarization. */
-  sortBy?: ExtractiveSummarizationSortingCriteria;
+  orderBy?: ExtractiveSummarizationOrderingCriteria;
   /**
    * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
    *
@@ -868,7 +877,7 @@ export type ExtractiveSummarizationTaskParameters = ActionPrebuilt & {
 };
 
 /** Supported parameters for a Custom Entities task. */
-export type CustomEntitiesTaskParameters = ActionCustom & {
+export type CustomEntityRecognitionAction = ActionCustom & {
   /**
    * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
    *
@@ -877,31 +886,31 @@ export type CustomEntitiesTaskParameters = ActionCustom & {
   stringIndexType?: StringIndexType;
 };
 
-/** Supported parameters for a Custom Single Classification task. */
-export type CustomSingleLabelClassificationTaskParameters = ActionCustom & {};
+/** Options for a single-label classification custom action */
+export type CustomSingleLabelClassificationAction = ActionCustom;
 
-/** Supported parameters for a Custom Multi Classification task. */
-export type CustomMultiLabelClassificationTaskParameters = ActionCustom & {};
+/** Options for a multi-label classification custom action */
+export type CustomMultiLabelClassificationAction = ActionCustom;
 
-export type CustomEntitiesResultDocumentsItem = EntitiesDocumentResult & {};
+export type CustomEntitiesResultDocumentsItem = EntitiesDocumentResult;
 
-export type EntitiesResultDocumentsItem = EntitiesDocumentResult & {};
+export type EntitiesResultDocumentsItem = EntitiesDocumentResult;
 
-export type CustomSingleLabelClassificationResultDocumentsItem = SingleClassificationDocumentResult & {};
+export type CustomSingleLabelClassificationResultDocumentsItem = SingleClassificationDocumentResult;
 
-export type CustomMultiLabelClassificationResultDocumentsItem = MultiClassificationDocumentResult & {};
+export type CustomMultiLabelClassificationResultDocumentsItem = MultiClassificationDocumentResult;
 
-export type HealthcareResultDocumentsItem = HealthcareEntitiesDocumentResult & {};
+export type HealthcareResultDocumentsItem = HealthcareEntitiesDocumentResult;
 
-export type SentimentResponseDocumentsItem = SentimentDocumentResult & {};
+export type SentimentResponseDocumentsItem = SentimentDocumentResult;
 
-export type EntityLinkingResultDocumentsItem = LinkedEntitiesDocumentResult & {};
+export type EntityLinkingResultDocumentsItem = LinkedEntitiesDocumentResult;
 
-export type PiiResultDocumentsItem = PiiEntitiesDocumentResult & {};
+export type PiiResultDocumentsItem = PiiEntitiesDocumentResult;
 
-export type ExtractiveSummarizationResultDocumentsItem = ExtractedSummaryDocumentResult & {};
+export type ExtractiveSummarizationResultDocumentsItem = ExtractedSummaryDocumentResult;
 
-export type KeyPhraseResultDocumentsItem = KeyPhrasesDocumentResult & {};
+export type KeyPhraseResultDocumentsItem = KeyPhrasesDocumentResult;
 
 /** Defines headers for AnalyzeText_submitJob operation. */
 export interface AnalyzeTextSubmitJobHeaders {
@@ -1518,6 +1527,20 @@ export enum KnownWarningCode {
  */
 export type WarningCode = string;
 
+/** Known values of {@link FhirVersion} that the service accepts. */
+export enum KnownFhirVersion {
+  Four01 = "4.0.1"
+}
+
+/**
+ * Defines values for FhirVersion. \
+ * {@link KnownFhirVersion} can be used interchangeably with FhirVersion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **4.0.1**
+ */
+export type FhirVersion = string;
+
 /** Known values of {@link HealthcareEntityCategory} that the service accepts. */
 export enum KnownHealthcareEntityCategory {
   BodyStructure = "BODY_STRUCTURE",
@@ -1636,8 +1659,8 @@ export enum KnownRelationType {
  */
 export type RelationType = string;
 
-/** Known values of {@link ExtractiveSummarizationSortingCriteria} that the service accepts. */
-export enum KnownExtractiveSummarizationSortingCriteria {
+/** Known values of {@link ExtractiveSummarizationOrderingCriteria} that the service accepts. */
+export enum KnownExtractiveSummarizationOrderingCriteria {
   /** Indicates that results should be sorted in order of appearance in the text. */
   Offset = "Offset",
   /** Indicates that results should be sorted in order of importance (i.e. rank score) according to the model. */
@@ -1645,14 +1668,23 @@ export enum KnownExtractiveSummarizationSortingCriteria {
 }
 
 /**
- * Defines values for ExtractiveSummarizationSortingCriteria. \
- * {@link KnownExtractiveSummarizationSortingCriteria} can be used interchangeably with ExtractiveSummarizationSortingCriteria,
+ * Defines values for ExtractiveSummarizationOrderingCriteria. \
+ * {@link KnownExtractiveSummarizationOrderingCriteria} can be used interchangeably with ExtractiveSummarizationOrderingCriteria,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Offset**: Indicates that results should be sorted in order of appearance in the text. \
  * **Rank**: Indicates that results should be sorted in order of importance (i.e. rank score) according to the model.
  */
-export type ExtractiveSummarizationSortingCriteria = string;
+export type ExtractiveSummarizationOrderingCriteria = string;
+/** Defines values for OperationStatus. */
+export type OperationStatus =
+  | "notStarted"
+  | "running"
+  | "succeeded"
+  | "partiallySucceeded"
+  | "failed"
+  | "cancelled"
+  | "cancelling";
 /** Defines values for State. */
 export type State =
   | "notStarted"
