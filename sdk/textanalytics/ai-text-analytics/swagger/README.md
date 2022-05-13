@@ -387,6 +387,8 @@ directive:
       $["x-ms-client-name"] = "TargetConfidenceScores";
 ```
 
+### ExtractedSummarySentence to SummarySentence
+
 ```yaml
 directive:
   - from: swagger-document
