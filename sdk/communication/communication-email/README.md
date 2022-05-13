@@ -186,8 +186,8 @@ This project has adopted the [Microsoft Open Source Code of Conduct][coc]. For m
 [communication_resource_create_power_shell]: https://docs.microsoft.com/powershell/module/az.communication/new-azcommunicationservice
 [communication_resource_create_net]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource?tabs=windows&pivots=platform-net
 [package]: https://www.nuget.org/packages/Azure.Communication.Common/
-[product_docs]: http://aka.ms/acsemail/overview
-[nextsteps]: http://aka.ms/acsemail/overview
+[product_docs]: https://aka.ms/acsemail/overview
+[nextsteps]: https://aka.ms/acsemail/overview
 [nuget]: https://www.nuget.org/
 [source]: https://github.com/Azure/azure-sdk-for-net/tree/main/sdk/communication
 [email_attachmenttypes]: https://www.bing.com
