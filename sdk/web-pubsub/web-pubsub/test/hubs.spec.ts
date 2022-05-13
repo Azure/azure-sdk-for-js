@@ -169,6 +169,10 @@ describe("HubClient", function () {
       try {
         await client.grantPermission("xxx", "joinLeaveGroup", { targetName: "x" });
       } catch (e: any) {
+        if (e.name !== "RestError") {
+          throw e;
+        }
+
         error = e;
       }
       // grantPermission validates connection ids, so we expect an error here.
@@ -182,7 +186,7 @@ describe("HubClient", function () {
       // Service doesn't throw error for invalid connection-ids
     });
 
-    it("can trace through the various options", async function () {
+    it.only("can trace through the various options", async function () {
       await assert.supportsTracing(
         async (options) => {
           const promises: Promise<any>[] = [
