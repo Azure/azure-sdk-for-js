@@ -197,20 +197,21 @@ function generate-markdown-table($absolutePath, $readmeName, $packageInfo, $moni
   Set-Content -Path (Join-Path $absolutePath -ChildPath $readmeName) -Value $content -NoNewline
 }
 
-function generate-service-level-readme($readmeBaseName, $pathPrefix, $clientPackageInfo, $mgmtPackageInfo, $serviceName) {
+function generate-service-level-readme($readmeBaseName, $pathPrefix, $packageInfos, $serviceName) {
   # Add ability to override
   # Fetch the service readme name
   $monikers = @("latest", "preview")
-
-  $msService = GetDocsMsService -clientPackageInfo $clientPackageInfo -mgmtPackageInfo $mgmtPackageInfo -serviceName $serviceName
+  $msService = GetDocsMsService -packageInfo $packageInfos[0] -serviceName $serviceName
   for($i=0; $i -lt $monikers.Length; $i++) {
     $absolutePath = "$DocRepoLocation/$pathPrefix/$($monikers[$i])"
     $serviceReadme = "$readmeBaseName.md"
     $clientIndexReadme  = "$readmeBaseName-client-index.md"
     $mgmtIndexReadme  = "$readmeBaseName-mgmt-index.md"
+    $clientPackageInfo = $servicePackages.Where({ 'client' -eq $_.Type }) | Sort-Object -Property Package
     if ($clientPackageInfo) {
       generate-markdown-table -absolutePath "$absolutePath" -readmeName "$clientIndexReadme" -packageInfo $clientPackageInfo -moniker $monikers[$i]
     }
+    $mgmtPackageInfo = $servicePackages.Where({ 'mgmt' -eq $_.Type }) | Sort-Object -Property Package
     if ($mgmtPackageInfo) {
       generate-markdown-table -absolutePath "$absolutePath" -readmeName "$mgmtIndexReadme" -packageInfo $mgmtPackageInfo -moniker $monikers[$i]
     }
@@ -311,14 +312,15 @@ foreach ($service in $serviceNameList) {
   $packageItems = @()
 
   # Client packages get individual entries
-  $clientPackages = $packagesForToc.Values.Where({ $_.ServiceName -eq $service -and ('client' -eq $_.Type) })
+  $servicePackages = $packagesForToc.Values.Where({ $_.ServiceName -eq $service })
+  $clientPackages = $servicePackages.Where({ 'client' -eq $_.Type })
   $clientPackages = $clientPackages | Sort-Object -Property Package
   foreach ($clientPackage in $clientPackages) {
     $packageItems += GetClientPackageNode -clientPackage $clientPackage
   }
 
   # All management packages go under a single `Management` header in the ToC
-  $mgmtPackages = $packagesForToc.Values.Where({ $_.ServiceName -eq $service -and ('mgmt' -eq $_.Type) })
+  $mgmtPackages = $servicePackages.Where({ 'mgmt' -eq $_.Type })
   $mgmtPackages = $mgmtPackages | Sort-Object -Property Package
   if ($mgmtPackages) {
     $children = &$GetDocsMsTocChildrenForManagementPackagesFn `
@@ -345,7 +347,7 @@ foreach ($service in $serviceNameList) {
 
   if($EnableServiceReadmeGen) {
     generate-service-level-readme -readmeBaseName $serviceReadmeBaseName -pathPrefix $hrefPrefix `
-    -clientPackageInfo $clientPackages -mgmtPackageInfo $mgmtPackages -serviceName $service
+      -packageInfos $servicePackages -serviceName $service
   }
   $serviceTocEntry = [PSCustomObject]@{
     name            = $service;
