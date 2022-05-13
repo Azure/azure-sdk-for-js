@@ -124,7 +124,7 @@ For example, each document can be passed as a string in an array, e.g.
 const documents = [
   "I hated the movie. It was so slow!",
   "The movie made it into my top ten favorites.",
-  "What a great movie!"
+  "What a great movie!",
 ];
 ```
 
@@ -134,7 +134,7 @@ or, if you wish to pass in a per-item document `id` or `language`/`countryHint`,
 const textDocumentInputs = [
   { id: "1", language: "en", text: "I hated the movie. It was so slow!" },
   { id: "2", language: "en", text: "The movie made it into my top ten favorites." },
-  { id: "3", language: "en", text: "What a great movie!" }
+  { id: "3", language: "en", text: "What a great movie!" },
 ];
 ```
 
@@ -187,7 +187,7 @@ const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API
 const documents = [
   "I did not like the restaurant. The food was too spicy.",
   "The restaurant was decorated beautifully. The atmosphere was unlike any other restaurant I've been to.",
-  "The food was yummy. :)"
+  "The food was yummy. :)",
 ];
 
 async function main() {
@@ -222,7 +222,7 @@ const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API
 const documents = [
   "Microsoft was founded by Bill Gates and Paul Allen.",
   "Redmond is a city in King County, Washington, United States, located 15 miles east of Seattle.",
-  "Jeff bought three dozen eggs because there was a 50% discount."
+  "Jeff bought three dozen eggs because there was a 50% discount.",
 ];
 
 async function main() {
@@ -252,7 +252,7 @@ const { TextAnalysisClient, AzureKeyCredential } = require("@azure/ai-text-analy
 const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
 const documents = [
   "The employee's SSN is 555-55-5555.",
-  "The employee's phone number is (555) 555-5555."
+  "The employee's phone number is (555) 555-5555.",
 ];
 async function main() {
   const results = await client.analyze("PiiEntityRecognition", documents, "en");
@@ -282,7 +282,7 @@ const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API
 const documents = [
   "Microsoft was founded by Bill Gates and Paul Allen.",
   "Easter Island, a Chilean territory, is a remote volcanic island in Polynesia.",
-  "I use Azure Functions to develop my product."
+  "I use Azure Functions to develop my product.",
 ];
 
 async function main() {
@@ -324,7 +324,7 @@ const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API
 const documents = [
   "Redmond is a city in King County, Washington, United States, located 15 miles east of Seattle.",
   "I need to take my cat to the veterinarian.",
-  "I will travel to South America in the summer."
+  "I will travel to South America in the summer.",
 ];
 
 async function main() {
@@ -357,7 +357,7 @@ const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API
 const documents = [
   "This is written in English.",
   "Il documento scritto in italiano.",
-  "Dies ist in deutscher Sprache verfasst."
+  "Dies ist in deutscher Sprache verfasst.",
 ];
 
 async function main() {
@@ -391,24 +391,26 @@ main();
 Healthcare analysis identifies healthcare entities. For example, given input text "Prescribed 100mg ibuprofen, taken twice daily", the service returns "100mg" categorized as Dosage, "ibuprofen" as MedicationName, and "twice daily" as Frequency.
 
 ```javascript
-const { TextAnalysisClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
+const {
+  AnalyzeBatchAction,
+  AzureKeyCredential,
+  TextAnalysisClient,
+} = require("@azure/ai-text-analytics");
 
 const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
 
 const documents = [
   "Prescribed 100mg ibuprofen, taken twice daily.",
-  "Patient does not suffer from high blood pressure."
+  "Patient does not suffer from high blood pressure.",
 ];
 
 async function main() {
-  const poller = await client.beginAnalyzeBatch(
-    [
-      {
-        kind: "Healthcare",
-      },
-    ],
-    documents
-  );
+  const actions: AnalyzeBatchAction[] = [
+    {
+      kind: "Healthcare",
+    },
+  ];
+  const poller = await client.beginAnalyzeBatch(actions, documents, "en");
   const results = await poller.pollUntilDone();
   for await (const actionResult of results) {
     if (actionResult.kind !== "Healthcare") {
@@ -446,25 +448,27 @@ main();
 Extractive summarization identifies sentences that summarize the article they belong to.
 
 ```javascript
-const { TextAnalysisClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
+const {
+  AnalyzeBatchAction,
+  AzureKeyCredential,
+  TextAnalysisClient,
+} = require("@azure/ai-text-analytics");
 
 const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
 
 const documents = [
   "Prescribed 100mg ibuprofen, taken twice daily.",
-  "Patient does not suffer from high blood pressure."
+  "Patient does not suffer from high blood pressure.",
 ];
 
 async function main() {
-  const poller = await client.beginAnalyzeBatch(
-    [
-      {
-        kind: "ExtractiveSummarization",
-        maxSentenceCount: 2,
-      },
-    ],
-    documents
-  );
+  const actions: AnalyzeBatchAction[] = [
+    {
+      kind: "ExtractiveSummarization",
+      maxSentenceCount: 2,
+    },
+  ];
+  const poller = await client.beginAnalyzeBatch(actions, documents, "en");
   const results = await poller.pollUntilDone();
 
   for await (const actionResult of results) {
@@ -495,7 +499,11 @@ main();
 Recognize and categorize entities in text as entities using custom entity detection models built using [Azure Language Studio][lang_studio].
 
 ```javascript
-const { TextAnalysisClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
+const {
+  AnalyzeBatchAction,
+  AzureKeyCredential,
+  TextAnalysisClient,
+} = require("@azure/ai-text-analytics");
 
 const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
 
@@ -505,17 +513,14 @@ const documents = [
 ];
 
 async function main() {
-  const poller = await client.beginAnalyzeBatch(
-    [
-      {
-        kind: "CustomEntityRecognition",
-        deploymentName,
-        projectName
-      },
-    ],
-    documents
-  );
-  const results = await poller.pollUntilDone();
+  const actions: AnalyzeBatchAction[] = [
+    {
+      kind: "CustomEntityRecognition",
+      deploymentName,
+      projectName,
+    },
+  ];
+  const poller = await client.beginAnalyzeBatch(actions, documents, "en");
   for await (const actionResult of results) {
     if (actionResult.kind !== "CustomEntityRecognition") {
       throw new Error(`Expected a CustomEntityRecognition results but got: ${actionResult.kind}`);
@@ -555,21 +560,21 @@ const documents = [
 ];
 
 async function main() {
-   const poller = await client.beginAnalyzeBatch(
-    [
-      {
-        kind: "CustomSingleLabelClassification",
-        deploymentName,
-        projectName
-      },
-    ],
-    documents
-  );
+  const actions: AnalyzeBatchAction[] = [
+    {
+      kind: "CustomSingleLabelClassification",
+      deploymentName,
+      projectName,
+    },
+  ];
+  const poller = await client.beginAnalyzeBatch(actions, documents, "en");
   const results = await poller.pollUntilDone();
 
   for await (const actionResult of results) {
     if (actionResult.kind !== "CustomSingleLabelClassification") {
-      throw new Error(`Expected a CustomSingleLabelClassification results but got: ${actionResult.kind}`);
+      throw new Error(
+        `Expected a CustomSingleLabelClassification results but got: ${actionResult.kind}`
+      );
     }
     if (actionResult.error) {
       const { code, message } = actionResult.error;
@@ -594,7 +599,11 @@ main();
 Classify documents using custom multi-label models built using [Azure Language Studio][lang_studio].
 
 ```javascript
-const { TextAnalysisClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
+const {
+  AnalyzeBatchAction,
+  AzureKeyCredential,
+  TextAnalysisClient,
+} = require("@azure/ai-text-analytics");
 
 const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
 
@@ -603,21 +612,21 @@ const documents = [
 ];
 
 async function main() {
-     const poller = await client.beginAnalyzeBatch(
-    [
-      {
-        kind: "CustomMultiLabelClassification",
-        deploymentName,
-        projectName
-      },
-    ],
-    documents
-  );
+  const actions: AnalyzeBatchAction[] = [
+    {
+      kind: "CustomMultiLabelClassification",
+      deploymentName,
+      projectName,
+    },
+  ];
+  const poller = await client.beginAnalyzeBatch(actions, documents, "en");
   const results = await poller.pollUntilDone();
 
   for await (const actionResult of results) {
     if (actionResult.kind !== "CustomMultiLabelClassification") {
-      throw new Error(`Expected a CustomMultiLabelClassification results but got: ${actionResult.kind}`);
+      throw new Error(
+        `Expected a CustomMultiLabelClassification results but got: ${actionResult.kind}`
+      );
     }
     if (actionResult.error) {
       const { code, message } = actionResult.error;
@@ -645,7 +654,11 @@ main();
 Applies multiple actions on each input document in one service request.
 
 ```javascript
-const { TextAnalysisClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
+const {
+  AnalyzeBatchAction,
+  AzureKeyCredential,
+  TextAnalysisClient,
+} = require("@azure/ai-text-analytics");
 
 const client = new TextAnalysisClient("<endpoint>", new AzureKeyCredential("<API key>"));
 
@@ -653,30 +666,27 @@ const documents = [
   "Microsoft was founded by Bill Gates and Paul Allen.",
   "The employee's SSN is 555-55-5555.",
   "Easter Island, a Chilean territory, is a remote volcanic island in Polynesia.",
-  "I use Azure Functions to develop my product."
+  "I use Azure Functions to develop my product.",
 ];
 
 async function main() {
-  const poller = await client.beginAnalyzeBatch(
-    [
-      {
-        kind: "EntityRecognition",
-        modelVersion: "latest",
-      },
-      {
-        kind: "PiiEntityRecognition",
-        modelVersion: "latest",
-      },
-      {
-        kind: "KeyPhraseExtraction",
-        modelVersion: "latest",
-      },
-    ],
-    documents,
-    "en"
-  );
+  const actions: AnalyzeBatchAction[] = [
+    {
+      kind: "EntityRecognition",
+      modelVersion: "latest",
+    },
+    {
+      kind: "PiiEntityRecognition",
+      modelVersion: "latest",
+    },
+    {
+      kind: "KeyPhraseExtraction",
+      modelVersion: "latest",
+    },
+  ];
+  const poller = await client.beginAnalyzeBatch(actions, documents, "en");
   const actionResults = await poller.pollUntilDone();
-    for await (const actionResult of actionResults) {
+  for await (const actionResult of actionResults) {
     if (actionResult.error) {
       const { code, message } = actionResult.error;
       throw new Error(`Unexpected error (${code}): ${message}`);

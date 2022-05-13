@@ -11,7 +11,11 @@
  * @azsdk-weight 40
  */
 
-import { TextAnalysisClient, AzureKeyCredential } from "@azure/ai-text-analytics";
+import {
+  AnalyzeBatchAction,
+  AzureKeyCredential,
+  TextAnalysisClient,
+} from "@azure/ai-text-analytics";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -33,25 +37,21 @@ export async function main() {
   console.log("== Batch Sample ==");
 
   const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
-
-  const poller = await client.beginAnalyzeBatch(
-    [
-      {
-        kind: "EntityRecognition",
-        modelVersion: "latest",
-      },
-      {
-        kind: "PiiEntityRecognition",
-        modelVersion: "latest",
-      },
-      {
-        kind: "KeyPhraseExtraction",
-        modelVersion: "latest",
-      },
-    ],
-    documents,
-    "en"
-  );
+  const actions: AnalyzeBatchAction[] = [
+    {
+      kind: "EntityRecognition",
+      modelVersion: "latest",
+    },
+    {
+      kind: "PiiEntityRecognition",
+      modelVersion: "latest",
+    },
+    {
+      kind: "KeyPhraseExtraction",
+      modelVersion: "latest",
+    },
+  ];
+  const poller = await client.beginAnalyzeBatch(actions, documents, "en");
 
   poller.onProgress(() => {
     console.log(
@@ -59,11 +59,9 @@ export async function main() {
     );
   });
 
-  console.log(`The analyze actions operation created on ${poller.getOperationState().createdOn}`);
+  console.log(`The operation was created on ${poller.getOperationState().createdOn}`);
 
-  console.log(
-    `The analyze actions operation results will expire on ${poller.getOperationState().expiresOn}`
-  );
+  console.log(`The operation results will expire on ${poller.getOperationState().expiresOn}`);
 
   const actionResults = await poller.pollUntilDone();
 

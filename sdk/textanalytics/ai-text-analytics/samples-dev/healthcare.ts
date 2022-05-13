@@ -10,7 +10,12 @@
  * @azsdk-weight 50
  */
 
-import { TextAnalysisClient, AzureKeyCredential, KnownFhirVersion } from "@azure/ai-text-analytics";
+import {
+  AnalyzeBatchAction,
+  AzureKeyCredential,
+  KnownFhirVersion,
+  TextAnalysisClient,
+} from "@azure/ai-text-analytics";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -30,32 +35,21 @@ export async function main() {
   console.log("== Healthcare Sample ==");
 
   const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
-
-  const poller = await client.beginAnalyzeBatch(
-    [
-      {
-        kind: "Healthcare",
-        fhirVersion: KnownFhirVersion["4.0.1"],
-      },
-    ],
-    documents
-  );
+  const actions: AnalyzeBatchAction[] = [
+    {
+      kind: "Healthcare",
+      fhirVersion: KnownFhirVersion["4.0.1"],
+    },
+  ];
+  const poller = await client.beginAnalyzeBatch(actions, documents, "en");
 
   poller.onProgress(() => {
     console.log(
       `Last time the operation was updated was on: ${poller.getOperationState().lastModifiedOn}`
     );
   });
-  console.log(
-    `The analyze healthcare entities operation was created on ${
-      poller.getOperationState().createdOn
-    }`
-  );
-  console.log(
-    `The analyze healthcare entities operation results will expire on ${
-      poller.getOperationState().expiresOn
-    }`
-  );
+  console.log(`The operation was created on ${poller.getOperationState().createdOn}`);
+  console.log(`The operation results will expire on ${poller.getOperationState().expiresOn}`);
 
   const results = await poller.pollUntilDone();
 

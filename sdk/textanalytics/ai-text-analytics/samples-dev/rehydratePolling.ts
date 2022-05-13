@@ -55,11 +55,9 @@ export async function main() {
     );
   });
 
-  console.log(`The analyze actions operation created on ${poller.getOperationState().createdOn}`);
+  console.log(`The operation created on ${poller.getOperationState().createdOn}`);
 
-  console.log(
-    `The analyze actions operation results will expire on ${poller.getOperationState().expiresOn}`
-  );
+  console.log(`The operation results will expire on ${poller.getOperationState().expiresOn}`);
 
   /** Get the serialized state of the poller */
   const serializedState = poller.toString();

@@ -8,7 +8,11 @@
  * @azsdk-weight 50
  */
 
-import { TextAnalysisClient, AzureKeyCredential } from "@azure/ai-text-analytics";
+import {
+  AnalyzeBatchAction,
+  AzureKeyCredential,
+  TextAnalysisClient,
+} from "@azure/ai-text-analytics";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -36,16 +40,13 @@ export async function main() {
   console.log("== Extractive Summarization Sample ==");
 
   const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
-
-  const poller = await client.beginAnalyzeBatch(
-    [
-      {
-        kind: "ExtractiveSummarization",
-        maxSentenceCount: 2,
-      },
-    ],
-    documents
-  );
+  const actions: AnalyzeBatchAction[] = [
+    {
+      kind: "ExtractiveSummarization",
+      maxSentenceCount: 2,
+    },
+  ];
+  const poller = await client.beginAnalyzeBatch(actions, documents, "en");
 
   poller.onProgress(() => {
     console.log(

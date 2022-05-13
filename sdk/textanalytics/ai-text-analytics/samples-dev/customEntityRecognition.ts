@@ -9,7 +9,11 @@
  * @azsdk-weight 50
  */
 
-import { TextAnalysisClient, AzureKeyCredential } from "@azure/ai-text-analytics";
+import {
+  AnalyzeBatchAction,
+  AzureKeyCredential,
+  TextAnalysisClient,
+} from "@azure/ai-text-analytics";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -32,17 +36,14 @@ export async function main() {
   console.log("== Custom Entity Recognition Sample ==");
 
   const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
-
-  const poller = await client.beginAnalyzeBatch(
-    [
-      {
-        kind: "CustomEntityRecognition",
-        deploymentName,
-        projectName,
-      },
-    ],
-    documents
-  );
+  const actions: AnalyzeBatchAction[] = [
+    {
+      kind: "CustomEntityRecognition",
+      deploymentName,
+      projectName,
+    },
+  ];
+  const poller = await client.beginAnalyzeBatch(actions, documents, "en");
   const results = await poller.pollUntilDone();
 
   for await (const actionResult of results) {
