@@ -137,6 +137,16 @@ directive:
     transform:
       $["x-ms-client-name"] = "HealthcareAction";
   - from: swagger-document
+    where: $.definitions.ExtractiveSummarizationTaskParameters
+    transform:
+      $["x-ms-client-name"] = "ExtractiveSummarizationAction";
+      $.properties.sentenceCount["x-ms-client-name"] = "maxSentenceCount";
+      $.properties.sortBy["x-ms-client-name"] = "orderBy";
+  - from: swagger-document
+    where: $.definitions.ExtractiveSummarizationSortingCriteria
+    transform:
+      $["x-ms-enum"].name = "ExtractiveSummarizationOrderingCriteria";
+  - from: swagger-document
     where: $.definitions.CustomEntitiesTaskParameters
     transform:
       $["x-ms-client-name"] = "CustomEntityRecognitionAction";
@@ -375,6 +385,15 @@ directive:
     where: $.definitions.TargetConfidenceScoreLabel
     transform: >
       $["x-ms-client-name"] = "TargetConfidenceScores";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.ExtractedSummarySentence
+    transform: >
+      $["x-ms-client-name"] = "SummarySentence";
+      $.description = "A sentence that is part of the extracted summary.";
 ```
 
 ### Change some casing to use camelCase

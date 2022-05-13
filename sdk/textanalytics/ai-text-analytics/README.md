@@ -11,6 +11,7 @@
 - Recognition of Personally Identifiable Information
 - Entity Linking
 - Healthcare Analysis
+- Extractive Summarization
 - Custom Entity Recognition
 - Custom Document Classification
 - Support Multiple Actions Per Document

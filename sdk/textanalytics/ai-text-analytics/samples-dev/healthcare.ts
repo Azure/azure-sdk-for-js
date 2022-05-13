@@ -10,7 +10,7 @@
  * @azsdk-weight 50
  */
 
-import { TextAnalysisClient, AzureKeyCredential } from "@azure/ai-text-analytics";
+import { TextAnalysisClient, AzureKeyCredential, KnownFhirVersion } from "@azure/ai-text-analytics";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -35,7 +35,7 @@ export async function main() {
     [
       {
         kind: "Healthcare",
-        fhirVersion: "4.0.1",
+        fhirVersion: KnownFhirVersion["4.0.1"],
       },
     ],
     documents

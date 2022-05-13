@@ -38,6 +38,7 @@ import {
   EntityRecognitionLROResult,
   ErrorModel,
   ErrorResponse,
+  ExtractiveSummarizationLROResult,
   CustomSingleLabelClassificationResult as GeneratedCustomSingleLabelClassificationResult,
   EntityLinkingResult as GeneratedEntityLinkingResult,
   EntitiesResult as GeneratedEntityRecognitionResult,
@@ -494,6 +495,18 @@ export function transformAnalyzeBatchResults(
           ...(statistics ? { statistics } : {}),
           deploymentName,
           projectName,
+        };
+      }
+      case "ExtractiveSummarizationLROResults": {
+        const { results } = actionData as ExtractiveSummarizationLROResult;
+        const { modelVersion, statistics } = results;
+        return {
+          kind: "ExtractiveSummarization",
+          results: transformDocumentResults(documents, results),
+          completedOn,
+          ...(actionName ? { actionName } : {}),
+          ...(statistics ? { statistics } : {}),
+          modelVersion,
         };
       }
       default: {

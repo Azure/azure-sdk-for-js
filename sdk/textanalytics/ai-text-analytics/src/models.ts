@@ -14,6 +14,7 @@ import {
   EntityDataSource,
   EntityLinkingAction,
   EntityRecognitionAction,
+  ExtractiveSummarizationAction,
   HealthcareAction,
   HealthcareAssertion,
   HealthcareEntityCategory,
@@ -28,6 +29,7 @@ import {
   SentenceSentimentLabel,
   SentimentAnalysisAction,
   SentimentConfidenceScores,
+  SummarySentence,
   TargetConfidenceScores,
   TextDocumentBatchStatistics,
   TextDocumentStatistics,
@@ -116,6 +118,7 @@ export const AnalyzeBatchActionNames = {
   KeyPhraseExtraction: "KeyPhraseExtraction",
   EntityLinking: "EntityLinking",
   Healthcare: "Healthcare",
+  ExtractiveSummarization: "ExtractiveSummarization",
   CustomEntityRecognition: "CustomEntityRecognition",
   CustomSingleLabelClassification: "CustomSingleLabelClassification",
   CustomMultiLabelClassification: "CustomMultiLabelClassification",
@@ -137,6 +140,14 @@ export type AnalyzeActionParameters<ActionName extends AnalyzeActionName> = {
   SentimentAnalysis: SentimentAnalysisAction;
   LanguageDetection: LanguageDetectionAction;
 }[ActionName];
+
+/**
+ * Known values of the {@link HealthcareAction.fhirVersion} parameter.
+ */
+export enum KnownFhirVersion {
+  /** 4.0.1 */
+  "4.0.1" = "4.0.1",
+}
 
 /**
  * The type of results of every action in ${@link AnalyzeActionNames}.
@@ -451,15 +462,15 @@ export interface HealthcareEntity extends Entity {
   /**
    * Normalized name for the entity. For example, the normalized text for "histologically" is "histologic".
    */
-  normalizedText?: string;
+  readonly normalizedText?: string;
   /**
    * Whether the entity is negated.
    */
-  assertion?: HealthcareAssertion;
+  readonly assertion?: HealthcareAssertion;
   /**
    * Entity references in known data sources.
    */
-  dataSources: EntityDataSource[];
+  readonly dataSources: EntityDataSource[];
   /**
    * Defines values for HealthcareEntityCategory.
    * {@link KnownHealthcareEntityCategory} can be used interchangeably with HealthcareEntityCategory,
@@ -492,7 +503,7 @@ export interface HealthcareEntity extends Entity {
    * **FAMILY_RELATION**
    * **TREATMENT_NAME**
    */
-  category: HealthcareEntityCategory;
+  readonly category: HealthcareEntityCategory;
 }
 
 /**
@@ -507,11 +518,11 @@ export interface HealthcareEntityRelationRole {
   /**
    * A healthcare entity
    */
-  entity: HealthcareEntity;
+  readonly entity: HealthcareEntity;
   /**
    * The role of the healthcare entity in a particular relation.
    */
-  name: HealthcareEntityRelationRoleType;
+  readonly name: HealthcareEntityRelationRoleType;
 }
 
 /**
@@ -521,11 +532,11 @@ export interface HealthcareEntityRelation {
   /**
    * The type of the healthcare relation.
    */
-  relationType: RelationType;
+  readonly relationType: RelationType;
   /**
    * The list of healthcare entities and their roles in the healthcare relation.
    */
-  roles: HealthcareEntityRelationRole[];
+  readonly roles: HealthcareEntityRelationRole[];
 }
 
 /**
@@ -535,16 +546,16 @@ export interface HealthcareSuccessResult extends TextAnalysisSuccessResult {
   /**
    * Healthcare entities.
    */
-  entities: HealthcareEntity[];
+  readonly entities: HealthcareEntity[];
   /**
    * Relations between healthcare entities.
    */
-  entityRelations: HealthcareEntityRelation[];
+  readonly entityRelations: HealthcareEntityRelation[];
   /**
    * JSON bundle containing a FHIR compatible object for consumption in other
    * Healthcare tools. For additional information see {@link https://www.hl7.org/fhir/overview.html}.
    */
-  fhirBundle?: { [propertyName: string]: any };
+  readonly fhirBundle?: Record<string, any>;
 }
 
 /**
@@ -556,6 +567,29 @@ export type HealthcareErrorResult = TextAnalysisErrorResult;
  * The result of the healthcare operation on a single document.
  */
 export type HealthcareResult = HealthcareSuccessResult | HealthcareErrorResult;
+
+/**
+ * The result of the extract summary operation on a single document.
+ */
+export type SummarizationExtractionResult =
+  | SummarizationExtractionSuccessResult
+  | SummarizationExtractionErrorResult;
+
+/**
+ * The result of the summarization extraction action on a single document,
+ * containing a collection of the summary identified in that document.
+ */
+export interface SummarizationExtractionSuccessResult extends TextAnalysisSuccessResult {
+  /**
+   * A list of sentences composing a summary of the input document.
+   */
+  readonly sentences: SummarySentence[];
+}
+
+/**
+ * An error result from the extract summary operation on a single document.
+ */
+export type SummarizationExtractionErrorResult = TextAnalysisErrorResult;
 
 /**
  * The result of the custom recognize entities operation on a single document.
@@ -572,7 +606,7 @@ export interface CustomEntityRecognitionSuccessResult extends TextAnalysisSucces
   /**
    * The collection of entities identified in the input document.
    */
-  entities: Entity[];
+  readonly entities: Entity[];
 }
 
 /**
@@ -595,7 +629,7 @@ export interface CustomSingleLabelClassificationSuccessResult extends TextAnalys
   /**
    * The collection of classifications in the input document.
    */
-  classifications: ClassificationCategory[];
+  readonly classifications: ClassificationCategory[];
 }
 
 /**
@@ -618,7 +652,7 @@ export interface CustomMultiLabelClassificationSuccessResult extends TextAnalysi
   /**
    * The collection of classifications in the input document.
    */
-  classifications: ClassificationCategory[];
+  readonly classifications: ClassificationCategory[];
 }
 
 /**
@@ -682,6 +716,16 @@ export interface HealthcareBatchAction extends AnalyzeBatchActionCommon, Healthc
   kind: "Healthcare";
 }
 
+/** Options for a healthcare batch action. */
+export interface ExtractiveSummarizationBatchAction
+  extends AnalyzeBatchActionCommon,
+    ExtractiveSummarizationAction {
+  /**
+   * The kind of the action.
+   */
+  kind: "ExtractiveSummarization";
+}
+
 /** Options for a sentiment analysis batch action. */
 export interface SentimentAnalysisBatchAction
   extends AnalyzeBatchActionCommon,
@@ -731,6 +775,7 @@ export type AnalyzeBatchAction =
   | KeyPhraseExtractionBatchAction
   | PiiEntityRecognitionBatchAction
   | HealthcareBatchAction
+  | ExtractiveSummarizationBatchAction
   | SentimentAnalysisBatchAction
   | CustomEntityRecognitionBatchAction
   | CustomSingleLabelClassificationBatchAction
@@ -746,7 +791,7 @@ export interface BatchActionState<Kind extends AnalyzeBatchActionName> {
   /**
    * The kind of the action results.
    */
-  kind: Kind;
+  readonly kind: Kind;
   /**
    * The name of the action.
    */
@@ -859,6 +904,12 @@ export type HealthcareBatchResult = ActionMetadata &
   BatchActionResult<HealthcareResult, "Healthcare">;
 
 /**
+ * The result of an extractive summarization batch action.
+ */
+export type ExtractiveSummarizationBatchResult = ActionMetadata &
+  BatchActionResult<SummarizationExtractionResult, "ExtractiveSummarization">;
+
+/**
  * The result of a custom entity recognition batch action.
  */
 export type CustomEntityRecognitionBatchResult = CustomActionMetadata &
@@ -885,6 +936,7 @@ export type AnalyzeBatchResult =
   | PiiEntityRecognitionBatchResult
   | SentimentAnalysisBatchResult
   | HealthcareBatchResult
+  | ExtractiveSummarizationBatchResult
   | CustomEntityRecognitionBatchResult
   | CustomSingleLabelClassificationBatchResult
   | CustomMultiLabelClassificationBatchResult;
@@ -911,39 +963,39 @@ export interface AnalyzeBatchOperationMetadata {
   /**
    * The date and time the operation was created.
    */
-  createdOn: Date;
+  readonly createdOn: Date;
   /**
    * The date and time when the operation results will expire on the server.
    */
-  expiresOn?: Date;
+  readonly expiresOn?: Date;
   /**
    * The operation id.
    */
-  operationId: string;
+  readonly operationId: string;
   /**
    * The time the operation status was last updated.
    */
-  lastModifiedOn: Date;
+  readonly lastModifiedOn: Date;
   /**
    * The current status of the operation.
    */
-  status: OperationStatus;
+  readonly status: OperationStatus;
   /**
    * Number of successfully completed actions.
    */
-  actionSucceededCount: number;
+  readonly actionSucceededCount: number;
   /**
    * Number of failed actions.
    */
-  actionFailedCount: number;
+  readonly actionFailedCount: number;
   /**
    * Number of actions still in progress.
    */
-  actionInProgressCount: number;
+  readonly actionInProgressCount: number;
   /**
    * The operation's display name.
    */
-  displayName?: string;
+  readonly displayName?: string;
 }
 
 /**

@@ -58,7 +58,7 @@ export type AnalyzeActionParameters<ActionName extends AnalyzeActionName> = {
 }[ActionName];
 
 // @public
-export type AnalyzeBatchAction = EntityLinkingBatchAction | EntityRecognitionBatchAction | KeyPhraseExtractionBatchAction | PiiEntityRecognitionBatchAction | HealthcareBatchAction | SentimentAnalysisBatchAction | CustomEntityRecognitionBatchAction | CustomSingleLabelClassificationBatchAction | CustomMultiLabelClassificationBatchAction;
+export type AnalyzeBatchAction = EntityLinkingBatchAction | EntityRecognitionBatchAction | KeyPhraseExtractionBatchAction | PiiEntityRecognitionBatchAction | HealthcareBatchAction | ExtractiveSummarizationBatchAction | SentimentAnalysisBatchAction | CustomEntityRecognitionBatchAction | CustomSingleLabelClassificationBatchAction | CustomMultiLabelClassificationBatchAction;
 
 // @public
 export interface AnalyzeBatchActionCommon {
@@ -76,6 +76,7 @@ export const AnalyzeBatchActionNames: {
     readonly KeyPhraseExtraction: "KeyPhraseExtraction";
     readonly EntityLinking: "EntityLinking";
     readonly Healthcare: "Healthcare";
+    readonly ExtractiveSummarization: "ExtractiveSummarization";
     readonly CustomEntityRecognition: "CustomEntityRecognition";
     readonly CustomSingleLabelClassification: "CustomSingleLabelClassification";
     readonly CustomMultiLabelClassification: "CustomMultiLabelClassification";
@@ -83,15 +84,15 @@ export const AnalyzeBatchActionNames: {
 
 // @public
 export interface AnalyzeBatchOperationMetadata {
-    actionFailedCount: number;
-    actionInProgressCount: number;
-    actionSucceededCount: number;
-    createdOn: Date;
-    displayName?: string;
-    expiresOn?: Date;
-    lastModifiedOn: Date;
-    operationId: string;
-    status: OperationStatus;
+    readonly actionFailedCount: number;
+    readonly actionInProgressCount: number;
+    readonly actionSucceededCount: number;
+    readonly createdOn: Date;
+    readonly displayName?: string;
+    readonly expiresOn?: Date;
+    readonly lastModifiedOn: Date;
+    readonly operationId: string;
+    readonly status: OperationStatus;
 }
 
 // @public
@@ -102,7 +103,7 @@ export interface AnalyzeBatchOperationState extends PollOperationState<PagedAnal
 export type AnalyzeBatchPoller = PollerLike<AnalyzeBatchOperationState, PagedAnalyzeBatchResult>;
 
 // @public
-export type AnalyzeBatchResult = EntityLinkingBatchResult | EntityRecognitionBatchResult | KeyPhraseExtractionBatchResult | PiiEntityRecognitionBatchResult | SentimentAnalysisBatchResult | HealthcareBatchResult | CustomEntityRecognitionBatchResult | CustomSingleLabelClassificationBatchResult | CustomMultiLabelClassificationBatchResult;
+export type AnalyzeBatchResult = EntityLinkingBatchResult | EntityRecognitionBatchResult | KeyPhraseExtractionBatchResult | PiiEntityRecognitionBatchResult | SentimentAnalysisBatchResult | HealthcareBatchResult | ExtractiveSummarizationBatchResult | CustomEntityRecognitionBatchResult | CustomSingleLabelClassificationBatchResult | CustomMultiLabelClassificationBatchResult;
 
 // @public
 export type AnalyzeResult<ActionName extends AnalyzeActionName> = {
@@ -141,7 +142,7 @@ export type BatchActionResult<T, Kind extends AnalyzeBatchActionName> = BatchAct
 // @public
 export interface BatchActionState<Kind extends AnalyzeBatchActionName> {
     readonly actionName?: string;
-    kind: Kind;
+    readonly kind: Kind;
     readonly statistics?: TextDocumentBatchStatistics;
 }
 
@@ -197,7 +198,7 @@ export type CustomEntityRecognitionResult = CustomEntityRecognitionSuccessResult
 
 // @public
 export interface CustomEntityRecognitionSuccessResult extends TextAnalysisSuccessResult {
-    entities: Entity[];
+    readonly entities: Entity[];
 }
 
 // @public
@@ -219,7 +220,7 @@ export type CustomMultiLabelClassificationResult = CustomMultiLabelClassificatio
 
 // @public
 export interface CustomMultiLabelClassificationSuccessResult extends TextAnalysisSuccessResult {
-    classifications: ClassificationCategory[];
+    readonly classifications: ClassificationCategory[];
 }
 
 // @public
@@ -241,7 +242,7 @@ export type CustomSingleLabelClassificationResult = CustomSingleLabelClassificat
 
 // @public
 export interface CustomSingleLabelClassificationSuccessResult extends TextAnalysisSuccessResult {
-    classifications: ClassificationCategory[];
+    readonly classifications: ClassificationCategory[];
 }
 
 // @public
@@ -325,6 +326,24 @@ export interface EntityRecognitionSuccessResult extends TextAnalysisSuccessResul
 }
 
 // @public
+export type ExtractiveSummarizationAction = ActionPrebuilt & {
+    maxSentenceCount?: number;
+    orderBy?: ExtractiveSummarizationOrderingCriteria;
+    stringIndexType?: StringIndexType;
+};
+
+// @public
+export interface ExtractiveSummarizationBatchAction extends AnalyzeBatchActionCommon, ExtractiveSummarizationAction {
+    kind: "ExtractiveSummarization";
+}
+
+// @public
+export type ExtractiveSummarizationBatchResult = ActionMetadata & BatchActionResult<SummarizationExtractionResult, "ExtractiveSummarization">;
+
+// @public
+export type ExtractiveSummarizationOrderingCriteria = string;
+
+// @public
 export type FhirVersion = string;
 
 // @public
@@ -350,10 +369,10 @@ export type HealthcareBatchResult = ActionMetadata & BatchActionResult<Healthcar
 
 // @public
 export interface HealthcareEntity extends Entity {
-    assertion?: HealthcareAssertion;
-    category: HealthcareEntityCategory;
-    dataSources: EntityDataSource[];
-    normalizedText?: string;
+    readonly assertion?: HealthcareAssertion;
+    readonly category: HealthcareEntityCategory;
+    readonly dataSources: EntityDataSource[];
+    readonly normalizedText?: string;
 }
 
 // @public
@@ -361,14 +380,14 @@ export type HealthcareEntityCategory = string;
 
 // @public
 export interface HealthcareEntityRelation {
-    relationType: RelationType;
-    roles: HealthcareEntityRelationRole[];
+    readonly relationType: RelationType;
+    readonly roles: HealthcareEntityRelationRole[];
 }
 
 // @public
 export interface HealthcareEntityRelationRole {
-    entity: HealthcareEntity;
-    name: HealthcareEntityRelationRoleType;
+    readonly entity: HealthcareEntity;
+    readonly name: HealthcareEntityRelationRoleType;
 }
 
 // @public
@@ -382,11 +401,9 @@ export type HealthcareResult = HealthcareSuccessResult | HealthcareErrorResult;
 
 // @public
 export interface HealthcareSuccessResult extends TextAnalysisSuccessResult {
-    entities: HealthcareEntity[];
-    entityRelations: HealthcareEntityRelation[];
-    fhirBundle?: {
-        [propertyName: string]: any;
-    };
+    readonly entities: HealthcareEntity[];
+    readonly entityRelations: HealthcareEntityRelation[];
+    readonly fhirBundle?: Record<string, any>;
 }
 
 // @public
@@ -444,9 +461,14 @@ export enum KnownErrorCode {
 }
 
 // @public
+export enum KnownExtractiveSummarizationOrderingCriteria {
+    Offset = "Offset",
+    Rank = "Rank"
+}
+
+// @public
 export enum KnownFhirVersion {
-    // (undocumented)
-    Four01 = "4.0.1"
+    "4.0.1" = "4.0.1"
 }
 
 // @public
@@ -1018,6 +1040,25 @@ export interface SentimentConfidenceScores {
 
 // @public
 export type StringIndexType = string;
+
+// @public
+export type SummarizationExtractionErrorResult = TextAnalysisErrorResult;
+
+// @public
+export type SummarizationExtractionResult = SummarizationExtractionSuccessResult | SummarizationExtractionErrorResult;
+
+// @public
+export interface SummarizationExtractionSuccessResult extends TextAnalysisSuccessResult {
+    readonly sentences: SummarySentence[];
+}
+
+// @public
+export interface SummarySentence {
+    length: number;
+    offset: number;
+    rankScore: number;
+    text: string;
+}
 
 // @public
 export interface TargetConfidenceScores {

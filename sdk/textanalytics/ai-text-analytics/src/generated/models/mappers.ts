@@ -1348,10 +1348,10 @@ export const Match: coreClient.CompositeMapper = {
   }
 };
 
-export const ExtractedSummarySentence: coreClient.CompositeMapper = {
+export const SummarySentence: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ExtractedSummarySentence",
+    className: "SummarySentence",
     modelProperties: {
       text: {
         serializedName: "text",
@@ -2361,7 +2361,7 @@ export const ExtractedSummaryDocumentResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ExtractedSummarySentence"
+              className: "SummarySentence"
             }
           }
         }
@@ -2582,7 +2582,7 @@ export const ExtractiveSummarizationLROTask: coreClient.CompositeMapper = {
         serializedName: "parameters",
         type: {
           name: "Composite",
-          className: "ExtractiveSummarizationTaskParameters"
+          className: "ExtractiveSummarizationAction"
         }
       }
     }
@@ -2948,20 +2948,20 @@ export const HealthcareAction: coreClient.CompositeMapper = {
   }
 };
 
-export const ExtractiveSummarizationTaskParameters: coreClient.CompositeMapper = {
+export const ExtractiveSummarizationAction: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ExtractiveSummarizationTaskParameters",
+    className: "ExtractiveSummarizationAction",
     modelProperties: {
       ...ActionPrebuilt.type.modelProperties,
-      sentenceCount: {
+      maxSentenceCount: {
         defaultValue: 3,
         serializedName: "sentenceCount",
         type: {
           name: "Number"
         }
       },
-      sortBy: {
+      orderBy: {
         defaultValue: "Offset",
         serializedName: "sortBy",
         type: {

@@ -3889,3 +3889,165 @@ export const expectation26: AnalyzeBatchResult[] = [
     modelVersion,
   },
 ];
+
+export const expectation27: AnalyzeBatchResult[] = [
+  {
+    kind: "ExtractiveSummarization",
+    results: [
+      {
+        id: "0",
+        warnings: [],
+        sentences: [
+          {
+            text: "The Government of Nunavut relies on this internet link to provide healthcare, education, housing and family, and financial and other services to 25 communities.",
+            rankScore: 0.35,
+            offset: 526,
+            length: 160,
+          },
+          {
+            text: "Windows is already accessible in the cloud via Azure Virtual Desktop, which offers customers flexibility to create and run their own virtualization service.",
+            rankScore: 0.69,
+            offset: 2453,
+            length: 156,
+          },
+          {
+            text: "Windows 365 is a new virtualization technology for Windows that is easy to set up and deploy for today’s login-from-anywhere, mobile and elastic workforces.",
+            rankScore: 1,
+            offset: 2610,
+            length: 156,
+          },
+        ],
+      },
+      {
+        id: "1",
+        warnings: [],
+        sentences: [
+          {
+            text: "In this new world of Windows 365, remote workers flip the lid on their laptop, bootup the family workstation or clip a keyboard onto a tablet, launch a native app or modern web browser and login to their Windows 365 account.",
+            rankScore: 0.9,
+            offset: 479,
+            length: 224,
+          },
+          {
+            text: "It enables employees accustomed to working from home to continue working from home;",
+            rankScore: 1,
+            offset: 1337,
+            length: 83,
+          },
+          {
+            text: "it enables companies to hire interns from halfway around the world;",
+            rankScore: 0.71,
+            offset: 1421,
+            length: 67,
+          },
+        ],
+      },
+    ],
+    completedOn,
+    modelVersion,
+  },
+];
+
+export const expectation28: AnalyzeBatchResult[] = [
+  {
+    kind: "ExtractiveSummarization",
+    results: [
+      {
+        id: "0",
+        warnings: [],
+        sentences: [
+          {
+            text: "Windows is already accessible in the cloud via Azure Virtual Desktop, which offers customers flexibility to create and run their own virtualization service.",
+            rankScore: 0.69,
+            offset: 2453,
+            length: 156,
+          },
+          {
+            text: "Windows 365 is a new virtualization technology for Windows that is easy to set up and deploy for today’s login-from-anywhere, mobile and elastic workforces.",
+            rankScore: 1,
+            offset: 2610,
+            length: 156,
+          },
+        ],
+      },
+      {
+        id: "1",
+        warnings: [],
+        sentences: [
+          {
+            text: "In this new world of Windows 365, remote workers flip the lid on their laptop, bootup the family workstation or clip a keyboard onto a tablet, launch a native app or modern web browser and login to their Windows 365 account.",
+            rankScore: 0.9,
+            offset: 479,
+            length: 224,
+          },
+          {
+            text: "It enables employees accustomed to working from home to continue working from home;",
+            rankScore: 1,
+            offset: 1337,
+            length: 83,
+          },
+        ],
+      },
+    ],
+    completedOn,
+    modelVersion,
+  },
+];
+
+export const expectation29: AnalyzeBatchResult[] = [
+  {
+    kind: "ExtractiveSummarization",
+    results: [
+      {
+        id: "0",
+        warnings: [],
+        sentences: [
+          {
+            text: "Windows 365 is a new virtualization technology for Windows that is easy to set up and deploy for today’s login-from-anywhere, mobile and elastic workforces.",
+            rankScore: 1,
+            offset: 2610,
+            length: 156,
+          },
+          {
+            text: "Windows is already accessible in the cloud via Azure Virtual Desktop, which offers customers flexibility to create and run their own virtualization service.",
+            rankScore: 0.69,
+            offset: 2453,
+            length: 156,
+          },
+          {
+            text: "The Government of Nunavut relies on this internet link to provide healthcare, education, housing and family, and financial and other services to 25 communities.",
+            rankScore: 0.35,
+            offset: 526,
+            length: 160,
+          },
+        ],
+      },
+      {
+        id: "1",
+        warnings: [],
+        sentences: [
+          {
+            text: "It enables employees accustomed to working from home to continue working from home;",
+            rankScore: 1,
+            offset: 1337,
+            length: 83,
+          },
+          {
+            text: "In this new world of Windows 365, remote workers flip the lid on their laptop, bootup the family workstation or clip a keyboard onto a tablet, launch a native app or modern web browser and login to their Windows 365 account.",
+            rankScore: 0.9,
+            offset: 479,
+            length: 224,
+          },
+          {
+            text: "it enables companies to hire interns from halfway around the world;",
+            rankScore: 0.71,
+            offset: 1421,
+            length: 67,
+          },
+        ],
+      },
+    ],
+    completedOn,
+    modelVersion,
+  },
+];

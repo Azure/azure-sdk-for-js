@@ -259,27 +259,31 @@ export function processAnalyzeResult(options: {
   };
 }
 
+type Writable<T> = {
+  -readonly [P in keyof T]: T[P];
+};
+
 /**
  * @internal
  */
 export function createUpdateAnalyzeState(documents?: TextDocumentInput[]) {
-  return (
-    state: AnalyzeBatchOperationState & { documents?: TextDocumentInput[] },
-    lastResponse: RawResponse
-  ): void => {
+  return (state: AnalyzeBatchOperationState, lastResponse: RawResponse): void => {
     const { createdOn, lastModifiedOn, operationId, status, displayName, expiresOn, tasks } =
       lastResponse.body as AnalyzeTextJobStatusResponse;
-    state.createdOn = createdOn;
-    state.lastModifiedOn = lastModifiedOn;
-    state.expiresOn = expiresOn;
-    state.displayName = displayName;
-    state.operationId = operationId;
-    state.status = status;
-    state.actionSucceededCount = tasks.completed;
-    state.actionFailedCount = tasks.failed;
-    state.actionInProgressCount = tasks.inProgress;
-    if (state.documents === undefined && documents !== undefined) {
-      state.documents = documents;
+    const mutableState = state as Writable<AnalyzeBatchOperationState> & {
+      documents?: TextDocumentInput[];
+    };
+    mutableState.createdOn = createdOn;
+    mutableState.lastModifiedOn = lastModifiedOn;
+    mutableState.expiresOn = expiresOn;
+    mutableState.displayName = displayName;
+    mutableState.operationId = operationId;
+    mutableState.status = status;
+    mutableState.actionSucceededCount = tasks.completed;
+    mutableState.actionFailedCount = tasks.failed;
+    mutableState.actionInProgressCount = tasks.inProgress;
+    if (mutableState.documents === undefined && documents !== undefined) {
+      mutableState.documents = documents;
     }
   };
 }

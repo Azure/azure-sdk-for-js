@@ -433,7 +433,8 @@ export interface Match {
   length: number;
 }
 
-export interface ExtractedSummarySentence {
+/** A sentence that is part of the extracted summary. */
+export interface SummarySentence {
   /** The extracted sentence text. */
   text: string;
   /** A double value representing the relevance of the sentence within the summary. Higher values indicate higher importance. */
@@ -682,7 +683,7 @@ export type PiiEntitiesDocumentResult = DocumentResult & {
 
 export type ExtractedSummaryDocumentResult = DocumentResult & {
   /** A ranked list of sentences representing the extracted summary. */
-  sentences: ExtractedSummarySentence[];
+  sentences: SummarySentence[];
 };
 
 export type KeyPhrasesDocumentResult = DocumentResult & {
@@ -745,7 +746,7 @@ export type PiiLROTask = AnalyzeBatchAction & {
 /** An object representing the task definition for an Extractive Summarization task. */
 export type ExtractiveSummarizationLROTask = AnalyzeBatchAction & {
   /** Supported parameters for an Extractive Summarization task. */
-  parameters?: ExtractiveSummarizationTaskParameters;
+  parameters?: ExtractiveSummarizationAction;
 };
 
 /** An object representing the task definition for a Key Phrase Extraction task. */
@@ -863,10 +864,10 @@ export type HealthcareAction = ActionPrebuilt & {
 };
 
 /** Supported parameters for an Extractive Summarization task. */
-export type ExtractiveSummarizationTaskParameters = ActionPrebuilt & {
-  sentenceCount?: number;
+export type ExtractiveSummarizationAction = ActionPrebuilt & {
+  maxSentenceCount?: number;
   /** The sorting criteria to use for the results of Extractive Summarization. */
-  sortBy?: ExtractiveSummarizationSortingCriteria;
+  orderBy?: ExtractiveSummarizationOrderingCriteria;
   /**
    * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
    *
@@ -1658,8 +1659,8 @@ export enum KnownRelationType {
  */
 export type RelationType = string;
 
-/** Known values of {@link ExtractiveSummarizationSortingCriteria} that the service accepts. */
-export enum KnownExtractiveSummarizationSortingCriteria {
+/** Known values of {@link ExtractiveSummarizationOrderingCriteria} that the service accepts. */
+export enum KnownExtractiveSummarizationOrderingCriteria {
   /** Indicates that results should be sorted in order of appearance in the text. */
   Offset = "Offset",
   /** Indicates that results should be sorted in order of importance (i.e. rank score) according to the model. */
@@ -1667,14 +1668,14 @@ export enum KnownExtractiveSummarizationSortingCriteria {
 }
 
 /**
- * Defines values for ExtractiveSummarizationSortingCriteria. \
- * {@link KnownExtractiveSummarizationSortingCriteria} can be used interchangeably with ExtractiveSummarizationSortingCriteria,
+ * Defines values for ExtractiveSummarizationOrderingCriteria. \
+ * {@link KnownExtractiveSummarizationOrderingCriteria} can be used interchangeably with ExtractiveSummarizationOrderingCriteria,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Offset**: Indicates that results should be sorted in order of appearance in the text. \
  * **Rank**: Indicates that results should be sorted in order of importance (i.e. rank score) according to the model.
  */
-export type ExtractiveSummarizationSortingCriteria = string;
+export type ExtractiveSummarizationOrderingCriteria = string;
 /** Defines values for OperationStatus. */
 export type OperationStatus =
   | "notStarted"
