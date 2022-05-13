@@ -117,7 +117,7 @@ function GetPackageLookup($packageList) {
 
 function create-metadata-table($absolutePath, $readmeName, $moniker, $msService, $clientTableLink, $mgmtTableLink, $serviceName)
 {
-  $readmePath = "$absolutePath$readmeName"
+  $readmePath = Join-Path $absolutePath -ChildPath $readmeName
   New-Item -Path $readmePath -Force
   $lang = $LanguageDisplayName
   $langTitle = "Azure $serviceName SDK for $lang"
@@ -129,12 +129,12 @@ function create-metadata-table($absolutePath, $readmeName, $moniker, $msService,
   # Add tables, seperate client and mgmt.
   $readmeHeader = "# $langTitle - $moniker"
   Add-Content -Path $readmePath -Value $readmeHeader
-  if (Test-Path "$absolutePath$clientTableLink") {
+  if (Test-Path (Join-Path $absolutePath -ChildPath $clientTableLink)) {
     $clientTable = "## Client packages - $moniker`r`n"
     $clientTable += "[!INCLUDE [client-packages]($clientTableLink)]`r`n"
     Add-Content -Path $readmePath -Value $clientTable
   }
-  if (Test-Path "$absolutePath$mgmtTableLink") {
+  if (Test-Path (Join-Path $absolutePath -ChildPath $mgmtTableLink)) {
     $mgmtTable = "## Management packages - $moniker`r`n"
     $mgmtTable += "[!INCLUDE [mgmt-packages]($mgmtTableLink)]`r`n"
     Add-Content -Path $readmePath -Value $mgmtTable -NoNewline
@@ -184,7 +184,7 @@ function generate-markdown-table($absolutePath, $readmeName, $packageInfo, $moni
     $repositoryLink = $RepositoryUri
     $packageLevelReame = &$GetPackageLevelReadmeFn -packageMetadata $pkg
     $referenceLink = "$packageLevelReame-readme"
-    if (!(Test-Path "$absolutePath$referenceLink.md")) {
+    if (!(Test-Path (Join-Path $absolutePath -ChildPath "$referenceLink.md"))) {
       continue
     }
     $githubLink = $GithubUri
@@ -194,7 +194,7 @@ function generate-markdown-table($absolutePath, $readmeName, $packageInfo, $moni
     $line = "|[$($pkg.DisplayName)]($referenceLink)|[$($pkg.Package)]($repositoryLink/$($pkg.Package))|[Github]($githubLink)|`r`n"
     $content += $line
   }
-  Set-Content -Path "$absolutePath$readmeName" -Value $content -NoNewline
+  Set-Content -Path (Join-Path $absolutePath -ChildPath $readmeName) -Value $content -NoNewline
 }
 
 function generate-service-level-readme($readmeBaseName, $pathPrefix, $clientPackageInfo, $mgmtPackageInfo, $serviceName) {
@@ -204,7 +204,7 @@ function generate-service-level-readme($readmeBaseName, $pathPrefix, $clientPack
 
   $msService = GetDocsMsService -clientPackageInfo $clientPackageInfo -mgmtPackageInfo $mgmtPackageInfo -serviceName $serviceName
   for($i=0; $i -lt $monikers.Length; $i++) {
-    $absolutePath = "$DocRepoLocation/$pathPrefix/$($monikers[$i])/"
+    $absolutePath = "$DocRepoLocation/$pathPrefix/$($monikers[$i])"
     $serviceReadme = "$readmeBaseName.md"
     $clientIndexReadme  = "$readmeBaseName-client-index.md"
     $mgmtIndexReadme  = "$readmeBaseName-mgmt-index.md"
@@ -214,13 +214,13 @@ function generate-service-level-readme($readmeBaseName, $pathPrefix, $clientPack
     if ($mgmtPackageInfo) {
       generate-markdown-table -absolutePath "$absolutePath" -readmeName "$mgmtIndexReadme" -packageInfo $mgmtPackageInfo -moniker $monikers[$i]
     }
-    if (!(Test-Path "$absolutePath$serviceReadme")) {
+    if (!(Test-Path (Join-Path $absolutePath -ChildPath $serviceReadme))) {
       create-metadata-table -absolutePath $absolutePath -readmeName $serviceReadme -moniker $monikers[$i] -msService $msService `
         -clientTableLink $clientIndexReadme -mgmtTableLink $mgmtIndexReadme `
         -serviceName $serviceName
     }
     else {
-      update-metadata-table -readmePath "$absolutePath$serviceReadme" -serviceName $serviceName -msService $msService
+      update-metadata-table -readmePath (Join-Path $absolutePath -ChildPath $serviceReadme) -serviceName $serviceName -msService $msService
     }
   } 
 }
