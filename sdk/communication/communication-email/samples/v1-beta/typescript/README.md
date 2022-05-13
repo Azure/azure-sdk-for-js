@@ -4,10 +4,10 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 
 | **File Name**                                                 | **Description**                           |
 | ------------------------------------------------------------- | ----------------------------------------- |
-| [checkMessageStatus.ts][checkmessagestatus]                   | Checks the message status of a sent email |
-| [sendEmailMultipleRecipients.ts][sendemailmultiplerecipients] | Sends an email with multiple recipients   |
-| [sendEmailSingleRecipient.ts][sendemailsinglerecipient]       | Sends an email with a single recipient    |
-| [sendEmailWithAttachments.ts][sendemailwithattachments]       | Sends an email with a txt file attachment |
+| checkMessageStatus.ts                   | Checks the message status of a sent email |
+| sendEmailMultipleRecipients.ts | Sends an email with multiple recipients   |
+| sendEmailSingleRecipient.ts     | Sends an email with a single recipient    |
+| sendEmailWithAttachments.ts    | Sends an email with a txt file attachment |
 
 ## Prerequisites
 
@@ -26,7 +26,7 @@ You need [an Azure subscription][freesub] and the following Azure resources to r
 
 Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
-Adapting the samples to run in the browser may require some additional consideration. For details, please see the [package README][package].
+Adapting the samples to run in the browser may require some additional consideration. For details, please see the package README.
 
 ## Setup
 
@@ -58,17 +58,7 @@ Alternatively, run a single sample with the correct environment variables set (s
 npx cross-env COMMUNICATION_CONNECTION_STRING="<communication connection string>" SENDER_ADDRESS="<sender address>" RECIPIENT_ADDRESS="<recipient address>" node dist/checkMessageStatus.js
 ```
 
-## Next Steps
-
-Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
-
-[checkmessagestatus]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-email/samples/v1-beta/typescript/src/checkMessageStatus.ts
-[sendemailmultiplerecipients]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-email/samples/v1-beta/typescript/src/sendEmailMultipleRecipients.ts
-[sendemailsinglerecipient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-email/samples/v1-beta/typescript/src/sendEmailSingleRecipient.ts
-[sendemailwithattachments]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-email/samples/v1-beta/typescript/src/sendEmailWithAttachments.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-email
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecommunicationservicesresource]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
 [createinstance_emailcommunicationservicesresource]: https://aka.ms/acsemail/createemailresource
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-email/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
