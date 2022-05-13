@@ -1,0 +1,1353 @@
+{
+  "metadata": {
+    "toolPackage": "@microsoft/api-extractor",
+    "toolVersion": "7.18.11",
+    "schemaVersion": 1004,
+    "oldestForwardsCompatibleVersion": 1001,
+    "tsdocConfig": {
+      "$schema": "https://developer.microsoft.com/json-schemas/tsdoc/v0/tsdoc.schema.json",
+      "noStandardTags": true,
+      "tagDefinitions": [
+        {
+          "tagName": "@alpha",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@beta",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@defaultValue",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@decorator",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@deprecated",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@eventProperty",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@example",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@experimental",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@inheritDoc",
+          "syntaxKind": "inline"
+        },
+        {
+          "tagName": "@internal",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@label",
+          "syntaxKind": "inline"
+        },
+        {
+          "tagName": "@link",
+          "syntaxKind": "inline",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@override",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@packageDocumentation",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@param",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@privateRemarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@public",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@readonly",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@remarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@returns",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@sealed",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@see",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@throws",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@typeParam",
+          "syntaxKind": "block",
+          "allowMultiple": true
+        },
+        {
+          "tagName": "@virtual",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@betaDocumentation",
+          "syntaxKind": "modifier"
+        },
+        {
+          "tagName": "@internalRemarks",
+          "syntaxKind": "block"
+        },
+        {
+          "tagName": "@preapproved",
+          "syntaxKind": "modifier"
+        }
+      ],
+      "supportForTags": {
+        "@alpha": true,
+        "@beta": true,
+        "@defaultValue": true,
+        "@decorator": true,
+        "@deprecated": true,
+        "@eventProperty": true,
+        "@example": true,
+        "@experimental": true,
+        "@inheritDoc": true,
+        "@internal": true,
+        "@label": true,
+        "@link": true,
+        "@override": true,
+        "@packageDocumentation": true,
+        "@param": true,
+        "@privateRemarks": true,
+        "@public": true,
+        "@readonly": true,
+        "@remarks": true,
+        "@returns": true,
+        "@sealed": true,
+        "@see": true,
+        "@throws": true,
+        "@typeParam": true,
+        "@virtual": true,
+        "@betaDocumentation": true,
+        "@internalRemarks": true,
+        "@preapproved": true
+      }
+    }
+  },
+  "kind": "Package",
+  "canonicalReference": "@azure/communication-email!",
+  "docComment": "",
+  "name": "@azure/communication-email",
+  "members": [
+    {
+      "kind": "EntryPoint",
+      "canonicalReference": "@azure/communication-email!",
+      "name": "",
+      "members": [
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/communication-email!EmailAddress:interface",
+          "docComment": "/**\n * An object representing the email address and its display name\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface EmailAddress "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "EmailAddress",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/communication-email!EmailAddress#displayName:member",
+              "docComment": "/**\n * Email display name.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "displayName?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "displayName",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/communication-email!EmailAddress#email:member",
+              "docComment": "/**\n * Email address.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "email: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "email",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/communication-email!EmailAttachment:interface",
+          "docComment": "/**\n * Attachment to the email.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface EmailAttachment "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "EmailAttachment",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/communication-email!EmailAttachment#attachmentType:member",
+              "docComment": "/**\n * The type of attachment file.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "attachmentType: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "EmailAttachmentType",
+                  "canonicalReference": "@azure/communication-email!EmailAttachmentType:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "attachmentType",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/communication-email!EmailAttachment#contentBytesBase64:member",
+              "docComment": "/**\n * Base64 encoded contents of the attachment\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "contentBytesBase64: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "contentBytesBase64",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/communication-email!EmailAttachment#name:member",
+              "docComment": "/**\n * Name of the attachment\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "name: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "name",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@azure/communication-email!EmailAttachmentType:type",
+          "docComment": "/**\n * Defines values for EmailAttachmentType.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare type EmailAttachmentType = "
+            },
+            {
+              "kind": "Content",
+              "text": "\"avi\" | \"bmp\" | \"doc\" | \"docm\" | \"docx\" | \"gif\" | \"jpeg\" | \"mp3\" | \"one\" | \"pdf\" | \"png\" | \"ppsm\" | \"ppsx\" | \"ppt\" | \"pptm\" | \"pptx\" | \"pub\" | \"rpmsg\" | \"rtf\" | \"tif\" | \"txt\" | \"vsd\" | \"wav\" | \"wma\" | \"xls\" | \"xlsb\" | \"xlsm\" | \"xlsx\""
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "EmailAttachmentType",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/communication-email!EmailBody:interface",
+          "docComment": "/**\n * Body of the email content\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface EmailBody "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "EmailBody",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/communication-email!EmailBody#html:member",
+              "docComment": "/**\n * Html version of the email message.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "html?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "html",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/communication-email!EmailBody#plainText:member",
+              "docComment": "/**\n * Plain text version of the email message.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "plainText?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "plainText",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Class",
+          "canonicalReference": "@azure/communication-email!EmailClient:class",
+          "docComment": "/**\n * The Email service client.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare class EmailClient "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "EmailClient",
+          "members": [
+            {
+              "kind": "Constructor",
+              "canonicalReference": "@azure/communication-email!EmailClient:constructor(1)",
+              "docComment": "/**\n * Initializes a new instance of the EmailClient class.\n *\n * @param connectionString - Connection string to connect to an Azure Communication Service resource. Example: \"endpoint=https://contoso.eastus.communications.azure.net/;accesskey=secret\";\n *\n * @param options - Optional. Options to configure the HTTP pipeline.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "constructor(connectionString: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", options?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "EmailClientOptions",
+                  "canonicalReference": "@azure/communication-email!EmailClientOptions:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ");"
+                }
+              ],
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "connectionString",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "options",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "Constructor",
+              "canonicalReference": "@azure/communication-email!EmailClient:constructor(2)",
+              "docComment": "/**\n * Initializes a new instance of the EmailClient class using an Azure KeyCredential.\n *\n * @param endpoint - The endpoint of the service (ex: https://contoso.eastus.communications.azure.net).\n *\n * @param credential - An object that is used to authenticate requests to the service. Use the Azure KeyCredential or `@azure/identity` to create a credential.\n *\n * @param options - Optional. Options to configure the HTTP pipeline.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "constructor(endpoint: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", credential: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "KeyCredential",
+                  "canonicalReference": "@azure/core-auth!KeyCredential:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ", options?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "EmailClientOptions",
+                  "canonicalReference": "@azure/communication-email!EmailClientOptions:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ");"
+                }
+              ],
+              "releaseTag": "Public",
+              "overloadIndex": 2,
+              "parameters": [
+                {
+                  "parameterName": "endpoint",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                },
+                {
+                  "parameterName": "credential",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 3,
+                    "endIndex": 4
+                  }
+                },
+                {
+                  "parameterName": "options",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 5,
+                    "endIndex": 6
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@azure/communication-email!EmailClient#getMessageStatus:member(1)",
+              "docComment": "/**\n * Gets the status of a message sent previously.\n *\n * @param messageId - System generated message id (GUID) returned from a previous call to send email\n *\n * @param options - The options parameters.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "getMessageStatus(messageId: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "StatusFoundResponse",
+                  "canonicalReference": "@azure/communication-email!StatusFoundResponse:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 7
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "messageId",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "getMessageStatus"
+            },
+            {
+              "kind": "Method",
+              "canonicalReference": "@azure/communication-email!EmailClient#sendEmail:member(1)",
+              "docComment": "/**\n * Queues an email message to be sent to one or more recipients\n *\n * @param repeatabilityRequestId - If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs.\n *\n * @param repeatabilityFirstSent - Must be sent by clients to specify that a request is repeatable. Repeatability-First-Sent is used to specify the date and time at which the request was first created in the IMF-fix date form of HTTP-date as defined in RFC7231. eg- Tue, 26 Mar 2019 16:06:51 GMT\n *\n * @param emailMessage - Message payload for sending an email\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "sendEmail(emailMessage: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "EmailMessage",
+                  "canonicalReference": "@azure/communication-email!EmailMessage:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "): "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "Promise",
+                  "canonicalReference": "!Promise:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "<"
+                },
+                {
+                  "kind": "Reference",
+                  "text": "SendEmailResponse",
+                  "canonicalReference": "@azure/communication-email!SendEmailResponse:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ">"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "isStatic": false,
+              "returnTypeTokenRange": {
+                "startIndex": 3,
+                "endIndex": 7
+              },
+              "releaseTag": "Public",
+              "overloadIndex": 1,
+              "parameters": [
+                {
+                  "parameterName": "emailMessage",
+                  "parameterTypeTokenRange": {
+                    "startIndex": 1,
+                    "endIndex": 2
+                  }
+                }
+              ],
+              "name": "sendEmail"
+            }
+          ],
+          "implementsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/communication-email!EmailClientOptions:interface",
+          "docComment": "/**\n * Client options used to configure SMS Client API requests.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface EmailClientOptions extends "
+            },
+            {
+              "kind": "Reference",
+              "text": "PipelineOptions",
+              "canonicalReference": "@azure/core-http!PipelineOptions:interface"
+            },
+            {
+              "kind": "Content",
+              "text": " "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "EmailClientOptions",
+          "members": [],
+          "extendsTokenRanges": [
+            {
+              "startIndex": 1,
+              "endIndex": 3
+            }
+          ]
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/communication-email!EmailContent:interface",
+          "docComment": "/**\n * Content of the email.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface EmailContent "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "EmailContent",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/communication-email!EmailContent#body:member",
+              "docComment": "/**\n * Body of the email content\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "body: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "EmailBody",
+                  "canonicalReference": "@azure/communication-email!EmailBody:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "body",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/communication-email!EmailContent#importance:member",
+              "docComment": "/**\n * The importance type for the email.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "importance?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "EmailImportance",
+                  "canonicalReference": "@azure/communication-email!EmailImportance:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "importance",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/communication-email!EmailContent#subject:member",
+              "docComment": "/**\n * Subject of the email message\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "subject: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "subject",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/communication-email!EmailCustomHeader:interface",
+          "docComment": "/**\n * Custom header for email.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface EmailCustomHeader "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "EmailCustomHeader",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/communication-email!EmailCustomHeader#name:member",
+              "docComment": "/**\n * Header name.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "name: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "name",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/communication-email!EmailCustomHeader#value:member",
+              "docComment": "/**\n * Header value.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "value: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "value",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@azure/communication-email!EmailImportance:type",
+          "docComment": "/**\n * Defines values for EmailImportance.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare type EmailImportance = "
+            },
+            {
+              "kind": "Content",
+              "text": "\"high\" | \"normal\" | \"low\""
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "EmailImportance",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/communication-email!EmailMessage:interface",
+          "docComment": "/**\n * Message payload for sending an email\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface EmailMessage "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "EmailMessage",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/communication-email!EmailMessage#attachments:member",
+              "docComment": "/**\n * list of attachments\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "attachments?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "EmailAttachment",
+                  "canonicalReference": "@azure/communication-email!EmailAttachment:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "attachments",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/communication-email!EmailMessage#content:member",
+              "docComment": "/**\n * Email content to be sent.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "content: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "EmailContent",
+                  "canonicalReference": "@azure/communication-email!EmailContent:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "content",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/communication-email!EmailMessage#customHeaders:member",
+              "docComment": "/**\n * Custom email headers to be passed.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "customHeaders?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "EmailCustomHeader",
+                  "canonicalReference": "@azure/communication-email!EmailCustomHeader:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "customHeaders",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/communication-email!EmailMessage#recipients:member",
+              "docComment": "/**\n * Recipients for the email.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "recipients: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "EmailRecipients",
+                  "canonicalReference": "@azure/communication-email!EmailRecipients:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "recipients",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/communication-email!EmailMessage#replyTo:member",
+              "docComment": "/**\n * Email addresses where recipients' replies will be sent to.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "replyTo?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "EmailAddress",
+                  "canonicalReference": "@azure/communication-email!EmailAddress:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "replyTo",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/communication-email!EmailMessage#sender:member",
+              "docComment": "/**\n * Sender email address from a verified domain.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "sender: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "sender",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/communication-email!EmailMessage#userEngagementTrackingOverride:member",
+              "docComment": "/**\n * Indicates whether to override the state of user engagement tracking that was set at the resource level. By default, the state is not overridden.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "userEngagementTrackingOverride?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "EmailUserEngagementTrackingState",
+                  "canonicalReference": "@azure/communication-email!EmailUserEngagementTrackingState:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "userEngagementTrackingOverride",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/communication-email!EmailRecipients:interface",
+          "docComment": "/**\n * Recipients of the email\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface EmailRecipients "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "EmailRecipients",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/communication-email!EmailRecipients#bccRecipients:member",
+              "docComment": "/**\n * Email bcc recipients\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "bccRecipients?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "EmailAddress",
+                  "canonicalReference": "@azure/communication-email!EmailAddress:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "bccRecipients",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/communication-email!EmailRecipients#ccRecipients:member",
+              "docComment": "/**\n * Email cc recipients\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "ccRecipients?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "EmailAddress",
+                  "canonicalReference": "@azure/communication-email!EmailAddress:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "ccRecipients",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/communication-email!EmailRecipients#toRecipients:member",
+              "docComment": "/**\n * Email to recipients\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "toRecipients: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "EmailAddress",
+                  "canonicalReference": "@azure/communication-email!EmailAddress:interface"
+                },
+                {
+                  "kind": "Content",
+                  "text": "[]"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "toRecipients",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 3
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "TypeAlias",
+          "canonicalReference": "@azure/communication-email!MessageStatus:type",
+          "docComment": "/**\n * Defines values for MessageStatus.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare type MessageStatus = "
+            },
+            {
+              "kind": "Content",
+              "text": "\"queued\" | \"outForDelivery\" | \"dropped\""
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "MessageStatus",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/communication-email!SendEmailResponse:interface",
+          "docComment": "/**\n * Results of a sent email.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface SendEmailResponse "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "SendEmailResponse",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/communication-email!SendEmailResponse#messageId:member",
+              "docComment": "/**\n * MessageId of the sent email.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "messageId?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "messageId",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        },
+        {
+          "kind": "Interface",
+          "canonicalReference": "@azure/communication-email!StatusFoundResponse:interface",
+          "docComment": "/**\n * Status of an email message that was sent previously.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export interface StatusFoundResponse "
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "StatusFoundResponse",
+          "members": [
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/communication-email!StatusFoundResponse#messageId:member",
+              "docComment": "/**\n * System generated id of an email message sent.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "messageId: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "messageId",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/communication-email!StatusFoundResponse#status:member",
+              "docComment": "/**\n * The type indicating the status of a request.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "status: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "MessageStatus",
+                  "canonicalReference": "@azure/communication-email!MessageStatus:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": false,
+              "releaseTag": "Public",
+              "name": "status",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            }
+          ],
+          "extendsTokenRanges": []
+        }
+      ]
+    }
+  ]
+}
