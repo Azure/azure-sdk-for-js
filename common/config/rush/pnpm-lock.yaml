@@ -159,6 +159,7 @@ specifiers:
   '@rush-temp/arm-storage-profile-2020-09-01-hybrid': file:./projects/arm-storage-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-storagecache': file:./projects/arm-storagecache.tgz
   '@rush-temp/arm-storageimportexport': file:./projects/arm-storageimportexport.tgz
+  '@rush-temp/arm-storagepool': file:./projects/arm-storagepool.tgz
   '@rush-temp/arm-storagesync': file:./projects/arm-storagesync.tgz
   '@rush-temp/arm-storsimple1200series': file:./projects/arm-storsimple1200series.tgz
   '@rush-temp/arm-storsimple8000series': file:./projects/arm-storsimple8000series.tgz
@@ -435,6 +436,7 @@ dependencies:
   '@rush-temp/arm-storage-profile-2020-09-01-hybrid': file:projects/arm-storage-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-storagecache': file:projects/arm-storagecache.tgz
   '@rush-temp/arm-storageimportexport': file:projects/arm-storageimportexport.tgz
+  '@rush-temp/arm-storagepool': file:projects/arm-storagepool.tgz
   '@rush-temp/arm-storagesync': file:projects/arm-storagesync.tgz
   '@rush-temp/arm-storsimple1200series': file:projects/arm-storsimple1200series.tgz
   '@rush-temp/arm-storsimple8000series': file:projects/arm-storsimple8000series.tgz
@@ -9235,7 +9237,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-mgBqLgANN5GfvaBoC8b8M+0kupymQe4VEtqebrPmON2T7RjuaEy02HZ0BfAqC5Ag+ea8O9+ZC2TrjGHfE3DV5w==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-SzCn41YZ/BPyOG53bMpoU8tddmYMQSW9zTTvSd0356VPzGXj4UKzyUsV97dhpUclb9Ar5PuNdETNcaFP2KuBmA==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -13482,6 +13484,32 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-storagepool.tgz:
+    resolution: {integrity: sha512-/SGWjjP+z1V/ZiboBvVzHk17k0e219pmNWlGyBcX40HdL9GGAXSpiyRyBLgzuWt8rXBbLHIH/scH6Pvm34sFYg==, tarball: file:projects/arm-storagepool.tgz}
+    name: '@rush-temp/arm-storagepool'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.72.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.72.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.72.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.72.0
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.72.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.72.0
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.15.4
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
+      - supports-color
+    dev: false
+
   file:projects/arm-storagesync.tgz:
     resolution: {integrity: sha512-KBRVQ/GuekNR6Vd19pFXlqelJqLFaS+2s6+M5WQBvrPFzPBKXOok6oGG6c10l+LufU0ZlA9M7GanKvKs6go6Nw==, tarball: file:projects/arm-storagesync.tgz}
     name: '@rush-temp/arm-storagesync'
@@ -14397,7 +14425,7 @@ packages:
     dev: false
 
   file:projects/container-registry.tgz:
-    resolution: {integrity: sha512-V/p7+Cu1a49LybAJV+v1tUHitMbg1pVOSwQ6JAxkgH16EcQnohNFUpqf+QtvKXMpbI6BKVSx/9VQM5/AtUMAQw==, tarball: file:projects/container-registry.tgz}
+    resolution: {integrity: sha512-BLmLIgLI2MH9kI3aFjUoctL3DRWLA5JIZhrJkZNm4L4lWmBvXrmHmsa0PZiQccwCnkln+mTtEB1KE28sPwEVkg==, tarball: file:projects/container-registry.tgz}
     name: '@rush-temp/container-registry'
     version: 0.0.0
     dependencies:
@@ -15349,7 +15377,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz:
-    resolution: {integrity: sha512-fJ6cZn28kU24JmLoWiHPo3PAobLpDHVym2oH/wy9csf0xLJ1GhrPVFYHiBPxWpgYC5flNiH5OBe2DsF3XLTjxQ==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-o2cL07TelVeXEaU2wY2Y4BeA+eMaU/TnmxrCoFyEw3Op0a/F+cctdENNTDxm2tIDP9MNz0LspCktHFgf4NPFLg==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
@@ -15396,7 +15424,6 @@ packages:
       - '@swc/core'
       - '@swc/wasm'
       - bufferutil
-      - encoding
       - supports-color
       - utf-8-validate
     dev: false
@@ -16736,7 +16763,7 @@ packages:
     dev: false
 
   file:projects/quantum-jobs.tgz:
-    resolution: {integrity: sha512-VxnLvyLqoZH49xy0s+rp9ctoU8vHvYNl+4ZHlV0kTIWs1m8Gum1j8KODVUJgTkQxkfen1ajFnJ6H70k8fzmdWA==, tarball: file:projects/quantum-jobs.tgz}
+    resolution: {integrity: sha512-3tDUSyC5067Lkl6sXvFfb/AmVxbl/T17baX535KAcbz1wmc+a77SxX0QJwnd0B60nhPYtxqGTV9jhS8n+FmS0Q==, tarball: file:projects/quantum-jobs.tgz}
     name: '@rush-temp/quantum-jobs'
     version: 0.0.0
     dependencies:
@@ -17008,7 +17035,7 @@ packages:
     dev: false
 
   file:projects/storage-blob-changefeed.tgz:
-    resolution: {integrity: sha512-b0ZQkTSDa8yRCYocVj6uJPULInje0y+srK1cj12YGNGCf3/7LvLyIr477AQMl6mH0LMKQqm5GGNy2QrzpS2ACQ==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-SrCjeQtrzDJmR9Zt36InqNML4QReO6HcTs2/N/Pa4fvIX5WfkDW/vO9lXpUQYnrfXJVcKKatFAvc42WIanJaTg==, tarball: file:projects/storage-blob-changefeed.tgz}
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:
@@ -17121,7 +17148,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-kKcBF5zuGkuic74HUG5FcmQj2CyY0vwQg9wosa+mCSlt/Ix88gpUyuKD/O+D8r1LuA3a76TmFjOsulUwdvhUKg==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-nXm5s35Wfg8EJFNsOIDTkcIW5uWws1QHUGFGKuoWSJyHUEqY2pmtAAdO+3RZfaA10SrvCD3zNTwqFLYmxxZ37w==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -17177,7 +17204,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-uTsgr0VLUxHKZktJu5q3HFXhXpVPlAQ6i+QYCtRJ+H3S072thFQPmScED3nSXbG6sU6wudKC6MK6Odl7Y8qN/Q==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-Jrb/nCljJ1JIrl0pYwCo6g7kp4d5qL8W3R/wAiFYHUgLwgRpF/4GaH8CtrfvlUwcGeuRhrkKJLp0+CFf1PEGKw==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
