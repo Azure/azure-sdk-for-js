@@ -6,13 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as operations from "./operations";
-import * as Models from "./models";
-import * as Mappers from "./models/mappers";
+import { SmsImpl } from "./operations";
+import { Sms } from "./operationsInterfaces";
 import { SmsApiClientContext } from "./smsApiClientContext";
 import { SmsApiClientOptionalParams } from "./models";
 
-class SmsApiClient extends SmsApiClientContext {
+export class SmsApiClient extends SmsApiClientContext {
   /**
    * Initializes a new instance of the SmsApiClient class.
    * @param endpoint The communication resource, for example https://my-resource.communication.azure.com
@@ -20,18 +19,8 @@ class SmsApiClient extends SmsApiClientContext {
    */
   constructor(endpoint: string, options?: SmsApiClientOptionalParams) {
     super(endpoint, options);
-    this.sms = new operations.Sms(this);
+    this.sms = new SmsImpl(this);
   }
 
-  sms: operations.Sms;
+  sms: Sms;
 }
-
-// Operation Specifications
-
-export {
-  SmsApiClient,
-  SmsApiClientContext,
-  Models as SmsApiModels,
-  Mappers as SmsApiMappers
-};
-export * from "./operations";

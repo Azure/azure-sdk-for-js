@@ -104,7 +104,7 @@ export function tokenExchangeMsi(): MSI {
 
       try {
         assertion = await readAssertion();
-      } catch (err) {
+      } catch (err: any) {
         throw new Error(
           `${msiName}: Failed to read ${azureFederatedTokenFilePath}, indicated by the environment variable AZURE_FEDERATED_TOKEN_FILE`
         );

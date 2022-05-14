@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { record, Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import * as fs from "fs";
 import * as path from "path";
@@ -24,6 +24,7 @@ import { AbortController } from "@azure/abort-controller";
 import { Readable, PassThrough } from "stream";
 import { streamToBuffer2 } from "../../src/utils/utils.node";
 import { Context } from "mocha";
+import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 
 describe("Highlevel Node.js only", () => {
   let fileSystemName: string;
@@ -80,6 +81,86 @@ describe("Highlevel Node.js only", () => {
     await recorder.stop();
   });
 
+  it("upload and read with cpk", async () => {
+    const content = "Hello, World!";
+    await fileClient.upload(Buffer.from(content), {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    const result = await fileClient.read(0, undefined, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+    assert.deepStrictEqual(await bodyToString(result, content.length), content);
+  });
+
+  it("upload large data with cpk", async function (this: Context) {
+    if (!isLiveMode()) {
+      // recorder doesn't support saving the file
+      this.skip();
+    }
+    const uploadedBuffer = fs.readFileSync(tempFileLarge);
+    await fileClient.upload(uploadedBuffer, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    const readResponse = await fileClient.read(0, undefined, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+    const readFile = path.join(tempFolderPath, recorder.getUniqueName("downloadfile."));
+    await readStreamToLocalFileWithLogs(readResponse.readableStreamBody!, readFile);
+    const readBuffer = await fs.readFileSync(readFile);
+    assert.ok(uploadedBuffer.equals(readBuffer));
+
+    fs.unlinkSync(readFile);
+  });
+
+  it("uploadFile with CPK", async function (this: Context) {
+    if (!isLiveMode()) {
+      // recorder doesn't support saving the file
+      this.skip();
+    }
+    await fileClient.uploadFile(tempFileSmall, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    const readBuffer = await fileClient.readToBuffer(0, undefined, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    const uploadedBuffer = fs.readFileSync(tempFileSmall);
+    assert.ok(uploadedBuffer.equals(readBuffer));
+  });
+
+  it("readToFile with CPK", async function (this: Context) {
+    if (!isLiveMode()) {
+      // recorder doesn't support saving the file
+      this.skip();
+    }
+    await fileClient.uploadFile(tempFileSmall, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    const readFilePath = recorder.getUniqueName("readFilePath");
+    const readResponse = await fileClient.readToFile(readFilePath, 0, undefined, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+    assert.ok(
+      readResponse.contentLength === tempFileSmallLength,
+      "readResponse.contentLength doesn't match tempFileSmallLength"
+    );
+    assert.equal(
+      readResponse.readableStreamBody,
+      undefined,
+      "Expecting readResponse.readableStreamBody to be undefined."
+    );
+
+    const localFileContent = fs.readFileSync(tempFileSmall);
+    const readFileContent = fs.readFileSync(readFilePath);
+    assert.ok(localFileContent.equals(readFileContent));
+
+    fs.unlinkSync(readFilePath);
+  });
+
   it("upload should work for large data", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const uploadedBuffer = fs.readFileSync(tempFileLarge);
@@ -117,7 +198,7 @@ describe("Highlevel Node.js only", () => {
         abortSignal: aborter,
       });
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
     }
   });
@@ -132,7 +213,7 @@ describe("Highlevel Node.js only", () => {
         singleUploadThreshold: 8 * MB,
       });
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
     }
   });
@@ -157,7 +238,7 @@ describe("Highlevel Node.js only", () => {
         },
         chunkSize: 4 * MB,
       });
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
     assert.ok(eventTriggered);
@@ -183,7 +264,7 @@ describe("Highlevel Node.js only", () => {
         },
         singleUploadThreshold: 8 * MB,
       });
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
     assert.ok(eventTriggered);
@@ -209,7 +290,7 @@ describe("Highlevel Node.js only", () => {
       await fileClient.upload(Buffer.from("bb"), {
         conditions: { ifNoneMatch: "*" },
       });
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(
         err.details.errorCode,
         "PathAlreadyExists",
@@ -234,7 +315,7 @@ describe("Highlevel Node.js only", () => {
 
     try {
       await fileClient.upload(Buffer.from("bb"));
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(
         err.details.errorCode,
         "LeaseIdMissing",
@@ -277,7 +358,7 @@ describe("Highlevel Node.js only", () => {
       await fileClient.upload(Buffer.from("bb"), {
         conditions: { ifNoneMatch: "*", leaseId: leaseClient.leaseId },
       });
-    } catch (err) {
+    } catch (err: any) {
       errThrown = true;
       assert.equal(
         err.details.errorCode,
@@ -316,7 +397,7 @@ describe("Highlevel Node.js only", () => {
       await fileClient.upload(uploadedBuffer, {
         chunkSize: Math.floor((tempFileLargeLength - 1) / BLOCK_BLOB_MAX_BLOCKS),
       });
-    } catch (err) {
+    } catch (err: any) {
       if (err instanceof RangeError && err.message.includes("the number of chunks must be <=")) {
         exceptionCaught = true;
       }
@@ -348,7 +429,7 @@ describe("Highlevel Node.js only", () => {
     try {
       await fileClient.uploadStream(rs, { abortSignal: aborter });
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
     }
   });
@@ -434,7 +515,7 @@ describe("Highlevel Node.js only", () => {
         abortSignal: aborter,
       });
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
     }
   });
@@ -448,7 +529,7 @@ describe("Highlevel Node.js only", () => {
         singleUploadThreshold: 8 * MB,
       });
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
     }
   });
@@ -470,7 +551,7 @@ describe("Highlevel Node.js only", () => {
           aborter.abort();
         },
       });
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
     assert.ok(eventTriggered);
@@ -495,7 +576,7 @@ describe("Highlevel Node.js only", () => {
         },
         singleUploadThreshold: 8 * MB,
       });
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
     assert.ok(eventTriggered);
@@ -519,7 +600,7 @@ describe("Highlevel Node.js only", () => {
         chunkSize: FILE_UPLOAD_MAX_CHUNK_SIZE,
         abortSignal: AbortController.timeout(20 * 1000), // takes too long to upload the file
       });
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
     }
 
@@ -536,7 +617,7 @@ describe("Highlevel Node.js only", () => {
         chunkSize: FILE_UPLOAD_MAX_CHUNK_SIZE,
         abortSignal: AbortController.timeout(20 * 1000), // takes too long to upload the file
       });
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
     }
   }).timeout(timeoutForLargeFileUploadingTest);
@@ -592,7 +673,7 @@ describe("Highlevel Node.js only", () => {
     try {
       await fileClient.uploadFile(tempFileSmall);
       await fileClient.readToBuffer(undefined, (buffer as any).constants.MAX_LENGTH + 1);
-    } catch (err) {
+    } catch (err: any) {
       error = err;
     }
     assert.ok(
@@ -633,7 +714,7 @@ describe("Highlevel Node.js only", () => {
         chunkSize: 4 * MB,
       });
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
     }
   });
@@ -654,7 +735,7 @@ describe("Highlevel Node.js only", () => {
           aborter.abort();
         },
       });
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
     assert.ok(eventTriggered);
@@ -691,7 +772,7 @@ describe("Highlevel Node.js only", () => {
     try {
       await fileClient.readToFile(__dirname);
       throw new Error("Test failure.");
-    } catch (err) {
+    } catch (err: any) {
       assert.notEqual(err.message, "Test failure.");
     }
   });

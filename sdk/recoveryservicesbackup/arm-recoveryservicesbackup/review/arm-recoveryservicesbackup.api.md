@@ -215,7 +215,10 @@ export type AzureIaaSVMProtectedItem = ProtectedItem & {
 
 // @public
 export interface AzureIaaSVMProtectedItemExtendedInfo {
+    newestRecoveryPointInArchive?: Date;
     oldestRecoveryPoint?: Date;
+    oldestRecoveryPointInArchive?: Date;
+    oldestRecoveryPointInVault?: Date;
     policyInconsistent?: boolean;
     recoveryPointCount?: number;
 }
@@ -229,6 +232,9 @@ export type AzureIaaSVMProtectionPolicy = ProtectionPolicy & {
     instantRPDetails?: InstantRPAdditionalDetails;
     schedulePolicy?: SchedulePolicyUnion;
     retentionPolicy?: RetentionPolicyUnion;
+    tieringPolicy?: {
+        [propertyName: string]: TieringPolicy;
+    };
     instantRpRetentionRangeInDays?: number;
     timeZone?: string;
     policyType?: IaasvmPolicyType;
@@ -401,7 +407,10 @@ export type AzureVmWorkloadProtectedItem = ProtectedItem & {
 
 // @public
 export interface AzureVmWorkloadProtectedItemExtendedInfo {
+    newestRecoveryPointInArchive?: Date;
     oldestRecoveryPoint?: Date;
+    oldestRecoveryPointInArchive?: Date;
+    oldestRecoveryPointInVault?: Date;
     policyState?: string;
     recoveryModel?: string;
     recoveryPointCount?: number;
@@ -1670,7 +1679,7 @@ export type IaasVMBackupRequest = BackupRequest & {
 
 // @public
 export type IaaSVMContainer = ProtectionContainer & {
-    containerType: "IaaSVMContainer" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines";
+    containerType: "IaasVMContainer" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines";
     virtualMachineId?: string;
     virtualMachineVersion?: string;
     resourceGroup?: string;
@@ -2686,6 +2695,18 @@ export enum KnownSupportStatus {
 }
 
 // @public
+export enum KnownTieringMode {
+    // (undocumented)
+    DoNotTier = "DoNotTier",
+    // (undocumented)
+    Invalid = "Invalid",
+    // (undocumented)
+    TierAfter = "TierAfter",
+    // (undocumented)
+    TierRecommended = "TierRecommended"
+}
+
+// @public
 export enum KnownType {
     // (undocumented)
     BackupProtectedItemCountSummary = "BackupProtectedItemCountSummary",
@@ -3350,7 +3371,7 @@ export type ProtectedItemUnion = ProtectedItem | AzureFileshareProtectedItem | A
 // @public
 export interface ProtectionContainer {
     backupManagementType?: BackupManagementType;
-    containerType: "DPMContainer" | "AzureBackupServerContainer" | "IaaSVMContainer" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureWorkloadContainer" | "SQLAGWorkLoadContainer" | "AzureSqlContainer" | "StorageContainer" | "VMAppContainer" | "GenericContainer" | "Windows";
+    containerType: "DPMContainer" | "AzureBackupServerContainer" | "IaasVMContainer" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureWorkloadContainer" | "SQLAGWorkLoadContainer" | "AzureSqlContainer" | "StorageContainer" | "VMAppContainer" | "GenericContainer" | "Windows";
     friendlyName?: string;
     healthStatus?: string;
     protectableObjectType?: string;
@@ -4083,6 +4104,9 @@ export interface SubProtectionPolicy {
     policyType?: PolicyType;
     retentionPolicy?: RetentionPolicyUnion;
     schedulePolicy?: SchedulePolicyUnion;
+    tieringPolicy?: {
+        [propertyName: string]: TieringPolicy;
+    };
 }
 
 // @public
@@ -4100,6 +4124,16 @@ export interface TargetRestoreInfo {
     databaseName?: string;
     overwriteOption?: OverwriteOptions;
     targetDirectoryForFileRestore?: string;
+}
+
+// @public
+export type TieringMode = string;
+
+// @public
+export interface TieringPolicy {
+    duration?: number;
+    durationType?: RetentionDurationType;
+    tieringMode?: TieringMode;
 }
 
 // @public

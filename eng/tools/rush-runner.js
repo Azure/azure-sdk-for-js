@@ -120,7 +120,7 @@ const getServicePackages = (baseDir, serviceDirs, artifactNames) => {
     for (const filePath of packageJsons) {
       const contents = JSON.parse(fs.readFileSync(filePath, "utf8"));
       const artifactName = contents.name.replace("@", "").replace("/", "-");
-      if (validSdkTypes.includes(contents["sdk-type"]) && artifacts.includes(artifactName)) {
+      if (validSdkTypes.includes(contents["sdk-type"]) && (artifactNames.length === 0 || artifacts.includes(artifactName))) {
         packageNames.push(contents.name);
         packageDirs.push(path.dirname(filePath));
       }

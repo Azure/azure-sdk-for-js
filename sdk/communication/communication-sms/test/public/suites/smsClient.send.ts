@@ -100,7 +100,7 @@ export default function testCases(): void {
         }
       );
       assert.fail("Should have thrown an error");
-    } catch (e) {
+    } catch (e: any) {
       assert.equal(e.statusCode, 401);
     }
   });
@@ -121,7 +121,7 @@ export default function testCases(): void {
         }
       );
       assert.fail("Should have thrown an error");
-    } catch (e) {
+    } catch (e: any) {
       assert.equal(e.statusCode, 400);
     }
   });

@@ -87,7 +87,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
           try {
             await consumerClient.getEventHubProperties();
             throw new Error(TEST_FAILURE);
-          } catch (err) {
+          } catch (err: any) {
             should.equal(err.code, "UnauthorizedError");
           }
 
@@ -206,7 +206,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             // This sendBatch should fail because we've updated the credential to invalid values and allowed the cbs link to refresh.
             await producerClient.sendBatch([{ body: "I don't have access." }]);
             throw new Error(TEST_FAILURE);
-          } catch (err) {
+          } catch (err: any) {
             should.equal(err.code, "UnauthorizedError");
           }
 
@@ -256,7 +256,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
           try {
             await consumerClient.getEventHubProperties();
             throw new Error(TEST_FAILURE);
-          } catch (err) {
+          } catch (err: any) {
             should.equal(err.code, "UnauthorizedError");
           }
 
@@ -373,7 +373,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             // This sendBatch should fail because we've updated the credential to invalid values and allowed the cbs link to refresh.
             await producerClient.sendBatch([{ body: "I don't have access." }]);
             throw new Error(TEST_FAILURE);
-          } catch (err) {
+          } catch (err: any) {
             should.equal(err.code, "UnauthorizedError");
           }
 

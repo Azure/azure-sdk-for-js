@@ -157,7 +157,7 @@ export class ChangeFeedFactory {
         options.start,
         options.end
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

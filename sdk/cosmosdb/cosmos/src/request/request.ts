@@ -127,6 +127,11 @@ export async function getHeaders({
     headers[Constants.HttpHeaders.ConsistencyLevel] = options.consistencyLevel;
   }
 
+  if (options.maxIntegratedCacheStalenessInMs && resourceType === ResourceType.item) {
+    headers[Constants.HttpHeaders.DedicatedGatewayPerRequestCacheStaleness] =
+      options.maxIntegratedCacheStalenessInMs;
+  }
+
   if (options.resourceTokenExpirySeconds) {
     headers[Constants.HttpHeaders.ResourceTokenExpiry] = options.resourceTokenExpirySeconds;
   }
@@ -187,6 +192,7 @@ export async function getHeaders({
   if (options.disableRUPerMinuteUsage) {
     headers[Constants.HttpHeaders.DisableRUPerMinuteUsage] = true;
   }
+
   if (
     clientOptions.key ||
     clientOptions.resourceTokens ||

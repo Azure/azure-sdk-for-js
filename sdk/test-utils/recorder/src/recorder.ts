@@ -37,6 +37,8 @@ import {
 import { addTransform, Transform } from "./transform";
 import { createRecordingRequest } from "./utils/createRecordingRequest";
 import { AdditionalPolicyConfig } from "@azure/core-client";
+import { setRecordingOptions } from "./options";
+import { isNode } from "@azure/core-util";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -50,7 +52,7 @@ import { AdditionalPolicyConfig } from "@azure/core-client";
  * Other than configuring your clients, use `start`, `stop`, `addSanitizers` methods to use the recorder.
  */
 export class Recorder {
-  private url = "http://localhost:5000";
+  private static url = "http://localhost:5000";
   public recordingId?: string;
   private stateManager = new RecordingStateManager();
   private httpClient?: HttpClient;
@@ -79,7 +81,21 @@ export class Recorder {
    * - PipelineRequest -> core-v2 (recorderHttpPolicy calls this method on the request to modify and hit the proxy-tool with appropriate headers.)
    */
   private redirectRequest(request: WebResource | PipelineRequest): void {
-    if (!isLiveMode() && !request.headers.get("x-recording-id")) {
+    const upstreamUrl = new URL(request.url);
+    const redirectedUrl = new URL(request.url);
+    const testProxyUrl = new URL(Recorder.url);
+
+    // Sometimes, due to the service returning a redirect or due to the retry policy, redirectRequest
+    // may be called multiple times. We only want to update the request the second time if the request's
+    // URL has been changed between calls (this may happen in the case of a redirect, but generally
+    // not in the case of a retry). Otherwise, we might accidentally update the X-Recording-Upstream-Base-Uri
+    // header to point to the test proxy instead of the true upstream.
+    const requestAlreadyRedirected =
+      upstreamUrl.host === testProxyUrl.host &&
+      upstreamUrl.port === testProxyUrl.port &&
+      upstreamUrl.protocol === testProxyUrl.protocol;
+
+    if (!isLiveMode() && !requestAlreadyRedirected) {
       if (this.recordingId === undefined) {
         throw new RecorderError("Recording ID must be defined to redirect a request");
       }
@@ -87,13 +103,10 @@ export class Recorder {
       request.headers.set("x-recording-id", this.recordingId);
       request.headers.set("x-recording-mode", getTestMode());
 
-      const upstreamUrl = new URL(request.url);
-      const redirectedUrl = new URL(request.url);
-      const providedUrl = new URL(this.url);
+      redirectedUrl.host = testProxyUrl.host;
+      redirectedUrl.port = testProxyUrl.port;
+      redirectedUrl.protocol = testProxyUrl.protocol;
 
-      redirectedUrl.host = providedUrl.host;
-      redirectedUrl.port = providedUrl.port;
-      redirectedUrl.protocol = providedUrl.protocol;
       request.headers.set("x-recording-upstream-base-uri", upstreamUrl.toString());
       request.url = redirectedUrl.toString();
 
@@ -124,7 +137,33 @@ export class Recorder {
       ensureExistence(this.httpClient, "this.httpClient") &&
       ensureExistence(this.recordingId, "this.recordingId")
     ) {
-      return addSanitizers(this.httpClient, this.url, this.recordingId, options);
+      return addSanitizers(this.httpClient, Recorder.url, this.recordingId, options);
+    }
+  }
+
+  /**
+   * addSessionSanitizers adds the sanitizers for all the following recordings which will be applied on it before being saved.
+   * This lets you call addSessionSanitizers once (e.g. in a global before() in your tests). The sanitizers will be applied
+   * to every subsequent test.
+   *
+   * Takes SanitizerOptions as the input, passes on to the proxy-tool.
+   *
+   * By default, it applies only to record mode.
+   *
+   * If you want this to be applied in a specific mode or in a combination of modes, use the "mode" argument.
+   */
+  static async addSessionSanitizers(
+    options: SanitizerOptions,
+    mode: ("record" | "playback")[] = ["record"]
+  ): Promise<void> {
+    if (isLiveMode()) {
+      return;
+    }
+
+    const actualTestMode = getTestMode() as "record" | "playback";
+    if (mode.includes(actualTestMode)) {
+      const httpClient = createDefaultHttpClient();
+      return addSanitizers(httpClient, Recorder.url, undefined, options);
     }
   }
 
@@ -134,7 +173,7 @@ export class Recorder {
       ensureExistence(this.httpClient, "this.httpClient") &&
       ensureExistence(this.recordingId, "this.recordingId")
     ) {
-      await addTransform(this.url, this.httpClient, transform, this.recordingId);
+      await addTransform(Recorder.url, this.httpClient, transform, this.recordingId);
     }
   }
 
@@ -152,12 +191,13 @@ export class Recorder {
     if (isLiveMode()) return;
     this.stateManager.state = "started";
     if (this.recordingId === undefined) {
-      const startUri = `${this.url}${isPlaybackMode() ? paths.playback : paths.record}${
+      const startUri = `${Recorder.url}${isPlaybackMode() ? paths.playback : paths.record}${
         paths.start
       }`;
       const req = createRecordingRequest(startUri, this.sessionFile, this.recordingId);
 
       if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient")) {
+        await setRecordingOptions(Recorder.url, this.httpClient, { handleRedirects: isNode });
         const rsp = await this.httpClient.sendRequest({
           ...req,
           allowInsecureConnection: true,
@@ -176,7 +216,7 @@ export class Recorder {
 
         await handleEnvSetup(
           this.httpClient,
-          this.url,
+          Recorder.url,
           this.recordingId,
           options.envSetupForPlayback
         );
@@ -198,7 +238,9 @@ export class Recorder {
     if (isLiveMode()) return;
     this.stateManager.state = "stopped";
     if (this.recordingId !== undefined) {
-      const stopUri = `${this.url}${isPlaybackMode() ? paths.playback : paths.record}${paths.stop}`;
+      const stopUri = `${Recorder.url}${isPlaybackMode() ? paths.playback : paths.record}${
+        paths.stop
+      }`;
       const req = createRecordingRequest(stopUri, undefined, this.recordingId);
       req.headers.set("x-recording-save", "true");
 
@@ -237,7 +279,7 @@ export class Recorder {
         throw new RecorderError("httpClient should be defined in playback mode");
       }
 
-      await setMatcher(this.url, this.httpClient, matcher, this.recordingId, options);
+      await setMatcher(Recorder.url, this.httpClient, matcher, this.recordingId, options);
     }
   }
 
@@ -247,7 +289,7 @@ export class Recorder {
     }
 
     if (ensureExistence(this.httpClient, "this.httpClient")) {
-      return await transformsInfo(this.httpClient, this.url, this.recordingId!);
+      return await transformsInfo(this.httpClient, Recorder.url, this.recordingId!);
     }
 
     throw new RecorderError("Expected httpClient to be defined");
@@ -290,6 +332,18 @@ export class Recorder {
     return { ...options, httpClient: once(() => this.createHttpClientCoreV1())() };
   }
 
+  private handleTestProxyErrors(response: HttpOperationResponse | PipelineResponse) {
+    if (response.headers.get("x-request-mismatch") === "true") {
+      const errorMessage = atob(response.headers.get("x-request-mismatch-error") ?? "");
+      throw new RecorderError(errorMessage);
+    }
+
+    if (response.headers.get("x-request-known-exception") === "true") {
+      const errorMessage = atob(response.headers.get("x-request-known-exception-error") ?? "");
+      throw new RecorderError(errorMessage);
+    }
+  }
+
   /**
    * recorderHttpPolicy that can be added as a pipeline policy for any of the core-v2 SDKs(SDKs depending on core-rest-pipeline)
    */
@@ -301,7 +355,10 @@ export class Recorder {
         next: SendRequest
       ): Promise<PipelineResponse> => {
         this.redirectRequest(request);
-        return next(request);
+        const response = await next(request);
+        this.handleTestProxyErrors(response);
+
+        return response;
       },
     };
   }
@@ -315,7 +372,10 @@ export class Recorder {
     return {
       sendRequest: async (request: WebResourceLike): Promise<HttpOperationResponse> => {
         this.redirectRequest(request);
-        return client.sendRequest(request);
+        const response = await client.sendRequest(request);
+        this.handleTestProxyErrors(response);
+
+        return response;
       },
     };
   }

@@ -291,7 +291,7 @@ export class AttestationClient {
         token,
         _attestationResultFromGenerated(attestationResult)
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
@@ -372,7 +372,7 @@ export class AttestationClient {
         token,
         _attestationResultFromGenerated(attestationResult)
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
@@ -418,7 +418,7 @@ export class AttestationClient {
       } else {
         throw Error("Internal error - response data cannot be undefined.");
       }
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
@@ -444,7 +444,7 @@ export class AttestationClient {
         signers.push(_attestationSignerFromGenerated(element));
       });
       return signers;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {
@@ -464,7 +464,7 @@ export class AttestationClient {
     try {
       const configs = await this._client.metadataConfiguration.get(updatedOptions);
       return configs;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({ code: SpanStatusCode.ERROR, message: e.message });
       throw e;
     } finally {

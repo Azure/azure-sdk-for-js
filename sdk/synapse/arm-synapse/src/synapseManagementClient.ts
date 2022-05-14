@@ -7,6 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   AzureADOnlyAuthenticationsImpl,
@@ -54,6 +55,7 @@ import {
   WorkspaceManagedSqlServerEncryptionProtectorImpl,
   WorkspaceManagedSqlServerUsagesImpl,
   WorkspaceManagedSqlServerRecoverableSqlPoolsImpl,
+  WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsImpl,
   WorkspacesImpl,
   WorkspaceAadAdminsImpl,
   WorkspaceSqlAadAdminsImpl,
@@ -128,6 +130,7 @@ import {
   WorkspaceManagedSqlServerEncryptionProtector,
   WorkspaceManagedSqlServerUsages,
   WorkspaceManagedSqlServerRecoverableSqlPools,
+  WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettings,
   Workspaces,
   WorkspaceAadAdmins,
   WorkspaceSqlAadAdmins,
@@ -189,7 +192,7 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-synapse/8.0.0`;
+    const packageDetails = `azsdk-js-arm-synapse/8.1.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -204,9 +207,33 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint || "https://management.azure.com"
+      baseUri:
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
+
+    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+        (pipelinePolicy) =>
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
+      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
+    }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
@@ -293,6 +320,9 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
       this
     );
     this.workspaceManagedSqlServerRecoverableSqlPools = new WorkspaceManagedSqlServerRecoverableSqlPoolsImpl(
+      this
+    );
+    this.workspaceManagedSqlServerDedicatedSQLMinimalTlsSettings = new WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettingsImpl(
       this
     );
     this.workspaces = new WorkspacesImpl(this);
@@ -391,6 +421,7 @@ export class SynapseManagementClient extends coreClient.ServiceClient {
   workspaceManagedSqlServerEncryptionProtector: WorkspaceManagedSqlServerEncryptionProtector;
   workspaceManagedSqlServerUsages: WorkspaceManagedSqlServerUsages;
   workspaceManagedSqlServerRecoverableSqlPools: WorkspaceManagedSqlServerRecoverableSqlPools;
+  workspaceManagedSqlServerDedicatedSQLMinimalTlsSettings: WorkspaceManagedSqlServerDedicatedSQLMinimalTlsSettings;
   workspaces: Workspaces;
   workspaceAadAdmins: WorkspaceAadAdmins;
   workspaceSqlAadAdmins: WorkspaceSqlAadAdmins;

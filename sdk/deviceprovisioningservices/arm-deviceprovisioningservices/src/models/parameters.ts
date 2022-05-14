@@ -12,7 +12,7 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
-  CertificateBodyDescription as CertificateBodyDescriptionMapper,
+  CertificateResponse as CertificateResponseMapper,
   VerificationCodeRequest as VerificationCodeRequestMapper,
   ProvisioningServiceDescription as ProvisioningServiceDescriptionMapper,
   TagsResource as TagsResourceMapper,
@@ -47,7 +47,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-10-15",
+    defaultValue: "2022-02-05",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -136,7 +136,7 @@ export const contentType: OperationParameter = {
 
 export const certificateDescription: OperationParameter = {
   parameterPath: "certificateDescription",
-  mapper: CertificateBodyDescriptionMapper
+  mapper: CertificateResponseMapper
 };
 
 export const certificateName1: OperationURLParameter = {

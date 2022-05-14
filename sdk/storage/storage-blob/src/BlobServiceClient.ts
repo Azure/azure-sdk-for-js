@@ -530,7 +530,7 @@ export class BlobServiceClient extends StorageClient {
         containerClient,
         containerCreateResponse,
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -556,7 +556,7 @@ export class BlobServiceClient extends StorageClient {
     try {
       const containerClient = this.getContainerClient(containerName);
       return await containerClient.delete(updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -597,7 +597,7 @@ export class BlobServiceClient extends StorageClient {
         ...updatedOptions,
       });
       return { containerClient, containerUndeleteResponse };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -635,7 +635,7 @@ export class BlobServiceClient extends StorageClient {
         sourceLeaseId: options.sourceCondition?.leaseId,
       });
       return { containerClient, containerRenameResponse };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -663,7 +663,7 @@ export class BlobServiceClient extends StorageClient {
         abortSignal: options.abortSignal,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -693,7 +693,7 @@ export class BlobServiceClient extends StorageClient {
         abortSignal: options.abortSignal,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -722,7 +722,7 @@ export class BlobServiceClient extends StorageClient {
         abortSignal: options.abortSignal,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -752,7 +752,7 @@ export class BlobServiceClient extends StorageClient {
         abortSignal: options.abortSignal,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -791,7 +791,7 @@ export class BlobServiceClient extends StorageClient {
         include: typeof options.include === "string" ? [options.include] : options.include,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -851,7 +851,7 @@ export class BlobServiceClient extends StorageClient {
         }),
       };
       return wrappedResponse;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,
@@ -1247,7 +1247,7 @@ export class BlobServiceClient extends StorageClient {
       };
 
       return res;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

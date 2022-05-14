@@ -51,7 +51,7 @@ export class RoleDefinitionsImpl implements RoleDefinitions {
         listRoleDefinitionsOperationSpec
       );
       return result as RoleDefinitionsListRoleDefinitionsResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -81,7 +81,7 @@ export class RoleDefinitionsImpl implements RoleDefinitions {
         getRoleDefinitionByIdOperationSpec
       );
       return result as RoleDefinitionsGetRoleDefinitionByIdResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message
@@ -109,7 +109,7 @@ export class RoleDefinitionsImpl implements RoleDefinitions {
         listScopesOperationSpec
       );
       return result as RoleDefinitionsListScopesResponse;
-    } catch (error) {
+    } catch (error: any) {
       span.setStatus({
         code: coreTracing.SpanStatusCode.UNSET,
         message: error.message

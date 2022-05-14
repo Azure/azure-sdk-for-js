@@ -83,23 +83,18 @@ function ignoreChaiCircularDependency(warning: RollupWarning): boolean {
   );
 }
 
+
+function ignoreRheaPromiseCircularDependency(warning: RollupWarning): boolean {
+  return (
+    warning.code === "CIRCULAR_DEPENDENCY" &&
+    warning.importer?.includes(["node_modules", "rhea-promise"].join(path.sep)) === true
+  );
+}
+
 function ignoreOpenTelemetryThisIsUndefined(warning: RollupWarning): boolean {
   return (
     warning.code === "THIS_IS_UNDEFINED" &&
     warning.id?.includes(["node_modules", "@opentelemetry", "api"].join(path.sep)) === true
-  );
-}
-
-/**
- * v1.0.0 of @azure/core-asynciterator-polyfill does not provide a source map.
- *
- * This was a bug, and this function works around that bug.
- */
-function ignoreAsyncIteratorPolyfillSourceMaps(warning: RollupWarning): boolean {
-  return (
-    warning.code === "PLUGIN_WARNING" &&
-    warning.plugin === "sourcemaps" &&
-    warning.id?.includes("@azure+core-asynciterator-polyfill@1.0.0") === true
   );
 }
 
@@ -117,9 +112,9 @@ function ignoreMissingExportsFromEmpty(warning: RollupWarning): boolean {
 
 const warningInhibitors: Array<(warning: RollupWarning) => boolean> = [
   ignoreChaiCircularDependency,
+  ignoreRheaPromiseCircularDependency,
   ignoreNiseSinonEval,
   ignoreOpenTelemetryThisIsUndefined,
-  ignoreAsyncIteratorPolyfillSourceMaps,
   ignoreMissingExportsFromEmpty,
 ];
 

@@ -4,12 +4,13 @@
 import { PerfTest, PerfOptionDictionary, getEnvVar } from "@azure/test-utils-perf";
 import {
   AzureKeyCredential,
-  TextAnalyticsClient,
-  DetectLanguageOptions,
+  TextAnalysisClient,
+  LanguageDetectionAction,
+  AnalyzeActionNames,
 } from "@azure/ai-text-analytics";
-import { TokenCredential, DefaultAzureCredential } from "@azure/identity";
+import { DefaultAzureCredential } from "@azure/identity";
 
-interface DetectLanguagePerfTestOptions extends DetectLanguageOptions {
+interface DetectLanguagePerfTestOptions extends LanguageDetectionAction {
   "documents-count": number;
 }
 
@@ -23,7 +24,7 @@ export class DetectLanguageTest extends PerfTest<DetectLanguagePerfTestOptions> 
       defaultValue: 1000,
     },
   };
-  client: TextAnalyticsClient;
+  client: TextAnalysisClient;
   docs: string[] = [];
 
   constructor() {
@@ -32,20 +33,19 @@ export class DetectLanguageTest extends PerfTest<DetectLanguagePerfTestOptions> 
     this.docs = Array(this.parsedOptions["documents-count"]?.value).fill(
       "Detta är ett dokument skrivet på engelska."
     );
-    let credential: TokenCredential | AzureKeyCredential;
-
-    try {
-      credential = new DefaultAzureCredential();
-    } catch (e) {
-      credential = new AzureKeyCredential(process.env.TEXT_ANALYTICS_API_KEY ?? "");
-    }
-
     const endpoint = getEnvVar("ENDPOINT");
 
-    this.client = new TextAnalyticsClient(endpoint, credential);
+    try {
+      this.client = new TextAnalysisClient(endpoint, new DefaultAzureCredential());
+    } catch (e) {
+      this.client = new TextAnalysisClient(
+        endpoint,
+        new AzureKeyCredential(process.env.LANGUAGE_API_KEY ?? "")
+      );
+    }
   }
 
   async run(): Promise<void> {
-    await this.client.detectLanguage(this.docs, "en");
+    await this.client.analyze(AnalyzeActionNames.LanguageDetection, this.docs, "en");
   }
 }

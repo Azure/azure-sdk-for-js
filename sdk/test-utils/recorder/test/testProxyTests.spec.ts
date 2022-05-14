@@ -36,6 +36,36 @@ import { getTestServerUrl, makeRequestAndVerifyResponse, setTestMode } from "./u
       );
     });
 
+    it("redirect (redirect location has host)", async function (this: Mocha.Context) {
+      await recorder.start({ envSetupForPlayback: {} });
+
+      await makeRequestAndVerifyResponse(
+        client,
+        { path: `/redirectWithHost`, method: "GET" },
+        { val: "abc" }
+      );
+    });
+
+    it("redirect (redirect location is relative)", async function (this: Mocha.Context) {
+      await recorder.start({ envSetupForPlayback: {} });
+
+      await makeRequestAndVerifyResponse(
+        client,
+        { path: `/redirectWithoutHost`, method: "GET" },
+        { val: "abc" }
+      );
+    });
+
+    it("retry", async () => {
+      await recorder.start({ envSetupForPlayback: {} });
+      await makeRequestAndVerifyResponse(
+        client,
+        { path: "/reset_retry", method: "GET" },
+        undefined
+      );
+      await makeRequestAndVerifyResponse(client, { path: "/retry", method: "GET" }, { val: "abc" });
+    });
+
     it("sample_response with random string in path", async () => {
       await recorder.start({ envSetupForPlayback: {} });
 

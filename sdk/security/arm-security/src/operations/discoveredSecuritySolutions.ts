@@ -84,12 +84,15 @@ export class DiscoveredSecuritySolutionsImpl
 
   /**
    * Gets a list of discovered Security Solutions for the subscription and location.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param options The options parameters.
    */
   public listByHomeRegion(
+    ascLocation: string,
     options?: DiscoveredSecuritySolutionsListByHomeRegionOptionalParams
   ): PagedAsyncIterableIterator<DiscoveredSecuritySolution> {
-    const iter = this.listByHomeRegionPagingAll(options);
+    const iter = this.listByHomeRegionPagingAll(ascLocation, options);
     return {
       next() {
         return iter.next();
@@ -98,28 +101,37 @@ export class DiscoveredSecuritySolutionsImpl
         return this;
       },
       byPage: () => {
-        return this.listByHomeRegionPagingPage(options);
+        return this.listByHomeRegionPagingPage(ascLocation, options);
       }
     };
   }
 
   private async *listByHomeRegionPagingPage(
+    ascLocation: string,
     options?: DiscoveredSecuritySolutionsListByHomeRegionOptionalParams
   ): AsyncIterableIterator<DiscoveredSecuritySolution[]> {
-    let result = await this._listByHomeRegion(options);
+    let result = await this._listByHomeRegion(ascLocation, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
-      result = await this._listByHomeRegionNext(continuationToken, options);
+      result = await this._listByHomeRegionNext(
+        ascLocation,
+        continuationToken,
+        options
+      );
       continuationToken = result.nextLink;
       yield result.value || [];
     }
   }
 
   private async *listByHomeRegionPagingAll(
+    ascLocation: string,
     options?: DiscoveredSecuritySolutionsListByHomeRegionOptionalParams
   ): AsyncIterableIterator<DiscoveredSecuritySolution> {
-    for await (const page of this.listByHomeRegionPagingPage(options)) {
+    for await (const page of this.listByHomeRegionPagingPage(
+      ascLocation,
+      options
+    )) {
       yield* page;
     }
   }
@@ -136,13 +148,16 @@ export class DiscoveredSecuritySolutionsImpl
 
   /**
    * Gets a list of discovered Security Solutions for the subscription and location.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param options The options parameters.
    */
   private _listByHomeRegion(
+    ascLocation: string,
     options?: DiscoveredSecuritySolutionsListByHomeRegionOptionalParams
   ): Promise<DiscoveredSecuritySolutionsListByHomeRegionResponse> {
     return this.client.sendOperationRequest(
-      { options },
+      { ascLocation, options },
       listByHomeRegionOperationSpec
     );
   }
@@ -151,16 +166,24 @@ export class DiscoveredSecuritySolutionsImpl
    * Gets a specific discovered Security Solution.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is
    *                          case insensitive.
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param discoveredSecuritySolutionName Name of a discovered security solution.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
+    ascLocation: string,
     discoveredSecuritySolutionName: string,
     options?: DiscoveredSecuritySolutionsGetOptionalParams
   ): Promise<DiscoveredSecuritySolutionsGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, discoveredSecuritySolutionName, options },
+      {
+        resourceGroupName,
+        ascLocation,
+        discoveredSecuritySolutionName,
+        options
+      },
       getOperationSpec
     );
   }
@@ -182,15 +205,18 @@ export class DiscoveredSecuritySolutionsImpl
 
   /**
    * ListByHomeRegionNext
+   * @param ascLocation The location where ASC stores the data of the subscription. can be retrieved from
+   *                    Get locations
    * @param nextLink The nextLink from the previous successful call to the ListByHomeRegion method.
    * @param options The options parameters.
    */
   private _listByHomeRegionNext(
+    ascLocation: string,
     nextLink: string,
     options?: DiscoveredSecuritySolutionsListByHomeRegionNextOptionalParams
   ): Promise<DiscoveredSecuritySolutionsListByHomeRegionNextResponse> {
     return this.client.sendOperationRequest(
-      { nextLink, options },
+      { ascLocation, nextLink, options },
       listByHomeRegionNextOperationSpec
     );
   }

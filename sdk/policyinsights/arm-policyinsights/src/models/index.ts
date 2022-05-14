@@ -1028,6 +1028,14 @@ export interface PolicyEvaluationResult {
   readonly evaluationDetails?: PolicyEvaluationDetails;
 }
 
+/** The check policy restrictions parameters describing the resource that is being evaluated. */
+export interface CheckManagementGroupRestrictionsRequest {
+  /** The information about the resource that will be evaluated. */
+  resourceDetails?: CheckRestrictionsResourceDetails;
+  /** The list of fields and values that should be evaluated for potential restrictions. */
+  pendingFields?: PendingField[];
+}
+
 /** List of attestations. */
 export interface AttestationListResult {
   /**
@@ -1173,6 +1181,20 @@ export interface QueryOptions {
   expand?: string;
 }
 
+/** Known values of {@link PolicyTrackedResourcesResourceType} that the service accepts. */
+export enum KnownPolicyTrackedResourcesResourceType {
+  Default = "default"
+}
+
+/**
+ * Defines values for PolicyTrackedResourcesResourceType. \
+ * {@link KnownPolicyTrackedResourcesResourceType} can be used interchangeably with PolicyTrackedResourcesResourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **default**
+ */
+export type PolicyTrackedResourcesResourceType = string;
+
 /** Known values of {@link ResourceDiscoveryMode} that the service accepts. */
 export enum KnownResourceDiscoveryMode {
   /** Remediate resources that are already known to be non-compliant. */
@@ -1211,6 +1233,20 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** Known values of {@link PolicyEventsResourceType} that the service accepts. */
+export enum KnownPolicyEventsResourceType {
+  Default = "default"
+}
+
+/**
+ * Defines values for PolicyEventsResourceType. \
+ * {@link KnownPolicyEventsResourceType} can be used interchangeably with PolicyEventsResourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **default**
+ */
+export type PolicyEventsResourceType = string;
+
 /** Known values of {@link PolicyStatesResource} that the service accepts. */
 export enum KnownPolicyStatesResource {
   Default = "default",
@@ -1226,6 +1262,20 @@ export enum KnownPolicyStatesResource {
  * **latest**
  */
 export type PolicyStatesResource = string;
+
+/** Known values of {@link PolicyStatesSummaryResourceType} that the service accepts. */
+export enum KnownPolicyStatesSummaryResourceType {
+  Latest = "latest"
+}
+
+/**
+ * Defines values for PolicyStatesSummaryResourceType. \
+ * {@link KnownPolicyStatesSummaryResourceType} can be used interchangeably with PolicyStatesSummaryResourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **latest**
+ */
+export type PolicyStatesSummaryResourceType = string;
 
 /** Known values of {@link FieldRestrictionResult} that the service accepts. */
 export enum KnownFieldRestrictionResult {
@@ -2086,6 +2136,13 @@ export interface PolicyRestrictionsCheckAtResourceGroupScopeOptionalParams
 
 /** Contains response data for the checkAtResourceGroupScope operation. */
 export type PolicyRestrictionsCheckAtResourceGroupScopeResponse = CheckRestrictionsResult;
+
+/** Optional parameters. */
+export interface PolicyRestrictionsCheckAtManagementGroupScopeOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkAtManagementGroupScope operation. */
+export type PolicyRestrictionsCheckAtManagementGroupScopeResponse = CheckRestrictionsResult;
 
 /** Optional parameters. */
 export interface AttestationsListForSubscriptionOptionalParams

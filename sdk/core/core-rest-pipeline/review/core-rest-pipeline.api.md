@@ -151,6 +151,15 @@ export interface InternalPipelineOptions extends PipelineOptions {
 }
 
 // @public
+export function isRestError(e: unknown): e is RestError;
+
+// @public
+export interface KeyObject {
+    passphrase?: string | undefined;
+    pem: string | Buffer;
+}
+
+// @public
 export function logPolicy(options?: LogPolicyOptions): PipelinePolicy;
 
 // @public
@@ -215,6 +224,7 @@ export interface PipelineRequest {
     requestId: string;
     streamResponseStatusCodes?: Set<number>;
     timeout: number;
+    tlsSettings?: TlsSettings;
     tracingOptions?: OperationTracingOptions;
     url: string;
     withCredentials: boolean;
@@ -273,6 +283,12 @@ export interface ProxySettings {
     password?: string;
     port: number;
     username?: string;
+}
+
+// @public
+export interface PxfObject {
+    buf: string | Buffer;
+    passphrase?: string | undefined;
 }
 
 // @public
@@ -379,6 +395,15 @@ export const throttlingRetryPolicyName = "throttlingRetryPolicy";
 // @public
 export interface ThrottlingRetryPolicyOptions {
     maxRetries?: number;
+}
+
+// @public
+export interface TlsSettings {
+    ca?: string | Buffer | Array<string | Buffer> | undefined;
+    cert?: string | Buffer | Array<string | Buffer> | undefined;
+    key?: string | Buffer | Array<Buffer | KeyObject> | undefined;
+    passphrase?: string | undefined;
+    pfx?: string | Buffer | Array<string | Buffer | PxfObject> | undefined;
 }
 
 // @public

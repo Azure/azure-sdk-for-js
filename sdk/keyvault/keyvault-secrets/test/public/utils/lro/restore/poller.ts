@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay, OperationOptions } from "@azure/core-http";
+import { OperationOptions, delay } from "@azure/core-http";
 import { Poller } from "@azure/core-lro";
 import {
   RestoreSecretBackupPollOperationState,
-  makeRestoreSecretBackupPollOperation,
   TestSecretClientInterface,
+  makeRestoreSecretBackupPollOperation,
 } from "./operation";
 import { SecretProperties } from "../../../../../src";
 

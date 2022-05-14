@@ -12,8 +12,19 @@ import {
 import { createHttpHeaders } from "./httpHeaders";
 import { RestError } from "./restError";
 
-function isReadableStream(body: any): body is NodeJS.ReadableStream {
+function isNodeReadableStream(body: any): body is NodeJS.ReadableStream {
   return body && typeof body.pipe === "function";
+}
+
+/**
+ * Checks if the body is a ReadableStream supported by browsers
+ */
+function isReadableStream(body: unknown): body is ReadableStream {
+  return Boolean(
+    body &&
+      typeof (body as ReadableStream).getReader === "function" &&
+      typeof (body as ReadableStream).tee === "function"
+  );
 }
 
 /**
@@ -69,8 +80,8 @@ class XhrHttpClient implements HttpClient {
     xhr.responseType = request.streamResponseStatusCodes?.size ? "blob" : "text";
 
     const body = typeof request.body === "function" ? request.body() : request.body;
-    if (isReadableStream(body)) {
-      throw new Error("Node streams are not supported in browser environment.");
+    if (isNodeReadableStream(body) || isReadableStream(body)) {
+      throw new Error("streams are not supported in XhrHttpClient.");
     }
 
     xhr.send(body === undefined ? null : body);

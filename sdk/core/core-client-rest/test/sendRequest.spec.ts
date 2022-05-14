@@ -4,11 +4,11 @@
 import { sendRequest } from "../src/sendRequest";
 import { assert } from "chai";
 import {
-  createEmptyPipeline,
-  createHttpHeaders,
   Pipeline,
   PipelineResponse,
   RestError,
+  createEmptyPipeline,
+  createHttpHeaders,
 } from "@azure/core-rest-pipeline";
 
 describe("sendRequest", () => {
@@ -241,7 +241,7 @@ describe("sendRequest", () => {
 
     try {
       await sendRequest("GET", mockBaseUrl, mockPipeline);
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(error.code, RestError.PARSE_ERROR);
     }
   });

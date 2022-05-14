@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export const SDK_VERSION: string = "12.9.1";
-export const SERVICE_VERSION: string = "2021-04-10";
+export const SDK_VERSION: string = "12.10.1";
+export const SERVICE_VERSION: string = "2021-06-08";
 
 export const BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES: number = 256 * 1024 * 1024; // 256MB
 export const BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES: number = 4000 * 1024 * 1024; // 4000MB
@@ -206,3 +206,5 @@ export const StorageBlobLoggingAllowedQueryParameters = [
 ];
 
 export const BlobUsesCustomerSpecifiedEncryptionMsg = "BlobUsesCustomerSpecifiedEncryption";
+export const BlobDoesNotUseCustomerSpecifiedEncryption =
+  "BlobDoesNotUseCustomerSpecifiedEncryption";
