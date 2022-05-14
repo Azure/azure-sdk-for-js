@@ -1,6 +1,6 @@
 # Release History
 
-## 5.8.0-beta.4 (Unreleased)
+## 5.8.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 5.8.0 (2022-05-10)
+
+### Breaking Changes
+
+- The `enableIdempotentPartitions` flag has been renamed to `enableIdempotentRetries`
 
 ## 5.8.0-beta.3 (2022-04-05)
 

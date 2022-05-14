@@ -1,4 +1,4 @@
-import { PerfProgram, selectPerfTest } from "@azure/test-utils-perf";
+import { createPerfProgram } from "@azure/test-utils-perf";
 import { BearerTokenAuthenticationPolicyChallengeTest } from "./bearerTokenChallengeAuthenticationPolicy/wwwChallenge.spec";
 import { CoreHTTPTest } from "./core-http.spec";
 import { CoreRestPipelineTest } from "./core-rest-pipeline.spec";
@@ -14,8 +14,6 @@ Instead change the require of index.js in /workspaces/azure - sdk -for-js / sdk 
 }
 */
 
-console.log("=== Starting the perf test ===");
-
-const perfProgram = new PerfProgram(selectPerfTest([BearerTokenAuthenticationPolicyChallengeTest, CoreHTTPTest, CoreRestPipelineTest, FetchTest, /*NodeFetchTest*/]));
+const perfProgram = createPerfProgram(BearerTokenAuthenticationPolicyChallengeTest, CoreHTTPTest, CoreRestPipelineTest, FetchTest, /*NodeFetchTest*/);
 
 perfProgram.run();

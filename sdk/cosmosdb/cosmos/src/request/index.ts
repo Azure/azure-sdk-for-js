@@ -18,3 +18,4 @@ export { SharedOptions } from "./SharedOptions";
 export { StatusCode, SubStatusCode } from "./StatusCodes";
 export { FeedResponse } from "./FeedResponse";
 export { RequestContext } from "./RequestContext";
+export { DedicatedGatewayRequestOptions } from "./DedicatedGatewayRequestOptions";

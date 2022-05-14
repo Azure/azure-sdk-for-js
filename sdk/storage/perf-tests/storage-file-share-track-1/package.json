@@ -21,7 +21,7 @@
   },
   "private": true,
   "scripts": {
-    "perf-test:node": "ts-node test/index.spec.ts",
+    "perf-test:node": "npm run build && node dist-esm/index.spec.js",
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "npm run clean && tsc -p .",
     "build:samples": "echo skipped",

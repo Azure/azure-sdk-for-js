@@ -64,7 +64,7 @@ export class EventHubProducerClient {
    * nor will it be able to use a partition key.
    * Default: false
    */
-  private _enableIdempotentPartitions?: boolean;
+  private _enableIdempotentRetries?: boolean;
   /**
    * The set of options that can be specified to influence publishing behavior specific to the configured Event Hub partition.
    * These options are not necessary in the majority of scenarios and are intended for use with specialized scenarios,
@@ -215,7 +215,7 @@ export class EventHubProducerClient {
     const partitionId = isDefined(options.partitionId) ? String(options.partitionId) : undefined;
 
     validateProducerPartitionSettings({
-      enableIdempotentPartitions: this._enableIdempotentPartitions,
+      enableIdempotentRetries: this._enableIdempotentRetries,
       partitionId,
       partitionKey: options.partitionKey,
     });
@@ -226,7 +226,7 @@ export class EventHubProducerClient {
         ? this._partitionOptions?.[partitionId]
         : undefined;
       sender = EventHubSender.create(this._context, {
-        enableIdempotentProducer: Boolean(this._enableIdempotentPartitions),
+        enableIdempotentProducer: Boolean(this._enableIdempotentRetries),
         partitionId,
         partitionPublishingOptions,
       });
@@ -252,7 +252,7 @@ export class EventHubProducerClient {
     return new EventDataBatchImpl(
       this._context,
       maxMessageSize,
-      Boolean(this._enableIdempotentPartitions),
+      Boolean(this._enableIdempotentRetries),
       options.partitionKey,
       partitionId
     );
@@ -288,7 +288,7 @@ export class EventHubProducerClient {
     let sender = this._sendersMap.get(partitionId);
     if (!sender) {
       sender = EventHubSender.create(this._context, {
-        enableIdempotentProducer: Boolean(this._enableIdempotentPartitions),
+        enableIdempotentProducer: Boolean(this._enableIdempotentRetries),
         partitionId,
         partitionPublishingOptions: this._partitionOptions?.[partitionId],
       });
@@ -389,7 +389,7 @@ export class EventHubProducerClient {
 
     if (isEventDataBatch(batch)) {
       if (
-        this._enableIdempotentPartitions &&
+        this._enableIdempotentRetries &&
         isDefined((batch as EventDataBatchImpl).startingPublishedSequenceNumber)
       ) {
         throw new Error(idempotentAlreadyPublished);
@@ -421,7 +421,7 @@ export class EventHubProducerClient {
     }
 
     validateProducerPartitionSettings({
-      enableIdempotentPartitions: this._enableIdempotentPartitions,
+      enableIdempotentRetries: this._enableIdempotentRetries,
       partitionId,
       partitionKey,
     });
@@ -436,7 +436,7 @@ export class EventHubProducerClient {
             ? this._partitionOptions?.[partitionId]
             : undefined;
           sender = EventHubSender.create(this._context, {
-            enableIdempotentProducer: Boolean(this._enableIdempotentPartitions),
+            enableIdempotentProducer: Boolean(this._enableIdempotentRetries),
             partitionId,
             partitionPublishingOptions,
           });

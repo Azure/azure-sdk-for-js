@@ -147,10 +147,12 @@ export class SubscriptionOperationsImpl implements SubscriptionOperations {
       { subscriptionId, body, options },
       acceptOwnershipOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

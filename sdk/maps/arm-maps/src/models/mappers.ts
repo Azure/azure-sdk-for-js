@@ -76,6 +76,78 @@ export const SystemData: coreClient.CompositeMapper = {
   }
 };
 
+export const ManagedServiceIdentity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedServiceIdentity",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        serializedName: "tenantId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "SystemAssigned",
+            "UserAssigned",
+            "SystemAssigned, UserAssigned",
+            "None"
+          ]
+        }
+      },
+      userAssignedIdentities: {
+        serializedName: "userAssignedIdentities",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className:
+                "Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties",
+    modelProperties: {
+      principalId: {
+        serializedName: "principalId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      clientId: {
+        serializedName: "clientId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const MapsAccountProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -100,6 +172,96 @@ export const MapsAccountProperties: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      linkedResources: {
+        constraints: {
+          MaxItems: 10
+        },
+        serializedName: "linkedResources",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LinkedResource"
+            }
+          }
+        }
+      },
+      cors: {
+        serializedName: "cors",
+        type: {
+          name: "Composite",
+          className: "CorsRules"
+        }
+      }
+    }
+  }
+};
+
+export const LinkedResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LinkedResource",
+    modelProperties: {
+      uniqueName: {
+        serializedName: "uniqueName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CorsRules: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CorsRules",
+    modelProperties: {
+      corsRules: {
+        constraints: {
+          MaxItems: 5
+        },
+        serializedName: "corsRules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CorsRule"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const CorsRule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CorsRule",
+    modelProperties: {
+      allowedOrigins: {
+        serializedName: "allowedOrigins",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -258,6 +420,13 @@ export const MapsAccountUpdateParameters: coreClient.CompositeMapper = {
           className: "Sku"
         }
       },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedServiceIdentity"
+        }
+      },
       uniqueId: {
         serializedName: "properties.uniqueId",
         readOnly: true,
@@ -277,6 +446,28 @@ export const MapsAccountUpdateParameters: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      linkedResources: {
+        constraints: {
+          MaxItems: 10
+        },
+        serializedName: "properties.linkedResources",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LinkedResource"
+            }
+          }
+        }
+      },
+      cors: {
+        serializedName: "properties.cors",
+        type: {
+          name: "Composite",
+          className: "CorsRules"
         }
       }
     }
@@ -303,6 +494,82 @@ export const MapsAccounts: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AccountSasParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccountSasParameters",
+    modelProperties: {
+      signingKey: {
+        serializedName: "signingKey",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      principalId: {
+        serializedName: "principalId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      regions: {
+        serializedName: "regions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      maxRatePerSecond: {
+        defaultValue: 500,
+        constraints: {
+          InclusiveMaximum: 500,
+          ExclusiveMinimum: 0
+        },
+        serializedName: "maxRatePerSecond",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      start: {
+        serializedName: "start",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      expiry: {
+        serializedName: "expiry",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MapsAccountSasToken: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MapsAccountSasToken",
+    modelProperties: {
+      accountSasToken: {
+        serializedName: "accountSasToken",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -551,6 +818,18 @@ export const MetricSpecification: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      sourceMdmAccount: {
+        serializedName: "sourceMdmAccount",
+        type: {
+          name: "String"
+        }
+      },
+      internalMetricName: {
+        serializedName: "internalMetricName",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -740,6 +1019,13 @@ export const MapsAccount: coreClient.CompositeMapper = {
           className: "SystemData"
         }
       },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ManagedServiceIdentity"
+        }
+      },
       properties: {
         serializedName: "properties",
         type: {
@@ -762,6 +1048,13 @@ export const Creator: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CreatorProperties"
+        }
+      },
+      systemData: {
+        serializedName: "systemData",
+        type: {
+          name: "Composite",
+          className: "SystemData"
         }
       }
     }

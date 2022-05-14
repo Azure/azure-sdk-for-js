@@ -18,6 +18,7 @@ export type AgentPool = SubResource & {
     osDiskType?: OSDiskType;
     kubeletDiskType?: KubeletDiskType;
     workloadRuntime?: WorkloadRuntime;
+    messageOfTheDay?: string;
     vnetSubnetID?: string;
     podSubnetID?: string;
     maxPods?: number;
@@ -30,6 +31,7 @@ export type AgentPool = SubResource & {
     typePropertiesType?: AgentPoolType;
     mode?: AgentPoolMode;
     orchestratorVersion?: string;
+    currentOrchestratorVersion?: string;
     readonly nodeImageVersion?: string;
     upgradeSettings?: AgentPoolUpgradeSettings;
     readonly provisioningState?: string;
@@ -55,6 +57,8 @@ export type AgentPool = SubResource & {
     enableFips?: boolean;
     gpuInstanceProfile?: GPUInstanceProfile;
     creationData?: CreationData;
+    capacityReservationGroupID?: string;
+    hostGroupID?: string;
 };
 
 // @public
@@ -106,6 +110,7 @@ export type AgentPoolsCreateOrUpdateResponse = AgentPool;
 
 // @public
 export interface AgentPoolsDeleteOptionalParams extends coreClient.OperationOptions {
+    ignorePodDisruptionBudget?: boolean;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -182,6 +187,12 @@ export interface AgentPoolUpgradeSettings {
 }
 
 // @public
+export interface AzureKeyVaultKms {
+    enabled?: boolean;
+    keyId?: string;
+}
+
+// @public
 export interface CloudError {
     error?: CloudErrorBody;
 }
@@ -213,6 +224,8 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
     maintenanceConfigurations: MaintenanceConfigurations;
     // (undocumented)
     managedClusters: ManagedClusters;
+    // (undocumented)
+    managedClusterSnapshots: ManagedClusterSnapshots;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -849,7 +862,8 @@ export enum KnownNetworkMode {
 // @public
 export enum KnownNetworkPlugin {
     Azure = "azure",
-    Kubenet = "kubenet"
+    Kubenet = "kubenet",
+    None = "none"
 }
 
 // @public
@@ -926,6 +940,7 @@ export enum KnownScaleSetPriority {
 
 // @public
 export enum KnownSnapshotType {
+    ManagedCluster = "ManagedCluster",
     NodePool = "NodePool"
 }
 
@@ -1048,14 +1063,16 @@ export interface MaintenanceConfigurationsListByManagedClusterOptionalParams ext
 export type MaintenanceConfigurationsListByManagedClusterResponse = MaintenanceConfigurationListResult;
 
 // @public
-export type ManagedCluster = Resource & {
+export type ManagedCluster = TrackedResource & {
     sku?: ManagedClusterSKU;
     extendedLocation?: ExtendedLocation;
     identity?: ManagedClusterIdentity;
     readonly provisioningState?: string;
     readonly powerState?: PowerState;
+    creationData?: CreationData;
     readonly maxAgentPools?: number;
     kubernetesVersion?: string;
+    readonly currentKubernetesVersion?: string;
     dnsPrefix?: string;
     fqdnSubdomain?: string;
     readonly fqdn?: string;
@@ -1069,9 +1086,11 @@ export type ManagedCluster = Resource & {
         [propertyName: string]: ManagedClusterAddonProfile;
     };
     podIdentityProfile?: ManagedClusterPodIdentityProfile;
+    oidcIssuerProfile?: ManagedClusterOidcIssuerProfile;
     nodeResourceGroup?: string;
     enableRbac?: boolean;
     enablePodSecurityPolicy?: boolean;
+    enableNamespaceResources?: boolean;
     networkProfile?: ContainerServiceNetworkProfile;
     aadProfile?: ManagedClusterAADProfile;
     autoUpgradeProfile?: ManagedClusterAutoUpgradeProfile;
@@ -1085,6 +1104,7 @@ export type ManagedCluster = Resource & {
     disableLocalAccounts?: boolean;
     httpProxyConfig?: ManagedClusterHttpProxyConfig;
     securityProfile?: ManagedClusterSecurityProfile;
+    ingressProfile?: ManagedClusterIngressProfile;
     publicNetworkAccess?: PublicNetworkAccess;
 };
 
@@ -1100,7 +1120,7 @@ export interface ManagedClusterAADProfile {
 }
 
 // @public
-export type ManagedClusterAccessProfile = Resource & {
+export type ManagedClusterAccessProfile = TrackedResource & {
     kubeConfig?: Uint8Array;
 };
 
@@ -1124,19 +1144,23 @@ export type ManagedClusterAgentPoolProfile = ManagedClusterAgentPoolProfilePrope
 // @public
 export interface ManagedClusterAgentPoolProfileProperties {
     availabilityZones?: string[];
+    capacityReservationGroupID?: string;
     count?: number;
     creationData?: CreationData;
+    currentOrchestratorVersion?: string;
     enableAutoScaling?: boolean;
     enableEncryptionAtHost?: boolean;
     enableFips?: boolean;
     enableNodePublicIP?: boolean;
     enableUltraSSD?: boolean;
     gpuInstanceProfile?: GPUInstanceProfile;
+    hostGroupID?: string;
     kubeletConfig?: KubeletConfig;
     kubeletDiskType?: KubeletDiskType;
     linuxOSConfig?: LinuxOSConfig;
     maxCount?: number;
     maxPods?: number;
+    messageOfTheDay?: string;
     minCount?: number;
     mode?: AgentPoolMode;
     readonly nodeImageVersion?: string;
@@ -1184,6 +1208,7 @@ export interface ManagedClusterAutoUpgradeProfile {
 
 // @public
 export interface ManagedClusterHttpProxyConfig {
+    readonly effectiveNoProxy?: string[];
     httpProxy?: string;
     httpsProxy?: string;
     noProxy?: string[];
@@ -1198,6 +1223,17 @@ export interface ManagedClusterIdentity {
     userAssignedIdentities?: {
         [propertyName: string]: ManagedServiceIdentityUserAssignedIdentitiesValue;
     };
+}
+
+// @public
+export interface ManagedClusterIngressProfile {
+    webAppRouting?: ManagedClusterIngressProfileWebAppRouting;
+}
+
+// @public
+export interface ManagedClusterIngressProfileWebAppRouting {
+    dnsZoneResourceId?: string;
+    enabled?: boolean;
 }
 
 // @public
@@ -1243,6 +1279,12 @@ export interface ManagedClusterNATGatewayProfile {
     effectiveOutboundIPs?: ResourceReference[];
     idleTimeoutInMinutes?: number;
     managedOutboundIPProfile?: ManagedClusterManagedOutboundIPProfile;
+}
+
+// @public
+export interface ManagedClusterOidcIssuerProfile {
+    enabled?: boolean;
+    readonly issuerURL?: string;
 }
 
 // @public
@@ -1329,6 +1371,14 @@ export interface ManagedClusterPropertiesAutoScalerProfile {
 }
 
 // @public
+export interface ManagedClusterPropertiesForSnapshot {
+    enableRbac?: boolean;
+    kubernetesVersion?: string;
+    readonly networkProfile?: NetworkProfileForSnapshot;
+    sku?: ManagedClusterSKU;
+}
+
+// @public
 export interface ManagedClusters {
     beginCreateOrUpdate(resourceGroupName: string, resourceName: string, parameters: ManagedCluster, options?: ManagedClustersCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ManagedClustersCreateOrUpdateResponse>, ManagedClustersCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, parameters: ManagedCluster, options?: ManagedClustersCreateOrUpdateOptionalParams): Promise<ManagedClustersCreateOrUpdateResponse>;
@@ -1340,6 +1390,8 @@ export interface ManagedClusters {
     beginResetServicePrincipalProfileAndWait(resourceGroupName: string, resourceName: string, parameters: ManagedClusterServicePrincipalProfile, options?: ManagedClustersResetServicePrincipalProfileOptionalParams): Promise<void>;
     beginRotateClusterCertificates(resourceGroupName: string, resourceName: string, options?: ManagedClustersRotateClusterCertificatesOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginRotateClusterCertificatesAndWait(resourceGroupName: string, resourceName: string, options?: ManagedClustersRotateClusterCertificatesOptionalParams): Promise<void>;
+    beginRotateServiceAccountSigningKeys(resourceGroupName: string, resourceName: string, options?: ManagedClustersRotateServiceAccountSigningKeysOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginRotateServiceAccountSigningKeysAndWait(resourceGroupName: string, resourceName: string, options?: ManagedClustersRotateServiceAccountSigningKeysOptionalParams): Promise<void>;
     beginRunCommand(resourceGroupName: string, resourceName: string, requestPayload: RunCommandRequest, options?: ManagedClustersRunCommandOptionalParams): Promise<PollerLike<PollOperationState<ManagedClustersRunCommandResponse>, ManagedClustersRunCommandResponse>>;
     beginRunCommandAndWait(resourceGroupName: string, resourceName: string, requestPayload: RunCommandRequest, options?: ManagedClustersRunCommandOptionalParams): Promise<ManagedClustersRunCommandResponse>;
     beginStart(resourceGroupName: string, resourceName: string, options?: ManagedClustersStartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
@@ -1372,6 +1424,7 @@ export type ManagedClustersCreateOrUpdateResponse = ManagedCluster;
 
 // @public
 export interface ManagedClustersDeleteOptionalParams extends coreClient.OperationOptions {
+    ignorePodDisruptionBudget?: boolean;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -1379,12 +1432,19 @@ export interface ManagedClustersDeleteOptionalParams extends coreClient.Operatio
 // @public
 export interface ManagedClusterSecurityProfile {
     azureDefender?: ManagedClusterSecurityProfileAzureDefender;
+    azureKeyVaultKms?: AzureKeyVaultKms;
+    workloadIdentity?: ManagedClusterSecurityProfileWorkloadIdentity;
 }
 
 // @public
 export interface ManagedClusterSecurityProfileAzureDefender {
     enabled?: boolean;
     logAnalyticsWorkspaceResourceId?: string;
+}
+
+// @public
+export interface ManagedClusterSecurityProfileWorkloadIdentity {
+    enabled?: boolean;
 }
 
 // @public
@@ -1509,6 +1569,82 @@ export type ManagedClustersListOutboundNetworkDependenciesEndpointsResponse = Ou
 export type ManagedClustersListResponse = ManagedClusterListResult;
 
 // @public
+export type ManagedClusterSnapshot = TrackedResource & {
+    creationData?: CreationData;
+    snapshotType?: SnapshotType;
+    readonly managedClusterPropertiesReadOnly?: ManagedClusterPropertiesForSnapshot;
+};
+
+// @public
+export interface ManagedClusterSnapshotListResult {
+    readonly nextLink?: string;
+    value?: ManagedClusterSnapshot[];
+}
+
+// @public
+export interface ManagedClusterSnapshots {
+    createOrUpdate(resourceGroupName: string, resourceName: string, parameters: ManagedClusterSnapshot, options?: ManagedClusterSnapshotsCreateOrUpdateOptionalParams): Promise<ManagedClusterSnapshotsCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, resourceName: string, options?: ManagedClusterSnapshotsDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, resourceName: string, options?: ManagedClusterSnapshotsGetOptionalParams): Promise<ManagedClusterSnapshotsGetResponse>;
+    list(options?: ManagedClusterSnapshotsListOptionalParams): PagedAsyncIterableIterator<ManagedClusterSnapshot>;
+    listByResourceGroup(resourceGroupName: string, options?: ManagedClusterSnapshotsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ManagedClusterSnapshot>;
+    updateTags(resourceGroupName: string, resourceName: string, parameters: TagsObject, options?: ManagedClusterSnapshotsUpdateTagsOptionalParams): Promise<ManagedClusterSnapshotsUpdateTagsResponse>;
+}
+
+// @public
+export interface ManagedClusterSnapshotsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedClusterSnapshotsCreateOrUpdateResponse = ManagedClusterSnapshot;
+
+// @public
+export interface ManagedClusterSnapshotsDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface ManagedClusterSnapshotsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedClusterSnapshotsGetResponse = ManagedClusterSnapshot;
+
+// @public
+export interface ManagedClusterSnapshotsListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedClusterSnapshotsListByResourceGroupNextResponse = ManagedClusterSnapshotListResult;
+
+// @public
+export interface ManagedClusterSnapshotsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedClusterSnapshotsListByResourceGroupResponse = ManagedClusterSnapshotListResult;
+
+// @public
+export interface ManagedClusterSnapshotsListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedClusterSnapshotsListNextResponse = ManagedClusterSnapshotListResult;
+
+// @public
+export interface ManagedClusterSnapshotsListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedClusterSnapshotsListResponse = ManagedClusterSnapshotListResult;
+
+// @public
+export interface ManagedClusterSnapshotsUpdateTagsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedClusterSnapshotsUpdateTagsResponse = ManagedClusterSnapshot;
+
+// @public
 export interface ManagedClustersResetAADProfileOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1522,6 +1658,12 @@ export interface ManagedClustersResetServicePrincipalProfileOptionalParams exten
 
 // @public
 export interface ManagedClustersRotateClusterCertificatesOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ManagedClustersRotateServiceAccountSigningKeysOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -1545,6 +1687,29 @@ export interface ManagedClustersStartOptionalParams extends coreClient.Operation
 export interface ManagedClustersStopOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface ManagedClusterStorageProfile {
+    diskCSIDriver?: ManagedClusterStorageProfileDiskCSIDriver;
+    fileCSIDriver?: ManagedClusterStorageProfileFileCSIDriver;
+    snapshotController?: ManagedClusterStorageProfileSnapshotController;
+}
+
+// @public
+export interface ManagedClusterStorageProfileDiskCSIDriver {
+    enabled?: boolean;
+    version?: string;
+}
+
+// @public
+export interface ManagedClusterStorageProfileFileCSIDriver {
+    enabled?: boolean;
+}
+
+// @public
+export interface ManagedClusterStorageProfileSnapshotController {
+    enabled?: boolean;
 }
 
 // @public
@@ -1588,6 +1753,14 @@ export type NetworkPlugin = string;
 
 // @public
 export type NetworkPolicy = string;
+
+// @public
+export interface NetworkProfileForSnapshot {
+    loadBalancerSku?: LoadBalancerSku;
+    networkMode?: NetworkMode;
+    networkPlugin?: NetworkPlugin;
+    networkPolicy?: NetworkPolicy;
+}
 
 // @public
 export interface OperationListResult {
@@ -1769,12 +1942,8 @@ export type ResolvePrivateLinkServiceIdPostResponse = PrivateLinkResource;
 // @public
 export interface Resource {
     readonly id?: string;
-    location: string;
     readonly name?: string;
     readonly systemData?: SystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
     readonly type?: string;
 }
 
@@ -1814,7 +1983,7 @@ export type ScaleSetEvictionPolicy = string;
 export type ScaleSetPriority = string;
 
 // @public
-export type Snapshot = Resource & {
+export type Snapshot = TrackedResource & {
     creationData?: CreationData;
     snapshotType?: SnapshotType;
     readonly kubernetesVersion?: string;
@@ -1964,6 +2133,14 @@ export interface TimeSpan {
     end?: Date;
     start?: Date;
 }
+
+// @public
+export type TrackedResource = Resource & {
+    tags?: {
+        [propertyName: string]: string;
+    };
+    location: string;
+};
 
 // @public
 export type UpgradeChannel = string;
