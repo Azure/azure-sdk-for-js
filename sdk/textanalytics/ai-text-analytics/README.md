@@ -781,5 +781,5 @@ If you'd like to contribute to this library, please read the [contributing guide
 [register_aad_app]: https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [data_limits]: https://docs.microsoft.com/azure/cognitive-services/language-service/concepts/data-limits
-[analyze_sentiment_opinion_mining_sample]: https://github.com/Azure/azure-sdk-for-js/blob/feature/language-ta/sdk/textanalytics/ai-text-analytics/samples-dev/opinionMining.ts
+[analyze_sentiment_opinion_mining_sample]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/textanalytics/ai-text-analytics/samples-dev/opinionMining.ts
 [lang_studio]: https://docs.microsoft.com/azure/cognitive-services/language-service/language-studio
