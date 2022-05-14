@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-
 import { BaseHttpTest } from "./baseHttpTest";
+import { request } from "undici";
 
-export class FetchTest extends BaseHttpTest {
+export class UndiciRequestTest extends BaseHttpTest {
+
   constructor() {
     super();
   }
 
   async run(): Promise<void> {
-    const response = await fetch(this.url, { keepalive: true });
-    await response.text(); // Hello World!
+    const { body } = await request(this.url);
+    await body.text();
   }
 }

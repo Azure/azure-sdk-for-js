@@ -4,12 +4,9 @@
 
 import fetch from "node-fetch";
 import https from "https";
-import { PerfOptionDictionary } from "@azure/test-utils-perf";
-import { TEST_SERVER_URL } from "./utils/serverUrl";
 import { BaseHttpTest } from "./baseHttpTest";
 
 export class NodeFetchTest extends BaseHttpTest {
-  options: PerfOptionDictionary<Record<string, unknown>> = {};
   agent: https.Agent;
   constructor() {
     super();
@@ -17,7 +14,7 @@ export class NodeFetchTest extends BaseHttpTest {
   }
 
   async run(): Promise<void> {
-    const response = await fetch(TEST_SERVER_URL, { agent: this.agent, });
+    const response = await fetch(this.url, { agent: this.agent, });
     console.log(response.body);
   }
 }
