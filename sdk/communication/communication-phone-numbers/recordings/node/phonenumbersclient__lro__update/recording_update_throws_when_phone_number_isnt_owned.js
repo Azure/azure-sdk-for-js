@@ -5,7 +5,7 @@ module.exports.hash = "bb0bb99bc6627e2b9c3ac870b03889d8";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint', {"encodedQueryParams":false})
-  .patch('/phoneNumbers/%2B14155550100/capabilities', {"calling":"outbound","sms":"none"})
+  .patch('/phoneNumbers/%2B14155550100/capabilities', {"calling":"none","sms":"outbound"})
   .query(true)
   .reply(404, {"error":{"code":"InternalError","message":"The server encountered an internal error."}}, [
   'Transfer-Encoding',

@@ -6,7 +6,7 @@
    "query": {
     "api-version": "2022-06-01-preview"
    },
-   "requestBody": "{\"calling\":\"outbound\",\"sms\":\"none\"}",
+   "requestBody": "{\"calling\":\"none\",\"sms\":\"outbound\"}",
    "status": 404,
    "response": "{\"error\":{\"code\":\"InternalError\",\"message\":\"The server encountered an internal error.\"}}",
    "responseHeaders": {

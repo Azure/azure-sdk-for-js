@@ -4,7 +4,7 @@
    "method": "POST",
    "url": "https://endpoint/SomeTenantId/oauth2/v2.0/token",
    "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=SomeClientId&client_secret=-Hu8Q%7Er4KSsao2nHOWoXGDc3wY9hCFtiS1FjbaSK&scope=https%3A%2F%2Fsanitized%2F",
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=SomeClientId&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
    "responseHeaders": {
@@ -29,7 +29,7 @@
    "query": {
     "api-version": "2022-06-01-preview"
    },
-   "requestBody": "{\"calling\":\"outbound\",\"sms\":\"none\"}",
+   "requestBody": "{\"calling\":\"none\",\"sms\":\"outbound\"}",
    "status": 404,
    "response": "{\"error\":{\"code\":\"InternalError\",\"message\":\"The server encountered an internal error.\"}}",
    "responseHeaders": {

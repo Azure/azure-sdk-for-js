@@ -113,7 +113,7 @@ nock('https://endpoint', {"encodedQueryParams":true})
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .patch('/phoneNumbers/%2B14155550100/capabilities', {"calling":"outbound","sms":"none"})
+  .patch('/phoneNumbers/%2B14155550100/capabilities', {"calling":"none","sms":"outbound"})
   .query(true)
   .reply(404, {"error":{"code":"InternalError","message":"The server encountered an internal error."}}, [
   'Transfer-Encoding',
