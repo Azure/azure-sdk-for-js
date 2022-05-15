@@ -175,6 +175,7 @@ specifiers:
   '@rush-temp/arm-vmwarecloudsimple': file:./projects/arm-vmwarecloudsimple.tgz
   '@rush-temp/arm-webpubsub': file:./projects/arm-webpubsub.tgz
   '@rush-temp/arm-webservices': file:./projects/arm-webservices.tgz
+  '@rush-temp/arm-workloads': file:./projects/arm-workloads.tgz
   '@rush-temp/arm-workspaces': file:./projects/arm-workspaces.tgz
   '@rush-temp/attestation': file:./projects/attestation.tgz
   '@rush-temp/communication-chat': file:./projects/communication-chat.tgz
@@ -451,6 +452,7 @@ dependencies:
   '@rush-temp/arm-vmwarecloudsimple': file:projects/arm-vmwarecloudsimple.tgz
   '@rush-temp/arm-webpubsub': file:projects/arm-webpubsub.tgz
   '@rush-temp/arm-webservices': file:projects/arm-webservices.tgz
+  '@rush-temp/arm-workloads': file:projects/arm-workloads.tgz
   '@rush-temp/arm-workspaces': file:projects/arm-workspaces.tgz
   '@rush-temp/attestation': file:projects/attestation.tgz
   '@rush-temp/communication-chat': file:projects/communication-chat.tgz
@@ -8965,7 +8967,7 @@ packages:
     dev: false
 
   file:projects/agrifood-farming.tgz:
-    resolution: {integrity: sha512-P04F5faQfCOBF1l6BIJKyj+LlbNHcRLPIcSU7YIFQazYLYttCAl1HiEY2UxlY2I+2+9UTtWdPR3eHlC6bhSS9g==, tarball: file:projects/agrifood-farming.tgz}
+    resolution: {integrity: sha512-2qad/S0ZY4Q6lNUeQEEf7orpr89tXHRTBSr1bnjLiZEaPJCyvQuyFCu9cIU2Iq7OnHB/w9TKaLZKx+8p3h8OSg==, tarball: file:projects/agrifood-farming.tgz}
     name: '@rush-temp/agrifood-farming'
     version: 0.0.0
     dependencies:
@@ -13932,6 +13934,32 @@ packages:
       - '@types/node'
       - debug
       - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-workloads.tgz:
+    resolution: {integrity: sha512-SUxZG+6JUnt+k6TIqGAIyvtNWtx/0RMUgiXJR7VzWdl6plTH9hy6f53PMe9JvwgrjNvzC7qgu6sj6QhqyYxYtg==, tarball: file:projects/arm-workloads.tgz}
+    name: '@rush-temp/arm-workloads'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.72.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.72.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.72.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.72.0
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.72.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.72.0
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.15.4
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
       - supports-color
     dev: false
 
