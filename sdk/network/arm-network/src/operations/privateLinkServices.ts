@@ -421,11 +421,13 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
       { resourceGroupName, serviceName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -526,11 +528,13 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
       { resourceGroupName, serviceName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -681,11 +685,13 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
       { resourceGroupName, serviceName, peConnectionName, options },
       deletePrivateEndpointConnectionOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -789,11 +795,13 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
       { location, parameters, options },
       checkPrivateLinkServiceVisibilityOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -879,11 +887,13 @@ export class PrivateLinkServicesImpl implements PrivateLinkServices {
       { location, resourceGroupName, parameters, options },
       checkPrivateLinkServiceVisibilityByResourceGroupOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

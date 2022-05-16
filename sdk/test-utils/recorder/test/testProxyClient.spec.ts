@@ -10,6 +10,7 @@ import {
 import { expect } from "chai";
 import { env, Recorder } from "../src";
 import { createRecordingRequest } from "../src/utils/createRecordingRequest";
+import { paths } from "../src/utils/paths";
 import { getTestMode, isLiveMode, RecorderError, RecordingStateManager } from "../src/utils/utils";
 
 const testRedirectedRequest = (
@@ -140,12 +141,20 @@ describe("TestProxyClient functions", () => {
       it("throws if not received a 200 status code", async function () {
         env.TEST_MODE = testMode;
         const recordingId = "dummy-recording-id";
-        clientHttpClient.sendRequest = (): Promise<PipelineResponse> => {
-          return Promise.resolve({
-            status: 404,
-            headers: createHttpHeaders({ "x-recording-id": recordingId }),
-            request: initialRequest,
-          });
+        clientHttpClient.sendRequest = (req): Promise<PipelineResponse> => {
+          if (req.url.endsWith(paths.setRecordingOptions)) {
+            return Promise.resolve({
+              headers: createHttpHeaders(),
+              status: 200,
+              request: initialRequest,
+            });
+          } else {
+            return Promise.resolve({
+              status: 404,
+              headers: createHttpHeaders({ "x-recording-id": recordingId }),
+              request: initialRequest,
+            });
+          }
         };
         try {
           await client.start({ envSetupForPlayback: {} });

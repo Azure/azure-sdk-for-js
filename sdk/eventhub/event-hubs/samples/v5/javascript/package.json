@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs",
   "dependencies": {
-    "@azure/event-hubs": "next",
+    "@azure/event-hubs": "latest",
     "dotenv": "latest",
     "rhea-promise": "^2.1.0",
     "ws": "^8.2.0",

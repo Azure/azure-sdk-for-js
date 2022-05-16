@@ -12,7 +12,7 @@ function spawn(command: string) {
 function runTest(testClassName: string, options: string = "") {
   console.log("\n");
   spawn(
-    `ts-node ./test/index.spec.ts ${testClassName} --warmup 0 --iterations 1 --duration 1 ${options}`
+    `node ./dist-esm/test/index.spec.js ${testClassName} --warmup 0 --iterations 1 --duration 1 ${options}`
   );
 }
 

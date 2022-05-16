@@ -1,15 +1,18 @@
-# Azure Video Analyzer Edge client library for JavaScript
+# Deprecated. Azure Video Analyzer Edge client library for JavaScript
+
+Deprecated. We’re retiring the Azure Video Analyzer preview service, you're advised to transition your applications off of Video Analyzer by 01 December 2022. This SDK is not longer maintained.
 
 Azure Video Analyzer is an [Azure Applied AI Service][applied-ai-service] that provides a platform for you to build intelligent video applications that can span both edge and cloud infrastructures. The platform offers the capability to capture, record, and analyze live video along with publishing the results, video and video analytics, to Azure services at the edge or in the cloud. It is designed to be an extensible platform, enabling you to connect different video inferencing edge modules such as Cognitive services modules, or custom inferencing modules that have been trained with your own data using either open-source machine learning or [Azure Machine Learning][machine-learning].
 
 Use the client library for Video Analyzer Edge to:
 
--  Simplify interactions with the [Microsoft Azure IoT SDKs](https://github.com/azure/azure-iot-sdks)
--  Programmatically construct pipeline topologies and live pipelines
+- Simplify interactions with the [Microsoft Azure IoT SDKs](https://github.com/azure/azure-iot-sdks)
+- Programmatically construct pipeline topologies and live pipelines
 
 Key links:
+
 - [Product documentation][doc_product]
-- [Direct methods][doc_direct_methods] 
+- [Direct methods][doc_direct_methods]
 - [Source code][source]
 
 ## Getting started
@@ -24,16 +27,16 @@ npm install @azure/video-analyzer-edge
 
 ### Prerequisites
 
--  TypeScript v3.6.
--  You need an active [Azure subscription][azure_sub], and a IoT device connection string to use this package.
--  To interact with Azure IoT Hub you will need to run `npm install azure-iothub`
--  You will need to use the version of the SDK that corresponds to the version of the Video Analyzer edge module you are using.
+- TypeScript v3.6.
+- You need an active [Azure subscription][azure_sub], and a IoT device connection string to use this package.
+- To interact with Azure IoT Hub you will need to run `npm install azure-iothub`
+- You will need to use the version of the SDK that corresponds to the version of the Video Analyzer edge module you are using.
 
-  | SDK          | Video Analyzer edge module |
-  | ------------ | -------------------------- |
-  | 1.0.0-beta.3 | 1.1                        |
-  | 1.0.0-beta.2 | 1.0                        |
-  | 1.0.0-beta.1 | 1.0                        |
+| SDK          | Video Analyzer edge module |
+| ------------ | -------------------------- |
+| 1.0.0-beta.3 | 1.1                        |
+| 1.0.0-beta.2 | 1.0                        |
+| 1.0.0-beta.1 | 1.0                        |
 
 ### Creating a pipeline topology and making requests
 
@@ -81,7 +84,7 @@ const videoSink: VideoSink = {
   localMediaCachePath: "/var/lib/videoanalyzer/tmp/",
   localMediaCacheMaximumSizeMiB: "1024",
   "@type": "#Microsoft.VideoAnalyzer.VideoSink"
-}
+};
 
 const pipelineTopology: PipelineTopology = {
   name: "jsTestTopology",
@@ -90,13 +93,12 @@ const pipelineTopology: PipelineTopology = {
     parameters: [
       { name: "rtspUserName", type: "String", default: "testUsername" },
       { name: "rtspPassword", type: "SecretString", default: "testPassword" },
-      { name: "rtspUrl", type: "String" },
+      { name: "rtspUrl", type: "String" }
     ],
     sources: [rtspSource],
     sinks: [videoSink]
   }
 };
-
 ```
 
 ### Creating a live pipeline
@@ -129,20 +131,20 @@ const iotHubClient = Client.fromConnectionString(connectionString); //Connect to
 
 const pipelineTopologySetRequest = createRequest("pipelineTopologySet", pipelineTopology);
 const setPipelineTopResponse = await iotHubClient.invokeDeviceMethod(deviceId, moduleId, {
-    methodName: pipelineTopologySetRequest.methodName,
-    payload: pipelineTopologySetRequest.payload
-  });
+  methodName: pipelineTopologySetRequest.methodName,
+  payload: pipelineTopologySetRequest.payload
+});
 ```
 
 ## Troubleshooting
 
--  When creating a method request remember to check the spelling of the name of the method
+- When creating a method request remember to check the spelling of the name of the method
 
 ## Next steps
 
--  [Samples][samples]
--  [Azure IoT Device SDK][iot-device-sdk]
--  [Azure IoTHub Service SDK][iot-hub-sdk]
+- [Samples][samples]
+- [Azure IoT Device SDK][iot-device-sdk]
+- [Azure IoTHub Service SDK][iot-hub-sdk]
 
 ## Contributing
 
@@ -171,7 +173,6 @@ additional questions or comments.
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
 [coc_faq]: https://opensource.microsoft.com/codeofconduct/faq/
 [coc_contact]: mailto:opencode@microsoft.com
-
 [source]: https://aka.ms/ava/sdk/client/js/source
 [samples]: https://aka.ms/video-analyzer-sample
 [package]: https://aka.ms/ava/sdk/client/js

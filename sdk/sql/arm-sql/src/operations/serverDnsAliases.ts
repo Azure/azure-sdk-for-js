@@ -198,10 +198,12 @@ export class ServerDnsAliasesImpl implements ServerDnsAliases {
       { resourceGroupName, serverName, dnsAliasName, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -285,10 +287,12 @@ export class ServerDnsAliasesImpl implements ServerDnsAliases {
       { resourceGroupName, serverName, dnsAliasName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -397,10 +401,12 @@ export class ServerDnsAliasesImpl implements ServerDnsAliases {
       { resourceGroupName, serverName, dnsAliasName, parameters, options },
       acquireOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

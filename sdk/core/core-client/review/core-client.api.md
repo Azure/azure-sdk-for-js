@@ -28,6 +28,9 @@ export interface AdditionalPolicyConfig {
 export function authorizeRequestOnClaimChallenge(onChallengeOptions: AuthorizeRequestOnChallengeOptions): Promise<boolean>;
 
 // @public
+export const authorizeRequestOnTenantChallenge: (challengeOptions: AuthorizeRequestOnChallengeOptions) => Promise<boolean>;
+
+// @public
 export interface BaseMapper {
     constraints?: MapperConstraints;
     defaultValue?: any;

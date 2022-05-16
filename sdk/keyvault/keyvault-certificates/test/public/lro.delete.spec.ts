@@ -62,6 +62,7 @@ describe("Certificates client - lro - delete", () => {
   });
 
   it("can resume from a stopped poller", async function (this: Context) {
+    this.retries(5);
     const certificateName = testClient.formatName(
       `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
     );

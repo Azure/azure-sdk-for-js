@@ -589,10 +589,12 @@ export class LongTermRetentionManagedInstanceBackupsImpl
       { locationName, managedInstanceName, databaseName, backupName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -773,10 +775,12 @@ export class LongTermRetentionManagedInstanceBackupsImpl
       },
       deleteByResourceGroupOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
