@@ -1,5 +1,19 @@
 # Release History
     
+## 9.0.0 (2022-05-16)
+    
+**Breaking Changes**
+
+  - Interface AzureIaaSVMProtectedItemExtendedInfo no longer has parameter newestRecoveryPointInArchive
+  - Interface AzureIaaSVMProtectedItemExtendedInfo no longer has parameter oldestRecoveryPointInArchive
+  - Interface AzureIaaSVMProtectedItemExtendedInfo no longer has parameter oldestRecoveryPointInVault
+  - Interface AzureVmWorkloadProtectedItemExtendedInfo no longer has parameter newestRecoveryPointInArchive
+  - Interface AzureVmWorkloadProtectedItemExtendedInfo no longer has parameter oldestRecoveryPointInArchive
+  - Interface AzureVmWorkloadProtectedItemExtendedInfo no longer has parameter oldestRecoveryPointInVault
+  - Interface SubProtectionPolicy no longer has parameter tieringPolicy
+  - Removed Enum KnownTieringMode
+    
+    
 ## 8.2.0 (2022-05-11)
     
 **Features**
