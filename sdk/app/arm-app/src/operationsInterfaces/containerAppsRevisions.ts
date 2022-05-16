@@ -35,52 +35,52 @@ export interface ContainerAppsRevisions {
    * Get a revision of a Container App.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
-   * @param name Name of the Container App Revision.
+   * @param revisionName Name of the Container App Revision.
    * @param options The options parameters.
    */
   getRevision(
     resourceGroupName: string,
     containerAppName: string,
-    name: string,
+    revisionName: string,
     options?: ContainerAppsRevisionsGetRevisionOptionalParams
   ): Promise<ContainerAppsRevisionsGetRevisionResponse>;
   /**
    * Activates a revision for a Container App
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
-   * @param name Name of the Container App Revision.
+   * @param revisionName Name of the Container App Revision.
    * @param options The options parameters.
    */
   activateRevision(
     resourceGroupName: string,
     containerAppName: string,
-    name: string,
+    revisionName: string,
     options?: ContainerAppsRevisionsActivateRevisionOptionalParams
   ): Promise<void>;
   /**
    * Deactivates a revision for a Container App
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
-   * @param name Name of the Container App Revision.
+   * @param revisionName Name of the Container App Revision.
    * @param options The options parameters.
    */
   deactivateRevision(
     resourceGroupName: string,
     containerAppName: string,
-    name: string,
+    revisionName: string,
     options?: ContainerAppsRevisionsDeactivateRevisionOptionalParams
   ): Promise<void>;
   /**
    * Restarts a revision for a Container App
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
-   * @param name Name of the Container App Revision.
+   * @param revisionName Name of the Container App Revision.
    * @param options The options parameters.
    */
   restartRevision(
     resourceGroupName: string,
     containerAppName: string,
-    name: string,
+    revisionName: string,
     options?: ContainerAppsRevisionsRestartRevisionOptionalParams
   ): Promise<void>;
 }

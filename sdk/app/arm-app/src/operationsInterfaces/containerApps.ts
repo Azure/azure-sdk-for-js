@@ -17,9 +17,7 @@ import {
   ContainerAppsCreateOrUpdateOptionalParams,
   ContainerAppsCreateOrUpdateResponse,
   ContainerAppsDeleteOptionalParams,
-  ContainerAppPatch,
   ContainerAppsUpdateOptionalParams,
-  ContainerAppsUpdateResponse,
   ContainerAppsListCustomHostNameAnalysisOptionalParams,
   ContainerAppsListCustomHostNameAnalysisResponse,
   ContainerAppsListSecretsOptionalParams,
@@ -48,24 +46,24 @@ export interface ContainerApps {
   /**
    * Get the properties of a Container App.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of the Container App.
+   * @param containerAppName Name of the Container App.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    name: string,
+    containerAppName: string,
     options?: ContainerAppsGetOptionalParams
   ): Promise<ContainerAppsGetResponse>;
   /**
-   * Description for Create or update a Container App.
+   * Create or update a Container App.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of the Container App.
+   * @param containerAppName Name of the Container App.
    * @param containerAppEnvelope Properties used to create a container app
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
-    name: string,
+    containerAppName: string,
     containerAppEnvelope: ContainerApp,
     options?: ContainerAppsCreateOrUpdateOptionalParams
   ): Promise<
@@ -75,53 +73,66 @@ export interface ContainerApps {
     >
   >;
   /**
-   * Description for Create or update a Container App.
+   * Create or update a Container App.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of the Container App.
+   * @param containerAppName Name of the Container App.
    * @param containerAppEnvelope Properties used to create a container app
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    name: string,
+    containerAppName: string,
     containerAppEnvelope: ContainerApp,
     options?: ContainerAppsCreateOrUpdateOptionalParams
   ): Promise<ContainerAppsCreateOrUpdateResponse>;
   /**
-   * Description for Delete a Container App.
+   * Delete a Container App.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of the Container App.
+   * @param containerAppName Name of the Container App.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
-    name: string,
+    containerAppName: string,
     options?: ContainerAppsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
-   * Description for Delete a Container App.
+   * Delete a Container App.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of the Container App.
+   * @param containerAppName Name of the Container App.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
-    name: string,
+    containerAppName: string,
     options?: ContainerAppsDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Patches a Container App. Currently only patching of tags is supported
+   * Patches a Container App using JSON Merge Patch
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of the Container App.
-   * @param containerAppEnvelope Properties of a container app that need to be updated
+   * @param containerAppName Name of the Container App.
+   * @param containerAppEnvelope Properties of a Container App that need to be updated
    * @param options The options parameters.
    */
-  update(
+  beginUpdate(
     resourceGroupName: string,
-    name: string,
-    containerAppEnvelope: ContainerAppPatch,
+    containerAppName: string,
+    containerAppEnvelope: ContainerApp,
     options?: ContainerAppsUpdateOptionalParams
-  ): Promise<ContainerAppsUpdateResponse>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Patches a Container App using JSON Merge Patch
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param containerAppName Name of the Container App.
+   * @param containerAppEnvelope Properties of a Container App that need to be updated
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    containerAppName: string,
+    containerAppEnvelope: ContainerApp,
+    options?: ContainerAppsUpdateOptionalParams
+  ): Promise<void>;
   /**
    * Analyzes a custom hostname for a Container App
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -136,12 +147,12 @@ export interface ContainerApps {
   /**
    * List secrets for a container app
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of the Container App.
+   * @param containerAppName Name of the Container App.
    * @param options The options parameters.
    */
   listSecrets(
     resourceGroupName: string,
-    name: string,
+    containerAppName: string,
     options?: ContainerAppsListSecretsOptionalParams
   ): Promise<ContainerAppsListSecretsResponse>;
 }

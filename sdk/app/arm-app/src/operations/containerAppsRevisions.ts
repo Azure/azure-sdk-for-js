@@ -130,17 +130,17 @@ export class ContainerAppsRevisionsImpl implements ContainerAppsRevisions {
    * Get a revision of a Container App.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
-   * @param name Name of the Container App Revision.
+   * @param revisionName Name of the Container App Revision.
    * @param options The options parameters.
    */
   getRevision(
     resourceGroupName: string,
     containerAppName: string,
-    name: string,
+    revisionName: string,
     options?: ContainerAppsRevisionsGetRevisionOptionalParams
   ): Promise<ContainerAppsRevisionsGetRevisionResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, containerAppName, name, options },
+      { resourceGroupName, containerAppName, revisionName, options },
       getRevisionOperationSpec
     );
   }
@@ -149,17 +149,17 @@ export class ContainerAppsRevisionsImpl implements ContainerAppsRevisions {
    * Activates a revision for a Container App
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
-   * @param name Name of the Container App Revision.
+   * @param revisionName Name of the Container App Revision.
    * @param options The options parameters.
    */
   activateRevision(
     resourceGroupName: string,
     containerAppName: string,
-    name: string,
+    revisionName: string,
     options?: ContainerAppsRevisionsActivateRevisionOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, containerAppName, name, options },
+      { resourceGroupName, containerAppName, revisionName, options },
       activateRevisionOperationSpec
     );
   }
@@ -168,17 +168,17 @@ export class ContainerAppsRevisionsImpl implements ContainerAppsRevisions {
    * Deactivates a revision for a Container App
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
-   * @param name Name of the Container App Revision.
+   * @param revisionName Name of the Container App Revision.
    * @param options The options parameters.
    */
   deactivateRevision(
     resourceGroupName: string,
     containerAppName: string,
-    name: string,
+    revisionName: string,
     options?: ContainerAppsRevisionsDeactivateRevisionOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, containerAppName, name, options },
+      { resourceGroupName, containerAppName, revisionName, options },
       deactivateRevisionOperationSpec
     );
   }
@@ -187,17 +187,17 @@ export class ContainerAppsRevisionsImpl implements ContainerAppsRevisions {
    * Restarts a revision for a Container App
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
-   * @param name Name of the Container App Revision.
+   * @param revisionName Name of the Container App Revision.
    * @param options The options parameters.
    */
   restartRevision(
     resourceGroupName: string,
     containerAppName: string,
-    name: string,
+    revisionName: string,
     options?: ContainerAppsRevisionsRestartRevisionOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, containerAppName, name, options },
+      { resourceGroupName, containerAppName, revisionName, options },
       restartRevisionOperationSpec
     );
   }
@@ -236,7 +236,7 @@ const listRevisionsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -248,7 +248,7 @@ const listRevisionsOperationSpec: coreClient.OperationSpec = {
 };
 const getRevisionOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/revisions/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/revisions/{revisionName}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -263,15 +263,15 @@ const getRevisionOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.containerAppName
+    Parameters.containerAppName,
+    Parameters.revisionName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const activateRevisionOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/revisions/{name}/activate",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/revisions/{revisionName}/activate",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -284,15 +284,15 @@ const activateRevisionOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.containerAppName
+    Parameters.containerAppName,
+    Parameters.revisionName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const deactivateRevisionOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/revisions/{name}/deactivate",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/revisions/{revisionName}/deactivate",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -305,15 +305,15 @@ const deactivateRevisionOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.containerAppName
+    Parameters.containerAppName,
+    Parameters.revisionName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const restartRevisionOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/revisions/{name}/restart",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/revisions/{revisionName}/restart",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -326,8 +326,8 @@ const restartRevisionOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.containerAppName
+    Parameters.containerAppName,
+    Parameters.revisionName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -343,7 +343,7 @@ const listRevisionsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

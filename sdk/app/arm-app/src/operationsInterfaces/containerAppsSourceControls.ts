@@ -36,27 +36,27 @@ export interface ContainerAppsSourceControls {
    * Get a SourceControl of a Container App.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
-   * @param name Name of the Container App SourceControl.
+   * @param sourceControlName Name of the Container App SourceControl.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     containerAppName: string,
-    name: string,
+    sourceControlName: string,
     options?: ContainerAppsSourceControlsGetOptionalParams
   ): Promise<ContainerAppsSourceControlsGetResponse>;
   /**
-   * Description for Create or update the SourceControl for a Container App.
+   * Create or update the SourceControl for a Container App.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
-   * @param name Name of the Container App SourceControl.
+   * @param sourceControlName Name of the Container App SourceControl.
    * @param sourceControlEnvelope Properties used to create a Container App SourceControl
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     containerAppName: string,
-    name: string,
+    sourceControlName: string,
     sourceControlEnvelope: SourceControl,
     options?: ContainerAppsSourceControlsCreateOrUpdateOptionalParams
   ): Promise<
@@ -66,44 +66,44 @@ export interface ContainerAppsSourceControls {
     >
   >;
   /**
-   * Description for Create or update the SourceControl for a Container App.
+   * Create or update the SourceControl for a Container App.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
-   * @param name Name of the Container App SourceControl.
+   * @param sourceControlName Name of the Container App SourceControl.
    * @param sourceControlEnvelope Properties used to create a Container App SourceControl
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     containerAppName: string,
-    name: string,
+    sourceControlName: string,
     sourceControlEnvelope: SourceControl,
     options?: ContainerAppsSourceControlsCreateOrUpdateOptionalParams
   ): Promise<ContainerAppsSourceControlsCreateOrUpdateResponse>;
   /**
-   * Description for Delete a Container App SourceControl.
+   * Delete a Container App SourceControl.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
-   * @param name Name of the Container App SourceControl.
+   * @param sourceControlName Name of the Container App SourceControl.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     containerAppName: string,
-    name: string,
+    sourceControlName: string,
     options?: ContainerAppsSourceControlsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
-   * Description for Delete a Container App SourceControl.
+   * Delete a Container App SourceControl.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
-   * @param name Name of the Container App SourceControl.
+   * @param sourceControlName Name of the Container App SourceControl.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     containerAppName: string,
-    name: string,
+    sourceControlName: string,
     options?: ContainerAppsSourceControlsDeleteOptionalParams
   ): Promise<void>;
 }

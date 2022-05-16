@@ -44,17 +44,17 @@ export class CertificatesImpl implements Certificates {
   /**
    * Get the Certificates in a given managed environment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param managedEnvironmentName Name of the Managed Environment.
+   * @param environmentName Name of the Managed Environment.
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
-    managedEnvironmentName: string,
+    environmentName: string,
     options?: CertificatesListOptionalParams
   ): PagedAsyncIterableIterator<Certificate> {
     const iter = this.listPagingAll(
       resourceGroupName,
-      managedEnvironmentName,
+      environmentName,
       options
     );
     return {
@@ -65,31 +65,23 @@ export class CertificatesImpl implements Certificates {
         return this;
       },
       byPage: () => {
-        return this.listPagingPage(
-          resourceGroupName,
-          managedEnvironmentName,
-          options
-        );
+        return this.listPagingPage(resourceGroupName, environmentName, options);
       }
     };
   }
 
   private async *listPagingPage(
     resourceGroupName: string,
-    managedEnvironmentName: string,
+    environmentName: string,
     options?: CertificatesListOptionalParams
   ): AsyncIterableIterator<Certificate[]> {
-    let result = await this._list(
-      resourceGroupName,
-      managedEnvironmentName,
-      options
-    );
+    let result = await this._list(resourceGroupName, environmentName, options);
     yield result.value || [];
     let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listNext(
         resourceGroupName,
-        managedEnvironmentName,
+        environmentName,
         continuationToken,
         options
       );
@@ -100,12 +92,12 @@ export class CertificatesImpl implements Certificates {
 
   private async *listPagingAll(
     resourceGroupName: string,
-    managedEnvironmentName: string,
+    environmentName: string,
     options?: CertificatesListOptionalParams
   ): AsyncIterableIterator<Certificate> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
-      managedEnvironmentName,
+      environmentName,
       options
     )) {
       yield* page;
@@ -115,16 +107,16 @@ export class CertificatesImpl implements Certificates {
   /**
    * Get the Certificates in a given managed environment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param managedEnvironmentName Name of the Managed Environment.
+   * @param environmentName Name of the Managed Environment.
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
-    managedEnvironmentName: string,
+    environmentName: string,
     options?: CertificatesListOptionalParams
   ): Promise<CertificatesListResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, managedEnvironmentName, options },
+      { resourceGroupName, environmentName, options },
       listOperationSpec
     );
   }
@@ -132,18 +124,18 @@ export class CertificatesImpl implements Certificates {
   /**
    * Get the specified Certificate.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param managedEnvironmentName Name of the Managed Environment.
-   * @param name Name of the Certificate.
+   * @param environmentName Name of the Managed Environment.
+   * @param certificateName Name of the Certificate.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    managedEnvironmentName: string,
-    name: string,
+    environmentName: string,
+    certificateName: string,
     options?: CertificatesGetOptionalParams
   ): Promise<CertificatesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, managedEnvironmentName, name, options },
+      { resourceGroupName, environmentName, certificateName, options },
       getOperationSpec
     );
   }
@@ -151,18 +143,18 @@ export class CertificatesImpl implements Certificates {
   /**
    * Create or Update a Certificate.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param managedEnvironmentName Name of the Managed Environment.
-   * @param name Name of the Certificate.
+   * @param environmentName Name of the Managed Environment.
+   * @param certificateName Name of the Certificate.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
-    managedEnvironmentName: string,
-    name: string,
+    environmentName: string,
+    certificateName: string,
     options?: CertificatesCreateOrUpdateOptionalParams
   ): Promise<CertificatesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, managedEnvironmentName, name, options },
+      { resourceGroupName, environmentName, certificateName, options },
       createOrUpdateOperationSpec
     );
   }
@@ -170,18 +162,18 @@ export class CertificatesImpl implements Certificates {
   /**
    * Deletes the specified Certificate.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param managedEnvironmentName Name of the Managed Environment.
-   * @param name Name of the Certificate.
+   * @param environmentName Name of the Managed Environment.
+   * @param certificateName Name of the Certificate.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
-    managedEnvironmentName: string,
-    name: string,
+    environmentName: string,
+    certificateName: string,
     options?: CertificatesDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, managedEnvironmentName, name, options },
+      { resourceGroupName, environmentName, certificateName, options },
       deleteOperationSpec
     );
   }
@@ -189,23 +181,23 @@ export class CertificatesImpl implements Certificates {
   /**
    * Patches a certificate. Currently only patching of tags is supported
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param managedEnvironmentName Name of the Managed Environment.
-   * @param name Name of the Certificate.
+   * @param environmentName Name of the Managed Environment.
+   * @param certificateName Name of the Certificate.
    * @param certificateEnvelope Properties of a certificate that need to be updated
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
-    managedEnvironmentName: string,
-    name: string,
+    environmentName: string,
+    certificateName: string,
     certificateEnvelope: CertificatePatch,
     options?: CertificatesUpdateOptionalParams
   ): Promise<CertificatesUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        managedEnvironmentName,
-        name,
+        environmentName,
+        certificateName,
         certificateEnvelope,
         options
       },
@@ -216,18 +208,18 @@ export class CertificatesImpl implements Certificates {
   /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param managedEnvironmentName Name of the Managed Environment.
+   * @param environmentName Name of the Managed Environment.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */
   private _listNext(
     resourceGroupName: string,
-    managedEnvironmentName: string,
+    environmentName: string,
     nextLink: string,
     options?: CertificatesListNextOptionalParams
   ): Promise<CertificatesListNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, managedEnvironmentName, nextLink, options },
+      { resourceGroupName, environmentName, nextLink, options },
       listNextOperationSpec
     );
   }
@@ -237,7 +229,7 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{managedEnvironmentName}/certificates",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/certificates",
   httpMethod: "GET",
   responses: {
     200: {
@@ -252,14 +244,14 @@ const listOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.managedEnvironmentName
+    Parameters.environmentName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{managedEnvironmentName}/certificates/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/certificates/{certificateName}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -274,15 +266,15 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.managedEnvironmentName
+    Parameters.environmentName,
+    Parameters.certificateName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{managedEnvironmentName}/certificates/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/certificates/{certificateName}",
   httpMethod: "PUT",
   responses: {
     200: {
@@ -298,8 +290,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.managedEnvironmentName
+    Parameters.environmentName,
+    Parameters.certificateName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -307,7 +299,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{managedEnvironmentName}/certificates/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/certificates/{certificateName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -321,15 +313,15 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.managedEnvironmentName
+    Parameters.environmentName,
+    Parameters.certificateName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{managedEnvironmentName}/certificates/{name}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/certificates/{certificateName}",
   httpMethod: "PATCH",
   responses: {
     200: {
@@ -345,8 +337,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.managedEnvironmentName
+    Parameters.environmentName,
+    Parameters.certificateName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -369,7 +361,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.managedEnvironmentName
+    Parameters.environmentName
   ],
   headerParameters: [Parameters.accept],
   serializer

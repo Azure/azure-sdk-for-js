@@ -20,14 +20,14 @@ export interface ContainerAppsRevisionReplicas {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
    * @param revisionName Name of the Container App Revision.
-   * @param name Name of the Container App Revision Replica.
+   * @param replicaName Name of the Container App Revision Replica.
    * @param options The options parameters.
    */
   getReplica(
     resourceGroupName: string,
     containerAppName: string,
     revisionName: string,
-    name: string,
+    replicaName: string,
     options?: ContainerAppsRevisionReplicasGetReplicaOptionalParams
   ): Promise<ContainerAppsRevisionReplicasGetReplicaResponse>;
   /**

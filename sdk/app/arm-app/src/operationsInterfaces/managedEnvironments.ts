@@ -17,9 +17,7 @@ import {
   ManagedEnvironmentsCreateOrUpdateOptionalParams,
   ManagedEnvironmentsCreateOrUpdateResponse,
   ManagedEnvironmentsDeleteOptionalParams,
-  ManagedEnvironmentPatch,
-  ManagedEnvironmentsUpdateOptionalParams,
-  ManagedEnvironmentsUpdateResponse
+  ManagedEnvironmentsUpdateOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,24 +42,24 @@ export interface ManagedEnvironments {
   /**
    * Get the properties of a Managed Environment used to host container apps.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of the Environment.
+   * @param environmentName Name of the Environment.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
-    name: string,
+    environmentName: string,
     options?: ManagedEnvironmentsGetOptionalParams
   ): Promise<ManagedEnvironmentsGetResponse>;
   /**
    * Creates or updates a Managed Environment used to host container apps.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of the Environment.
+   * @param environmentName Name of the Environment.
    * @param environmentEnvelope Configuration details of the Environment.
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
-    name: string,
+    environmentName: string,
     environmentEnvelope: ManagedEnvironment,
     options?: ManagedEnvironmentsCreateOrUpdateOptionalParams
   ): Promise<
@@ -73,49 +71,62 @@ export interface ManagedEnvironments {
   /**
    * Creates or updates a Managed Environment used to host container apps.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of the Environment.
+   * @param environmentName Name of the Environment.
    * @param environmentEnvelope Configuration details of the Environment.
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
-    name: string,
+    environmentName: string,
     environmentEnvelope: ManagedEnvironment,
     options?: ManagedEnvironmentsCreateOrUpdateOptionalParams
   ): Promise<ManagedEnvironmentsCreateOrUpdateResponse>;
   /**
    * Delete a Managed Environment if it does not have any container apps.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of the Environment.
+   * @param environmentName Name of the Environment.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
-    name: string,
+    environmentName: string,
     options?: ManagedEnvironmentsDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Delete a Managed Environment if it does not have any container apps.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of the Environment.
+   * @param environmentName Name of the Environment.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
-    name: string,
+    environmentName: string,
     options?: ManagedEnvironmentsDeleteOptionalParams
   ): Promise<void>;
   /**
-   * Patches a Managed Environment. Only patching of tags is supported currently
+   * Patches a Managed Environment using JSON Merge Patch
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param name Name of the Environment.
+   * @param environmentName Name of the Environment.
    * @param environmentEnvelope Configuration details of the Environment.
    * @param options The options parameters.
    */
-  update(
+  beginUpdate(
     resourceGroupName: string,
-    name: string,
-    environmentEnvelope: ManagedEnvironmentPatch,
+    environmentName: string,
+    environmentEnvelope: ManagedEnvironment,
     options?: ManagedEnvironmentsUpdateOptionalParams
-  ): Promise<ManagedEnvironmentsUpdateResponse>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Patches a Managed Environment using JSON Merge Patch
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param environmentName Name of the Environment.
+   * @param environmentEnvelope Configuration details of the Environment.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    environmentName: string,
+    environmentEnvelope: ManagedEnvironment,
+    options?: ManagedEnvironmentsUpdateOptionalParams
+  ): Promise<void>;
 }

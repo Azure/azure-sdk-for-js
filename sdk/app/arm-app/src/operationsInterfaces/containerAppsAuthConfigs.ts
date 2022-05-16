@@ -35,41 +35,41 @@ export interface ContainerAppsAuthConfigs {
    * Get a AuthConfig of a Container App.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
-   * @param name Name of the Container App AuthConfig.
+   * @param authConfigName Name of the Container App AuthConfig.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     containerAppName: string,
-    name: string,
+    authConfigName: string,
     options?: ContainerAppsAuthConfigsGetOptionalParams
   ): Promise<ContainerAppsAuthConfigsGetResponse>;
   /**
-   * Description for Create or update the AuthConfig for a Container App.
+   * Create or update the AuthConfig for a Container App.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
-   * @param name Name of the Container App AuthConfig.
+   * @param authConfigName Name of the Container App AuthConfig.
    * @param authConfigEnvelope Properties used to create a Container App AuthConfig
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     containerAppName: string,
-    name: string,
+    authConfigName: string,
     authConfigEnvelope: AuthConfig,
     options?: ContainerAppsAuthConfigsCreateOrUpdateOptionalParams
   ): Promise<ContainerAppsAuthConfigsCreateOrUpdateResponse>;
   /**
-   * Description for Delete a Container App AuthConfig.
+   * Delete a Container App AuthConfig.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerAppName Name of the Container App.
-   * @param name Name of the Container App AuthConfig.
+   * @param authConfigName Name of the Container App AuthConfig.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     containerAppName: string,
-    name: string,
+    authConfigName: string,
     options?: ContainerAppsAuthConfigsDeleteOptionalParams
   ): Promise<void>;
 }
