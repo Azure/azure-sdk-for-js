@@ -209,11 +209,11 @@ function generate-service-level-readme($readmeBaseName, $pathPrefix, $packageInf
     $mgmtIndexReadme  = "$readmeBaseName-mgmt-index.md"
     $clientPackageInfo = $servicePackages.Where({ 'client' -eq $_.Type }) | Sort-Object -Property Package
     if ($clientPackageInfo) {
-      generate-markdown-table -absolutePath "$absolutePath" -readmeName "$clientIndexReadme" -packageInfo $clientPackageInfo -moniker $moniker
+      generate-markdown-table -absolutePath $absolutePath -readmeName $clientIndexReadme -packageInfo $clientPackageInfo -moniker $moniker
     }
     $mgmtPackageInfo = $servicePackages.Where({ 'mgmt' -eq $_.Type }) | Sort-Object -Property Package
     if ($mgmtPackageInfo) {
-      generate-markdown-table -absolutePath "$absolutePath" -readmeName "$mgmtIndexReadme" -packageInfo $mgmtPackageInfo -moniker $moniker
+      generate-markdown-table -absolutePath $absolutePath -readmeName $mgmtIndexReadme -packageInfo $mgmtPackageInfo -moniker $moniker
     }
     if (!(Test-Path (Join-Path $absolutePath -ChildPath $serviceReadme))) {
       create-metadata-table -absolutePath $absolutePath -readmeName $serviceReadme -moniker $moniker -msService $msService `

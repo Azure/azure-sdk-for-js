@@ -87,7 +87,7 @@ function GetDocsMsService($packageInfo, $serviceName)
   if ($packageInfo.MSDocService) {
     # Use MSDocService in csv metadata to override the service directory    
     # TODO: Use taxonomy for service name -- https://github.com/Azure/azure-sdk-tools/issues/1442
-    $service = $clientPackageInfo[0].MSDocService
+    $service = $packageInfo.MSDocService
   }
   Write-Host "The service of package: $service"
   return $service
