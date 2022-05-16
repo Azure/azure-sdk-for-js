@@ -2515,7 +2515,7 @@ packages:
     dev: false
 
   /@types/json5/0.0.29:
-    resolution: {integrity: sha1-7ihweulOEdK4J7y+UnC86n8+ce4=}
+    resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
     dev: false
 
   /@types/jsonwebtoken/8.5.8:
@@ -2616,7 +2616,7 @@ packages:
     dev: false
 
   /@types/priorityqueuejs/1.0.1:
-    resolution: {integrity: sha1-bqrDJHpMXO/JRILl2Hw3MLNfUFM=}
+    resolution: {integrity: sha512-rt2GvuoXcYb+R4X8SF4jlTSXDWoUmkZf7OB8iTRRfE5dmqHn47rY8CRIEPDD5lY28cU86+xXYQ5RsXq/9nydvQ==}
     dev: false
 
   /@types/qs/6.9.7:
@@ -2912,7 +2912,7 @@ packages:
     dev: false
 
   /ansi-regex/2.1.1:
-    resolution: {integrity: sha1-w7M6te42DYbg5ijwRorn7yfWVN8=}
+    resolution: {integrity: sha512-TIGnTpdo+E3+pCyAluZvtED5p5wCqLdezCyhPZzKPcxvFplEt4i+W7OONCKgeZFT3+y5NZZfOOS/Bdcanm1MYA==}
     engines: {node: '>=0.10.0'}
     dev: false
 
@@ -2972,7 +2972,7 @@ packages:
     dev: false
 
   /archy/1.0.0:
-    resolution: {integrity: sha1-+cjBN1fMHde8N5rHeyxipcKGjEA=}
+    resolution: {integrity: sha512-Xg+9RwCg/0p32teKdGMPTPnVXKD0w3DfHnFTficozsAgsvq2XenPJq/MYpzzQ/v8zrOyJn6Ds39VA4JIDwFfqw==}
     dev: false
 
   /are-we-there-yet/1.1.7:
@@ -2993,7 +2993,7 @@ packages:
     dev: false
 
   /arr-union/3.1.0:
-    resolution: {integrity: sha1-45sJrqne+Gao8gbiiK9jkZuuOcQ=}
+    resolution: {integrity: sha512-sKpyeERZ02v1FeCZT8lrfJq5u6goHCtpTAzPwJYe7c8SPFOboNjNg1vz2L4VTn9T4PQxEx13TbXLmYUcS6Ug7Q==}
     engines: {node: '>=0.10.0'}
     dev: false
 
@@ -3028,7 +3028,7 @@ packages:
     dev: false
 
   /asap/2.0.6:
-    resolution: {integrity: sha1-5QNHYR1+aQlDIIu9r+vLwvuGbUY=}
+    resolution: {integrity: sha512-BSHWgDSAiKs50o2Re8ppvp3seVHXSRM44cdSsT9FfNEUUZLOGWVCsiWaRPWM1Znn+mqZ1OfVZ3z3DWEzSp7hRA==}
     dev: false
 
   /assertion-error/1.1.0:
@@ -3041,7 +3041,7 @@ packages:
     dev: false
 
   /async-array-reduce/0.2.1:
-    resolution: {integrity: sha1-yL4BCitc0A3qlsgRFgNGk9/dgtE=}
+    resolution: {integrity: sha512-/ywTADOcaEnwiAnOEi0UB/rAcIq5bTFfCV9euv3jLYFUMmy6KvKccTQUnLlp8Ensmfj43wHSmbGiPqjsZ6RhNA==}
     engines: {node: '>=0.10.0'}
     dev: false
 
@@ -3054,7 +3054,7 @@ packages:
     dev: false
 
   /asynckit/0.4.0:
-    resolution: {integrity: sha1-x57Zf380y48robyXkLzDZkdLS3k=}
+    resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
     dev: false
 
   /atob/2.1.2:
@@ -3228,7 +3228,7 @@ packages:
     dev: false
 
   /buffer-crc32/0.2.13:
-    resolution: {integrity: sha1-DTM+PwDqxQqhRUq9MO+MKl2ackI=}
+    resolution: {integrity: sha512-VO9Ht/+p3SN7SKWqcrgEzjGbRSJYTx+Q1pTQC0wrWqHx0vpJraQ6GtHx8tvcg1rlK1byhU5gccxgOgj7B0TDkQ==}
     dev: false
 
   /buffer-equal-constant-time/1.0.1:
@@ -3377,7 +3377,7 @@ packages:
     dev: false
 
   /check-error/1.0.2:
-    resolution: {integrity: sha1-V00xLt2Iu13YkS6Sht1sCu1KrII=}
+    resolution: {integrity: sha512-BrgHpW9NURQgzoNyjfq0Wu6VFO6D7IZEmJNdtgNqpzGG8RuNFHt2jQxWlAs4HMe119chBnv+34syEZtc6IhLtA==}
     dev: false
 
   /chokidar/3.3.0:
@@ -8965,7 +8965,7 @@ packages:
     dev: false
 
   file:projects/agrifood-farming.tgz:
-    resolution: {integrity: sha512-P04F5faQfCOBF1l6BIJKyj+LlbNHcRLPIcSU7YIFQazYLYttCAl1HiEY2UxlY2I+2+9UTtWdPR3eHlC6bhSS9g==, tarball: file:projects/agrifood-farming.tgz}
+    resolution: {integrity: sha512-2qad/S0ZY4Q6lNUeQEEf7orpr89tXHRTBSr1bnjLiZEaPJCyvQuyFCu9cIU2Iq7OnHB/w9TKaLZKx+8p3h8OSg==, tarball: file:projects/agrifood-farming.tgz}
     name: '@rush-temp/agrifood-farming'
     version: 0.0.0
     dependencies:
@@ -13239,13 +13239,13 @@ packages:
     dev: false
 
   file:projects/arm-servicelinker.tgz:
-    resolution: {integrity: sha512-9uRGegk2PugMoa2TF31FkZMpzlh2u4pRzGCDfVyIefc27kr58nfoH0LYEBJj89oGBYjVNOc6uUZu8dagKX0/nQ==, tarball: file:projects/arm-servicelinker.tgz}
+    resolution: {integrity: sha512-N5tZVyTLwzPkY7j/PO/vq9J5t8Wy8m81e+tKimcS7BKZqEcYuMm2SlUz9e0wx9+9utIu4kNsgrRq5Me5tJBF8g==, tarball: file:projects/arm-servicelinker.tgz}
     name: '@rush-temp/arm-servicelinker'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.23.1
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.72.0
       '@rollup/plugin-json': 4.1.0_rollup@2.72.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.72.0
