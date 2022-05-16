@@ -16,19 +16,22 @@ import { isBodyPollingDone, processBodyPollingOperationResult } from "./bodyPoll
 import { logger } from "./logger";
 import { processLocationPollingOperationResult } from "./locationPolling";
 import { processPassthroughOperationResult } from "./passthrough";
+import { PollOperationState } from "../pollOperation";
 
 /**
  * creates a stepping function that maps an LRO state to another.
  */
-export function createGetLroStatusFromResponse<TResult>(
+export function createGetLroStatusFromResponse<TResult, TState extends PollOperationState<TResult>>(
   lroPrimitives: LongRunningOperation<TResult>,
   config: LroConfig,
+  state: TState,
   lroResourceLocationConfig?: LroResourceLocationConfig
 ): GetLroStatusFromResponse<TResult> {
   switch (config.mode) {
     case "Location": {
       return processLocationPollingOperationResult(
         lroPrimitives,
+        state,
         config.resourceLocation,
         lroResourceLocationConfig
       );

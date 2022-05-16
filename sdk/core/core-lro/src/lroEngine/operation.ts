@@ -86,7 +86,12 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
               ...response,
               done: isDone(response.flatResponse, this.state),
             })
-          : createGetLroStatusFromResponse(this.lro, state.config, this.lroResourceLocationConfig);
+          : createGetLroStatusFromResponse(
+              this.lro,
+              state.config,
+              this.state,
+              this.lroResourceLocationConfig
+            );
         this.poll = createPoll(this.lro);
       }
       if (!state.pollingURL) {
@@ -122,8 +127,12 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
   }
 
   async cancel(): Promise<PollOperation<TState, TResult>> {
-    this.state.isCancelled = true;
-    await this.cancelOp?.(this.state);
+    const cancelOp =
+      this.cancelOp ??
+      (async (state: TState) => {
+        state.isCancelled = true;
+      });
+    await cancelOp(this.state);
     return this;
   }
 

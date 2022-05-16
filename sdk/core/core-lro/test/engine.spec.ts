@@ -216,10 +216,7 @@ describe("Lro Engine", function () {
           await runMockedLro("DELETE", `/delete${rootPrefix}/retry/canceled`);
           throw new Error("should have thrown instead");
         } catch (e: any) {
-          assert.equal(
-            e.message,
-            "The long running operation has failed. The provisioning state: canceled."
-          );
+          assert.equal(e.message, "The long running operation has been canceled.");
         }
       });
 
@@ -228,10 +225,7 @@ describe("Lro Engine", function () {
           await runMockedLro("DELETE", `/delete${rootPrefix}/retry/failed`);
           throw new Error("should have thrown instead");
         } catch (e: any) {
-          assert.equal(
-            e.message,
-            "The long running operation has failed. The provisioning state: failed."
-          );
+          assert.equal(e.message, "The long running operation has failed.");
         }
       });
 
@@ -256,10 +250,7 @@ describe("Lro Engine", function () {
           await runMockedLro("PUT", `/put${rootPrefix}/retry/failed`);
           throw new Error("should have thrown instead");
         } catch (e: any) {
-          assert.equal(
-            e.message,
-            "The long running operation has failed. The provisioning state: failed."
-          );
+          assert.equal(e.message, "The long running operation has failed.");
         }
       });
 
@@ -293,10 +284,7 @@ describe("Lro Engine", function () {
           await runMockedLro("PUT", `/put${rootPrefix}/noretry/canceled`);
           throw new Error("should have thrown instead");
         } catch (e: any) {
-          assert.equal(
-            e.message,
-            "The long running operation has failed. The provisioning state: canceled."
-          );
+          assert.equal(e.message, "The long running operation has been canceled.");
         }
       });
 
@@ -321,10 +309,7 @@ describe("Lro Engine", function () {
           await runMockedLro("POST", `/post${rootPrefix}/retry/failed`);
           throw new Error("should have thrown instead");
         } catch (e: any) {
-          assert.equal(
-            e.message,
-            "The long running operation has failed. The provisioning state: failed."
-          );
+          assert.equal(e.message, "The long running operation has failed.");
         }
       });
 
@@ -335,15 +320,8 @@ describe("Lro Engine", function () {
       });
 
       it("should handle postAsyncRetrycanceled", async () => {
-        try {
-          await runMockedLro("POST", `/post${rootPrefix}/retry/canceled`);
-          throw new Error("should have thrown instead");
-        } catch (e: any) {
-          assert.equal(
-            e.message,
-            "The long running operation has failed. The provisioning state: canceled."
-          );
-        }
+        const results = await runMockedLro("POST", `/post${rootPrefix}/retry/canceled`);
+        assert.equal(results.status, "Canceled");
       });
     });
   });

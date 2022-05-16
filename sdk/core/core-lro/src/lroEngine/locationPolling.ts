@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { PollOperationState } from "../pollOperation";
 import {
   LongRunningOperation,
   LroBody,
@@ -8,21 +9,19 @@ import {
   LroResponse,
   LroStatus,
   RawResponse,
-  failureStates,
-  successStates,
 } from "./models";
 import { isUnexpectedPollingResponse } from "./requestUtils";
 
-function isPollingDone(rawResponse: RawResponse): boolean {
+function getStatus(rawResponse: RawResponse): string {
+  const { status } = (rawResponse.body as LroBody) ?? {};
+  return typeof status === "string" ? status.toLowerCase() : "succeeded";
+}
+
+function isPollingDone(rawResponse: RawResponse, status: string): boolean {
   if (isUnexpectedPollingResponse(rawResponse) || rawResponse.statusCode === 202) {
     return false;
   }
-  const { status } = (rawResponse.body as LroBody) ?? {};
-  const state = typeof status === "string" ? status.toLowerCase() : "succeeded";
-  if (isUnexpectedPollingResponse(rawResponse) || failureStates.includes(state)) {
-    throw new Error(`The long running operation has failed. The provisioning state: ${state}.`);
-  }
-  return successStates.includes(state);
+  return status === "succeeded";
 }
 
 /**
@@ -44,13 +43,39 @@ async function sendFinalRequest<TResult>(
   }
 }
 
-export function processLocationPollingOperationResult<TResult>(
+export function processLocationPollingOperationResult<
+  TResult,
+  TState extends PollOperationState<TResult>
+>(
   lro: LongRunningOperation<TResult>,
+  state: TState,
   resourceLocation?: string,
   lroResourceLocationConfig?: LroResourceLocationConfig
 ): (response: LroResponse<TResult>) => LroStatus<TResult> {
   return (response: LroResponse<TResult>): LroStatus<TResult> => {
-    if (isPollingDone(response.rawResponse)) {
+    const rawResponse = response.rawResponse;
+    const status = getStatus(rawResponse);
+    if (isUnexpectedPollingResponse(rawResponse) || status === "failed") {
+      throw new Error(`The long running operation has failed.`);
+    }
+    /**
+     * These HTTP request methods are typically used around provisioned resources
+     * so if the LRO was cancelled, there is nothing useful can be returned to
+     * the customer. POST requests on the other hand could support partial results
+     * so throwing an error in this case could be prevent customer from getting
+     * access to those partial results.
+     */
+    if (["PUT", "DELETE", "PATCH"].includes(lro.requestMethod) && status === "canceled") {
+      throw new Error(`The long running operation has been canceled.`);
+    }
+    if (["canceled", "cancelled"].includes(status)) {
+      state.isCancelled = true;
+      return {
+        ...response,
+        done: true,
+      };
+    }
+    if (isPollingDone(response.rawResponse, status)) {
       if (resourceLocation === undefined) {
         return { ...response, done: true };
       } else {

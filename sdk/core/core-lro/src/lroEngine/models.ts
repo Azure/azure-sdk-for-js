@@ -33,7 +33,8 @@ export interface LroEngineOptions<TResult, TState> {
   isDone?: (lastResponse: unknown, state: TState) => boolean;
 
   /**
-   * A function to cancel the LRO.
+   * A function that takes the mutable state as input and attempts to cancel the
+   * LRO.
    */
   cancel?: (state: TState) => Promise<void>;
 }
