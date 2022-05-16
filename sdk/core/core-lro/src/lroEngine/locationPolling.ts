@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PollOperationState } from "../pollOperation";
 import {
   LongRunningOperation,
   LroBody,
@@ -10,6 +9,7 @@ import {
   LroStatus,
   RawResponse,
 } from "./models";
+import { PollOperationState } from "../pollOperation";
 import { isUnexpectedPollingResponse } from "./requestUtils";
 
 function getStatus(rawResponse: RawResponse): string {

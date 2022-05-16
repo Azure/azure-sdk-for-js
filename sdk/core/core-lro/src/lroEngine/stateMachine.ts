@@ -13,10 +13,10 @@ import {
 } from "./models";
 import { getPollingUrl, inferLroMode, isUnexpectedInitialResponse } from "./requestUtils";
 import { isBodyPollingDone, processBodyPollingOperationResult } from "./bodyPolling";
+import { PollOperationState } from "../pollOperation";
 import { logger } from "./logger";
 import { processLocationPollingOperationResult } from "./locationPolling";
 import { processPassthroughOperationResult } from "./passthrough";
-import { PollOperationState } from "../pollOperation";
 
 /**
  * creates a stepping function that maps an LRO state to another.
