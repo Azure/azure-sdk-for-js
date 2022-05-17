@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { LroConfig, RawResponse } from "./models";
+import { PollOperationState } from "../pollOperation";
+import { LroBody, LroConfig, RawResponse } from "./models";
 
 /**
  * Detects where the continuation token is and returns it. Notice that azure-asyncoperation
@@ -105,4 +106,45 @@ export function isUnexpectedPollingResponse(rawResponse: RawResponse): boolean {
     );
   }
   return false;
+}
+
+export function isCanceled<TResult, TState extends PollOperationState<TResult>>(operation: {
+  state: TState;
+  requestMethod?: string;
+  status: string;
+}): boolean {
+  const { state, status, requestMethod } = operation;
+  if (["canceled", "cancelled"].includes(status)) {
+    state.isCancelled = true;
+    /**
+     * These HTTP request methods are typically used around provisioned resources
+     * so if the LRO was cancelled, there is nothing useful that can be returned
+     * to the customer. POST requests on the other hand could support partial
+     * results so throwing an error in this case could be prevent customer from
+     * getting access to those partial results.
+     */
+    if (!requestMethod || ["PUT", "DELETE", "PATCH"].includes(requestMethod)) {
+      throw new Error(`The long-running operation has been canceled.`);
+    }
+    return true;
+  }
+  return false;
+}
+
+export function isSucceededStatus(status: string) {
+  return status === "succeeded";
+}
+
+export function isPollingDone(result: { rawResponse: RawResponse; status: string }): boolean {
+  const { rawResponse, status } = result;
+  if (isUnexpectedPollingResponse(rawResponse) || status === "failed") {
+    throw new Error(`The long-running operation has failed.`);
+  }
+  return isSucceededStatus(status);
+}
+
+export function getProvisioningState(rawResponse: RawResponse): string {
+  const { properties, provisioningState } = (rawResponse.body as LroBody) ?? {};
+  const state: string | undefined = properties?.provisioningState ?? provisioningState;
+  return typeof state === "string" ? state.toLowerCase() : "succeeded";
 }

@@ -10,18 +10,18 @@ import {
   RawResponse,
 } from "./models";
 import { PollOperationState } from "../pollOperation";
-import { isUnexpectedPollingResponse } from "./requestUtils";
+import { isCanceled, isPollingDone } from "./requestUtils";
 
 function getStatus(rawResponse: RawResponse): string {
   const { status } = (rawResponse.body as LroBody) ?? {};
   return typeof status === "string" ? status.toLowerCase() : "succeeded";
 }
 
-function isPollingDone(rawResponse: RawResponse, status: string): boolean {
-  if (isUnexpectedPollingResponse(rawResponse) || rawResponse.statusCode === 202) {
+function isLocationPollingDone(rawResponse: RawResponse, status: string): boolean {
+  if (rawResponse.statusCode === 202) {
     return false;
   }
-  return status === "succeeded";
+  return isPollingDone({ rawResponse, status });
 }
 
 /**
@@ -55,27 +55,19 @@ export function processLocationPollingOperationResult<
   return (response: LroResponse<TResult>): LroStatus<TResult> => {
     const rawResponse = response.rawResponse;
     const status = getStatus(rawResponse);
-    if (isUnexpectedPollingResponse(rawResponse) || status === "failed") {
-      throw new Error(`The long running operation has failed.`);
-    }
-    /**
-     * These HTTP request methods are typically used around provisioned resources
-     * so if the LRO was cancelled, there is nothing useful can be returned to
-     * the customer. POST requests on the other hand could support partial results
-     * so throwing an error in this case could be prevent customer from getting
-     * access to those partial results.
-     */
-    if (["PUT", "DELETE", "PATCH"].includes(lro.requestMethod) && status === "canceled") {
-      throw new Error(`The long running operation has been canceled.`);
-    }
-    if (["canceled", "cancelled"].includes(status)) {
-      state.isCancelled = true;
+    if (
+      isCanceled({
+        requestMethod: lro.requestMethod,
+        state,
+        status,
+      })
+    ) {
       return {
         ...response,
         done: true,
       };
     }
-    if (isPollingDone(response.rawResponse, status)) {
+    if (isLocationPollingDone(response.rawResponse, status)) {
       if (resourceLocation === undefined) {
         return { ...response, done: true };
       } else {

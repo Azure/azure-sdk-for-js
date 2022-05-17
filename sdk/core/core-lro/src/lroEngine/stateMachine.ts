@@ -11,8 +11,14 @@ import {
   PollerConfig,
   ResumablePollOperationState,
 } from "./models";
-import { getPollingUrl, inferLroMode, isUnexpectedInitialResponse } from "./requestUtils";
-import { isBodyPollingDone, processBodyPollingOperationResult } from "./bodyPolling";
+import {
+  getPollingUrl,
+  getProvisioningState,
+  inferLroMode,
+  isPollingDone,
+  isUnexpectedInitialResponse,
+} from "./requestUtils";
+import { processBodyPollingOperationResult } from "./bodyPolling";
 import { PollOperationState } from "../pollOperation";
 import { logger } from "./logger";
 import { processLocationPollingOperationResult } from "./locationPolling";
@@ -37,7 +43,7 @@ export function createGetLroStatusFromResponse<TResult, TState extends PollOpera
       );
     }
     case "Body": {
-      return processBodyPollingOperationResult;
+      return processBodyPollingOperationResult(state);
     }
     default: {
       return processPassthroughOperationResult;
@@ -106,7 +112,11 @@ export function createInitializeState<TResult>(
     /** short circuit polling if body polling is done in the initial request */
     if (
       state.config.mode === undefined ||
-      (state.config.mode === "Body" && isBodyPollingDone(state.initialRawResponse))
+      (state.config.mode === "Body" &&
+        isPollingDone({
+          rawResponse: state.initialRawResponse,
+          status: getProvisioningState(state.initialRawResponse),
+        }))
     ) {
       state.result = response.flatResponse as TResult;
       state.isCompleted = true;

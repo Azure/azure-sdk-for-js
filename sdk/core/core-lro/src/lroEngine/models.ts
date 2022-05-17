@@ -39,13 +39,6 @@ export interface LroEngineOptions<TResult, TState> {
   cancel?: (state: TState) => Promise<void>;
 }
 
-export const successStates = ["succeeded"];
-export const failureStates = ["failed", "canceled", "cancelled"];
-/**
- * The LRO states that signal that the LRO has completed.
- */
-export const terminalStates = successStates.concat(failureStates);
-
 /**
  * The potential location of the result of the LRO if specified by the LRO extension in the swagger.
  */
