@@ -360,3 +360,5 @@ export function assertEnvironmentVariable(variable: string): string {
   if (!value) throw new Error(`${variable} is not defined`);
   return value;
 }
+
+export type TestContext = { filePath: string };

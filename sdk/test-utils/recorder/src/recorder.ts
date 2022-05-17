@@ -19,8 +19,9 @@ import {
   RecorderError,
   RecorderStartOptions,
   RecordingStateManager,
+  TestContext,
 } from "./utils/utils";
-import { Test } from "mocha";
+import { Test as MochaTest } from "mocha";
 import { sessionFilePath } from "./utils/sessionFilePath";
 import { SanitizerOptions } from "./utils/utils";
 import { paths } from "./utils/paths";
@@ -59,16 +60,21 @@ export class Recorder {
   private sessionFile?: string;
   private variables: Record<string, string>;
 
-  constructor(private testContext?: Test | undefined) {
+  constructor(testContext: TestContext);
+  constructor(testContext?: MochaTest | undefined);
+  constructor(private testContext?: MochaTest | TestContext | undefined) {
     if (isRecordMode() || isPlaybackMode()) {
-      if (this.testContext) {
-        this.sessionFile = sessionFilePath(this.testContext);
-        this.httpClient = createDefaultHttpClient();
-      } else {
+      if (!this.testContext) {
         throw new Error(
           "Unable to determine the recording file path, testContext provided is not defined."
         );
       }
+      if (this.testContext instanceof MochaTest) {
+        this.sessionFile = sessionFilePath(this.testContext);
+      } else {
+        this.sessionFile = this.testContext.filePath;
+      }
+      this.httpClient = createDefaultHttpClient();
     }
     this.variables = {};
   }

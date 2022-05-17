@@ -3,7 +3,10 @@
   "compilerOptions": {
     "declarationDir": "./types",
     "outDir": "./dist-esm",
-    "lib": ["dom"]
+    "lib": ["dom"],
+    "paths": {
+      "@azure-tools/test-recorder": ["./src/index"]
+    }
   },
-  "include": ["./src/**/*.ts", "./test/**/*.ts"]
+  "include": ["./src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
 }
