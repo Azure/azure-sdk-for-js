@@ -3641,6 +3641,28 @@ export const PrivateLinkConnectionApprovalRequest: coreClient.CompositeMapper = 
           name: "Composite",
           className: "PrivateLinkConnectionState"
         }
+      },
+      privateEndpoint: {
+        serializedName: "privateEndpoint",
+        type: {
+          name: "Composite",
+          className: "PrivateEndpoint"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateEndpoint: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateEndpoint",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -18468,6 +18490,13 @@ export const DataFlowSink: coreClient.CompositeMapper = {
       ...Transformation.type.modelProperties,
       schemaLinkedService: {
         serializedName: "schemaLinkedService",
+        type: {
+          name: "Composite",
+          className: "LinkedServiceReference"
+        }
+      },
+      rejectedDataLinkedService: {
+        serializedName: "rejectedDataLinkedService",
         type: {
           name: "Composite",
           className: "LinkedServiceReference"

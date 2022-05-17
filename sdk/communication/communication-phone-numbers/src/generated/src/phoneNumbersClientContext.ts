@@ -15,8 +15,7 @@ export class PhoneNumbersClientContext extends coreClient.ServiceClient {
 
   /**
    * Initializes a new instance of the PhoneNumbersClientContext class.
-   * @param endpoint The communication resource, for example
-   *                 https://resourcename.communication.azure.com.
+   * @param endpoint The communication resource, for example https://resourcename.communication.azure.com
    * @param options The parameter options
    */
   constructor(endpoint: string, options?: PhoneNumbersClientOptionalParams) {
@@ -32,7 +31,7 @@ export class PhoneNumbersClientContext extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-communication-phone-numbers/1.2.0-beta.3`;
+    const packageDetails = `azsdk-js-communication-phone-numbers/1.2.0-alpha.20220517.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -51,6 +50,6 @@ export class PhoneNumbersClientContext extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2022-01-11-preview2";
+    this.apiVersion = options.apiVersion || "2022-06-01-preview";
   }
 }
