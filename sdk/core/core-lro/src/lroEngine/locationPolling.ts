@@ -9,8 +9,8 @@ import {
   LroStatus,
   RawResponse,
 } from "./models";
-import { PollOperationState } from "../pollOperation";
 import { isCanceled, isPollingDone } from "./requestUtils";
+import { PollOperationState } from "../pollOperation";
 
 function getStatus(rawResponse: RawResponse): string {
   const { status } = (rawResponse.body as LroBody) ?? {};

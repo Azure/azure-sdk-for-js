@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PollOperationState } from "../pollOperation";
 import { LroResponse, LroStatus } from "./models";
 import { getProvisioningState, isCanceled, isPollingDone } from "./requestUtils";
+import { PollOperationState } from "../pollOperation";
 
 /**
  * Creates a polling strategy based on BodyPolling which uses the provisioning state

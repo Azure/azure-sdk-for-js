@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PollOperationState } from "../pollOperation";
 import { LroBody, LroConfig, RawResponse } from "./models";
+import { PollOperationState } from "../pollOperation";
 
 /**
  * Detects where the continuation token is and returns it. Notice that azure-asyncoperation
@@ -131,7 +131,7 @@ export function isCanceled<TResult, TState extends PollOperationState<TResult>>(
   return false;
 }
 
-export function isSucceededStatus(status: string) {
+export function isSucceededStatus(status: string): boolean {
   return status === "succeeded";
 }
 

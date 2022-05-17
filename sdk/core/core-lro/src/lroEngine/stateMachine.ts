@@ -18,9 +18,9 @@ import {
   isPollingDone,
   isUnexpectedInitialResponse,
 } from "./requestUtils";
-import { processBodyPollingOperationResult } from "./bodyPolling";
 import { PollOperationState } from "../pollOperation";
 import { logger } from "./logger";
+import { processBodyPollingOperationResult } from "./bodyPolling";
 import { processLocationPollingOperationResult } from "./locationPolling";
 import { processPassthroughOperationResult } from "./passthrough";
 
