@@ -13,8 +13,7 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 tag: package-2021-10-01-preview
 package-version: 1.0.0-beta.1
-input-file:
-  - ./preview/2021-10-01-preview/CommunicationServicesEmail.json
+require: C:\Repos\azure-rest-api-specs-pr\specification\communication\data-plane\Email\readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 typescript: true

@@ -36,7 +36,7 @@ matrix([[true, false]], async function (useKeyCredential) {
       const emailMessage: EmailMessage = {
         sender: env.SENDER_ADDRESS,
         recipients: {
-          toRecipients: [
+          to: [
             {
               email: env.RECIPIENT_ADDRESS,
               displayName: "someRecipient",
@@ -45,14 +45,12 @@ matrix([[true, false]], async function (useKeyCredential) {
         },
         content: {
           subject: "someSubject",
-          body: {
-            plainText: "somePlainTextBody",
-            html: "<html><h1>someHtmlBody</html>",
-          },
+          plainText: "somePlainTextBody",
+          html: "<html><h1>someHtmlBody</html>",
         },
       };
 
-      const response = await client.sendEmail(emailMessage);
+      const response = await client.send(emailMessage);
       assert.isNotNull(response.messageId);
     }).timeout(5000);
 
@@ -60,7 +58,7 @@ matrix([[true, false]], async function (useKeyCredential) {
       const emailMessage: EmailMessage = {
         sender: env.SENDER_ADDRESS,
         recipients: {
-          toRecipients: [
+          to: [
             {
               email: env.RECIPIENT_ADDRESS,
               displayName: "someRecipient",
@@ -70,13 +68,13 @@ matrix([[true, false]], async function (useKeyCredential) {
               displayName: "someRecipient",
             },
           ],
-          ccRecipients: [
+          cC: [
             {
               email: env.RECIPIENT_ADDRESS,
               displayName: "someRecipient",
             },
           ],
-          bccRecipients: [
+          bCC: [
             {
               email: env.RECIPIENT_ADDRESS,
               displayName: "someRecipient",
@@ -85,14 +83,12 @@ matrix([[true, false]], async function (useKeyCredential) {
         },
         content: {
           subject: "someSubject",
-          body: {
-            plainText: "somePlainTextBody",
-            html: "<html><h1>someHtmlBody</html>",
-          },
+          plainText: "somePlainTextBody",
+          html: "<html><h1>someHtmlBody</html>",
         },
       };
 
-      const response = await client.sendEmail(emailMessage);
+      const response = await client.send(emailMessage);
       assert.isNotNull(response.messageId);
     }).timeout(5000);
 
@@ -100,7 +96,7 @@ matrix([[true, false]], async function (useKeyCredential) {
       const emailMessage: EmailMessage = {
         sender: env.SENDER_ADDRESS,
         recipients: {
-          toRecipients: [
+          to: [
             {
               email: env.RECIPIENT_ADDRESS,
               displayName: "someRecipient",
@@ -109,10 +105,8 @@ matrix([[true, false]], async function (useKeyCredential) {
         },
         content: {
           subject: "someSubject",
-          body: {
-            plainText: "somePlainTextBody",
-            html: "<html><h1>someHtmlBody</html>",
-          },
+          plainText: "somePlainTextBody",
+          html: "<html><h1>someHtmlBody</html>",
         },
         attachments: [
           {
@@ -123,7 +117,7 @@ matrix([[true, false]], async function (useKeyCredential) {
         ],
       };
 
-      const response = await client.sendEmail(emailMessage);
+      const response = await client.send(emailMessage);
       assert.isNotNull(response.messageId);
     }).timeout(5000);
 
@@ -131,7 +125,7 @@ matrix([[true, false]], async function (useKeyCredential) {
       const emailMessage: EmailMessage = {
         sender: env.SENDER_ADDRESS,
         recipients: {
-          toRecipients: [
+          to: [
             {
               email: env.RECIPIENT_ADDRESS,
               displayName: "someRecipient",
@@ -140,19 +134,16 @@ matrix([[true, false]], async function (useKeyCredential) {
         },
         content: {
           subject: "someSubject",
-          body: {
-            plainText: "somePlainTextBody",
-            html: "<html><h1>someHtmlBody</html>",
-          },
+          plainText: "somePlainTextBody",
+          html: "<html><h1>someHtmlBody</html>",
         },
       };
 
-      const response = await client.sendEmail(emailMessage);
+      const response = await client.send(emailMessage);
       const messageId = response.messageId;
       if (messageId) {
-        const messageStatusResponse = await client.getMessageStatus(messageId);
+        const messageStatusResponse = await client.getSendStatus(messageId);
         assert.isNotNull(messageStatusResponse.status);
-        assert.strictEqual(messageStatusResponse.status, "Queued");
       } else {
         assert.fail();
       }

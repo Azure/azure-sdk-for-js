@@ -11,7 +11,7 @@ import * as coreHttp from "@azure/core-http";
 /**
  * Status of an email message that was sent previously.
  */
-export interface StatusFoundResponse {
+export interface SendStatusResult {
   /**
    * System generated id of an email message sent.
    */
@@ -19,7 +19,7 @@ export interface StatusFoundResponse {
   /**
    * The type indicating the status of a request.
    */
-  status: MessageStatus;
+  status: SendStatus;
 }
 
 /**
@@ -75,6 +75,10 @@ export interface EmailMessage {
    */
   content: EmailContent;
   /**
+   * The importance type for the email.
+   */
+  importance?: EmailImportance;
+  /**
    * Recipients for the email.
    */
   recipients: EmailRecipients;
@@ -87,9 +91,9 @@ export interface EmailMessage {
    */
   replyTo?: EmailAddress[];
   /**
-   * Indicates whether to override the state of user engagement tracking that was set at the resource level. By default, the state is not overridden.
+   * Indicates whether user engagement tracking should be disabled for this request if the resource-level user engagement tracking setting was already enabled in the control plane.
    */
-  userEngagementTrackingOverride?: EmailUserEngagementTrackingState;
+  disableUserEngagementTracking?: boolean;
 }
 
 /**
@@ -115,20 +119,6 @@ export interface EmailContent {
    */
   subject: string;
   /**
-   * Body of the email content
-   */
-  body: EmailBody;
-  /**
-   * The importance type for the email.
-   */
-  importance?: EmailImportance;
-}
-
-/**
- * Body of the email content
- */
-export interface EmailBody {
-  /**
    * Plain text version of the email message.
    */
   plainText?: string;
@@ -145,15 +135,15 @@ export interface EmailRecipients {
   /**
    * Email to recipients
    */
-  toRecipients: EmailAddress[];
+  to: EmailAddress[];
   /**
    * Email cc recipients
    */
-  ccRecipients?: EmailAddress[];
+  cC?: EmailAddress[];
   /**
    * Email bcc recipients
    */
-  bccRecipients?: EmailAddress[];
+  bCC?: EmailAddress[];
 }
 
 /**
@@ -189,16 +179,16 @@ export interface EmailAttachment {
 }
 
 /**
- * Defines headers for Email_getMessageStatus operation.
+ * Defines headers for Email_getSendStatus operation.
  */
-export interface EmailGetMessageStatusHeaders {
+export interface EmailGetSendStatusHeaders {
   retryAfter?: number;
 }
 
 /**
- * Defines headers for Email_sendEmail operation.
+ * Defines headers for Email_send operation.
  */
-export interface EmailSendEmailHeaders {
+export interface EmailSendHeaders {
   repeatabilityResult?: string;
   operationLocation?: string;
   retryAfter?: number;
@@ -206,9 +196,9 @@ export interface EmailSendEmailHeaders {
 }
 
 /**
- * Defines values for MessageStatus.
+ * Defines values for SendStatus.
  */
-export type MessageStatus = "queued" | "outForDelivery" | "dropped";
+export type SendStatus = "queued" | "outForDelivery" | "dropped";
 /**
  * Defines values for EmailImportance.
  */
@@ -245,16 +235,12 @@ export type EmailAttachmentType =
   | "xlsb"
   | "xlsm"
   | "xlsx";
-/**
- * Defines values for EmailUserEngagementTrackingState.
- */
-export type EmailUserEngagementTrackingState = "none" | "enabled" | "disabled";
 
 /**
- * Contains response data for the getMessageStatus operation.
+ * Contains response data for the getSendStatus operation.
  */
-export type EmailGetMessageStatusResponse = EmailGetMessageStatusHeaders &
-  StatusFoundResponse & {
+export type EmailGetSendStatusResponse = EmailGetSendStatusHeaders &
+  SendStatusResult & {
     /**
      * The underlying HTTP response.
      */
@@ -267,18 +253,18 @@ export type EmailGetMessageStatusResponse = EmailGetMessageStatusHeaders &
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: StatusFoundResponse;
+      parsedBody: SendStatusResult;
       /**
        * The parsed HTTP response headers.
        */
-      parsedHeaders: EmailGetMessageStatusHeaders;
+      parsedHeaders: EmailGetSendStatusHeaders;
     };
   };
 
 /**
- * Contains response data for the sendEmail operation.
+ * Contains response data for the send operation.
  */
-export type EmailSendEmailResponse = EmailSendEmailHeaders & {
+export type EmailSendResponse = EmailSendHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -286,7 +272,7 @@ export type EmailSendEmailResponse = EmailSendEmailHeaders & {
     /**
      * The parsed HTTP response headers.
      */
-    parsedHeaders: EmailSendEmailHeaders;
+    parsedHeaders: EmailSendHeaders;
   };
 };
 

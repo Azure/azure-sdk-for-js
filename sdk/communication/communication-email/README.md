@@ -43,19 +43,17 @@ const client = new EmailClient(connectionString);
 
 ### Send an Email Message
 
-To send an email message, call the `sendEmail` function from the `EmailClient`.
+To send an email message, call the `send` function from the `EmailClient`.
 
 ```typescript Snippet:Azure_Communication_Email_Send
 const emailMessage: EmailMessage = {
   sender: "sender@contoso.com",
   content: {
     subject: "This is the subject",
-    body: {
-      plainText: "This is the body",
-    },
+    plainText: "This is the body",
   },
   recipients: {
-    toRecipients: [
+    to: [
       {
         email: "customer@domain.com",
         displayName: "Customer Name",
@@ -64,24 +62,22 @@ const emailMessage: EmailMessage = {
   },
 };
 
-const response = await emailClient.sendEmail(emailMessage);
+const response = await emailClient.send(emailMessage);
 ```
 
 ### Send an Email Message to Multiple Recipients
 
-To send an email message to multiple recipients, add a object for each recipent type and an object for each recipient.
+To send an email message to multiple recipients, add a object for each recipient type and an object for each recipient.
 
 ```typescript Snippet:Azure_Communication_Email_Send_Multiple_Recipients
 const emailMessage: EmailMessage = {
   sender: "sender@contoso.com",
   content: {
     subject: "This is the subject",
-    body: {
-      plainText: "This is the body",
-    },
+    plainText: "This is the body",
   },
   recipients: {
-    toRecipients: [
+    to: [
       {
         email: "customer1@domain.com",
         displayName: "Customer Name 1",
@@ -91,7 +87,7 @@ const emailMessage: EmailMessage = {
         displayName: "Customer Name 2",
       },
     ],
-    ccRecipients: [
+    cC: [
       {
         email: "ccCustomer1@domain.com",
         displayName: " CC Customer 1",
@@ -101,7 +97,7 @@ const emailMessage: EmailMessage = {
         displayName: "CC Customer 2",
       },
     ],
-    bccRecipients: [
+    bCC: [
       {
         email: "bccCustomer1@domain.com",
         displayName: " BCC Customer 1",
@@ -114,7 +110,7 @@ const emailMessage: EmailMessage = {
   },
 };
 
-const response = await emailClient.sendEmail(emailMessage);
+const response = await emailClient.send(emailMessage);
 ```
 
 ### Send Email with Attachments
@@ -128,9 +124,7 @@ const emailMessage: EmailMessage = {
   sender: "sender@contoso.com",
   content: {
     subject: "This is the subject",
-    body: {
-      plainText: "This is the body",
-    },
+    plainText: "This is the body",
   },
   recipients: {
     toRecipients: [
@@ -149,17 +143,17 @@ const emailMessage: EmailMessage = {
   ],
 };
 
-const response = await emailClient.sendEmail(emailMessage);
+const response = await emailClient.send(emailMessage);
 ```
 
 ### Get Email Message Status
 
-The result from the `sendEmail` call contains a `messageId` which can be used to query the status of the email.
+The result from the `send` call contains a `messageId` which can be used to query the status of the email.
 
 ```typescript Snippet:Azure_Communication_Email_GetSendStatus
-const messageId = await emailClient.sendEmail(emailMessage);
+const messageId = await emailClient.send(emailMessage);
 
-const status = await emailClient.getMessageStatus(messageId);
+const status = await emailClient.getSendStatus(messageId);
 ```
 
 ## Next steps

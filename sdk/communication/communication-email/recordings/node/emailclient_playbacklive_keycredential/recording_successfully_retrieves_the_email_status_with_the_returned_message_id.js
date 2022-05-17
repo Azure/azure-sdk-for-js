@@ -1,11 +1,11 @@
 let nock = require('nock');
 
-module.exports.hash = "02c3962c896254721441193768586312";
+module.exports.hash = "91a015138a97d1f5a1574ba5f7e57c54";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://someEndpoint', {"encodedQueryParams":true})
-  .post('/emails:send', {"sender":"someSender@contoso.com","content":{"subject":"someSubject","body":{"plainText":"somePlainTextBody","html":"<html><h1>someHtmlBody</html>"}},"recipients":{"toRecipients":[{"email":"someRecipient@domain.com","displayName":"someRecipient"}]}})
+  .post('/emails:send', {"sender":"someSender@contoso.com","content":{"subject":"someSubject","plainText":"somePlainTextBody","html":"<html><h1>someHtmlBody</html>"},"recipients":{"to":[{"email":"someRecipient@domain.com","displayName":"someRecipient"}]}})
   .query(true)
   .reply(202, "", [
   'Operation-Location',
@@ -19,9 +19,9 @@ nock('https://someEndpoint', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '09it8YgAAAADRhJSgVereSbIIclXsikNaV1NURURHRTA4MTIAY2M5Mjc1OGQtMDVmNy00YWQ2LWFhNWUtMGZhOTcxOGQ4OTg1',
+  '0vxGEYgAAAACsYC6PhqXqQJdhiVFkNR+WRE0yQUExMDkxMjA5MDA5AGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==',
   'Date',
-  'Wed, 11 May 2022 21:34:46 GMT',
+  'Tue, 17 May 2022 21:21:02 GMT',
   'Content-Length',
   '0'
 ]);
@@ -41,7 +41,7 @@ nock('https://someEndpoint', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '09yt8YgAAAADKIDD8faZHTYUnbVR+vnT9V1NURURHRTA4MTIAY2M5Mjc1OGQtMDVmNy00YWQ2LWFhNWUtMGZhOTcxOGQ4OTg1',
+  '0vxGEYgAAAAChL+hPOajzSav9EWGmyQjfRE0yQUExMDkxMjA5MDA5AGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==',
   'Date',
-  'Wed, 11 May 2022 21:34:46 GMT'
+  'Tue, 17 May 2022 21:21:03 GMT'
 ]);

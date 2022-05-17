@@ -5,11 +5,9 @@
  * @summary Sends an email with a txt file attachment
  */
 
-// TODO: Adjust these to point to the published package
-import { EmailClient } from "../src/emailClient";
-import { EmailMessage } from "../src/models";
+import { EmailClient, EmailMessage } from "@azure/communication-email"
 
-// Load the .env file (you will need to set these enviornment variables)
+// Load the .env file (you will need to set these environment variables)
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -26,13 +24,11 @@ const sendEmailWithAttachments = async (): Promise<void> => {
     sender: senderAddress,
     content: {
       subject: "This is the subject",
-      body: {
-        plainText: "This is the body",
-        html: "<html><h1>This is the body</h1></html>",
-      },
+      plainText: "This is the body",
+      html: "<html><h1>This is the body</h1></html>",
     },
     recipients: {
-      toRecipients: [
+      to: [
         {
           email: recipientAddress,
           displayName: "Customer Name",
@@ -50,7 +46,7 @@ const sendEmailWithAttachments = async (): Promise<void> => {
 
   try {
     // Send the email message
-    const response = await emailClient.sendEmail(emailMessage);
+    const response = await emailClient.send(emailMessage);
 
     console.log("Message ID: " + response.messageId);
   } catch (error) {

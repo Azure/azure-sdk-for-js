@@ -11,7 +11,7 @@ export interface EmailClientOptions extends PipelineOptions {}
 /**
  * Results of a sent email.
  */
-export interface SendEmailResponse {
+export interface SendEmailResult {
   /**
    * MessageId of the sent email.
    */
@@ -22,12 +22,11 @@ export {
   EmailMessage,
   EmailCustomHeader,
   EmailContent,
-  EmailBody,
   EmailImportance,
   EmailRecipients,
   EmailAddress,
   EmailAttachment,
   EmailAttachmentType,
-  MessageStatus,
-  StatusFoundResponse,
+  SendStatus,
+  SendStatusResult,
 } from "./generated/src/models";
