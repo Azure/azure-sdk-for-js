@@ -67,11 +67,6 @@ function getCrypto(): SubtleCrypto {
   return subtleCrypto;
 }
 
-const importParams: HmacImportParams = {
-  name: "HMAC",
-  hash: { name: "SHA-256" },
-};
-
 /**
  * Generates a SHA-256 HMAC signature.
  * @param key - The HMAC key represented as a base64 string, used to generate the cryptographic HMAC hash.
@@ -87,8 +82,24 @@ export async function computeSha256Hmac(
   const keyBytes = base64ToBytes(key);
   const stringToSignBytes = utf8ToBytes(stringToSign);
 
-  const cryptoKey = await crypto.importKey("raw", keyBytes, importParams, false, ["sign"]);
-  const signature = await crypto.sign(importParams, cryptoKey, stringToSignBytes);
+  const cryptoKey = await crypto.importKey(
+    "raw",
+    keyBytes,
+    {
+      name: "HMAC",
+      hash: { name: "SHA-256" },
+    },
+    false,
+    ["sign"]
+  );
+  const signature = await crypto.sign(
+    {
+      name: "HMAC",
+      hash: { name: "SHA-256" },
+    },
+    cryptoKey,
+    stringToSignBytes
+  );
 
   switch (encoding) {
     case "base64":

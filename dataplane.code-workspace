@@ -69,10 +69,6 @@
       "path": "sdk/agrifood/agrifood-farming-rest"
     },
     {
-      "name": "core-crypto",
-      "path": "sdk/core/core-crypto"
-    },
-    {
       "name": "core-http",
       "path": "sdk/core/core-http"
     },

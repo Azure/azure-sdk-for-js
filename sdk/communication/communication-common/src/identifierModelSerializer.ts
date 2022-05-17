@@ -5,6 +5,7 @@ import {
   CommunicationIdentifier,
   CommunicationIdentifierKind,
   getIdentifierKind,
+  getIdentifierRawId,
 } from "./identifierModels";
 
 /**
@@ -77,13 +78,6 @@ export interface SerializedMicrosoftTeamsUserIdentifier {
  */
 export type SerializedCommunicationCloudEnvironment = "public" | "dod" | "gcch";
 
-const addRawIdIfExisting = <T>(
-  identifier: T,
-  rawId: string | undefined
-): T & { rawId?: string } => {
-  return rawId === undefined ? identifier : { ...identifier, rawId: rawId };
-};
-
 const assertNotNullOrUndefined = <
   T extends Record<string, unknown>,
   P extends keyof T,
@@ -119,23 +113,26 @@ export const serializeCommunicationIdentifier = (
   const identifierKind = getIdentifierKind(identifier);
   switch (identifierKind.kind) {
     case "communicationUser":
-      return { communicationUser: { id: identifierKind.communicationUserId } };
+      return {
+        rawId: getIdentifierRawId(identifierKind),
+        communicationUser: { id: identifierKind.communicationUserId },
+      };
     case "phoneNumber":
-      return addRawIdIfExisting(
-        { phoneNumber: { value: identifierKind.phoneNumber } },
-        identifierKind.rawId
-      );
-    case "microsoftTeamsUser":
-      return addRawIdIfExisting(
-        {
-          microsoftTeamsUser: {
-            userId: identifierKind.microsoftTeamsUserId,
-            isAnonymous: identifierKind.isAnonymous ?? false,
-            cloud: identifierKind.cloud ?? "public",
-          },
+      return {
+        rawId: identifierKind.rawId ?? getIdentifierRawId(identifierKind),
+        phoneNumber: {
+          value: identifierKind.phoneNumber,
         },
-        identifierKind.rawId
-      );
+      };
+    case "microsoftTeamsUser":
+      return {
+        rawId: identifierKind.rawId ?? getIdentifierRawId(identifierKind),
+        microsoftTeamsUser: {
+          userId: identifierKind.microsoftTeamsUserId,
+          isAnonymous: identifierKind.isAnonymous ?? false,
+          cloud: identifierKind.cloud ?? "public",
+        },
+      };
     case "unknown":
       return { rawId: identifierKind.id };
     default:

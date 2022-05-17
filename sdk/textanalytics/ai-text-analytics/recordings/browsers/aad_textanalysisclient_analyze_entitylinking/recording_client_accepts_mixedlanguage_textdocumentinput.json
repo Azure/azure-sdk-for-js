@@ -1,0 +1,206 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/language/:analyze-text?api-version=2022-04-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "687",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
+        "x-ms-client-request-id": "47c0e4cc-6c92-4ed3-8f78-9beefe1198d6",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+      },
+      "RequestBody": {
+        "kind": "EntityLinking",
+        "analysisInput": {
+          "documents": [
+            {
+              "id": "1",
+              "text": "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
+              "language": "en"
+            },
+            {
+              "id": "2",
+              "text": "Unfortunately, it rained during my entire trip to Seattle. I didn\u0027t even get to visit the Space Needle",
+              "language": "en"
+            },
+            {
+              "id": "3",
+              "text": "I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.",
+              "language": "en"
+            },
+            {
+              "id": "4",
+              "text": "Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.",
+              "language": "es"
+            },
+            {
+              "id": "5",
+              "text": "La carretera estaba atascada. Hab\u00EDa mucho tr\u00E1fico el d\u00EDa de ayer.",
+              "language": "es"
+            }
+          ]
+        },
+        "parameters": {}
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "b00fc2df-673d-405d-a8e8-2eddfba1a264",
+        "Content-Length": "1834",
+        "Content-Type": "application/json; charset=utf-8",
+        "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=5,CognitiveServices.TextAnalytics.TextRecords=5",
+        "Date": "Fri, 06 May 2022 20:18:55 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "158"
+      },
+      "ResponseBody": {
+        "kind": "EntityLinkingResults",
+        "results": {
+          "documents": [
+            {
+              "id": "1",
+              "entities": [
+                {
+                  "bingId": "5fbba6b8-85e1-4d41-9444-d9055436e473",
+                  "name": "Seattle",
+                  "matches": [
+                    {
+                      "text": "Seattle",
+                      "offset": 26,
+                      "length": 7,
+                      "confidenceScore": 0.21
+                    }
+                  ],
+                  "language": "en",
+                  "id": "Seattle",
+                  "url": "https://en.wikipedia.org/wiki/Seattle",
+                  "dataSource": "Wikipedia"
+                },
+                {
+                  "bingId": "f8dd5b08-206d-2554-6e4a-893f51f4de7e",
+                  "name": "Space Needle",
+                  "matches": [
+                    {
+                      "text": "Space Needle",
+                      "offset": 65,
+                      "length": 12,
+                      "confidenceScore": 0.42
+                    }
+                  ],
+                  "language": "en",
+                  "id": "Space Needle",
+                  "url": "https://en.wikipedia.org/wiki/Space_Needle",
+                  "dataSource": "Wikipedia"
+                }
+              ],
+              "warnings": []
+            },
+            {
+              "id": "2",
+              "entities": [
+                {
+                  "bingId": "5fbba6b8-85e1-4d41-9444-d9055436e473",
+                  "name": "Seattle",
+                  "matches": [
+                    {
+                      "text": "Seattle",
+                      "offset": 50,
+                      "length": 7,
+                      "confidenceScore": 0.2
+                    }
+                  ],
+                  "language": "en",
+                  "id": "Seattle",
+                  "url": "https://en.wikipedia.org/wiki/Seattle",
+                  "dataSource": "Wikipedia"
+                },
+                {
+                  "bingId": "f8dd5b08-206d-2554-6e4a-893f51f4de7e",
+                  "name": "Space Needle",
+                  "matches": [
+                    {
+                      "text": "Space Needle",
+                      "offset": 90,
+                      "length": 12,
+                      "confidenceScore": 0.36
+                    }
+                  ],
+                  "language": "en",
+                  "id": "Space Needle",
+                  "url": "https://en.wikipedia.org/wiki/Space_Needle",
+                  "dataSource": "Wikipedia"
+                }
+              ],
+              "warnings": []
+            },
+            {
+              "id": "3",
+              "entities": [
+                {
+                  "bingId": "296617ab-4ddb-cc10-beba-56e0f42af76b",
+                  "name": "Saturday",
+                  "matches": [
+                    {
+                      "text": "Saturday",
+                      "offset": 25,
+                      "length": 8,
+                      "confidenceScore": 0.05
+                    }
+                  ],
+                  "language": "en",
+                  "id": "Saturday",
+                  "url": "https://en.wikipedia.org/wiki/Saturday",
+                  "dataSource": "Wikipedia"
+                }
+              ],
+              "warnings": []
+            },
+            {
+              "id": "4",
+              "entities": [
+                {
+                  "bingId": "9ae3e6ca-81ea-6fa1-ffa0-42e1d7890906",
+                  "name": "Monte Rainier",
+                  "matches": [
+                    {
+                      "text": "Monte Rainier",
+                      "offset": 29,
+                      "length": 13,
+                      "confidenceScore": 0.81
+                    }
+                  ],
+                  "language": "es",
+                  "id": "Monte Rainier",
+                  "url": "https://es.wikipedia.org/wiki/Monte_Rainier",
+                  "dataSource": "Wikipedia"
+                }
+              ],
+              "warnings": []
+            },
+            {
+              "id": "5",
+              "entities": [],
+              "warnings": []
+            }
+          ],
+          "errors": [],
+          "modelVersion": "2021-06-01"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

@@ -50,7 +50,7 @@ describe("ServiceBus test", () => {
   let queueName: string;
   let topicName: string;
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = record(this, recorderEnvSetup);
     subscriptionId = env.SUBSCRIPTION_ID;
     // This is an example of how the environment variables are used
@@ -68,12 +68,12 @@ describe("ServiceBus test", () => {
     topicName = "mytopic";
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
-  it("namespaces create test", async function() {
-    const res = await client.namespaces.beginCreateOrUpdateAndWait(resourceGroup,namespacesName,{
+  it("namespaces create test", async function () {
+    const res = await client.namespaces.beginCreateOrUpdateAndWait(resourceGroup, namespacesName, {
       sku: {
         name: "Standard",
         tier: "Standard",
@@ -83,67 +83,67 @@ describe("ServiceBus test", () => {
         tag1: "value1",
         tag2: "value2",
       }
-    },testPollingOptions)
-    assert.equal(res.name,namespacesName);
+    }, testPollingOptions)
+    assert.equal(res.name, namespacesName);
   });
 
-  it("queues create test", async function() {
-    const res = await client.queues.createOrUpdate(resourceGroup,namespacesName,queueName,{enablePartitioning: true});
-    assert.equal(res.name,queueName);
+  it("queues create test", async function () {
+    const res = await client.queues.createOrUpdate(resourceGroup, namespacesName, queueName, { enablePartitioning: true });
+    assert.equal(res.name, queueName);
   });
 
-  it("queues get test", async function() {
-    const res = await client.queues.get(resourceGroup,namespacesName,queueName);
-    assert.equal(res.name,queueName);
+  it("queues get test", async function () {
+    const res = await client.queues.get(resourceGroup, namespacesName, queueName);
+    assert.equal(res.name, queueName);
   });
 
-  it("queues list test", async function() {
+  it("queues list test", async function () {
     const resArray = new Array();
-    for await (let item of client.queues.listByNamespace(resourceGroup,namespacesName)){
+    for await (let item of client.queues.listByNamespace(resourceGroup, namespacesName)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length,1);
+    assert.equal(resArray.length, 1);
   });
 
-  it("topics create test", async function() {
-    const res = await client.topics.createOrUpdate(resourceGroup,namespacesName,topicName,{
+  it("topics create test", async function () {
+    const res = await client.topics.createOrUpdate(resourceGroup, namespacesName, topicName, {
       enableExpress: true
     })
-    assert.equal(res.name,topicName);
+    assert.equal(res.name, topicName);
   });
 
-  it("topics get test", async function() {
-    const res = await client.topics.get(resourceGroup,namespacesName,topicName);
-    assert.equal(res.name,topicName);
+  it("topics get test", async function () {
+    const res = await client.topics.get(resourceGroup, namespacesName, topicName);
+    assert.equal(res.name, topicName);
   });
 
-  it("topics list test", async function() {
+  it("topics list test", async function () {
     const resArray = new Array();
-    for await (let item of client.topics.listByNamespace(resourceGroup,namespacesName)){
+    for await (let item of client.topics.listByNamespace(resourceGroup, namespacesName)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length,1);
+    assert.equal(resArray.length, 1);
   });
 
-  it("queues delete test", async function() {
-    const res = await client.queues.delete(resourceGroup,namespacesName,queueName);
+  it("queues delete test", async function () {
+    const res = await client.queues.delete(resourceGroup, namespacesName, queueName);
     const resArray = new Array();
-    for await (let item of client.queues.listByNamespace(resourceGroup,namespacesName)){
+    for await (let item of client.queues.listByNamespace(resourceGroup, namespacesName)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length,0);
+    assert.equal(resArray.length, 0);
   });
 
-  it("topics delete test", async function() {
-    const res = await client.topics.delete(resourceGroup,namespacesName,topicName);
+  it("topics delete test", async function () {
+    const res = await client.topics.delete(resourceGroup, namespacesName, topicName);
     const resArray = new Array();
-    for await (let item of client.topics.listByNamespace(resourceGroup,namespacesName)){
+    for await (let item of client.topics.listByNamespace(resourceGroup, namespacesName)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length,0);
+    assert.equal(resArray.length, 0);
   });
 
-  it("namespaces delete test", async function() {
-    const res = await client.namespaces.beginDeleteAndWait(resourceGroup,namespacesName,testPollingOptions);
+  it("namespaces delete test", async function () {
+    const res = await client.namespaces.beginDeleteAndWait(resourceGroup, namespacesName, testPollingOptions);
   });
 });

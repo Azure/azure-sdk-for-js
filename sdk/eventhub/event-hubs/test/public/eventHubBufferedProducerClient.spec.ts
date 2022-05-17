@@ -242,12 +242,12 @@ testWithServiceTypes((serviceVersion) => {
           async onSendEventsErrorHandler(context) {
             results.push({ type: "error", context });
           },
-          enableIdempotentPartitions: true,
+          enableIdempotentRetries: true,
         });
 
         const internalProducer = (client as any)._producer;
         assert.ok(internalProducer, "Expecting internal standard producer to be valid");
-        assert.equal(internalProducer._enableIdempotentPartitions, true);
+        assert.equal(internalProducer._enableIdempotentRetries, true);
       });
     });
   });

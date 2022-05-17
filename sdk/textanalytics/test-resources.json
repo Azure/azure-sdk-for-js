@@ -51,11 +51,11 @@
     }
   ],
   "outputs": {
-    "TEXT_ANALYTICS_API_KEY": {
+    "LANGUAGE_API_KEY": {
       "type": "string",
       "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', variables('accountName')), '2017-04-18').key1]"
     },
-    "TEXT_ANALYTICS_API_KEY_ALT": {
+    "LANGUAGE_API_KEY_ALT": {
       "type": "string",
       "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', variables('accountName')), '2017-04-18').key2]"
     },

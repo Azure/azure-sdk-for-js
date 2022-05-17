@@ -1,6 +1,16 @@
 # Release History
 
-## 1.8.1 (Unreleased)
+## 1.8.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.8.1 (2022-05-05)
 
 ### Features Added
 
@@ -10,15 +20,12 @@
 
 - Improve user agent information for React-Native.
 
-### Breaking Changes
-
-### Bugs Fixed
-
 ### Other Changes
 
 - Updated our `@azure/core-tracing` dependency to the latest version (1.0.0).
   - Notable changes include Removal of `@opentelemetry/api` as a transitive dependency and ensuring that the active context is properly propagated.
   - Customers who would like to continue using OpenTelemetry driven tracing should visit our [OpenTelemetry Instrumentation](https://www.npmjs.com/package/@azure/opentelemetry-instrumentation-azure-sdk) package for instructions.
+- Update tokenCycler to mark as must refresh if the tenantId has changed [PR#21678](https://github.com/Azure/azure-sdk-for-js/pull/21678)
 
 ## 1.8.0 (2022-03-31)
 

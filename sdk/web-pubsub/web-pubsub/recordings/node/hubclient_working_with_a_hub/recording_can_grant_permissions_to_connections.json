@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://rp-endpoint/api/hubs/simplechat/permissions/joinLeaveGroup/connections/xxx?api-version=2021-10-01\u0026targetName=x",
+      "RequestUri": "https://endpoint/api/hubs/simplechat/permissions/joinLeaveGroup/connections/xxx?api-version=2021-10-01\u0026targetName=x",
       "RequestMethod": "PUT",
       "RequestHeaders": {
         "Accept": "application/json, text/json",
@@ -9,8 +9,8 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "0",
-        "User-Agent": "azsdk-js-web-pubsub/1.0.1 core-rest-pipeline/1.7.1 Node/v16.14.0 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "874a11a6-1719-463b-acc1-bededbd43166"
+        "User-Agent": "azsdk-js-web-pubsub/1.1.0 core-rest-pipeline/1.8.2 Node/v16.13.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "de3bd07e-7f25-415d-bf94-f73d1a560f8e"
       },
       "RequestBody": null,
       "StatusCode": 404,
@@ -19,7 +19,7 @@
         "Connection": "keep-alive",
         "Content-Length": "135",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 24 Mar 2022 19:42:24 GMT",
+        "Date": "Fri, 13 May 2022 21:37:01 GMT",
         "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
         "x-ms-error-code": "Info.Connection.NotExisted"
       },
