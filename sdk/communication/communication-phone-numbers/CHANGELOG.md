@@ -1,9 +1,9 @@
 # Release History
 
-## 1.2.0-beta.4 (2022-05-05)
+## 1.2.0-alpha.20220517.1 (2022-05-17)
 
 - Added support for the API version `2022-06-01-preview`
-- Added `operatorId`, `operatorName` and `phoneNumberSource` properties to `PurchasedPhoneNumber` model.
+- Added `operatorId`, `operatorName` and `phoneNumberSource` properties to the `PurchasedPhoneNumber` model.
 
 ## 1.2.0-beta.3 (2022-04-06)
 
