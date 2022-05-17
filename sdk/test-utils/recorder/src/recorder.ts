@@ -37,6 +37,8 @@ import {
 import { addTransform, Transform } from "./transform";
 import { createRecordingRequest } from "./utils/createRecordingRequest";
 import { AdditionalPolicyConfig } from "@azure/core-client";
+import { setRecordingOptions } from "./options";
+import { isNode } from "@azure/core-util";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -195,6 +197,7 @@ export class Recorder {
       const req = createRecordingRequest(startUri, this.sessionFile, this.recordingId);
 
       if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient")) {
+        await setRecordingOptions(Recorder.url, this.httpClient, { handleRedirects: isNode });
         const rsp = await this.httpClient.sendRequest({
           ...req,
           allowInsecureConnection: true,

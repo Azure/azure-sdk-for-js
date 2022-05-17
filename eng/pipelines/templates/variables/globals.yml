@@ -1,8 +1,10 @@
 variables:
   DocWardenVersion: '0.5.0'
-  NodeVersion: "14.x"
+  NodeVersion: "16.x"
   OSVmImage: "ubuntu-20.04"
   skipComponentGovernanceDetection: true
   coalesceResultFilter: $[ coalesce(variables['packageGlobFilter'], '**') ]
   ServiceVersion: ""
   Package.EnableSBOMSigning: true
+  # Disable warning until issue 21765 and 21766 are closed
+  DisableDockerDetector: true

@@ -3,7 +3,7 @@
 
 /**
  * This sample demonstrates how to use either an Azure Active Directory (RBAC)
- * or an API Key to authenticate a TextAnalyticsClient.
+ * or an API Key to authenticate a TextAnalysisClient.
  *
  * @summary authenticates a service client using both Azure Active Directory
  * and an API key
@@ -11,7 +11,7 @@
  */
 
 // To use an API Key, import `AzureKeyCredential` from the Text Analytics package
-import { TextAnalyticsClient, AzureKeyCredential } from "@azure/ai-text-analytics";
+import { TextAnalysisClient, AzureKeyCredential } from "@azure/ai-text-analytics";
 
 // To use Azure AD, import `DefaultAzureCredential` from the `@azure/identity` package
 import { DefaultAzureCredential } from "@azure/identity";
@@ -21,7 +21,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
-const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
+const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
 
 async function useAad() {
   console.log("-- Azure Active Directory --");
@@ -32,9 +32,9 @@ async function useAad() {
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
   const credential = new DefaultAzureCredential();
 
-  const client = new TextAnalyticsClient(endpoint, credential);
+  const client = new TextAnalysisClient(endpoint, credential);
 
-  const [result] = await client.detectLanguage(["hello world"]);
+  const [result] = await client.analyze("LanguageDetection", ["hello world"]);
 
   if (!result.error) {
     console.log(`Primary language detected as ${result.primaryLanguage.name}`);
@@ -45,13 +45,13 @@ async function useApiKey() {
   console.log("-- API Key --");
 
   // If using an API Key, you will need to set this environment variable
-  const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
+  const apiKey = process.env["LANGUAGE_API_KEY"] || "<api key>";
 
   const credential = new AzureKeyCredential(apiKey);
 
-  const client = new TextAnalyticsClient(endpoint, credential);
+  const client = new TextAnalysisClient(endpoint, credential);
 
-  const [result] = await client.detectLanguage(["hello world"]);
+  const [result] = await client.analyze("LanguageDetection", ["hello world"]);
 
   if (!result.error) {
     console.log(`Primary language detected as ${result.primaryLanguage.name}`);

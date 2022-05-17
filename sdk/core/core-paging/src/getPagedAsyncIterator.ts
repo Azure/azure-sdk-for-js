@@ -29,19 +29,19 @@ export function getPagedAsyncIterator<
     byPage:
       pagedResult?.byPage ??
       ((settings?: PageSettings) => {
-        return getPageAsyncIterator(
-          pagedResult as PagedResult<TPage, PageSettings, TLink>,
-          settings?.maxPageSize
-        );
+        const { continuationToken, maxPageSize } = settings ?? {};
+        return getPageAsyncIterator(pagedResult as PagedResult<TPage, PageSettings, TLink>, {
+          pageLink: continuationToken as unknown as TLink | undefined,
+          maxPageSize,
+        });
       }),
   };
 }
 
 async function* getItemAsyncIterator<TElement, TPage, TLink, TPageSettings>(
-  pagedResult: PagedResult<TPage, TPageSettings, TLink>,
-  maxPageSize?: number
+  pagedResult: PagedResult<TPage, TPageSettings, TLink>
 ): AsyncIterableIterator<TElement> {
-  const pages = getPageAsyncIterator(pagedResult, maxPageSize);
+  const pages = getPageAsyncIterator(pagedResult);
   const firstVal = await pages.next();
   // if the result does not have an array shape, i.e. TPage = TElement, then we return it as is
   if (!Array.isArray(firstVal.value)) {
@@ -60,9 +60,13 @@ async function* getItemAsyncIterator<TElement, TPage, TLink, TPageSettings>(
 
 async function* getPageAsyncIterator<TPage, TLink, TPageSettings>(
   pagedResult: PagedResult<TPage, TPageSettings, TLink>,
-  maxPageSize?: number
+  options: {
+    maxPageSize?: number;
+    pageLink?: TLink;
+  } = {}
 ): AsyncIterableIterator<TPage> {
-  let response = await pagedResult.getPage(pagedResult.firstPageLink, maxPageSize);
+  const { pageLink, maxPageSize } = options;
+  let response = await pagedResult.getPage(pageLink ?? pagedResult.firstPageLink, maxPageSize);
   yield response.page;
   while (response.nextPageLink) {
     response = await pagedResult.getPage(response.nextPageLink, maxPageSize);
