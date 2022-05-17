@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EmailClientOptions, SendEmailResponse } from "./models";
-import { EmailMessage, StatusFoundResponse } from "./generated/src/models";
+import { EmailClientOptions, EmailMessage, SendEmailResult, SendStatusResult } from "./models";
 import {
   InternalPipelineOptions,
   RequestPolicyFactory,
@@ -100,8 +99,8 @@ export class EmailClient {
    *                               in the IMF-fix date form of HTTP-date as defined in RFC7231. eg- Tue, 26 Mar 2019 16:06:51 GMT
    * @param emailMessage - Message payload for sending an email
    */
-  public async sendEmail(emailMessage: EmailMessage): Promise<SendEmailResponse> {
-    const response = await this.api.email.sendEmail(uuid(), new Date().toUTCString(), emailMessage);
+  public async send(emailMessage: EmailMessage): Promise<SendEmailResult> {
+    const response = await this.api.email.send(uuid(), new Date().toUTCString(), emailMessage);
 
     return {
       messageId: response.xMsRequestId,
@@ -113,8 +112,8 @@ export class EmailClient {
    * @param messageId - System generated message id (GUID) returned from a previous call to send email
    * @param options - The options parameters.
    */
-  public async getMessageStatus(messageId: string): Promise<StatusFoundResponse> {
-    const response = await this.api.email.getMessageStatus(messageId);
+  public async getSendStatus(messageId: string): Promise<SendStatusResult> {
+    const response = await this.api.email.getSendStatus(messageId);
 
     return {
       messageId: response.messageId,

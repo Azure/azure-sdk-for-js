@@ -358,74 +358,6 @@
           }
         },
         {
-          "kind": "Interface",
-          "canonicalReference": "@azure/communication-email!EmailBody:interface",
-          "docComment": "/**\n * Body of the email content\n */\n",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "export interface EmailBody "
-            }
-          ],
-          "releaseTag": "Public",
-          "name": "EmailBody",
-          "members": [
-            {
-              "kind": "PropertySignature",
-              "canonicalReference": "@azure/communication-email!EmailBody#html:member",
-              "docComment": "/**\n * Html version of the email message.\n */\n",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "html?: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isOptional": true,
-              "releaseTag": "Public",
-              "name": "html",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              }
-            },
-            {
-              "kind": "PropertySignature",
-              "canonicalReference": "@azure/communication-email!EmailBody#plainText:member",
-              "docComment": "/**\n * Plain text version of the email message.\n */\n",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "plainText?: "
-                },
-                {
-                  "kind": "Content",
-                  "text": "string"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isOptional": true,
-              "releaseTag": "Public",
-              "name": "plainText",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              }
-            }
-          ],
-          "extendsTokenRanges": []
-        },
-        {
           "kind": "Class",
           "canonicalReference": "@azure/communication-email!EmailClient:class",
           "docComment": "/**\n * The Email service client.\n */\n",
@@ -548,12 +480,12 @@
             },
             {
               "kind": "Method",
-              "canonicalReference": "@azure/communication-email!EmailClient#getMessageStatus:member(1)",
+              "canonicalReference": "@azure/communication-email!EmailClient#getSendStatus:member(1)",
               "docComment": "/**\n * Gets the status of a message sent previously.\n *\n * @param messageId - System generated message id (GUID) returned from a previous call to send email\n *\n * @param options - The options parameters.\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "getMessageStatus(messageId: "
+                  "text": "getSendStatus(messageId: "
                 },
                 {
                   "kind": "Content",
@@ -574,8 +506,8 @@
                 },
                 {
                   "kind": "Reference",
-                  "text": "StatusFoundResponse",
-                  "canonicalReference": "@azure/communication-email!StatusFoundResponse:interface"
+                  "text": "SendStatusResult",
+                  "canonicalReference": "@azure/communication-email!SendStatusResult:interface"
                 },
                 {
                   "kind": "Content",
@@ -603,16 +535,16 @@
                   }
                 }
               ],
-              "name": "getMessageStatus"
+              "name": "getSendStatus"
             },
             {
               "kind": "Method",
-              "canonicalReference": "@azure/communication-email!EmailClient#sendEmail:member(1)",
+              "canonicalReference": "@azure/communication-email!EmailClient#send:member(1)",
               "docComment": "/**\n * Queues an email message to be sent to one or more recipients\n *\n * @param repeatabilityRequestId - If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs.\n *\n * @param repeatabilityFirstSent - Must be sent by clients to specify that a request is repeatable. Repeatability-First-Sent is used to specify the date and time at which the request was first created in the IMF-fix date form of HTTP-date as defined in RFC7231. eg- Tue, 26 Mar 2019 16:06:51 GMT\n *\n * @param emailMessage - Message payload for sending an email\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "sendEmail(emailMessage: "
+                  "text": "send(emailMessage: "
                 },
                 {
                   "kind": "Reference",
@@ -634,8 +566,8 @@
                 },
                 {
                   "kind": "Reference",
-                  "text": "SendEmailResponse",
-                  "canonicalReference": "@azure/communication-email!SendEmailResponse:interface"
+                  "text": "SendEmailResult",
+                  "canonicalReference": "@azure/communication-email!SendEmailResult:interface"
                 },
                 {
                   "kind": "Content",
@@ -663,7 +595,7 @@
                   }
                 }
               ],
-              "name": "sendEmail"
+              "name": "send"
             }
           ],
           "implementsTokenRanges": []
@@ -712,44 +644,16 @@
           "members": [
             {
               "kind": "PropertySignature",
-              "canonicalReference": "@azure/communication-email!EmailContent#body:member",
-              "docComment": "/**\n * Body of the email content\n */\n",
+              "canonicalReference": "@azure/communication-email!EmailContent#html:member",
+              "docComment": "/**\n * Html version of the email message.\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "body: "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "EmailBody",
-                  "canonicalReference": "@azure/communication-email!EmailBody:interface"
+                  "text": "html?: "
                 },
                 {
                   "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isOptional": false,
-              "releaseTag": "Public",
-              "name": "body",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              }
-            },
-            {
-              "kind": "PropertySignature",
-              "canonicalReference": "@azure/communication-email!EmailContent#importance:member",
-              "docComment": "/**\n * The importance type for the email.\n */\n",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "importance?: "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "EmailImportance",
-                  "canonicalReference": "@azure/communication-email!EmailImportance:type"
+                  "text": "string"
                 },
                 {
                   "kind": "Content",
@@ -758,7 +662,33 @@
               ],
               "isOptional": true,
               "releaseTag": "Public",
-              "name": "importance",
+              "name": "html",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/communication-email!EmailContent#plainText:member",
+              "docComment": "/**\n * Plain text version of the email message.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "plainText?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "string"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "plainText",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 2
@@ -990,6 +920,59 @@
             },
             {
               "kind": "PropertySignature",
+              "canonicalReference": "@azure/communication-email!EmailMessage#disableUserEngagementTracking:member",
+              "docComment": "/**\n * Indicates whether user engagement tracking should be disabled for this request if the resource-level user engagement tracking setting was already enabled in the control plane.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "disableUserEngagementTracking?: "
+                },
+                {
+                  "kind": "Content",
+                  "text": "boolean"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "disableUserEngagementTracking",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
+              "canonicalReference": "@azure/communication-email!EmailMessage#importance:member",
+              "docComment": "/**\n * The importance type for the email.\n */\n",
+              "excerptTokens": [
+                {
+                  "kind": "Content",
+                  "text": "importance?: "
+                },
+                {
+                  "kind": "Reference",
+                  "text": "EmailImportance",
+                  "canonicalReference": "@azure/communication-email!EmailImportance:type"
+                },
+                {
+                  "kind": "Content",
+                  "text": ";"
+                }
+              ],
+              "isOptional": true,
+              "releaseTag": "Public",
+              "name": "importance",
+              "propertyTypeTokenRange": {
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            },
+            {
+              "kind": "PropertySignature",
               "canonicalReference": "@azure/communication-email!EmailMessage#recipients:member",
               "docComment": "/**\n * Recipients for the email.\n */\n",
               "excerptTokens": [
@@ -1071,33 +1054,6 @@
                 "startIndex": 1,
                 "endIndex": 2
               }
-            },
-            {
-              "kind": "PropertySignature",
-              "canonicalReference": "@azure/communication-email!EmailMessage#userEngagementTrackingOverride:member",
-              "docComment": "/**\n * Indicates whether to override the state of user engagement tracking that was set at the resource level. By default, the state is not overridden.\n */\n",
-              "excerptTokens": [
-                {
-                  "kind": "Content",
-                  "text": "userEngagementTrackingOverride?: "
-                },
-                {
-                  "kind": "Reference",
-                  "text": "EmailUserEngagementTrackingState",
-                  "canonicalReference": "@azure/communication-email!EmailUserEngagementTrackingState:type"
-                },
-                {
-                  "kind": "Content",
-                  "text": ";"
-                }
-              ],
-              "isOptional": true,
-              "releaseTag": "Public",
-              "name": "userEngagementTrackingOverride",
-              "propertyTypeTokenRange": {
-                "startIndex": 1,
-                "endIndex": 2
-              }
             }
           ],
           "extendsTokenRanges": []
@@ -1117,12 +1073,12 @@
           "members": [
             {
               "kind": "PropertySignature",
-              "canonicalReference": "@azure/communication-email!EmailRecipients#bccRecipients:member",
+              "canonicalReference": "@azure/communication-email!EmailRecipients#bCC:member",
               "docComment": "/**\n * Email bcc recipients\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "bccRecipients?: "
+                  "text": "bCC?: "
                 },
                 {
                   "kind": "Reference",
@@ -1140,7 +1096,7 @@
               ],
               "isOptional": true,
               "releaseTag": "Public",
-              "name": "bccRecipients",
+              "name": "bCC",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 3
@@ -1148,12 +1104,12 @@
             },
             {
               "kind": "PropertySignature",
-              "canonicalReference": "@azure/communication-email!EmailRecipients#ccRecipients:member",
+              "canonicalReference": "@azure/communication-email!EmailRecipients#cC:member",
               "docComment": "/**\n * Email cc recipients\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "ccRecipients?: "
+                  "text": "cC?: "
                 },
                 {
                   "kind": "Reference",
@@ -1171,7 +1127,7 @@
               ],
               "isOptional": true,
               "releaseTag": "Public",
-              "name": "ccRecipients",
+              "name": "cC",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 3
@@ -1179,12 +1135,12 @@
             },
             {
               "kind": "PropertySignature",
-              "canonicalReference": "@azure/communication-email!EmailRecipients#toRecipients:member",
+              "canonicalReference": "@azure/communication-email!EmailRecipients#to:member",
               "docComment": "/**\n * Email to recipients\n */\n",
               "excerptTokens": [
                 {
                   "kind": "Content",
-                  "text": "toRecipients: "
+                  "text": "to: "
                 },
                 {
                   "kind": "Reference",
@@ -1202,7 +1158,7 @@
               ],
               "isOptional": false,
               "releaseTag": "Public",
-              "name": "toRecipients",
+              "name": "to",
               "propertyTypeTokenRange": {
                 "startIndex": 1,
                 "endIndex": 3
@@ -1212,46 +1168,21 @@
           "extendsTokenRanges": []
         },
         {
-          "kind": "TypeAlias",
-          "canonicalReference": "@azure/communication-email!MessageStatus:type",
-          "docComment": "/**\n * Defines values for MessageStatus.\n */\n",
-          "excerptTokens": [
-            {
-              "kind": "Content",
-              "text": "export declare type MessageStatus = "
-            },
-            {
-              "kind": "Content",
-              "text": "\"queued\" | \"outForDelivery\" | \"dropped\""
-            },
-            {
-              "kind": "Content",
-              "text": ";"
-            }
-          ],
-          "releaseTag": "Public",
-          "name": "MessageStatus",
-          "typeTokenRange": {
-            "startIndex": 1,
-            "endIndex": 2
-          }
-        },
-        {
           "kind": "Interface",
-          "canonicalReference": "@azure/communication-email!SendEmailResponse:interface",
+          "canonicalReference": "@azure/communication-email!SendEmailResult:interface",
           "docComment": "/**\n * Results of a sent email.\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export interface SendEmailResponse "
+              "text": "export interface SendEmailResult "
             }
           ],
           "releaseTag": "Public",
-          "name": "SendEmailResponse",
+          "name": "SendEmailResult",
           "members": [
             {
               "kind": "PropertySignature",
-              "canonicalReference": "@azure/communication-email!SendEmailResponse#messageId:member",
+              "canonicalReference": "@azure/communication-email!SendEmailResult#messageId:member",
               "docComment": "/**\n * MessageId of the sent email.\n */\n",
               "excerptTokens": [
                 {
@@ -1279,21 +1210,46 @@
           "extendsTokenRanges": []
         },
         {
+          "kind": "TypeAlias",
+          "canonicalReference": "@azure/communication-email!SendStatus:type",
+          "docComment": "/**\n * Defines values for SendStatus.\n */\n",
+          "excerptTokens": [
+            {
+              "kind": "Content",
+              "text": "export declare type SendStatus = "
+            },
+            {
+              "kind": "Content",
+              "text": "\"queued\" | \"outForDelivery\" | \"dropped\""
+            },
+            {
+              "kind": "Content",
+              "text": ";"
+            }
+          ],
+          "releaseTag": "Public",
+          "name": "SendStatus",
+          "typeTokenRange": {
+            "startIndex": 1,
+            "endIndex": 2
+          }
+        },
+        {
           "kind": "Interface",
-          "canonicalReference": "@azure/communication-email!StatusFoundResponse:interface",
+          "canonicalReference": "@azure/communication-email!SendStatusResult:interface",
           "docComment": "/**\n * Status of an email message that was sent previously.\n */\n",
           "excerptTokens": [
             {
               "kind": "Content",
-              "text": "export interface StatusFoundResponse "
+              "text": "export interface SendStatusResult "
             }
           ],
           "releaseTag": "Public",
-          "name": "StatusFoundResponse",
+          "name": "SendStatusResult",
           "members": [
             {
               "kind": "PropertySignature",
-              "canonicalReference": "@azure/communication-email!StatusFoundResponse#messageId:member",
+              "canonicalReference": "@azure/communication-email!SendStatusResult#messageId:member",
               "docComment": "/**\n * System generated id of an email message sent.\n */\n",
               "excerptTokens": [
                 {
@@ -1319,7 +1275,7 @@
             },
             {
               "kind": "PropertySignature",
-              "canonicalReference": "@azure/communication-email!StatusFoundResponse#status:member",
+              "canonicalReference": "@azure/communication-email!SendStatusResult#status:member",
               "docComment": "/**\n * The type indicating the status of a request.\n */\n",
               "excerptTokens": [
                 {
@@ -1328,8 +1284,8 @@
                 },
                 {
                   "kind": "Reference",
-                  "text": "MessageStatus",
-                  "canonicalReference": "@azure/communication-email!MessageStatus:type"
+                  "text": "SendStatus",
+                  "canonicalReference": "@azure/communication-email!SendStatus:type"
                 },
                 {
                   "kind": "Content",

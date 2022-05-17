@@ -9,10 +9,10 @@
     "/emails/{messageId}/status": {
       "get": {
         "tags": [
-          "EmailMessageStatus"
+          "EmailGetSendStatus"
         ],
         "summary": "Gets the status of a message sent previously.",
-        "operationId": "Email_GetMessageStatus",
+        "operationId": "Email_GetSendStatus",
         "produces": [
           "application/json"
         ],
@@ -53,13 +53,13 @@
               }
             },
             "schema": {
-              "$ref": "#/definitions/StatusFoundResponse"
+              "$ref": "#/definitions/SendStatusResult"
             }
           }
         },
         "x-ms-examples": {
           "Get Message Status": {
-            "$ref": "./examples/GetMessageStatus.json"
+            "$ref": "./examples/GetSendStatus.json"
           }
         }
       }
@@ -70,7 +70,7 @@
           "EmailSend"
         ],
         "summary": "Queues an email message to be sent to one or more recipients",
-        "operationId": "Email_SendEmail",
+        "operationId": "Email_Send",
         "consumes": [
           "application/json"
         ],
@@ -175,6 +175,10 @@
           "description": "Email content to be sent.",
           "$ref": "#/definitions/EmailContent"
         },
+        "importance": {
+          "description": "The importance type for the email.",
+          "$ref": "#/definitions/EmailImportance"
+        },
         "recipients": {
           "description": "Recipients for the email.",
           "$ref": "#/definitions/EmailRecipients"
@@ -193,8 +197,9 @@
             "$ref": "#/definitions/EmailAddress"
           }
         },
-        "userEngagementTrackingOverride": {
-          "$ref": "#/definitions/EmailUserEngagementTrackingState"
+        "disableUserEngagementTracking": {
+          "description": "Indicates whether user engagement tracking should be disabled for this request if the resource-level user engagement tracking setting was already enabled in the control plane.",
+          "type": "boolean"
         }
       }
     },
@@ -241,8 +246,7 @@
       "description": "Content of the email.",
       "type": "object",
       "required": [
-        "subject",
-        "body"
+        "subject"
       ],
       "properties": {
         "subject": {
@@ -250,18 +254,6 @@
           "type": "string",
           "example": "An exciting offer especially for you!"
         },
-        "body": {
-          "$ref": "#/definitions/EmailBody"
-        },
-        "importance": {
-          "$ref": "#/definitions/EmailImportance"
-        }
-      }
-    },
-    "EmailBody": {
-      "description": "Body of the email content",
-      "type": "object",
-      "properties": {
         "plainText": {
           "description": "Plain text version of the email message.",
           "type": "string",
@@ -272,34 +264,6 @@
           "type": "string",
           "example": "<html><head><title>Exciting offer!</title></head><body><h1>This exciting offer was created especially for you, our most loyal customer.</h1></body></html>"
         }
-      }
-    },
-    "EmailUserEngagementTrackingState": {
-      "description": "Indicates whether the current request should override the resource-level user engagement tracking setting that was set from the control plane. By default, the state is not overridden.",
-      "enum": [
-        "none",
-        "enabled",
-        "disabled"
-      ],
-      "type": "string",
-      "default": "none",
-      "x-ms-enum": {
-        "name": "EmailUserEngagementTrackingState",
-        "modelAsString": true,
-        "values": [
-          {
-            "value": "none",
-            "description": "This is the default state indicating that, for this request, we will not override the resource-level user engagement setting that was set from the control plane."
-          },
-          {
-            "value": "enabled",
-            "description": "If enabled, this will enable user engagement tracking, for this request, if and only if the resource-level user engagement setting is enabled."
-          },
-          {
-            "value": "disabled",
-            "description": "If disabled, this will disable user engagement tracking, for this request, irrespective of the resource-level user engagement setting."
-          }
-        ]
       }
     },
     "EmailImportance": {
@@ -382,24 +346,24 @@
       "description": "Recipients of the email",
       "type": "object",
       "required": [
-        "toRecipients"
+        "to"
       ],
       "properties": {
-        "toRecipients": {
+        "to": {
           "description": "Email to recipients",
           "type": "array",
           "items": {
             "$ref": "#/definitions/EmailAddress"
           }
         },
-        "ccRecipients": {
+        "cC": {
           "description": "Email cc recipients",
           "type": "array",
           "items": {
             "$ref": "#/definitions/EmailAddress"
           }
         },
-        "bccRecipients": {
+        "bCC": {
           "description": "Email bcc recipients",
           "type": "array",
           "items": {
@@ -408,7 +372,7 @@
         }
       }
     },
-    "StatusFoundResponse": {
+    "SendStatusResult": {
       "description": "Status of an email message that was sent previously.",
       "type": "object",
       "required": [
@@ -422,11 +386,11 @@
           "example": "F9168C5E-CEB2-4faa-B6BF-329BF39FA1E4"
         },
         "status": {
-          "$ref": "#/definitions/MessageStatus"
+          "$ref": "#/definitions/SendStatus"
         }
       }
     },
-    "MessageStatus": {
+    "SendStatus": {
       "description": "The type indicating the status of a request.",
       "enum": [
         "queued",
@@ -435,7 +399,7 @@
       ],
       "type": "string",
       "x-ms-enum": {
-        "name": "MessageStatus",
+        "name": "SendStatus",
         "modelAsString": true,
         "values": [
           {

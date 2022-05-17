@@ -5,10 +5,9 @@
  * @summary Sends an email with a single recipient
  */
 
-// TODO: Adjust these to point to the published package
-const { EmailClient } = require("../src/emailClient");
+const { EmailClient } = require("@azure/communication-email");
 
-// Load the .env file (you will need to set these enviornment variables)
+// Load the .env file (you will need to set these environment variables)
 require("dotenv").config();
 
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
@@ -24,13 +23,11 @@ const sendSingleEmail = async () => {
     sender: senderAddress,
     content: {
       subject: "This is the subject",
-      body: {
-        plainText: "This is the body",
-        html: "<html><h1>This is the body</h1></html>",
-      },
+      plainText: "This is the body",
+      html: "<html><h1>This is the body</h1></html>",
     },
     recipients: {
-      toRecipients: [
+      to: [
         {
           email: recipientAddress,
           displayName: "Customer Name",
@@ -41,7 +38,7 @@ const sendSingleEmail = async () => {
 
   try {
     // Send the email message
-    const response = await emailClient.sendEmail(emailMessage);
+    const response = await emailClient.send(emailMessage);
 
     console.log("Message ID: " + response.messageId);
   } catch (error) {

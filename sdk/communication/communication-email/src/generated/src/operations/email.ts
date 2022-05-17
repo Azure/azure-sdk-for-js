@@ -11,9 +11,9 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { EmailRestApiClient } from "../emailRestApiClient";
 import {
-  EmailGetMessageStatusResponse,
+  EmailGetSendStatusResponse,
   EmailMessage,
-  EmailSendEmailResponse
+  EmailSendResponse
 } from "../models";
 
 /**
@@ -35,17 +35,17 @@ export class Email {
    * @param messageId System generated message id (GUID) returned from a previous call to send email
    * @param options The options parameters.
    */
-  getMessageStatus(
+  getSendStatus(
     messageId: string,
     options?: coreHttp.OperationOptions
-  ): Promise<EmailGetMessageStatusResponse> {
+  ): Promise<EmailGetSendStatusResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.client.sendOperationRequest(
       { messageId, options: operationOptions },
-      getMessageStatusOperationSpec
-    ) as Promise<EmailGetMessageStatusResponse>;
+      getSendStatusOperationSpec
+    ) as Promise<EmailGetSendStatusResponse>;
   }
 
   /**
@@ -61,12 +61,12 @@ export class Email {
    * @param emailMessage Message payload for sending an email
    * @param options The options parameters.
    */
-  sendEmail(
+  send(
     repeatabilityRequestId: string,
     repeatabilityFirstSent: string,
     emailMessage: EmailMessage,
     options?: coreHttp.OperationOptions
-  ): Promise<EmailSendEmailResponse> {
+  ): Promise<EmailSendResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
@@ -77,41 +77,41 @@ export class Email {
         emailMessage,
         options: operationOptions
       },
-      sendEmailOperationSpec
-    ) as Promise<EmailSendEmailResponse>;
+      sendOperationSpec
+    ) as Promise<EmailSendResponse>;
   }
 }
 // Operation Specifications
 
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
-const getMessageStatusOperationSpec: coreHttp.OperationSpec = {
+const getSendStatusOperationSpec: coreHttp.OperationSpec = {
   path: "/emails/{messageId}/status",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.StatusFoundResponse,
-      headersMapper: Mappers.EmailGetMessageStatusHeaders
+      bodyMapper: Mappers.SendStatusResult,
+      headersMapper: Mappers.EmailGetSendStatusHeaders
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse,
-      headersMapper: Mappers.EmailGetMessageStatusHeaders
+      headersMapper: Mappers.EmailGetSendStatusHeaders
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.messageId],
   serializer
 };
-const sendEmailOperationSpec: coreHttp.OperationSpec = {
+const sendOperationSpec: coreHttp.OperationSpec = {
   path: "/emails:send",
   httpMethod: "POST",
   responses: {
     202: {
-      headersMapper: Mappers.EmailSendEmailHeaders
+      headersMapper: Mappers.EmailSendHeaders
     },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse,
-      headersMapper: Mappers.EmailSendEmailHeaders
+      headersMapper: Mappers.EmailSendHeaders
     }
   },
   requestBody: Parameters.emailMessage,

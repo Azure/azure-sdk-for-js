@@ -24,17 +24,11 @@ export interface EmailAttachment {
 export type EmailAttachmentType = "avi" | "bmp" | "doc" | "docm" | "docx" | "gif" | "jpeg" | "mp3" | "one" | "pdf" | "png" | "ppsm" | "ppsx" | "ppt" | "pptm" | "pptx" | "pub" | "rpmsg" | "rtf" | "tif" | "txt" | "vsd" | "wav" | "wma" | "xls" | "xlsb" | "xlsm" | "xlsx";
 
 // @public
-export interface EmailBody {
-    html?: string;
-    plainText?: string;
-}
-
-// @public
 export class EmailClient {
     constructor(connectionString: string, options?: EmailClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: EmailClientOptions);
-    getMessageStatus(messageId: string): Promise<StatusFoundResponse>;
-    sendEmail(emailMessage: EmailMessage): Promise<SendEmailResponse>;
+    getSendStatus(messageId: string): Promise<SendStatusResult>;
+    send(emailMessage: EmailMessage): Promise<SendEmailResult>;
 }
 
 // @public
@@ -43,8 +37,8 @@ export interface EmailClientOptions extends PipelineOptions {
 
 // @public
 export interface EmailContent {
-    body: EmailBody;
-    importance?: EmailImportance;
+    html?: string;
+    plainText?: string;
     subject: string;
 }
 
@@ -62,32 +56,32 @@ export interface EmailMessage {
     attachments?: EmailAttachment[];
     content: EmailContent;
     customHeaders?: EmailCustomHeader[];
+    disableUserEngagementTracking?: boolean;
+    importance?: EmailImportance;
     recipients: EmailRecipients;
     replyTo?: EmailAddress[];
     sender: string;
-    // Warning: (ae-forgotten-export) The symbol "EmailUserEngagementTrackingState" needs to be exported by the entry point index.d.ts
-    userEngagementTrackingOverride?: EmailUserEngagementTrackingState;
 }
 
 // @public
 export interface EmailRecipients {
-    bccRecipients?: EmailAddress[];
-    ccRecipients?: EmailAddress[];
-    toRecipients: EmailAddress[];
+    bCC?: EmailAddress[];
+    cC?: EmailAddress[];
+    to: EmailAddress[];
 }
 
 // @public
-export type MessageStatus = "queued" | "outForDelivery" | "dropped";
-
-// @public
-export interface SendEmailResponse {
+export interface SendEmailResult {
     messageId?: string;
 }
 
 // @public
-export interface StatusFoundResponse {
+export type SendStatus = "queued" | "outForDelivery" | "dropped";
+
+// @public
+export interface SendStatusResult {
     messageId: string;
-    status: MessageStatus;
+    status: SendStatus;
 }
 
 // (No @packageDocumentation comment for this package)

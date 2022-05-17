@@ -1,11 +1,11 @@
 let nock = require('nock');
 
-module.exports.hash = "53fc1a011f85bbe58ac88b09e27e4480";
+module.exports.hash = "336a0dc4e3f3ee2dc69985f8531ee07f";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://someEndpoint', {"encodedQueryParams":true})
-  .post('/emails:send', {"sender":"someSender@contoso.com","content":{"subject":"someSubject","body":{"plainText":"somePlainTextBody","html":"<html><h1>someHtmlBody</html>"}},"recipients":{"toRecipients":[{"email":"someRecipient@domain.com","displayName":"someRecipient"}]},"attachments":[{"name":"readme.txt","attachmentType":"txt","contentBytesBase64":"ZW1haWwgdGVzdCBhdHRhY2htZW50"}]})
+  .post('/emails:send', {"sender":"someSender@contoso.com","content":{"subject":"someSubject","plainText":"somePlainTextBody","html":"<html><h1>someHtmlBody</html>"},"recipients":{"to":[{"email":"someRecipient@domain.com","displayName":"someRecipient"}]},"attachments":[{"name":"readme.txt","attachmentType":"txt","contentBytesBase64":"ZW1haWwgdGVzdCBhdHRhY2htZW50"}]})
   .query(true)
   .reply(202, "", [
   'Operation-Location',
@@ -19,9 +19,9 @@ nock('https://someEndpoint', {"encodedQueryParams":true})
   'X-Cache',
   'CONFIG_NOCACHE',
   'X-Azure-Ref',
-  '09it8YgAAAAAizXe28Qd6ToGx4SyLJ7M7V1NURURHRTA4MTIAY2M5Mjc1OGQtMDVmNy00YWQ2LWFhNWUtMGZhOTcxOGQ4OTg1',
+  '0vxGEYgAAAADN86zXXjp0Sa1WJkG/4qZiRE0yQUExMDkxMjA5MDA5AGNjOTI3NThkLTA1ZjctNGFkNi1hYTVlLTBmYTk3MThkODk4NQ==',
   'Date',
-  'Wed, 11 May 2022 21:34:46 GMT',
+  'Tue, 17 May 2022 21:21:02 GMT',
   'Content-Length',
   '0'
 ]);

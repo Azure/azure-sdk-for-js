@@ -8,10 +8,10 @@
 
 import * as coreHttp from "@azure/core-http";
 
-export const StatusFoundResponse: coreHttp.CompositeMapper = {
+export const SendStatusResult: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "StatusFoundResponse",
+    className: "SendStatusResult",
     modelProperties: {
       messageId: {
         serializedName: "messageId",
@@ -122,6 +122,13 @@ export const EmailMessage: coreHttp.CompositeMapper = {
           className: "EmailContent"
         }
       },
+      importance: {
+        defaultValue: "normal",
+        serializedName: "importance",
+        type: {
+          name: "String"
+        }
+      },
       recipients: {
         serializedName: "recipients",
         type: {
@@ -143,11 +150,10 @@ export const EmailMessage: coreHttp.CompositeMapper = {
           element: { type: { name: "Composite", className: "EmailAddress" } }
         }
       },
-      userEngagementTrackingOverride: {
-        defaultValue: "none",
-        serializedName: "userEngagementTrackingOverride",
+      disableUserEngagementTracking: {
+        serializedName: "disableUserEngagementTracking",
         type: {
-          name: "String"
+          name: "Boolean"
         }
       }
     }
@@ -189,29 +195,6 @@ export const EmailContent: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      body: {
-        serializedName: "body",
-        type: {
-          name: "Composite",
-          className: "EmailBody"
-        }
-      },
-      importance: {
-        defaultValue: "normal",
-        serializedName: "importance",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const EmailBody: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "EmailBody",
-    modelProperties: {
       plainText: {
         serializedName: "plainText",
         type: {
@@ -233,23 +216,23 @@ export const EmailRecipients: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "EmailRecipients",
     modelProperties: {
-      toRecipients: {
-        serializedName: "toRecipients",
+      to: {
+        serializedName: "to",
         required: true,
         type: {
           name: "Sequence",
           element: { type: { name: "Composite", className: "EmailAddress" } }
         }
       },
-      ccRecipients: {
-        serializedName: "ccRecipients",
+      cC: {
+        serializedName: "cC",
         type: {
           name: "Sequence",
           element: { type: { name: "Composite", className: "EmailAddress" } }
         }
       },
-      bccRecipients: {
-        serializedName: "bccRecipients",
+      bCC: {
+        serializedName: "bCC",
         type: {
           name: "Sequence",
           element: { type: { name: "Composite", className: "EmailAddress" } }
@@ -311,10 +294,10 @@ export const EmailAttachment: coreHttp.CompositeMapper = {
   }
 };
 
-export const EmailGetMessageStatusHeaders: coreHttp.CompositeMapper = {
+export const EmailGetSendStatusHeaders: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "EmailGetMessageStatusHeaders",
+    className: "EmailGetSendStatusHeaders",
     modelProperties: {
       retryAfter: {
         serializedName: "retry-after",
@@ -326,10 +309,10 @@ export const EmailGetMessageStatusHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const EmailSendEmailHeaders: coreHttp.CompositeMapper = {
+export const EmailSendHeaders: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "EmailSendEmailHeaders",
+    className: "EmailSendHeaders",
     modelProperties: {
       repeatabilityResult: {
         serializedName: "repeatability-result",
