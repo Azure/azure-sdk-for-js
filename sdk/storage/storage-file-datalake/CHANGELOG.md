@@ -4,6 +4,9 @@
 
 ### Features Added
 
+- Added support for service version 2021-08-06.
+- Added ability to set permission, umask, owner, group, ACL, lease, and expiry time on DataLakeFileClient.create() and .createIfNotExists(), DataLakeDirectoryClient.create() and .createIfNotExists(), and DataLakePathClient.create() and .createIfNotExists().
+
 ### Breaking Changes
 
 ### Bugs Fixed

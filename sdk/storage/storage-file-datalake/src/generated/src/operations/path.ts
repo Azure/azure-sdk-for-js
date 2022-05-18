@@ -346,7 +346,14 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.sourceIfUnmodifiedSince,
     Parameters.encryptionKey,
     Parameters.encryptionKeySha256,
-    Parameters.encryptionAlgorithm
+    Parameters.encryptionAlgorithm,
+    Parameters.owner,
+    Parameters.group,
+    Parameters.acl,
+    Parameters.proposedLeaseId,
+    Parameters.leaseDuration,
+    Parameters.expiryOptions,
+    Parameters.expiresOn
   ],
   serializer
 };
@@ -394,13 +401,13 @@ const updateOperationSpec: coreHttp.OperationSpec = {
     Parameters.permissions,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
+    Parameters.owner,
+    Parameters.group,
+    Parameters.acl,
     Parameters.contentType1,
     Parameters.accept2,
     Parameters.contentLength,
-    Parameters.contentMD5,
-    Parameters.owner,
-    Parameters.group,
-    Parameters.acl
+    Parameters.contentMD5
   ],
   mediaType: "binary",
   serializer
@@ -434,10 +441,10 @@ const leaseOperationSpec: coreHttp.OperationSpec = {
     Parameters.leaseId,
     Parameters.ifMatch,
     Parameters.ifNoneMatch,
+    Parameters.proposedLeaseId,
     Parameters.xMsLeaseAction,
     Parameters.xMsLeaseDuration,
-    Parameters.xMsLeaseBreakPeriod,
-    Parameters.proposedLeaseId
+    Parameters.xMsLeaseBreakPeriod
   ],
   serializer
 };
@@ -694,8 +701,8 @@ const setExpiryOperationSpec: coreHttp.OperationSpec = {
     Parameters.accept,
     Parameters.requestId,
     Parameters.version,
-    Parameters.expiryOptions,
-    Parameters.expiresOn
+    Parameters.expiresOn,
+    Parameters.expiryOptions1
   ],
   serializer
 };
