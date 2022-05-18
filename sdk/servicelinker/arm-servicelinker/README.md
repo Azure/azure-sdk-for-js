@@ -60,7 +60,7 @@ const client = new ServiceLinkerManagementClient(new DefaultAzureCredential());
 //   tenantId: "<YOUR_TENANT_ID>",
 //   clientId: "<YOUR_CLIENT_ID>"
 // });
-// const client = new ServiceLinkerManagementClient(credential, subscriptionId);
+// const client = new ServiceLinkerManagementClient(credential);
 ```
 
 
