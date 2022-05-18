@@ -13405,13 +13405,13 @@ packages:
     dev: false
 
   file:projects/arm-servicelinker.tgz:
-    resolution: {integrity: sha512-9uRGegk2PugMoa2TF31FkZMpzlh2u4pRzGCDfVyIefc27kr58nfoH0LYEBJj89oGBYjVNOc6uUZu8dagKX0/nQ==, tarball: file:projects/arm-servicelinker.tgz}
+    resolution: {integrity: sha512-N5tZVyTLwzPkY7j/PO/vq9J5t8Wy8m81e+tKimcS7BKZqEcYuMm2SlUz9e0wx9+9utIu4kNsgrRq5Me5tJBF8g==, tarball: file:projects/arm-servicelinker.tgz}
     name: '@rush-temp/arm-servicelinker'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.24.0
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.73.0
       '@rollup/plugin-json': 4.1.0_rollup@2.73.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.73.0
