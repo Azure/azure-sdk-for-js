@@ -1,0 +1,103 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/language/:analyze-text?api-version=2022-04-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "567",
+        "Content-Type": "application/json",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "130830dd-f5c1-428e-999e-8ba6c44adffc"
+      },
+      "RequestBody": {
+        "kind": "LanguageDetection",
+        "analysisInput": {
+          "documents": [
+            {
+              "id": "0",
+              "text": "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
+              "countryHint": "us"
+            },
+            {
+              "id": "1",
+              "text": "Unfortunately, it rained during my entire trip to Seattle. I didn\u0027t even get to visit the Space Needle",
+              "countryHint": "us"
+            },
+            {
+              "id": "2",
+              "text": "I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.",
+              "countryHint": "us"
+            },
+            {
+              "id": "3",
+              "text": "I didn\u0027t like the last book I read at all.",
+              "countryHint": "us"
+            }
+          ]
+        },
+        "parameters": {}
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "8a870da4-64c8-4d40-a34f-fbd85e31cd42",
+        "Content-Length": "517",
+        "Content-Type": "application/json; charset=utf-8",
+        "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4,CognitiveServices.TextAnalytics.TextRecords=4",
+        "Date": "Fri, 06 May 2022 20:17:29 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "13"
+      },
+      "ResponseBody": {
+        "kind": "LanguageDetectionResults",
+        "results": {
+          "documents": [
+            {
+              "id": "0",
+              "detectedLanguage": {
+                "name": "English",
+                "iso6391Name": "en",
+                "confidenceScore": 1.0
+              },
+              "warnings": []
+            },
+            {
+              "id": "1",
+              "detectedLanguage": {
+                "name": "English",
+                "iso6391Name": "en",
+                "confidenceScore": 1.0
+              },
+              "warnings": []
+            },
+            {
+              "id": "2",
+              "detectedLanguage": {
+                "name": "English",
+                "iso6391Name": "en",
+                "confidenceScore": 1.0
+              },
+              "warnings": []
+            },
+            {
+              "id": "3",
+              "detectedLanguage": {
+                "name": "English",
+                "iso6391Name": "en",
+                "confidenceScore": 1.0
+              },
+              "warnings": []
+            }
+          ],
+          "errors": [],
+          "modelVersion": "2021-11-20"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

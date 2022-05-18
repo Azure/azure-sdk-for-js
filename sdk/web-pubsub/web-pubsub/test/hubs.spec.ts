@@ -169,6 +169,10 @@ describe("HubClient", function () {
       try {
         await client.grantPermission("xxx", "joinLeaveGroup", { targetName: "x" });
       } catch (e: any) {
+        if (e.name !== "RestError") {
+          throw e;
+        }
+
         error = e;
       }
       // grantPermission validates connection ids, so we expect an error here.

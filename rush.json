@@ -457,11 +457,6 @@
       "versionPolicyName": "core"
     },
     {
-      "packageName": "@azure/core-crypto",
-      "projectFolder": "sdk/core/core-crypto",
-      "versionPolicyName": "core"
-    },
-    {
       "packageName": "@azure/core-http",
       "projectFolder": "sdk/core/core-http",
       "versionPolicyName": "core"
@@ -1689,6 +1684,16 @@
     {
       "packageName": "@azure/arm-scvmm",
       "projectFolder": "sdk/scvmm/arm-scvmm",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-servicelinker",
+      "projectFolder": "sdk/servicelinker/arm-servicelinker",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-changes",
+      "projectFolder": "sdk/changes/arm-changes",
       "versionPolicyName": "management"
     }
   ]

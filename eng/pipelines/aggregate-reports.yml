@@ -19,7 +19,7 @@ stages:
 
     jobs:
       - job: GenerateReports
-        timeoutInMinutes: 240
+        timeoutInMinutes: 360
         steps:
           - template: /eng/pipelines/templates/steps/use-node-version.yml
             parameters:
@@ -31,10 +31,6 @@ stages:
               filePath: eng/scripts/spell-check-public-api.ps1
               pwsh: true
             displayName: Spell check public API
-
-          - template: /eng/pipelines/templates/steps/use-node-version.yml
-            parameters:
-              NodeVersion: 10.x
 
           - template: ../common/pipelines/templates/steps/verify-links.yml
             parameters:

@@ -45,4 +45,5 @@ export {
   PhoneNumberSearchResult,
   PhoneNumberSearchRequest,
   PhoneNumberType,
+  PhoneNumberSource,
 } from "./generated/src/models/";

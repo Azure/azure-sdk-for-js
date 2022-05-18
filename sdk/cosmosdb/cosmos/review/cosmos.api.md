@@ -395,6 +395,7 @@ export const Constants: {
         IsBatchRequest: string;
         IsBatchAtomic: string;
         BatchContinueOnError: string;
+        DedicatedGatewayPerRequestCacheStaleness: string;
         ForceRefresh: string;
     };
     WritableLocations: string;
@@ -671,6 +672,11 @@ export enum DataType {
     String = "String"
 }
 
+// @beta
+export interface DedicatedGatewayRequestOptions {
+    maxIntegratedCacheStalenessInMs?: number;
+}
+
 // @public (undocumented)
 export const DEFAULT_PARTITION_KEY_PATH: "/_partitionKey";
 
@@ -730,8 +736,10 @@ export type ExistingKeyOperation = {
 // @public (undocumented)
 export function extractPartitionKey(document: unknown, partitionKeyDefinition: PartitionKeyDefinition): PartitionKey[];
 
+// Warning: (ae-incompatible-release-tags) The symbol "FeedOptions" is marked as @public, but its signature references "DedicatedGatewayRequestOptions" which is marked as @beta
+//
 // @public
-export interface FeedOptions extends SharedOptions {
+export interface FeedOptions extends SharedOptions, DedicatedGatewayRequestOptions {
     accessCondition?: {
         type: string;
         condition: string;
@@ -1460,8 +1468,10 @@ interface RequestInfo_2 {
 }
 export { RequestInfo_2 as RequestInfo }
 
+// Warning: (ae-incompatible-release-tags) The symbol "RequestOptions" is marked as @public, but its signature references "DedicatedGatewayRequestOptions" which is marked as @beta
+//
 // @public
-export interface RequestOptions extends SharedOptions {
+export interface RequestOptions extends SharedOptions, DedicatedGatewayRequestOptions {
     accessCondition?: {
         type: string;
         condition: string;

@@ -1,0 +1,610 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs?api-version=2022-04-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "357",
+        "Content-Type": "application/json",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "f1e0b1ff-a913-4699-b008-4ed4703f78fe"
+      },
+      "RequestBody": {
+        "analysisInput": {
+          "documents": [
+            {
+              "id": "1",
+              "text": "",
+              "language": ""
+            },
+            {
+              "id": "2",
+              "text": "I did not like the hotel we stayed at. It was too expensive.",
+              "language": "english"
+            },
+            {
+              "id": "3",
+              "text": "",
+              "language": "en"
+            }
+          ]
+        },
+        "tasks": [
+          {
+            "kind": "EntityRecognition",
+            "parameters": {}
+          },
+          {
+            "kind": "PiiEntityRecognition",
+            "parameters": {}
+          },
+          {
+            "kind": "KeyPhraseExtraction",
+            "parameters": {}
+          }
+        ]
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "apim-request-id": "abb848a0-fd66-4ad7-87c1-fd37bd6a2483",
+        "Content-Length": "0",
+        "Date": "Fri, 06 May 2022 20:00:24 GMT",
+        "operation-location": "https://endpoint/language/analyze-text/jobs/bafb8034-21a4-4d5c-b972-313ee072b632?api-version=2022-04-01-preview",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "230"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/bafb8034-21a4-4d5c-b972-313ee072b632?api-version=2022-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "dbd9f4da-2af7-4f6f-b022-cb84bed35170"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "d07299c3-1996-4af6-9def-57a9e3c6d8fe",
+        "Content-Length": "279",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 06 May 2022 20:00:24 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "7"
+      },
+      "ResponseBody": {
+        "jobId": "bafb8034-21a4-4d5c-b972-313ee072b632",
+        "lastUpdateDateTime": "2022-05-06T20:00:24Z",
+        "createdDateTime": "2022-05-06T20:00:24Z",
+        "expirationDateTime": "2022-05-07T20:00:24Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 3,
+          "total": 3,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/bafb8034-21a4-4d5c-b972-313ee072b632?api-version=2022-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "3b1fca66-cab9-4dc9-8d55-59395ece77dd"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "da6c8442-09d0-427c-b96b-d1245c44ea91",
+        "Content-Length": "279",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 06 May 2022 20:00:24 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "8"
+      },
+      "ResponseBody": {
+        "jobId": "bafb8034-21a4-4d5c-b972-313ee072b632",
+        "lastUpdateDateTime": "2022-05-06T20:00:25Z",
+        "createdDateTime": "2022-05-06T20:00:24Z",
+        "expirationDateTime": "2022-05-07T20:00:24Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 3,
+          "total": 3,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/bafb8034-21a4-4d5c-b972-313ee072b632?api-version=2022-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "89ef2d22-1bbd-44e8-afd0-8ed909729c4c"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "9a3fd89a-d100-4628-9b71-c9eed7102448",
+        "Content-Length": "1984",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 06 May 2022 20:00:26 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "299"
+      },
+      "ResponseBody": {
+        "jobId": "bafb8034-21a4-4d5c-b972-313ee072b632",
+        "lastUpdateDateTime": "2022-05-06T20:00:26Z",
+        "createdDateTime": "2022-05-06T20:00:24Z",
+        "expirationDateTime": "2022-05-07T20:00:24Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 2,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 3,
+          "items": [
+            {
+              "kind": "EntityRecognitionLROResults",
+              "lastUpdateDateTime": "2022-05-06T20:00:26.4170317Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [],
+                "errors": [
+                  {
+                    "id": "1",
+                    "error": {
+                      "code": "InvalidArgument",
+                      "message": "Invalid Document in request.",
+                      "innererror": {
+                        "code": "InvalidDocument",
+                        "message": "Document text is empty."
+                      }
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "error": {
+                      "code": "InvalidArgument",
+                      "message": "Invalid Language Code.",
+                      "innererror": {
+                        "code": "UnsupportedLanguageCode",
+                        "message": "Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition"
+                      }
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "error": {
+                      "code": "InvalidArgument",
+                      "message": "Invalid Document in request.",
+                      "innererror": {
+                        "code": "InvalidDocument",
+                        "message": "Document text is empty."
+                      }
+                    }
+                  }
+                ],
+                "modelVersion": "2021-06-01"
+              }
+            },
+            {
+              "kind": "PiiEntityRecognitionLROResults",
+              "lastUpdateDateTime": "2022-05-06T20:00:26.4916709Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [],
+                "errors": [
+                  {
+                    "id": "1",
+                    "error": {
+                      "code": "InvalidArgument",
+                      "message": "Invalid Document in request.",
+                      "innererror": {
+                        "code": "InvalidDocument",
+                        "message": "Document text is empty."
+                      }
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "error": {
+                      "code": "InvalidArgument",
+                      "message": "Invalid Language Code.",
+                      "innererror": {
+                        "code": "UnsupportedLanguageCode",
+                        "message": "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition"
+                      }
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "error": {
+                      "code": "InvalidArgument",
+                      "message": "Invalid Document in request.",
+                      "innererror": {
+                        "code": "InvalidDocument",
+                        "message": "Document text is empty."
+                      }
+                    }
+                  }
+                ],
+                "modelVersion": "2021-01-15"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/bafb8034-21a4-4d5c-b972-313ee072b632?api-version=2022-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "c98adabd-9a9f-428e-a067-e2320bcc491d"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "34137aee-2682-49d5-8caa-69571465afa2",
+        "Content-Length": "2880",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 06 May 2022 20:00:29 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "151"
+      },
+      "ResponseBody": {
+        "jobId": "bafb8034-21a4-4d5c-b972-313ee072b632",
+        "lastUpdateDateTime": "2022-05-06T20:00:27Z",
+        "createdDateTime": "2022-05-06T20:00:24Z",
+        "expirationDateTime": "2022-05-07T20:00:24Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 3,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 3,
+          "items": [
+            {
+              "kind": "EntityRecognitionLROResults",
+              "lastUpdateDateTime": "2022-05-06T20:00:26.4170317Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [],
+                "errors": [
+                  {
+                    "id": "1",
+                    "error": {
+                      "code": "InvalidArgument",
+                      "message": "Invalid Document in request.",
+                      "innererror": {
+                        "code": "InvalidDocument",
+                        "message": "Document text is empty."
+                      }
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "error": {
+                      "code": "InvalidArgument",
+                      "message": "Invalid Language Code.",
+                      "innererror": {
+                        "code": "UnsupportedLanguageCode",
+                        "message": "Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition"
+                      }
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "error": {
+                      "code": "InvalidArgument",
+                      "message": "Invalid Document in request.",
+                      "innererror": {
+                        "code": "InvalidDocument",
+                        "message": "Document text is empty."
+                      }
+                    }
+                  }
+                ],
+                "modelVersion": "2021-06-01"
+              }
+            },
+            {
+              "kind": "PiiEntityRecognitionLROResults",
+              "lastUpdateDateTime": "2022-05-06T20:00:26.4916709Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [],
+                "errors": [
+                  {
+                    "id": "1",
+                    "error": {
+                      "code": "InvalidArgument",
+                      "message": "Invalid Document in request.",
+                      "innererror": {
+                        "code": "InvalidDocument",
+                        "message": "Document text is empty."
+                      }
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "error": {
+                      "code": "InvalidArgument",
+                      "message": "Invalid Language Code.",
+                      "innererror": {
+                        "code": "UnsupportedLanguageCode",
+                        "message": "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition"
+                      }
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "error": {
+                      "code": "InvalidArgument",
+                      "message": "Invalid Document in request.",
+                      "innererror": {
+                        "code": "InvalidDocument",
+                        "message": "Document text is empty."
+                      }
+                    }
+                  }
+                ],
+                "modelVersion": "2021-01-15"
+              }
+            },
+            {
+              "kind": "KeyPhraseExtractionLROResults",
+              "lastUpdateDateTime": "2022-05-06T20:00:27.4122534Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [],
+                "errors": [
+                  {
+                    "id": "1",
+                    "error": {
+                      "code": "InvalidArgument",
+                      "message": "Invalid Document in request.",
+                      "innererror": {
+                        "code": "InvalidDocument",
+                        "message": "Document text is empty."
+                      }
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "error": {
+                      "code": "InvalidArgument",
+                      "message": "Invalid Language Code.",
+                      "innererror": {
+                        "code": "UnsupportedLanguageCode",
+                        "message": "Invalid language code. Supported languages: ja,ko,zh-Hans,da,fi,nl,pl,ru,sv,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,el,et,hr,hu,id,lv,no,ro,sk,sl,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction"
+                      }
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "error": {
+                      "code": "InvalidArgument",
+                      "message": "Invalid Document in request.",
+                      "innererror": {
+                        "code": "InvalidDocument",
+                        "message": "Document text is empty."
+                      }
+                    }
+                  }
+                ],
+                "modelVersion": "2021-06-01"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/bafb8034-21a4-4d5c-b972-313ee072b632?api-version=2022-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "968da8b0-a01c-402a-9675-224c7febeb5e"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "4dbf800b-4b62-4084-8e45-d1cb2177d1a4",
+        "Content-Length": "2880",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 06 May 2022 20:00:29 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "157"
+      },
+      "ResponseBody": {
+        "jobId": "bafb8034-21a4-4d5c-b972-313ee072b632",
+        "lastUpdateDateTime": "2022-05-06T20:00:27Z",
+        "createdDateTime": "2022-05-06T20:00:24Z",
+        "expirationDateTime": "2022-05-07T20:00:24Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 3,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 3,
+          "items": [
+            {
+              "kind": "EntityRecognitionLROResults",
+              "lastUpdateDateTime": "2022-05-06T20:00:26.4170317Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [],
+                "errors": [
+                  {
+                    "id": "1",
+                    "error": {
+                      "code": "InvalidArgument",
+                      "message": "Invalid Document in request.",
+                      "innererror": {
+                        "code": "InvalidDocument",
+                        "message": "Document text is empty."
+                      }
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "error": {
+                      "code": "InvalidArgument",
+                      "message": "Invalid Language Code.",
+                      "innererror": {
+                        "code": "UnsupportedLanguageCode",
+                        "message": "Invalid language code. Supported languages: en,es,de,fr,zh-Hans,ar,cs,da,fi,hu,it,ja,ko,no,nl,pl,pt-BR,pt-PT,ru,sv,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition"
+                      }
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "error": {
+                      "code": "InvalidArgument",
+                      "message": "Invalid Document in request.",
+                      "innererror": {
+                        "code": "InvalidDocument",
+                        "message": "Document text is empty."
+                      }
+                    }
+                  }
+                ],
+                "modelVersion": "2021-06-01"
+              }
+            },
+            {
+              "kind": "PiiEntityRecognitionLROResults",
+              "lastUpdateDateTime": "2022-05-06T20:00:26.4916709Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [],
+                "errors": [
+                  {
+                    "id": "1",
+                    "error": {
+                      "code": "InvalidArgument",
+                      "message": "Invalid Document in request.",
+                      "innererror": {
+                        "code": "InvalidDocument",
+                        "message": "Document text is empty."
+                      }
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "error": {
+                      "code": "InvalidArgument",
+                      "message": "Invalid Language Code.",
+                      "innererror": {
+                        "code": "UnsupportedLanguageCode",
+                        "message": "Invalid language code. Supported languages: ja,ko,zh-Hans,de,en,es,fr,it,pt-BR,pt-PT. For additional details see https://aka.ms/text-analytics/language-support?tabs=named-entity-recognition"
+                      }
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "error": {
+                      "code": "InvalidArgument",
+                      "message": "Invalid Document in request.",
+                      "innererror": {
+                        "code": "InvalidDocument",
+                        "message": "Document text is empty."
+                      }
+                    }
+                  }
+                ],
+                "modelVersion": "2021-01-15"
+              }
+            },
+            {
+              "kind": "KeyPhraseExtractionLROResults",
+              "lastUpdateDateTime": "2022-05-06T20:00:27.4122534Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [],
+                "errors": [
+                  {
+                    "id": "1",
+                    "error": {
+                      "code": "InvalidArgument",
+                      "message": "Invalid Document in request.",
+                      "innererror": {
+                        "code": "InvalidDocument",
+                        "message": "Document text is empty."
+                      }
+                    }
+                  },
+                  {
+                    "id": "2",
+                    "error": {
+                      "code": "InvalidArgument",
+                      "message": "Invalid Language Code.",
+                      "innererror": {
+                        "code": "UnsupportedLanguageCode",
+                        "message": "Invalid language code. Supported languages: ja,ko,zh-Hans,da,fi,nl,pl,ru,sv,de,en,es,fr,it,pt-BR,pt-PT,af,bg,ca,el,et,hr,hu,id,lv,no,ro,sk,sl,tr. For additional details see https://aka.ms/text-analytics/language-support?tabs=key-phrase-extraction"
+                      }
+                    }
+                  },
+                  {
+                    "id": "3",
+                    "error": {
+                      "code": "InvalidArgument",
+                      "message": "Invalid Document in request.",
+                      "innererror": {
+                        "code": "InvalidDocument",
+                        "message": "Document text is empty."
+                      }
+                    }
+                  }
+                ],
+                "modelVersion": "2021-06-01"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

@@ -391,10 +391,12 @@ export class VolumeContainersImpl implements VolumeContainers {
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -490,10 +492,12 @@ export class VolumeContainersImpl implements VolumeContainers {
       },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
