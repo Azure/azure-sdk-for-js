@@ -12,8 +12,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder:
   ../src/generated
-  ## input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/confidentialledger/data-plane/Microsoft.ConfidentialLedger/preview/0.1-preview/confidentialledger.json
-input-file: https://github.com/Azure/azure-rest-api-specs/blob/407b9e20e1faa2e5df1118e53a6822591a3c9ff5/specification/confidentialledger/data-plane/Microsoft.ConfidentialLedger/preview/2022-20-04-preview/confidentialledger.json
+input-file: https://github.com/Azure/azure-rest-api-specs/blob/0e44f6c78600b144daea8c4cd2090acd11358024/specification/confidentialledger/data-plane/Microsoft.ConfidentialLedger/stable/2022-05-13/confidentialledger.json
 package-version: 1.0.0-beta.3
 hide-clients: true
 rest-level-client: true
