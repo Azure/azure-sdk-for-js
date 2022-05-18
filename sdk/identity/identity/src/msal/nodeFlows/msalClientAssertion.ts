@@ -39,6 +39,7 @@ export class MsalClientAssertion extends MsalNode {
         azureRegion: this.azureRegion,
         authority: options.authority,
         claims: options.claims,
+        clientAssertion: await getClientAssertion()
       });
       // The Client Credential flow does not return an account,
       // so each time getToken gets called, we will have to acquire a new token through the service.
