@@ -45,12 +45,12 @@ export async function addTransform(
     ...((transform as { params?: Record<string, unknown> }).params ?? {}),
   });
 
-  logger.info("Adding transform", transform);
+  logger.info("[addTransform] Adding transform", transform);
   const response = await httpClient.sendRequest(request);
   const { status, bodyAsText } = response;
 
   if (status < 200 || status > 299) {
-    logger.error("addTransform failed", response);
+    logger.error("[addTransform] addTransform failed", response);
     throw new RecorderError(`addTransform failed: ${bodyAsText}`, status);
   }
 }

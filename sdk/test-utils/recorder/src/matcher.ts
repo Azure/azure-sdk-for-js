@@ -66,12 +66,12 @@ export async function setMatcher(
     });
   }
 
-  logger.info("Setting matcher", matcher, matcherBody);
+  logger.info("[setMatcher] Setting matcher", matcher, matcherBody);
   const response = await httpClient.sendRequest(request);
   const { status, bodyAsText } = response;
 
   if (status < 200 || status > 299) {
-    logger.error("setMatcher failed", response);
+    logger.error("[setMatcher] setMatcher failed", response);
     throw new RecorderError(`setMatcher failed: ${bodyAsText}`, status);
   }
 }

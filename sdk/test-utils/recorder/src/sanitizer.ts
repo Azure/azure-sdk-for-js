@@ -257,13 +257,13 @@ async function addSanitizer(
   req.headers.set("Content-Type", "application/json");
   req.body = options.body !== undefined ? JSON.stringify(options.body) : undefined;
 
-  logger.info("Adding sanitizer", options);
+  logger.info("[addSanitizer] Adding sanitizer", options);
   const rsp = await httpClient.sendRequest({
     ...req,
     allowInsecureConnection: true,
   });
   if (rsp.status !== 200) {
-    logger.error("addSanitizer request failed", rsp);
+    logger.error("[addSanitizer] addSanitizer request failed", rsp);
     throw new RecorderError("addSanitizer request failed.");
   }
 }
