@@ -22,8 +22,10 @@ export default function ConfidentialLedger(
   // If certificate credential is passed, we'll handle auth
   const creds = isCertificateCredential(credentials) ? undefined : credentials;
 
+  // creds are AAD only; otherwise we indicate that there are no AAD
   const confidentialLedger = GeneratedConfidentialLedger(ledgerBaseUrl, creds, options);
 
+  // we handle certificate credentials here with a certificate policy
   confidentialLedger.pipeline.addPolicy(certificatePolicy(ledgerTlsCertificate, credentials));
 
   return confidentialLedger;

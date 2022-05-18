@@ -173,7 +173,7 @@ export type ConfidentialLedgerRestClient = Client & {
 
 export default function ConfidentialLedger(
   ledgerUri: string,
-  credentials: TokenCredential,
+  credentials?: TokenCredential,
   options: ClientOptions = {}
 ): ConfidentialLedgerRestClient {
   const baseUrl = options.baseUrl ?? `${ledgerUri}`;
