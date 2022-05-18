@@ -1848,6 +1848,7 @@ export type DataFlowsGetResponse = DataFlowResource;
 // @public
 export type DataFlowSink = Transformation & {
     schemaLinkedService?: LinkedServiceReference;
+    rejectedDataLinkedService?: LinkedServiceReference;
 };
 
 // @public
@@ -6331,6 +6332,11 @@ export type PrestoSource = TabularSource & {
 };
 
 // @public
+export interface PrivateEndpoint {
+    id?: string;
+}
+
+// @public
 export interface PrivateEndpointConnection {
     createOrUpdate(resourceGroupName: string, factoryName: string, privateEndpointConnectionName: string, privateEndpointWrapper: PrivateLinkConnectionApprovalRequestResource, options?: PrivateEndpointConnectionCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionCreateOrUpdateResponse>;
     delete(resourceGroupName: string, factoryName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionDeleteOptionalParams): Promise<void>;
@@ -6389,6 +6395,7 @@ export type PrivateEndPointConnectionsListByFactoryResponse = PrivateEndpointCon
 
 // @public
 export interface PrivateLinkConnectionApprovalRequest {
+    privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkConnectionState;
 }
 

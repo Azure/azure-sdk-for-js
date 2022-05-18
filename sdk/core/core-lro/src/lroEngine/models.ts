@@ -31,6 +31,11 @@ export interface LroEngineOptions<TResult, TState> {
    * A predicate to determine whether the LRO finished processing.
    */
   isDone?: (lastResponse: unknown, state: TState) => boolean;
+
+  /**
+   * A function to cancel the LRO.
+   */
+  cancel?: (state: TState) => Promise<void>;
 }
 
 export const successStates = ["succeeded"];

@@ -19,21 +19,18 @@ import { DefaultAzureCredential } from "@azure/identity";
  */
 async function solutionDelete() {
   const subscriptionId = "subid";
+  const resourceGroupName = "rg1";
   const providerName = "providerName";
   const resourceType = "resourceType";
   const resourceName = "resourceName";
-  const resourceGroupName = "rg1";
   const managementAssociationName = "managementAssociationName";
   const credential = new DefaultAzureCredential();
-  const client = new OperationsManagementClient(
-    credential,
-    subscriptionId,
-    providerName,
-    resourceType,
-    resourceName
-  );
+  const client = new OperationsManagementClient(credential, subscriptionId);
   const result = await client.managementAssociations.delete(
     resourceGroupName,
+    providerName,
+    resourceType,
+    resourceName,
     managementAssociationName
   );
   console.log(result);

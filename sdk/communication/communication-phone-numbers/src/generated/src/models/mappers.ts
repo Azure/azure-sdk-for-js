@@ -258,6 +258,13 @@ export const PhoneNumberOperation: coreClient.CompositeMapper = {
     name: "Composite",
     className: "PhoneNumberOperation",
     modelProperties: {
+      operationType: {
+        serializedName: "operationType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
       status: {
         serializedName: "status",
         required: true,
@@ -287,13 +294,6 @@ export const PhoneNumberOperation: coreClient.CompositeMapper = {
       },
       id: {
         serializedName: "id",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      operationType: {
-        serializedName: "operationType",
         required: true,
         type: {
           name: "String"
@@ -390,6 +390,27 @@ export const PurchasedPhoneNumber: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "PhoneNumberCost"
+        }
+      },
+      operatorId: {
+        serializedName: "operatorId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      operatorName: {
+        serializedName: "operatorName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      phoneNumberSource: {
+        serializedName: "phoneNumberSource",
+        required: true,
+        type: {
+          name: "String"
         }
       }
     }

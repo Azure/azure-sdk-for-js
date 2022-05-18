@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Add an option `omitMessageBody` in `PeekMessagesOptions` allowing omitting message body when peeking messages using `receiver.peekMessages()`
+
 ### Breaking Changes
 
 ### Bugs Fixed
