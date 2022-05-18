@@ -30,7 +30,7 @@ async function createOrUpdateCertificate() {
     location: "East US",
     properties: {
       password: "private key password",
-      value: PFX - or - PEM - blob
+      value: new Uint8Array()
     }
   };
   const options: CertificatesCreateOrUpdateOptionalParams = {
