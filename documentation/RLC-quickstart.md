@@ -103,17 +103,34 @@ We are working on to automatically generate everything right now, but currently 
 
 In order to release it, we need to add some tests for it to make sure we are delivering high quality packages. but before we add the test, we need to add a generate-test: true make the code generator generate the necessary change in package.json and tsconfig.json so that test framework can work. Once the generation finished, you will see a sampleTest.spec.ts file in your `{PROJECT_ROOT}/test/public` folder, which only has a empty test and you may change them into test against your own services.
 
+## Prerequisites
+
+- To record and playback the tests, [Docker](https://www.docker.com/) is required when we run the test, as the [test proxy server](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy) is run in a container during testing. When running the tests, ensure the Docker daemon is running and you have permission to use it. For WSL 2, running `sudo service docker start` and `sudo usermod -aG docker $USER` should be sufficient.
+
 1. **run the test**  
-    Now, you can run the test like this.
-    ```shell  
+    Now, you can run the test like this. If you are the first time to run test, you need to set the environment variable `TEST_MODE` to `record`. This will generate recordings for your test they could be used in `playback` mode.
+    On Linux, you could use `export` to set env variable:
+    ```shell
     rush build -t ${PACKAGE_NAME}
-    export TEST_MODE=record && rushx test # this will run live test and generate a recordings folder, you will need to submit it in the PR. 
+    export TEST_MODE=record && rushx test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
-    You can also run the playback mode test if your apis don't have breaking changes and you already done the recording before.  
-    ```shell 
+    On Windows, you could use `SET`:
+    ```shell
     rush build -t ${PACKAGE_NAME}
-    rushx test 
+    SET TEST_MODE=record&& rushx test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
+    You can also run the `playback` mode test if your apis don't have breaking changes and you've already done the recording before.
+    On Linux, you could use below commands:
+    ```shell
+    rush build -t ${PACKAGE_NAME}
+    export TEST_MODE=playback && rushx test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
+    ```
+    On Windows, you can use:
+    ```shell
+    rush build -t ${PACKAGE_NAME}
+    SET TEST_MODE=playback&& rushx test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
+    ```
+
 # How to write samples
 
 We author TypeScript samples under the `samples-dev` folder. You can use sample-dev template for reference [samples-dev folder](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/template/template/samples-dev)  folder and update the relevant information for your service such as package-name, sample code, description, etc.  

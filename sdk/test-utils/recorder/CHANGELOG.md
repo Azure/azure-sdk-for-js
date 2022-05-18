@@ -11,6 +11,8 @@
 
 ### Bugs Fixed
 
+- Fixed redirects not being passed to the test proxy in the browser. [#21713](https://github.com/Azure/azure-sdk-for-js/pull/21713)
+
 ### Other Changes
 
 - Improved formatting of error messages returned by the test proxy. [#21575](https://github.com/Azure/azure-sdk-for-js/pull/21575)

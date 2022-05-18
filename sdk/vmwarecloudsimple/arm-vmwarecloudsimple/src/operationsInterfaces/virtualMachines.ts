@@ -58,12 +58,14 @@ export interface VirtualMachines {
   /**
    * Create Or Update Virtual Machine
    * @param resourceGroupName The name of the resource group
+   * @param referer referer url
    * @param virtualMachineName virtual machine name
    * @param virtualMachineRequest Create or Update Virtual Machine request
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
+    referer: string,
     virtualMachineName: string,
     virtualMachineRequest: VirtualMachine,
     options?: VirtualMachinesCreateOrUpdateOptionalParams
@@ -76,12 +78,14 @@ export interface VirtualMachines {
   /**
    * Create Or Update Virtual Machine
    * @param resourceGroupName The name of the resource group
+   * @param referer referer url
    * @param virtualMachineName virtual machine name
    * @param virtualMachineRequest Create or Update Virtual Machine request
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
+    referer: string,
     virtualMachineName: string,
     virtualMachineRequest: VirtualMachine,
     options?: VirtualMachinesCreateOrUpdateOptionalParams
@@ -89,11 +93,13 @@ export interface VirtualMachines {
   /**
    * Delete virtual machine
    * @param resourceGroupName The name of the resource group
+   * @param referer referer url
    * @param virtualMachineName virtual machine name
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
+    referer: string,
     virtualMachineName: string,
     options?: VirtualMachinesDeleteOptionalParams
   ): Promise<
@@ -105,11 +111,13 @@ export interface VirtualMachines {
   /**
    * Delete virtual machine
    * @param resourceGroupName The name of the resource group
+   * @param referer referer url
    * @param virtualMachineName virtual machine name
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
+    referer: string,
     virtualMachineName: string,
     options?: VirtualMachinesDeleteOptionalParams
   ): Promise<VirtualMachinesDeleteResponse>;
@@ -147,44 +155,52 @@ export interface VirtualMachines {
   /**
    * Power on virtual machine
    * @param resourceGroupName The name of the resource group
+   * @param referer referer url
    * @param virtualMachineName virtual machine name
    * @param options The options parameters.
    */
   beginStart(
     resourceGroupName: string,
+    referer: string,
     virtualMachineName: string,
     options?: VirtualMachinesStartOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Power on virtual machine
    * @param resourceGroupName The name of the resource group
+   * @param referer referer url
    * @param virtualMachineName virtual machine name
    * @param options The options parameters.
    */
   beginStartAndWait(
     resourceGroupName: string,
+    referer: string,
     virtualMachineName: string,
     options?: VirtualMachinesStartOptionalParams
   ): Promise<void>;
   /**
    * Power off virtual machine, options: shutdown, poweroff, and suspend
    * @param resourceGroupName The name of the resource group
+   * @param referer referer url
    * @param virtualMachineName virtual machine name
    * @param options The options parameters.
    */
   beginStop(
     resourceGroupName: string,
+    referer: string,
     virtualMachineName: string,
     options?: VirtualMachinesStopOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Power off virtual machine, options: shutdown, poweroff, and suspend
    * @param resourceGroupName The name of the resource group
+   * @param referer referer url
    * @param virtualMachineName virtual machine name
    * @param options The options parameters.
    */
   beginStopAndWait(
     resourceGroupName: string,
+    referer: string,
     virtualMachineName: string,
     options?: VirtualMachinesStopOptionalParams
   ): Promise<void>;

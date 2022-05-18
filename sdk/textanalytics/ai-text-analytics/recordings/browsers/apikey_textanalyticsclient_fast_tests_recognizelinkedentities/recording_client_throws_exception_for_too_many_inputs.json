@@ -6,7 +6,7 @@
       "RequestHeaders": {
         "Accept": "application/json, text/json",
         "Accept-Encoding": "gzip, deflate, br",
-        "Accept-Language": "en-GB",
+        "Accept-Language": "en-US",
         "Connection": "keep-alive",
         "Content-Length": "709",
         "Content-Type": "application/json",
@@ -18,10 +18,9 @@
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "traceparent": "00-00000000000000000000000000000039-0000000000000078-00",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
-        "x-ms-client-request-id": "5dc28bbc-135c-46b1-b6a3-035df3e3f122",
-        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 OS/Win32"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/101.0.4950.0 Safari/537.36",
+        "x-ms-client-request-id": "c66e0221-9ec5-4874-8db3-7e491b942c83",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.8.2 OS/Linuxx86_64"
       },
       "RequestBody": {
         "documents": [
@@ -59,18 +58,18 @@
       },
       "StatusCode": 400,
       "ResponseHeaders": {
-        "apim-request-id": "f06c9199-f751-4768-8a55-586285f883b7",
+        "apim-request-id": "8198f96a-ed20-4ef9-8387-0bae94f4c61a",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 18 Feb 2022 19:10:34 GMT",
+        "Date": "Tue, 10 May 2022 00:14:24 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "5"
+        "x-envoy-upstream-service-time": "19"
       },
       "ResponseBody": {
         "error": {
           "code": "InvalidRequest",
-          "message": "Invalid document in request.",
+          "message": "Invalid Document in request.",
           "innererror": {
             "code": "InvalidDocumentBatch",
             "message": "Batch request contains too many records. Max 5 records are permitted."

@@ -1,5 +1,5 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-
+                
 trigger:
   branches:
     include:
@@ -9,7 +9,7 @@ trigger:
   paths:
     include:
       - sdk/loadtestservice/ci.mgmt.yml
-      - sdk/loadtestservice/arm-loadtestservice/
+      - sdk/loadtestservice/arm-loadtestservice
 pr:
   branches:
     include:
@@ -22,12 +22,11 @@ pr:
   paths:
     include:
       - sdk/loadtestservice/ci.mgmt.yml
-      - sdk/loadtestservice/arm-loadtestservice/
-
+      - sdk/loadtestservice/arm-loadtestservice
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: loadtestservice
     Artifacts:
       - name: azure-arm-loadtestservice
-        safeName: azurearmloadtestservice        
+        safeName: azurearmloadtestservice

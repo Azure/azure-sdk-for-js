@@ -4,6 +4,7 @@
 import { assert } from "chai";
 import { TestTracer, SpanGraph, setTracer } from "@azure/test-utils";
 import {
+  base64encode,
   bodyToString,
   getBSU,
   getSASConnectionStringFromEnvironment,
@@ -133,6 +134,35 @@ describe("ContainerClient", () => {
     assert.deepStrictEqual(result.continuationToken, "");
     assert.deepStrictEqual(result.segment.blobItems!.length, blobClients.length);
     assert.ok(blobClients[0].url.indexOf(result.segment.blobItems![0].name));
+
+    for (const blob of blobClients) {
+      await blob.delete();
+    }
+  });
+
+  it("listBlobsFlat to list uncommitted blobs", async () => {
+    const blobClients = [];
+    for (let i = 0; i < 3; i++) {
+      const blobClient = containerClient.getBlobClient(recorder.getUniqueName(`blockblob/${i}`));
+      const blockBlobClient = blobClient.getBlockBlobClient();
+      await blockBlobClient.stageBlock(base64encode("1"), "Hello", 5);
+      blobClients.push(blobClient);
+    }
+
+    const result = (
+      await containerClient
+        .listBlobsFlat({
+          includeUncommitedBlobs: true,
+        })
+        .byPage()
+        .next()
+    ).value;
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(containerClient.url.indexOf(result.containerName));
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.segment.blobItems!.length, blobClients.length);
+    assert.ok(blobClients[0].url.indexOf(result.segment.blobItems![0].name));
+    assert.ok(result.segment.blobItems![0].properties.contentMD5 === undefined);
 
     for (const blob of blobClients) {
       await blob.delete();
@@ -493,6 +523,37 @@ describe("ContainerClient", () => {
       let i = 0;
       assert.ok(blob.url.indexOf(result.segment.blobPrefixes![i++].name));
     }
+
+    for (const blob of blobClients) {
+      await blob.delete();
+    }
+  });
+
+  it("listBlobsByHierarchy to list uncommitted blobs", async () => {
+    const blobClients = [];
+    for (let i = 0; i < 3; i++) {
+      const blobClient = containerClient.getBlobClient(recorder.getUniqueName(`blockblob${i}`));
+      const blockBlobClient = blobClient.getBlockBlobClient();
+      await blockBlobClient.stageBlock(base64encode("1"), "Hello", 5);
+      blobClients.push(blobClient);
+    }
+
+    const delimiter = "/";
+    const result = (
+      await containerClient
+        .listBlobsByHierarchy(delimiter, {
+          includeUncommitedBlobs: true,
+        })
+        .byPage()
+        .next()
+    ).value;
+
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.ok(containerClient.url.indexOf(result.containerName));
+    assert.deepStrictEqual(result.continuationToken, "");
+    assert.deepStrictEqual(result.delimiter, delimiter);
+    assert.deepStrictEqual(result.segment.blobItems!.length, blobClients.length);
+    assert.ok(result.segment.blobItems![0].properties.contentMD5 === undefined);
 
     for (const blob of blobClients) {
       await blob.delete();

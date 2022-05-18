@@ -10,9 +10,8 @@
         "Content-Length": "709",
         "Content-Type": "application/json",
         "Ocp-Apim-Subscription-Key": "api_key",
-        "traceparent": "00-00000000000000000000000000000040-0000000000000080-00",
-        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Windows_NT-10.0.22000)",
-        "x-ms-client-request-id": "842798aa-af98-4b86-8e25-67b35542cf5c"
+        "User-Agent": "azsdk-js-ai-text-analytics/5.2.0-beta.3 core-rest-pipeline/1.8.2 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "2a3d46a7-96b9-4978-9258-d34c19b32152"
       },
       "RequestBody": {
         "documents": [
@@ -50,18 +49,18 @@
       },
       "StatusCode": 400,
       "ResponseHeaders": {
-        "apim-request-id": "6542985a-1284-48b9-b29d-012e26d532e9",
+        "apim-request-id": "4c77c7f0-24bb-4467-991e-b658ab52f562",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 18 Feb 2022 18:59:22 GMT",
+        "Date": "Tue, 10 May 2022 00:04:56 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "6"
+        "x-envoy-upstream-service-time": "7"
       },
       "ResponseBody": {
         "error": {
           "code": "InvalidRequest",
-          "message": "Invalid document in request.",
+          "message": "Invalid Document in request.",
           "innererror": {
             "code": "InvalidDocumentBatch",
             "message": "Batch request contains too many records. Max 5 records are permitted."

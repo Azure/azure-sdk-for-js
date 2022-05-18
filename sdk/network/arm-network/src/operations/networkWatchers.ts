@@ -246,11 +246,13 @@ export class NetworkWatchersImpl implements NetworkWatchers {
       { resourceGroupName, networkWatcherName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -397,11 +399,13 @@ export class NetworkWatchersImpl implements NetworkWatchers {
       { resourceGroupName, networkWatcherName, parameters, options },
       verifyIPFlowOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -488,11 +492,13 @@ export class NetworkWatchersImpl implements NetworkWatchers {
       { resourceGroupName, networkWatcherName, parameters, options },
       getNextHopOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -579,11 +585,13 @@ export class NetworkWatchersImpl implements NetworkWatchers {
       { resourceGroupName, networkWatcherName, parameters, options },
       getVMSecurityRulesOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -670,11 +678,13 @@ export class NetworkWatchersImpl implements NetworkWatchers {
       { resourceGroupName, networkWatcherName, parameters, options },
       getTroubleshootingOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -761,11 +771,13 @@ export class NetworkWatchersImpl implements NetworkWatchers {
       { resourceGroupName, networkWatcherName, parameters, options },
       getTroubleshootingResultOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -852,11 +864,13 @@ export class NetworkWatchersImpl implements NetworkWatchers {
       { resourceGroupName, networkWatcherName, parameters, options },
       setFlowLogConfigurationOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -944,11 +958,13 @@ export class NetworkWatchersImpl implements NetworkWatchers {
       { resourceGroupName, networkWatcherName, parameters, options },
       getFlowLogStatusOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1037,11 +1053,13 @@ export class NetworkWatchersImpl implements NetworkWatchers {
       { resourceGroupName, networkWatcherName, parameters, options },
       checkConnectivityOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1130,11 +1148,13 @@ export class NetworkWatchersImpl implements NetworkWatchers {
       { resourceGroupName, networkWatcherName, parameters, options },
       getAzureReachabilityReportOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1223,11 +1243,13 @@ export class NetworkWatchersImpl implements NetworkWatchers {
       { resourceGroupName, networkWatcherName, parameters, options },
       listAvailableProvidersOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1321,11 +1343,13 @@ export class NetworkWatchersImpl implements NetworkWatchers {
       { resourceGroupName, networkWatcherName, parameters, options },
       getNetworkConfigurationDiagnosticOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

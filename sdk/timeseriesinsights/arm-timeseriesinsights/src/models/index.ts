@@ -175,20 +175,20 @@ export interface CreateOrUpdateTrackedResourceProperties {
   tags?: { [propertyName: string]: string };
 }
 
-/** Time Series Insights resource */
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
-   * Resource Id
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
-   * Resource name
+   * The name of the resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * Resource type
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
@@ -298,6 +298,37 @@ export interface AccessPolicyUpdateParameters {
 export interface AccessPolicyListResponse {
   /** Result of the List access policies operation. */
   value?: AccessPolicyResource[];
+}
+
+/** The Private Endpoint resource. */
+export interface PrivateEndpoint {
+  /**
+   * The ARM identifier for Private Endpoint
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+/** A collection of information about the state of the connection between service consumer and provider. */
+export interface PrivateLinkServiceConnectionState {
+  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
+  status?: PrivateEndpointServiceConnectionStatus;
+  /** The reason for approval/rejection of the connection. */
+  description?: string;
+  /** A message indicating if changes on the service provider require any updates on the consumer. */
+  actionsRequired?: string;
+}
+
+/** List of private endpoint connection associated with the specified storage account */
+export interface PrivateEndpointConnectionListResult {
+  /** Array of private endpoint connections */
+  value?: PrivateEndpointConnection[];
+}
+
+/** A list of private link resources */
+export interface PrivateLinkResourceListResult {
+  /** Array of private link resources */
+  value?: PrivateLinkResource[];
 }
 
 /** The warm store configuration provides the details to create a warm store cache that will retain a copy of the environment's data available for faster query. */
@@ -434,6 +465,37 @@ export type AccessPolicyResource = Resource & {
   roles?: AccessPolicyRole[];
 };
 
+/** The Private Endpoint Connection resource. */
+export type PrivateEndpointConnection = Resource & {
+  /**
+   * Provisioning state of the private endpoint connection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+  /** The resource of private end point. */
+  privateEndpoint?: PrivateEndpoint;
+  /** The provisioning state of the private endpoint connection resource. */
+  groupIds?: string[];
+  /** A collection of information about the state of the connection between service consumer and provider. */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+};
+
+/** A private link resource */
+export type PrivateLinkResource = Resource & {
+  /**
+   * The private link resource group id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requiredMembers?: string[];
+  /** The private link resource Private link DNS zone name. */
+  requiredZoneNames?: string[];
+};
+
 /** Parameters supplied to the Update Environment operation to update a Gen1 environment. */
 export type Gen1EnvironmentUpdateParameters = EnvironmentUpdateParameters & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -545,6 +607,13 @@ export type Gen2EnvironmentCreateOrUpdateParameters = EnvironmentCreateOrUpdateP
   storageConfiguration: Gen2StorageConfigurationInput;
   /** The warm store configuration provides the details to create a warm store cache that will retain a copy of the environment's data available for faster query. */
   warmStoreConfiguration?: WarmStoreConfigurationProperties;
+  /** This value can be set to 'enabled' to avoid breaking changes on existing customer resources and templates. If set to 'disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method. */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * The list of private endpoint connections to the environment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
 };
 
 /** Parameters supplied to the Create or Update Event Source operation for an EventHub event source. */
@@ -653,6 +722,13 @@ export type Gen2EnvironmentResourceProperties = EnvironmentResourceProperties & 
   storageConfiguration: Gen2StorageConfigurationOutput;
   /** The warm store configuration provides the details to create a warm store cache that will retain a copy of the environment's data available for faster query. */
   warmStoreConfiguration?: WarmStoreConfigurationProperties;
+  /** If 'enabled', public network access is allowed. If 'disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method. */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * The list of private endpoint connections to the environment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
 };
 
 /** Properties of an event source that reads events from an event broker in Azure. */
@@ -729,6 +805,13 @@ export type Gen2EnvironmentResource = EnvironmentResource & {
   storageConfiguration: Gen2StorageConfigurationOutput;
   /** The warm store configuration provides the details to create a warm store cache that will retain a copy of the environment's data available for faster query. */
   warmStoreConfiguration?: WarmStoreConfigurationProperties;
+  /** If 'enabled', public network access is allowed. If 'disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method. */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * The list of private endpoint connections to the environment.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
 };
 
 /** An event source that receives its data from an Azure EventHub. */
@@ -1007,6 +1090,44 @@ export enum KnownAccessPolicyRole {
  */
 export type AccessPolicyRole = string;
 
+/** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
+export enum KnownPrivateEndpointConnectionProvisioningState {
+  Succeeded = "Succeeded",
+  Creating = "Creating",
+  Deleting = "Deleting",
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for PrivateEndpointConnectionProvisioningState. \
+ * {@link KnownPrivateEndpointConnectionProvisioningState} can be used interchangeably with PrivateEndpointConnectionProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Creating** \
+ * **Deleting** \
+ * **Failed**
+ */
+export type PrivateEndpointConnectionProvisioningState = string;
+
+/** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
+export enum KnownPrivateEndpointServiceConnectionStatus {
+  Pending = "Pending",
+  Approved = "Approved",
+  Rejected = "Rejected"
+}
+
+/**
+ * Defines values for PrivateEndpointServiceConnectionStatus. \
+ * {@link KnownPrivateEndpointServiceConnectionStatus} can be used interchangeably with PrivateEndpointServiceConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending** \
+ * **Approved** \
+ * **Rejected**
+ */
+export type PrivateEndpointServiceConnectionStatus = string;
+
 /** Known values of {@link StorageLimitExceededBehavior} that the service accepts. */
 export enum KnownStorageLimitExceededBehavior {
   PurgeOldData = "PurgeOldData",
@@ -1036,6 +1157,22 @@ export enum KnownPropertyType {
  * **String**
  */
 export type PropertyType = string;
+
+/** Known values of {@link PublicNetworkAccess} that the service accepts. */
+export enum KnownPublicNetworkAccess {
+  Enabled = "enabled",
+  Disabled = "disabled"
+}
+
+/**
+ * Defines values for PublicNetworkAccess. \
+ * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **enabled** \
+ * **disabled**
+ */
+export type PublicNetworkAccess = string;
 
 /** Known values of {@link IngressState} that the service accepts. */
 export enum KnownIngressState {
@@ -1256,6 +1393,38 @@ export interface AccessPoliciesListByEnvironmentOptionalParams
 
 /** Contains response data for the listByEnvironment operation. */
 export type AccessPoliciesListByEnvironmentResponse = AccessPolicyListResponse;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsListByEnvironmentOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByEnvironment operation. */
+export type PrivateEndpointConnectionsListByEnvironmentResponse = PrivateEndpointConnectionListResult;
+
+/** Optional parameters. */
+export interface PrivateLinkResourcesListSupportedOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSupported operation. */
+export type PrivateLinkResourcesListSupportedResponse = PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface TimeSeriesInsightsClientOptionalParams
