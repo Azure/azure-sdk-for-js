@@ -946,6 +946,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
             assert.fail(`Operation has finished processing before requested to be cancelled`);
           }
           await originalPoller.cancelOperation();
+          assert.isTrue(originalPoller.getOperationState().isCancelled);
           await assert.isRejected(originalPoller.pollUntilDone(), /Poller cancelled/);
         });
 

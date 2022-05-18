@@ -120,8 +120,8 @@ export function isCanceled<TResult, TState extends PollOperationState<TResult>>(
      * These HTTP request methods are typically used around provisioned resources
      * so if the LRO was cancelled, there is nothing useful that can be returned
      * to the customer. POST requests on the other hand could support partial
-     * results so throwing an error in this case could be prevent customer from
-     * getting access to those partial results.
+     * results so throwing an error in this case could prevent customers from
+     * accessing to those partial results.
      */
     if (!requestMethod || ["PUT", "DELETE", "PATCH"].includes(requestMethod)) {
       throw new Error(`The long-running operation has been canceled.`);
