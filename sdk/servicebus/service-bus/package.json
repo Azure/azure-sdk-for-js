@@ -147,7 +147,7 @@
     "debug": "^4.1.1",
     "dotenv": "^8.2.0",
     "downlevel-dts": "^0.8.0",
-    "eslint": "^7.15.0",
+    "eslint": "^8.0.0",
     "esm": "^3.2.18",
     "glob": "^8.0.0",
     "https-proxy-agent": "^5.0.0",
