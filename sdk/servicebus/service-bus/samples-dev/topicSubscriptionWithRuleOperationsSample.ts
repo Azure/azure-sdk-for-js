@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT Licence.
+// Licensed under the MIT License.
 
 /**
  * This sample demonstrates the topic filter functionality in Service Bus.
  * It follows similar functionality to TopicSubscriptionWithRuleOperationsSample/program.cs
  *
+ * https://github.com/Azure/azure-service-bus/blob/master/samples/DotNet/GettingStarted/Microsoft.Azure.ServiceBus/TopicSubscriptionWithRuleOperationsSample/Program.cs
  *
  * @summary Demonstrates how to filter messages in Service Bus
  * @azsdk-weight 100
@@ -19,18 +20,19 @@ dotenv.config();
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
+// const queueName = process.env.QUEUE_NAME || "<queue name>";
 const topicName = "TopicSubscriptionWithRuleOperationsSample";
 
 const firstSetOfMessages: ServiceBusMessage[] = [
-  { subject: "Red", body: "test"},
-  { subject: "Red", body: "test", correlationId: "notimportant"},
-  { subject: "Red", body: "test", correlationId: "important"},
-  { subject: "Blue", body: "test"},
-  { subject: "Blue", body: "test", correlationId: "notimportant"},
-  { subject: "Blue", body: "test", correlationId: "important"},
-  { subject: "Green", body: "test"},
-  { subject: "Green", body: "test", correlationId: "notimportant"},
-  { subject: "Green", body: "test", correlationId: "important"},
+  { subject: "Red", body: "test-red1"},
+  { subject: "Red", body: "test-red2", correlationId: "notimportant"},
+  { subject: "Red", body: "test-red3", correlationId: "important"},
+  { subject: "Blue", body: "test-blue1"},
+  { subject: "Blue", body: "test-blue2", correlationId: "notimportant"},
+  { subject: "Blue", body: "test-blue3", correlationId: "important"},
+  { subject: "Green", body: "test-green1"},
+  { subject: "Green", body: "test-green2", correlationId: "notimportant"},
+  { subject: "Green", body: "test-green3", correlationId: "important"},
 ];
 
 const NoFilterSubscriptionName = "NoFilterSubscription";
@@ -47,9 +49,10 @@ export async function main() {
   await sbAdminClient.createSubscription(topicName, SqlFilterOnlySubscriptionName);
   await sbAdminClient.createSubscription(topicName, SqlFilterWithActionSubscriptionName);
   await sbAdminClient.createSubscription(topicName, CorrelationFilterSubscriptionName);
-  await sbAdminClient.deleteRule(topicName, NoFilterSubscriptionName, DEFAULT_RULE_NAME);
 
-  await sbAdminClient.createRule(topicName, NoFilterSubscriptionName, DEFAULT_RULE_NAME, { sqlExpression: "1=1" });
+  await sbAdminClient.deleteRule(topicName, NoFilterSubscriptionName, DEFAULT_RULE_NAME);
+  await sbAdminClient.createRule(topicName, NoFilterSubscriptionName, DEFAULT_RULE_NAME,
+    { sqlExpression: "1=1" });
 
   await sbAdminClient.createSubscription(topicName, SqlFilterWithActionSubscriptionName,
     {
@@ -82,16 +85,14 @@ export async function main() {
  * for guidance on method usage with topics
  */
 
-  try {
-    // Tries to send all messages in a single batch.
-    // Will fail if the messages cannot fit in a batch.
-    console.log(`Sending the all messages (as an array)`);
-    await sbClient.createSender(topicName).sendMessages(firstSetOfMessages);
+  await sbClient.createSender(topicName).sendMessages(firstSetOfMessages);
+  const receivedMessages = await sbClient.createReceiver(topicName, CorrelationFilterSubscriptionName).receiveMessages(3);
 
-    // create a topic filter and receive messages, filtering them out
-  } finally {
-    await sbClient.close();
+  for (const msg of receivedMessages) {
+    console.log(`Received message: ${msg.body}`);
   }
+
+  await sbClient.close();
 }
 
 main().catch((err) => {
