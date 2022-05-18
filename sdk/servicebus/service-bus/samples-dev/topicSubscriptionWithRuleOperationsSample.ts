@@ -11,7 +11,11 @@
  * @azsdk-weight 100
  */
 
-import { ServiceBusClient, ServiceBusAdministrationClient, ServiceBusMessage } from "@azure/service-bus";
+import {
+  ServiceBusClient,
+  ServiceBusAdministrationClient,
+  ServiceBusMessage,
+} from "@azure/service-bus";
 import { DEFAULT_RULE_NAME } from "../src/util/constants";
 
 // Load the .env file if it exists
@@ -24,15 +28,15 @@ const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connectio
 const topicName = "TopicSubscriptionWithRuleOperationsSample";
 
 const firstSetOfMessages: ServiceBusMessage[] = [
-  { subject: "Red", body: "test-red1"},
-  { subject: "Red", body: "test-red2", correlationId: "notimportant"},
-  { subject: "Red", body: "test-red3", correlationId: "important"},
-  { subject: "Blue", body: "test-blue1"},
-  { subject: "Blue", body: "test-blue2", correlationId: "notimportant"},
-  { subject: "Blue", body: "test-blue3", correlationId: "important"},
-  { subject: "Green", body: "test-green1"},
-  { subject: "Green", body: "test-green2", correlationId: "notimportant"},
-  { subject: "Green", body: "test-green3", correlationId: "important"},
+  { subject: "Red", body: "test-red1" },
+  { subject: "Red", body: "test-red2", correlationId: "notimportant" },
+  { subject: "Red", body: "test-red3", correlationId: "important" },
+  { subject: "Blue", body: "test-blue1" },
+  { subject: "Blue", body: "test-blue2", correlationId: "notimportant" },
+  { subject: "Blue", body: "test-blue3", correlationId: "important" },
+  { subject: "Green", body: "test-green1" },
+  { subject: "Green", body: "test-green2", correlationId: "notimportant" },
+  { subject: "Green", body: "test-green3", correlationId: "important" },
 ];
 
 const NoFilterSubscriptionName = "NoFilterSubscription";
@@ -51,42 +55,42 @@ export async function main() {
   await sbAdminClient.createSubscription(topicName, CorrelationFilterSubscriptionName);
 
   await sbAdminClient.deleteRule(topicName, NoFilterSubscriptionName, DEFAULT_RULE_NAME);
-  await sbAdminClient.createRule(topicName, NoFilterSubscriptionName, DEFAULT_RULE_NAME,
-    { sqlExpression: "1=1" });
+  await sbAdminClient.createRule(topicName, NoFilterSubscriptionName, DEFAULT_RULE_NAME, {
+    sqlExpression: "1=1",
+  });
 
-  await sbAdminClient.createSubscription(topicName, SqlFilterWithActionSubscriptionName,
-    {
-      defaultRuleOptions: {
-        name: "RedSqlRule",
-        filter: {sqlExpression: "Color = 'Red'"}
-      }
-    });
+  await sbAdminClient.createSubscription(topicName, SqlFilterWithActionSubscriptionName, {
+    defaultRuleOptions: {
+      name: "RedSqlRule",
+      filter: { sqlExpression: "Color = 'Red'" },
+    },
+  });
 
-  await sbAdminClient.createSubscription(topicName, SqlFilterWithActionSubscriptionName,
-    {
-      defaultRuleOptions: {
-        name: "BlueSqlRule",
-        filter: {sqlExpression: "Color = 'Blue'"},
-        action: {sqlExpression: "SET Color = 'BlueProcessed'"}
-      }
-    });
+  await sbAdminClient.createSubscription(topicName, SqlFilterWithActionSubscriptionName, {
+    defaultRuleOptions: {
+      name: "BlueSqlRule",
+      filter: { sqlExpression: "Color = 'Blue'" },
+      action: { sqlExpression: "SET Color = 'BlueProcessed'" },
+    },
+  });
 
-  await sbAdminClient.createSubscription(topicName, CorrelationFilterSubscriptionName,
-    {
-      defaultRuleOptions: {
-        name: "ImportantCorrelationRule",
-        filter: {subject: "Red", correlationId: "important"}
-      }
-    });
+  await sbAdminClient.createSubscription(topicName, CorrelationFilterSubscriptionName, {
+    defaultRuleOptions: {
+      name: "ImportantCorrelationRule",
+      filter: { subject: "Red", correlationId: "important" },
+    },
+  });
 
-/**
- * CURRENTLY REFERENCING
- * sdk/servicebus/service-bus/test/internal/atomE2ETests.spec.ts
- * for guidance on method usage with topics
- */
+  /**
+   * CURRENTLY REFERENCING
+   * sdk/servicebus/service-bus/test/internal/atomE2ETests.spec.ts
+   * for guidance on method usage with topics
+   */
 
   await sbClient.createSender(topicName).sendMessages(firstSetOfMessages);
-  const receivedMessages = await sbClient.createReceiver(topicName, CorrelationFilterSubscriptionName).receiveMessages(3);
+  const receivedMessages = await sbClient
+    .createReceiver(topicName, CorrelationFilterSubscriptionName)
+    .receiveMessages(3);
 
   for (const msg of receivedMessages) {
     console.log(`Received message: ${msg.body}`);
