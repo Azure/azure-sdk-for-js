@@ -59,9 +59,11 @@ export class Recorder {
   private variables: Record<string, string>;
 
   constructor(private testContext?: Test | undefined) {
+    logger.info(`[Recorder#constructor] Creating a recorder instance in ${getTestMode()} mode`);
     if (isRecordMode() || isPlaybackMode()) {
       if (this.testContext) {
         this.sessionFile = sessionFilePath(this.testContext);
+        logger.info(`[Recorder#constructor] Using a session file located at ${this.sessionFile}`);
         this.httpClient = createDefaultHttpClient();
       } else {
         throw new Error(
@@ -94,6 +96,13 @@ export class Recorder {
       upstreamUrl.port === testProxyUrl.port &&
       upstreamUrl.protocol === testProxyUrl.protocol;
 
+    if (requestAlreadyRedirected) {
+      logger.verbose(
+        `[Recorder#redirectRequest] Determined that the request to ${request.url} has already been redirected, not attempting to redirect again.`,
+        request
+      );
+    }
+
     if (!isLiveMode() && !requestAlreadyRedirected) {
       if (this.recordingId === undefined) {
         logger.error(
@@ -103,7 +112,10 @@ export class Recorder {
         throw new RecorderError("Recording ID must be defined to redirect a request");
       }
 
-      logger.info("[Recorder#redirectRequest] Redirecting request", request);
+      logger.info(
+        `[Recorder#redirectRequest] Redirecting request to ${request.url} through the test proxy`,
+        request
+      );
 
       request.headers.set("x-recording-id", this.recordingId);
       request.headers.set("x-recording-mode", getTestMode());
@@ -203,6 +215,7 @@ export class Recorder {
       const req = createRecordingRequest(startUri, this.sessionFile, this.recordingId);
 
       if (ensureExistence(this.httpClient, "TestProxyHttpClient.httpClient")) {
+        logger.verbose("[Recorder#start] Sending the start request to the test proxy");
         const rsp = await this.httpClient.sendRequest({
           ...req,
           allowInsecureConnection: true,
@@ -234,8 +247,11 @@ export class Recorder {
         if (isRecordMode() && options.sanitizerOptions) {
           // Makes a call to the proxy-tool to add the sanitizers for the current recording id
           // Recordings of the current test will be influenced by the sanitizers that are being added here
+          logger.verbose("[Recorder#start] Adding sanitizers specified in the start options");
           await this.addSanitizers(options.sanitizerOptions);
         }
+
+        logger.info("[Recorder#start] Recorder started successfully");
       }
     }
   }
@@ -255,6 +271,10 @@ export class Recorder {
       req.headers.set("x-recording-save", "true");
 
       if (isRecordMode()) {
+        logger.verbose(
+          "[Recorder#start] Adding recorder variables to the request body:",
+          this.variables
+        );
         req.headers.set("Content-Type", "application/json");
         req.body = JSON.stringify(this.variables);
       }
@@ -268,6 +288,8 @@ export class Recorder {
           logger.error("[Recorder#stop] Stop request failed", rsp);
           throw new RecorderError("Stop request failed.");
         }
+
+        logger.verbose("[Recorder#stop] Recorder stop request successful");
       }
     } else {
       logger.error(
