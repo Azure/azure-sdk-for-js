@@ -40,9 +40,9 @@ export interface CommunicationUserToken extends CommunicationAccessToken {
 
 // @public
 export interface GetTokenForTeamsUserOptions extends OperationOptions {
-    appId: string;
+    clientId: string;
     teamsUserAadToken: string;
-    userId: string;
+    userObjectId: string;
 }
 
 // @public

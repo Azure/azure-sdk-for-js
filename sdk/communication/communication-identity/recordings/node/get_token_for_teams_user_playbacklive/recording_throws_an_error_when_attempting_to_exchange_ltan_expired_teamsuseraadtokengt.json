@@ -11,31 +11,32 @@
         "Content-Length": "62",
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-communication-identity/1.1.0 core-rest-pipeline/1.8.1 Node/v17.9.0 OS/(x64-Darwin-21.4.0)",
-        "x-ms-client-request-id": "sanitized"
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "rWLS\u002BNmgOZo/uY3f8bYH236LlnXDAiZIMi8O0lqnfk4=",
+        "x-ms-date": "Wed, 18 May 2022 11:19:30 GMT"
       },
       "RequestBody": {
         "token": "sanitized",
         "appId": "sanitized",
         "userId": "sanitized"
       },
-      "StatusCode": 400,
+      "StatusCode": 401,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Tue, 26 Apr 2022 16:06:17 GMT",
-        "MS-CV": "044eFqBoVUKIdEXymQs2NA.0",
+        "Date": "Wed, 18 May 2022 11:19:30 GMT",
+        "MS-CV": "VOyHxLOB7kGcoC3qu8CTrA.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0eRhoYgAAAACgVDXg\u002BggBTaWYUqbehe5RUFJHMDFFREdFMDkxMgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0Q9aEYgAAAAAGT9EUQXecTa9id0CRc2FLTFRTRURHRTEyMTgAZjA5YTRjMTMtMjFmMS00OGVjLTljZjctNjY1NDU2ODRiNjQy",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "23ms"
+        "X-Processing-Time": "33ms"
       },
       "ResponseBody": {
         "error": {
-          "code": "ValidationError",
-          "message": "AppId: The AppId field is required.",
-          "target": "AppId"
+          "code": "InvalidAccessToken",
+          "message": "Provided access token is not valid."
         }
       }
     }

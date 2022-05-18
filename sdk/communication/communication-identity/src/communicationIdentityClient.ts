@@ -247,12 +247,12 @@ export class CommunicationIdentityClient {
       "CommunicationIdentity-getTokenForTeamsUser",
       options
     );
-    const { teamsUserAadToken, appId, userId } = options;
+    const { teamsUserAadToken, clientId, userObjectId } = options;
     try {
       return await this.client.communicationIdentityOperations.exchangeTeamsUserAccessToken(
         teamsUserAadToken,
-        appId,
-        userId,
+        clientId,
+        userObjectId,
         updatedOptions
       );
     } catch (e: any) {

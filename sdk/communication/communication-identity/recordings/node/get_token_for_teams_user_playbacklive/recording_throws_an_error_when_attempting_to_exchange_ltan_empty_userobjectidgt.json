@@ -12,8 +12,8 @@
         "Content-Type": "application/json",
         "User-Agent": "azsdk-js-communication-identity/1.1.0 core-rest-pipeline/1.8.1 Node/v17.9.0 OS/(x64-Darwin-21.4.0)",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-content-sha256": "VG0qwFQN6kfcvzw\u002Bz4YvJExqWb5ArnQLzO1qjuc7KeA=",
-        "x-ms-date": "Tue, 26 Apr 2022 16:06:22 GMT"
+        "x-ms-content-sha256": "Be6nEdZs6B6p5jKe1Ip\u002B7F4QZ\u002Bu7hcQbtYHfh/q57WI=",
+        "x-ms-date": "Wed, 18 May 2022 11:19:31 GMT"
       },
       "RequestBody": {
         "token": "sanitized",
@@ -23,21 +23,21 @@
       "StatusCode": 400,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Tue, 26 Apr 2022 16:06:22 GMT",
-        "MS-CV": "hdXSHSWLFkag8a9mAj209g.0",
+        "Date": "Wed, 18 May 2022 11:19:31 GMT",
+        "MS-CV": "7iHHEU8m3U\u002BTrW6BGmr1bQ.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0fhhoYgAAAACBY8lGSwtoRpDEa9m8NIJGUFJHMDFFREdFMDkxMgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0RNaEYgAAAABdgzAyB28XTYE3F/mAfTvhTFRTRURHRTEyMTgAZjA5YTRjMTMtMjFmMS00OGVjLTljZjctNjY1NDU2ODRiNjQy",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "36ms"
+        "X-Processing-Time": "29ms"
       },
       "ResponseBody": {
         "error": {
           "code": "ValidationError",
-          "message": "AppId: The AppId field is required.",
-          "target": "AppId"
+          "message": "UserId: The UserId field is required.",
+          "target": "UserId"
         }
       }
     }

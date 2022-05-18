@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CommunicationAccessToken, CommunicationIdentityClient } from "../../../src";
+import {
+  CommunicationAccessToken,
+  CommunicationIdentityClient,
+  GetTokenForTeamsUserOptions,
+} from "../../../src";
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   createRecordedCommunicationIdentityClient,
@@ -18,10 +22,10 @@ matrix([[true, false]], async function (useAad) {
     let recorder: Recorder;
     let client: CommunicationIdentityClient;
     const sanitizedValue = "sanitized";
-    let params = {
-      teamsToken: sanitizedValue,
-      appId: sanitizedValue,
-      userId: sanitizedValue,
+    let options: GetTokenForTeamsUserOptions = {
+      teamsUserAadToken: sanitizedValue,
+      clientId: sanitizedValue,
+      userObjectId: sanitizedValue,
     };
 
     before(async function (this: Context) {
@@ -30,7 +34,7 @@ matrix([[true, false]], async function (useAad) {
         this.skip();
       }
       if (!isPlaybackMode()) {
-        params = await fetchParamsForGetTokenForTeamsUser();
+        options = await fetchParamsForGetTokenForTeamsUser();
       }
     });
 
@@ -48,7 +52,7 @@ matrix([[true, false]], async function (useAad) {
       }
     });
 
-    async function fetchParamsForGetTokenForTeamsUser() {
+    async function fetchParamsForGetTokenForTeamsUser(): Promise<GetTokenForTeamsUserOptions> {
       const msalConfig = {
         auth: {
           clientId: env.COMMUNICATION_M365_APP_ID ?? "",
@@ -62,38 +66,38 @@ matrix([[true, false]], async function (useAad) {
         password: env.COMMUNICATION_MSAL_PASSWORD ?? "",
       };
       const response = await msalInstance.acquireTokenByUsernamePassword(usernamePasswordRequest);
-      params.teamsToken = response!.accessToken;
-      params.appId = env.COMMUNICATION_M365_APP_ID ?? "";
-      params.userId = response!.account!.homeAccountId.split(".")[0];
-      return params;
+      const getTokenForTeamsUserOptions: GetTokenForTeamsUserOptions = {
+        teamsUserAadToken: response!.accessToken,
+        clientId: env.COMMUNICATION_M365_APP_ID ?? "",
+        userObjectId: response!.account!.homeAccountId.split(".")[0],
+      };
+      return getTokenForTeamsUserOptions;
     }
 
     it("successfully exchanges a Teams User AAD token for a Communication access token", async function () {
-      const { token, expiresOn }: CommunicationAccessToken = await client.getTokenForTeamsUser({
-        teamsUserAadToken: params.teamsToken,
-        appId: params.appId,
-        userId: params.userId,
-      });
+      const { token, expiresOn }: CommunicationAccessToken = await client.getTokenForTeamsUser(
+        options
+      );
       assert.isString(token);
       assert.instanceOf(expiresOn, Date);
     }).timeout(5000);
 
     given([
-      { teamsToken: "", description: "an empty teamsToken" },
-      { teamsToken: "invalid", description: "an invalid teamsToken" },
+      { teamsUserAadToken: "", description: "an empty teamsUserAadToken" },
+      { teamsUserAadToken: "invalid", description: "an invalid teamsUserAadToken" },
       {
-        teamsToken: env.COMMUNICATION_EXPIRED_TEAMS_TOKEN ?? "",
-        description: "an expired teamsToken",
+        teamsUserAadToken: env.COMMUNICATION_EXPIRED_TEAMS_TOKEN ?? "",
+        description: "an expired teamsUserAadToken",
       },
     ]).it("throws an error when attempting to exchange", async function (input) {
       try {
         if (isPlaybackMode()) {
-          input.teamsToken = sanitizedValue;
+          input.teamsUserAadToken = sanitizedValue;
         }
         await client.getTokenForTeamsUser({
-          teamsUserAadToken: params.teamsToken,
-          appId: params.appId,
-          userId: params.userId,
+          teamsUserAadToken: input.teamsUserAadToken,
+          clientId: options.clientId,
+          userObjectId: options.clientId,
         });
       } catch (e: any) {
         assert.equal(e.statusCode, 401);
@@ -104,18 +108,18 @@ matrix([[true, false]], async function (useAad) {
     });
 
     given([
-      { appId: "", description: "an empty appId" },
-      { appId: "invalid", description: "an invalid appId" },
-      { appId: params.userId, description: "a wrong appId" },
+      { clientId: "", description: "an empty clientId" },
+      { clientId: "invalid", description: "an invalid clientId" },
+      { clientId: options.userObjectId, description: "a wrong clientId" },
     ]).it("throws an error when attempting to exchange", async function (input) {
       try {
         if (isPlaybackMode()) {
-          input.appId = sanitizedValue;
+          input.clientId = sanitizedValue;
         }
         await client.getTokenForTeamsUser({
-          teamsUserAadToken: params.teamsToken,
-          appId: params.appId,
-          userId: params.userId,
+          teamsUserAadToken: options.teamsUserAadToken,
+          clientId: input.clientId,
+          userObjectId: options.userObjectId,
         });
       } catch (e: any) {
         assert.equal(e.statusCode, 400);
@@ -126,18 +130,18 @@ matrix([[true, false]], async function (useAad) {
     });
 
     given([
-      { userId: "", description: "an empty userId" },
-      { userId: "invalid", description: "an invalid userId" },
-      { userId: params.appId, description: "a wrong userId" },
+      { userObjectId: "", description: "an empty userObjectId" },
+      { userObjectId: "invalid", description: "an invalid userObjectId" },
+      { userObjectId: options.clientId, description: "a wrong userObjectId" },
     ]).it("throws an error when attempting to exchange", async function (input) {
       try {
         if (isPlaybackMode()) {
-          input.userId = sanitizedValue;
+          input.userObjectId = sanitizedValue;
         }
         await client.getTokenForTeamsUser({
-          teamsUserAadToken: params.teamsToken,
-          appId: params.appId,
-          userId: params.userId,
+          teamsUserAadToken: options.teamsUserAadToken,
+          clientId: options.clientId,
+          userObjectId: input.userObjectId,
         });
       } catch (e: any) {
         assert.equal(e.statusCode, 400);

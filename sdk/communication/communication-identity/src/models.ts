@@ -50,10 +50,10 @@ export interface GetTokenForTeamsUserOptions extends OperationOptions {
   /**
    * Client ID of an Azure AD application to be verified against the appId claim in the Azure AD access token.
    */
-  appId: string;
+  clientId: string;
 
   /**
    * Object ID of an Azure AD user (Teams User) to be verified against the OID claim in the Azure AD access token.
    */
-  userId: string;
+  userObjectId: string;
 }

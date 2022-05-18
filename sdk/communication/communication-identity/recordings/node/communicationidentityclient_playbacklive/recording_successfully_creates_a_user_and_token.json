@@ -13,7 +13,7 @@
         "User-Agent": "azsdk-js-communication-identity/1.1.0 core-rest-pipeline/1.8.1 Node/v17.9.0 OS/(x64-Darwin-21.4.0)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "k4k9IoKBLYipoiXK3LctfBcfghISSb6AI45ji7ILZfg=",
-        "x-ms-date": "Tue, 26 Apr 2022 16:06:07 GMT"
+        "x-ms-date": "Wed, 18 May 2022 11:33:38 GMT"
       },
       "RequestBody": {
         "createTokenWithScopes": [
@@ -25,14 +25,14 @@
         "api-supported-versions": "2020-07-20-preview2, 2021-02-22-preview1, 2021-03-07, 2021-10-31-preview, 2021-11-01, 2022-06-01",
         "Content-Length": "115",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 26 Apr 2022 16:06:06 GMT",
-        "MS-CV": "Hidf3xi70UeLlfnlnDHshA.0",
+        "Date": "Wed, 18 May 2022 11:33:39 GMT",
+        "MS-CV": "OOuqux87xE\u002B7HMFY2eQuHA.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0bxhoYgAAAAAeOYGx23CFRLn5Z7BAtNLBUFJHMDFFREdFMDkxMgBmMDlhNGMxMy0yMWYxLTQ4ZWMtOWNmNy02NjU0NTY4NGI2NDI=",
+        "X-Azure-Ref": "0ktmEYgAAAAAd8B3PChdUQLETRjdP19juTFRTRURHRTEyMTYAZjA5YTRjMTMtMjFmMS00OGVjLTljZjctNjY1NDU2ODRiNjQy",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "45ms"
+        "X-Processing-Time": "997ms"
       },
       "ResponseBody": {
         "identity": {
@@ -40,7 +40,7 @@
         },
         "accessToken": {
           "token": "sanitized",
-          "expiresOn": "2022-04-27T16:06:07.7544435\u002B00:00"
+          "expiresOn": "2022-05-19T11:33:39.7886426\u002B00:00"
         }
       }
     }

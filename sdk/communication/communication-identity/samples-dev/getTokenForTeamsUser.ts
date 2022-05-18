@@ -65,15 +65,15 @@ export async function main() {
 
   // Extract the object ID from the homeAccountId which is an identifier for the account object
   // that stands from object ID and tenant ID separated by a dot
-  let userId = response!.account!.homeAccountId.split(".")[0];
+  let userObjectId = response!.account!.homeAccountId.split(".")[0];
 
   console.log("Exchanging the AAD access token for a Communication access token");
 
   // Exchange the AAD access token of a Teams user for a new Communication Identity access token
   const communicationAccessToken: CommunicationAccessToken = await client.getTokenForTeamsUser({
     teamsUserAadToken: teamsToken,
-    appId: aadAppId,
-    userId: userId,
+    clientId: aadAppId,
+    userObjectId: userObjectId,
   });
 
   console.log(`Exchanged Communication access token: ${communicationAccessToken.token}`);
