@@ -177,10 +177,16 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   if (!updatedConfig.retryOptions) {
     updatedConfig.retryOptions = {};
   }
-  if (updatedConfig.retryOptions.maxRetries == undefined || updatedConfig.retryOptions.maxRetries < 0) {
+  if (
+    updatedConfig.retryOptions.maxRetries == undefined ||
+    updatedConfig.retryOptions.maxRetries < 0
+  ) {
     updatedConfig.retryOptions.maxRetries = Constants.defaultMaxRetries;
   }
-  if (updatedConfig.retryOptions.retryDelayInMs == undefined || updatedConfig.retryOptions.retryDelayInMs < 0) {
+  if (
+    updatedConfig.retryOptions.retryDelayInMs == undefined ||
+    updatedConfig.retryOptions.retryDelayInMs < 0
+  ) {
     updatedConfig.retryOptions.retryDelayInMs = Constants.defaultDelayBetweenOperationRetriesInMs;
   }
   if (
