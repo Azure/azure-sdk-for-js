@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+import { DedicatedGatewayRequestOptions } from "..";
 import { SharedOptions } from "./SharedOptions";
 
 /**
  * The feed options and query methods.
  */
-export interface FeedOptions extends SharedOptions {
+export interface FeedOptions extends SharedOptions, DedicatedGatewayRequestOptions {
   /** Opaque token for continuing the enumeration. Default: undefined
    * @deprecated Use continuationToken instead.
    */

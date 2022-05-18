@@ -19,10 +19,10 @@ const { DefaultAzureCredential } = require("@azure/identity");
  */
 async function solutionCreate() {
   const subscriptionId = "subid";
+  const resourceGroupName = "rg1";
   const providerName = "providerName";
   const resourceType = "resourceType";
   const resourceName = "resourceName";
-  const resourceGroupName = "rg1";
   const managementAssociationName = "managementAssociation1";
   const parameters = {
     location: "East US",
@@ -32,15 +32,12 @@ async function solutionCreate() {
     },
   };
   const credential = new DefaultAzureCredential();
-  const client = new OperationsManagementClient(
-    credential,
-    subscriptionId,
-    providerName,
-    resourceType,
-    resourceName
-  );
+  const client = new OperationsManagementClient(credential, subscriptionId);
   const result = await client.managementAssociations.createOrUpdate(
     resourceGroupName,
+    providerName,
+    resourceType,
+    resourceName,
     managementAssociationName,
     parameters
   );
