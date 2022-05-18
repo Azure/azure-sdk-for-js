@@ -175,6 +175,7 @@ specifiers:
   '@rush-temp/arm-vmwarecloudsimple': file:./projects/arm-vmwarecloudsimple.tgz
   '@rush-temp/arm-webpubsub': file:./projects/arm-webpubsub.tgz
   '@rush-temp/arm-webservices': file:./projects/arm-webservices.tgz
+  '@rush-temp/arm-workloads': file:./projects/arm-workloads.tgz
   '@rush-temp/arm-workspaces': file:./projects/arm-workspaces.tgz
   '@rush-temp/attestation': file:./projects/attestation.tgz
   '@rush-temp/communication-chat': file:./projects/communication-chat.tgz
@@ -451,6 +452,7 @@ dependencies:
   '@rush-temp/arm-vmwarecloudsimple': file:projects/arm-vmwarecloudsimple.tgz
   '@rush-temp/arm-webpubsub': file:projects/arm-webpubsub.tgz
   '@rush-temp/arm-webservices': file:projects/arm-webservices.tgz
+  '@rush-temp/arm-workloads': file:projects/arm-workloads.tgz
   '@rush-temp/arm-workspaces': file:projects/arm-workspaces.tgz
   '@rush-temp/attestation': file:projects/attestation.tgz
   '@rush-temp/communication-chat': file:projects/communication-chat.tgz
@@ -14046,6 +14048,34 @@ packages:
   file:projects/arm-webservices.tgz:
     resolution: {integrity: sha512-yHtp8FORfTotvCrUBoHxN9OWiiLmAUS21V/QH7d2hzw6GoWpWjUqNRs2/xFLp85oY59bHIhJ4i6clKuP/Ilvew==, tarball: file:projects/arm-webservices.tgz}
     name: '@rush-temp/arm-webservices'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.73.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.73.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.73.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.73.0
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.73.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.73.0
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.15.5
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-workloads.tgz:
+    resolution: {integrity: sha512-4dUJ0qpiNMeKvWsE+6YxZkIfnGgACbdIqHLKqIhayp7ZLehJ5fs7gq59MbmalGhg1nDHIuaraQC6d0oHoX12GA==, tarball: file:projects/arm-workloads.tgz}
+    name: '@rush-temp/arm-workloads'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
