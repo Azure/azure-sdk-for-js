@@ -90,6 +90,7 @@ export async function main() {
 
   for (const msg of receivedMessages) {
     console.log(`Received message: ${msg.body}`);
+    // should be test-red3, test-blue3, test-green3
   }
 
   await sbClient.close();
