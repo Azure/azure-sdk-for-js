@@ -30,6 +30,7 @@ specifiers:
   '@rush-temp/arm-botservice': file:./projects/arm-botservice.tgz
   '@rush-temp/arm-cdn': file:./projects/arm-cdn.tgz
   '@rush-temp/arm-changeanalysis': file:./projects/arm-changeanalysis.tgz
+  '@rush-temp/arm-changes': file:./projects/arm-changes.tgz
   '@rush-temp/arm-cognitiveservices': file:./projects/arm-cognitiveservices.tgz
   '@rush-temp/arm-commerce': file:./projects/arm-commerce.tgz
   '@rush-temp/arm-commerce-profile-2020-09-01-hybrid': file:./projects/arm-commerce-profile-2020-09-01-hybrid.tgz
@@ -306,6 +307,7 @@ dependencies:
   '@rush-temp/arm-botservice': file:projects/arm-botservice.tgz
   '@rush-temp/arm-cdn': file:projects/arm-cdn.tgz
   '@rush-temp/arm-changeanalysis': file:projects/arm-changeanalysis.tgz
+  '@rush-temp/arm-changes': file:projects/arm-changes.tgz
   '@rush-temp/arm-cognitiveservices': file:projects/arm-cognitiveservices.tgz
   '@rush-temp/arm-commerce': file:projects/arm-commerce.tgz
   '@rush-temp/arm-commerce-profile-2020-09-01-hybrid': file:projects/arm-commerce-profile-2020-09-01-hybrid.tgz
@@ -9990,6 +9992,34 @@ packages:
   file:projects/arm-changeanalysis.tgz:
     resolution: {integrity: sha512-KXNgYIX694erf2wFrPRC6VEgoCjX3TaFUa/PxJjzBpUyKdFy2Lene4AInhYWYRwMaAFLf3cz4b6ahmdwXeB/7w==, tarball: file:projects/arm-changeanalysis.tgz}
     name: '@rush-temp/arm-changeanalysis'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.73.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.73.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.73.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.73.0
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.73.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.73.0
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.15.5
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-changes.tgz:
+    resolution: {integrity: sha512-GjRZp1vTGS8ob6+d9JPg6a4LlbRmyEUnbqqK8melwrygg3PU1tAXFTE547m4vYiOVd/tARv7Z3Ty6cvykdGrAg==, tarball: file:projects/arm-changes.tgz}
+    name: '@rush-temp/arm-changes'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
