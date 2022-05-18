@@ -1,6 +1,6 @@
 # Release History
     
-## 28.0.0 (2022-05-05)
+## 28.0.0 (2022-05-18)
     
 **Features**
 
@@ -47,6 +47,8 @@
   - Added Type Alias VpnServerConfigurationPolicyGroup
   - Interface FirewallPolicyIntrusionDetectionConfiguration has a new optional parameter privateRanges
   - Interface LoadBalancerBackendAddress has a new optional parameter adminState
+  - Interface NetworkManagementClientOptionalParams has a new optional parameter apiVersion
+  - Class NetworkManagementClient has a new parameter apiVersion
   - Class NetworkManagementClient has a new parameter configurationPolicyGroups
   - Class NetworkManagementClient has a new parameter expressRoutePortAuthorizations
   - Type Alias ApplicationGateway has a new parameter backendSettingsCollection

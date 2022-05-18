@@ -461,18 +461,6 @@ export const virtualmachineIndex: OperationURLParameter = {
   }
 };
 
-export const apiVersion1: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2018-10-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const ipConfigurationName: OperationURLParameter = {
   parameterPath: "ipConfigurationName",
   mapper: {

@@ -12313,13 +12313,13 @@ packages:
     dev: false
 
   file:projects/arm-network.tgz:
-    resolution: {integrity: sha512-N2yS4vJp7Ff8fgBcUtlrftcIaXZIko266Z6pG19rHmsgvcuUXwF4VDgQKkFT/5ySGKxGpu7OCh0iTuaP4Z4H0Q==, tarball: file:projects/arm-network.tgz}
+    resolution: {integrity: sha512-FiJGE7R45vsc/EtxF78wRGiDnwobFkqHr9GFMV9A2QXpDjf8nb4g4UZOasp7y0t+RbrKOzNqgLd7KiwxAiG0Ew==, tarball: file:projects/arm-network.tgz}
     name: '@rush-temp/arm-network'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.18.11
+      '@microsoft/api-extractor': 7.24.0
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.73.0
       '@rollup/plugin-json': 4.1.0_rollup@2.73.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.73.0
