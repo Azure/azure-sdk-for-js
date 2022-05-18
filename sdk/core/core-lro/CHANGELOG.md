@@ -6,8 +6,6 @@
 
 - `lroEngine` now supports cancellation of the long-running operation.
 
-### Breaking Changes
-
 ### Other Changes
 
 - Removed the unused dependency `@azure/core-tracing`.

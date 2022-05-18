@@ -53,8 +53,7 @@ export function processLocationPollingOperationResult<
   lroResourceLocationConfig?: LroResourceLocationConfig
 ): (response: LroResponse<TResult>) => LroStatus<TResult> {
   return (response: LroResponse<TResult>): LroStatus<TResult> => {
-    const rawResponse = response.rawResponse;
-    const status = getStatus(rawResponse);
+    const status = getStatus(response.rawResponse);
     if (
       isCanceled({
         requestMethod: lro.requestMethod,
