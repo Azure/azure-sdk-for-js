@@ -313,8 +313,12 @@ describe("Lro Engine", function () {
       });
 
       it("should handle postAsyncRetrycanceled", async () => {
-        const results = await runMockedLro("POST", `/post${rootPrefix}/retry/canceled`);
-        assert.equal(results.status, "Canceled");
+        try {
+          await runMockedLro("POST", `/post${rootPrefix}/retry/canceled`);
+          throw new Error("should have thrown instead");
+        } catch (e: any) {
+          assert.equal(e.message, "The long-running operation has been canceled.");
+        }
       });
     });
   });
@@ -323,6 +327,7 @@ describe("Lro Engine", function () {
     it("should handle PutNonRetry400 ", async () => {
       try {
         await runMockedLro("PUT", "/nonretryerror/put/400");
+        throw new Error("should have thrown instead");
       } catch (error: any) {
         assert.equal(error.statusCode, 400);
       }

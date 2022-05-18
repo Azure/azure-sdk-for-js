@@ -56,17 +56,11 @@ export function processLocationPollingOperationResult<
     const status = getStatus(response.rawResponse);
     if (
       isCanceled({
-        requestMethod: lro.requestMethod,
         state,
         status,
-      })
+      }) ||
+      isLocationPollingDone(response.rawResponse, status)
     ) {
-      return {
-        ...response,
-        done: true,
-      };
-    }
-    if (isLocationPollingDone(response.rawResponse, status)) {
       if (resourceLocation === undefined) {
         return { ...response, done: true };
       } else {
