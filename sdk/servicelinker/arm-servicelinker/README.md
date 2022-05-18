@@ -53,8 +53,7 @@ const { ServiceLinkerManagementClient } = require("@azure/arm-servicelinker");
 const { DefaultAzureCredential } = require("@azure/identity");
 // For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
 
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new ServiceLinkerManagementClient(new DefaultAzureCredential(), subscriptionId);
+const client = new ServiceLinkerManagementClient(new DefaultAzureCredential());
 
 // For client-side applications running in the browser, use this code instead:
 // const credential = new InteractiveBrowserCredential({
