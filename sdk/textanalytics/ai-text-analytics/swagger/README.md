@@ -18,7 +18,6 @@ package-version: 6.0.0-beta.1
 v3: true
 hide-clients: true
 typescript: true
-use: /home/dealmaha/autorest.typescript
 ```
 
 ## Customizations for Track 2 Generator
