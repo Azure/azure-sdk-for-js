@@ -1,6 +1,6 @@
 # Release History
 
-## 7.6.0-beta.3 (2022-05-20)
+## 7.6.0-beta.3 (2022-05-19)
 
 ### Features Added
 
