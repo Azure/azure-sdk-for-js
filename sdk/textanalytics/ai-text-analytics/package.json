@@ -26,7 +26,8 @@
     "dist-esm/src/",
     "types/ai-text-analytics.d.ts",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "MIGRATION_v5_v6.md"
   ],
   "//metadata": {
     "constantPaths": [
@@ -47,8 +48,8 @@
     "productName": "Azure Cognitive Language Service",
     "productSlugs": [
       "azure",
-      "azure-cognitive-services",
-      "azure-text-analytics"
+      "cognitive-services",
+      "language-service"
     ],
     "requiredResources": {
       "Azure Cognitive Services instance": "https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
