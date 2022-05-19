@@ -959,7 +959,7 @@ packages:
       '@azure/core-amqp': 3.1.0
       '@azure/core-asynciterator-polyfill': 1.0.2
       '@azure/core-auth': 1.3.2
-      '@azure/core-tracing': 1.0.0-preview.12
+      '@azure/core-tracing': 1.0.0-preview.13
       '@azure/logger': 1.0.3
       buffer: 5.7.1
       is-buffer: 2.0.5
@@ -9421,7 +9421,7 @@ packages:
     dev: false
 
   file:projects/ai-text-analytics.tgz:
-    resolution: {integrity: sha512-V1NlOFf8Wnqlap0NTRGTlOKmC4mSJwMHJ+VEXvv+fzwH/G/cnCEBgumjG5iykPHAGOjHril1iyXbs8oDv/JOSA==, tarball: file:projects/ai-text-analytics.tgz}
+    resolution: {integrity: sha512-2DgYvqp/G/PD+mllxB5Qnd2JqfGIAsp3gb3RXxRFo4lWk58cVbnrJ4nvwCp6a4qs25R4chNq1vhlZdFEyCH1nA==, tarball: file:projects/ai-text-analytics.tgz}
     name: '@rush-temp/ai-text-analytics'
     version: 0.0.0
     dependencies:
@@ -9470,7 +9470,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-SzCn41YZ/BPyOG53bMpoU8tddmYMQSW9zTTvSd0356VPzGXj4UKzyUsV97dhpUclb9Ar5PuNdETNcaFP2KuBmA==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-sCA0nzP0JRahkrwELNsoDSxzuuXdDtMG3eX0fS/eatNO8drMjs3OxGmWVh7iPj6GFjGiGT2MP4Bf7PaHBxQssg==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -11121,7 +11121,7 @@ packages:
     dev: false
 
   file:projects/arm-eventgrid.tgz:
-    resolution: {integrity: sha512-/09YtHZ3Rh0PhOzZ2RekHu9/MosORc7V4XRjdRcv75XckUvafH+uG788k0BZihPXavZ8j7YvUPBqMNZvjlKTQw==, tarball: file:projects/arm-eventgrid.tgz}
+    resolution: {integrity: sha512-0vEf7jW0UiW2yE+nRLujQUdyDxSobbhULSwYRnAgLVMN/h9xmFeQcb8IG9Ds2G4IqbDnca+uYLyy9BVFvzTMlg==, tarball: file:projects/arm-eventgrid.tgz}
     name: '@rush-temp/arm-eventgrid'
     version: 0.0.0
     dependencies:
@@ -13450,7 +13450,7 @@ packages:
     dev: false
 
   file:projects/arm-securityinsight.tgz:
-    resolution: {integrity: sha512-7gsp4KOCne09k9AHVpEjIEF1IV65n1mjboYFyt7gupl7GXx7J970B4+YPA2Q9iMt45MhrcJNR/3DYf4p7GiTNg==, tarball: file:projects/arm-securityinsight.tgz}
+    resolution: {integrity: sha512-W5eHlYwGGF4L6CVtJTOdm3qD6ptIzX177kAx0F1g1KjwVQbqXyZTO0n1NcYLKYT1Jw8Oz2wsXgBEq3eDA1ppbQ==, tarball: file:projects/arm-securityinsight.tgz}
     name: '@rush-temp/arm-securityinsight'
     version: 0.0.0
     dependencies:
@@ -13599,7 +13599,7 @@ packages:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.24.0
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.73.0
       '@rollup/plugin-json': 4.1.0_rollup@2.73.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.73.0
@@ -14489,7 +14489,7 @@ packages:
     dev: false
 
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-KnMJE70GW8Ry4HjKfQ8gCLzZQMyE1mXurpLQA9jn6v+t3b1efiu4RX4sLFuCmqzVCTh7dopVXouZmOLdMCxlhg==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-n97C0KJIWr2Gxqex5ZdFaGlZkuBiAJPG8WUvIIv1r659AuGrWesi2JmfNeUuGwiir6bmsMoEPddBNxRl+qh3dQ==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
@@ -16243,7 +16243,7 @@ packages:
     dev: false
 
   file:projects/logger.tgz:
-    resolution: {integrity: sha512-KR3Qu673FyXbtGvsdldXeuWMlXPYtnDYHo9nuPbVSOxPBZATFR+JF6pM+2hH5Vrk5gW50qb72p8Ns7QMkScRwA==, tarball: file:projects/logger.tgz}
+    resolution: {integrity: sha512-ZDTAQhk8HHOLlgyUU9tRw93HmB4xflzHC8KdizongGzov3aPua0kTJssLL4/ileNBIiCwioPg4MFvENa+vMHGA==, tarball: file:projects/logger.tgz}
     name: '@rush-temp/logger'
     version: 0.0.0
     dependencies:
@@ -17398,7 +17398,7 @@ packages:
     dev: false
 
   file:projects/storage-blob-changefeed.tgz:
-    resolution: {integrity: sha512-8R1NCeabGHZcQc0L+GalceNPBGB2d8CHFGWX2qYJ6tjGbqNHcOugr6V+ZMK7pm9Km5utxMjzg2wywY8YvQ+jVQ==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-UT53vzXPH25kPl5gHHHMwjtPxZ4TTXJ3g5P/ybEnOfdsC5xftzsWN50okXXuyLCmzFYUuTGsMT9MDWPmY9Opzw==, tarball: file:projects/storage-blob-changefeed.tgz}
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:
@@ -17512,7 +17512,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-ZTyQQ1/eL1zmd4Hejdi6S5IcDPghBJ6GksSyHV6wQPQrUh40Fpsc2alAq3Kl6WlraUZTd+WbLetrB4OCdEFn6g==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-nXm5s35Wfg8EJFNsOIDTkcIW5uWws1QHUGFGKuoWSJyHUEqY2pmtAAdO+3RZfaA10SrvCD3zNTwqFLYmxxZ37w==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -17568,7 +17568,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-g/ZEz4JDSbRziR2feu2Gb6aitYrG05VRj47+6lFD12CJUkjfdbDOzIzSksXz7wvg309IKK6tCMpHq0Y4+F1uIQ==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-Jrb/nCljJ1JIrl0pYwCo6g7kp4d5qL8W3R/wAiFYHUgLwgRpF/4GaH8CtrfvlUwcGeuRhrkKJLp0+CFf1PEGKw==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
