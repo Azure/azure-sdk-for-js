@@ -1,14 +1,26 @@
 {
-  "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "target": "ESNext",
-    "outDir": "./dist",
-    "lib": ["ESNext", "DOM"],
-    "paths": {
-      "@azure/apimanagement-custom-widget-scaffolder": ["./src/index"]
-    }
+    "target": "ES2019",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noEmit": false,
+    "esModuleInterop": true,
+    "lib": [
+      "ES2019",
+      "ESNext.AsyncIterable"
+    ],
+    "newLine": "LF",
+    "strict": true,
+    "alwaysStrict": true,
+    "noImplicitAny": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "downlevelIteration": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true
   },
   "include": [
-    "src"
+    "./src/**/*.ts",
+    "./test/**/*.ts"
   ]
 }

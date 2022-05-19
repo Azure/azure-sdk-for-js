@@ -13,4 +13,4 @@ declare module "virtual:templates" {
   export default templates
 }
 
-declare const __CONFIG_DEPLOY__: import("./index").TConfigDeploy
+declare const __CONFIG_DEPLOY__: import("./scaffolding").TConfigDeploy
