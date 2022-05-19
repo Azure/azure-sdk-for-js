@@ -10,16 +10,21 @@ import { Context } from "mocha";
 import Sinon from "sinon";
 import { msalNodeTestSetup, MsalTestCleanup } from "../../msalTestUtils";
 import * as msalNode from "@azure/msal-node";
+import { ConfidentialClientApplication } from "@azure/msal-node";
 
 describe("ClientAssertionCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
   let spy: Sinon.SinonSpy;
+  let doGetTokenSpy: Sinon.SinonSpy;
 
   beforeEach(function (this: Context) {
     const setup = msalNodeTestSetup(this);
     cleanup = setup.cleanup;
-
     spy = setup.sandbox.spy(msalNode, "ConfidentialClientApplication");
+    doGetTokenSpy = setup.sandbox.spy(
+      ConfidentialClientApplication.prototype,
+      "acquireTokenByClientCredential"
+    );
   });
   afterEach(async function () {
     await cleanup();
@@ -68,10 +73,19 @@ describe("ClientAssertionCredential (internal)", function () {
     } catch (e) {
       // We're ignoring errors since our main goal here is to ensure that we send the correct parameters to MSAL.
     }
-
+  async function getAssertion(): Promise<string> {
+    return "assertion";
+  };
+console.log(spy.callCount);
     console.log(spy.name);
+    console.dir(spy.calledWith({
+      assertion: await getAssertion() ,
+      assertionType: "jwt_bearer"
+    }));
+    console.log(doGetTokenSpy.args);
     assert.equal(spy.name, "ConfidentialClientApplication");
-    const sentConfiguration = spy.args[0][0];
-    assert.equal(sentConfiguration.auth.clientAssertion, "assertion");
+   // const sentConfiguration = spy.args[0][0];
+    //assert.equal(sentConfiguration.auth.clientAssertion, "assertion");
+    console.log(doGetTokenSpy.args);
   });
 });
