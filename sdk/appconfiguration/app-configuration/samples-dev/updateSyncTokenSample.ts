@@ -18,7 +18,7 @@
  import * as dotenv from "dotenv";
  dotenv.config();
 
- // Create an Event Grid Consumer which will decode the payload of service bus message into an array of EventGridEvent objects.
+ // Create an Event Grid Consumer which will decode a hard coded test object into an EventGridEvent object.
 const consumer = new EventGridDeserializer();
 
 /**
