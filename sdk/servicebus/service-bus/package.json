@@ -25,7 +25,7 @@
     "buffer": "buffer",
     "./dist-esm/src/util/runtimeInfo.js": "./dist-esm/src/util/runtimeInfo.browser.js"
   },
-  "types": "./types/latest/service-bus.d.ts",
+  "types": "./types/latest/service-bus-beta.d.ts",
   "typesVersions": {
     "<3.6": {
       "types/latest/*": [
