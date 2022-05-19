@@ -916,6 +916,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/eventgrid/4.9.0:
+    resolution: {integrity: sha512-U23aLwwRyLHGG4SOZP/zbqvHXghqX2XgspT9fIgioTWTczdb3/GipSn3AD0ikr435OC120GAiAwjz0ihSxVKhQ==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/core-auth': 1.3.2
+      '@azure/core-client': 1.6.0
+      '@azure/core-rest-pipeline': 1.8.1
+      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/logger': 1.0.3
+      tslib: 2.4.0
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/identity/1.2.5_debug@4.3.4:
     resolution: {integrity: sha512-Q71Buur3RMcg6lCnisLL8Im562DBw+ybzgm+YQj/FbAaI8ZNu/zl/5z1fE4k3Q9LSIzYrz6HLRzlhdSBXpydlQ==}
     engines: {node: '>=8.0.0'}
@@ -9344,7 +9359,7 @@ packages:
     dev: false
 
   file:projects/ai-text-analytics.tgz:
-    resolution: {integrity: sha512-V1NlOFf8Wnqlap0NTRGTlOKmC4mSJwMHJ+VEXvv+fzwH/G/cnCEBgumjG5iykPHAGOjHril1iyXbs8oDv/JOSA==, tarball: file:projects/ai-text-analytics.tgz}
+    resolution: {integrity: sha512-2DgYvqp/G/PD+mllxB5Qnd2JqfGIAsp3gb3RXxRFo4lWk58cVbnrJ4nvwCp6a4qs25R4chNq1vhlZdFEyCH1nA==, tarball: file:projects/ai-text-analytics.tgz}
     name: '@rush-temp/ai-text-analytics'
     version: 0.0.0
     dependencies:
@@ -9393,11 +9408,12 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-sCA0nzP0JRahkrwELNsoDSxzuuXdDtMG3eX0fS/eatNO8drMjs3OxGmWVh7iPj6GFjGiGT2MP4Bf7PaHBxQssg==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-dftupGYGf9h9qid/Fuvu9twCA91wZ3aRVykiBRSQmlKtCJxJEARKQ7/bFDQlJ7RCxcp09/Ist18S3vkuvfb9Vg==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
+      '@azure/eventgrid': 4.9.0
       '@azure/identity': 2.0.4
       '@azure/keyvault-secrets': 4.4.0
       '@microsoft/api-extractor': 7.18.11
