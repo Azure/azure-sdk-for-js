@@ -174,8 +174,12 @@ export interface LinkerPatch {
   scope?: string;
 }
 
-/** The validation result for a linker. */
-export interface ValidateResult {
+/** The validation operation result for a linker. */
+export interface ValidateOperationResult {
+  /** Validated linker id. */
+  resourceId?: string;
+  /** Validation operation status. */
+  status?: string;
   /** The linker name. */
   linkerName?: string;
   /** A boolean value indicating whether the connection is available or not */
@@ -548,7 +552,7 @@ export type CreatedByType = string;
 /** Known values of {@link ValidationResultStatus} that the service accepts. */
 export enum KnownValidationResultStatus {
   Success = "success",
-  Failed = "failed",
+  Failure = "failure",
   Warning = "warning"
 }
 
@@ -558,7 +562,7 @@ export enum KnownValidationResultStatus {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **success** \
- * **failed** \
+ * **failure** \
  * **warning**
  */
 export type ValidationResultStatus = string;
@@ -682,7 +686,7 @@ export interface LinkerValidateOptionalParams
 }
 
 /** Contains response data for the validate operation. */
-export type LinkerValidateResponse = ValidateResult;
+export type LinkerValidateResponse = ValidateOperationResult;
 
 /** Optional parameters. */
 export interface LinkerListConfigurationsOptionalParams

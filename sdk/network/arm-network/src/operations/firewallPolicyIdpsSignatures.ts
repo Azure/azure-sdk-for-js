@@ -65,6 +65,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters17,
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,

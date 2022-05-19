@@ -69,13 +69,15 @@ async function runRouter(request: PipelineRequest): Promise<LroResponse<Response
   };
 }
 
-export function mockedPoller<TState>(
-  method: HttpMethods,
-  url: string,
-  lroResourceLocationConfig?: LroResourceLocationConfig,
-  processResult?: (result: unknown, state: TState) => Response,
-  updateState?: (state: TState, lastResponse: RawResponse) => void
-): PollerLike<PollOperationState<Response>, Response> {
+export function mockedPoller<TState>(settings: {
+  method: HttpMethods;
+  url: string;
+  lroResourceLocationConfig?: LroResourceLocationConfig;
+  processResult?: (result: unknown, state: TState) => Response;
+  updateState?: (state: TState, lastResponse: RawResponse) => void;
+  cancel?: (state: TState) => Promise<void>;
+}): PollerLike<PollOperationState<Response>, Response> {
+  const { method, url, lroResourceLocationConfig, processResult, updateState, cancel } = settings;
   const lro = new CoreRestPipelineLro(runRouter, {
     method: method,
     url: url,
@@ -86,9 +88,10 @@ export function mockedPoller<TState>(
   });
   return new LroEngine<Response, TState>(lro, {
     intervalInMs: 0,
-    lroResourceLocationConfig: lroResourceLocationConfig,
-    processResult: processResult,
-    updateState: updateState,
+    lroResourceLocationConfig,
+    processResult,
+    updateState,
+    cancel,
   });
 }
 
@@ -98,7 +101,7 @@ export async function runMockedLro(
   onProgress?: (state: PollOperationState<Response>) => void,
   lroResourceLocationConfig?: LroResourceLocationConfig
 ): Promise<Response> {
-  const poller = mockedPoller(method, url, lroResourceLocationConfig);
+  const poller = mockedPoller({ method, url, lroResourceLocationConfig });
   if (onProgress !== undefined) {
     poller.onProgress(onProgress);
   }

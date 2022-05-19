@@ -32,7 +32,7 @@ export default {
       extends: [
         "plugin:@typescript-eslint/recommended",
         "plugin:@typescript-eslint/eslint-recommended",
-        "prettier/@typescript-eslint",
+        "prettier",
         "plugin:@azure/azure-sdk/recommended",
       ],
       rules: {
@@ -52,7 +52,7 @@ export default {
         "no-invalid-this": "off",
         "no-empty": "error",
         "no-fallthrough": "error",
-        "@typescript-eslint/no-invalid-this": "error",
+        "@typescript-eslint/no-invalid-this": "off",
         "@typescript-eslint/no-require-imports": "error",
         "no-restricted-imports": ["error", { paths: ["rhea", "rhea/.*"] }],
         "no-return-await": "error",

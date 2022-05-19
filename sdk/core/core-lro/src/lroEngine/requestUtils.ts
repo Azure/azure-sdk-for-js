@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { LroConfig, RawResponse } from "./models";
+import { LroBody, LroConfig, RawResponse } from "./models";
+import { PollOperationState } from "../pollOperation";
 
 /**
  * Detects where the continuation token is and returns it. Notice that azure-asyncoperation
@@ -105,4 +106,34 @@ export function isUnexpectedPollingResponse(rawResponse: RawResponse): boolean {
     );
   }
   return false;
+}
+
+export function isCanceled<TResult, TState extends PollOperationState<TResult>>(operation: {
+  state: TState;
+  status: string;
+}): boolean {
+  const { state, status } = operation;
+  if (["canceled", "cancelled"].includes(status)) {
+    state.isCancelled = true;
+    throw new Error(`The long-running operation has been canceled.`);
+  }
+  return false;
+}
+
+export function isSucceededStatus(status: string): boolean {
+  return status === "succeeded";
+}
+
+export function isPollingDone(result: { rawResponse: RawResponse; status: string }): boolean {
+  const { rawResponse, status } = result;
+  if (isUnexpectedPollingResponse(rawResponse) || status === "failed") {
+    throw new Error(`The long-running operation has failed.`);
+  }
+  return isSucceededStatus(status);
+}
+
+export function getProvisioningState(rawResponse: RawResponse): string {
+  const { properties, provisioningState } = (rawResponse.body as LroBody) ?? {};
+  const state: string | undefined = properties?.provisioningState ?? provisioningState;
+  return typeof state === "string" ? state.toLowerCase() : "succeeded";
 }
