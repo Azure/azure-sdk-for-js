@@ -40,6 +40,7 @@ specifiers:
   '@rush-temp/arm-compute-profile-2020-09-01-hybrid': file:./projects/arm-compute-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-confluent': file:./projects/arm-confluent.tgz
   '@rush-temp/arm-consumption': file:./projects/arm-consumption.tgz
+  '@rush-temp/arm-containerapp': file:./projects/arm-containerapp.tgz
   '@rush-temp/arm-containerinstance': file:./projects/arm-containerinstance.tgz
   '@rush-temp/arm-containerregistry': file:./projects/arm-containerregistry.tgz
   '@rush-temp/arm-containerservice': file:./projects/arm-containerservice.tgz
@@ -317,6 +318,7 @@ dependencies:
   '@rush-temp/arm-compute-profile-2020-09-01-hybrid': file:projects/arm-compute-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-confluent': file:projects/arm-confluent.tgz
   '@rush-temp/arm-consumption': file:projects/arm-consumption.tgz
+  '@rush-temp/arm-containerapp': file:projects/arm-containerapp.tgz
   '@rush-temp/arm-containerinstance': file:projects/arm-containerinstance.tgz
   '@rush-temp/arm-containerregistry': file:projects/arm-containerregistry.tgz
   '@rush-temp/arm-containerservice': file:projects/arm-containerservice.tgz
@@ -9344,7 +9346,7 @@ packages:
     dev: false
 
   file:projects/ai-text-analytics.tgz:
-    resolution: {integrity: sha512-V1NlOFf8Wnqlap0NTRGTlOKmC4mSJwMHJ+VEXvv+fzwH/G/cnCEBgumjG5iykPHAGOjHril1iyXbs8oDv/JOSA==, tarball: file:projects/ai-text-analytics.tgz}
+    resolution: {integrity: sha512-2DgYvqp/G/PD+mllxB5Qnd2JqfGIAsp3gb3RXxRFo4lWk58cVbnrJ4nvwCp6a4qs25R4chNq1vhlZdFEyCH1nA==, tarball: file:projects/ai-text-analytics.tgz}
     name: '@rush-temp/ai-text-analytics'
     version: 0.0.0
     dependencies:
@@ -10298,6 +10300,35 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.73.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.73.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.73.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.73.0
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.73.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.73.0
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.15.5
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-containerapp.tgz:
+    resolution: {integrity: sha512-D6B+ICnukWFwZ8sgoyGqODrZxpBDxPQ5403V9xGYEHa59hdGLwuzEKtmSHtBPOeCZyOogNHUN3A2T+T6JAe1BQ==, tarball: file:projects/arm-containerapp.tgz}
+    name: '@rush-temp/arm-containerapp'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/core-lro': 2.2.4
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.73.0

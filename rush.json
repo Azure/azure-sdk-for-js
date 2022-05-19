@@ -1695,6 +1695,11 @@
       "packageName": "@azure/arm-changes",
       "projectFolder": "sdk/changes/arm-changes",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-containerapp",
+      "projectFolder": "sdk/containerapp/arm-containerapp",
+      "versionPolicyName": "management"
     }
   ]
 }
