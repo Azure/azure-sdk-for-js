@@ -6,14 +6,14 @@ This new major version beta introduces a full redesign of the Azure Text Analyti
 
 ### Breaking Changes
 
-- This version targets Azure Cognitive Language Service API version `2022-04-01-preview` and newer. It _is not_ compatible with the older Text Analytics service API. To continue to use the old Text Analytics API version 3.1, please use major version 5 of the client library (`@azure/ai-text-analytics@^5.1.0`).
+- This version targets Azure Cognitive Language Service API version `2022-04-01-preview` and newer. It _is not_ compatible with the Text Analytics service API. To continue to use the Text Analytics API version 3.1, please use major version 5 of the client library (`@azure/ai-text-analytics@^5.1.0`).
 - `TextAnalyticsClient` has been replaced by `TextAnalysisClient`.
-  - The new `beginAnalyzeBatch` method replaces the previous `beginAnalyzeActions` and `beginAnalyzeHealthcareEntities` methods. The specification of actions and their results has changed to be a flat list instead of being an object where actions of the same kind grouped into their own properties.
+  - The new `beginAnalyzeBatch` method replaces the previous `beginAnalyzeActions` and `beginAnalyzeHealthcareEntities` methods. The specification of actions and their results has changed to be a flat list instead of being an object where actions of the same kind are grouped into their own properties.
   - The new `analyze` method replaces the text analysis methods of the previous client. It provides a single method that can analyze documents using an action name. It replaces `analyzeSentiment`, `extractKeyPhrases`, `recognizeEntities`, `recognizePiiEntities`, `recognizeLinkedEntities`, and `detectLanguage`. The new method produces an `AnalyzeResult` that gets specialized to the type of results corresponding to the input action.
-  - Types were named such that they follow the naming convention of actions as verb phrases, e.g. `RecognizeEntitiesResult`. Actions are now renamed as nouns and so their corresponding types, so `RecognizeEntitiesResult` is now named `EntityRecognitionResult`. Please consult the migration guide for a full list of all renames.
+  - Previously, types were named such that they follow the naming convention of actions as verb phrases, e.g. `RecognizeEntitiesResult`. Actions are now renamed as nouns and so their corresponding types, so `RecognizeEntitiesResult` is now named `EntityRecognitionResult`. Please consult the migration guide for a full list of all renames.
   - In many output types, properties are now marked as read-only.
   - `SingleCategoryClassifyActionSuccessResult` is renamed to `CustomSingleLabelClassificationSuccessResult` and the `classification` property has been renamed to `classifications` and is now an array.
-  - `statistics` and `modelVersion` has been removed from result arrays, e.g. `RecognizeEntitiesResultArray` has been replaced by `RecognizeEntitiesResult[]`.
+  - `statistics` and `modelVersion` has been removed from result arrays, e.g. `RecognizeEntitiesResultArray` has been replaced by `EntityRecognitionResult[]`.
 
 ### New Features
 
