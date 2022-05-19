@@ -56,7 +56,7 @@ describe("ClientAssertionCredential (internal)", function () {
     });
   });
 
-  it("Sends the expected parameters", async function () {
+  it.only("Sends the expected parameters", async function () {
     const credential = new ClientAssertionCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
@@ -68,6 +68,9 @@ describe("ClientAssertionCredential (internal)", function () {
     } catch (e) {
       // We're ignoring errors since our main goal here is to ensure that we send the correct parameters to MSAL.
     }
+
+    console.log(spy.name);
+    assert.equal(spy.name, "ConfidentialClientApplication");
     const sentConfiguration = spy.args[0][0];
     assert.equal(sentConfiguration.auth.clientAssertion, "assertion");
   });
