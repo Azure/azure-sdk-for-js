@@ -228,7 +228,7 @@ Previous (5.1.0):
 const client = new TextAnalyticsClient(...);
 const documents = [...];
 
-// Previously, healthcare analysis is done by calling the following method
+// Previously, batching actions we done in a deep object
 const poller = await client.beginAnalyzeActions(documents, { recognizeEntities: [ {} ], recognizeLinkedEntities: [ {} ] });
 ```
 
@@ -238,7 +238,7 @@ Current (6.0.0-beta.1):
 const client = new TextAnalysisClient(...);
 const documents = [...];
 
-// Now, it can be performed by passing it as a batch action
+// Now, it can be done in a flat list
 const poller = await client.beginAnalyzeBatch([{ kind: "EntityRecognition" }, { kind: "EntityLinking" }], documents);
 ```
 
