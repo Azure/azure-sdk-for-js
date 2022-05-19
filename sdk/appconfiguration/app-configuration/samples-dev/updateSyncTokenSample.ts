@@ -10,23 +10,23 @@
  * @azsdk-weight 70
  */
 
- import { AppConfigurationClient } from "@azure/app-configuration";
- import { isSystemEvent, EventGridEvent, EventGridDeserializer } from "@azure/eventgrid";
- import { appConfigTestEvent } from "./testData";
+import { AppConfigurationClient } from "@azure/app-configuration";
+import { isSystemEvent, EventGridEvent, EventGridDeserializer } from "@azure/eventgrid";
+import { appConfigTestEvent } from "./testData";
 
- // Load the .env file if it exists
- import * as dotenv from "dotenv";
- dotenv.config();
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config();
 
- // Create an Event Grid Consumer which will decode a hard coded test object into an EventGridEvent object.
+// Create an Event Grid Consumer which will decode a hard coded test object into an EventGridEvent object.
 const consumer = new EventGridDeserializer();
 
 /**
  * For a full implementation, another service would act as a receiver for events {@link https://docs.microsoft.com/en-us/azure/event-grid/event-handlers}.
  * However, to avoid additional complexity for this sample, a hardcoded test event is being used. For full EventGrid samples, see
  * {@link https://github.com/Azure/azure-sdk-for-js/tree/ebbfcff02ca15b1792dc6c45d8ba10913891c530/sdk/eventgrid/eventgrid/samples-dev}.
-*/
-async function processEvent() : Promise<EventGridEvent<unknown>[]> {
+ */
+async function processEvent(): Promise<EventGridEvent<unknown>[]> {
   return consumer.deserializeEventGridEvents(appConfigTestEvent);
 }
 
@@ -48,9 +48,12 @@ export async function main() {
 
   // Iterate through events and log updated key-value pairs.
   events.forEach(async (eventData) => {
-    if (isSystemEvent('Microsoft.AppConfiguration.KeyValueModified', eventData)) {
+    if (isSystemEvent("Microsoft.AppConfiguration.KeyValueModified", eventData)) {
       client.updateSyncToken(eventData.data.syncToken);
-      const newSetting = await client.getConfigurationSetting({ key: eventData.data.key, label: eventData.data.label });
+      const newSetting = await client.getConfigurationSetting({
+        key: eventData.data.key,
+        label: eventData.data.label,
+      });
       console.log(`Setting was updated. Key: ${newSetting.key} value ${newSetting.value}`);
     }
   });
@@ -61,7 +64,7 @@ export async function main() {
   });
 
   await cleanupSampleValues([greetingKey], client);
- }
+}
 
 async function cleanupSampleValues(keys: string[], client: AppConfigurationClient) {
   const settingsIterator = client.listConfigurationSettings({
@@ -73,7 +76,7 @@ async function cleanupSampleValues(keys: string[], client: AppConfigurationClien
   }
 }
 
- main().catch((err) => {
-   console.error("Failed to run sample:", err);
-   process.exit(1);
- });
+main().catch((err) => {
+  console.error("Failed to run sample:", err);
+  process.exit(1);
+});
