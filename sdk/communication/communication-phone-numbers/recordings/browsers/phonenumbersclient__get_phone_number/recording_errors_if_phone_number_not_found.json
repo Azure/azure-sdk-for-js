@@ -4,21 +4,20 @@
    "method": "GET",
    "url": "https://endpoint/phoneNumbers/%2B14155550100",
    "query": {
-    "api-version": "2022-01-11-preview2"
+    "api-version": "2022-06-01-preview"
    },
    "requestBody": null,
    "status": 404,
    "response": "{\"error\":{\"code\":\"NotFound\",\"message\":\"Input phoneNumber +14155550100 cannot be found.\",\"target\":\"phonenumber\"}}",
    "responseHeaders": {
-    "api-supported-versions": "2021-03-07, 2022-01-11-preview2",
+    "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview",
     "content-type": "application/json",
-    "date": "Wed, 02 Mar 2022 21:20:27 GMT",
-    "ms-cv": "d3f6xy4OT0ucOZqLNuXCJA.0",
-    "request-context": "appId=",
+    "date": "Thu, 12 May 2022 16:07:28 GMT",
+    "ms-cv": "syj0RufW5kCOhJksA0MWaw.0",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0nN8fYgAAAABMC4MqrmguSI1GI1jB2uUuTEFYMzExMDAwMTA4MDMzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+    "x-azure-ref": "0wDB9YgAAAADNlfFxMKN3Q5NYV1axIb5AUFJHMDFFREdFMDcxOQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "333ms"
+    "x-processing-time": "408ms"
    }
   }
  ],

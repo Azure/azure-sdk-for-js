@@ -31,14 +31,13 @@ export interface LroEngineOptions<TResult, TState> {
    * A predicate to determine whether the LRO finished processing.
    */
   isDone?: (lastResponse: unknown, state: TState) => boolean;
-}
 
-export const successStates = ["succeeded"];
-export const failureStates = ["failed", "canceled", "cancelled"];
-/**
- * The LRO states that signal that the LRO has completed.
- */
-export const terminalStates = successStates.concat(failureStates);
+  /**
+   * A function that takes the mutable state as input and attempts to cancel the
+   * LRO.
+   */
+  cancel?: (state: TState) => Promise<void>;
+}
 
 /**
  * The potential location of the result of the LRO if specified by the LRO extension in the swagger.
