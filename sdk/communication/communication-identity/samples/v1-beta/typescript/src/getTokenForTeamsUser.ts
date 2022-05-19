@@ -5,11 +5,15 @@
  * @summary Exchange an AAD access token of a Teams user for a new Communication Identity access token.
  */
 
-const { CommunicationIdentityClient } = require("@azure/communication-identity");
-const { PublicClientApplication } = require("@azure/msal-node");
+import {
+  CommunicationAccessToken,
+  CommunicationIdentityClient,
+} from "@azure/communication-identity";
+import { PublicClientApplication } from "@azure/msal-node";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
 // You will need to set this environment variables or edit the following values
 const connectionString =
@@ -23,7 +27,7 @@ const aadAuthority =
 const msalUsername = process.env["COMMUNICATION_MSAL_USERNAME"] || "<msal username>";
 const msalPassword = process.env["COMMUNICATION_MSAL_PASSWORD"] || "<msal password>";
 
-async function main() {
+export async function main() {
   if (process.env["SKIP_INT_IDENTITY_EXCHANGE_TOKEN_TEST"] === "true") {
     console.log("Skipping the Get Access Token for Teams User sample");
     return;
@@ -56,17 +60,20 @@ async function main() {
 
   // Retrieve the AAD token and object ID of a Teams user
   const response = await msalInstance.acquireTokenByUsernamePassword(usernamePasswordRequest);
-  let teamsToken = response.accessToken;
-  console.log(`Retrieved a token with the expiration: ${response.extExpiresOn}`);
+  let teamsToken = response!.accessToken;
+  console.log(`Retrieved a token with the expiration: ${response!.extExpiresOn}`);
 
-  // Extract the object ID from the homeAccountId which is an identifier for the account object
-  // that stands from object ID and tenant ID separated by a dot
-  let userId = response.account.homeAccountId.split(".")[0];
+  // Retrieve the user object ID
+  let userObjectId = response!.uniqueId;
 
   console.log("Exchanging the AAD access token for a Communication access token");
 
   // Exchange the AAD access token of a Teams user for a new Communication Identity access token
-  const communicationAccessToken = await client.getTokenForTeamsUser(teamsToken, aadAppId, userId);
+  const communicationAccessToken: CommunicationAccessToken = await client.getTokenForTeamsUser({
+    teamsUserAadToken: teamsToken,
+    clientId: aadAppId,
+    userObjectId: userObjectId,
+  });
 
   console.log(`Exchanged Communication access token: ${communicationAccessToken.token}`);
 }
@@ -77,5 +84,3 @@ main().catch((error) => {
   console.error("\nResponse: \n", error.response);
   console.error(error);
 });
-
-module.exports = { main };

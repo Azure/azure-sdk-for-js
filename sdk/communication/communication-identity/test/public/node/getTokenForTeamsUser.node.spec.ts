@@ -69,7 +69,7 @@ matrix([[true, false]], async function (useAad) {
       const getTokenForTeamsUserOptions: GetTokenForTeamsUserOptions = {
         teamsUserAadToken: response!.accessToken,
         clientId: env.COMMUNICATION_M365_APP_ID ?? "",
-        userObjectId: response!.account!.homeAccountId.split(".")[0],
+        userObjectId: response!.uniqueId,
       };
       return getTokenForTeamsUserOptions;
     }

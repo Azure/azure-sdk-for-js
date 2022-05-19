@@ -5,10 +5,10 @@ languages:
 products:
   - azure
   - azure-communication-services
-urlFragment: communication-identity-typescript
+urlFragment: communication-identity-typescript-beta
 ---
 
-# Azure Communication Services - Identity client library samples for TypeScript
+# Azure Communication Services - Identity client library samples for TypeScript (Beta)
 
 These sample programs show how to use the TypeScript client libraries for Azure Communication Services - Identity in some common scenarios.
 
@@ -70,9 +70,9 @@ npx cross-env COMMUNICATION_CONNECTION_STRING="<communication connection string>
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[gettokenforteamsuser]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-identity/samples/v1/typescript/src/getTokenForTeamsUser.ts
-[issuetoken]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-identity/samples/v1/typescript/src/issueToken.ts
-[revoketokens]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-identity/samples/v1/typescript/src/revokeTokens.ts
+[gettokenforteamsuser]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-identity/samples/v1-beta/typescript/src/getTokenForTeamsUser.ts
+[issuetoken]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-identity/samples/v1-beta/typescript/src/issueToken.ts
+[revoketokens]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-identity/samples/v1-beta/typescript/src/revokeTokens.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-identity
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecommunicationservicesaccount]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource

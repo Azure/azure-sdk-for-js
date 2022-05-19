@@ -63,9 +63,8 @@ export async function main() {
   let teamsToken = response!.accessToken;
   console.log(`Retrieved a token with the expiration: ${response!.extExpiresOn}`);
 
-  // Extract the object ID from the homeAccountId which is an identifier for the account object
-  // that stands from object ID and tenant ID separated by a dot
-  let userObjectId = response!.account!.homeAccountId.split(".")[0];
+  // Retrieve the user object ID
+  let userObjectId = response!.uniqueId;
 
   console.log("Exchanging the AAD access token for a Communication access token");
 
