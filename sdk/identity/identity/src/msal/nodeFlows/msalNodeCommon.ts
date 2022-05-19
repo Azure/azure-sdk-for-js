@@ -181,6 +181,9 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     }
 
     this.publicApp = new msalNode.PublicClientApplication(this.msalConfig);
+    if(options?.getAssertion){
+      this.msalConfig.auth.clientAssertion = await options?.getAssertion();
+    }
     // The confidential client requires either a secret, assertion or certificate.
     if (
       this.msalConfig.auth.clientSecret ||

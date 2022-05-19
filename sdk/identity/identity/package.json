@@ -110,7 +110,7 @@
     "@azure/core-rest-pipeline": "^1.1.0",
     "@azure/logger": "^1.0.0",
     "@azure/abort-controller": "^1.0.0",
-    "@azure/msal-common": "^6.3.0",
+    "@azure/msal-common": "C:/code/azure-msal-common-6.3.0.tgz",
     "@azure/msal-node": "C:/code/azure-msal-node-1.9.0.tgz",
     "@azure/msal-browser": "^2.16.0",
     "events": "^3.0.0",
