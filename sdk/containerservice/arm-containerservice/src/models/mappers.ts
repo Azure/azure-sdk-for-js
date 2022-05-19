@@ -542,6 +542,12 @@ export const ManagedClusterAgentPoolProfileProperties: coreClient.CompositeMappe
           name: "Boolean"
         }
       },
+      enableCustomCATrust: {
+        serializedName: "enableCustomCATrust",
+        type: {
+          name: "Boolean"
+        }
+      },
       nodePublicIPPrefixID: {
         serializedName: "nodePublicIPPrefixID",
         type: {
@@ -1412,6 +1418,12 @@ export const ContainerServiceNetworkProfile: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      networkPluginMode: {
+        serializedName: "networkPluginMode",
+        type: {
+          name: "String"
+        }
+      },
       networkPolicy: {
         serializedName: "networkPolicy",
         type: {
@@ -1974,6 +1986,18 @@ export const ManagedClusterAPIServerAccessProfile: coreClient.CompositeMapper = 
         type: {
           name: "Boolean"
         }
+      },
+      enableVnetIntegration: {
+        serializedName: "enableVnetIntegration",
+        type: {
+          name: "Boolean"
+        }
+      },
+      subnetId: {
+        serializedName: "subnetId",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2156,6 +2180,87 @@ export const ManagedClusterSecurityProfileWorkloadIdentity: coreClient.Composite
   type: {
     name: "Composite",
     className: "ManagedClusterSecurityProfileWorkloadIdentity",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterStorageProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterStorageProfile",
+    modelProperties: {
+      diskCSIDriver: {
+        serializedName: "diskCSIDriver",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterStorageProfileDiskCSIDriver"
+        }
+      },
+      fileCSIDriver: {
+        serializedName: "fileCSIDriver",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterStorageProfileFileCSIDriver"
+        }
+      },
+      snapshotController: {
+        serializedName: "snapshotController",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterStorageProfileSnapshotController"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterStorageProfileDiskCSIDriver: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterStorageProfileDiskCSIDriver",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterStorageProfileFileCSIDriver: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterStorageProfileFileCSIDriver",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedClusterStorageProfileSnapshotController: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterStorageProfileSnapshotController",
     modelProperties: {
       enabled: {
         serializedName: "enabled",
@@ -3185,6 +3290,12 @@ export const NetworkProfileForSnapshot: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      networkPluginMode: {
+        serializedName: "networkPluginMode",
+        type: {
+          name: "String"
+        }
+      },
       networkPolicy: {
         serializedName: "networkPolicy",
         type: {
@@ -3199,6 +3310,168 @@ export const NetworkProfileForSnapshot: coreClient.CompositeMapper = {
       },
       loadBalancerSku: {
         serializedName: "loadBalancerSku",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TrustedAccessRoleListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TrustedAccessRoleListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TrustedAccessRole"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TrustedAccessRole: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TrustedAccessRole",
+    modelProperties: {
+      sourceResourceType: {
+        serializedName: "sourceResourceType",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      rules: {
+        serializedName: "rules",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TrustedAccessRoleRule"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const TrustedAccessRoleRule: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TrustedAccessRoleRule",
+    modelProperties: {
+      verbs: {
+        serializedName: "verbs",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      apiGroups: {
+        serializedName: "apiGroups",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      resources: {
+        serializedName: "resources",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      resourceNames: {
+        serializedName: "resourceNames",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      nonResourceURLs: {
+        serializedName: "nonResourceURLs",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const TrustedAccessRoleBindingListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TrustedAccessRoleBindingListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TrustedAccessRoleBinding"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -3313,87 +3586,6 @@ export const ContainerServiceVMDiagnostics: coreClient.CompositeMapper = {
   }
 };
 
-export const ManagedClusterStorageProfile: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterStorageProfile",
-    modelProperties: {
-      diskCSIDriver: {
-        serializedName: "diskCSIDriver",
-        type: {
-          name: "Composite",
-          className: "ManagedClusterStorageProfileDiskCSIDriver"
-        }
-      },
-      fileCSIDriver: {
-        serializedName: "fileCSIDriver",
-        type: {
-          name: "Composite",
-          className: "ManagedClusterStorageProfileFileCSIDriver"
-        }
-      },
-      snapshotController: {
-        serializedName: "snapshotController",
-        type: {
-          name: "Composite",
-          className: "ManagedClusterStorageProfileSnapshotController"
-        }
-      }
-    }
-  }
-};
-
-export const ManagedClusterStorageProfileDiskCSIDriver: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterStorageProfileDiskCSIDriver",
-    modelProperties: {
-      enabled: {
-        serializedName: "enabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      version: {
-        serializedName: "version",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ManagedClusterStorageProfileFileCSIDriver: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterStorageProfileFileCSIDriver",
-    modelProperties: {
-      enabled: {
-        serializedName: "enabled",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const ManagedClusterStorageProfileSnapshotController: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedClusterStorageProfileSnapshotController",
-    modelProperties: {
-      enabled: {
-        serializedName: "enabled",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
 export const ManagedClusterAgentPoolProfile: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3442,6 +3634,42 @@ export const TrackedResource: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TrustedAccessRoleBinding: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TrustedAccessRoleBinding",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      provisioningState: {
+        serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      sourceResourceId: {
+        serializedName: "properties.sourceResourceId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      roles: {
+        serializedName: "properties.roles",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -3661,6 +3889,12 @@ export const AgentPool: coreClient.CompositeMapper = {
       },
       enableNodePublicIP: {
         serializedName: "properties.enableNodePublicIP",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enableCustomCATrust: {
+        serializedName: "properties.enableCustomCATrust",
         type: {
           name: "Boolean"
         }
@@ -4045,6 +4279,13 @@ export const ManagedCluster: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ManagedClusterSecurityProfile"
+        }
+      },
+      storageProfile: {
+        serializedName: "properties.storageProfile",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterStorageProfile"
         }
       },
       ingressProfile: {
