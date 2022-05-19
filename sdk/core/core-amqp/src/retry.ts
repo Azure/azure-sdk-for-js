@@ -173,7 +173,7 @@ function calculateDelay(
  */
 export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   validateRetryConfig(config);
-  const updatedConfig = config;
+  const updatedConfig = { ...config };
   if (!updatedConfig.retryOptions) {
     updatedConfig.retryOptions = {};
   }
