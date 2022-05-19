@@ -23,7 +23,6 @@ export class ClientAssertionCredential implements TokenCredential {
   private msalFlow?: MsalFlow;
   private tenantId: string;
   private clientId: string;
-  private getAssertion: () => Promise<string>;
   private options: ClientAssertionCredentialOptions;
 
   /**
@@ -49,8 +48,15 @@ export class ClientAssertionCredential implements TokenCredential {
     }
     this.tenantId = tenantId;
     this.clientId = clientId;
-    this.getAssertion = getAssertion;
     this.options = options;
+    this.msalFlow = new MsalClientAssertion({
+      ...options,
+      logger,
+      clientId: this.clientId,
+      tenantId: this.tenantId,
+      tokenCredentialOptions: this.options,
+      getAssertion
+    });
   }
 
   /**
@@ -62,14 +68,6 @@ export class ClientAssertionCredential implements TokenCredential {
    *                TokenCredential implementation might make.
    */
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
-    this.msalFlow = new MsalClientAssertion({
-      ...options,
-      logger,
-      clientId: this.clientId,
-      tenantId: this.tenantId,
-      clientAssertion: await this.getAssertion(),
-      tokenCredentialOptions: this.options,
-    });
     return trace(`${this.constructor.name}.getToken`, options, async (newOptions) => {
       const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
       return this.msalFlow!.getToken(arrayScopes, newOptions);

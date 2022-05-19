@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { AccessToken } from "@azure/core-auth";
-
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { MsalNodeOptions, MsalNode } from "./msalNodeCommon";
 
@@ -14,7 +13,7 @@ export interface MSALClientAssertionOptions extends MsalNodeOptions {
   /**
    * A function that retrieves the assertion for the credential to use.
    */
-  clientAssertion: string;
+   getAssertion: () => Promise<string>;
 }
 
 /**
@@ -22,10 +21,11 @@ export interface MSALClientAssertionOptions extends MsalNodeOptions {
  * @internal
  */
 export class MsalClientAssertion extends MsalNode {
+  private getAssertion: () => Promise<string>;
   constructor(options: MSALClientAssertionOptions) {
     super(options);
     this.requiresConfidential = true;
-    this.msalConfig.auth.clientAssertion = options.clientAssertion;
+    this.getAssertion = options.getAssertion;
   }
 
   protected async doGetToken(
@@ -39,7 +39,10 @@ export class MsalClientAssertion extends MsalNode {
         azureRegion: this.azureRegion,
         authority: options.authority,
         claims: options.claims,
-        clientAssertion: await getClientAssertion()
+        clientAssertion: {
+          assertion: await this.getAssertion(),
+          assertionType: "jwt_bearer"
+        }
       });
       // The Client Credential flow does not return an account,
       // so each time getToken gets called, we will have to acquire a new token through the service.
