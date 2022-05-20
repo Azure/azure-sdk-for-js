@@ -30,7 +30,7 @@ async function deploymentsCreateOrUpdate() {
     properties: {
       deploymentSettings: {
         addonConfigs: {
-          applicationConfigurationService: { patterns: ["mypattern"] }
+          applicationConfigurationService: {}
         },
         environmentVariables: { env: "test" },
         resourceRequests: { cpu: "1000m", memory: "3Gi" }
