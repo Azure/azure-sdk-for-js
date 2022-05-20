@@ -13,18 +13,16 @@ const templateSuffix = ".mustache"
 export type TScaffoldTech = "typescript" | "react" | "vue"
 export type TScaffoldSourceControl = "git" | "azure" | "none" | null
 
-export type TCustomWidgetConfig = {
-  name: string
+export type TWidgetConfig = {
   displayName: string
-  category: string
-  iconUrl?: string
   tech: TScaffoldTech
   control?: TScaffoldSourceControl
+  iconUrl?: string
   deployed?: string
   override?: string | boolean
 }
 
-export type TConfigDeploy = {
+export type TDeployConfig = {
   subscriptionId: string
   resourceGroupName: string
   serviceName: string
@@ -32,14 +30,21 @@ export type TConfigDeploy = {
   apiVersion: string
 }
 
+export const displayNameToName = (displayName: string) =>
+ encodeURIComponent(displayName.normalize("NFD")
+   .toLowerCase()
+   .replace(/[\u0300-\u036f]/g, "")
+   .replace(/[^a-z0-9-]/g, "-"));
+
 export async function generateProject(
-  customWidgetConfig: TCustomWidgetConfig,
-  configDeploy: TConfigDeploy,
+  widgetConfig: TWidgetConfig,
+  deployConfig: TDeployConfig,
   openUrl?: string
 ): Promise<void> {
   const openUrlParsed = openUrl ? new URL(openUrl) : null
   if (openUrlParsed) openUrlParsed.searchParams.append(OVERRIDE_PORT_KEY, String(OVERRIDE_DEFAULT_PORT))
 
+  const name = displayNameToName(widgetConfig.displayName)
   const serverSettings = JSON.stringify(
     {
       port: OVERRIDE_DEFAULT_PORT,
@@ -52,12 +57,12 @@ export async function generateProject(
   const renderTemplate = async (file: string) => {
     const isTemplate = file.endsWith(templateSuffix)
     let fileData = await fs.readFile(file, {encoding: "utf8"})
-    if (!isTemplate) {
+    if (isTemplate) {
       fileData = mustache.render(fileData, {
-        name: customWidgetConfig.name,
-        displayName: customWidgetConfig.displayName,
-        config: JSON.stringify(customWidgetConfig, null, "\t"),
-        configDeploy: JSON.stringify(configDeploy, null, "\t"),
+        name,
+        displayName: widgetConfig.displayName,
+        config: JSON.stringify(widgetConfig, null, "\t"),
+        configDeploy: JSON.stringify(deployConfig, null, "\t"),
         serverSettings,
       })
     }
@@ -65,16 +70,16 @@ export async function generateProject(
     const relativePath = file
       .replace(/\//g, "\\")
       .replace(joinPath(__dirname, "templates", "_shared"), "")
-      .replace(joinPath(__dirname, "templates", customWidgetConfig.tech), "")
+      .replace(joinPath(__dirname, "templates", widgetConfig.tech), "")
       .replace(templateSuffix, "")
-    const newFilePath = joinPath(process.cwd(), customWidgetConfig.name, relativePath)
+    const newFilePath = joinPath(process.cwd(), name, relativePath)
     const dir = parsePath(newFilePath).dir
 
     await fs.mkdir(dir, {recursive: true})
     await fs.writeFile(newFilePath, fileData)
   }
 
-  const templates = await getTemplates(customWidgetConfig.tech)
+  const templates = await getTemplates(widgetConfig.tech)
   for (const file of Object.values(templates)) {
     await renderTemplate(file)
   }

@@ -1,1 +1,1 @@
-export {generateProject} from "./scaffolding"
+export {generateProject, displayNameToName} from "./scaffolding"
