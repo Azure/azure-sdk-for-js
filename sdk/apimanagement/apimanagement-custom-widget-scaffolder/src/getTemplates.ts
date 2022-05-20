@@ -17,5 +17,3 @@ async function getFiles(path: string): Promise<string[]> {
     })
   })
 }
-
-getTemplates("react")
