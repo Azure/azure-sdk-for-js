@@ -3034,7 +3034,7 @@ packages:
     dev: false
 
   /array-flatten/1.1.1:
-    resolution: {integrity: sha1-ml9pkFGx5wczKPKgCJaLZOopVdI=}
+    resolution: {integrity: sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==}
     dev: false
 
   /array-includes/3.1.5:
@@ -3274,7 +3274,7 @@ packages:
     dev: false
 
   /buffer-equal-constant-time/1.0.1:
-    resolution: {integrity: sha1-+OcRMvf/5uAaXJaXpMbz5I1cyBk=}
+    resolution: {integrity: sha512-zRpUiDwd/xk6ADqPMATG8vc9VPrkck7T07OIx0gnjmJAnHnTVXNQG3vfvWNuiZIkwu9KrKdA1iJKfsfTVxE6NA==}
     dev: false
 
   /buffer-from/1.1.2:
@@ -3415,7 +3415,7 @@ packages:
     dev: false
 
   /charenc/0.0.2:
-    resolution: {integrity: sha1-wKHS86cJLgN3S/qD8UwPxXkKhmc=}
+    resolution: {integrity: sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==}
     dev: false
 
   /check-error/1.0.2:
@@ -9344,7 +9344,7 @@ packages:
     dev: false
 
   file:projects/ai-text-analytics.tgz:
-    resolution: {integrity: sha512-V1NlOFf8Wnqlap0NTRGTlOKmC4mSJwMHJ+VEXvv+fzwH/G/cnCEBgumjG5iykPHAGOjHril1iyXbs8oDv/JOSA==, tarball: file:projects/ai-text-analytics.tgz}
+    resolution: {integrity: sha512-I99Oz+cBO61S5+NIWAXD4SFRrwAr7vPyMT5ATznLAdTHMBaeLR+xGASQ5iLbm0nDdnAKROioQwdrppKL1zn5gw==, tarball: file:projects/ai-text-analytics.tgz}
     name: '@rush-temp/ai-text-analytics'
     version: 0.0.0
     dependencies:
@@ -11044,7 +11044,7 @@ packages:
     dev: false
 
   file:projects/arm-eventgrid.tgz:
-    resolution: {integrity: sha512-/09YtHZ3Rh0PhOzZ2RekHu9/MosORc7V4XRjdRcv75XckUvafH+uG788k0BZihPXavZ8j7YvUPBqMNZvjlKTQw==, tarball: file:projects/arm-eventgrid.tgz}
+    resolution: {integrity: sha512-0vEf7jW0UiW2yE+nRLujQUdyDxSobbhULSwYRnAgLVMN/h9xmFeQcb8IG9Ds2G4IqbDnca+uYLyy9BVFvzTMlg==, tarball: file:projects/arm-eventgrid.tgz}
     name: '@rush-temp/arm-eventgrid'
     version: 0.0.0
     dependencies:
@@ -12912,7 +12912,7 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservices-siterecovery.tgz:
-    resolution: {integrity: sha512-LT0awpC3WGb/VIxik67iD4xCFtB2kW9mWWuf5jo4MSxx8YwPpBvULd5zy9gFkEspxtyxSAlVoPaModQ6ru3VSA==, tarball: file:projects/arm-recoveryservices-siterecovery.tgz}
+    resolution: {integrity: sha512-exEcFE+Ku5bmqx2a5ywuNoSlOJN6DrVBpXWLPdjAuPEwhr2NL5jGAf0hKw28X1oUeqqSDAxBr3tzkC2MNKLg7Q==, tarball: file:projects/arm-recoveryservices-siterecovery.tgz}
     name: '@rush-temp/arm-recoveryservices-siterecovery'
     version: 0.0.0
     dependencies:
@@ -12920,22 +12920,22 @@ packages:
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.18.11
-      '@rollup/plugin-commonjs': 11.0.2_rollup@1.32.1
-      '@rollup/plugin-json': 4.1.0_rollup@1.32.1
-      '@rollup/plugin-multi-entry': 3.0.1_rollup@1.32.1
-      '@rollup/plugin-node-resolve': 8.4.0_rollup@1.32.1
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.73.0
+      '@rollup/plugin-json': 4.1.0_rollup@2.73.0
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.73.0
+      '@rollup/plugin-node-resolve': 13.3.0_rollup@2.73.0
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
-      rollup: 1.32.1
-      rollup-plugin-sourcemaps: 0.4.2_rollup@1.32.1
+      rollup: 2.73.0
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.73.0
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.15.5
     transitivePeerDependencies:
+      - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 
@@ -13373,7 +13373,7 @@ packages:
     dev: false
 
   file:projects/arm-securityinsight.tgz:
-    resolution: {integrity: sha512-7gsp4KOCne09k9AHVpEjIEF1IV65n1mjboYFyt7gupl7GXx7J970B4+YPA2Q9iMt45MhrcJNR/3DYf4p7GiTNg==, tarball: file:projects/arm-securityinsight.tgz}
+    resolution: {integrity: sha512-W5eHlYwGGF4L6CVtJTOdm3qD6ptIzX177kAx0F1g1KjwVQbqXyZTO0n1NcYLKYT1Jw8Oz2wsXgBEq3eDA1ppbQ==, tarball: file:projects/arm-securityinsight.tgz}
     name: '@rush-temp/arm-securityinsight'
     version: 0.0.0
     dependencies:

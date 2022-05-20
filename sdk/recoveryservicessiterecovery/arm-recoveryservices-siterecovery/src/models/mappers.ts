@@ -12000,6 +12000,30 @@ export const VMwareCbtNicDetails: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      testNetworkId: {
+        serializedName: "testNetworkId",
+        type: {
+          name: "String"
+        }
+      },
+      testSubnetName: {
+        serializedName: "testSubnetName",
+        type: {
+          name: "String"
+        }
+      },
+      testIPAddress: {
+        serializedName: "testIPAddress",
+        type: {
+          name: "String"
+        }
+      },
+      testIPAddressType: {
+        serializedName: "testIPAddressType",
+        type: {
+          name: "String"
+        }
+      },
       targetNicName: {
         serializedName: "targetNicName",
         type: {
@@ -12058,6 +12082,18 @@ export const VMwareCbtNicInput: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      testSubnetName: {
+        serializedName: "testSubnetName",
+        type: {
+          name: "String"
+        }
+      },
+      testStaticIPAddress: {
+        serializedName: "testStaticIPAddress",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -12077,6 +12113,12 @@ export const VMwareCbtUpdateDiskInput: coreClient.CompositeMapper = {
       },
       targetDiskName: {
         serializedName: "targetDiskName",
+        type: {
+          name: "String"
+        }
+      },
+      isOSDisk: {
+        serializedName: "isOSDisk",
         type: {
           name: "String"
         }
@@ -14130,8 +14172,20 @@ export const VMwareCbtEnableMigrationInput: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      testNetworkId: {
+        serializedName: "testNetworkId",
+        type: {
+          name: "String"
+        }
+      },
       targetSubnetName: {
         serializedName: "targetSubnetName",
+        type: {
+          name: "String"
+        }
+      },
+      testSubnetName: {
+        serializedName: "testSubnetName",
         type: {
           name: "String"
         }
@@ -14252,6 +14306,12 @@ export const VMwareCbtUpdateMigrationItemInput: coreClient.CompositeMapper = {
       },
       targetNetworkId: {
         serializedName: "targetNetworkId",
+        type: {
+          name: "String"
+        }
+      },
+      testNetworkId: {
+        serializedName: "testNetworkId",
         type: {
           name: "String"
         }
@@ -14387,6 +14447,18 @@ export const VMwareCbtTestMigrateInput: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "String"
+        }
+      },
+      vmNics: {
+        serializedName: "vmNics",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VMwareCbtNicInput"
+            }
+          }
         }
       }
     }
@@ -19014,14 +19086,12 @@ export const VMwareCbtContainerMappingInput: coreClient.CompositeMapper = {
       ...ReplicationProviderSpecificContainerMappingInput.type.modelProperties,
       keyVaultId: {
         serializedName: "keyVaultId",
-        required: true,
         type: {
           name: "String"
         }
       },
       keyVaultUri: {
         serializedName: "keyVaultUri",
-        required: true,
         type: {
           name: "String"
         }
@@ -19035,14 +19105,12 @@ export const VMwareCbtContainerMappingInput: coreClient.CompositeMapper = {
       },
       storageAccountSasSecretName: {
         serializedName: "storageAccountSasSecretName",
-        required: true,
         type: {
           name: "String"
         }
       },
       serviceBusConnectionStringSecretName: {
         serializedName: "serviceBusConnectionStringSecretName",
-        required: true,
         type: {
           name: "String"
         }

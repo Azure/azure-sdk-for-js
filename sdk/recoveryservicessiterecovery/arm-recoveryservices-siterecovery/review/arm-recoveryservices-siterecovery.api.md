@@ -6918,11 +6918,11 @@ export type VMwareCbtContainerCreationInput = ReplicationProviderSpecificContain
 // @public
 export type VMwareCbtContainerMappingInput = ReplicationProviderSpecificContainerMappingInput & {
     instanceType: "VMwareCbt";
-    keyVaultId: string;
-    keyVaultUri: string;
+    keyVaultId?: string;
+    keyVaultUri?: string;
     storageAccountId: string;
-    storageAccountSasSecretName: string;
-    serviceBusConnectionStringSecretName: string;
+    storageAccountSasSecretName?: string;
+    serviceBusConnectionStringSecretName?: string;
     targetLocation: string;
 };
 
@@ -6949,7 +6949,9 @@ export type VMwareCbtEnableMigrationInput = EnableMigrationProviderSpecificInput
     targetVmSize?: string;
     targetResourceGroupId: string;
     targetNetworkId: string;
+    testNetworkId?: string;
     targetSubnetName?: string;
+    testSubnetName?: string;
     targetAvailabilitySetId?: string;
     targetAvailabilityZone?: string;
     targetProximityPlacementGroupId?: string;
@@ -7040,6 +7042,10 @@ export interface VMwareCbtNicDetails {
     targetIPAddressType?: EthernetAddressType;
     targetNicName?: string;
     targetSubnetName?: string;
+    testIPAddress?: string;
+    testIPAddressType?: EthernetAddressType;
+    testNetworkId?: string;
+    testSubnetName?: string;
 }
 
 // @public
@@ -7050,6 +7056,8 @@ export interface VMwareCbtNicInput {
     targetNicName?: string;
     targetStaticIPAddress?: string;
     targetSubnetName?: string;
+    testStaticIPAddress?: string;
+    testSubnetName?: string;
 }
 
 // @public
@@ -7106,11 +7114,13 @@ export type VMwareCbtTestMigrateInput = TestMigrateProviderSpecificInput & {
     instanceType: "VMwareCbt";
     recoveryPointId: string;
     networkId: string;
+    vmNics?: VMwareCbtNicInput[];
 };
 
 // @public
 export interface VMwareCbtUpdateDiskInput {
     diskId: string;
+    isOSDisk?: string;
     targetDiskName?: string;
 }
 
@@ -7125,6 +7135,7 @@ export type VMwareCbtUpdateMigrationItemInput = UpdateMigrationItemProviderSpeci
     targetProximityPlacementGroupId?: string;
     targetBootDiagnosticsStorageAccountId?: string;
     targetNetworkId?: string;
+    testNetworkId?: string;
     vmNics?: VMwareCbtNicInput[];
     vmDisks?: VMwareCbtUpdateDiskInput[];
     licenseType?: LicenseType;
