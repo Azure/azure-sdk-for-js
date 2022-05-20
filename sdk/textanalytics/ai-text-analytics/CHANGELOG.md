@@ -2,7 +2,7 @@
 
 ## 6.0.0-beta.1 (2022-05-19)
 
-This new major version beta introduces a full redesign of the Azure Text Analytics client library, supports the new Azure Cognitive Language Service API  (version "2022-04-01-preview" and newer) and drops support for the old Text Analytics service API. Application code must be updated to use the new client, please see the [Migration Guide](https://github.com/Azure/azure-sdk-for-js/blob/77c6cc0d0d4e2d29e3dac6b0f41a39d83c308ef5/sdk/textanalytics/ai-text-analytics/MIGRATION_v5_v6.md) for detailed instructions.
+This new major version beta introduces a full redesign of the Azure Text Analytics client library, supports the new Azure Cognitive Language Service API  (version "2022-04-01-preview" and newer) and drops support for the Text Analytics service API. Application code must be updated to use the new client, please see the [Migration Guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/textanalytics/ai-text-analytics/MIGRATION_v5_v6.md) for detailed instructions.
 
 ### Breaking Changes
 
