@@ -1,18 +1,468 @@
-## Azure @azure-tools/test-recorder library for JavaScript
+# Azure @azure-tools/test-recorder library for JavaScript
 
-**Note: This project is a test utility that assits with testing the packages maintained at the Azure SDK for JavaScript repository. This is not intended for the public utilization.**
+The Azure SDK for JavaScript is composed of a multitude of libraries that attempt to deliver a common, homogenous SDK to make use of all of the services that Azure can provide. Among the challenges of such a goal, we have some that are specific to tests, some of which we can summarize in the following questions:
+
+- How to write live tests that can work as unit tests?
+- How to ensure that tests are as fast as they can be?
+- How to avoid writing mocked versions of our HTTP API?
+- How to protect sensitive data from our live tests?
+- How to write tests that support parallelism?
+- How to write isomorphic tests for NodeJS and the Browsers?
+
+Our recorder tool package `@azure-tools/test-recorder` attempts to provide an answer for those questions.
+
+**Note: In case you're depending on `@azure-tools/test-recorder@1.x.y` and want to migrate your tests to version 2, follow the [migration guide to recorder v2 from v1](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md)**
+
+This library provides interfaces and helper methods to equip the SDKs in the `azure-sdk-for-js` repo with the recording and playback capabilities for the tests, it targets HTTP requests in both Node.js and the Browsers.
+
+`@azure-tools/test-recorder`, as part of the Test Utils available in this repository, it is supposed to be added only as a devDependency and should be used only for the tests of an sdk.
 
 This tool helps to record and playback the tests in the JS repo by leveraging the unified out-of-process test proxy server.
 
-## Resources
+## Index
 
-- [Migration guide to recorder v2 from v1](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md)
-- [Azure SDK Tools Test Proxy](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/Azure.Sdk.Tools.TestProxy)
-- [Using Test Proxy with docker container](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/docker#build-and-run)
+- [Key concepts](#key-concepts)
+- [Getting started](#getting-started)
+  - [Installing the package](#installing-the-package)
+  - [Configuring your project](#configuring-your-project)
+  - [Using the `Recorder`](#using-the-recorder)
+- [Examples](#examples)
+  - [How to record](#how-to-record)
+  - [How to playback](#how-to-playback)
+  - [Update existing recordings](#update-existing-recordings)
+  - [Skipping tests](#skipping-tests)
+  - [Securing sensitive data](#securing-sensitive-data)
+  - [Supporting parallelism](#supporting-parallelism)
+  - [Isomorphic tests](#isomorphic-tests)
+  - [Many ways to run the test-proxy tool](#many-ways-to-run-the-test-proxy-tool)
+- [Troubleshooting](#troubleshooting)
+- [Next steps](#next-steps)
+- [Contributing](#contributing)
 
-## Running the tests along with the test-proxy tool
+## Key concepts
 
-### With the `dev-tool` commands
+- To **record** means to intercept any HTTP request, store it in a file,
+  then store the response received from the live resource that was originally
+  targeted. We leverage the unified out-of-process test proxy server that is built
+  for this use case. The output files are stored in `recordings/node/*` and in
+  `recordings/browser/*`, which are relative to the root of the project you're
+  working on.
+- To **playback** means to intercept any HTTP request and to respond it with the
+  stored response of a previously recorded matching request.
+- **Sensitive information** means content that should not be shared publicly.
+  Content like passwords, unique identifiers or personal information should be
+  cleaned up from the recordings. Some functionality is provided to fix this
+  problem. You can read more at [securing sensitive data](#securing-sensitive-data).
+
+## Getting started
+
+We're about to go through how to set up your project to use the
+`@azure-tools/test-recorder` package.
+
+This document assumes familiarity with [git](https://git-scm.com) and [rush](https://rushjs.io).
+You can read more about how we use rush in the following links:
+
+- Rush used for [Project Orchestration](https://github.com/sadasant/azure-sdk-for-js/blob/master/CONTRIBUTING.md#project-orchestration).
+- [Rush for NPM users](https://github.com/sadasant/azure-sdk-for-js/blob/master/CONTRIBUTING.md#rush-for-npm-users).
+
+### Installing the package
+
+To install the `@azure-tools/test-recorder` package, you'll need to start by
+cloning our azure-sdk-for-js repository. One way of doing this is by using the
+git command line interface, as follows:
+
+```bash
+cd /path/to/my/github/repositories
+git clone https://github.com/Azure/azure-sdk-for-js/
+```
+
+Having cloned this repository, let's set it up by running the following rush commands:
+
+```bash
+cd azure-sdk-for-js
+rush update
+rush install
+rush build
+```
+
+This will optimistically assume you're in a fresh clone.
+
+From this point forward, we'll assume that you're developing (perhaps
+contributing!) to one of the azure-sdk-for-js's libraries. So, your next step
+is to change directory to the path relevant to your project. Let's say you want
+to add the `@azure-tools/test-recorder` package to `@azure/data-tables` (it
+already uses test-recorder, but bear with us), you'll be doing the
+following:
+
+```bash
+cd sdk/tables/data-tables
+```
+
+Once there, you can add the test-recorder package by changing your package.json
+to include the following line in the devDependencies:
+
+```json
+{
+  // ... your package.json properties
+  "devDependencies": {
+    // ... your devDependencies
+    "@azure-tools/test-credential": "^1.0.0", // If you are using `@azure/identity` in your tests
+    "@azure-tools/test-recorder": "^2.0.0"
+    // ... more of your devDependencies
+  }
+  // ... more of your package.json properties
+}
+```
+
+After that, we recommend you to update rush and install the dependencies again, as follows:
+
+```bash
+rush update && rush install
+```
+
+And you're ready! Now you can use the common recorder in your code, as shown below:
+
+```typescript
+import { Recorder } from "@azure-tools/test-recorder";
+```
+
+Or, if you know what you want to import, you can also do the following:
+
+```typescript
+import { Recorder, RecorderStartOptions, env, SanitizerOptions } from "@azure/test-utils-recorder";
+```
+
+### Configuring your project
+
+Having the recorder as a devDependency means that you'll be able to start recording tests right away by using the `Recorder` class.
+
+The test-recorder provides the `Recorder` class that deals with recording and playing back the network requests, depending on the value assigned to the `TEST_MODE` environment variable.
+
+- If `TEST_MODE` equals to `record`, it will automatically store network requests in a plain text file in the folder `recordings` at the root of your repository (which for our example case is the root of the `sdk/tables/data-tables` project).
+- This package assumes that the tests in the sdk are leveraging
+  [mocha](https://mochajs.org/) and [rollup](https://rollupjs.org/guide/en/)
+  (and [karma](https://karma-runner.github.io/latest/index.html) test runner for browser tests) as suggested by the [template](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template) package in the repo.
+
+#### package.json scripts
+
+For the unified recorder client library to work, the [test proxy server] must be active while you are running your tests. Helpers have been added to the `dev-tool` package which manage starting and stopping the test proxy server before and after your tests are run.
+
+The following commands run the tests with the default configs, and concurrently starts(runs) the test-proxy tool in a detached process the background in record/playback modes if it is not already active. Additionally, more options can be passeed to override the default configs.
+
+- `dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'`
+- `dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'`
+- `dev-tool run test:browser`
+  Read more at [dev-tool commands #usage](https://github.com/Azure/azure-sdk-for-js/blob/main/common/tools/dev-tool/README.md#usage)
+
+Test scripts
+
+```json
+{
+  // ... your package.json scripts section
+  "integration-test:node": "...",
+  "unit-test:node": "..."
+  // ... more of your package.json scripts
+}
+```
+
+Have your test scripts based on the following examples in your package.json:
+
+|                            |                                                                                                                  |
+| :------------------------- | :--------------------------------------------------------------------------------------------------------------- |
+| `unit-test:browser`        | `dev-tool run test:browser`                                                                                      |
+| `unit-test:node`           | `dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'` |
+| `integration-test:browser` | `dev-tool run test:browser`                                                                                      |
+| `integration-test:node`    | `dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'`                              |
+
+Note the difference between the dev-tool `node-ts-input` and `node-js-input` commands:
+
+- `node-ts-input` runs the tests using `ts-node`, without code coverage.
+- `node-js-input` runs the tests using the built JavaScript output, and generates coverage reporting using `nyc`.
+
+Read more at [dev-tool commands #usage](https://github.com/Azure/azure-sdk-for-js/blob/main/common/tools/dev-tool/README.md#usage)
+
+#### Prerequisites
+
+- [Docker] is required, as the [test proxy server] is run in a container during testing. When running the tests, ensure the Docker daemon is running and you have permission to use it. For WSL 2, running `sudo service docker start` and `sudo usermod -aG docker $USER` should be sufficient.
+
+If for some reason, you have trouble running the test-proxy tool in your environment using the `dev-tool` commands as suggested above, please read [many ways to run the test-proxy tool](#many-ways-to-run-the-test-proxy-tool) to unblock yourself sooner.
+
+### Using the `Recorder`
+
+Inside a mocha test(either in the `beforeEach` or the `it` blocks), you'll instantiate the `Recorder` as below to leverage it's functionalities.
+
+```js
+let recorder: Recorder;
+
+beforeEach(async function () {
+  recorder = new Recorder(this.currentTest);
+});
+```
+
+Adding the recorder policies to your client, whose requests are supposed to be recorded.
+
+```js
+const client = new AnyCoreV2Client(/** args **/, recorder.configureClientOptions(/** client options **/));
+```
+
+- Modifying the client options(that you'd otherwise provide) with `recorder.configureClientOptions()` helps us with adding the recording policy to the additionalPolicies in the client options.
+- Adding the policy is important for redirecting the requests to the proxy tool instead of directly going to the service.
+
+  _Note: If your client is relying on `@azure/core-http` instead of the core-v2 libraries(i.e., `@azure/core-client` and `@azure/core-rest-pipeline`), please use `recorder.configureClientOptionsCoreV1()` instead of `recorder.configureClientOptions()`._
+
+Once instantiated the recorder, you're expected to start the recorder using the `recorder.start()` method with the appropriate recorder options.
+
+```js
+await recorder.start(/** recorderOptions go here **/);
+```
+
+- Recorder options will typically contain the environment setup needed for the `playback` mode, and the sanitizers that help with masking the sensitive information in the recordings, more on the recorder options below.
+
+After the start call is made, any requests that are made using the `client (AnyCoreV2Client)` will be redirected to the test-proxy tool before they reach the service, the requests and responses will be recorded and saved when `recorder.stop()` is called in `record` mode.
+
+Likewise, in `playback` mode, the saved responses are utilized by the test-proxy tool when the requests are redirected to it instead of reaching the service.
+
+```js
+await recorder.stop();
+```
+
+- Call this method to ping the test-proxy tool with a stop request, this helps to stop recording saving the recording file in record mode.
+
+_Note: Instantiating the recorder, starting and stopping the recorder, have no effects in the `live` mode(`TEST_MODE=live`), means the redirection to the test-proxy tool doesn't happen and the requests would reach the services as usual._
+
+#### Recorder#variable()
+
+To handle the dynamic/generated values for testing that are created as part of the tests, to make sure the requests in the `playback` mode match the ones in the `record` mode, you can leverage the `Recorder#variable` function.
+
+- Lets you register a variable to be stored with the recording. The behavior of this function depends on whether the recorder is in record/live mode or in playback mode.
+
+- In record or live mode, the function will store the value provided with the recording as a variable and return that value.
+
+- In playback mode, the function will fetch the value from the variables stored as part of the recording and return the retrieved variable, throwing an error if it is not found.
+
+### Beyond `Recorder`
+
+#### Environment variables
+
+`@azure-tools/test-recorder` exports `env` which loads the environment variables from the correct location (using `process.env` and `dotenv` in Node, and using `window.__env__` via karma in the browser), and also means that the environment variables set in `envSetupForPlayback` are used in playback mode.
+
+- `recorder.start()` internally sets up the environment variables for playback.
+  So, make sure to have the `recorder.start()` call before you use any environment variables in your tests.
+- To use an environment variable in a test, just do `env["NAME_OF_THE_VARIABLE"]`.
+
+#### `@azure-tools/test-credential` package and the NoOpCredential
+
+We do not record the AAD traffic since it is typically noise that is not needed for testing the SDK(unless we are testing the `@azure/identity` package directly which uses the `@azure-tools/test-recorder` differently to record the tests).
+
+- Tests with clients using AAD should make use of the new `@azure-tools/test-credential` package.
+- This package provides a `NoOpCredential` implementation of `TokenCredential` which makes no network requests, and should be used in `playback mode`.
+- The provided `createTestCredential` helper will handle switching between `NoOpCredential` in playback and `ClientSecretCredential` when recording for you:
+
+```ts
+import { createTestCredential } from "@azure-tools/test-credential";
+
+const credential = createTestCredential();
+
+// Create your client using the test credential.
+new MyServiceClient(<endpoint>, credential);
+```
+
+Since AAD traffic is not recorded by the new recorder, there are no AAD credentials to remove from the recording using a sanitizer.
+
+#### karma.conf - for the browser tests
+
+When running browser tests, the recorder relies on an environment variable to determine where to save the recordings. Add this snippet to your `karma.conf.js`:
+
+```ts
+const { relativeRecordingsPath } = require("@azure-tools/test-recorder");
+
+process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
+```
+
+And then, again in `karma.conf.js`, add the variable to the list of environment variables:
+
+```ts
+module.exports = function (config) {
+  config.set({
+    /* ... */
+
+    envPreprocessor: [
+      ,
+      /* ... */ "RECORDINGS_RELATIVE_PATH", // Add this!
+    ],
+
+    /* ... */
+  });
+};
+```
+
+## Examples
+
+### How to record
+
+To record your tests,
+
+- make sure to set the environment variable `TEST_MODE` to `record`
+
+  ```sh
+  # Windows
+  set TEST_MODE=record
+
+  # Linux / Mac
+  export TEST_MODE=record
+  ```
+
+- then in your code, instantiate the `Recorder`
+- call `#start()` function with the recorder options
+- modify the client options using the `#configureClientOptions()` method
+- then make calls with your client as needed
+- call `#stop()` function to save the recording in a file
+
+In the following example, we'll use the recorder with the client from `@azure/data-tables`:
+
+```typescript
+import { RecorderStartOptions, Recorder, env } from "@azure-tools/test-recorder";
+import { createTestCredential } from "@azure-tools/test-credential";
+import { TableServiceClient } from "@azure/data-tables";
+
+const recorderOptions: RecorderStartOptions = {
+  envSetupForPlayback: {
+    TABLES_URL: "https://fakeaccount.table.core.windows.net",
+  },
+  sanitizerOptions: {
+    bodySanitizers: [
+      {
+        target: encodeURIComponent(env.TABLES_URL ?? ""),
+        value: encodeURIComponent(`https://fakeaccount.table.core.windows.net`),
+      },
+    ],
+  },
+};
+
+describe(`TableServiceClient tests`, () => {
+  let recorder: Recorder;
+  let credential;
+
+  beforeEach(async function () {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderOptions);
+    credential = createTestCredential();
+  });
+
+  afterEach(async function () {
+    await recorder.stop();
+  });
+
+  it("should create new table, then delete", async () => {
+    const tableName = recorder.variable(
+      "table-name",
+      `table${Math.ceil(Math.random() * 1000 + 1000)}`
+    );
+    const client = new TableServiceClient(
+      env["TABLES_URL"],
+      credential,
+      recorder.configureClientOptions({})
+    );
+    await client.createTable(tableName);
+    await client.deleteTable(tableName);
+  });
+});
+```
+
+- After running this test with the `TEST_MODE` environment variable set to
+  `record`, the recorder assisted by the test-proxy tool will create a recording file located in `recordings/node/tableserviceclient_tests/recording_should_create_new_table_then_delete.json` with the contents of the HTTP requests as well as the responses.
+
+- You'll see in the code above that we're invoking `recorder.stop`. This is so that, after each test, we can stop recording and the test file can be generated.
+
+- We recommend instantiating/starting the new recorder in the `beforeEach` block and stopping the recorder on `afterEach` to make sure that the generated files are smaller and easier to understand than by having them all in one chunk.
+
+### Securing Sensitive Data
+
+Live tests need to do sensitive operations, like authenticating with your Azure endpoints, keys, secrets, etc, these are generally contained in the environment variables which are used as part of the tests.
+
+We must secure them and not let them leak into our recordings. To avoid storing the sensitive info in the recordings, we use the sanitizers to mask the values with the fake ones or remove them, `RecorderStartOptions` helps us here.
+
+#### `RecorderStartOptions`
+
+`RecorderStartOptions` has two components, `envSetupForPlayback` and the `sanitizers` which you'd have seen in the previous snippet.
+
+#### `envSetupForPlayback`
+
+#### `Sanitizers`
+
+### How to playback
+
+Once you have recorded something, you can run your tests again with `TEST_MODE` set to `playback`.
+
+You'll notice how the tests succeed much faster. That's because the requests will not reach the service endpoints, the recorder assisted by the test-proxy tool will respond every request according to their matching copy stored in the recordings.
+
+### Update existing recordings
+
+Once you have your recorded files, to update them after changing one of the tests, simply re-run the tests with `TEST_MODE` set to `record`. This will overwrite previously existing files.
+
+> **Note:** If you rename the file of the test, or the name of the test, the
+> path of the recording will change. Make sure to delete the recordings
+> corresponding to the deleted tests. If at any point in time you lose your
+> recordings, don't worry. Running your tests with `TEST_MODE=record` will
+> re-generate them.
+
+### Skipping tests
+
+Writing live tests can take considerable time, specially since each time you want to check that everything works fine, you potentially need to run again every test. With the test recorder, you can specify what test to run by following Mocha's approach of setting certain tests to `it.only`, and also to skip specific tests
+with `it.skip`.
+
+If you launch the `recorder` in record mode with some of these
+changes (and given that you activate the recorder on `beforeEach`), only the files that relate to the changed tests will be updated. Skipped tests won't update their recordings.
+
+This way, you can focus on fixing a specific set of tests with `.only`, then remove all the `.only` calls and trust that the playback will keep confirming that the unaffected tests are fine and green.
+
+You can also skip specific tests with the following.
+
+```js
+import { isLiveMode } from "@azure-tools/test-recorder";
+
+it("test-title", function () {
+  if (!isLiveMode()) this.skip(); // This skips the test in record and playback modes
+  // Test goes here...
+  // ...
+});
+```
+
+### Supporting parallelism
+
+A common issue while running integration tests is that, sometimes two persons or machines might try to run the same set of tests against the same resource.
+
+This is not directly related to the `@azure/test-utils-recorder` package, but if you're getting into issues because of concurrent conflicting requests, we strongly suggest using randomly generated strings as prefixes or suffixes for the resources you create.
+
+Since new resources are likely to get accumulated because some tests would crash or fail for any reason, make sure you delete the resources that are not cleared.
+
+### Isomorphic tests
+
+`@azure/test-utils-recorder` does support running tests in the browser. If you use Karma, as long as your karma configuration is correct, your tests should work both on NodeJS and in the browsers!
+
+### Troubleshooting
+
+Besides the usual debugging of your code and tests, if you ever encounter a problem while recording your tests, make sure to read the output in the recordings. If the output is not what you expected, please follow up the [contributing](#contributing) guidelines on how to write an issue for us. We'll make sure to handle it as soon as we find the time.
+
+If you run into issues while running the tests in record/playback modes, some of the following troubleshooting steps may help:
+
+#### Viewing test proxy log output
+
+`dev-tool` by default outputs logs from the test proxy to `test-proxy-output.log` in your package's root directory. These logs can be inspected to see what requests were made to the proxy tool.
+
+#### Viewing more detailed logs by running the proxy tool manually
+
+If you desire, you can run the proxy tool docker image manually before running your tests, refer to the [many ways to run the test-proxy tool](#many-ways-to-run-the-test-proxy-tool). This allows you to specify a different log level (debug in the below example), allowing for more detailed logs to be viewed. Do this by running:
+
+```bash
+docker run -v <your azure-sdk-for-js repository root>:/srv/testproxy -p 5001:5001 -p 5000:5000 -e Logging__LogLevel__Microsoft=Debug azsdkengsys.azurecr.io/engsys/testproxy-lin:latest
+```
+
+Once you've done this, you can run your tests in a separate terminal. `dev-tool` will detect that a test proxy container is already running and will point requests to the Docker container you started.
+
+### Many ways to run the test-proxy tool
+
+#### With the `dev-tool` commands
 
 - The following commands run the tests with the default configs, and concurrently runs the proxy tool in record/playback modes if it is not already active. Additionally, more options can be passeed to override the default configs.
   - `dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'`
@@ -22,7 +472,7 @@ This tool helps to record and playback the tests in the JS repo by leveraging th
 
 Follow the below two methods if you wish to run the proxy tool yourself without relying on the `dev-tool` commands.
 
-### With the `docker run` command
+#### With the `docker run` command
 
 - Run this command
 
@@ -37,7 +487,7 @@ Follow the below two methods if you wish to run the proxy tool yourself without 
 
   Reference: [Using Test Proxy with docker container](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/docker#build-and-run)
 
-### (OR) With the `dotnet tool`
+#### (OR) With the `dotnet tool`
 
 - Install [.Net 5.0](https://dotnet.microsoft.com/download)
 - Install test-proxy
@@ -46,4 +496,21 @@ Follow the below two methods if you wish to run the proxy tool yourself without 
 
   > `test-proxy --storage-location <root-of-the-repo>`
 
-  [ `root-of-the-repo example` - `/workspaces/azure-sdk-for-js` if you're on codespaces]
+  [ `root-of-the-repo example` - `/workspaces/azure-sdk-for-js` if you're on codespaces, `C:/Users/username/projects/azure-sdk-for-js/` on windows, etc]
+
+  Reference: [Azure SDK Tools Test Proxy](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/Azure.Sdk.Tools.TestProxy)
+
+### Next steps
+
+The test-recorder(v2.0) might not be used yet in each one of the libraries in the `azure-sdk-for-js` repository (we're working on it). In the mean time, an easy way to find where we're using this package is by going through the following
+search link:
+<https://github.com/Azure/azure-sdk-for-js/search?q=test-recorder>
+
+### Contributing
+
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Ftest-utils%2Frecorder%2FREADME.png)
+
+[docker]: https://docker.com/
+[test proxy server]: https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy
