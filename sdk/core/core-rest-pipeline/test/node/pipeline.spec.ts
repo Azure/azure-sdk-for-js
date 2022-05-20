@@ -1,18 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import * as https from "https";
 import * as http from "https";
-import { HttpsProxyAgent } from "https-proxy-agent";
-import sinon from "sinon";
-import { createPipelineFromOptions } from "../../src/createPipelineFromOptions";
-import { createHttpHeaders } from "../../src/httpHeaders";
-import { HttpClient } from "../../src/interfaces";
-import { createNodeHttpClient } from "../../src/nodeHttpClient";
-import { createEmptyPipeline } from "../../src/pipeline";
+import * as https from "https";
+
 import { proxyPolicy, proxyPolicyName } from "../../src/policies/proxyPolicy";
-import { tlsPolicy } from "../../src/policies/tlsPolicy";
+import { tlsPolicy, tlsPolicyName } from "../../src/policies/tlsPolicy";
+
+import { HttpClient } from "../../src/interfaces";
+import { HttpsProxyAgent } from "https-proxy-agent";
+import { assert } from "chai";
+import { createEmptyPipeline } from "../../src/pipeline";
+import { createHttpHeaders } from "../../src/httpHeaders";
+import { createNodeHttpClient } from "../../src/nodeHttpClient";
+import { createPipelineFromOptions } from "../../src/createPipelineFromOptions";
+import sinon from "sinon";
 
 describe("HttpsPipeline", function () {
   describe("Agent creation", function () {
@@ -45,7 +47,7 @@ describe("HttpsPipeline", function () {
       });
     });
 
-    it("should pass honor proxy over tls", async function () {
+    it("should honor proxy over tls", async function () {
       const fakePfx = "fakeCert";
       const pipeline = createPipelineFromOptions({
         proxyOptions: { host: "https://foo2", port: 12345 },
@@ -62,6 +64,7 @@ describe("HttpsPipeline", function () {
         },
       };
 
+      pipeline.removePolicy({ name: tlsPolicyName });
       pipeline.addPolicy(tlsPolicy({ pfx: fakePfx }), { beforePolicies: [proxyPolicyName] });
 
       await pipeline.sendRequest(httpClient, {
@@ -93,6 +96,58 @@ describe("HttpsPipeline", function () {
           timeout: 10000,
           url: "https://localhost",
           withCredentials: false,
+        })
+        .catch((error) => {
+          assert.equal(error.message, "ok");
+        });
+    });
+
+    it("should honor tls in request over pipeline options", async function () {
+      const pipeline = createEmptyPipeline();
+      const fakePfx = "fakecert";
+      const httpClient: HttpClient = createNodeHttpClient();
+      sinon.stub(https, "request").callsFake((request: any) => {
+        assert.equal(request.agent.options.pfx, "requestPfx");
+        throw new Error("ok");
+      });
+
+      pipeline.addPolicy(tlsPolicy({ pfx: fakePfx }));
+
+      await pipeline
+        .sendRequest(httpClient, {
+          headers: createHttpHeaders(),
+          method: "GET",
+          requestId: "1",
+          timeout: 10000,
+          url: "https://localhost",
+          withCredentials: false,
+          tlsSettings: { pfx: "requestPfx" },
+        })
+        .catch((error) => {
+          assert.equal(error.message, "ok");
+        });
+    });
+
+    it("should set tls options when only request tls is set", async function () {
+      const pipeline = createEmptyPipeline();
+      const fakePfx = "fakecert";
+      const httpClient: HttpClient = createNodeHttpClient();
+      sinon.stub(https, "request").callsFake((request: any) => {
+        assert.equal(request.agent.options.pfx, fakePfx);
+        throw new Error("ok");
+      });
+
+      pipeline.addPolicy(tlsPolicy());
+
+      await pipeline
+        .sendRequest(httpClient, {
+          headers: createHttpHeaders(),
+          method: "GET",
+          requestId: "1",
+          timeout: 10000,
+          url: "https://localhost",
+          withCredentials: false,
+          tlsSettings: { pfx: fakePfx },
         })
         .catch((error) => {
           assert.equal(error.message, "ok");

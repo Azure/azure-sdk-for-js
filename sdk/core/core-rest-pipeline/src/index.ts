@@ -76,6 +76,7 @@ export {
   userAgentPolicyName,
   UserAgentPolicyOptions,
 } from "./policies/userAgentPolicy";
+export { tlsPolicy, tlsPolicyName } from "./policies/tlsPolicy";
 export { formDataPolicy, formDataPolicyName } from "./policies/formDataPolicy";
 export {
   bearerTokenAuthenticationPolicy,
