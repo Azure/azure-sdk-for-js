@@ -41,35 +41,22 @@ This tool helps to record and playback the tests in the JS repo by leveraging th
 
 ## Key concepts
 
-- To **record** means to intercept any HTTP request, store it in a file,
-  then store the response received from the live resource that was originally
-  targeted. We leverage the unified out-of-process test proxy server that is built
-  for this use case. The output files are stored in `recordings/node/*` and in
-  `recordings/browser/*`, which are relative to the root of the project you're
-  working on.
-- To **playback** means to intercept any HTTP request and to respond it with the
-  stored response of a previously recorded matching request.
-- **Sensitive information** means content that should not be shared publicly.
-  Content like passwords, unique identifiers or personal information should be
-  cleaned up from the recordings. Some functionality is provided to fix this
-  problem. You can read more at [securing sensitive data](#securing-sensitive-data).
+- To **record** means to intercept any HTTP request, store it in a file, then store the response received from the live resource that was originally targeted. We leverage the unified out-of-process test proxy server that is built for this use case. The output files are stored in `recordings/node/*` and in `recordings/browser/*`, which are relative to the root of the project you're working on.
+- To **playback** means to intercept any HTTP request and to respond it with the stored response of a previously recorded matching request.
+- **Sensitive information** means content that should not be shared publicly. Content like passwords, unique identifiers or personal information should be cleaned up from the recordings. Some functionality is provided to fix this problem. You can read more at [securing sensitive data](#securing-sensitive-data).
 
 ## Getting started
 
-We're about to go through how to set up your project to use the
-`@azure-tools/test-recorder` package.
+We're about to go through how to set up your project to use the `@azure-tools/test-recorder` package.
 
-This document assumes familiarity with [git](https://git-scm.com) and [rush](https://rushjs.io).
-You can read more about how we use rush in the following links:
+This document assumes familiarity with [git](https://git-scm.com) and [rush](https://rushjs.io). You can read more about how we use rush in the following links:
 
 - Rush used for [Project Orchestration](https://github.com/sadasant/azure-sdk-for-js/blob/master/CONTRIBUTING.md#project-orchestration).
 - [Rush for NPM users](https://github.com/sadasant/azure-sdk-for-js/blob/master/CONTRIBUTING.md#rush-for-npm-users).
 
 ### Installing the package
 
-To install the `@azure-tools/test-recorder` package, you'll need to start by
-cloning our azure-sdk-for-js repository. One way of doing this is by using the
-git command line interface, as follows:
+To install the `@azure-tools/test-recorder` package, you'll need to start by cloning our azure-sdk-for-js repository. One way of doing this is by using the git command line interface, as follows:
 
 ```bash
 cd /path/to/my/github/repositories
@@ -87,19 +74,13 @@ rush build
 
 This will optimistically assume you're in a fresh clone.
 
-From this point forward, we'll assume that you're developing (perhaps
-contributing!) to one of the azure-sdk-for-js's libraries. So, your next step
-is to change directory to the path relevant to your project. Let's say you want
-to add the `@azure-tools/test-recorder` package to `@azure/data-tables` (it
-already uses test-recorder, but bear with us), you'll be doing the
-following:
+From this point forward, we'll assume that you're developing (perhaps contributing!) to one of the azure-sdk-for-js's libraries. So, your next step is to change directory to the path relevant to your project. Let's say you want to add the `@azure-tools/test-recorder` package to `@azure/data-tables` (it already uses test-recorder, but bear with us), you'll be doing the following:
 
 ```bash
 cd sdk/tables/data-tables
 ```
 
-Once there, you can add the test-recorder package by changing your package.json
-to include the following line in the devDependencies:
+Once there, you can add the test-recorder package by changing your package.json to include the following line in the devDependencies:
 
 ```json
 {
@@ -246,8 +227,7 @@ To handle the dynamic/generated values for testing that are created as part of t
 
 `@azure-tools/test-recorder` exports `env` which loads the environment variables from the correct location (using `process.env` and `dotenv` in Node, and using `window.__env__` via karma in the browser), and also means that the environment variables set in `envSetupForPlayback` are used in playback mode.
 
-- `recorder.start()` internally sets up the environment variables for playback.
-  So, make sure to have the `recorder.start()` call before you use any environment variables in your tests.
+- `recorder.start()` internally sets up the environment variables for playback. So, make sure to have the `recorder.start()` call before you use any environment variables in your tests.
 - To use an environment variable in a test, just do `env["NAME_OF_THE_VARIABLE"]`.
 
 #### `@azure-tools/test-credential` package and the NoOpCredential
@@ -408,11 +388,9 @@ Once you have your recorded files, to update them after changing one of the test
 
 ### Skipping tests
 
-Writing live tests can take considerable time, specially since each time you want to check that everything works fine, you potentially need to run again every test. With the test recorder, you can specify what test to run by following Mocha's approach of setting certain tests to `it.only`, and also to skip specific tests
-with `it.skip`.
+Writing live tests can take considerable time, specially since each time you want to check that everything works fine, you potentially need to run again every test. With the test recorder, you can specify what test to run by following Mocha's approach of setting certain tests to `it.only`, and also to skip specific tests with `it.skip`.
 
-If you launch the `recorder` in record mode with some of these
-changes (and given that you activate the recorder on `beforeEach`), only the files that relate to the changed tests will be updated. Skipped tests won't update their recordings.
+If you launch the `recorder` in record mode with some of these changes (and given that you activate the recorder on `beforeEach`), only the files that relate to the changed tests will be updated. Skipped tests won't update their recordings.
 
 This way, you can focus on fixing a specific set of tests with `.only`, then remove all the `.only` calls and trust that the playback will keep confirming that the unaffected tests are fine and green.
 
@@ -502,8 +480,7 @@ Follow the below two methods if you wish to run the proxy tool yourself without 
 
 ### Next steps
 
-The test-recorder(v2.0) might not be used yet in each one of the libraries in the `azure-sdk-for-js` repository (we're working on it). In the mean time, an easy way to find where we're using this package is by going through the following
-search link:
+The test-recorder(v2.0) might not be used yet in each one of the libraries in the `azure-sdk-for-js` repository (we're working on it). In the mean time, an easy way to find where we're using this package is by going through the following search link:
 <https://github.com/Azure/azure-sdk-for-js/search?q=test-recorder>
 
 ### Contributing
