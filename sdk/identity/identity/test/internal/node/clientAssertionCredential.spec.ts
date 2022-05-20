@@ -11,6 +11,7 @@ import Sinon from "sinon";
 import { msalNodeTestSetup, MsalTestCleanup } from "../../msalTestUtils";
 import * as msalNode from "@azure/msal-node";
 import { ConfidentialClientApplication } from "@azure/msal-node";
+import {setLogLevel } from "@azure/logger";
 
 describe("ClientAssertionCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
@@ -21,14 +22,24 @@ describe("ClientAssertionCredential (internal)", function () {
     const setup = msalNodeTestSetup(this);
     cleanup = setup.cleanup;
     spy = setup.sandbox.spy(msalNode, "ConfidentialClientApplication");
-    doGetTokenSpy = setup.sandbox.spy(
+    doGetTokenSpy = setup.sandbox.stub(
       ConfidentialClientApplication.prototype,
       "acquireTokenByClientCredential"
-    );
+    ).callsFake(() => {
+      console.log("@@@@@@@@@@@@@@@@@@@@@@")
+      return Promise.resolve({accessToken: ""} as any)
+    })
   });
   afterEach(async function () {
     await cleanup();
   });
+
+  // it.only("call count", () => {
+  //   const x = new ConfidentialClientApplication({auth: {clientId: ""}});
+  //   console.log(x)
+  //   // x.acquireTokenByClientCredential({scopes: [""]});
+  //   assert.equal(spy.callCount, 1)
+  // })
 
   it("Should throw if the parameteres are not correctly specified", async function () {
     const errors: Error[] = [];
@@ -62,6 +73,7 @@ describe("ClientAssertionCredential (internal)", function () {
   });
 
   it.only("Sends the expected parameters", async function () {
+    setLogLevel("verbose");
     const credential = new ClientAssertionCredential(
       env.AZURE_TENANT_ID,
       env.AZURE_CLIENT_ID,
@@ -73,19 +85,21 @@ describe("ClientAssertionCredential (internal)", function () {
     } catch (e) {
       // We're ignoring errors since our main goal here is to ensure that we send the correct parameters to MSAL.
     }
-  async function getAssertion(): Promise<string> {
-    return "assertion";
-  };
-console.log(spy.callCount);
+  // async function getAssertion(): Promise<string> {
+  //   return "assertion";
+  // };
+//console.log(spy.callCount);
     console.log(spy.name);
-    console.dir(spy.calledWith({
-      assertion: await getAssertion() ,
-      assertionType: "jwt_bearer"
-    }));
-    console.log(doGetTokenSpy.args);
+    // console.dir(doGetTokenSpy.calledWith({
+    //   assertion: await getAssertion() ,
+    //   assertionType: "jwt_bearer"
+    // }));
+    console.log(doGetTokenSpy.name);
     assert.equal(spy.name, "ConfidentialClientApplication");
-   // const sentConfiguration = spy.args[0][0];
-    //assert.equal(sentConfiguration.auth.clientAssertion, "assertion");
-    console.log(doGetTokenSpy.args);
+
+   const sentConfiguration = spy.args[0][0];
+    assert.equal(sentConfiguration.auth.clientAssertion, "assertion");
+    console.log(doGetTokenSpy.callCount);
+    console.log(spy.callCount);
   });
 });

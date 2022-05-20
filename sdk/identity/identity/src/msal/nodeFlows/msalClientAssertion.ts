@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { AccessToken } from "@azure/core-auth";
+import { ClientCredentialRequest } from "@azure/msal-node";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { MsalNodeOptions, MsalNode } from "./msalNodeCommon";
 
@@ -43,7 +44,7 @@ export class MsalClientAssertion extends MsalNode {
           assertion: await this.getAssertion(),
           assertionType: "jwt_bearer"
         }
-      });
+      } as ClientCredentialRequest);
       // The Client Credential flow does not return an account,
       // so each time getToken gets called, we will have to acquire a new token through the service.
       return this.handleResult(scopes, this.clientId, result || undefined);
