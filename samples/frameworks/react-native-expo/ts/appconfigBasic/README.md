@@ -2,7 +2,7 @@
 
 This sample application shows how to use the TypeScript client libraries for Azure in some common scenarios.
 
-In this sample, we build a simple application in React Native using Expo and integrating with Azure Application Configuration service.
+In this sample, we build a simple application in React Native using Expo and integrating with Azure App Configuration service.
 
 ## Prerequisites
 
@@ -24,7 +24,7 @@ Run expo CLI to create a blank project with typescript support, give it a name o
 expo init -t expo-template-blank-typescript
 ```
 
-At this point we should be ale to see the app running if the environment is set up correctly
+At this point, we should be able to see the app running if the environment is set up correctly
 
 ```shell
 expo start --android
@@ -69,7 +69,7 @@ Then add the following into `babel.config.js` to enable the plugin
 
 ### Add connection string to .env file
 
-Create a `.env` file in the project directory. Retrieve your connection string from Azure portal and add them into the `.env` file. Since this file contains secrets you need to add it to the ignore list if your code is commit into a repository.
+Create a `.env` file in the project directory. Retrieve your connection string from Azure portal and add them to the `.env` file. Since this file contains secrets you need to add it to the ignore list if your code is committed to a repository.
 
 **Note** We use connection string directly here for testing purpose.  You should consider the trade-off between security and convenience and better use a backend to dynamically provide secrets to only authenticated users.
 
