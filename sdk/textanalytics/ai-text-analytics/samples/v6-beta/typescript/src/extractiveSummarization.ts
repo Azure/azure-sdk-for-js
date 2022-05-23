@@ -5,7 +5,6 @@
  * This sample program extracts a summary of two sentences at max from an article
  *
  * @summary extracts a summary from an article
- * @azsdk-weight 50
  */
 
 import {
