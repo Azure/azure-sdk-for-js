@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.1 (TODO: Add release date)
+## 1.0.0-beta.1 (2022-05-22)
 
 The first preview of the Azure Communication Email Client has the following features:
 
