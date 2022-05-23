@@ -70,4 +70,4 @@ rush update
 rush rebuild
 ```
 
-Note : If the above step fails, you can reset the repo: `git clean -f -x -d` (Warning: this will delete all unversioned files including those ignored by gitignore. Backup any .env files and push any commits you wanted to etc)
+Note : If the above step fails, you can reset the repo: `git clean -xdf` (Warning: this will delete all unversioned files including those ignored by `.gitignore`. Backup any .env files and push any commits you wanted to etc.  If you know the files that you want to keep, you can specify them using `-e` option, e.g., `git clean -dfx -e *.env -e launch.json`.)

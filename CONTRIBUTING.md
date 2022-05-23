@@ -212,7 +212,7 @@ Projects may optionally have the following scripts:
 
 If you're having problems and want to restore your repo to a clean state without any packages installed, run `rush uninstall`. Downloaded packages will be deleted from the cache and all node_modules directories will be removed. Now you can start clean by re-downloading and installing dependencies from scratch with `rush update`. This will not make any changes to any other files in your working directory.
 
-If you want to get back to a completely clean state, you can instead run `rush reset-workspace`. This will perform the same operations as above, but will additionally run `git clean -dfx` to remove all untracked files and directories in your working directory. This is a destructive operation - use it with caution!!
+If you want to get back to a completely clean state, you can instead run `rush reset-workspace`. This will perform the same operations as above. It basically runs `"rush unlink && git clean -dfx -e *.env -e launch.json && rush purge` to remove all untracked files and directories in your working directory. This is a destructive operation - use it with caution!! If you have additional files that you want to keep, you can run those commands yourself but passing more file name patterns to the `-e` option of `git clean` command.
 
 ### Rush for NPM users
 
