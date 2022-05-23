@@ -125,9 +125,6 @@ export interface AssessmentSentiment {
     text: string;
 }
 
-// @public
-export type Association = "subject" | "other";
-
 export { AzureKeyCredential }
 
 // @public
@@ -160,16 +157,10 @@ export interface BeginAnalyzeBatchOptions extends TextAnalysisOperationOptions {
 }
 
 // @public
-export type Certainty = "positive" | "positivePossible" | "neutralPossible" | "negativePossible" | "negative";
-
-// @public
 export interface ClassificationCategory {
     category: string;
     confidenceScore: number;
 }
-
-// @public
-export type Conditionality = "hypothetical" | "conditional";
 
 // @public
 export interface CustomActionMetadata {
@@ -272,6 +263,15 @@ export interface Entity {
 }
 
 // @public
+export type EntityAssociation = "subject" | "other";
+
+// @public
+export type EntityCertainty = "positive" | "positivePossible" | "neutralPossible" | "negativePossible" | "negative";
+
+// @public
+export type EntityConditionality = "hypothetical" | "conditional";
+
+// @public
 export interface EntityDataSource {
     entityId: string;
     name: string;
@@ -354,9 +354,9 @@ export type HealthcareAction = ActionPrebuilt & {
 
 // @public
 export interface HealthcareAssertion {
-    association?: Association;
-    certainty?: Certainty;
-    conditionality?: Conditionality;
+    association?: EntityAssociation;
+    certainty?: EntityCertainty;
+    conditionality?: EntityConditionality;
 }
 
 // @public
@@ -504,7 +504,7 @@ export enum KnownInnerErrorCode {
 }
 
 // @public
-export enum KnownPiiCategory {
+export enum KnownPiiEntityCategory {
     // (undocumented)
     ABARoutingNumber = "ABARoutingNumber",
     // (undocumented)
@@ -854,7 +854,7 @@ export enum KnownPiiCategory {
 }
 
 // @public
-export enum KnownPiiDomain {
+export enum KnownPiiEntityDomain {
     None = "none",
     Phi = "phi"
 }
@@ -948,15 +948,15 @@ export interface Opinion {
 export type PagedAnalyzeBatchResult = PagedAsyncIterableIterator<AnalyzeBatchResult>;
 
 // @public
-export type PiiCategory = string;
+export type PiiEntityCategory = string;
 
 // @public
-export type PiiDomain = string;
+export type PiiEntityDomain = string;
 
 // @public
 export type PiiEntityRecognitionAction = ActionPrebuilt & {
-    domainFilter?: PiiDomain;
-    categoriesFilter?: PiiCategory[];
+    domainFilter?: PiiEntityDomain;
+    categoriesFilter?: PiiEntityCategory[];
     stringIndexType?: StringIndexType;
 };
 

@@ -304,11 +304,11 @@ export interface HealthcareEntity {
 /** An object that describes metadata about the healthcare entity such as whether it is hypothetical or conditional. */
 export interface HealthcareAssertion {
   /** Describes any conditionality on the entity. */
-  conditionality?: Conditionality;
+  conditionality?: EntityConditionality;
   /** Describes the entities certainty and polarity. */
-  certainty?: Certainty;
+  certainty?: EntityCertainty;
   /** Describes if the entity is the subject of the text or if it describes someone else. */
-  association?: Association;
+  association?: EntityAssociation;
 }
 
 /** A type representing a reference for the healthcare entity into a specific entity catalog. */
@@ -825,9 +825,9 @@ export type PiiEntityRecognitionAction = ActionPrebuilt & {
    *
    * See {@link https://aka.ms/tanerpii the service documentation} for more information.
    */
-  domainFilter?: PiiDomain;
+  domainFilter?: PiiEntityDomain;
   /** Filters entities to ones only included in the specified array of categories. For a list of possible categories, see {@link KnownPiiCategory} */
-  categoriesFilter?: PiiCategory[];
+  categoriesFilter?: PiiEntityCategory[];
   /**
    * Specifies the measurement unit used to calculate the offset and length properties. For a list of possible values, see {@link KnownStringIndexType}.
    *
@@ -1135,8 +1135,8 @@ export enum KnownStringIndexType {
  */
 export type StringIndexType = string;
 
-/** Known values of {@link PiiDomain} that the service accepts. */
-export enum KnownPiiDomain {
+/** Known values of {@link PiiEntityDomain} that the service accepts. */
+export enum KnownPiiEntityDomain {
   /** Indicates that entities in the Personal Health Information domain should be redacted. */
   Phi = "phi",
   /** Indicates that no domain is specified. */
@@ -1144,17 +1144,17 @@ export enum KnownPiiDomain {
 }
 
 /**
- * Defines values for PiiDomain. \
- * {@link KnownPiiDomain} can be used interchangeably with PiiDomain,
+ * Defines values for PiiEntityDomain. \
+ * {@link KnownPiiEntityDomain} can be used interchangeably with PiiEntityDomain,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **phi**: Indicates that entities in the Personal Health Information domain should be redacted. \
  * **none**: Indicates that no domain is specified.
  */
-export type PiiDomain = string;
+export type PiiEntityDomain = string;
 
-/** Known values of {@link PiiCategory} that the service accepts. */
-export enum KnownPiiCategory {
+/** Known values of {@link PiiEntityCategory} that the service accepts. */
+export enum KnownPiiEntityCategory {
   ABARoutingNumber = "ABARoutingNumber",
   ARNationalIdentityNumber = "ARNationalIdentityNumber",
   AUBankAccountNumber = "AUBankAccountNumber",
@@ -1331,8 +1331,8 @@ export enum KnownPiiCategory {
 }
 
 /**
- * Defines values for PiiCategory. \
- * {@link KnownPiiCategory} can be used interchangeably with PiiCategory,
+ * Defines values for PiiEntityCategory. \
+ * {@link KnownPiiEntityCategory} can be used interchangeably with PiiEntityCategory,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **ABARoutingNumber** \
@@ -1509,7 +1509,7 @@ export enum KnownPiiCategory {
  * **All** \
  * **Default**
  */
-export type PiiCategory = string;
+export type PiiEntityCategory = string;
 
 /** Known values of {@link WarningCode} that the service accepts. */
 export enum KnownWarningCode {
@@ -1694,17 +1694,17 @@ export type State =
   | "failed"
   | "cancelled"
   | "cancelling";
-/** Defines values for Conditionality. */
-export type Conditionality = "hypothetical" | "conditional";
-/** Defines values for Certainty. */
-export type Certainty =
+/** Defines values for EntityConditionality. */
+export type EntityConditionality = "hypothetical" | "conditional";
+/** Defines values for EntityCertainty. */
+export type EntityCertainty =
   | "positive"
   | "positivePossible"
   | "neutralPossible"
   | "negativePossible"
   | "negative";
-/** Defines values for Association. */
-export type Association = "subject" | "other";
+/** Defines values for EntityAssociation. */
+export type EntityAssociation = "subject" | "other";
 /** Defines values for DocumentSentimentLabel. */
 export type DocumentSentimentLabel =
   | "positive"

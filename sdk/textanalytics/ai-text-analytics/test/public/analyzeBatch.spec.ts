@@ -5,8 +5,8 @@ import {
   AnalyzeBatchActionNames,
   KnownExtractiveSummarizationOrderingCriteria,
   KnownFhirVersion,
-  KnownPiiCategory,
-  KnownPiiDomain,
+  KnownPiiEntityCategory,
+  KnownPiiEntityDomain,
   KnownStringIndexType,
   KnownTextAnalysisErrorCode,
   TextAnalysisClient,
@@ -181,7 +181,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 {
                   kind: AnalyzeBatchActionNames.PiiEntityRecognition,
                   modelVersion: "latest",
-                  categoriesFilter: [KnownPiiCategory.USSocialSecurityNumber],
+                  categoriesFilter: [KnownPiiEntityCategory.USSocialSecurityNumber],
                 },
               ],
               docs,
@@ -203,7 +203,7 @@ matrix([["APIKey", "AAD"]] as const, async (authMethod: AuthMethod) => {
                 {
                   kind: AnalyzeBatchActionNames.PiiEntityRecognition,
                   modelVersion: "latest",
-                  domainFilter: KnownPiiDomain.Phi,
+                  domainFilter: KnownPiiEntityDomain.Phi,
                 },
               ],
               docs,
