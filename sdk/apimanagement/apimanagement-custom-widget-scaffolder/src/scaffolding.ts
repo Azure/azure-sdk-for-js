@@ -23,10 +23,8 @@ export type TWidgetConfig = {
 }
 
 export type TDeployConfig = {
-  subscriptionId: string
-  resourceGroupName: string
-  serviceName: string
   managementApiEndpoint: string
+  resourceId: string
   apiVersion: string
 }
 

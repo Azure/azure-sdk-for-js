@@ -35,39 +35,9 @@ async function main() {
   const urlValuePrefix = "https://"
   const {openUrl, ...configDeploy} = await inquirer.prompt([
     {
-      name: "apiVersion",
-      type: "input",
-      message: "apiVersion: // TODO" ,
-      validate: validateRequired(),
-    },
-    {
-      name: "managementApiEndpoint",
-      type: "input",
-      message: "managementApiEndpoint: // TODO" ,
-      validate: validateRequired(),
-    },
-    {
-      name: "resourceGroupName",
-      type: "input",
-      message: "resourceGroupName: // TODO" ,
-      validate: validateRequired(),
-    },
-    {
-      name: "serviceName",
-      type: "input",
-      message: "serviceName: // TODO" ,
-      validate: validateRequired(),
-    },
-    {
-      name: "subscriptionId",
-      type: "input",
-      message: "subscriptionId: // TODO" ,
-      validate: validateRequired(),
-    },
-    {
       name: "openUrl",
       type: "input",
-      message: "openUrl: // TODO" ,
+      message: "openUrl: // TODO",
       transformer: (input: string) => `${urlValuePrefix}${input}`,
       validate(input: string) {
         const required = validateRequired()(input)
@@ -81,7 +51,28 @@ async function main() {
         }
       },
     },
+    {
+      name: "resourceId",
+      type: "input",
+      message: "resourceId: // TODO",
+      validate: validateRequired(),
+    },
+    {
+      name: "managementApiEndpoint",
+      type: "input",
+      message: "managementApiEndpoint: // TODO",
+      validate: validateRequired(),
+    },
+    {
+      name: "apiVersion",
+      type: "input",
+      message: "apiVersion: // TODO",
+      validate: validateRequired(),
+    },
   ])
+
+  if (configDeploy.resourceId[0] === "/") configDeploy.resourceId = configDeploy.resourceId.slice(1)
+  if (configDeploy.resourceId.slice(-1) === "/") configDeploy.resourceId = configDeploy.resourceId.slice(0, -1)
 
   return generateProject(customWidgetConfig, configDeploy, urlValuePrefix + openUrl)
     .then(() => green("Your project has been generated successfully!"))
