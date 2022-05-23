@@ -286,6 +286,13 @@ export interface DocumentArrayField<T = DocumentField> extends DocumentFieldComm
 export type DocumentBuildMode = string;
 
 // @public
+export interface DocumentCaption {
+    boundingRegions?: BoundingRegion[];
+    content: string;
+    spans: DocumentSpan[];
+}
+
+// @public
 export interface DocumentCountryRegionField extends DocumentFieldCommon {
     kind: "countryRegion";
     value?: string;
@@ -336,6 +343,13 @@ export interface DocumentFieldSchema {
 
 // @public
 export type DocumentFieldType = string;
+
+// @public
+export interface DocumentFootnote {
+    boundingRegions?: BoundingRegion[];
+    content: string;
+    spans: DocumentSpan[];
+}
 
 // @public
 export interface DocumentImage extends HasBoundingPolygon {
@@ -433,12 +447,12 @@ export interface DocumentPage {
     images?: DocumentImage[];
     kind: DocumentPageKind;
     lines?: DocumentLine[];
-    pageNumber?: number;
+    pageNumber: number;
     selectionMarks?: DocumentSelectionMark[];
     spans: DocumentSpan[];
     unit?: LengthUnit;
     width?: number;
-    words: DocumentWord[];
+    words?: DocumentWord[];
 }
 
 // @public
@@ -501,18 +515,11 @@ export interface DocumentStyle {
 // @public
 export interface DocumentTable {
     boundingRegions?: BoundingRegion[];
-    caption?: DocumentTableCaption;
+    caption?: DocumentCaption;
     cells: DocumentTableCell[];
     columnCount: number;
-    footnotes?: DocumentTableFootnote[];
+    footnotes?: DocumentFootnote[];
     rowCount: number;
-    spans: DocumentSpan[];
-}
-
-// @public
-export interface DocumentTableCaption {
-    boundingRegions?: BoundingRegion[];
-    content: string;
     spans: DocumentSpan[];
 }
 
@@ -530,13 +537,6 @@ export interface DocumentTableCell {
 
 // @public
 export type DocumentTableCellKind = string;
-
-// @public
-export interface DocumentTableFootnote {
-    boundingRegions?: BoundingRegion[];
-    content: string;
-    spans: DocumentSpan[];
-}
 
 // @public
 export interface DocumentTimeField extends DocumentFieldCommon {

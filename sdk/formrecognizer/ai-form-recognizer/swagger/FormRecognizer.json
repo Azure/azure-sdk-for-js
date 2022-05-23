@@ -3,7 +3,7 @@
   "info": {
     "title": "Form Recognizer Client",
     "description": "Extracts content, layout, and structured data from documents.",
-    "version": "2022-03-31-preview"
+    "version": "2022-06-30-preview"
   },
   "securityDefinitions": {
     "apim_key": {
@@ -734,7 +734,7 @@
     "ApiVersion": {
       "description": "API version.",
       "type": "string",
-      "enum": ["2022-03-31-preview"],
+      "enum": ["2022-06-30-preview"],
       "x-ms-enum": {
         "name": "ApiVersion",
         "modelAsString": true
@@ -1154,7 +1154,7 @@
     "DocumentPage": {
       "description": "Content and layout elements extracted from a page from the input.",
       "type": "object",
-      "required": ["kind", "spans", "words"],
+      "required": ["kind", "pageNumber", "spans"],
       "properties": {
         "kind": {
           "description": "Kind of document page.",
@@ -1395,13 +1395,13 @@
         },
         "caption": {
           "description": "Caption associated with the table.",
-          "$ref": "#/definitions/DocumentTableCaption"
+          "$ref": "#/definitions/DocumentCaption"
         },
         "footnotes": {
           "description": "Footnotes associated with the table.",
           "type": "array",
           "items": {
-            "$ref": "#/definitions/DocumentTableFootnote"
+            "$ref": "#/definitions/DocumentFootnote"
           }
         },
         "boundingRegions": {
@@ -1479,7 +1479,7 @@
         }
       }
     },
-    "DocumentTableCaption": {
+    "DocumentCaption": {
       "description": "An object representing the location and content of a table caption.",
       "type": "object",
       "required": ["content", "spans"],
@@ -1504,7 +1504,7 @@
         }
       }
     },
-    "DocumentTableFootnote": {
+    "DocumentFootnote": {
       "description": "An object representing the location and content of a table footnote.",
       "type": "object",
       "required": ["content", "spans"],
@@ -1657,7 +1657,7 @@
     "Document": {
       "description": "An object describing the location and semantic content of a document.",
       "type": "object",
-      "required": ["docType", "fields", "spans", "confidence"],
+      "required": ["docType", "spans", "confidence"],
       "properties": {
         "docType": {
           "description": "Document type.",
@@ -1838,7 +1838,7 @@
       "type": "object",
       "properties": {
         "houseNumber": {
-          "description": "Building number.",
+          "description": "House or building number.",
           "type": "string"
         },
         "poBox": {
@@ -1973,6 +1973,11 @@
       "required": true,
       "type": "string",
       "in": "query",
+      "enum": ["2022-06-30-preview"],
+      "x-ms-enum": {
+        "name": "ApiVersion",
+        "modelAsString": true
+      },
       "x-ms-parameter-location": "client"
     },
     "PathModelId": {

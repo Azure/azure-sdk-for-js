@@ -94,9 +94,9 @@ export interface DocumentTable {
   /** Cells contained within the table. */
   cells: DocumentTableCell[];
   /** Caption associated with the table. */
-  caption?: DocumentTableCaption;
+  caption?: DocumentCaption;
   /** Footnotes associated with the table. */
-  footnotes?: DocumentTableFootnote[];
+  footnotes?: DocumentFootnote[];
   /** Bounding regions covering the table. */
   boundingRegions?: BoundingRegion[];
   /** Location of the table in the reading order concatenated content. */
@@ -124,7 +124,7 @@ export interface DocumentTableCell {
 }
 
 /** An object representing the location and content of a table caption. */
-export interface DocumentTableCaption {
+export interface DocumentCaption {
   /** Table caption content. */
   content: string;
   /** Bounding regions covering the table caption. */
@@ -134,7 +134,7 @@ export interface DocumentTableCaption {
 }
 
 /** An object representing the location and content of a table footnote. */
-export interface DocumentTableFootnote {
+export interface DocumentFootnote {
   /** Table footnote content. */
   content: string;
   /** Bounding regions covering the table footnote. */
@@ -178,7 +178,7 @@ export interface Document {
   /** Location of the document in the reading order concatenated content. */
   spans: DocumentSpan[];
   /** Dictionary of named field values. */
-  fields: { [propertyName: string]: GeneratedDocumentField };
+  fields?: { [propertyName: string]: GeneratedDocumentField };
   /** Confidence of correctly extracting the document. */
   confidence: number;
 }
@@ -198,7 +198,7 @@ export interface DocumentPage {
   /** Kind of document page. */
   kind: DocumentPageKind;
   /** 1-based page number in the input document. */
-  pageNumber?: number;
+  pageNumber: number;
   /** The general orientation of the content in clockwise direction, measured in degrees between (-180, 180]. */
   angle?: number;
   /** The width of the image/PDF in pixels/inches, respectively. */
@@ -210,7 +210,7 @@ export interface DocumentPage {
   /** Location of the page in the reading order concatenated content. */
   spans: DocumentSpan[];
   /** Extracted words from the page. */
-  words: DocumentWord[];
+  words?: DocumentWord[];
   /** Extracted selection marks from the page. */
   selectionMarks?: DocumentSelectionMark[];
   /** Extracted images from the page. */

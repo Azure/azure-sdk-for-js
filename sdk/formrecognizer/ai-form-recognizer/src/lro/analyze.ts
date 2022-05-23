@@ -204,9 +204,10 @@ export function toDocumentLineFromGenerated(
   (generated as DocumentLine).words = () =>
     fastGetChildren(
       iterFrom(generated.spans, 0),
-      page.words.map((word) => {
+      page.words?.map((word) => {
         return { ...word, polygon: toBoundingPolygon(word.polygon) };
       })
+      ?? []
     );
 
   Object.defineProperty(generated, "words", {
@@ -220,15 +221,15 @@ export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): D
   return {
     ...generated,
     lines: generated.lines?.map((line) => toDocumentLineFromGenerated(line, generated)),
-    selectionMarks: generated.selectionMarks?.map((mark) => {
-      return { ...mark, polygon: toBoundingPolygon(mark.polygon) };
-    }),
-    words: generated.words.map((word) => {
-      return { ...word, polygon: toBoundingPolygon(word.polygon) };
-    }),
-    images: generated.images?.map((image) => {
-      return { ...image, polygon: toBoundingPolygon(image.polygon) };
-    }),
+    selectionMarks: generated.selectionMarks?.map((mark) => ({
+      ...mark, polygon: toBoundingPolygon(mark.polygon)
+    })),
+    words: generated.words?.map((word) => ({
+      ...word, polygon: toBoundingPolygon(word.polygon)
+    })),
+    images: generated.images?.map((image) => ({
+      ...image, polygon: toBoundingPolygon(image.polygon)
+    })),
   };
 }
 
@@ -379,13 +380,16 @@ export function toAnalyzeResultFromGenerated<
     tables: result.tables?.map((table) => toDocumentTableFromGenerated(table)) ?? [],
     keyValuePairs: result.keyValuePairs?.map((pair) => toKeyValuePairFromGenerated(pair)) ?? [],
     entities:
-      result.entities?.map((entity) => {
-        return { ...entity, boundingRegions: toBoundingRegions(entity.boundingRegions) };
-      }) ?? [],
+      result.entities?.map((entity) => ({
+        ...entity, boundingRegions: toBoundingRegions(entity.boundingRegions)
+      })) ?? [],
     languages: result.languages ?? [],
     styles: result.styles ?? [],
     documents: (result.documents?.map((doc) => mapDocuments(doc)) as Document[]) ?? [],
-    paragraphs: result.paragraphs?.map(para => { return { ...para, boundingRegions: toBoundingRegions(para.boundingRegions) } }) ?? [],
+    paragraphs:
+      result.paragraphs?.map((para) => ({
+        ...para, boundingRegions: toBoundingRegions(para.boundingRegions)
+      })) ?? [],
   };
 }
 

@@ -49,15 +49,15 @@ export function toDocumentTableFromGenerated(table: GeneratedDocumentTable): Doc
   return {
     ...table,
     boundingRegions: toBoundingRegions(table.boundingRegions),
-    cells: table.cells.map((cell) => {
-      return { ...cell, boundingRegions: toBoundingRegions(cell.boundingRegions) };
-    }),
+    cells: table.cells.map((cell) => ({
+      ...cell, boundingRegions: toBoundingRegions(cell.boundingRegions)
+    })),
     caption: table.caption
       ? { ...table.caption, boundingRegions: toBoundingRegions(table.caption?.boundingRegions) }
       : undefined,
-    footnotes: table.footnotes?.map((footnote) => {
-      return { ...footnote, boundingRegions: toBoundingRegions(footnote.boundingRegions) };
-    }),
+    footnotes: table.footnotes?.map((footnote) => ({
+      ...footnote, boundingRegions: toBoundingRegions(footnote.boundingRegions)
+    })),
   };
 }
 

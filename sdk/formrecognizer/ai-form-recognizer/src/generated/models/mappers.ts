@@ -321,6 +321,7 @@ export const DocumentPage: coreClient.CompositeMapper = {
           InclusiveMinimum: 1
         },
         serializedName: "pageNumber",
+        required: true,
         type: {
           name: "Number"
         }
@@ -374,7 +375,6 @@ export const DocumentPage: coreClient.CompositeMapper = {
       },
       words: {
         serializedName: "words",
-        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -767,7 +767,7 @@ export const DocumentTable: coreClient.CompositeMapper = {
         serializedName: "caption",
         type: {
           name: "Composite",
-          className: "DocumentTableCaption"
+          className: "DocumentCaption"
         }
       },
       footnotes: {
@@ -777,7 +777,7 @@ export const DocumentTable: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DocumentTableFootnote"
+              className: "DocumentFootnote"
             }
           }
         }
@@ -893,10 +893,10 @@ export const DocumentTableCell: coreClient.CompositeMapper = {
   }
 };
 
-export const DocumentTableCaption: coreClient.CompositeMapper = {
+export const DocumentCaption: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DocumentTableCaption",
+    className: "DocumentCaption",
     modelProperties: {
       content: {
         serializedName: "content",
@@ -934,10 +934,10 @@ export const DocumentTableCaption: coreClient.CompositeMapper = {
   }
 };
 
-export const DocumentTableFootnote: coreClient.CompositeMapper = {
+export const DocumentFootnote: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DocumentTableFootnote",
+    className: "DocumentFootnote",
     modelProperties: {
       content: {
         serializedName: "content",
@@ -1237,7 +1237,6 @@ export const Document: coreClient.CompositeMapper = {
       },
       fields: {
         serializedName: "fields",
-        required: true,
         type: {
           name: "Dictionary",
           value: { type: { name: "Composite", className: "DocumentField" } }

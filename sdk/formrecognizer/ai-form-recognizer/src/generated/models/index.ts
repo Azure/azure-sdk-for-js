@@ -94,7 +94,7 @@ export interface DocumentPage {
   /** Kind of document page. */
   kind: DocumentPageKind;
   /** 1-based page number in the input document. */
-  pageNumber?: number;
+  pageNumber: number;
   /** The general orientation of the content in clockwise direction, measured in degrees between (-180, 180]. */
   angle?: number;
   /** The width of the image/PDF in pixels/inches, respectively. */
@@ -106,7 +106,7 @@ export interface DocumentPage {
   /** Location of the page in the reading order concatenated content. */
   spans: DocumentSpan[];
   /** Extracted words from the page. */
-  words: DocumentWord[];
+  words?: DocumentWord[];
   /** Extracted selection marks from the page. */
   selectionMarks?: DocumentSelectionMark[];
   /** Extracted images from the page. */
@@ -198,9 +198,9 @@ export interface DocumentTable {
   /** Cells contained within the table. */
   cells: DocumentTableCell[];
   /** Caption associated with the table. */
-  caption?: DocumentTableCaption;
+  caption?: DocumentCaption;
   /** Footnotes associated with the table. */
-  footnotes?: DocumentTableFootnote[];
+  footnotes?: DocumentFootnote[];
   /** Bounding regions covering the table. */
   boundingRegions?: BoundingRegion[];
   /** Location of the table in the reading order concatenated content. */
@@ -228,7 +228,7 @@ export interface DocumentTableCell {
 }
 
 /** An object representing the location and content of a table caption. */
-export interface DocumentTableCaption {
+export interface DocumentCaption {
   /** Table caption content. */
   content: string;
   /** Bounding regions covering the table caption. */
@@ -238,7 +238,7 @@ export interface DocumentTableCaption {
 }
 
 /** An object representing the location and content of a table footnote. */
-export interface DocumentTableFootnote {
+export interface DocumentFootnote {
   /** Table footnote content. */
   content: string;
   /** Bounding regions covering the table footnote. */
@@ -312,7 +312,7 @@ export interface Document {
   /** Location of the document in the reading order concatenated content. */
   spans: DocumentSpan[];
   /** Dictionary of named field values. */
-  fields: { [propertyName: string]: DocumentField };
+  fields?: { [propertyName: string]: DocumentField };
   /** Confidence of correctly extracting the document. */
   confidence: number;
 }
@@ -372,7 +372,7 @@ export interface CurrencyValue {
 
 /** Address field value. */
 export interface AddressValue {
-  /** Building number. */
+  /** House or building number. */
   houseNumber?: string;
   /** Post office box number. */
   poBox?: string;
@@ -606,7 +606,7 @@ export type StringIndexType = string;
 
 /** Known values of {@link ApiVersion} that the service accepts. */
 export enum KnownApiVersion {
-  TwoThousandTwentyTwo0331Preview = "2022-03-31-preview"
+  TwoThousandTwentyTwo0630Preview = "2022-06-30-preview"
 }
 
 /**
@@ -614,7 +614,7 @@ export enum KnownApiVersion {
  * {@link KnownApiVersion} can be used interchangeably with ApiVersion,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2022-03-31-preview**
+ * **2022-06-30-preview**
  */
 export type ApiVersion = string;
 
@@ -868,85 +868,85 @@ export type AnalyzeDocumentResponse = GeneratedClientAnalyzeDocumentHeaders;
 
 /** Optional parameters. */
 export interface GetAnalyzeDocumentResultOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAnalyzeDocumentResult operation. */
 export type GetAnalyzeDocumentResultResponse = AnalyzeResultOperation;
 
 /** Optional parameters. */
 export interface BuildDocumentModelOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the buildDocumentModel operation. */
 export type BuildDocumentModelResponse = GeneratedClientBuildDocumentModelHeaders;
 
 /** Optional parameters. */
 export interface ComposeDocumentModelOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the composeDocumentModel operation. */
 export type ComposeDocumentModelResponse = GeneratedClientComposeDocumentModelHeaders;
 
 /** Optional parameters. */
 export interface AuthorizeCopyDocumentModelOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the authorizeCopyDocumentModel operation. */
 export type AuthorizeCopyDocumentModelResponse = CopyAuthorization;
 
 /** Optional parameters. */
 export interface CopyDocumentModelToOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the copyDocumentModelTo operation. */
 export type CopyDocumentModelToResponse = GeneratedClientCopyDocumentModelToHeaders;
 
 /** Optional parameters. */
 export interface GetOperationsOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getOperations operation. */
 export type GetOperationsOperationResponse = GetOperationsResponse;
 
 /** Optional parameters. */
 export interface GetOperationOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getOperation operation. */
 export type GetOperationOperationResponse = GetOperationResponse;
 
 /** Optional parameters. */
-export interface GetModelsOptionalParams extends coreClient.OperationOptions { }
+export interface GetModelsOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getModels operation. */
 export type GetModelsOperationResponse = GetModelsResponse;
 
 /** Optional parameters. */
-export interface GetModelOptionalParams extends coreClient.OperationOptions { }
+export interface GetModelOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getModel operation. */
 export type GetModelResponse = ModelInfo;
 
 /** Optional parameters. */
 export interface DeleteModelOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface GetInfoOptionalParams extends coreClient.OperationOptions { }
+export interface GetInfoOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the getInfo operation. */
 export type GetInfoOperationResponse = GetInfoResponse;
 
 /** Optional parameters. */
 export interface GetOperationsNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getOperationsNext operation. */
 export type GetOperationsNextResponse = GetOperationsResponse;
 
 /** Optional parameters. */
 export interface GetModelsNextOptionalParams
-  extends coreClient.OperationOptions { }
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the getModelsNext operation. */
 export type GetModelsNextResponse = GetModelsResponse;
