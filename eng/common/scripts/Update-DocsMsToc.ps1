@@ -153,13 +153,13 @@ function update-metadata-table($readmePath, $serviceName, $msService)
   }
   $restContent = $Matches["content"]
   $serviceBaseName = $serviceName.ToLower().Replace(' ', '').Replace('/', '-')
-  $author = GetPrimaryCodeOwner -TargetDirectory "/sdk/$serviceBaseName/"
+  $author = "a" #GetPrimaryCodeOwner -TargetDirectory "/sdk/$serviceBaseName/"
   if (!$author) {
     LogError "Cannot fetch the author from CODEOWNER file."
     exit 1
   }
   $metadataTable["author"] = $author
-  $msauthor = GetMsAliasFromGithub -TenantId $tenantId -ClientId $clientId -ClientSecret $clientSecret -GithubUser $author   
+  $msauthor = "a" #GetMsAliasFromGithub -TenantId $tenantId -ClientId $clientId -ClientSecret $clientSecret -GithubUser $author   
   if (!$msauthor) {
     LogError "No ms.author found for $author. "
     $msauthor = $author
@@ -307,6 +307,9 @@ foreach ($service in $serviceNameList) {
   Write-Host "Building service: $service"
   $packageItems = @()
 
+  if ($service -eq "Key Vault") {
+    Write-Host "I am here"
+  }
   # Client packages get individual entries
   $servicePackages = $packagesForToc.Values.Where({ $_.ServiceName -eq $service })
   $clientPackages = $servicePackages.Where({ 'client' -eq $_.Type })
