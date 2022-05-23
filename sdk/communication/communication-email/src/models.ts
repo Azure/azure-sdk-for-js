@@ -15,7 +15,7 @@ export interface SendEmailResult {
   /**
    * MessageId of the sent email.
    */
-  messageId?: string;
+  messageId: string;
 }
 
 export {

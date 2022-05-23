@@ -94,7 +94,7 @@ export class EmailClient {
     const response = await this.api.email.send(uuid(), new Date().toUTCString(), emailMessage);
 
     return {
-      messageId: response.xMsRequestId,
+      messageId: response.xMsRequestId ?? "",
     };
   }
 

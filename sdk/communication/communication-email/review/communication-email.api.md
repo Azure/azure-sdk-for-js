@@ -72,7 +72,7 @@ export interface EmailRecipients {
 
 // @public
 export interface SendEmailResult {
-    messageId?: string;
+    messageId: string;
 }
 
 // @public
