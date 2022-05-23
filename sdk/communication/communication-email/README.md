@@ -115,7 +115,7 @@ const response = await emailClient.send(emailMessage);
 
 ### Send Email with Attachments
 
-Azure Communication Services support sending email with attachments. See [EmailAttachmentType][email_attachmenttypes] for a list of supported attachments
+Azure Communication Services support sending email with attachments.
 
 ```typescript Snippet:Azure_Communication_Email_Send_With_Attachments
 const filePath = "C://readme.txt";
@@ -184,5 +184,4 @@ This project has adopted the [Microsoft Open Source Code of Conduct][coc]. For m
 [nextsteps]: https://aka.ms/acsemail/overview
 [nuget]: https://www.nuget.org/
 [source]: https://github.com/Azure/azure-sdk-for-net/tree/main/sdk/communication
-[email_attachmenttypes]: https://www.bing.com
 [domain_overview]: https://aka.ms/acsemail/domainsoverview

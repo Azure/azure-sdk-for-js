@@ -88,15 +88,6 @@ export class EmailClient {
 
   /**
    * Queues an email message to be sent to one or more recipients
-   *
-   * @param repeatabilityRequestId - If specified, the client directs that the request is repeatable; that
-   *                               is, that the client can make the request multiple times with the same Repeatability-Request-Id and
-   *                               get back an appropriate response without the server executing the request multiple times. The value
-   *                               of the Repeatability-Request-Id is an opaque string representing a client-generated, globally unique
-   *                               for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs.
-   * @param repeatabilityFirstSent - Must be sent by clients to specify that a request is repeatable.
-   *                               Repeatability-First-Sent is used to specify the date and time at which the request was first created
-   *                               in the IMF-fix date form of HTTP-date as defined in RFC7231. eg- Tue, 26 Mar 2019 16:06:51 GMT
    * @param emailMessage - Message payload for sending an email
    */
   public async send(emailMessage: EmailMessage): Promise<SendEmailResult> {
@@ -110,7 +101,6 @@ export class EmailClient {
   /**
    * Gets the status of a message sent previously.
    * @param messageId - System generated message id (GUID) returned from a previous call to send email
-   * @param options - The options parameters.
    */
   public async getSendStatus(messageId: string): Promise<SendStatusResult> {
     const response = await this.api.email.getSendStatus(messageId);
