@@ -5,18 +5,12 @@
  * This sample program extracts a summary of two sentences at max from an article
  *
  * @summary extracts a summary from an article
- * @azsdk-weight 50
  */
 
-import {
-  AnalyzeBatchAction,
-  AzureKeyCredential,
-  TextAnalysisClient,
-} from "@azure/ai-text-analytics";
+const { AzureKeyCredential, TextAnalysisClient } = require("@azure/ai-text-analytics");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<cognitive language service endpoint>";
@@ -36,11 +30,11 @@ const documents = [
          “Being able to improve healthcare, being able to improve education, economic development is going to improve the quality of life in the communities.”`,
 ];
 
-export async function main() {
+async function main() {
   console.log("== Extractive Summarization Sample ==");
 
   const client = new TextAnalysisClient(endpoint, new AzureKeyCredential(apiKey));
-  const actions: AnalyzeBatchAction[] = [
+  const actions = [
     {
       kind: "ExtractiveSummarization",
       maxSentenceCount: 2,
@@ -81,3 +75,5 @@ export async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+
+module.exports = { main };
