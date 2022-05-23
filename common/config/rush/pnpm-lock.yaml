@@ -2812,7 +2812,7 @@ packages:
     dev: false
 
   /array-flatten/1.1.1:
-    resolution: {integrity: sha1-ml9pkFGx5wczKPKgCJaLZOopVdI=}
+    resolution: {integrity: sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==}
     dev: false
 
   /array-includes/3.1.5:
@@ -3058,7 +3058,7 @@ packages:
     dev: false
 
   /buffer-equal-constant-time/1.0.1:
-    resolution: {integrity: sha1-+OcRMvf/5uAaXJaXpMbz5I1cyBk=}
+    resolution: {integrity: sha512-zRpUiDwd/xk6ADqPMATG8vc9VPrkck7T07OIx0gnjmJAnHnTVXNQG3vfvWNuiZIkwu9KrKdA1iJKfsfTVxE6NA==}
     dev: false
 
   /buffer-from/1.1.2:
@@ -3199,7 +3199,7 @@ packages:
     dev: false
 
   /charenc/0.0.2:
-    resolution: {integrity: sha1-wKHS86cJLgN3S/qD8UwPxXkKhmc=}
+    resolution: {integrity: sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==}
     dev: false
 
   /check-error/1.0.2:
@@ -5516,8 +5516,8 @@ packages:
       semver: 5.7.1
     dev: false
 
-  /jsrsasign/10.5.22:
-    resolution: {integrity: sha512-exqUDmWKOCUK4fT79z/Fi2qGV4c+WCPjHrtJ/lVUUrrbBwJ5T5HppCcalGf3tuOlmyNdyMZ074r1bqPOUNl4Uw==}
+  /jsrsasign/10.5.21:
+    resolution: {integrity: sha512-o1gFFV/R/1IYeAscqfLWJlUymx+x9dLF8Pq+R89/C6o8Fkq+BN2Qts4fDmOPSR9+xxdhKJcSHZoxUl5zA+240Q==}
     dev: false
 
   /jssha/3.2.0:
@@ -13966,7 +13966,7 @@ packages:
       eslint: 8.16.0
       esm: 3.2.25
       inherits: 2.0.4
-      jsrsasign: 10.5.22
+      jsrsasign: 10.5.21
       karma: 6.3.20
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
