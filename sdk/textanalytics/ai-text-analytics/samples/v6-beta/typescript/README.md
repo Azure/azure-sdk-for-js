@@ -4,8 +4,8 @@ languages:
   - typescript
 products:
   - azure
-  - cognitive-services
-  - language-service
+  - azure-cognitive-services
+  - azure-language-service
 urlFragment: ai-text-analytics-typescript-beta
 ---
 
