@@ -17,7 +17,10 @@ import {
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
   ResolvePrivateLinkServiceIdImpl,
-  SnapshotsImpl
+  SnapshotsImpl,
+  ManagedClusterSnapshotsImpl,
+  TrustedAccessRolesImpl,
+  TrustedAccessRoleBindingsImpl
 } from "./operations";
 import {
   Operations,
@@ -27,7 +30,10 @@ import {
   PrivateEndpointConnections,
   PrivateLinkResources,
   ResolvePrivateLinkServiceId,
-  Snapshots
+  Snapshots,
+  ManagedClusterSnapshots,
+  TrustedAccessRoles,
+  TrustedAccessRoleBindings
 } from "./operationsInterfaces";
 import { ContainerServiceClientOptionalParams } from "./models";
 
@@ -63,7 +69,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-containerservice/16.0.0`;
+    const packageDetails = `azsdk-js-arm-containerservice/16.1.0-beta.3`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -110,7 +116,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2022-03-01";
+    this.apiVersion = options.apiVersion || "2022-04-02-preview";
     this.operations = new OperationsImpl(this);
     this.managedClusters = new ManagedClustersImpl(this);
     this.maintenanceConfigurations = new MaintenanceConfigurationsImpl(this);
@@ -121,6 +127,9 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
       this
     );
     this.snapshots = new SnapshotsImpl(this);
+    this.managedClusterSnapshots = new ManagedClusterSnapshotsImpl(this);
+    this.trustedAccessRoles = new TrustedAccessRolesImpl(this);
+    this.trustedAccessRoleBindings = new TrustedAccessRoleBindingsImpl(this);
   }
 
   operations: Operations;
@@ -131,4 +140,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
   privateLinkResources: PrivateLinkResources;
   resolvePrivateLinkServiceId: ResolvePrivateLinkServiceId;
   snapshots: Snapshots;
+  managedClusterSnapshots: ManagedClusterSnapshots;
+  trustedAccessRoles: TrustedAccessRoles;
+  trustedAccessRoleBindings: TrustedAccessRoleBindings;
 }

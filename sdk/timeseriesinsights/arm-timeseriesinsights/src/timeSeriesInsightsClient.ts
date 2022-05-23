@@ -7,20 +7,25 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
   EnvironmentsImpl,
   EventSourcesImpl,
   ReferenceDataSetsImpl,
-  AccessPoliciesImpl
+  AccessPoliciesImpl,
+  PrivateEndpointConnectionsImpl,
+  PrivateLinkResourcesImpl
 } from "./operations";
 import {
   Operations,
   Environments,
   EventSources,
   ReferenceDataSets,
-  AccessPolicies
+  AccessPolicies,
+  PrivateEndpointConnections,
+  PrivateLinkResources
 } from "./operationsInterfaces";
 import { TimeSeriesInsightsClientOptionalParams } from "./models";
 
@@ -56,7 +61,7 @@ export class TimeSeriesInsightsClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-timeseriesinsights/2.0.0`;
+    const packageDetails = `azsdk-js-arm-timeseriesinsights/2.1.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -71,20 +76,46 @@ export class TimeSeriesInsightsClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      baseUri: options.endpoint || "https://management.azure.com"
+      baseUri:
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
     };
     super(optionsWithDefaults);
+
+    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+        (pipelinePolicy) =>
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
+      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
+    }
     // Parameter assignments
     this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2020-05-15";
+    this.apiVersion = options.apiVersion || "2021-03-31-preview";
     this.operations = new OperationsImpl(this);
     this.environments = new EnvironmentsImpl(this);
     this.eventSources = new EventSourcesImpl(this);
     this.referenceDataSets = new ReferenceDataSetsImpl(this);
     this.accessPolicies = new AccessPoliciesImpl(this);
+    this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
+    this.privateLinkResources = new PrivateLinkResourcesImpl(this);
   }
 
   operations: Operations;
@@ -92,4 +123,6 @@ export class TimeSeriesInsightsClient extends coreClient.ServiceClient {
   eventSources: EventSources;
   referenceDataSets: ReferenceDataSets;
   accessPolicies: AccessPolicies;
+  privateEndpointConnections: PrivateEndpointConnections;
+  privateLinkResources: PrivateLinkResources;
 }

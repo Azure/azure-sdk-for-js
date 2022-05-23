@@ -39,7 +39,7 @@ async function main() {
     createContainerResponse = await containerClient.create();
   } catch (err: any) {
     console.log(
-      `requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}\n`
+      `requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}\n`
     );
   }
 
@@ -55,7 +55,7 @@ async function main() {
   } catch (err: any) {
     console.log(`getProperties() failed as expected,`);
     console.log(
-      `requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}\n`
+      `requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}\n`
     );
 
     // Create a new block blob
@@ -86,7 +86,7 @@ async function main() {
   } catch (err: any) {
     console.log(`download() failed as expected,`);
     console.log(
-      `requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}\n`
+      `requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}\n`
     );
 
     // Download blob content
@@ -113,7 +113,7 @@ async function main() {
   } catch (err: any) {
     // BlobArchived	Conflict (409)	This operation is not permitted on an archived blob.
     console.log(
-      `requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+      `requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
     );
     console.log(`error message - ${err.details.message}\n`);
   }
@@ -127,7 +127,7 @@ async function main() {
   } catch (err: any) {
     console.log(`Deleting a non-existing container fails as expected`);
     console.log(
-      `requestId - ${err.details.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
+      `requestId - ${err.request.requestId}, statusCode - ${err.statusCode}, errorCode - ${err.details.errorCode}`
     );
     console.log(`error message - \n${err.details.message}\n`);
 

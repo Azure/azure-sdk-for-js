@@ -157,7 +157,7 @@ export class RecoveryServicesBackupClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-recoveryservicesbackup/8.1.1`;
+    const packageDetails = `azsdk-js-arm-recoveryservicesbackup/8.2.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

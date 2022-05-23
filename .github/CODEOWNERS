@@ -56,7 +56,7 @@
 /sdk/communication/communication-sms/ @DimaKolomiiets
 
 # PRLabel: %Communication - Short Codes
-/sdk/communication/communication-short-codes/ @danielav7
+/sdk/communication/communication-short-codes/ @guilhermeluizsp @rtrevino89 @danielav7
 
 # PRLabel: %Communication - Common
 /sdk/communication/communication-common/ @petrsvihlik @AikoBB @maximrytych-ms @martinbarnas-ms
@@ -89,10 +89,10 @@
 /sdk/iot/ @YoDaMa @xirzec
 
 # PRLabel: %KeyVault
-/sdk/keyvault/ @maorleger @sadasant 
+/sdk/keyvault/ @timovv
 
 # PRLabel: %OpenTelemetryInstrumentation
-/sdk/instrumentation/ @maorleger @joheredi
+/sdk/instrumentation/ @joheredi @mpodwysocki
 
 # PRLabel: %Service Bus
 /sdk/servicebus/ @jeremymeng @deyaaeldeen @HarshaNalluru
@@ -817,7 +817,7 @@ sdk/dnsresolver/ci.mgmt.yml @qiaozha @dw511214992 @MaryGao
 
 # PRLabel: %Monitor
 /sdk/monitor/ @hectorhdzg
-/sdk/monitor/monitor-query @KarishmaGhiya @maorleger
+/sdk/monitor/monitor-query @KarishmaGhiya
 
 # ServiceLabel: %AAD %Service Attention
 #/<NotInRepo>/          @adamedx

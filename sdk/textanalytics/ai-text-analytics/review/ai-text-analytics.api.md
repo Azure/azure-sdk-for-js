@@ -14,143 +14,226 @@ import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AnalysisPollOperationState<TResult> extends PollOperationState<TResult>, OperationMetadata {
-}
-
-// @public
-export interface AnalyzeActionsOperationMetadata extends OperationMetadata {
-    actionsFailedCount: number;
-    actionsInProgressCount: number;
-    actionsSucceededCount: number;
-    displayName?: string;
-}
-
-// @public
-export interface AnalyzeActionsOperationState extends AnalysisPollOperationState<PagedAnalyzeActionsResult>, AnalyzeActionsOperationMetadata {
-}
-
-// @public
-export type AnalyzeActionsPollerLike = PollerLike<AnalyzeActionsOperationState, PagedAnalyzeActionsResult>;
-
-// @public
-export interface AnalyzeActionsResult {
-    analyzeSentimentResults: AnalyzeSentimentActionResult[];
-    extractKeyPhrasesResults: ExtractKeyPhrasesActionResult[];
-    extractSummaryResults: ExtractSummaryActionResult[];
-    multiCategoryClassifyResults: MultiCategoryClassifyActionResult[];
-    recognizeCustomEntitiesResults: RecognizeCustomEntitiesActionResult[];
-    recognizeEntitiesResults: RecognizeCategorizedEntitiesActionResult[];
-    recognizeLinkedEntitiesResults: RecognizeLinkedEntitiesActionResult[];
-    recognizePiiEntitiesResults: RecognizePiiEntitiesActionResult[];
-    singleCategoryClassifyResults: SingleCategoryClassifyActionResult[];
-}
-
-// @public
-export type AnalyzeHealthcareEntitiesErrorResult = TextAnalyticsErrorResult;
-
-// @public
-export type AnalyzeHealthcareEntitiesPollerLike = PollerLike<AnalyzeHealthcareOperationState, PagedAnalyzeHealthcareEntitiesResult>;
-
-// @public
-export type AnalyzeHealthcareEntitiesResult = AnalyzeHealthcareEntitiesSuccessResult | AnalyzeHealthcareEntitiesErrorResult;
-
-// @public
-export interface AnalyzeHealthcareEntitiesResultArray extends Array<AnalyzeHealthcareEntitiesResult> {
-}
-
-// @public
-export interface AnalyzeHealthcareEntitiesSuccessResult extends TextAnalyticsSuccessResult {
-    entities: HealthcareEntity[];
-    entityRelations: HealthcareEntityRelation[];
-}
-
-// @public
-export interface AnalyzeHealthcareOperationState extends AnalysisPollOperationState<PagedAnalyzeHealthcareEntitiesResult> {
-}
-
-// @public
-export interface AnalyzeSentimentAction extends TextAnalyticsAction {
+export interface ActionCommon {
     disableServiceLogs?: boolean;
-    includeOpinionMining?: boolean;
-    stringIndexType?: StringIndexType;
 }
 
 // @public
-export type AnalyzeSentimentActionErrorResult = TextAnalyticsActionErrorResult;
+export type ActionCustom = ActionCommon & {
+    projectName: string;
+    deploymentName: string;
+};
 
 // @public
-export type AnalyzeSentimentActionResult = AnalyzeSentimentActionSuccessResult | AnalyzeSentimentActionErrorResult;
-
-// @public
-export interface AnalyzeSentimentActionSuccessResult extends TextAnalyticsActionSuccessState {
-    results: AnalyzeSentimentResultArray;
+export interface ActionMetadata {
+    readonly modelVersion: string;
 }
 
 // @public
-export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
+export type ActionPrebuilt = ActionCommon & {
+    modelVersion?: string;
+};
 
 // @public
-export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
-    includeOpinionMining?: boolean;
-    stringIndexType?: StringIndexType;
+export type AnalyzeActionName = keyof typeof AnalyzeActionNames;
+
+// @public
+export const AnalyzeActionNames: {
+    readonly EntityLinking: "EntityLinking";
+    readonly EntityRecognition: "EntityRecognition";
+    readonly KeyPhraseExtraction: "KeyPhraseExtraction";
+    readonly PiiEntityRecognition: "PiiEntityRecognition";
+    readonly LanguageDetection: "LanguageDetection";
+    readonly SentimentAnalysis: "SentimentAnalysis";
+};
+
+// @public
+export type AnalyzeActionParameters<ActionName extends AnalyzeActionName> = {
+    EntityLinking: EntityLinkingAction;
+    EntityRecognition: EntityRecognitionAction;
+    PiiEntityRecognition: PiiEntityRecognitionAction;
+    KeyPhraseExtraction: KeyPhraseExtractionAction;
+    SentimentAnalysis: SentimentAnalysisAction;
+    LanguageDetection: LanguageDetectionAction;
+}[ActionName];
+
+// @public
+export type AnalyzeBatchAction = EntityLinkingBatchAction | EntityRecognitionBatchAction | KeyPhraseExtractionBatchAction | PiiEntityRecognitionBatchAction | HealthcareBatchAction | ExtractiveSummarizationBatchAction | SentimentAnalysisBatchAction | CustomEntityRecognitionBatchAction | CustomSingleLabelClassificationBatchAction | CustomMultiLabelClassificationBatchAction;
+
+// @public
+export interface AnalyzeBatchActionCommon {
+    actionName?: string;
 }
 
 // @public
-export type AnalyzeSentimentResult = AnalyzeSentimentSuccessResult | AnalyzeSentimentErrorResult;
+export type AnalyzeBatchActionName = keyof typeof AnalyzeBatchActionNames;
 
 // @public
-export interface AnalyzeSentimentResultArray extends Array<AnalyzeSentimentResult> {
-    modelVersion: string;
-    statistics?: TextDocumentBatchStatistics;
+export const AnalyzeBatchActionNames: {
+    readonly SentimentAnalysis: "SentimentAnalysis";
+    readonly EntityRecognition: "EntityRecognition";
+    readonly PiiEntityRecognition: "PiiEntityRecognition";
+    readonly KeyPhraseExtraction: "KeyPhraseExtraction";
+    readonly EntityLinking: "EntityLinking";
+    readonly Healthcare: "Healthcare";
+    readonly ExtractiveSummarization: "ExtractiveSummarization";
+    readonly CustomEntityRecognition: "CustomEntityRecognition";
+    readonly CustomSingleLabelClassification: "CustomSingleLabelClassification";
+    readonly CustomMultiLabelClassification: "CustomMultiLabelClassification";
+};
+
+// @public
+export interface AnalyzeBatchOperationMetadata {
+    readonly actionFailedCount: number;
+    readonly actionInProgressCount: number;
+    readonly actionSucceededCount: number;
+    readonly createdOn: Date;
+    readonly displayName?: string;
+    readonly expiresOn?: Date;
+    readonly lastModifiedOn: Date;
+    readonly operationId: string;
+    readonly status: OperationStatus;
 }
 
 // @public
-export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResult {
-    confidenceScores: SentimentConfidenceScores;
-    sentences: SentenceSentiment[];
-    sentiment: DocumentSentimentLabel;
+export interface AnalyzeBatchOperationState extends PollOperationState<PagedAnalyzeBatchResult>, AnalyzeBatchOperationMetadata {
 }
 
 // @public
-export interface AssessmentSentiment extends SentenceAssessment {
+export type AnalyzeBatchPoller = PollerLike<AnalyzeBatchOperationState, PagedAnalyzeBatchResult>;
+
+// @public
+export type AnalyzeBatchResult = EntityLinkingBatchResult | EntityRecognitionBatchResult | KeyPhraseExtractionBatchResult | PiiEntityRecognitionBatchResult | SentimentAnalysisBatchResult | HealthcareBatchResult | ExtractiveSummarizationBatchResult | CustomEntityRecognitionBatchResult | CustomSingleLabelClassificationBatchResult | CustomMultiLabelClassificationBatchResult;
+
+// @public
+export type AnalyzeResult<ActionName extends AnalyzeActionName> = {
+    EntityLinking: EntityLinkingResult[];
+    EntityRecognition: EntityRecognitionResult[];
+    PiiEntityRecognition: PiiEntityRecognitionResult[];
+    KeyPhraseExtraction: KeyPhraseExtractionResult[];
+    SentimentAnalysis: SentimentAnalysisResult[];
+    LanguageDetection: LanguageDetectionResult[];
+}[ActionName];
+
+// @public
+export interface AssessmentSentiment {
+    confidenceScores: TargetConfidenceScores;
+    isNegated: boolean;
+    length: number;
+    offset: number;
+    sentiment: TokenSentimentLabel;
+    text: string;
 }
 
 export { AzureKeyCredential }
 
 // @public
-export interface BeginAnalyzeActionsOptions extends OperationOptions {
+export interface BatchActionErrorResult<Kind extends AnalyzeBatchActionName> extends BatchActionState<Kind> {
+    readonly error: TextAnalysisError;
+    readonly failedOn: Date;
+}
+
+// @public
+export type BatchActionResult<T, Kind extends AnalyzeBatchActionName> = BatchActionSuccessResult<T, Kind> | BatchActionErrorResult<Kind>;
+
+// @public
+export interface BatchActionState<Kind extends AnalyzeBatchActionName> {
+    readonly actionName?: string;
+    readonly kind: Kind;
+    readonly statistics?: TextDocumentBatchStatistics;
+}
+
+// @public
+export interface BatchActionSuccessResult<T, Kind extends AnalyzeBatchActionName> extends BatchActionState<Kind> {
+    readonly completedOn: Date;
+    readonly error?: undefined;
+    readonly results: T[];
+}
+
+// @public
+export interface BeginAnalyzeBatchOptions extends TextAnalysisOperationOptions {
     displayName?: string;
-    includeStatistics?: boolean;
-    resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
-export interface BeginAnalyzeHealthcareEntitiesOptions extends TextAnalyticsOperationOptions {
-    resumeFrom?: string;
-    stringIndexType?: StringIndexType;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface CategorizedEntity extends Entity {
-}
-
-// @public
-export interface ClassificationCategory extends ClassificationResult {
-}
-
-// @public (undocumented)
-export interface ClassificationResult {
+export interface ClassificationCategory {
     category: string;
     confidenceScore: number;
 }
 
 // @public
-export interface CustomTextAnalyticsAction {
-    actionName?: string;
-    deploymentName: string;
-    projectName: string;
+export interface CustomActionMetadata {
+    readonly deploymentName: string;
+    readonly projectName: string;
+}
+
+// @public
+export type CustomEntityRecognitionAction = ActionCustom & {
+    stringIndexType?: StringIndexType;
+};
+
+// @public
+export interface CustomEntityRecognitionBatchAction extends AnalyzeBatchActionCommon, CustomEntityRecognitionAction {
+    kind: "CustomEntityRecognition";
+}
+
+// @public
+export type CustomEntityRecognitionBatchResult = CustomActionMetadata & BatchActionResult<CustomEntityRecognitionResult, "CustomEntityRecognition">;
+
+// @public
+export type CustomEntityRecognitionErrorResult = TextAnalysisErrorResult;
+
+// @public
+export type CustomEntityRecognitionResult = CustomEntityRecognitionSuccessResult | CustomEntityRecognitionErrorResult;
+
+// @public
+export interface CustomEntityRecognitionSuccessResult extends TextAnalysisSuccessResult {
+    readonly entities: Entity[];
+}
+
+// @public
+export type CustomMultiLabelClassificationAction = ActionCustom;
+
+// @public
+export interface CustomMultiLabelClassificationBatchAction extends AnalyzeBatchActionCommon, CustomMultiLabelClassificationAction {
+    kind: "CustomMultiLabelClassification";
+}
+
+// @public
+export type CustomMultiLabelClassificationBatchResult = CustomActionMetadata & BatchActionResult<CustomMultiLabelClassificationResult, "CustomMultiLabelClassification">;
+
+// @public
+export type CustomMultiLabelClassificationErrorResult = TextAnalysisErrorResult;
+
+// @public
+export type CustomMultiLabelClassificationResult = CustomMultiLabelClassificationSuccessResult | CustomMultiLabelClassificationErrorResult;
+
+// @public
+export interface CustomMultiLabelClassificationSuccessResult extends TextAnalysisSuccessResult {
+    readonly classifications: ClassificationCategory[];
+}
+
+// @public
+export type CustomSingleLabelClassificationAction = ActionCustom;
+
+// @public
+export interface CustomSingleLabelClassificationBatchAction extends AnalyzeBatchActionCommon, CustomSingleLabelClassificationAction {
+    kind: "CustomSingleLabelClassification";
+}
+
+// @public
+export type CustomSingleLabelClassificationBatchResult = CustomActionMetadata & BatchActionResult<CustomSingleLabelClassificationResult, "CustomSingleLabelClassification">;
+
+// @public
+export type CustomSingleLabelClassificationErrorResult = TextAnalysisErrorResult;
+
+// @public
+export type CustomSingleLabelClassificationResult = CustomSingleLabelClassificationSuccessResult | CustomSingleLabelClassificationErrorResult;
+
+// @public
+export interface CustomSingleLabelClassificationSuccessResult extends TextAnalysisSuccessResult {
+    readonly classifications: ClassificationCategory[];
 }
 
 // @public
@@ -161,37 +244,13 @@ export interface DetectedLanguage {
 }
 
 // @public
-export type DetectLanguageErrorResult = TextAnalyticsErrorResult;
-
-// @public
-export interface DetectLanguageInput {
-    // (undocumented)
-    countryHint?: string;
-    id: string;
-    // (undocumented)
-    text: string;
-}
-
-// @public
-export interface DetectLanguageOptions extends TextAnalyticsOperationOptions {
-}
-
-// @public
-export type DetectLanguageResult = DetectLanguageSuccessResult | DetectLanguageErrorResult;
-
-// @public
-export interface DetectLanguageResultArray extends Array<DetectLanguageResult> {
-    modelVersion: string;
-    statistics?: TextDocumentBatchStatistics;
-}
-
-// @public
-export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult {
-    readonly primaryLanguage: DetectedLanguage;
-}
-
-// @public
 export type DocumentSentimentLabel = "positive" | "neutral" | "negative" | "mixed";
+
+// @public
+export interface DocumentWarning {
+    code: WarningCode;
+    message: string;
+}
 
 // @public
 export interface Entity {
@@ -201,13 +260,6 @@ export interface Entity {
     offset: number;
     subCategory?: string;
     text: string;
-}
-
-// @public (undocumented)
-export interface EntityAssertion {
-    association?: EntityAssociation;
-    certainty?: EntityCertainty;
-    conditionality?: EntityConditionality;
 }
 
 // @public
@@ -226,90 +278,101 @@ export interface EntityDataSource {
 }
 
 // @public
-export type ErrorCode = ErrorCodeValue | InnerErrorCodeValue;
-
-// @public
-export type ErrorCodeValue = string;
-
-// @public
-export interface ExtractKeyPhrasesAction extends TextAnalyticsAction {
-    disableServiceLogs?: boolean;
-}
-
-// @public
-export type ExtractKeyPhrasesActionErrorResult = TextAnalyticsActionErrorResult;
-
-// @public
-export type ExtractKeyPhrasesActionResult = ExtractKeyPhrasesActionSuccessResult | ExtractKeyPhrasesActionErrorResult;
-
-// @public
-export interface ExtractKeyPhrasesActionSuccessResult extends TextAnalyticsActionSuccessState {
-    results: ExtractKeyPhrasesResultArray;
-}
-
-// @public
-export type ExtractKeyPhrasesErrorResult = TextAnalyticsErrorResult;
-
-// @public
-export interface ExtractKeyPhrasesOptions extends TextAnalyticsOperationOptions {
-}
-
-// @public
-export type ExtractKeyPhrasesResult = ExtractKeyPhrasesSuccessResult | ExtractKeyPhrasesErrorResult;
-
-// @public
-export interface ExtractKeyPhrasesResultArray extends Array<ExtractKeyPhrasesResult> {
-    modelVersion: string;
-    statistics?: TextDocumentBatchStatistics;
-}
-
-// @public
-export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResult {
-    keyPhrases: string[];
-}
-
-// @public
-export interface ExtractSummaryAction extends TextAnalyticsAction {
-    disableServiceLogs?: boolean;
-    maxSentenceCount?: number;
-    orderBy?: string;
+export type EntityLinkingAction = ActionPrebuilt & {
     stringIndexType?: StringIndexType;
+};
+
+// @public
+export interface EntityLinkingBatchAction extends AnalyzeBatchActionCommon, EntityLinkingAction {
+    kind: "EntityLinking";
 }
 
 // @public
-export type ExtractSummaryActionErrorResult = TextAnalyticsActionErrorResult;
+export type EntityLinkingBatchResult = ActionMetadata & BatchActionResult<EntityLinkingResult, "EntityLinking">;
 
 // @public
-export type ExtractSummaryActionResult = ExtractSummaryActionSuccessResult | ExtractSummaryActionErrorResult;
+export type EntityLinkingErrorResult = TextAnalysisErrorResult;
 
 // @public
-export interface ExtractSummaryActionSuccessResult extends TextAnalyticsActionSuccessState {
-    results: ExtractSummaryResultArray;
+export type EntityLinkingResult = EntityLinkingSuccessResult | EntityLinkingErrorResult;
+
+// @public
+export interface EntityLinkingSuccessResult extends TextAnalysisSuccessResult {
+    readonly entities: LinkedEntity[];
 }
 
 // @public
-export type ExtractSummaryErrorResult = TextAnalyticsErrorResult;
+export type EntityRecognitionAction = ActionPrebuilt & {
+    stringIndexType?: StringIndexType;
+};
 
 // @public
-export type ExtractSummaryResult = ExtractSummarySuccessResult | ExtractSummaryErrorResult;
-
-// @public
-export interface ExtractSummaryResultArray extends Array<ExtractSummaryResult> {
-    modelVersion: string;
-    statistics?: TextDocumentBatchStatistics;
+export interface EntityRecognitionBatchAction extends AnalyzeBatchActionCommon, EntityRecognitionAction {
+    kind: "EntityRecognition";
 }
 
 // @public
-export interface ExtractSummarySuccessResult extends TextAnalyticsSuccessResult {
-    sentences: SummarySentence[];
+export type EntityRecognitionBatchResult = ActionMetadata & BatchActionResult<EntityRecognitionResult, "EntityRecognition">;
+
+// @public
+export type EntityRecognitionErrorResult = TextAnalysisErrorResult;
+
+// @public
+export type EntityRecognitionResult = EntityRecognitionSuccessResult | EntityRecognitionErrorResult;
+
+// @public
+export interface EntityRecognitionSuccessResult extends TextAnalysisSuccessResult {
+    readonly entities: Entity[];
 }
+
+// @public
+export type ExtractiveSummarizationAction = ActionPrebuilt & {
+    maxSentenceCount?: number;
+    orderBy?: ExtractiveSummarizationOrderingCriteria;
+    stringIndexType?: StringIndexType;
+};
+
+// @public
+export interface ExtractiveSummarizationBatchAction extends AnalyzeBatchActionCommon, ExtractiveSummarizationAction {
+    kind: "ExtractiveSummarization";
+}
+
+// @public
+export type ExtractiveSummarizationBatchResult = ActionMetadata & BatchActionResult<SummarizationExtractionResult, "ExtractiveSummarization">;
+
+// @public
+export type ExtractiveSummarizationOrderingCriteria = string;
+
+// @public
+export type FhirVersion = string;
+
+// @public
+export type HealthcareAction = ActionPrebuilt & {
+    fhirVersion?: FhirVersion;
+    stringIndexType?: StringIndexType;
+};
+
+// @public
+export interface HealthcareAssertion {
+    association?: EntityAssociation;
+    certainty?: EntityCertainty;
+    conditionality?: EntityConditionality;
+}
+
+// @public
+export interface HealthcareBatchAction extends AnalyzeBatchActionCommon, HealthcareAction {
+    kind: "Healthcare";
+}
+
+// @public
+export type HealthcareBatchResult = ActionMetadata & BatchActionResult<HealthcareResult, "Healthcare">;
 
 // @public
 export interface HealthcareEntity extends Entity {
-    assertion?: EntityAssertion;
-    category: HealthcareEntityCategory;
-    dataSources: EntityDataSource[];
-    normalizedText?: string;
+    readonly assertion?: HealthcareAssertion;
+    readonly category: HealthcareEntityCategory;
+    readonly dataSources: EntityDataSource[];
+    readonly normalizedText?: string;
 }
 
 // @public
@@ -317,85 +380,107 @@ export type HealthcareEntityCategory = string;
 
 // @public
 export interface HealthcareEntityRelation {
-    relationType: HealthcareEntityRelationType;
-    roles: HealthcareEntityRelationRole[];
+    readonly relationType: RelationType;
+    readonly roles: HealthcareEntityRelationRole[];
 }
 
 // @public
 export interface HealthcareEntityRelationRole {
-    entity: HealthcareEntity;
-    name: HealthcareEntityRelationRoleType;
+    readonly entity: HealthcareEntity;
+    readonly name: HealthcareEntityRelationRoleType;
 }
 
 // @public
 export type HealthcareEntityRelationRoleType = string;
 
 // @public
-export type HealthcareEntityRelationType = string;
+export type HealthcareErrorResult = TextAnalysisErrorResult;
 
 // @public
-export type InnerErrorCodeValue = string;
+export type HealthcareResult = HealthcareSuccessResult | HealthcareErrorResult;
 
 // @public
-export enum KnownHealthcareEntityCategory {
-    // (undocumented)
-    AdministrativeEvent = "ADMINISTRATIVE_EVENT",
-    // (undocumented)
-    AGE = "AGE",
-    // (undocumented)
-    BodyStructure = "BODY_STRUCTURE",
-    // (undocumented)
-    CareEnvironment = "CARE_ENVIRONMENT",
-    // (undocumented)
-    ConditionQualifier = "CONDITION_QUALIFIER",
-    // (undocumented)
-    Date = "DATE",
-    // (undocumented)
-    Diagnosis = "DIAGNOSIS",
-    // (undocumented)
-    Direction = "DIRECTION",
-    // (undocumented)
-    Dosage = "DOSAGE",
-    // (undocumented)
-    ExaminationName = "EXAMINATION_NAME",
-    // (undocumented)
-    FamilyRelation = "FAMILY_RELATION",
-    // (undocumented)
-    Frequency = "FREQUENCY",
-    // (undocumented)
-    Gender = "GENDER",
-    // (undocumented)
-    GeneORProtein = "GENE_OR_PROTEIN",
-    // (undocumented)
-    HealthcareProfession = "HEALTHCARE_PROFESSION",
-    // (undocumented)
-    MeasurementUnit = "MEASUREMENT_UNIT",
-    // (undocumented)
-    MeasurementValue = "MEASUREMENT_VALUE",
-    // (undocumented)
-    MedicationClass = "MEDICATION_CLASS",
-    // (undocumented)
-    MedicationForm = "MEDICATION_FORM",
-    // (undocumented)
-    MedicationName = "MEDICATION_NAME",
-    // (undocumented)
-    MedicationRoute = "MEDICATION_ROUTE",
-    // (undocumented)
-    RelationalOperator = "RELATIONAL_OPERATOR",
-    // (undocumented)
-    SymptomORSign = "SYMPTOM_OR_SIGN",
-    // (undocumented)
-    Time = "TIME",
-    // (undocumented)
-    TreatmentName = "TREATMENT_NAME",
-    // (undocumented)
-    Variant = "VARIANT"
+export interface HealthcareSuccessResult extends TextAnalysisSuccessResult {
+    readonly entities: HealthcareEntity[];
+    readonly entityRelations: HealthcareEntityRelation[];
+    readonly fhirBundle?: Record<string, any>;
 }
 
 // @public
-export enum KnownInnerErrorCodeValue {
+export type KeyPhraseExtractionAction = ActionPrebuilt;
+
+// @public
+export interface KeyPhraseExtractionBatchAction extends AnalyzeBatchActionCommon, KeyPhraseExtractionAction {
+    kind: "KeyPhraseExtraction";
+}
+
+// @public
+export type KeyPhraseExtractionBatchResult = ActionMetadata & BatchActionResult<KeyPhraseExtractionResult, "KeyPhraseExtraction">;
+
+// @public
+export type KeyPhraseExtractionErrorResult = TextAnalysisErrorResult;
+
+// @public
+export type KeyPhraseExtractionResult = KeyPhraseExtractionSuccessResult | KeyPhraseExtractionErrorResult;
+
+// @public
+export interface KeyPhraseExtractionSuccessResult extends TextAnalysisSuccessResult {
+    readonly keyPhrases: string[];
+}
+
+// @public
+export enum KnownErrorCode {
+    // (undocumented)
+    AzureCognitiveSearchIndexLimitReached = "AzureCognitiveSearchIndexLimitReached",
+    // (undocumented)
+    AzureCognitiveSearchIndexNotFound = "AzureCognitiveSearchIndexNotFound",
+    // (undocumented)
+    AzureCognitiveSearchNotFound = "AzureCognitiveSearchNotFound",
+    // (undocumented)
+    AzureCognitiveSearchThrottling = "AzureCognitiveSearchThrottling",
+    // (undocumented)
+    Forbidden = "Forbidden",
+    // (undocumented)
+    InternalServerError = "InternalServerError",
+    // (undocumented)
+    InvalidArgument = "InvalidArgument",
+    // (undocumented)
+    InvalidRequest = "InvalidRequest",
+    // (undocumented)
+    NotFound = "NotFound",
+    // (undocumented)
+    OperationNotFound = "OperationNotFound",
+    // (undocumented)
+    ProjectNotFound = "ProjectNotFound",
+    // (undocumented)
+    ServiceUnavailable = "ServiceUnavailable",
+    // (undocumented)
+    TooManyRequests = "TooManyRequests",
+    // (undocumented)
+    Unauthorized = "Unauthorized"
+}
+
+// @public
+export enum KnownExtractiveSummarizationOrderingCriteria {
+    Offset = "Offset",
+    Rank = "Rank"
+}
+
+// @public
+export enum KnownFhirVersion {
+    "4.0.1" = "4.0.1"
+}
+
+// @public
+export enum KnownInnerErrorCode {
+    // (undocumented)
+    AzureCognitiveSearchNotFound = "AzureCognitiveSearchNotFound",
+    // (undocumented)
+    AzureCognitiveSearchThrottling = "AzureCognitiveSearchThrottling",
     // (undocumented)
     EmptyRequest = "EmptyRequest",
+    // (undocumented)
+    ExtractionFailure = "ExtractionFailure",
     // (undocumented)
     InvalidCountryHint = "InvalidCountryHint",
     // (undocumented)
@@ -405,9 +490,13 @@ export enum KnownInnerErrorCodeValue {
     // (undocumented)
     InvalidParameterValue = "InvalidParameterValue",
     // (undocumented)
+    InvalidRequest = "InvalidRequest",
+    // (undocumented)
     InvalidRequestBodyFormat = "InvalidRequestBodyFormat",
     // (undocumented)
-    MissingInputRecords = "MissingInputRecords",
+    KnowledgeBaseNotFound = "KnowledgeBaseNotFound",
+    // (undocumented)
+    MissingInputDocuments = "MissingInputDocuments",
     // (undocumented)
     ModelVersionIncorrect = "ModelVersionIncorrect",
     // (undocumented)
@@ -415,14 +504,416 @@ export enum KnownInnerErrorCodeValue {
 }
 
 // @public
-export type KnownSummarySentencesOrderBy = "Offset" | "Rank";
+export enum KnownPiiEntityCategory {
+    // (undocumented)
+    ABARoutingNumber = "ABARoutingNumber",
+    // (undocumented)
+    Address = "Address",
+    // (undocumented)
+    Age = "Age",
+    // (undocumented)
+    All = "All",
+    // (undocumented)
+    ARNationalIdentityNumber = "ARNationalIdentityNumber",
+    // (undocumented)
+    ATIdentityCard = "ATIdentityCard",
+    // (undocumented)
+    ATTaxIdentificationNumber = "ATTaxIdentificationNumber",
+    // (undocumented)
+    ATValueAddedTaxNumber = "ATValueAddedTaxNumber",
+    // (undocumented)
+    AUBankAccountNumber = "AUBankAccountNumber",
+    // (undocumented)
+    AUBusinessNumber = "AUBusinessNumber",
+    // (undocumented)
+    AUCompanyNumber = "AUCompanyNumber",
+    // (undocumented)
+    AUDriversLicenseNumber = "AUDriversLicenseNumber",
+    // (undocumented)
+    AUMedicalAccountNumber = "AUMedicalAccountNumber",
+    // (undocumented)
+    AUPassportNumber = "AUPassportNumber",
+    // (undocumented)
+    AUTaxFileNumber = "AUTaxFileNumber",
+    // (undocumented)
+    AzureDocumentDBAuthKey = "AzureDocumentDBAuthKey",
+    // (undocumented)
+    AzureIaasDatabaseConnectionAndSQLString = "AzureIAASDatabaseConnectionAndSQLString",
+    // (undocumented)
+    AzureIoTConnectionString = "AzureIoTConnectionString",
+    // (undocumented)
+    AzurePublishSettingPassword = "AzurePublishSettingPassword",
+    // (undocumented)
+    AzureRedisCacheString = "AzureRedisCacheString",
+    // (undocumented)
+    AzureSAS = "AzureSAS",
+    // (undocumented)
+    AzureServiceBusString = "AzureServiceBusString",
+    // (undocumented)
+    AzureStorageAccountGeneric = "AzureStorageAccountGeneric",
+    // (undocumented)
+    AzureStorageAccountKey = "AzureStorageAccountKey",
+    // (undocumented)
+    BENationalNumber = "BENationalNumber",
+    // (undocumented)
+    BENationalNumberV2 = "BENationalNumberV2",
+    // (undocumented)
+    BEValueAddedTaxNumber = "BEValueAddedTaxNumber",
+    // (undocumented)
+    BGUniformCivilNumber = "BGUniformCivilNumber",
+    // (undocumented)
+    BrcpfNumber = "BRCPFNumber",
+    // (undocumented)
+    BRLegalEntityNumber = "BRLegalEntityNumber",
+    // (undocumented)
+    BRNationalIdrg = "BRNationalIDRG",
+    // (undocumented)
+    CABankAccountNumber = "CABankAccountNumber",
+    // (undocumented)
+    CADriversLicenseNumber = "CADriversLicenseNumber",
+    // (undocumented)
+    CAHealthServiceNumber = "CAHealthServiceNumber",
+    // (undocumented)
+    CAPassportNumber = "CAPassportNumber",
+    // (undocumented)
+    CAPersonalHealthIdentification = "CAPersonalHealthIdentification",
+    // (undocumented)
+    CASocialInsuranceNumber = "CASocialInsuranceNumber",
+    // (undocumented)
+    CHSocialSecurityNumber = "CHSocialSecurityNumber",
+    // (undocumented)
+    CLIdentityCardNumber = "CLIdentityCardNumber",
+    // (undocumented)
+    CNResidentIdentityCardNumber = "CNResidentIdentityCardNumber",
+    // (undocumented)
+    CreditCardNumber = "CreditCardNumber",
+    // (undocumented)
+    CYIdentityCard = "CYIdentityCard",
+    // (undocumented)
+    CYTaxIdentificationNumber = "CYTaxIdentificationNumber",
+    // (undocumented)
+    CZPersonalIdentityNumber = "CZPersonalIdentityNumber",
+    // (undocumented)
+    CZPersonalIdentityV2 = "CZPersonalIdentityV2",
+    // (undocumented)
+    Date = "Date",
+    // (undocumented)
+    DEDriversLicenseNumber = "DEDriversLicenseNumber",
+    // (undocumented)
+    Default = "Default",
+    // (undocumented)
+    DEIdentityCardNumber = "DEIdentityCardNumber",
+    // (undocumented)
+    DEPassportNumber = "DEPassportNumber",
+    // (undocumented)
+    DETaxIdentificationNumber = "DETaxIdentificationNumber",
+    // (undocumented)
+    DEValueAddedNumber = "DEValueAddedNumber",
+    // (undocumented)
+    DKPersonalIdentificationNumber = "DKPersonalIdentificationNumber",
+    // (undocumented)
+    DKPersonalIdentificationV2 = "DKPersonalIdentificationV2",
+    // (undocumented)
+    DrugEnforcementAgencyNumber = "DrugEnforcementAgencyNumber",
+    // (undocumented)
+    EEPersonalIdentificationCode = "EEPersonalIdentificationCode",
+    // (undocumented)
+    Email = "Email",
+    // (undocumented)
+    Esdni = "ESDNI",
+    // (undocumented)
+    ESSocialSecurityNumber = "ESSocialSecurityNumber",
+    // (undocumented)
+    ESTaxIdentificationNumber = "ESTaxIdentificationNumber",
+    // (undocumented)
+    EUDebitCardNumber = "EUDebitCardNumber",
+    // (undocumented)
+    EUDriversLicenseNumber = "EUDriversLicenseNumber",
+    // (undocumented)
+    EugpsCoordinates = "EUGPSCoordinates",
+    // (undocumented)
+    EUNationalIdentificationNumber = "EUNationalIdentificationNumber",
+    // (undocumented)
+    EUPassportNumber = "EUPassportNumber",
+    // (undocumented)
+    EUSocialSecurityNumber = "EUSocialSecurityNumber",
+    // (undocumented)
+    EUTaxIdentificationNumber = "EUTaxIdentificationNumber",
+    // (undocumented)
+    FIEuropeanHealthNumber = "FIEuropeanHealthNumber",
+    // (undocumented)
+    FINationalID = "FINationalID",
+    // (undocumented)
+    FINationalIDV2 = "FINationalIDV2",
+    // (undocumented)
+    FIPassportNumber = "FIPassportNumber",
+    // (undocumented)
+    FRDriversLicenseNumber = "FRDriversLicenseNumber",
+    // (undocumented)
+    FRHealthInsuranceNumber = "FRHealthInsuranceNumber",
+    // (undocumented)
+    FRNationalID = "FRNationalID",
+    // (undocumented)
+    FRPassportNumber = "FRPassportNumber",
+    // (undocumented)
+    FRSocialSecurityNumber = "FRSocialSecurityNumber",
+    // (undocumented)
+    FRTaxIdentificationNumber = "FRTaxIdentificationNumber",
+    // (undocumented)
+    FRValueAddedTaxNumber = "FRValueAddedTaxNumber",
+    // (undocumented)
+    GRNationalIDCard = "GRNationalIDCard",
+    // (undocumented)
+    GRNationalIDV2 = "GRNationalIDV2",
+    // (undocumented)
+    GRTaxIdentificationNumber = "GRTaxIdentificationNumber",
+    // (undocumented)
+    HKIdentityCardNumber = "HKIdentityCardNumber",
+    // (undocumented)
+    HRIdentityCardNumber = "HRIdentityCardNumber",
+    // (undocumented)
+    HRNationalIDNumber = "HRNationalIDNumber",
+    // (undocumented)
+    HRPersonalIdentificationNumber = "HRPersonalIdentificationNumber",
+    // (undocumented)
+    HRPersonalIdentificationOIBNumberV2 = "HRPersonalIdentificationOIBNumberV2",
+    // (undocumented)
+    HUPersonalIdentificationNumber = "HUPersonalIdentificationNumber",
+    // (undocumented)
+    HUTaxIdentificationNumber = "HUTaxIdentificationNumber",
+    // (undocumented)
+    HUValueAddedNumber = "HUValueAddedNumber",
+    // (undocumented)
+    IDIdentityCardNumber = "IDIdentityCardNumber",
+    // (undocumented)
+    IEPersonalPublicServiceNumber = "IEPersonalPublicServiceNumber",
+    // (undocumented)
+    IEPersonalPublicServiceNumberV2 = "IEPersonalPublicServiceNumberV2",
+    // (undocumented)
+    ILBankAccountNumber = "ILBankAccountNumber",
+    // (undocumented)
+    ILNationalID = "ILNationalID",
+    // (undocumented)
+    INPermanentAccount = "INPermanentAccount",
+    // (undocumented)
+    InternationalBankingAccountNumber = "InternationalBankingAccountNumber",
+    // (undocumented)
+    INUniqueIdentificationNumber = "INUniqueIdentificationNumber",
+    // (undocumented)
+    IPAddress = "IPAddress",
+    // (undocumented)
+    ITDriversLicenseNumber = "ITDriversLicenseNumber",
+    // (undocumented)
+    ITFiscalCode = "ITFiscalCode",
+    // (undocumented)
+    ITValueAddedTaxNumber = "ITValueAddedTaxNumber",
+    // (undocumented)
+    JPBankAccountNumber = "JPBankAccountNumber",
+    // (undocumented)
+    JPDriversLicenseNumber = "JPDriversLicenseNumber",
+    // (undocumented)
+    JPMyNumberCorporate = "JPMyNumberCorporate",
+    // (undocumented)
+    JPMyNumberPersonal = "JPMyNumberPersonal",
+    // (undocumented)
+    JPPassportNumber = "JPPassportNumber",
+    // (undocumented)
+    JPResidenceCardNumber = "JPResidenceCardNumber",
+    // (undocumented)
+    JPResidentRegistrationNumber = "JPResidentRegistrationNumber",
+    // (undocumented)
+    JPSocialInsuranceNumber = "JPSocialInsuranceNumber",
+    // (undocumented)
+    KRResidentRegistrationNumber = "KRResidentRegistrationNumber",
+    // (undocumented)
+    LTPersonalCode = "LTPersonalCode",
+    // (undocumented)
+    LUNationalIdentificationNumberNatural = "LUNationalIdentificationNumberNatural",
+    // (undocumented)
+    LUNationalIdentificationNumberNonNatural = "LUNationalIdentificationNumberNonNatural",
+    // (undocumented)
+    LVPersonalCode = "LVPersonalCode",
+    // (undocumented)
+    MTIdentityCardNumber = "MTIdentityCardNumber",
+    // (undocumented)
+    MTTaxIDNumber = "MTTaxIDNumber",
+    // (undocumented)
+    MYIdentityCardNumber = "MYIdentityCardNumber",
+    // (undocumented)
+    NLCitizensServiceNumber = "NLCitizensServiceNumber",
+    // (undocumented)
+    NLCitizensServiceNumberV2 = "NLCitizensServiceNumberV2",
+    // (undocumented)
+    NLTaxIdentificationNumber = "NLTaxIdentificationNumber",
+    // (undocumented)
+    NLValueAddedTaxNumber = "NLValueAddedTaxNumber",
+    // (undocumented)
+    NOIdentityNumber = "NOIdentityNumber",
+    // (undocumented)
+    NZBankAccountNumber = "NZBankAccountNumber",
+    // (undocumented)
+    NZDriversLicenseNumber = "NZDriversLicenseNumber",
+    // (undocumented)
+    NZInlandRevenueNumber = "NZInlandRevenueNumber",
+    // (undocumented)
+    NZMinistryOfHealthNumber = "NZMinistryOfHealthNumber",
+    // (undocumented)
+    NZSocialWelfareNumber = "NZSocialWelfareNumber",
+    // (undocumented)
+    Organization = "Organization",
+    // (undocumented)
+    Person = "Person",
+    // (undocumented)
+    PhoneNumber = "PhoneNumber",
+    // (undocumented)
+    PHUnifiedMultiPurposeIDNumber = "PHUnifiedMultiPurposeIDNumber",
+    // (undocumented)
+    PLIdentityCard = "PLIdentityCard",
+    // (undocumented)
+    PLNationalID = "PLNationalID",
+    // (undocumented)
+    PLNationalIDV2 = "PLNationalIDV2",
+    // (undocumented)
+    PLPassportNumber = "PLPassportNumber",
+    // (undocumented)
+    PlregonNumber = "PLREGONNumber",
+    // (undocumented)
+    PLTaxIdentificationNumber = "PLTaxIdentificationNumber",
+    // (undocumented)
+    PTCitizenCardNumber = "PTCitizenCardNumber",
+    // (undocumented)
+    PTCitizenCardNumberV2 = "PTCitizenCardNumberV2",
+    // (undocumented)
+    PTTaxIdentificationNumber = "PTTaxIdentificationNumber",
+    // (undocumented)
+    ROPersonalNumericalCode = "ROPersonalNumericalCode",
+    // (undocumented)
+    RUPassportNumberDomestic = "RUPassportNumberDomestic",
+    // (undocumented)
+    RUPassportNumberInternational = "RUPassportNumberInternational",
+    // (undocumented)
+    SANationalID = "SANationalID",
+    // (undocumented)
+    SENationalID = "SENationalID",
+    // (undocumented)
+    SENationalIDV2 = "SENationalIDV2",
+    // (undocumented)
+    SEPassportNumber = "SEPassportNumber",
+    // (undocumented)
+    SETaxIdentificationNumber = "SETaxIdentificationNumber",
+    // (undocumented)
+    SGNationalRegistrationIdentityCardNumber = "SGNationalRegistrationIdentityCardNumber",
+    // (undocumented)
+    SITaxIdentificationNumber = "SITaxIdentificationNumber",
+    // (undocumented)
+    SIUniqueMasterCitizenNumber = "SIUniqueMasterCitizenNumber",
+    // (undocumented)
+    SKPersonalNumber = "SKPersonalNumber",
+    // (undocumented)
+    SQLServerConnectionString = "SQLServerConnectionString",
+    // (undocumented)
+    SwiftCode = "SWIFTCode",
+    // (undocumented)
+    THPopulationIdentificationCode = "THPopulationIdentificationCode",
+    // (undocumented)
+    TRNationalIdentificationNumber = "TRNationalIdentificationNumber",
+    // (undocumented)
+    TWNationalID = "TWNationalID",
+    // (undocumented)
+    TWPassportNumber = "TWPassportNumber",
+    // (undocumented)
+    TWResidentCertificate = "TWResidentCertificate",
+    // (undocumented)
+    UAPassportNumberDomestic = "UAPassportNumberDomestic",
+    // (undocumented)
+    UAPassportNumberInternational = "UAPassportNumberInternational",
+    // (undocumented)
+    UKDriversLicenseNumber = "UKDriversLicenseNumber",
+    // (undocumented)
+    UKElectoralRollNumber = "UKElectoralRollNumber",
+    // (undocumented)
+    UKNationalHealthNumber = "UKNationalHealthNumber",
+    // (undocumented)
+    UKNationalInsuranceNumber = "UKNationalInsuranceNumber",
+    // (undocumented)
+    UKUniqueTaxpayerNumber = "UKUniqueTaxpayerNumber",
+    // (undocumented)
+    URL = "URL",
+    // (undocumented)
+    USBankAccountNumber = "USBankAccountNumber",
+    // (undocumented)
+    USDriversLicenseNumber = "USDriversLicenseNumber",
+    // (undocumented)
+    USIndividualTaxpayerIdentification = "USIndividualTaxpayerIdentification",
+    // (undocumented)
+    USSocialSecurityNumber = "USSocialSecurityNumber",
+    // (undocumented)
+    UsukPassportNumber = "USUKPassportNumber",
+    // (undocumented)
+    ZAIdentificationNumber = "ZAIdentificationNumber"
+}
 
 // @public
-export enum KnownWarningCode {
-    // (undocumented)
-    DocumentTruncated = "DocumentTruncated",
-    // (undocumented)
-    LongWordsInDocument = "LongWordsInDocument"
+export enum KnownPiiEntityDomain {
+    None = "none",
+    Phi = "phi"
+}
+
+// @public
+export enum KnownStringIndexType {
+    TextElementsV8 = "TextElements_v8",
+    UnicodeCodePoint = "UnicodeCodePoint",
+    Utf16CodeUnit = "Utf16CodeUnit"
+}
+
+// @public
+export const KnownTextAnalysisErrorCode: {
+    InvalidRequest: KnownInnerErrorCode.InvalidRequest;
+    InvalidParameterValue: KnownInnerErrorCode.InvalidParameterValue;
+    KnowledgeBaseNotFound: KnownInnerErrorCode.KnowledgeBaseNotFound;
+    AzureCognitiveSearchNotFound: KnownInnerErrorCode.AzureCognitiveSearchNotFound;
+    AzureCognitiveSearchThrottling: KnownInnerErrorCode.AzureCognitiveSearchThrottling;
+    ExtractionFailure: KnownInnerErrorCode.ExtractionFailure;
+    InvalidRequestBodyFormat: KnownInnerErrorCode.InvalidRequestBodyFormat;
+    EmptyRequest: KnownInnerErrorCode.EmptyRequest;
+    MissingInputDocuments: KnownInnerErrorCode.MissingInputDocuments;
+    InvalidDocument: KnownInnerErrorCode.InvalidDocument;
+    ModelVersionIncorrect: KnownInnerErrorCode.ModelVersionIncorrect;
+    InvalidDocumentBatch: KnownInnerErrorCode.InvalidDocumentBatch;
+    UnsupportedLanguageCode: KnownInnerErrorCode.UnsupportedLanguageCode;
+    InvalidCountryHint: KnownInnerErrorCode.InvalidCountryHint;
+    InvalidArgument: KnownErrorCode.InvalidArgument;
+    Unauthorized: KnownErrorCode.Unauthorized;
+    Forbidden: KnownErrorCode.Forbidden;
+    NotFound: KnownErrorCode.NotFound;
+    ProjectNotFound: KnownErrorCode.ProjectNotFound;
+    OperationNotFound: KnownErrorCode.OperationNotFound;
+    AzureCognitiveSearchIndexNotFound: KnownErrorCode.AzureCognitiveSearchIndexNotFound;
+    TooManyRequests: KnownErrorCode.TooManyRequests;
+    AzureCognitiveSearchIndexLimitReached: KnownErrorCode.AzureCognitiveSearchIndexLimitReached;
+    InternalServerError: KnownErrorCode.InternalServerError;
+    ServiceUnavailable: KnownErrorCode.ServiceUnavailable;
+};
+
+// @public
+export type LanguageDetectionAction = ActionPrebuilt;
+
+// @public
+export type LanguageDetectionErrorResult = TextAnalysisErrorResult;
+
+// @public
+export interface LanguageDetectionInput {
+    countryHint?: string;
+    id: string;
+    text: string;
+}
+
+// @public
+export type LanguageDetectionResult = LanguageDetectionSuccessResult | LanguageDetectionErrorResult;
+
+// @public
+export interface LanguageDetectionSuccessResult extends TextAnalysisSuccessResult {
+    readonly primaryLanguage: DetectedLanguage;
 }
 
 // @public
@@ -445,262 +936,97 @@ export interface Match {
 }
 
 // @public
-export interface MultiCategoryClassifyAction extends CustomTextAnalyticsAction {
-    disableServiceLogs?: boolean;
-}
-
-// @public
-export type MultiCategoryClassifyActionErrorResult = TextAnalyticsActionErrorResult;
-
-// @public
-export type MultiCategoryClassifyActionResult = MultiCategoryClassifyActionSuccessResult | MultiCategoryClassifyActionErrorResult;
-
-// @public
-export interface MultiCategoryClassifyActionSuccessResult extends TextAnalyticsActionSuccessState {
-    results: MultiCategoryClassifyResultArray;
-}
-
-// @public
-export type MultiCategoryClassifyErrorResult = TextAnalyticsErrorResult;
-
-// @public
-export type MultiCategoryClassifyResult = MultiCategoryClassifySuccessResult | MultiCategoryClassifyErrorResult;
-
-// @public
-export interface MultiCategoryClassifyResultArray extends Array<MultiCategoryClassifyResult> {
-    deploymentName: string;
-    projectName: string;
-    statistics?: TextDocumentBatchStatistics;
-}
-
-// @public
-export interface MultiCategoryClassifySuccessResult extends TextAnalyticsSuccessResult {
-    classifications: ClassificationCategory[];
-}
-
-// @public
-export interface OperationMetadata {
-    createdOn: Date;
-    expiresOn?: Date;
-    lastModifiedOn: Date;
-    operationId: string;
-    status: TextAnalyticsOperationStatus;
-}
+export type OperationStatus = "notStarted" | "running" | "succeeded" | "partiallySucceeded" | "failed" | "cancelled" | "cancelling";
 
 // @public
 export interface Opinion {
-    assessments: AssessmentSentiment[];
-    target: TargetSentiment;
+    readonly assessments: AssessmentSentiment[];
+    readonly target: TargetSentiment;
 }
 
 // @public
-export interface PagedAnalyzeActionsResult extends PagedAsyncIterableAnalyzeActionsResult {
-}
-
-// @public
-export interface PagedAnalyzeHealthcareEntitiesResult extends PagedAsyncIterableAnalyzeHealthcareEntitiesResult {
-    modelVersion: string;
-    statistics?: TextDocumentBatchStatistics;
-}
-
-// @public
-export type PagedAsyncIterableAnalyzeActionsResult = PagedAsyncIterableIterator<AnalyzeActionsResult, AnalyzeActionsResult>;
-
-// @public
-export type PagedAsyncIterableAnalyzeHealthcareEntitiesResult = PagedAsyncIterableIterator<AnalyzeHealthcareEntitiesResult, AnalyzeHealthcareEntitiesResultArray>;
-
-// @public
-export interface PiiEntity extends Entity {
-}
+export type PagedAnalyzeBatchResult = PagedAsyncIterableIterator<AnalyzeBatchResult>;
 
 // @public
 export type PiiEntityCategory = string;
 
 // @public
-export enum PiiEntityDomain {
-    // (undocumented)
-    PROTECTED_HEALTH_INFORMATION = "PHI"
-}
+export type PiiEntityDomain = string;
 
 // @public
-export interface RecognizeCategorizedEntitiesAction extends TextAnalyticsAction {
-    disableServiceLogs?: boolean;
-    stringIndexType?: StringIndexType;
-}
-
-// @public
-export type RecognizeCategorizedEntitiesActionErrorResult = TextAnalyticsActionErrorResult;
-
-// @public
-export type RecognizeCategorizedEntitiesActionResult = RecognizeCategorizedEntitiesActionSuccessResult | RecognizeCategorizedEntitiesActionErrorResult;
-
-// @public
-export interface RecognizeCategorizedEntitiesActionSuccessResult extends TextAnalyticsActionSuccessState {
-    results: RecognizeCategorizedEntitiesResultArray;
-}
-
-// @public
-export type RecognizeCategorizedEntitiesErrorResult = TextAnalyticsErrorResult;
-
-// @public
-export interface RecognizeCategorizedEntitiesOptions extends TextAnalyticsOperationOptions {
-    stringIndexType?: StringIndexType;
-}
-
-// @public
-export type RecognizeCategorizedEntitiesResult = RecognizeCategorizedEntitiesSuccessResult | RecognizeCategorizedEntitiesErrorResult;
-
-// @public
-export interface RecognizeCategorizedEntitiesResultArray extends Array<RecognizeCategorizedEntitiesResult> {
-    modelVersion: string;
-    statistics?: TextDocumentBatchStatistics;
-}
-
-// @public
-export interface RecognizeCategorizedEntitiesSuccessResult extends TextAnalyticsSuccessResult {
-    readonly entities: CategorizedEntity[];
-}
-
-// @public
-export interface RecognizeCustomEntitiesAction extends CustomTextAnalyticsAction {
-    disableServiceLogs?: boolean;
-    stringIndexType?: StringIndexType;
-}
-
-// @public
-export type RecognizeCustomEntitiesActionResult = RecongizeCustomEntitiesActionSuccessResult | RecongizeCustomEntitiesActionErrorResult;
-
-// @public
-export type RecognizeCustomEntitiesErrorResult = TextAnalyticsErrorResult;
-
-// @public
-export type RecognizeCustomEntitiesResult = RecognizeCustomEntitiesSuccessResult | RecognizeCustomEntitiesErrorResult;
-
-// @public
-export interface RecognizeCustomEntitiesResultArray extends Array<RecognizeCustomEntitiesResult> {
-    deploymentName: string;
-    projectName: string;
-    statistics?: TextDocumentBatchStatistics;
-}
-
-// @public
-export interface RecognizeCustomEntitiesSuccessResult extends TextAnalyticsSuccessResult {
-    entities: CategorizedEntity[];
-}
-
-// @public
-export interface RecognizeLinkedEntitiesAction extends TextAnalyticsAction {
-    disableServiceLogs?: boolean;
-    stringIndexType?: StringIndexType;
-}
-
-// @public
-export type RecognizeLinkedEntitiesActionErrorResult = TextAnalyticsActionErrorResult;
-
-// @public
-export type RecognizeLinkedEntitiesActionResult = RecognizeLinkedEntitiesActionSuccessResult | RecognizeLinkedEntitiesActionErrorResult;
-
-// @public
-export interface RecognizeLinkedEntitiesActionSuccessResult extends TextAnalyticsActionSuccessState {
-    results: RecognizeLinkedEntitiesResultArray;
-}
-
-// @public
-export type RecognizeLinkedEntitiesErrorResult = TextAnalyticsErrorResult;
-
-// @public
-export interface RecognizeLinkedEntitiesOptions extends TextAnalyticsOperationOptions {
-    stringIndexType?: StringIndexType;
-}
-
-// @public
-export type RecognizeLinkedEntitiesResult = RecognizeLinkedEntitiesSuccessResult | RecognizeLinkedEntitiesErrorResult;
-
-// @public
-export interface RecognizeLinkedEntitiesResultArray extends Array<RecognizeLinkedEntitiesResult> {
-    modelVersion: string;
-    statistics?: TextDocumentBatchStatistics;
-}
-
-// @public
-export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSuccessResult {
-    readonly entities: LinkedEntity[];
-}
-
-// @public
-export interface RecognizePiiEntitiesAction extends TextAnalyticsAction {
-    categoriesFilter?: PiiEntityCategory[];
-    disableServiceLogs?: boolean;
+export type PiiEntityRecognitionAction = ActionPrebuilt & {
     domainFilter?: PiiEntityDomain;
-    stringIndexType?: StringIndexType;
-}
-
-// @public
-export type RecognizePiiEntitiesActionErrorResult = TextAnalyticsActionErrorResult;
-
-// @public
-export type RecognizePiiEntitiesActionResult = RecognizePiiEntitiesActionSuccessResult | RecognizePiiEntitiesActionErrorResult;
-
-// @public
-export interface RecognizePiiEntitiesActionSuccessResult extends TextAnalyticsActionSuccessState {
-    results: RecognizePiiEntitiesResultArray;
-}
-
-// @public
-export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
-
-// @public
-export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {
     categoriesFilter?: PiiEntityCategory[];
-    domainFilter?: PiiEntityDomain;
     stringIndexType?: StringIndexType;
+};
+
+// @public
+export interface PiiEntityRecognitionBatchAction extends AnalyzeBatchActionCommon, PiiEntityRecognitionAction {
+    kind: "PiiEntityRecognition";
 }
 
 // @public
-export type RecognizePiiEntitiesResult = RecognizePiiEntitiesSuccessResult | RecognizePiiEntitiesErrorResult;
+export type PiiEntityRecognitionBatchResult = ActionMetadata & BatchActionResult<PiiEntityRecognitionResult, "PiiEntityRecognition">;
 
 // @public
-export interface RecognizePiiEntitiesResultArray extends Array<RecognizePiiEntitiesResult> {
-    modelVersion: string;
-    statistics?: TextDocumentBatchStatistics;
+export type PiiEntityRecognitionErrorResult = TextAnalysisErrorResult;
+
+// @public
+export type PiiEntityRecognitionResult = PiiEntityRecognitionSuccessResult | PiiEntityRecognitionErrorResult;
+
+// @public
+export interface PiiEntityRecognitionSuccessResult extends TextAnalysisSuccessResult {
+    readonly entities: Entity[];
+    readonly redactedText: string;
 }
 
 // @public
-export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessResult {
-    readonly entities: PiiEntity[];
-    redactedText: string;
-}
+export type RelationType = string;
 
 // @public
-export type RecongizeCustomEntitiesActionErrorResult = TextAnalyticsActionErrorResult;
-
-// @public
-export interface RecongizeCustomEntitiesActionSuccessResult extends TextAnalyticsActionSuccessState {
-    results: RecognizeCustomEntitiesResultArray;
-}
-
-// @public (undocumented)
-export interface SentenceAssessment {
-    confidenceScores: TargetConfidenceScoreLabel;
-    isNegated: boolean;
-    length: number;
-    offset: number;
-    sentiment: TokenSentimentValue;
-    text: string;
+export interface RestoreAnalyzeBatchPollerOptions extends TextAnalysisOperationOptions {
+    updateIntervalInMs?: number;
 }
 
 // @public
 export interface SentenceSentiment {
-    confidenceScores: SentimentConfidenceScores;
-    length: number;
-    offset: number;
-    opinions: Opinion[];
-    sentiment: SentenceSentimentLabel;
-    text: string;
+    readonly confidenceScores: SentimentConfidenceScores;
+    readonly length: number;
+    readonly offset: number;
+    readonly opinions: Opinion[];
+    readonly sentiment: SentenceSentimentLabel;
+    readonly text: string;
 }
 
 // @public
 export type SentenceSentimentLabel = "positive" | "neutral" | "negative";
+
+// @public
+export type SentimentAnalysisAction = ActionPrebuilt & {
+    includeOpinionMining?: boolean;
+    stringIndexType?: StringIndexType;
+};
+
+// @public
+export interface SentimentAnalysisBatchAction extends AnalyzeBatchActionCommon, SentimentAnalysisAction {
+    kind: "SentimentAnalysis";
+}
+
+// @public
+export type SentimentAnalysisBatchResult = ActionMetadata & BatchActionResult<SentimentAnalysisResult, "SentimentAnalysis">;
+
+// @public
+export type SentimentAnalysisErrorResult = TextAnalysisErrorResult;
+
+// @public
+export type SentimentAnalysisResult = SentimentAnalysisSuccessResult | SentimentAnalysisErrorResult;
+
+// @public
+export interface SentimentAnalysisSuccessResult extends TextAnalysisSuccessResult {
+    readonly confidenceScores: SentimentConfidenceScores;
+    readonly sentences: SentenceSentiment[];
+    readonly sentiment: DocumentSentimentLabel;
+}
 
 // @public
 export interface SentimentConfidenceScores {
@@ -713,41 +1039,18 @@ export interface SentimentConfidenceScores {
 }
 
 // @public
-export interface SingleCategoryClassifyAction extends CustomTextAnalyticsAction {
-    disableServiceLogs?: boolean;
+export type StringIndexType = string;
+
+// @public
+export type SummarizationExtractionErrorResult = TextAnalysisErrorResult;
+
+// @public
+export type SummarizationExtractionResult = SummarizationExtractionSuccessResult | SummarizationExtractionErrorResult;
+
+// @public
+export interface SummarizationExtractionSuccessResult extends TextAnalysisSuccessResult {
+    readonly sentences: SummarySentence[];
 }
-
-// @public
-export type SingleCategoryClassifyActionErrorResult = TextAnalyticsActionErrorResult;
-
-// @public
-export type SingleCategoryClassifyActionResult = SingleCategoryClassifyActionSuccessResult | SingleCategoryClassifyActionErrorResult;
-
-// @public
-export interface SingleCategoryClassifyActionSuccessResult extends TextAnalyticsActionSuccessState {
-    results: SingleCategoryClassifyResultArray;
-}
-
-// @public
-export type SingleCategoryClassifyErrorResult = TextAnalyticsErrorResult;
-
-// @public
-export type SingleCategoryClassifyResult = SingleCategoryClassifySuccessResult | SingleCategoryClassifyErrorResult;
-
-// @public
-export interface SingleCategoryClassifyResultArray extends Array<SingleCategoryClassifyResult> {
-    deploymentName: string;
-    projectName: string;
-    statistics?: TextDocumentBatchStatistics;
-}
-
-// @public
-export interface SingleCategoryClassifySuccessResult extends TextAnalyticsSuccessResult {
-    classification: ClassificationCategory;
-}
-
-// @public
-export type StringIndexType = "TextElement_v8" | "UnicodeCodePoint" | "Utf16CodeUnit";
 
 // @public
 export interface SummarySentence {
@@ -758,7 +1061,7 @@ export interface SummarySentence {
 }
 
 // @public
-export interface TargetConfidenceScoreLabel {
+export interface TargetConfidenceScores {
     // (undocumented)
     negative: number;
     // (undocumented)
@@ -767,114 +1070,58 @@ export interface TargetConfidenceScoreLabel {
 
 // @public
 export interface TargetSentiment {
-    confidenceScores: TargetConfidenceScoreLabel;
-    length: number;
-    offset: number;
-    sentiment: TokenSentimentValue;
-    text: string;
+    readonly confidenceScores: TargetConfidenceScores;
+    readonly length: number;
+    readonly offset: number;
+    readonly sentiment: TokenSentimentLabel;
+    readonly text: string;
 }
 
 // @public
-export interface TextAnalyticsAction {
-    actionName?: string;
-    modelVersion?: string;
+export class TextAnalysisClient {
+    constructor(endpointUrl: string, credential: KeyCredential, options?: TextAnalysisClientOptions);
+    constructor(endpointUrl: string, credential: TokenCredential, options?: TextAnalysisClientOptions);
+    analyze<ActionName extends "LanguageDetection">(actionName: ActionName, documents: LanguageDetectionInput[], options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions): Promise<AnalyzeResult<ActionName>>;
+    analyze<ActionName extends "LanguageDetection">(actionName: ActionName, documents: string[], countryHint?: string, options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions): Promise<AnalyzeResult<ActionName>>;
+    analyze<ActionName extends AnalyzeActionName = AnalyzeActionName>(actionName: ActionName, documents: TextDocumentInput[], options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions): Promise<AnalyzeResult<ActionName>>;
+    analyze<ActionName extends AnalyzeActionName = AnalyzeActionName>(actionName: ActionName, documents: string[], languageCode?: string, options?: AnalyzeActionParameters<ActionName> & TextAnalysisOperationOptions): Promise<AnalyzeResult<ActionName>>;
+    beginAnalyzeBatch(actions: AnalyzeBatchAction[], documents: string[], languageCode?: string, options?: BeginAnalyzeBatchOptions): Promise<AnalyzeBatchPoller>;
+    beginAnalyzeBatch(actions: AnalyzeBatchAction[], documents: TextDocumentInput[], options?: BeginAnalyzeBatchOptions): Promise<AnalyzeBatchPoller>;
+    restoreAnalyzeBatchPoller(serializedState: string, options?: RestoreAnalyzeBatchPollerOptions): Promise<AnalyzeBatchPoller>;
 }
 
 // @public
-export interface TextAnalyticsActionErrorResult extends TextAnalyticsActionState {
-    readonly error: TextAnalyticsError;
-    readonly failedOn: Date;
-}
-
-// @public
-export interface TextAnalyticsActions {
-    analyzeSentimentActions?: AnalyzeSentimentAction[];
-    extractKeyPhrasesActions?: ExtractKeyPhrasesAction[];
-    extractSummaryActions?: ExtractSummaryAction[];
-    multiCategoryClassifyActions?: MultiCategoryClassifyAction[];
-    recognizeCustomEntitiesActions?: RecognizeCustomEntitiesAction[];
-    recognizeEntitiesActions?: RecognizeCategorizedEntitiesAction[];
-    recognizeLinkedEntitiesActions?: RecognizeLinkedEntitiesAction[];
-    recognizePiiEntitiesActions?: RecognizePiiEntitiesAction[];
-    singleCategoryClassifyActions?: SingleCategoryClassifyAction[];
-}
-
-// @public
-export interface TextAnalyticsActionState {
-    actionName?: string;
-}
-
-// @public
-export interface TextAnalyticsActionSuccessState extends TextAnalyticsActionState {
-    readonly completedOn: Date;
-    readonly error?: undefined;
-}
-
-// @public
-export class TextAnalyticsClient {
-    constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: TextAnalyticsClientOptions);
-    analyzeSentiment(documents: string[], language?: string, options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultArray>;
-    analyzeSentiment(documents: TextDocumentInput[], options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultArray>;
-    beginAnalyzeActions(documents: string[], actions: TextAnalyticsActions, language?: string, options?: BeginAnalyzeActionsOptions): Promise<AnalyzeActionsPollerLike>;
-    beginAnalyzeActions(documents: TextDocumentInput[], actions: TextAnalyticsActions, options?: BeginAnalyzeActionsOptions): Promise<AnalyzeActionsPollerLike>;
-    beginAnalyzeHealthcareEntities(documents: string[], language?: string, options?: BeginAnalyzeHealthcareEntitiesOptions): Promise<AnalyzeHealthcareEntitiesPollerLike>;
-    beginAnalyzeHealthcareEntities(documents: TextDocumentInput[], options?: BeginAnalyzeHealthcareEntitiesOptions): Promise<AnalyzeHealthcareEntitiesPollerLike>;
-    defaultCountryHint: string;
-    defaultLanguage: string;
-    detectLanguage(documents: string[], countryHint?: string, options?: DetectLanguageOptions): Promise<DetectLanguageResultArray>;
-    detectLanguage(documents: DetectLanguageInput[], options?: DetectLanguageOptions): Promise<DetectLanguageResultArray>;
-    readonly endpointUrl: string;
-    extractKeyPhrases(documents: string[], language?: string, options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultArray>;
-    extractKeyPhrases(documents: TextDocumentInput[], options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultArray>;
-    recognizeEntities(documents: string[], language?: string, options?: RecognizeCategorizedEntitiesOptions): Promise<RecognizeCategorizedEntitiesResultArray>;
-    recognizeEntities(documents: TextDocumentInput[], options?: RecognizeCategorizedEntitiesOptions): Promise<RecognizeCategorizedEntitiesResultArray>;
-    recognizeLinkedEntities(documents: string[], language?: string, options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultArray>;
-    recognizeLinkedEntities(documents: TextDocumentInput[], options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultArray>;
-    recognizePiiEntities(inputs: string[], language?: string, options?: RecognizePiiEntitiesOptions): Promise<RecognizePiiEntitiesResultArray>;
-    recognizePiiEntities(inputs: TextDocumentInput[], options?: RecognizePiiEntitiesOptions): Promise<RecognizePiiEntitiesResultArray>;
-}
-
-// @public
-export interface TextAnalyticsClientOptions extends CommonClientOptions {
+export interface TextAnalysisClientOptions extends CommonClientOptions {
+    apiVersion?: string;
     defaultCountryHint?: string;
     defaultLanguage?: string;
 }
 
 // @public
-export interface TextAnalyticsError {
-    readonly code: ErrorCode;
+export interface TextAnalysisError {
+    readonly code: string;
     readonly message: string;
     readonly target?: string;
 }
 
 // @public
-export interface TextAnalyticsErrorResult {
-    readonly error: TextAnalyticsError;
+export interface TextAnalysisErrorResult {
+    readonly error: TextAnalysisError;
     readonly id: string;
 }
 
 // @public
-export interface TextAnalyticsOperationOptions extends OperationOptions {
-    disableServiceLogs?: boolean;
+export interface TextAnalysisOperationOptions extends OperationOptions {
+    apiVersion?: string;
     includeStatistics?: boolean;
-    modelVersion?: string;
 }
 
 // @public
-export type TextAnalyticsOperationStatus = "notStarted" | "running" | "succeeded" | "failed" | "rejected" | "cancelled" | "cancelling";
-
-// @public
-export interface TextAnalyticsSuccessResult {
+export interface TextAnalysisSuccessResult {
     readonly error?: undefined;
     readonly id: string;
     readonly statistics?: TextDocumentStatistics;
-    readonly warnings: TextAnalyticsWarning[];
-}
-
-// @public
-export interface TextAnalyticsWarning {
-    code: WarningCode;
-    message: string;
+    readonly warnings: DocumentWarning[];
 }
 
 // @public
@@ -899,11 +1146,9 @@ export interface TextDocumentStatistics {
 }
 
 // @public
-export type TokenSentimentValue = "positive" | "mixed" | "negative";
+export type TokenSentimentLabel = "positive" | "mixed" | "negative";
 
 // @public
 export type WarningCode = string;
-
-// (No @packageDocumentation comment for this package)
 
 ```

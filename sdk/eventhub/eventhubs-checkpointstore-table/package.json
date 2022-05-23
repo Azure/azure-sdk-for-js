@@ -80,7 +80,7 @@
     "cross-env": "^7.0.2",
     "debug": "^4.1.1",
     "dotenv": "^8.2.0",
-    "eslint": "^7.15.0",
+    "eslint": "^8.0.0",
     "esm": "^3.2.18",
     "guid-typescript": "^1.0.9",
     "inherits": "^2.0.3",

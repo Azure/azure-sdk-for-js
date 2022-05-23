@@ -295,10 +295,12 @@ export class JobsImpl implements Jobs {
       { deviceName, jobName, resourceGroupName, managerName, options },
       cancelOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

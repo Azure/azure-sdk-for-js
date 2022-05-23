@@ -4,91 +4,67 @@
    "method": "POST",
    "url": "https://endpoint/availablePhoneNumbers/countries/US/:search",
    "query": {
-    "api-version": "2022-01-11-preview2"
+    "api-version": "2022-06-01-preview"
    },
    "requestBody": "{\"phoneNumberType\":\"tollFree\",\"assignmentType\":\"application\",\"capabilities\":{\"calling\":\"outbound\",\"sms\":\"none\"},\"quantity\":1}",
    "status": 202,
    "response": "",
    "responseHeaders": {
     "access-control-expose-headers": "Location,Operation-Location,operation-id,search-id",
-    "api-supported-versions": "2021-03-07, 2022-01-11-preview2",
+    "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview",
     "content-length": "0",
-    "date": "Wed, 02 Mar 2022 21:20:54 GMT",
-    "location": "/availablePhoneNumbers/searchResults/sanitized?api-version=2022-01-11-preview2",
-    "ms-cv": "XDD6RdWjZUSJKvqIxj9fKQ.0",
+    "date": "Thu, 12 May 2022 16:42:19 GMT",
+    "location": "/availablePhoneNumbers/searchResults/sanitized?api-version=2022-06-01-preview",
+    "ms-cv": "9zNfDiNF+E6BD8pRBhtOXw.0",
     "operation-id": "search_sanitized",
-    "operation-location": "/phoneNumbers/operations/search_sanitized?api-version=2022-01-11-preview2",
-    "request-context": "appId=",
+    "operation-location": "/phoneNumbers/operations/search_sanitized?api-version=2022-06-01-preview",
     "search-id": "sanitized",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0td8fYgAAAAB9UNJokVSDS658N9AZQYqfTEFYMzExMDAwMTA4MDMzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+    "x-azure-ref": "06Dh9YgAAAABdYE7YVAVaRLAZqC0giSEjUFJHMDFFREdFMDkyMQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "2252ms"
+    "x-processing-time": "2875ms"
    }
   },
   {
    "method": "GET",
    "url": "https://endpoint/phoneNumbers/operations/search_sanitized",
    "query": {
-    "api-version": "2022-01-11-preview2"
+    "api-version": "2022-06-01-preview"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"operationType\":\"search\",\"status\":\"notStarted\",\"resourceLocation\":\"/availablePhoneNumbers/searchResults/sanitized?api-version=2022-01-11-preview2\",\"createdDateTime\":\"2022-03-02T21:20:55.3152908+00:00\",\"id\":\"search_sanitized\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
+   "response": "{\"operationType\":\"search\",\"status\":\"succeeded\",\"resourceLocation\":\"/availablePhoneNumbers/searchResults/sanitized?api-version=2022-06-01-preview\",\"createdDateTime\":\"2022-05-12T16:42:19.3390584+00:00\",\"id\":\"search_sanitized\",\"lastActionDateTime\":\"0001-01-01T00:00:00+00:00\"}",
    "responseHeaders": {
     "access-control-expose-headers": "Location",
-    "api-supported-versions": "2021-03-07, 2022-01-11-preview2",
+    "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Mar 2022 21:20:55 GMT",
-    "location": "/availablePhoneNumbers/searchResults/sanitized?api-version=2022-01-11-preview2",
-    "ms-cv": "SB+Gpy8HjkmPIUOVgzIjCQ.0",
-    "request-context": "appId=",
+    "date": "Thu, 12 May 2022 16:42:19 GMT",
+    "location": "/availablePhoneNumbers/searchResults/sanitized?api-version=2022-06-01-preview",
+    "ms-cv": "nwzMhVlhY0+8OoW2DdxE4Q.0",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0t98fYgAAAACFqjk6uhkwTLngDshwx0MATEFYMzExMDAwMTA4MDMzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+    "x-azure-ref": "06zh9YgAAAABvCZwvjg2gS4dy4T4xbkn8UFJHMDFFREdFMDkyMQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "429ms"
+    "x-processing-time": "393ms"
    }
   },
   {
    "method": "GET",
    "url": "https://endpoint/availablePhoneNumbers/searchResults/sanitized",
    "query": {
-    "api-version": "2022-01-11-preview2"
+    "api-version": "2022-06-01-preview"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"searchId\":\"sanitized\",\"phoneNumbers\":[],\"phoneNumberType\":\"tollFree\",\"assignmentType\":\"application\",\"capabilities\":{\"calling\":\"outbound\",\"sms\":\"none\"},\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"},\"searchExpiresBy\":\"2022-03-02T21:20:58.6010356+00:00\"}",
+   "response": "{\"searchId\":\"sanitized\",\"phoneNumbers\":[\"+14155550100\"],\"phoneNumberType\":\"tollFree\",\"assignmentType\":\"application\",\"capabilities\":{\"calling\":\"outbound\",\"sms\":\"none\"},\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"},\"searchExpiresBy\":\"2022-05-12T16:58:19.8367474+00:00\"}",
    "responseHeaders": {
-    "api-supported-versions": "2021-03-07, 2022-01-11-preview2",
+    "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Mar 2022 21:20:58 GMT",
-    "ms-cv": "ZSrcNpwnWU+jirg6MgO/FQ.0",
-    "request-context": "appId=",
+    "date": "Thu, 12 May 2022 16:42:23 GMT",
+    "ms-cv": "cm2RFgaoC0q3gMWPQN8Cqg.0",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0ut8fYgAAAAC1BySCGgdKT6jRpC3eguXfTEFYMzExMDAwMTA4MDMzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+    "x-azure-ref": "07jh9YgAAAAAig1dMiIU4Rpl1wqRfB9GTUFJHMDFFREdFMDkyMQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "802ms"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/availablePhoneNumbers/searchResults/sanitized",
-   "query": {
-    "api-version": "2022-01-11-preview2"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"searchId\":\"sanitized\",\"phoneNumbers\":[\"+14155550100\"],\"phoneNumberType\":\"tollFree\",\"assignmentType\":\"application\",\"capabilities\":{\"calling\":\"outbound\",\"sms\":\"none\"},\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"},\"searchExpiresBy\":\"2022-03-02T21:36:57.1537229+00:00\"}",
-   "responseHeaders": {
-    "api-supported-versions": "2021-03-07, 2022-01-11-preview2",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Mar 2022 21:21:01 GMT",
-    "ms-cv": "DyfOIBDXy0SVxvMREmtAyg.0",
-    "request-context": "appId=",
-    "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0vd8fYgAAAACOTQNk0AUBTY1saArsahq2TEFYMzExMDAwMTA4MDMzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
-    "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "962ms"
+    "x-processing-time": "1164ms"
    }
   }
  ],
