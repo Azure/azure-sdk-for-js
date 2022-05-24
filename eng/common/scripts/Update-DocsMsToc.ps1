@@ -295,13 +295,9 @@ foreach ($service in $serviceNameList) {
 
   # Client packages get individual entries
   $servicePackages = $packagesForToc.Values.Where({ $_.ServiceName -eq $service })
-  Write-Host "$($servicePackages.Count)"
   $clientPackages = $servicePackages.Where({ 'client' -eq $_.Type })
-  Write-Host "$($clientPackages.Count)"
   $clientPackages = $clientPackages | Sort-Object -Property Package
-  Write-Host "Hello 1"
   foreach ($clientPackage in $clientPackages) {
-    Write-Host "$clientPackage"
     $packageItems += GetClientPackageNode -clientPackage $clientPackage
   }
 
@@ -309,7 +305,6 @@ foreach ($service in $serviceNameList) {
   $mgmtPackages = $servicePackages.Where({ 'mgmt' -eq $_.Type })
   Write-Host "$($mgmtPackages.Count)"
   $mgmtPackages = $mgmtPackages | Sort-Object -Property Package
-  Write-Host "Hello 2"
   if ($mgmtPackages) {
     $children = &$GetDocsMsTocChildrenForManagementPackagesFn `
       -packageMetadata $mgmtPackages `
@@ -323,6 +318,7 @@ foreach ($service in $serviceNameList) {
     }
   }
 
+  Write-Host "Hello 3"
   $uncategorizedPackages = $packagesForToc.Values.Where({ $_.ServiceName -eq $service -and !(@('client', 'mgmt') -contains $_.Type) })
   if ($uncategorizedPackages) {
     foreach ($package in $uncategorizedPackages) {
@@ -332,11 +328,13 @@ foreach ($service in $serviceNameList) {
 
   $serviceReadmeBaseName = $service.ToLower().Replace(' ', '-').Replace('/', '-')
   $hrefPrefix = "docs-ref-services"
-
+  Write-Host "Hello 4"
   if($EnableServiceReadmeGen) {
     $servicePackages = $servicePackages.Where({ 'true' -eq $_.New})
+    Write-Host "$($servicePackages.Count)"
     generate-service-level-readme -readmeBaseName $serviceReadmeBaseName -pathPrefix $hrefPrefix `
       -packageInfos $servicePackages -serviceName $service
+    Write-Host "Hello 5"
   }
   $serviceTocEntry = [PSCustomObject]@{
     name            = $service;
