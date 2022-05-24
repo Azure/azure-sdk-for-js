@@ -66,6 +66,7 @@ Install-ModuleIfNotInstalled "powershell-yaml" "0.4.1" | Import-Module
 Set-StrictMode -Version 3
 
 function GetClientPackageNode($clientPackage) {
+
   $packageInfo = &$GetDocsMsTocDataFn `
     -packageMetadata $clientPackage `
     -docRepoLocation $DocRepoLocation
@@ -294,9 +295,13 @@ foreach ($service in $serviceNameList) {
 
   # Client packages get individual entries
   $servicePackages = $packagesForToc.Values.Where({ $_.ServiceName -eq $service })
+  Write-Host "$($servicePackages.Count)"
   $clientPackages = $servicePackages.Where({ 'client' -eq $_.Type })
+  Write-Host "$($clientPackages.Count)"
   $clientPackages = $clientPackages | Sort-Object -Property Package
+  Write-Host "$($clientPackages.Count)"
   foreach ($clientPackage in $clientPackages) {
+    Write-Host "$clientPackages"
     $packageItems += GetClientPackageNode -clientPackage $clientPackage
   }
 
