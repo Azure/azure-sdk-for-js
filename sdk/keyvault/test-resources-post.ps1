@@ -99,7 +99,22 @@ if (Test-Path $sdpath) {
     Remove-Item $sdPath -Force
 }
 
-Export-AzKeyVaultSecurityDomain -Name $hsmName -Quorum 2 -Certificates $wrappingFiles -OutputPath $sdPath
+$ErrorRetries = 5
+$RetryTimeout = 30
+
+for($i = 0; $i -lt $ErrorRetries; $i++) {
+    Log 'Sleeping for 30 seconds to allow resource to become available'
+    Start-Sleep -Seconds $RetryTimeout
+    Export-AzKeyVaultSecurityDomain -Name $hsmName -Quorum 2 -Certificates $wrappingFiles -OutputPath $sdPath -ErrorAction SilentlyContinue -Verbose
+    
+    if ( !$? ) {
+        Write-Host $Error[0].Exception
+        continue
+    }
+    
+    break
+}
+
 Log "Security domain downloaded to '$sdPath'; Managed HSM is now active at '$hsmUrl'"
 
 $testApplicationOid = $DeploymentOutputs["CLIENT_OBJECT_ID"]
