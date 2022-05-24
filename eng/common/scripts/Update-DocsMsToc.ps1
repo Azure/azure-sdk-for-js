@@ -118,6 +118,8 @@ function GetPackageLookup($packageList) {
 
 function create-metadata-table($absolutePath, $readmeName, $moniker, $msService, $clientTableLink, $mgmtTableLink, $serviceName)
 {
+  
+  Write-Host "Hello 9"
   $readmePath = Join-Path $absolutePath -ChildPath $readmeName
   New-Item -Path $readmePath -Force
   $lang = $LanguageDisplayName
@@ -145,6 +147,8 @@ function create-metadata-table($absolutePath, $readmeName, $moniker, $msService,
 # Update the metadata table on attributes: author, ms.author, ms.service
 function update-metadata-table($absolutePath, $readmeName, $serviceName, $msService)
 {
+  
+  Write-Host "Hello 8"
   $readmePath = Join-Path $absolutePath -ChildPath $readmeName
   $readmeContent = Get-Content -Path $readmePath -Raw
   $null = $readmeContent -match "---`n*(?<metadata>(.*`n)*)---`n*(?<content>(.*`n)*)"
@@ -158,6 +162,8 @@ function update-metadata-table($absolutePath, $readmeName, $serviceName, $msServ
 }
 
 function generate-markdown-table($absolutePath, $readmeName, $packageInfo, $moniker) {
+  
+  Write-Host "Hello 7"
   $content = "| Reference | Package | Source |`r`n|---|---|---|`r`n" 
   # Here is the table, the versioned value will
   foreach ($pkg in $packageInfo) {
@@ -184,6 +190,8 @@ function generate-markdown-table($absolutePath, $readmeName, $packageInfo, $moni
 }
 
 function generate-service-level-readme($readmeBaseName, $pathPrefix, $packageInfos, $serviceName) {
+  
+  Write-Host "Hello 6"
   # Add ability to override
   # Fetch the service readme name
   $monikers = @("latest", "preview")

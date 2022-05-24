@@ -83,13 +83,6 @@ jobs:
       - task: Powershell@2
         inputs:
           pwsh: true
-          filePath: eng/common/scripts/Update-DocsMsPackages.ps1
-          arguments: -DocRepoLocation $(DocRepoLocation)
-        displayName: Update Docs Onboarding for Daily branch
-
-      - task: Powershell@2
-        inputs:
-          pwsh: true
           filePath: eng/common/scripts/Update-DocsMsToc.ps1
           arguments: >-
             -DocRepoLocation $(DocRepoLocation)
@@ -99,6 +92,13 @@ jobs:
             -ClientSecret '$(opensource-aad-secret)'
             -EnableServiceReadmeGen  
         displayName: Generate ToC for Daily branch
+      - task: Powershell@2
+        inputs:
+          pwsh: true
+          filePath: eng/common/scripts/Update-DocsMsPackages.ps1
+          arguments: -DocRepoLocation $(DocRepoLocation)
+        displayName: Update Docs Onboarding for Daily branch
+
 
       - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
         parameters:
