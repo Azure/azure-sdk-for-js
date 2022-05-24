@@ -23,7 +23,7 @@ dotenv.config();
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
-const topicName = "TopicSubscriptionWithRuleOperationsSample";
+const topicName = "TopicSubscriptionWithRuleOperationsSample" + new Date().getTime();
 const DEFAULT_RULE_NAME = "$Default";
 
 const firstSetOfMessages: ServiceBusMessage[] = [
@@ -86,11 +86,11 @@ export async function main() {
   await sbClient.createSender(topicName).sendMessages(firstSetOfMessages);
   const receivedMessages = await sbClient
     .createReceiver(topicName, CorrelationFilterSubscriptionName)
-    .receiveMessages(3);
+    .receiveMessages(10);
 
   for (const msg of receivedMessages) {
-    console.log(`Received message: ${msg.body}`);
     // should be test-red3 only
+    console.log(`Received message: ${msg.body}`);
   }
 
   await sbAdminClient.deleteSubscription(topicName, NoFilterSubscriptionName);
