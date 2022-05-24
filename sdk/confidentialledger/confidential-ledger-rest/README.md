@@ -87,11 +87,11 @@ Every write to Azure Confidential Ledger generates an immutable ledger entry in 
 
 State changes to the Confidential Ledger are saved in a data structure called a Merkle tree. To cryptographically verify that writes were correctly saved, a Merkle proof, or receipt, can be retrieved for any transaction id.
 
-### Sub-ledgers
+### Collections
 
-While most use cases will involve one ledger, we provide the sub-ledger feature in case semantically or logically different groups of data need to be stored in the same Confidential Ledger.
+While most use cases will involve one ledger, we provide the collections feature in case semantically or logically different groups of data need to be stored in the same Confidential Ledger.
 
-Ledger entries are retrieved by their sub-ledger identifier. The Confidential Ledger will always assume a constant, service-determined sub-ledger id for entries submitted without a sub-ledger specified.
+Ledger entries are retrieved by their collection identifier. The Confidential Ledger will always assume a constant, service-determined collection id for entries submitted without a collection specified.
 
 ### Users
 

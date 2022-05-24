@@ -29,6 +29,8 @@ describe("Colder endpoints", () => {
   it("should obtain constitution from ledger", async function () {
     const result = await client.path("/app/governance/constitution").get();
 
+    console.log(result)
+
     if (result.status !== "200") {
       assert.fail(`GET "/app/governance/constitution" failed with ${result.status}`);
     }
