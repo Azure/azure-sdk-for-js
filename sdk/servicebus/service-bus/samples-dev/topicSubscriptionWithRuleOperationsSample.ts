@@ -17,7 +17,6 @@ import {
   ServiceBusMessage,
 } from "@azure/service-bus";
 
-
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
