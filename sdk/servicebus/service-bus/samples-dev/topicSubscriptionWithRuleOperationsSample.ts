@@ -16,7 +16,7 @@ import {
   ServiceBusAdministrationClient,
   ServiceBusMessage,
 } from "@azure/service-bus";
-import { DEFAULT_RULE_NAME } from "../src/util/constants";
+
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -24,8 +24,8 @@ dotenv.config();
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
-// const queueName = process.env.QUEUE_NAME || "<queue name>";
 const topicName = "TopicSubscriptionWithRuleOperationsSample";
+const DEFAULT_RULE_NAME = "$Default";
 
 const firstSetOfMessages: ServiceBusMessage[] = [
   { subject: "Red", body: "test-red1" },
@@ -49,17 +49,14 @@ export async function main() {
   const sbAdminClient = new ServiceBusAdministrationClient(connectionString);
 
   await sbAdminClient.createTopic(topicName);
-  await sbAdminClient.createSubscription(topicName, NoFilterSubscriptionName);
-  await sbAdminClient.createSubscription(topicName, SqlFilterOnlySubscriptionName);
-  await sbAdminClient.createSubscription(topicName, SqlFilterWithActionSubscriptionName);
-  await sbAdminClient.createSubscription(topicName, CorrelationFilterSubscriptionName);
 
+  await sbAdminClient.createSubscription(topicName, NoFilterSubscriptionName);
   await sbAdminClient.deleteRule(topicName, NoFilterSubscriptionName, DEFAULT_RULE_NAME);
   await sbAdminClient.createRule(topicName, NoFilterSubscriptionName, DEFAULT_RULE_NAME, {
     sqlExpression: "1=1",
   });
 
-  await sbAdminClient.createSubscription(topicName, SqlFilterWithActionSubscriptionName, {
+  await sbAdminClient.createSubscription(topicName, SqlFilterOnlySubscriptionName, {
     defaultRuleOptions: {
       name: "RedSqlRule",
       filter: { sqlExpression: "Color = 'Red'" },
@@ -97,6 +94,10 @@ export async function main() {
     // should be test-red3, test-blue3, test-green3
   }
 
+  await sbAdminClient.deleteSubscription(topicName, NoFilterSubscriptionName);
+  await sbAdminClient.deleteSubscription(topicName, SqlFilterOnlySubscriptionName);
+  await sbAdminClient.deleteSubscription(topicName, SqlFilterWithActionSubscriptionName);
+  await sbAdminClient.deleteSubscription(topicName, CorrelationFilterSubscriptionName);
   await sbClient.close();
 }
 
