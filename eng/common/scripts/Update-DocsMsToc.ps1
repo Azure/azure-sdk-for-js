@@ -299,9 +299,8 @@ foreach ($service in $serviceNameList) {
   $clientPackages = $servicePackages.Where({ 'client' -eq $_.Type })
   Write-Host "$($clientPackages.Count)"
   $clientPackages = $clientPackages | Sort-Object -Property Package
-  Write-Host "$($clientPackages.Count)"
   foreach ($clientPackage in $clientPackages) {
-    Write-Host "$clientPackages"
+    Write-Host "$clientPackage"
     $packageItems += GetClientPackageNode -clientPackage $clientPackage
   }
 
