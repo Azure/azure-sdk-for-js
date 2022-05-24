@@ -93,7 +93,7 @@ function GetDocsMsService($packageInfo, $serviceName)
   return $service
 }
 
-function GenerateDocsMsMetadata($language, $langTitle, $serviceName, $tenantId, $clientId, $clientSecret, $msService) 
+function GenerateDocsMsMetadata($language, $langTitle = "", $serviceName, $tenantId, $clientId, $clientSecret, $msService) 
 {
   if (!$langTitle) {
     $langTitle = "Azure $serviceName SDK for $language"
