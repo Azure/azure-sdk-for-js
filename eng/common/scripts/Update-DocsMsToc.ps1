@@ -66,7 +66,6 @@ Install-ModuleIfNotInstalled "powershell-yaml" "0.4.1" | Import-Module
 Set-StrictMode -Version 3
 
 function GetClientPackageNode($clientPackage) {
-
   $packageInfo = &$GetDocsMsTocDataFn `
     -packageMetadata $clientPackage `
     -docRepoLocation $DocRepoLocation
@@ -118,8 +117,6 @@ function GetPackageLookup($packageList) {
 
 function create-metadata-table($absolutePath, $readmeName, $moniker, $msService, $clientTableLink, $mgmtTableLink, $serviceName)
 {
-  
-  Write-Host "Hello 9"
   $readmePath = Join-Path $absolutePath -ChildPath $readmeName
   New-Item -Path $readmePath -Force
   $lang = $LanguageDisplayName
@@ -147,8 +144,6 @@ function create-metadata-table($absolutePath, $readmeName, $moniker, $msService,
 # Update the metadata table on attributes: author, ms.author, ms.service
 function update-metadata-table($absolutePath, $readmeName, $serviceName, $msService)
 {
-  
-  Write-Host "Hello 8"
   $readmePath = Join-Path $absolutePath -ChildPath $readmeName
   $readmeContent = Get-Content -Path $readmePath -Raw
   $null = $readmeContent -match "---`n*(?<metadata>(.*`n)*)---`n*(?<content>(.*`n)*)"
@@ -162,8 +157,6 @@ function update-metadata-table($absolutePath, $readmeName, $serviceName, $msServ
 }
 
 function generate-markdown-table($absolutePath, $readmeName, $packageInfo, $moniker) {
-  
-  Write-Host "Hello 7"
   $content = "| Reference | Package | Source |`r`n|---|---|---|`r`n" 
   # Here is the table, the versioned value will
   foreach ($pkg in $packageInfo) {
@@ -190,8 +183,6 @@ function generate-markdown-table($absolutePath, $readmeName, $packageInfo, $moni
 }
 
 function generate-service-level-readme($readmeBaseName, $pathPrefix, $packageInfos, $serviceName) {
-  
-  Write-Host "Hello 6"
   # Add ability to override
   # Fetch the service readme name
   $monikers = @("latest", "preview")
@@ -201,11 +192,11 @@ function generate-service-level-readme($readmeBaseName, $pathPrefix, $packageInf
     $serviceReadme = "$readmeBaseName.md"
     $clientIndexReadme  = "$readmeBaseName-client-index.md"
     $mgmtIndexReadme  = "$readmeBaseName-mgmt-index.md"
-    $clientPackageInfo = $servicePackages.Where({ 'client' -eq $_.Type }) | Sort-Object -Property Package
+    $clientPackageInfo = $servicePackages.Where({ 'client' -eq $_.Type -and 'true' -eq $_.New}) | Sort-Object -Property Package
     if ($clientPackageInfo) {
       generate-markdown-table -absolutePath "$absolutePath" -readmeName "$clientIndexReadme" -packageInfo $clientPackageInfo -moniker $moniker
     }
-    $mgmtPackageInfo = $servicePackages.Where({ 'mgmt' -eq $_.Type }) | Sort-Object -Property Package
+    $mgmtPackageInfo = $servicePackages.Where({ 'mgmt' -eq $_.Type -and 'true' -eq $_.New }) | Sort-Object -Property Package
     if ($mgmtPackageInfo) {
       generate-markdown-table -absolutePath $absolutePath -readmeName "$mgmtIndexReadme" -packageInfo $mgmtPackageInfo -moniker $moniker
     }
@@ -311,7 +302,6 @@ foreach ($service in $serviceNameList) {
 
   # All management packages go under a single `Management` header in the ToC
   $mgmtPackages = $servicePackages.Where({ 'mgmt' -eq $_.Type })
-  Write-Host "$($mgmtPackages.Count)"
   $mgmtPackages = $mgmtPackages | Sort-Object -Property Package
   if ($mgmtPackages) {
     $children = &$GetDocsMsTocChildrenForManagementPackagesFn `
@@ -326,7 +316,6 @@ foreach ($service in $serviceNameList) {
     }
   }
 
-  Write-Host "Hello 3"
   $uncategorizedPackages = $packagesForToc.Values.Where({ $_.ServiceName -eq $service -and !(@('client', 'mgmt') -contains $_.Type) })
   if ($uncategorizedPackages) {
     foreach ($package in $uncategorizedPackages) {
@@ -336,13 +325,10 @@ foreach ($service in $serviceNameList) {
 
   $serviceReadmeBaseName = $service.ToLower().Replace(' ', '-').Replace('/', '-')
   $hrefPrefix = "docs-ref-services"
-  Write-Host "Hello 4"
+
   if($EnableServiceReadmeGen) {
-    $servicePackages = $servicePackages.Where({ 'true' -eq $_.New})
-    Write-Host "$($servicePackages.Count)"
     generate-service-level-readme -readmeBaseName $serviceReadmeBaseName -pathPrefix $hrefPrefix `
       -packageInfos $servicePackages -serviceName $service
-    Write-Host "Hello 5"
   }
   $serviceTocEntry = [PSCustomObject]@{
     name            = $service;
