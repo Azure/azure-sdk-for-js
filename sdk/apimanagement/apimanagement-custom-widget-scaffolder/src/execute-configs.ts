@@ -5,8 +5,19 @@ export const prefixUrlProtocol = (value: string) => (/https?:\/\//.test(value) ?
 
 const validateRequired =
   (msg: string = "This field is required.") =>
-    (value: unknown) =>
-      (value != undefined && value != "") || msg
+  (input: unknown) =>
+    (input != undefined && input != "") || msg
+
+const validateUrl =
+  (msg = (input: string) => `${prefixUrlProtocol(input)} is not a valid URL`) =>
+  (input: string) => {
+    try {
+      new URL(prefixUrlProtocol(input))
+      return true
+    } catch (e) {
+      return msg(prefixUrlProtocol(input))
+    }
+  }
 
 type ReplaceTypesPreserveOptional<T extends Record<any, any>, V> = {
   [Key in keyof T]: T[Key] extends undefined ? V | undefined : V
@@ -37,20 +48,19 @@ export const validateDeployConfig: TValidate<TDeployConfig> = {
       ? true
       : "resourceId does not satisfy required format: subscriptions/<subscription-id>/resourceGroups/<resource-group-name>/providers/Microsoft.ApiManagement/service/<service-name>"
   },
-  managementApiEndpoint: validateRequired(),
+  managementApiEndpoint: input => {
+    const required = validateRequired()(input)
+    if (required !== true) return required
+
+    return validateUrl()(input)
+  },
   apiVersion: validateRequired(),
 }
 
 export const validateMiscConfig: TValidate<TMiscConfig> = {
   openUrl: input => {
     if (!input) return true
-
-    try {
-      new URL(prefixUrlProtocol(input))
-      return true
-    } catch (e) {
-      return `${prefixUrlProtocol(input)} is not a valid URL`
-    }
+    return validateUrl()(input)
   },
 }
 
@@ -90,6 +100,7 @@ export const promptDeployConfig = (partial: Partial<TDeployConfig>) =>
         type: "input",
         message: "managementApiEndpoint:",
         default: "management.azure.com",
+        transformer: prefixUrlProtocol,
         validate: validateDeployConfig.managementApiEndpoint,
       },
       {
