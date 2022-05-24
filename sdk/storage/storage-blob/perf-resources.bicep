@@ -12,7 +12,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2019-06-01' = {
 
 var name = storageAccount.name
 var key = storageAccount.listKeys().keys[0].value
-var connectionString = 'DefaultEndpointsProtocol=https;AccountName=${name};AccountKey=${key}'
+var connectionString = 'DefaultEndpointsProtocol=https;AccountName=${name};AccountKey=${key};EndpointSuffix=core.windows.net'
 
 output AZURE_STORAGE_ACCOUNT_NAME string = name
 output AZURE_STORAGE_ACCOUNT_KEY string = key
