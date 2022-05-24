@@ -28,7 +28,6 @@ import {
   TelemetryExceptionDetails,
 } from "../generated";
 
-
 function createGenericTagsFromSpan(span: ReadableSpan): Tags {
   const context = getInstance();
   const tags: Tags = { ...context.tags };
@@ -77,14 +76,14 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
       const httpUrl = span.attributes[SemanticAttributes.HTTP_URL];
       tags[KnownContextTagKeys.AiOperationName] = span.name; // Default
       if (httpRoute) {
-        tags[KnownContextTagKeys.AiOperationName] = `${httpMethod as string} ${httpRoute as string
-          }`;
+        tags[KnownContextTagKeys.AiOperationName] = `${httpMethod as string} ${
+          httpRoute as string
+        }`;
       } else if (httpUrl) {
         try {
           let url = new URL(String(httpUrl));
           tags[KnownContextTagKeys.AiOperationName] = `${httpMethod} ${url.pathname}`;
-        } catch (ex: any) { }
-
+        } catch (ex: any) {}
       }
       if (httpClientIp) {
         tags[KnownContextTagKeys.AiLocationIp] = String(httpClientIp);
@@ -103,7 +102,9 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
   return tags;
 }
 
-function createPropertiesFromSpanAttributes(attributes?: SpanAttributes): { [propertyName: string]: string } {
+function createPropertiesFromSpanAttributes(attributes?: SpanAttributes): {
+  [propertyName: string]: string;
+} {
   const properties: { [propertyName: string]: string } = {};
   if (attributes) {
     for (const key of Object.keys(attributes)) {
@@ -231,7 +232,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
       try {
         let dependencyUrl = new URL(String(httpUrl));
         remoteDependencyData.name = `${httpMethod} ${dependencyUrl.pathname}`;
-      } catch (ex: any) { }
+      } catch (ex: any) {}
     }
     remoteDependencyData.type = DependencyTypes.Http;
     remoteDependencyData.data = getUrl(span);
@@ -253,7 +254,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
             target = res[1] + res[2] + res[4];
           }
         }
-      } catch (ex: any) { }
+      } catch (ex: any) {}
       remoteDependencyData.target = `${target}`;
     }
   }
@@ -429,23 +430,21 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
           typeName: typeName,
           message: message,
           stack: stack,
-          hasFullStack: hasFullStack
-
+          hasFullStack: hasFullStack,
         };
         let exceptionData: TelemetryExceptionData = {
           exceptions: [exceptionDetails],
           version: 2,
-          properties: properties
+          properties: properties,
         };
         baseData = exceptionData;
-      }
-      else {
+      } else {
         name = "Microsoft.ApplicationInsights.Message";
         baseType = "MessageData";
         let messageData: MessageData = {
           message: event.name,
           version: 2,
-          properties: properties
+          properties: properties,
         };
         baseData = messageData;
       }
@@ -457,9 +456,9 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
         sampleRate: sampleRate,
         data: {
           baseType: baseType,
-          baseData: baseData
+          baseData: baseData,
         },
-        tags: tags
+        tags: tags,
       };
       envelopes.push(env);
     });

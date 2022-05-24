@@ -11,7 +11,6 @@ import {
 } from "../../src/generated";
 import { TelemetryItem as EnvelopeMapper } from "../../src/generated/models/mappers";
 
-
 export const assertData = (actual: MonitorBase, expected: MonitorBase): void => {
   assert.strictEqual(actual.baseType, expected.baseType);
 
@@ -36,9 +35,7 @@ export const assertTrace = (actual: Envelope[], expectation: Expectation): void 
     });
   } else {
     envelope = actual.filter((e) => {
-      return (
-        e.name === expectation.name
-      );
+      return e.name === expectation.name;
     });
   }
   if (envelope.length !== 1) {
@@ -47,7 +44,6 @@ export const assertTrace = (actual: Envelope[], expectation: Expectation): void 
   const operationId = envelope[0].tags![KnownContextTagKeys.AiOperationId];
 
   for (const child of expectation.children) {
-
     let childEnvelopes: any = null;
     const spanId = (envelope[0].data!.baseData as RequestData).id;
     if (child.data!.baseData!.name) {
@@ -91,20 +87,20 @@ export const assertExpectation = (actual: Envelope[], expectations: Expectation[
     if (expectation.data!.baseData!.name) {
       envelope = actual.filter((e) => {
         return (
-          (e.data!.baseData as RequestData).name === (expectation.data!.baseData as RequestData).name
+          (e.data!.baseData as RequestData).name ===
+          (expectation.data!.baseData as RequestData).name
         );
       });
     } else {
       envelope = actual.filter((e) => {
-        return (
-          e.name === expectation.name
-        );
+        return e.name === expectation.name;
       });
     }
     if (envelope.length !== 1) {
       assert.ok(
         false,
-        `assertExpectation: could not find exported envelope: ${(expectation.data?.baseData as RequestData).name
+        `assertExpectation: could not find exported envelope: ${
+          (expectation.data?.baseData as RequestData).name
         }`
       );
     }

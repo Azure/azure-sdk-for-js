@@ -69,11 +69,11 @@ export class BasicScenario implements Scenario {
       code: "TestExceptionCode",
       message: "TestExceptionMessage",
       name: "TestExceptionName",
-      stack: "TestExceptionStack"
+      stack: "TestExceptionStack",
     });
     let eventAttributes: any = {};
-    eventAttributes["SomeAttribute"] = "Test"
-    child2.addEvent("TestEvent", eventAttributes)
+    eventAttributes["SomeAttribute"] = "Test";
+    child2.addEvent("TestEvent", eventAttributes);
     child1.end(100);
     await delay(0);
     child2.setStatus({ code: SpanStatusCode.OK });
@@ -172,12 +172,12 @@ export class BasicScenario implements Scenario {
                   message: "TestExceptionMessage",
                   stack: "TestExceptionStack",
                   hasFullStack: true,
-                }
+                },
               ],
             } as any,
           },
           children: [],
-        }
+        },
       ],
     },
   ];
