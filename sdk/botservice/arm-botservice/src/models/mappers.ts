@@ -1849,7 +1849,6 @@ export const SlackChannelProperties: coreClient.CompositeMapper = {
       },
       registerBeforeOAuthFlow: {
         serializedName: "registerBeforeOAuthFlow",
-        readOnly: true,
         type: {
           name: "Boolean"
         }
