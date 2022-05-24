@@ -13,20 +13,31 @@ const templateSuffix = ".mustache"
 export type TScaffoldTech = "typescript" | "react" | "vue"
 export type TScaffoldSourceControl = "git" | "azure" | "none" | null
 
-export type TWidgetConfig = {
+export const technologies: TScaffoldTech[] = ["typescript", "react"]
+
+export interface TWidgetConfig {
   displayName: string
   tech: TScaffoldTech
   control?: TScaffoldSourceControl
   iconUrl?: string
+}
+
+export interface TWidgetRuntimeConfig extends TWidgetConfig {
   deployed?: string
   override?: string | boolean
 }
 
-export type TDeployConfig = {
+export interface TDeployConfig {
   managementApiEndpoint: string
   resourceId: string
   apiVersion: string
 }
+
+export interface TMiscConfig {
+  openUrl?: string
+}
+
+export type TConfigs = TWidgetConfig | TDeployConfig | TMiscConfig
 
 export const displayNameToName = (displayName: string) =>
  encodeURIComponent(displayName.normalize("NFD")
@@ -37,7 +48,7 @@ export const displayNameToName = (displayName: string) =>
 export async function generateProject(
   widgetConfig: TWidgetConfig,
   deployConfig: TDeployConfig,
-  openUrl?: string
+  {openUrl}: TMiscConfig = {},
 ): Promise<void> {
   const openUrlParsed = openUrl ? new URL(openUrl) : null
   if (openUrlParsed) openUrlParsed.searchParams.append(OVERRIDE_PORT_KEY, String(OVERRIDE_DEFAULT_PORT))
