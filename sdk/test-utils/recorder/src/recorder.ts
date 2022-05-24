@@ -276,7 +276,7 @@ export class Recorder {
 
       if (isRecordMode()) {
         logger.verbose(
-          "[Recorder#start] Adding recorder variables to the request body:",
+          "[Recorder#stop] Adding recorder variables to the request body:",
           this.variables
         );
         req.headers.set("Content-Type", "application/json");
