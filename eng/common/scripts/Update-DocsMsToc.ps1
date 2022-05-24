@@ -121,7 +121,7 @@ function create-metadata-table($absolutePath, $readmeName, $moniker, $msService,
   New-Item -Path $readmePath -Force
   $lang = $LanguageDisplayName
   $langTitle = "Azure $serviceName SDK for $lang"
-  $header = GenerateDocsMsMetadata -language $lang -serviceName $serviceName `
+  $header = GenerateDocsMsMetadata -lang $lang -langTitle $langTitle -serviceName $serviceName `
     -tenantId $TenantId -clientId $ClientId -clientSecret $ClientSecret `
     -msService $msService
   Add-Content -Path $readmePath -Value $header
@@ -142,32 +142,16 @@ function create-metadata-table($absolutePath, $readmeName, $moniker, $msService,
 }
 
 # Update the metadata table on attributes: author, ms.author, ms.service
-function update-metadata-table($readmePath, $serviceName, $msService)
+function update-metadata-table($absolutePath, $readmePath, $serviceName, $msService)
 {
-  $readmeContent = Get-Content -Path $readmePath -Raw
+  $readmeContent = Get-Content -Path (Join-Path $absolutePath -ChildPath $readmeName) -Raw
   $null = $readmeContent -match "---`n*(?<metadata>(.*`n)*)---`n*(?<content>(.*`n)*)"
-  $metadataTable = $Matches["metadata"]
-  $metadataTable = ConvertFrom-StringData -StringData $metadataTable -Delimiter ':'
-  if (!$metadataTable) {
-    return
-  }
   $restContent = $Matches["content"]
-  $serviceBaseName = $serviceName.ToLower().Replace(' ', '').Replace('/', '-')
-  $author = "a" #GetPrimaryCodeOwner -TargetDirectory "/sdk/$serviceBaseName/"
-  if (!$author) {
-    LogError "Cannot fetch the author from CODEOWNER file."
-    exit 1
-  }
-  $metadataTable["author"] = $author
-  $msauthor = "a" #GetMsAliasFromGithub -TenantId $tenantId -ClientId $clientId -ClientSecret $clientSecret -GithubUser $author   
-  if (!$msauthor) {
-    LogError "No ms.author found for $author. "
-    $msauthor = $author
-  }
-  $metadataTable["ms.author"] = $msauthor
-  $metadataTable["ms.service"] =  $msService
-  $metadataString = ""
-  $metadataTable.Keys | ForEach-Object {$metadataString += ($_ + ": " + $metadataTable[$_] + "`r`n")}
+
+  $lang = $LanguageDisplayName
+  $metadataString = GenerateDocsMsMetadata -lang $lang -serviceName $serviceName `
+    -tenantId $TenantId -clientId $ClientId -clientSecret $ClientSecret `
+    -msService $msService
   Set-Content -Path $readmePath -Value "---`n$metadataString---`n$restContent" -NoNewline
 }
 
@@ -185,7 +169,7 @@ function generate-markdown-table($absolutePath, $readmeName, $packageInfo, $moni
     $packageLevelReame = &$GetPackageLevelReadmeFn -packageMetadata $pkg
     $referenceLink = "$packageLevelReame-readme"
     if (!(Test-Path (Join-Path $absolutePath -ChildPath "$referenceLink.md"))) {
-      continue
+      $referenceLink = ""
     }
     $githubLink = $GithubUri
     if ($pkg.PSObject.Members.Name -contains "FileMetadata") {
@@ -209,11 +193,11 @@ function generate-service-level-readme($readmeBaseName, $pathPrefix, $packageInf
     $mgmtIndexReadme  = "$readmeBaseName-mgmt-index.md"
     $clientPackageInfo = $servicePackages.Where({ 'client' -eq $_.Type }) | Sort-Object -Property Package
     if ($clientPackageInfo) {
-      generate-markdown-table -absolutePath $absolutePath -readmeName $clientIndexReadme -packageInfo $clientPackageInfo -moniker $moniker
+      generate-markdown-table -absolutePath "$absolutePath" -readmeName "$clientIndexReadme" -packageInfo $clientPackageInfo -moniker $moniker
     }
     $mgmtPackageInfo = $servicePackages.Where({ 'mgmt' -eq $_.Type }) | Sort-Object -Property Package
     if ($mgmtPackageInfo) {
-      generate-markdown-table -absolutePath $absolutePath -readmeName $mgmtIndexReadme -packageInfo $mgmtPackageInfo -moniker $moniker
+      generate-markdown-table -absolutePath $absolutePath -readmeName "$mgmtIndexReadme" -packageInfo $mgmtPackageInfo -moniker $moniker
     }
     if (!(Test-Path (Join-Path $absolutePath -ChildPath $serviceReadme))) {
       create-metadata-table -absolutePath $absolutePath -readmeName $serviceReadme -moniker $moniker -msService $msService `
@@ -221,7 +205,7 @@ function generate-service-level-readme($readmeBaseName, $pathPrefix, $packageInf
         -serviceName $serviceName
     }
     else {
-      update-metadata-table -readmePath (Join-Path $absolutePath -ChildPath $serviceReadme) -serviceName $serviceName -msService $msService
+      update-metadata-table -absolutePath $absolutePath -readmeName $serviceReadme -serviceName $serviceName -msService $msService
     }
   } 
 }
@@ -307,9 +291,6 @@ foreach ($service in $serviceNameList) {
   Write-Host "Building service: $service"
   $packageItems = @()
 
-  if ($service -eq "Key Vault") {
-    Write-Host "I am here"
-  }
   # Client packages get individual entries
   $servicePackages = $packagesForToc.Values.Where({ $_.ServiceName -eq $service })
   $clientPackages = $servicePackages.Where({ 'client' -eq $_.Type })
@@ -345,6 +326,7 @@ foreach ($service in $serviceNameList) {
   $hrefPrefix = "docs-ref-services"
 
   if($EnableServiceReadmeGen) {
+    $servicePackages = $servicePackages.Where({ 'true' -eq $_.New})
     generate-service-level-readme -readmeBaseName $serviceReadmeBaseName -pathPrefix $hrefPrefix `
       -packageInfos $servicePackages -serviceName $service
   }
