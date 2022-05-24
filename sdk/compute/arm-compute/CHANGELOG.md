@@ -1,15 +1,39 @@
 # Release History
+    
+## 18.0.0 (2022-05-23)
+    
+**Features**
 
-## 17.3.2 (Unreleased)
+  - Added Interface DedicatedHostGroupPropertiesAdditionalCapabilities
+  - Added Interface LinuxVMGuestPatchAutomaticByPlatformSettings
+  - Added Interface ProximityPlacementGroupPropertiesIntent
+  - Added Interface ResourceWithOptionalLocation
+  - Added Interface WindowsVMGuestPatchAutomaticByPlatformSettings
+  - Added Type Alias LinuxVMGuestPatchAutomaticByPlatformRebootSetting
+  - Added Type Alias WindowsVMGuestPatchAutomaticByPlatformRebootSetting
+  - Interface AutomaticOSUpgradePolicy has a new optional parameter useRollingUpgradePolicy
+  - Interface DiskRestorePointReplicationStatus has a new optional parameter completionPercent
+  - Interface LinuxPatchSettings has a new optional parameter automaticByPlatformSettings
+  - Interface PatchSettings has a new optional parameter automaticByPlatformSettings
+  - Interface VirtualMachineScaleSetDataDisk has a new optional parameter deleteOption
+  - Interface VirtualMachineScaleSetOSDisk has a new optional parameter deleteOption
+  - Interface VirtualMachineScaleSetUpdateOSDisk has a new optional parameter deleteOption
+  - Interface VMGalleryApplication has a new optional parameter enableAutomaticUpgrade
+  - Interface VMGalleryApplication has a new optional parameter treatFailureAsDeploymentFailure
+  - Add parameters of ResourceWithOptionalLocation to TypeAlias VirtualMachineExtension
+  - Type Alias DedicatedHostGroup has a new parameter additionalCapabilities
+  - Type Alias DedicatedHostGroupUpdate has a new parameter additionalCapabilities
+  - Type Alias ProximityPlacementGroup has a new parameter zones
+  - Type Alias ProximityPlacementGroup has a new parameter intent
+  - Type Alias VirtualMachineScaleSetVM has a new parameter identity
+  - Added Enum KnownLinuxVMGuestPatchAutomaticByPlatformRebootSetting
+  - Added Enum KnownWindowsVMGuestPatchAutomaticByPlatformRebootSetting
+  - Enum KnownStorageAccountTypes has a new value PremiumV2LRS
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Delete parameters of Resource in TypeAlias VirtualMachineExtension
+    
 ## 17.3.1 (2022-04-06)
 
 **features**
