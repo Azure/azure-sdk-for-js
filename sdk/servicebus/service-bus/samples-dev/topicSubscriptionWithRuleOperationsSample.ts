@@ -3,9 +3,8 @@
 
 /**
  * This sample demonstrates the topic filter functionality in Service Bus.
- * It follows similar functionality to TopicSubscriptionWithRuleOperationsSample/program.cs
- *
- * https://github.com/Azure/azure-service-bus/blob/master/samples/DotNet/GettingStarted/Microsoft.Azure.ServiceBus/TopicSubscriptionWithRuleOperationsSample/Program.cs
+ * It follows similar functionality to TopicSubscriptionWithRuleOperationsSample/program.cs,
+ * found here: https://github.com/Azure/azure-service-bus/blob/master/samples/DotNet/GettingStarted/Microsoft.Azure.ServiceBus/TopicSubscriptionWithRuleOperationsSample/Program.cs
  *
  * @summary Demonstrates how to filter messages in Service Bus
  * @azsdk-weight 100
@@ -24,8 +23,11 @@ dotenv.config();
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 const topicName = "TopicSubscriptionWithRuleOperationsSample" + new Date().getTime();
+
+// Default rule name
 const DEFAULT_RULE_NAME = "$Default";
 
+// The messages we want to send
 const firstSetOfMessages: ServiceBusMessage[] = [
   { subject: "Red", body: "test-red1" },
   { subject: "Red", body: "test-red2", correlationId: "notimportant" },
@@ -38,6 +40,7 @@ const firstSetOfMessages: ServiceBusMessage[] = [
   { subject: "Green", body: "test-green3", correlationId: "important" },
 ];
 
+// The subscription names for our topics
 const NoFilterSubscriptionName = "NoFilterSubscription";
 const SqlFilterOnlySubscriptionName = "RedSqlFilterSubscription";
 const SqlFilterWithActionSubscriptionName = "BlueSqlFilterWithActionSubscription";
@@ -47,14 +50,17 @@ export async function main() {
   const sbClient = new ServiceBusClient(connectionString);
   const sbAdminClient = new ServiceBusAdministrationClient(connectionString);
 
+  // Create the topic
   await sbAdminClient.createTopic(topicName);
 
+  // Create the first subscription, which will not filter anything
   await sbAdminClient.createSubscription(topicName, NoFilterSubscriptionName);
   await sbAdminClient.deleteRule(topicName, NoFilterSubscriptionName, DEFAULT_RULE_NAME);
   await sbAdminClient.createRule(topicName, NoFilterSubscriptionName, DEFAULT_RULE_NAME, {
     sqlExpression: "1=1",
   });
 
+  // Create the next subscription, which will filter out non-red colors
   await sbAdminClient.createSubscription(topicName, SqlFilterOnlySubscriptionName, {
     defaultRuleOptions: {
       name: "RedSqlRule",
@@ -62,6 +68,8 @@ export async function main() {
     },
   });
 
+  // Create another subscription, which will filter out non-blue colors and set the blue
+  // color to BlueProcessed
   await sbAdminClient.createSubscription(topicName, SqlFilterWithActionSubscriptionName, {
     defaultRuleOptions: {
       name: "BlueSqlRule",
@@ -70,6 +78,8 @@ export async function main() {
     },
   });
 
+  // Create the last subscription, which will filter out all messages that are not
+  // important and not red
   await sbAdminClient.createSubscription(topicName, CorrelationFilterSubscriptionName, {
     defaultRuleOptions: {
       name: "ImportantCorrelationRule",
@@ -77,22 +87,19 @@ export async function main() {
     },
   });
 
-  /**
-   * CURRENTLY REFERENCING
-   * sdk/servicebus/service-bus/test/internal/atomE2ETests.spec.ts
-   * for guidance on method usage with topics
-   */
-
+  // Send and receive the messages using the CorrelationFilterSubscriptionName filter
   await sbClient.createSender(topicName).sendMessages(firstSetOfMessages);
   const receivedMessages = await sbClient
     .createReceiver(topicName, CorrelationFilterSubscriptionName)
     .receiveMessages(10);
 
+  // Print the received messages
+  // should be test-red3 only
   for (const msg of receivedMessages) {
-    // should be test-red3 only
     console.log(`Received message: ${msg.body}`);
   }
 
+  // Clean up the resources
   await sbAdminClient.deleteSubscription(topicName, NoFilterSubscriptionName);
   await sbAdminClient.deleteSubscription(topicName, SqlFilterOnlySubscriptionName);
   await sbAdminClient.deleteSubscription(topicName, SqlFilterWithActionSubscriptionName);
