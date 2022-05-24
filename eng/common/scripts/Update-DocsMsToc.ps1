@@ -153,7 +153,7 @@ function update-metadata-table($absolutePath, $readmeName, $serviceName, $msServ
   $metadataString = GenerateDocsMsMetadata -language $lang -serviceName $serviceName `
     -tenantId $TenantId -clientId $ClientId -clientSecret $ClientSecret `
     -msService $msService
-  Set-Content -Path $readmePath -Value "---`n$metadataString---`n$restContent" -NoNewline
+  Set-Content -Path $readmePath -Value "$metadataString`n$restContent" -NoNewline
 }
 
 function generate-markdown-table($absolutePath, $readmeName, $packageInfo, $moniker) {
