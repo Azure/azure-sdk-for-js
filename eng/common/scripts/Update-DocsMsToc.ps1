@@ -299,6 +299,7 @@ foreach ($service in $serviceNameList) {
   $clientPackages = $servicePackages.Where({ 'client' -eq $_.Type })
   Write-Host "$($clientPackages.Count)"
   $clientPackages = $clientPackages | Sort-Object -Property Package
+  Write-Host "Hello 1"
   foreach ($clientPackage in $clientPackages) {
     Write-Host "$clientPackage"
     $packageItems += GetClientPackageNode -clientPackage $clientPackage
@@ -306,7 +307,9 @@ foreach ($service in $serviceNameList) {
 
   # All management packages go under a single `Management` header in the ToC
   $mgmtPackages = $servicePackages.Where({ 'mgmt' -eq $_.Type })
+  Write-Host "$($mgmtPackages.Count)"
   $mgmtPackages = $mgmtPackages | Sort-Object -Property Package
+  Write-Host "Hello 2"
   if ($mgmtPackages) {
     $children = &$GetDocsMsTocChildrenForManagementPackagesFn `
       -packageMetadata $mgmtPackages `
