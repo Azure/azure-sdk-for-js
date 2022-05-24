@@ -121,7 +121,7 @@ function create-metadata-table($absolutePath, $readmeName, $moniker, $msService,
   New-Item -Path $readmePath -Force
   $lang = $LanguageDisplayName
   $langTitle = "Azure $serviceName SDK for $lang"
-  $header = GenerateDocsMsMetadata -lang $lang -langTitle $langTitle -serviceName $serviceName `
+  $header = GenerateDocsMsMetadata -language $lang -langTitle $langTitle -serviceName $serviceName `
     -tenantId $TenantId -clientId $ClientId -clientSecret $ClientSecret `
     -msService $msService
   Add-Content -Path $readmePath -Value $header
@@ -142,14 +142,15 @@ function create-metadata-table($absolutePath, $readmeName, $moniker, $msService,
 }
 
 # Update the metadata table on attributes: author, ms.author, ms.service
-function update-metadata-table($absolutePath, $readmePath, $serviceName, $msService)
+function update-metadata-table($absolutePath, $readmeName, $serviceName, $msService)
 {
-  $readmeContent = Get-Content -Path (Join-Path $absolutePath -ChildPath $readmeName) -Raw
+  $readmePath = Join-Path $absolutePath -ChildPath $readmeName
+  $readmeContent = Get-Content -Path $readmePath -Raw
   $null = $readmeContent -match "---`n*(?<metadata>(.*`n)*)---`n*(?<content>(.*`n)*)"
   $restContent = $Matches["content"]
 
   $lang = $LanguageDisplayName
-  $metadataString = GenerateDocsMsMetadata -lang $lang -serviceName $serviceName `
+  $metadataString = GenerateDocsMsMetadata -language $lang -serviceName $serviceName `
     -tenantId $TenantId -clientId $ClientId -clientSecret $ClientSecret `
     -msService $msService
   Set-Content -Path $readmePath -Value "---`n$metadataString---`n$restContent" -NoNewline
