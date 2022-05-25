@@ -680,7 +680,7 @@
           "description": "URL for the program or company.",
           "type": "string"
         },
-        "signUpTypes": {
+        "callToActionTypes": {
           "description": "Indicates how the consumer can sign up to the program e.g. 'website', 'pointOfSale' and/or 'sms'.",
           "type": "array",
           "items": {
@@ -693,7 +693,7 @@
             ],
             "type": "string",
             "x-ms-enum": {
-              "name": "ProgramSignUpType",
+              "name": "CallToActionType",
               "modelAsString": true
             }
           }
@@ -701,6 +701,10 @@
         "callToActionUrl": {
           "format": "uri",
           "description": "URL for \"call to action\" image for the program.",
+          "type": "string"
+        },
+        "callToAction": {
+          "description": "Call to action text. To be provided when InteractiveVoiceResponse is specified as call to action type",
           "type": "string"
         },
         "termsOfServiceUrl": {

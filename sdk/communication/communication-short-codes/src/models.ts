@@ -42,7 +42,7 @@ export {
   ShortCodesGetShortCodesOptionalParams,
   ShortCodesUpsertUSProgramBriefOptionalParams,
   BillingFrequency,
-  ProgramSignUpType,
+  CallToActionType,
   ContactInformation,
   CustomerCareInformation,
   Recurrence,

@@ -131,9 +131,11 @@ export interface ProgramDetails {
   /** URL for the program or company. */
   url?: string;
   /** Indicates how the consumer can sign up to the program e.g. 'website', 'pointOfSale' and/or 'sms'. */
-  signUpTypes?: ProgramSignUpType[];
+  callToActionTypes?: CallToActionType[];
   /** URL for "call to action" image for the program. */
   callToActionUrl?: string;
+  /** Call to action text. To be provided when InteractiveVoiceResponse is specified as call to action type */
+  callToAction?: string;
   /** URL for program terms of service. */
   termsOfServiceUrl?: string;
   /** URL for privacy policy. */
@@ -313,8 +315,8 @@ export type ProgramBriefStatus =
   | "denied";
 /** Defines values for BillingFrequency. */
 export type BillingFrequency = "monthly" | "once";
-/** Defines values for ProgramSignUpType. */
-export type ProgramSignUpType =
+/** Defines values for CallToActionType. */
+export type CallToActionType =
   | "website"
   | "pointOfSale"
   | "sms"

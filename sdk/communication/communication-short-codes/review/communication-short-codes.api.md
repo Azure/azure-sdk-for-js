@@ -19,6 +19,9 @@ export type AttachmentType = "callToAction" | "termsOfService" | "privacyPolicy"
 // @public
 export type BillingFrequency = "monthly" | "once";
 
+// @public
+export type CallToActionType = "website" | "pointOfSale" | "sms" | "interactiveVoiceResponse";
+
 // @public (undocumented)
 export interface CompanyInformation {
     address?: string;
@@ -123,6 +126,8 @@ export type ProgramBriefStatus = "submitted" | "approved" | "submitNewVanityNumb
 
 // @public (undocumented)
 export interface ProgramDetails {
+    callToAction?: string;
+    callToActionTypes?: CallToActionType[];
     callToActionUrl?: string;
     description?: string;
     expectedDateOfService?: Date;
@@ -132,13 +137,9 @@ export interface ProgramDetails {
     numberType?: NumberType;
     preferredVanityNumbers?: string[];
     privacyPolicyUrl?: string;
-    signUpTypes?: ProgramSignUpType[];
     termsOfServiceUrl?: string;
     url?: string;
 }
-
-// @public
-export type ProgramSignUpType = "website" | "pointOfSale" | "sms" | "interactiveVoiceResponse";
 
 // @public
 export type Recurrence = "subscription" | "transaction";

@@ -352,8 +352,8 @@ export const ProgramDetails: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      signUpTypes: {
-        serializedName: "signUpTypes",
+      callToActionTypes: {
+        serializedName: "callToActionTypes",
         type: {
           name: "Sequence",
           element: {
@@ -371,6 +371,12 @@ export const ProgramDetails: coreClient.CompositeMapper = {
       },
       callToActionUrl: {
         serializedName: "callToActionUrl",
+        type: {
+          name: "String"
+        }
+      },
+      callToAction: {
+        serializedName: "callToAction",
         type: {
           name: "String"
         }

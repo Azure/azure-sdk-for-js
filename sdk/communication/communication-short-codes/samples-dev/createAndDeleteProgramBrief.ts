@@ -39,7 +39,7 @@ export async function main() {
         name: "Contoso Loyalty Program",
         numberType: "shortCode",
         privacyPolicyUrl: "https://contoso.com/privacy",
-        signUpTypes: ["sms", "website"],
+        callToActionTypes: ["sms", "website"],
         termsOfServiceUrl: "https://contoso.com/terms",
         url: "https://contoso.com/loyalty-program",
         callToActionUrl: "https://contoso.com/sign-up",

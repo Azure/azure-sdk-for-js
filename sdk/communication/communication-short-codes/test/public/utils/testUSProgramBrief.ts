@@ -17,7 +17,7 @@ export function getTestUSProgramBrief(): USProgramBrief {
       name: "Contoso Loyalty Program",
       numberType: "shortCode",
       privacyPolicyUrl: "https://contoso.com/privacy",
-      signUpTypes: ["sms", "website"],
+      callToActionTypes: ["sms", "website"],
       termsOfServiceUrl: "https://contoso.com/terms",
       url: "https://endpoint/loyalty-program",
       callToActionUrl: "https://contoso.com/sign-up",
