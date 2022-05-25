@@ -53,6 +53,7 @@ import { ReceiveMode } from "../models";
 import { translateServiceBusError } from "../serviceBusError";
 import { defaultDataTransformer, tryToJsonDecode } from "../dataTransformer";
 import { isDefined, isObjectWithProperties } from "../util/typeGuards";
+import { RuleProperties, SqlRuleAction, SqlRuleFilter } from "../serializers/ruleResourceSerializer";
 
 /**
  * @internal
@@ -69,29 +70,6 @@ export interface SendManagementRequestOptions extends SendRequestOptions {
    * prefer to work directly with the bytes present in the message body than have the client attempt to parse it.
    */
   skipParsingBodyAsJson?: boolean;
-}
-
-/**
- * Represents a Rule on a Subscription that is used to filter the incoming message from the
- * Subscription.
- */
-export interface RuleDescription {
-  /**
-   * Filter expression used to match messages. Supports 2 types:
-   * - `string`: SQL-like condition expression that is evaluated against the messages'
-   * user-defined properties and system properties. All system properties will be prefixed with
-   * `sys.` in the condition expression.
-   * - `CorrelationRuleFilter`: Properties of the filter will be used to match with the message properties.
-   */
-  filter?: string | CorrelationRuleFilter;
-  /**
-   * Action to perform if the message satisfies the filtering expression.
-   */
-  action?: string;
-  /**
-   * Represents the name of the rule.
-   */
-  name: string;
 }
 
 /**
@@ -138,6 +116,23 @@ export interface CorrelationRuleFilter {
   applicationProperties?: { [key: string]: string | number | boolean | Date };
 }
 
+
+/**
+ * @internal
+ */
+const sqlRuleProperties = [
+  "sqlExpression",
+];
+
+function isSqlRuleFilter(obj: unknown): obj is SqlRuleFilter {
+  if (obj) {
+    return sqlRuleProperties.some((validProperty) =>
+      isObjectWithProperties(obj, [validProperty]))
+  }
+
+  return false
+}
+
 /**
  * @internal
  */
@@ -152,6 +147,15 @@ const correlationProperties = [
   "contentType",
   "applicationProperties",
 ];
+
+function isCorrelationRuleFilter(obj: unknown): obj is CorrelationRuleFilter {
+  if (obj) {
+    return correlationProperties.some((validProperty) =>
+      isObjectWithProperties(obj, [validProperty]))
+  }
+
+  return false
+}
 
 /**
  * @internal
@@ -1118,7 +1122,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    */
   async getRules(
     options?: OperationOptionsBase & SendManagementRequestOptions
-  ): Promise<RuleDescription[]> {
+  ): Promise<RuleProperties[]> {
     throwErrorIfConnectionClosed(this._context);
     try {
       const request: RheaMessage = {
@@ -1149,9 +1153,10 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
 
       // Reference: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-amqp-request-response#response-11
       const result: { "rule-description": Typed }[] = response.body.rules || [];
-      const rules: RuleDescription[] = [];
+      const rules: RuleProperties[] = [];
       result.forEach((x) => {
         const ruleDescriptor = x["rule-description"];
+        let filter: SqlRuleFilter | CorrelationRuleFilter;
 
         // We use the first three elements of the `ruleDescriptor.value` to get filter, action, name
         if (
@@ -1166,22 +1171,42 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
 
         const filtersRawData: Typed = ruleDescriptor.value[0];
         const actionsRawData: Typed = ruleDescriptor.value[1];
-        const rule: RuleDescription = {
-          name: ruleDescriptor.value[2].value,
-        };
+        let sqlRuleAction: SqlRuleAction;
+        if (
+          actionsRawData.descriptor.value === Constants.descriptorCodes.sqlRuleActionList &&
+          Array.isArray(actionsRawData.value) &&
+          actionsRawData.value.length
+        ) {
+           sqlRuleAction = this._safelyGetTypedValueFromArray(actionsRawData.value, 0);
+        } else {
+          sqlRuleAction = {}
+        }
 
+        let rule: RuleProperties;
         switch (filtersRawData.descriptor.value) {
           case Constants.descriptorCodes.trueFilterList:
-            rule.filter = "1=1";
+            filter = {
+              sqlExpression: "1=1",
+            };
             break;
           case Constants.descriptorCodes.falseFilterList:
-            rule.filter = "1=0";
+            filter = {
+              sqlExpression: "1=0",
+            }
             break;
           case Constants.descriptorCodes.sqlFilterList:
-            rule.filter = this._safelyGetTypedValueFromArray(filtersRawData.value, 0);
+            filter = {
+              sqlExpression: this._safelyGetTypedValueFromArray(filtersRawData.value, 0),
+            }
+            rule = {
+              name: ruleDescriptor.value[2].value,
+              filter,
+              action: sqlRuleAction
+            };
+            rules.push(rule);
             break;
           case Constants.descriptorCodes.correlationFilterList:
-            rule.filter = {
+            filter = {
               correlationId: this._safelyGetTypedValueFromArray(filtersRawData.value, 0),
               messageId: this._safelyGetTypedValueFromArray(filtersRawData.value, 1),
               to: this._safelyGetTypedValueFromArray(filtersRawData.value, 2),
@@ -1194,20 +1219,14 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
             };
             break;
           default:
-            managementClientLogger.warning(
-              `${this.logPrefix} Found unexpected descriptor code for the filter: ${filtersRawData.descriptor.value}`
-            );
-            break;
+            throw new Error(`${this.logPrefix} Found unexpected descriptor code for the filter: ${filtersRawData.descriptor.value}`);
         }
 
-        if (
-          actionsRawData.descriptor.value === Constants.descriptorCodes.sqlRuleActionList &&
-          Array.isArray(actionsRawData.value) &&
-          actionsRawData.value.length
-        ) {
-          rule.action = this._safelyGetTypedValueFromArray(actionsRawData.value, 0);
-        }
-
+        rule = {
+          name: ruleDescriptor.value[2].value,
+          filter,
+          action: sqlRuleAction
+        };
         rules.push(rule);
       });
 
@@ -1270,7 +1289,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    */
   async addRule(
     ruleName: string,
-    filter: boolean | string | CorrelationRuleFilter,
+    filter: SqlRuleFilter | CorrelationRuleFilter,
     sqlRuleActionExpression?: string,
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<void> {
@@ -1281,44 +1300,31 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     throwTypeErrorIfParameterIsEmptyString(this._context.connectionId, "ruleName", ruleName);
 
     throwTypeErrorIfParameterMissing(this._context.connectionId, "filter", filter);
-    if (
-      typeof filter !== "boolean" &&
-      typeof filter !== "string" &&
-      !correlationProperties.some((validProperty) =>
-        isObjectWithProperties(filter, [validProperty])
-      )
-    ) {
+    if (!isSqlRuleFilter(filter) && !isCorrelationRuleFilter(filter)) {
       throw new TypeError(
-        `The parameter "filter" should be either a boolean, string or implement the CorrelationRuleFilter interface.`
+        `The parameter "filter" should implement either the SqlRuleFilter or the CorrelationRuleFilter interface.`
       );
     }
 
     try {
       const ruleDescription: any = {};
-      switch (typeof filter) {
-        case "boolean":
-          ruleDescription["sql-filter"] = {
-            expression: filter ? "1=1" : "1=0",
-          };
-          break;
-        case "string":
-          ruleDescription["sql-filter"] = {
-            expression: filter,
-          };
-          break;
-        default:
-          ruleDescription["correlation-filter"] = {
-            "correlation-id": filter.correlationId,
-            "message-id": filter.messageId,
-            to: filter.to,
-            "reply-to": filter.replyTo,
-            subject: filter.subject,
-            "session-id": filter.sessionId,
-            "reply-to-session-id": filter.replyToSessionId,
-            "content-type": filter.contentType,
-            applicationProperties: filter.applicationProperties,
-          };
-          break;
+      if (isSqlRuleFilter(filter)) {
+        ruleDescription["sql-filter"] = {
+          expression: filter.sqlExpression ? "1=1" : "1=0"
+        }
+      } else {
+        ruleDescription["correlation-filter"] = {
+          "correlation-id": filter.correlationId,
+          "message-id": filter.messageId,
+          to: filter.to,
+          "reply-to": filter.replyTo,
+          subject: filter.subject,
+          "session-id": filter.sessionId,
+          "reply-to-session-id": filter.replyToSessionId,
+          "content-type": filter.contentType,
+          applicationProperties: filter.applicationProperties,
+
+        }
       }
 
       if (sqlRuleActionExpression !== undefined) {

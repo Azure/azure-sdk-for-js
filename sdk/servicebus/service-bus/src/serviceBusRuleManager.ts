@@ -8,11 +8,12 @@ import { CorrelationRuleFilter } from "./core/managementClient";
 import { RuleProperties } from "./serializers/ruleResourceSerializer";
 import { getUniqueName } from "./util/utils";
 import { throwErrorIfConnectionClosed } from "./util/errors";
+import { SqlRuleFilter } from "./serializers/ruleResourceSerializer";
 
 export interface ServiceBusRuleManager {
   createRule(
     ruleName: string,
-    filter: boolean | string | CorrelationRuleFilter,
+    filter: SqlRuleFilter | CorrelationRuleFilter,
     sqlRuleActionExpression?: string,
     options?: OperationOptionsBase): Promise<void>;
   getRules(
@@ -32,9 +33,6 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
   private name: string;
   public entityPath: string;
 
-  private get logPrefix(): string {
-    return `[${this._context.connectionId}|ruleManager:${this.entityPath}]`;
-  }
   /**
    * @internal
    * @throws Error if the underlying connection is closed.
@@ -56,7 +54,7 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
 
   async createRule(
     ruleName: string,
-    filter: boolean | string | CorrelationRuleFilter,
+    filter: SqlRuleFilter | CorrelationRuleFilter,
     sqlRuleActionExpression?: string,
     options?: OperationOptionsBase): Promise<void> {
     const addRuleOperationPromise = async (): Promise<void> => {
