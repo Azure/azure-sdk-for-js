@@ -1,6 +1,16 @@
 # Release History
-    
-## 14.0.0-beta.1 (2022-04-06)
+
+## 14.0.0-beta.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 14.0.0-beta.2 (2022-05-16)
     
 **Features**
 
@@ -30,6 +40,7 @@
   - Added Interface DomainEventSubscriptionsGetDeliveryAttributesOptionalParams
   - Added Interface DomainEventSubscriptionsGetFullUrlOptionalParams
   - Added Interface DomainEventSubscriptionsGetOptionalParams
+  - Added Interface DomainEventSubscriptionsListNextOptionalParams
   - Added Interface DomainEventSubscriptionsListOptionalParams
   - Added Interface DomainEventSubscriptionsUpdateOptionalParams
   - Added Interface DomainTopicEventSubscriptionsCreateOrUpdateOptionalParams
@@ -37,6 +48,7 @@
   - Added Interface DomainTopicEventSubscriptionsGetDeliveryAttributesOptionalParams
   - Added Interface DomainTopicEventSubscriptionsGetFullUrlOptionalParams
   - Added Interface DomainTopicEventSubscriptionsGetOptionalParams
+  - Added Interface DomainTopicEventSubscriptionsListNextOptionalParams
   - Added Interface DomainTopicEventSubscriptionsListOptionalParams
   - Added Interface DomainTopicEventSubscriptionsUpdateOptionalParams
   - Added Interface EventChannelDestination
@@ -132,6 +144,7 @@
   - Added Interface TopicEventSubscriptionsGetDeliveryAttributesOptionalParams
   - Added Interface TopicEventSubscriptionsGetFullUrlOptionalParams
   - Added Interface TopicEventSubscriptionsGetOptionalParams
+  - Added Interface TopicEventSubscriptionsListNextOptionalParams
   - Added Interface TopicEventSubscriptionsListOptionalParams
   - Added Interface TopicEventSubscriptionsUpdateOptionalParams
   - Added Interface VerifiedPartnersGetOptionalParams
@@ -152,12 +165,14 @@
   - Added Type Alias DomainEventSubscriptionsGetDeliveryAttributesResponse
   - Added Type Alias DomainEventSubscriptionsGetFullUrlResponse
   - Added Type Alias DomainEventSubscriptionsGetResponse
+  - Added Type Alias DomainEventSubscriptionsListNextResponse
   - Added Type Alias DomainEventSubscriptionsListResponse
   - Added Type Alias DomainEventSubscriptionsUpdateResponse
   - Added Type Alias DomainTopicEventSubscriptionsCreateOrUpdateResponse
   - Added Type Alias DomainTopicEventSubscriptionsGetDeliveryAttributesResponse
   - Added Type Alias DomainTopicEventSubscriptionsGetFullUrlResponse
   - Added Type Alias DomainTopicEventSubscriptionsGetResponse
+  - Added Type Alias DomainTopicEventSubscriptionsListNextResponse
   - Added Type Alias DomainTopicEventSubscriptionsListResponse
   - Added Type Alias DomainTopicEventSubscriptionsUpdateResponse
   - Added Type Alias EventChannel
@@ -249,6 +264,7 @@
   - Added Type Alias TopicEventSubscriptionsGetDeliveryAttributesResponse
   - Added Type Alias TopicEventSubscriptionsGetFullUrlResponse
   - Added Type Alias TopicEventSubscriptionsGetResponse
+  - Added Type Alias TopicEventSubscriptionsListNextResponse
   - Added Type Alias TopicEventSubscriptionsListResponse
   - Added Type Alias TopicEventSubscriptionsUpdateResponse
   - Added Type Alias VerifiedPartner

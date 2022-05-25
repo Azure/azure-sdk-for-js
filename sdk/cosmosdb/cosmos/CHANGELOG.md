@@ -1,5 +1,11 @@
 # Release History
 
+## 3.16.0 (2022-05-23)
+
+### Features Added
+- Allow users like cosmos-explorer to specify hierarchical partition keys. https://github.com/Azure/azure-sdk-for-js/pull/21934
+- Support Dedicated Gateway RequestOptions and Max Integrated Cache Staleness. https://github.com/Azure/azure-sdk-for-js/pull/21240
+
 ## 3.15.1 (2022-01-24)
 
 ### Bugs Fixed

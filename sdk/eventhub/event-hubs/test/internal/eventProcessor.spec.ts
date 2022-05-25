@@ -37,6 +37,7 @@ import { delay } from "@azure/core-amqp";
 import { isLatestPosition } from "../../src/eventPosition";
 import { loggerForTest } from "../public/utils/logHelpers";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+import { v4 } from "uuid";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -699,6 +700,12 @@ testWithServiceTypes((serviceVersion) => {
       // ensure we have at least 2 partitions
       partitionIds.length.should.gte(2);
 
+      // work around initial state issue by filling partitions with at least one message
+      for (let i = 1; i < 100; i++) {
+        const filer = { body: "b", messageId: v4() };
+        await producerClient.sendBatch([filer]);
+      }
+
       const { subscriptionEventHandler, startPosition } =
         await SubscriptionHandlerForTests.startingFromHere(producerClient);
 
@@ -713,8 +720,6 @@ testWithServiceTypes((serviceVersion) => {
         }
       );
 
-      processor.start();
-      processor.start();
       processor.start();
 
       const expectedMessages = await sendOneMessagePerPartition(partitionIds, producerClient);

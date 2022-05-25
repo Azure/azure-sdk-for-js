@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "3.15.1",
+  "version": "3.16.0",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for SQL API",
   "sdk-type": "client",
   "keywords": [
@@ -120,7 +120,7 @@
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "downlevel-dts": "^0.8.0",
-    "eslint": "^7.15.0",
+    "eslint": "^8.0.0",
     "esm": "^3.2.18",
     "execa": "^5.0.0",
     "mocha": "^7.1.1",
