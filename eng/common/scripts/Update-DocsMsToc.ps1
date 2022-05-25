@@ -168,7 +168,7 @@ function generate-markdown-table($absolutePath, $readmeName, $packageInfo, $moni
     }
     $repositoryLink = $RepositoryUri
     $packageLevelReame = &$GetPackageLevelReadmeFn -packageMetadata $pkg
-    $referenceLink = "$packageLevelReame-readme"
+    $referenceLink = "($packageLevelReame-readme)"
     if (!(Test-Path (Join-Path $absolutePath -ChildPath "$referenceLink.md"))) {
       $referenceLink = ""
     }
@@ -176,7 +176,7 @@ function generate-markdown-table($absolutePath, $readmeName, $packageInfo, $moni
     if ($pkg.PSObject.Members.Name -contains "FileMetadata") {
       $githubLink = "$GithubUri/blob/main/$($pkg.FileMetadata.DirectoryPath)"
     }
-    $line = "|[$($pkg.DisplayName)]($referenceLink)|[$($pkg.Package)]($repositoryLink/$($pkg.Package))|[Github]($githubLink)|`r`n"
+    $line = "|[$($pkg.DisplayName)]$referenceLink|[$($pkg.Package)]($repositoryLink/$($pkg.Package))|[Github]($githubLink)|`r`n"
     $content += $line
   }
   Set-Content -Path (Join-Path $absolutePath -ChildPath $readmeName) -Value $content -NoNewline
