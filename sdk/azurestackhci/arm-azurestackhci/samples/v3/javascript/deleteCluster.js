@@ -23,7 +23,7 @@ async function deleteCluster() {
   const clusterName = "myCluster";
   const credential = new DefaultAzureCredential();
   const client = new AzureStackHCIClient(credential, subscriptionId);
-  const result = await client.clusters.delete(resourceGroupName, clusterName);
+  const result = await client.clusters.beginDeleteAndWait(resourceGroupName, clusterName);
   console.log(result);
 }
 
