@@ -8,10 +8,6 @@
 
 import * as coreClient from "@azure/core-client";
 
-export type CustomPersistentDiskPropertiesUnion =
-  | CustomPersistentDiskProperties
-  | AzureFileVolume;
-export type StoragePropertiesUnion = StorageProperties | StorageAccount;
 export type CertificatePropertiesUnion =
   | CertificateProperties
   | KeyVaultCertificateProperties
@@ -19,8 +15,7 @@ export type CertificatePropertiesUnion =
 export type UserSourceInfoUnion =
   | UserSourceInfo
   | UploadedUserSourceInfoUnion
-  | BuildResultUserSourceInfo
-  | CustomContainerUserSourceInfo;
+  | BuildResultUserSourceInfo;
 export type UploadedUserSourceInfoUnion =
   | UploadedUserSourceInfo
   | JarUploadedUserSourceInfo
@@ -46,11 +41,6 @@ export interface ClusterResourceProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly serviceId?: string;
-  /**
-   * Power state of the Service
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly powerState?: PowerState;
   zoneRedundant?: boolean;
   /**
    * Fully qualified dns name of the service instance
@@ -61,29 +51,29 @@ export interface ClusterResourceProperties {
 
 /** Service network profile payload */
 export interface NetworkProfile {
-  /** Fully qualified resource Id of the subnet to host Azure Spring Cloud Service Runtime */
+  /** Fully qualified resource Id of the subnet to host Azure Spring Apps Service Runtime */
   serviceRuntimeSubnetId?: string;
-  /** Fully qualified resource Id of the subnet to host Azure Spring Cloud Apps */
+  /** Fully qualified resource Id of the subnet to host customer apps in Azure Spring Apps */
   appSubnetId?: string;
-  /** Azure Spring Cloud service reserved CIDR */
+  /** Azure Spring Apps service reserved CIDR */
   serviceCidr?: string;
-  /** Name of the resource group containing network resources of Azure Spring Cloud Service Runtime */
+  /** Name of the resource group containing network resources of Azure Spring Apps Service Runtime */
   serviceRuntimeNetworkResourceGroup?: string;
-  /** Name of the resource group containing network resources of Azure Spring Cloud Apps */
+  /** Name of the resource group containing network resources for customer apps in Azure Spring Apps */
   appNetworkResourceGroup?: string;
   /**
-   * Desired outbound IP resources for Azure Spring Cloud instance.
+   * Desired outbound IP resources for Azure Spring Apps resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly outboundIPs?: NetworkProfileOutboundIPs;
   /**
-   * Required inbound or outbound traffics for Azure Spring Cloud instance.
+   * Required inbound or outbound traffics for Azure Spring Apps resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly requiredTraffics?: RequiredTraffic[];
 }
 
-/** Desired outbound IP resources for Azure Spring Cloud instance. */
+/** Desired outbound IP resources for Azure Spring Apps resource. */
 export interface NetworkProfileOutboundIPs {
   /**
    * A list of public IP addresses.
@@ -92,7 +82,7 @@ export interface NetworkProfileOutboundIPs {
   readonly publicIPs?: string[];
 }
 
-/** Required inbound or outbound traffic for Azure Spring Cloud instance. */
+/** Required inbound or outbound traffic for Azure Spring Apps resource. */
 export interface RequiredTraffic {
   /**
    * The protocol of required traffic
@@ -121,7 +111,7 @@ export interface RequiredTraffic {
   readonly direction?: TrafficDirection;
 }
 
-/** Sku of Azure Spring Cloud */
+/** Sku of Azure Spring Apps */
 export interface Sku {
   /** Name of the Sku */
   name?: string;
@@ -832,8 +822,6 @@ export interface AppResourceProperties {
   temporaryDisk?: TemporaryDisk;
   /** Persistent disk settings */
   persistentDisk?: PersistentDisk;
-  /** List of custom persistent disks */
-  customPersistentDisks?: CustomPersistentDiskResource[];
   /** Indicate if end to end TLS is enabled. */
   enableEndToEndTLS?: boolean;
   /** Collection of loaded certificates */
@@ -861,26 +849,6 @@ export interface PersistentDisk {
   mountPath?: string;
 }
 
-/** Custom persistent disk resource payload. */
-export interface CustomPersistentDiskResource {
-  /** Properties of the custom persistent disk resource payload. */
-  customPersistentDiskProperties?: CustomPersistentDiskPropertiesUnion;
-  /** The resource id of Azure Spring Cloud Storage resource. */
-  storageId: string;
-}
-
-/** Custom persistent disk resource payload. */
-export interface CustomPersistentDiskProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AzureFileVolume";
-  /** The mount path of the persistent disk. */
-  mountPath: string;
-  /** Indicates whether the persistent disk is a readOnly one. */
-  readOnly?: boolean;
-  /** These are the mount options for a persistent disk. */
-  mountOptions?: string[];
-}
-
 /** Loaded certificate payload */
 export interface LoadedCertificate {
   /** Resource Id of loaded certificate */
@@ -897,24 +865,6 @@ export interface ManagedIdentityProperties {
   principalId?: string;
   /** Tenant Id of system-assigned managed identity. */
   tenantId?: string;
-  /** Properties of user-assigned managed identities */
-  userAssignedIdentities?: {
-    [propertyName: string]: UserAssignedManagedIdentity;
-  };
-}
-
-/** The details of the user-assigned managed identity assigned to an App. */
-export interface UserAssignedManagedIdentity {
-  /**
-   * Principal Id of user-assigned managed identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly principalId?: string;
-  /**
-   * Client Id of user-assigned managed identity.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly clientId?: string;
 }
 
 /** Object that includes an array of App resources and a possible link for next set */
@@ -977,20 +927,6 @@ export interface BindingResourceCollection {
    * URL client should use to fetch the next page (per server side paging).
    * It's null for now, added for future use.
    */
-  nextLink?: string;
-}
-
-/** Storage resource payload. */
-export interface StorageProperties {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  storageType: "StorageAccount";
-}
-
-/** Collection compose of storage resources list and a possible link for next page. */
-export interface StorageResourceCollection {
-  /** The storage resources list. */
-  value?: StorageResource[];
-  /** The link to next page of storage list. */
   nextLink?: string;
 }
 
@@ -1129,8 +1065,7 @@ export interface UserSourceInfo {
     | "Jar"
     | "Source"
     | "NetCoreZip"
-    | "BuildResult"
-    | "Container";
+    | "BuildResult";
   /** Version of the source */
   version?: string;
 }
@@ -1145,8 +1080,6 @@ export interface DeploymentSettings {
   addonConfigs?: {
     [propertyName: string]: { [propertyName: string]: Record<string, unknown> };
   };
-  /** Container liveness and readiness probe settings */
-  containerProbeSettings?: ContainerProbeSettings;
 }
 
 /** Deployment resource request payload */
@@ -1155,12 +1088,6 @@ export interface ResourceRequests {
   cpu?: string;
   /** Required memory. 1 GB can be represented by 1Gi or 1024Mi. This should be {512Mi, 1Gi, 2Gi} for Basic tier, and {512Mi, 1Gi, 2Gi, ..., 8Gi} for Standard tier. */
   memory?: string;
-}
-
-/** Container liveness and readiness probe settings */
-export interface ContainerProbeSettings {
-  /** Indicates whether disable the liveness and readiness probe */
-  disableProbe?: boolean;
 }
 
 /** Deployment instance payload */
@@ -1355,7 +1282,7 @@ export interface SupportedRuntimeVersion {
   version?: string;
 }
 
-/** Object that includes an array of Azure Spring Cloud SKU and a possible link for next set */
+/** Object that includes an array of Azure Spring Apps SKU and a possible link for next set */
 export interface ResourceSkuCollection {
   /** Collection of resource SKU */
   value?: ResourceSku[];
@@ -1366,7 +1293,7 @@ export interface ResourceSkuCollection {
   nextLink?: string;
 }
 
-/** Describes an available Azure Spring Cloud SKU. */
+/** Describes an available Azure Spring Apps SKU. */
 export interface ResourceSku {
   /** Gets the type of resource the SKU applies to. */
   resourceType?: string;
@@ -1453,327 +1380,6 @@ export interface ResourceSkuRestrictionInfo {
   zones?: string[];
 }
 
-/** Spring Cloud Gateway properties payload */
-export interface GatewayProperties {
-  /**
-   * State of the Spring Cloud Gateway.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: GatewayProvisioningState;
-  /** Indicates whether the Spring Cloud Gateway exposes endpoint. */
-  public?: boolean;
-  /**
-   * URL of the Spring Cloud Gateway, exposed when 'public' is true.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly url?: string;
-  /** Indicate if only https is allowed. */
-  httpsOnly?: boolean;
-  /** Single sign-on related configuration */
-  ssoProperties?: SsoProperties;
-  /** API metadata property for Spring Cloud Gateway */
-  apiMetadataProperties?: GatewayApiMetadataProperties;
-  /** Cross-Origin Resource Sharing property */
-  corsProperties?: GatewayCorsProperties;
-  /** The requested resource quantity for required CPU and Memory. */
-  resourceRequests?: GatewayResourceRequests;
-  /**
-   * Collection of instances belong to Spring Cloud Gateway.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly instances?: GatewayInstance[];
-  /**
-   * Properties of the Spring Cloud Gateway Operator.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operatorProperties?: GatewayOperatorProperties;
-}
-
-/** Single sign-on related configuration */
-export interface SsoProperties {
-  /** It defines the specific actions applications can be allowed to do on a user's behalf */
-  scope?: string[];
-  /** The public identifier for the application */
-  clientId?: string;
-  /** The secret known only to the application and the authorization server */
-  clientSecret?: string;
-  /** The URI of Issuer Identifier */
-  issuerUri?: string;
-}
-
-/** API metadata property for Spring Cloud Gateway */
-export interface GatewayApiMetadataProperties {
-  /** Title describing the context of the APIs available on the Gateway instance (default: `Spring Cloud Gateway for K8S`) */
-  title?: string;
-  /** Detailed description of the APIs available on the Gateway instance (default: `Generated OpenAPI 3 document that describes the API routes configured.`) */
-  description?: string;
-  /** Location of additional documentation for the APIs available on the Gateway instance */
-  documentation?: string;
-  /** Version of APIs available on this Gateway instance (default: `unspecified`). */
-  version?: string;
-  /** Base URL that API consumers will use to access APIs on the Gateway instance. */
-  serverUrl?: string;
-}
-
-/** Cross-Origin Resource Sharing property */
-export interface GatewayCorsProperties {
-  /** Allowed origins to make cross-site requests. The special value `*` allows all domains. */
-  allowedOrigins?: string[];
-  /** Allowed HTTP methods on cross-site requests. The special value `*` allows all methods. If not set, `GET` and `HEAD` are allowed by default. */
-  allowedMethods?: string[];
-  /** Allowed headers in cross-site requests. The special value `*` allows actual requests to send any header. */
-  allowedHeaders?: string[];
-  /** How long, in seconds, the response from a pre-flight request can be cached by clients. */
-  maxAge?: number;
-  /** Whether user credentials are supported on cross-site requests. Valid values: `true`, `false`. */
-  allowCredentials?: boolean;
-  /** HTTP response headers to expose for cross-site requests. */
-  exposedHeaders?: string[];
-}
-
-/** Resource request payload of Spring Cloud Gateway. */
-export interface GatewayResourceRequests {
-  /** Cpu allocated to each Spring Cloud Gateway instance. */
-  cpu?: string;
-  /** Memory allocated to each Spring Cloud Gateway instance. */
-  memory?: string;
-}
-
-/** Collection of instances belong to the Spring Cloud Gateway */
-export interface GatewayInstance {
-  /**
-   * Name of the Spring Cloud Gateway instance
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Status of the Spring Cloud Gateway instance
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: string;
-}
-
-/** Properties of the Spring Cloud Gateway Operator. */
-export interface GatewayOperatorProperties {
-  /**
-   * The requested resource quantity for required CPU and Memory.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceRequests?: GatewayOperatorResourceRequests;
-  /**
-   * Collection of instances belong to Spring Cloud Gateway operator.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly instances?: GatewayInstance[];
-}
-
-/** Properties of the Spring Cloud Gateway Operator. */
-export interface GatewayOperatorResourceRequests {
-  /**
-   * Cpu allocated to each Spring Cloud Gateway Operator instance.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cpu?: string;
-  /**
-   * Memory allocated to each Spring Cloud Gateway Operator instance.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly memory?: string;
-  /**
-   * Instance count of the Spring Cloud Gateway Operator.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly instanceCount?: number;
-}
-
-/** Object that includes an array of gateway resources and a possible link for next set */
-export interface GatewayResourceCollection {
-  /** Collection of gateway resources */
-  value?: GatewayResource[];
-  /**
-   * URL client should use to fetch the next page (per server side paging).
-   * It's null for now, added for future use.
-   */
-  nextLink?: string;
-}
-
-/** API route config of the Spring Cloud Gateway */
-export interface GatewayRouteConfigProperties {
-  /**
-   * State of the Spring Cloud Gateway route config.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: GatewayProvisioningState;
-  /** The resource Id of the Azure Spring Cloud app, required unless route defines `uri`. */
-  appResourceId?: string;
-  /** Array of API routes, each route contains properties such as `title`, `uri`, `ssoEnabled`, `predicates`, `filters`. */
-  routes?: GatewayApiRoute[];
-}
-
-/** API route config of the Spring Cloud Gateway */
-export interface GatewayApiRoute {
-  /** A title, will be applied to methods in the generated OpenAPI documentation. */
-  title?: string;
-  /** A description, will be applied to methods in the generated OpenAPI documentation. */
-  description?: string;
-  /** Full uri, will override `appName`. */
-  uri?: string;
-  /** Enable sso validation. */
-  ssoEnabled?: boolean;
-  /** Pass currently-authenticated user's identity token to application service, default is 'false' */
-  tokenRelay?: boolean;
-  /** A number of conditions to evaluate a route for each request. Each predicate may be evaluated against request headers and parameter values. All of the predicates associated with a route must evaluate to true for the route to be matched to the request. */
-  predicates?: string[];
-  /** To modify the request before sending it to the target endpoint, or the received response. */
-  filters?: string[];
-  /** Route processing order. */
-  order?: number;
-  /** Classification tags, will be applied to methods in the generated OpenAPI documentation. */
-  tags?: string[];
-}
-
-/** Object that includes an array of Spring Cloud Gateway route config resources and a possible link for next set */
-export interface GatewayRouteConfigResourceCollection {
-  /** Collection of Spring Cloud Gateway route config resources */
-  value?: GatewayRouteConfigResource[];
-  /**
-   * URL client should use to fetch the next page (per server side paging).
-   * It's null for now, added for future use.
-   */
-  nextLink?: string;
-}
-
-/** The properties of custom domain for Spring Cloud Gateway */
-export interface GatewayCustomDomainProperties {
-  /** The thumbprint of bound certificate. */
-  thumbprint?: string;
-}
-
-/** Object that includes an array of Spring Cloud Gateway custom domain resources and a possible link for next set */
-export interface GatewayCustomDomainResourceCollection {
-  /** Collection of Spring Cloud Gateway custom domain resources */
-  value?: GatewayCustomDomainResource[];
-  /**
-   * URL client should use to fetch the next page (per server side paging).
-   * It's null for now, added for future use.
-   */
-  nextLink?: string;
-}
-
-/** API portal properties payload */
-export interface ApiPortalProperties {
-  /**
-   * State of the API portal.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ApiPortalProvisioningState;
-  /** Indicates whether the API portal exposes endpoint. */
-  public?: boolean;
-  /**
-   * URL of the API portal, exposed when 'public' is true.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly url?: string;
-  /** Indicate if only https is allowed. */
-  httpsOnly?: boolean;
-  /** The array of resource Ids of gateway to integrate with API portal. */
-  gatewayIds?: string[];
-  /** Collection of OpenAPI source URL locations. */
-  sourceUrls?: string[];
-  /** Single sign-on related configuration */
-  ssoProperties?: SsoProperties;
-  /**
-   * The requested resource quantity for required CPU and Memory.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resourceRequests?: ApiPortalResourceRequests;
-  /**
-   * Collection of instances belong to API portal.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly instances?: ApiPortalInstance[];
-}
-
-/** Resource requests of the API portal */
-export interface ApiPortalResourceRequests {
-  /**
-   * Cpu allocated to each API portal instance
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly cpu?: string;
-  /**
-   * Memory allocated to each API portal instance
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly memory?: string;
-}
-
-/** Collection of instances belong to the API portal */
-export interface ApiPortalInstance {
-  /**
-   * Name of the API portal instance
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Status of the API portal instance
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: string;
-}
-
-/** Object that includes an array of API portal resources and a possible link for next set */
-export interface ApiPortalResourceCollection {
-  /** Collection of API portal resources */
-  value?: ApiPortalResource[];
-  /**
-   * URL client should use to fetch the next page (per server side paging).
-   * It's null for now, added for future use.
-   */
-  nextLink?: string;
-}
-
-/** The properties of custom domain for API portal */
-export interface ApiPortalCustomDomainProperties {
-  /** The thumbprint of bound certificate. */
-  thumbprint?: string;
-}
-
-/** Object that includes an array of API portal custom domain resources and a possible link for next set */
-export interface ApiPortalCustomDomainResourceCollection {
-  /** Collection of API portal custom domain resources */
-  value?: ApiPortalCustomDomainResource[];
-  /**
-   * URL client should use to fetch the next page (per server side paging).
-   * It's null for now, added for future use.
-   */
-  nextLink?: string;
-}
-
-/** Custom container payload */
-export interface CustomContainer {
-  /** The name of the registry that contains the container image */
-  server?: string;
-  /** Container image of the custom container. This should be in the form of <repository>:<tag> without the server name of the registry */
-  containerImage?: string;
-  /** Entrypoint array. Not executed within a shell. The docker image's ENTRYPOINT is used if this is not provided. */
-  command?: string[];
-  /** Arguments to the entrypoint. The docker image's CMD is used if this is not provided. */
-  args?: string[];
-  /** Credential of the image registry */
-  imageRegistryCredential?: ImageRegistryCredential;
-  /** Language framework of the container image uploaded */
-  languageFramework?: string;
-}
-
-/** Credential of the image registry */
-export interface ImageRegistryCredential {
-  /** The username of the image registry credential */
-  username?: string;
-  /** The password of the image registry credential */
-  password?: string;
-}
-
 /** The resource model definition for a ARM tracked top level resource. */
 export type TrackedResource = Resource & {
   /** The GEO location of the resource. */
@@ -1784,24 +1390,6 @@ export type TrackedResource = Resource & {
 
 /** The resource model definition for a ARM proxy resource. It will have everything other than required location and tags. */
 export type ProxyResource = Resource & {};
-
-/** The properties of the Azure File volume. Azure File shares are mounted as volumes. */
-export type AzureFileVolume = CustomPersistentDiskProperties & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "AzureFileVolume";
-  /** The share name of the Azure File share. */
-  shareName: string;
-};
-
-/** storage resource of type Azure Storage Account. */
-export type StorageAccount = StorageProperties & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  storageType: "StorageAccount";
-  /** The account name of the Azure Storage Account. */
-  accountName: string;
-  /** The account key of the Azure Storage Account. */
-  accountKey: string;
-};
 
 /** Properties of certificate imported from key vault. */
 export type KeyVaultCertificateProperties = CertificateProperties & {
@@ -1839,14 +1427,6 @@ export type BuildResultUserSourceInfo = UserSourceInfo & {
   type: "BuildResult";
   /** Resource id of an existing succeeded build result under the same Spring instance. */
   buildResultId?: string;
-};
-
-/** Custom container user source info */
-export type CustomContainerUserSourceInfo = UserSourceInfo & {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  type: "Container";
-  /** Custom container payload */
-  customContainer?: CustomContainer;
 };
 
 /** Service resource */
@@ -1945,12 +1525,6 @@ export type BindingResource = ProxyResource & {
   properties?: BindingResourceProperties;
 };
 
-/** Storage resource payload. */
-export type StorageResource = ProxyResource & {
-  /** Properties of the storage resource payload. */
-  properties?: StoragePropertiesUnion;
-};
-
 /** Certificate resource payload. */
 export type CertificateResource = ProxyResource & {
   /** Properties of the certificate resource payload. */
@@ -1969,40 +1543,6 @@ export type DeploymentResource = ProxyResource & {
   properties?: DeploymentResourceProperties;
   /** Sku of the Deployment resource */
   sku?: Sku;
-};
-
-/** Spring Cloud Gateway resource */
-export type GatewayResource = ProxyResource & {
-  /** Spring Cloud Gateway properties payload */
-  properties?: GatewayProperties;
-  /** Sku of the Spring Cloud Gateway resource */
-  sku?: Sku;
-};
-
-/** Spring Cloud Gateway route config resource */
-export type GatewayRouteConfigResource = ProxyResource & {
-  /** API route config of the Spring Cloud Gateway */
-  properties?: GatewayRouteConfigProperties;
-};
-
-/** Custom domain of the Spring Cloud Gateway */
-export type GatewayCustomDomainResource = ProxyResource & {
-  /** The properties of custom domain for Spring Cloud Gateway */
-  properties?: GatewayCustomDomainProperties;
-};
-
-/** API portal resource */
-export type ApiPortalResource = ProxyResource & {
-  /** API portal properties payload */
-  properties?: ApiPortalProperties;
-  /** Sku of the API portal resource */
-  sku?: Sku;
-};
-
-/** Custom domain of the API portal */
-export type ApiPortalCustomDomainResource = ProxyResource & {
-  /** The properties of custom domain for API portal */
-  properties?: ApiPortalCustomDomainProperties;
 };
 
 /** Uploaded Jar binary for a deployment */
@@ -2087,22 +1627,6 @@ export enum KnownTrafficDirection {
  * **Outbound**
  */
 export type TrafficDirection = string;
-
-/** Known values of {@link PowerState} that the service accepts. */
-export enum KnownPowerState {
-  Running = "Running",
-  Stopped = "Stopped"
-}
-
-/**
- * Defines values for PowerState. \
- * {@link KnownPowerState} can be used interchangeably with PowerState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Running** \
- * **Stopped**
- */
-export type PowerState = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
@@ -2578,50 +2102,6 @@ export enum KnownResourceSkuRestrictionsReasonCode {
  */
 export type ResourceSkuRestrictionsReasonCode = string;
 
-/** Known values of {@link GatewayProvisioningState} that the service accepts. */
-export enum KnownGatewayProvisioningState {
-  Creating = "Creating",
-  Updating = "Updating",
-  Succeeded = "Succeeded",
-  Failed = "Failed",
-  Deleting = "Deleting"
-}
-
-/**
- * Defines values for GatewayProvisioningState. \
- * {@link KnownGatewayProvisioningState} can be used interchangeably with GatewayProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Creating** \
- * **Updating** \
- * **Succeeded** \
- * **Failed** \
- * **Deleting**
- */
-export type GatewayProvisioningState = string;
-
-/** Known values of {@link ApiPortalProvisioningState} that the service accepts. */
-export enum KnownApiPortalProvisioningState {
-  Creating = "Creating",
-  Updating = "Updating",
-  Succeeded = "Succeeded",
-  Failed = "Failed",
-  Deleting = "Deleting"
-}
-
-/**
- * Defines values for ApiPortalProvisioningState. \
- * {@link KnownApiPortalProvisioningState} can be used interchangeably with ApiPortalProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Creating** \
- * **Updating** \
- * **Succeeded** \
- * **Failed** \
- * **Deleting**
- */
-export type ApiPortalProvisioningState = string;
-
 /** Optional parameters. */
 export interface ServicesGetOptionalParams
   extends coreClient.OperationOptions {}
@@ -2686,24 +2166,6 @@ export interface ServicesEnableTestEndpointOptionalParams
 
 /** Contains response data for the enableTestEndpoint operation. */
 export type ServicesEnableTestEndpointResponse = TestKeys;
-
-/** Optional parameters. */
-export interface ServicesStopOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface ServicesStartOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
 
 /** Optional parameters. */
 export interface ServicesCheckNameAvailabilityOptionalParams
@@ -3273,48 +2735,6 @@ export interface BindingsListNextOptionalParams
 export type BindingsListNextResponse = BindingResourceCollection;
 
 /** Optional parameters. */
-export interface StoragesGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type StoragesGetResponse = StorageResource;
-
-/** Optional parameters. */
-export interface StoragesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type StoragesCreateOrUpdateResponse = StorageResource;
-
-/** Optional parameters. */
-export interface StoragesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface StoragesListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type StoragesListResponse = StorageResourceCollection;
-
-/** Optional parameters. */
-export interface StoragesListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type StoragesListNextResponse = StorageResourceCollection;
-
-/** Optional parameters. */
 export interface CertificatesGetOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -3584,230 +3004,6 @@ export interface SkusListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type SkusListNextResponse = ResourceSkuCollection;
-
-/** Optional parameters. */
-export interface GatewaysGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type GatewaysGetResponse = GatewayResource;
-
-/** Optional parameters. */
-export interface GatewaysCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type GatewaysCreateOrUpdateResponse = GatewayResource;
-
-/** Optional parameters. */
-export interface GatewaysDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface GatewaysListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type GatewaysListResponse = GatewayResourceCollection;
-
-/** Optional parameters. */
-export interface GatewaysValidateDomainOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the validateDomain operation. */
-export type GatewaysValidateDomainResponse = CustomDomainValidateResult;
-
-/** Optional parameters. */
-export interface GatewaysListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type GatewaysListNextResponse = GatewayResourceCollection;
-
-/** Optional parameters. */
-export interface GatewayRouteConfigsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type GatewayRouteConfigsGetResponse = GatewayRouteConfigResource;
-
-/** Optional parameters. */
-export interface GatewayRouteConfigsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type GatewayRouteConfigsCreateOrUpdateResponse = GatewayRouteConfigResource;
-
-/** Optional parameters. */
-export interface GatewayRouteConfigsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface GatewayRouteConfigsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type GatewayRouteConfigsListResponse = GatewayRouteConfigResourceCollection;
-
-/** Optional parameters. */
-export interface GatewayRouteConfigsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type GatewayRouteConfigsListNextResponse = GatewayRouteConfigResourceCollection;
-
-/** Optional parameters. */
-export interface GatewayCustomDomainsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type GatewayCustomDomainsGetResponse = GatewayCustomDomainResource;
-
-/** Optional parameters. */
-export interface GatewayCustomDomainsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type GatewayCustomDomainsCreateOrUpdateResponse = GatewayCustomDomainResource;
-
-/** Optional parameters. */
-export interface GatewayCustomDomainsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface GatewayCustomDomainsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type GatewayCustomDomainsListResponse = GatewayCustomDomainResourceCollection;
-
-/** Optional parameters. */
-export interface GatewayCustomDomainsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type GatewayCustomDomainsListNextResponse = GatewayCustomDomainResourceCollection;
-
-/** Optional parameters. */
-export interface ApiPortalsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ApiPortalsGetResponse = ApiPortalResource;
-
-/** Optional parameters. */
-export interface ApiPortalsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type ApiPortalsCreateOrUpdateResponse = ApiPortalResource;
-
-/** Optional parameters. */
-export interface ApiPortalsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface ApiPortalsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ApiPortalsListResponse = ApiPortalResourceCollection;
-
-/** Optional parameters. */
-export interface ApiPortalsValidateDomainOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the validateDomain operation. */
-export type ApiPortalsValidateDomainResponse = CustomDomainValidateResult;
-
-/** Optional parameters. */
-export interface ApiPortalsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ApiPortalsListNextResponse = ApiPortalResourceCollection;
-
-/** Optional parameters. */
-export interface ApiPortalCustomDomainsGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ApiPortalCustomDomainsGetResponse = ApiPortalCustomDomainResource;
-
-/** Optional parameters. */
-export interface ApiPortalCustomDomainsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createOrUpdate operation. */
-export type ApiPortalCustomDomainsCreateOrUpdateResponse = ApiPortalCustomDomainResource;
-
-/** Optional parameters. */
-export interface ApiPortalCustomDomainsDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface ApiPortalCustomDomainsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type ApiPortalCustomDomainsListResponse = ApiPortalCustomDomainResourceCollection;
-
-/** Optional parameters. */
-export interface ApiPortalCustomDomainsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type ApiPortalCustomDomainsListNextResponse = ApiPortalCustomDomainResourceCollection;
 
 /** Optional parameters. */
 export interface AppPlatformManagementClientOptionalParams
