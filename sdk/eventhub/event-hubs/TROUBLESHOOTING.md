@@ -96,8 +96,6 @@ Further reading:
 
 ### Cannot add components to the connection string
 
-FIXME
-
 The legacy Event Hub clients allowed customers to add components to the connection string retrieved from the portal. The legacy clients are in packages [@azure/event-hubs@2.0.0][event_hubs_v2] and [@azure/event-processor-host][event_processor_host]. The current generation supports connection strings only in the form published by the Azure portal.
 
 #### Adding "TransportType=AmqpWebSockets"
@@ -218,7 +216,7 @@ When filing GitHub issues, the following details are requested:
 - Subscription environment
   - What is the machine(s) specs processing your Event Hub?
   - How many instances are running?
-  - What is the max heap set (i.e., Xmx)?
+  - What is the max heap set (e.g. in NodeJS v18, the `--max-old-space-sizesize-in-megabytes` parameter can be used to set it)?
 - What is the average size of each EventData?
 - What is the traffic pattern like in your Event Hub? (i.e. # messages/minute and if the Subscription is always busy or has slow traffic periods.)
 - Repro code and steps
