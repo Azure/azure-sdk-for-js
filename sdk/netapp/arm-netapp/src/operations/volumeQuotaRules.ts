@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { Subvolumes } from "../operationsInterfaces";
+import { VolumeQuotaRules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
@@ -15,30 +15,26 @@ import { NetAppManagementClient } from "../netAppManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
-  SubvolumeInfo,
-  SubvolumesListByVolumeNextOptionalParams,
-  SubvolumesListByVolumeOptionalParams,
-  SubvolumesListByVolumeResponse,
-  SubvolumesGetOptionalParams,
-  SubvolumesGetResponse,
-  SubvolumesCreateOptionalParams,
-  SubvolumesCreateResponse,
-  SubvolumePatchRequest,
-  SubvolumesUpdateOptionalParams,
-  SubvolumesUpdateResponse,
-  SubvolumesDeleteOptionalParams,
-  SubvolumesGetMetadataOptionalParams,
-  SubvolumesGetMetadataResponse,
-  SubvolumesListByVolumeNextResponse
+  VolumeQuotaRule,
+  VolumeQuotaRulesListByVolumeOptionalParams,
+  VolumeQuotaRulesListByVolumeResponse,
+  VolumeQuotaRulesGetOptionalParams,
+  VolumeQuotaRulesGetResponse,
+  VolumeQuotaRulesCreateOptionalParams,
+  VolumeQuotaRulesCreateResponse,
+  VolumeQuotaRulePatch,
+  VolumeQuotaRulesUpdateOptionalParams,
+  VolumeQuotaRulesUpdateResponse,
+  VolumeQuotaRulesDeleteOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class containing Subvolumes operations. */
-export class SubvolumesImpl implements Subvolumes {
+/** Class containing VolumeQuotaRules operations. */
+export class VolumeQuotaRulesImpl implements VolumeQuotaRules {
   private readonly client: NetAppManagementClient;
 
   /**
-   * Initialize a new instance of the class Subvolumes class.
+   * Initialize a new instance of the class VolumeQuotaRules class.
    * @param client Reference to the service client
    */
   constructor(client: NetAppManagementClient) {
@@ -46,7 +42,7 @@ export class SubvolumesImpl implements Subvolumes {
   }
 
   /**
-   * Returns a list of the subvolumes in the volume
+   * List all quota rules associated with the volume
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
@@ -58,8 +54,8 @@ export class SubvolumesImpl implements Subvolumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: SubvolumesListByVolumeOptionalParams
-  ): PagedAsyncIterableIterator<SubvolumeInfo> {
+    options?: VolumeQuotaRulesListByVolumeOptionalParams
+  ): PagedAsyncIterableIterator<VolumeQuotaRule> {
     const iter = this.listByVolumePagingAll(
       resourceGroupName,
       accountName,
@@ -91,8 +87,8 @@ export class SubvolumesImpl implements Subvolumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: SubvolumesListByVolumeOptionalParams
-  ): AsyncIterableIterator<SubvolumeInfo[]> {
+    options?: VolumeQuotaRulesListByVolumeOptionalParams
+  ): AsyncIterableIterator<VolumeQuotaRule[]> {
     let result = await this._listByVolume(
       resourceGroupName,
       accountName,
@@ -101,19 +97,6 @@ export class SubvolumesImpl implements Subvolumes {
       options
     );
     yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listByVolumeNext(
-        resourceGroupName,
-        accountName,
-        poolName,
-        volumeName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
   }
 
   private async *listByVolumePagingAll(
@@ -121,8 +104,8 @@ export class SubvolumesImpl implements Subvolumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: SubvolumesListByVolumeOptionalParams
-  ): AsyncIterableIterator<SubvolumeInfo> {
+    options?: VolumeQuotaRulesListByVolumeOptionalParams
+  ): AsyncIterableIterator<VolumeQuotaRule> {
     for await (const page of this.listByVolumePagingPage(
       resourceGroupName,
       accountName,
@@ -135,7 +118,7 @@ export class SubvolumesImpl implements Subvolumes {
   }
 
   /**
-   * Returns a list of the subvolumes in the volume
+   * List all quota rules associated with the volume
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
@@ -147,8 +130,8 @@ export class SubvolumesImpl implements Subvolumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    options?: SubvolumesListByVolumeOptionalParams
-  ): Promise<SubvolumesListByVolumeResponse> {
+    options?: VolumeQuotaRulesListByVolumeOptionalParams
+  ): Promise<VolumeQuotaRulesListByVolumeResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, poolName, volumeName, options },
       listByVolumeOperationSpec
@@ -156,12 +139,12 @@ export class SubvolumesImpl implements Subvolumes {
   }
 
   /**
-   * Returns the path associated with the subvolumeName provided
+   * Get details of the specified quota rule
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param subvolumeName The name of the subvolume.
+   * @param volumeQuotaRuleName The name of volume quota rule
    * @param options The options parameters.
    */
   get(
@@ -169,16 +152,16 @@ export class SubvolumesImpl implements Subvolumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    subvolumeName: string,
-    options?: SubvolumesGetOptionalParams
-  ): Promise<SubvolumesGetResponse> {
+    volumeQuotaRuleName: string,
+    options?: VolumeQuotaRulesGetOptionalParams
+  ): Promise<VolumeQuotaRulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         accountName,
         poolName,
         volumeName,
-        subvolumeName,
+        volumeQuotaRuleName,
         options
       },
       getOperationSpec
@@ -186,13 +169,13 @@ export class SubvolumesImpl implements Subvolumes {
   }
 
   /**
-   * Creates a subvolume in the path or clones the subvolume mentioned in the parentPath
+   * Create the specified quota rule within the given volume
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param subvolumeName The name of the subvolume.
-   * @param body Subvolume object supplied in the body of the operation.
+   * @param volumeQuotaRuleName The name of volume quota rule
+   * @param body Quota rule object supplied in the body of the operation.
    * @param options The options parameters.
    */
   async beginCreate(
@@ -200,19 +183,19 @@ export class SubvolumesImpl implements Subvolumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    subvolumeName: string,
-    body: SubvolumeInfo,
-    options?: SubvolumesCreateOptionalParams
+    volumeQuotaRuleName: string,
+    body: VolumeQuotaRule,
+    options?: VolumeQuotaRulesCreateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<SubvolumesCreateResponse>,
-      SubvolumesCreateResponse
+      PollOperationState<VolumeQuotaRulesCreateResponse>,
+      VolumeQuotaRulesCreateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<SubvolumesCreateResponse> => {
+    ): Promise<VolumeQuotaRulesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -255,7 +238,7 @@ export class SubvolumesImpl implements Subvolumes {
         accountName,
         poolName,
         volumeName,
-        subvolumeName,
+        volumeQuotaRuleName,
         body,
         options
       },
@@ -264,20 +247,20 @@ export class SubvolumesImpl implements Subvolumes {
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Creates a subvolume in the path or clones the subvolume mentioned in the parentPath
+   * Create the specified quota rule within the given volume
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param subvolumeName The name of the subvolume.
-   * @param body Subvolume object supplied in the body of the operation.
+   * @param volumeQuotaRuleName The name of volume quota rule
+   * @param body Quota rule object supplied in the body of the operation.
    * @param options The options parameters.
    */
   async beginCreateAndWait(
@@ -285,16 +268,16 @@ export class SubvolumesImpl implements Subvolumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    subvolumeName: string,
-    body: SubvolumeInfo,
-    options?: SubvolumesCreateOptionalParams
-  ): Promise<SubvolumesCreateResponse> {
+    volumeQuotaRuleName: string,
+    body: VolumeQuotaRule,
+    options?: VolumeQuotaRulesCreateOptionalParams
+  ): Promise<VolumeQuotaRulesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       accountName,
       poolName,
       volumeName,
-      subvolumeName,
+      volumeQuotaRuleName,
       body,
       options
     );
@@ -302,13 +285,13 @@ export class SubvolumesImpl implements Subvolumes {
   }
 
   /**
-   * Patch a subvolume
+   * Patch a quota rule
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param subvolumeName The name of the subvolume.
-   * @param body Subvolume object supplied in the body of the operation.
+   * @param volumeQuotaRuleName The name of volume quota rule
+   * @param body Quota rule object supplied in the body of the operation.
    * @param options The options parameters.
    */
   async beginUpdate(
@@ -316,19 +299,19 @@ export class SubvolumesImpl implements Subvolumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    subvolumeName: string,
-    body: SubvolumePatchRequest,
-    options?: SubvolumesUpdateOptionalParams
+    volumeQuotaRuleName: string,
+    body: VolumeQuotaRulePatch,
+    options?: VolumeQuotaRulesUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<SubvolumesUpdateResponse>,
-      SubvolumesUpdateResponse
+      PollOperationState<VolumeQuotaRulesUpdateResponse>,
+      VolumeQuotaRulesUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<SubvolumesUpdateResponse> => {
+    ): Promise<VolumeQuotaRulesUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperation = async (
@@ -371,7 +354,7 @@ export class SubvolumesImpl implements Subvolumes {
         accountName,
         poolName,
         volumeName,
-        subvolumeName,
+        volumeQuotaRuleName,
         body,
         options
       },
@@ -380,20 +363,20 @@ export class SubvolumesImpl implements Subvolumes {
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Patch a subvolume
+   * Patch a quota rule
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param subvolumeName The name of the subvolume.
-   * @param body Subvolume object supplied in the body of the operation.
+   * @param volumeQuotaRuleName The name of volume quota rule
+   * @param body Quota rule object supplied in the body of the operation.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
@@ -401,16 +384,16 @@ export class SubvolumesImpl implements Subvolumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    subvolumeName: string,
-    body: SubvolumePatchRequest,
-    options?: SubvolumesUpdateOptionalParams
-  ): Promise<SubvolumesUpdateResponse> {
+    volumeQuotaRuleName: string,
+    body: VolumeQuotaRulePatch,
+    options?: VolumeQuotaRulesUpdateOptionalParams
+  ): Promise<VolumeQuotaRulesUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       accountName,
       poolName,
       volumeName,
-      subvolumeName,
+      volumeQuotaRuleName,
       body,
       options
     );
@@ -418,12 +401,12 @@ export class SubvolumesImpl implements Subvolumes {
   }
 
   /**
-   * Delete subvolume
+   * Delete quota rule
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param subvolumeName The name of the subvolume.
+   * @param volumeQuotaRuleName The name of volume quota rule
    * @param options The options parameters.
    */
   async beginDelete(
@@ -431,8 +414,8 @@ export class SubvolumesImpl implements Subvolumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    subvolumeName: string,
-    options?: SubvolumesDeleteOptionalParams
+    volumeQuotaRuleName: string,
+    options?: VolumeQuotaRulesDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -480,7 +463,7 @@ export class SubvolumesImpl implements Subvolumes {
         accountName,
         poolName,
         volumeName,
-        subvolumeName,
+        volumeQuotaRuleName,
         options
       },
       deleteOperationSpec
@@ -488,19 +471,19 @@ export class SubvolumesImpl implements Subvolumes {
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      lroResourceLocationConfig: "location"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Delete subvolume
+   * Delete quota rule
    * @param resourceGroupName The name of the resource group.
    * @param accountName The name of the NetApp account
    * @param poolName The name of the capacity pool
    * @param volumeName The name of the volume
-   * @param subvolumeName The name of the subvolume.
+   * @param volumeQuotaRuleName The name of volume quota rule
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -508,158 +491,18 @@ export class SubvolumesImpl implements Subvolumes {
     accountName: string,
     poolName: string,
     volumeName: string,
-    subvolumeName: string,
-    options?: SubvolumesDeleteOptionalParams
+    volumeQuotaRuleName: string,
+    options?: VolumeQuotaRulesDeleteOptionalParams
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       accountName,
       poolName,
       volumeName,
-      subvolumeName,
+      volumeQuotaRuleName,
       options
     );
     return poller.pollUntilDone();
-  }
-
-  /**
-   * Get details of the specified subvolume
-   * @param resourceGroupName The name of the resource group.
-   * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
-   * @param subvolumeName The name of the subvolume.
-   * @param options The options parameters.
-   */
-  async beginGetMetadata(
-    resourceGroupName: string,
-    accountName: string,
-    poolName: string,
-    volumeName: string,
-    subvolumeName: string,
-    options?: SubvolumesGetMetadataOptionalParams
-  ): Promise<
-    PollerLike<
-      PollOperationState<SubvolumesGetMetadataResponse>,
-      SubvolumesGetMetadataResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<SubvolumesGetMetadataResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback
-        }
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
-      };
-    };
-
-    const lro = new LroImpl(
-      sendOperation,
-      {
-        resourceGroupName,
-        accountName,
-        poolName,
-        volumeName,
-        subvolumeName,
-        options
-      },
-      getMetadataOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Get details of the specified subvolume
-   * @param resourceGroupName The name of the resource group.
-   * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
-   * @param subvolumeName The name of the subvolume.
-   * @param options The options parameters.
-   */
-  async beginGetMetadataAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    poolName: string,
-    volumeName: string,
-    subvolumeName: string,
-    options?: SubvolumesGetMetadataOptionalParams
-  ): Promise<SubvolumesGetMetadataResponse> {
-    const poller = await this.beginGetMetadata(
-      resourceGroupName,
-      accountName,
-      poolName,
-      volumeName,
-      subvolumeName,
-      options
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * ListByVolumeNext
-   * @param resourceGroupName The name of the resource group.
-   * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
-   * @param nextLink The nextLink from the previous successful call to the ListByVolume method.
-   * @param options The options parameters.
-   */
-  private _listByVolumeNext(
-    resourceGroupName: string,
-    accountName: string,
-    poolName: string,
-    volumeName: string,
-    nextLink: string,
-    options?: SubvolumesListByVolumeNextOptionalParams
-  ): Promise<SubvolumesListByVolumeNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        accountName,
-        poolName,
-        volumeName,
-        nextLink,
-        options
-      },
-      listByVolumeNextOperationSpec
-    );
   }
 }
 // Operation Specifications
@@ -667,11 +510,11 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByVolumeOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/subvolumes",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/volumeQuotaRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SubvolumesList
+      bodyMapper: Mappers.VolumeQuotaRulesList
     },
     default: {}
   },
@@ -689,11 +532,11 @@ const listByVolumeOperationSpec: coreClient.OperationSpec = {
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/subvolumes/{subvolumeName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/volumeQuotaRules/{volumeQuotaRuleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SubvolumeInfo
+      bodyMapper: Mappers.VolumeQuotaRule
     },
     default: {}
   },
@@ -705,31 +548,31 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.accountName,
     Parameters.poolName,
     Parameters.volumeName,
-    Parameters.subvolumeName
+    Parameters.volumeQuotaRuleName
   ],
   headerParameters: [Parameters.accept],
   serializer
 };
 const createOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/subvolumes/{subvolumeName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/volumeQuotaRules/{volumeQuotaRuleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SubvolumeInfo
+      bodyMapper: Mappers.VolumeQuotaRule
     },
     201: {
-      bodyMapper: Mappers.SubvolumeInfo
+      bodyMapper: Mappers.VolumeQuotaRule
     },
     202: {
-      bodyMapper: Mappers.SubvolumeInfo
+      bodyMapper: Mappers.VolumeQuotaRule
     },
     204: {
-      bodyMapper: Mappers.SubvolumeInfo
+      bodyMapper: Mappers.VolumeQuotaRule
     },
     default: {}
   },
-  requestBody: Parameters.body25,
+  requestBody: Parameters.body22,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -738,7 +581,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.accountName,
     Parameters.poolName,
     Parameters.volumeName,
-    Parameters.subvolumeName
+    Parameters.volumeQuotaRuleName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -746,24 +589,24 @@ const createOperationSpec: coreClient.OperationSpec = {
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/subvolumes/{subvolumeName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/volumeQuotaRules/{volumeQuotaRuleName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.SubvolumeInfo
+      bodyMapper: Mappers.VolumeQuotaRule
     },
     201: {
-      bodyMapper: Mappers.SubvolumeInfo
+      bodyMapper: Mappers.VolumeQuotaRule
     },
     202: {
-      bodyMapper: Mappers.SubvolumeInfo
+      bodyMapper: Mappers.VolumeQuotaRule
     },
     204: {
-      bodyMapper: Mappers.SubvolumeInfo
+      bodyMapper: Mappers.VolumeQuotaRule
     },
     default: {}
   },
-  requestBody: Parameters.body26,
+  requestBody: Parameters.body23,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -772,7 +615,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.accountName,
     Parameters.poolName,
     Parameters.volumeName,
-    Parameters.subvolumeName
+    Parameters.volumeQuotaRuleName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -780,7 +623,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/subvolumes/{subvolumeName}",
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/volumeQuotaRules/{volumeQuotaRuleName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
@@ -791,61 +634,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.accountName,
     Parameters.poolName,
     Parameters.volumeName,
-    Parameters.subvolumeName
+    Parameters.volumeQuotaRuleName
   ],
-  serializer
-};
-const getMetadataOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/subvolumes/{subvolumeName}/getMetadata",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SubvolumeModel
-    },
-    201: {
-      bodyMapper: Mappers.SubvolumeModel
-    },
-    202: {
-      bodyMapper: Mappers.SubvolumeModel
-    },
-    204: {
-      bodyMapper: Mappers.SubvolumeModel
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.poolName,
-    Parameters.volumeName,
-    Parameters.subvolumeName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByVolumeNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SubvolumesList
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName,
-    Parameters.nextLink,
-    Parameters.poolName,
-    Parameters.volumeName
-  ],
-  headerParameters: [Parameters.accept],
   serializer
 };
