@@ -3,9 +3,9 @@
 An Azure Table storage based solution to store checkpoints and to aid in load balancing when using `EventHubConsumerClient` from the [@azure/event-hubs](https://www.npmjs.com/package/@azure/event-hubs) library
 
 Key Links:
-- [Source code](#) 
-- [Package (npm)](https://www.npmjs.com/package/@azure/eventhubs-checkpointstore-table) 
-- [API Reference Documentation](#) 
+- [Source code](#)
+- [Package (npm)](https://www.npmjs.com/package/@azure/eventhubs-checkpointstore-table)
+- [API Reference Documentation](#)
 - [Samples](#)
 
 ## Getting started
@@ -19,7 +19,7 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Prerequisites
 - An [Azure subscription](https://azure.microsoft.com/free/)
-- An [Event Hubs Namespace](https://docs.microsoft.com/azure/event-hubs/) to use this package 
+- An [Event Hubs Namespace](https://docs.microsoft.com/azure/event-hubs/) to use this package
 - A [Storage account](https://docs.microsoft.com/azure/storage/tables/table-storage-overview)
 
 ### Install the package
@@ -56,7 +56,7 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
   and to provide resiliency if a failover between readers running on different machines occurs. It is possible to return to older data by specifying a lower offset from this checkpointing process.
   Through this mechanism, checkpointing enables both failover resiliency and event stream replay.
 
-  
+
 
   A [TableCheckpointStore](#)
   is a class that implements key methods required by the EventHubConsumerClient to balance load and update checkpoints.
@@ -72,8 +72,8 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 Use the below code snippet to create a `CheckpointStore`. You will need to provide the connection string to your storage account.
 
 ```javascript
-import { TableClient } from "@azure/data-tables",
-import { TableCheckpointStore } from "@azure/eventhubs-checkpointstore-table"
+const { TableClient } = require("@azure/data-tables");
+const { TableCheckpointStore } = require("@azure/eventhubs-checkpointstore-table");
 
 const tableClient = new TableClient("storage-connection-string", "table-name");
 
@@ -220,4 +220,3 @@ directory for detailed example.
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md)to learn more about how to build and test the code.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Feventhub%2Feventhubs-checkpointstore-table%2FREADME.png)
-
