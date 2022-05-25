@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import * as fs from "fs";
 import * as path from "path";
 import * as buffer from "buffer";

@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 import { HttpRequestBody, isNode, TokenCredential } from "@azure/core-http";
 import { BlobClient, BlockBlobClient } from "@azure/storage-blob";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { Readable } from "stream";
 
 import { BufferScheduler } from "../../storage-common/src";
@@ -89,7 +88,7 @@ import {
   FILE_UPLOAD_MAX_CHUNK_SIZE,
 } from "./utils/constants";
 import { DataLakeAclChangeFailedError } from "./utils/DataLakeAclChangeFailedError";
-import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
+import { convertTracingToRequestOptionsBase, tracingClient } from "./utils/tracing";
 import {
   appendToURLPath,
   appendToURLQuery,
@@ -136,77 +135,67 @@ export class DataLakePathClient extends StorageClient {
       throw RangeError(`Options batchSize must be larger than 0.`);
     }
 
-    const { span, updatedOptions } = createSpan(
-      `DataLakePathClient-setAccessControlRecursiveInternal`,
-      options
-    );
+    return tracingClient.withSpan(
+      "DataLakePathClient-setAccessControlRecursiveInternal",
+      options ?? {},
+      async (updatedOptions) => {
+        const result: PathChangeAccessControlRecursiveResponse = {
+          counters: {
+            failedChangesCount: 0,
+            changedDirectoriesCount: 0,
+            changedFilesCount: 0,
+          },
+          continuationToken: undefined,
+        };
 
-    const result: PathChangeAccessControlRecursiveResponse = {
-      counters: {
-        failedChangesCount: 0,
-        changedDirectoriesCount: 0,
-        changedFilesCount: 0,
-      },
-      continuationToken: undefined,
-    };
+        let continuationToken = options.continuationToken;
+        let batchCounter = 0;
+        let reachMaxBatches = false;
+        do {
+          let response;
+          try {
+            response = await this.pathContext.setAccessControlRecursive(mode, {
+              ...options,
+              acl: toAclString(acl as PathAccessControlItem[]),
+              maxRecords: options.batchSize,
+              continuation: continuationToken,
+              forceFlag: options.continueOnFailure,
+              ...convertTracingToRequestOptionsBase(updatedOptions),
+            });
+          } catch (e: any) {
+            throw new DataLakeAclChangeFailedError(e, continuationToken);
+          }
 
-    try {
-      let continuationToken = options.continuationToken;
-      let batchCounter = 0;
-      let reachMaxBatches = false;
-      do {
-        let response;
-        try {
-          response = await this.pathContext.setAccessControlRecursive(mode, {
-            ...options,
-            acl: toAclString(acl as PathAccessControlItem[]),
-            maxRecords: options.batchSize,
-            continuation: continuationToken,
-            forceFlag: options.continueOnFailure,
-            ...convertTracingToRequestOptionsBase(updatedOptions),
-          });
-        } catch (e: any) {
-          throw new DataLakeAclChangeFailedError(e, continuationToken);
-        }
+          batchCounter++;
+          continuationToken = response.continuation;
 
-        batchCounter++;
-        continuationToken = response.continuation;
+          // Update result
+          result.continuationToken = continuationToken;
+          result.counters.failedChangesCount += response.failureCount || 0;
+          result.counters.changedDirectoriesCount += response.directoriesSuccessful || 0;
+          result.counters.changedFilesCount += response.filesSuccessful || 0;
 
-        // Update result
-        result.continuationToken = continuationToken;
-        result.counters.failedChangesCount += response.failureCount || 0;
-        result.counters.changedDirectoriesCount += response.directoriesSuccessful || 0;
-        result.counters.changedFilesCount += response.filesSuccessful || 0;
+          // Progress event call back
+          if (options.onProgress) {
+            const progress: AccessControlChanges = {
+              batchFailures: toAccessControlChangeFailureArray(response.failedEntries),
+              batchCounters: {
+                failedChangesCount: response.failureCount || 0,
+                changedDirectoriesCount: response.directoriesSuccessful || 0,
+                changedFilesCount: response.filesSuccessful || 0,
+              },
+              aggregateCounters: result.counters,
+              continuationToken: continuationToken,
+            };
+            options.onProgress(progress);
+          }
 
-        // Progress event call back
-        if (options.onProgress) {
-          const progress: AccessControlChanges = {
-            batchFailures: toAccessControlChangeFailureArray(response.failedEntries),
-            batchCounters: {
-              failedChangesCount: response.failureCount || 0,
-              changedDirectoriesCount: response.directoriesSuccessful || 0,
-              changedFilesCount: response.filesSuccessful || 0,
-            },
-            aggregateCounters: result.counters,
-            continuationToken: continuationToken,
-          };
-          options.onProgress(progress);
-        }
+          reachMaxBatches =
+            options.maxBatches === undefined ? false : batchCounter >= options.maxBatches;
+        } while (continuationToken && !reachMaxBatches);
 
-        reachMaxBatches =
-          options.maxBatches === undefined ? false : batchCounter >= options.maxBatches;
-      } while (continuationToken && !reachMaxBatches);
-
-      return result;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        return result;
       });
-      throw e;
-    } finally {
-      span.end();
-    }
   }
 
   /**
@@ -326,10 +315,9 @@ export class DataLakePathClient extends StorageClient {
     options: PathCreateOptions = {}
   ): Promise<PathCreateResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan("DataLakePathClient-create", options);
-    try {
+    return tracingClient.withSpan("DataLakePathClient-create", options, async (updatedOptions) => {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return await this.pathContext.create({
+      return this.pathContext.create({
         ...options,
         resource: resourceType,
         leaseAccessConditions: options.conditions,
@@ -338,15 +326,7 @@ export class DataLakePathClient extends StorageClient {
         cpkInfo: options.customerProvidedKey,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -361,38 +341,37 @@ export class DataLakePathClient extends StorageClient {
     resourceType: PathResourceTypeModel,
     options: PathCreateIfNotExistsOptions = {}
   ): Promise<PathCreateIfNotExistsResponse> {
-    const { span, updatedOptions } = createSpan("DataLakePathClient-createIfNotExists", options);
-    try {
-      const conditions = { ifNoneMatch: ETagAny };
-      const res = await this.create(resourceType, {
-        ...options,
-        conditions,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
-      return {
-        succeeded: true,
-        ...res,
-      };
-    } catch (e: any) {
-      if (e.details?.errorCode === "PathAlreadyExists") {
-        span.setStatus({
-          code: SpanStatusCode.ERROR,
-          message: "Expected exception when creating a blob only if it does not already exist.",
+    return tracingClient.withSpan("DataLakePathClient-createIfNotExists", options, async (updatedOptions, span) => {
+      try {
+        const conditions = { ifNoneMatch: ETagAny };
+        const res = await this.create(resourceType, {
+          ...options,
+          conditions,
+          tracingOptions: updatedOptions.tracingOptions,
         });
         return {
-          succeeded: false,
-          ...e.response?.parsedHeaders,
-          _response: e.response,
+          succeeded: true,
+          ...res,
         };
-      }
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+      } catch (e: any) {
+        if (e.details?.errorCode === "PathAlreadyExists") {
+          span.setStatus({
+            status: "error",
+            error: "Expected exception when creating a blob only if it does not already exist.",
+          });
+          return {
+            succeeded: false,
+            ...e.response?.parsedHeaders,
+            _response: e.response,
+          };
+        }
+        span.setStatus({
+          status: "error",
+          error: e,
+        });
+        throw e;
+      }    
+    });
   }
 
   /**
@@ -405,21 +384,12 @@ export class DataLakePathClient extends StorageClient {
    * @param options - options to Exists operation.
    */
   public async exists(options: PathExistsOptions = {}): Promise<boolean> {
-    const { span, updatedOptions } = createSpan("DataLakeFileClient-exists", options);
-    try {
-      return await this.blobClient.exists({
+    return tracingClient.withSpan("DataLakeFileClient-exists", options, async (updatedOptions) => {
+      return this.blobClient.exists({
         ...updatedOptions,
         customerProvidedKey: toBlobCpkInfo(updatedOptions.customerProvidedKey),
       });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -435,8 +405,7 @@ export class DataLakePathClient extends StorageClient {
     options: PathDeleteOptions = {}
   ): Promise<PathDeleteResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan("DataLakePathClient-delete", options);
-    try {
+    return tracingClient.withSpan("DataLakePathClient-delete", options, async (updatedOptions) => {
       let continuation;
       let response;
 
@@ -454,15 +423,7 @@ export class DataLakePathClient extends StorageClient {
       } while (continuation !== undefined && continuation !== "");
 
       return response;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -478,33 +439,32 @@ export class DataLakePathClient extends StorageClient {
     options: PathDeleteOptions = {}
   ): Promise<PathDeleteIfExistsResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan("DataLakePathClient-deleteIfExists", options);
-    try {
-      const res = await this.delete(recursive, updatedOptions);
-      return {
-        succeeded: true,
-        ...res,
-      };
-    } catch (e: any) {
-      if (e.details?.errorCode === "PathNotFound") {
-        span.setStatus({
-          code: SpanStatusCode.ERROR,
-          message: "Expected exception when deleting a directory or file only if it exists.",
-        });
+    return tracingClient.withSpan("DataLakePathClient-deleteIfExists", options, async (updatedOptions, span) => {
+      try {
+        const res = await this.delete(recursive, updatedOptions);
         return {
-          succeeded: false,
-          ...e.response?.parsedHeaders,
-          _response: e.response,
+          succeeded: true,
+          ...res,
         };
-      }
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+      } catch (e: any) {
+        if (e.details?.errorCode === "PathNotFound") {
+          span.setStatus({
+            status: "error",
+            error: "Expected exception when deleting a directory or file only if it exists.",
+          });
+          return {
+            succeeded: false,
+            ...e.response?.parsedHeaders,
+            _response: e.response,
+          };
+        }
+        span.setStatus({
+          status: "error",
+          error: e,
+        });
+        throw e;
+      } 
+    });
   }
 
   /**
@@ -518,8 +478,7 @@ export class DataLakePathClient extends StorageClient {
     options: PathGetAccessControlOptions = {}
   ): Promise<PathGetAccessControlResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan("DataLakePathClient-getAccessControl", options);
-    try {
+    return tracingClient.withSpan("DataLakePathClient-getAccessControl", options, async (updatedOptions) => {
       const response = await this.pathContext.getProperties({
         action: "getAccessControl",
         upn: options.userPrincipalName,
@@ -529,15 +488,7 @@ export class DataLakePathClient extends StorageClient {
         abortSignal: options.abortSignal,
       });
       return toPathGetAccessControlResponse(response);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -553,24 +504,15 @@ export class DataLakePathClient extends StorageClient {
     options: PathSetAccessControlOptions = {}
   ): Promise<PathSetAccessControlResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan("DataLakePathClient-setAccessControl", options);
-    try {
-      return await this.pathContext.setAccessControl({
+    return tracingClient.withSpan("DataLakePathClient-setAccessControl", options, async (updatedOptions) => {
+      return this.pathContext.setAccessControl({
         ...options,
         acl: toAclString(acl),
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -585,21 +527,9 @@ export class DataLakePathClient extends StorageClient {
     acl: PathAccessControlItem[],
     options: PathChangeAccessControlRecursiveOptions = {}
   ): Promise<PathChangeAccessControlRecursiveResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DataLakePathClient-setAccessControlRecursive",
-      options
-    );
-    try {
+    return tracingClient.withSpan("DataLakePathClient-setAccessControlRecursive", options, async (updatedOptions) => {
       return this.setAccessControlRecursiveInternal("set", acl, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -614,21 +544,9 @@ export class DataLakePathClient extends StorageClient {
     acl: PathAccessControlItem[],
     options: PathChangeAccessControlRecursiveOptions = {}
   ): Promise<PathChangeAccessControlRecursiveResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DataLakePathClient-updateAccessControlRecursive",
-      options
-    );
-    try {
+    return tracingClient.withSpan("DataLakePathClient-updateAccessControlRecursive", options, async (updatedOptions) => {
       return this.setAccessControlRecursiveInternal("modify", acl, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -643,21 +561,9 @@ export class DataLakePathClient extends StorageClient {
     acl: RemovePathAccessControlItem[],
     options: PathChangeAccessControlRecursiveOptions = {}
   ): Promise<PathChangeAccessControlRecursiveResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DataLakePathClient-removeAccessControlRecursive",
-      options
-    );
-    try {
+    return tracingClient.withSpan("DataLakePathClient-removeAccessControlRecursive", options, async (updatedOptions) => {
       return this.setAccessControlRecursiveInternal("remove", acl, updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -673,24 +579,15 @@ export class DataLakePathClient extends StorageClient {
     options: PathSetPermissionsOptions = {}
   ): Promise<PathSetPermissionsResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan("DataLakePathClient-setPermissions", options);
-    try {
-      return await this.pathContext.setAccessControl({
+    return tracingClient.withSpan("DataLakePathClient-setPermissions", options, async (updatedOptions) => {
+      return this.pathContext.setAccessControl({
         ...options,
         permissions: toPermissionsString(permissions),
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -709,22 +606,13 @@ export class DataLakePathClient extends StorageClient {
   public async getProperties(
     options: PathGetPropertiesOptions = {}
   ): Promise<PathGetPropertiesResponse> {
-    const { span, updatedOptions } = createSpan("DataLakePathClient-getProperties", options);
-    try {
-      return await this.blobClient.getProperties({
+    return tracingClient.withSpan("DataLakePathClient-getProperties", options, async (updatedOptions) => {
+      return this.blobClient.getProperties({
         ...options,
         customerProvidedKey: toBlobCpkInfo(options.customerProvidedKey),
         tracingOptions: updatedOptions.tracingOptions,
-      });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+      });      
+    });
   }
 
   /**
@@ -741,9 +629,8 @@ export class DataLakePathClient extends StorageClient {
     httpHeaders: PathHttpHeaders,
     options: PathSetHttpHeadersOptions = {}
   ): Promise<PathSetHttpHeadersResponse> {
-    const { span, updatedOptions } = createSpan("DataLakePathClient-setHttpHeaders", options);
-    try {
-      return await this.blobClient.setHTTPHeaders(
+    return tracingClient.withSpan("DataLakePathClient-setHttpHeaders", options, async (updatedOptions) => {
+      return this.blobClient.setHTTPHeaders(
         {
           blobCacheControl: httpHeaders.cacheControl,
           blobContentType: httpHeaders.contentType,
@@ -754,15 +641,7 @@ export class DataLakePathClient extends StorageClient {
         },
         updatedOptions
       );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -781,22 +660,13 @@ export class DataLakePathClient extends StorageClient {
     metadata?: Metadata,
     options: PathSetMetadataOptions = {}
   ): Promise<PathSetMetadataResponse> {
-    const { span, updatedOptions } = createSpan("DataLakePathClient-setMetadata", options);
-    try {
-      return await this.blobClient.setMetadata(metadata, {
+    return tracingClient.withSpan("DataLakePathClient-setMetadata", options, async (updatedOptions) => {
+      return this.blobClient.setMetadata(metadata, {
         ...options,
         customerProvidedKey: toBlobCpkInfo(options.customerProvidedKey),
         tracingOptions: updatedOptions.tracingOptions,
       });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -845,50 +715,40 @@ export class DataLakePathClient extends StorageClient {
     options.conditions = options.conditions || {};
     options.destinationConditions = options.destinationConditions || {};
 
-    const { span, updatedOptions } = createSpan("DataLakePathClient-move", options);
+    return tracingClient.withSpan("DataLakePathClient-move", options, async (updatedOptions) => {
+      const renameSource = getURLPathAndQuery(this.dfsEndpointUrl);
 
-    const renameSource = getURLPathAndQuery(this.dfsEndpointUrl);
+      const split: string[] = destinationPath.split("?");
+      let destinationUrl: string;
+      if (split.length === 2) {
+        const renameDestination = `/${destinationFileSystem}/${split[0]}`;
+        destinationUrl = setURLPath(this.dfsEndpointUrl, renameDestination);
+        destinationUrl = setURLQueries(destinationUrl, split[1]);
+      } else if (split.length === 1) {
+        const renameDestination = `/${destinationFileSystem}/${destinationPath}`;
+        destinationUrl = setURLPath(this.dfsEndpointUrl, renameDestination);
+      } else {
+        throw new RangeError("Destination path should not contain more than one query string");
+      }
 
-    const split: string[] = destinationPath.split("?");
-    let destinationUrl: string;
-    if (split.length === 2) {
-      const renameDestination = `/${destinationFileSystem}/${split[0]}`;
-      destinationUrl = setURLPath(this.dfsEndpointUrl, renameDestination);
-      destinationUrl = setURLQueries(destinationUrl, split[1]);
-    } else if (split.length === 1) {
-      const renameDestination = `/${destinationFileSystem}/${destinationPath}`;
-      destinationUrl = setURLPath(this.dfsEndpointUrl, renameDestination);
-    } else {
-      throw new RangeError("Destination path should not contain more than one query string");
-    }
+      const destPathClient = new DataLakePathClient(destinationUrl, this.pipeline);
 
-    const destPathClient = new DataLakePathClient(destinationUrl, this.pipeline);
-
-    try {
-      return await destPathClient.pathContext.create({
+      return destPathClient.pathContext.create({
         mode: "legacy", // By default
         renameSource,
-        sourceLeaseId: options.conditions.leaseId,
-        leaseAccessConditions: options.destinationConditions,
+        sourceLeaseId: updatedOptions.conditions?.leaseId,
+        leaseAccessConditions: updatedOptions.destinationConditions,
         sourceModifiedAccessConditions: {
-          sourceIfMatch: options.conditions.ifMatch,
-          sourceIfNoneMatch: options.conditions.ifNoneMatch,
-          sourceIfModifiedSince: options.conditions.ifModifiedSince,
-          sourceIfUnmodifiedSince: options.conditions.ifUnmodifiedSince,
+          sourceIfMatch: updatedOptions.conditions?.ifMatch,
+          sourceIfNoneMatch: updatedOptions.conditions?.ifNoneMatch,
+          sourceIfModifiedSince: updatedOptions.conditions?.ifModifiedSince,
+          sourceIfUnmodifiedSince: updatedOptions.conditions?.ifUnmodifiedSince,
         },
-        modifiedAccessConditions: options.destinationConditions,
+        modifiedAccessConditions: updatedOptions.destinationConditions,
         ...convertTracingToRequestOptionsBase(updatedOptions),
-        abortSignal: options.abortSignal,
+        abortSignal: updatedOptions.abortSignal,
       });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 }
 
@@ -935,24 +795,15 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
 
     options = resourceTypeOrOptions || {};
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan("DataLakeDirectoryClient-create", options);
-    try {
-      return await super.create("directory", {
+    return tracingClient.withSpan("DataLakeDirectoryClient-create", options, async (updatedOptions) => {
+      return super.create("directory", {
         ...options,
         tracingOptions: {
           ...options.tracingOptions,
           ...convertTracingToRequestOptionsBase(updatedOptions),
         },
       });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -993,27 +844,15 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
       options = resourceTypeOrOptions || {};
     }
 
-    const { span, updatedOptions } = createSpan(
-      "DataLakeDirectoryClient-createIfNotExists",
-      options
-    );
-    try {
-      return await super.createIfNotExists("directory", {
+    return tracingClient.withSpan("DataLakeDirectoryClient-createIfNotExists", options, async (updatedOptions) => {
+      return super.createIfNotExists("directory", {
         ...options,
         tracingOptions: {
           ...options.tracingOptions,
           ...convertTracingToRequestOptionsBase(updatedOptions),
         },
       });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -1191,24 +1030,15 @@ export class DataLakeFileClient extends DataLakePathClient {
 
     options = resourceTypeOrOptions || {};
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan("DataLakeFileClient-create", options);
-    try {
-      return await super.create("file", {
+    return tracingClient.withSpan("DataLakeFileClient-create", options, async (updatedOptions) => {
+      return super.create("file", {
         ...options,
         tracingOptions: {
           ...options.tracingOptions,
           ...convertTracingToRequestOptionsBase(updatedOptions),
         },
       });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -1249,24 +1079,15 @@ export class DataLakeFileClient extends DataLakePathClient {
       options = resourceTypeOrOptions || {};
     }
 
-    const { span, updatedOptions } = createSpan("DataLakeFileClient-createIfNotExists", options);
-    try {
-      return await super.createIfNotExists("file", {
+    return tracingClient.withSpan("DataLakeFileClient-createIfNotExists", options, async (updatedOptions) => {
+      return super.createIfNotExists("file", {
         ...options,
         tracingOptions: {
           ...options.tracingOptions,
           ...convertTracingToRequestOptionsBase(updatedOptions),
         },
       });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -1328,8 +1149,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     count?: number,
     options: FileReadOptions = {}
   ): Promise<FileReadResponse> {
-    const { span, updatedOptions } = createSpan("DataLakeFileClient-read", options);
-    try {
+    return tracingClient.withSpan("DataLakeFileClient-read", options, async (updatedOptions) => {
       const rawResponse = await this.blockBlobClientInternal.download(offset, count, {
         ...updatedOptions,
         customerProvidedKey: toBlobCpkInfo(updatedOptions.customerProvidedKey),
@@ -1346,15 +1166,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       delete rawResponse._response.parsedHeaders.blobContentMD5;
 
       return response;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -1375,10 +1187,9 @@ export class DataLakeFileClient extends DataLakePathClient {
     options: FileAppendOptions = {}
   ): Promise<FileAppendResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan("DataLakeFileClient-append", options);
-    try {
+    return tracingClient.withSpan("DataLakeFileClient-append", options, async (updatedOptions) => {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return await this.pathContextInternal.appendData(body, {
+      return this.pathContextInternal.appendData(body, {
         pathHttpHeaders: {
           contentMD5: options.transactionalContentMD5,
         },
@@ -1392,15 +1203,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         cpkInfo: options.customerProvidedKey,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -1417,10 +1220,9 @@ export class DataLakeFileClient extends DataLakePathClient {
    */
   public async flush(position: number, options: FileFlushOptions = {}): Promise<FileFlushResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan("DataLakeFileClient-flush", options);
-    try {
+    return tracingClient.withSpan("DataLakeFileClient-flush", options, async (updatedOptions) => {
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return await this.pathContextInternal.flushData({
+      return this.pathContextInternal.flushData({
         ...options,
         position,
         contentLength: 0,
@@ -1429,15 +1231,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         cpkInfo: options.customerProvidedKey,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   // high level functions
@@ -1456,10 +1250,9 @@ export class DataLakeFileClient extends DataLakePathClient {
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
     options: FileParallelUploadOptions = {}
   ): Promise<FileUploadResponse> {
-    const { span, updatedOptions } = createSpan("DataLakeFileClient-uploadFile", options);
-    try {
+    return tracingClient.withSpan("DataLakeFileClient-uploadFile", options, async (updatedOptions) => {
       const size = (await fsStat(filePath)).size;
-      return await this.uploadSeekableInternal(
+      return this.uploadSeekableInternal(
         (offset: number, contentSize: number) => {
           return () =>
             fsCreateReadStream(filePath, {
@@ -1471,15 +1264,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         size,
         updatedOptions
       );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -1492,8 +1277,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     data: Buffer | Blob | ArrayBuffer | ArrayBufferView,
     options: FileParallelUploadOptions = {}
   ): Promise<FileUploadResponse> {
-    const { span, updatedOptions } = createSpan("DataLakeFileClient-upload", options);
-    try {
+    return tracingClient.withSpan("DataLakeFileClient-upload", options, async (updatedOptions) => {
       if (isNode) {
         let buffer: Buffer;
         if (data instanceof Buffer) {
@@ -1518,15 +1302,7 @@ export class DataLakeFileClient extends DataLakePathClient {
           updatedOptions
         );
       }
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   private async uploadSeekableInternal(
@@ -1534,8 +1310,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     size: number,
     options: FileParallelUploadOptions = {}
   ): Promise<FileUploadResponse> {
-    const { span, updatedOptions } = createSpan("DataLakeFileClient-uploadData", options);
-    try {
+    return tracingClient.withSpan("DataLakeFileClient-uploadData", options, async (updatedOptions) => {
       if (size > FILE_MAX_SIZE_BYTES) {
         throw new RangeError(`size must be <= ${FILE_MAX_SIZE_BYTES}.`);
       }
@@ -1553,7 +1328,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       });
       // append() with empty data would return error, so do not continue
       if (size === 0) {
-        return await createRes;
+        return createRes;
       } else {
         await createRes;
       }
@@ -1600,7 +1375,7 @@ export class DataLakeFileClient extends DataLakePathClient {
           tracingOptions: updatedOptions.tracingOptions,
         });
 
-        return await this.flush(size, {
+        return this.flush(size, {
           abortSignal: options.abortSignal,
           conditions: options.conditions,
           close: options.close,
@@ -1641,7 +1416,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       }
       await batch.do();
 
-      return await this.flush(size, {
+      return this.flush(size, {
         abortSignal: options.abortSignal,
         conditions: options.conditions,
         close: options.close,
@@ -1649,15 +1424,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         customerProvidedKey: updatedOptions.customerProvidedKey,
         tracingOptions: updatedOptions.tracingOptions,
       });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -1679,8 +1446,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     stream: Readable,
     options: FileParallelUploadOptions = {}
   ): Promise<FileUploadResponse> {
-    const { span, updatedOptions } = createSpan("DataLakeFileClient-uploadStream", options);
-    try {
+    return tracingClient.withSpan("DataLakeFileClient-uploadStream", options, async (updatedOptions) => {
       // Create the file
       await this.create({
         abortSignal: options.abortSignal,
@@ -1736,7 +1502,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       );
       await scheduler.do();
 
-      return await this.flush(transferProgress, {
+      return this.flush(transferProgress, {
         abortSignal: options.abortSignal,
         conditions: options.conditions,
         close: options.close,
@@ -1744,15 +1510,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         customerProvidedKey: options.customerProvidedKey,
         tracingOptions: updatedOptions.tracingOptions,
       });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -1816,10 +1574,9 @@ export class DataLakeFileClient extends DataLakePathClient {
       count = typeof offsetOrCount === "number" ? offsetOrCount : 0;
       options = (countOrOptions as FileReadToBufferOptions) || {};
     }
-    const { span, updatedOptions } = createSpan("DataLakeFileClient-readToBuffer", options);
-    try {
+    return tracingClient.withSpan("DataLakeFileClient-readToBuffer", options, async (updatedOptions) => {
       if (buffer) {
-        return await this.blockBlobClientInternal.downloadToBuffer(buffer, offset, count, {
+        return this.blockBlobClientInternal.downloadToBuffer(buffer, offset, count, {
           ...options,
           maxRetryRequestsPerBlock: options.maxRetryRequestsPerChunk,
           blockSize: options.chunkSize,
@@ -1827,7 +1584,7 @@ export class DataLakeFileClient extends DataLakePathClient {
           tracingOptions: updatedOptions.tracingOptions,
         });
       } else {
-        return await this.blockBlobClientInternal.downloadToBuffer(offset, count, {
+        return this.blockBlobClientInternal.downloadToBuffer(offset, count, {
           ...options,
           maxRetryRequestsPerBlock: options.maxRetryRequestsPerChunk,
           blockSize: options.chunkSize,
@@ -1835,15 +1592,7 @@ export class DataLakeFileClient extends DataLakePathClient {
           tracingOptions: updatedOptions.tracingOptions,
         });
       }
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -1868,21 +1617,12 @@ export class DataLakeFileClient extends DataLakePathClient {
     count?: number,
     options: FileReadOptions = {}
   ): Promise<FileReadResponse> {
-    const { span, updatedOptions } = createSpan("DataLakeFileClient-readToFile", options);
-    try {
-      return await this.blockBlobClientInternal.downloadToFile(filePath, offset, count, {
+    return tracingClient.withSpan("DataLakeFileClient-readToFile", options, async (updatedOptions) => {
+      return this.blockBlobClientInternal.downloadToFile(filePath, offset, count, {
         ...updatedOptions,
         customerProvidedKey: toBlobCpkInfo(options.customerProvidedKey),
       });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -1914,9 +1654,7 @@ export class DataLakeFileClient extends DataLakePathClient {
    * @param options -
    */
   public async query(query: string, options: FileQueryOptions = {}): Promise<FileReadResponse> {
-    const { span, updatedOptions } = createSpan("DataLakeFileClient-query", options);
-
-    try {
+    return tracingClient.withSpan("DataLakeFileClient-query", options, async (updatedOptions) => {
       const rawResponse = await this.blockBlobClientInternal.query(query, {
         ...updatedOptions,
         customerProvidedKey: toBlobCpkInfo(options.customerProvidedKey),
@@ -1931,15 +1669,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       delete rawResponse.blobContentMD5;
       delete rawResponse._response.parsedHeaders.blobContentMD5;
       return response;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -1952,8 +1682,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     mode: FileExpiryMode,
     options: FileSetExpiryOptions = {}
   ): Promise<FileSetExpiryResponse> {
-    const { span, updatedOptions } = createSpan("DataLakeFileClient-setExpiry", options);
-    try {
+    return tracingClient.withSpan("DataLakeFileClient-setExpiry", options, async (updatedOptions) => {
       let expiresOn: string | undefined = undefined;
       if (mode === "RelativeToNow" || mode === "RelativeToCreation") {
         if (!options.timeToExpireInMs) {
@@ -1977,19 +1706,11 @@ export class DataLakeFileClient extends DataLakePathClient {
       }
 
       const adaptedOptions = { ...options, expiresOn };
-      return await this.pathContextInternalToBlobEndpoint.setExpiry(mode, {
+      return this.pathContextInternalToBlobEndpoint.setExpiry(mode, {
         ...adaptedOptions,
         tracingOptions: updatedOptions.tracingOptions,
       });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**

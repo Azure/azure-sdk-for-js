@@ -3,7 +3,6 @@
 import { TokenCredential } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { ContainerClient } from "@azure/storage-blob";
-import { SpanStatusCode } from "@azure/core-tracing";
 
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
@@ -44,7 +43,7 @@ import {
 import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import { toContainerPublicAccessType, toPublicAccessType, toPermissions } from "./transforms";
-import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
+import { convertTracingToRequestOptionsBase, tracingClient } from "./utils/tracing";
 import {
   appendToURLPath,
   appendToURLQuery,
@@ -188,22 +187,13 @@ export class DataLakeFileSystemClient extends StorageClient {
    * @param options - Optional. Options when creating file system.
    */
   public async create(options: FileSystemCreateOptions = {}): Promise<FileSystemCreateResponse> {
-    const { span, updatedOptions } = createSpan("DataLakeFileSystemClient-create", options);
-    try {
-      return await this.blobContainerClient.create({
+    return tracingClient.withSpan("DataLakeFileSystemClient-create", options, async (updatedOptions) => {
+      return this.blobContainerClient.create({
         ...options,
         access: toContainerPublicAccessType(options.access),
         tracingOptions: updatedOptions.tracingOptions,
       });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -217,25 +207,13 @@ export class DataLakeFileSystemClient extends StorageClient {
   public async createIfNotExists(
     options: FileSystemCreateOptions = {}
   ): Promise<FileSystemCreateIfNotExistsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DataLakeFileSystemClient-createIfNotExists",
-      options
-    );
-    try {
-      return await this.blobContainerClient.createIfNotExists({
+    return tracingClient.withSpan("DataLakeFileSystemClient-createIfNotExists", options, async (updatedOptions) => {
+      return this.blobContainerClient.createIfNotExists({
         ...options,
         access: toContainerPublicAccessType(options.access),
         tracingOptions: updatedOptions.tracingOptions,
       });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -248,18 +226,9 @@ export class DataLakeFileSystemClient extends StorageClient {
    * @param options -
    */
   public async exists(options: FileSystemExistsOptions = {}): Promise<boolean> {
-    const { span, updatedOptions } = createSpan("DataLakeFileSystemClient-exists", options);
-    try {
-      return await this.blobContainerClient.exists(updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan("DataLakeFileSystemClient-exists", options, async (updatedOptions) => {
+      return this.blobContainerClient.exists(updatedOptions);
+    });
   }
 
   /**
@@ -270,21 +239,12 @@ export class DataLakeFileSystemClient extends StorageClient {
    * @param options - Optional. Options when deleting file system.
    */
   public async delete(options: FileSystemDeleteOptions = {}): Promise<FileSystemDeleteResponse> {
-    const { span, updatedOptions } = createSpan("DataLakeFileSystemClient-delete", options);
-    try {
-      return await this.blobContainerClient.delete({
+    return tracingClient.withSpan("DataLakeFileSystemClient-delete", options, async (updatedOptions) => {
+      return this.blobContainerClient.delete({
         ...options,
         tracingOptions: updatedOptions.tracingOptions,
       });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -297,18 +257,9 @@ export class DataLakeFileSystemClient extends StorageClient {
   public async deleteIfExists(
     options: FileSystemDeleteOptions = {}
   ): Promise<FileSystemDeleteIfExistsResponse> {
-    const { span, updatedOptions } = createSpan("DataLakeFileSystemClient-deleteIfExists", options);
-    try {
-      return await this.blobContainerClient.deleteIfExists(updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan("DataLakeFileSystemClient-deleteIfExists", options, async (updatedOptions) => {
+      return this.blobContainerClient.deleteIfExists(updatedOptions);
+    });
   }
 
   /**
@@ -327,8 +278,7 @@ export class DataLakeFileSystemClient extends StorageClient {
   public async getProperties(
     options: FileSystemGetPropertiesOptions = {}
   ): Promise<FileSystemGetPropertiesResponse> {
-    const { span, updatedOptions } = createSpan("DataLakeFileSystemClient-getProperties", options);
-    try {
+    return tracingClient.withSpan("DataLakeFileSystemClient-getProperties", options, async (updatedOptions) => {
       const rawResponse = await this.blobContainerClient.getProperties({
         ...options,
         tracingOptions: updatedOptions.tracingOptions,
@@ -344,15 +294,7 @@ export class DataLakeFileSystemClient extends StorageClient {
       delete rawResponse._response.parsedHeaders.blobPublicAccess;
 
       return response;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -371,21 +313,9 @@ export class DataLakeFileSystemClient extends StorageClient {
     metadata?: Metadata,
     options: FileSystemSetMetadataOptions = {}
   ): Promise<FileSystemSetMetadataResponse> {
-    const { span, updatedOptions } = createSpan("DataLakeFileSystemClient-setMetadata", options);
-    try {
-      return await this.blobContainerClient.setMetadata(metadata, {
-        ...options,
-        tracingOptions: updatedOptions.tracingOptions,
-      });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    return tracingClient.withSpan("DataLakeFileSystemClient-setMetadata", options, (updatedOptions) => {
+      return this.blobContainerClient.setMetadata(metadata, updatedOptions);
+    });
   }
 
   /**
@@ -402,11 +332,7 @@ export class DataLakeFileSystemClient extends StorageClient {
   public async getAccessPolicy(
     options: FileSystemGetAccessPolicyOptions = {}
   ): Promise<FileSystemGetAccessPolicyResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DataLakeFileSystemClient-getAccessPolicy",
-      options
-    );
-    try {
+    return tracingClient.withSpan("DataLakeFileSystemClient-getAccessPolicy", options, async (updatedOptions) => {
       const rawResponse = await this.blobContainerClient.getAccessPolicy({
         ...options,
         tracingOptions: updatedOptions.tracingOptions,
@@ -422,15 +348,7 @@ export class DataLakeFileSystemClient extends StorageClient {
       delete rawResponse._response.parsedHeaders.blobPublicAccess;
 
       return response;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -452,12 +370,8 @@ export class DataLakeFileSystemClient extends StorageClient {
     fileSystemAcl?: SignedIdentifier<AccessPolicy>[],
     options: FileSystemSetAccessPolicyOptions = {}
   ): Promise<FileSystemSetAccessPolicyResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DataLakeFileSystemClient-setAccessPolicy",
-      options
-    );
-    try {
-      return await this.blobContainerClient.setAccessPolicy(
+    return tracingClient.withSpan("DataLakeFileSystemClient-setAccessPolicy", options, async (updatedOptions) => {
+      return this.blobContainerClient.setAccessPolicy(
         toContainerPublicAccessType(access),
         fileSystemAcl,
         {
@@ -465,15 +379,7 @@ export class DataLakeFileSystemClient extends StorageClient {
           tracingOptions: updatedOptions.tracingOptions,
         }
       );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -593,11 +499,7 @@ export class DataLakeFileSystemClient extends StorageClient {
     continuation?: string,
     options: ListPathsSegmentOptions = {}
   ): Promise<FileSystemListPathsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DataLakeFileSystemClient-listPathsSegment",
-      options
-    );
-    try {
+    return tracingClient.withSpan("DataLakeFileSystemClient-listPathsSegment", options, async (updatedOptions) => {
       const rawResponse = await this.fileSystemContext.listPaths(options.recursive || false, {
         continuation,
         ...options,
@@ -618,15 +520,7 @@ export class DataLakeFileSystemClient extends StorageClient {
       delete rawResponse.paths;
 
       return response;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -745,11 +639,7 @@ export class DataLakeFileSystemClient extends StorageClient {
     continuation?: string,
     options: ListDeletedPathsSegmentOptions = {}
   ): Promise<FileSystemListDeletedPathsResponse> {
-    const { span, updatedOptions } = createSpan(
-      "DataLakeFileSystemClient-listDeletedPathsSegment",
-      options
-    );
-    try {
+    return tracingClient.withSpan("DataLakeFileSystemClient-listDeletedPathsSegment", options, async (updatedOptions) => {
       const rawResponse = await this.fileSystemContextToBlobEndpoint.listBlobHierarchySegment({
         marker: continuation,
         ...options,
@@ -773,15 +663,7 @@ export class DataLakeFileSystemClient extends StorageClient {
       }
 
       return response;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -800,8 +682,7 @@ export class DataLakeFileSystemClient extends StorageClient {
     deletionId: string,
     options: FileSystemUndeletePathOption = {}
   ): Promise<FileSystemUndeletePathResponse> {
-    const { span, updatedOptions } = createSpan("DataLakeFileSystemClient-undeletePath", options);
-    try {
+    return tracingClient.withSpan("DataLakeFileSystemClient-undeletePath", options, async (updatedOptions) => {
       const pathClient = new PathClientInternal(
         appendToURLPath(this.blobEndpointUrl, encodeURIComponent(deletedPath)),
         this.pipeline
@@ -824,15 +705,7 @@ export class DataLakeFileSystemClient extends StorageClient {
           ...rawResponse,
         };
       }
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**

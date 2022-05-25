@@ -1,10 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SpanGraph, setTracer, getYieldedValue } from "@azure/test-utils";
+import { assert, getYieldedValue } from "@azure/test-utils";
 import { isLiveMode, record, Recorder } from "@azure-tools/test-recorder";
-import { setSpan, context } from "@azure/core-tracing";
-import { assert } from "chai";
 
 import {
   DataLakeFileSystemClient,
@@ -54,51 +52,16 @@ describe("DataLakeFileSystemClient", () => {
   });
 
   it("setMetadata with tracing", async () => {
-    const tracer = setTracer();
-    const rootSpan = tracer.startSpan("root");
-
-    const metadata = {
-      key0: "val0",
-      keya: "vala",
-      keyb: "valb",
-    };
-    await fileSystemClient.setMetadata(metadata, {
-      tracingOptions: {
-        tracingContext: setSpan(context.active(), rootSpan),
-      },
-    });
-    rootSpan.end();
-
-    const rootSpans = tracer.getRootSpans();
-    assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
-    assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
-
-    const expectedGraph: SpanGraph = {
-      roots: [
-        {
-          name: rootSpan.name,
-          children: [
-            {
-              name: "Azure.Storage.DataLake.DataLakeFileSystemClient-setMetadata",
-              children: [
-                {
-                  name: "Azure.Storage.Blob.ContainerClient-setMetadata",
-                  children: [
-                    {
-                      name: "HTTP PUT",
-                      children: [],
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-      ],
-    };
-
-    assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.spanContext().traceId), expectedGraph);
-    assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
+    assert.supportsTracing((options) => {
+      const metadata = {
+        key0: "val0",
+        keya: "vala",
+        keyb: "valb",
+      };
+      return fileSystemClient.setMetadata(metadata, options);
+    }, [
+      "Azure.Storage.DataLake.DataLakeFileSystemClient-setMetadata"
+    ]);
   });
 
   it("getProperties", async () => {
