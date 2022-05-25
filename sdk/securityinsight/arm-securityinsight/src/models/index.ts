@@ -3980,12 +3980,19 @@ export type Watchlist = ResourceWithEtag & {
   numberOfLinesToSkip?: number;
   /** The raw content that represents to watchlist items to create. In case of csv/tsv content type, it's the content of the file that will parsed by the endpoint */
   rawContent?: string;
+  /** The Shared Access Signature (SAS) URI under which the large csv watchlist file is located and from which the watchlist and its items will be created */
+  sasUri?: string;
   /** The search key is used to optimize query performance when using watchlists for joins with other data. For example, enable a column with IP addresses to be the designated SearchKey field, then use this field as the key field when joining to other event data by IP address. */
   itemsSearchKey?: string;
   /** The content type of the raw content. Example : text/csv or text/tsv */
   contentType?: string;
   /** The status of the Watchlist upload : New, InProgress or Complete. Pls note : When a Watchlist upload status is equal to InProgress, the Watchlist cannot be deleted */
   uploadStatus?: string;
+  /**
+   * The provisioning state of the watchlist resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
 };
 
 /** Represents a Watchlist item in Azure Security Insights. */
@@ -4007,9 +4014,9 @@ export type WatchlistItem = ResourceWithEtag & {
   /** Describes a user that updated the watchlist item */
   updatedBy?: UserInfo;
   /** key-value pairs for a watchlist item */
-  itemsKeyValue?: Record<string, unknown>;
+  itemsKeyValue?: { [propertyName: string]: any };
   /** key-value pairs for a watchlist item entity mapping */
-  entityMapping?: Record<string, unknown>;
+  entityMapping?: { [propertyName: string]: any };
 };
 
 /** Data connector */
@@ -6825,6 +6832,26 @@ export enum KnownSourceType {
  * **Remote storage**
  */
 export type SourceType = string;
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Canceled = "Canceled",
+  InProgress = "InProgress"
+}
+
+/**
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **InProgress**
+ */
+export type ProvisioningState = string;
 
 /** Known values of {@link DataConnectorKind} that the service accepts. */
 export enum KnownDataConnectorKind {

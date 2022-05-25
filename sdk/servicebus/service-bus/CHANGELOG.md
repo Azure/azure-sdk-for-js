@@ -1,16 +1,20 @@
 # Release History
 
-## 7.6.0-beta.3 (Unreleased)
+## 7.6.0-beta.4 (Unreleased)
 
 ### Features Added
-
-- Add an option `omitMessageBody` in `PeekMessagesOptions` allowing omitting message body when peeking messages using `receiver.peekMessages()`
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+## 7.6.0-beta.3 (2022-05-19)
+
+### Features Added
+
+- Add an option `omitMessageBody` in `PeekMessagesOptions` allowing omitting message body when peeking messages using `receiver.peekMessages()`
 
 ## 7.6.0-beta.2 (2022-05-10)
 
