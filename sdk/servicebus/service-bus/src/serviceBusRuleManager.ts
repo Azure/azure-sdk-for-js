@@ -5,7 +5,7 @@ import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
 import { ConnectionContext } from "./connectionContext";
 import { RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
 import { CorrelationRuleFilter } from "./core/managementClient";
-import { RuleProperties } from "./serializers/ruleResourceSerializer";
+import { RuleProperties, SqlRuleAction } from "./serializers/ruleResourceSerializer";
 import { getUniqueName } from "./util/utils";
 import { throwErrorIfConnectionClosed } from "./util/errors";
 import { SqlRuleFilter } from "./serializers/ruleResourceSerializer";
@@ -14,7 +14,7 @@ export interface ServiceBusRuleManager {
   createRule(
     ruleName: string,
     filter: SqlRuleFilter | CorrelationRuleFilter,
-    sqlRuleActionExpression?: string,
+    sqlRuleAction?: SqlRuleAction,
     options?: OperationOptionsBase): Promise<void>;
   getRules(
     options?: OperationOptionsBase): Promise<RuleProperties[]>;
@@ -55,12 +55,12 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
   async createRule(
     ruleName: string,
     filter: SqlRuleFilter | CorrelationRuleFilter,
-    sqlRuleActionExpression?: string,
+    sqlRuleAction?: SqlRuleAction,
     options?: OperationOptionsBase): Promise<void> {
     const addRuleOperationPromise = async (): Promise<void> => {
       return this._context
         .getManagementClient(this._entityPath)
-        .addRule(ruleName, filter, sqlRuleActionExpression, {
+        .addRule(ruleName, filter, sqlRuleAction?.sqlExpression, {
           ...options,
           associatedLinkName: this.name,
           requestName: "addRule",

@@ -1177,7 +1177,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           Array.isArray(actionsRawData.value) &&
           actionsRawData.value.length
         ) {
-           sqlRuleAction = this._safelyGetTypedValueFromArray(actionsRawData.value, 0);
+           sqlRuleAction = {
+             sqlExpression: this._safelyGetTypedValueFromArray(actionsRawData.value, 0)
+           };
         } else {
           sqlRuleAction = {}
         }
@@ -1198,14 +1200,11 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
             filter = {
               sqlExpression: this._safelyGetTypedValueFromArray(filtersRawData.value, 0),
             }
-            rule = {
-              name: ruleDescriptor.value[2].value,
-              filter,
-              action: sqlRuleAction
-            };
-            rules.push(rule);
             break;
           case Constants.descriptorCodes.correlationFilterList:
+            console.log("### raw data value", filtersRawData)
+            console.log("### raw data value[8] type", filtersRawData.value[8].type)
+            console.log("### raw application properties: ", this._safelyGetTypedValueFromArray(filtersRawData.value, 8));
             filter = {
               correlationId: this._safelyGetTypedValueFromArray(filtersRawData.value, 0),
               messageId: this._safelyGetTypedValueFromArray(filtersRawData.value, 1),
@@ -1310,7 +1309,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       const ruleDescription: any = {};
       if (isSqlRuleFilter(filter)) {
         ruleDescription["sql-filter"] = {
-          expression: filter.sqlExpression ? "1=1" : "1=0"
+          expression: filter.sqlExpression
         }
       } else {
         ruleDescription["correlation-filter"] = {
@@ -1318,12 +1317,11 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           "message-id": filter.messageId,
           to: filter.to,
           "reply-to": filter.replyTo,
-          subject: filter.subject,
+          label: filter.subject,
           "session-id": filter.sessionId,
           "reply-to-session-id": filter.replyToSessionId,
           "content-type": filter.contentType,
-          applicationProperties: filter.applicationProperties,
-
+          properties: filter.applicationProperties,
         }
       }
 
