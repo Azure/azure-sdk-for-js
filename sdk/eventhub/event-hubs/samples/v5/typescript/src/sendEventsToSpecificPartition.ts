@@ -22,7 +22,7 @@ export async function main(): Promise<void> {
     retryOptions: {
       maxRetries: 5,
       mode: RetryMode.Exponential,
-    }
+    },
   });
 
   /**
@@ -55,7 +55,7 @@ export async function main(): Promise<void> {
       // and not specifying a maximum size.
       //
       // maxSizeInBytes: 200,
-      partitionId
+      partitionId,
     };
 
     let batch = await producer.createBatch(batchOptions);
