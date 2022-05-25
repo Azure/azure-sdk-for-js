@@ -3,25 +3,20 @@
 
 /**
  * @summary Feature flags are settings that follow specific JSON schema for the value.
- *
- * @azsdk-weight 20
  */
-import {
+const {
   AppConfigurationClient,
-  ConfigurationSetting,
   featureFlagContentType,
-  FeatureFlagValue,
   parseFeatureFlag,
-} from "@azure/app-configuration";
+} = require("@azure/app-configuration");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
-export async function main() {
+async function main() {
   console.log(`Running featureFlag sample`);
 
-  const originalFeatureFlag: ConfigurationSetting<FeatureFlagValue> = {
+  const originalFeatureFlag = {
     key: `sample-feature-flag`,
     isReadOnly: false,
     contentType: featureFlagContentType,
@@ -43,8 +38,8 @@ export async function main() {
             name: "Microsoft.Targeting",
             parameters: {
               Audience: {
-                Groups: [{ Name: "contoso.com", RolloutPercentage: 50 }], // The feature flag is enabled for 50% of other users in the contoso.com group, because contoso.com is listed in the Groups section with a Percentage of 50.
-                Users: ["test@contoso.com"], // The feature flag is always enabled for user test@contoso.com, because test@contoso.com is listed in the Users section.
+                Groups: [{ Name: "contoso.com", RolloutPercentage: 50 }],
+                Users: ["test@contoso.com"],
                 DefaultRolloutPercentage: 0, // The feature is always disabled for all other users, because the Default percentage is set to 0.
               },
               // You can create additional users with @contoso.com email addresses to see the behavior of the group settings. 50% of these users will see the Beta item. The other 50% won't see the Beta item.
@@ -136,7 +131,7 @@ export async function main() {
   await cleanupSampleValues([originalFeatureFlag.key], appConfigClient);
 }
 
-async function cleanupSampleValues(keys: string[], client: AppConfigurationClient) {
+async function cleanupSampleValues(keys, client) {
   const settingsIterator = client.listConfigurationSettings({
     keyFilter: keys.join(","),
   });
@@ -149,15 +144,7 @@ async function cleanupSampleValues(keys: string[], client: AppConfigurationClien
 /**
  * typeguard - for targeting client filter
  */
-function isTargetingClientFilter(clientFilter: any): clientFilter is {
-  parameters: {
-    Audience: {
-      Groups: Array<{ Name: string; RolloutPercentage: number }>;
-      Users: Array<string>;
-      DefaultRolloutPercentage: number;
-    };
-  };
-} {
+function isTargetingClientFilter(clientFilter) {
   return (
     clientFilter.name === "Microsoft.Targeting" &&
     clientFilter.parameters &&
@@ -172,3 +159,5 @@ main().catch((err) => {
   console.error("Failed to run sample:", err);
   process.exit(1);
 });
+
+module.exports = { main };

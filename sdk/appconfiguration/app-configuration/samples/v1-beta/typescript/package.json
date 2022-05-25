@@ -1,0 +1,44 @@
+{
+  "name": "@azure-samples/app-configuration-ts-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure App Configuration client library samples for TypeScript (Beta)",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/appconfiguration/app-configuration"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "typescript",
+    "browser",
+    "isomorphic",
+    "cloud"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appconfiguration/app-configuration",
+  "dependencies": {
+    "@azure/app-configuration": "next",
+    "dotenv": "latest",
+    "@azure/keyvault-secrets": "^4.2.0",
+    "@azure/identity": "^2.0.1",
+    "@azure/eventgrid": "4.9.0"
+  },
+  "devDependencies": {
+    "@types/node": "^12.0.0",
+    "typescript": "~4.4.0",
+    "rimraf": "latest"
+  }
+}

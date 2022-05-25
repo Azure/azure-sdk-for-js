@@ -3,8 +3,6 @@
 
 /**
  * @summary Feature flags are settings that follow specific JSON schema for the value.
- *
- * @azsdk-weight 20
  */
 import {
   AppConfigurationClient,
