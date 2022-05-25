@@ -2,7 +2,7 @@
 // Licensed under the MIT Licence.
 
 /**
- * @summary Demonstrates how to send events to an Event Hub.
+ * @summary Demonstrates how to send events to a specific partition in an Event Hub.
  *
  * @azsdk-weight 60
  */
