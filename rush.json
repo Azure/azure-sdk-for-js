@@ -1700,6 +1700,11 @@
       "packageName": "@azure/arm-changes",
       "projectFolder": "sdk/changes/arm-changes",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-confidentialledger",
+      "projectFolder": "sdk/confidentialledger/arm-confidentialledger",
+      "versionPolicyName": "management"
     }
   ]
 }
