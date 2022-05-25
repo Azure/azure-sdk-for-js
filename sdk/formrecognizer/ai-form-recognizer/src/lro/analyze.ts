@@ -22,7 +22,6 @@ import {
 } from "../transforms/polygon";
 import {
   BoundingRegion,
-  DocumentEntity,
   DocumentTable,
   DocumentKeyValuePair,
   DocumentPage,
@@ -135,11 +134,6 @@ export interface AnalyzeResult<Document = AnalyzedDocument> extends AnalyzeResul
    * Extracted key-value pairs.
    */
   keyValuePairs: DocumentKeyValuePair[];
-
-  /**
-   * Extracted entities.
-   */
-  entities: DocumentEntity[];
 
   /**
    * Extracted text languages.
@@ -379,10 +373,6 @@ export function toAnalyzeResultFromGenerated<
     pages: result.pages.map((page) => toDocumentPageFromGenerated(page)),
     tables: result.tables?.map((table) => toDocumentTableFromGenerated(table)) ?? [],
     keyValuePairs: result.keyValuePairs?.map((pair) => toKeyValuePairFromGenerated(pair)) ?? [],
-    entities:
-      result.entities?.map((entity) => ({
-        ...entity, boundingRegions: toBoundingRegions(entity.boundingRegions)
-      })) ?? [],
     languages: result.languages ?? [],
     styles: result.styles ?? [],
     documents: (result.documents?.map((doc) => mapDocuments(doc)) as Document[]) ?? [],

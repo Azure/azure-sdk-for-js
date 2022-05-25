@@ -153,22 +153,6 @@ export interface DocumentKeyValueElement {
   spans: DocumentSpan[];
 }
 
-/** An object representing various categories of entities. */
-export interface DocumentEntity {
-  /** Entity type. */
-  category: string;
-  /** Entity sub type. */
-  subCategory?: string;
-  /** Entity content. */
-  content: string;
-  /** Bounding regions covering the entity. */
-  boundingRegions?: BoundingRegion[];
-  /** Location of the entity in the reading order concatenated content. */
-  spans: DocumentSpan[];
-  /** Confidence of correctly extracting the entity. */
-  confidence: number;
-}
-
 /** An object describing the location and semantic content of a document. */
 export interface Document {
   /** Document type. */

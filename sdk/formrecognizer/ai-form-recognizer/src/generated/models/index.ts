@@ -79,8 +79,6 @@ export interface AnalyzeResult {
   tables?: DocumentTable[];
   /** Extracted key-value pairs. */
   keyValuePairs?: DocumentKeyValuePair[];
-  /** Extracted entities. */
-  entities?: DocumentEntity[];
   /** Extracted font styles. */
   styles?: DocumentStyle[];
   /** Detected languages. */
@@ -265,22 +263,6 @@ export interface DocumentKeyValueElement {
   boundingRegions?: BoundingRegion[];
   /** Location of the key-value element in the reading order concatenated content. */
   spans: DocumentSpan[];
-}
-
-/** An object representing various categories of entities. */
-export interface DocumentEntity {
-  /** Entity type. */
-  category: string;
-  /** Entity sub type. */
-  subCategory?: string;
-  /** Entity content. */
-  content: string;
-  /** Bounding regions covering the entity. */
-  boundingRegions?: BoundingRegion[];
-  /** Location of the entity in the reading order concatenated content. */
-  spans: DocumentSpan[];
-  /** Confidence of correctly extracting the entity. */
-  confidence: number;
 }
 
 /** An object representing observed text styles. */

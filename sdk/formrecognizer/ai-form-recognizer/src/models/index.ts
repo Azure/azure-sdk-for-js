@@ -24,7 +24,6 @@ export {
 } from "./fields";
 export {
   BoundingRegion,
-  DocumentEntity,
   DocumentImage,
   DocumentKeyValueElement,
   DocumentKeyValuePair,
