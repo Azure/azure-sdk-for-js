@@ -1700,6 +1700,11 @@
       "packageName": "@azure/arm-changes",
       "projectFolder": "sdk/changes/arm-changes",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-machinelearning",
+      "projectFolder": "sdk/machinelearning/arm-machinelearning",
+      "versionPolicyName": "management"
     }
   ]
 }
