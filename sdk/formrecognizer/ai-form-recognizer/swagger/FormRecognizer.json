@@ -1121,13 +1121,6 @@
             "$ref": "#/definitions/DocumentKeyValuePair"
           }
         },
-        "entities": {
-          "description": "Extracted entities.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DocumentEntity"
-          }
-        },
         "styles": {
           "description": "Extracted font styles.",
           "type": "array",
@@ -1570,43 +1563,6 @@
           "items": {
             "$ref": "#/definitions/DocumentSpan"
           }
-        }
-      }
-    },
-    "DocumentEntity": {
-      "description": "An object representing various categories of entities.",
-      "type": "object",
-      "required": ["category", "content", "spans", "confidence"],
-      "properties": {
-        "category": {
-          "description": "Entity type.",
-          "type": "string"
-        },
-        "subCategory": {
-          "description": "Entity sub type.",
-          "type": "string"
-        },
-        "content": {
-          "description": "Entity content.",
-          "type": "string"
-        },
-        "boundingRegions": {
-          "description": "Bounding regions covering the entity.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/BoundingRegion"
-          }
-        },
-        "spans": {
-          "description": "Location of the entity in the reading order concatenated content.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DocumentSpan"
-          }
-        },
-        "confidence": {
-          "description": "Confidence of correctly extracting the entity.",
-          "$ref": "#/definitions/Confidence"
         }
       }
     },
