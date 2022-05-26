@@ -65,6 +65,8 @@ specifiers:
   '@rush-temp/arm-dns-profile-2020-09-01-hybrid': file:./projects/arm-dns-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-dnsresolver': file:./projects/arm-dnsresolver.tgz
   '@rush-temp/arm-domainservices': file:./projects/arm-domainservices.tgz
+  '@rush-temp/arm-dynatrace': file:./projects/arm-dynatrace.tgz
+  '@rush-temp/arm-education': file:./projects/arm-education.tgz
   '@rush-temp/arm-eventgrid': file:./projects/arm-eventgrid.tgz
   '@rush-temp/arm-eventhub': file:./projects/arm-eventhub.tgz
   '@rush-temp/arm-eventhub-profile-2020-09-01-hybrid': file:./projects/arm-eventhub-profile-2020-09-01-hybrid.tgz
@@ -180,6 +182,7 @@ specifiers:
   '@rush-temp/attestation': file:./projects/attestation.tgz
   '@rush-temp/communication-chat': file:./projects/communication-chat.tgz
   '@rush-temp/communication-common': file:./projects/communication-common.tgz
+  '@rush-temp/communication-email': file:./projects/communication-email.tgz
   '@rush-temp/communication-identity': file:./projects/communication-identity.tgz
   '@rush-temp/communication-network-traversal': file:./projects/communication-network-traversal.tgz
   '@rush-temp/communication-phone-numbers': file:./projects/communication-phone-numbers.tgz
@@ -342,6 +345,8 @@ dependencies:
   '@rush-temp/arm-dns-profile-2020-09-01-hybrid': file:projects/arm-dns-profile-2020-09-01-hybrid.tgz
   '@rush-temp/arm-dnsresolver': file:projects/arm-dnsresolver.tgz
   '@rush-temp/arm-domainservices': file:projects/arm-domainservices.tgz
+  '@rush-temp/arm-dynatrace': file:projects/arm-dynatrace.tgz
+  '@rush-temp/arm-education': file:projects/arm-education.tgz
   '@rush-temp/arm-eventgrid': file:projects/arm-eventgrid.tgz
   '@rush-temp/arm-eventhub': file:projects/arm-eventhub.tgz
   '@rush-temp/arm-eventhub-profile-2020-09-01-hybrid': file:projects/arm-eventhub-profile-2020-09-01-hybrid.tgz
@@ -457,6 +462,7 @@ dependencies:
   '@rush-temp/attestation': file:projects/attestation.tgz
   '@rush-temp/communication-chat': file:projects/communication-chat.tgz
   '@rush-temp/communication-common': file:projects/communication-common.tgz
+  '@rush-temp/communication-email': file:projects/communication-email.tgz
   '@rush-temp/communication-identity': file:projects/communication-identity.tgz
   '@rush-temp/communication-network-traversal': file:projects/communication-network-traversal.tgz
   '@rush-temp/communication-phone-numbers': file:projects/communication-phone-numbers.tgz
@@ -677,6 +683,21 @@ packages:
       tslib: 2.4.0
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /@azure/communication-common/1.1.0:
+    resolution: {integrity: sha512-vqTtzDtb4NG3LWoWoqlOOJApZRRIIImNUKlGyTa6c1YC+v5A7UEOL9TX8NRDxvFVUF2wDHsSnkhLBVBgkcAhIQ==}
+    engines: {node: '>=12.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.0.4
+      '@azure/core-auth': 1.3.2
+      '@azure/core-http': 2.2.4
+      '@azure/core-tracing': 1.0.0-preview.13
+      events: 3.3.0
+      jwt-decode: 2.2.0
+      tslib: 2.4.0
+    transitivePeerDependencies:
+      - encoding
     dev: false
 
   /@azure/communication-signaling/1.0.0-beta.13:
@@ -1725,6 +1746,13 @@ packages:
     engines: {node: '>=8.0.0'}
     dev: false
 
+  /@opentelemetry/api-metrics/0.28.0:
+    resolution: {integrity: sha512-UcrJqEiV20YTibYXUT0TDBtl4uLh4tMpAYSa1g1780QrVMlsOMAnBrdD3EYTMPog14Zw+2QzPnDJ4X7q67YrSA==}
+    engines: {node: '>=8.12.0'}
+    dependencies:
+      '@opentelemetry/api': 1.1.0
+    dev: false
+
   /@opentelemetry/api/0.10.2:
     resolution: {integrity: sha512-GtpMGd6vkzDMYcpu2t9LlhEgMy/SzBwRnz48EejlRArYqZzqSzAsKmegUK7zHgl+EOIaK9mKHhnRaQu3qw20cA==}
     engines: {node: '>=8.0.0'}
@@ -1737,32 +1765,9 @@ packages:
     engines: {node: '>=8.0.0'}
     dev: false
 
-  /@opentelemetry/api/1.0.4:
-    resolution: {integrity: sha512-BuJuXRSJNQ3QoKA6GWWDyuLpOUck+9hAXNMCnrloc1aWVoy6Xq6t9PUV08aBZ4Lutqq2LEHM486bpZqoViScog==}
-    engines: {node: '>=8.0.0'}
-    dev: false
-
   /@opentelemetry/api/1.1.0:
     resolution: {integrity: sha512-hf+3bwuBwtXsugA2ULBc95qxrOqP2pOekLz34BJhcAKawt94vfeNyUKpYc0lZQ/3sCP6LqRa7UAdHA7i5UODzQ==}
     engines: {node: '>=8.0.0'}
-    dev: false
-
-  /@opentelemetry/context-async-hooks/0.24.0_@opentelemetry+api@1.1.0:
-    resolution: {integrity: sha512-Db8AgMByBEFKLJGSUBlNq4Un/Tqzj5W0hTxx3hIic8DvBwqbvUvkMGuiQYLKE2Ay21cLYMT01xK4TEKz0OxADw==}
-    engines: {node: '>=8.1.0'}
-    peerDependencies:
-      '@opentelemetry/api': ^1.0.1
-    dependencies:
-      '@opentelemetry/api': 1.1.0
-    dev: false
-
-  /@opentelemetry/context-async-hooks/1.2.0_@opentelemetry+api@1.0.4:
-    resolution: {integrity: sha512-b0ui4aDc5UtU+EWkQlgyxPrTPjird8RhzdyaruoTyiHECWXs9O6qiTv4GLAnBt1XIPK4A/t5aqdW5whDcXDBnA==}
-    engines: {node: '>=8.12.0'}
-    peerDependencies:
-      '@opentelemetry/api': '>=1.0.0 <1.2.0'
-    dependencies:
-      '@opentelemetry/api': 1.0.4
     dev: false
 
   /@opentelemetry/context-async-hooks/1.2.0_@opentelemetry+api@1.1.0:
@@ -1790,37 +1795,6 @@ packages:
       semver: 7.3.7
     dev: false
 
-  /@opentelemetry/core/0.24.0_@opentelemetry+api@1.1.0:
-    resolution: {integrity: sha512-KpsfxBbFTZT9zaB4Es/fFLbvSzVl9Io/8UUu/TYl4/HgqkmyVInNlWTgRiKyz9nsHzFpGP1kdZJj+YIut0IFsw==}
-    engines: {node: '>=8.5.0'}
-    peerDependencies:
-      '@opentelemetry/api': ^1.0.1
-    dependencies:
-      '@opentelemetry/api': 1.1.0
-      '@opentelemetry/semantic-conventions': 0.24.0
-      semver: 7.3.7
-    dev: false
-
-  /@opentelemetry/core/1.0.1_@opentelemetry+api@1.0.4:
-    resolution: {integrity: sha512-90nQ2X6b/8X+xjcLDBYKooAcOsIlwLRYm+1VsxcX5cHl6V4CSVmDpBreQSDH/A21SqROzapk6813008SatmPpQ==}
-    engines: {node: '>=8.5.0'}
-    peerDependencies:
-      '@opentelemetry/api': '>=1.0.0 <1.1.0'
-    dependencies:
-      '@opentelemetry/api': 1.0.4
-      '@opentelemetry/semantic-conventions': 1.0.1
-    dev: false
-
-  /@opentelemetry/core/1.2.0_@opentelemetry+api@1.0.4:
-    resolution: {integrity: sha512-QiKp8fBbT9ZhRTP+ZVVMyqH62tD/ZQa4gWPi+GnpNetvK1SWPO/8DmRpaSXHwAhu5FWUDJrbFgpLsrDd1zGPOw==}
-    engines: {node: '>=8.12.0'}
-    peerDependencies:
-      '@opentelemetry/api': '>=1.0.0 <1.2.0'
-    dependencies:
-      '@opentelemetry/api': 1.0.4
-      '@opentelemetry/semantic-conventions': 1.2.0
-    dev: false
-
   /@opentelemetry/core/1.2.0_@opentelemetry+api@1.1.0:
     resolution: {integrity: sha512-QiKp8fBbT9ZhRTP+ZVVMyqH62tD/ZQa4gWPi+GnpNetvK1SWPO/8DmRpaSXHwAhu5FWUDJrbFgpLsrDd1zGPOw==}
     engines: {node: '>=8.12.0'}
@@ -1831,31 +1805,17 @@ packages:
       '@opentelemetry/semantic-conventions': 1.2.0
     dev: false
 
-  /@opentelemetry/instrumentation-http/0.27.0_@opentelemetry+api@1.0.4:
-    resolution: {integrity: sha512-Q1dxUt+5d70rbY6jJAC8nwpIQJontmJW94eIS5CsGngvCRYw6tgjLZp2fpVL1o7Lj7uiLpGigeE4EN5Lr2YDFA==}
-    engines: {node: '>=8.0.0'}
+  /@opentelemetry/instrumentation-http/0.28.0_@opentelemetry+api@1.1.0:
+    resolution: {integrity: sha512-j6nqdGekv7Xtq3uRgiHdRrf1s9Y/fJTD//z8NG2RHGJAlOPRIzDO4m2tzZ5DX03Yzbb7tVgRsYhJJVsinQl9Bw==}
+    engines: {node: '>=8.12.0'}
     peerDependencies:
       '@opentelemetry/api': ^1.0.0
     dependencies:
-      '@opentelemetry/api': 1.0.4
-      '@opentelemetry/core': 1.0.1_@opentelemetry+api@1.0.4
-      '@opentelemetry/instrumentation': 0.27.0_@opentelemetry+api@1.0.4
-      '@opentelemetry/semantic-conventions': 1.0.1
+      '@opentelemetry/api': 1.1.0
+      '@opentelemetry/core': 1.2.0_@opentelemetry+api@1.1.0
+      '@opentelemetry/instrumentation': 0.28.0_@opentelemetry+api@1.1.0
+      '@opentelemetry/semantic-conventions': 1.2.0
       semver: 7.3.7
-    transitivePeerDependencies:
-      - supports-color
-    dev: false
-
-  /@opentelemetry/instrumentation/0.27.0_@opentelemetry+api@1.0.4:
-    resolution: {integrity: sha512-dUwY/VoDptdK8AYigwS3IKblG+unV5xIdV4VQKy+nX5aT3f7vd5PMYs4arCQSYLbLRe0s7GxK6S9dtjai/TsHQ==}
-    peerDependencies:
-      '@opentelemetry/api': ^1.0.0
-    dependencies:
-      '@opentelemetry/api': 1.0.4
-      '@opentelemetry/api-metrics': 0.27.0
-      require-in-the-middle: 5.1.0
-      semver: 7.3.7
-      shimmer: 1.2.1
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -1874,40 +1834,18 @@ packages:
       - supports-color
     dev: false
 
-  /@opentelemetry/node/0.24.0_@opentelemetry+api@1.1.0:
-    resolution: {integrity: sha512-Sy8QooZFOeVUcJIKetw5xsq15/1ivZovWg0RnKWtzURMQrcOxmQ3bGrXPORklOJxOtf5snDHgT37Y7dBgr+c+g==}
-    engines: {node: '>=8.0.0'}
-    deprecated: Package renamed to @opentelemetry/sdk-trace-node
+  /@opentelemetry/instrumentation/0.28.0_@opentelemetry+api@1.1.0:
+    resolution: {integrity: sha512-hcL+U02vp0vcouoMjoJArP0USBuBXnWF+sAt+Z5k77ROEcSCHZh0DkWigWGMyN8w3M5SpoqRlJiXLDM+9RtXNg==}
     peerDependencies:
-      '@opentelemetry/api': ^1.0.1
+      '@opentelemetry/api': ^1.0.0
     dependencies:
       '@opentelemetry/api': 1.1.0
-      '@opentelemetry/context-async-hooks': 0.24.0_@opentelemetry+api@1.1.0
-      '@opentelemetry/core': 0.24.0_@opentelemetry+api@1.1.0
-      '@opentelemetry/propagator-b3': 0.24.0_@opentelemetry+api@1.1.0
-      '@opentelemetry/propagator-jaeger': 0.24.0_@opentelemetry+api@1.1.0
-      '@opentelemetry/tracing': 0.24.0_@opentelemetry+api@1.1.0
+      '@opentelemetry/api-metrics': 0.28.0
+      require-in-the-middle: 5.1.0
       semver: 7.3.7
-    dev: false
-
-  /@opentelemetry/propagator-b3/0.24.0_@opentelemetry+api@1.1.0:
-    resolution: {integrity: sha512-iV7KSN0LkEAkeVCbhaIJAgTEb7HCnVkprmpgkL6q79rP3vTW4dylwfBYgIwod7y0GT4Ofgomm0NrwwWiuGLbQA==}
-    engines: {node: '>=8.0.0'}
-    peerDependencies:
-      '@opentelemetry/api': ^1.0.1
-    dependencies:
-      '@opentelemetry/api': 1.1.0
-      '@opentelemetry/core': 0.24.0_@opentelemetry+api@1.1.0
-    dev: false
-
-  /@opentelemetry/propagator-b3/1.2.0_@opentelemetry+api@1.0.4:
-    resolution: {integrity: sha512-sjZNnJb3Dz8il5hvaDcScSMBZcwsAs8rnZ4cXMhe3Gv4ewO0x+B7rzWS4k7wDwXPijmuTFy3mj0otDiJhp6bVA==}
-    engines: {node: '>=8.12.0'}
-    peerDependencies:
-      '@opentelemetry/api': '>=1.0.0 <1.2.0'
-    dependencies:
-      '@opentelemetry/api': 1.0.4
-      '@opentelemetry/core': 1.2.0_@opentelemetry+api@1.0.4
+      shimmer: 1.2.1
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /@opentelemetry/propagator-b3/1.2.0_@opentelemetry+api@1.1.0:
@@ -1918,26 +1856,6 @@ packages:
     dependencies:
       '@opentelemetry/api': 1.1.0
       '@opentelemetry/core': 1.2.0_@opentelemetry+api@1.1.0
-    dev: false
-
-  /@opentelemetry/propagator-jaeger/0.24.0_@opentelemetry+api@1.1.0:
-    resolution: {integrity: sha512-QXCxBwuSka+vXbBZdumtF7YKO84gwTyKy3GelZV5BPlgWoge0AbLR3DfsO9Beu13pmD+4PyuwMw3LfYsgG1+3g==}
-    engines: {node: '>=8.5.0'}
-    peerDependencies:
-      '@opentelemetry/api': ^1.0.1
-    dependencies:
-      '@opentelemetry/api': 1.1.0
-      '@opentelemetry/core': 0.24.0_@opentelemetry+api@1.1.0
-    dev: false
-
-  /@opentelemetry/propagator-jaeger/1.2.0_@opentelemetry+api@1.0.4:
-    resolution: {integrity: sha512-xs/7VTADlCbMY96dMmgS4RKokZ6k5EfFgWcQriaIkpM+Mb/Snh4wZlfAx4Mr4vPCVM92MwshZ02WI2Ssg0DU8w==}
-    engines: {node: '>=8.12.0'}
-    peerDependencies:
-      '@opentelemetry/api': '>=1.0.0 <1.2.0'
-    dependencies:
-      '@opentelemetry/api': 1.0.4
-      '@opentelemetry/core': 1.2.0_@opentelemetry+api@1.0.4
     dev: false
 
   /@opentelemetry/propagator-jaeger/1.2.0_@opentelemetry+api@1.1.0:
@@ -1961,28 +1879,6 @@ packages:
       '@opentelemetry/semantic-conventions': 0.22.0
     dev: false
 
-  /@opentelemetry/resources/0.24.0_@opentelemetry+api@1.1.0:
-    resolution: {integrity: sha512-uEr2m13IRkjQAjX6fsYqJ21aONCspRvuQunaCl8LbH1NS1Gj82TuRUHF6TM82ulBPK8pU+nrrqXKuky2cMcIzw==}
-    engines: {node: '>=8.0.0'}
-    peerDependencies:
-      '@opentelemetry/api': ^1.0.1
-    dependencies:
-      '@opentelemetry/api': 1.1.0
-      '@opentelemetry/core': 0.24.0_@opentelemetry+api@1.1.0
-      '@opentelemetry/semantic-conventions': 0.24.0
-    dev: false
-
-  /@opentelemetry/resources/1.2.0_@opentelemetry+api@1.0.4:
-    resolution: {integrity: sha512-S5ZlZa2JF+1qhiF7eb3tTtDfKmTODO//pvam9vEyZvr+/At45rIQ7cyznRdMWCppZbholwXWXnrKml29IIG9vQ==}
-    engines: {node: '>=8.12.0'}
-    peerDependencies:
-      '@opentelemetry/api': '>=1.0.0 <1.2.0'
-    dependencies:
-      '@opentelemetry/api': 1.0.4
-      '@opentelemetry/core': 1.2.0_@opentelemetry+api@1.0.4
-      '@opentelemetry/semantic-conventions': 1.2.0
-    dev: false
-
   /@opentelemetry/resources/1.2.0_@opentelemetry+api@1.1.0:
     resolution: {integrity: sha512-S5ZlZa2JF+1qhiF7eb3tTtDfKmTODO//pvam9vEyZvr+/At45rIQ7cyznRdMWCppZbholwXWXnrKml29IIG9vQ==}
     engines: {node: '>=8.12.0'}
@@ -1991,18 +1887,6 @@ packages:
     dependencies:
       '@opentelemetry/api': 1.1.0
       '@opentelemetry/core': 1.2.0_@opentelemetry+api@1.1.0
-      '@opentelemetry/semantic-conventions': 1.2.0
-    dev: false
-
-  /@opentelemetry/sdk-trace-base/1.2.0_@opentelemetry+api@1.0.4:
-    resolution: {integrity: sha512-eHrG9c9OhoDhUmMe63Qzgpcvlgxr2L7BFBbbj2DdZu3vGstayytTT6TDv6mz727lXBqR1HXMbqTGVafS07r3bg==}
-    engines: {node: '>=8.12.0'}
-    peerDependencies:
-      '@opentelemetry/api': '>=1.0.0 <1.2.0'
-    dependencies:
-      '@opentelemetry/api': 1.0.4
-      '@opentelemetry/core': 1.2.0_@opentelemetry+api@1.0.4
-      '@opentelemetry/resources': 1.2.0_@opentelemetry+api@1.0.4
       '@opentelemetry/semantic-conventions': 1.2.0
     dev: false
 
@@ -2016,21 +1900,6 @@ packages:
       '@opentelemetry/core': 1.2.0_@opentelemetry+api@1.1.0
       '@opentelemetry/resources': 1.2.0_@opentelemetry+api@1.1.0
       '@opentelemetry/semantic-conventions': 1.2.0
-    dev: false
-
-  /@opentelemetry/sdk-trace-node/1.2.0_@opentelemetry+api@1.0.4:
-    resolution: {integrity: sha512-QchyGlJ63qosjmEl1Rl0kpX5GTBFqQCWo8L6JdTAufvTexrQwlcvQ5Qy4y2bFX0vQ23d/4aBv5ScRg9V+liZAg==}
-    engines: {node: '>=8.12.0'}
-    peerDependencies:
-      '@opentelemetry/api': '>=1.0.0 <1.2.0'
-    dependencies:
-      '@opentelemetry/api': 1.0.4
-      '@opentelemetry/context-async-hooks': 1.2.0_@opentelemetry+api@1.0.4
-      '@opentelemetry/core': 1.2.0_@opentelemetry+api@1.0.4
-      '@opentelemetry/propagator-b3': 1.2.0_@opentelemetry+api@1.0.4
-      '@opentelemetry/propagator-jaeger': 1.2.0_@opentelemetry+api@1.0.4
-      '@opentelemetry/sdk-trace-base': 1.2.0_@opentelemetry+api@1.0.4
-      semver: 7.3.7
     dev: false
 
   /@opentelemetry/sdk-trace-node/1.2.0_@opentelemetry+api@1.1.0:
@@ -2053,16 +1922,6 @@ packages:
     engines: {node: '>=8.0.0'}
     dev: false
 
-  /@opentelemetry/semantic-conventions/0.24.0:
-    resolution: {integrity: sha512-a/szuMQV0Quy0/M7kKdglcbRSoorleyyOwbTNNJ32O+RBN766wbQlMTvdimImTmwYWGr+NJOni1EcC242WlRcA==}
-    engines: {node: '>=8.0.0'}
-    dev: false
-
-  /@opentelemetry/semantic-conventions/1.0.1:
-    resolution: {integrity: sha512-7XU1sfQ8uCVcXLxtAHA8r3qaLJ2oq7sKtEwzZhzuEXqYmjW+n+J4yM3kNo0HQo3Xp1eUe47UM6Wy6yuAvIyllg==}
-    engines: {node: '>=8.0.0'}
-    dev: false
-
   /@opentelemetry/semantic-conventions/1.2.0:
     resolution: {integrity: sha512-BNKB9fiYVghALJzCuWO3eNYfdTExPVK4ykrtmfNfy0A6UWYhOYjGMXifUmkunDJNL8ju9tBobo8jF0WR9zGy1Q==}
     engines: {node: '>=8.12.0'}
@@ -2079,20 +1938,6 @@ packages:
       '@opentelemetry/core': 0.22.0_@opentelemetry+api@1.1.0
       '@opentelemetry/resources': 0.22.0_@opentelemetry+api@1.1.0
       '@opentelemetry/semantic-conventions': 0.22.0
-      lodash.merge: 4.6.2
-    dev: false
-
-  /@opentelemetry/tracing/0.24.0_@opentelemetry+api@1.1.0:
-    resolution: {integrity: sha512-sTLEs1SIon3xV8vLe53PzfbU0FahoxL9NPY/CYvA1mwGbMu4zHkHAjqy1Tc8JmqRrfa+XrHkmzeSM4hrvloBaA==}
-    engines: {node: '>=8.0.0'}
-    deprecated: Package renamed to @opentelemetry/sdk-trace-base
-    peerDependencies:
-      '@opentelemetry/api': ^1.0.1
-    dependencies:
-      '@opentelemetry/api': 1.1.0
-      '@opentelemetry/core': 0.24.0_@opentelemetry+api@1.1.0
-      '@opentelemetry/resources': 0.24.0_@opentelemetry+api@1.1.0
-      '@opentelemetry/semantic-conventions': 0.24.0
       lodash.merge: 4.6.2
     dev: false
 
@@ -4174,13 +4019,13 @@ packages:
       find-up: 2.1.0
     dev: false
 
-  /eslint-plugin-es/3.0.1_eslint@7.32.0:
+  /eslint-plugin-es/3.0.1_eslint@8.16.0:
     resolution: {integrity: sha512-GUmAsJaN4Fc7Gbtl8uOBlayo2DqhwWvEzykMHSCZHU3XdJ+NSzzZcVhXh3VxX5icqQ+oQdIEawXX8xkR3mIFmQ==}
     engines: {node: '>=8.10.0'}
     peerDependencies:
       eslint: '>=4.19.1'
     dependencies:
-      eslint: 7.32.0
+      eslint: 8.16.0
       eslint-utils: 2.1.0
       regexpp: 3.2.0
     dev: false
@@ -4224,14 +4069,14 @@ packages:
     engines: {node: '>=4.0.0'}
     dev: false
 
-  /eslint-plugin-node/11.1.0_eslint@7.32.0:
+  /eslint-plugin-node/11.1.0_eslint@8.16.0:
     resolution: {integrity: sha512-oUwtPJ1W0SKD0Tr+wqu92c5xuCeQqB3hSCHasn/ZgjFdA9iDGNkNf2Zi9ztY7X+hNuMib23LNGRm6+uN+KLE3g==}
     engines: {node: '>=8.10.0'}
     peerDependencies:
       eslint: '>=5.16.0'
     dependencies:
-      eslint: 7.32.0
-      eslint-plugin-es: 3.0.1_eslint@7.32.0
+      eslint: 8.16.0
+      eslint-plugin-es: 3.0.1_eslint@8.16.0
       eslint-utils: 2.1.0
       ignore: 5.2.0
       minimatch: 3.1.2
@@ -5871,6 +5716,10 @@ packages:
     dependencies:
       jwa: 2.0.0
       safe-buffer: 5.2.1
+    dev: false
+
+  /jwt-decode/2.2.0:
+    resolution: {integrity: sha1-fYa9VmefWM5qhHBKZX3TkruoGnk=}
     dev: false
 
   /jwt-decode/3.1.2:
@@ -9100,7 +8949,7 @@ packages:
     dev: false
 
   file:projects/abort-controller.tgz:
-    resolution: {integrity: sha512-GLzZR7fYZG2X6pI3w3g8iOVOR1K6m+GpAo90U4boApn+J/Bnk8WcMwHa1uCiWQO1kCObSw8U7k7OhEOHI3zSBw==, tarball: file:projects/abort-controller.tgz}
+    resolution: {integrity: sha512-OtbiJoaHj6TgXOZV064m2QaTT3ZL8q8p+S8nWr9jb0GONPjzttDgOwypQEqVbHScJCVh8dF8yIzo0aok8+/W+Q==, tarball: file:projects/abort-controller.tgz}
     name: '@rush-temp/abort-controller'
     version: 0.0.0
     dependencies:
@@ -9111,7 +8960,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       downlevel-dts: 0.8.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
@@ -9141,7 +8990,7 @@ packages:
     dev: false
 
   file:projects/agrifood-farming.tgz:
-    resolution: {integrity: sha512-63ZcYlFELbrGzt0Uvs7zjavByN2o2HQf1xnw3IrEvb2YsHDe60wxLPUQi0IHCN+PkHD9w45tnL+/9TUE5k2aOg==, tarball: file:projects/agrifood-farming.tgz}
+    resolution: {integrity: sha512-zZihKrZruCwp9Nvx4rncfx8LJax40huPixy0xwWlno/P0tX7Aq9cCuEe/QjEJO2w7FS7I6JOO8jf//JFb/wsPw==, tarball: file:projects/agrifood-farming.tgz}
     name: '@rush-temp/agrifood-farming'
     version: 0.0.0
     dependencies:
@@ -9155,7 +9004,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
@@ -9188,7 +9037,7 @@ packages:
     dev: false
 
   file:projects/ai-anomaly-detector.tgz:
-    resolution: {integrity: sha512-3viUzsTPDLvSbLNlOBtSxwbKWqrHVzecG9L+aDpeeN4HF8V8/9n1yCFFaK7S65lHCk3pP/6BnMfcuB2ooDZdaA==, tarball: file:projects/ai-anomaly-detector.tgz}
+    resolution: {integrity: sha512-C0gi5loLFrNLEAxSMHfx1thxGwWlinY6ItK0nPP7uv9HjgFMqaYQeUVUiVv0WHA52Ajw6gOhsQkG8HU4MXQGrQ==, tarball: file:projects/ai-anomaly-detector.tgz}
     name: '@rush-temp/ai-anomaly-detector'
     version: 0.0.0
     dependencies:
@@ -9203,7 +9052,7 @@ packages:
       cross-env: 7.0.3
       csv-parse: 5.0.4
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       inherits: 2.0.4
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
@@ -9233,7 +9082,7 @@ packages:
     dev: false
 
   file:projects/ai-document-translator.tgz:
-    resolution: {integrity: sha512-pynIkfCoOYY2N5ggHcwwENA36Dbw/vuyhB8FRs3mnVGAcLhGJCWVeTSsYA1Ol+GHrudOtPk0pp/wGqZKW7Qf4A==, tarball: file:projects/ai-document-translator.tgz}
+    resolution: {integrity: sha512-gGam+eiOkcC0ZdZR4Al36NuVIXC/xixLEzXLjDE1FdHKsHUAPfkkV1U43/SQwt/0TiuA6VMfxKyZHgK1FMaRRg==, tarball: file:projects/ai-document-translator.tgz}
     name: '@rush-temp/ai-document-translator'
     version: 0.0.0
     dependencies:
@@ -9245,7 +9094,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
@@ -9276,7 +9125,7 @@ packages:
     dev: false
 
   file:projects/ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-DG0I48aHblE79czPIOfbkc4EFdRJJzeZIyhFUf/aMoAFiyUQHkUai3dIdfaTgBdpiMGfqZDFYsCGUvpjJFP2wg==, tarball: file:projects/ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-+s2RPMVfShSbT8YNnrdN+peY/yV1by9HxlPML4s2L2ed5xSJn1wYAQyZvl/heHiIDe1bjNzkLqsY/Uow07TrFg==, tarball: file:projects/ai-form-recognizer.tgz}
     name: '@rush-temp/ai-form-recognizer'
     version: 0.0.0
     dependencies:
@@ -9291,7 +9140,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
@@ -9320,7 +9169,7 @@ packages:
     dev: false
 
   file:projects/ai-metrics-advisor.tgz:
-    resolution: {integrity: sha512-fKHDc7o5CVkhPry32ArID/aW4qzmvrfpu9Gmk689UZE976xhsLVLvimJ/a+HCvnUSUoQ4iwxIuzV5M47NuoF2Q==, tarball: file:projects/ai-metrics-advisor.tgz}
+    resolution: {integrity: sha512-CnnElyqoiM71+0rGs0KOeKXDV1mlVsOeZruOBch4jthR6b2Obct9Y/pymjxpRKXJCUjlC4SEifgwL9FDP94tCQ==, tarball: file:projects/ai-metrics-advisor.tgz}
     name: '@rush-temp/ai-metrics-advisor'
     version: 0.0.0
     dependencies:
@@ -9337,7 +9186,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
@@ -9372,7 +9221,7 @@ packages:
     dev: false
 
   file:projects/ai-text-analytics.tgz:
-    resolution: {integrity: sha512-2DgYvqp/G/PD+mllxB5Qnd2JqfGIAsp3gb3RXxRFo4lWk58cVbnrJ4nvwCp6a4qs25R4chNq1vhlZdFEyCH1nA==, tarball: file:projects/ai-text-analytics.tgz}
+    resolution: {integrity: sha512-SiXiIP+vUU+a/A2cyPnGjEaxQm4uOj+7IjgguDroNipyE3jz6pHyQGfjQoPUtcXTg+jMwOgLmKizFqWasFJXXQ==, tarball: file:projects/ai-text-analytics.tgz}
     name: '@rush-temp/ai-text-analytics'
     version: 0.0.0
     dependencies:
@@ -9388,7 +9237,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
@@ -9654,7 +9503,7 @@ packages:
     dev: false
 
   file:projects/arm-appplatform.tgz:
-    resolution: {integrity: sha512-hLb4plZqAwNgC+bYrBI2fwqMGvGHwcaZASTrdPI948i0bFcVHGvg+w4JDVqRd2EXD+g+KDOqBlKFhHM2XMK44g==, tarball: file:projects/arm-appplatform.tgz}
+    resolution: {integrity: sha512-7tK1LGBQ0e1HS/l8zDSnesQSjtgSEsV7OD3Geqv/Fwk33IP+FtSShT2ezkCR3U8SLo2GqmO8rgOns1xuUY/A2w==, tarball: file:projects/arm-appplatform.tgz}
     name: '@rush-temp/arm-appplatform'
     version: 0.0.0
     dependencies:
@@ -11059,6 +10908,64 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-lro': 2.2.4
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.70.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.2
+      '@rollup/plugin-node-resolve': 13.2.1_rollup@2.70.2
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.70.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.2
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.15.4
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-dynatrace.tgz:
+    resolution: {integrity: sha512-z0KJIT/M0nTDrWHcDPp7IKl9AgRiqwt/UpLA5DHcI+Xtfb1z9wcNbXYBNvtQfITKoaTphGIgpSap0gvWnsNEeg==, tarball: file:projects/arm-dynatrace.tgz}
+    name: '@rush-temp/arm-dynatrace'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/core-lro': 2.2.4
+      '@azure/identity': 2.0.4
+      '@microsoft/api-extractor': 7.18.11
+      '@rollup/plugin-commonjs': 21.1.0_rollup@2.70.2
+      '@rollup/plugin-json': 4.1.0_rollup@2.70.2
+      '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.2
+      '@rollup/plugin-node-resolve': 13.2.1_rollup@2.70.2
+      cross-env: 7.0.3
+      mkdirp: 1.0.4
+      mocha: 7.2.0
+      rimraf: 3.0.2
+      rollup: 2.70.2
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.2
+      tslib: 2.4.0
+      typescript: 4.2.4
+      uglify-js: 3.15.4
+
+    transitivePeerDependencies:
+      - '@types/node'
+      - debug
+      - encoding
+      - supports-color
+    dev: false
+
+  file:projects/arm-education.tgz:
+    resolution: {integrity: sha512-4ZzQF9iTmjPNVuQNxoCQXou3lQfi3ItlcekJq5/3qQxLGd3YB5oUrQwdlEEbK2P5u85Dzk98poxsIUCbXF7NZA==, tarball: file:projects/arm-education.tgz}
+    name: '@rush-temp/arm-education'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.70.2
@@ -14298,7 +14205,7 @@ packages:
     dev: false
 
   file:projects/attestation.tgz:
-    resolution: {integrity: sha512-nctqLP04kBV7FRlgIl9K1TjoFbO23+yLpTtcfrjsRTzJV4uX0FI+GlgIVFikXSe8J36Gab9iTcjYMx975JzBKw==, tarball: file:projects/attestation.tgz}
+    resolution: {integrity: sha512-L/Q0nsN8f8HZyCPSiSoSi+jl0rY6jzgVGQX2ME1EDFOrju3Ei+OYY2idy0cj9WekjBtFw6OzIRctl8Cw7zmVwg==, tarball: file:projects/attestation.tgz}
     name: '@rush-temp/attestation'
     version: 0.0.0
     dependencies:
@@ -14315,7 +14222,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       esm: 3.2.25
       inherits: 2.0.4
       jsrsasign: 10.5.20
@@ -14354,7 +14261,7 @@ packages:
     dev: false
 
   file:projects/communication-chat.tgz:
-    resolution: {integrity: sha512-+8VZZdu1Fu/lKPyvi/37fpg6+S7upYhys4DsaznSQ+ulmGfBnw0P7bYej9X9FpYgA+efyZX0TlI9WhSaWXNV8Q==, tarball: file:projects/communication-chat.tgz}
+    resolution: {integrity: sha512-AoSPcMHBXAVeamPVYjXyf5CfrHn7kAQVEUftOXX50Alnc1H2q75OOUnKFZqBbRNufhLqHqSyxp5h6S5OWUQ5vg==, tarball: file:projects/communication-chat.tgz}
     name: '@rush-temp/communication-chat'
     version: 0.0.0
     dependencies:
@@ -14369,7 +14276,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       events: 3.3.0
       inherits: 2.0.4
       karma: 6.3.19
@@ -14404,7 +14311,7 @@ packages:
     dev: false
 
   file:projects/communication-common.tgz:
-    resolution: {integrity: sha512-SXdIrHnFfes1HBRgpRRQGhAlVFGX1IgqZFD12WZoVmolcejLTPaNeZ5h3X9VhmguVTJUF45txtst/ji+yurmSw==, tarball: file:projects/communication-common.tgz}
+    resolution: {integrity: sha512-QYiz5CiHw4P/K/DUR0a0KfBeFnugs06pbRr7zcYT9sr/2oikwjT6MtQpaxSp1e4Zz4VJkgi38oyGI9cEbDkp0Q==, tarball: file:projects/communication-common.tgz}
     name: '@rush-temp/communication-common'
     version: 0.0.0
     dependencies:
@@ -14418,7 +14325,7 @@ packages:
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
-      eslint: 7.32.0
+      eslint: 8.16.0
       events: 3.3.0
       inherits: 2.0.4
       jwt-decode: 3.1.2
@@ -14449,8 +14356,52 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/communication-email.tgz:
+    resolution: {integrity: sha512-cg+0o/UDZTS8e6Eud4C2ql+IE9FaqPi5QPAtPgjoFTMqsKulijRkLtb1guIK1mJ9SkaqFbUq8JYFsIYkClMmnA==, tarball: file:projects/communication-email.tgz}
+    name: '@rush-temp/communication-email'
+    version: 0.0.0
+    dependencies:
+      '@azure-tools/test-recorder': 1.0.2
+      '@azure/communication-common': 1.1.0
+      '@microsoft/api-extractor': 7.18.11
+      '@types/chai': 4.3.1
+      '@types/mocha': 7.0.2
+      '@types/node': 12.20.50
+      '@types/uuid': 8.3.4
+      chai: 4.3.6
+      dotenv: 8.6.0
+      eslint: 7.32.0
+      karma: 6.3.19
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.3.19
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.3.19
+      karma-json-preprocessor: 0.3.3_karma@6.3.19
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.3.19
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.3.19
+      karma-sourcemap-loader: 0.3.8
+      mocha: 7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
+      prettier: 2.6.2
+      rimraf: 3.0.2
+      tslib: 1.14.1
+      typescript: 4.2.4
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-lk0cKcV9SyYUvvKTCcweC/B0+ovBhwcWvKM9JRlIJ+6sgF4VoUnwByUJBU/xC+DTbo30FcEHIet3UWJpOzOxAw==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-3fOhyHS+X35+S5si6+zvVuungFgozWP8wAXzO5ymkakRRygiWTupZhTtbXV/pAgzpF7NR0ebs2FychtNEuF4pQ==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
@@ -14466,7 +14417,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       events: 3.3.0
       inherits: 2.0.4
       karma: 6.3.19
@@ -14497,7 +14448,7 @@ packages:
     dev: false
 
   file:projects/communication-network-traversal.tgz:
-    resolution: {integrity: sha512-6ZYXWgB9oALo9Rc7xHYhVbsqpW+exsd1L55nltwzNwt8vpW7+Yc8BLGEUknfFyQO259w75AEpRZe4UL8W0HxcA==, tarball: file:projects/communication-network-traversal.tgz}
+    resolution: {integrity: sha512-bx5049/rYKCYh0rcDZdZDBac/ZkhxxXjP9iVOuF8ks64K3IG+iNCOu4r65NdX4C7gl245Ym8VLgXaZtArUX5fQ==, tarball: file:projects/communication-network-traversal.tgz}
     name: '@rush-temp/communication-network-traversal'
     version: 0.0.0
     dependencies:
@@ -14516,7 +14467,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       events: 3.3.0
       inherits: 2.0.4
       karma: 6.3.19
@@ -14553,7 +14504,7 @@ packages:
     dev: false
 
   file:projects/communication-phone-numbers.tgz:
-    resolution: {integrity: sha512-mpl1laecHtiWnyECB6PIFRZdlfY3AVXI+5SYmgK/a6NJXWhkV8m8N4npnr/j4yvbEReKagPkxhpdXuJKuxXbhQ==, tarball: file:projects/communication-phone-numbers.tgz}
+    resolution: {integrity: sha512-X9tWtLLCONPPCHZSoxVZ2netZgSurasyRWTIQl08VIa1y3eD8oKT1BaDkRt+HVmqw/VX9AJ+Q4cPQj/B8RbUQQ==, tarball: file:projects/communication-phone-numbers.tgz}
     name: '@rush-temp/communication-phone-numbers'
     version: 0.0.0
     dependencies:
@@ -14569,7 +14520,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       events: 3.3.0
       inherits: 2.0.4
       karma: 6.3.19
@@ -14602,7 +14553,7 @@ packages:
     dev: false
 
   file:projects/communication-short-codes.tgz:
-    resolution: {integrity: sha512-vL2HdT+kHE5R12oEZm/1s77fYWx6sPH5IhtHesZA6JEwGTbdR7XIAaQOOrYokycd8UpvnYNwrf0iAY01wh72Yg==, tarball: file:projects/communication-short-codes.tgz}
+    resolution: {integrity: sha512-cr4ngteTeRaGJ9dboW1HK3ystzEm9DGmG3Cfl6Ty+zPGBFj28oB7lABRHJ5MEsZVqt+s+5BeWAP4Yn/NCuLhZA==, tarball: file:projects/communication-short-codes.tgz}
     name: '@rush-temp/communication-short-codes'
     version: 0.0.0
     dependencies:
@@ -14618,7 +14569,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       events: 3.3.0
       inherits: 2.0.4
       karma: 6.3.19
@@ -14651,7 +14602,7 @@ packages:
     dev: false
 
   file:projects/communication-sms.tgz:
-    resolution: {integrity: sha512-PzOvaS727+n8TUBbTTgBRf3DfYxAczzVlfb2430AWyb0H1LXtbMcwBUNNxoPSKbkZ3//6FjfCsb6Hz6ODPztNQ==, tarball: file:projects/communication-sms.tgz}
+    resolution: {integrity: sha512-kp1WcpWAxh71k0TRtsQG39RHOd/nZohewOcEgKJjLxDTJIBTh6tg5dIjDA3zENk2G5EMfdY2vyRXqKElbHGy1A==, tarball: file:projects/communication-sms.tgz}
     name: '@rush-temp/communication-sms'
     version: 0.0.0
     dependencies:
@@ -14666,7 +14617,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       events: 3.3.0
       inherits: 2.0.4
       karma: 6.3.19
@@ -14698,7 +14649,7 @@ packages:
     dev: false
 
   file:projects/confidential-ledger.tgz:
-    resolution: {integrity: sha512-LiJeNVsgTAG0H90N4RUPFXGfGh4/Sst7MowQriAPzDUdnbfyAo2EnGpD/ffpvGUpGoqbUIO9Z3ivCYQZCO2RGg==, tarball: file:projects/confidential-ledger.tgz}
+    resolution: {integrity: sha512-H2nHwQ9osfZpW6NCWi/6UO8ipc9H2p/dSgZyMTYsuDY+v5rB57wsDXTyuha9PxeP9Lcd/bj5rHwGxGVDj+PrqQ==, tarball: file:projects/confidential-ledger.tgz}
     name: '@rush-temp/confidential-ledger'
     version: 0.0.0
     dependencies:
@@ -14711,7 +14662,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
@@ -14743,7 +14694,7 @@ packages:
     dev: false
 
   file:projects/container-registry.tgz:
-    resolution: {integrity: sha512-BLmLIgLI2MH9kI3aFjUoctL3DRWLA5JIZhrJkZNm4L4lWmBvXrmHmsa0PZiQccwCnkln+mTtEB1KE28sPwEVkg==, tarball: file:projects/container-registry.tgz}
+    resolution: {integrity: sha512-M78r2Tj3/+2R+NaXDQPMI3E1hWM3Oq/BC36PTmh+VF4PYCWIt1pgefv1hMI4ZsBvIdu8qCf+sY9c4075JJ7gNw==, tarball: file:projects/container-registry.tgz}
     name: '@rush-temp/container-registry'
     version: 0.0.0
     dependencies:
@@ -14757,7 +14708,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       inherits: 2.0.4
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
@@ -14869,7 +14820,7 @@ packages:
     dev: false
 
   file:projects/core-client-1.tgz:
-    resolution: {integrity: sha512-pKMx4lsB6VWxrN4kxJ4vnj5dVJXzZ4y3ej0DVGSy6m4OXzToIATJ+gAlJrKJkl2siLVVi8DuBBTWFK6jIQDJag==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-kImfk6hnO7Ql91JjEpETBmWpppHJV6Mgp1Z4Kufq81MFquTOjpukDIC7zSJnZO2/v5gIYcoW9XAmPlfY3fPr0A==, tarball: file:projects/core-client-1.tgz}
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
@@ -14881,7 +14832,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       downlevel-dts: 0.8.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       inherits: 2.0.4
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
@@ -14952,14 +14903,14 @@ packages:
     dev: false
 
   file:projects/core-http-compat.tgz:
-    resolution: {integrity: sha512-Sk1riwGJW9D2B0n8WU3eqR3Cz/qhkvopkdOlkK4/qu0v6bWnQk+X3mIE5ylzsFEaxnSd0iOXoynhvC3rYn3ZSQ==, tarball: file:projects/core-http-compat.tgz}
+    resolution: {integrity: sha512-xXqg640P5Tl6R5LK7vmQaVvbLNVOvLoj5Iz3G4fu+fokU+tyfLyWIvdJ0fswTl1cCB6zoNloNiKW5ZuxDCivEQ==, tarball: file:projects/core-http-compat.tgz}
     name: '@rush-temp/core-http-compat'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.18.11
       cross-env: 7.0.3
       downlevel-dts: 0.8.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
       prettier: 2.6.2
@@ -14970,7 +14921,7 @@ packages:
     dev: false
 
   file:projects/core-http.tgz:
-    resolution: {integrity: sha512-GsvtFU/QeJ+2b1uc6WHAgYVchKtznwDT5e6dCQBdzXIMLNWGQvJ97i+JRD14oXuH4FCOCgkBElPt2vtfpQ+t+Q==, tarball: file:projects/core-http.tgz}
+    resolution: {integrity: sha512-kFvDGkHgBZKHzAezl+ocDbg2Lv4+skk6kM2wLOd1cTTOoTudrJbDteVmrDs1nZnDHqNSkaCOVQWHsyDiW+kyVA==, tarball: file:projects/core-http.tgz}
     name: '@rush-temp/core-http'
     version: 0.0.0
     dependencies:
@@ -14992,7 +14943,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       downlevel-dts: 0.8.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       express: 4.18.0
       fetch-mock: 9.11.0_node-fetch@2.6.7
       form-data: 4.0.0
@@ -15036,7 +14987,7 @@ packages:
     dev: false
 
   file:projects/core-lro.tgz:
-    resolution: {integrity: sha512-LoClo7EXEGCpcyu5WzYeZb6n21f6ncFq2PL1nDg+8hVeo1vvB1udtfSQYH+yL0MSRhJvX/lC+zaY/VubIx615g==, tarball: file:projects/core-lro.tgz}
+    resolution: {integrity: sha512-Iekt5Nq7NjJhqKxKQv5GMYYjJn4Ri/D9JJNxlNYwM1UQl1rIBkWSSKiRGu/7a6tjcxGqGN2bURJUFXfKqwxVxQ==, tarball: file:projects/core-lro.tgz}
     name: '@rush-temp/core-lro'
     version: 0.0.0
     dependencies:
@@ -15046,7 +14997,7 @@ packages:
       '@types/node': 12.20.50
       chai: 4.3.6
       cross-env: 7.0.3
-      eslint: 7.32.0
+      eslint: 8.16.0
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
@@ -15078,7 +15029,7 @@ packages:
     dev: false
 
   file:projects/core-paging.tgz:
-    resolution: {integrity: sha512-YDB2hJvSowIdsN2yYGUX18/tfJrAnvMIFuJyNkUvzz8zTL2KBA8cOs1bCyA0kl4d2cDaFShmTzblm9gQFmzEfw==, tarball: file:projects/core-paging.tgz}
+    resolution: {integrity: sha512-UBwyM2tICq6eQcAUdF7/Om1PV/cEmDzffEFGgp36BAmoFNhAcZNZbgKtpRAYtdh0/eWeV1ey0u+QO8NH7msGHA==, tarball: file:projects/core-paging.tgz}
     name: '@rush-temp/core-paging'
     version: 0.0.0
     dependencies:
@@ -15088,7 +15039,7 @@ packages:
       '@types/node': 12.20.50
       chai: 4.3.6
       downlevel-dts: 0.8.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
@@ -15114,7 +15065,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-jGOVd0ZvZ36by1ANMJgt8YKhSe9VWPpJl5hBketdJLT4n9f7KklbNrMRcz5LNQunB1N5yEDRVvGNFrwBEhBJng==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-gAhuQv+v7hUvEP9lgg82rxsOCOj2tWklSVEIkVVsb1/Jd5eBeZt1xT8YGvgoLWbL+V9vKBdY/XckFB/0U8laJA==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -15130,7 +15081,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       downlevel-dts: 0.8.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       form-data: 4.0.0
       http-proxy-agent: 4.0.1
       https-proxy-agent: 5.0.1
@@ -15166,7 +15117,7 @@ packages:
     dev: false
 
   file:projects/core-tracing.tgz:
-    resolution: {integrity: sha512-B/4iHuJF+oEYUFK5Lzty6PddFdNxJnciPchgZnUaYbXYnUj/8QGNbuimRz2HutrMtUu2Xjs+iedaGfz/sSgQrg==, tarball: file:projects/core-tracing.tgz}
+    resolution: {integrity: sha512-mJpOz/qUwZVa5gDI9ByW3Vn4u7HCy1ynCADYM+fBzfMV7E7rCI/RMpHRzE4a0oSBOTgfKRWx1iWs5BSlM+pQbQ==, tarball: file:projects/core-tracing.tgz}
     name: '@rush-temp/core-tracing'
     version: 0.0.0
     dependencies:
@@ -15177,7 +15128,7 @@ packages:
       '@types/sinon': 9.0.11
       chai: 4.3.6
       cross-env: 7.0.3
-      eslint: 7.32.0
+      eslint: 8.16.0
       inherits: 2.0.4
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
@@ -15206,7 +15157,7 @@ packages:
     dev: false
 
   file:projects/core-util.tgz:
-    resolution: {integrity: sha512-SNlm3nf9CUIOMR/qwIJoUZbtCGOtnjogos4sEQYWkyp/TRAm2/l6XBIf/VAwQWHtSFrN6rHrBxKoGQ9hPx8lgA==, tarball: file:projects/core-util.tgz}
+    resolution: {integrity: sha512-u99xloPf+9d2zflGy5avvlGyJ3IvzAx5A+SiDb0LfBDm7oGY90btStYqGQu/JoJVQZV/M5OBXJG8ZQPo9CmKBg==, tarball: file:projects/core-util.tgz}
     name: '@rush-temp/core-util'
     version: 0.0.0
     dependencies:
@@ -15218,7 +15169,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       downlevel-dts: 0.8.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       inherits: 2.0.4
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
@@ -15247,7 +15198,7 @@ packages:
     dev: false
 
   file:projects/core-xml.tgz:
-    resolution: {integrity: sha512-cfK24RRDd87QmpyHwhxKxXwyhXCNOUjb/XN84igbPkg7hyWRp3os7/u7TGqA50UVwM9NVtNKmdfdJ3qLIx0Lqg==, tarball: file:projects/core-xml.tgz}
+    resolution: {integrity: sha512-5rA7h0qtP3sw89yVIEvE0CQ8x9zdXLgEhP+P0F3RbjRUglKSOHG44bphRZtFriXcCXSV7rmLvZx60zo+y8XWaw==, tarball: file:projects/core-xml.tgz}
     name: '@rush-temp/core-xml'
     version: 0.0.0
     dependencies:
@@ -15259,7 +15210,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       downlevel-dts: 0.8.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       fast-xml-parser: 4.0.7
       inherits: 2.0.4
       karma: 6.3.19
@@ -15289,7 +15240,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-ufo89jB1lJxbq14KkibJlRxmQMEJPvxfxis2PMw7KoK2TBIweORM1ZSnzDokLDN17z1GJt8apEN55h4fasWoJg==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-GpYqqiBAd35JuauL9AaLd1cWDeltqyWkIdd4UuNPUCMcBb+6oOiH4IE3xJaJjtIBZx72XZIFHx4BOoGFGhEYng==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
@@ -15307,7 +15258,7 @@ packages:
       debug: 4.3.4
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       esm: 3.2.25
       execa: 5.1.1
       fast-json-stable-stringify: 2.1.0
@@ -15334,7 +15285,7 @@ packages:
     dev: false
 
   file:projects/data-tables.tgz:
-    resolution: {integrity: sha512-skVYWmAZhfT/GZvwzjs3eGbCgKj9fnrn5LObECvIpnOTLmVX8p53HMVaBD4RZGq7i+eDlxhcmSVGCsLRCW5TYQ==, tarball: file:projects/data-tables.tgz}
+    resolution: {integrity: sha512-2OgZTkw36PM0E42fQdwUcXztliZsmLxr0IphmWxPHVX9+sClvhw2luZqJpT+cqI+s5rAylZpfQxAyU9Rec+Wzw==, tarball: file:projects/data-tables.tgz}
     name: '@rush-temp/data-tables'
     version: 0.0.0
     dependencies:
@@ -15349,7 +15300,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       inherits: 2.0.4
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
@@ -15383,7 +15334,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-6NcEOriNLfmtKee0Swj5lmTpCIoNCVoCT2Xyyg5PE/uqh0Gah6qdc40rTTUsSAgFOV02205ybEHH9Qf3kS0QAA==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-8zqIYu+RtziHnrDuaPlXCZhf8hST5BPHJFnNDYFT6GAV/pCaxO0uz7mw+EEuu2p3WARKc9tCC699c+oPOLHXYg==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -15404,7 +15355,7 @@ packages:
       chalk: 4.1.2
       concurrently: 7.1.0
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       fs-extra: 10.1.0
       minimist: 1.2.6
       mocha: 7.2.0
@@ -15425,7 +15376,7 @@ packages:
     dev: false
 
   file:projects/digital-twins-core.tgz:
-    resolution: {integrity: sha512-JcFKUaWA7NyeZvYsUZrM86lYiRl0CXLmaX0w8GCB3rQQX9BDgNvJHpiGVMhzck076KH33gR2qdIbK75a+H4HIw==, tarball: file:projects/digital-twins-core.tgz}
+    resolution: {integrity: sha512-C3MJn479PjL1HtfGa1euqS9Deq2LHP10GIUlLsKcR/t7nU/x7qTxxtHJ9xY68bgmfDslUCSK6DasSxaE2ttsnA==, tarball: file:projects/digital-twins-core.tgz}
     name: '@rush-temp/digital-twins-core'
     version: 0.0.0
     dependencies:
@@ -15441,7 +15392,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       inherits: 2.0.4
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
@@ -15475,7 +15426,7 @@ packages:
     dev: false
 
   file:projects/dtdl-parser.tgz:
-    resolution: {integrity: sha512-4fU57xg4ogr10JRjNfFZSQHD/efBKZZGYEsX6yLNQLr7d+v8DeUkBR6wL01Eu2X4BVVSWkhB+Hg+cgnbhlxQfg==, tarball: file:projects/dtdl-parser.tgz}
+    resolution: {integrity: sha512-hEzXacCDppOAeJvT6KrcH2GYYTuEXRc2inlGVWrveesEUkNYYdT8yckS8g49nqZla/hD3s6JH3gDOU44mWs9Mw==, tarball: file:projects/dtdl-parser.tgz}
     name: '@rush-temp/dtdl-parser'
     version: 0.0.0
     dependencies:
@@ -15493,7 +15444,7 @@ packages:
       chai: 4.3.6
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
-      eslint: 7.32.0
+      eslint: 8.16.0
       inherits: 2.0.4
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
@@ -15645,7 +15596,7 @@ packages:
     dev: false
 
   file:projects/eventgrid.tgz:
-    resolution: {integrity: sha512-uunt1Jgbas59TzTNtuF9aizfEO66eIxCFySrgBTBhG4hfZOXwk7qcuHvGz9FTsa0mw9eHdyxtrJRmSomsX+qbA==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-xAZ9H/WV8P/t4EqPJWO7b+O95t5kK5Wfk54F7jWfE+e3dQ8Elc021geOUkxfZ4je5Vo+z6bC0KFS2l5OOmtW2A==, tarball: file:projects/eventgrid.tgz}
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
@@ -15661,7 +15612,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
@@ -15695,7 +15646,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz:
-    resolution: {integrity: sha512-o2cL07TelVeXEaU2wY2Y4BeA+eMaU/TnmxrCoFyEw3Op0a/F+cctdENNTDxm2tIDP9MNz0LspCktHFgf4NPFLg==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
+    resolution: {integrity: sha512-ao4HgTPYqTnoJ2X6JMHBAcPPHL1/AkRtwvySM0253d3CnxJnSlrBhREHX/rrju/9jMC6PhWN6AV1z4mkY3AuyQ==, tarball: file:projects/eventhubs-checkpointstore-blob.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-blob'
     version: 0.0.0
     dependencies:
@@ -15713,7 +15664,7 @@ packages:
       cross-env: 7.0.3
       debug: 4.3.4
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       esm: 3.2.25
       events: 3.3.0
       guid-typescript: 1.0.9
@@ -15747,7 +15698,7 @@ packages:
     dev: false
 
   file:projects/eventhubs-checkpointstore-table.tgz:
-    resolution: {integrity: sha512-TUGShiiPux1M2OTQRjDWGHM6uwmGI1iiCTccm9q9OiImdj3wnes/xn44h3Wvv3gzqkA0Fj8Xeo/DGJLt1RGitg==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
+    resolution: {integrity: sha512-V3sR036lIvWNYwH+4HciJygZuw3vbej+OxFsVDVXl0lEtftEzNCj5iMdzizxHT8BBo8YRiH1ieChKu5cXYJoFg==, tarball: file:projects/eventhubs-checkpointstore-table.tgz}
     name: '@rush-temp/eventhubs-checkpointstore-table'
     version: 0.0.0
     dependencies:
@@ -15766,7 +15717,7 @@ packages:
       cross-env: 7.0.3
       debug: 4.3.4
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       esm: 3.2.25
       guid-typescript: 1.0.9
       inherits: 2.0.4
@@ -15799,7 +15750,7 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-xQ9aL/liFVxf/EIG+LxQDCXuLtQ2i9T0yjPIZ8KtwEEKvOjk1qr/G+i4AKIrHFTYSdWOSodEYlglRdj9f9cnIA==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-n142I+CZYuMDdYbdBKez6RekInkdUTF3TRE+3dEBiT929CfwpUVt2RLzxm5LRsq/2KMSPsISk3/IV+WATpmG9w==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
@@ -15813,7 +15764,7 @@ packages:
       '@types/sinon': 9.0.11
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       inherits: 2.0.4
       keytar: 7.9.0
       mocha: 7.2.0
@@ -15834,7 +15785,7 @@ packages:
     dev: false
 
   file:projects/identity-vscode.tgz:
-    resolution: {integrity: sha512-DxK0F4rx1f2QAJ5MwsnS0+BH9xINa7b/sCtDcM6xHLW6hmb8/CEgOBJm9S4+trPypsv72+SQlNQ7cij7rvsunw==, tarball: file:projects/identity-vscode.tgz}
+    resolution: {integrity: sha512-BE+7jphQDrn9hda0QsF6iu1GAdCQPmphO+h83Yk/bUg8WpQxrHxVetKDrRprCEnQewsVzVVY0R7JFzvzXKj/GQ==, tarball: file:projects/identity-vscode.tgz}
     name: '@rush-temp/identity-vscode'
     version: 0.0.0
     dependencies:
@@ -15847,7 +15798,7 @@ packages:
       '@types/uuid': 8.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       inherits: 2.0.4
       keytar: 7.9.0
       mocha: 7.2.0
@@ -15867,7 +15818,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-akqU9tWkWODh2zTN879bg6J4VD36gSBp7Lm5g41RE0I50RfpcO0vMe7/kU37o33tA6tG6ZlnSk9zmfh7tGApEA==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-kJKDJxtNZElmK1RS8yeZfosG1keDxMQeT6r6oCBJy/U90oW620OhOMY+PkpxQWzYF7X3OTmmcGoYh4y9z1CliQ==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
@@ -15886,7 +15837,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       events: 3.3.0
       inherits: 2.0.4
       jws: 4.0.0
@@ -15920,7 +15871,7 @@ packages:
     dev: false
 
   file:projects/iot-device-update.tgz:
-    resolution: {integrity: sha512-mFJK8NOJSlbVLaieqlBlunO5xaOWkYj7Rfe4LNC9cCbSJ2hnh2tJJZYghbV+GPrZsWa9vlZFtPH4pg/w1iToPA==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-QvLMnIdCzED+hdnRN4bxerVNsOdBRLMRdP/OBV7InLrWgUVkSI/H5ndaFFjXpRPiU5GQOBPLp0imshfp2PnI/w==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:
@@ -15933,7 +15884,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
@@ -15965,7 +15916,7 @@ packages:
     dev: false
 
   file:projects/iot-modelsrepository.tgz:
-    resolution: {integrity: sha512-Oxbb82Y1FP5EcPevKMNRmhy+0Kd2TT2lKnkLgx/giI4+lqexWXkxQFz6Tim3xLBICCfCy/6ZlElStAcIQMxz7g==, tarball: file:projects/iot-modelsrepository.tgz}
+    resolution: {integrity: sha512-elXR+po0F4hXVgi6wksciTpN9QQBP1lTsU9dEu4WfZBUMg6AC9EgWyVlRKvHFJj1fPDaCFbFnvYAUOGeCtOM7Q==, tarball: file:projects/iot-modelsrepository.tgz}
     name: '@rush-temp/iot-modelsrepository'
     version: 0.0.0
     dependencies:
@@ -15977,7 +15928,7 @@ packages:
       '@types/sinon': 9.0.11
       chai: 4.3.6
       cross-env: 7.0.3
-      eslint: 7.32.0
+      eslint: 8.16.0
       events: 3.3.0
       inherits: 2.0.4
       karma: 6.3.19
@@ -16012,7 +15963,7 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-dl8anuj2jtLcPzI2ylGr65JTBQuWkfrQyYaHXmI9KZJ9KRju0/TiGpDlCBk2eNbKdDEXj4x8URFY3u/X6Te3SA==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-XMi3n+hwzBTXC0eU3AjjlKr4cKiHdcK7+F44+ZYyUw4BrsZyUTaqQlQzzqhqDywSls0bekY3gRlOqqEE5f6IIw==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
@@ -16027,7 +15978,7 @@ packages:
       '@types/uuid': 8.3.4
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       esm: 3.2.25
       mocha: 7.2.0
       mocha-junit-reporter: 2.0.2_mocha@7.2.0
@@ -16046,7 +15997,7 @@ packages:
     dev: false
 
   file:projects/keyvault-certificates.tgz:
-    resolution: {integrity: sha512-1neQnKkvDwDc3vzrJsosl9zjw1zcWE2iS7aszb39yKhm3wdxr2Gf7YYoRJIji4/YCHHyTLJ1hazypa70n0bMNg==, tarball: file:projects/keyvault-certificates.tgz}
+    resolution: {integrity: sha512-1WRm6EunvVfj+/6yBBHgF3OWbg93buDBMEnRpG8SZQw85F+LwH+hqACeQDG/N5iihPNgLjqSm/ijNfFo2v21fA==, tarball: file:projects/keyvault-certificates.tgz}
     name: '@rush-temp/keyvault-certificates'
     version: 0.0.0
     dependencies:
@@ -16059,7 +16010,7 @@ packages:
       '@types/sinon': 9.0.11
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       esm: 3.2.25
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
@@ -16094,11 +16045,11 @@ packages:
     dev: false
 
   file:projects/keyvault-common.tgz:
-    resolution: {integrity: sha512-gr0xAVf1NXv9VQuH8FhR/+Ih7E41W3V1NAzLCTS9M3/5J3vruSDXSoMLVirtcHhnpz4vK+kaNHB5tVEzagSucg==, tarball: file:projects/keyvault-common.tgz}
+    resolution: {integrity: sha512-nt/Wgkqyz6l6D9vuhMPos0guj+44gtS5P1ayys31F5S2boOtqVv4HArC7gSksOVIt7Y4Qxp/HxMspUlfqeWTGQ==, tarball: file:projects/keyvault-common.tgz}
     name: '@rush-temp/keyvault-common'
     version: 0.0.0
     dependencies:
-      eslint: 7.32.0
+      eslint: 8.16.0
       prettier: 2.6.2
       rimraf: 3.0.2
       tslib: 2.4.0
@@ -16108,7 +16059,7 @@ packages:
     dev: false
 
   file:projects/keyvault-keys.tgz:
-    resolution: {integrity: sha512-2uTBiQaB+bVDxAFOr8qcRxjcK0qcXxw3ab3NzmiKtIlRJmKEYLetQzX+hf1eiOqc4pNgVB8wR/jVUNIJ4oFhgg==, tarball: file:projects/keyvault-keys.tgz}
+    resolution: {integrity: sha512-9oCz8rzlWx3x17WTB59FKuNCHhJMvMHNGk0Y+yIMQiIm32mmraOGdGzdLwJCTONTNTmndCx1kuS/GMydZUsfHQ==, tarball: file:projects/keyvault-keys.tgz}
     name: '@rush-temp/keyvault-keys'
     version: 0.0.0
     dependencies:
@@ -16121,7 +16072,7 @@ packages:
       cross-env: 7.0.3
       dayjs: 1.11.1
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       esm: 3.2.25
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
@@ -16156,7 +16107,7 @@ packages:
     dev: false
 
   file:projects/keyvault-secrets.tgz:
-    resolution: {integrity: sha512-vhUanSps/uXmPSsm+ESnnGCaiRPnjB3sblPM7rrpHhXemhGKixjmnzQMESHz8fHl0tBU+67Q1FLi3QPEUBiy7w==, tarball: file:projects/keyvault-secrets.tgz}
+    resolution: {integrity: sha512-Q4wXDvOh4T2RecX+UWBI+i6i+Bz1KQXqUro0lvqBkKuEpJVgvTdATyyPJmRG7SGrmtcQ/CDvhB5nr7M6cx0a2A==, tarball: file:projects/keyvault-secrets.tgz}
     name: '@rush-temp/keyvault-secrets'
     version: 0.0.0
     dependencies:
@@ -16168,7 +16119,7 @@ packages:
       '@types/sinon': 9.0.11
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       esm: 3.2.25
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
@@ -16203,7 +16154,7 @@ packages:
     dev: false
 
   file:projects/logger.tgz:
-    resolution: {integrity: sha512-ZDTAQhk8HHOLlgyUU9tRw93HmB4xflzHC8KdizongGzov3aPua0kTJssLL4/ileNBIiCwioPg4MFvENa+vMHGA==, tarball: file:projects/logger.tgz}
+    resolution: {integrity: sha512-LrZBxPVnZlYRrTuZruGVpIt5naPsgPsX0q+3/WiDY30sjoXZRsbA9c5SVNN26dm55OwLSfQs2f7ZO5+Qpd4V2Q==, tarball: file:projects/logger.tgz}
     name: '@rush-temp/logger'
     version: 0.0.0
     dependencies:
@@ -16216,7 +16167,7 @@ packages:
       cross-env: 7.0.3
       delay: 4.4.1
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
@@ -16249,7 +16200,7 @@ packages:
     dev: false
 
   file:projects/mixed-reality-authentication.tgz:
-    resolution: {integrity: sha512-XLipsZjaLlqq85Z7id9SQci9sj8DdVdQFIXZYY2tbkPdA9NTN2TcaUY3ScS9b1f0w4+VF2upMNpc8bUuETB9Xw==, tarball: file:projects/mixed-reality-authentication.tgz}
+    resolution: {integrity: sha512-f4vCyRFHX4Ny14gwPreRePTxPFhlID6eteSK+zT1nKfeWrSn719NYr6PH9zrBe/vgIfDpgGZIpE+MjxUEx//Mw==, tarball: file:projects/mixed-reality-authentication.tgz}
     name: '@rush-temp/mixed-reality-authentication'
     version: 0.0.0
     dependencies:
@@ -16264,7 +16215,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       inherits: 2.0.4
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
@@ -16296,7 +16247,7 @@ packages:
     dev: false
 
   file:projects/mixed-reality-remote-rendering.tgz:
-    resolution: {integrity: sha512-qQX4xSMUwWIDx2Za1NWTH+ujNugEOZZn+NDsU83tHS0mmC+KhF8S6O2iH9uxPKpWmMYfjGgBWQT66QxwwsvYZw==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
+    resolution: {integrity: sha512-7bJiQ+pghvXCoSsluyui7DVOYs7GN9s1gE24tRUgynVO26zJ8wfBxbH1Vy3I3ufaXhz12+dQYBWZ1uaKewNudQ==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
     name: '@rush-temp/mixed-reality-remote-rendering'
     version: 0.0.0
     dependencies:
@@ -16313,7 +16264,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       inherits: 2.0.4
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
@@ -16344,13 +16295,13 @@ packages:
     dev: false
 
   file:projects/mock-hub.tgz:
-    resolution: {integrity: sha512-Yh6zEw8v/EZxlj3t43XsBcGz/76BSkEpvjpHatkL71Jh7a7pxhccAbA/J7VLajZGvQqhUK2rghOdorz6Q2OLLw==, tarball: file:projects/mock-hub.tgz}
+    resolution: {integrity: sha512-SAsl80bmQSJx3yeB/mAPxhO02QDALg2XINFeCz72y/a0QSDWEZus080fPFAKDop2C+xnB4ltvylir42wEnIMaQ==, tarball: file:projects/mock-hub.tgz}
     name: '@rush-temp/mock-hub'
     version: 0.0.0
     dependencies:
       '@types/node': 12.20.50
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       prettier: 2.6.2
       rhea: 2.0.8
       rimraf: 3.0.2
@@ -16361,24 +16312,24 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
-    resolution: {integrity: sha512-GWI8X9mbQ1i2eHVqCp9Rnqskyv9AUwli+KTFLOOr5dlcH3aQQeAs6JymYMif5SyY/2dfAWddxmz7sRV6PPkrjg==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-sJiKrmcNRrSzM9Pr7IRzBUfP1bQDjVXIMMe2PE88ZtNs2nyNxeVGf8oTJwyt7wSE+0bSDEdqIVZhNmoWpf+SwQ==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.18.11
-      '@opentelemetry/api': 1.0.4
-      '@opentelemetry/core': 1.0.1_@opentelemetry+api@1.0.4
-      '@opentelemetry/instrumentation': 0.27.0_@opentelemetry+api@1.0.4
-      '@opentelemetry/instrumentation-http': 0.27.0_@opentelemetry+api@1.0.4
-      '@opentelemetry/resources': 1.2.0_@opentelemetry+api@1.0.4
-      '@opentelemetry/sdk-trace-base': 1.2.0_@opentelemetry+api@1.0.4
-      '@opentelemetry/sdk-trace-node': 1.2.0_@opentelemetry+api@1.0.4
+      '@opentelemetry/api': 1.1.0
+      '@opentelemetry/core': 1.2.0_@opentelemetry+api@1.1.0
+      '@opentelemetry/instrumentation': 0.28.0_@opentelemetry+api@1.1.0
+      '@opentelemetry/instrumentation-http': 0.28.0_@opentelemetry+api@1.1.0
+      '@opentelemetry/resources': 1.2.0_@opentelemetry+api@1.1.0
+      '@opentelemetry/sdk-trace-base': 1.2.0_@opentelemetry+api@1.1.0
+      '@opentelemetry/sdk-trace-node': 1.2.0_@opentelemetry+api@1.1.0
       '@opentelemetry/semantic-conventions': 1.2.0
       '@types/mocha': 7.0.2
       '@types/node': 12.20.50
       dotenv: 8.6.0
-      eslint: 7.32.0
-      eslint-plugin-node: 11.1.0_eslint@7.32.0
+      eslint: 8.16.0
+      eslint-plugin-node: 11.1.0_eslint@8.16.0
       execa: 5.1.1
       mocha: 7.2.0
       nock: 12.0.3
@@ -16396,7 +16347,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-AuY4mOUKJ+g+hJz5VwcJIjBIrZ1op7YHoJuPYgq9JCqqHluM3nmfqd9uxvE6/Zhq0KMGxaGzyi8h1Lff4ayV1w==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-2o/4kkL1qBKj/jp2hS7ZPHxgzfnFtnSciGSzg5Lr3Qg7cth+H3rhZDDVmj57Nf+010ySy4qu2tIUjEO6WR38Og==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -16448,7 +16399,7 @@ packages:
     dev: false
 
   file:projects/opentelemetry-instrumentation-azure-sdk.tgz:
-    resolution: {integrity: sha512-lRYBHDLzDxevbpp+U1TVaTjekck+ENk5T9pczhzuWLDkDxSmyd4VPxzZdl48uziZqRSJ/cwCd/RGtgCA+i3PpQ==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
+    resolution: {integrity: sha512-pRTyFNCuqytjgS2VfF+G+5fDrnfjQ8RBGz2M4ZXSHnhp3KXyzA7GEkseWO+xgndqBYy4DKMeCSbJLGUKIplVCg==, tarball: file:projects/opentelemetry-instrumentation-azure-sdk.tgz}
     name: '@rush-temp/opentelemetry-instrumentation-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -16467,7 +16418,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.4.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       esm: 3.2.25
       inherits: 2.0.4
       karma: 6.3.19
@@ -16501,7 +16452,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-9d95ZbhTKg5v1U40lhCet40GcnN5RcEZx5uZZ9iA6NT0FRGfwi2qFG6TEid9VANrZTATcABOSqwq2i8CTeqgxQ==, tarball: file:projects/perf-ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-RGXHDkX2nXIVJORr7LLl5XL8tTyb+AP4CFPtia9Rd9WW0+0G1YmXrj2O8KLCyA7pZuMfL/3EzhYpzsOLluWNHA==, tarball: file:projects/perf-ai-form-recognizer.tgz}
     name: '@rush-temp/perf-ai-form-recognizer'
     version: 0.0.0
     dependencies:
@@ -16509,7 +16460,7 @@ packages:
       '@azure/identity': 2.0.4
       '@types/node': 12.20.50
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_399288125904458fe9269dcaa1fb2559
@@ -16524,14 +16475,14 @@ packages:
     dev: false
 
   file:projects/perf-ai-metrics-advisor.tgz:
-    resolution: {integrity: sha512-hhWbpCGbz/d/YLuNRWvRBpuhaKRbsZs524o0uHIwBvBJcQKSy297rJvz/UIRrqbMFdhveTkOjgzyLSmtjgocDw==, tarball: file:projects/perf-ai-metrics-advisor.tgz}
+    resolution: {integrity: sha512-1FNYflZoX/hVEELXXptSUFJELC0tR9+mN4RP617MC1sTvRvI8MUvuU9YSHbqn3DohXklXNs/mIbwxz7mj11NeQ==, tarball: file:projects/perf-ai-metrics-advisor.tgz}
     name: '@rush-temp/perf-ai-metrics-advisor'
     version: 0.0.0
     dependencies:
       '@azure/ai-metrics-advisor': 1.0.0-beta.3
       '@types/node': 12.20.50
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_399288125904458fe9269dcaa1fb2559
@@ -16545,7 +16496,7 @@ packages:
     dev: false
 
   file:projects/perf-ai-text-analytics.tgz:
-    resolution: {integrity: sha512-WHmik8Hk9YG8PyL0BBOl1W2SHKpu4DA9DoB8PrP07sFhNS7/25wFkR8ojHDwCtARogVIsWdN2f0poJQ49DksvQ==, tarball: file:projects/perf-ai-text-analytics.tgz}
+    resolution: {integrity: sha512-Js7pp90IucTBLhI2ijdz627z5zWTPodtXV2lGiue8GMc1i4KE2AiYwa/ON5A8LGg7P1IkZPY7BE9d3tIHTCDfA==, tarball: file:projects/perf-ai-text-analytics.tgz}
     name: '@rush-temp/perf-ai-text-analytics'
     version: 0.0.0
     dependencies:
@@ -16553,7 +16504,7 @@ packages:
       '@azure/identity': 2.0.4
       '@types/node': 12.20.50
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_399288125904458fe9269dcaa1fb2559
@@ -16567,7 +16518,7 @@ packages:
     dev: false
 
   file:projects/perf-app-configuration.tgz:
-    resolution: {integrity: sha512-yLv5yrEmKWC4dhjkjHhqql3y8rUmcPyR69MAYeW6cA8oWpGpXkbfDFmqdhRBAsQpu5peWHp6TWspwkOmRwp+NA==, tarball: file:projects/perf-app-configuration.tgz}
+    resolution: {integrity: sha512-1vEg2VKAPLGVXT+SLGi58kPHSSEtLJxotf7UaiNxj4GtOpreuAOk/NSPIGI+I96/zWu6WVDVcjxphVM7RPNeFA==, tarball: file:projects/perf-app-configuration.tgz}
     name: '@rush-temp/perf-app-configuration'
     version: 0.0.0
     dependencies:
@@ -16575,7 +16526,7 @@ packages:
       '@types/node': 12.20.50
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_399288125904458fe9269dcaa1fb2559
@@ -16590,13 +16541,13 @@ packages:
     dev: false
 
   file:projects/perf-container-registry.tgz:
-    resolution: {integrity: sha512-gkB506Dy2h2Vykbvr0dCeqPjI3RmPR4CqJw1vtjZpzh7LiQhrNT088dJ88HhLq5hkJk+7343NqxOexTTAU205g==, tarball: file:projects/perf-container-registry.tgz}
+    resolution: {integrity: sha512-d1qjMCESN0GvunvL/sKvNp/Hyi21QJGXsEbPjhQ+RZPGrASm6db84XJYeSbTWrGYJppUXE8B80T/T513Pt+Oig==, tarball: file:projects/perf-container-registry.tgz}
     name: '@rush-temp/perf-container-registry'
     version: 0.0.0
     dependencies:
       '@types/node': 12.20.50
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 9.1.1_typescript@4.2.4
@@ -16607,14 +16558,14 @@ packages:
     dev: false
 
   file:projects/perf-core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-vXOHjYV1UISPKNX66s71W5v2qLlgWjiceZd2kbQ/Q357HUtBGxmz8qEZTcQh5YQMVEsi7On2JjPq5H0WoCJV/A==, tarball: file:projects/perf-core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-OEaNvmADlJmspeELK1gzV/KHwaUk3pN9hOLYnh1/kQxiwRqHKHAAoMSHGUyoa9xp3/sNAEUJSrmxOtwnMfrCMA==, tarball: file:projects/perf-core-rest-pipeline.tgz}
     name: '@rush-temp/perf-core-rest-pipeline'
     version: 0.0.0
     dependencies:
       '@types/node': 12.20.50
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_5ff6de28ce877d9a6652c4006a254f74
@@ -16627,14 +16578,14 @@ packages:
     dev: false
 
   file:projects/perf-data-tables.tgz:
-    resolution: {integrity: sha512-NyZJL22Y1a7ARbMZcFPMfeB0/CQbfXRZqfH0wOpq3UMd4BqMFvyUVNuBXRap2Ah7dUfh874PRqRwOf15w05bvA==, tarball: file:projects/perf-data-tables.tgz}
+    resolution: {integrity: sha512-XFV4QXzy2AQzyXnTlph2Uf34q1xpRgsVHTYHOosnizrgapaHxf2JDkbjz7QjhNX08mG9RJrFYBJfmJujE5HA7Q==, tarball: file:projects/perf-data-tables.tgz}
     name: '@rush-temp/perf-data-tables'
     version: 0.0.0
     dependencies:
       '@types/node': 12.20.50
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_399288125904458fe9269dcaa1fb2559
@@ -16648,7 +16599,7 @@ packages:
     dev: false
 
   file:projects/perf-event-hubs.tgz:
-    resolution: {integrity: sha512-BHwbm1iu6BThr0P43MEqVdgEpQ984u4C6M9orgaZdvJXRqU9YvoSedqmIu4XNcBbIY1MsiH1DUT+gU6zDCudaw==, tarball: file:projects/perf-event-hubs.tgz}
+    resolution: {integrity: sha512-htiC9g93trgEkJd2NV2/o92I6hkGKWIMhDivGpjnAu1Anw0skTT4EmLcXIvmYplm2TUnv0ru6vWO839Htn44fw==, tarball: file:projects/perf-event-hubs.tgz}
     name: '@rush-temp/perf-event-hubs'
     version: 0.0.0
     dependencies:
@@ -16656,7 +16607,7 @@ packages:
       '@types/node': 12.20.50
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       moment: 2.29.3
       prettier: 2.6.2
       rimraf: 3.0.2
@@ -16671,13 +16622,13 @@ packages:
     dev: false
 
   file:projects/perf-eventgrid.tgz:
-    resolution: {integrity: sha512-GAlXNvlXjweEKtCQ2VWR1aTnpyfkL2oqOPAfTT57pgVIu2KzUwnOpbkw/xVEJAL9yuLoJikmaFUN9qqylJgo5w==, tarball: file:projects/perf-eventgrid.tgz}
+    resolution: {integrity: sha512-vvW+TolqP3lVoCc7FUUY5C745OCQCIIS4PE4Pvyqvio76xYFDQiLNhDzXgY6VxDf67py/FReRS8WcFinpajNSQ==, tarball: file:projects/perf-eventgrid.tgz}
     name: '@rush-temp/perf-eventgrid'
     version: 0.0.0
     dependencies:
       '@types/node': 12.20.50
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_399288125904458fe9269dcaa1fb2559
@@ -16690,7 +16641,7 @@ packages:
     dev: false
 
   file:projects/perf-identity.tgz:
-    resolution: {integrity: sha512-68gq+2f/jI1E+B8hls/koZ3LWelxYjQ1Z/V6++EoaxamLo04QUsgnF2LCcyfpIfIQNYN6nXxQcBpQ4TZw2akeQ==, tarball: file:projects/perf-identity.tgz}
+    resolution: {integrity: sha512-QPNTfXO43yaD8ACl5UpuD3UtY1FcgSFMzgbde8RjKcyP64uazkYCVpXac5Ix9bTSwbBbs+dwD1D6ZLJuvaIGug==, tarball: file:projects/perf-identity.tgz}
     name: '@rush-temp/perf-identity'
     version: 0.0.0
     dependencies:
@@ -16698,7 +16649,7 @@ packages:
       '@types/node': 12.20.50
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_399288125904458fe9269dcaa1fb2559
@@ -16712,7 +16663,7 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-certificates.tgz:
-    resolution: {integrity: sha512-yqHGbkqaIAUUV9n7ZrQmhOSlIl9Uh38alfEkU3jiYavkwl4+/e+a+HTefm58hj1R+M+PclDi0oG+gHPSbvnchw==, tarball: file:projects/perf-keyvault-certificates.tgz}
+    resolution: {integrity: sha512-xgqIhV8HXwayJkBPuJp8bedd1/METcOzU8X00Ix0+d660dh/1qMFjL7OupvqWO63PwgYGCCABsqYih64DTJx5Q==, tarball: file:projects/perf-keyvault-certificates.tgz}
     name: '@rush-temp/perf-keyvault-certificates'
     version: 0.0.0
     dependencies:
@@ -16721,7 +16672,7 @@ packages:
       '@types/node': 12.20.50
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_399288125904458fe9269dcaa1fb2559
@@ -16737,7 +16688,7 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-keys.tgz:
-    resolution: {integrity: sha512-rJHYOQbxB0nEZJHKOfDCjwCpS6gqFnTr5cy7SBr7rDJ5Nvq8FPC103KVylop/jJQYkiE7V1oNn8MApJRyFzoJw==, tarball: file:projects/perf-keyvault-keys.tgz}
+    resolution: {integrity: sha512-iRz0ro0XOUrM4OkzH2JeRYoKOf0H/nePrRmPlDgvXyOu0h0Zi4dEsye6YJASYjvwdVKe6T8Q2cRvr/Spp/P9cQ==, tarball: file:projects/perf-keyvault-keys.tgz}
     name: '@rush-temp/perf-keyvault-keys'
     version: 0.0.0
     dependencies:
@@ -16746,7 +16697,7 @@ packages:
       '@types/node': 12.20.50
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_399288125904458fe9269dcaa1fb2559
@@ -16762,7 +16713,7 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-secrets.tgz:
-    resolution: {integrity: sha512-IykYoGzFD1/XYiIS0P76Ja2KuTfUhcZk87AiUIWYdHGC9VJlWf1ph67cw0E1A8/QP0EQLEeEgB2og0vnM7GSLA==, tarball: file:projects/perf-keyvault-secrets.tgz}
+    resolution: {integrity: sha512-VImwjRu0tygE38LVSMHzL42zM5nlBrpeIQvhTXbJNG59JLjT7PabZbaVm9hqIGeWi0eGVhbf4nMlX8FDlZzcoQ==, tarball: file:projects/perf-keyvault-secrets.tgz}
     name: '@rush-temp/perf-keyvault-secrets'
     version: 0.0.0
     dependencies:
@@ -16771,7 +16722,7 @@ packages:
       '@types/node': 12.20.50
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_399288125904458fe9269dcaa1fb2559
@@ -16787,14 +16738,14 @@ packages:
     dev: false
 
   file:projects/perf-monitor-query.tgz:
-    resolution: {integrity: sha512-QWGeS9VD05sZadiHdkHdUj8W0Yp7Nab0+hFiF5ORlANnfkE2qO2Lf5VR8pBsOmi425bHmbwlF+UPxYmjo36YOQ==, tarball: file:projects/perf-monitor-query.tgz}
+    resolution: {integrity: sha512-+yf8ru52/jUPJ4n+yQdOgvqY74/qEEAZfVtIg6OvD9bdO3Sa5as7J4ws2Jr/LFZ0PDTAlXWssOQy4BnrFdTx4A==, tarball: file:projects/perf-monitor-query.tgz}
     name: '@rush-temp/perf-monitor-query'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.0.4
       '@types/node': 12.20.50
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_399288125904458fe9269dcaa1fb2559
@@ -16808,14 +16759,14 @@ packages:
     dev: false
 
   file:projects/perf-schema-registry-avro.tgz:
-    resolution: {integrity: sha512-8obR0/zpOspvvZygai4qIDVwKDBER/WTPy3Ozo4XH/dZcG/rzd/teN/s3g1rJ82OBWTOfdOqSvayfmiveJYWCQ==, tarball: file:projects/perf-schema-registry-avro.tgz}
+    resolution: {integrity: sha512-XNs9BJqMx90UY8MezA4icE4wF9R96XnDXg7dMZ5Ms+ncLUogdPqnTxr7d2b0Qyd+5U1Wn0+Va4OTNzLk/UhEzg==, tarball: file:projects/perf-schema-registry-avro.tgz}
     name: '@rush-temp/perf-schema-registry-avro'
     version: 0.0.0
     dependencies:
       '@azure/identity': 2.0.4
       '@types/node': 12.20.50
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_399288125904458fe9269dcaa1fb2559
@@ -16829,7 +16780,7 @@ packages:
     dev: false
 
   file:projects/perf-search-documents.tgz:
-    resolution: {integrity: sha512-FJDX0jP1sZP2TEal8mZeMWqkomOSt9yAhhdiOpFb3WgO30ZTs1IGDu6hkzulejcycVhvhJ08X6sjL+2LKab3iQ==, tarball: file:projects/perf-search-documents.tgz}
+    resolution: {integrity: sha512-a/Y3U3RC4fn9krpWPf0D6QomnfuuCaVm64p/qPz7HF0xR0MHkYoSVok3DUwNcSJ8TfJk06BmDpiLq6Te2oiaRg==, tarball: file:projects/perf-search-documents.tgz}
     name: '@rush-temp/perf-search-documents'
     version: 0.0.0
     dependencies:
@@ -16837,7 +16788,7 @@ packages:
       '@azure/search-documents': 11.3.0-beta.7
       '@types/node': 12.20.50
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_399288125904458fe9269dcaa1fb2559
@@ -16851,7 +16802,7 @@ packages:
     dev: false
 
   file:projects/perf-service-bus.tgz:
-    resolution: {integrity: sha512-pKuhxHEjhyGAKk5t/XaVzB6JHLSGzv/PE9Q5zgt+fEkcKrw19H7qsWJsBqPU2TIHjX1ddRgv+GW0c79shGEWbg==, tarball: file:projects/perf-service-bus.tgz}
+    resolution: {integrity: sha512-tms1HERRqEXAg93JeYuqnobFGNDo8sRUUcYLYJKX+hm1BcojBBUqEd21hlYH8f/xDGrA7NQ3Qm6VghPFqlxPzQ==, tarball: file:projects/perf-service-bus.tgz}
     name: '@rush-temp/perf-service-bus'
     version: 0.0.0
     dependencies:
@@ -16859,7 +16810,7 @@ packages:
       '@types/node': 12.20.50
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_399288125904458fe9269dcaa1fb2559
@@ -16874,7 +16825,7 @@ packages:
     dev: false
 
   file:projects/perf-storage-blob.tgz:
-    resolution: {integrity: sha512-vl5638cG61Kg5H3YKbJBLo1ueGJci4QkVZEC0utSmgaB1S7OeEx5GIgascUjZsK90mf+1OKwFGf7SFr+nUOGyQ==, tarball: file:projects/perf-storage-blob.tgz}
+    resolution: {integrity: sha512-QBBDNwufzhkVMzdaXdnTK0jzqtua6V85qBOTVeLs0SunugX0cx3eOiBKZUhhlO3XCDvlzD4Yg26nUlbXUUnakw==, tarball: file:projects/perf-storage-blob.tgz}
     name: '@rush-temp/perf-storage-blob'
     version: 0.0.0
     dependencies:
@@ -16882,7 +16833,7 @@ packages:
       '@types/node-fetch': 2.6.1
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       node-fetch: 2.6.7
       prettier: 2.6.2
       rimraf: 3.0.2
@@ -16898,14 +16849,14 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-datalake.tgz:
-    resolution: {integrity: sha512-OXjL1krgosHX6cqoKjiEvz4Ymslsy/VvtXzV5iAkKfrwbzZYNoQGgF3Iz5ystIZpMVtmAQj9iBPkpTxzb4rb4Q==, tarball: file:projects/perf-storage-file-datalake.tgz}
+    resolution: {integrity: sha512-xXn1unVE61LHqtERTuE8qIFkZpo5ylriqjC9gGSDV5dzS3THPPpfCUA5odOmhbcuj07F/ldEqGQP4lqfBqqx4g==, tarball: file:projects/perf-storage-file-datalake.tgz}
     name: '@rush-temp/perf-storage-file-datalake'
     version: 0.0.0
     dependencies:
       '@types/node': 12.20.50
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_399288125904458fe9269dcaa1fb2559
@@ -16919,14 +16870,14 @@ packages:
     dev: false
 
   file:projects/perf-storage-file-share.tgz:
-    resolution: {integrity: sha512-yOcXeqvWLiUp/ifF7SVL5e7BrsDMdt7VCttcBqT/lRdtxSm4xt0s2sRXvW77OBSAM7KwTPg11BLE7IY0cnpJRA==, tarball: file:projects/perf-storage-file-share.tgz}
+    resolution: {integrity: sha512-zDDOw6pK5xirA03L+z98S6fhnAMv7eyz2gr6w+NmyzIm+OGy6Ooue3M5faJf32WNMYpc+v1cZI1l50IvryupxA==, tarball: file:projects/perf-storage-file-share.tgz}
     name: '@rush-temp/perf-storage-file-share'
     version: 0.0.0
     dependencies:
       '@types/node': 12.20.50
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_399288125904458fe9269dcaa1fb2559
@@ -16940,7 +16891,7 @@ packages:
     dev: false
 
   file:projects/perf-template.tgz:
-    resolution: {integrity: sha512-e4cL0LE0/Tb/EoFUxLPtqtx7G74godAg2YieBZP1TeeuH3vmQrjSDZ5bs/ICpBcFkEyFF/I6sI1WSiyIzcvzaA==, tarball: file:projects/perf-template.tgz}
+    resolution: {integrity: sha512-vLchnhxlh/tghkj4xm5ELNVY7aSV8DdS0us6DroqK96DtaEOeJOlAwdKWXzL/fgQnFEMu/n3eLiaTHw6Ua9V/Q==, tarball: file:projects/perf-template.tgz}
     name: '@rush-temp/perf-template'
     version: 0.0.0
     dependencies:
@@ -16949,7 +16900,7 @@ packages:
       '@types/node': 12.20.50
       '@types/uuid': 8.3.4
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       prettier: 2.6.2
       rimraf: 3.0.2
       ts-node: 10.7.0_399288125904458fe9269dcaa1fb2559
@@ -16965,7 +16916,7 @@ packages:
     dev: false
 
   file:projects/purview-administration.tgz:
-    resolution: {integrity: sha512-H95LLn/yAypuI9TswrdCg1m7ejAowOTkyrB9Pb1UI96BuCtnnrQ4A7/cxmnFh0Pud1AsyW3u9Tgc7YYY06a76g==, tarball: file:projects/purview-administration.tgz}
+    resolution: {integrity: sha512-UTiw3BFps6GH1eyVfnvCrBur/+Ft2qM0VgPdy/HUccpOQAFSOAweNhOEO1QVYK7lsI/czIzc8Pe48d0kripZKA==, tarball: file:projects/purview-administration.tgz}
     name: '@rush-temp/purview-administration'
     version: 0.0.0
     dependencies:
@@ -16977,7 +16928,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
@@ -17007,7 +16958,7 @@ packages:
     dev: false
 
   file:projects/purview-catalog.tgz:
-    resolution: {integrity: sha512-cbcLLxtgkBIBfgzVsq9WlTR9jQ9ikqNYuPT1pOjFUaWE7s6xfRs3+s4a5WqSugSeElRqgvNr5SC5384Wq97ocg==, tarball: file:projects/purview-catalog.tgz}
+    resolution: {integrity: sha512-uKzyzUMw53grBVOmokOOMo8CeKw1Q9IfHOObPXDInuEKcYilsOTdr3VlozH+G2vR6hCbUUcpdTGQz8E3nQ9JzQ==, tarball: file:projects/purview-catalog.tgz}
     name: '@rush-temp/purview-catalog'
     version: 0.0.0
     dependencies:
@@ -17020,7 +16971,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
@@ -17050,7 +17001,7 @@ packages:
     dev: false
 
   file:projects/purview-scanning.tgz:
-    resolution: {integrity: sha512-OaesFdKA0edgFOoD+M7UZKoTNd1eHO/kEi3Rk9FMdmyOM7H+qVMF1jLR/0iW4fULXFXElfSC/OTW8q4+7kPgpw==, tarball: file:projects/purview-scanning.tgz}
+    resolution: {integrity: sha512-OJ9JgSIlMOdC1ANGBEYh9J2lD/nI6wEu1/iyFWqd+GbADw/eInjPHyJUCzUkTt5DqDDZZpua5FEe+Jq5tRTvUA==, tarball: file:projects/purview-scanning.tgz}
     name: '@rush-temp/purview-scanning'
     version: 0.0.0
     dependencies:
@@ -17062,7 +17013,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
@@ -17092,7 +17043,7 @@ packages:
     dev: false
 
   file:projects/quantum-jobs.tgz:
-    resolution: {integrity: sha512-3tDUSyC5067Lkl6sXvFfb/AmVxbl/T17baX535KAcbz1wmc+a77SxX0QJwnd0B60nhPYtxqGTV9jhS8n+FmS0Q==, tarball: file:projects/quantum-jobs.tgz}
+    resolution: {integrity: sha512-OPz5L6ohpMNcKCrKsnSu2UFhuH0A2w7UC0io7m7isWHv+UozTdDOtWZNHDYOP1VYgQfW9vT0uGezPZ9RJR3crw==, tarball: file:projects/quantum-jobs.tgz}
     name: '@rush-temp/quantum-jobs'
     version: 0.0.0
     dependencies:
@@ -17107,7 +17058,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       events: 3.3.0
       inherits: 2.0.4
       karma: 6.3.19
@@ -17141,7 +17092,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-bSa0FZYwShDizinsJz52yUB3AlgzgeprDq8scvtLN6qRdCM15xRRDonqL39MTaVGdfPcrVPtCTrxajjeiDraKw==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-7LNzP3b+jm7xmyup5jGFXbcy9Jm5Yz7uSxSyaUCFLEIhV043upU6r97ODeXNFI9TXGPARoBajq2nfGRSWUIAwA==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
@@ -17162,7 +17113,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
@@ -17199,7 +17150,7 @@ packages:
     dev: false
 
   file:projects/schema-registry.tgz:
-    resolution: {integrity: sha512-8KUYwEo8PGnFllCnzMFHnkhXPGHO1+ATPtYahLHt/3Cqp3hGuego7Qv6QghiBnklKv2FmLnJ14aIHWSUYA6Gyw==, tarball: file:projects/schema-registry.tgz}
+    resolution: {integrity: sha512-Be1dkJ1AvGKwmSVvZUhFfOnGqOH85JZzH9vF76GQ86l01kUSbubtKg519C+crtKc6PLV3kMHJ97adwkCBeQhhA==, tarball: file:projects/schema-registry.tgz}
     name: '@rush-temp/schema-registry'
     version: 0.0.0
     dependencies:
@@ -17213,7 +17164,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
@@ -17243,7 +17194,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-oqSUEdEXoFalx37j39WKy8daNSFdF2BrzxoCwPL+9cWxgAO1l6Mi5fC6FixsbSz4/hoF9QpVMUVRMBhZxQ6RdQ==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-5oyKMlHVsKOjUCZrX5KfcZQhU5HOdSLhgUPNVPVgbBy76MSbQID1Oz+S5uizzgjjrgFUIEMWziEPpP/Nc36Oxg==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
@@ -17256,7 +17207,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       events: 3.3.0
       inherits: 2.0.4
       karma: 6.3.19
@@ -17364,7 +17315,7 @@ packages:
     dev: false
 
   file:projects/storage-blob-changefeed.tgz:
-    resolution: {integrity: sha512-UT53vzXPH25kPl5gHHHMwjtPxZ4TTXJ3g5P/ybEnOfdsC5xftzsWN50okXXuyLCmzFYUuTGsMT9MDWPmY9Opzw==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-/QESyitSY5rahO4gKX264ae2Wpa22qYtcBsuf1hz+lrD3U8De5M86fhHFu/V6NfEqhVBzS4A96oLYsKwF5KPyQ==, tarball: file:projects/storage-blob-changefeed.tgz}
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:
@@ -17382,7 +17333,7 @@ packages:
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
       es6-promise: 4.2.8
-      eslint: 7.32.0
+      eslint: 8.16.0
       esm: 3.2.25
       events: 3.3.0
       inherits: 2.0.4
@@ -17422,7 +17373,7 @@ packages:
     dev: false
 
   file:projects/storage-blob.tgz:
-    resolution: {integrity: sha512-N+9sksuED4PrthLy6x1ydYhEWLJ+q7XCeDsIvEWE/uayiYVaBZtWISw4pDBn389l87QDpagN/ikLwKBTtyPwBA==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-Qkot14DvIhVgEnbudlJuP8EwEdbqn6/YuQU2Wf3teD7fJ5Z4xR+KpnMYbZjerAlR3BLybOMw7a2xGsqfwdk82A==, tarball: file:projects/storage-blob.tgz}
     name: '@rush-temp/storage-blob'
     version: 0.0.0
     dependencies:
@@ -17440,7 +17391,7 @@ packages:
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
       es6-promise: 4.2.8
-      eslint: 7.32.0
+      eslint: 8.16.0
       esm: 3.2.25
       events: 3.3.0
       inherits: 2.0.4
@@ -17479,7 +17430,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-nXm5s35Wfg8EJFNsOIDTkcIW5uWws1QHUGFGKuoWSJyHUEqY2pmtAAdO+3RZfaA10SrvCD3zNTwqFLYmxxZ37w==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-BYLX8Z+0u2qNiWqQ8hsYPdnFkl35M0n4t0kOlS5LB/TmkR9jfL9knRi+IeBSJy+LcDkwO1yBtGDGPY9qIMAgnA==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -17495,7 +17446,7 @@ packages:
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
       es6-promise: 4.2.8
-      eslint: 7.32.0
+      eslint: 8.16.0
       esm: 3.2.25
       events: 3.3.0
       execa: 6.1.0
@@ -17535,7 +17486,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-Jrb/nCljJ1JIrl0pYwCo6g7kp4d5qL8W3R/wAiFYHUgLwgRpF/4GaH8CtrfvlUwcGeuRhrkKJLp0+CFf1PEGKw==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-aAHwbRH8tGy91VNkzwcqZmQ8F6tSVOHJu/JmI5jcwAQEyx0KsCumrY+h28p47Iyj+W5hQdPwTnY68shdOHRMwA==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
@@ -17551,7 +17502,7 @@ packages:
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
       es6-promise: 4.2.8
-      eslint: 7.32.0
+      eslint: 8.16.0
       esm: 3.2.25
       events: 3.3.0
       inherits: 2.0.4
@@ -17590,7 +17541,7 @@ packages:
     dev: false
 
   file:projects/storage-internal-avro.tgz:
-    resolution: {integrity: sha512-JC05RubVjGkhV84BNH6KEsj/KsfxdLM43k16Fb/Ykc5ImCtEly/XA+8sJ5JUsAzSgQMHbzsdHV3n5nvk970a2g==, tarball: file:projects/storage-internal-avro.tgz}
+    resolution: {integrity: sha512-tg7RR6qC8vLIw/zg2NG8z3A/o03ZL7yqgYqXUolzNrBFPujfyKeJJeHerXmhBQ93bso6EkVgMewVbd0g0kWALQ==, tarball: file:projects/storage-internal-avro.tgz}
     name: '@rush-temp/storage-internal-avro'
     version: 0.0.0
     dependencies:
@@ -17603,7 +17554,7 @@ packages:
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
       es6-promise: 4.2.8
-      eslint: 7.32.0
+      eslint: 8.16.0
       esm: 3.2.25
       inherits: 2.0.4
       karma: 6.3.19
@@ -17641,7 +17592,7 @@ packages:
     dev: false
 
   file:projects/storage-queue.tgz:
-    resolution: {integrity: sha512-qctLIt5pYffVAN/Arq/yCoK4Tw1qsea2BRQvdb9OTmPthiOtxbKL6/laS/I1IuYa/bLAHKSNw1zse/XgjTbjqg==, tarball: file:projects/storage-queue.tgz}
+    resolution: {integrity: sha512-Vlowqdb9XZmG2WdPIDlm3XSTMIB/FFQRy5qYl3850Fi8oOarsq4Ps2y2v9VaLw6K6Akt5KtRN6ZhHSbP/YyaNQ==, tarball: file:projects/storage-queue.tgz}
     name: '@rush-temp/storage-queue'
     version: 0.0.0
     dependencies:
@@ -17657,7 +17608,7 @@ packages:
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
       es6-promise: 4.2.8
-      eslint: 7.32.0
+      eslint: 8.16.0
       esm: 3.2.25
       inherits: 2.0.4
       karma: 6.3.19
@@ -17695,7 +17646,7 @@ packages:
     dev: false
 
   file:projects/synapse-access-control-1.tgz:
-    resolution: {integrity: sha512-JGwvMS4JRW8xLKgZEuEhmd2Bfy9NkolQBWj0HasktaTWJVaQxtR/LqCFen8yfDbBWG78Ev3Nry4Wg3+HGiXGsA==, tarball: file:projects/synapse-access-control-1.tgz}
+    resolution: {integrity: sha512-6bTZ4mwvbNsWwdc3KuAY25hYMXr3lFrDB3pvnJH4Y6cVSWD65zMRb19qJHFz0NblmOT/0TjGHKwYzvTaI1ULbg==, tarball: file:projects/synapse-access-control-1.tgz}
     name: '@rush-temp/synapse-access-control-1'
     version: 0.0.0
     dependencies:
@@ -17712,7 +17663,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
@@ -17749,7 +17700,7 @@ packages:
     dev: false
 
   file:projects/synapse-access-control.tgz:
-    resolution: {integrity: sha512-KMkzYfC+8vyEgDo9K21bMMCukigiKCiWx8MBaNNBhyGPb3aW1OTFbnEC0f3VZ3+rVR2BWlcObxz8LdCxbfNV4Q==, tarball: file:projects/synapse-access-control.tgz}
+    resolution: {integrity: sha512-Gc508QwLF7EODtBdIwZhqMStOQ2XbdxfDvEczgfccbhb3Q8AlFMvaoFQfxsy6CMoar3sq4kzYE7t6drqFijYew==, tarball: file:projects/synapse-access-control.tgz}
     name: '@rush-temp/synapse-access-control'
     version: 0.0.0
     dependencies:
@@ -17766,7 +17717,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
@@ -17803,7 +17754,7 @@ packages:
     dev: false
 
   file:projects/synapse-artifacts.tgz:
-    resolution: {integrity: sha512-2m9u/VOerxHZ6Qhq7RK7boSxieKOwkSbs/FClXSHxEZEgwdWlUbvc2qG/b2FC5LNLjgWR8F2TsKITIZg+DrJoA==, tarball: file:projects/synapse-artifacts.tgz}
+    resolution: {integrity: sha512-Ffrx6p4OLDSgcrb1du3basEQwHUBux1hs9fmrNCjrS/PINaljrRrHKQP0OXxzggHJRc1ylFsCr43QH9kxE/aWg==, tarball: file:projects/synapse-artifacts.tgz}
     name: '@rush-temp/synapse-artifacts'
     version: 0.0.0
     dependencies:
@@ -17820,7 +17771,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
@@ -17856,7 +17807,7 @@ packages:
     dev: false
 
   file:projects/synapse-managed-private-endpoints.tgz:
-    resolution: {integrity: sha512-nciTFt7tSll9DHgTyubP22m4+rWeceEUjkHVgBQpayD3F2trTJGiVp2Jv2u7USfWveD1oSM7a1c3JfG5wqtOwQ==, tarball: file:projects/synapse-managed-private-endpoints.tgz}
+    resolution: {integrity: sha512-1v/nnN+HGjReCgWnZfs++CL4P/Gbq4hGKK/w4h/TlksMJDJPjubImZO0l2dkYuyEF9aFkZR6PBwDD9lfIft25g==, tarball: file:projects/synapse-managed-private-endpoints.tgz}
     name: '@rush-temp/synapse-managed-private-endpoints'
     version: 0.0.0
     dependencies:
@@ -17871,7 +17822,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
@@ -17903,7 +17854,7 @@ packages:
     dev: false
 
   file:projects/synapse-monitoring.tgz:
-    resolution: {integrity: sha512-NzocmB7DY9QF/jy67q8MK6+sYMwba8jGD5R6RzyZbJy0xQj3DgsUrS9VmPBx5+NY1MH6EL5upJZNuO6tq/NS/A==, tarball: file:projects/synapse-monitoring.tgz}
+    resolution: {integrity: sha512-Aonr+vGrszkvDK0Rs2jKAmhrGQodgz1ULrWw/6ZB5usLpT4DrAiIrHrjRC7Jb7n95Rn4EtbXQ2F3j0cCMEtRJA==, tarball: file:projects/synapse-monitoring.tgz}
     name: '@rush-temp/synapse-monitoring'
     version: 0.0.0
     dependencies:
@@ -17911,7 +17862,7 @@ packages:
       '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.70.2
       '@rollup/plugin-node-resolve': 13.2.1_rollup@2.70.2
-      eslint: 7.32.0
+      eslint: 8.16.0
       rimraf: 3.0.2
       rollup: 2.70.2
       rollup-plugin-sourcemaps: 0.6.3_rollup@2.70.2
@@ -17924,7 +17875,7 @@ packages:
     dev: false
 
   file:projects/synapse-spark.tgz:
-    resolution: {integrity: sha512-YzFrE219Aow3/z8DaIvKPmXHye3MwjvEnzJKYjS4TrqQeie36I+3GDSumwlw5kfABa3j42EB2nUEaLUxw1Y5ow==, tarball: file:projects/synapse-spark.tgz}
+    resolution: {integrity: sha512-1Ez1LT9ba1tKgXAt0xoCKvbktRHknY1oGh+g6HLXTjmhQW+txOhFdEdbY6fYB2uYCf6+vIU52ItXUBdf/PpREA==, tarball: file:projects/synapse-spark.tgz}
     name: '@rush-temp/synapse-spark'
     version: 0.0.0
     dependencies:
@@ -17939,7 +17890,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
@@ -17971,7 +17922,7 @@ packages:
     dev: false
 
   file:projects/template.tgz:
-    resolution: {integrity: sha512-CHdksjEuJMxzJAmg0EXe+lGXqBNEUTWc8RLk1jnXZPAFS/1vF6zVkS5ODPh7SBSreKPIIVhtJa4DWnWq+2K4DQ==, tarball: file:projects/template.tgz}
+    resolution: {integrity: sha512-tM92b/xsz8s3l1+YA8+8BPxfhG1qesqcHjQd/RTvrriA5NtEZ8Ul0LTgM4B5TqlrDDEAmGQAaawY7afDIqISyw==, tarball: file:projects/template.tgz}
     name: '@rush-temp/template'
     version: 0.0.0
     dependencies:
@@ -17984,7 +17935,7 @@ packages:
       cross-env: 7.0.3
       dotenv: 8.6.0
       downlevel-dts: 0.8.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       esm: 3.2.25
       inherits: 2.0.4
       karma: 6.3.19
@@ -18016,13 +17967,13 @@ packages:
     dev: false
 
   file:projects/test-credential.tgz:
-    resolution: {integrity: sha512-SI6M2BtRvmzqpjdoeUgaeZh/R4+KCkzsEHLYXVnKPIV9Hqfp1xkcBtDIZ66ay14CBrYd2X5nm1feNTLV+PF6pQ==, tarball: file:projects/test-credential.tgz}
+    resolution: {integrity: sha512-xDNTPxH7amvGPJHnek1qQ0ozDr+oqVf5nDffM+WNzx4XxtCZFEVTyWlDR3wCewc4LcGvEN5dhME3JAEZfJ/Z0A==, tarball: file:projects/test-credential.tgz}
     name: '@rush-temp/test-credential'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@types/node': 12.20.50
-      eslint: 7.32.0
+      eslint: 8.16.0
       prettier: 2.6.2
       rimraf: 3.0.2
       typescript: 4.2.4
@@ -18032,7 +17983,7 @@ packages:
     dev: false
 
   file:projects/test-recorder.tgz:
-    resolution: {integrity: sha512-3p9OFq1/8KPglmW2HeFhw9UDAQ09Uql8+Wkzl6WgGT+VjPd+3zaxprTZRLMNZPx8u+keyJhQVTAxNikKTg5EXQ==, tarball: file:projects/test-recorder.tgz}
+    resolution: {integrity: sha512-SAex6fMKK4w/eiWudjBiCnKSD3WOw0ljmUOY7vAdMWJvURmuSZfJz3Dq8fW51vxcL0FsRttCm4doGqU9ogYH9Q==, tarball: file:projects/test-recorder.tgz}
     name: '@rush-temp/test-recorder'
     version: 0.0.0
     dependencies:
@@ -18046,7 +17997,7 @@ packages:
       concurrently: 7.1.0
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       express: 4.18.0
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
@@ -18076,14 +18027,14 @@ packages:
     dev: false
 
   file:projects/test-utils-perf.tgz:
-    resolution: {integrity: sha512-O62R8KYXtyRFfZxEkDFh0GoSOi7M9RpWp4Hr4a337ZNCw1xZh94T1xOrLuC8Lgx7glixJv3OTm/1hYvsAVuhRg==, tarball: file:projects/test-utils-perf.tgz}
+    resolution: {integrity: sha512-FHTJV/8HalrozaeqlgFrGTQ0lfVYcLKkshJKgN8GlYZYmpIsrilfmDbBDf4tsOA3WLfFHwSGs8fSrrlU/irj3Q==, tarball: file:projects/test-utils-perf.tgz}
     name: '@rush-temp/test-utils-perf'
     version: 0.0.0
     dependencies:
       '@types/minimist': 1.2.2
       '@types/node': 12.20.50
       '@types/node-fetch': 2.6.1
-      eslint: 7.32.0
+      eslint: 8.16.0
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
@@ -18104,7 +18055,7 @@ packages:
     dev: false
 
   file:projects/test-utils.tgz:
-    resolution: {integrity: sha512-d+ms8U+QXf7ZI9tnpZW7CPE08tZxKCZCTUN2Xd8sQBpUMg74lzWHWJeVwyWkLAu4CG7gd+LGMt6bFvcAEzsSCg==, tarball: file:projects/test-utils.tgz}
+    resolution: {integrity: sha512-BD/i68q3yqSP4ALbzBg9q19PdyfdIbAuyKGMPJZGV57sw+hsgQ0O4Zw94VF0Zi7mowf/iH8M918RK0E9VHe2fg==, tarball: file:projects/test-utils.tgz}
     name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:
@@ -18120,7 +18071,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.3.6
       chai-exclude: 2.1.0_chai@4.3.6
       cross-env: 7.0.3
-      eslint: 7.32.0
+      eslint: 8.16.0
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
@@ -18140,7 +18091,7 @@ packages:
     dev: false
 
   file:projects/testing-recorder-new.tgz:
-    resolution: {integrity: sha512-5r9FLsDPL6xG6wh3FHzpCZyEFsRwOQwvY7IPBuaoQGhtf81Z8wlBlRh83f8HMWnPGyLmoE63EdYNRgQ0Cmk2fQ==, tarball: file:projects/testing-recorder-new.tgz}
+    resolution: {integrity: sha512-wnCC7UFEdrW64GF30qFGWX4s7hUpmCAW9c+j2bz5fDYHTWDaJwfhcmH6Kph7w2+hxxQYTXArRQePsNFnbteIwQ==, tarball: file:projects/testing-recorder-new.tgz}
     name: '@rush-temp/testing-recorder-new'
     version: 0.0.0
     dependencies:
@@ -18155,7 +18106,7 @@ packages:
       '@types/uuid': 8.3.4
       chai: 4.3.6
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       karma: 6.3.19
       karma-chrome-launcher: 3.1.1
       karma-coverage: 2.2.0
@@ -18188,7 +18139,7 @@ packages:
     dev: false
 
   file:projects/video-analyzer-edge.tgz:
-    resolution: {integrity: sha512-5nqbZQ9N5ujg3cvnoIuZSfI+qlpHbjQMEe1kl61eeF1I48ZFzZTuzshuoP76CYtCRMLENIR1ylmY84hZtEjLUw==, tarball: file:projects/video-analyzer-edge.tgz}
+    resolution: {integrity: sha512-HwXEHdkhYzP5GtggEZVU8vY0IPVCIV50ixN7PcoN1vHBuy36BMAJQ9AM5uvrgYJmiJaIafLORhfyhixOfQWuGQ==, tarball: file:projects/video-analyzer-edge.tgz}
     name: '@rush-temp/video-analyzer-edge'
     version: 0.0.0
     dependencies:
@@ -18203,7 +18154,7 @@ packages:
       chai-as-promised: 7.1.1_chai@4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       events: 3.3.0
       inherits: 2.0.4
       karma: 6.3.19
@@ -18234,7 +18185,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub-express.tgz:
-    resolution: {integrity: sha512-KmQsm5o7zxZdyO3UCIMQIj6aABPEG1Hy/ZxLMBmkki2kCJTbwQSaI05aLhK2PlggekQKRg7EIz4VGOeHgImOUQ==, tarball: file:projects/web-pubsub-express.tgz}
+    resolution: {integrity: sha512-jDJ/p51Yx0U+jiToPQduCBkltHssKKruPOKYjbjee9S2qH/H3b0zNDdLZ60CgpmBbTraPBRfdLKs/JPfenOFHg==, tarball: file:projects/web-pubsub-express.tgz}
     name: '@rush-temp/web-pubsub-express'
     version: 0.0.0
     dependencies:
@@ -18250,7 +18201,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       esm: 3.2.25
       express: 4.18.0
       karma: 6.3.19
@@ -18285,7 +18236,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub.tgz:
-    resolution: {integrity: sha512-MLBI/RvEdeUYzKonnditTbgg8HTfow3phNO+nBXJLRQ5IT518UxKx9y34yaQHXBvoUtuF9c/9p7jXPJPg/1t3g==, tarball: file:projects/web-pubsub.tgz}
+    resolution: {integrity: sha512-KcW6Sg5I/Q1OHdAW0+y71nvxAbSP76qFYVwBBAljsmJqxc3z6koBPyb271KH+h0rVda9VIfJ2U9VXUFCHBQIwg==, tarball: file:projects/web-pubsub.tgz}
     name: '@rush-temp/web-pubsub'
     version: 0.0.0
     dependencies:
@@ -18299,7 +18250,7 @@ packages:
       chai: 4.3.6
       cross-env: 7.0.3
       dotenv: 8.6.0
-      eslint: 7.32.0
+      eslint: 8.16.0
       esm: 3.2.25
       jsonwebtoken: 8.5.1
       karma: 6.3.19

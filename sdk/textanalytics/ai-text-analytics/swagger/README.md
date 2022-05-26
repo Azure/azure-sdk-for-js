@@ -200,6 +200,42 @@ directive:
       $["x-ms-client-name"] = "normalizedText";
 ```
 
+### Add Entity to some Healthcare types
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.Assertion
+    transform: >
+      $["x-ms-client-name"] = "EntityAssertion";
+  - from: swagger-document
+    where: $.definitions.Conditionality
+    transform: >
+      $["x-ms-client-name"] = "EntityConditionality";
+  - from: swagger-document
+    where: $.definitions.HealthcareAssertion
+    transform: >
+      $.properties.certainty["x-ms-enum"]["name"] = "EntityCertainty";
+      $.properties.conditionality["x-ms-enum"]["name"] = "EntityConditionality";
+      $.properties.association["x-ms-enum"]["name"] = "EntityAssociation";
+  - from: swagger-document
+    where: $.definitions.Association
+    transform: >
+      $["x-ms-client-name"] = "EntityAssociation";
+```
+
+### Pii types renames
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.PiiDomain
+    transform: $["x-ms-enum"].name = "PiiEntityDomain";
+  - from: swagger-document
+    where: $.definitions.PiiCategories
+    transform: $.items["x-ms-enum"].name = "PiiEntityCategory";
+```
+
 ### Rename class => classification
 
 ```yaml
