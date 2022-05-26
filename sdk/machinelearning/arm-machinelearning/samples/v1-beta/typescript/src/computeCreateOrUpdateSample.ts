@@ -10,7 +10,8 @@
 // Licensed under the MIT License.
 import {
   ComputeResource,
-  AzureMachineLearningWorkspaces
+  AzureMachineLearningWorkspaces,
+  KubernetesProperties
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -25,24 +26,25 @@ async function attachAKubernetesCompute() {
   const resourceGroupName = "testrg123";
   const workspaceName = "workspaces123";
   const computeName = "compute123";
+  const properties: KubernetesProperties = {
+    defaultInstanceType: "defaultInstanceType",
+    instanceTypes: {
+      defaultInstanceType: {
+        nodeSelector: {},
+        resources: {
+          limits: { cpu: "1", memory: "4Gi", "nvidiaCom/gpu": "" },
+          requests: { cpu: "1", memory: "4Gi", "nvidiaCom/gpu": "" }
+        }
+      }
+    },
+    namespace: "default"
+  }
   const parameters: ComputeResource = {
     location: "eastus",
     properties: {
       description: "some compute",
       computeType: "Kubernetes",
-      properties: {
-        defaultInstanceType: "defaultInstanceType",
-        instanceTypes: {
-          defaultInstanceType: {
-            nodeSelector: {},
-            resources: {
-              limits: { cpu: "1", memory: "4Gi", "nvidiaCom/gpu": undefined },
-              requests: { cpu: "1", memory: "4Gi", "nvidiaCom/gpu": undefined }
-            }
-          }
-        },
-        namespace: "default"
-      },
+      properties: properties,
       resourceId:
         "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/testrg123/providers/Microsoft.ContainerService/managedClusters/compute123-56826-c9b00420020b2"
     }
