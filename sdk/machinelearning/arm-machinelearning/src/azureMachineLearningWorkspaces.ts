@@ -19,8 +19,23 @@ import {
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
   WorkspaceConnectionsImpl,
-  WorkspaceFeaturesImpl,
-  WorkspaceSkusImpl
+  BatchEndpointsImpl,
+  BatchDeploymentsImpl,
+  CodeContainersImpl,
+  CodeVersionsImpl,
+  ComponentContainersImpl,
+  ComponentVersionsImpl,
+  DataContainersImpl,
+  DataVersionsImpl,
+  DatastoresImpl,
+  EnvironmentContainersImpl,
+  EnvironmentVersionsImpl,
+  JobsImpl,
+  ModelContainersImpl,
+  ModelVersionsImpl,
+  OnlineEndpointsImpl,
+  OnlineDeploymentsImpl,
+  WorkspaceFeaturesImpl
 } from "./operations";
 import {
   Operations,
@@ -32,8 +47,23 @@ import {
   PrivateEndpointConnections,
   PrivateLinkResources,
   WorkspaceConnections,
-  WorkspaceFeatures,
-  WorkspaceSkus
+  BatchEndpoints,
+  BatchDeployments,
+  CodeContainers,
+  CodeVersions,
+  ComponentContainers,
+  ComponentVersions,
+  DataContainers,
+  DataVersions,
+  Datastores,
+  EnvironmentContainers,
+  EnvironmentVersions,
+  Jobs,
+  ModelContainers,
+  ModelVersions,
+  OnlineEndpoints,
+  OnlineDeployments,
+  WorkspaceFeatures
 } from "./operationsInterfaces";
 import { AzureMachineLearningWorkspacesOptionalParams } from "./models";
 
@@ -69,7 +99,7 @@ export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-machinelearning/1.0.0`;
+    const packageDetails = `azsdk-js-arm-machinelearning/1.0.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -116,7 +146,7 @@ export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-07-01";
+    this.apiVersion = options.apiVersion || "2022-02-01-preview";
     this.operations = new OperationsImpl(this);
     this.workspaces = new WorkspacesImpl(this);
     this.usages = new UsagesImpl(this);
@@ -126,8 +156,23 @@ export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.workspaceConnections = new WorkspaceConnectionsImpl(this);
+    this.batchEndpoints = new BatchEndpointsImpl(this);
+    this.batchDeployments = new BatchDeploymentsImpl(this);
+    this.codeContainers = new CodeContainersImpl(this);
+    this.codeVersions = new CodeVersionsImpl(this);
+    this.componentContainers = new ComponentContainersImpl(this);
+    this.componentVersions = new ComponentVersionsImpl(this);
+    this.dataContainers = new DataContainersImpl(this);
+    this.dataVersions = new DataVersionsImpl(this);
+    this.datastores = new DatastoresImpl(this);
+    this.environmentContainers = new EnvironmentContainersImpl(this);
+    this.environmentVersions = new EnvironmentVersionsImpl(this);
+    this.jobs = new JobsImpl(this);
+    this.modelContainers = new ModelContainersImpl(this);
+    this.modelVersions = new ModelVersionsImpl(this);
+    this.onlineEndpoints = new OnlineEndpointsImpl(this);
+    this.onlineDeployments = new OnlineDeploymentsImpl(this);
     this.workspaceFeatures = new WorkspaceFeaturesImpl(this);
-    this.workspaceSkus = new WorkspaceSkusImpl(this);
   }
 
   operations: Operations;
@@ -139,6 +184,21 @@ export class AzureMachineLearningWorkspaces extends coreClient.ServiceClient {
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
   workspaceConnections: WorkspaceConnections;
+  batchEndpoints: BatchEndpoints;
+  batchDeployments: BatchDeployments;
+  codeContainers: CodeContainers;
+  codeVersions: CodeVersions;
+  componentContainers: ComponentContainers;
+  componentVersions: ComponentVersions;
+  dataContainers: DataContainers;
+  dataVersions: DataVersions;
+  datastores: Datastores;
+  environmentContainers: EnvironmentContainers;
+  environmentVersions: EnvironmentVersions;
+  jobs: Jobs;
+  modelContainers: ModelContainers;
+  modelVersions: ModelVersions;
+  onlineEndpoints: OnlineEndpoints;
+  onlineDeployments: OnlineDeployments;
   workspaceFeatures: WorkspaceFeatures;
-  workspaceSkus: WorkspaceSkus;
 }

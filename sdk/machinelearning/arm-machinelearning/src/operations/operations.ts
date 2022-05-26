@@ -13,7 +13,7 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureMachineLearningWorkspaces } from "../azureMachineLearningWorkspaces";
 import {
-  Operation,
+  AmlOperation,
   OperationsListOptionalParams,
   OperationsListResponse
 } from "../models";
@@ -37,7 +37,7 @@ export class OperationsImpl implements Operations {
    */
   public list(
     options?: OperationsListOptionalParams
-  ): PagedAsyncIterableIterator<Operation> {
+  ): PagedAsyncIterableIterator<AmlOperation> {
     const iter = this.listPagingAll(options);
     return {
       next() {
@@ -54,14 +54,14 @@ export class OperationsImpl implements Operations {
 
   private async *listPagingPage(
     options?: OperationsListOptionalParams
-  ): AsyncIterableIterator<Operation[]> {
+  ): AsyncIterableIterator<AmlOperation[]> {
     let result = await this._list(options);
     yield result.value || [];
   }
 
   private async *listPagingAll(
     options?: OperationsListOptionalParams
-  ): AsyncIterableIterator<Operation> {
+  ): AsyncIterableIterator<AmlOperation> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
     }
@@ -85,7 +85,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationListResult
+      bodyMapper: Mappers.AmlOperationListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

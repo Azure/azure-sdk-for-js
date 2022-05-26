@@ -355,16 +355,89 @@ export class WorkspacesImpl implements Workspaces {
    * @param parameters The parameters for updating a machine learning workspace.
    * @param options The options parameters.
    */
-  update(
+  async beginUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    parameters: WorkspaceUpdateParameters,
+    options?: WorkspacesUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<WorkspacesUpdateResponse>,
+      WorkspacesUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<WorkspacesUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, workspaceName, parameters, options },
+      updateOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Updates a machine learning workspace with the specified parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param parameters The parameters for updating a machine learning workspace.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
     resourceGroupName: string,
     workspaceName: string,
     parameters: WorkspaceUpdateParameters,
     options?: WorkspacesUpdateOptionalParams
   ): Promise<WorkspacesUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, workspaceName, parameters, options },
-      updateOperationSpec
+    const poller = await this.beginUpdate(
+      resourceGroupName,
+      workspaceName,
+      parameters,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -861,6 +934,15 @@ const updateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
+      bodyMapper: Mappers.Workspace
+    },
+    201: {
+      bodyMapper: Mappers.Workspace
+    },
+    202: {
+      bodyMapper: Mappers.Workspace
+    },
+    204: {
       bodyMapper: Mappers.Workspace
     },
     default: {

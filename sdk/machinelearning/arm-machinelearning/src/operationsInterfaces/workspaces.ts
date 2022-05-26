@@ -127,7 +127,25 @@ export interface Workspaces {
    * @param parameters The parameters for updating a machine learning workspace.
    * @param options The options parameters.
    */
-  update(
+  beginUpdate(
+    resourceGroupName: string,
+    workspaceName: string,
+    parameters: WorkspaceUpdateParameters,
+    options?: WorkspacesUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<WorkspacesUpdateResponse>,
+      WorkspacesUpdateResponse
+    >
+  >;
+  /**
+   * Updates a machine learning workspace with the specified parameters.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param parameters The parameters for updating a machine learning workspace.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
     resourceGroupName: string,
     workspaceName: string,
     parameters: WorkspaceUpdateParameters,
