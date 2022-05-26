@@ -17302,13 +17302,13 @@ packages:
     dev: false
 
   file:projects/storage-blob.tgz:
-    resolution: {integrity: sha512-Qkot14DvIhVgEnbudlJuP8EwEdbqn6/YuQU2Wf3teD7fJ5Z4xR+KpnMYbZjerAlR3BLybOMw7a2xGsqfwdk82A==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-mWcd16zVyHI7Ep8B36LbSBufvdaCJdLGi0QNhdlb8T8qoxKjeNuH6dfFTgtsEMdvymz/AKxcUlEDJEfU7zH0yA==, tarball: file:projects/storage-blob.tgz}
     name: '@rush-temp/storage-blob'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-lro': 2.2.4
-      '@azure/core-tracing': 1.0.0-preview.13
+      '@azure/core-tracing': 1.0.0
       '@azure/identity': 2.0.4
       '@microsoft/api-extractor': 7.18.11
       '@types/chai': 4.3.1

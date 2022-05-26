@@ -4,12 +4,11 @@ import { generateUuid, HttpResponse } from "@azure/core-http";
 import { StorageClientContext } from "./generated/src/index";
 import { ContainerBreakLeaseOptionalParams } from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { Blob as StorageBlob, Container } from "./generated/src/operations";
 import { ModifiedAccessConditions } from "./models";
 import { CommonOptions } from "./StorageClient";
 import { ETagNone } from "./utils/constants";
-import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
+import { convertTracingToRequestOptionsBase, tracingClient } from "./utils/tracing";
 import { BlobClient } from "./Clients";
 import { ContainerClient } from "./ContainerClient";
 
@@ -159,25 +158,23 @@ export class BlobLeaseClient {
    * @param options - option to configure lease management operations.
    * @returns Response data for acquire lease operation.
    */
-  public async acquireLease(
+  public acquireLease(
     duration: number,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const { span, updatedOptions } = createSpan("BlobLeaseClient-acquireLease", options);
+    return tracingClient.withSpan("BlobLeaseClient-acquireLease", options, (updatedOptions) => {
+      if (
+        this._isContainer &&
+        ((options.conditions?.ifMatch && options.conditions?.ifMatch !== ETagNone) ||
+          (options.conditions?.ifNoneMatch && options.conditions?.ifNoneMatch !== ETagNone) ||
+          options.conditions?.tagConditions)
+      ) {
+        throw new RangeError(
+          "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
+        );
+      }
 
-    if (
-      this._isContainer &&
-      ((options.conditions?.ifMatch && options.conditions?.ifMatch !== ETagNone) ||
-        (options.conditions?.ifNoneMatch && options.conditions?.ifNoneMatch !== ETagNone) ||
-        options.conditions?.tagConditions)
-    ) {
-      throw new RangeError(
-        "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
-      );
-    }
-
-    try {
-      return await this._containerOrBlobOperation.acquireLease({
+      return this._containerOrBlobOperation.acquireLease({
         abortSignal: options.abortSignal,
         duration,
         modifiedAccessConditions: {
@@ -187,15 +184,7 @@ export class BlobLeaseClient {
         proposedLeaseId: this._leaseId,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -208,24 +197,22 @@ export class BlobLeaseClient {
    * @param options - option to configure lease management operations.
    * @returns Response data for change lease operation.
    */
-  public async changeLease(
+  public changeLease(
     proposedLeaseId: string,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const { span, updatedOptions } = createSpan("BlobLeaseClient-changeLease", options);
+    return tracingClient.withSpan("BlobLeaseClient-changeLease", options, async (updatedOptions) => {
+      if (
+        this._isContainer &&
+        ((options.conditions?.ifMatch && options.conditions?.ifMatch !== ETagNone) ||
+          (options.conditions?.ifNoneMatch && options.conditions?.ifNoneMatch !== ETagNone) ||
+          options.conditions?.tagConditions)
+      ) {
+        throw new RangeError(
+          "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
+        );
+      }
 
-    if (
-      this._isContainer &&
-      ((options.conditions?.ifMatch && options.conditions?.ifMatch !== ETagNone) ||
-        (options.conditions?.ifNoneMatch && options.conditions?.ifNoneMatch !== ETagNone) ||
-        options.conditions?.tagConditions)
-    ) {
-      throw new RangeError(
-        "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
-      );
-    }
-
-    try {
       const response = await this._containerOrBlobOperation.changeLease(
         this._leaseId,
         proposedLeaseId,
@@ -240,15 +227,7 @@ export class BlobLeaseClient {
       );
       this._leaseId = proposedLeaseId;
       return response;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -261,22 +240,20 @@ export class BlobLeaseClient {
    * @param options - option to configure lease management operations.
    * @returns Response data for release lease operation.
    */
-  public async releaseLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
-    const { span, updatedOptions } = createSpan("BlobLeaseClient-releaseLease", options);
+  public releaseLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
+    return tracingClient.withSpan("BlobLeaseClient-releaseLease", options, (updatedOptions) => {
+      if (
+        this._isContainer &&
+        ((options.conditions?.ifMatch && options.conditions?.ifMatch !== ETagNone) ||
+          (options.conditions?.ifNoneMatch && options.conditions?.ifNoneMatch !== ETagNone) ||
+          options.conditions?.tagConditions)
+      ) {
+        throw new RangeError(
+          "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
+        );
+      }
 
-    if (
-      this._isContainer &&
-      ((options.conditions?.ifMatch && options.conditions?.ifMatch !== ETagNone) ||
-        (options.conditions?.ifNoneMatch && options.conditions?.ifNoneMatch !== ETagNone) ||
-        options.conditions?.tagConditions)
-    ) {
-      throw new RangeError(
-        "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
-      );
-    }
-
-    try {
-      return await this._containerOrBlobOperation.releaseLease(this._leaseId, {
+      return this._containerOrBlobOperation.releaseLease(this._leaseId, {
         abortSignal: options.abortSignal,
         modifiedAccessConditions: {
           ...options.conditions,
@@ -284,15 +261,7 @@ export class BlobLeaseClient {
         },
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -304,22 +273,20 @@ export class BlobLeaseClient {
    * @param options - Optional option to configure lease management operations.
    * @returns Response data for renew lease operation.
    */
-  public async renewLease(options: LeaseOperationOptions = {}): Promise<Lease> {
-    const { span, updatedOptions } = createSpan("BlobLeaseClient-renewLease", options);
+  public renewLease(options: LeaseOperationOptions = {}): Promise<Lease> {
+    return tracingClient.withSpan("BlobLeaseClient-renewLease", options, (updatedOptions) => {
+      if (
+        this._isContainer &&
+        ((options.conditions?.ifMatch && options.conditions?.ifMatch !== ETagNone) ||
+          (options.conditions?.ifNoneMatch && options.conditions?.ifNoneMatch !== ETagNone) ||
+          options.conditions?.tagConditions)
+      ) {
+        throw new RangeError(
+          "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
+        );
+      }
 
-    if (
-      this._isContainer &&
-      ((options.conditions?.ifMatch && options.conditions?.ifMatch !== ETagNone) ||
-        (options.conditions?.ifNoneMatch && options.conditions?.ifNoneMatch !== ETagNone) ||
-        options.conditions?.tagConditions)
-    ) {
-      throw new RangeError(
-        "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
-      );
-    }
-
-    try {
-      return await this._containerOrBlobOperation.renewLease(this._leaseId, {
+      return this._containerOrBlobOperation.renewLease(this._leaseId, {
         abortSignal: options.abortSignal,
         modifiedAccessConditions: {
           ...options.conditions,
@@ -327,15 +294,7 @@ export class BlobLeaseClient {
         },
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -349,24 +308,22 @@ export class BlobLeaseClient {
    * @param options - Optional options to configure lease management operations.
    * @returns Response data for break lease operation.
    */
-  public async breakLease(
+  public breakLease(
     breakPeriod: number,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
-    const { span, updatedOptions } = createSpan("BlobLeaseClient-breakLease", options);
+    return tracingClient.withSpan("BlobLeaseClient-breakLease", options, (updatedOptions) => {
+      if (
+        this._isContainer &&
+        ((options.conditions?.ifMatch && options.conditions?.ifMatch !== ETagNone) ||
+          (options.conditions?.ifNoneMatch && options.conditions?.ifNoneMatch !== ETagNone) ||
+          options.conditions?.tagConditions)
+      ) {
+        throw new RangeError(
+          "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
+        );
+      }
 
-    if (
-      this._isContainer &&
-      ((options.conditions?.ifMatch && options.conditions?.ifMatch !== ETagNone) ||
-        (options.conditions?.ifNoneMatch && options.conditions?.ifNoneMatch !== ETagNone) ||
-        options.conditions?.tagConditions)
-    ) {
-      throw new RangeError(
-        "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
-      );
-    }
-
-    try {
       const operationOptions: ContainerBreakLeaseOptionalParams = {
         abortSignal: options.abortSignal,
         breakPeriod,
@@ -376,15 +333,7 @@ export class BlobLeaseClient {
         },
         ...convertTracingToRequestOptionsBase(updatedOptions),
       };
-      return await this._containerOrBlobOperation.breakLease(operationOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+      return this._containerOrBlobOperation.breakLease(operationOptions);
+    });
   }
 }

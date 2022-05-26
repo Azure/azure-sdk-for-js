@@ -11,8 +11,7 @@ import { ParsedBatchResponse } from "./BatchResponse";
 import { BatchResponseParser } from "./BatchResponseParser";
 import { utf8ByteLength } from "./BatchUtils";
 import { BlobBatch } from "./BlobBatch";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
+import { convertTracingToRequestOptionsBase, tracingClient } from "./utils/tracing";
 import { HttpResponse, TokenCredential } from "@azure/core-http";
 import { Service, Container } from "./generated/src/operations";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
@@ -302,7 +301,7 @@ export class BlobBatchClient {
    * @param batchRequest - A set of Delete or SetTier operations.
    * @param options -
    */
-  public async submitBatch(
+  public submitBatch(
     batchRequest: BlobBatch,
     options: BlobBatchSubmitBatchOptionalParams = {}
   ): Promise<BlobBatchSubmitBatchResponse> {
@@ -310,8 +309,7 @@ export class BlobBatchClient {
       throw new RangeError("Batch request should contain one or more sub requests.");
     }
 
-    const { span, updatedOptions } = createSpan("BlobBatchClient-submitBatch", options);
-    try {
+    return tracingClient.withSpan("BlobBatchClient-submitBatch", options, async (updatedOptions) => {
       const batchRequestBody = batchRequest.getHttpRequestBody();
 
       // ServiceSubmitBatchResponseModel and ContainerSubmitBatchResponse are compatible for now.
@@ -346,14 +344,6 @@ export class BlobBatchClient {
       };
 
       return res;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 }

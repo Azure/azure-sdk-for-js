@@ -11,7 +11,6 @@ import {
   URLBuilder,
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { Container } from "./generated/src/operations";
@@ -48,7 +47,7 @@ import {
 } from "./models";
 import { newPipeline, PipelineLike, isPipelineLike, StoragePipelineOptions } from "./Pipeline";
 import { CommonOptions, StorageClient } from "./StorageClient";
-import { convertTracingToRequestOptionsBase, createSpan } from "./utils/tracing";
+import { convertTracingToRequestOptionsBase, tracingClient } from "./utils/tracing";
 import {
   appendToURLPath,
   appendToURLQuery,
@@ -789,24 +788,13 @@ export class ContainerClient extends StorageClient {
    * console.log("Container was created successfully", createContainerResponse.requestId);
    * ```
    */
-  public async create(options: ContainerCreateOptions = {}): Promise<ContainerCreateResponse> {
-    const { span, updatedOptions } = createSpan("ContainerClient-create", options);
-    try {
-      // Spread operator in destructuring assignments,
-      // this will filter out unwanted properties from the response object into result object
-      return await this.containerContext.create({
+  public create(options: ContainerCreateOptions = {}): Promise<ContainerCreateResponse> {
+    return tracingClient.withSpan("ContainerClient-create", options, (updatedOptions) => {
+      return this.containerContext.create({
         ...options,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -816,10 +804,10 @@ export class ContainerClient extends StorageClient {
    *
    * @param options -
    */
-  public async createIfNotExists(
+  public createIfNotExists(
     options: ContainerCreateOptions = {}
   ): Promise<ContainerCreateIfNotExistsResponse> {
-    const { span, updatedOptions } = createSpan("ContainerClient-createIfNotExists", options);
+    return tracingClient.withSpan("ContainerClient-createIfNotExists", options, async (updatedOptions, span) => {
     try {
       const res = await this.create(updatedOptions);
       return {
@@ -830,9 +818,8 @@ export class ContainerClient extends StorageClient {
     } catch (e: any) {
       if (e.details?.errorCode === "ContainerAlreadyExists") {
         span.setStatus({
-          code: SpanStatusCode.ERROR,
-          message:
-            "Expected exception when creating a container only if it does not already exist.",
+          status: "error",
+          error:  "Expected exception when creating a container only if it does not already exist.",
         });
         return {
           succeeded: false,
@@ -842,13 +829,12 @@ export class ContainerClient extends StorageClient {
       }
 
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        status: "error",
+        error: e,
       });
       throw e;
-    } finally {
-      span.end();
-    }
+    } 
+    });
   }
 
   /**
@@ -860,8 +846,8 @@ export class ContainerClient extends StorageClient {
    *
    * @param options -
    */
-  public async exists(options: ContainerExistsOptions = {}): Promise<boolean> {
-    const { span, updatedOptions } = createSpan("ContainerClient-exists", options);
+  public exists(options: ContainerExistsOptions = {}): Promise<boolean> {
+    return tracingClient.withSpan("ContainerClient-exists", options, async (updatedOptions, span) => {
     try {
       await this.getProperties({
         abortSignal: options.abortSignal,
@@ -871,19 +857,18 @@ export class ContainerClient extends StorageClient {
     } catch (e: any) {
       if (e.statusCode === 404) {
         span.setStatus({
-          code: SpanStatusCode.ERROR,
-          message: "Expected exception when checking container existence",
+          status: "error",
+          error: "Expected exception when checking container existence",
         });
         return false;
       }
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        status: "error",
+        error: e,
       });
       throw e;
-    } finally {
-      span.end();
     }
+    });
   }
 
   /**
@@ -954,29 +939,20 @@ export class ContainerClient extends StorageClient {
    *
    * @param options - Options to Container Get Properties operation.
    */
-  public async getProperties(
+  public getProperties(
     options: ContainerGetPropertiesOptions = {}
   ): Promise<ContainerGetPropertiesResponse> {
     if (!options.conditions) {
       options.conditions = {};
     }
 
-    const { span, updatedOptions } = createSpan("ContainerClient-getProperties", options);
-    try {
-      return await this.containerContext.getProperties({
+    return tracingClient.withSpan("ContainerClient-getProperties", options, (updatedOptions) => {
+      return this.containerContext.getProperties({
         abortSignal: options.abortSignal,
         ...options.conditions,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -986,30 +962,21 @@ export class ContainerClient extends StorageClient {
    *
    * @param options - Options to Container Delete operation.
    */
-  public async delete(
+  public delete(
     options: ContainerDeleteMethodOptions = {}
   ): Promise<ContainerDeleteResponse> {
     if (!options.conditions) {
       options.conditions = {};
     }
 
-    const { span, updatedOptions } = createSpan("ContainerClient-delete", options);
-    try {
-      return await this.containerContext.delete({
+    return tracingClient.withSpan("ContainerClient-delete", options, (updatedOptions) => {
+      return this.containerContext.delete({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -1019,11 +986,10 @@ export class ContainerClient extends StorageClient {
    *
    * @param options - Options to Container Delete operation.
    */
-  public async deleteIfExists(
+  public deleteIfExists(
     options: ContainerDeleteMethodOptions = {}
   ): Promise<ContainerDeleteIfExistsResponse> {
-    const { span, updatedOptions } = createSpan("ContainerClient-deleteIfExists", options);
-
+    return tracingClient.withSpan("ContainerClient-deleteIfExists", options, async (updatedOptions, span) => {
     try {
       const res = await this.delete(updatedOptions);
       return {
@@ -1034,8 +1000,8 @@ export class ContainerClient extends StorageClient {
     } catch (e: any) {
       if (e.details?.errorCode === "ContainerNotFound") {
         span.setStatus({
-          code: SpanStatusCode.ERROR,
-          message: "Expected exception when deleting a container only if it exists.",
+          status: "error",
+          error: "Expected exception when deleting a container only if it exists.",
         });
         return {
           succeeded: false,
@@ -1044,13 +1010,12 @@ export class ContainerClient extends StorageClient {
         };
       }
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
+        status: "error",
+        error: e,
       });
       throw e;
-    } finally {
-      span.end();
-    }
+    } 
+    });
   }
 
   /**
@@ -1065,7 +1030,7 @@ export class ContainerClient extends StorageClient {
    *                            If no value provided the existing metadata will be removed.
    * @param options - Options to Container Set Metadata operation.
    */
-  public async setMetadata(
+  public setMetadata(
     metadata?: Metadata,
     options: ContainerSetMetadataOptions = {}
   ): Promise<ContainerSetMetadataResponse> {
@@ -1079,25 +1044,15 @@ export class ContainerClient extends StorageClient {
       );
     }
 
-    const { span, updatedOptions } = createSpan("ContainerClient-setMetadata", options);
-
-    try {
-      return await this.containerContext.setMetadata({
+    return tracingClient.withSpan("ContainerClient-setMetadata", options, (updatedOptions) => {
+      return this.containerContext.setMetadata({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         metadata,
         modifiedAccessConditions: options.conditions,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -1111,16 +1066,14 @@ export class ContainerClient extends StorageClient {
    *
    * @param options - Options to Container Get Access Policy operation.
    */
-  public async getAccessPolicy(
+  public getAccessPolicy(
     options: ContainerGetAccessPolicyOptions = {}
   ): Promise<ContainerGetAccessPolicyResponse> {
     if (!options.conditions) {
       options.conditions = {};
     }
 
-    const { span, updatedOptions } = createSpan("ContainerClient-getAccessPolicy", options);
-
-    try {
+    return tracingClient.withSpan("ContainerClient-getAccessPolicy", options, async (updatedOptions) => {
       const response = await this.containerContext.getAccessPolicy({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
@@ -1163,15 +1116,7 @@ export class ContainerClient extends StorageClient {
       }
 
       return res;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -1191,14 +1136,13 @@ export class ContainerClient extends StorageClient {
    * @param containerAcl - Array of elements each having a unique Id and details of the access policy.
    * @param options - Options to Container Set Access Policy operation.
    */
-  public async setAccessPolicy(
+  public setAccessPolicy(
     access?: PublicAccessType,
     containerAcl?: SignedIdentifier[],
     options: ContainerSetAccessPolicyOptions = {}
   ): Promise<ContainerSetAccessPolicyResponse> {
     options.conditions = options.conditions || {};
-    const { span, updatedOptions } = createSpan("ContainerClient-setAccessPolicy", options);
-    try {
+    return tracingClient.withSpan("ContainerClient-setAccessPolicy", options, (updatedOptions) => {
       const acl: SignedIdentifierModel[] = [];
       for (const identifier of containerAcl || []) {
         acl.push({
@@ -1215,7 +1159,7 @@ export class ContainerClient extends StorageClient {
         });
       }
 
-      return await this.containerContext.setAccessPolicy({
+      return this.containerContext.setAccessPolicy({
         abortSignal: options.abortSignal,
         access,
         containerAcl: acl,
@@ -1223,15 +1167,7 @@ export class ContainerClient extends StorageClient {
         modifiedAccessConditions: options.conditions,
         ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -1266,29 +1202,20 @@ export class ContainerClient extends StorageClient {
    * @param options - Options to configure the Block Blob Upload operation.
    * @returns Block Blob upload response data and the corresponding BlockBlobClient instance.
    */
-  public async uploadBlockBlob(
+  public uploadBlockBlob(
     blobName: string,
     body: HttpRequestBody,
     contentLength: number,
     options: BlockBlobUploadOptions = {}
   ): Promise<{ blockBlobClient: BlockBlobClient; response: BlockBlobUploadResponse }> {
-    const { span, updatedOptions } = createSpan("ContainerClient-uploadBlockBlob", options);
-    try {
+    return tracingClient.withSpan("ContainerClient-uploadBlockBlob", options, async (updatedOptions) => {
       const blockBlobClient = this.getBlockBlobClient(blobName);
       const response = await blockBlobClient.upload(body, contentLength, updatedOptions);
       return {
         blockBlobClient,
         response,
       };
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -1302,26 +1229,17 @@ export class ContainerClient extends StorageClient {
    * @param options - Options to Blob Delete operation.
    * @returns Block blob deletion response data.
    */
-  public async deleteBlob(
+  public deleteBlob(
     blobName: string,
     options: ContainerDeleteBlobOptions = {}
   ): Promise<BlobDeleteResponse> {
-    const { span, updatedOptions } = createSpan("ContainerClient-deleteBlob", options);
-    try {
+    return tracingClient.withSpan("ContainerClient-deleteBlob", options, (updatedOptions) => {
       let blobClient = this.getBlobClient(blobName);
       if (options.versionId) {
         blobClient = blobClient.withVersion(options.versionId);
       }
-      return await blobClient.delete(updatedOptions);
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+      return blobClient.delete(updatedOptions);
+    });
   }
 
   /**
@@ -1334,12 +1252,11 @@ export class ContainerClient extends StorageClient {
    * @param marker - A string value that identifies the portion of the list to be returned with the next list operation.
    * @param options - Options to Container List Blob Flat Segment operation.
    */
-  private async listBlobFlatSegment(
+  private listBlobFlatSegment(
     marker?: string,
     options: ContainerListBlobsSegmentOptions = {}
   ): Promise<ContainerListBlobFlatSegmentResponse> {
-    const { span, updatedOptions } = createSpan("ContainerClient-listBlobFlatSegment", options);
-    try {
+    return tracingClient.withSpan("ContainerClient-listBlobFlatSegment", options, async (updatedOptions) => {
       const response = await this.containerContext.listBlobFlatSegment({
         marker,
         ...options,
@@ -1373,15 +1290,7 @@ export class ContainerClient extends StorageClient {
         },
       };
       return wrappedResponse;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -1395,16 +1304,12 @@ export class ContainerClient extends StorageClient {
    * @param marker - A string value that identifies the portion of the list to be returned with the next list operation.
    * @param options - Options to Container List Blob Hierarchy Segment operation.
    */
-  private async listBlobHierarchySegment(
+  private listBlobHierarchySegment(
     delimiter: string,
     marker?: string,
     options: ContainerListBlobsSegmentOptions = {}
   ): Promise<ContainerListBlobHierarchySegmentResponse> {
-    const { span, updatedOptions } = createSpan(
-      "ContainerClient-listBlobHierarchySegment",
-      options
-    );
-    try {
+    return tracingClient.withSpan("ContainerClient-listBlobHierarchySegment", options, async (updatedOptions) => {
       const response = await this.containerContext.listBlobHierarchySegment(delimiter, {
         marker,
         ...options,
@@ -1451,15 +1356,7 @@ export class ContainerClient extends StorageClient {
         },
       };
       return wrappedResponse;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -1877,14 +1774,12 @@ export class ContainerClient extends StorageClient {
    *                          items. The marker value is opaque to the client.
    * @param options - Options to find blobs by tags.
    */
-  private async findBlobsByTagsSegment(
+  private findBlobsByTagsSegment(
     tagFilterSqlExpression: string,
     marker?: string,
     options: ContainerFindBlobsByTagsSegmentOptions = {}
   ): Promise<ContainerFindBlobsByTagsSegmentResponse> {
-    const { span, updatedOptions } = createSpan("ContainerClient-findBlobsByTagsSegment", options);
-
-    try {
+    return tracingClient.withSpan("ContainerClient-findBlobsByTagsSegment", options, async (updatedOptions) => {
       const response = await this.containerContext.filterBlobs({
         abortSignal: options.abortSignal,
         where: tagFilterSqlExpression,
@@ -1905,15 +1800,7 @@ export class ContainerClient extends StorageClient {
         }),
       };
       return wrappedResponse;
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**

@@ -2,16 +2,19 @@
 // Licensed under the MIT license.
 
 import { OperationOptions, RequestOptionsBase } from "@azure/core-http";
-import { createSpanFunction } from "@azure/core-tracing";
+import { createTracingClient } from "@azure/core-tracing";
+import { SDK_VERSION } from "./constants";
 
 /**
  * Creates a span using the global tracer.
  * @internal
  */
-export const createSpan = createSpanFunction({
-  packagePrefix: "Azure.Storage.Blob",
-  namespace: "Microsoft.Storage",
+export const tracingClient = createTracingClient({
+  namespace: "Azure.Storage.Blob",
+  packageName: "@azure/storage-blob",
+  packageVersion: SDK_VERSION,
 });
+
 
 /**
  * @internal

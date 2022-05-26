@@ -16,7 +16,6 @@ import {
   bearerTokenAuthenticationPolicy,
   isNode,
 } from "@azure/core-http";
-import { SpanStatusCode } from "@azure/core-tracing";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { BlobClient, BlobDeleteOptions, BlobSetTierOptions } from "./Clients";
 import { AccessTier } from "./generatedModels";
@@ -31,7 +30,7 @@ import {
   StorageOAuthScopes,
 } from "./utils/constants";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { createSpan } from "./utils/tracing";
+import { tracingClient } from "./utils/tracing";
 
 /**
  * A request associated with a batch operation.
@@ -145,9 +144,9 @@ export class BlobBatch {
    * @param blobClient - The BlobClient.
    * @param options -
    */
-  public async deleteBlob(blobClient: BlobClient, options?: BlobDeleteOptions): Promise<void>;
+  public deleteBlob(blobClient: BlobClient, options?: BlobDeleteOptions): Promise<void>;
 
-  public async deleteBlob(
+  public deleteBlob(
     urlOrBlobClient: string | BlobClient,
     credentialOrOptions:
       | StorageSharedKeyCredential
@@ -184,11 +183,9 @@ export class BlobBatch {
       options = {};
     }
 
-    const { span, updatedOptions } = createSpan("BatchDeleteRequest-addSubRequest", options);
-
-    try {
+    return tracingClient.withSpan("BatchDeleteRequest-addSubRequest", options, (updatedOptions) => {
       this.setBatchType("delete");
-      await this.addSubRequestInternal(
+      return this.addSubRequestInternal(
         {
           url: url,
           credential: credential,
@@ -199,15 +196,7 @@ export class BlobBatch {
           );
         }
       );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 
   /**
@@ -250,7 +239,7 @@ export class BlobBatch {
    * @param tier -
    * @param options -
    */
-  public async setBlobAccessTier(
+  public setBlobAccessTier(
     blobClient: BlobClient,
     tier: AccessTier,
     options?: BlobSetTierOptions
@@ -299,11 +288,9 @@ export class BlobBatch {
       options = {};
     }
 
-    const { span, updatedOptions } = createSpan("BatchSetTierRequest-addSubRequest", options);
-
-    try {
+    return tracingClient.withSpan("BatchSetTierRequest-addSubRequest", options, (updatedOptions) => {
       this.setBatchType("setAccessTier");
-      await this.addSubRequestInternal(
+      return this.addSubRequestInternal(
         {
           url: url,
           credential: credential,
@@ -315,15 +302,7 @@ export class BlobBatch {
           );
         }
       );
-    } catch (e: any) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: e.message,
-      });
-      throw e;
-    } finally {
-      span.end();
-    }
+    });
   }
 }
 
