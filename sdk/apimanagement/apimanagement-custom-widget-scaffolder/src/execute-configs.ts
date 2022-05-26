@@ -1,70 +1,74 @@
-import inquirer from "inquirer"
-import {TConfigs, TDeployConfig, technologies, TMiscConfig, TWidgetConfig} from "./scaffolding"
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
-export const prefixUrlProtocol = (value: string) => (/https?:\/\//.test(value) ? value : `https://${value}`)
+import { TConfigs, TDeployConfig, TMiscConfig, TWidgetConfig, technologies } from "./scaffolding";
+import inquirer from "inquirer";
+
+export const prefixUrlProtocol = (value: string): string =>
+  /https?:\/\//.test(value) ? value : `https://${value}`;
 
 const validateRequired =
   (msg: string = "This field is required.") =>
   (input: unknown) =>
-    (input != undefined && input != "") || msg
+    (input != null && input !== "") || msg;
 
 const validateUrl =
   (msg = (input: string) => `${prefixUrlProtocol(input)} is not a valid URL`) =>
   (input: string) => {
     try {
-      new URL(prefixUrlProtocol(input))
-      return true
+      new URL(prefixUrlProtocol(input));
+      return true;
     } catch (e) {
-      return msg(prefixUrlProtocol(input))
+      return msg(prefixUrlProtocol(input));
     }
-  }
+  };
 
 type ReplaceTypesPreserveOptional<T extends Record<any, any>, V> = {
-  [Key in keyof T]: T[Key] extends undefined ? V | undefined : V
-}
+  [Key in keyof T]: T[Key] extends undefined ? V | undefined : V;
+};
 
-export type TValidateFnc = (input: string) => boolean | string
-export type TValidate<C extends TConfigs> = ReplaceTypesPreserveOptional<C, TValidateFnc>
+export type TValidateFnc = (input: string) => boolean | string;
+export type TValidate<C extends TConfigs> = ReplaceTypesPreserveOptional<C, TValidateFnc>;
 
 export const validateWidgetConfig: TValidate<TWidgetConfig> = {
   displayName: validateRequired(),
-  tech: input => {
-    const required = validateRequired()(input)
-    if (required !== true) return required
+  tech: (input) => {
+    const required = validateRequired()(input);
+    if (required !== true) return required;
 
-    if (technologies.includes(input as any)) return true
-    else return "Invalid tech. Must be one of: " + technologies.join(", ")
+    if (technologies.includes(input as any)) return true;
+    else return "Invalid tech. Must be one of: " + technologies.join(", ");
   },
-}
+};
 
 export const validateDeployConfig: TValidate<TDeployConfig> = {
-  resourceId: input => {
-    const required = validateRequired()(input)
-    if (required !== true) return required
+  resourceId: (input) => {
+    const required = validateRequired()(input);
+    if (required !== true) return required;
 
     const regex =
-      /\/?subscriptions\/[^\/]+\/resourceGroups\/[^\/]+\/providers\/Microsoft\.ApiManagement\/service\/[^\/]+\/?/
+      /\/?subscriptions\/[^/]+\/resourceGroups\/[^/]+\/providers\/Microsoft\.ApiManagement\/service\/[^/]+\/?/;
     return regex.test(input)
       ? true
-      : "resourceId does not satisfy required format: subscriptions/<subscription-id>/resourceGroups/<resource-group-name>/providers/Microsoft.ApiManagement/service/<service-name>"
+      : "resourceId does not satisfy required format: subscriptions/<subscription-id>/resourceGroups/<resource-group-name>/providers/Microsoft.ApiManagement/service/<service-name>";
   },
-  managementApiEndpoint: input => {
-    const required = validateRequired()(input)
-    if (required !== true) return required
+  managementApiEndpoint: (input) => {
+    const required = validateRequired()(input);
+    if (required !== true) return required;
 
-    return validateUrl()(input)
+    return validateUrl()(input);
   },
   apiVersion: validateRequired(),
-}
+};
 
 export const validateMiscConfig: TValidate<TMiscConfig> = {
-  openUrl: input => {
-    if (!input) return true
-    return validateUrl()(input)
+  openUrl: (input) => {
+    if (!input) return true;
+    return validateUrl()(input);
   },
-}
+};
 
-export const promptWidgetConfig = (partial: Partial<TWidgetConfig>) =>
+export const promptWidgetConfig = (partial: Partial<TWidgetConfig>): Promise<TWidgetConfig> =>
   inquirer.prompt(
     [
       {
@@ -78,15 +82,15 @@ export const promptWidgetConfig = (partial: Partial<TWidgetConfig>) =>
         type: "list",
         message: "What technology do you want to use?",
         choices: [
-          {name: "TypeScript", value: "typescript"},
-          {name: "React", value: "react"},
+          { name: "TypeScript", value: "typescript" },
+          { name: "React", value: "react" },
         ], // , {name: "Vue", disabled: "Coming soon"}],
       },
     ],
     partial
-  )
+  );
 
-export const promptDeployConfig = (partial: Partial<TDeployConfig>) =>
+export const promptDeployConfig = (partial: Partial<TDeployConfig>): Promise<TDeployConfig> =>
   inquirer.prompt(
     [
       {
@@ -112,9 +116,9 @@ export const promptDeployConfig = (partial: Partial<TDeployConfig>) =>
       },
     ],
     partial
-  )
+  );
 
-export const promptMiscConfig = (partial: Partial<TMiscConfig>) =>
+export const promptMiscConfig = (partial: Partial<TMiscConfig>): Promise<TMiscConfig> =>
   inquirer.prompt(
     [
       {
@@ -126,4 +130,4 @@ export const promptMiscConfig = (partial: Partial<TMiscConfig>) =>
       },
     ],
     partial
-  )
+  );

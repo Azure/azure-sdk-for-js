@@ -11,7 +11,7 @@
  * @packageDocumentation
  */
 
-export {generateProject} from "./scaffolding"
+export { generateProject } from "./scaffolding";
 export type {
   TWidgetRuntimeConfig as TCustomWidgetConfig,
   TWidgetConfig,
@@ -19,4 +19,4 @@ export type {
   TMiscConfig,
   TScaffoldSourceControl,
   TScaffoldTech,
-} from "./scaffolding"
+} from "./scaffolding";

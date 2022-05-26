@@ -11,5 +11,5 @@ require("ts-node").register({
     module: "commonjs",
     allowJs: true,
     esModuleInterop: true,
-  }
+  },
 });

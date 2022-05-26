@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
     "outDir": "./dist-esm",
-    "declarationDir": "./types",
+    "declarationDir": "./types"
   },
-    "exclude": [
-      "./src/templates/**"
-    ]
+  "exclude": ["./src/templates/**"]
 }
