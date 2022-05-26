@@ -18,5 +18,9 @@ https://docs.microsoft.com/javascript/api/@azure/arm-scvmm?view=azure-node-previ
 https://docs.microsoft.com/javascript/api/@azure/arm-servicelinker
 https://docs.microsoft.com/javascript/api/@azure/arm-servicelinker?view=azure-node-preview
 https://docs.microsoft.com/en-us/rest/api/index
+<<<<<<< HEAD
+https://docs.microsoft.com/javascript/api/@azure/arm-dynatrace?view=azure-node-preview
+=======
 https://docs.microsoft.com/javascript/api/@azure/arm-changes?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-changes
+>>>>>>> 6219b9c418fda7715d63007f94bdb0bcce7015da
