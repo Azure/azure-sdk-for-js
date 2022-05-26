@@ -10,7 +10,7 @@
 
 ### Ioredis Library
 
-#### Dependency Requirements Jedis
+#### Dependency Requirements Ioredis
 ```
     "@azure/identity":"^2.0.4",
     "ioredis": "^5.0.4"
