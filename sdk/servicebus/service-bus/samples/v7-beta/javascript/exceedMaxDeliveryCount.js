@@ -12,19 +12,18 @@
  * dead letter queue
  */
 
-import { ServiceBusClient } from "@azure/service-bus";
+const { ServiceBusClient } = require("@azure/service-bus");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 const queueName = process.env.QUEUE_NAME || "<queue name>";
 
-const sbClient: ServiceBusClient = new ServiceBusClient(connectionString);
+const sbClient = new ServiceBusClient(connectionString);
 
-export async function main() {
+async function main() {
   try {
     await exceedMaxDelivery();
   } finally {
@@ -77,3 +76,5 @@ main().catch((err) => {
   console.log("Exceed Max Delivery Sample - Error occurred: ", err);
   process.exit(1);
 });
+
+module.exports = { main };

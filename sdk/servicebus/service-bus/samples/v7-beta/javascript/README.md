@@ -5,10 +5,10 @@ languages:
 products:
   - azure
   - azure-service-bus
-urlFragment: service-bus-javascript
+urlFragment: service-bus-javascript-beta
 ---
 
-# Azure Service Bus client library samples for JavaScript
+# Azure Service Bus client library samples for JavaScript (Beta)
 
 These sample programs show how to use the JavaScript client libraries for Azure Service Bus in some common scenarios.
 
@@ -29,6 +29,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [advanced/sessionState.js][advanced_sessionstate]                   | Demonstrates usage of SessionState.                                                                                                                            |
 | [advanced/movingMessagesToDLQ.js][advanced_movingmessagestodlq]     | Demonstrates scenarios as to how a Service Bus message can be explicitly moved to the DLQ                                                                      |
 | [advanced/processMessageFromDLQ.js][advanced_processmessagefromdlq] | Demonstrates retrieving a message from a dead letter queue, editing it and sending it back to the main queue                                                   |
+| [exceedMaxDeliveryCount.js][exceedmaxdeliverycount]                 | Demonstrates exceeding the max delivery count, then processing the messages sent to the dead letter queue                                                      |
 
 ## Prerequisites
 
@@ -70,21 +71,22 @@ npx cross-env SERVICEBUS_CONNECTION_STRING="<servicebus connection string>" QUEU
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[sendmessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/sendMessages.js
-[receivemessagesloop]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/receiveMessagesLoop.js
-[receivemessagesstreaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/receiveMessagesStreaming.js
-[usingaadauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/usingAadAuth.js
-[browsemessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/browseMessages.js
-[session]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/session.js
-[scheduledmessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/scheduledMessages.js
-[useproxy]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/useProxy.js
-[advanced_administrationclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/advanced/administrationClient.js
-[advanced_sessionroundrobin]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/advanced/sessionRoundRobin.js
-[advanced_deferral]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/advanced/deferral.js
-[advanced_listingentities]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/advanced/listingEntities.js
-[advanced_sessionstate]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/advanced/sessionState.js
-[advanced_movingmessagestodlq]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/advanced/movingMessagesToDLQ.js
-[advanced_processmessagefromdlq]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/javascript/advanced/processMessageFromDLQ.js
+[sendmessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/sendMessages.js
+[receivemessagesloop]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/receiveMessagesLoop.js
+[receivemessagesstreaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/receiveMessagesStreaming.js
+[usingaadauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/usingAadAuth.js
+[browsemessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/browseMessages.js
+[session]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/session.js
+[scheduledmessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/scheduledMessages.js
+[useproxy]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/useProxy.js
+[advanced_administrationclient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/advanced/administrationClient.js
+[advanced_sessionroundrobin]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/advanced/sessionRoundRobin.js
+[advanced_deferral]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/advanced/deferral.js
+[advanced_listingentities]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/advanced/listingEntities.js
+[advanced_sessionstate]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/advanced/sessionState.js
+[advanced_movingmessagestodlq]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/advanced/movingMessagesToDLQ.js
+[advanced_processmessagefromdlq]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/advanced/processMessageFromDLQ.js
+[exceedmaxdeliverycount]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7-beta/javascript/exceedMaxDeliveryCount.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/service-bus
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azureservicebus]: https://docs.microsoft.com/azure/service-bus-messaging

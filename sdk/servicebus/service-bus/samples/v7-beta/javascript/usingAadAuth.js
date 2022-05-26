@@ -24,8 +24,7 @@ const { ServiceBusClient } = require("@azure/service-bus");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 // Define Service Bus Endpoint here and related entity names here
 const serviceBusEndpoint =
@@ -71,3 +70,5 @@ main().catch((err) => {
   console.log("usingAadAuth Sample - Error occurred: ", err);
   process.exit(1);
 });
+
+module.exports = { main };
