@@ -2,9 +2,9 @@
  "recordings": [
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsModel%3B1",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsModel%3B1",
    "query": {
-    "api-version": "2021-06-30-preview"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 404,
@@ -12,16 +12,17 @@
    "responseHeaders": {
     "content-length": "217",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 31 Mar 2022 17:41:18 GMT",
+    "date": "Thu, 26 May 2022 10:31:24 GMT",
+    "mise-correlation-id": "77999656-9d33-415d-8b66-4a644880903d",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-6f4911e2a32f1d4f820a79d4a32186aa-c4da8f8711c8e74f-01"
+    "traceresponse": "00-70c7cbabda9191448711ef88b5723a88-6cb72c6472ac7048-01"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsComponent%3B1",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsComponent%3B1",
    "query": {
-    "api-version": "2021-06-30-preview"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 404,
@@ -29,16 +30,17 @@
    "responseHeaders": {
     "content-length": "221",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 31 Mar 2022 17:41:18 GMT",
+    "date": "Thu, 26 May 2022 10:31:24 GMT",
+    "mise-correlation-id": "344ee92f-8d43-4e45-a458-b7f1d7e44985",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-90b389f98bcccf4d8e054d8601cc3628-5bf9167d7a89554c-01"
+    "traceresponse": "00-664c226a111b354abc663bec3eeaca5a-26140b35d9deec44-01"
    }
   },
   {
    "method": "PATCH",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsComponent%3B1",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsComponent%3B1",
    "query": {
-    "api-version": "2021-06-30-preview"
+    "api-version": "2022-05-31"
    },
    "requestBody": "[{\"op\":\"replace\",\"path\":\"/decommissioned\",\"value\":true}]",
    "status": 404,
@@ -46,16 +48,17 @@
    "responseHeaders": {
     "content-length": "221",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 31 Mar 2022 17:41:18 GMT",
+    "date": "Thu, 26 May 2022 10:31:24 GMT",
+    "mise-correlation-id": "bac3deb6-df42-47e5-9703-33937b88d6d5",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-ba42fba492436c41b60c584165fc1430-40964e022b270449-01"
+    "traceresponse": "00-c5831b3dacef5245abb4ea7887286765-8f5f5fcffd5e9e40-01"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsModel%3B1",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsModel%3B1",
    "query": {
-    "api-version": "2021-06-30-preview"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 404,
@@ -63,16 +66,17 @@
    "responseHeaders": {
     "content-length": "217",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 31 Mar 2022 17:41:18 GMT",
+    "date": "Thu, 26 May 2022 10:31:24 GMT",
+    "mise-correlation-id": "4abeddc6-45ca-4dcf-9b75-6ab20360abd3",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-47f9cd4e44046e4cb862a2fde40f2930-afe4e6240cc21f4e-01"
+    "traceresponse": "00-719ac491758c89419e6dec57bc3214b6-4124dac4f293774c-01"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsComponent%3B1",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsComponent%3B1",
    "query": {
-    "api-version": "2021-06-30-preview"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 404,
@@ -80,9 +84,10 @@
    "responseHeaders": {
     "content-length": "221",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 31 Mar 2022 17:41:18 GMT",
+    "date": "Thu, 26 May 2022 10:31:24 GMT",
+    "mise-correlation-id": "2eb98b71-1ac0-4e9c-917e-572dcaf057ee",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-3165f64a7254b44f85cbf81db3cc310f-b1ca4a474588c041-01"
+    "traceresponse": "00-2b382ab7428cc44fbdac75e6e4e3bf0e-95aaa45266437842-01"
    }
   }
  ],
@@ -90,5 +95,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "b34f3e0442936589d572d0a725dbb436"
+ "hash": "65329f2caa92a24c510cf0fb071dfed7"
 }

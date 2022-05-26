@@ -55,7 +55,7 @@ import {
 import { tracingClient } from "./tracing";
 import { logger } from "./logger";
 
-export const SDK_VERSION: string = "1.1.0-beta.2";
+export const SDK_VERSION: string = "1.1.0";
 
 export interface DigitalTwinsClientOptions extends PipelineOptions {
   /**

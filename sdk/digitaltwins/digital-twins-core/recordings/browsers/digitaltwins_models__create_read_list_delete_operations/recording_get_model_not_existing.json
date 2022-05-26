@@ -2,9 +2,9 @@
  "recordings": [
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsModel%3B1",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsModel%3B1",
    "query": {
-    "api-version": "2021-06-30-preview"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 404,
@@ -12,16 +12,17 @@
    "responseHeaders": {
     "content-length": "217",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 31 Mar 2022 17:41:15 GMT",
+    "date": "Thu, 26 May 2022 10:31:22 GMT",
+    "mise-correlation-id": "921ae7ed-22f8-42c2-8f7b-d2a80b5791ca",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-b4202d675d942d46b280a3fefc3fbfad-bc7727e2ba64174c-01"
+    "traceresponse": "00-2c9f94570fc2504e901ba0d8923a87d5-98f2301c72efb244-01"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsComponent%3B1",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsComponent%3B1",
    "query": {
-    "api-version": "2021-06-30-preview"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 404,
@@ -29,16 +30,17 @@
    "responseHeaders": {
     "content-length": "221",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 31 Mar 2022 17:41:15 GMT",
+    "date": "Thu, 26 May 2022 10:31:23 GMT",
+    "mise-correlation-id": "77226e8b-9803-4650-85ba-1cf0887b3ac7",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-747ba1b571eaa0498abea1bc6ad3aa37-eef5167920881542-01"
+    "traceresponse": "00-0be3846274e61a448164512b44e5fdc4-0ee1486d30958640-01"
    }
   },
   {
    "method": "GET",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsComponent%3B1",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsComponent%3B1",
    "query": {
-    "api-version": "2021-06-30-preview",
+    "api-version": "2022-05-31",
     "includeModelDefinition": "false"
    },
    "requestBody": null,
@@ -47,9 +49,10 @@
    "responseHeaders": {
     "content-length": "221",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 31 Mar 2022 17:41:15 GMT",
+    "date": "Thu, 26 May 2022 10:31:23 GMT",
+    "mise-correlation-id": "c440ac54-1e7e-4b5a-92dc-6297f26d5cd7",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-87e4a559fb89214ea77aac424c0db149-133e5f16eec39442-01"
+    "traceresponse": "00-e2a85fa8b850cd4a8f7601e6c85319eb-d5356ef1285f6249-01"
    }
   }
  ],
@@ -57,5 +60,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "d51f74973184e43767a964901b768f21"
+ "hash": "65a961b3e639a607f389a965d4e18de9"
 }

@@ -2,9 +2,9 @@
  "recordings": [
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/eventroutes/eventRoute164874848486108972",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/eventroutes/eventRoute165356108798002322",
    "query": {
-    "api-version": "2021-06-30-preview"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 404,
@@ -12,17 +12,18 @@
    "responseHeaders": {
     "content-length": "223",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 31 Mar 2022 17:41:24 GMT",
+    "date": "Thu, 26 May 2022 10:31:28 GMT",
+    "mise-correlation-id": "79ccb950-535e-4520-8547-0401cf49ba76",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-7c9194a18379f94f91b0980c6e6674b5-91f375604ff63043-01"
+    "traceresponse": "00-952f0d04e5e13e4ea115104329559c90-4ce901d4e408f74b-01"
    }
   }
  ],
  "uniqueTestInfo": {
   "uniqueName": {
-   "delete-event-routes-not-existing": "eventRoute164874848486108972"
+   "delete-event-routes-not-existing": "eventRoute165356108798002322"
   },
   "newDate": {}
  },
- "hash": "3fa710cafe6d79b6d105df1b269fdc73"
+ "hash": "8eb8aa3e02ad976c4e65041d65e815b2"
 }

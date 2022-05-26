@@ -2,9 +2,9 @@
  "recordings": [
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTTestBuilding%3B1",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTTestBuilding%3B1",
    "query": {
-    "api-version": "2021-06-30-preview"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 404,
@@ -12,152 +12,155 @@
    "responseHeaders": {
     "content-length": "214",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 31 Mar 2022 17:40:52 GMT",
+    "date": "Thu, 26 May 2022 10:31:06 GMT",
+    "mise-correlation-id": "0a1e6427-a4a2-414a-993f-157ca254bca2",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-45a7c909ee747c46b9b78c5fac42dfd6-6a372d0de2d5004c-01"
+    "traceresponse": "00-86fed2ce7146e940b91fe75a0cdf772c-79080d551906d641-01"
    }
   },
   {
    "method": "POST",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models",
    "query": {
-    "api-version": "2021-06-30-preview"
+    "api-version": "2022-05-31"
    },
    "requestBody": "[{\"@id\":\"dtmi:samples:DTTestBuilding;1\",\"@type\":\"Interface\",\"@context\":\"dtmi:dtdl:context;2\",\"displayName\":\"Building\",\"contents\":[{\"@type\":\"Property\",\"name\":\"AverageTemperature\",\"schema\":\"double\"},{\"@type\":\"Property\",\"name\":\"TemperatureUnit\",\"schema\":\"string\"}]}]",
    "status": 201,
-   "response": "[{\"id\":\"dtmi:samples:DTTestBuilding;1\",\"description\":{},\"displayName\":{\"en\":\"Building\"},\"decommissioned\":false,\"uploadTime\":\"2022-03-31T17:40:53.2580574+00:00\"}]",
+   "response": "[{\"id\":\"dtmi:samples:DTTestBuilding;1\",\"description\":{},\"displayName\":{\"en-US\":\"Building\"},\"decommissioned\":false,\"uploadTime\":\"2022-05-26T10:31:06.2194765+00:00\"}]",
    "responseHeaders": {
-    "content-length": "161",
+    "content-length": "164",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 31 Mar 2022 17:40:52 GMT",
+    "date": "Thu, 26 May 2022 10:31:06 GMT",
+    "mise-correlation-id": "df799d0f-7ecd-47c0-a4c3-d9e9048052e5",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-95de9025be421645b694d122d26abfb1-46c194e256a10e4d-01"
+    "traceresponse": "00-effcd1007cc23c4d8e37e8e8c43e25bd-0e905896b8285a45-01"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/digitaltwins/digitalTwin164874845246303494",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/digitalTwin165356106499801939",
    "query": {
-    "api-version": "2021-06-30-preview"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"error\":{\"code\":\"DigitalTwinNotFound\",\"message\":\"There is no digital twin instance that exists with the ID digitalTwin164874845246303494. Please verify that the twin id is valid and ensure that the twin is not deleted. See section on querying the twins https://aka.ms/adtv2query.\"}}",
+   "response": "{\"error\":{\"code\":\"DigitalTwinNotFound\",\"message\":\"There is no digital twin instance that exists with the ID digitalTwin165356106499801939. Please verify that the twin id is valid and ensure that the twin is not deleted. See section on querying the twins https://aka.ms/adtv2query.\"}}",
    "responseHeaders": {
     "content-length": "283",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 31 Mar 2022 17:40:52 GMT",
+    "date": "Thu, 26 May 2022 10:31:06 GMT",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-7222848d40c585409129ad683561b371-02606749ebcaed46-01"
+    "traceresponse": "00-593aff455fb5b34384de9962fc424839-1c03008df5fc184b-01"
    }
   },
   {
    "method": "PUT",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/digitaltwins/digitalTwin164874845246303494",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/digitalTwin165356106499801939",
    "query": {
-    "api-version": "2021-06-30-preview"
+    "api-version": "2022-05-31"
    },
    "requestBody": "{\"$metadata\":{\"$model\":\"dtmi:samples:DTTestBuilding;1\"},\"AverageTemperature\":68,\"TemperatureUnit\":\"Celsius\"}",
    "status": 200,
-   "response": "{\"$dtId\":\"digitalTwin164874845246303494\",\"$etag\":\"W/\\\"c498cd11-3304-49be-94d1-858f3bef3250\\\"\",\"AverageTemperature\":68,\"TemperatureUnit\":\"Celsius\",\"$metadata\":{\"$model\":\"dtmi:samples:DTTestBuilding;1\",\"AverageTemperature\":{\"lastUpdateTime\":\"2022-03-31T17:40:53.4967031Z\"},\"TemperatureUnit\":{\"lastUpdateTime\":\"2022-03-31T17:40:53.4967031Z\"}}}",
+   "response": "{\"$dtId\":\"digitalTwin165356106499801939\",\"$etag\":\"W/\\\"bd89775e-2845-40c7-89a7-284e37c4245f\\\"\",\"AverageTemperature\":68,\"TemperatureUnit\":\"Celsius\",\"$metadata\":{\"$model\":\"dtmi:samples:DTTestBuilding;1\",\"$lastUpdateTime\":\"2022-05-26T10:31:06.3913504Z\",\"AverageTemperature\":{\"lastUpdateTime\":\"2022-05-26T10:31:06.3913504Z\"},\"TemperatureUnit\":{\"lastUpdateTime\":\"2022-05-26T10:31:06.3913504Z\"}}}",
    "responseHeaders": {
-    "content-length": "340",
+    "content-length": "389",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 31 Mar 2022 17:40:52 GMT",
-    "etag": "W/\"c498cd11-3304-49be-94d1-858f3bef3250\"",
+    "date": "Thu, 26 May 2022 10:31:06 GMT",
+    "etag": "W/\"bd89775e-2845-40c7-89a7-284e37c4245f\"",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-6df46848e5c5a544bc4de93188d85d00-0b1105ad82756e48-01"
+    "traceresponse": "00-2e2f9c8732703f47bcb614cf51c4aac2-45632b2ebd4cff4e-01"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/digitaltwins/digitalTwin164874845246303494",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/digitalTwin165356106499801939",
    "query": {
-    "api-version": "2021-06-30-preview"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Thu, 31 Mar 2022 17:40:52 GMT",
+    "date": "Thu, 26 May 2022 10:31:06 GMT",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-c64a6074328b5d4991215d9060b18315-d22b2004a4935c4a-01"
+    "traceresponse": "00-3594e5f05c11e24984e1d2d9b4dc82bc-b1e8b7ad98e3324e-01"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/digitaltwins/digitalTwin164874845246303494",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/digitalTwin165356106499801939",
    "query": {
-    "api-version": "2021-06-30-preview"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"error\":{\"code\":\"DigitalTwinNotFound\",\"message\":\"There is no digital twin instance that exists with the ID digitalTwin164874845246303494. Please verify that the twin id is valid and ensure that the twin is not deleted. See section on querying the twins https://aka.ms/adtv2query.\"}}",
+   "response": "{\"error\":{\"code\":\"DigitalTwinNotFound\",\"message\":\"There is no digital twin instance that exists with the ID digitalTwin165356106499801939. Please verify that the twin id is valid and ensure that the twin is not deleted. See section on querying the twins https://aka.ms/adtv2query.\"}}",
    "responseHeaders": {
     "content-length": "283",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 31 Mar 2022 17:40:52 GMT",
+    "date": "Thu, 26 May 2022 10:31:06 GMT",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-023414ef73c90f42ab769a77878899d7-5c3f6c62772b3140-01"
+    "traceresponse": "00-94288bcbc72a084cac4e5830b0105118-bbb69b4ed94d3f40-01"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTTestBuilding%3B1",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTTestBuilding%3B1",
    "query": {
-    "api-version": "2021-06-30-preview"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
     "content-length": "0",
-    "date": "Thu, 31 Mar 2022 17:40:53 GMT",
+    "date": "Thu, 26 May 2022 10:31:06 GMT",
+    "mise-correlation-id": "91223f09-bb72-499d-9fe6-1cea1d100ca5",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-36f472c5d933bc46a7490d11a558d2ad-cf01021c0809f843-01"
+    "traceresponse": "00-a3a6b46f85a8214faec6d75f7c0b9094-4e7bc96b6453da42-01"
    }
   },
   {
    "method": "GET",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/digitaltwins/digitalTwin164874845246303494",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/digitalTwin165356106499801939",
    "query": {
-    "api-version": "2021-06-30-preview"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"error\":{\"code\":\"DigitalTwinNotFound\",\"message\":\"There is no digital twin instance that exists with the ID digitalTwin164874845246303494. Please verify that the twin id is valid and ensure that the twin is not deleted. See section on querying the twins https://aka.ms/adtv2query.\"}}",
+   "response": "{\"error\":{\"code\":\"DigitalTwinNotFound\",\"message\":\"There is no digital twin instance that exists with the ID digitalTwin165356106499801939. Please verify that the twin id is valid and ensure that the twin is not deleted. See section on querying the twins https://aka.ms/adtv2query.\"}}",
    "responseHeaders": {
     "content-length": "283",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 31 Mar 2022 17:40:53 GMT",
+    "date": "Thu, 26 May 2022 10:31:06 GMT",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-5de3620e7a718749ae0f96312f56d9df-1f87b4cda2c38847-01"
+    "traceresponse": "00-20e1b9ef2150584b8b65338ad7d12753-3d3bc44a17dc1540-01"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/digitaltwins/digitalTwin164874845246303494",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/digitaltwins/digitalTwin165356106499801939",
    "query": {
-    "api-version": "2021-06-30-preview"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 404,
-   "response": "{\"error\":{\"code\":\"DigitalTwinNotFound\",\"message\":\"There is no digital twin instance that exists with the ID digitalTwin164874845246303494. Please verify that the twin id is valid and ensure that the twin is not deleted. See section on querying the twins https://aka.ms/adtv2query.\"}}",
+   "response": "{\"error\":{\"code\":\"DigitalTwinNotFound\",\"message\":\"There is no digital twin instance that exists with the ID digitalTwin165356106499801939. Please verify that the twin id is valid and ensure that the twin is not deleted. See section on querying the twins https://aka.ms/adtv2query.\"}}",
    "responseHeaders": {
     "content-length": "283",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 31 Mar 2022 17:40:53 GMT",
+    "date": "Thu, 26 May 2022 10:31:06 GMT",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-53c1364a2da26941b430a35a6190fa67-67865f89ff635f41-01"
+    "traceresponse": "00-78302154e06d884a9f430e9d0f373ebb-eeec149c872e7e4d-01"
    }
   }
  ],
  "uniqueTestInfo": {
   "uniqueName": {
-   "delete-digitaltwin-if-present": "digitalTwin164874845246303494"
+   "delete-digitaltwin-if-present": "digitalTwin165356106499801939"
   },
   "newDate": {}
  },
- "hash": "eedf2398a72336564e1c65786e935e2e"
+ "hash": "eab8dea1f885bbd4a500313cc764ca91"
 }

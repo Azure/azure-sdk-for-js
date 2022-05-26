@@ -2,9 +2,9 @@
  "recordings": [
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsModel%3B1",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsModel%3B1",
    "query": {
-    "api-version": "2021-06-30-preview"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 404,
@@ -12,16 +12,17 @@
    "responseHeaders": {
     "content-length": "217",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 31 Mar 2022 17:41:13 GMT",
+    "date": "Thu, 26 May 2022 10:31:21 GMT",
+    "mise-correlation-id": "154a9a01-8de7-4c06-9405-32f3361dc951",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-49b01c7a6b5e58468b6cd214eac2af90-32ea602644766a4d-01"
+    "traceresponse": "00-a4209e8645ef0040a1c2b5fcf37c7446-89db15b21968f14e-01"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsComponent%3B1",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsComponent%3B1",
    "query": {
-    "api-version": "2021-06-30-preview"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 404,
@@ -29,33 +30,35 @@
    "responseHeaders": {
     "content-length": "221",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 31 Mar 2022 17:41:13 GMT",
+    "date": "Thu, 26 May 2022 10:31:21 GMT",
+    "mise-correlation-id": "6f86ab9f-b248-429c-bfc3-21d02dc1d720",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-451c9d0f69aba642a58b3daba6ece591-4e99edacb126c548-01"
+    "traceresponse": "00-1b00bd7db45e9d4bb230f930956107a3-fdc0b2c6b97aa74f-01"
    }
   },
   {
    "method": "POST",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models",
    "query": {
-    "api-version": "2021-06-30-preview"
+    "api-version": "2022-05-31"
    },
    "requestBody": "[{\"@id\":\"dtmi:samples:DTModelTestsModel;1\",\"@type\":\"Interface\",\"@context\":\"dtmi:dtdl:context;2\",\"displayName\":\"TempModel\",\"contents\":[{\"@type\":\"Property\",\"name\":\"Prop1\",\"schema\":\"string\"},{\"@type\":\"Component\",\"name\":\"Component1\",\"schema\":\"XXX\"},{\"@type\":\"Telemetry\",\"name\":\"Telemetry1\",\"schema\":\"integer\"}]}]",
    "status": 400,
-   "response": "{\"error\":{\"code\":\"DTDLParserError\",\"message\":\"None of the models in this request could be created due to a problem with one or more models: dtmi:samples:DTModelTestsModel;1 has 'contents' value with name 'Component1' whose property 'schema' has value 'XXX' that is not a DTMI or a DTDL term. Replace the value of property 'schema, with a valid DTMI or a term defined by DTDL -- see https://github.com/Azure/opendigitaltwins-dtdl/tree/master/DTDL.. See model documentation(https://aka.ms/ADTv2Models) for supported format.\"}}",
+   "response": "{\"error\":{\"code\":\"DTDLParserError\",\"message\":\"None of the models in this request could be created due to a problem with one or more models: dtmi:samples:DTModelTestsModel;1 has 'contents' value with name 'Component1' whose property 'schema' has value 'XXX' that is neither a valid DTMI reference nor a DTDL term. Replace the value of property 'schema' with a valid DTMI reference or a term defined by DTDL -- see https://github.com/Azure/opendigitaltwins-dtdl/tree/master/DTDL. | dtmi:samples:DTModelTestsModel;1 has 'contents' value with name 'Component1' whose property 'schema' has no valid value but one is required. Provide a value for 'schema' that is either an element definition or a DTMI reference.. See model documentation(https://aka.ms/ADTv2Models) for supported format.\"}}",
    "responseHeaders": {
-    "content-length": "524",
+    "content-length": "785",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 31 Mar 2022 17:41:13 GMT",
+    "date": "Thu, 26 May 2022 10:31:21 GMT",
+    "mise-correlation-id": "82ba5d49-71b8-49e9-8c4d-f9ffe3c6058c",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-fe9dc4270a851f46bcbb4ca5ca051bad-d1b632b419335843-01"
+    "traceresponse": "00-df82f468f7ccab429ebc442f055f14ff-d878d9b34ccc0542-01"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsModel%3B1",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsModel%3B1",
    "query": {
-    "api-version": "2021-06-30-preview"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 404,
@@ -63,16 +66,17 @@
    "responseHeaders": {
     "content-length": "217",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 31 Mar 2022 17:41:13 GMT",
+    "date": "Thu, 26 May 2022 10:31:21 GMT",
+    "mise-correlation-id": "0f753822-e9b7-4687-97b0-498517badf12",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-a73c01ae8b80e1479016de28203f1f43-6eb1f663055fba41-01"
+    "traceresponse": "00-b4989ad79d33f64b97ca828246b370fa-bfc14e20d870c946-01"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsComponent%3B1",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsComponent%3B1",
    "query": {
-    "api-version": "2021-06-30-preview"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 404,
@@ -80,9 +84,10 @@
    "responseHeaders": {
     "content-length": "221",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 31 Mar 2022 17:41:13 GMT",
+    "date": "Thu, 26 May 2022 10:31:21 GMT",
+    "mise-correlation-id": "5061b555-b4b6-47ff-bd6d-83346384829b",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-9c5c27b1ca4bab4d8db55e044e4dceb3-05d1ed3efb47274d-01"
+    "traceresponse": "00-adafb55875f44e4180d87edf0dde0196-9829c09983c83947-01"
    }
   }
  ],
@@ -90,5 +95,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "da0f5b4b9e7fc9882f6d94161c3f819e"
+ "hash": "a6ec43a5986530ade051ac90dddfdd47"
 }

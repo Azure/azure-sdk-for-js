@@ -2,7 +2,7 @@ let nock = require('nock');
 
 module.exports.hash = "b280c4362d9722ad277b1591f9ae6d10";
 
-module.exports.testInfo = {"uniqueName":{"update-digitaltwin-remove":"digitalTwin164874834312700755"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{"update-digitaltwin-remove":"digitalTwin165356100150406287"},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .get('/common/discovery/instance')
@@ -23,19 +23,21 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '5f5da9eb-a6c7-426a-a19e-67272b8cb500',
+  'b4924a6e-8359-4b43-bc4b-56ffd6496300',
   'x-ms-ests-server',
-  '2.1.12570.11 - SCUS ProdSlices',
+  '2.1.12794.4 - WUS2 ProdSlices',
+  'X-XSS-Protection',
+  '0',
   'Set-Cookie',
-  'fpc=At3cR-19Ks5DteK27huFcx0; expires=Sat, 30-Apr-2022 17:39:03 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AlydyVfo3xVFm9xKCKgEw6s; expires=Sat, 25-Jun-2022 10:30:02 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrrtOPUJub_HW3M3aj3SrYvyPM2kZIh9-dLMFthcA7PvyX47pZOU16yTVydCJQ5EWaZpxzbxGb7FCkzyS0JPrhOmUWgXUUvLh9YnoLsCLlwL_fjhQTN9hK6bS8U4b4AFm2XS2gsYBB632IQP5SWtdpsRPoVXcz8dP94TMkpk8o2CcgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr3biLxcSdVdBB9xz0tyJfRX8Z5z0Mg52fpFkspFjX579Rx5oNfWj5y60bVgZUl-JKjF-J3XH3zAtyhwFG-BwrbjT5nCLQ3l88q2Y3PJXCRnl00JZY4_A3N1axH48T3Oefw24CL-yydCqvOEiYB1N--fW6JmjpDOGclBL1iQseBnUgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 31 Mar 2022 17:39:03 GMT',
+  'Thu, 26 May 2022 10:30:01 GMT',
   'Content-Length',
   '980'
 ]);
@@ -58,25 +60,27 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'a264ad0e-f0e2-4de7-97c6-08a219e22000',
+  '3137ccf1-2b24-4cca-b52e-d638967e0c00',
   'x-ms-ests-server',
-  '2.1.12570.16 - WUS2 ProdSlices',
+  '2.1.12821.7 - NCUS ProdSlices',
+  'X-XSS-Protection',
+  '0',
   'Set-Cookie',
-  'fpc=AstqD4K_OiNPuguMEt1ivj0; expires=Sat, 30-Apr-2022 17:39:03 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Au9mGOzkvS9EmAPDBIb_rk0; expires=Sat, 25-Jun-2022 10:30:02 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrJ-1FN-0ub5AKlerupG_WrCVYbFzAUmo4zq3HuMEEclEeYlXiaXp8Rx93eFbF8UaFcnZgqiuFBjA-sQ5Z8QCSjoEhTNMXNKEH1HyJSUsEAv0L9Qrd8zSgHaWSqhiyKVQoVjzcjctre7klxwKEo21DfXUE-R0mkyALSypY_GkMntAgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrJz9sQK30d5i8doYQWIfc6CX7VLfOMScLl0aP0MccDb05v6FkLfqTv-2Ue3yGJ7z2dEW7FuBu0k95dAT8SuDgfdUj_0oAJa8KSejccTFwy3tLsTJmHw2aVpJpbYkxvoVPH19hLEudU7znw9z2Y6drCsY3_327COiikX7nfT3yy_QgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 31 Mar 2022 17:39:03 GMT',
+  'Thu, 26 May 2022 10:30:01 GMT',
   'Content-Length',
   '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.7.0&x-client-OS=win32&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=63295c3e-c3ec-4283-a00a-957ccf9406a7&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
+  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.9.0&x-client-OS=win32&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=feb3afcc-4234-4165-8ee4-5d0861e37eda&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -93,24 +97,26 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'a264ad0e-f0e2-4de7-97c6-08a21be22000',
+  'e6abc992-3344-4ba2-8d50-405d44310e00',
   'x-ms-ests-server',
-  '2.1.12570.16 - WUS2 ProdSlices',
+  '2.1.12821.7 - EUS ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
+  'X-XSS-Protection',
+  '0',
   'Set-Cookie',
-  'fpc=Al862AMtWB5Hj4JJ2ItPGn4; expires=Sat, 30-Apr-2022 17:39:03 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AtbPPY-Y3sFOiGvAYPpDuic; expires=Sat, 25-Jun-2022 10:30:02 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 31 Mar 2022 17:39:03 GMT',
+  'Thu, 26 May 2022 10:30:01 GMT',
   'Content-Length',
   '1325'
 ]);
 
-nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"encodedQueryParams":true})
+nock('https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net:443', {"encodedQueryParams":true})
   .delete('/models/dtmi%3Asamples%3ADTTestBuilding%3B1')
   .query(true)
   .reply(404, {"error":{"code":"ModelNotFound","message":"There is no Model(s) available that matches the provided id(s) dtmi:samples:DTTestBuilding;1. Check that the Model ID provided is valid by doing a Model_List API call."}}, [
@@ -121,31 +127,35 @@ nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"enc
   'Strict-Transport-Security',
   'max-age=2592000',
   'traceresponse',
-  '00-4351fa76c86fdf4abeeb24895d7161ea-f017421bd210f44c-01',
+  '00-95a8899ea69daa46815c395b80be1776-b16218326d8a654f-01',
+  'mise-correlation-id',
+  'bc918ee1-e575-4e63-a2c7-ee144e97708a',
   'Date',
-  'Thu, 31 Mar 2022 17:39:03 GMT'
+  'Thu, 26 May 2022 10:30:01 GMT'
 ]);
 
-nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"encodedQueryParams":true})
+nock('https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net:443', {"encodedQueryParams":true})
   .post('/models', [{"@id":"dtmi:samples:DTTestBuilding;1","@type":"Interface","@context":"dtmi:dtdl:context;2","displayName":"Building","contents":[{"@type":"Property","name":"AverageTemperature","schema":"double"},{"@type":"Property","name":"TemperatureUnit","schema":"string"}]}])
   .query(true)
-  .reply(201, [{"id":"dtmi:samples:DTTestBuilding;1","description":{},"displayName":{"en":"Building"},"decommissioned":false,"uploadTime":"2022-03-31T17:39:04.1813427+00:00"}], [
+  .reply(201, [{"id":"dtmi:samples:DTTestBuilding;1","description":{},"displayName":{"en-US":"Building"},"decommissioned":false,"uploadTime":"2022-05-26T10:30:02.9105428+00:00"}], [
   'Content-Length',
-  '161',
+  '164',
   'Content-Type',
   'application/json; charset=utf-8',
   'Strict-Transport-Security',
   'max-age=2592000',
   'traceresponse',
-  '00-bdb60a1df2ba87419e7564e788086413-2aa8f8041deb7b48-01',
+  '00-2927e55a152e8144b0c77d37b6c7faba-736a5d35733b7746-01',
+  'mise-correlation-id',
+  '703c6c2b-4e1e-4730-8f5b-e1c130f823df',
   'Date',
-  'Thu, 31 Mar 2022 17:39:03 GMT'
+  'Thu, 26 May 2022 10:30:01 GMT'
 ]);
 
-nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"encodedQueryParams":true})
-  .delete('/digitaltwins/digitalTwin164874834312700755')
+nock('https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net:443', {"encodedQueryParams":true})
+  .delete('/digitaltwins/digitalTwin165356100150406287')
   .query(true)
-  .reply(404, {"error":{"code":"DigitalTwinNotFound","message":"There is no digital twin instance that exists with the ID digitalTwin164874834312700755. Please verify that the twin id is valid and ensure that the twin is not deleted. See section on querying the twins https://aka.ms/adtv2query."}}, [
+  .reply(404, {"error":{"code":"DigitalTwinNotFound","message":"There is no digital twin instance that exists with the ID digitalTwin165356100150406287. Please verify that the twin id is valid and ensure that the twin is not deleted. See section on querying the twins https://aka.ms/adtv2query."}}, [
   'Content-Length',
   '283',
   'Content-Type',
@@ -153,65 +163,65 @@ nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"enc
   'Strict-Transport-Security',
   'max-age=2592000',
   'traceresponse',
-  '00-5ed2c48018a4d94694b3bd1d8e1077c2-9cca6f0b584d8d43-01',
+  '00-992710422596664db1f09e967332c8d5-a4a88f5dbcd80149-01',
   'Date',
-  'Thu, 31 Mar 2022 17:39:03 GMT'
+  'Thu, 26 May 2022 10:30:02 GMT'
 ]);
 
-nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"encodedQueryParams":true})
-  .put('/digitaltwins/digitalTwin164874834312700755', {"$metadata":{"$model":"dtmi:samples:DTTestBuilding;1"},"AverageTemperature":68,"TemperatureUnit":"Celsius"})
+nock('https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net:443', {"encodedQueryParams":true})
+  .put('/digitaltwins/digitalTwin165356100150406287', {"$metadata":{"$model":"dtmi:samples:DTTestBuilding;1"},"AverageTemperature":68,"TemperatureUnit":"Celsius"})
   .query(true)
-  .reply(200, {"$dtId":"digitalTwin164874834312700755","$etag":"W/\"b805086d-3e47-43dc-99b8-5cd6e0d01f86\"","AverageTemperature":68,"TemperatureUnit":"Celsius","$metadata":{"$model":"dtmi:samples:DTTestBuilding;1","AverageTemperature":{"lastUpdateTime":"2022-03-31T17:39:04.4255507Z"},"TemperatureUnit":{"lastUpdateTime":"2022-03-31T17:39:04.4255507Z"}}}, [
+  .reply(200, {"$dtId":"digitalTwin165356100150406287","$etag":"W/\"e29e9b6c-4775-41a9-a741-9dcf07de63bc\"","AverageTemperature":68,"TemperatureUnit":"Celsius","$metadata":{"$model":"dtmi:samples:DTTestBuilding;1","$lastUpdateTime":"2022-05-26T10:30:03.0707236Z","AverageTemperature":{"lastUpdateTime":"2022-05-26T10:30:03.0707236Z"},"TemperatureUnit":{"lastUpdateTime":"2022-05-26T10:30:03.0707236Z"}}}, [
   'Content-Length',
-  '340',
+  '389',
   'Content-Type',
   'application/json; charset=utf-8',
   'ETag',
-  'W/"b805086d-3e47-43dc-99b8-5cd6e0d01f86"',
+  'W/"e29e9b6c-4775-41a9-a741-9dcf07de63bc"',
   'Strict-Transport-Security',
   'max-age=2592000',
   'traceresponse',
-  '00-46033c02b4ae374daeeb737a4132252b-29024a78f82d0544-01',
+  '00-ae3476b68b5fe243be58e1891c9068af-70dbf500c7de1d43-01',
   'Date',
-  'Thu, 31 Mar 2022 17:39:03 GMT'
+  'Thu, 26 May 2022 10:30:02 GMT'
 ]);
 
-nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"encodedQueryParams":true})
-  .patch('/digitaltwins/digitalTwin164874834312700755', [{"op":"remove","path":"/AverageTemperature"}])
+nock('https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net:443', {"encodedQueryParams":true})
+  .patch('/digitaltwins/digitalTwin165356100150406287', [{"op":"remove","path":"/AverageTemperature"}])
   .query(true)
   .reply(204, "", [
   'Content-Length',
   '0',
   'ETag',
-  'W/"c7ba83d2-108a-4868-95d0-caeed8b239ff"',
+  'W/"6b6ac5e1-6068-4203-81a7-1355cf06f1ea"',
   'Strict-Transport-Security',
   'max-age=2592000',
   'traceresponse',
-  '00-c4955f37427fe549b975dfe1cde81b5f-bb7de003febff34e-01',
+  '00-2b41c218d281d343b4be43cd27de316f-1dc2561bf509d642-01',
   'Date',
-  'Thu, 31 Mar 2022 17:39:03 GMT'
+  'Thu, 26 May 2022 10:30:02 GMT'
 ]);
 
-nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"encodedQueryParams":true})
-  .get('/digitaltwins/digitalTwin164874834312700755')
+nock('https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net:443', {"encodedQueryParams":true})
+  .get('/digitaltwins/digitalTwin165356100150406287')
   .query(true)
-  .reply(200, {"$dtId":"digitalTwin164874834312700755","$etag":"W/\"c7ba83d2-108a-4868-95d0-caeed8b239ff\"","TemperatureUnit":"Celsius","$metadata":{"$model":"dtmi:samples:DTTestBuilding;1","TemperatureUnit":{"lastUpdateTime":"2022-03-31T17:39:04.4255507Z"}}}, [
+  .reply(200, {"$dtId":"digitalTwin165356100150406287","$etag":"W/\"6b6ac5e1-6068-4203-81a7-1355cf06f1ea\"","TemperatureUnit":"Celsius","$metadata":{"$model":"dtmi:samples:DTTestBuilding;1","$lastUpdateTime":"2022-05-26T10:30:03.1460627Z","TemperatureUnit":{"lastUpdateTime":"2022-05-26T10:30:03.0707236Z"}}}, [
   'Content-Length',
-  '245',
+  '294',
   'Content-Type',
   'application/json; charset=utf-8',
   'ETag',
-  'W/"c7ba83d2-108a-4868-95d0-caeed8b239ff"',
+  'W/"6b6ac5e1-6068-4203-81a7-1355cf06f1ea"',
   'Strict-Transport-Security',
   'max-age=2592000',
   'traceresponse',
-  '00-f85bd01b3901c543a91b50b26975a471-229cc7d3a8d54644-01',
+  '00-c02328429b06244ea1d7533de575fbbb-c4be7f96fa31dc45-01',
   'Date',
-  'Thu, 31 Mar 2022 17:39:04 GMT'
+  'Thu, 26 May 2022 10:30:02 GMT'
 ]);
 
-nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"encodedQueryParams":true})
-  .delete('/digitaltwins/digitalTwin164874834312700755')
+nock('https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net:443', {"encodedQueryParams":true})
+  .delete('/digitaltwins/digitalTwin165356100150406287')
   .query(true)
   .reply(204, "", [
   'Content-Length',
@@ -219,12 +229,12 @@ nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"enc
   'Strict-Transport-Security',
   'max-age=2592000',
   'traceresponse',
-  '00-42251a878d4e004892e84e47f88510b7-34428cc8b105aa4e-01',
+  '00-fcdf761dd186d04faee45cc8e6d2bec0-69d6e1652b548345-01',
   'Date',
-  'Thu, 31 Mar 2022 17:39:04 GMT'
+  'Thu, 26 May 2022 10:30:02 GMT'
 ]);
 
-nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"encodedQueryParams":true})
+nock('https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net:443', {"encodedQueryParams":true})
   .delete('/models/dtmi%3Asamples%3ADTTestBuilding%3B1')
   .query(true)
   .reply(204, "", [
@@ -233,7 +243,9 @@ nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"enc
   'Strict-Transport-Security',
   'max-age=2592000',
   'traceresponse',
-  '00-151e21c1b1c5184fbab1242b7521755f-de4fe4dca67f0141-01',
+  '00-224226f5d8b3e4469dd1f360b58b88e9-4f6dde8ab4179544-01',
+  'mise-correlation-id',
+  '4d6b2b03-6698-4833-a1a3-d7bfe436e4ac',
   'Date',
-  'Thu, 31 Mar 2022 17:39:04 GMT'
+  'Thu, 26 May 2022 10:30:02 GMT'
 ]);

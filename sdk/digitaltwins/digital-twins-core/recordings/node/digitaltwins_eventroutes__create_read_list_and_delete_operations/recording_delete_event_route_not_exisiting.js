@@ -2,7 +2,7 @@ let nock = require('nock');
 
 module.exports.hash = "5373dc66f42383910f64f3e0f04cc092";
 
-module.exports.testInfo = {"uniqueName":{"delete-event-routes-not-existing":"eventRoute164874836038805524"},"newDate":{}}
+module.exports.testInfo = {"uniqueName":{"delete-event-routes-not-existing":"eventRoute165356101601403918"},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .get('/common/discovery/instance')
@@ -23,19 +23,21 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'c685fb47-0105-4fda-96e6-9fa788c0e100',
+  '41e17c54-d9f9-42ac-8cc4-6f234d651800',
   'x-ms-ests-server',
-  '2.1.12570.11 - WUS2 ProdSlices',
+  '2.1.12794.5 - NCUS ProdSlices',
+  'X-XSS-Protection',
+  '0',
   'Set-Cookie',
-  'fpc=ArjMfDuma2dKtXI5J9LdX0g; expires=Sat, 30-Apr-2022 17:39:20 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AgU7zr4MDu1IiEpzFO3DzG4; expires=Sat, 25-Jun-2022 10:30:17 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevrs7IGdG6lZM4eiA00mi_wKO_2LUvcLI4rDm48J7VjmYFL5ZueoyDZrQGFLp9XtjAO1TaXUa1m5RHrcfPpqWuTEYjk0nJl83kKOfLGzkcKDb_881x8bA06MHT64UAL6z_qX41J6TzcHDQkly2XQpCGSxD1Ty1YfwVOrSm1Tx-Hi5wgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr8JIez2MxhXTkBMaA_njOtf08Txra_lSrmoOYUrG2Kv6vMpw9NjVz2YK-ouJMzPOGrJgNgvRsLVVaDy9ewPYrdieinvGaejDdc5vORwLGPgdtbWyqW3qsPrDgX083SaOcj1nYL0sYVf4HLQCgemT9d6O_RWfbT6HQMlxqcb6pCHsgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 31 Mar 2022 17:39:20 GMT',
+  'Thu, 26 May 2022 10:30:16 GMT',
   'Content-Length',
   '980'
 ]);
@@ -58,25 +60,27 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'd9711851-364a-465d-9b47-e4f4b60c2200',
+  '65736142-ccfa-4a44-a859-105b80d60e00',
   'x-ms-ests-server',
-  '2.1.12570.16 - SCUS ProdSlices',
+  '2.1.12821.7 - WUS2 ProdSlices',
+  'X-XSS-Protection',
+  '0',
   'Set-Cookie',
-  'fpc=ApihDp7Cl81Gp9HDXoU8mTQ; expires=Sat, 30-Apr-2022 17:39:21 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=ApO3Mh-oRDxMnjWbNV-dLRQ; expires=Sat, 25-Jun-2022 10:30:17 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevrv-xbmaKIdg504MaJqMpdQR8QPm9KlRqHtmN3DVmn2iZ8-tlNrav-b0B548nlAT95tKY99mJOI1m2_IOV7cwUw6JSBR6GrgyIZtF5qK34CdbxdrJ21wMS0Id-Ox2c81sOTFmaWxcUAEV8-mfHQyO_n_LmsrC-prPSZAG9QqZAVVggAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevribn67i_GpYK53UD7y5G8c_Fv0CvlL_QFaKvM_XVtltRKNLgP0SQdxylJqkEH0imNOEuM9vv5ZCzQr24E7jZlgUYWSWi9B_rB8EG3Uv_-yjRl6ZGangiJVeF57MuDbZJjaSb1WFGeE24L4jzAiXy6S6FJHApKqR6srcoqznlnMvAgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 31 Mar 2022 17:39:20 GMT',
+  'Thu, 26 May 2022 10:30:16 GMT',
   'Content-Length',
   '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.7.0&x-client-OS=win32&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=f4b6b213-7624-49d6-a73a-2f15e486178d&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
+  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.9.0&x-client-OS=win32&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=dc6f17e2-1fdc-4dfe-973b-92397c6b7d54&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -93,25 +97,27 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'd9711851-364a-465d-9b47-e4f4bc0c2200',
+  '3137ccf1-2b24-4cca-b52e-d63803820c00',
   'x-ms-ests-server',
-  '2.1.12570.16 - SCUS ProdSlices',
+  '2.1.12821.7 - NCUS ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
+  'X-XSS-Protection',
+  '0',
   'Set-Cookie',
-  'fpc=Ag6SgqEXNTZCrQ5QwwCkExs; expires=Sat, 30-Apr-2022 17:39:21 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Au-GJ3iWezhLrTxVwD0SC1s; expires=Sat, 25-Jun-2022 10:30:17 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Thu, 31 Mar 2022 17:39:20 GMT',
+  'Thu, 26 May 2022 10:30:16 GMT',
   'Content-Length',
   '1325'
 ]);
 
-nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"encodedQueryParams":true})
-  .delete('/eventroutes/eventRoute164874836038805524')
+nock('https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net:443', {"encodedQueryParams":true})
+  .delete('/eventroutes/eventRoute165356101601403918')
   .query(true)
   .reply(404, {"error":{"code":"EventRouteNotFound","message":"There is no route available that matches the provided input. Check for all valid event routes by calling EventRoute_List. See Swagger example (https://aka.ms/RouteSwSmpl)."}}, [
   'Content-Length',
@@ -121,7 +127,9 @@ nock('https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net:443', {"enc
   'Strict-Transport-Security',
   'max-age=2592000',
   'traceresponse',
-  '00-106613b7315cf04aa43e993675940d18-618cbb7696ed754a-01',
+  '00-2959cb0ccfff224482c5e7a2285372d8-e1c9d945fdf3e646-01',
+  'mise-correlation-id',
+  '7e746b4f-7670-4146-af5b-598978643efb',
   'Date',
-  'Thu, 31 Mar 2022 17:39:21 GMT'
+  'Thu, 26 May 2022 10:30:16 GMT'
 ]);

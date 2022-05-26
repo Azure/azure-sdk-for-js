@@ -2,9 +2,9 @@
  "recordings": [
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsModel%3B1",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsModel%3B1",
    "query": {
-    "api-version": "2021-06-30-preview"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 404,
@@ -12,16 +12,17 @@
    "responseHeaders": {
     "content-length": "217",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 31 Mar 2022 17:41:09 GMT",
+    "date": "Thu, 26 May 2022 10:31:20 GMT",
+    "mise-correlation-id": "2b9f5dbe-3fee-437c-8506-bea9c88a1935",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-1c23344ed219ba4a9c442b83f65a39b9-487959a74fef3545-01"
+    "traceresponse": "00-8177e902e898454c9d46913bf359b162-ff0225dea6d4cc44-01"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://AZURE_DIGITALTWINS_URL.api.wus2.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsComponent%3B1",
+   "url": "https://AZURE_DIGITALTWINS_URL.api.wcus.digitaltwins.azure.net/models/dtmi%3Asamples%3ADTModelTestsComponent%3B1",
    "query": {
-    "api-version": "2021-06-30-preview"
+    "api-version": "2022-05-31"
    },
    "requestBody": null,
    "status": 404,
@@ -29,9 +30,10 @@
    "responseHeaders": {
     "content-length": "221",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 31 Mar 2022 17:41:09 GMT",
+    "date": "Thu, 26 May 2022 10:31:20 GMT",
+    "mise-correlation-id": "9394216a-f5d3-4a86-8ff0-8695fe2e88c5",
     "strict-transport-security": "max-age=2592000",
-    "traceresponse": "00-590550baa7103b418b35ef1df3914f38-565fba8c706d3445-01"
+    "traceresponse": "00-2f67c2656535334791d81c7fd5b6df0c-484ab689a844f749-01"
    }
   }
  ],
@@ -39,5 +41,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "9ea1322451369327eaf76b50c98af028"
+ "hash": "53e32b05f177794c8a30560a7573e9e7"
 }
