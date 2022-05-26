@@ -7,8 +7,7 @@
 const { AppConfigurationClient } = require("@azure/app-configuration");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   console.log(`Running helloworld sample`);
@@ -43,7 +42,7 @@ async function main() {
 
 async function cleanupSampleValues(keys, client) {
   const settingsIterator = client.listConfigurationSettings({
-    keyFilter: keys.join(",")
+    keyFilter: keys.join(","),
   });
 
   for await (const setting of settingsIterator) {
@@ -55,3 +54,5 @@ main().catch((err) => {
   console.error("Failed to run sample:", err);
   process.exit(1);
 });
+
+module.exports = { main };

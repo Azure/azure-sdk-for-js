@@ -4,13 +4,12 @@
 /**
  * @summary Demonstrates making a configuration setting read-only. This can help prevent accidental deletion or modification of a setting.
  */
-import { AppConfigurationClient } from "@azure/app-configuration";
+const { AppConfigurationClient } = require("@azure/app-configuration");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+require("dotenv").config();
 
-export async function main() {
+async function main() {
   console.log("Running setReadOnly sample");
 
   // Set the following environment variable or edit the value on the following line.
@@ -24,7 +23,7 @@ export async function main() {
   await client.addConfigurationSetting({
     key: readOnlySampleKey,
     label: "a label",
-    value: "Initial value"
+    value: "Initial value",
   });
 
   // now we'd like to prevent future modifications - let's set the key/label to read-only
@@ -37,9 +36,9 @@ export async function main() {
     await client.setConfigurationSetting({
       key: readOnlySampleKey,
       label: "a label",
-      value: "new value"
+      value: "new value",
     });
-  } catch (err: any) {
+  } catch (err) {
     console.log(`Error gets thrown - can't modify a read-only setting`);
   }
 
@@ -54,16 +53,16 @@ export async function main() {
   const updatedSetting = await client.setConfigurationSetting({
     key: readOnlySampleKey,
     label: "a label",
-    value: "new value"
+    value: "new value",
   });
   console.log(`Updated value is ${updatedSetting.value}`);
 
   await cleanupSampleValues([readOnlySampleKey], client);
 }
 
-async function cleanupSampleValues(keys: string[], client: AppConfigurationClient) {
+async function cleanupSampleValues(keys, client) {
   const existingSettings = client.listConfigurationSettings({
-    keyFilter: keys.join(",")
+    keyFilter: keys.join(","),
   });
 
   for await (const setting of existingSettings) {
@@ -76,3 +75,5 @@ main().catch((err) => {
   console.error("Failed to run sample:", err);
   process.exit(1);
 });
+
+module.exports = { main };

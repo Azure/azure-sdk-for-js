@@ -4,13 +4,13 @@
 /**
  * @summary Demonstrates listing revisions for a configuration setting.
  */
-const { AppConfigurationClient } = require("@azure/app-configuration");
+import { AppConfigurationClient } from "@azure/app-configuration";
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
+import * as dotenv from "dotenv";
 dotenv.config();
 
-async function main() {
+export async function main() {
   console.log(`Running listRevisions sample`);
 
   // Set the following environment variable or edit the value on the following line.
@@ -20,14 +20,14 @@ async function main() {
   // let's create the setting
   const originalSetting = await client.addConfigurationSetting({
     key: `keyWithRevisions-${Date.now()}`,
-    value: "original value"
+    value: "original value",
   });
 
   console.log(`First revision created with value ${originalSetting.value}`);
 
   const newSetting = {
     ...originalSetting,
-    value: "A new value!"
+    value: "A new value!",
   };
 
   // delay for a second to make the timestamps more interesting
@@ -38,7 +38,7 @@ async function main() {
   await client.setConfigurationSetting(newSetting);
 
   const revisionsIterator = client.listRevisions({
-    keyFilter: newSetting.key
+    keyFilter: newSetting.key,
   });
 
   // show all the revisions, including the date they were set.
@@ -69,7 +69,7 @@ async function main() {
   let marker = response.value.continuationToken;
   // Passing next marker as continuationToken
   iterator = client.listRevisions({ keyFilter: "keyWithRevisions-1626819906487" }).byPage({
-    continuationToken: marker
+    continuationToken: marker,
   });
   response = await iterator.next();
   if (response.done) {
@@ -85,9 +85,9 @@ async function main() {
   cleanupSampleValues([originalSetting.key], client);
 }
 
-async function cleanupSampleValues(keys, client) {
+async function cleanupSampleValues(keys: string[], client: AppConfigurationClient) {
   const settingsIterator = client.listConfigurationSettings({
-    keyFilter: keys.join(",")
+    keyFilter: keys.join(","),
   });
 
   for await (const setting of settingsIterator) {
