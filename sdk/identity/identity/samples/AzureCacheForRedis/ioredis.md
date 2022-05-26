@@ -101,7 +101,7 @@ Integrate the logic in your application code to fetch an AAD Access Token via Id
 
 **Note:** The below sample uses `ClientSecretCredential` from our [Azure Identity](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) SDK, the credential can be replaced with any of the other `TokenCredential` implementations offered by our [Azure Identity]((https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) SDK.
 
-```js
+```ts
 import Redis from "ioredis";
 import * as dotenv from "dotenv";
 import {ClientSecretCredential, TokenCredential} from "@azure/identity";
