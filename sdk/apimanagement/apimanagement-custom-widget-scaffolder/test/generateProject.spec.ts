@@ -1,8 +1,8 @@
+import {TWidgetConfig, displayNameToName, generateProject, technologies} from "../src/scaffolding"
+
 import {assert} from "chai"
 import {promises} from "fs"
 import sinon from "sinon"
-import {displayNameToName, generateProject} from "../src"
-import {technologies, TWidgetConfig} from "../src/scaffolding"
 
 const widgetConfig: Omit<TWidgetConfig, "tech"> = {
   displayName: "Contoso App",
@@ -10,7 +10,8 @@ const widgetConfig: Omit<TWidgetConfig, "tech"> = {
 const deployConfig = {
   apiVersion: "1",
   managementApiEndpoint: "foo.com",
-  resourceId: "/subscriptions/c6a33fd3-e442-48a4-b82d-bcc4ad8a71d7/resourceGroups/mibudz-test/providers/Microsoft.ApiManagement/service/contoso",
+  resourceId:
+    "/subscriptions/c6a33fd3-e442-48a4-b82d-bcc4ad8a71d7/resourceGroups/mibudz-test/providers/Microsoft.ApiManagement/service/contoso",
 }
 
 technologies.forEach(tech => {

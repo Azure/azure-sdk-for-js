@@ -2,9 +2,10 @@
 // Licensed under the MIT license.
 
 import {join as joinPath, parse as parsePath} from "path"
+
 import {promises as fs} from "fs"
-import mustache from "mustache"
 import {getTemplates} from "./getTemplates"
+import mustache from "mustache"
 
 export const OVERRIDE_PORT_KEY = "MS_APIM_CW_localhost_port"
 export const OVERRIDE_DEFAULT_PORT = 3000
@@ -39,16 +40,22 @@ export interface TMiscConfig {
 
 export type TConfigs = TWidgetConfig | TDeployConfig | TMiscConfig
 
+/**
+ * @internal
+ */
 export const displayNameToName = (displayName: string) =>
- encodeURIComponent(displayName.normalize("NFD")
-   .toLowerCase()
-   .replace(/[\u0300-\u036f]/g, "")
-   .replace(/[^a-z0-9-]/g, "-"));
+  encodeURIComponent(
+    displayName
+      .normalize("NFD")
+      .toLowerCase()
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9-]/g, "-")
+  )
 
 export async function generateProject(
   widgetConfig: TWidgetConfig,
   deployConfig: TDeployConfig,
-  {openUrl}: TMiscConfig = {},
+  {openUrl}: TMiscConfig = {}
 ): Promise<void> {
   const openUrlParsed = openUrl ? new URL(openUrl) : null
   if (openUrlParsed) openUrlParsed.searchParams.append(OVERRIDE_PORT_KEY, String(OVERRIDE_DEFAULT_PORT))
@@ -76,8 +83,11 @@ export async function generateProject(
       })
     }
 
-    const relativePath = file
-      .replace(/\//g, "\\")
+    let relativePath = file
+    if (__dirname.includes("\\")) {
+      relativePath = relativePath.replace(/\//g, "\\")
+    }
+    relativePath = relativePath
       .replace(joinPath(__dirname, "templates", "_shared"), "")
       .replace(joinPath(__dirname, "templates", widgetConfig.tech), "")
       .replace(templateSuffix, "")

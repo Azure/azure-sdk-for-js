@@ -1,29 +1,10 @@
 {
+  "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "target": "ES2019",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "noEmit": false,
-    "esModuleInterop": true,
-    "lib": [
-      "ES2019",
-      "ESNext.AsyncIterable"
-    ],
-    "newLine": "LF",
-    "strict": true,
-    "alwaysStrict": true,
-    "noImplicitAny": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "downlevelIteration": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true
+    "outDir": "./dist-esm",
+    "declarationDir": "./types",
   },
-  "include": [
-    "./src/**/*.ts",
-    "./test/**/*.ts"
-  ],
-  "exclude": [
-    "./src/templates/**"
-  ]
+    "exclude": [
+      "./src/templates/**"
+    ]
 }
