@@ -9749,7 +9749,7 @@ packages:
     dev: false
 
   file:projects/arm-azurestackhci.tgz:
-    resolution: {integrity: sha512-aH3mBpP2+zYcZ6p7hsFZOJ8sWQJ6vQKe6bP0c9KTKO1eQ4vk3V1IXqUVkmGKgM6RoJ+cyFzrIGy7f5NB3Z8nLA==, tarball: file:projects/arm-azurestackhci.tgz}
+    resolution: {integrity: sha512-Vxb9+g7chzP6Xa24rWbnuY0NkBHDuT3qKQY0YknMRxJVWyi7GHUAH24UesIo86XiD2XMmlZn4kAWx7VW6iOevA==, tarball: file:projects/arm-azurestackhci.tgz}
     name: '@rush-temp/arm-azurestackhci'
     version: 0.0.0
     dependencies:
@@ -10237,7 +10237,7 @@ packages:
     dev: false
 
   file:projects/arm-containerregistry.tgz:
-    resolution: {integrity: sha512-cTCAzAO90LYq2ZJ4JOOppGa8HRwgasLykCdoaQCVZWfMLlOxOBkYtEyY27/LYHjLki+cGgjqBdp9WUdjcqm4NA==, tarball: file:projects/arm-containerregistry.tgz}
+    resolution: {integrity: sha512-iF8sXHNI1djRZmD4LQh/3lu/I3SDrA8UKBCmpYY5woJl5jMfMuz86EAWk/9utlgEsYCxCS/EnhWhHAgugIi0jQ==, tarball: file:projects/arm-containerregistry.tgz}
     name: '@rush-temp/arm-containerregistry'
     version: 0.0.0
     dependencies:
@@ -10952,7 +10952,6 @@ packages:
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.15.4
-
     transitivePeerDependencies:
       - '@types/node'
       - debug
@@ -14401,7 +14400,7 @@ packages:
     dev: false
 
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-3fOhyHS+X35+S5si6+zvVuungFgozWP8wAXzO5ymkakRRygiWTupZhTtbXV/pAgzpF7NR0ebs2FychtNEuF4pQ==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-3OqgUr1+nfeHDovjXwdjG84DU1tzTXuhssdt4diRjWTfgX4TO4HGZ8nvJOK9jF8x/0LAi094OZNYvoimQfxoRA==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
@@ -16356,10 +16355,8 @@ packages:
       '@azure/monitor-opentelemetry-exporter': 1.0.0-beta.4
       '@microsoft/api-extractor': 7.18.11
       '@opentelemetry/api': 1.1.0
-      '@opentelemetry/node': 0.24.0_@opentelemetry+api@1.1.0
       '@opentelemetry/sdk-trace-base': 1.2.0_@opentelemetry+api@1.1.0
       '@opentelemetry/sdk-trace-node': 1.2.0_@opentelemetry+api@1.1.0
-      '@opentelemetry/tracing': 0.24.0_@opentelemetry+api@1.1.0
       '@types/chai': 4.3.1
       '@types/chai-as-promised': 7.1.5
       '@types/mocha': 7.0.2
