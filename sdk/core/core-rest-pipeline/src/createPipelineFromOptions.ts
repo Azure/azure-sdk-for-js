@@ -65,7 +65,9 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
   const pipeline = createEmptyPipeline();
 
   if (isNode) {
-    pipeline.addPolicy(tlsPolicy(options.tlsOptions));
+    if (Boolean(options.tlsOptions)) {
+      pipeline.addPolicy(tlsPolicy(options.tlsOptions));
+    }
     pipeline.addPolicy(proxyPolicy(options.proxyOptions));
     pipeline.addPolicy(decompressResponsePolicy());
   }
