@@ -786,7 +786,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
         // restrictions: "B",
       });
 
-      it("jpg file stream", async () => {
+      it("png file stream", async () => {
         const filePath = path.join(ASSET_PATH, "identityDocument", "license.png");
         const stream = fs.createReadStream(filePath);
 
