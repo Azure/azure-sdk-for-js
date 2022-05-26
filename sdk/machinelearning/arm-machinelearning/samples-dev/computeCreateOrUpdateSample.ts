@@ -10,7 +10,9 @@
 // Licensed under the MIT License.
 import {
   ComputeResource,
-  AzureMachineLearningWorkspaces
+  AzureMachineLearningWorkspaces,
+  KubernetesProperties,
+  ComputeInstanceProperties
 } from "@azure/arm-machinelearning";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -25,26 +27,25 @@ async function attachAKubernetesCompute() {
   const resourceGroupName = "testrg123";
   const workspaceName = "workspaces123";
   const computeName = "compute123";
+  const properties: KubernetesProperties = {
+    defaultInstanceType: "defaultInstanceType",
+    instanceTypes: {
+      defaultInstanceType: {
+        nodeSelector: {},
+        resources: {
+          limits: { cpu: "1", memory: "4Gi", "nvidiaCom/gpu": "" },
+          requests: { cpu: "1", memory: "4Gi", "nvidiaCom/gpu": "" }
+        }
+      }
+    },
+    namespace: "default"
+  }
   const parameters: ComputeResource = {
     location: "eastus",
     properties: {
       description: "some compute",
       computeType: "Kubernetes",
-      properties: {
-        defaultInstanceType: "defaultInstanceType",
-        instanceTypes: {
-          defaultInstanceType: {
-            nodeSelector: {},
-            resources: {
-              limits: { cpu: "1", memory: "4Gi", "nvidiaCom/gpu": undefined },
-              requests: { cpu: "1", memory: "4Gi", "nvidiaCom/gpu": undefined }
-            }
-          }
-        },
-        namespace: "default"
-      },
-      resourceId:
-        "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/testrg123/providers/Microsoft.ContainerService/managedClusters/compute123-56826-c9b00420020b2"
+      properties: properties
     }
   };
   const credential = new DefaultAzureCredential();
@@ -174,23 +175,26 @@ async function createAnComputeInstanceCompute() {
   const resourceGroupName = "testrg123";
   const workspaceName = "workspaces123";
   const computeName = "compute123";
+  const properties: ComputeInstanceProperties = {
+    applicationSharingPolicy: "Personal",
+    computeInstanceAuthorizationType: "personal",
+    personalComputeInstanceSettings: {
+      assignedUser: {
+        objectId: "00000000-0000-0000-0000-000000000000",
+        tenantId: "00000000-0000-0000-0000-000000000000"
+      }
+    },
+    sshSettings: { sshPublicAccess: "Disabled" },
+    subnet: {
+      id: ""
+    },
+    vmSize: "STANDARD_NC6"
+  }
   const parameters: ComputeResource = {
     location: "eastus",
     properties: {
       computeType: "ComputeInstance",
-      properties: {
-        applicationSharingPolicy: "Personal",
-        computeInstanceAuthorizationType: "personal",
-        personalComputeInstanceSettings: {
-          assignedUser: {
-            objectId: "00000000-0000-0000-0000-000000000000",
-            tenantId: "00000000-0000-0000-0000-000000000000"
-          }
-        },
-        sshSettings: { sshPublicAccess: "Disabled" },
-        subnet: {},
-        vmSize: "STANDARD_NC6"
-      }
+      properties: properties
     }
   };
   const credential = new DefaultAzureCredential();
