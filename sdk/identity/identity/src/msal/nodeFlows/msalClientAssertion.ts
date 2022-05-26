@@ -13,7 +13,7 @@ export interface MSALClientAssertionOptions extends MsalNodeOptions {
   /**
    * A function that retrieves the assertion for the credential to use.
    */
-   getAssertion: () => Promise<string>;
+  getAssertion: () => Promise<string>;
 }
 
 /**
@@ -21,8 +21,10 @@ export interface MSALClientAssertionOptions extends MsalNodeOptions {
  * @internal
  */
 export class MsalClientAssertion extends MsalNode {
-  private getAssertion: () => Promise<string>;
+  getAssertion: () => Promise<string>;
   constructor(options: MSALClientAssertionOptions) {
+    console.log("constructor for msal client assertion is called");
+    console.dir(options);
     super(options);
     this.requiresConfidential = true;
     this.getAssertion = options.getAssertion;
@@ -33,6 +35,10 @@ export class MsalClientAssertion extends MsalNode {
     options: CredentialFlowGetTokenOptions = {}
   ): Promise<AccessToken> {
     try {
+      console.log("inside doget token of MsalClientAssertion");
+      console.dir(this.getAssertion);
+      const assertion = await this.getAssertion();
+      const JWT_BEARER_ASSERTION = "urn:ietf:params:oauth:client-assertion-type:jwt-bearer";
       const result = await this.confidentialApp!.acquireTokenByClientCredential({
         scopes,
         correlationId: options.correlationId,
@@ -40,8 +46,8 @@ export class MsalClientAssertion extends MsalNode {
         authority: options.authority,
         claims: options.claims,
         clientAssertion: {
-          assertion: await this.getAssertion(),
-          assertionType: "jwt_bearer"
+          assertion: assertion,
+          assertionType: JWT_BEARER_ASSERTION,
         }
       });
       // The Client Credential flow does not return an account,

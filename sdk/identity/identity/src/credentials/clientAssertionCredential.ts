@@ -14,13 +14,13 @@ const logger = credentialLogger("ClientAssertionCredential");
 /**
  * Optional parameters for the {@link ClientAssertionCredential} class.
  */
-export interface ClientAssertionCredentialOptions extends TokenCredentialOptions {}
+export interface ClientAssertionCredentialOptions extends TokenCredentialOptions { }
 
 /**
  * Authenticates a service principal with a JWT assertion.
  */
 export class ClientAssertionCredential implements TokenCredential {
-  private msalFlow?: MsalFlow;
+  private msalFlow: MsalFlow;
   private tenantId: string;
   private clientId: string;
   private options: ClientAssertionCredentialOptions;

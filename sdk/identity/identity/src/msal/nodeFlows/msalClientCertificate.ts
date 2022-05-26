@@ -9,11 +9,8 @@ import { AccessToken } from "@azure/core-auth";
 import { MsalNodeOptions, MsalNode } from "./msalNodeCommon";
 import { formatError } from "../../util/logging";
 import { CredentialFlowGetTokenOptions } from "../credentials";
-import {
-  ClientCertificateCredentialPEMConfiguration,
-  ClientCertificatePEMCertificate,
-  ClientCertificatePEMCertificatePath,
-} from "../../credentials/clientCertificateCredential";
+import { ClientCertificateCredentialPEMConfiguration, ClientCertificatePEMCertificate, ClientCertificatePEMCertificatePath } from "../../credentials/clientCertificateCredential";
+import { ClientCredentialRequest } from "@azure/msal-node";
 
 const readFileAsync = promisify(readFile);
 
@@ -137,13 +134,14 @@ export class MsalClientCertificate extends MsalNode {
     options: CredentialFlowGetTokenOptions = {}
   ): Promise<AccessToken> {
     try {
-      const result = await this.confidentialApp!.acquireTokenByClientCredential({
+      const clientCredReq: ClientCredentialRequest = {
         scopes,
         correlationId: options.correlationId,
         azureRegion: this.azureRegion,
         authority: options.authority,
-        claims: options.claims,
-      });
+        claims: options.claims
+      }
+      const result = await this.confidentialApp!.acquireTokenByClientCredential(clientCredReq);
       // Even though we're providing the same default in memory persistence cache that we use for DeviceCodeCredential,
       // The Client Credential flow does not return the account information from the authentication service,
       // so each time getToken gets called, we will have to acquire a new token through the service.
