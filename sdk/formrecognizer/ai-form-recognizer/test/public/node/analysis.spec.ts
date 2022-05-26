@@ -787,7 +787,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
       });
 
       it("jpg file stream", async () => {
-        const filePath = path.join(ASSET_PATH, "identityDocument", "license.jpg");
+        const filePath = path.join(ASSET_PATH, "identityDocument", "license.png");
         const stream = fs.createReadStream(filePath);
 
         const poller = await client.beginAnalyzeDocument(
@@ -809,7 +809,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
       });
 
       it("url", async () => {
-        const url = makeTestUrl("/license.jpg");
+        const url = makeTestUrl("/license.png");
 
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.IdentityDocument,
@@ -839,7 +839,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
       });
 
       it("invalid locale throws", async () => {
-        const url = makeTestUrl("/license.jpg");
+        const url = makeTestUrl("/license.png");
 
         try {
           const poller = await client.beginAnalyzeDocument(PrebuiltModels.IdentityDocument, url, {
