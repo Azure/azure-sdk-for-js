@@ -14,6 +14,7 @@ This troubleshooting guide covers failure investigation techniques, common error
   - [Cannot add components to the connection string](#cannot-add-components-to-the-connection-string)
 - [Enable and configure logging](#enable-and-configure-logging)
   - [Enable AMQP transport logging](#enable-amqp-transport-logging)
+  - [Logging in the browser](#logging-in-the-browser)
   - [Reduce logging](#reduce-logging)
 - [Troubleshoot EventProducerClient issues](#troubleshoot-eventproducerclient-issues)
   - [Cannot set multiple partition keys for events in EventDataBatch](#cannot-set-multiple-partition-keys-for-events-in-eventdatabatch)
@@ -61,6 +62,7 @@ A `MessagingError` with an error code of `AmqpResponseStatusCode.Unauthorized` m
 
 - [Double check you have the correct connection string][getconnectionstring]
 - [Ensure your SAS token is generated correctly][authorizesas]
+- [Check your RBAC roles][rbac_roles]
 
 [Troubleshoot authentication and authorization issues with Event Hubs][troubleshoot_authentication_authorization] lists other possible solutions.
 
@@ -68,7 +70,7 @@ A `MessagingError` with an error code of `AmqpResponseStatusCode.Unauthorized` m
 
 ### Timeout when connecting to service
 
-- Verify that the connection string or fully qualified domain name specified when creating the client is correct. [Get an Event Hubs connection string][getconnectionstring] demonstrates how to acquire a connection string.
+- Verify that the connection string or fully qualified namespace name specified when creating the client is correct. [Get an Event Hubs connection string][getconnectionstring] demonstrates how to acquire a connection string.
 - Check the firewall and port permissions in your hosting environment and that the AMQP ports 5671 and 5762 are open.
   - Make sure that the endpoint is allowed through the firewall.
 - Try using WebSockets, which connects on port 443. See [configure web sockets][publisheventswithwebsockets] sample.
@@ -87,7 +89,7 @@ Applications should prefer treating the Event Hubs clients as a singleton, creat
 
 ### Connect using an IoT connection string
 
-Because translating a connection string requires querying the IoT Hub service, the Event Hubs client library cannot use it directly. The [iothubConnectionString.js][iothubconnectionstring] sample describes how to query IoT Hub to translate an IoT connection string into one that can be used with Event Hubs.
+Because translating an IoT connection string requires querying the IoT Hub service, the Event Hubs client library cannot use it directly. The [iothubConnectionString.js][iothubconnectionstring] sample describes how to query IoT Hub to translate an IoT connection string into one that can be used with Event Hubs.
 
 Further reading:
 
@@ -126,9 +128,9 @@ For more detailed instructions on how to enable logs, you can look at the
 You can alternatively set the `DEBUG` environment variable to get logs when using this library.
 This can be useful if you also want to emit logs from the dependencies `rhea-promise` and `rhea` as well.
 
-**Note:** AZURE_LOG_LEVEL, if set, takes precedence over DEBUG.
+**Note:** `AZURE_LOG_LEVEL`, if set, takes precedence over DEBUG.
 Do not specify any `azure` libraries via DEBUG when also specifying
-AZURE_LOG_LEVEL or calling setLogLevel.
+`AZURE_LOG_LEVEL` or calling setLogLevel.
 
 - Getting only info level debug logs from the Event Hubs client library.
 
@@ -140,6 +142,20 @@ export DEBUG=azure:*:info
 
 ```bash
 export DEBUG=azure*,rhea*
+```
+
+### Logging in the browser
+
+Logging can be enabled in the browser by setting `localStorage.debug`
+
+```js
+localStorage.debug = "azure:*:info";
+```
+
+Note that this is persisted in browser local storage, so to disable it, set it back to `undefined`
+
+```js
+localStorage.debug = undefined;
 ```
 
 ### Reduce logging
@@ -247,6 +263,7 @@ When filing GitHub issues, the following details are requested:
 [iothubsas]: https://docs.microsoft.com/azure/iot-hub/iot-hub-dev-guide-sas#security-tokens
 [logging]: https://docs.microsoft.com/javascript/api/overview/azure/logger-readme
 [troubleshoot_authentication_authorization]: https://docs.microsoft.com/azure/event-hubs/troubleshoot-authentication-authorization
+[rbac_roles]: https://docs.microsoft.com/azure/event-hubs/authorize-access-azure-active-directory
 
 <!-- external links -->
 

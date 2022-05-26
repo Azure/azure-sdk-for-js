@@ -108,7 +108,7 @@ async function main() {
       throw new Error(`Not all messages were sent (${numEventsSent}/${eventsToSend.length})`);
     }
   } catch (err) {
-    console.log("Error when creating & sending a batch of events: ", err);
+    console.log("Error when creating & sending a batch of events: ", JSON.stringify(err));
   }
 
   await producer.close();
