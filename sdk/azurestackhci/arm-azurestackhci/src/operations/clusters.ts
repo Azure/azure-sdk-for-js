@@ -12,6 +12,8 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureStackHCIClient } from "../azureStackHCIClient";
+import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
+import { LroImpl } from "../lroImpl";
 import {
   Cluster,
   ClustersListBySubscriptionNextOptionalParams,
@@ -28,6 +30,10 @@ import {
   ClustersUpdateOptionalParams,
   ClustersUpdateResponse,
   ClustersDeleteOptionalParams,
+  UploadCertificateRequest,
+  ClustersUploadCertificateOptionalParams,
+  ClustersCreateIdentityOptionalParams,
+  ClustersCreateIdentityResponse,
   ClustersListBySubscriptionNextResponse,
   ClustersListByResourceGroupNextResponse
 } from "../models";
@@ -229,15 +235,256 @@ export class ClustersImpl implements Clusters {
    * @param clusterName The name of the cluster.
    * @param options The options parameters.
    */
-  delete(
+  async beginDelete(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersDeleteOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, clusterName, options },
+      deleteOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Delete an HCI cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
     resourceGroupName: string,
     clusterName: string,
     options?: ClustersDeleteOptionalParams
   ): Promise<void> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, clusterName, options },
-      deleteOperationSpec
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      clusterName,
+      options
     );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Upload certificate.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param uploadCertificateRequest Upload certificate request.
+   * @param options The options parameters.
+   */
+  async beginUploadCertificate(
+    resourceGroupName: string,
+    clusterName: string,
+    uploadCertificateRequest: UploadCertificateRequest,
+    options?: ClustersUploadCertificateOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, clusterName, uploadCertificateRequest, options },
+      uploadCertificateOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Upload certificate.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param uploadCertificateRequest Upload certificate request.
+   * @param options The options parameters.
+   */
+  async beginUploadCertificateAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    uploadCertificateRequest: UploadCertificateRequest,
+    options?: ClustersUploadCertificateOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginUploadCertificate(
+      resourceGroupName,
+      clusterName,
+      uploadCertificateRequest,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Create cluster identity.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param options The options parameters.
+   */
+  async beginCreateIdentity(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersCreateIdentityOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<ClustersCreateIdentityResponse>,
+      ClustersCreateIdentityResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ClustersCreateIdentityResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, clusterName, options },
+      createIdentityOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      lroResourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Create cluster identity.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterName The name of the cluster.
+   * @param options The options parameters.
+   */
+  async beginCreateIdentityAndWait(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ClustersCreateIdentityOptionalParams
+  ): Promise<ClustersCreateIdentityResponse> {
+    const poller = await this.beginCreateIdentity(
+      resourceGroupName,
+      clusterName,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -389,7 +636,65 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {},
+    201: {},
+    202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const uploadCertificateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/uploadCertificate",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  requestBody: Parameters.uploadCertificateRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const createIdentityOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/createClusterIdentity",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ClusterIdentityResponse
+    },
+    201: {
+      bodyMapper: Mappers.ClusterIdentityResponse
+    },
+    202: {
+      bodyMapper: Mappers.ClusterIdentityResponse
+    },
+    204: {
+      bodyMapper: Mappers.ClusterIdentityResponse
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
