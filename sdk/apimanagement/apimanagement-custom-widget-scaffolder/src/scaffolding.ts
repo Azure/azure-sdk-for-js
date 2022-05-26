@@ -2,10 +2,9 @@
 // Licensed under the MIT license.
 
 import {join as joinPath, parse as parsePath} from "path"
-
 import {promises as fs} from "fs"
-import {getTemplates} from "./getTemplates"
 import mustache from "mustache"
+import {getTemplates} from "./getTemplates"
 
 export const OVERRIDE_PORT_KEY = "MS_APIM_CW_localhost_port"
 export const OVERRIDE_DEFAULT_PORT = 3000
@@ -52,6 +51,8 @@ export const displayNameToName = (displayName: string) =>
       .replace(/[^a-z0-9-]/g, "-")
   )
 
+export const widgetFolderName = (name: string) => `azure-api-management-widget-${name}`
+
 export async function generateProject(
   widgetConfig: TWidgetConfig,
   deployConfig: TDeployConfig,
@@ -91,7 +92,7 @@ export async function generateProject(
       .replace(joinPath(__dirname, "templates", "_shared"), "")
       .replace(joinPath(__dirname, "templates", widgetConfig.tech), "")
       .replace(templateSuffix, "")
-    const newFilePath = joinPath(process.cwd(), name, relativePath)
+    const newFilePath = joinPath(process.cwd(), widgetFolderName(name), relativePath)
     const dir = parsePath(newFilePath).dir
 
     await fs.mkdir(dir, {recursive: true})
