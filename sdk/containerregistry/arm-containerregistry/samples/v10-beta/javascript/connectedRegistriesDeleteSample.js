@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Deletes a connected registry from a container registry.
  *
  * @summary Deletes a connected registry from a container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2021-12-01-preview/examples/ConnectedRegistryDelete.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2022-02-01-preview/examples/ConnectedRegistryDelete.json
  */
 async function connectedRegistryDelete() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
