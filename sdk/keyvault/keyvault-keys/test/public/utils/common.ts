@@ -7,7 +7,7 @@ import { assert } from "@azure/test-utils";
 
 export function getKeyvaultName(): string {
   const keyVaultEnvVarName = "KEYVAULT_NAME";
-  const keyVaultName: string | undefined = env[keyVaultEnvVarName];
+  const keyVaultName: string | undefined = env.keyVaultEnvVarName;
 
   if (!keyVaultName) {
     throw new Error(`${keyVaultEnvVarName} environment variable not specified.`);

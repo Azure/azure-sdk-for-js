@@ -8,7 +8,7 @@ import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
 import { ClientSecretCredential } from "@azure/identity";
 
 import { CryptographyClient, KeyClient, KeyVaultKey } from "../../src";
-import { authenticate } from "./utils/testAuthentication";
+import { authenticate, envSetupForPlayback } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
 import { RsaCryptographyProvider } from "../../src/cryptography/rsaCryptographyProvider";
@@ -33,15 +33,17 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
 
   describe("RSA keys", () => {
     beforeEach(async function (this: Context) {
-      const authentication = await authenticate(this, getServiceVersion());
+      recorder = new Recorder(this.currentTest);
+      await recorder.start(envSetupForPlayback);
+
+      const authentication = await authenticate(getServiceVersion(), recorder);
       client = authentication.client;
-      recorder = authentication.recorder;
       testClient = authentication.testClient;
       credential = authentication.credential;
       keySuffix = authentication.keySuffix;
-      keyName = recorder.getUniqueName("RSA");
+      keyName = recorder.variable("RSA", `RSA-${Math.floor(Math.random() * 100000)}`);
       keyVaultKey = await client.createKey(keyName, "RSA");
-      cryptoClient = new CryptographyClient(keyVaultKey, credential);
+      cryptoClient = new CryptographyClient(keyVaultKey, credential, recorder.configureClientOptions({}));
     });
 
     afterEach(async function (this: Context) {
@@ -118,7 +120,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
           `${keyPrefix}-${this!.test!.title}-${keySuffix}`
         );
         const customKeyVaultKey = await client.createKey(customKeyName, "RSA");
-        const cryptoClientFromKey = new CryptographyClient(customKeyVaultKey, credential);
+        const cryptoClientFromKey = new CryptographyClient(customKeyVaultKey, credential, recorder.configureClientOptions({}));
 
         const text = this.test!.title;
         const encryptResult = await cryptoClientFromKey.encrypt({
@@ -134,10 +136,12 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       });
 
       it("wrap and unwrap with rsa1_5", async function () {
-        recorder.skip(
-          undefined,
-          "Wrapping and unwrapping don't cause a repeatable pattern, so these tests can only run in playback mode"
-        );
+        if (!isLiveMode()) {
+          console.log(
+            "Wrapping and unwrapping don't cause a repeatable pattern, so these tests can only run in playback mode"
+          );
+          this.skip();
+        }
         const text = "arepa";
         const wrapped = await cryptoClient.wrapKey("RSA1_5", stringToUint8Array(text));
         const unwrappedResult = await cryptoClient.unwrapKey("RSA1_5", wrapped.result);
@@ -147,10 +151,12 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       });
 
       it("wrap and unwrap with RSA-OAEP", async function (this: Context) {
-        recorder.skip(
-          undefined,
-          "Wrapping and unwrapping don't cause a repeatable pattern, so these tests can only run in playback mode"
-        );
+        if (!isLiveMode()) {
+          console.log(
+            "Wrapping and unwrapping don't cause a repeatable pattern, so these tests can only run in playback mode"
+          );
+          this.skip();
+        }
         const text = this.test!.title;
         const wrapped = await cryptoClient.wrapKey("RSA-OAEP", stringToUint8Array(text));
         const unwrappedResult = await cryptoClient.unwrapKey("RSA-OAEP", wrapped.result);
@@ -224,15 +230,18 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
         this.skip();
       }
 
-      const authentication = await authenticate(this, getServiceVersion());
+      recorder = new Recorder(this.currentTest);
+      await recorder.start(envSetupForPlayback);
+
+      const authentication = await authenticate(getServiceVersion(), recorder);
       client = authentication.client;
-      recorder = authentication.recorder;
       testClient = authentication.testClient;
       credential = authentication.credential;
       keySuffix = authentication.keySuffix;
-      keyName = recorder.getUniqueName("RSA-HSM");
+
+      keyName = recorder.variable("RSA-HSM", `RSA-HSM-${Math.floor(Math.random() * 100000)}`);
       keyVaultKey = await client.createKey(keyName, "RSA-HSM");
-      cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
+      cryptoClient = new CryptographyClient(keyVaultKey.id!, credential, recorder.configureClientOptions({}));
     });
 
     afterEach(async function (this: Context) {
@@ -243,7 +252,10 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     });
 
     it("encrypt & decrypt with an RSA-HSM key and the RSA-OAEP algorithm", async function (this: Context) {
-      recorder.skip(undefined, "Encryption with RSA is not repeatable");
+      if (!isLiveMode()) {
+        console.log("Encryption with RSA is not repeatable");
+        this.skip();
+      }
       const text = this.test!.title;
       const encryptResult = await cryptoClient.encrypt("RSA-OAEP", stringToUint8Array(text));
       const decryptResult = await cryptoClient.decrypt("RSA-OAEP", encryptResult.result);
@@ -252,7 +264,10 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     });
 
     it("encrypt & decrypt with an RSA-HSM key and the RSA1_5 algorithm", async function (this: Context) {
-      recorder.skip(undefined, "Encryption with RSA is not repeatable");
+      if (!isLiveMode()) {
+        console.log("Encryption with RSA is not repeatable");
+        this.skip();
+      }
       const text = this.test!.title;
       const encryptResult = await cryptoClient.encrypt("RSA1_5", stringToUint8Array(text));
       const decryptResult = await cryptoClient.decrypt("RSA1_5", encryptResult.result);
@@ -261,10 +276,12 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     });
 
     it("wrap and unwrap with RSA-OAEP on a RSA-HSM key", async function (this: Context) {
-      recorder.skip(
-        undefined,
-        "Wrapping and unwrapping don't cause a repeatable pattern, so this test can only run live"
-      );
+      if (!isLiveMode()) {
+        console.log(
+          "Wrapping and unwrapping don't cause a repeatable pattern, so this test can only run live"
+        );
+        this.skip();
+      }
       const text = this.test!.title;
       const wrapped = await cryptoClient.wrapKey("RSA-OAEP", stringToUint8Array(text));
       const unwrappedResult = await cryptoClient.unwrapKey("RSA-OAEP", wrapped.result);
@@ -273,10 +290,12 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     });
 
     it("wrap and unwrap with RSA1_5 on a RSA-HSM key", async function (this: Context) {
-      recorder.skip(
-        undefined,
-        "Wrapping and unwrapping don't cause a repeatable pattern, so this test can only run live"
-      );
+      if (!isLiveMode()) {
+        console.log(
+          "Wrapping and unwrapping don't cause a repeatable pattern, so this test can only run live"
+        );
+        this.skip();
+      }
       const text = this.test!.title;
       const wrapped = await cryptoClient.wrapKey("RSA1_5", stringToUint8Array(text));
       const unwrappedResult = await cryptoClient.unwrapKey("RSA1_5", wrapped.result);
@@ -314,13 +333,16 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
 
   describe("EC keys", () => {
     beforeEach(async function (this: Context) {
-      const authentication = await authenticate(this, getServiceVersion());
+      recorder = new Recorder(this.currentTest);
+      await recorder.start(envSetupForPlayback);
+
+      const authentication = await authenticate(getServiceVersion(), recorder);
       client = authentication.client;
-      recorder = authentication.recorder;
       testClient = authentication.testClient;
       credential = authentication.credential;
       keySuffix = authentication.keySuffix;
-      keyName = recorder.getUniqueName("EC");
+
+      keyName = recorder.variable("EC", `EC-${Math.floor(Math.random() * 100000)}`);
     });
 
     for (const [keyCurve, signatureAlgorithm, shaAlgorithm] of [
@@ -332,9 +354,9 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       it(`sign / signData and verify / verifyData using ${signatureAlgorithm}`, async function (this: Context) {
         keyVaultKey = await client.createEcKey(keyName, { curve: keyCurve });
         // Implicitly test the getCryptographyClient method here
-        cryptoClient = client.getCryptographyClient(keyVaultKey.name, {
+        cryptoClient = client.getCryptographyClient(keyVaultKey.name, recorder.configureClientOptions({
           keyVersion: keyVaultKey.properties.version,
-        });
+        }));
         const data = Buffer.from("my message");
 
         // Sign and verify

@@ -4,7 +4,13 @@
 import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
 import { AbortController } from "@azure/abort-controller";
-import { Recorder, env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
+import {
+  Recorder,
+  env,
+  isPlaybackMode,
+  isRecordMode,
+  isLiveMode,
+} from "@azure-tools/test-recorder";
 import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
 
 import {
@@ -20,7 +26,7 @@ import {
   onVersions,
 } from "./utils/common";
 import { testPollerProperties } from "./utils/recorderUtils";
-import { authenticate } from "./utils/testAuthentication";
+import { authenticate, envSetupForPlayback } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
 
@@ -32,11 +38,17 @@ describe("Keys client - create, read, update and delete operations", () => {
   let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
-    const authentication = await authenticate(this, getServiceVersion());
+    recorder = new Recorder(this.currentTest);
+
+    // These tests rely on the attestation URI inside the Release Policy, which is sanitized by the test recorder.
+    // Using a bodiless matcher to ignore the differences that this causes.
+    recorder.setMatcher("BodilessMatcher");
+    await recorder.start(envSetupForPlayback);
+
+    const authentication = await authenticate(getServiceVersion(), recorder);
     keySuffix = authentication.keySuffix;
     client = authentication.client;
     testClient = authentication.testClient;
-    recorder = authentication.recorder;
   });
 
   afterEach(async function () {
@@ -68,7 +80,10 @@ describe("Keys client - create, read, update and delete operations", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can create a key with requestOptions timeout", async function (this: Context) {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    if (!isLiveMode()) {
+      console.log("Timeout tests don't work on playback mode.");
+      this.skip();
+    }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await assertThrowsAbortError(async () => {
       await client.createKey(keyName, "RSA", {
@@ -124,7 +139,10 @@ describe("Keys client - create, read, update and delete operations", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can create a RSA key with requestOptions timeout", async function (this: Context) {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    if (!isLiveMode()) {
+      console.log("Timeout tests don't work on playback mode.");
+      this.skip();
+    }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
 
     await assertThrowsAbortError(async () => {
@@ -155,7 +173,10 @@ describe("Keys client - create, read, update and delete operations", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can create an EC key with requestOptions timeout", async function (this: Context) {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    if (!isLiveMode()) {
+      console.log("Timeout tests don't work on playback mode.");
+      this.skip();
+    }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await assertThrowsAbortError(async () => {
       await client.createEcKey(keyName, {
@@ -259,7 +280,10 @@ describe("Keys client - create, read, update and delete operations", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can update key with requestOptions timeout", async function (this: Context) {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    if (!isLiveMode()) {
+      console.log("Timeout tests don't work on playback mode.");
+      this.skip();
+    }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     const { version } = (await client.createRsaKey(keyName)).properties;
     const options: UpdateKeyPropertiesOptions = {
@@ -293,7 +317,10 @@ describe("Keys client - create, read, update and delete operations", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can delete a key with requestOptions timeout", async function (this: Context) {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    if (!isLiveMode()) {
+      console.log("Timeout tests don't work on playback mode.");
+      this.skip();
+    }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     await assertThrowsAbortError(async () => {
@@ -331,7 +358,10 @@ describe("Keys client - create, read, update and delete operations", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can get a key with requestOptions timeout", async function (this: Context) {
-    recorder.skip(undefined, "Timeout tests don't work on playback mode.");
+    if (!isLiveMode()) {
+      console.log("Timeout tests don't work on playback mode.");
+      this.skip();
+    }
     const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     await assertThrowsAbortError(async () => {
@@ -400,7 +430,10 @@ describe("Keys client - create, read, update and delete operations", () => {
       // Key Rotation is a preview feature that is not supported in all clouds yet.
       // Once 7.3 GAs we should be able to run this unconditionally.
       it("rotateKey supports rotating a key", async () => {
-        const keyName = recorder.getUniqueName("keyrotate");
+        const keyName = recorder.variable(
+          "keyrotate",
+          `keyrotate-${Math.floor(Math.random() * 1000)}`
+        );
         const key = await client.createKey(keyName, "RSA");
         const rotatedKey = await client.rotateKey(keyName);
 
@@ -414,7 +447,10 @@ describe("Keys client - create, read, update and delete operations", () => {
       });
 
       it("updateKeyRotationPolicy supports creating a new rotation policy and fetching it", async () => {
-        const keyName = recorder.getUniqueName("keyrotationpolicy");
+        const keyName = recorder.variable(
+          "keyrotationpolicy",
+          `keyrotationpolicy-${Math.floor(Math.random() * 1000)}`
+        );
         const key = await client.createKey(keyName, "RSA");
 
         const rotationPolicy = await client.updateKeyRotationPolicy(key.name, {
@@ -433,7 +469,10 @@ describe("Keys client - create, read, update and delete operations", () => {
       });
 
       it("updateKeyRotationPolicy supports updating an existing policy", async () => {
-        const keyName = recorder.getUniqueName("keyrotationpolicy");
+        const keyName = recorder.variable(
+          "keyrotationpolicy",
+          `keyrotationpolicy-${Math.floor(Math.random() * 1000)}`
+        );
         const key = await client.createKey(keyName, "RSA");
 
         // Create a policy which we will override later.
@@ -472,12 +511,18 @@ describe("Keys client - create, read, update and delete operations", () => {
       });
 
       it("throws when attempting to fetch a policy of a non-existent key", async () => {
-        const keyName = recorder.getUniqueName("nonexistentkey");
+        const keyName = recorder.variable(
+          "nonexistentkey",
+          `nonexistentkey-${Math.floor(Math.random() * 1000)}`
+        );
         await assert.isRejected(client.getKeyRotationPolicy(keyName));
       });
 
       it("supports tracing", async () => {
-        const keyName = recorder.getUniqueName("rotationpolicytracing");
+        const keyName = recorder.variable(
+          "rotationpolicytracing",
+          `rotationpolicytracing-${Math.floor(Math.random() * 1000)}`
+        );
         const key = await client.createKey(keyName, "RSA");
 
         await assert.supportsTracing(
@@ -523,15 +568,25 @@ describe("Keys client - create, read, update and delete operations", () => {
         version: "1.0.0",
       };
       encodedReleasePolicy = stringToUint8Array(JSON.stringify(releasePolicy));
-      const attestationTokenClient = createDefaultHttpClient();
-      const response = await attestationTokenClient.sendRequest(
-        createPipelineRequest({ url: `${attestationUri}/generate-test-token` })
-      );
-      attestation = JSON.parse(response.bodyAsText!).token;
+
+      if (!isPlaybackMode()) {
+        const attestationTokenClient = createDefaultHttpClient();
+        const response = await attestationTokenClient.sendRequest(
+          createPipelineRequest({ url: `${attestationUri}/generate-test-token` })
+        );
+        attestation = JSON.parse(response.bodyAsText!).token;
+        recorder.variable("attestation", attestation);
+      } else {
+        attestation = recorder.variable("attestation", attestation);
+      }
     });
 
     it("can create an exportable key and release it", async () => {
-      const keyName = recorder.getUniqueName("exportkey");
+      //the issue is not here
+      const keyName = recorder.variable(
+        "exportkey",
+        `exportkey-${Math.floor(Math.random() * 1000)}`
+      );
       const createdKey = await client.createRsaKey(keyName, {
         exportable: true,
         hsm: true,
@@ -550,7 +605,10 @@ describe("Keys client - create, read, update and delete operations", () => {
     });
 
     it("errors when key is exportable without a release policy", async () => {
-      const keyName = recorder.getUniqueName("exportablenopolicy");
+      const keyName = recorder.variable(
+        "exportablenopolicy",
+        `exportablenopolicy-${Math.floor(Math.random() * 1000)}`
+      );
       await assert.isRejected(
         client.createRsaKey(keyName, { exportable: true, hsm: true }),
         /exportable/i
@@ -558,7 +616,10 @@ describe("Keys client - create, read, update and delete operations", () => {
     });
 
     it("errors when a key has a release policy but is not exportable", async () => {
-      const keyName = recorder.getUniqueName("policynonexportable");
+      const keyName = recorder.variable(
+        "policynonexportable",
+        `policynonexportable-${Math.floor(Math.random() * 1000)}`
+      );
       await assert.isRejected(
         client.createRsaKey(keyName, {
           hsm: true,
@@ -569,7 +630,10 @@ describe("Keys client - create, read, update and delete operations", () => {
     });
 
     it("errors when updating an immutable release policy", async () => {
-      const keyName = recorder.getUniqueName("immutablerelease");
+      const keyName = recorder.variable(
+        "immutablerelease",
+        `immutablerelease-${Math.floor(Math.random() * 1000)}`
+      );
       const createdKey = await client.createRsaKey(keyName, {
         exportable: true,
         hsm: true,
@@ -609,7 +673,10 @@ describe("Keys client - create, read, update and delete operations", () => {
 
   describe("tracing", () => {
     it("traces through the basic operations", async () => {
-      const keyName = recorder.getUniqueName("keyclienttracing");
+      const keyName = recorder.variable(
+        "keyclienttracing",
+        `keyclienttracing-${Math.floor(Math.random() * 1000)}`
+      );
       await assert.supportsTracing(
         async (options) => {
           await client.createKey(keyName, "RSA", options);
@@ -633,7 +700,10 @@ describe("Keys client - create, read, update and delete operations", () => {
     });
 
     onVersions({ minVer: "7.3" }).it("traces through key rotation operations", async () => {
-      const keyName = recorder.getUniqueName("keyrotationtracing");
+      const keyName = recorder.variable(
+        "keyrotationtracing",
+        `keyrotationtracing-${Math.floor(Math.random() * 1000)}`
+      );
       await client.createKey(keyName, "RSA");
       await assert.supportsTracing(
         async (options) => {
