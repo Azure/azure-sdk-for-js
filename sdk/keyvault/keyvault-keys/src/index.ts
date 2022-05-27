@@ -4,7 +4,6 @@
 
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { CommonClientOptions } from "@azure/core-client";
-import { authenticationScopes } from "./constants";
 
 import { TokenCredential } from "@azure/core-auth";
 
@@ -266,7 +265,7 @@ export class KeyClient {
 
     const authPolicy = bearerTokenAuthenticationPolicy({
       credential,
-      scopes: authenticationScopes,
+      scopes: [], // Scopes are going to be defined by the challenge callbacks.
       challengeCallbacks: createChallengeCallbacks(),
     });
 

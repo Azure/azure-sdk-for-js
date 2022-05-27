@@ -3,7 +3,6 @@
 
 import { TokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { authenticationScopes } from "../constants";
 
 import {
   DecryptOptions,
@@ -366,7 +365,8 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
  */
 function getOrInitializeClient(
   credential: TokenCredential,
-  options: CryptographyClientOptions & { generatedClient?: KeyVaultClient }
+  options: CryptographyClientOptions & { generatedClient?: KeyVaultClient },
+  _keyId?: String
 ): KeyVaultClient {
   if (options.generatedClient) {
     return options.generatedClient;
@@ -385,7 +385,7 @@ function getOrInitializeClient(
 
   const authPolicy = bearerTokenAuthenticationPolicy({
     credential,
-    scopes: authenticationScopes,
+    scopes: [], // Scopes are going to be defined by the challenge callbacks.
     challengeCallbacks: createChallengeCallbacks(),
   });
 

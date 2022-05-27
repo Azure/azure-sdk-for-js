@@ -34,6 +34,10 @@ type ChallengeState =
     }
   | {
       status: "complete";
+    }
+  | {
+      status: "complete";
+      scope: string[];
     };
 
 /**
@@ -109,7 +113,7 @@ export function createChallengeCallbacks(): ChallengeCallbacks {
     const parsedChallenge: ParsedWWWAuthenticate = parseWWWAuthenticate(challenge) || [];
 
     const accessToken = await options.getAccessToken(
-      parsedChallenge.scope ? [parsedChallenge.scope] : scopes,
+      parsedChallenge.resource ? [parsedChallenge.resource + "/.default"] : scopes,
       { ...getTokenOptions, tenantId: parsedChallenge.tenantId }
     );
 
@@ -121,6 +125,7 @@ export function createChallengeCallbacks(): ChallengeCallbacks {
 
     challengeState = {
       status: "complete",
+      scope: parsedChallenge.resource ? [parsedChallenge.resource + "/.default"] : scopes,
     };
 
     return true;
