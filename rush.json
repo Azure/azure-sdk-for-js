@@ -1710,6 +1710,11 @@
       "packageName": "@azure/arm-education",
       "projectFolder": "sdk/education/arm-education",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-machinelearning",
+      "projectFolder": "sdk/machinelearning/arm-machinelearning",
+      "versionPolicyName": "management"
     }
   ]
 }
