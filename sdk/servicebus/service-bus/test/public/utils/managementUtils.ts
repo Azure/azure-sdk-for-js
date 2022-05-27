@@ -142,6 +142,35 @@ export async function recreateTopic(
 }
 
 /**
+ * Utility that deletes a subscription using given parameters.
+ */
+export async function deleteSubscription(
+  topicName: string,
+  subscriptionName: string
+): Promise<void> {
+  getManagementClient();
+
+  const deleteSubscriptionOperation = async (): Promise<void> => {
+    await client.deleteSubscription(topicName, subscriptionName);
+  };
+
+  const checkIfSubscriptionExistsOperation = async (): Promise<boolean> => {
+    try {
+      await client.getSubscription(topicName, subscriptionName);
+    } catch (err: any) {
+      return false;
+    }
+    return true;
+  };
+
+  await retry(
+    deleteSubscriptionOperation,
+    async () => !(await checkIfSubscriptionExistsOperation()),
+    `Delete subscription "${subscriptionName}"`
+  );
+}
+
+/**
  * Utility that creates a subscription using given parameters.
  */
 export async function recreateSubscription(

@@ -53,7 +53,11 @@ import { ReceiveMode } from "../models";
 import { translateServiceBusError } from "../serviceBusError";
 import { defaultDataTransformer, tryToJsonDecode } from "../dataTransformer";
 import { isDefined, isObjectWithProperties } from "../util/typeGuards";
-import { RuleProperties, SqlRuleAction, SqlRuleFilter } from "../serializers/ruleResourceSerializer";
+import {
+  RuleProperties,
+  SqlRuleAction,
+  SqlRuleFilter,
+} from "../serializers/ruleResourceSerializer";
 
 /**
  * @internal
@@ -116,21 +120,17 @@ export interface CorrelationRuleFilter {
   applicationProperties?: { [key: string]: string | number | boolean | Date };
 }
 
-
 /**
  * @internal
  */
-const sqlRuleProperties = [
-  "sqlExpression",
-];
+const sqlRuleProperties = ["sqlExpression"];
 
 function isSqlRuleFilter(obj: unknown): obj is SqlRuleFilter {
   if (obj) {
-    return sqlRuleProperties.some((validProperty) =>
-      isObjectWithProperties(obj, [validProperty]))
+    return sqlRuleProperties.some((validProperty) => isObjectWithProperties(obj, [validProperty]));
   }
 
-  return false
+  return false;
 }
 
 /**
@@ -151,10 +151,11 @@ const correlationProperties = [
 function isCorrelationRuleFilter(obj: unknown): obj is CorrelationRuleFilter {
   if (obj) {
     return correlationProperties.some((validProperty) =>
-      isObjectWithProperties(obj, [validProperty]))
+      isObjectWithProperties(obj, [validProperty])
+    );
   }
 
-  return false
+  return false;
 }
 
 /**
@@ -308,7 +309,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       : undefined;
   }
 
-  private _decodeApplicationPropertiesMap(obj: Typed): Record<string, string | number | boolean | Date> {
+  private _decodeApplicationPropertiesMap(
+    obj: Typed
+  ): Record<string, string | number | boolean | Date> {
     if (!types.is_map(obj)) {
       throw new Error("object to decode is not of Map types");
     }
@@ -1191,14 +1194,13 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           Array.isArray(actionsRawData.value) &&
           actionsRawData.value.length
         ) {
-           sqlRuleAction = {
-             sqlExpression: this._safelyGetTypedValueFromArray(actionsRawData.value, 0)
-           };
+          sqlRuleAction = {
+            sqlExpression: this._safelyGetTypedValueFromArray(actionsRawData.value, 0),
+          };
         } else {
-          sqlRuleAction = {}
+          sqlRuleAction = {};
         }
 
-        let rule: RuleProperties;
         switch (filtersRawData.descriptor.value) {
           case Constants.descriptorCodes.trueFilterList:
             filter = {
@@ -1208,12 +1210,12 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           case Constants.descriptorCodes.falseFilterList:
             filter = {
               sqlExpression: "1=0",
-            }
+            };
             break;
           case Constants.descriptorCodes.sqlFilterList:
             filter = {
               sqlExpression: this._safelyGetTypedValueFromArray(filtersRawData.value, 0),
-            }
+            };
             break;
           case Constants.descriptorCodes.correlationFilterList:
             filter = {
@@ -1225,17 +1227,24 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
               sessionId: this._safelyGetTypedValueFromArray(filtersRawData.value, 5),
               replyToSessionId: this._safelyGetTypedValueFromArray(filtersRawData.value, 6),
               contentType: this._safelyGetTypedValueFromArray(filtersRawData.value, 7),
-              applicationProperties: Array.isArray(filtersRawData.value) && filtersRawData.value.length > 8 && filtersRawData.value[8] ?  this._decodeApplicationPropertiesMap(filtersRawData.value[8]) : undefined,
+              applicationProperties:
+                Array.isArray(filtersRawData.value) &&
+                filtersRawData.value.length > 8 &&
+                filtersRawData.value[8]
+                  ? this._decodeApplicationPropertiesMap(filtersRawData.value[8])
+                  : undefined,
             };
             break;
           default:
-            throw new Error(`${this.logPrefix} Found unexpected descriptor code for the filter: ${filtersRawData.descriptor.value}`);
+            throw new Error(
+              `${this.logPrefix} Found unexpected descriptor code for the filter: ${filtersRawData.descriptor.value}`
+            );
         }
 
-        rule = {
+        const rule: RuleProperties = {
           name: ruleDescriptor.value[2].value,
           filter,
-          action: sqlRuleAction
+          action: sqlRuleAction,
         };
         rules.push(rule);
       });
@@ -1320,8 +1329,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       const ruleDescription: any = {};
       if (isSqlRuleFilter(filter)) {
         ruleDescription["sql-filter"] = {
-          expression: filter.sqlExpression
-        }
+          expression: filter.sqlExpression,
+        };
       } else {
         ruleDescription["correlation-filter"] = {
           "correlation-id": filter.correlationId,
@@ -1333,7 +1342,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           "reply-to-session-id": filter.replyToSessionId,
           "content-type": filter.contentType,
           properties: filter.applicationProperties,
-        }
+        };
       }
 
       if (sqlRuleActionExpression !== undefined) {

@@ -3,7 +3,8 @@
 
 import {
   CorrelationRuleFilter,
-  // ServiceBusSender,
+  ServiceBusMessage,
+  ServiceBusSender,
   SqlRuleAction,
   SqlRuleFilter,
 } from "../../src";
@@ -14,8 +15,30 @@ import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
 } from "../public/utils/testutils2";
+import { deleteSubscription, recreateSubscription } from "./utils/managementUtils";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
+
+const defaultRuleName = "$Default";
+interface Order {
+  color: string;
+  quantity: number;
+  priority: string;
+}
+const orders: Order[] = [
+  { color: "blue", quantity: 5, priority: "low" },
+  { color: "red", quantity: 10, priority: "high" },
+  { color: "yellow", quantity: 5, priority: "low" },
+  { color: "blue", quantity: 10, priority: "low" },
+  { color: "blue", quantity: 5, priority: "high" },
+  { color: "blue", quantity: 10, priority: "low" },
+  { color: "red", quantity: 5, priority: "low" },
+  { color: "red", quantity: 10, priority: "low" },
+  { color: "red", quantity: 5, priority: "low" },
+  { color: "yellow", quantity: 10, priority: "high" },
+  { color: "yellow", quantity: 5, priority: "low" },
+  { color: "yellow", quantity: 10, priority: "low" },
+];
 
 /**
  * A basic suite that exercises most of the core functionality.
@@ -31,7 +54,7 @@ describe("RuleManager tests", () => {
     return serviceBusClient.test.after();
   });
   describe("subscriptions", () => {
-    // let sender: ServiceBusSender;
+    let sender: ServiceBusSender;
     let topic: string;
     let subscription: string;
 
@@ -45,7 +68,9 @@ describe("RuleManager tests", () => {
     });
 
     beforeEach(async () => {
-      // sender = serviceBusClient.test.addToCleanup(serviceBusClient.createSender(topic));
+      sender = serviceBusClient.test.addToCleanup(serviceBusClient.createSender(topic));
+      await deleteSubscription(topic, subscription);
+      await recreateSubscription(topic, subscription);
     });
 
     afterEach(async () => {
@@ -61,57 +86,279 @@ describe("RuleManager tests", () => {
       let rules = await ruleManager.getRules();
       assert.equal(rules.length, 1); // default rule
       const firstRule = rules[0];
-      assert.equal(firstRule.name, "$Default");
+      assert.equal(firstRule.name, defaultRuleName);
       assert.deepStrictEqual(firstRule.action, {});
 
       await ruleManager.createRule(sqlRuleName, {
-          sqlExpression: "price > 10"
-        });
+        sqlExpression: "price > 10",
+      });
 
+      const applicationProperties = {
+        key1: "value1",
+        key2: 2,
+        key3: true,
+        key4: new Date("01/01/2000"),
+      };
       const correlationRuleFilter: CorrelationRuleFilter = {
         correlationId: "correlationId",
         subject: "label",
         messageId: "messageId",
-        applicationProperties: {
-          key1: "value1"
-        },
+        applicationProperties,
         replyTo: "replyTo",
         replyToSessionId: "replyToSessionId",
         sessionId: "sessionId",
-        to: "to"
+        to: "to",
       };
       const action: SqlRuleAction = {
         sqlExpression: "Set CorrelationId = 'newValue'",
-      }
+      };
       await ruleManager.createRule(correlationRuleName, correlationRuleFilter, action);
 
       rules = await ruleManager.getRules();
       assert.equal(rules.length, 3);
 
-      const sqlRules = rules.filter(r => r.name === sqlRuleName);
-      assert.ok(sqlRules.length >= 1, "expecting at least one sql rule")
+      const sqlRules = rules.filter((r) => r.name === sqlRuleName);
+      assert.ok(sqlRules.length >= 1, "expecting at least one sql rule");
       assert.ok(sqlRules[0], "expecting valid sql rule");
       const sqlRule = sqlRules[0];
       assert.equal((sqlRule.filter as SqlRuleFilter).sqlExpression, "price > 10");
 
-      const correlationRules = rules.filter(r => r.name === correlationRuleName);
-      assert.ok(correlationRules.length >= 1, "expecting at least one correlation rule")
-      assert.ok(correlationRules[0], "expecting valid correlation rule")
+      const correlationRules = rules.filter((r) => r.name === correlationRuleName);
+      assert.ok(correlationRules.length >= 1, "expecting at least one correlation rule");
+      assert.ok(correlationRules[0], "expecting valid correlation rule");
       const correlationRule = correlationRules[0];
-      console.log("### correlation rule ", correlationRule);
-      assert.equal(correlationRule.action.sqlExpression, "Set CorrelationId = 'newValue'")
+      assert.equal(correlationRule.action.sqlExpression, "Set CorrelationId = 'newValue'");
       assert.ok(correlationRule.filter);
       const correlationFilter = correlationRule.filter as CorrelationRuleFilter;
-      assert.equal(correlationFilter.correlationId, "correlationId")
-      assert.equal(correlationFilter.subject, "label")
-      assert.equal(correlationFilter.messageId, "messageId")
-      assert.equal(correlationFilter.replyTo, "replyTo")
-      assert.equal(correlationFilter.replyToSessionId, "replyToSessionId")
-      assert.equal(correlationFilter.sessionId, "sessionId")
-      assert.equal(correlationFilter.to, "to")
-      assert.deepStrictEqual(correlationFilter.applicationProperties, {
-        key1: "value1"
-      })
+      assert.equal(correlationFilter.correlationId, "correlationId");
+      assert.equal(correlationFilter.subject, "label");
+      assert.equal(correlationFilter.messageId, "messageId");
+      assert.equal(correlationFilter.replyTo, "replyTo");
+      assert.equal(correlationFilter.replyToSessionId, "replyToSessionId");
+      assert.equal(correlationFilter.sessionId, "sessionId");
+      assert.equal(correlationFilter.to, "to");
+      assert.deepStrictEqual(correlationFilter.applicationProperties, applicationProperties);
+    });
+
+    it("throws if add rule with same name twice", async () => {
+      const ruleManager = serviceBusClient.createRuleManager(topic, subscription);
+      const ruleName = "ruleName";
+      const filter1: CorrelationRuleFilter = {
+        subject: "yellow",
+      };
+      const filter2: CorrelationRuleFilter = {
+        subject: "red",
+      };
+      await ruleManager.createRule(ruleName, filter1);
+
+      await assert.isRejected(
+        ruleManager.createRule(ruleName, filter2),
+        /The messaging entity '.*ruleName' already exists./
+      );
+    });
+
+    it("created true filter works", async () => {
+      const ruleManager = serviceBusClient.createRuleManager(topic, subscription);
+
+      const rules = await ruleManager.getRules();
+      const filteredRules = rules.filter((r) => r.name === defaultRuleName);
+      assert.ok(filteredRules.length >= 1, "expecting at least one rule");
+      assert.ok(filteredRules[0], "expecting valid default rule");
+
+      await ruleManager.deleteRule(defaultRuleName);
+      await ruleManager.createRule("BooleanFilter", { sqlExpression: "1=1" });
+
+      await sendMessages(sender);
+
+      await receiveAndValidate(serviceBusClient, topic, subscription, orders);
+    });
+
+    it("created false filter works", async () => {
+      const ruleManager = serviceBusClient.createRuleManager(topic, subscription);
+
+      const rules = await ruleManager.getRules();
+      const filteredRules = rules.filter((r) => r.name === defaultRuleName);
+      assert.ok(filteredRules.length >= 1, "expecting at least one rule");
+      assert.ok(filteredRules[0], "expecting valid default rule");
+
+      await ruleManager.deleteRule(defaultRuleName);
+      const ruleName = "BooleanFilter";
+      await ruleManager.createRule(ruleName, { sqlExpression: "1=0" });
+
+      await sendMessages(sender);
+
+      const receiver = serviceBusClient.test.addToCleanup(
+        serviceBusClient.createReceiver(topic, subscription)
+      );
+
+      const received = await receiver.receiveMessages(orders.length, {
+        maxWaitTimeInMs: 10 * 1000,
+      });
+
+      assert.equal(received.length, 0, "Not expecting any received messages");
+    });
+
+    it("created correlation filter on the messages works", async () => {
+      const ruleManager = serviceBusClient.createRuleManager(topic, subscription);
+
+      const rules = await ruleManager.getRules();
+      const filteredRules = rules.filter((r) => r.name === defaultRuleName);
+      assert.ok(filteredRules.length >= 1, "expecting at least one rule");
+      assert.ok(filteredRules[0], "expecting valid default rule");
+
+      await ruleManager.deleteRule(defaultRuleName);
+      const ruleName = "CorrelationMsgPropertyRule";
+      await ruleManager.createRule(ruleName, { subject: "red" });
+
+      await sendMessages(sender);
+      const expectedOrders = orders.filter((o) => o.color === "red");
+      await receiveAndValidate(serviceBusClient, topic, subscription, expectedOrders);
+    });
+
+    it("created correlation filter on the user properties works", async () => {
+      const ruleManager = serviceBusClient.createRuleManager(topic, subscription);
+
+      const rules = await ruleManager.getRules();
+      const filteredRules = rules.filter((r) => r.name === defaultRuleName);
+      assert.ok(filteredRules.length >= 1, "expecting at least one rule");
+      assert.ok(filteredRules[0], "expecting valid default rule");
+
+      await ruleManager.deleteRule(defaultRuleName);
+      const ruleName = "CorrelationUserPropertyRule";
+      await ruleManager.createRule(ruleName, { applicationProperties: { color: "red" } });
+
+      await sendMessages(sender);
+      const expectedOrders = orders.filter((o) => o.color === "red");
+      await receiveAndValidate(serviceBusClient, topic, subscription, expectedOrders);
+    });
+
+    it("created correlation filter with action works", async () => {
+      const ruleManager = serviceBusClient.createRuleManager(topic, subscription);
+
+      const rules = await ruleManager.getRules();
+      const filteredRules = rules.filter((r) => r.name === defaultRuleName);
+      assert.ok(filteredRules.length >= 1, "expecting at least one rule");
+      assert.ok(filteredRules[0], "expecting valid default rule");
+
+      await ruleManager.deleteRule(defaultRuleName);
+      const ruleName = "CorrelationRuleWithAction";
+      await ruleManager.createRule(
+        ruleName,
+        { applicationProperties: { color: "blue" } },
+        { sqlExpression: "Set priority = 'high'" }
+      );
+
+      await sendMessages(sender);
+      const expectedOrders = orders.filter((o) => o.color === "blue");
+      const received = await receiveAndValidate(
+        serviceBusClient,
+        topic,
+        subscription,
+        expectedOrders
+      );
+      received.every((m) =>
+        assert.ok(m.applicationProperties, "expecting valid applicationProperties on message")
+      );
+      received.every((m) => assert.equal(m.applicationProperties!["priority"], "high"));
+    });
+
+    it("created sql filter on the message property works", async () => {
+      const ruleManager = serviceBusClient.createRuleManager(topic, subscription);
+
+      const rules = await ruleManager.getRules();
+      const filteredRules = rules.filter((r) => r.name === defaultRuleName);
+      assert.ok(filteredRules.length >= 1, "expecting at least one rule");
+      assert.ok(filteredRules[0], "expecting valid default rule");
+
+      await ruleManager.deleteRule(defaultRuleName);
+      const ruleName = "SqlMsgPropertyRule";
+      await ruleManager.createRule(ruleName, { sqlExpression: "sys.label ='yellow'" });
+
+      await sendMessages(sender);
+      const expectedOrders = orders.filter((o) => o.color === "yellow");
+      await receiveAndValidate(serviceBusClient, topic, subscription, expectedOrders);
+    });
+
+    it("created sql filter on the user properties works", async () => {
+      const ruleManager = serviceBusClient.createRuleManager(topic, subscription);
+
+      const rules = await ruleManager.getRules();
+      const filteredRules = rules.filter((r) => r.name === defaultRuleName);
+      assert.ok(filteredRules.length >= 1, "expecting at least one rule");
+      assert.ok(filteredRules[0], "expecting valid default rule");
+
+      await ruleManager.deleteRule(defaultRuleName);
+      const ruleName = "SqlUserPropertyRule";
+      await ruleManager.createRule(ruleName, { sqlExpression: "Color = 'yellow'" });
+
+      await sendMessages(sender);
+      const expectedOrders = orders.filter((o) => o.color === "yellow");
+      await receiveAndValidate(serviceBusClient, topic, subscription, expectedOrders);
+    });
+
+    it("created sql filter with action works", async () => {
+      const ruleManager = serviceBusClient.createRuleManager(topic, subscription);
+
+      const rules = await ruleManager.getRules();
+      const filteredRules = rules.filter((r) => r.name === defaultRuleName);
+      assert.ok(filteredRules.length >= 1, "expecting at least one rule");
+      assert.ok(filteredRules[0], "expecting valid default rule");
+
+      await ruleManager.deleteRule(defaultRuleName);
+      const ruleName = "SqlRuleWithAction";
+      await ruleManager.createRule(
+        ruleName,
+        { sqlExpression: "Color = 'blue'" },
+        { sqlExpression: "Set priority = 'high'" }
+      );
+
+      await sendMessages(sender);
+      const expectedOrders = orders.filter((o) => o.color === "blue");
+      const received = await receiveAndValidate(
+        serviceBusClient,
+        topic,
+        subscription,
+        expectedOrders
+      );
+      received.every((m) =>
+        assert.ok(m.applicationProperties, "expecting valid applicationProperties on message")
+      );
+      received.every((m) => assert.equal(m.applicationProperties!["priority"], "high"));
     });
   });
 });
+
+async function sendMessages(sender: ServiceBusSender): Promise<void> {
+  sender.sendMessages(
+    orders.map((order) => ({
+      body: "body",
+      correlationId: order.priority,
+      subject: order.color,
+      applicationProperties: order as unknown as Record<string, string | number>,
+    }))
+  );
+}
+
+async function receiveAndValidate(
+  serviceBusClient: ServiceBusClientForTests,
+  topicName: string,
+  subscriptionName: string,
+  expectedOrders: Order[]
+) {
+  const receiver = serviceBusClient.test.addToCleanup(
+    serviceBusClient.createReceiver(topicName, subscriptionName)
+  );
+
+  const received: ServiceBusMessage[] = [];
+  let current = 0;
+  while (current < expectedOrders.length) {
+    for await (const message of receiver.getMessageIterator()) {
+      received.push(message);
+      await receiver.completeMessage(message);
+      assert.equal(message.subject, expectedOrders[current].color);
+      current++;
+      break;
+    }
+  }
+  return received;
+}

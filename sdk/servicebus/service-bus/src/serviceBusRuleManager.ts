@@ -10,17 +10,35 @@ import { getUniqueName } from "./util/utils";
 import { throwErrorIfConnectionClosed } from "./util/errors";
 import { SqlRuleFilter } from "./serializers/ruleResourceSerializer";
 
+/**
+ * Allows rules for a subscription to be managed. This rule manager requires only Listen claims, whereas the
+ * {@link ServiceBusAdministrationClient} requires Manage claims.
+ */
 export interface ServiceBusRuleManager {
+  /**
+   * Adds a rule to the current subscription to filter the messages reaching from topic to the subscription.
+   *
+   * @param ruleName - the name of the rule
+   * @param filter - the filter expression that the rule evaluates.
+   * @param ruleAction - The SQL like expression that can be executed on the message should the associated filter apply.
+   */
   createRule(
     ruleName: string,
     filter: SqlRuleFilter | CorrelationRuleFilter,
-    sqlRuleAction?: SqlRuleAction,
-    options?: OperationOptionsBase): Promise<void>;
-  getRules(
-    options?: OperationOptionsBase): Promise<RuleProperties[]>;
-  removeRule(ruleName: string, options?: OperationOptionsBase): Promise<void>;
+    ruleAction?: SqlRuleAction,
+    options?: OperationOptionsBase
+  ): Promise<void>;
+  /**
+   * Get all rules associated with the subscription.
+   */
+  getRules(options?: OperationOptionsBase): Promise<RuleProperties[]>;
+  /**
+   * Deletes a rule.
+   *
+   * @param ruleName - the name of the rule
+   */
+  deleteRule(ruleName: string, options?: OperationOptionsBase): Promise<void>;
 }
-
 
 /**
  * @internal
@@ -47,16 +65,23 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
     this.name = getUniqueName("ruleManager");
   }
 
-
   public get isClosed(): boolean {
     return this._isClosed || this._context.wasConnectionCloseCalled;
   }
 
+  /**
+   * Adds a rule to the current subscription to filter the messages reaching from topic to the subscription.
+   *
+   * @param ruleName - the name of the rule
+   * @param filter - the filter expression that the rule evaluates.
+   * @param ruleAction - The SQL like expression that can be executed on the message should the associated filter apply.
+   */
   async createRule(
     ruleName: string,
     filter: SqlRuleFilter | CorrelationRuleFilter,
     sqlRuleAction?: SqlRuleAction,
-    options?: OperationOptionsBase): Promise<void> {
+    options?: OperationOptionsBase
+  ): Promise<void> {
     const addRuleOperationPromise = async (): Promise<void> => {
       return this._context
         .getManagementClient(this._entityPath)
@@ -64,7 +89,7 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
           ...options,
           associatedLinkName: this.name,
           requestName: "addRule",
-          timeoutInMs: this._retryOptions.timeoutInMs
+          timeoutInMs: this._retryOptions.timeoutInMs,
         });
     };
     const config: RetryConfig<void> = {
@@ -77,17 +102,17 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
     return retry<void>(config);
   }
 
-  async getRules(
-    options?: OperationOptionsBase): Promise<RuleProperties[]> {
+  /**
+   * Get all rules associated with the subscription.
+   */
+  async getRules(options?: OperationOptionsBase): Promise<RuleProperties[]> {
     const getRulesOperationPromise = async (): Promise<RuleProperties[]> => {
-      return this._context
-        .getManagementClient(this._entityPath)
-        .getRules({
-          ...options,
-          associatedLinkName: this.name,
-          requestName: "getRules",
-          timeoutInMs: this._retryOptions.timeoutInMs
-        });
+      return this._context.getManagementClient(this._entityPath).getRules({
+        ...options,
+        associatedLinkName: this.name,
+        requestName: "getRules",
+        timeoutInMs: this._retryOptions.timeoutInMs,
+      });
     };
     const config: RetryConfig<RuleProperties[]> = {
       operation: getRulesOperationPromise,
@@ -99,18 +124,17 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
     return retry<RuleProperties[]>(config);
   }
 
-  async removeRule(
-    ruleName: string,
-    options?: OperationOptionsBase): Promise<void> {
+  /**
+   * Deletes a rule.
+   */
+  async deleteRule(ruleName: string, options?: OperationOptionsBase): Promise<void> {
     const removeRuleOperationPromise = async (): Promise<void> => {
-      return this._context
-        .getManagementClient(this._entityPath)
-        .removeRule(ruleName, {
-          ...options,
-          associatedLinkName: this.name,
-          requestName: "removeRule",
-          timeoutInMs: this._retryOptions.timeoutInMs
-        });
+      return this._context.getManagementClient(this._entityPath).removeRule(ruleName, {
+        ...options,
+        associatedLinkName: this.name,
+        requestName: "removeRule",
+        timeoutInMs: this._retryOptions.timeoutInMs,
+      });
     };
     const config: RetryConfig<void> = {
       operation: removeRuleOperationPromise,
