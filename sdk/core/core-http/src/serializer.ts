@@ -156,8 +156,6 @@ export class Serializer {
     if (object == undefined) {
       payload = object;
     } else {
-      // Validate Constraints if any
-      this.validateConstraints(mapper, object, objectName);
       if (mapperType.match(/^any$/i) !== null) {
         payload = object;
       } else if (mapperType.match(/^(Number|String|Boolean|Object|Stream|Uuid)$/i) !== null) {
