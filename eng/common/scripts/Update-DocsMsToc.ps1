@@ -167,9 +167,9 @@ function generate-markdown-table($absolutePath, $readmeName, $packageInfo, $moni
       continue
     }
     $repositoryLink = $RepositoryUri
-    $packageLevelReame = &$GetPackageLevelReadmeFn -packageMetadata $pkg
-    $referenceLink = '[$($pkg.DisplayName)]($packageLevelReame-readme)'
-    if (!(Test-Path (Join-Path $absolutePath -ChildPath "$referenceLink.md"))) {
+    $packageLevelReadme = &$GetPackageLevelReadmeFn -packageMetadata $pkg
+    $referenceLink = "[$($pkg.DisplayName)]($packageLevelReadme-readme.md)"
+    if (!(Test-Path (Join-Path $absolutePath -ChildPath "$packageLevelReadme-readme.md"))) {
       $referenceLink = $pkg.DisplayName
     }
     $githubLink = $GithubUri
