@@ -6,7 +6,6 @@
     - [Dependency Requirements](#dependency-requirements-node-redis)
     - [Authenticate with AAD - Hello World](#authenticate-with-aad-node-redis-hello-world)
     - [Authenticate with AAD - Handle Re-Authentication](#authenticate-with-aad-handle-re-authentication)
-    - [Authenticate with AAD - Azure node-redis Wrapper](#authenticate-with-aad-azure-node-redis-wrapper)
 
 ### Node-redis Library
 

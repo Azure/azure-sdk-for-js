@@ -6,7 +6,6 @@
     - [Dependency Requirements](#dependency-requirements-ioredis)
     - [Authenticate with AAD - Hello World](#authenticate-with-aad-ioredis-hello-world)
     - [Authenticate with AAD - Handle Re-Authentication](#authenticate-with-aad-handle-re-authentication)
-    - [Authenticate with AAD - Azure ioredis Wrapper](#authenticate-with-aad-azure-ioredis-wrapper)
 
 ### Ioredis Library
 
@@ -15,7 +14,6 @@
     "@azure/identity":"^2.0.4",
     "ioredis": "^5.0.4"
 ```
-
 
 #### Authenticate with AAD ioredis Hello World
 This sample is intended to assist in authenticating with AAD via ioredis client library. It focuses on displaying the logic required to fetch an AAD Access token and to use it as password when setting up the ioredis instance.
@@ -162,61 +160,4 @@ main().catch((err) => {
   console.log("error message: ", err.message);
   console.log("error stack: ", err.stack);
 });
-```
-#### Authenticate with AAD Azure Ioredis Wrapper
-This sample is intended to assist in the migration from Ioredis to `AzureIoredisClient`. It focuses on side-by-side comparisons for similar operations between the two libraries.
-
-Familiarity with the Ioredis and Azure Identity client libraries is assumed. If you're new to the Azure Identity library for Javascript, see the docs for [Azure Identity](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) and [ioredis](https://github.com/luin/ioredis) rather than this guide.
-##### Migration benefits
-
-A natural question to ask when considering whether or not to adopt a new version or library is what the benefits of doing so would be. Ioredis by itself doesn't support Azure AD authentication with token generation, failure retries, broken connection handling, and cache reauthentication. Using `AzureIoredisClient` will improve developer productivity and code maintainability.
-
-##### Client instantiation
-
-In ioredis, you create a `Redis` object via a public constructor. The constructor accepts the cache host name, port number, username and password. For example:
-
-```ts
-import Redis from "ioredis";
-import * as dotenv from "dotenv";
-dotenv.config();
-
-let redis = new Redis({
-    tls:{
-        host: process.env.REDIS_HOSTNAME, 
-        port: 6380
-        },
-     username:"default", 
-     password: process.env.REDIS_KEY });
-
-await redis.set("Az:key","value");
-
-redis.disconnect();
-
-```
-With `AzureIoredisClient`, client instances can be created using AAD token:
-
-- Cache host name
-- Port number to connect to
-- Username set on the cache
-- Optional retry options to configure retry
-- Token credential object that's used to generate a token
-
-See the following example of setting up the Azure Ioredis client.
-
-<!--![image](https://user-images.githubusercontent.com/5430778/166531908-3ed78774-3672-4bf8-a6cf-9c6ef6c0bdff.png)-->
-
-See the following example of setting up the Azure Ioredis client.
-
-**Note:** The below sample uses `ClientSecretCredential` from our [Azure Identity](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) SDK, the credential can be replaced with any of the other `TokenCredential` implementations offered by our [Azure Identity](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest) SDK.
-
-```ts
-async function main(){
-    // Construct a Token Credential from Identity SDK, e.g. ClientSecretCredential / Client CertificateCredential / ManagedIdentityCredential etc.
-    const credential = new ClientSecretCredential(process.env.AZURE_TENANT_ID, process.env.AZURE_CLIENT_ID,process.env.AZURE_CLIENT_SECRET);
-    
-    const redisClient = new AzureIoredisClient(<host_name>,<port_no>,<username>,credential,<options>);
-    
-    await redisClient.set("Az:key","value");
-    redisClient.disconnect();
-}
 ```
