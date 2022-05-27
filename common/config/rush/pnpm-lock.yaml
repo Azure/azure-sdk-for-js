@@ -3380,7 +3380,7 @@ packages:
     dev: false
 
   /code-point-at/1.1.0:
-    resolution: {integrity: sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c=}
+    resolution: {integrity: sha512-RpAVKQA5T63xEj6/giIbUEtZwJ4UFIc3ZtvEkiaUERylqe8xb5IvqcgOurZLahv93CLKfxcw5YI+DZcUBRyLXA==}
     engines: {node: '>=0.10.0'}
     dev: false
 
@@ -3398,7 +3398,7 @@ packages:
     dev: false
 
   /color-name/1.1.3:
-    resolution: {integrity: sha1-p9BVi9icQveV3UIyj3QIMcpTvCU=}
+    resolution: {integrity: sha512-72fSenhMw2HZMTVHeCA9KCmpEIbzWiQsjN+BHcBbS9vr1mtt+vJjPdksIBNUmKAW8TFUDPJK5SUU3QhE9NEXDw==}
     dev: false
 
   /color-name/1.1.4:
@@ -3422,7 +3422,7 @@ packages:
     dev: false
 
   /commondir/1.0.1:
-    resolution: {integrity: sha1-3dgA2gxmEnOTzKWVDqloo6rxJTs=}
+    resolution: {integrity: sha512-W9pAhw0ja1Edb5GVdIF1mjZw/ASI0AlShXM83UUGe2DVr5TdAPEA1OA8m/g8zWp9x6On7gqufY+FatDbC3MDQg==}
     dev: false
 
   /component-emitter/1.3.0:
@@ -9744,7 +9744,7 @@ packages:
     dev: false
 
   file:projects/arm-azurestackhci.tgz:
-    resolution: {integrity: sha512-aH3mBpP2+zYcZ6p7hsFZOJ8sWQJ6vQKe6bP0c9KTKO1eQ4vk3V1IXqUVkmGKgM6RoJ+cyFzrIGy7f5NB3Z8nLA==, tarball: file:projects/arm-azurestackhci.tgz}
+    resolution: {integrity: sha512-Vxb9+g7chzP6Xa24rWbnuY0NkBHDuT3qKQY0YknMRxJVWyi7GHUAH24UesIo86XiD2XMmlZn4kAWx7VW6iOevA==, tarball: file:projects/arm-azurestackhci.tgz}
     name: '@rush-temp/arm-azurestackhci'
     version: 0.0.0
     dependencies:
@@ -10232,7 +10232,7 @@ packages:
     dev: false
 
   file:projects/arm-containerregistry.tgz:
-    resolution: {integrity: sha512-cTCAzAO90LYq2ZJ4JOOppGa8HRwgasLykCdoaQCVZWfMLlOxOBkYtEyY27/LYHjLki+cGgjqBdp9WUdjcqm4NA==, tarball: file:projects/arm-containerregistry.tgz}
+    resolution: {integrity: sha512-iF8sXHNI1djRZmD4LQh/3lu/I3SDrA8UKBCmpYY5woJl5jMfMuz86EAWk/9utlgEsYCxCS/EnhWhHAgugIi0jQ==, tarball: file:projects/arm-containerregistry.tgz}
     name: '@rush-temp/arm-containerregistry'
     version: 0.0.0
     dependencies:
@@ -10695,18 +10695,20 @@ packages:
     dev: false
 
   file:projects/arm-deviceprovisioningservices.tgz:
-    resolution: {integrity: sha512-eQ8S/zY62C7yfOwBpM7E1ierxMPh4Qk9C+Gn4tkGrThFbBwr9Q7BpZAF0IasTS/Y/Ajja6AO7IdTHqhLkuLpxw==, tarball: file:projects/arm-deviceprovisioningservices.tgz}
+    resolution: {integrity: sha512-pBwvCfstnqpHnIeqn12BUhmRSiD6mxnAi9j3tglIfWLcxmn/kZSU87MpYLE/0ffp4vvyDFLbJh/1dDpv7rrCjg==, tarball: file:projects/arm-deviceprovisioningservices.tgz}
     name: '@rush-temp/arm-deviceprovisioningservices'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-recorder': 1.0.2
       '@azure/core-lro': 2.2.4
       '@azure/identity': 2.0.4
-      '@microsoft/api-extractor': 7.23.0
+      '@microsoft/api-extractor': 7.18.11
       '@rollup/plugin-commonjs': 21.1.0_rollup@2.70.2
       '@rollup/plugin-json': 4.1.0_rollup@2.70.2
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.70.2
       '@rollup/plugin-node-resolve': 13.2.1_rollup@2.70.2
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -10719,7 +10721,6 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 
