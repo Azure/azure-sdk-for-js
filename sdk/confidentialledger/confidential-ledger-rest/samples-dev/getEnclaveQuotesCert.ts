@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import * as dotenv from "dotenv";
+
 /**
  * This sample demonstrates how to list enclave quotes using client Certificate Authentication
  *
@@ -9,11 +11,10 @@
  */
 import ConfidentialLedger, { getLedgerIdentity } from "@azure-rest/confidential-ledger";
 
-import * as dotenv from "dotenv";
 dotenv.config();
 
 const cert = process.env["USER_CERT"] || "";
-const certKey = process.env["USER_CERT_KEY"] || "";
+const key = process.env["USER_CERT_KEY"] || "";
 const endpoint = process.env["ENDPOINT"] || "";
 const ledgerId = process.env["LEDGER_ID"] || "";
 
@@ -25,8 +26,10 @@ export async function main() {
 
   // Create the Confidential Ledger Client
   const confidentialLedger = ConfidentialLedger(endpoint, ledgerIdentity.ledgerTlsCertificate, {
-    cert,
-    certKey,
+    tlsOptions: {
+      cert,
+      key,
+    },
   });
 
   // Get enclave quotes

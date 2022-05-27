@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Creates a connected registry for a container registry with the specified parameters.
  *
  * @summary Creates a connected registry for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2021-12-01-preview/examples/ConnectedRegistryCreate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2022-02-01-preview/examples/ConnectedRegistryCreate.json
  */
 async function connectedRegistryCreate() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
