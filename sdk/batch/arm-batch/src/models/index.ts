@@ -24,6 +24,8 @@ export interface BatchAccountCreateParameters {
   keyVaultReference?: KeyVaultReference;
   /** If not specified, the default value is 'enabled'. */
   publicNetworkAccess?: PublicNetworkAccessType;
+  /** The network profile only takes effect when publicNetworkAccess is enabled. */
+  networkProfile?: NetworkProfile;
   /** Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. */
   encryption?: EncryptionProperties;
   /** List of allowed authentication modes for the Batch account that can be used to authenticate with the data plane. This does not affect authentication with the control plane. */
@@ -52,6 +54,30 @@ export interface KeyVaultReference {
   id: string;
   /** The URL of the Azure key vault associated with the Batch account. */
   url: string;
+}
+
+/** Network profile for Batch account, which contains network rule settings for each endpoint. */
+export interface NetworkProfile {
+  /** Network access profile for batchAccount endpoint (Batch account data plane API). */
+  accountAccess?: EndpointAccessProfile;
+  /** Network access profile for nodeManagement endpoint (Batch service managing compute nodes for Batch pools). */
+  nodeManagementAccess?: EndpointAccessProfile;
+}
+
+/** Network access profile for Batch endpoint. */
+export interface EndpointAccessProfile {
+  /** Default action for endpoint access. It is only applicable when publicNetworkAccess is enabled. */
+  defaultAction: EndpointAccessDefaultAction;
+  /** Array of IP ranges to filter client IP address. */
+  ipRules?: IPRule[];
+}
+
+/** Rule to filter client IP address. */
+export interface IPRule {
+  /** Action when client IP address is matched. */
+  action: "Allow";
+  /** IPv4 address, or IPv4 address range in CIDR format. */
+  value: string;
 }
 
 /** Configures how customer data is encrypted inside the Batch account. By default, accounts are encrypted using a Microsoft managed key. For additional control, a customer-managed key can be used instead. */
@@ -225,6 +251,10 @@ export interface BatchAccountUpdateParameters {
   encryption?: EncryptionProperties;
   /** List of allowed authentication modes for the Batch account that can be used to authenticate with the data plane. This does not affect authentication with the control plane. */
   allowedAuthenticationModes?: AuthenticationMode[];
+  /** If not specified, the default value is 'enabled'. */
+  publicNetworkAccess?: PublicNetworkAccessType;
+  /** The network profile only takes effect when publicNetworkAccess is enabled. */
+  networkProfile?: NetworkProfile;
 }
 
 /** Values returned by the List operation. */
@@ -713,7 +743,7 @@ export interface NetworkSecurityGroupRule {
 export interface PublicIPAddressConfiguration {
   /** The default value is BatchManaged */
   provision?: IPAddressProvisioningType;
-  /** The number of IPs specified here limits the maximum size of the Pool - 100 dedicated nodes or 100 Spot/low-priority nodes can be allocated for each public IP. For example, a pool needing 250 dedicated VMs would need at least 3 public IPs specified. Each element of this collection is of the form: /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/publicIPAddresses/{ip}. */
+  /** The number of IPs specified here limits the maximum size of the Pool - 100 dedicated nodes or 100 low-priority nodes can be allocated for each public IP. For example, a pool needing 250 dedicated VMs would need at least 3 public IPs specified. Each element of this collection is of the form: /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/publicIPAddresses/{ip}. */
   ipAddressIds?: string[];
 }
 
@@ -857,7 +887,7 @@ export interface ApplicationPackageReference {
 export interface ResizeOperationStatus {
   /** The desired number of dedicated compute nodes in the pool. */
   targetDedicatedNodes?: number;
-  /** The desired number of Spot/low-priority compute nodes in the pool. */
+  /** The desired number of low-priority compute nodes in the pool. */
   targetLowPriorityNodes?: number;
   /** The default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request). */
   resizeTimeout?: string;
@@ -1021,8 +1051,16 @@ export type PrivateEndpointConnection = ProxyResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
-  /** The private endpoint of the private endpoint connection. */
-  privateEndpoint?: PrivateEndpoint;
+  /**
+   * The private endpoint of the private endpoint connection.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpoint?: PrivateEndpoint;
+  /**
+   * The value has one and only one group id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupIds?: string[];
   /** The private link service connection state of the private endpoint connection */
   privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
 };
@@ -1188,7 +1226,7 @@ export type Pool = ProxyResource & {
    */
   readonly currentDedicatedNodes?: number;
   /**
-   * The number of Spot/low-priority compute nodes currently in the pool.
+   * The number of low-priority compute nodes currently in the pool.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly currentLowPriorityNodes?: number;
@@ -1238,6 +1276,11 @@ export type BatchAccount = Resource & {
    */
   readonly accountEndpoint?: string;
   /**
+   * The endpoint used by compute node to connect to the Batch node management service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nodeManagementEndpoint?: string;
+  /**
    * The provisioned state of the resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -1252,11 +1295,10 @@ export type BatchAccount = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly keyVaultReference?: KeyVaultReference;
-  /**
-   * If not specified, the default value is 'enabled'.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly publicNetworkAccess?: PublicNetworkAccessType;
+  /** If not specified, the default value is 'enabled'. */
+  publicNetworkAccess?: PublicNetworkAccessType;
+  /** The network profile only takes effect when publicNetworkAccess is enabled. */
+  networkProfile?: NetworkProfile;
   /**
    * List of private endpoint connections associated with the Batch account
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1288,7 +1330,7 @@ export type BatchAccount = Resource & {
    */
   readonly dedicatedCoreQuotaPerVMFamily?: VirtualMachineFamilyCoreQuota[];
   /**
-   * Batch is transitioning its core quota system for dedicated cores to be enforced per Virtual Machine family. During this transitional phase, the dedicated core quota per Virtual Machine family may not yet be enforced. If this flag is false, dedicated core quota is enforced via the old dedicatedCoreQuota property on the account and does not consider Virtual Machine family. If this flag is true, dedicated core quota is enforced via the dedicatedCoreQuotaPerVMFamily property on the account, and the old dedicatedCoreQuota does not apply.
+   * If this flag is true, dedicated core quota is enforced via both the dedicatedCoreQuotaPerVMFamily and dedicatedCoreQuota properties on the account. If this flag is false, dedicated core quota is enforced only via the dedicatedCoreQuota property on the account and does not consider Virtual Machine family.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly dedicatedCoreQuotaPerVMFamilyEnforced?: boolean;
@@ -1404,6 +1446,14 @@ export interface PrivateEndpointConnectionUpdateHeaders {
   retryAfter?: number;
 }
 
+/** Defines headers for PrivateEndpointConnection_delete operation. */
+export interface PrivateEndpointConnectionDeleteHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+  /** Suggested delay to check the status of the asynchronous operation. The value is an integer that specifies the delay in seconds. */
+  retryAfter?: number;
+}
+
 /** Defines headers for Pool_create operation. */
 export interface PoolCreateHeaders {
   /** The ETag HTTP response header. This is an opaque string. You can use it to detect whether the resource has changed between requests. In particular, you can pass the ETag to one of the If-Match or If-None-Match headers. */
@@ -1450,6 +1500,8 @@ export type AutoStorageAuthenticationMode =
 export type PoolAllocationMode = "BatchService" | "UserSubscription";
 /** Defines values for PublicNetworkAccessType. */
 export type PublicNetworkAccessType = "Enabled" | "Disabled";
+/** Defines values for EndpointAccessDefaultAction. */
+export type EndpointAccessDefaultAction = "Allow" | "Deny";
 /** Defines values for KeySource. */
 export type KeySource = "Microsoft.Batch" | "Microsoft.KeyVault";
 /** Defines values for AuthenticationMode. */
@@ -1469,9 +1521,12 @@ export type ProvisioningState =
   | "Cancelled";
 /** Defines values for PrivateEndpointConnectionProvisioningState. */
 export type PrivateEndpointConnectionProvisioningState =
-  | "Succeeded"
+  | "Creating"
   | "Updating"
-  | "Failed";
+  | "Deleting"
+  | "Succeeded"
+  | "Failed"
+  | "Cancelled";
 /** Defines values for PrivateLinkServiceConnectionStatus. */
 export type PrivateLinkServiceConnectionStatus =
   | "Approved"
@@ -1957,6 +2012,18 @@ export interface PrivateEndpointConnectionUpdateOptionalParams
 
 /** Contains response data for the update operation. */
 export type PrivateEndpointConnectionUpdateResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type PrivateEndpointConnectionDeleteResponse = PrivateEndpointConnectionDeleteHeaders;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionListByBatchAccountNextOptionalParams
