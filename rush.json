@@ -407,6 +407,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/communication-email",
+      "projectFolder": "sdk/communication/communication-email",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/communication-identity",
       "projectFolder": "sdk/communication/communication-identity",
       "versionPolicyName": "client"
@@ -1689,6 +1694,21 @@
     {
       "packageName": "@azure/arm-servicelinker",
       "projectFolder": "sdk/servicelinker/arm-servicelinker",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-changes",
+      "projectFolder": "sdk/changes/arm-changes",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-dynatrace",
+      "projectFolder": "sdk/dynatrace/arm-dynatrace",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-education",
+      "projectFolder": "sdk/education/arm-education",
       "versionPolicyName": "management"
     }
   ]

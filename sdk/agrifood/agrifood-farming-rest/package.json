@@ -85,7 +85,7 @@
     "@azure-rest/core-client": "1.0.0-beta.9",
     "@azure/core-auth": "^1.3.0",
     "@azure/core-lro": "^2.2.4",
-    "@azure/core-paging": "^1.2.2",
+    "@azure/core-paging": "^1.2.0",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0"
   },
@@ -103,7 +103,7 @@
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
-    "eslint": "^7.15.0",
+    "eslint": "^8.0.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-edge-launcher": "^0.4.2",

@@ -1,6 +1,6 @@
 # Release History
 
-## 10.1.0-beta.3 (Unreleased)
+## 10.1.0-beta.4 (Unreleased)
 
 ### Features Added
 
@@ -10,7 +10,7 @@
 
 ### Other Changes
 
-## 10.1.0-beta.2 (2022-04-12)
+## 10.1.0-beta.3 (2022-05-18)
     
 **Features**
 
@@ -24,6 +24,7 @@
   - Added operation Registries.beginGenerateCredentialsAndWait
   - Added Interface ActivationProperties
   - Added Interface ActiveDirectoryObject
+  - Added Interface AzureADAuthenticationAsArmPolicy
   - Added Interface ConnectedRegistriesCreateOptionalParams
   - Added Interface ConnectedRegistriesDeactivateOptionalParams
   - Added Interface ConnectedRegistriesDeleteOptionalParams
@@ -76,6 +77,7 @@
   - Added Interface ScopeMapsListOptionalParams
   - Added Interface ScopeMapsUpdateOptionalParams
   - Added Interface ScopeMapUpdateParameters
+  - Added Interface SoftDeletePolicy
   - Added Interface StatusDetailProperties
   - Added Interface SyncProperties
   - Added Interface SyncUpdateProperties
@@ -92,9 +94,9 @@
   - Added Interface TokensListOptionalParams
   - Added Interface TokensUpdateOptionalParams
   - Added Interface TokenUpdateParameters
-  - Added Interface VirtualNetworkRule
   - Added Type Alias ActivationStatus
   - Added Type Alias AuditLogStatus
+  - Added Type Alias AzureADAuthenticationAsArmPolicyStatus
   - Added Type Alias CertificateType
   - Added Type Alias ConnectedRegistriesCreateResponse
   - Added Type Alias ConnectedRegistriesGetResponse
@@ -141,7 +143,8 @@
   - Added Type Alias TokensListResponse
   - Added Type Alias TokenStatus
   - Added Type Alias TokensUpdateResponse
-  - Interface NetworkRuleSet has a new optional parameter virtualNetworkRules
+  - Interface Policies has a new optional parameter azureADAuthenticationAsArmPolicy
+  - Interface Policies has a new optional parameter softDeletePolicy
   - Interface RegistryUpdateParameters has a new optional parameter anonymousPullEnabled
   - Class ContainerRegistryManagementClient has a new parameter connectedRegistries
   - Class ContainerRegistryManagementClient has a new parameter exportPipelines
@@ -152,6 +155,7 @@
   - Type Alias Registry has a new parameter anonymousPullEnabled
   - Added Enum KnownActivationStatus
   - Added Enum KnownAuditLogStatus
+  - Added Enum KnownAzureADAuthenticationAsArmPolicyStatus
   - Added Enum KnownCertificateType
   - Added Enum KnownConnectedRegistryMode
   - Added Enum KnownConnectionState
@@ -164,7 +168,6 @@
   - Added Enum KnownTokenCertificateName
   - Added Enum KnownTokenPasswordName
   - Added Enum KnownTokenStatus
-  - Bug fix
     
     
 ## 10.0.0 (2021-12-28)

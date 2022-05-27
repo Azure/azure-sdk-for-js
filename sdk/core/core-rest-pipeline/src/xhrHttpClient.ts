@@ -4,10 +4,10 @@
 import { AbortError } from "@azure/abort-controller";
 import {
   HttpClient,
+  HttpHeaders,
   PipelineRequest,
   PipelineResponse,
   TransferProgressEvent,
-  HttpHeaders,
 } from "./interfaces";
 import { createHttpHeaders } from "./httpHeaders";
 import { RestError } from "./restError";
