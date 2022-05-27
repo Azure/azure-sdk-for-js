@@ -308,6 +308,20 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       : undefined;
   }
 
+  private _decodeApplicationPropertiesMap(obj: Typed): Record<string, string | number | boolean | Date> {
+    if (!types.is_map(obj)) {
+      throw new Error("object to decode is not of Map types");
+    }
+    const array = obj.value as Array<Typed>;
+    const result: Record<string, string | number | boolean | Date> = {};
+    for (let i = 0; i < array.length; i += 2) {
+      const key = array[i].value as string;
+      result[key] = array[i + 1].value as string | number | boolean | Date;
+    }
+
+    return result;
+  }
+
   private async _makeManagementRequest(
     request: RheaMessage,
     internalLogger: ServiceBusLogger,
@@ -1202,9 +1216,6 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
             }
             break;
           case Constants.descriptorCodes.correlationFilterList:
-            console.log("### raw data value", filtersRawData)
-            console.log("### raw data value[8] type", filtersRawData.value[8].type)
-            console.log("### raw application properties: ", this._safelyGetTypedValueFromArray(filtersRawData.value, 8));
             filter = {
               correlationId: this._safelyGetTypedValueFromArray(filtersRawData.value, 0),
               messageId: this._safelyGetTypedValueFromArray(filtersRawData.value, 1),
@@ -1214,7 +1225,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
               sessionId: this._safelyGetTypedValueFromArray(filtersRawData.value, 5),
               replyToSessionId: this._safelyGetTypedValueFromArray(filtersRawData.value, 6),
               contentType: this._safelyGetTypedValueFromArray(filtersRawData.value, 7),
-              applicationProperties: this._safelyGetTypedValueFromArray(filtersRawData.value, 8),
+              applicationProperties: Array.isArray(filtersRawData.value) && filtersRawData.value.length > 8 && filtersRawData.value[8] ?  this._decodeApplicationPropertiesMap(filtersRawData.value[8]) : undefined,
             };
             break;
           default:
