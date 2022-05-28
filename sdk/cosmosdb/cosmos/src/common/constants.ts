@@ -158,6 +158,9 @@ export const Constants = {
     IsBatchAtomic: "x-ms-cosmos-batch-atomic",
     BatchContinueOnError: "x-ms-cosmos-batch-continue-on-error",
 
+    // Dedicated Gateway Headers
+    DedicatedGatewayPerRequestCacheStaleness: "x-ms-dedicatedgateway-max-age",
+
     // Cache Refresh header
     ForceRefresh: "x-ms-force-refresh",
   },
@@ -176,10 +179,10 @@ export const Constants = {
   ThrottleRetryCount: "x-ms-throttle-retry-count",
   ThrottleRetryWaitTimeInMs: "x-ms-throttle-retry-wait-time-ms",
 
-  CurrentVersion: "2018-12-31",
+  CurrentVersion: "2020-07-15",
 
   SDKName: "azure-cosmos-js",
-  SDKVersion: "3.15.1",
+  SDKVersion: "3.16.1",
 
   Quota: {
     CollectionSize: "collectionSize",

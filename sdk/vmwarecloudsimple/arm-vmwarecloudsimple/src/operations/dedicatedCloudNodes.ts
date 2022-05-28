@@ -190,12 +190,14 @@ export class DedicatedCloudNodesImpl implements DedicatedCloudNodes {
   /**
    * Returns dedicated cloud node by its name
    * @param resourceGroupName The name of the resource group
+   * @param referer referer url
    * @param dedicatedCloudNodeName dedicated cloud node name
    * @param dedicatedCloudNodeRequest Create Dedicated Cloud Node request
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     resourceGroupName: string,
+    referer: string,
     dedicatedCloudNodeName: string,
     dedicatedCloudNodeRequest: DedicatedCloudNode,
     options?: DedicatedCloudNodesCreateOrUpdateOptionalParams
@@ -248,33 +250,39 @@ export class DedicatedCloudNodesImpl implements DedicatedCloudNodes {
       sendOperation,
       {
         resourceGroupName,
+        referer,
         dedicatedCloudNodeName,
         dedicatedCloudNodeRequest,
         options
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Returns dedicated cloud node by its name
    * @param resourceGroupName The name of the resource group
+   * @param referer referer url
    * @param dedicatedCloudNodeName dedicated cloud node name
    * @param dedicatedCloudNodeRequest Create Dedicated Cloud Node request
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
+    referer: string,
     dedicatedCloudNodeName: string,
     dedicatedCloudNodeRequest: DedicatedCloudNode,
     options?: DedicatedCloudNodesCreateOrUpdateOptionalParams
   ): Promise<DedicatedCloudNodesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
+      referer,
       dedicatedCloudNodeName,
       dedicatedCloudNodeRequest,
       options

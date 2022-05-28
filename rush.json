@@ -407,6 +407,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/communication-email",
+      "projectFolder": "sdk/communication/communication-email",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/communication-identity",
       "projectFolder": "sdk/communication/communication-identity",
       "versionPolicyName": "client"
@@ -454,11 +459,6 @@
     {
       "packageName": "@azure/core-client",
       "projectFolder": "sdk/core/core-client",
-      "versionPolicyName": "core"
-    },
-    {
-      "packageName": "@azure/core-crypto",
-      "projectFolder": "sdk/core/core-crypto",
       "versionPolicyName": "core"
     },
     {
@@ -1694,6 +1694,31 @@
     {
       "packageName": "@azure/arm-servicelinker",
       "projectFolder": "sdk/servicelinker/arm-servicelinker",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-changes",
+      "projectFolder": "sdk/changes/arm-changes",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-dynatrace",
+      "projectFolder": "sdk/dynatrace/arm-dynatrace",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-education",
+      "projectFolder": "sdk/education/arm-education",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-machinelearning",
+      "projectFolder": "sdk/machinelearning/arm-machinelearning",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-appcontainers",
+      "projectFolder": "sdk/appcontainers/arm-appcontainers",
       "versionPolicyName": "management"
     }
   ]

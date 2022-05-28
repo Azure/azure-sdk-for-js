@@ -2,7 +2,7 @@
   "name": "@azure/core-lro",
   "author": "Microsoft Corporation",
   "sdk-type": "client",
-  "version": "2.2.5",
+  "version": "2.3.0-beta.1",
   "description": "Isomorphic client library for supporting long-running operations in node.js and browser.",
   "tags": [
     "isomorphic",
@@ -107,7 +107,7 @@
     "@types/node": "^12.0.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
-    "eslint": "^7.15.0",
+    "eslint": "^8.0.0",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",

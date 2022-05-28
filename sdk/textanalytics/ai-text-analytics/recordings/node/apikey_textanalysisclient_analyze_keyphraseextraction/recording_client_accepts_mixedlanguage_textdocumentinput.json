@@ -1,0 +1,128 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/language/:analyze-text?api-version=2022-04-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "772",
+        "Content-Type": "application/json",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 Node/v16.13.2 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "e521c4b5-9cd0-4c7e-ae17-34a8b4a46c82"
+      },
+      "RequestBody": {
+        "kind": "KeyPhraseExtraction",
+        "analysisInput": {
+          "documents": [
+            {
+              "id": "1",
+              "text": "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
+              "language": "en"
+            },
+            {
+              "id": "2",
+              "text": "Unfortunately, it rained during my entire trip to Seattle. I didn\u0027t even get to visit the Space Needle",
+              "language": "en"
+            },
+            {
+              "id": "3",
+              "text": "I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.",
+              "language": "en"
+            },
+            {
+              "id": "4",
+              "text": "I didn\u0027t like the last book I read at all.",
+              "language": "en"
+            },
+            {
+              "id": "5",
+              "text": "Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.",
+              "language": "es"
+            },
+            {
+              "id": "6",
+              "text": "La carretera estaba atascada. Hab\u00EDa mucho tr\u00E1fico el d\u00EDa de ayer.",
+              "language": "es"
+            }
+          ]
+        },
+        "parameters": {}
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "b23d0b35-08e9-44d0-a398-50c79dfdc648",
+        "Content-Length": "524",
+        "Content-Type": "application/json; charset=utf-8",
+        "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=6,CognitiveServices.TextAnalytics.TextRecords=6",
+        "Date": "Fri, 06 May 2022 20:17:31 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "15"
+      },
+      "ResponseBody": {
+        "kind": "KeyPhraseExtractionResults",
+        "results": {
+          "documents": [
+            {
+              "id": "1",
+              "keyPhrases": [
+                "wonderful trip",
+                "Space Needle",
+                "Seattle"
+              ],
+              "warnings": []
+            },
+            {
+              "id": "2",
+              "keyPhrases": [
+                "entire trip",
+                "Space Needle",
+                "Seattle"
+              ],
+              "warnings": []
+            },
+            {
+              "id": "3",
+              "keyPhrases": [
+                "movie",
+                "Saturday"
+              ],
+              "warnings": []
+            },
+            {
+              "id": "4",
+              "keyPhrases": [
+                "last book"
+              ],
+              "warnings": []
+            },
+            {
+              "id": "5",
+              "keyPhrases": [
+                "Monte Rainier",
+                "caminos"
+              ],
+              "warnings": []
+            },
+            {
+              "id": "6",
+              "keyPhrases": [
+                "mucho tr\u00E1fico",
+                "d\u00EDa",
+                "carretera",
+                "ayer"
+              ],
+              "warnings": []
+            }
+          ],
+          "errors": [],
+          "modelVersion": "2021-06-01"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

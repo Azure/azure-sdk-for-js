@@ -18,7 +18,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Update the state of specified private endpoint connection associated with the container registry.
  *
  * @summary Update the state of specified private endpoint connection associated with the container registry.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2021-12-01-preview/examples/PrivateEndpointConnectionCreateOrUpdate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2022-02-01-preview/examples/PrivateEndpointConnectionCreateOrUpdate.json
  */
 async function privateEndpointConnectionCreateOrUpdate() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";
