@@ -582,7 +582,6 @@ describe("Keys client - create, read, update and delete operations", () => {
     });
 
     it("can create an exportable key and release it", async () => {
-      //the issue is not here
       const keyName = recorder.variable(
         "exportkey",
         `exportkey-${Math.floor(Math.random() * 1000)}`

@@ -31,37 +31,37 @@ export async function authenticate(version: string, recorder: Recorder): Promise
   // let envAttestationUri = assertEnvironmentVariable("AZURE_KEYVAULT_ATTESTATION_URI");
   // let replaceAttestationUri = replaceableVariables.AZURE_KEYVAULT_ATTESTATION_URI;
 
-  const KeyVaultUriName = assertEnvironmentVariable("KEYVAULT_URI").match('https://(.*\.net)/')![1];
-  const ReplacedKeyVaultUriName = replaceableVariables.KEYVAULT_URI.match('https://(.*\.net)/')![1];
-
+  const KeyVaultUriName = assertEnvironmentVariable("KEYVAULT_URI").match("https://(.*.net)/")![1];
+  const ReplacedKeyVaultUriName = replaceableVariables.KEYVAULT_URI.match("https://(.*.net)/")![1];
 
   await recorder.addSanitizers({
-    generalSanitizers:[
+    generalSanitizers: [
       {
         target: keySuffix,
-        value: ""
+        value: "",
       },
       {
         target: btoa(env.AZURE_KEYVAULT_ATTESTATION_URI!),
-        value: btoa(replaceableVariables.AZURE_KEYVAULT_ATTESTATION_URI)
+        value: btoa(replaceableVariables.AZURE_KEYVAULT_ATTESTATION_URI),
       },
       {
         target: env.KEYVAULT_URI!,
-        value: replaceableVariables.KEYVAULT_URI
+        value: replaceableVariables.KEYVAULT_URI,
       },
       {
         target: env.AZURE_MANAGEDHSM_URI!,
-        value: replaceableVariables.AZURE_MANAGEDHSM_URI
+        value: replaceableVariables.AZURE_MANAGEDHSM_URI,
       },
       {
         target: env.AZURE_KEYVAULT_ATTESTATION_URI!,
-        value: replaceableVariables.AZURE_KEYVAULT_ATTESTATION_URI
-      },{
+        value: replaceableVariables.AZURE_KEYVAULT_ATTESTATION_URI,
+      },
+      {
         target: KeyVaultUriName,
-        value: ReplacedKeyVaultUriName
-      }
-    ]
-  })
+        value: ReplacedKeyVaultUriName,
+      },
+    ],
+  });
 
   const credential = createTestCredential();
 
