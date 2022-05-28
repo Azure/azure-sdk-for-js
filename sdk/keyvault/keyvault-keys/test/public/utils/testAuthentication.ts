@@ -5,9 +5,8 @@ import { KeyClient } from "../../../src";
 import { Recorder, env, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { uniqueString } from "./recorderUtils";
 import TestClient from "./testClient";
-// import { toBase64url } from "./base64url";
 import { createTestCredential } from "@azure-tools/test-credential";
-// import { isNode } from "@azure/test-utils";
+import { isNode } from "@azure/core-util";
 
 export const replaceableVariables = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -28,11 +27,25 @@ export const envSetupForPlayback = {
 export async function authenticate(version: string, recorder: Recorder): Promise<any> {
   const keySuffix = uniqueString();
 
-  // let envAttestationUri = assertEnvironmentVariable("AZURE_KEYVAULT_ATTESTATION_URI");
-  // let replaceAttestationUri = replaceableVariables.AZURE_KEYVAULT_ATTESTATION_URI;
-
   const KeyVaultUriName = assertEnvironmentVariable("KEYVAULT_URI").match("https://(.*.net)/")![1];
   const ReplacedKeyVaultUriName = replaceableVariables.KEYVAULT_URI.match("https://(.*.net)/")![1];
+
+  let AttestationUri: string;
+  let ReplacedAttestationUri: string;
+
+  if (isNode) {
+    AttestationUri = Buffer.from(
+      assertEnvironmentVariable("AZURE_KEYVAULT_ATTESTATION_URI"),
+      "base64"
+    ).toString();
+    ReplacedAttestationUri = Buffer.from(
+      replaceableVariables.AZURE_KEYVAULT_ATTESTATION_URI,
+      "base64"
+    ).toString();
+  } else {
+    AttestationUri = btoa(assertEnvironmentVariable("AZURE_KEYVAULT_ATTESTATION_URI"));
+    ReplacedAttestationUri = btoa(replaceableVariables.AZURE_KEYVAULT_ATTESTATION_URI);
+  }
 
   await recorder.addSanitizers({
     generalSanitizers: [
@@ -41,8 +54,8 @@ export async function authenticate(version: string, recorder: Recorder): Promise
         value: "",
       },
       {
-        target: btoa(env.AZURE_KEYVAULT_ATTESTATION_URI!),
-        value: btoa(replaceableVariables.AZURE_KEYVAULT_ATTESTATION_URI),
+        target: AttestationUri,
+        value: ReplacedAttestationUri,
       },
       {
         target: env.KEYVAULT_URI!,
