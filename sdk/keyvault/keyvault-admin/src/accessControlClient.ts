@@ -18,7 +18,7 @@ import {
   ListRoleDefinitionsPageSettings,
   SetRoleDefinitionOptions,
 } from "./accessControlModels";
-import { LATEST_API_VERSION, authenticationScopes } from "./constants";
+import { LATEST_API_VERSION } from "./constants";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RoleAssignmentsListForScopeOptionalParams } from "./generated/models";
@@ -89,7 +89,7 @@ export class KeyVaultAccessControlClient {
     this.client.pipeline.addPolicy(
       bearerTokenAuthenticationPolicy({
         credential,
-        scopes: authenticationScopes,
+        scopes: [],
         challengeCallbacks: createChallengeCallbacks(),
       })
     );

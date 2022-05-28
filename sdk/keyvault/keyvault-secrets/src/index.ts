@@ -21,7 +21,6 @@ import {
   SecretBundle,
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
-import { authenticationScopes } from "./constants";
 import { createChallengeCallbacks } from "../../keyvault-common/src";
 
 import { DeleteSecretPoller } from "./lro/delete/poller";
@@ -126,7 +125,7 @@ export class SecretClient {
 
     const authPolicy = bearerTokenAuthenticationPolicy({
       credential,
-      scopes: authenticationScopes,
+      scopes: [],
       challengeCallbacks: createChallengeCallbacks(),
     });
 

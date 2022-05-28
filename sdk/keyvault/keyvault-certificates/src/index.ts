@@ -99,7 +99,6 @@ import {
   KeyUsageType,
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
-import { authenticationScopes } from "./constants";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { createChallengeCallbacks } from "../../keyvault-common/src";
@@ -251,7 +250,7 @@ export class CertificateClient {
 
     const authPolicy = bearerTokenAuthenticationPolicy({
       credential,
-      scopes: authenticationScopes,
+      scopes: [],
       challengeCallbacks: createChallengeCallbacks(),
     });
 
