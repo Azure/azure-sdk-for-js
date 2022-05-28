@@ -512,6 +512,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/data-collection",
+      "projectFolder": "sdk/monitor/data-collection",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/dev-tool",
       "projectFolder": "common/tools/dev-tool",
       "versionPolicyName": "utility"
