@@ -1,17 +1,19 @@
 # NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
-                
+            
 trigger:
   branches:
     include:
       - main
+      - feature/*
       - release/*
       - hotfix/*
+    exclude:
+      - feature/v4
   paths:
     include:
-      - sdk/deviceupdate/
-    exclude:
       - sdk/deviceupdate/arm-deviceupdate
       - sdk/deviceupdate/ci.mgmt.yml
+
 pr:
   branches:
     include:
@@ -19,17 +21,18 @@ pr:
       - feature/*
       - release/*
       - hotfix/*
+    exclude:
+      - feature/v4
   paths:
     include:
-      - sdk/deviceupdate/
-    exclude:
       - sdk/deviceupdate/arm-deviceupdate
       - sdk/deviceupdate/ci.mgmt.yml
+
 extends:
-  template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
+  template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: deviceupdate
-    IncludeRelease: true
     Artifacts:
-      - name: azure-rest-iot-device-update
-        safeName: azurerestiotdeviceupdate
+      - name: azure-arm-deviceupdate
+        safeName: azurearmdeviceupdate
+        
