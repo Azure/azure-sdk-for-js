@@ -470,7 +470,7 @@ export type TrackedResource = Resource & {
 };
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export type ProxyResource = Resource & {};
+export type ProxyResource = Resource;
 
 /** Request payload used to update and existing Accounts. */
 export type AccountUpdate = TagUpdate & {
@@ -500,7 +500,7 @@ export type PrivateEndpointConnectionProxy = ProxyResource &
   };
 
 /** Remote private endpoint connection details. */
-export type PrivateLinkServiceProxyRemotePrivateEndpointConnection = RemotePrivateEndpointConnection & {};
+export type PrivateLinkServiceProxyRemotePrivateEndpointConnection = RemotePrivateEndpointConnection;
 
 /** Device Update account details. */
 export type Account = TrackedResource & {

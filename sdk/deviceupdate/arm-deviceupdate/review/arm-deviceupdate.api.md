@@ -726,13 +726,13 @@ export interface PrivateLinkServiceProxy {
 }
 
 // @public
-export type PrivateLinkServiceProxyRemotePrivateEndpointConnection = RemotePrivateEndpointConnection & {};
+export type PrivateLinkServiceProxyRemotePrivateEndpointConnection = RemotePrivateEndpointConnection;
 
 // @public
 export type ProvisioningState = string;
 
 // @public
-export type ProxyResource = Resource & {};
+export type ProxyResource = Resource;
 
 // @public
 export type PublicNetworkAccess = string;
