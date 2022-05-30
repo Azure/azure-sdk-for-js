@@ -195,6 +195,7 @@ export interface PipelineOptions {
     proxyOptions?: ProxySettings;
     redirectOptions?: RedirectPolicyOptions;
     retryOptions?: PipelineRetryOptions;
+    tlsOptions?: TlsSettings;
     userAgentOptions?: UserAgentPolicyOptions;
 }
 
@@ -396,6 +397,12 @@ export const throttlingRetryPolicyName = "throttlingRetryPolicy";
 export interface ThrottlingRetryPolicyOptions {
     maxRetries?: number;
 }
+
+// @public
+export function tlsPolicy(tlsSettings?: TlsSettings): PipelinePolicy;
+
+// @public
+export const tlsPolicyName = "tlsPolicy";
 
 // @public
 export interface TlsSettings {

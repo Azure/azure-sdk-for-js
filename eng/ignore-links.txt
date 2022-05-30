@@ -18,3 +18,11 @@ https://docs.microsoft.com/javascript/api/@azure/arm-scvmm?view=azure-node-previ
 https://docs.microsoft.com/javascript/api/@azure/arm-servicelinker
 https://docs.microsoft.com/javascript/api/@azure/arm-servicelinker?view=azure-node-preview
 https://docs.microsoft.com/en-us/rest/api/index
+https://docs.microsoft.com/javascript/api/@azure/arm-dynatrace?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-changes?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-changes
+https://docs.microsoft.com/javascript/api/@azure/arm-appcontainers
+https://docs.microsoft.com/javascript/api/@azure/arm-appcontainers?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-machinelearning
+https://docs.microsoft.com/javascript/api/@azure/arm-machinelearning?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-education?view=azure-node-preview

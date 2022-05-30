@@ -1,39 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  LroBody,
-  LroResponse,
-  LroStatus,
-  RawResponse,
-  failureStates,
-  successStates,
-} from "./models";
-import { isUnexpectedPollingResponse } from "./requestUtils";
-
-function getProvisioningState(rawResponse: RawResponse): string {
-  const { properties, provisioningState } = (rawResponse.body as LroBody) ?? {};
-  const state: string | undefined = properties?.provisioningState ?? provisioningState;
-  return typeof state === "string" ? state.toLowerCase() : "succeeded";
-}
-
-export function isBodyPollingDone(rawResponse: RawResponse): boolean {
-  const state = getProvisioningState(rawResponse);
-  if (isUnexpectedPollingResponse(rawResponse) || failureStates.includes(state)) {
-    throw new Error(`The long running operation has failed. The provisioning state: ${state}.`);
-  }
-  return successStates.includes(state);
-}
+import { LroResponse, LroStatus } from "./models";
+import { getProvisioningState, isCanceled, isPollingDone } from "./requestUtils";
+import { PollOperationState } from "../pollOperation";
 
 /**
  * Creates a polling strategy based on BodyPolling which uses the provisioning state
  * from the result to determine the current operation state
  */
-export function processBodyPollingOperationResult<TResult>(
-  response: LroResponse<TResult>
-): LroStatus<TResult> {
-  return {
-    ...response,
-    done: isBodyPollingDone(response.rawResponse),
+export function processBodyPollingOperationResult<
+  TResult,
+  TState extends PollOperationState<TResult>
+>(state: TState): (response: LroResponse<TResult>) => LroStatus<TResult> {
+  return (response: LroResponse<TResult>): LroStatus<TResult> => {
+    const status = getProvisioningState(response.rawResponse);
+    return {
+      ...response,
+      done:
+        isCanceled({
+          state,
+          status,
+        }) ||
+        isPollingDone({
+          rawResponse: response.rawResponse,
+          status,
+        }),
+    };
   };
 }

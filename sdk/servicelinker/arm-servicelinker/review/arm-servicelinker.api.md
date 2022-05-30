@@ -194,7 +194,7 @@ export enum KnownTargetServiceType {
 // @public
 export enum KnownValidationResultStatus {
     // (undocumented)
-    Failed = "failed",
+    Failure = "failure",
     // (undocumented)
     Success = "success",
     // (undocumented)
@@ -312,7 +312,7 @@ export interface LinkerValidateOptionalParams extends coreClient.OperationOption
 }
 
 // @public
-export type LinkerValidateResponse = ValidateResult;
+export type LinkerValidateResponse = ValidateOperationResult;
 
 // @public
 export interface Operation {
@@ -473,13 +473,15 @@ export type UserAssignedIdentityAuthInfo = AuthInfoBase & {
 };
 
 // @public
-export interface ValidateResult {
+export interface ValidateOperationResult {
     authType?: AuthType;
     isConnectionAvailable?: boolean;
     linkerName?: string;
     reportEndTimeUtc?: Date;
     reportStartTimeUtc?: Date;
+    resourceId?: string;
     sourceId?: string;
+    status?: string;
     targetId?: string;
     validationDetail?: ValidationResultItem[];
 }
