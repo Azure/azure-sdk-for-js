@@ -40,7 +40,7 @@ export const buildGetConfig: (
   promptForConfig: (partial: Partial<TConfig>) => Promise<TConfig>,
   validateConfig: TValidate<TConfig>
 ) => Promise<TConfig> = (gray: (msg: string) => void, red: (msg: string) => void) => {
-  const argv = yargsParser(hideBin(process.argv), { string: ["apiVersion"] });
+  const argv = yargsParser(hideBin(process.argv));
   return async <TConfig extends TConfigs>(
     promptForConfig: (partial: Partial<TConfig>) => Promise<TConfig>,
     validateConfig: TValidate<TConfig>

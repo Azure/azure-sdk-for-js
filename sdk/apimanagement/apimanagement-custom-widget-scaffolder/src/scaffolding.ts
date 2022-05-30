@@ -30,7 +30,7 @@ export interface TWidgetRuntimeConfig extends TWidgetConfig {
 export interface TDeployConfig {
   managementApiEndpoint: string;
   resourceId: string;
-  apiVersion: string;
+  apiVersion?: string;
 }
 
 export interface TMiscConfig {

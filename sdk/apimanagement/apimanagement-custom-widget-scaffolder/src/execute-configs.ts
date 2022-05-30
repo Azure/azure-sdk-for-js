@@ -58,7 +58,7 @@ export const validateDeployConfig: TValidate<TDeployConfig> = {
 
     return validateUrl()(input);
   },
-  apiVersion: validateRequired(),
+  apiVersion: () => true,
 };
 
 export const validateMiscConfig: TValidate<TMiscConfig> = {
@@ -110,8 +110,7 @@ export const promptDeployConfig = (partial: Partial<TDeployConfig>): Promise<TDe
       {
         name: "apiVersion",
         type: "input",
-        message: "apiVersion:",
-        default: "2019-01-01",
+        message: "apiVersion override (optional):",
         validate: validateDeployConfig.apiVersion,
       },
     ],
