@@ -255,7 +255,7 @@ testWithServiceTypes((serviceVersion) => {
                   subscription2 = consumerClient2.subscribe(partitionId, subscriptionHandlers2, {
                     ownerLevel: 1,
                     maxBatchSize: 1,
-                    maxWaitTimeInSeconds: 1,
+                    maxWaitTimeInSeconds: 10,
                   });
                 } else {
                   // stop this subscription, we know close was called so we've restarted
@@ -271,7 +271,7 @@ testWithServiceTypes((serviceVersion) => {
             },
             {
               maxBatchSize: 1,
-              maxWaitTimeInSeconds: 1,
+              maxWaitTimeInSeconds: 10,
             }
           );
 
@@ -296,13 +296,13 @@ testWithServiceTypes((serviceVersion) => {
             EventHubConsumerClient.defaultConsumerGroupName,
             service.connectionString,
             service.path,
-            { loadBalancingOptions: { updateIntervalInMs: 1000 } }
+            { loadBalancingOptions: { updateIntervalInMs: 5000 } }
           );
           const consumerClient2 = new EventHubConsumerClient(
             EventHubConsumerClient.defaultConsumerGroupName,
             service.connectionString,
             service.path,
-            { loadBalancingOptions: { updateIntervalInMs: 1000 } }
+            { loadBalancingOptions: { updateIntervalInMs: 5000 } }
           );
 
           clients.push(consumerClient1, consumerClient2);
@@ -339,13 +339,13 @@ testWithServiceTypes((serviceVersion) => {
 
           const subscription1 = consumerClient1.subscribe(subscriptionHandlers1, {
             maxBatchSize: 1,
-            maxWaitTimeInSeconds: 1,
+            maxWaitTimeInSeconds: 10,
           });
 
           await loopUntil({
             maxTimes: 10,
             name: "Wait for subscription1 to read from all partitions",
-            timeBetweenRunsMs: 1000,
+            timeBetweenRunsMs: 5000,
             async until() {
               // wait until we've seen processEvents invoked for each partition.
               return (
@@ -369,14 +369,14 @@ testWithServiceTypes((serviceVersion) => {
           // start 2nd subscription with an ownerLevel so it triggers the close handlers on the 1st subscription.
           const subscription2 = consumerClient2.subscribe(subscriptionHandlers2, {
             maxBatchSize: 1,
-            maxWaitTimeInSeconds: 1,
+            maxWaitTimeInSeconds: 10,
             ownerLevel: 1,
           });
 
           await loopUntil({
             maxTimes: 10,
             name: "Wait for subscription2 to read from all partitions and subscription1 to invoke close handlers",
-            timeBetweenRunsMs: 1000,
+            timeBetweenRunsMs: 5000,
             async until() {
               const sub1CloseHandlersCalled = Boolean(
                 partitionIds.filter((id) => {
@@ -393,7 +393,7 @@ testWithServiceTypes((serviceVersion) => {
           await loopUntil({
             maxTimes: 10,
             name: "Wait for subscription1 to recover",
-            timeBetweenRunsMs: 1000,
+            timeBetweenRunsMs: 5000,
             async until() {
               // wait until we've seen an additional processEvent for each partition.
               return (

@@ -765,25 +765,13 @@ testWithServiceTypes((serviceVersion) => {
     });
 
     it("should support start after stopping", async function (): Promise<void> {
-      console.log("************************************************")
-      console.log("***********Testing step 1***********")
-      console.log("************************************************")
       const partitionIds = await producerClient.getPartitionIds();
-      console.log("************************************************")
-      console.log("***********Testing step 2***********")
-      console.log("************************************************")
 
       // ensure we have at least 2 partitions
       partitionIds.length.should.gte(2);
-      console.log("************************************************")
-      console.log("***********Testing step 3***********")
-      console.log("************************************************")
 
       const { subscriptionEventHandler, startPosition } =
         await SubscriptionHandlerForTests.startingFromHere(producerClient);
-      console.log("************************************************")
-      console.log("***********Testing step 4***********")
-      console.log("************************************************")
 
       const processor = new EventProcessor(
         EventHubConsumerClient.defaultConsumerGroupName,
@@ -795,9 +783,6 @@ testWithServiceTypes((serviceVersion) => {
           startPosition: startPosition,
         }
       );
-      console.log("************************************************")
-      console.log("***********Testing step 5***********")
-      console.log("************************************************")
 
       loggerForTest(`Starting processor for the first time`);
       processor.start();
@@ -819,13 +804,7 @@ testWithServiceTypes((serviceVersion) => {
       loggerForTest(`Starting processor again`);
       subscriptionEventHandler.clear();
 
-      console.log("************************************************")
-      console.log("***********Testing processor begining***********")
-      console.log("************************************************")
       processor.start();
-      console.log("************************************************")
-      console.log("***********Testing processor begining***********")
-      console.log("************************************************")
 
       await subscriptionEventHandler.waitUntilInitialized(partitionIds);
 
