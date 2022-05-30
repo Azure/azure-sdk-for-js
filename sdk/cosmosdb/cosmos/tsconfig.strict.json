@@ -117,7 +117,6 @@
     "src/client/Database/index.ts",
     "src/documents/index.ts",
     "src/request/index.ts",
-    "src/request/DedicatedGatewayRequestOptions.ts",
     "src/index.ts",
     "src/retry/index.ts",
     "src/queryExecutionContext/Aggregators/index.ts",
