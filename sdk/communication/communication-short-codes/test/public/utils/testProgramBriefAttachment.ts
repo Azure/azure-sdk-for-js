@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { RestError } from "@azure/core-rest-pipeline";
 import { ProgramBriefAttachment } from "../../../src";
+import { RestError } from "@azure/core-rest-pipeline";
 
 export function getTestProgramBriefAttachment(): ProgramBriefAttachment {
   const testProgramBriefAttachment: ProgramBriefAttachment = {

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { ShortCodesClient, ShortCodesUpsertUSProgramBriefOptionalParams } from "../../src";
+import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { ShortCodesClient, ShortCodesUpsertUSProgramBriefOptionalParams } from "../../src";
 import { createRecordedClient } from "./utils/recordedClient";
 import { getTestUSProgramBrief } from "./utils/testUSProgramBrief";
 
@@ -12,8 +12,8 @@ describe(`ShortCodesClient - updates US Program Brief using upsert`, function ()
   let recorder: Recorder;
   let client: ShortCodesClient;
 
-  beforeEach(function (this: Context) {
-    ({ client, recorder } = createRecordedClient(this));
+  beforeEach(async function (this: Context) {
+    ({ client, recorder } = await createRecordedClient(this));
   });
 
   afterEach(async function (this: Context) {
