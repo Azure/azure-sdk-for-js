@@ -17,8 +17,7 @@
 const { delay, ServiceBusClient } = require("@azure/service-bus");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 // Define connection string and related Service Bus entity names here
 // Ensure on portal.azure.com that queue/topic has Sessions feature enabled
@@ -131,3 +130,5 @@ main().catch((err) => {
   console.log("Session Sample - Error occurred: ", err);
   process.exit(1);
 });
+
+module.exports = { main };
