@@ -376,7 +376,7 @@ export type ProvisioningErrorCode = string;
 export type ProvisioningState = "Creating" | "Updating" | "Succeeded" | "Failed" | "Deleting";
 
 // @public
-export type ProxyResource = Resource & {};
+export type ProxyResource = Resource;
 
 // @public
 export interface Resource {
