@@ -1725,6 +1725,11 @@
       "packageName": "@azure/arm-deviceupdate",
       "projectFolder": "sdk/deviceupdate/arm-deviceupdate",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-confidentialledger",
+      "projectFolder": "sdk/confidentialledger/arm-confidentialledger",
+      "versionPolicyName": "management"
     }
   ]
 }
