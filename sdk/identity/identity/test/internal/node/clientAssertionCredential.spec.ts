@@ -17,8 +17,8 @@ describe("ClientAssertionCredential (internal)", function () {
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
 
-  beforeEach(function (this: Context) {
-    const setup = msalNodeTestSetup(this);
+  beforeEach(async function (this: Context) {
+    const setup = await msalNodeTestSetup(this.currentTest);
     cleanup = setup.cleanup;
 
     getTokenSilentSpy = setup.sandbox.spy(MsalNode.prototype, "getTokenSilent");
@@ -35,17 +35,17 @@ describe("ClientAssertionCredential (internal)", function () {
   it("Should throw if the parameteres are not correctly specified", async function () {
     const errors: Error[] = [];
     try {
-      new ClientAssertionCredential(undefined as any, env.AZURE_CLIENT_ID, async () => "assertion");
+      new ClientAssertionCredential(undefined as any, env.AZURE_CLIENT_ID || "client", async () => "assertion");
     } catch (e) {
       errors.push(e);
     }
     try {
-      new ClientAssertionCredential(env.AZURE_TENANT_ID, undefined as any, async () => "assertion");
+      new ClientAssertionCredential(env.AZURE_TENANT_ID || "tenant", undefined as any, async () => "assertion");
     } catch (e) {
       errors.push(e);
     }
     try {
-      new ClientAssertionCredential(env.AZURE_TENANT_ID, env.AZURE_CLIENT_ID, undefined as any);
+      new ClientAssertionCredential(env.AZURE_TENANT_ID || "tenant", env.AZURE_CLIENT_ID || "client", undefined as any);
     } catch (e) {
       errors.push(e);
     }
@@ -69,8 +69,8 @@ describe("ClientAssertionCredential (internal)", function () {
       return "assertion";
     };
     const credential = new ClientAssertionCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
+      env.AZURE_TENANT_ID || "tenant",
+      env.AZURE_CLIENT_ID || "client",
       getAssertion
     );
 
