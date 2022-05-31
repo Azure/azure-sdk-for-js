@@ -1,4 +1,4 @@
-# Azure App Service rest client library samples for JavaScript
+# Azure App Service rest client library samples for JavaScript (Beta)
 
 These sample programs show how to use the JavaScript client libraries for Azure App Service rest in some common scenarios.
 
@@ -51,14 +51,14 @@ npx cross-env  node appServiceEnvironmentsGetInboundNetworkDependenciesEndpoints
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[appserviceenvironmentsgetinboundnetworkdependenciesendpointssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice-rest/samples/v1/javascript/appServiceEnvironmentsGetInboundNetworkDependenciesEndpointsSample.js
-[appserviceenvironmentsgetoutboundnetworkdependenciesendpointssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice-rest/samples/v1/javascript/appServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsSample.js
-[appserviceplanscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice-rest/samples/v1/javascript/appServicePlansCreateOrUpdateSample.js
-[appserviceplansdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice-rest/samples/v1/javascript/appServicePlansDeleteSample.js
-[appserviceplansgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice-rest/samples/v1/javascript/appServicePlansGetSample.js
-[appserviceplanslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice-rest/samples/v1/javascript/appServicePlansListByResourceGroupSample.js
-[appserviceplanslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice-rest/samples/v1/javascript/appServicePlansListSample.js
-[appserviceplansupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice-rest/samples/v1/javascript/appServicePlansUpdateSample.js
+[appserviceenvironmentsgetinboundnetworkdependenciesendpointssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice-rest/samples/v1-beta/javascript/appServiceEnvironmentsGetInboundNetworkDependenciesEndpointsSample.js
+[appserviceenvironmentsgetoutboundnetworkdependenciesendpointssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice-rest/samples/v1-beta/javascript/appServiceEnvironmentsGetOutboundNetworkDependenciesEndpointsSample.js
+[appserviceplanscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice-rest/samples/v1-beta/javascript/appServicePlansCreateOrUpdateSample.js
+[appserviceplansdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice-rest/samples/v1-beta/javascript/appServicePlansDeleteSample.js
+[appserviceplansgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice-rest/samples/v1-beta/javascript/appServicePlansGetSample.js
+[appserviceplanslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice-rest/samples/v1-beta/javascript/appServicePlansListByResourceGroupSample.js
+[appserviceplanslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice-rest/samples/v1-beta/javascript/appServicePlansListSample.js
+[appserviceplansupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/appservice/arm-appservice-rest/samples/v1-beta/javascript/appServicePlansUpdateSample.js
 [apiref]: https://docs.microsoft.com/rest/api/appservice
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appservice/arm-appservice-rest/README.md

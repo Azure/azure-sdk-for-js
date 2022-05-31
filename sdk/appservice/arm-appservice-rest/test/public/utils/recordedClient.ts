@@ -3,9 +3,11 @@
 
 import { Context } from "mocha";
 import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import "./env";
+import { ClientOptions } from "@azure-rest/core-client";
+import { createTestCredential } from "@azure-tools/test-credential";
+import WebSiteClient, { WebSiteManagementClient } from "../../../src/index";
 
-const envSetupForPlayback: Record<string, string> = {
+const envSetupForPlayback:{[k: string]: string } = {
   ENDPOINT: "https://endpoint",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_CLIENT_SECRET: "azure_client_secret",
@@ -26,4 +28,16 @@ export async function createRecorder(context: Context): Promise<Recorder> {
   const recorder = new Recorder(context.currentTest);
   await recorder.start(recorderEnvSetup);
   return recorder;
+}
+
+export async function createClient(
+  recorder: Recorder,
+  options?: ClientOptions
+): Promise<WebSiteManagementClient> {
+  const credential = createTestCredential();
+  await recorder.start(recorderEnvSetup);
+  return WebSiteClient(
+    credential,
+    recorder.configureClientOptions({ ...options })
+  );
 }
