@@ -922,6 +922,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure-rest/arm-appservice",
+      "projectFolder": "sdk/appservice/arm-appservice-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-resources-subscriptions",
       "projectFolder": "sdk/resources-subscriptions/arm-resources-subscriptions",
       "versionPolicyName": "management"
