@@ -10,7 +10,7 @@ title: WebSiteManagementClient
 description: App Service Client
 generate-metadata: true
 generate-test: true
-generate-samples: true
+generate-sample: true
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src
@@ -43,5 +43,5 @@ rlc-shortcut: true
 add-credentials: true
 credential-scopes: "https://management.azure.com/.default"
 use-extension:
-  "@autorest/typescript": "6.0.0-alpha.17.20220328.1"
+  "@autorest/typescript": "6.0.0-beta.20"
 ```
