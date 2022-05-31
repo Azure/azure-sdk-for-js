@@ -378,6 +378,7 @@ export interface Serializer {
    * @param mapper - The definition of data models.
    * @param value - The value.
    * @param objectName - Name of the object. Used in the error messages.
+   * @deprecated
    */
   validateConstraints(mapper: Mapper, value: any, objectName: string): void;
 

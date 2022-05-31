@@ -25,6 +25,9 @@ class SerializerImpl implements Serializer {
     public readonly isXML: boolean = false
   ) {}
 
+  /**
+   * @deprecated
+   */
   validateConstraints(mapper: Mapper, value: any, objectName: string): void {
     const failValidation = (
       constraintName: keyof MapperConstraints,
