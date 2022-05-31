@@ -1154,13 +1154,14 @@ export class BlobClient extends StorageClient {
   public download(
     offset: number = 0,
     count?: number,
-    options: BlobDownloadOptions = {}
+    baseOptions: BlobDownloadOptions = {}
   ): Promise<BlobDownloadResponseParsed> {
-    options.conditions = options.conditions || {};
-    options.conditions = options.conditions || {};
-    ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-
-    return tracingClient.withSpan("BlobClient-download", options, async (updatedOptions) => {
+    baseOptions.conditions = baseOptions.conditions || {};
+    baseOptions.conditions = baseOptions.conditions || {};
+    ensureCpkIfSpecified(baseOptions.customerProvidedKey, this.isHttps);
+    
+    return tracingClient.withSpan("BlobClient-download", baseOptions, async (options) => {
+      
       const res = await this.blobContext.download({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
@@ -1176,7 +1177,7 @@ export class BlobClient extends StorageClient {
         rangeGetContentCRC64: options.rangeGetContentCrc64,
         snapshot: options.snapshot,
         cpkInfo: options.customerProvidedKey,
-        ...convertTracingToRequestOptionsBase(updatedOptions),
+        ...convertTracingToRequestOptionsBase(options),
       });
 
       const wrappedRes = {

@@ -52,7 +52,7 @@ describe("DataLakeFileSystemClient", () => {
   });
 
   it("setMetadata with tracing", async () => {
-    assert.supportsTracing((options) => {
+    await assert.supportsTracing((options) => {
       const metadata = {
         key0: "val0",
         keya: "vala",

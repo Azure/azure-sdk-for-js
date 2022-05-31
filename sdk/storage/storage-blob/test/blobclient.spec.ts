@@ -710,7 +710,7 @@ describe("BlobClient", () => {
   });
 
   it("download with default parameters and tracing", async () => {
-    assert.supportsTracing(async (options) => {
+    await assert.supportsTracing(async (options) => {
       const result = await blobClient.download(undefined, undefined, options);
       assert.deepStrictEqual(await bodyToString(result, content.length), content);
     }, [ "Azure.Storage.Blob.BlobClient-download" ]);

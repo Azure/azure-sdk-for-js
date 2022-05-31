@@ -794,7 +794,7 @@ describe("ContainerClient", () => {
   });
 
   it("uploadBlockBlob and deleteBlob with tracing", async () => {
-    assert.supportsTracing(async (tracingOptions) => {
+    await assert.supportsTracing(async (tracingOptions) => {
       const body: string = recorder.getUniqueName("randomstring");
       const options = {
         blobCacheControl: "blobCacheControl",
@@ -814,9 +814,9 @@ describe("ContainerClient", () => {
         ...tracingOptions
       });
 
-      await containerClient.deleteBlob(blobName);
+      await containerClient.deleteBlob(blobName, tracingOptions);
       try {
-        await blockBlobClient.getProperties();
+        await blockBlobClient.getProperties(tracingOptions);
         assert.fail(
           "Expecting an error in getting properties from a deleted block blob but didn't get one."
         );

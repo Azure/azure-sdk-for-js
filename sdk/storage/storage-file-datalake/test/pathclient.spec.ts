@@ -146,7 +146,7 @@ describe("DataLakePathClient", () => {
   });
 
   it("read with default parameters and tracing", async () => {
-    assert.supportsTracing(async (options) => {
+    await assert.supportsTracing(async (options) => {
       const result = await fileClient.read(undefined, undefined, options);
       assert.deepStrictEqual(await bodyToString(result, content.length), content);
     }, [
