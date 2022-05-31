@@ -8,9 +8,17 @@
 export function generateProject(widgetConfig: TWidgetConfig, deployConfig: TDeployConfig, { openUrl }?: TMiscConfig): Promise<void>;
 
 // @public (undocumented)
+export const OVERRIDE_DEFAULT_PORT = 3000;
+
+// @public (undocumented)
+export const OVERRIDE_PORT_KEY = "MS_APIM_CW_localhost_port";
+
+// @public (undocumented)
 export interface TCustomWidgetConfig extends TWidgetConfig {
     // (undocumented)
     deployed?: string;
+    // (undocumented)
+    name: string;
     // (undocumented)
     override?: string | boolean;
 }
@@ -18,7 +26,7 @@ export interface TCustomWidgetConfig extends TWidgetConfig {
 // @public (undocumented)
 export interface TDeployConfig {
     // (undocumented)
-    apiVersion: string;
+    apiVersion?: string;
     // (undocumented)
     managementApiEndpoint: string;
     // (undocumented)

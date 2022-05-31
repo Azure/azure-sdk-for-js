@@ -23,6 +23,7 @@ export interface TWidgetConfig {
 }
 
 export interface TWidgetRuntimeConfig extends TWidgetConfig {
+  name: string;
   deployed?: string;
   override?: string | boolean;
 }
@@ -64,14 +65,10 @@ export async function generateProject(
   }
 
   const name = displayNameToName(widgetConfig.displayName);
-  const serverSettings = JSON.stringify(
-    {
-      port: OVERRIDE_DEFAULT_PORT,
-      open: openUrlParsed ? openUrlParsed.toString() : true,
-    },
-    null,
-    "\t"
-  );
+  const serverSettings = {
+    port: OVERRIDE_DEFAULT_PORT,
+    open: openUrlParsed ? openUrlParsed.toString() : true,
+  };
 
   const renderTemplate = async (file: string): Promise<void> => {
     const isTemplate = file.endsWith(templateSuffix);
@@ -82,7 +79,7 @@ export async function generateProject(
         displayName: widgetConfig.displayName,
         config: JSON.stringify(widgetConfig, null, "\t"),
         configDeploy: JSON.stringify(deployConfig, null, "\t"),
-        serverSettings,
+        serverSettings: JSON.stringify(serverSettings, null, "\t"),
       });
     }
 

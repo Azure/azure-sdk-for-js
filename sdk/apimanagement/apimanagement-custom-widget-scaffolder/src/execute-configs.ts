@@ -47,7 +47,7 @@ export const validateDeployConfig: TValidate<TDeployConfig> = {
     if (required !== true) return required;
 
     const regex =
-      /\/?subscriptions\/[^/]+\/resourceGroups\/[^/]+\/providers\/Microsoft\.ApiManagement\/service\/[^/]+\/?/;
+      /^\/?subscriptions\/[^/]+\/resourceGroups\/[^/]+\/providers\/Microsoft\.ApiManagement\/service\/[^/]+\/?$/;
     return regex.test(input)
       ? true
       : "resourceId does not satisfy required format: subscriptions/<subscription-id>/resourceGroups/<resource-group-name>/providers/Microsoft.ApiManagement/service/<service-name>";

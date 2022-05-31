@@ -24,13 +24,7 @@
     "developer-portal"
   ],
   "sideEffects": false,
-  "files": [
-    "dist/",
-    "dist-esm/src/",
-    "types/latest/",
-    "README.md",
-    "LICENSE"
-  ],
+  "files": ["src/templates", "dist/", "dist-esm/src/", "types/latest/", "README.md", "LICENSE"],
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "types/latest/apimanagement-custom-widget-scaffolder.d.ts",
