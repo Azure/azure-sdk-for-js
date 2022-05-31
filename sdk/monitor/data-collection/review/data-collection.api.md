@@ -6,16 +6,6 @@
 
 import * as coreClient from '@azure/core-client';
 
-// Warning: (ae-forgotten-export) The symbol "GeneratedDataCollectionClientContext" needs to be exported by the entry point index.d.ts
-// Warning: (ae-internal-missing-underscore) The name "DataCollectionClient" should be prefixed with an underscore because the declaration is marked as @internal
-//
-// @internal (undocumented)
-export class DataCollectionClient extends GeneratedDataCollectionClientContext {
-    constructor(endpoint: string, options?: DataCollectionClientOptions);
-    // (undocumented)
-    dataCollectionRule: DataCollectionRule;
-}
-
 // @public
 export interface DataCollectionClientOptions extends coreClient.ServiceClientOptions {
     apiVersion?: string;
@@ -24,8 +14,13 @@ export interface DataCollectionClientOptions extends coreClient.ServiceClientOpt
 
 // @public
 export interface DataCollectionRule {
-    // Warning: (ae-forgotten-export) The symbol "DataCollectionRuleIngestOptionalParams" needs to be exported by the entry point index.d.ts
     ingest(ruleId: string, stream: string, body: Record<string, unknown>[], options?: DataCollectionRuleIngestOptionalParams): Promise<void>;
+}
+
+// @public
+export interface DataCollectionRuleIngestOptionalParams extends coreClient.OperationOptions {
+    contentEncoding?: string;
+    xMsClientRequestId?: string;
 }
 
 // (No @packageDocumentation comment for this package)
