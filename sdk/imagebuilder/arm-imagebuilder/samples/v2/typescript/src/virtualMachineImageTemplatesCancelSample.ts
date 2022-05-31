@@ -12,22 +12,22 @@ import { ImageBuilderClient } from "@azure/arm-imagebuilder";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to Get information about a virtual machine image template
+ * This sample demonstrates how to Cancel the long running image build based on the image template
  *
- * @summary Get information about a virtual machine image template
- * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2021-10-01/examples/GetImageTemplate.json
+ * @summary Cancel the long running image build based on the image template
+ * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2022-02-14/examples/CancelImageBuild.json
  */
-async function retrieveAnImageTemplate() {
+async function cancelTheImageBuildBasedOnTheImageTemplate() {
   const subscriptionId = "{subscription-id}";
   const resourceGroupName = "myResourceGroup";
   const imageTemplateName = "myImageTemplate";
   const credential = new DefaultAzureCredential();
   const client = new ImageBuilderClient(credential, subscriptionId);
-  const result = await client.virtualMachineImageTemplates.get(
+  const result = await client.virtualMachineImageTemplates.beginCancelAndWait(
     resourceGroupName,
     imageTemplateName
   );
   console.log(result);
 }
 
-retrieveAnImageTemplate().catch(console.error);
+cancelTheImageBuildBasedOnTheImageTemplate().catch(console.error);

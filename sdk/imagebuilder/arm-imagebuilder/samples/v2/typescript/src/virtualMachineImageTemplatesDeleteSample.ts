@@ -12,27 +12,22 @@ import { ImageBuilderClient } from "@azure/arm-imagebuilder";
 import { DefaultAzureCredential } from "@azure/identity";
 
 /**
- * This sample demonstrates how to List all run outputs for the specified Image Template resource
+ * This sample demonstrates how to Delete a virtual machine image template
  *
- * @summary List all run outputs for the specified Image Template resource
- * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2021-10-01/examples/ListRunOutputs.json
+ * @summary Delete a virtual machine image template
+ * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2022-02-14/examples/DeleteImageTemplate.json
  */
-async function retrieveAListOfAllOutputsCreatedByTheLastRunOfAnImageTemplate() {
+async function deleteAnImageTemplate() {
   const subscriptionId = "{subscription-id}";
   const resourceGroupName = "myResourceGroup";
   const imageTemplateName = "myImageTemplate";
   const credential = new DefaultAzureCredential();
   const client = new ImageBuilderClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.virtualMachineImageTemplates.listRunOutputs(
+  const result = await client.virtualMachineImageTemplates.beginDeleteAndWait(
     resourceGroupName,
     imageTemplateName
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  );
+  console.log(result);
 }
 
-retrieveAListOfAllOutputsCreatedByTheLastRunOfAnImageTemplate().catch(
-  console.error
-);
+deleteAnImageTemplate().catch(console.error);

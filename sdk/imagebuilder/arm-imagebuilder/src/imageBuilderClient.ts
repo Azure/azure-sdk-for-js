@@ -49,7 +49,7 @@ export class ImageBuilderClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-imagebuilder/1.0.3`;
+    const packageDetails = `azsdk-js-arm-imagebuilder/2.0.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -96,7 +96,7 @@ export class ImageBuilderClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-10-01";
+    this.apiVersion = options.apiVersion || "2022-02-14";
     this.virtualMachineImageTemplates = new VirtualMachineImageTemplatesImpl(
       this
     );

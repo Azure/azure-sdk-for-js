@@ -8,14 +8,14 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const { ImageBuilderClient } = require("@azure/arm-imagebuilder");
-const { DefaultAzureCredential } = require("@azure/identity");
+import { ImageBuilderClient } from "@azure/arm-imagebuilder";
+import { DefaultAzureCredential } from "@azure/identity";
 
 /**
  * This sample demonstrates how to Create artifacts from a existing image template
  *
  * @summary Create artifacts from a existing image template
- * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2021-10-01/examples/RunImageTemplate.json
+ * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2022-02-14/examples/RunImageTemplate.json
  */
 async function createImageSFromExistingImageTemplate() {
   const subscriptionId = "{subscription-id}";

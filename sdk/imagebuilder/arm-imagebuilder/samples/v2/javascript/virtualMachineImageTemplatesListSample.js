@@ -12,22 +12,20 @@ const { ImageBuilderClient } = require("@azure/arm-imagebuilder");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to Delete a virtual machine image template
+ * This sample demonstrates how to Gets information about the VM image templates associated with the subscription.
  *
- * @summary Delete a virtual machine image template
- * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2021-10-01/examples/DeleteImageTemplate.json
+ * @summary Gets information about the VM image templates associated with the subscription.
+ * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2022-02-14/examples/ListImageTemplates.json
  */
-async function deleteAnImageTemplate() {
+async function listImagesBySubscription() {
   const subscriptionId = "{subscription-id}";
-  const resourceGroupName = "myResourceGroup";
-  const imageTemplateName = "myImageTemplate";
   const credential = new DefaultAzureCredential();
   const client = new ImageBuilderClient(credential, subscriptionId);
-  const result = await client.virtualMachineImageTemplates.beginDeleteAndWait(
-    resourceGroupName,
-    imageTemplateName
-  );
-  console.log(result);
+  const resArray = new Array();
+  for await (let item of client.virtualMachineImageTemplates.list()) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
-deleteAnImageTemplate().catch(console.error);
+listImagesBySubscription().catch(console.error);

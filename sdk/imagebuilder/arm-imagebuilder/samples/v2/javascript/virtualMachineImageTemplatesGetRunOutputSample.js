@@ -8,14 +8,14 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ImageBuilderClient } from "@azure/arm-imagebuilder";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ImageBuilderClient } = require("@azure/arm-imagebuilder");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Get the specified run output for the specified image template resource
  *
  * @summary Get the specified run output for the specified image template resource
- * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2021-10-01/examples/GetRunOutput.json
+ * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2022-02-14/examples/GetRunOutput.json
  */
 async function retrieveSingleRunOutput() {
   const subscriptionId = "{subscription-id}";

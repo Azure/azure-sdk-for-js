@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to Lists available operations for the Microsoft.VirtualMachineImages provider
  *
  * @summary Lists available operations for the Microsoft.VirtualMachineImages provider
- * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2021-10-01/examples/OperationsList.json
+ * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2022-02-14/examples/OperationsList.json
  */
 async function retrieveOperationsList() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

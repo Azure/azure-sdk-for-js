@@ -12,24 +12,25 @@ const { ImageBuilderClient } = require("@azure/arm-imagebuilder");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
- * This sample demonstrates how to Get the specified run output for the specified image template resource
+ * This sample demonstrates how to List all run outputs for the specified Image Template resource
  *
- * @summary Get the specified run output for the specified image template resource
- * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2021-10-01/examples/GetRunOutput.json
+ * @summary List all run outputs for the specified Image Template resource
+ * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2022-02-14/examples/ListRunOutputs.json
  */
-async function retrieveSingleRunOutput() {
+async function retrieveAListOfAllOutputsCreatedByTheLastRunOfAnImageTemplate() {
   const subscriptionId = "{subscription-id}";
   const resourceGroupName = "myResourceGroup";
   const imageTemplateName = "myImageTemplate";
-  const runOutputName = "myManagedImageOutput";
   const credential = new DefaultAzureCredential();
   const client = new ImageBuilderClient(credential, subscriptionId);
-  const result = await client.virtualMachineImageTemplates.getRunOutput(
+  const resArray = new Array();
+  for await (let item of client.virtualMachineImageTemplates.listRunOutputs(
     resourceGroupName,
-    imageTemplateName,
-    runOutputName
-  );
-  console.log(result);
+    imageTemplateName
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
-retrieveSingleRunOutput().catch(console.error);
+retrieveAListOfAllOutputsCreatedByTheLastRunOfAnImageTemplate().catch(console.error);

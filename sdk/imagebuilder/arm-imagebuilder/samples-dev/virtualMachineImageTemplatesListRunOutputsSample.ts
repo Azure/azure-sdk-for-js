@@ -15,7 +15,7 @@ import { DefaultAzureCredential } from "@azure/identity";
  * This sample demonstrates how to List all run outputs for the specified Image Template resource
  *
  * @summary List all run outputs for the specified Image Template resource
- * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2021-10-01/examples/ListRunOutputs.json
+ * x-ms-original-file: specification/imagebuilder/resource-manager/Microsoft.VirtualMachineImages/stable/2022-02-14/examples/ListRunOutputs.json
  */
 async function retrieveAListOfAllOutputsCreatedByTheLastRunOfAnImageTemplate() {
   const subscriptionId = "{subscription-id}";
