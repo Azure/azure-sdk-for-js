@@ -15,7 +15,7 @@ import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
 } from "../public/utils/testutils2";
-import { deleteSubscription, recreateSubscription } from "./utils/managementUtils";
+import { recreateSubscription } from "./utils/managementUtils";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
@@ -69,8 +69,7 @@ describe("RuleManager tests", () => {
 
     beforeEach(async () => {
       sender = serviceBusClient.test.addToCleanup(serviceBusClient.createSender(topic));
-      await deleteSubscription(topic, subscription);
-      await recreateSubscription(topic, subscription);
+      await recreateSubscription(topic, subscription, { deleteFirst: true });
     });
 
     afterEach(async () => {

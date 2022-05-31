@@ -142,13 +142,25 @@ export async function recreateTopic(
 }
 
 /**
- * Utility that deletes a subscription using given parameters.
+ * Utility that creates a subscription using given parameters.
  */
-export async function deleteSubscription(
+export async function recreateSubscription(
   topicName: string,
-  subscriptionName: string
+  subscriptionName: string,
+  parameters?: Omit<CreateSubscriptionOptions, "topicName" | "subscriptionName"> & {
+    deleteFirst?: boolean;
+  }
 ): Promise<void> {
   getManagementClient();
+  /*
+    Unlike Queues/Topics, there is no need to delete the subscription because
+    `recreateTopic` is called before `recreateSubscription` which would
+    delete the topic and the subscriptions before creating a new topic.
+  */
+
+  const createSubscriptionOperation = async (): Promise<void> => {
+    await client.createSubscription(topicName, subscriptionName, parameters);
+  };
 
   const deleteSubscriptionOperation = async (): Promise<void> => {
     await client.deleteSubscription(topicName, subscriptionName);
@@ -163,40 +175,13 @@ export async function deleteSubscription(
     return true;
   };
 
-  await retry(
-    deleteSubscriptionOperation,
-    async () => !(await checkIfSubscriptionExistsOperation()),
-    `Delete subscription "${subscriptionName}"`
-  );
-}
-
-/**
- * Utility that creates a subscription using given parameters.
- */
-export async function recreateSubscription(
-  topicName: string,
-  subscriptionName: string,
-  parameters?: Omit<CreateSubscriptionOptions, "topicName" | "subscriptionName">
-): Promise<void> {
-  getManagementClient();
-  /*
-    Unlike Queues/Topics, there is no need to delete the subscription because
-    `recreateTopic` is called before `recreateSubscription` which would
-    delete the topic and the subscriptions before creating a new topic.
-  */
-
-  const createSubscriptionOperation = async (): Promise<void> => {
-    await client.createSubscription(topicName, subscriptionName, parameters);
-  };
-
-  const checkIfSubscriptionExistsOperation = async (): Promise<boolean> => {
-    try {
-      await client.getSubscription(topicName, subscriptionName);
-    } catch (err: any) {
-      return false;
-    }
-    return true;
-  };
+  if (parameters?.deleteFirst) {
+    await retry(
+      deleteSubscriptionOperation,
+      async () => !(await checkIfSubscriptionExistsOperation()),
+      `Delete subscription "${subscriptionName}"`
+    );
+  }
 
   await retry(
     createSubscriptionOperation,
