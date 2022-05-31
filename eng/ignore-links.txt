@@ -29,3 +29,4 @@ https://docs.microsoft.com/javascript/api/@azure/arm-education?view=azure-node-p
 https://docs.microsoft.com/javascript/api/@azure/arm-confidentialledger
 https://docs.microsoft.com/javascript/api/@azure/arm-confidentialledger?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-deviceupdate?view=azure-node-preview
+https://docs.microsoft.com/en-us/azure/service-health/resource-health-overview
