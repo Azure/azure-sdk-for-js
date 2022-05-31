@@ -74,6 +74,7 @@ export type ArchitectureTypes = string;
 export interface AutomaticOSUpgradePolicy {
     disableAutomaticRollback?: boolean;
     enableAutomaticOSUpgrade?: boolean;
+    useRollingUpgradePolicy?: boolean;
 }
 
 // @public
@@ -1189,6 +1190,7 @@ export type DedicatedHostGroup = Resource & {
     readonly hosts?: SubResourceReadOnly[];
     readonly instanceView?: DedicatedHostGroupInstanceView;
     supportAutomaticPlacement?: boolean;
+    additionalCapabilities?: DedicatedHostGroupPropertiesAdditionalCapabilities;
 };
 
 // @public (undocumented)
@@ -1200,6 +1202,11 @@ export interface DedicatedHostGroupInstanceView {
 export interface DedicatedHostGroupListResult {
     nextLink?: string;
     value: DedicatedHostGroup[];
+}
+
+// @public
+export interface DedicatedHostGroupPropertiesAdditionalCapabilities {
+    ultraSSDEnabled?: boolean;
 }
 
 // @public
@@ -1273,6 +1280,7 @@ export type DedicatedHostGroupUpdate = UpdateResource & {
     readonly hosts?: SubResourceReadOnly[];
     readonly instanceView?: DedicatedHostGroupInstanceView;
     supportAutomaticPlacement?: boolean;
+    additionalCapabilities?: DedicatedHostGroupPropertiesAdditionalCapabilities;
 };
 
 // @public
@@ -1787,7 +1795,7 @@ export type DiskRestorePointGrantAccessResponse = AccessUri;
 // @public
 export interface DiskRestorePointInstanceView {
     id?: string;
-    replicationStatus?: Record<string, unknown>;
+    replicationStatus?: DiskRestorePointReplicationStatus;
 }
 
 // @public
@@ -1822,7 +1830,8 @@ export interface DiskRestorePointOperations {
 
 // @public
 export interface DiskRestorePointReplicationStatus {
-    status?: Record<string, unknown>;
+    completionPercent?: number;
+    status?: InstanceViewStatus;
 }
 
 // @public
@@ -3228,6 +3237,18 @@ export enum KnownLinuxPatchAssessmentMode {
 }
 
 // @public
+export enum KnownLinuxVMGuestPatchAutomaticByPlatformRebootSetting {
+    // (undocumented)
+    Always = "Always",
+    // (undocumented)
+    IfRequired = "IfRequired",
+    // (undocumented)
+    Never = "Never",
+    // (undocumented)
+    Unknown = "Unknown"
+}
+
+// @public
 export enum KnownLinuxVMGuestPatchMode {
     // (undocumented)
     AutomaticByPlatform = "AutomaticByPlatform",
@@ -3519,6 +3540,8 @@ export enum KnownStorageAccountType {
 export enum KnownStorageAccountTypes {
     // (undocumented)
     PremiumLRS = "Premium_LRS",
+    // (undocumented)
+    PremiumV2LRS = "PremiumV2_LRS",
     // (undocumented)
     PremiumZRS = "Premium_ZRS",
     // (undocumented)
@@ -3980,6 +4003,18 @@ export enum KnownWindowsPatchAssessmentMode {
 }
 
 // @public
+export enum KnownWindowsVMGuestPatchAutomaticByPlatformRebootSetting {
+    // (undocumented)
+    Always = "Always",
+    // (undocumented)
+    IfRequired = "IfRequired",
+    // (undocumented)
+    Never = "Never",
+    // (undocumented)
+    Unknown = "Unknown"
+}
+
+// @public
 export enum KnownWindowsVMGuestPatchMode {
     // (undocumented)
     AutomaticByOS = "AutomaticByOS",
@@ -4026,7 +4061,16 @@ export type LinuxPatchAssessmentMode = string;
 // @public
 export interface LinuxPatchSettings {
     assessmentMode?: LinuxPatchAssessmentMode;
+    automaticByPlatformSettings?: LinuxVMGuestPatchAutomaticByPlatformSettings;
     patchMode?: LinuxVMGuestPatchMode;
+}
+
+// @public
+export type LinuxVMGuestPatchAutomaticByPlatformRebootSetting = string;
+
+// @public
+export interface LinuxVMGuestPatchAutomaticByPlatformSettings {
+    rebootSetting?: LinuxVMGuestPatchAutomaticByPlatformRebootSetting;
 }
 
 // @public
@@ -4327,6 +4371,7 @@ export type PatchOperationStatus = string;
 // @public
 export interface PatchSettings {
     assessmentMode?: WindowsPatchAssessmentMode;
+    automaticByPlatformSettings?: WindowsVMGuestPatchAutomaticByPlatformSettings;
     enableHotpatching?: boolean;
     patchMode?: WindowsVMGuestPatchMode;
 }
@@ -4417,17 +4462,24 @@ export type ProtocolTypes = "Http" | "Https";
 
 // @public
 export type ProximityPlacementGroup = Resource & {
+    zones?: string[];
     proximityPlacementGroupType?: ProximityPlacementGroupType;
     readonly virtualMachines?: SubResourceWithColocationStatus[];
     readonly virtualMachineScaleSets?: SubResourceWithColocationStatus[];
     readonly availabilitySets?: SubResourceWithColocationStatus[];
     colocationStatus?: InstanceViewStatus;
+    intent?: ProximityPlacementGroupPropertiesIntent;
 };
 
 // @public
 export interface ProximityPlacementGroupListResult {
     nextLink?: string;
     value: ProximityPlacementGroup[];
+}
+
+// @public
+export interface ProximityPlacementGroupPropertiesIntent {
+    vmSizes?: string[];
 }
 
 // @public
@@ -4738,11 +4790,22 @@ export interface ResourceUriList {
 }
 
 // @public
+export interface ResourceWithOptionalLocation {
+    readonly id?: string;
+    location?: string;
+    readonly name?: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+    readonly type?: string;
+}
+
+// @public
 export type RestorePoint = ProxyResource & {
     excludeDisks?: ApiEntityReference[];
     readonly sourceMetadata?: RestorePointSourceMetadata;
     readonly provisioningState?: string;
-    readonly consistencyMode?: ConsistencyModeTypes;
+    consistencyMode?: ConsistencyModeTypes;
     timeCreated?: Date;
     sourceRestorePoint?: ApiEntityReference;
     readonly instanceView?: RestorePointInstanceView;
@@ -5831,7 +5894,7 @@ export type VirtualMachineCaptureResult = SubResource & {
 export type VirtualMachineEvictionPolicyTypes = string;
 
 // @public
-export type VirtualMachineExtension = Resource & {
+export type VirtualMachineExtension = ResourceWithOptionalLocation & {
     forceUpdateTag?: string;
     publisher?: string;
     typePropertiesType?: string;
@@ -6457,6 +6520,7 @@ export type VirtualMachineScaleSet = Resource & {
 export interface VirtualMachineScaleSetDataDisk {
     caching?: CachingTypes;
     createOption: DiskCreateOptionTypes;
+    deleteOption?: DiskDeleteOptionTypes;
     diskIopsReadWrite?: number;
     diskMBpsReadWrite?: number;
     diskSizeGB?: number;
@@ -6685,6 +6749,7 @@ export interface VirtualMachineScaleSetNetworkProfile {
 export interface VirtualMachineScaleSetOSDisk {
     caching?: CachingTypes;
     createOption: DiskCreateOptionTypes;
+    deleteOption?: DiskDeleteOptionTypes;
     diffDiskSettings?: DiffDiskSettings;
     diskSizeGB?: number;
     image?: VirtualHardDisk;
@@ -7085,6 +7150,7 @@ export interface VirtualMachineScaleSetUpdateNetworkProfile {
 // @public
 export interface VirtualMachineScaleSetUpdateOSDisk {
     caching?: CachingTypes;
+    deleteOption?: DiskDeleteOptionTypes;
     diskSizeGB?: number;
     image?: VirtualHardDisk;
     managedDisk?: VirtualMachineScaleSetManagedDiskParameters;
@@ -7137,6 +7203,7 @@ export type VirtualMachineScaleSetVM = Resource & {
     plan?: Plan;
     readonly resources?: VirtualMachineExtension[];
     readonly zones?: string[];
+    identity?: VirtualMachineIdentity;
     readonly latestModelApplied?: boolean;
     readonly vmId?: string;
     readonly instanceView?: VirtualMachineScaleSetVMInstanceView;
@@ -7821,9 +7888,11 @@ export type VmDiskTypes = string;
 // @public
 export interface VMGalleryApplication {
     configurationReference?: string;
+    enableAutomaticUpgrade?: boolean;
     order?: number;
     packageReferenceId: string;
     tags?: string;
+    treatFailureAsDeploymentFailure?: boolean;
 }
 
 // @public
@@ -7873,6 +7942,14 @@ export interface WindowsParameters {
 
 // @public
 export type WindowsPatchAssessmentMode = string;
+
+// @public
+export type WindowsVMGuestPatchAutomaticByPlatformRebootSetting = string;
+
+// @public
+export interface WindowsVMGuestPatchAutomaticByPlatformSettings {
+    rebootSetting?: WindowsVMGuestPatchAutomaticByPlatformRebootSetting;
+}
 
 // @public
 export type WindowsVMGuestPatchMode = string;
