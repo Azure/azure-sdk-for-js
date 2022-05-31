@@ -26,7 +26,7 @@ class SerializerImpl implements Serializer {
   ) {}
 
   /**
-   * @deprecated
+   * @deprecated Removing the constraints validation on client side.
    */
   validateConstraints(mapper: Mapper, value: any, objectName: string): void {
     const failValidation = (
