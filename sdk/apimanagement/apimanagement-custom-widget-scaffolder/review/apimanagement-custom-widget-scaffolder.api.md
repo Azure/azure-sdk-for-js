@@ -4,57 +4,35 @@
 
 ```ts
 
-// @public (undocumented)
-export function generateProject(widgetConfig: TWidgetConfig, deployConfig: TDeployConfig, { openUrl }?: TMiscConfig): Promise<void>;
+// @public
+export function generateProject(widgetConfig: TCustomWidgetBaseConfig, deployConfig: TDeployConfig, miscConfig?: TMiscConfig): Promise<void>;
 
-// @public (undocumented)
+// @public
 export const OVERRIDE_DEFAULT_PORT = 3000;
 
-// @public (undocumented)
+// @public
 export const OVERRIDE_PORT_KEY = "MS_APIM_CW_localhost_port";
 
-// @public (undocumented)
-export interface TCustomWidgetConfig extends TWidgetConfig {
-    // (undocumented)
-    deployed?: string;
-    // (undocumented)
-    name: string;
-    // (undocumented)
-    override?: string | boolean;
+// @public
+export interface TCustomWidgetBaseConfig {
+    displayName: string;
+    iconUrl?: string;
+    tech: TScaffoldTech;
 }
 
-// @public (undocumented)
+// @public
 export interface TDeployConfig {
-    // (undocumented)
     apiVersion?: string;
-    // (undocumented)
     managementApiEndpoint: string;
-    // (undocumented)
     resourceId: string;
 }
 
-// @public (undocumented)
+// @public
 export interface TMiscConfig {
-    // (undocumented)
     openUrl?: string;
 }
 
-// @public (undocumented)
-export type TScaffoldSourceControl = "git" | "azure" | "none" | null;
-
-// @public (undocumented)
-export type TScaffoldTech = "typescript" | "react" | "vue";
-
-// @public (undocumented)
-export interface TWidgetConfig {
-    // (undocumented)
-    control?: TScaffoldSourceControl;
-    // (undocumented)
-    displayName: string;
-    // (undocumented)
-    iconUrl?: string;
-    // (undocumented)
-    tech: TScaffoldTech;
-}
+// @public
+export type TScaffoldTech = "typescript" | "react";
 
 ```
