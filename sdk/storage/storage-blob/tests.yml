@@ -10,6 +10,9 @@ stages:
       Location: westus
       MatrixFilters:
         - DependencyVersion=^$
+      MatrixReplace:
+        # Use dedicated storage pool in canadacentral
+        - Pool=(.*)-general/$1-storage
       MatrixConfigs:
         - Name: Storage_live_test_base
           Path: sdk/storage/storage-blob/platform-matrix.json
