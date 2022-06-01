@@ -211,7 +211,6 @@ specifiers:
   '@rush-temp/core-util': file:./projects/core-util.tgz
   '@rush-temp/core-xml': file:./projects/core-xml.tgz
   '@rush-temp/cosmos': file:./projects/cosmos.tgz
-  '@rush-temp/data-collection': file:./projects/data-collection.tgz
   '@rush-temp/data-tables': file:./projects/data-tables.tgz
   '@rush-temp/dev-tool': file:./projects/dev-tool.tgz
   '@rush-temp/digital-twins-core': file:./projects/digital-twins-core.tgz
@@ -235,6 +234,7 @@ specifiers:
   '@rush-temp/mixed-reality-authentication': file:./projects/mixed-reality-authentication.tgz
   '@rush-temp/mixed-reality-remote-rendering': file:./projects/mixed-reality-remote-rendering.tgz
   '@rush-temp/mock-hub': file:./projects/mock-hub.tgz
+  '@rush-temp/monitor-ingestion': file:./projects/monitor-ingestion.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:./projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/monitor-query': file:./projects/monitor-query.tgz
   '@rush-temp/notification-hubs': file:./projects/notification-hubs.tgz
@@ -501,7 +501,6 @@ dependencies:
   '@rush-temp/core-util': file:projects/core-util.tgz
   '@rush-temp/core-xml': file:projects/core-xml.tgz
   '@rush-temp/cosmos': file:projects/cosmos.tgz
-  '@rush-temp/data-collection': file:projects/data-collection.tgz
   '@rush-temp/data-tables': file:projects/data-tables.tgz
   '@rush-temp/dev-tool': file:projects/dev-tool.tgz
   '@rush-temp/digital-twins-core': file:projects/digital-twins-core.tgz
@@ -525,6 +524,7 @@ dependencies:
   '@rush-temp/mixed-reality-authentication': file:projects/mixed-reality-authentication.tgz
   '@rush-temp/mixed-reality-remote-rendering': file:projects/mixed-reality-remote-rendering.tgz
   '@rush-temp/mock-hub': file:projects/mock-hub.tgz
+  '@rush-temp/monitor-ingestion': file:projects/monitor-ingestion.tgz
   '@rush-temp/monitor-opentelemetry-exporter': file:projects/monitor-opentelemetry-exporter.tgz
   '@rush-temp/monitor-query': file:projects/monitor-query.tgz
   '@rush-temp/notification-hubs': file:projects/notification-hubs.tgz
@@ -15361,50 +15361,6 @@ packages:
       - supports-color
     dev: false
 
-  file:projects/data-collection.tgz:
-    resolution: {integrity: sha512-HTpwvAdTQcCwc+aCS/Vw9WgH8n1YDDzXZkVKZyZRoKwFSa5WN7AtOo4yWk6yVDhhGK4sKQvjAp24Grb7H95Rrw==, tarball: file:projects/data-collection.tgz}
-    name: '@rush-temp/data-collection'
-    version: 0.0.0
-    dependencies:
-      '@microsoft/api-extractor': 7.18.11
-      '@types/chai': 4.3.1
-      '@types/mocha': 7.0.2
-      '@types/node': 12.20.55
-      chai: 4.3.6
-      cross-env: 7.0.3
-      dotenv: 8.6.0
-      downlevel-dts: 0.8.0
-      eslint: 7.32.0
-      esm: 3.2.25
-      inherits: 2.0.4
-      karma: 6.4.0
-      karma-chrome-launcher: 3.1.1
-      karma-coverage: 2.2.0
-      karma-edge-launcher: 0.4.2_karma@6.4.0
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
-      karma-ie-launcher: 1.0.0_karma@6.4.0
-      karma-json-preprocessor: 0.3.3_karma@6.4.0
-      karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1_karma@6.4.0
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5_karma@6.4.0
-      mocha: 7.2.0
-      mocha-junit-reporter: 2.0.2_mocha@7.2.0
-      nyc: 15.1.0
-      prettier: 2.7.1
-      rimraf: 3.0.2
-      source-map-support: 0.5.21
-      tslib: 2.4.0
-      typescript: 4.6.4
-      util: 0.12.4
-    transitivePeerDependencies:
-      - bufferutil
-      - debug
-      - supports-color
-      - utf-8-validate
-    dev: false
-
   file:projects/data-tables.tgz:
     resolution: {integrity: sha512-PvKmdJ/Bha1gp0dFlqpkQw08Z1CSEu/a7OtQsEVOsUhoRGideuamZkGQFf65+3UiCBOJsMAgLnnXaSC5TlGTFQ==, tarball: file:projects/data-tables.tgz}
     name: '@rush-temp/data-tables'
@@ -16416,6 +16372,50 @@ packages:
       typescript: 4.2.4
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  file:projects/monitor-ingestion.tgz:
+    resolution: {integrity: sha512-ExDCg7ctY7t887KW4oh+9EFRWFHqciNsiGXdW0TSrSxDFL3m4IRZgPn5YpR3APoHxiQkV9Xhj/coPbEYltRCNQ==, tarball: file:projects/monitor-ingestion.tgz}
+    name: '@rush-temp/monitor-ingestion'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.18.11
+      '@types/chai': 4.3.1
+      '@types/mocha': 7.0.2
+      '@types/node': 12.20.55
+      chai: 4.3.6
+      cross-env: 7.0.3
+      dotenv: 8.6.0
+      downlevel-dts: 0.8.0
+      eslint: 7.32.0
+      esm: 3.2.25
+      inherits: 2.0.4
+      karma: 6.4.0
+      karma-chrome-launcher: 3.1.1
+      karma-coverage: 2.2.0
+      karma-edge-launcher: 0.4.2_karma@6.4.0
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 1.3.0
+      karma-ie-launcher: 1.0.0_karma@6.4.0
+      karma-json-preprocessor: 0.3.3_karma@6.4.0
+      karma-json-to-file-reporter: 1.0.1
+      karma-junit-reporter: 2.0.1_karma@6.4.0
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5_karma@6.4.0
+      mocha: 7.2.0
+      mocha-junit-reporter: 2.0.2_mocha@7.2.0
+      nyc: 15.1.0
+      prettier: 2.7.1
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      tslib: 2.4.0
+      typescript: 4.6.4
+      util: 0.12.4
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:

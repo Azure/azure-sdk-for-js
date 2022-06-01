@@ -1,5 +1,5 @@
 {
-  "name": "@azure/data-collection",
+  "name": "@azure/monitor-ingestion",
   "version": "1.0.0-beta.1",
   "description": "Example project for learning how to build a client library",
   "sdk-type": "client",
@@ -22,11 +22,11 @@
       }
     ]
   },
-  "types": "types/latest/data-collection.d.ts",
+  "types": "types/latest/monitor-ingestion.d.ts",
   "typesVersions": {
     "<3.6": {
       "*": [
-        "types/3.1/data-collection.d.ts"
+        "types/3.1/monitor-ingestion.d.ts"
       ]
     }
   },

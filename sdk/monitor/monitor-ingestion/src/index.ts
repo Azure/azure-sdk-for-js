@@ -9,9 +9,15 @@ import { GeneratedDataCollectionClientOptionalParams } from "./generated";
  * @packageDocumentation
  */
 
-//export { DataCollectionClientOptions};
-export { DataCollectionRule, DataCollectionRuleIngestOptionalParams } from "./generated";
+import { DataCollectionRule, DataCollectionRuleIngestOptionalParams } from "./generated";
 
 
 export interface DataCollectionClientOptions extends GeneratedDataCollectionClientOptionalParams {
 }
+
+export interface LogsIngestionClient extends DataCollectionRule {
+
+};
+export interface LogsIngestionClientOptions extends DataCollectionRuleIngestOptionalParams {
+
+};

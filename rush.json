@@ -512,8 +512,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/data-collection",
-      "projectFolder": "sdk/monitor/data-collection",
+      "packageName": "@azure/monitor-ingestion",
+      "projectFolder": "sdk/monitor/monitor-ingestion",
       "versionPolicyName": "client"
     },
     {
