@@ -1082,8 +1082,8 @@ export const DocumentLanguage: coreClient.CompositeMapper = {
     name: "Composite",
     className: "DocumentLanguage",
     modelProperties: {
-      languageCode: {
-        serializedName: "languageCode",
+      locale: {
+        serializedName: "locale",
         required: true,
         type: {
           name: "String"
@@ -1277,12 +1277,6 @@ export const DocumentField: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "AddressValue"
-        }
-      },
-      valueBoolean: {
-        serializedName: "valueBoolean",
-        type: {
-          name: "Boolean"
         }
       },
       content: {

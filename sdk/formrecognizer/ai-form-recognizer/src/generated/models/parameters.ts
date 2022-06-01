@@ -33,6 +33,7 @@ export const contentType: OperationParameter = {
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         "image/bmp",
+        "image/heif",
         "image/jpeg",
         "image/png",
         "image/tiff"
