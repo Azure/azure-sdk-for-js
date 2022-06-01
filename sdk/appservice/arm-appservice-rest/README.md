@@ -19,7 +19,7 @@ Key links:
 
 ### Prerequisites
 
-- You must have an [Azure subscription](https://docs.microsoft.com/en-us/azure/cognitive-services/authentication?tabs=powershell#authenticate-with-an-authentication-token) to use this package.
+- You must have an [Azure subscription](https://azure.microsoft.com/free/) to use this package.
 
 ### Install the `@azure-rest/arm-appservice` package
 
@@ -31,7 +31,7 @@ npm install @azure-rest/arm-appservice
 
 ### Create and authenticate a `WebSiteManagementClient`
 
-To use an [Azure Active Directory (AAD) token credential](https://docs.microsoft.com/en-us/azure/cognitive-services/authentication?tabs=powershell#authenticate-with-an-authentication-token),
+To use an [Azure Active Directory (AAD) token credential](https://docs.microsoft.com/azure/databricks/dev-tools/api/latest/aad/app-aad-token),
 provide an instance of the desired credential type obtained from the
 [@azure/identity](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) library.
 
