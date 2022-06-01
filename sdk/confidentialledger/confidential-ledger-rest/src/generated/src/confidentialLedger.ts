@@ -176,6 +176,7 @@ export default function ConfidentialLedger(
   credentials: TokenCredential,
   options: ClientOptions = {}
 ): ConfidentialLedgerRestClient {
+  console.log(credentials);
   const baseUrl = options.baseUrl ?? `${ledgerUri}`;
   options.apiVersion = options.apiVersion ?? "2022-05-13";
   options = {
