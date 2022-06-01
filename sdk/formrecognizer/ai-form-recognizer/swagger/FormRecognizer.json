@@ -42,6 +42,7 @@
           "image/png",
           "image/tiff",
           "image/bmp",
+          "image/heif",
           "text/html",
           "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -1591,9 +1592,9 @@
     "DocumentLanguage": {
       "description": "An object representing the detected language for a given text span.",
       "type": "object",
-      "required": ["languageCode", "spans", "confidence"],
+      "required": ["locale", "spans", "confidence"],
       "properties": {
-        "languageCode": {
+        "locale": {
           "description": "Detected language.  Value may an ISO 639-1 language code (ex. \"en\", \"fr\") or BCP 47 language tag (ex. \"zh-Hans\").",
           "type": "string"
         },
@@ -1721,10 +1722,6 @@
           "description": "Address value.",
           "$ref": "#/definitions/AddressValue"
         },
-        "valueBoolean": {
-          "description": "Boolean value.",
-          "type": "boolean"
-        },
         "content": {
           "description": "Field content.",
           "type": "string"
@@ -1765,8 +1762,7 @@
         "array",
         "object",
         "currency",
-        "address",
-        "boolean"
+        "address"
       ],
       "x-ms-enum": {
         "name": "DocumentFieldType",
