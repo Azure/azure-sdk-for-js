@@ -93,13 +93,6 @@ function GetDocsMsService($packageInfo, $serviceName)
   return $service
 }
 
-function isVersionGA($version) {
-  $semanticVersion = [AzureEngSemanticVersion]::ParseVersionString($version)
-  if ($semanticVersion -and $semanticVersion.IsPrerelease) {
-    return $False
-  }
-  return $True
-}
 function GenerateDocsMsMetadata($language, $langTitle = "", $serviceName, $tenantId, $clientId, $clientSecret, $msService) 
 {
   if (!$langTitle) {
@@ -108,20 +101,20 @@ function GenerateDocsMsMetadata($language, $langTitle = "", $serviceName, $tenan
   $langDescription = "Reference for Azure $serviceName SDK for $language"
   # Github url for source code: e.g. https://github.com/Azure/azure-sdk-for-js
   $serviceBaseName = $serviceName.ToLower().Replace(' ', '').Replace('/', '-')
-  $author = ""#GetPrimaryCodeOwner -TargetDirectory "/sdk/$serviceBaseName/"
+  $author = GetPrimaryCodeOwner -TargetDirectory "/sdk/$serviceBaseName/"
   $msauthor = ""
-  # if (!$author) {
-  #   LogError "Cannot fetch the author from CODEOWNER file."
-  #   return
-  # }
-  # elseif ($TenantId -and $ClientId -and $ClientSecret) {
-  #   $msauthor = GetMsAliasFromGithub -TenantId $tenantId -ClientId $clientId -ClientSecret $clientSecret -GithubUser $author
-  # }
-  # # Default value
-  # if (!$msauthor) {
-  #   LogError "No ms.author found for $author. "
-  #   $msauthor = $author
-  # }
+  if (!$author) {
+    LogError "Cannot fetch the author from CODEOWNER file."
+    return
+  }
+  elseif ($TenantId -and $ClientId -and $ClientSecret) {
+    $msauthor = GetMsAliasFromGithub -TenantId $tenantId -ClientId $clientId -ClientSecret $clientSecret -GithubUser $author
+  }
+  # Default value
+  if (!$msauthor) {
+    LogError "No ms.author found for $author. "
+    $msauthor = $author
+  }
   $date = Get-Date -Format "MM/dd/yyyy"
   $header = @"
 ---
