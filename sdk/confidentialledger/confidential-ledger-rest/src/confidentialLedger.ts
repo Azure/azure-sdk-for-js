@@ -37,7 +37,7 @@ export default function ConfidentialLedger(
 
   const tlsOptions = options?.tlsOptions ?? {};
   tlsOptions.ca = ledgerTlsCertificate;
-  const confidentialLedger = GeneratedConfidentialLedger(ledgerBaseUrl, credentials, {
+  const confidentialLedger = GeneratedConfidentialLedger(ledgerBaseUrl, credentials!, {
     ...options,
     tlsOptions,
   });

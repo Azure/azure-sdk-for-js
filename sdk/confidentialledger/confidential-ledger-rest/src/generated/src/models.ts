@@ -18,8 +18,6 @@ export interface ConfidentialLedgerErrorBody {
   code?: string;
   /** The error message. */
   message?: string;
-  /** An error response from Confidential Ledger. */
-  innerError?: ConfidentialLedgerErrorBody;
 }
 
 export interface Consortium {
@@ -51,6 +49,10 @@ export interface EnclaveQuote {
   raw: string;
 }
 
+export interface Collection {
+  collectionId: string;
+}
+
 export interface PagedLedgerEntries {
   /** State of a ledger query. */
   state: ConfidentialLedgerQueryState;
@@ -63,15 +65,15 @@ export interface PagedLedgerEntries {
 export interface LedgerEntry {
   /** Contents of the ledger entry. */
   contents: string;
-  /** Identifier for sub-ledgers. */
-  subLedgerId?: string;
+  /** Identifier for collections. */
+  collectionId?: Collection;
   /** A unique identifier for the state of the ledger. If returned as part of a LedgerEntry, it indicates the state from which the entry was read. */
   transactionId?: string;
 }
 
 export interface LedgerWriteResult {
-  /** Identifier for sub-ledgers. */
-  subLedgerId: string;
+  /** Identifier for collections. */
+  collectionId: Collection;
 }
 
 export interface LedgerQueryResult {
@@ -82,7 +84,6 @@ export interface LedgerQueryResult {
 }
 
 export interface TransactionReceipt {
-  /** A receipt certifying the transaction at the specified id. */
   receipt?: ReceiptContents;
   /** State of a ledger query. */
   state: ConfidentialLedgerQueryState;
@@ -91,19 +92,23 @@ export interface TransactionReceipt {
 }
 
 export interface ReceiptContents {
-  /** Merkle tree leaf for this transaction. */
-  leaf: string;
-  /** Id of the node returning the receipt. */
+  cert?: string;
+  leaf?: string;
+  leafComponents?: ReceiptLeafComponents;
   nodeId: string;
-  /** Merkle proof. */
-  proof: MerkleProofElement[];
-  /** Root of the Merkle tree at the time the transaction was recorded. */
-  root: string;
-  /** Signature by the node, with its certificate, over the Merkle root. */
+  proof: ReceiptElement[];
+  root?: string;
+  serviceEndorsements?: string[];
   signature: string;
 }
 
-export interface MerkleProofElement {
+export interface ReceiptLeafComponents {
+  claimsDigest?: string;
+  commitEvidence?: string;
+  writeSetDigest?: string;
+}
+
+export interface ReceiptElement {
   left?: string;
   right?: string;
 }
@@ -120,6 +125,11 @@ export interface LedgerUser {
   assignedRole: ConfidentialLedgerUserRoleName;
   /** Identifier for the user. This must either be an AAD object id or a certificate fingerprint. */
   userId?: string;
+}
+
+export interface MerkleProofElement {
+  left?: string;
+  right?: string;
 }
 
 export interface RoleAssignment {

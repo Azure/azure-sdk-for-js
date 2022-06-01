@@ -12,6 +12,12 @@ import { RequestParameters } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
+export interface Collection {
+    // (undocumented)
+    collectionId: string;
+}
+
+// @public (undocumented)
 function ConfidentialLedger(ledgerBaseUrl: string, ledgerTlsCertificate: string, options?: ClientOptions): ConfidentialLedgerRestClient;
 
 // @public (undocumented)
@@ -32,7 +38,6 @@ export interface ConfidentialLedgerError {
 // @public (undocumented)
 export interface ConfidentialLedgerErrorBody {
     code?: string;
-    innerError?: ConfidentialLedgerErrorBody;
     message?: string;
 }
 
@@ -205,7 +210,7 @@ export interface GetCurrentLedgerEntryQueryParam {
 
 // @public (undocumented)
 export interface GetCurrentLedgerEntryQueryParamProperties {
-    subLedgerId?: string;
+    collectionId?: string;
 }
 
 // @public (undocumented)
@@ -231,38 +236,6 @@ export interface GetEnclaveQuotesdefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export type GetEnclaveQuotesParameters = RequestParameters;
-
-// @public
-export interface GetLedgerEntries200Response extends HttpResponse {
-    // (undocumented)
-    body: PagedLedgerEntries;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface GetLedgerEntriesdefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ConfidentialLedgerError;
-    // (undocumented)
-    status: "500";
-}
-
-// @public (undocumented)
-export type GetLedgerEntriesParameters = RequestParameters & GetLedgerEntriesQueryParam;
-
-// @public (undocumented)
-export interface GetLedgerEntriesQueryParam {
-    // (undocumented)
-    queryParameters?: GetLedgerEntriesQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface GetLedgerEntriesQueryParamProperties {
-    fromTransactionId?: string;
-    subLedgerId?: string;
-    toTransactionId?: string;
-}
 
 // @public (undocumented)
 export interface GetLedgerEntry {
@@ -296,7 +269,7 @@ export interface GetLedgerEntryQueryParam {
 
 // @public (undocumented)
 export interface GetLedgerEntryQueryParamProperties {
-    subLedgerId?: string;
+    collectionId?: string;
 }
 
 // @public (undocumented)
@@ -371,8 +344,8 @@ export type GetUserParameters = RequestParameters;
 
 // @public (undocumented)
 export interface LedgerEntry {
+    collectionId?: Collection;
     contents: string;
-    subLedgerId?: string;
     transactionId?: string;
 }
 
@@ -398,7 +371,63 @@ export interface LedgerUser {
 
 // @public (undocumented)
 export interface LedgerWriteResult {
-    subLedgerId: string;
+    collectionId: Collection;
+}
+
+// @public (undocumented)
+export interface ListCollections {
+    get(options?: ListCollectionsParameters): Promise<ListCollections200Response | ListCollectionsdefaultResponse>;
+}
+
+// @public
+export interface ListCollections200Response extends HttpResponse {
+    // (undocumented)
+    body: Collection[];
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface ListCollectionsdefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ConfidentialLedgerError;
+    // (undocumented)
+    status: "500";
+}
+
+// @public (undocumented)
+export type ListCollectionsParameters = RequestParameters;
+
+// @public
+export interface ListLedgerEntries200Response extends HttpResponse {
+    // (undocumented)
+    body: PagedLedgerEntries;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface ListLedgerEntriesdefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ConfidentialLedgerError;
+    // (undocumented)
+    status: "500";
+}
+
+// @public (undocumented)
+export type ListLedgerEntriesParameters = RequestParameters & ListLedgerEntriesQueryParam;
+
+// @public (undocumented)
+export interface ListLedgerEntriesQueryParam {
+    // (undocumented)
+    queryParameters?: ListLedgerEntriesQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface ListLedgerEntriesQueryParamProperties {
+    collectionId?: string;
+    fromTransactionId?: string;
+    toTransactionId?: string;
 }
 
 // @public (undocumented)
@@ -418,8 +447,8 @@ export interface PagedLedgerEntries {
 
 // @public (undocumented)
 export interface PostLedgerEntry {
-    get(options?: GetLedgerEntriesParameters): Promise<GetLedgerEntries200Response | GetLedgerEntriesdefaultResponse>;
-    post(options?: PostLedgerEntryParameters): Promise<PostLedgerEntry200Response | PostLedgerEntrydefaultResponse>;
+    get(options?: ListLedgerEntriesParameters): Promise<ListLedgerEntries200Response | ListLedgerEntriesdefaultResponse>;
+    post(options: PostLedgerEntryParameters): Promise<PostLedgerEntry200Response | PostLedgerEntrydefaultResponse>;
 }
 
 // @public (undocumented)
@@ -440,7 +469,7 @@ export interface PostLedgerEntry200Response extends HttpResponse {
 // @public (undocumented)
 export interface PostLedgerEntryBodyParam {
     // (undocumented)
-    body?: LedgerEntry;
+    body: LedgerEntry;
 }
 
 // @public
@@ -462,16 +491,45 @@ export interface PostLedgerEntryQueryParam {
 
 // @public (undocumented)
 export interface PostLedgerEntryQueryParamProperties {
-    subLedgerId?: string;
+    collectionId?: string;
 }
 
 // @public (undocumented)
 export interface ReceiptContents {
-    leaf: string;
+    // (undocumented)
+    cert?: string;
+    // (undocumented)
+    leaf?: string;
+    // (undocumented)
+    leafComponents?: ReceiptLeafComponents;
+    // (undocumented)
     nodeId: string;
-    proof: MerkleProofElement[];
-    root: string;
+    // (undocumented)
+    proof: ReceiptElement[];
+    // (undocumented)
+    root?: string;
+    // (undocumented)
+    serviceEndorsements?: string[];
+    // (undocumented)
     signature: string;
+}
+
+// @public (undocumented)
+export interface ReceiptElement {
+    // (undocumented)
+    left?: string;
+    // (undocumented)
+    right?: string;
+}
+
+// @public (undocumented)
+export interface ReceiptLeafComponents {
+    // (undocumented)
+    claimsDigest?: string;
+    // (undocumented)
+    commitEvidence?: string;
+    // (undocumented)
+    writeSetDigest?: string;
 }
 
 // @public (undocumented)
@@ -485,6 +543,7 @@ export interface Routes {
     (path: "/app/governance/constitution"): GetConstitution;
     (path: "/app/governance/members"): GetConsortiumMembers;
     (path: "/app/enclaveQuotes"): GetEnclaveQuotes;
+    (path: "/app/collections"): ListCollections;
     (path: "/app/transactions"): PostLedgerEntry;
     (path: "/app/transactions/{transactionId}", transactionId: string): GetLedgerEntry;
     (path: "/app/transactions/{transactionId}/receipt", transactionId: string): GetReceipt;
@@ -495,6 +554,7 @@ export interface Routes {
 
 // @public (undocumented)
 export interface TransactionReceipt {
+    // (undocumented)
     receipt?: ReceiptContents;
     state: ConfidentialLedgerQueryState;
     transactionId: string;
