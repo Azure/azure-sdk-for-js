@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import ConfidentialLedger from "../../src";
+import ConfidentialLedger, { getLedgerIdentity } from "../../src";
 import { env } from "@azure-tools/test-recorder";
 import { Recorder } from "@azure-tools/test-recorder";
 
@@ -29,9 +29,10 @@ describe("Test user authentications", () => {
     { httpClient }
   );
   */
+    var ledgerIdentityPromise = getLedgerIdentity(env.LEDGER_IDENTITY, env.IDENTITY_SERVICE_URL);
     const credential = new DefaultAzureCredential();
     console.log(credential);
-    var ledgerClient = ConfidentialLedger(env.ENDPOINT, env.LEDGER_IDENTITY, credential);
+    var ledgerClient = ConfidentialLedger(env.ENDPOINT, ledgerIdentityPromise, credential);
     console.log(ledgerClient);
     assert(ledgerClient);
 
