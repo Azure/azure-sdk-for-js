@@ -1,0 +1,49 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://fakeaccountname.table.core.windows.net/tableClientTestnode()?st=2021-08-03T08:52:15Z\u0026spr=https\u0026sig=fakesigval\u0026$filter=RowKey eq %27binary1%27",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json;odata=minimalmetadata",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "DataServiceVersion": "3.0",
+        "User-Agent": "azsdk-js-data-tables/13.0.2 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "ca9b4f76-4062-4a09-9b34-0db35deb6493",
+        "x-ms-version": "2019-02-02"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,Content-Type,Content-Length,Date,Transfer-Encoding",
+        "Cache-Control": "no-cache",
+        "Content-Type": "application/json; odata=minimalmetadata; streaming=true; charset=utf-8",
+        "Date": "Tue, 01 Feb 2022 20:52:37 GMT",
+        "Server": [
+          "Windows-Azure-Table/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "ca9b4f76-4062-4a09-9b34-0db35deb6493",
+        "x-ms-request-id": "a5ad72f5-0002-0010-07ad-17b759000000",
+        "x-ms-version": "2019-02-02"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://fakeaccountname.table.core.windows.net/$metadata#tableClientTestnode",
+        "value": [
+          {
+            "odata.etag": "W/\u0022datetime\u00272022-02-01T20%3A52%3A35.5679858Z\u0027\u0022",
+            "PartitionKey": "listEntitiesTest",
+            "RowKey": "binary1",
+            "Timestamp": "2022-02-01T20:52:35.5679858Z",
+            "foo@odata.type": "Edm.Binary",
+            "foo": "QmFy"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

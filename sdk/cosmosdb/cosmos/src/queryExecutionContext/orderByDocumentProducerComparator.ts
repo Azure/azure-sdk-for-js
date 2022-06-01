@@ -8,29 +8,29 @@ const TYPEORDCOMPARATOR: {
   [type: string]: { ord: number; compFunc?: (a: any, b: any) => number };
 } = Object.freeze({
   NoValue: {
-    ord: 0
+    ord: 0,
   },
   undefined: {
-    ord: 1
+    ord: 1,
   },
   boolean: {
     ord: 2,
     compFunc: (a: boolean, b: boolean) => {
       return a === b ? 0 : a > b ? 1 : -1;
-    }
+    },
   },
   number: {
     ord: 4,
     compFunc: (a: number, b: number) => {
       return a === b ? 0 : a > b ? 1 : -1;
-    }
+    },
   },
   string: {
     ord: 5,
     compFunc: (a: string, b: string) => {
       return a === b ? 0 : a > b ? 1 : -1;
-    }
-  }
+    },
+  },
 });
 
 /** @hidden */

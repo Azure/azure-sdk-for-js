@@ -7,7 +7,7 @@ import { assert } from "chai";
 
 const testLogger = Logger.createClientLogger("test");
 
-describe("AzureLogger (browser)", function() {
+describe("AzureLogger (browser)", function () {
   function expectedTestMessage(namespace: string, message: string): string {
     return `${namespace} ${message}`;
   }

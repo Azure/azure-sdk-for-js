@@ -47,7 +47,7 @@ import {
   AzureLogAnalyticsParameter,
   AzureTableParameter,
   InfluxDBParameter,
-  SqlSourceParameter
+  SqlSourceParameter,
 } from "./generated/models";
 import {
   MetricFeedbackUnion,
@@ -83,7 +83,7 @@ import {
   DataSourceSqlServerConnectionStringPatch,
   DataSourceDataLakeGen2SharedKeyPatch,
   DataSourceServicePrincipalPatch,
-  DataSourceServicePrincipalInKeyVaultPatch
+  DataSourceServicePrincipalInKeyVaultPatch,
 } from "./models";
 
 // transform the protocol layer (codegen) service models into convenience layer models
@@ -103,14 +103,14 @@ export function fromServiceAnomalyDetectionConfiguration(
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition,
-        changeThresholdCondition
+        changeThresholdCondition,
       } = c;
       return {
         groupKey: group.dimension,
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition: hardThresholdCondition as HardThresholdConditionUnion,
-        changeThresholdCondition: changeThresholdCondition as ChangeThresholdConditionUnion
+        changeThresholdCondition: changeThresholdCondition as ChangeThresholdConditionUnion,
       };
     }),
     seriesDetectionConditions: original.seriesOverrideConfigurations?.map((c) => {
@@ -119,16 +119,16 @@ export function fromServiceAnomalyDetectionConfiguration(
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition,
-        changeThresholdCondition
+        changeThresholdCondition,
       } = c;
       return {
         seriesKey: series.dimension,
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition: hardThresholdCondition as HardThresholdConditionUnion,
-        changeThresholdCondition: changeThresholdCondition as ChangeThresholdConditionUnion
+        changeThresholdCondition: changeThresholdCondition as ChangeThresholdConditionUnion,
       };
-    })
+    }),
   };
 }
 
@@ -146,14 +146,14 @@ export function toServiceAnomalyDetectionConfiguration(
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition,
-        changeThresholdCondition
+        changeThresholdCondition,
       } = c;
       return {
         group: { dimension: groupKey },
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition,
-        changeThresholdCondition
+        changeThresholdCondition,
       };
     }),
     seriesOverrideConfigurations: from.seriesDetectionConditions?.map((c) => {
@@ -162,16 +162,16 @@ export function toServiceAnomalyDetectionConfiguration(
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition,
-        changeThresholdCondition
+        changeThresholdCondition,
       } = c;
       return {
         series: { dimension: seriesKey },
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition,
-        changeThresholdCondition
+        changeThresholdCondition,
       };
-    })
+    }),
   };
 }
 
@@ -188,14 +188,14 @@ export function toServiceAnomalyDetectionConfigurationPatch(
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition,
-        changeThresholdCondition
+        changeThresholdCondition,
       } = c;
       return {
         group: { dimension: groupKey },
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition,
-        changeThresholdCondition
+        changeThresholdCondition,
       };
     }),
     seriesOverrideConfigurations: from.seriesDetectionConditions?.map((c) => {
@@ -204,16 +204,16 @@ export function toServiceAnomalyDetectionConfigurationPatch(
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition,
-        changeThresholdCondition
+        changeThresholdCondition,
       } = c;
       return {
         series: { dimension: seriesKey },
         conditionOperator,
         smartDetectionCondition,
         hardThresholdCondition,
-        changeThresholdCondition
+        changeThresholdCondition,
       };
-    })
+    }),
   };
 }
 
@@ -225,7 +225,7 @@ export function fromServiceMetricFeedbackUnion(
     createdOn: original.createdTime,
     userPrincipal: original.userPrincipal,
     metricId: original.metricId,
-    dimensionKey: original.dimensionFilter.dimension
+    dimensionKey: original.dimensionFilter.dimension,
   };
   switch (original.feedbackType) {
     case "Anomaly": {
@@ -239,7 +239,7 @@ export function fromServiceMetricFeedbackUnion(
         anomalyDetectionConfigurationId: orig.anomalyDetectionConfigurationId,
         anomalyDetectionConfigurationSnapshot:
           orig.anomalyDetectionConfigurationSnapshot &&
-          fromServiceAnomalyDetectionConfiguration(orig.anomalyDetectionConfigurationSnapshot)
+          fromServiceAnomalyDetectionConfiguration(orig.anomalyDetectionConfigurationSnapshot),
       };
       return result1;
     }
@@ -250,7 +250,7 @@ export function fromServiceMetricFeedbackUnion(
         feedbackType: "ChangePoint",
         // ChangePoint feedback only uses one timestamp
         startTime: orig2.startTime,
-        value: orig2.value.changePointValue
+        value: orig2.value.changePointValue,
       };
       return result2;
     }
@@ -261,7 +261,7 @@ export function fromServiceMetricFeedbackUnion(
         feedbackType: "Comment",
         startTime: orig3.startTime,
         endTime: orig3.endTime,
-        comment: orig3.value.commentValue
+        comment: orig3.value.commentValue,
       };
       return result3;
     }
@@ -271,7 +271,7 @@ export function fromServiceMetricFeedbackUnion(
         ...common,
         feedbackType: "Period",
         periodType: orig4.value.periodType,
-        periodValue: orig4.value.periodValue
+        periodValue: orig4.value.periodValue,
       };
       return result4;
     }
@@ -287,26 +287,24 @@ export function toRollupSettings(original: ServiceDataFeedDetailUnion): DataFeed
     case "NoRollup":
     case undefined:
       return {
-        rollupType: "NoRollup"
+        rollupType: "NoRollup",
       };
     case "AlreadyRollup":
       return {
         rollupType: "AlreadyRollup",
-        rollupIdentificationValue: original.allUpIdentification
+        rollupIdentificationValue: original.allUpIdentification,
       };
     case "NeedRollup":
       return {
         rollupType: "AutoRollup",
         autoRollupGroupByColumnNames: original.rollUpColumns,
         rollupMethod: original.rollUpMethod,
-        rollupIdentificationValue: original.allUpIdentification
+        rollupIdentificationValue: original.allUpIdentification,
       };
   }
 }
 
-export function toServiceRollupSettings(
-  rollupSettings?: DataFeedRollupSettings
-):
+export function toServiceRollupSettings(rollupSettings?: DataFeedRollupSettings):
   | {
       needRollup: NeedRollupEnum;
       rollUpColumns?: string[];
@@ -320,19 +318,19 @@ export function toServiceRollupSettings(
   switch (rollupSettings.rollupType) {
     case "NoRollup":
       return {
-        needRollup: "NoRollup"
+        needRollup: "NoRollup",
       };
     case "AlreadyRollup":
       return {
         needRollup: "AlreadyRollup",
-        allUpIdentification: rollupSettings.rollupIdentificationValue
+        allUpIdentification: rollupSettings.rollupIdentificationValue,
       };
     case "AutoRollup":
       return {
         needRollup: "NeedRollup",
         rollUpColumns: rollupSettings.autoRollupGroupByColumnNames,
         rollUpMethod: rollupSettings.rollupMethod,
-        allUpIdentification: rollupSettings.rollupIdentificationValue
+        allUpIdentification: rollupSettings.rollupIdentificationValue,
       };
   }
 }
@@ -348,9 +346,7 @@ function fromServiceGranularity(original: ServiceGranularity, value?: number): D
   }
 }
 
-export function toServiceGranularity(
-  model: DataFeedGranularity
-): {
+export function toServiceGranularity(model: DataFeedGranularity): {
   granularityName: ServiceGranularity;
   granularityAmount?: number;
 } {
@@ -364,9 +360,7 @@ export function toServiceGranularity(
   }
 }
 
-export function toServiceDataFeedSource(
-  source: DataFeedSource
-): {
+export function toServiceDataFeedSource(source: DataFeedSource): {
   dataSourceType:
     | "AzureApplicationInsights"
     | "AzureBlob"
@@ -402,9 +396,9 @@ export function toServiceDataFeedSource(
         dataSourceParameter: {
           command: source.command,
           database: source.database,
-          connectionString: source.connectionString
+          connectionString: source.connectionString,
         },
-        authenticationType: source.authenticationType
+        authenticationType: source.authenticationType,
       };
     case "AzureApplicationInsights": {
       return {
@@ -413,9 +407,9 @@ export function toServiceDataFeedSource(
           azureCloud: source.azureCloud,
           applicationId: source.applicationId,
           apiKey: source.apiKey,
-          query: source.query
+          query: source.query,
         },
-        authenticationType: source.authenticationType
+        authenticationType: source.authenticationType,
       };
     }
     case "AzureBlob":
@@ -424,9 +418,9 @@ export function toServiceDataFeedSource(
         dataSourceParameter: {
           connectionString: source.connectionString,
           container: source.container,
-          blobTemplate: source.blobTemplate
+          blobTemplate: source.blobTemplate,
         },
-        authenticationType: source.authenticationType
+        authenticationType: source.authenticationType,
       };
 
     case "AzureCosmosDB":
@@ -436,19 +430,19 @@ export function toServiceDataFeedSource(
           connectionString: source.connectionString!,
           database: source.database,
           collectionId: source.collectionId,
-          sqlQuery: source.sqlQuery
+          sqlQuery: source.sqlQuery,
         },
-        authenticationType: source.authenticationType
+        authenticationType: source.authenticationType,
       };
     case "SqlServer":
       if (source.authenticationType === "AzureSQLConnectionString") {
         return {
           dataSourceType: "SqlServer",
           dataSourceParameter: {
-            query: source.query
+            query: source.query,
           },
           authenticationType: source.authenticationType,
-          credentialId: source.credentialId
+          credentialId: source.credentialId,
         };
       } else if (
         source.authenticationType === "Basic" ||
@@ -458,19 +452,19 @@ export function toServiceDataFeedSource(
           dataSourceType: "SqlServer",
           dataSourceParameter: {
             query: source.query,
-            connectionString: source.connectionString
+            connectionString: source.connectionString,
           },
-          authenticationType: source.authenticationType
+          authenticationType: source.authenticationType,
         };
       } else {
         return {
           dataSourceType: "SqlServer",
           dataSourceParameter: {
             query: source.query,
-            connectionString: source.connectionString
+            connectionString: source.connectionString,
           },
           authenticationType: source.authenticationType,
-          credentialId: source.credentialId
+          credentialId: source.credentialId,
         };
       }
     case "AzureDataExplorer":
@@ -482,19 +476,19 @@ export function toServiceDataFeedSource(
           dataSourceType: "AzureDataExplorer",
           dataSourceParameter: {
             connectionString: source.connectionString,
-            query: source.query
+            query: source.query,
           },
           authenticationType: source.authenticationType,
-          credentialId: source.credentialId
+          credentialId: source.credentialId,
         };
       } else {
         return {
           dataSourceType: "AzureDataExplorer",
           dataSourceParameter: {
             connectionString: source.connectionString,
-            query: source.query
+            query: source.query,
           },
-          authenticationType: source.authenticationType
+          authenticationType: source.authenticationType,
         };
       }
     case "AzureDataLakeStorageGen2":
@@ -506,9 +500,9 @@ export function toServiceDataFeedSource(
             directoryTemplate: source.directoryTemplate,
             fileTemplate: source.fileTemplate,
             fileSystemName: source.fileSystemName,
-            accountKey: source.accountKey
+            accountKey: source.accountKey,
           },
-          authenticationType: source.authenticationType
+          authenticationType: source.authenticationType,
         };
       } else if (source.authenticationType === "ManagedIdentity") {
         return {
@@ -517,9 +511,9 @@ export function toServiceDataFeedSource(
             accountName: source.accountName,
             directoryTemplate: source.directoryTemplate,
             fileTemplate: source.fileTemplate,
-            fileSystemName: source.fileSystemName
+            fileSystemName: source.fileSystemName,
           },
-          authenticationType: source.authenticationType
+          authenticationType: source.authenticationType,
         };
       } else {
         return {
@@ -528,10 +522,10 @@ export function toServiceDataFeedSource(
             accountName: source.accountName,
             directoryTemplate: source.directoryTemplate,
             fileTemplate: source.fileTemplate,
-            fileSystemName: source.fileSystemName
+            fileSystemName: source.fileSystemName,
           },
           authenticationType: source.authenticationType,
-          credentialId: source.credentialId
+          credentialId: source.credentialId,
         };
       }
     case "AzureEventHubs":
@@ -539,9 +533,9 @@ export function toServiceDataFeedSource(
         dataSourceType: "AzureEventHubs",
         dataSourceParameter: {
           connectionString: source.connectionString!,
-          consumerGroup: source.consumerGroup
+          consumerGroup: source.consumerGroup,
         },
-        authenticationType: source.authenticationType
+        authenticationType: source.authenticationType,
       };
     case "AzureLogAnalytics":
       if (source.authenticationType === "Basic") {
@@ -552,19 +546,19 @@ export function toServiceDataFeedSource(
             clientId: source.clientId,
             clientSecret: source.clientSecret!,
             workspaceId: source.workspaceId,
-            query: source.query
+            query: source.query,
           },
-          authenticationType: source.authenticationType
+          authenticationType: source.authenticationType,
         };
       } else {
         return {
           dataSourceType: "AzureLogAnalytics",
           dataSourceParameter: {
             workspaceId: source.workspaceId,
-            query: source.query
+            query: source.query,
           },
           authenticationType: source.authenticationType,
-          credentialId: source.credentialId
+          credentialId: source.credentialId,
         };
       }
 
@@ -574,9 +568,9 @@ export function toServiceDataFeedSource(
         dataSourceParameter: {
           query: source.query,
           connectionString: source.connectionString,
-          table: source.table
+          table: source.table,
         },
-        authenticationType: source.authenticationType
+        authenticationType: source.authenticationType,
       };
     case "InfluxDB":
       return {
@@ -586,36 +580,34 @@ export function toServiceDataFeedSource(
           connectionString: source.connectionString,
           database: source.database,
           userName: source.userName,
-          password: source.password
+          password: source.password,
         },
-        authenticationType: source.authenticationType
+        authenticationType: source.authenticationType,
       };
     case "MySql":
       return {
         dataSourceType: "MySql",
         dataSourceParameter: {
           query: source.query,
-          connectionString: source.connectionString
+          connectionString: source.connectionString,
         },
-        authenticationType: source.authenticationType
+        authenticationType: source.authenticationType,
       };
     case "PostgreSql":
       return {
         dataSourceType: "PostgreSql",
         dataSourceParameter: {
           query: source.query,
-          connectionString: source.connectionString
+          connectionString: source.connectionString,
         },
-        authenticationType: source.authenticationType
+        authenticationType: source.authenticationType,
       };
     default:
       throw new Error(`Unexpected datafeed source type: '${source.dataSourceType}'`);
   }
 }
 
-export function toServiceDataFeedSourcePatch(
-  source: DataFeedSourcePatch
-): {
+export function toServiceDataFeedSourcePatch(source: DataFeedSourcePatch): {
   dataSourceType:
     | "AzureApplicationInsights"
     | "AzureBlob"
@@ -651,9 +643,9 @@ export function toServiceDataFeedSourcePatch(
         dataSourceParameter: {
           command: source.command!,
           database: source.database,
-          connectionString: source.connectionString
+          connectionString: source.connectionString,
         },
-        authenticationType: source.authenticationType
+        authenticationType: source.authenticationType,
       };
     case "AzureApplicationInsights": {
       return {
@@ -662,9 +654,9 @@ export function toServiceDataFeedSourcePatch(
           azureCloud: source.azureCloud,
           applicationId: source.applicationId,
           apiKey: source.apiKey,
-          query: source.query!
+          query: source.query!,
         },
-        authenticationType: source.authenticationType
+        authenticationType: source.authenticationType,
       };
     }
     case "AzureBlob":
@@ -673,9 +665,9 @@ export function toServiceDataFeedSourcePatch(
         dataSourceParameter: {
           connectionString: source.connectionString,
           container: source.container!,
-          blobTemplate: source.blobTemplate!
+          blobTemplate: source.blobTemplate!,
         },
-        authenticationType: source.authenticationType
+        authenticationType: source.authenticationType,
       };
 
     case "AzureCosmosDB":
@@ -685,19 +677,19 @@ export function toServiceDataFeedSourcePatch(
           connectionString: source.connectionString,
           database: source.database!,
           collectionId: source.collectionId!,
-          sqlQuery: source.sqlQuery!
+          sqlQuery: source.sqlQuery!,
         },
-        authenticationType: source.authenticationType
+        authenticationType: source.authenticationType,
       };
     case "SqlServer":
       if (source.authenticationType === "AzureSQLConnectionString") {
         return {
           dataSourceType: "SqlServer",
           dataSourceParameter: {
-            query: source.query!
+            query: source.query!,
           },
           authenticationType: source.authenticationType,
-          credentialId: source.credentialId
+          credentialId: source.credentialId,
         };
       } else if (
         source.authenticationType === "Basic" ||
@@ -707,9 +699,9 @@ export function toServiceDataFeedSourcePatch(
           dataSourceType: "SqlServer",
           dataSourceParameter: {
             query: source.query!,
-            connectionString: source.connectionString
+            connectionString: source.connectionString,
           },
-          authenticationType: source.authenticationType
+          authenticationType: source.authenticationType,
         };
       } else if (
         source.authenticationType === "ServicePrincipalInKV" ||
@@ -719,10 +711,10 @@ export function toServiceDataFeedSourcePatch(
           dataSourceType: "SqlServer",
           dataSourceParameter: {
             query: source.query!,
-            connectionString: source.connectionString
+            connectionString: source.connectionString,
           },
           authenticationType: source.authenticationType,
-          credentialId: source.credentialId
+          credentialId: source.credentialId,
         };
       } else {
         throw new Error(`Unexpected datafeed authentication type: '${source.authenticationType}'`);
@@ -737,19 +729,19 @@ export function toServiceDataFeedSourcePatch(
           dataSourceType: "AzureDataExplorer",
           dataSourceParameter: {
             connectionString: source.connectionString,
-            query: source.query!
+            query: source.query!,
           },
           authenticationType: source.authenticationType,
-          credentialId: source.credentialId
+          credentialId: source.credentialId,
         };
       } else {
         return {
           dataSourceType: "AzureDataExplorer",
           dataSourceParameter: {
             connectionString: source.connectionString,
-            query: source.query!
+            query: source.query!,
           },
-          authenticationType: source.authenticationType
+          authenticationType: source.authenticationType,
         };
       }
     case "AzureDataLakeStorageGen2":
@@ -761,9 +753,9 @@ export function toServiceDataFeedSourcePatch(
             directoryTemplate: source.directoryTemplate!,
             fileTemplate: source.fileTemplate!,
             fileSystemName: source.fileSystemName!,
-            accountKey: source.accountKey
+            accountKey: source.accountKey,
           },
-          authenticationType: source.authenticationType
+          authenticationType: source.authenticationType,
         };
       } else if (source.authenticationType === "ManagedIdentity") {
         return {
@@ -772,9 +764,9 @@ export function toServiceDataFeedSourcePatch(
             accountName: source.accountName,
             directoryTemplate: source.directoryTemplate!,
             fileTemplate: source.fileTemplate!,
-            fileSystemName: source.fileSystemName!
+            fileSystemName: source.fileSystemName!,
           },
-          authenticationType: source.authenticationType
+          authenticationType: source.authenticationType,
         };
       } else if (
         source.authenticationType === "DataLakeGen2SharedKey" ||
@@ -787,10 +779,10 @@ export function toServiceDataFeedSourcePatch(
             accountName: source.accountName,
             directoryTemplate: source.directoryTemplate!,
             fileTemplate: source.fileTemplate!,
-            fileSystemName: source.fileSystemName!
+            fileSystemName: source.fileSystemName!,
           },
           authenticationType: source.authenticationType,
-          credentialId: source.credentialId!
+          credentialId: source.credentialId!,
         };
       } else {
         throw new Error(`Unexpected datafeed authentication type: '${source.authenticationType}'`);
@@ -800,9 +792,9 @@ export function toServiceDataFeedSourcePatch(
         dataSourceType: "AzureEventHubs",
         dataSourceParameter: {
           connectionString: source.connectionString!,
-          consumerGroup: source.consumerGroup!
+          consumerGroup: source.consumerGroup!,
         },
-        authenticationType: source.authenticationType
+        authenticationType: source.authenticationType,
       };
     case "AzureLogAnalytics":
       if (source.authenticationType === "Basic") {
@@ -813,9 +805,9 @@ export function toServiceDataFeedSourcePatch(
             clientId: source.clientId,
             clientSecret: source.clientSecret,
             workspaceId: source.workspaceId,
-            query: source.query!
+            query: source.query!,
           },
-          authenticationType: source.authenticationType
+          authenticationType: source.authenticationType,
         };
       } else if (
         source.authenticationType === "ServicePrincipal" ||
@@ -825,10 +817,10 @@ export function toServiceDataFeedSourcePatch(
           dataSourceType: "AzureLogAnalytics",
           dataSourceParameter: {
             workspaceId: source.workspaceId,
-            query: source.query!
+            query: source.query!,
           },
           authenticationType: source.authenticationType,
-          credentialId: source.credentialId
+          credentialId: source.credentialId,
         };
       } else {
         throw new Error(`Unexpected datafeed authentication type: '${source.authenticationType}'`);
@@ -840,9 +832,9 @@ export function toServiceDataFeedSourcePatch(
         dataSourceParameter: {
           query: source.query!,
           connectionString: source.connectionString,
-          table: source.table
+          table: source.table,
         },
-        authenticationType: source.authenticationType
+        authenticationType: source.authenticationType,
       };
     case "InfluxDB":
       return {
@@ -852,27 +844,27 @@ export function toServiceDataFeedSourcePatch(
           connectionString: source.connectionString,
           database: source.database,
           userName: source.userName,
-          password: source.password
+          password: source.password,
         },
-        authenticationType: source.authenticationType
+        authenticationType: source.authenticationType,
       };
     case "MySql":
       return {
         dataSourceType: "MySql",
         dataSourceParameter: {
           query: source.query!,
-          connectionString: source.connectionString
+          connectionString: source.connectionString,
         },
-        authenticationType: source.authenticationType
+        authenticationType: source.authenticationType,
       };
     case "PostgreSql":
       return {
         dataSourceType: "PostgreSql",
         dataSourceParameter: {
           query: source.query!,
-          connectionString: source.connectionString
+          connectionString: source.connectionString,
         },
-        authenticationType: source.authenticationType
+        authenticationType: source.authenticationType,
       };
     default:
       throw new Error(`Unexpected datafeed source type: '${source.dataSourceType}'`);
@@ -898,7 +890,7 @@ export function fromServiceDataFeedDetailUnion(
     schema: {
       metrics: original.metrics,
       dimensions: original.dimension,
-      timestampColumn: original.timestampColumn
+      timestampColumn: original.timestampColumn,
     },
     granularity: fromServiceGranularity(original.granularityName, original.granularityAmount),
     ingestionSettings: {
@@ -906,7 +898,7 @@ export function fromServiceDataFeedDetailUnion(
       ingestionStartOffsetInSeconds: original.startOffsetInSeconds,
       dataSourceRequestConcurrency: original.maxConcurrency,
       ingestionRetryDelayInSeconds: original.minRetryIntervalInSeconds,
-      stopRetryAfterInSeconds: original.stopRetryAfterInSeconds
+      stopRetryAfterInSeconds: original.stopRetryAfterInSeconds,
     },
     description: original.dataFeedDescription,
     actionLinkTemplate: original.actionLinkTemplate,
@@ -915,14 +907,14 @@ export function fromServiceDataFeedDetailUnion(
       original.fillMissingPointType === "CustomValue"
         ? {
             fillType: original.fillMissingPointType!,
-            customFillValue: original.fillMissingPointValue!
+            customFillValue: original.fillMissingPointValue!,
           }
         : {
-            fillType: original.fillMissingPointType!
+            fillType: original.fillMissingPointType!,
           },
     accessMode: original.viewMode,
     admins: original.admins,
-    viewers: original.viewers
+    viewers: original.viewers,
   };
   switch (original.dataSourceType) {
     case "AzureApplicationInsights": {
@@ -935,8 +927,8 @@ export function fromServiceDataFeedDetailUnion(
           applicationId: orig.dataSourceParameter.applicationId!,
           apiKey: orig.dataSourceParameter.apiKey,
           query: orig.dataSourceParameter.query,
-          authenticationType: "Basic"
-        }
+          authenticationType: "Basic",
+        },
       };
       return result1;
     }
@@ -958,11 +950,11 @@ export function fromServiceDataFeedDetailUnion(
         blobTemplate: orig2.dataSourceParameter.blobTemplate,
         connectionString: orig2.dataSourceParameter.connectionString!,
         container: orig2.dataSourceParameter.container,
-        ...auth
+        ...auth,
       };
       const result2: MetricsAdvisorDataFeed = {
         ...common,
-        source
+        source,
       };
       return result2;
     }
@@ -973,8 +965,8 @@ export function fromServiceDataFeedDetailUnion(
         source: {
           dataSourceType: "AzureCosmosDB",
           authenticationType: "Basic",
-          ...orig3.dataSourceParameter
-        }
+          ...orig3.dataSourceParameter,
+        },
       };
       return result3;
     }
@@ -994,7 +986,7 @@ export function fromServiceDataFeedDetailUnion(
       ) {
         auth = {
           authenticationType: original.authenticationType,
-          credentialId: original.credentialId!
+          credentialId: original.credentialId!,
         };
       } else {
         throw new Error(`Unexpected authentication type: '${original.authenticationType}'`);
@@ -1003,11 +995,11 @@ export function fromServiceDataFeedDetailUnion(
         dataSourceType: "AzureDataExplorer",
         connectionString: orig4.dataSourceParameter.connectionString!,
         query: orig4.dataSourceParameter.query,
-        ...auth
+        ...auth,
       };
       const result4: MetricsAdvisorDataFeed = {
         ...common,
-        source
+        source,
       };
       return result4;
     }
@@ -1025,7 +1017,7 @@ export function fromServiceDataFeedDetailUnion(
       ) {
         auth = {
           authenticationType: original.authenticationType,
-          credentialId: original.credentialId!
+          credentialId: original.credentialId!,
         };
       } else {
         throw new Error(`Unexpected authentication type: '${original.authenticationType}'`);
@@ -1036,11 +1028,11 @@ export function fromServiceDataFeedDetailUnion(
         directoryTemplate: orig5.dataSourceParameter.directoryTemplate,
         fileSystemName: orig5.dataSourceParameter.fileSystemName,
         fileTemplate: orig5.dataSourceParameter.fileTemplate,
-        ...auth
+        ...auth,
       };
       const result5: MetricsAdvisorDataFeed = {
         ...common,
-        source
+        source,
       };
       return result5;
     }
@@ -1053,8 +1045,8 @@ export function fromServiceDataFeedDetailUnion(
           connectionString: orig6.dataSourceParameter.connectionString!,
           table: orig6.dataSourceParameter.table,
           query: orig6.dataSourceParameter.query,
-          authenticationType: "Basic"
-        }
+          authenticationType: "Basic",
+        },
       };
       return result6;
     }
@@ -1069,8 +1061,8 @@ export function fromServiceDataFeedDetailUnion(
           password: orig8.dataSourceParameter.password!,
           query: orig8.dataSourceParameter.query,
           userName: orig8.dataSourceParameter.userName!,
-          authenticationType: "Basic"
-        }
+          authenticationType: "Basic",
+        },
       };
       return result8;
     }
@@ -1083,8 +1075,8 @@ export function fromServiceDataFeedDetailUnion(
           connectionString: orig9.dataSourceParameter.connectionString!,
           database: orig9.dataSourceParameter.database!,
           command: orig9.dataSourceParameter.command,
-          authenticationType: "Basic"
-        }
+          authenticationType: "Basic",
+        },
       };
       return result9;
     }
@@ -1096,8 +1088,8 @@ export function fromServiceDataFeedDetailUnion(
           dataSourceType: "MySql",
           connectionString: orig10.dataSourceParameter.connectionString,
           query: orig10.dataSourceParameter.query,
-          authenticationType: "Basic"
-        }
+          authenticationType: "Basic",
+        },
       };
       return result10;
     }
@@ -1109,8 +1101,8 @@ export function fromServiceDataFeedDetailUnion(
           dataSourceType: "PostgreSql",
           connectionString: orig11.dataSourceParameter.connectionString,
           query: orig11.dataSourceParameter.query,
-          authenticationType: "Basic"
-        }
+          authenticationType: "Basic",
+        },
       };
       return result11;
     }
@@ -1120,7 +1112,7 @@ export function fromServiceDataFeedDetailUnion(
       if (!original.authenticationType) {
         auth = {
           authenticationType: "Basic",
-          connectionString: orig12.dataSourceParameter.connectionString!
+          connectionString: orig12.dataSourceParameter.connectionString!,
         };
       }
       if (
@@ -1129,7 +1121,7 @@ export function fromServiceDataFeedDetailUnion(
       ) {
         auth = {
           authenticationType: original.authenticationType,
-          connectionString: orig12.dataSourceParameter.connectionString!
+          connectionString: orig12.dataSourceParameter.connectionString!,
         };
       } else if (
         original.authenticationType === "ServicePrincipal" ||
@@ -1138,12 +1130,12 @@ export function fromServiceDataFeedDetailUnion(
         auth = {
           authenticationType: original.authenticationType,
           credentialId: orig12.credentialId!,
-          connectionString: orig12.dataSourceParameter.connectionString!
+          connectionString: orig12.dataSourceParameter.connectionString!,
         };
       } else if (original.authenticationType === "AzureSQLConnectionString") {
         auth = {
           authenticationType: original.authenticationType,
-          credentialId: original.credentialId!
+          credentialId: original.credentialId!,
         };
       } else {
         throw new Error(`Unexpected authentication type: '${original.authenticationType}'`);
@@ -1153,8 +1145,8 @@ export function fromServiceDataFeedDetailUnion(
         source: {
           dataSourceType: "SqlServer",
           query: orig12.dataSourceParameter.query,
-          ...auth
-        }
+          ...auth,
+        },
       };
       return result12;
     }
@@ -1166,8 +1158,8 @@ export function fromServiceDataFeedDetailUnion(
           dataSourceType: "AzureEventHubs",
           connectionString: orig13.dataSourceParameter.connectionString,
           consumerGroup: orig13.dataSourceParameter.consumerGroup,
-          authenticationType: "Basic"
-        }
+          authenticationType: "Basic",
+        },
       };
       return result13;
     }
@@ -1182,8 +1174,8 @@ export function fromServiceDataFeedDetailUnion(
           tenantId: orig14.dataSourceParameter.tenantId!,
           query: orig14.dataSourceParameter.query,
           workspaceId: orig14.dataSourceParameter.workspaceId,
-          authenticationType: "Basic"
-        }
+          authenticationType: "Basic",
+        },
       };
       return result14;
     }
@@ -1193,8 +1185,8 @@ export function fromServiceDataFeedDetailUnion(
         source: {
           dataSourceType: "Unknown",
           dataSourceParameter: (original as any).dataSourceParameter,
-          authenticationType: "Basic"
-        }
+          authenticationType: "Basic",
+        },
       };
   }
 }
@@ -1205,7 +1197,7 @@ export function fromServiceHookInfoUnion(original: ServiceHookInfoUnion): Notifi
     name: original.name,
     description: original.description,
     externalLink: original.externalLink,
-    admins: original.admins
+    admins: original.admins,
   };
   switch (original.hookType) {
     case "Email": {
@@ -1213,7 +1205,7 @@ export function fromServiceHookInfoUnion(original: ServiceHookInfoUnion): Notifi
       const result1: NotificationHookUnion = {
         ...common,
         hookType: "Email",
-        hookParameter: orig1.hookParameter
+        hookParameter: orig1.hookParameter,
       };
       return result1;
     }
@@ -1222,7 +1214,7 @@ export function fromServiceHookInfoUnion(original: ServiceHookInfoUnion): Notifi
       const result2: NotificationHookUnion = {
         ...common,
         hookType: "Webhook",
-        hookParameter: orig2.hookParameter
+        hookParameter: orig2.hookParameter,
       };
       return result2;
     }
@@ -1239,7 +1231,7 @@ export function toServiceMetricFeedbackUnion(
   const common = {
     feedbackId: from.id,
     metricId: from.metricId,
-    dimensionFilter: { dimension: from.dimensionKey }
+    dimensionFilter: { dimension: from.dimensionKey },
   };
   switch (from.feedbackType) {
     case "Anomaly":
@@ -1249,8 +1241,8 @@ export function toServiceMetricFeedbackUnion(
         startTime: from.startTime,
         endTime: from.endTime,
         value: {
-          anomalyValue: from.value!
-        }
+          anomalyValue: from.value!,
+        },
       };
     case "ChangePoint":
       return {
@@ -1260,16 +1252,16 @@ export function toServiceMetricFeedbackUnion(
         startTime: from.startTime,
         endTime: from.startTime,
         value: {
-          changePointValue: from.value!
-        }
+          changePointValue: from.value!,
+        },
       };
     case "Comment":
       return {
         ...common,
         feedbackType: from.feedbackType,
         value: {
-          commentValue: from.comment!
-        }
+          commentValue: from.comment!,
+        },
       };
     case "Period":
       return {
@@ -1277,8 +1269,8 @@ export function toServiceMetricFeedbackUnion(
         feedbackType: from.feedbackType,
         value: {
           periodType: from.periodType!,
-          periodValue: from.periodValue!
-        }
+          periodValue: from.periodValue!,
+        },
       };
   }
 }
@@ -1306,11 +1298,11 @@ export function fromServiceAlertConfiguration(
         snoozeCondition: c.snoozeFilter,
         alertConditions: {
           severityCondition: c.severityFilter,
-          metricBoundaryCondition: c.valueFilter as MetricBoundaryCondition
-        }
+          metricBoundaryCondition: c.valueFilter as MetricBoundaryCondition,
+        },
       };
     }),
-    dimensionsToSplitAlert: result.splitAlertByDimensions
+    dimensionsToSplitAlert: result.splitAlertByDimensions,
   };
 }
 
@@ -1329,7 +1321,7 @@ export function toServiceAlertConfiguration(
           : c.alertScope.scopeType === "Dimension"
           ? {
               anomalyScopeType: "Dimension",
-              dimensionAnomalyScope: { dimension: c.alertScope.seriesGroupInScope }
+              dimensionAnomalyScope: { dimension: c.alertScope.seriesGroupInScope },
             }
           : { anomalyScopeType: "TopN", topNAnomalyScope: c.alertScope.topNAnomalyScope };
       return {
@@ -1340,10 +1332,10 @@ export function toServiceAlertConfiguration(
         negationOperation: c.negationOperation,
         snoozeFilter: c.snoozeCondition,
         severityFilter: c.alertConditions?.severityCondition,
-        valueFilter: c.alertConditions?.metricBoundaryCondition
+        valueFilter: c.alertConditions?.metricBoundaryCondition,
       };
     }),
-    splitAlertByDimensions: from.dimensionsToSplitAlert
+    splitAlertByDimensions: from.dimensionsToSplitAlert,
   };
 }
 
@@ -1362,7 +1354,7 @@ export function toServiceAlertConfigurationPatch(
           : c.alertScope.scopeType === "Dimension"
           ? {
               anomalyScopeType: "Dimension",
-              dimensionAnomalyScope: { dimension: c.alertScope.seriesGroupInScope }
+              dimensionAnomalyScope: { dimension: c.alertScope.seriesGroupInScope },
             }
           : { anomalyScopeType: "TopN", topNAnomalyScope: c.alertScope.topNAnomalyScope };
       return {
@@ -1373,10 +1365,10 @@ export function toServiceAlertConfigurationPatch(
         negationOperation: c.negationOperation,
         snoozeFilter: c.snoozeCondition,
         severityFilter: c.alertConditions?.severityCondition,
-        valueFilter: c.alertConditions?.metricBoundaryCondition
+        valueFilter: c.alertConditions?.metricBoundaryCondition,
       };
     }),
-    splitAlertByDimensions: from.dimensionsToSplitAlert
+    splitAlertByDimensions: from.dimensionsToSplitAlert,
   };
 }
 
@@ -1386,7 +1378,7 @@ export function fromServiceCredential(
   const common: DataSourceCredentialEntity = {
     description: result.dataSourceCredentialDescription,
     id: result.dataSourceCredentialId,
-    name: result.dataSourceCredentialName
+    name: result.dataSourceCredentialName,
   };
   switch (result.dataSourceCredentialType) {
     case "AzureSQLConnectionString": {
@@ -1394,7 +1386,7 @@ export function fromServiceCredential(
       return {
         ...common,
         type: "AzureSQLConnectionString",
-        ...cred1.parameters
+        ...cred1.parameters,
       };
     }
     case "DataLakeGen2SharedKey": {
@@ -1402,7 +1394,7 @@ export function fromServiceCredential(
       return {
         ...common,
         type: "DataLakeGen2SharedKey",
-        ...cred2.parameters
+        ...cred2.parameters,
       };
     }
     case "ServicePrincipal": {
@@ -1410,7 +1402,7 @@ export function fromServiceCredential(
       return {
         ...common,
         type: "ServicePrincipal",
-        ...cred3.parameters
+        ...cred3.parameters,
       };
     }
     case "ServicePrincipalInKV": {
@@ -1418,7 +1410,7 @@ export function fromServiceCredential(
       return {
         ...common,
         type: "ServicePrincipalInKV",
-        ...cred4.parameters
+        ...cred4.parameters,
       };
     }
   }
@@ -1429,17 +1421,17 @@ export function toServiceCredential(
 ): ServiceDataSourceCredentialUnion {
   const common = {
     dataSourceCredentialName: from.name,
-    dataSourceCredentialDescription: from.description
+    dataSourceCredentialDescription: from.description,
   };
   switch (from.type) {
     case "AzureSQLConnectionString": {
       const parameters = {
-        connectionString: from.connectionString
+        connectionString: from.connectionString,
       };
       const sqlcred: AzureSQLConnectionStringCredential = {
         ...common,
         dataSourceCredentialType: from.type,
-        parameters
+        parameters,
       };
       return sqlcred;
     }
@@ -1448,8 +1440,8 @@ export function toServiceCredential(
         ...common,
         dataSourceCredentialType: from.type,
         parameters: {
-          accountKey: from.accountKey
-        }
+          accountKey: from.accountKey,
+        },
       };
       return datalake;
     }
@@ -1460,8 +1452,8 @@ export function toServiceCredential(
         parameters: {
           clientId: from.clientId,
           clientSecret: from.clientSecret,
-          tenantId: from.tenantId
-        }
+          tenantId: from.tenantId,
+        },
       };
       return sp;
     }
@@ -1475,8 +1467,8 @@ export function toServiceCredential(
           keyVaultClientSecret: from.keyVaultClientSecret,
           servicePrincipalIdNameInKV: from.servicePrincipalIdNameInKV,
           servicePrincipalSecretNameInKV: from.servicePrincipalSecretNameInKV,
-          tenantId: from.tenantId
-        }
+          tenantId: from.tenantId,
+        },
       };
       return spInKV;
     }
@@ -1488,7 +1480,7 @@ export function toServiceCredentialPatch(
 ): ServiceDataSourceCredentialPatch {
   const common = {
     dataSourceCredentialName: from.name,
-    dataSourceCredentialDescription: from.description
+    dataSourceCredentialDescription: from.description,
   };
   switch (from.type) {
     case "AzureSQLConnectionString": {
@@ -1497,8 +1489,8 @@ export function toServiceCredentialPatch(
         ...common,
         dataSourceCredentialType: from.type,
         parameters: {
-          connectionString: cred1.connectionString
-        }
+          connectionString: cred1.connectionString,
+        },
       };
     }
     case "DataLakeGen2SharedKey": {
@@ -1507,8 +1499,8 @@ export function toServiceCredentialPatch(
         ...common,
         dataSourceCredentialType: from.type,
         parameters: {
-          accountKey: cred2.accountKey
-        }
+          accountKey: cred2.accountKey,
+        },
       };
     }
     case "ServicePrincipal": {
@@ -1519,8 +1511,8 @@ export function toServiceCredentialPatch(
         parameters: {
           clientId: cred3.clientId,
           clientSecret: cred3.clientSecret,
-          tenantId: cred3.tenantId
-        }
+          tenantId: cred3.tenantId,
+        },
       };
     }
     case "ServicePrincipalInKV": {
@@ -1534,8 +1526,8 @@ export function toServiceCredentialPatch(
           keyVaultClientSecret: cred4.keyVaultClientSecret,
           servicePrincipalIdNameInKV: cred4.servicePrincipalIdNameInKV,
           servicePrincipalSecretNameInKV: cred4.servicePrincipalSecretNameInKV,
-          tenantId: cred4.tenantId
-        }
+          tenantId: cred4.tenantId,
+        },
       };
     }
   }

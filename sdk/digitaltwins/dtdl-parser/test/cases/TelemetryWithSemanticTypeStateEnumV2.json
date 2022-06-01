@@ -1,0 +1,54 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": [
+        "dtmi:dtdl:context;2",
+        "dtmi:iotcentral:context;2"
+      ],
+      "@id": "dtmi:test:aTelemetry;1",
+      "@type": [
+        "Telemetry",
+        "State"
+      ],
+      "name": "currentState",
+      "schema": {
+        "@type": "Enum",
+        "valueSchema": "integer",
+        "enumValues": [
+          {
+            "name": "one",
+            "enumValue": 1
+          },
+          {
+            "name": "two",
+            "enumValue": 2
+          }
+        ]
+      }
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:aTelemetry;1",
+        "type": "Telemetry",
+        "properties": {
+          "name": "currentState",
+          "schema": "dtmi:test:aTelemetry:_schema;1",
+          "definedIn": null
+        },
+        "supplementalTypes": [
+          "dtmi:iotcentral:class:State;2"
+        ],
+        "supplementalProperties": {
+        }
+      },
+      {
+        "id": "dtmi:test:aTelemetry:_schema;1",
+        "type": "Enum"
+      }
+    ]
+  }
+}

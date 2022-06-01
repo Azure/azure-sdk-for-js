@@ -103,7 +103,7 @@ export const timeoutInSeconds: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2020-12-06",
+    defaultValue: "2021-06-08",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
@@ -206,7 +206,7 @@ export const include: OperationQueryParameter = {
       element: {
         type: {
           name: "Enum",
-          allowedValues: ["metadata", "deleted"]
+          allowedValues: ["metadata", "deleted", "system"]
         }
       }
     }
@@ -775,11 +775,10 @@ export const encryptionKeySha256: OperationParameter = {
 };
 
 export const encryptionAlgorithm: OperationParameter = {
-  parameterPath: ["options", "encryptionAlgorithm"],
+  parameterPath: ["options", "cpkInfo", "encryptionAlgorithm"],
   mapper: {
-    defaultValue: "AES256",
-    isConstant: true,
     serializedName: "x-ms-encryption-algorithm",
+    xmlName: "x-ms-encryption-algorithm",
     type: {
       name: "String"
     }
@@ -1206,6 +1205,18 @@ export const copySourceAuthorization: OperationParameter = {
     xmlName: "x-ms-copy-source-authorization",
     type: {
       name: "String"
+    }
+  }
+};
+
+export const copySourceTags: OperationParameter = {
+  parameterPath: ["options", "copySourceTags"],
+  mapper: {
+    serializedName: "x-ms-copy-source-tag-option",
+    xmlName: "x-ms-copy-source-tag-option",
+    type: {
+      name: "Enum",
+      allowedValues: ["REPLACE", "COPY"]
     }
   }
 };

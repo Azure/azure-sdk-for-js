@@ -7,11 +7,11 @@
  */
 
 import {
-  ServerAutomaticTuningOperationsGetOptionalParams,
-  ServerAutomaticTuningOperationsGetResponse,
+  ServerAutomaticTuningGetOptionalParams,
+  ServerAutomaticTuningGetResponse,
   ServerAutomaticTuning,
-  ServerAutomaticTuningOperationsUpdateOptionalParams,
-  ServerAutomaticTuningOperationsUpdateResponse
+  ServerAutomaticTuningUpdateOptionalParams,
+  ServerAutomaticTuningUpdateResponse
 } from "../models";
 
 /** Interface representing a ServerAutomaticTuningOperations. */
@@ -26,8 +26,8 @@ export interface ServerAutomaticTuningOperations {
   get(
     resourceGroupName: string,
     serverName: string,
-    options?: ServerAutomaticTuningOperationsGetOptionalParams
-  ): Promise<ServerAutomaticTuningOperationsGetResponse>;
+    options?: ServerAutomaticTuningGetOptionalParams
+  ): Promise<ServerAutomaticTuningGetResponse>;
   /**
    * Update automatic tuning options on server.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -40,6 +40,6 @@ export interface ServerAutomaticTuningOperations {
     resourceGroupName: string,
     serverName: string,
     parameters: ServerAutomaticTuning,
-    options?: ServerAutomaticTuningOperationsUpdateOptionalParams
-  ): Promise<ServerAutomaticTuningOperationsUpdateResponse>;
+    options?: ServerAutomaticTuningUpdateOptionalParams
+  ): Promise<ServerAutomaticTuningUpdateResponse>;
 }

@@ -11,7 +11,7 @@ export function getPagedAsyncIterator<TElement, TPage = TElement[], TPageSetting
 export interface PagedAsyncIterableIterator<T, PageT = T[], PageSettingsT = PageSettings> {
     [Symbol.asyncIterator](): PagedAsyncIterableIterator<T, PageT, PageSettingsT>;
     byPage: (settings?: PageSettingsT) => AsyncIterableIterator<PageT>;
-    next(): Promise<IteratorResult<T, T>>;
+    next(): Promise<IteratorResult<T>>;
 }
 
 // @public
@@ -29,7 +29,6 @@ export interface PageSettings {
     continuationToken?: string;
     maxPageSize?: number;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

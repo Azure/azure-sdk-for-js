@@ -6,548 +6,284 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import * as coreClient from "@azure/core-client";
 
-export { BaseResource, CloudError };
-
-/**
- * The resource provider operation details.
- */
-export interface ResourceProviderOperationDisplay {
-  /**
-   * Name of the resource provider.
-   */
-  provider?: string;
-  /**
-   * Name of the resource type.
-   */
-  resource?: string;
-  /**
-   * Name of the resource provider operation.
-   */
-  operation?: string;
-  /**
-   * Description of the resource provider operation.
-   */
-  description?: string;
+/** The resource provider operation list. */
+export interface ResourceProviderOperationList {
+  /** Resource provider operations list. */
+  value?: ResourceProviderOperationDefinition[];
+  /** The URI that can be used to request the next page for list of Azure operations. */
+  nextLink?: string;
 }
 
-/**
- * The resource provider operation definition.
- */
+/** The resource provider operation definition. */
 export interface ResourceProviderOperationDefinition {
-  /**
-   * The resource provider operation name.
-   */
+  /** The resource provider operation name. */
   name?: string;
+  /** The resource provider operation details. */
   display?: ResourceProviderOperationDisplay;
 }
 
-/**
- * Data of a property change.
- */
-export interface PropertyChange {
-  /**
-   * Possible values include: 'Add', 'Remove', 'Update'
-   */
-  changeType?: ChangeType;
-  /**
-   * The change category. Possible values include: 'User', 'System'
-   */
-  changeCategory?: ChangeCategory;
-  /**
-   * The json path of the changed property.
-   */
-  jsonPath?: string;
-  /**
-   * The enhanced display name of the json path. E.g., the json path value[0].properties will be
-   * translated to something meaningful like slots["Staging"].properties.
-   */
-  displayName?: string;
-  /**
-   * Possible values include: 'Noisy', 'Normal', 'Important'
-   */
-  level?: Level;
-  /**
-   * The description of the changed property.
-   */
+/** The resource provider operation details. */
+export interface ResourceProviderOperationDisplay {
+  /** Name of the resource provider. */
+  provider?: string;
+  /** Name of the resource type. */
+  resource?: string;
+  /** Name of the resource provider operation. */
+  operation?: string;
+  /** Description of the resource provider operation. */
   description?: string;
-  /**
-   * The value of the property before the change.
-   */
-  oldValue?: string;
-  /**
-   * The value of the property after the change.
-   */
-  newValue?: string;
-  /**
-   * The boolean indicating whether the oldValue and newValue are masked. The values are masked if
-   * it contains sensitive information that the user doesn't have access to.
-   */
-  isDataMasked?: boolean;
 }
 
-/**
- * The properties of a change.
- */
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** The list of detected changes. */
+export interface ChangeList {
+  /** The list of changes. */
+  value?: Change[];
+  /** The URI that can be used to request the next page of changes. */
+  nextLink?: string;
+}
+
+/** The properties of a change. */
 export interface ChangeProperties {
-  /**
-   * The resource id that the change is attached to.
-   */
+  /** The resource id that the change is attached to. */
   resourceId?: string;
-  /**
-   * The time when the change is detected.
-   */
+  /** The time when the change is detected. */
   timeStamp?: Date;
   /**
    * The list of identities who might initiated the change.
    * The identity could be user name (email address) or the object ID of the Service Principal.
    */
   initiatedByList?: string[];
-  /**
-   * Possible values include: 'Add', 'Remove', 'Update'
-   */
+  /** The type of the change. */
   changeType?: ChangeType;
-  /**
-   * The list of detailed changes at json property level.
-   */
+  /** The list of detailed changes at json property level. */
   propertyChanges?: PropertyChange[];
 }
 
-/**
- * Common fields that are returned in the response for all Azure Resource Manager resources
- * @summary Resource
- */
-export interface Resource extends BaseResource {
+/** Data of a property change. */
+export interface PropertyChange {
+  /** The type of the change. */
+  changeType?: ChangeType;
+  /** The change category. */
+  changeCategory?: ChangeCategory;
+  /** The json path of the changed property. */
+  jsonPath?: string;
+  /** The enhanced display name of the json path. E.g., the json path value[0].properties will be translated to something meaningful like slots["Staging"].properties. */
+  displayName?: string;
+  level?: Level;
+  /** The description of the changed property. */
+  description?: string;
+  /** The value of the property before the change. */
+  oldValue?: string;
+  /** The value of the property after the change. */
+  newValue?: string;
+  /** The boolean indicating whether the oldValue and newValue are masked. The values are masked if it contains sensitive information that the user doesn't have access to. */
+  isDataMasked?: boolean;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
   /**
-   * Fully qualified resource ID for the resource. Ex -
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
    * The name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
-   * "Microsoft.Storage/storageAccounts"
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
 }
 
-/**
- * The resource model definition for a Azure Resource Manager proxy resource. It will not have tags
- * and a location
- * @summary Proxy Resource
- */
-export interface ProxyResource extends Resource {
-}
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export type ProxyResource = Resource & {};
 
-/**
- * The detected change.
- */
-export interface Change extends ProxyResource {
+/** The detected change. */
+export type Change = ProxyResource & {
+  /** The properties of a change. */
   properties?: ChangeProperties;
+};
+
+/** Known values of {@link ChangeType} that the service accepts. */
+export enum KnownChangeType {
+  Add = "Add",
+  Remove = "Remove",
+  Update = "Update"
 }
 
 /**
- * The resource model definition for an Azure Resource Manager tracked top level resource which has
- * 'tags' and a 'location'
- * @summary Tracked Resource
+ * Defines values for ChangeType. \
+ * {@link KnownChangeType} can be used interchangeably with ChangeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Add** \
+ * **Remove** \
+ * **Update**
  */
-export interface TrackedResource extends Resource {
-  /**
-   * Resource tags.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * The geo-location where the resource lives
-   */
-  location: string;
+export type ChangeType = string;
+
+/** Known values of {@link Level} that the service accepts. */
+export enum KnownLevel {
+  Noisy = "Noisy",
+  Normal = "Normal",
+  Important = "Important"
 }
 
 /**
- * The resource model definition for an Azure Resource Manager resource with an etag.
- * @summary Entity Resource
+ * Defines values for Level. \
+ * {@link KnownLevel} can be used interchangeably with Level,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Noisy** \
+ * **Normal** \
+ * **Important**
  */
-export interface AzureEntityResource extends Resource {
-  /**
-   * Resource Etag.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
-}
+export type Level = string;
+/** Defines values for ChangeCategory. */
+export type ChangeCategory = "User" | "System";
 
-/**
- * The resource management error additional info.
- */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly info?: any;
-}
-
-/**
- * The error detail.
- */
-export interface ErrorDetail {
-  /**
-   * The error code.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly details?: ErrorDetail[];
-  /**
-   * The error additional info.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/**
- * Common error response for all Azure Resource Manager APIs to return error details for failed
- * operations. (This also follows the OData error response format.).
- * @summary Error response
- */
-export interface ErrorResponse {
-  /**
-   * The error object.
-   */
-  error?: ErrorDetail;
-}
-
-/**
- * Optional Parameters.
- */
-export interface OperationsListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * A skip token is used to continue retrieving items after an operation returns a partial result.
-   * If a previous response contains a nextLink element, the value of the nextLink element will
-   * include a skipToken parameter that specifies a starting point to use for subsequent calls.
-   */
+/** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
   skipToken?: string;
 }
 
-/**
- * Optional Parameters.
- */
-export interface OperationsListNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * A skip token is used to continue retrieving items after an operation returns a partial result.
-   * If a previous response contains a nextLink element, the value of the nextLink element will
-   * include a skipToken parameter that specifies a starting point to use for subsequent calls.
-   */
+/** Contains response data for the list operation. */
+export type OperationsListResponse = ResourceProviderOperationList;
+
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
   skipToken?: string;
 }
 
-/**
- * Optional Parameters.
- */
-export interface ResourceChangesListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * A skip token is used to continue retrieving items after an operation returns a partial result.
-   * If a previous response contains a nextLink element, the value of the nextLink element will
-   * include a skipToken parameter that specifies a starting point to use for subsequent calls.
-   */
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = ResourceProviderOperationList;
+
+/** Optional parameters. */
+export interface ResourceChangesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
   skipToken?: string;
 }
 
-/**
- * Optional Parameters.
- */
-export interface ResourceChangesListNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * A skip token is used to continue retrieving items after an operation returns a partial result.
-   * If a previous response contains a nextLink element, the value of the nextLink element will
-   * include a skipToken parameter that specifies a starting point to use for subsequent calls.
-   */
+/** Contains response data for the list operation. */
+export type ResourceChangesListResponse = ChangeList;
+
+/** Optional parameters. */
+export interface ResourceChangesListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
   skipToken?: string;
 }
 
-/**
- * Optional Parameters.
- */
-export interface ChangesListChangesByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * A skip token is used to continue retrieving items after an operation returns a partial result.
-   * If a previous response contains a nextLink element, the value of the nextLink element will
-   * include a skipToken parameter that specifies a starting point to use for subsequent calls.
-   */
+/** Contains response data for the listNext operation. */
+export type ResourceChangesListNextResponse = ChangeList;
+
+/** Optional parameters. */
+export interface ChangesListChangesByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
   skipToken?: string;
 }
 
-/**
- * Optional Parameters.
- */
-export interface ChangesListChangesBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * A skip token is used to continue retrieving items after an operation returns a partial result.
-   * If a previous response contains a nextLink element, the value of the nextLink element will
-   * include a skipToken parameter that specifies a starting point to use for subsequent calls.
-   */
+/** Contains response data for the listChangesByResourceGroup operation. */
+export type ChangesListChangesByResourceGroupResponse = ChangeList;
+
+/** Optional parameters. */
+export interface ChangesListChangesBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
   skipToken?: string;
 }
 
-/**
- * Optional Parameters.
- */
-export interface ChangesListChangesByResourceGroupNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * A skip token is used to continue retrieving items after an operation returns a partial result.
-   * If a previous response contains a nextLink element, the value of the nextLink element will
-   * include a skipToken parameter that specifies a starting point to use for subsequent calls.
-   */
+/** Contains response data for the listChangesBySubscription operation. */
+export type ChangesListChangesBySubscriptionResponse = ChangeList;
+
+/** Optional parameters. */
+export interface ChangesListChangesByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
   skipToken?: string;
 }
 
-/**
- * Optional Parameters.
- */
-export interface ChangesListChangesBySubscriptionNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * A skip token is used to continue retrieving items after an operation returns a partial result.
-   * If a previous response contains a nextLink element, the value of the nextLink element will
-   * include a skipToken parameter that specifies a starting point to use for subsequent calls.
-   */
+/** Contains response data for the listChangesByResourceGroupNext operation. */
+export type ChangesListChangesByResourceGroupNextResponse = ChangeList;
+
+/** Optional parameters. */
+export interface ChangesListChangesBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls. */
   skipToken?: string;
 }
 
-/**
- * An interface representing AzureChangeAnalysisManagementClientOptions.
- */
-export interface AzureChangeAnalysisManagementClientOptions extends AzureServiceClientOptions {
-  baseUri?: string;
+/** Contains response data for the listChangesBySubscriptionNext operation. */
+export type ChangesListChangesBySubscriptionNextResponse = ChangeList;
+
+/** Optional parameters. */
+export interface AzureChangeAnalysisManagementClientOptionalParams
+  extends coreClient.ServiceClientOptions {
+  /** server parameter */
+  $host?: string;
+  /** Api Version */
+  apiVersion?: string;
+  /** Overrides client endpoint. */
+  endpoint?: string;
 }
-
-/**
- * @interface
- * The resource provider operation list.
- * @extends Array<ResourceProviderOperationDefinition>
- */
-export interface ResourceProviderOperationList extends Array<ResourceProviderOperationDefinition> {
-  /**
-   * The URI that can be used to request the next page for list of Azure operations.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * The list of detected changes.
- * @extends Array<Change>
- */
-export interface ChangeList extends Array<Change> {
-  /**
-   * The URI that can be used to request the next page of changes.
-   */
-  nextLink?: string;
-}
-
-/**
- * Defines values for ChangeType.
- * Possible values include: 'Add', 'Remove', 'Update'
- * @readonly
- * @enum {string}
- */
-export type ChangeType = 'Add' | 'Remove' | 'Update';
-
-/**
- * Defines values for Level.
- * Possible values include: 'Noisy', 'Normal', 'Important'
- * @readonly
- * @enum {string}
- */
-export type Level = 'Noisy' | 'Normal' | 'Important';
-
-/**
- * Defines values for ChangeCategory.
- * Possible values include: 'User', 'System'
- * @readonly
- * @enum {string}
- */
-export type ChangeCategory = 'User' | 'System';
-
-/**
- * Contains response data for the list operation.
- */
-export type OperationsListResponse = ResourceProviderOperationList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceProviderOperationList;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type OperationsListNextResponse = ResourceProviderOperationList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ResourceProviderOperationList;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type ResourceChangesListResponse = ChangeList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ChangeList;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type ResourceChangesListNextResponse = ChangeList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ChangeList;
-    };
-};
-
-/**
- * Contains response data for the listChangesByResourceGroup operation.
- */
-export type ChangesListChangesByResourceGroupResponse = ChangeList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ChangeList;
-    };
-};
-
-/**
- * Contains response data for the listChangesBySubscription operation.
- */
-export type ChangesListChangesBySubscriptionResponse = ChangeList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ChangeList;
-    };
-};
-
-/**
- * Contains response data for the listChangesByResourceGroupNext operation.
- */
-export type ChangesListChangesByResourceGroupNextResponse = ChangeList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ChangeList;
-    };
-};
-
-/**
- * Contains response data for the listChangesBySubscriptionNext operation.
- */
-export type ChangesListChangesBySubscriptionNextResponse = ChangeList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ChangeList;
-    };
-};

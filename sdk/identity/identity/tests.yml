@@ -5,10 +5,31 @@ stages:
     parameters:
       PackageName: "@azure/identity"
       ServiceDirectory: identity
-      MatrixFilters:
-        - DependencyVersion=^$
-      TimeoutInMinutes: 20
+      TimeoutInMinutes: 120
+      SupportedClouds: 'Public,UsGov,China,Canary'
+      PreSteps:
+        - pwsh: |
+            [System.Convert]::FromBase64String($env:PFX_CONTENTS) | Set-Content -Path $(Agent.TempDirectory)/test.pfx -AsByteStream
+            Set-Content -Path $(Agent.TempDirectory)/test.pem -Value $env:PEM_CONTENTS
+            [System.Convert]::FromBase64String($env:SNI_CONTENTS) | Set-Content -Path $(Agent.TempDirectory)/testsni.pfx -AsByteStream
+            Set-Content -Path $(Agent.TempDirectory)/testsni.pem -Value $env:SNI_PEM_CONTENTS
+          env:
+            PFX_CONTENTS: $(net-identity-spcert-pfx)
+            PEM_CONTENTS: $(net-identity-spcert-pem)
+            SNI_CONTENTS: $(net-identity-spcert-sni)
+            SNI_PEM_CONTENTS: $(net-identity-spcert-sni-pem)
       EnvVars:
         AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
         AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
         AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
+        AZURE_IDENTITY_TEST_TENANTID: $(net-identity-tenantid)
+        AZURE_IDENTITY_TEST_USERNAME: $(net-identity-username)
+        AZURE_IDENTITY_TEST_PASSWORD: $(net-identity-password)
+        IDENTITY_SP_CLIENT_ID: $(net-identity-sp-clientid)
+        IDENTITY_SP_TENANT_ID: $(net-identity-sp-tenantid)
+        IDENTITY_SP_CLIENT_SECRET: $(net-identity-sp-clientsecret)
+        IDENTITY_SP_CERT_PFX: $(Agent.TempDirectory)/test.pfx
+        IDENTITY_SP_CERT_PEM: $(Agent.TempDirectory)/test.pem
+        IDENTITY_SP_CERT_SNI: $(Agent.TempDirectory)/testsni.pfx
+        IDENTITY_SP_CERT_SNI_PEM: $(Agent.TempDirectory)/testsni.pem
+        IDENTITY_PEM_CONTENTS: $(net-identity-spcert-pem)

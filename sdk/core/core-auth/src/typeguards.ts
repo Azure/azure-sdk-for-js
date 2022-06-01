@@ -17,7 +17,7 @@ function isDefined<T>(thing: T | undefined | null): thing is T {
  * @param properties - The name of the properties that should appear in the object.
  * @internal
  */
-export function isObjectWithProperties<Thing extends unknown, PropertyName extends string>(
+export function isObjectWithProperties<Thing, PropertyName extends string>(
   thing: Thing,
   properties: PropertyName[]
 ): thing is Thing & Record<PropertyName, unknown> {
@@ -41,7 +41,7 @@ export function isObjectWithProperties<Thing extends unknown, PropertyName exten
  * @param property - The name of the property that should appear in the object.
  * @internal
  */
-function objectHasProperty<Thing extends unknown, PropertyName extends string>(
+function objectHasProperty<Thing, PropertyName extends string>(
   thing: Thing,
   property: PropertyName
 ): thing is Thing & Record<PropertyName, unknown> {

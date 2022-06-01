@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 
 /**
@@ -25,6 +25,6 @@ export function setClientRequestIdPolicy(
         request.headers.set(requestIdHeaderName, request.requestId);
       }
       return next(request);
-    }
+    },
   };
 }

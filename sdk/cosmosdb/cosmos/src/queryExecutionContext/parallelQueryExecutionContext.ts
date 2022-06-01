@@ -10,8 +10,10 @@ import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionConte
  * This class is capable of handling parallelized queries and derives from ParallelQueryExecutionContextBase.
  * @hidden
  */
-export class ParallelQueryExecutionContext extends ParallelQueryExecutionContextBase
-  implements ExecutionContext {
+export class ParallelQueryExecutionContext
+  extends ParallelQueryExecutionContextBase
+  implements ExecutionContext
+{
   // Instance members are inherited
 
   // Overriding documentProducerComparator for ParallelQueryExecutionContexts

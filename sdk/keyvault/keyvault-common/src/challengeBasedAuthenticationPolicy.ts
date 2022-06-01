@@ -2,18 +2,18 @@
 // Licensed under the MIT license.
 /* eslint-disable @azure/azure-sdk/ts-use-interface-parameters */
 
-import { TokenCredential } from "@azure/core-http";
+import { AccessTokenCache, ExpiringAccessTokenCache } from "@azure/core-http";
 import {
   BaseRequestPolicy,
   RequestPolicy,
+  RequestPolicyFactory,
   RequestPolicyOptions,
-  RequestPolicyFactory
 } from "@azure/core-http";
+import { ParsedWWWAuthenticate, parseWWWAuthenticate } from "./parseWWWAuthenticate";
 import { Constants } from "@azure/core-http";
 import { HttpOperationResponse } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-http";
 import { WebResource } from "@azure/core-http";
-import { AccessTokenCache, ExpiringAccessTokenCache } from "@azure/core-http";
-import { parseWWWAuthenticate, ParsedWWWAuthenticate } from "./parseWWWAuthenticate";
 
 /**
  * Representation of the Authentication Challenge
@@ -68,7 +68,7 @@ export function challengeBasedAuthenticationPolicy(
         tokenCache,
         challengeCache
       );
-    }
+    },
   };
 }
 
@@ -80,9 +80,8 @@ export function challengeBasedAuthenticationPolicy(
  *
  */
 export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
-  private parseWWWAuthenticate: (
-    wwwAuthenticate: string
-  ) => ParsedWWWAuthenticate = parseWWWAuthenticate;
+  private parseWWWAuthenticate: (wwwAuthenticate: string) => ParsedWWWAuthenticate =
+    parseWWWAuthenticate;
 
   /**
    * Creates a new ChallengeBasedAuthenticationPolicy object.
@@ -111,7 +110,7 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
     // If there's no cached token in the cache, we try to get a new one.
     if (accessToken === undefined) {
       const receivedToken = await this.credential.getToken(this.challengeCache.challenge!.scope, {
-        tenantId: this.challengeCache.challenge!.tenantId
+        tenantId: this.challengeCache.challenge!.tenantId,
       });
       accessToken = receivedToken || undefined;
       this.tokenCache.setCachedToken(accessToken);

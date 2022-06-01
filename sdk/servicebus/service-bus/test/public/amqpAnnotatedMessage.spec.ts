@@ -5,7 +5,7 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { testPeekMsgsLength, addServiceBusClientForLiveTesting } from "../public/utils/testutils2";
 import { AmqpAnnotatedMessage } from "@azure/core-amqp";
-import { generateUuid } from "@azure/core-http";
+import { v4 as generateUuid } from "uuid";
 import { TestClientType } from "./utils/testUtils";
 
 const should = chai.should();
@@ -18,7 +18,7 @@ const assert = chai.assert;
   TestClientType.UnpartitionedQueue,
   TestClientType.UnpartitionedQueueWithSessions,
   TestClientType.PartitionedQueue,
-  TestClientType.PartitionedQueueWithSessions
+  TestClientType.PartitionedQueueWithSessions,
 ].forEach((anyRandomTestClientType) => {
   describe(anyRandomTestClientType + ": AMQP (live testing)", () => {
     const sessionId = "session-1";
@@ -26,11 +26,11 @@ const assert = chai.assert;
       anyRandomTestClientType,
       {
         receiveMode: "receiveAndDelete",
-        sessionId
+        sessionId,
       }
     );
 
-    describe("AmqpAnnotatedMessage", function(): void {
+    describe("AmqpAnnotatedMessage", function (): void {
       function getSampleAmqpAnnotatedMessage(randomTag?: string): AmqpAnnotatedMessage {
         if (randomTag == null) {
           randomTag = Math.random().toString();
@@ -44,24 +44,24 @@ const assert = chai.assert;
             durable: false,
             firstAcquirer: false,
             priority: 20,
-            timeToLive: 100000
+            timeToLive: 100000,
           },
           applicationProperties: {
             propOne: 1,
             propTwo: "two",
             propThree: true,
-            propFour: Date()
+            propFour: Date(),
           },
           // deliveryAnnotations - TODO: should this be removed for sending?
           footer: {
-            propFooter: "foot"
+            propFooter: "foot",
           },
           messageAnnotations: { propMsgAnnotate: "annotation" },
           properties: {
             contentEncoding: "application/json; charset=utf-8",
             correlationId: randomTag,
-            messageId: generateUuid()
-          }
+            messageId: generateUuid(),
+          },
         };
       }
 
@@ -103,11 +103,11 @@ const assert = chai.assert;
 
       it(
         anyRandomTestClientType + ": send, receive, verify props, and complete()",
-        async function(): Promise<void> {
+        async function (): Promise<void> {
           const testMessage: AmqpAnnotatedMessage = getSampleAmqpAnnotatedMessage();
           testMessage.properties = {
             ...testMessage.properties,
-            groupId: entityNames().usesSessions ? sessionId : undefined
+            groupId: entityNames().usesSessions ? sessionId : undefined,
           };
           await sender().sendMessages(testMessage);
           await receiveMsg(testMessage);
@@ -131,7 +131,7 @@ const assert = chai.assert;
             await sender().sendMessages({
               body: valueType,
               bodyType: "value",
-              ...getSessionProperties()
+              ...getSessionProperties(),
             });
 
             const messages = await receiver().receiveMessages(1);
@@ -153,14 +153,14 @@ const assert = chai.assert;
         it("sequences", async () => {
           const sequenceTypes = [
             [[1], [2], [3]],
-            [1, 2, 3]
+            [1, 2, 3],
           ];
 
           for (const sequenceType of sequenceTypes) {
             await sender().sendMessages({
               body: sequenceType,
               bodyType: "sequence",
-              ...getSessionProperties()
+              ...getSessionProperties(),
             });
 
             const messages = await receiver().receiveMessages(1);
@@ -188,7 +188,7 @@ const assert = chai.assert;
             await sender().sendMessages({
               body: dataType,
               bodyType: "data",
-              ...getSessionProperties()
+              ...getSessionProperties(),
             });
 
             const messages = await receiver().receiveMessages(1);
@@ -207,11 +207,13 @@ const assert = chai.assert;
           }
         });
 
-        ([
-          ["sequence", [1, 2, 3]],
-          ["value", "hello"],
-          ["data", "hello"]
-        ] as ["sequence" | "data" | "value", any][]).forEach(([expectedBodyType, expectedBody]) => {
+        (
+          [
+            ["sequence", [1, 2, 3]],
+            ["value", "hello"],
+            ["data", "hello"],
+          ] as ["sequence" | "data" | "value", any][]
+        ).forEach(([expectedBodyType, expectedBody]) => {
           it("receive ServiceBusMessage and resend", async () => {
             // if we receive a message that was encoded to a non-data section
             // and then re-send it (again, as a ServiceBusMessage) we should
@@ -219,7 +221,7 @@ const assert = chai.assert;
             await sender().sendMessages({
               body: expectedBody,
               bodyType: expectedBodyType,
-              ...getSessionProperties()
+              ...getSessionProperties(),
             });
 
             const messages = await receiver().receiveMessages(1);
@@ -244,8 +246,8 @@ const assert = chai.assert;
       if (entityNames().usesSessions) {
         return {
           properties: {
-            groupId: sessionId
-          }
+            groupId: sessionId,
+          },
         };
       }
 
@@ -256,7 +258,7 @@ const assert = chai.assert;
       const amqpAnnotatedMessage: AmqpAnnotatedMessage = {
         body: "hello",
         bodyType: "value",
-        ...getSessionProperties()
+        ...getSessionProperties(),
       };
 
       await sender().scheduleMessages(amqpAnnotatedMessage, new Date());
@@ -268,8 +270,8 @@ const assert = chai.assert;
         [
           {
             body: "hello",
-            bodyType: "value"
-          }
+            bodyType: "value",
+          },
         ]
       );
     });

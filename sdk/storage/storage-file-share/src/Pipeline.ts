@@ -22,7 +22,7 @@ import {
   UserAgentOptions,
   KeepAliveOptions,
   keepAlivePolicy,
-  generateClientRequestIdPolicy
+  generateClientRequestIdPolicy,
 } from "@azure/core-http";
 
 import { logger } from "./log";
@@ -32,7 +32,7 @@ import { StorageRetryOptions, StorageRetryPolicyFactory } from "./StorageRetryPo
 import { TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import {
   StorageFileLoggingAllowedHeaderNames,
-  StorageFileLoggingAllowedQueryParameters
+  StorageFileLoggingAllowedQueryParameters,
 } from "./utils/constants";
 import { getCachedDefaultHttpClient } from "./utils/cache";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -49,7 +49,7 @@ export {
   BaseRequestPolicy,
   RequestPolicyFactory,
   RequestPolicy,
-  RequestPolicyOptions
+  RequestPolicyOptions,
 };
 
 /**
@@ -92,7 +92,7 @@ export class Pipeline {
     // avoid each client creating its own http client.
     this.options = {
       ...options,
-      httpClient: options.httpClient || getCachedDefaultHttpClient()
+      httpClient: options.httpClient || getCachedDefaultHttpClient(),
     };
   }
 
@@ -105,7 +105,7 @@ export class Pipeline {
   public toServiceClientOptions(): ServiceClientOptions {
     return {
       httpClient: this.options.httpClient,
-      requestPolicyFactories: this.factories
+      requestPolicyFactories: this.factories,
     };
   }
 }
@@ -166,8 +166,8 @@ export function newPipeline(
     logPolicy({
       logger: logger.info,
       allowedHeaderNames: StorageFileLoggingAllowedHeaderNames,
-      allowedQueryParameters: StorageFileLoggingAllowedQueryParameters
-    })
+      allowedQueryParameters: StorageFileLoggingAllowedQueryParameters,
+    }),
   ];
 
   if (isNode) {

@@ -3,41 +3,40 @@
 
 import { assert } from "chai";
 import { Context } from "mocha";
+import { getYieldedValue } from "@azure/test-utils";
 import { Durations, MetricsQueryClient } from "../../src";
 
 import {
   createRecorderAndMetricsClient,
   getMetricsArmResourceId,
   loggerForTest,
-  RecorderAndMetricsClient
+  RecorderAndMetricsClient,
 } from "./shared/testShared";
 import { Recorder } from "@azure-tools/test-recorder";
-describe("MetricsClient live tests", function() {
+describe("MetricsClient live tests", function () {
   let resourceId: string;
   let metricsQueryClient: MetricsQueryClient;
   let recorder: Recorder;
 
-  beforeEach(function(this: Context) {
+  beforeEach(async function (this: Context) {
     loggerForTest.verbose(`Recorder: starting...`);
-    const recordedClient: RecorderAndMetricsClient = createRecorderAndMetricsClient(this);
-    ({ resourceId } = getMetricsArmResourceId(this));
+    recorder = new Recorder(this.currentTest);
+    const recordedClient: RecorderAndMetricsClient = await createRecorderAndMetricsClient(recorder);
+    ({ resourceId } = getMetricsArmResourceId());
     metricsQueryClient = recordedClient.client;
-    recorder = recordedClient.recorder;
   });
 
-  afterEach(async function() {
-    if (recorder) {
-      loggerForTest.verbose("Recorder: stopping");
-      await recorder.stop();
-    }
+  afterEach(async function () {
+    loggerForTest.verbose("Recorder: stopping");
+    await recorder.stop();
   });
 
   it("getMetricDefinitions -> queryMetrics", async () => {
     const iter = metricsQueryClient.listMetricDefinitions(resourceId);
 
     let result = await iter.next();
+    const firstResult = getYieldedValue(result);
     assert.isNotEmpty(result);
-    const firstMetricDefinition = result.value;
     let metricDefinitionsLength = 0;
     while (!result.done) {
       // you can only query 20 metrics at a time.
@@ -70,8 +69,8 @@ describe("MetricsClient live tests", function() {
       if (i % 20 === 0 || i === metricDefinitionsLength) {
         const newResults = await metricsQueryClient.queryResource(resourceId, definitionNames, {
           timespan: {
-            duration: Durations.twentyFourHours
-          }
+            duration: Durations.twentyFourHours,
+          },
         });
         assert.ok(newResults);
         assert.isNotEmpty(newResults.metrics);
@@ -80,16 +79,16 @@ describe("MetricsClient live tests", function() {
 
     // pick the first query and use the namespace as well.
 
-    assert.isNotNull(firstMetricDefinition);
-    assert.isNotEmpty(firstMetricDefinition.name);
-    assert.isNotEmpty(firstMetricDefinition.namespace);
+    assert.isNotNull(firstResult);
+    assert.isNotEmpty(firstResult.name);
+    assert.isNotEmpty(firstResult.namespace);
 
     const individualMetricWithNamespace = await metricsQueryClient.queryResource(
       resourceId,
-      [firstMetricDefinition.name!],
+      [firstResult.name!],
       {
         timespan: { duration: Durations.twentyFourHours },
-        metricNamespace: firstMetricDefinition.namespace
+        metricNamespace: firstResult.namespace,
       }
     );
 

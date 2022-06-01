@@ -1,0 +1,56 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": [
+        "dtmi:dtdl:context;2",
+        {
+          "changeling": "dtmi:standard:class:"
+        }
+      ],
+      "@id": "dtmi:test:parentInterface;1",
+      "@type": "Interface",
+      "contents": [
+        {
+          "@id": "dtmi:test:aTelemetry;1",
+          "@type": [ "Telemetry", "changeling:Length;2" ],
+          "name": "height",
+          "schema": "double",
+          "unit": "kilometre"
+        },
+        {
+          "@type": "Component",
+          "name": "child",
+          "schema": {
+            "@context": {
+                "changeling": "dtmi:standard:unit:"
+              },
+            "@id": "dtmi:test:childInterface;1",
+            "@type": "Interface",
+            "contents": [
+              {
+                "@id": "dtmi:test:anotherTelemetry;1",
+                "@type": [ "Telemetry", "Mass" ],
+                "name": "weight",
+                "schema": "double",
+                "unit": "changeling:kilogram;2"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:disallowedLocalContext",
+        "PrimaryID": null,
+        "SecondaryID": null,
+        "Property": null,
+        "Value": null
+      }
+    ]
+  }
+}

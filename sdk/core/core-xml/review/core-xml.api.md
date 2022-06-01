@@ -23,7 +23,6 @@ export interface XmlOptions {
     xmlCharKey?: string;
 }
 
-
 // (No @packageDocumentation comment for this package)
 
 ```

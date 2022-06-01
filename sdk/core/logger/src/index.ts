@@ -89,7 +89,7 @@ const levelMap = {
   verbose: 400,
   info: 300,
   warning: 200,
-  error: 100
+  error: 100,
 };
 
 /**
@@ -132,7 +132,7 @@ export function createClientLogger(namespace: string): AzureLogger {
     error: createLogger(clientRootLogger, "error"),
     warning: createLogger(clientRootLogger, "warning"),
     info: createLogger(clientRootLogger, "info"),
-    verbose: createLogger(clientRootLogger, "verbose")
+    verbose: createLogger(clientRootLogger, "verbose"),
   };
 }
 
@@ -144,7 +144,7 @@ function patchLogMethod(parent: AzureClientLogger, child: AzureClientLogger | Az
 
 function createLogger(parent: AzureClientLogger, level: AzureLogLevel): AzureDebugger {
   const logger: AzureDebugger = Object.assign(parent.extend(level), {
-    level
+    level,
   });
 
   patchLogMethod(parent, logger);

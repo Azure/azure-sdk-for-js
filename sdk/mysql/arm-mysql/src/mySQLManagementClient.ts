@@ -7,6 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "./lroImpl";
@@ -66,7 +67,6 @@ import {
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
-import { MySQLManagementClientContext } from "./mySQLManagementClientContext";
 import {
   MySQLManagementClientOptionalParams,
   ResetQueryPerformanceInsightDataOptionalParams,
@@ -74,7 +74,10 @@ import {
   CreateRecommendedActionSessionOptionalParams
 } from "./models";
 
-export class MySQLManagementClient extends MySQLManagementClientContext {
+export class MySQLManagementClient extends coreClient.ServiceClient {
+  $host: string;
+  subscriptionId: string;
+
   /**
    * Initializes a new instance of the MySQLManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
@@ -86,7 +89,69 @@ export class MySQLManagementClient extends MySQLManagementClientContext {
     subscriptionId: string,
     options?: MySQLManagementClientOptionalParams
   ) {
-    super(credentials, subscriptionId, options);
+    if (credentials === undefined) {
+      throw new Error("'credentials' cannot be null");
+    }
+    if (subscriptionId === undefined) {
+      throw new Error("'subscriptionId' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: MySQLManagementClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8",
+      credential: credentials
+    };
+
+    const packageDetails = `azsdk-js-arm-mysql/5.0.2`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri:
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+    };
+    super(optionsWithDefaults);
+
+    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+        (pipelinePolicy) =>
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
+      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
+    }
+    // Parameter assignments
+    this.subscriptionId = subscriptionId;
+
+    // Assigning values to Constant parameters
+    this.$host = options.$host || "https://management.azure.com";
     this.servers = new ServersImpl(this);
     this.replicas = new ReplicasImpl(this);
     this.firewallRules = new FirewallRulesImpl(this);
@@ -198,10 +263,12 @@ export class MySQLManagementClient extends MySQLManagementClientContext {
       { resourceGroupName, serverName, advisorName, databaseName, options },
       createRecommendedActionSessionOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

@@ -4,27 +4,27 @@
 import { OperationOptions } from "@azure/core-http";
 import * as crypto from "crypto";
 import {
-  EncryptOptions,
-  EncryptResult,
+  AesCbcEncryptParameters,
   DecryptOptions,
   DecryptResult,
+  EncryptOptions,
+  EncryptResult,
+  JsonWebKey,
   KeyWrapAlgorithm,
-  WrapKeyOptions,
-  WrapResult,
-  UnwrapKeyOptions,
-  UnwrapResult,
   SignOptions,
   SignResult,
+  UnwrapKeyOptions,
+  UnwrapResult,
   VerifyOptions,
   VerifyResult,
-  AesCbcEncryptParameters,
-  JsonWebKey
+  WrapKeyOptions,
+  WrapResult,
 } from "..";
 import { AesCbcDecryptParameters } from "../cryptographyClientModels";
 import {
   CryptographyProvider,
   CryptographyProviderOperation,
-  LocalCryptographyUnsupportedError
+  LocalCryptographyUnsupportedError,
 } from "./models";
 
 /**
@@ -52,7 +52,7 @@ export class AesCryptographyProvider implements CryptographyProvider {
     return Promise.resolve({
       algorithm: encryptParameters.algorithm,
       result: encrypted,
-      iv: iv
+      iv: iv,
     });
   }
 
@@ -74,7 +74,7 @@ export class AesCryptographyProvider implements CryptographyProvider {
 
     return Promise.resolve({
       algorithm: decryptParameters.algorithm,
-      result: dec
+      result: dec,
     });
   }
 
@@ -104,16 +104,16 @@ export class AesCryptographyProvider implements CryptographyProvider {
   private supportedAlgorithms: { [s: string]: { algorithm: string; keySizeInBytes: number } } = {
     A128CBCPAD: {
       algorithm: "aes-128-cbc",
-      keySizeInBytes: 128 >> 3
+      keySizeInBytes: 128 >> 3,
     },
     A192CBCPAD: {
       algorithm: "aes-192-cbc",
-      keySizeInBytes: 192 >> 3
+      keySizeInBytes: 192 >> 3,
     },
     A256CBCPAD: {
       algorithm: "aes-256-cbc",
-      keySizeInBytes: 256 >> 3
-    }
+      keySizeInBytes: 256 >> 3,
+    },
   };
 
   private supportedOperations: CryptographyProviderOperation[] = ["encrypt", "decrypt"];

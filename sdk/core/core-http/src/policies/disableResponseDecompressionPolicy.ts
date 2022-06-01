@@ -4,11 +4,11 @@
 import {
   BaseRequestPolicy,
   RequestPolicy,
+  RequestPolicyFactory,
   RequestPolicyOptions,
-  RequestPolicyFactory
 } from "./requestPolicy";
-import { WebResource } from "../webResource";
 import { HttpOperationResponse } from "../httpOperationResponse";
+import { WebResource } from "../webResource";
 
 /**
  * Returns a request policy factory that can be used to create an instance of
@@ -18,7 +18,7 @@ export function disableResponseDecompressionPolicy(): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new DisableResponseDecompressionPolicy(nextPolicy, options);
-    }
+    },
   };
 }
 

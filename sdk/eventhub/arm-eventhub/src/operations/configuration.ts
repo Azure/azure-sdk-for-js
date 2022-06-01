@@ -10,7 +10,7 @@ import { Configuration } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { EventHubManagementClientContext } from "../eventHubManagementClientContext";
+import { EventHubManagementClient } from "../eventHubManagementClient";
 import {
   ClusterQuotaConfigurationProperties,
   ConfigurationPatchOptionalParams,
@@ -21,13 +21,13 @@ import {
 
 /** Class containing Configuration operations. */
 export class ConfigurationImpl implements Configuration {
-  private readonly client: EventHubManagementClientContext;
+  private readonly client: EventHubManagementClient;
 
   /**
    * Initialize a new instance of the class Configuration class.
    * @param client Reference to the service client
    */
-  constructor(client: EventHubManagementClientContext) {
+  constructor(client: EventHubManagementClient) {
     this.client = client;
   }
 

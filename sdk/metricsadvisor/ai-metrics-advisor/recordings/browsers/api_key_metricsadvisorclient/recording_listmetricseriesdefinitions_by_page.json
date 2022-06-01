@@ -10,14 +10,14 @@
    "status": 200,
    "response": "{\"value\":[{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimension\":{\"category\":\"Shoes Handbags & Sunglasses\",\"region\":\"Cairo\"}},{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimension\":{\"category\":\"Shoes Handbags & Sunglasses\",\"region\":\"__SUM__\"}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/series/query?$maxpagesize=2&$skip=2\"}",
    "responseHeaders": {
-    "apim-request-id": "cdc6637b-1e57-4aef-8e89-e8793d76c0d4",
+    "apim-request-id": "b4d8d015-0c87-47e0-907e-a49aa28dfb24",
     "content-length": "435",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Nov 2021 02:01:26 GMT",
+    "date": "Thu, 20 Jan 2022 01:04:55 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "130",
-    "x-request-id": "cdc6637b-1e57-4aef-8e89-e8793d76c0d4"
+    "x-envoy-upstream-service-time": "109",
+    "x-request-id": "b4d8d015-0c87-47e0-907e-a49aa28dfb24"
    }
   },
   {
@@ -31,14 +31,14 @@
    "status": 200,
    "response": "{\"value\":[{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimension\":{\"category\":\"Office Products\",\"region\":\"Seoul\"}},{\"metricId\":\"189ff959-d9f4-45c7-a1e0-f87c9c7ca80f\",\"dimension\":{\"category\":\"__SUM__\",\"region\":\"Miami\"}}],\"@nextLink\":\"https://endpoint:443/metricsadvisor/v1.0/metrics/189ff959-d9f4-45c7-a1e0-f87c9c7ca80f/series/query?$maxpagesize=2&$skip=4\"}",
    "responseHeaders": {
-    "apim-request-id": "25737725-06dc-4f07-9a29-bfc836acf591",
+    "apim-request-id": "bcc46850-8140-4beb-bb9a-5f4b7a52abd4",
     "content-length": "401",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Nov 2021 02:01:26 GMT",
+    "date": "Thu, 20 Jan 2022 01:04:56 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "129",
-    "x-request-id": "25737725-06dc-4f07-9a29-bfc836acf591"
+    "x-envoy-upstream-service-time": "120",
+    "x-request-id": "bcc46850-8140-4beb-bb9a-5f4b7a52abd4"
    }
   }
  ],

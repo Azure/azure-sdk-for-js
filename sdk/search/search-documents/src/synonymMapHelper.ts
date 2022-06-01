@@ -25,6 +25,6 @@ export async function createSynonymMapFromFile(
 
   return {
     name,
-    synonyms
+    synonyms,
   };
 }

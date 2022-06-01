@@ -1,0 +1,175 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:dateTimeArray;1",
+      "@type": "Array",
+      "elementSchema": "dateTime"
+    }
+  ],
+  "expect": {},
+  "instances": [
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": true,
+      "submit": "\"0001-01-01T00:00:00Z\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": true,
+      "submit": "\"9999-12-31T23:59:59Z\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": false,
+      "submit": "\"1980-01-01T00:00:60Z\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": false,
+      "submit": "\"00:60:00Z\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": false,
+      "submit": "\"1980-01-01T24:00:00Z\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": false,
+      "submit": "\"1980-01-01T06:00Z\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": false,
+      "submit": "\"80-01-01T06:00:00Z\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": true,
+      "submit": "\"1980-01-01T06:00:00.00015Z\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": false,
+      "submit": "\"T06:00:00Z\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": false,
+      "submit": "\"1980-01-01\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": false,
+      "submit": "\"1980-01-01T\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": false,
+      "submit": "\"1980-01-01Z\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": true,
+      "submit": "\"1980-01-01T06:00:00Z\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": true,
+      "submit": "\"1980-01-01T06:00:00+00:00\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": true,
+      "submit": "\"1980-01-01T06:00:00-00:00\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": false,
+      "submit": "\"1980-01-01T06:00:00\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": true,
+      "submit": "\"1965-12-31T06:00:00+11:45\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": true,
+      "submit": "\"1965-12-31T06:00:00-01:15\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": false,
+      "submit": "\"1965-12-31T06:00:00-1:15\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": false,
+      "submit": "\"1965-12-31T06:00:00+11\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": false,
+      "submit": "\"1965-12-31T06:00+11:00\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": true,
+      "submit": "\"1965-12-31T06:00:00.1234+11:00\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": false,
+      "submit": ""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": false,
+      "submit": "true"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": false,
+      "submit": "1"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": false,
+      "submit": "null"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": false,
+      "submit": "[ \"0001-01-01T00:00:00Z\" ]"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": false,
+      "submit": "{ \"dateTime\": \"0001-01-01T00:00:00Z\" }"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": false,
+      "submit": "$$"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": false,
+      "submit": "[ \"hi\": \"there\" ]"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": false,
+      "submit": "{ \"hello\" }"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:dateTime;2",
+      "conforms": false,
+      "submit": "{ 23 ]"
+    }
+  ]
+}

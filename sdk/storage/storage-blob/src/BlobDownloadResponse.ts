@@ -9,13 +9,13 @@ import {
   CopyStatusType,
   LeaseDurationType,
   LeaseStateType,
-  LeaseStatusType
+  LeaseStatusType,
 } from "./generatedModels";
 import { BlobDownloadResponseParsed, Metadata, ObjectReplicationPolicy } from "./models";
 import {
   ReadableStreamGetter,
   RetriableReadableStream,
-  RetriableReadableStreamOptions
+  RetriableReadableStreamOptions,
 } from "./utils/RetriableReadableStream";
 
 /**

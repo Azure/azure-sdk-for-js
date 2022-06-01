@@ -12,11 +12,12 @@ import {
   testPeekMsgsLength,
   EntityName,
   getRandomTestClientTypeWithSessions,
-  getRandomTestClientTypeWithNoSessions
+  getRandomTestClientTypeWithNoSessions,
 } from "./utils/testutils2";
 import { ServiceBusReceiver } from "../../src";
 import { ServiceBusSender } from "../../src";
 import { ServiceBusReceivedMessage } from "../../src";
+import Long from "long";
 
 describe("Deferred Messages", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
@@ -52,17 +53,18 @@ describe("Deferred Messages", () => {
     await serviceBusClient.test.afterEach();
   });
 
-  it(noSessionTestClientType + ": Empty array as input throws no error", async function(): Promise<
-    void
-  > {
-    await beforeEachTest(noSessionTestClientType);
-    const msgs = await receiver.receiveDeferredMessages([]);
-    should.equal(msgs.length, 0);
-  });
+  it(
+    noSessionTestClientType + ": Empty array as input throws no error",
+    async function (): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
+      const msgs = await receiver.receiveDeferredMessages([]);
+      should.equal(msgs.length, 0);
+    }
+  );
 
   it(
     withSessionTestClientType + ": Empty array as input throws no error",
-    async function(): Promise<void> {
+    async function (): Promise<void> {
       await beforeEachTest(withSessionTestClientType);
       const msgs = await receiver.receiveDeferredMessages([]);
       should.equal(msgs.length, 0);
@@ -103,6 +105,7 @@ describe("Deferred Messages", () => {
     if (!deferredMsg) {
       throw "No message received for sequence number";
     }
+    should.equal(deferredMsg.state, "deferred");
     should.equal(
       !!(deferredMsg as any)["delivery"],
       true,
@@ -163,7 +166,7 @@ describe("Deferred Messages", () => {
 
   it(
     noSessionTestClientType + ": Abandoning a deferred message puts it back to the deferred queue.",
-    async function(): Promise<void> {
+    async function (): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
       await testAbandon();
     }
@@ -172,7 +175,7 @@ describe("Deferred Messages", () => {
   it(
     withSessionTestClientType +
       ": Abandoning a deferred message puts it back to the deferred queue.",
-    async function(): Promise<void> {
+    async function (): Promise<void> {
       await beforeEachTest(withSessionTestClientType);
       await testAbandon();
     }
@@ -192,7 +195,7 @@ describe("Deferred Messages", () => {
   }
   it(
     noSessionTestClientType + ": Deferring a deferred message puts it back to the deferred queue.",
-    async function(): Promise<void> {
+    async function (): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
       await testDefer();
     }
@@ -201,7 +204,7 @@ describe("Deferred Messages", () => {
   it(
     withSessionTestClientType +
       ": Deferring a deferred message puts it back to the deferred queue.",
-    async function(): Promise<void> {
+    async function (): Promise<void> {
       await beforeEachTest(withSessionTestClientType);
       await testDefer();
     }
@@ -239,7 +242,7 @@ describe("Deferred Messages", () => {
 
   it(
     noSessionTestClientType + ": Deadlettering a deferred message moves it to dead letter queue.",
-    async function(): Promise<void> {
+    async function (): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
       await testDeadletter();
     }
@@ -247,15 +250,13 @@ describe("Deferred Messages", () => {
 
   it(
     withSessionTestClientType + ": Deadlettering a deferred message moves it to dead letter queue.",
-    async function(): Promise<void> {
+    async function (): Promise<void> {
       await beforeEachTest(withSessionTestClientType);
       await testDeadletter();
     }
   );
 
-  it(`${noSessionTestClientType}: renewLock on a deferred message`, async function(): Promise<
-    void
-  > {
+  it(`${noSessionTestClientType}: renewLock on a deferred message`, async function (): Promise<void> {
     await beforeEachTest(noSessionTestClientType);
     const testMessages = TestMessage.getSample();
     const deferredMsg = await deferMessage(testMessages, false);

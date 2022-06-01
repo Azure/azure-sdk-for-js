@@ -1,5 +1,5 @@
 {
-  "name": "azure-communication-phone-numbers-samples-ts",
+  "name": "@azure-samples/communication-phone-numbers-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Communication Services - Phone Numbers client library samples for TypeScript",

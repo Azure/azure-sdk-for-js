@@ -38,7 +38,7 @@ export class Offer {
       path: this.url,
       resourceType: ResourceType.offer,
       resourceId: this.id,
-      options
+      options,
     });
     return new OfferResponse(response.result, response.headers, response.code, this);
   }
@@ -57,7 +57,7 @@ export class Offer {
       path: this.url,
       resourceType: ResourceType.offer,
       resourceId: this.id,
-      options
+      options,
     });
     return new OfferResponse(response.result, response.headers, response.code, this);
   }

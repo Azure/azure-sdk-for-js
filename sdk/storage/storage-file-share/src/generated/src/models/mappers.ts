@@ -432,6 +432,13 @@ export const SharePropertiesInternal: coreHttp.CompositeMapper = {
           name: "Number"
         }
       },
+      provisionedBandwidthMiBps: {
+        serializedName: "ProvisionedBandwidthMiBps",
+        xmlName: "ProvisionedBandwidthMiBps",
+        type: {
+          name: "Number"
+        }
+      },
       nextAllowedQuotaDowngradeTime: {
         serializedName: "NextAllowedQuotaDowngradeTime",
         xmlName: "NextAllowedQuotaDowngradeTime",
@@ -1399,6 +1406,13 @@ export const ShareGetPropertiesHeaders: coreHttp.CompositeMapper = {
         xmlName: "x-ms-share-next-allowed-quota-downgrade-time",
         type: {
           name: "DateTimeRfc1123"
+        }
+      },
+      provisionedBandwidthMibps: {
+        serializedName: "x-ms-share-provisioned-bandwidth-mibps",
+        xmlName: "x-ms-share-provisioned-bandwidth-mibps",
+        type: {
+          name: "Number"
         }
       },
       leaseDuration: {
@@ -3245,6 +3259,124 @@ export const DirectoryForceCloseHandlesExceptionHeaders: coreHttp.CompositeMappe
   }
 };
 
+export const DirectoryRenameHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Directory_renameHeaders",
+  type: {
+    name: "Composite",
+    className: "DirectoryRenameHeaders",
+    modelProperties: {
+      etag: {
+        serializedName: "etag",
+        xmlName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        serializedName: "last-modified",
+        xmlName: "last-modified",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        xmlName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        xmlName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        xmlName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      isServerEncrypted: {
+        serializedName: "x-ms-request-server-encrypted",
+        xmlName: "x-ms-request-server-encrypted",
+        type: {
+          name: "Boolean"
+        }
+      },
+      filePermissionKey: {
+        serializedName: "x-ms-file-permission-key",
+        xmlName: "x-ms-file-permission-key",
+        type: {
+          name: "String"
+        }
+      },
+      fileAttributes: {
+        serializedName: "x-ms-file-attributes",
+        xmlName: "x-ms-file-attributes",
+        type: {
+          name: "String"
+        }
+      },
+      fileCreationTime: {
+        serializedName: "x-ms-file-creation-time",
+        xmlName: "x-ms-file-creation-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileLastWriteTime: {
+        serializedName: "x-ms-file-last-write-time",
+        xmlName: "x-ms-file-last-write-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileChangeTime: {
+        serializedName: "x-ms-file-change-time",
+        xmlName: "x-ms-file-change-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileId: {
+        serializedName: "x-ms-file-id",
+        xmlName: "x-ms-file-id",
+        type: {
+          name: "String"
+        }
+      },
+      fileParentId: {
+        serializedName: "x-ms-file-parent-id",
+        xmlName: "x-ms-file-parent-id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DirectoryRenameExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Directory_renameExceptionHeaders",
+  type: {
+    name: "Composite",
+    className: "DirectoryRenameExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        xmlName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const FileCreateHeaders: coreHttp.CompositeMapper = {
   serializedName: "File_createHeaders",
   type: {
@@ -4511,6 +4643,13 @@ export const FileUploadRangeHeaders: coreHttp.CompositeMapper = {
           name: "Boolean"
         }
       },
+      fileLastWriteTime: {
+        serializedName: "x-ms-file-last-write-time",
+        xmlName: "x-ms-file-last-write-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         xmlName: "x-ms-error-code",
@@ -4592,6 +4731,13 @@ export const FileUploadRangeFromURLHeaders: coreHttp.CompositeMapper = {
         xmlName: "x-ms-request-server-encrypted",
         type: {
           name: "Boolean"
+        }
+      },
+      fileLastWriteTime: {
+        serializedName: "x-ms-file-last-write-time",
+        xmlName: "x-ms-file-last-write-time",
+        type: {
+          name: "DateTimeRfc1123"
         }
       },
       errorCode: {
@@ -4963,6 +5109,124 @@ export const FileForceCloseHandlesExceptionHeaders: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "FileForceCloseHandlesExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        xmlName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FileRenameHeaders: coreHttp.CompositeMapper = {
+  serializedName: "File_renameHeaders",
+  type: {
+    name: "Composite",
+    className: "FileRenameHeaders",
+    modelProperties: {
+      etag: {
+        serializedName: "etag",
+        xmlName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        serializedName: "last-modified",
+        xmlName: "last-modified",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        xmlName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        xmlName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        xmlName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      isServerEncrypted: {
+        serializedName: "x-ms-request-server-encrypted",
+        xmlName: "x-ms-request-server-encrypted",
+        type: {
+          name: "Boolean"
+        }
+      },
+      filePermissionKey: {
+        serializedName: "x-ms-file-permission-key",
+        xmlName: "x-ms-file-permission-key",
+        type: {
+          name: "String"
+        }
+      },
+      fileAttributes: {
+        serializedName: "x-ms-file-attributes",
+        xmlName: "x-ms-file-attributes",
+        type: {
+          name: "String"
+        }
+      },
+      fileCreationTime: {
+        serializedName: "x-ms-file-creation-time",
+        xmlName: "x-ms-file-creation-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileLastWriteTime: {
+        serializedName: "x-ms-file-last-write-time",
+        xmlName: "x-ms-file-last-write-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileChangeTime: {
+        serializedName: "x-ms-file-change-time",
+        xmlName: "x-ms-file-change-time",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      fileId: {
+        serializedName: "x-ms-file-id",
+        xmlName: "x-ms-file-id",
+        type: {
+          name: "String"
+        }
+      },
+      fileParentId: {
+        serializedName: "x-ms-file-parent-id",
+        xmlName: "x-ms-file-parent-id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FileRenameExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "File_renameExceptionHeaders",
+  type: {
+    name: "Composite",
+    className: "FileRenameExceptionHeaders",
     modelProperties: {
       errorCode: {
         serializedName: "x-ms-error-code",

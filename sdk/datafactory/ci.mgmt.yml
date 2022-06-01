@@ -1,0 +1,32 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+                
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/datafactory/ci.mgmt.yml
+      - sdk/datafactory/arm-datafactory
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+    exclude:
+      - feature/v4
+  paths:
+    include:
+      - sdk/datafactory/ci.mgmt.yml
+      - sdk/datafactory/arm-datafactory
+extends:
+  template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: datafactory
+    Artifacts:
+      - name: azure-arm-datafactory
+        safeName: azurearmdatafactory

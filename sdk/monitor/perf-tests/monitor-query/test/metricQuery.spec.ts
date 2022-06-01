@@ -20,7 +20,7 @@ export class MetricsQueryTest extends MonitorQueryMetrics<MonitorQueryTestOption
 
   async run(): Promise<void> {
     await this.client.queryResource(this.metricsUri, this.metricNames, {
-      aggregations: this.aggregations
+      aggregations: this.aggregations,
     });
   }
 }

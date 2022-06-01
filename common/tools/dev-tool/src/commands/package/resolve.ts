@@ -18,14 +18,14 @@ export const commandInfo = makeCommandInfo(
       shortName: "d",
       kind: "string",
       description: "base directory for resolution (uses CWD if unset)",
-      allowMultiple: true
+      allowMultiple: true,
     },
     quiet: {
       shortName: "q",
       kind: "boolean",
       default: false,
-      description: "output only the directory name with no extra formatting"
-    }
+      description: "output only the directory name with no extra formatting",
+    },
   }
 );
 
@@ -41,7 +41,7 @@ export default leafCommand(commandInfo, async (options) => {
         log.info(`Version specifier: ${currentPackage.name}@${currentPackage.version}`);
         log.info(`Location: ${path.resolve(dir, currentPackage.path)}`);
       }
-    } catch (error) {
+    } catch (error: any) {
       log.error("Could not find package starting from", dir);
       log.error(error);
     }

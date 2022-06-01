@@ -6,7 +6,7 @@ import {
   getIdFromLink,
   getPathFromLink,
   isResourceValid,
-  ResourceType
+  ResourceType,
 } from "../../common";
 import { RequestOptions } from "../../request";
 import { Container } from "../Container";
@@ -48,7 +48,7 @@ export class Trigger {
       path,
       resourceType: ResourceType.trigger,
       resourceId: id,
-      options
+      options,
     });
     return new TriggerResponse(response.result, response.headers, response.code, this);
   }
@@ -78,7 +78,7 @@ export class Trigger {
       path,
       resourceType: ResourceType.trigger,
       resourceId: id,
-      options
+      options,
     });
     return new TriggerResponse(response.result, response.headers, response.code, this);
   }
@@ -94,7 +94,7 @@ export class Trigger {
       path,
       resourceType: ResourceType.trigger,
       resourceId: id,
-      options
+      options,
     });
     return new TriggerResponse(response.result, response.headers, response.code, this);
   }

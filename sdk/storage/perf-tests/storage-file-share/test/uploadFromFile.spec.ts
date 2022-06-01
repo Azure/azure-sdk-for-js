@@ -19,9 +19,7 @@ interface StorageFileShareUploadFromFileTestOptions {
 const localDirName = "temp";
 const localFileName = `${localDirName}/upload-from-test-temp-file.txt`;
 
-export class StorageFileShareUploadFromFileTest extends StorageFileShareTest<
-  StorageFileShareUploadFromFileTestOptions
-> {
+export class StorageFileShareUploadFromFileTest extends StorageFileShareTest<StorageFileShareUploadFromFileTestOptions> {
   fileClient: ShareFileClient;
   public options: PerfOptionDictionary<StorageFileShareUploadFromFileTestOptions> = {
     size: {
@@ -29,8 +27,8 @@ export class StorageFileShareUploadFromFileTest extends StorageFileShareTest<
       description: "Size in bytes",
       shortName: "sz",
       longName: "size",
-      defaultValue: 1024
-    }
+      defaultValue: 1024,
+    },
   };
 
   constructor() {

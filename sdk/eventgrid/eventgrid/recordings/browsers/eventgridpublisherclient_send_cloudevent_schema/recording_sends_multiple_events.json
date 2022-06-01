@@ -1,34 +1,44 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://endpoint/api/events",
-   "query": {
-    "api-version": "2018-01-01"
-   },
-   "requestBody": "[{\"id\":\"cloudMultiEventId1161541018245002120\",\"source\":\"/earth/unitedstates/washington/kirkland/finnhill\",\"data\":{\"hello\":\"world\"},\"type\":\"Azure.Sdk.TestEvent1\",\"time\":\"2021-03-10T21:03:02.450Z\",\"specversion\":\"1.0\",\"datacontenttype\":\"application/json\",\"subject\":\"Multiple 1\"},{\"id\":\"cloudMultiEventId2161541018245007821\",\"source\":\"/earth/unitedstates/washington/kirkland/finnhill\",\"data\":{\"hello\":\"world\"},\"type\":\"Azure.Sdk.TestEvent1\",\"time\":\"2021-03-10T21:03:02.450Z\",\"specversion\":\"1.0\",\"datacontenttype\":\"application/json\",\"subject\":\"Multiple 2\"}]",
-   "status": 200,
-   "response": "",
-   "responseHeaders": {
-    "api-supported-versions": "2018-01-01",
-    "content-length": "0",
-    "date": "Wed, 10 Mar 2021 21:03:01 GMT",
-    "server": "Microsoft-HTTPAPI/2.0",
-    "status": "200",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "94d7869d-9128-466c-b737-d31845f65b6a"
-   }
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/api/events?api-version=2018-01-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "aeg-sas-key": "api_key",
+        "Connection": "keep-alive",
+        "Content-Length": "527",
+        "Content-Type": "application/cloudevents-batch\u002Bjson; charset=UTF-8",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "13499098-d25c-4381-bd99-c3beb100b5d8",
+        "x-ms-useragent": "azsdk-js-eventgrid/4.7.1 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
+      },
+      "RequestBody": "[{\u0022id\u0022:\u0022cloudMultiEventId1100684\u0022,\u0022source\u0022:\u0022/earth/unitedstates/washington/kirkland/finnhill\u0022,\u0022data\u0022:{\u0022hello\u0022:\u0022world\u0022},\u0022type\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022time\u0022:\u00222022-02-09T01:46:42.000Z\u0022,\u0022specversion\u0022:\u00221.0\u0022,\u0022datacontenttype\u0022:\u0022application/json\u0022,\u0022subject\u0022:\u0022Multiple 1\u0022},{\u0022id\u0022:\u0022cloudMultiEventId2100456\u0022,\u0022source\u0022:\u0022/earth/unitedstates/washington/kirkland/finnhill\u0022,\u0022data\u0022:{\u0022hello\u0022:\u0022world\u0022},\u0022type\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022time\u0022:\u00222022-02-09T01:46:42.000Z\u0022,\u0022specversion\u0022:\u00221.0\u0022,\u0022datacontenttype\u0022:\u0022application/json\u0022,\u0022subject\u0022:\u0022Multiple 2\u0022}]",
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2018-01-01",
+        "Content-Length": "0",
+        "Date": "Wed, 09 Feb 2022 01:46:41 GMT",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-request-id": "824c3f1f-023d-4f56-9948-b5a32d0cbcd5"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {
+    "cloudMultiEventDate1": "Wed Feb 09 2022 01:46:42 GMT\u002B0000 (Coordinated Universal Time)",
+    "cloudMultiEventDate2": "Wed Feb 09 2022 01:46:42 GMT\u002B0000 (Coordinated Universal Time)",
+    "cloudMultiEventId1": "cloudMultiEventId1100684",
+    "cloudMultiEventId2": "cloudMultiEventId2100456"
   }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {
-   "cloudMultiEventId1": "cloudMultiEventId1161541018245002120",
-   "cloudMultiEventId2": "cloudMultiEventId2161541018245007821"
-  },
-  "newDate": {
-   "cloudMultiEventDate1": "2021-03-10T21:03:02.450Z",
-   "cloudMultiEventDate2": "2021-03-10T21:03:02.450Z"
-  }
- },
- "hash": "e9c24e47f14aa1b51e312e213957a4d3"
 }

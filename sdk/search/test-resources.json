@@ -15,6 +15,13 @@
       "metadata": {
         "description": "SKU for search resource. The default is 'basic'"
       }
+    },
+    "searchEndpointSuffix": {
+      "type": "string",
+      "defaultValue": "search.windows.net",
+      "metadata": {
+        "description": "Endpoint suffix for the search resource. Defaults to 'search.windows.net'"
+      }
     }
   },
   "variables": {},
@@ -47,7 +54,7 @@
     },
     "ENDPOINT": {
       "type": "string",
-      "value": "[concat('https://', parameters('baseName'), '.search.windows.net')]"
+      "value": "[concat('https://', parameters('baseName'), '.', parameters('searchEndpointSuffix'))]"
     }
   }
 }

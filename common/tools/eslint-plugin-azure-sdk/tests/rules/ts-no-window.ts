@@ -6,8 +6,8 @@
  * @author Maor Leger
  */
 
-import rule from "../../src/rules/ts-no-window";
 import { RuleTester } from "eslint";
+import rule from "../../src/rules/ts-no-window";
 
 //------------------------------------------------------------------------------
 // Tests
@@ -18,23 +18,23 @@ const ruleTester = new RuleTester({
   parserOptions: {
     createDefaultProgram: true,
     project: "./tsconfig.json",
-    sourceType: "module"
+    sourceType: "module",
   },
   settings: {
-    main: "test.ts"
-  }
+    main: "test.ts",
+  },
 });
 
 ruleTester.run("ts-no-window", rule, {
   valid: [
     {
       code: "self.navigator",
-      filename: "src/test.ts"
+      filename: "src/test.ts",
     },
     {
       code: '"quoted window should be fine"',
-      filename: "src/test.ts"
-    }
+      filename: "src/test.ts",
+    },
   ],
   invalid: [
     {
@@ -42,10 +42,10 @@ ruleTester.run("ts-no-window", rule, {
       filename: "src/test.ts",
       errors: [
         {
-          message: "`window` should not be used, please use `self` instead."
-        }
+          message: "`window` should not be used, please use `self` instead.",
+        },
       ],
-      output: "self.navigator"
-    }
-  ]
+      output: "self.navigator",
+    },
+  ],
 });

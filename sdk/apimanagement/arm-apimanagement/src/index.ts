@@ -9,5 +9,4 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { ApiManagementClient } from "./apiManagementClient";
-export { ApiManagementClientContext } from "./apiManagementClientContext";
 export * from "./operationsInterfaces";

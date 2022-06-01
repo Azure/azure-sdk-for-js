@@ -24,5 +24,5 @@ export enum QueryCollectionFormat {
   /**
    * Denotes this is an array of values that should be passed to the server in multiple key/value pairs, e.g. `?queryParam=value1&queryParam=value2`
    */
-  Multi = "Multi"
+  Multi = "Multi",
 }

@@ -1,16 +1,12 @@
 # Release History
 
-## 1.0.0-beta.9 (Unreleased)
+## 1.0.0-beta.9 (2022-04-07)
 
 ### Features Added
 
 - Handle Binary and FormData content. [#18753](https://github.com/Azure/azure-sdk-for-js/pull/18753)
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Support custom base url with path parameters. [#19463](https://github.com/Azure/azure-sdk-for-js/pull/19463)
+- Added new `ClientOptions` member `additionalPolicies` to allow passing custom pipeline policies to client constructors. [#20175](https://github.com/Azure/azure-sdk-for-js/pull/20175)
 
 ## 1.0.0-beta.8 (2021-11-04)
 

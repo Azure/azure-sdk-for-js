@@ -31,21 +31,16 @@ export type ParsedWWWAuthenticate = {
  * @param wwwAuthenticate - String value in the WWW-Authenticate header
  */
 export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenticate {
-  // First we split the string by either `,`, `, ` or ` `.
-  const parts = wwwAuthenticate.split(/, *| +/);
-  // Then we only keep the strings with an equal sign after a word and before a quote.
-  // also splitting these sections by their equal sign
-  const keyValues = parts.reduce<string[][]>(
-    (acc, str) => (str.match(/\w="/) ? [...acc, str.split("=")] : acc),
-    []
-  );
-  // Then we transform these key-value pairs back into an object.
-  const parsed = keyValues.reduce<ParsedWWWAuthenticate>(
-    (result, [key, value]: string[]) => ({
-      ...result,
-      [key]: value.slice(1, -1)
-    }),
-    {}
-  );
-  return parsed;
+  // Match on things that look like property name/value pairs. We assume that values are quoted,
+  // this hasn't been an issue yet...
+  const pattern = /(\w+?)="(.*?)"/g;
+
+  const value: ParsedWWWAuthenticate = {};
+
+  let match: string[] | null;
+  while ((match = pattern.exec(wwwAuthenticate)) !== null) {
+    value[match[1] as keyof ParsedWWWAuthenticate] = match[2];
+  }
+
+  return value;
 }

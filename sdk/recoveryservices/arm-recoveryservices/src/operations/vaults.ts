@@ -11,7 +11,7 @@ import { Vaults } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { RecoveryServicesClientContext } from "../recoveryServicesClientContext";
+import { RecoveryServicesClient } from "../recoveryServicesClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -37,13 +37,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Vaults operations. */
 export class VaultsImpl implements Vaults {
-  private readonly client: RecoveryServicesClientContext;
+  private readonly client: RecoveryServicesClient;
 
   /**
    * Initialize a new instance of the class Vaults class.
    * @param client Reference to the service client
    */
-  constructor(client: RecoveryServicesClientContext) {
+  constructor(client: RecoveryServicesClient) {
     this.client = client;
   }
 
@@ -253,10 +253,12 @@ export class VaultsImpl implements Vaults {
       { resourceGroupName, vaultName, vault, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -360,10 +362,12 @@ export class VaultsImpl implements Vaults {
       { resourceGroupName, vaultName, vault, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

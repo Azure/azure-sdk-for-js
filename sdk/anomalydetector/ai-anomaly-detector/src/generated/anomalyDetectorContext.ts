@@ -10,11 +10,11 @@ import * as coreHttp from "@azure/core-http";
 import { AnomalyDetectorOptionalParams } from "./models";
 
 const packageName = "@azure/ai-form-recognizer";
-const packageVersion = "3.0.0-beta.4";
+const packageVersion = "3.0.0-beta.6";
 
-/** @hidden */
 export class AnomalyDetectorContext extends coreHttp.ServiceClient {
   endpoint: string;
+  apiVersion: string;
 
   /**
    * Initializes a new instance of the AnomalyDetectorContext class.
@@ -32,18 +32,25 @@ export class AnomalyDetectorContext extends coreHttp.ServiceClient {
       options = {};
     }
 
-    if (!options.userAgent) {
-      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
-      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-    }
+    const defaultUserAgent = `azsdk-js-${packageName.replace(
+      "@azure/",
+      ""
+    )}/${packageVersion} ${coreHttp.getDefaultUserAgentValue()}`;
 
-    super(undefined, options);
+    super(undefined, {
+      ...options,
+      userAgent: options.userAgent
+        ? `${options.userAgent} ${defaultUserAgent}`
+        : `${defaultUserAgent}`
+    });
 
     this.requestContentType = "application/json; charset=utf-8";
-
-    this.baseUri = options.endpoint || "{Endpoint}/anomalydetector/v1.1-preview";
-
+    this.baseUri =
+      options.endpoint || "{Endpoint}/anomalydetector/{ApiVersion}";
     // Parameter assignments
     this.endpoint = endpoint;
+
+    // Assigning values to Constant parameters
+    this.apiVersion = options.apiVersion || "v1.1-preview.1";
   }
 }

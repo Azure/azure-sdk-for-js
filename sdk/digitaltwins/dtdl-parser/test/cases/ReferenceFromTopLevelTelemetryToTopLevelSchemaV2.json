@@ -1,0 +1,39 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    [
+      {
+        "@context": "dtmi:dtdl:context;2",
+        "@id": "dtmi:test:aTelemetry;1",
+        "@type": "Telemetry",
+        "name": "distance",
+        "schema": "dtmi:test:doubleArray;1"
+      },
+      {
+        "@context": "dtmi:dtdl:context;2",
+        "@id": "dtmi:test:doubleArray;1",
+        "@type": "Array",
+        "elementSchema": "double"
+      }
+    ]
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:aTelemetry;1",
+        "type": "Telemetry",
+        "properties": {
+          "schema": "dtmi:test:doubleArray;1"
+        }
+      },
+      {
+        "id": "dtmi:test:doubleArray;1",
+        "type": "Array",
+        "properties": {
+          "elementSchema": "dtmi:dtdl:instance:Schema:double;2"
+        }
+      }
+    ]
+  }
+}

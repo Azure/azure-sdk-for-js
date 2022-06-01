@@ -5,7 +5,8 @@ import chai from "chai";
 import { AppConfigurationClient } from "../../../src";
 import { AbortController } from "@azure/abort-controller";
 import nock from "nock";
-import { generateUuid } from "@azure/core-http";
+import { v4 as generateUuid } from "uuid";
+import { RestError } from "@azure/core-rest-pipeline";
 
 describe("Should not retry forever", () => {
   let client: AppConfigurationClient;
@@ -15,26 +16,23 @@ describe("Should not retry forever", () => {
     if (!nock.isActive()) {
       nock.activate();
     }
-    nock("https://myappconfig.azconfig.io:443")
-      .persist(persistence)
-      .put(/.*/g)
-      .reply(
-        429,
-        {
-          type: "https://azconfig.io/errors/too-many-requests",
-          title: "Resource utilization has surpassed the assigned quota",
-          policy: "Total Requests",
-          status: 429
-        },
-        ["retry-after-ms", retryAfterMs]
-      );
+    nock("https://myappconfig.azconfig.io:443").persist(persistence).put(/.*/g).reply(
+      429,
+      {
+        type: "https://azconfig.io/errors/too-many-requests",
+        title: "Resource utilization has surpassed the assigned quota",
+        policy: "Total Requests",
+        status: 429,
+      },
+      ["retry-after-ms", retryAfterMs]
+    );
   }
 
   beforeEach(() => {
-    client = new AppConfigurationClient(connectionString);
+    client = new AppConfigurationClient(connectionString, { retryOptions: { maxRetries: 3 } });
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     nock.restore();
     nock.cleanAll();
     nock.enableNetConnect();
@@ -52,16 +50,16 @@ describe("Should not retry forever", () => {
           client.addConfigurationSetting(
             {
               key: key + "-" + index,
-              value: "added"
+              value: "added",
             },
             {
-              abortSignal: AbortController.timeout(1000)
+              abortSignal: AbortController.timeout(1000),
             }
           )
         );
       }
       await Promise.all(promises);
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
       chai.assert.equal((error as any).name, "AbortError", "Unexpected error thrown");
     }
@@ -84,14 +82,15 @@ describe("Should not retry forever", () => {
     try {
       await client.addConfigurationSetting({
         key: key,
-        value: "added"
+        value: "added",
       });
-    } catch (error) {
+    } catch (error: any) {
       errorWasThrown = true;
-      chai.assert.equal(error.name, "RestError", "Unexpected error thrown");
-      chai.assert.equal(JSON.parse(error.message).status, 429, "Unexpected error thrown");
+      const err = error as RestError;
+      chai.assert.equal(err.name, "RestError", "Unexpected error thrown");
+      chai.assert.equal(JSON.parse(err.message).status, 429, "Unexpected error thrown");
       chai.assert.equal(
-        JSON.parse(error.message).title,
+        JSON.parse(err.message).title,
         "Resource utilization has surpassed the assigned quota",
         "Unexpected error thrown"
       );

@@ -5,7 +5,7 @@ import {
   captureConsoleOutputToAppInsights,
   createServiceBusClient,
   loopForever as loopInfinitely,
-  ServiceBusStressTester
+  ServiceBusStressTester,
 } from "./serviceBusStressTester";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusClient, ServiceBusSender } from "@azure/service-bus";
@@ -37,13 +37,13 @@ async function sendMessagesForever(
         const messagesToSend = [
           {
             messageId: uuidv4(),
-            body: `Message: ${Date.now()}`
-          }
+            body: `Message: ${Date.now()}`,
+          },
         ];
 
         stressTest.trackSentMessages(messagesToSend);
         await sender.sendMessages(messagesToSend);
-      } catch (err) {
+      } catch (err: any) {
         console.log(`Sending message failed: `, err);
         stressTest.trackError("send", err as Error);
       }
@@ -59,14 +59,14 @@ async function main() {
 
   const stressTest = new ServiceBusStressTester({
     testName: "longRunning",
-    snapshotFocus: ["send-info", "receive-info"]
+    snapshotFocus: ["send-info", "receive-info"],
   });
 
   const operation = async () => {
     const clientForReceiver = createServiceBusClient();
 
     const receiver = clientForReceiver.createReceiver(stressTest.queueName, {
-      receiveMode: "peekLock"
+      receiveMode: "peekLock",
     });
 
     console.log(`Receiving...`);
@@ -80,11 +80,11 @@ async function main() {
         processError: async (args) => {
           console.log(`subscribe error:`, args);
           stressTest.trackError("receive", args.error);
-        }
+        },
       },
       {
         autoCompleteMessages: false,
-        maxConcurrentCalls: 10
+        maxConcurrentCalls: 10,
       }
     );
 

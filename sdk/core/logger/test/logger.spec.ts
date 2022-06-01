@@ -6,7 +6,7 @@ import { assert } from "chai";
 
 const testLogger = Logger.createClientLogger("test");
 
-describe("AzureLogger", function() {
+describe("AzureLogger", function () {
   it("is not enabled", () => {
     // AzureLogger is only used to enable a way to redirect logs.
     // This test ensures logs aren't redirected to the root logger.

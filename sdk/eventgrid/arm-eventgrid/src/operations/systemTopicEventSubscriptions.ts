@@ -11,7 +11,7 @@ import { SystemTopicEventSubscriptions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { EventGridManagementClientContext } from "../eventGridManagementClientContext";
+import { EventGridManagementClient } from "../eventGridManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -38,13 +38,13 @@ import {
 /** Class containing SystemTopicEventSubscriptions operations. */
 export class SystemTopicEventSubscriptionsImpl
   implements SystemTopicEventSubscriptions {
-  private readonly client: EventGridManagementClientContext;
+  private readonly client: EventGridManagementClient;
 
   /**
    * Initialize a new instance of the class SystemTopicEventSubscriptions class.
    * @param client Reference to the service client
    */
-  constructor(client: EventGridManagementClientContext) {
+  constructor(client: EventGridManagementClient) {
     this.client = client;
   }
 
@@ -212,10 +212,12 @@ export class SystemTopicEventSubscriptionsImpl
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -247,7 +249,7 @@ export class SystemTopicEventSubscriptionsImpl
   }
 
   /**
-   * Delete an event subscription of a system topic.
+   * Delete an existing event subscription of a system topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
    * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
@@ -304,14 +306,16 @@ export class SystemTopicEventSubscriptionsImpl
       { resourceGroupName, systemTopicName, eventSubscriptionName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Delete an event subscription of a system topic.
+   * Delete an existing event subscription of a system topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
    * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
@@ -334,7 +338,7 @@ export class SystemTopicEventSubscriptionsImpl
   }
 
   /**
-   * Update event subscription of a system topic.
+   * Update an existing event subscription of a system topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
    * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
@@ -404,14 +408,16 @@ export class SystemTopicEventSubscriptionsImpl
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Update event subscription of a system topic.
+   * Update an existing event subscription of a system topic.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param systemTopicName Name of the system topic.
    * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names

@@ -22,16 +22,16 @@ export async function getConversionInternal(
 ): Promise<AssetConversion> {
   const { span, updatedOptions } = createSpan(tracingSpanName, {
     conversionId: conversionId,
-    ...options
+    ...options,
   });
 
   try {
     const conversion = await operations.getConversion(accountId, conversionId, updatedOptions);
     return assetConversionFromConversion(conversion);
-  } catch (e) {
+  } catch (e: any) {
     span.setStatus({
       code: SpanStatusCode.ERROR,
-      message: e.message
+      message: e.message,
     });
     throw e;
   } finally {
@@ -53,16 +53,16 @@ export async function getSessionInternal(
 ): Promise<RenderingSession> {
   const { span, updatedOptions } = createSpan(tracingSpanName, {
     sessionId,
-    ...options
+    ...options,
   });
 
   try {
     const sessionProperties = await operations.getSession(accountId, sessionId, updatedOptions);
     return renderingSessionFromSessionProperties(sessionProperties);
-  } catch (e) {
+  } catch (e: any) {
     span.setStatus({
       code: SpanStatusCode.ERROR,
-      message: e.message
+      message: e.message,
     });
     throw e;
   } finally {
@@ -84,15 +84,15 @@ export async function endSessionInternal(
 ): Promise<void> {
   const { span, updatedOptions } = createSpan(tracingSpanName, {
     conversionId: sessionId,
-    ...options
+    ...options,
   });
 
   try {
     await operations.stopSession(accountId, sessionId, updatedOptions);
-  } catch (e) {
+  } catch (e: any) {
     span.setStatus({
       code: SpanStatusCode.ERROR,
-      message: e.message
+      message: e.message,
     });
     throw e;
   } finally {

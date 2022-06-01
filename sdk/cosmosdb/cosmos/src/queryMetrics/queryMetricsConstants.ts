@@ -59,5 +59,5 @@ export default {
   RetriesText: "Retry Count",
   RequestChargeText: "Request Charge",
   FetchExecutionRangesText: "Partition Execution Timeline",
-  SchedulingMetricsText: "Scheduling Metrics"
+  SchedulingMetricsText: "Scheduling Metrics",
 };

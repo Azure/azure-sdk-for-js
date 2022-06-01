@@ -11,7 +11,7 @@ import { Channels } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureBotServiceContext } from "../azureBotServiceContext";
+import { AzureBotService } from "../azureBotService";
 import {
   BotChannel,
   ChannelsListByResourceGroupNextOptionalParams,
@@ -33,13 +33,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Channels operations. */
 export class ChannelsImpl implements Channels {
-  private readonly client: AzureBotServiceContext;
+  private readonly client: AzureBotService;
 
   /**
    * Initialize a new instance of the class Channels class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureBotServiceContext) {
+  constructor(client: AzureBotService) {
     this.client = client;
   }
 
@@ -367,7 +367,7 @@ const listWithKeysOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.BotChannel
+      bodyMapper: Mappers.ListChannelWithKeysResponse
     },
     default: {
       bodyMapper: Mappers.ErrorModel

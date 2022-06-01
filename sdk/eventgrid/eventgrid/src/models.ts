@@ -167,7 +167,7 @@ export const cloudEventReservedPropertyNames = [
   "dataschema",
   "subject",
   "time",
-  "data"
+  "data",
 ];
 
 /**

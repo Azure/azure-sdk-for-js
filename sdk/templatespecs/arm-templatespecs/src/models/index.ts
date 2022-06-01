@@ -8,6 +8,25 @@
 
 import * as coreClient from "@azure/core-client";
 
+/** High-level information about a Template Spec version. */
+export interface TemplateSpecVersionInfo {
+  /**
+   * Template Spec version description.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * The timestamp of when the version was created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly timeCreated?: Date;
+  /**
+   * The timestamp of when the version was last modified.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly timeModified?: Date;
+}
+
 /** Common properties for all Azure resources. */
 export interface AzureResourceBase {
   /**
@@ -46,25 +65,6 @@ export interface SystemData {
   lastModifiedByType?: CreatedByType;
   /** The timestamp of resource last modification (UTC) */
   lastModifiedAt?: Date;
-}
-
-/** High-level information about a Template Spec version. */
-export interface TemplateSpecVersionInfo {
-  /**
-   * Template Spec version description.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly description?: string;
-  /**
-   * The timestamp of when the version was created.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timeCreated?: Date;
-  /**
-   * The timestamp of when the version was last modified.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly timeModified?: Date;
 }
 
 /** Template Specs error response. */

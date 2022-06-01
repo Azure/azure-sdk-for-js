@@ -112,7 +112,7 @@ async function main() {
   // Passing next marker as continuationToken
   iterator = serviceBusAdministrationClient.listQueues().byPage({
     continuationToken: marker,
-    maxPageSize: 10
+    maxPageSize: 10,
   });
   queuesPage = await iterator.next();
   // Prints 10 queue names

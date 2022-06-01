@@ -4,14 +4,24 @@
 
 ```ts
 
+/// <reference types="node" />
+
+import { HttpClient } from '@azure/core-rest-pipeline';
 import { KeyCredential } from '@azure/core-auth';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { PipelineOptions } from '@azure/core-rest-pipeline';
+import { PipelinePolicy } from '@azure/core-rest-pipeline';
 import { PipelineRequest } from '@azure/core-rest-pipeline';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
+
+// @public
+export interface AdditionalPolicyConfig {
+    policy: PipelinePolicy;
+    position: "perCall" | "perRetry";
+}
 
 // @public
 export interface CertificateCredential {
@@ -35,6 +45,8 @@ export type ClientOptions = PipelineOptions & {
     baseUrl?: string;
     apiVersion?: string;
     allowInsecureConnection?: boolean;
+    additionalPolicies?: AdditionalPolicyConfig[];
+    httpClient?: HttpClient;
 };
 
 // @public
@@ -45,6 +57,16 @@ export function getClient(baseUrl: string, options?: ClientOptions): Client;
 
 // @public
 export function getClient(baseUrl: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
+
+// @public
+export type HttpBrowserStreamResponse = HttpResponse & {
+    body?: ReadableStream<Uint8Array>;
+};
+
+// @public
+export type HttpNodeStreamResponse = HttpResponse & {
+    body?: NodeJS.ReadableStream;
+};
 
 // @public
 export type HttpResponse = {
@@ -65,7 +87,7 @@ pathParameter: string,
 ];
 
 // @public
-export type PathUnchecked = <TPath extends string>(path: TPath, ...args: PathParameters<TPath>) => ResourceMethods;
+export type PathUnchecked = <TPath extends string>(path: TPath, ...args: PathParameters<TPath>) => ResourceMethods<StreamableMethod>;
 
 // @public
 export type PathUncheckedResponse = HttpResponse & {
@@ -82,18 +104,25 @@ export type RequestParameters = {
     allowInsecureConnection?: boolean;
     skipUrlEncoding?: boolean;
     binaryResponse?: boolean;
+    pathParameters?: Record<string, any>;
 };
 
 // @public
-export interface ResourceMethods {
-    delete: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    get: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    head: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    options: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    patch: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    post: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    put: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
-    trace: (options?: RequestParameters) => Promise<PathUncheckedResponse>;
+export interface ResourceMethods<TResponse = PromiseLike<PathUncheckedResponse>> {
+    delete: (options?: RequestParameters) => TResponse;
+    get: (options?: RequestParameters) => TResponse;
+    head: (options?: RequestParameters) => TResponse;
+    options: (options?: RequestParameters) => TResponse;
+    patch: (options?: RequestParameters) => TResponse;
+    post: (options?: RequestParameters) => TResponse;
+    put: (options?: RequestParameters) => TResponse;
+    trace: (options?: RequestParameters) => TResponse;
 }
+
+// @public
+export type StreamableMethod<TResponse = PathUncheckedResponse> = PromiseLike<TResponse> & {
+    asNodeStream: () => Promise<HttpNodeStreamResponse>;
+    asBrowserStream: () => Promise<HttpBrowserStreamResponse>;
+};
 
 ```

@@ -46,10 +46,10 @@ export class FilesystemFetcher implements Fetcher {
       const dtdlFile = await readFilePromise(absolutePath);
       const parsedDtdl: DTDL | DTDL[] = JSON.parse(dtdlFile);
       return parsedDtdl;
-    } catch (e) {
+    } catch (e: any) {
       const options: RestErrorOptions = {
         code: "ResourceNotFound",
-        statusCode: e?.status
+        statusCode: e?.status,
       };
       throw new RestError("Failed to fetch from Filesystem", options);
     }

@@ -19,7 +19,7 @@ function globAsync(pattern: string): Promise<string[]> {
 
 // Since `npm run build:samples` now update the typescript samples to make them debuggable,
 // we now have the below tests to ensure such updates dont get checked in.
-describe("Ensure typescript samples use published package", function(): void {
+describe("Ensure typescript samples use published package", function (): void {
   function testSamples(files: string[], regex: RegExp): void {
     console.log("I have", files.length, "files");
     const failingFiles = files.filter((file) => {
@@ -34,13 +34,13 @@ describe("Ensure typescript samples use published package", function(): void {
   }
 
   it("Ensure TypeScript samples use published package", async () => {
-    const pattern = "samples/typescript/src/**/*.ts";
+    const pattern = "samples/v7/typescript/src/**/*.ts";
     const files = await globAsync(pattern);
     testSamples(files, new RegExp('from\\s"@azure/service-bus"'));
   });
 
   it("Ensure JavaScript samples use published package", async () => {
-    const pattern = "samples/javascript/**/*.js";
+    const pattern = "samples/v7/javascript/**/*.js";
     const files = await globAsync(pattern);
     testSamples(files, new RegExp('=\\srequire\\("@azure/service-bus"\\)'));
   });

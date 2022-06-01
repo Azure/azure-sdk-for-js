@@ -7,7 +7,7 @@
 
 import {
   PhoneNumbersClient,
-  SearchAvailablePhoneNumbersRequest
+  SearchAvailablePhoneNumbersRequest,
 } from "@azure/communication-phone-numbers";
 
 // Load the .env file if it exists
@@ -32,8 +32,8 @@ export async function main() {
     assignmentType: "application",
     capabilities: {
       sms: "outbound",
-      calling: "none"
-    }
+      calling: "none",
+    },
   };
 
   // get poller to monitor search

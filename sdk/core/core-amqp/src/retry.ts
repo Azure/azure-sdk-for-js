@@ -3,11 +3,11 @@
 /* eslint-disable eqeqeq */
 
 import { MessagingError, translate } from "./errors";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { Constants } from "./util/constants";
+import { checkNetworkConnection } from "./util/checkNetworkConnection";
 import { delay } from "./util/utils";
 import { logger } from "./log";
-import { Constants } from "./util/constants";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { checkNetworkConnection } from "./util/checkNetworkConnection";
 
 /**
  * Determines whether the object is a Delivery object.
@@ -32,7 +32,7 @@ function isDelivery(obj: any): boolean {
  */
 export enum RetryMode {
   Exponential,
-  Fixed
+  Fixed,
 }
 
 /**
@@ -47,7 +47,7 @@ export enum RetryOperationType {
   sendMessage = "sendMessage",
   receiveMessage = "receiveMessage",
   session = "session",
-  messageSettlement = "settlement"
+  messageSettlement = "settlement",
 }
 
 /**
@@ -135,6 +135,28 @@ function validateRetryConfig<T>(config: RetryConfig<T>): void {
 }
 
 /**
+ * Calculates delay between retries, in milliseconds.
+ * @internal
+ */
+function calculateDelay(
+  attemptCount: number,
+  retryDelayInMs: number,
+  maxRetryDelayInMs: number,
+  mode: RetryMode
+): number {
+  if (mode === RetryMode.Exponential) {
+    const boundedRandDelta =
+      retryDelayInMs * 0.8 +
+      Math.floor(Math.random() * (retryDelayInMs * 1.2 - retryDelayInMs * 0.8));
+
+    const incrementDelta = boundedRandDelta * (Math.pow(2, attemptCount) - 1);
+    return Math.min(incrementDelta, maxRetryDelayInMs);
+  }
+
+  return retryDelayInMs;
+}
+
+/**
  * Every operation is attempted at least once. Additional attempts are made if the previous attempt failed
  * with a retryable error. The number of additional attempts is governed by the `maxRetries` property provided
  * on the `RetryConfig` argument.
@@ -151,98 +173,99 @@ function validateRetryConfig<T>(config: RetryConfig<T>): void {
  */
 export async function retry<T>(config: RetryConfig<T>): Promise<T> {
   validateRetryConfig(config);
-  if (!config.retryOptions) {
-    config.retryOptions = {};
-  }
-  if (config.retryOptions.maxRetries == undefined || config.retryOptions.maxRetries < 0) {
-    config.retryOptions.maxRetries = Constants.defaultMaxRetries;
-  }
-  if (config.retryOptions.retryDelayInMs == undefined || config.retryOptions.retryDelayInMs < 0) {
-    config.retryOptions.retryDelayInMs = Constants.defaultDelayBetweenOperationRetriesInMs;
+  const updatedConfig = { ...config };
+  if (!updatedConfig.retryOptions) {
+    updatedConfig.retryOptions = {};
   }
   if (
-    config.retryOptions.maxRetryDelayInMs == undefined ||
-    config.retryOptions.maxRetryDelayInMs < 0
+    updatedConfig.retryOptions.maxRetries == undefined ||
+    updatedConfig.retryOptions.maxRetries < 0
   ) {
-    config.retryOptions.maxRetryDelayInMs = Constants.defaultMaxDelayForExponentialRetryInMs;
+    updatedConfig.retryOptions.maxRetries = Constants.defaultMaxRetries;
   }
-  if (config.retryOptions.mode == undefined) {
-    config.retryOptions.mode = RetryMode.Fixed;
+  if (
+    updatedConfig.retryOptions.retryDelayInMs == undefined ||
+    updatedConfig.retryOptions.retryDelayInMs < 0
+  ) {
+    updatedConfig.retryOptions.retryDelayInMs = Constants.defaultDelayBetweenOperationRetriesInMs;
   }
-  let lastError: MessagingError | undefined;
+  if (
+    updatedConfig.retryOptions.maxRetryDelayInMs == undefined ||
+    updatedConfig.retryOptions.maxRetryDelayInMs < 0
+  ) {
+    updatedConfig.retryOptions.maxRetryDelayInMs = Constants.defaultMaxDelayForExponentialRetryInMs;
+  }
+  if (updatedConfig.retryOptions.mode == undefined) {
+    updatedConfig.retryOptions.mode = RetryMode.Fixed;
+  }
+  let lastError: MessagingError | Error | undefined;
   let result: any;
   let success = false;
-  const totalNumberOfAttempts = config.retryOptions.maxRetries + 1;
+  const totalNumberOfAttempts = updatedConfig.retryOptions.maxRetries + 1;
   for (let i = 1; i <= totalNumberOfAttempts; i++) {
     logger.verbose(
       "[%s] Attempt number for '%s': %d.",
-      config.connectionId,
-      config.operationType,
+      updatedConfig.connectionId,
+      updatedConfig.operationType,
       i
     );
     try {
-      result = await config.operation();
+      result = await updatedConfig.operation();
       success = true;
       logger.verbose(
         "[%s] Success for '%s', after attempt number: %d.",
-        config.connectionId,
-        config.operationType,
+        updatedConfig.connectionId,
+        updatedConfig.operationType,
         i
       );
       if (result && !isDelivery(result)) {
         logger.verbose(
           "[%s] Success result for '%s': %O",
-          config.connectionId,
-          config.operationType,
+          updatedConfig.connectionId,
+          updatedConfig.operationType,
           result
         );
       }
       break;
     } catch (_err) {
-      let err = _err;
-      if (!err.translated) {
-        err = translate(err);
-      }
+      const err = translate(_err);
 
-      if (!err.retryable && err.name === "ServiceCommunicationError" && config.connectionHost) {
-        const isConnected = await checkNetworkConnection(config.connectionHost);
+      if (
+        !(err as any).retryable &&
+        err.name === "ServiceCommunicationError" &&
+        updatedConfig.connectionHost
+      ) {
+        const isConnected = await checkNetworkConnection(updatedConfig.connectionHost);
         if (!isConnected) {
           err.name = "ConnectionLostError";
-          err.retryable = true;
+          (err as any).retryable = true;
         }
       }
-      lastError = err;
       logger.verbose(
         "[%s] Error occurred for '%s' in attempt number %d: %O",
-        config.connectionId,
-        config.operationType,
+        updatedConfig.connectionId,
+        updatedConfig.operationType,
         i,
         err
       );
-      let targetDelayInMs = config.retryOptions.retryDelayInMs;
-      if (config.retryOptions.mode === RetryMode.Exponential) {
-        let incrementDelta = Math.pow(2, i) - 1;
-        const boundedRandDelta =
-          config.retryOptions.retryDelayInMs * 0.8 +
-          Math.floor(
-            Math.random() *
-              (config.retryOptions.retryDelayInMs * 1.2 - config.retryOptions.retryDelayInMs * 0.8)
-          );
-        incrementDelta *= boundedRandDelta;
 
-        targetDelayInMs = Math.min(incrementDelta, config.retryOptions.maxRetryDelayInMs);
-      }
-
-      if (lastError && lastError.retryable && totalNumberOfAttempts > i) {
+      lastError = err;
+      if ((lastError as any).retryable && totalNumberOfAttempts > i) {
+        const targetDelayInMs = calculateDelay(
+          i,
+          updatedConfig.retryOptions.retryDelayInMs,
+          updatedConfig.retryOptions.maxRetryDelayInMs,
+          updatedConfig.retryOptions.mode
+        );
         logger.verbose(
           "[%s] Sleeping for %d milliseconds for '%s'.",
-          config.connectionId,
+          updatedConfig.connectionId,
           targetDelayInMs,
-          config.operationType
+          updatedConfig.operationType
         );
         await delay(
           targetDelayInMs,
-          config.abortSignal,
+          updatedConfig.abortSignal,
           `The retry operation has been cancelled by the user.`
         );
         continue;

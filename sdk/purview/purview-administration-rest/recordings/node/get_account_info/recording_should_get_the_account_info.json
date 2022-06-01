@@ -1,0 +1,75 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/?api-version=2019-11-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "core-rest-pipeline/1.5.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "991c4d02-d4bd-4405-958b-6f7874dbfb65"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 14 Feb 2022 19:22:01 GMT",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "x-ms-account-status": "Succeeded",
+        "x-ms-correlation-request-id": "88b801c8-2dfc-464e-a4b9-30f09a621bfb"
+      },
+      "ResponseBody": {
+        "sku": {
+          "name": "Standard",
+          "capacity": 1
+        },
+        "properties": {
+          "cloudConnectors": {
+            "awsExternalId": "2c7d73eb-7327-4166-b30c-96167c7b7271"
+          },
+          "friendlyName": "newpurviewllc",
+          "createdBy": "joheredi@microsoft.com",
+          "createdByObjectId": "35ac9d32-a8ca-4324-9393-d4000746f07c",
+          "createdAt": "2021-09-29T18:35:18.4761382Z",
+          "endpoints": {
+            "catalog": "https://endpoint/catalog",
+            "scan": "https://endpoint/scan",
+            "guardian": "https://endpoint/guardian"
+          },
+          "provisioningState": "Succeeded",
+          "privateEndpointConnections": [],
+          "managedResources": {
+            "resourceGroup": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/managed-rg-newpurviewllc",
+            "storageAccount": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/managed-rg-newpurviewllc/providers/Microsoft.Storage/storageAccounts/scaneastusopeznna",
+            "eventHubNamespace": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/managed-rg-newpurviewllc/providers/Microsoft.EventHub/namespaces/Atlas-169658be-bf24-44f9-9873-fd914892a4f6"
+          },
+          "publicNetworkAccess": "Enabled",
+          "managedResourceGroupName": "managed-rg-newpurviewllc"
+        },
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/joheredi-test/providers/Microsoft.Purview/accounts/newpurviewllc",
+        "name": "newpurviewllc",
+        "type": "Microsoft.Purview/accounts",
+        "location": "eastus",
+        "identity": {
+          "type": "SystemAssigned",
+          "principalId": "cb046a1b-cf5b-4a43-b188-322568afb9d4",
+          "tenantId": "88888888-8888-8888-8888-888888888888"
+        },
+        "tags": {},
+        "systemData": {
+          "createdBy": "joheredi@microsoft.com",
+          "createdByType": "User",
+          "createdAt": "2021-09-29T18:35:18.4761382Z",
+          "lastModifiedBy": "joheredi@microsoft.com",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2021-09-29T18:35:18.4761382Z"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

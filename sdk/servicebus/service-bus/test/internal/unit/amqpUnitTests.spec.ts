@@ -7,7 +7,7 @@ import {
   ServiceBusMessage,
   ServiceBusMessageImpl,
   ServiceBusReceivedMessage,
-  toRheaMessage
+  toRheaMessage,
 } from "../../../src/serviceBusMessage";
 import * as chai from "chai";
 import { Delivery, Message } from "rhea-promise";
@@ -16,11 +16,11 @@ import {
   dataSectionTypeCode,
   defaultDataTransformer,
   isRheaAmqpSection,
-  valueSectionTypeCode
+  valueSectionTypeCode,
 } from "../../../src/dataTransformer";
 import {
   errorInvalidMessageTypeSingle,
-  errorInvalidMessageTypeSingleOrArray
+  errorInvalidMessageTypeSingleOrArray,
 } from "../../../src/util/errors";
 const assert = chai.assert;
 
@@ -39,14 +39,15 @@ describe("AMQP message encoding", () => {
 
   const exampleReceivedMessage: () => ServiceBusReceivedMessage = () =>
     new ServiceBusMessageImpl(
-      ({
+      {
         message_annotations: {
-          [Constants.enqueuedTime]: Date.now()
-        }
-      } as any) as Message,
+          [Constants.enqueuedTime]: Date.now(),
+        },
+      } as any as Message,
       {} as Delivery,
       false,
-      "receiveAndDelete"
+      "receiveAndDelete",
+      false
     );
 
   it("isAmqpAnnotatedMessage", () => {
@@ -57,26 +58,26 @@ describe("AMQP message encoding", () => {
     assert.isTrue(
       isAmqpAnnotatedMessage({
         body: "hello world",
-        bodyType: "sequence"
+        bodyType: "sequence",
       })
     );
     assert.isTrue(
       isAmqpAnnotatedMessage({
         body: "hello world",
-        bodyType: "value"
+        bodyType: "value",
       })
     );
     assert.isTrue(
       isAmqpAnnotatedMessage({
         body: "hello world",
-        bodyType: "data"
+        bodyType: "data",
       })
     );
 
     assert.isTrue(
       isAmqpAnnotatedMessage({
         body: "hello world",
-        bodyType: undefined // the property _must_ exist, but undefined is fine. We'll default to 'data'
+        bodyType: undefined, // the property _must_ exist, but undefined is fine. We'll default to 'data'
       })
     );
   });
@@ -97,7 +98,7 @@ describe("AMQP message encoding", () => {
     it("AmqpAnnotatedMessage (explicit type)", () => {
       const amqpAnnotatedMessage: AmqpAnnotatedMessage = {
         body: "hello",
-        bodyType: "value"
+        bodyType: "value",
       };
 
       const rheaMessage = toRheaMessage(amqpAnnotatedMessage, defaultDataTransformer);
@@ -112,7 +113,7 @@ describe("AMQP message encoding", () => {
     it("AmqpAnnotatedMessage (implicit type)", () => {
       const amqpAnnotatedMessage: AmqpAnnotatedMessage = {
         body: "hello",
-        bodyType: undefined
+        bodyType: undefined,
       };
 
       const rheaMessage = toRheaMessage(amqpAnnotatedMessage, defaultDataTransformer);
@@ -126,7 +127,7 @@ describe("AMQP message encoding", () => {
 
     it("ServiceBusMessage", () => {
       const serviceBusMessage: ServiceBusMessage = {
-        body: "hello"
+        body: "hello",
       };
 
       const rheaMessage = toRheaMessage(serviceBusMessage, defaultDataTransformer);
@@ -144,7 +145,7 @@ describe("AMQP message encoding", () => {
       (serviceBusReceivedMessage as Record<keyof ServiceBusReceivedMessage, any>)[
         "_rawAmqpMessage"
       ] = {
-        bodyType: "data"
+        bodyType: "data",
       };
 
       const rheaMessage = toRheaMessage(serviceBusReceivedMessage, defaultDataTransformer);
@@ -162,7 +163,7 @@ describe("AMQP message encoding", () => {
       (serviceBusReceivedMessage as Record<keyof ServiceBusReceivedMessage, any>)[
         "_rawAmqpMessage"
       ] = {
-        bodyType: "value"
+        bodyType: "value",
       };
 
       const rheaMessage = toRheaMessage(serviceBusReceivedMessage, defaultDataTransformer);

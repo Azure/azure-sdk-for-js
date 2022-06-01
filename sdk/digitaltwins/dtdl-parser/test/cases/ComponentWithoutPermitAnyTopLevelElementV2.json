@@ -1,0 +1,27 @@
+{
+  "valid": false,
+  "options": [],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:topLevelElement;1",
+      "@type": "Component",
+      "name": "myName",
+      "schema": {
+        "@id": "dtmi:test:anInterface;1",
+        "@type": "Interface"
+      }
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:badType",
+        "PrimaryID": null,
+        "SecondaryID": null,
+        "Property": null,
+        "Value": null
+      }
+    ]
+  }
+}

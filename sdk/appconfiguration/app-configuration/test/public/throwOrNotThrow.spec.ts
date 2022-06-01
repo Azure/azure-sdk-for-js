@@ -3,12 +3,12 @@
 
 import { AppConfigurationClient, ConfigurationSetting } from "../../src";
 import {
+  assertThrowsRestError,
   createAppConfigurationClientForTests,
   deleteKeyCompletely,
-  assertThrowsRestError,
-  startRecorder
+  startRecorder,
 } from "./utils/testHelpers";
-import * as assert from "assert";
+import { assert } from "chai";
 import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
@@ -21,12 +21,12 @@ describe("Various error cases", () => {
   let recorder: Recorder;
   const nonMatchingETag = "never-match-etag";
 
-  beforeEach(function(this: Context) {
+  beforeEach(function (this: Context) {
     recorder = startRecorder(this);
     client = createAppConfigurationClientForTests() || this.skip();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -37,13 +37,13 @@ describe("Various error cases", () => {
     beforeEach(async () => {
       addedSetting = await client.addConfigurationSetting({
         key: recorder.getUniqueName(`etags`),
-        value: "world"
+        value: "world",
       });
 
       nonExistentKey = "non-existent key " + addedSetting.key;
     });
 
-    afterEach(async function(this: Context) {
+    afterEach(async function (this: Context) {
       if (!this.currentTest?.isPending()) {
         await deleteKeyCompletely([addedSetting.key], client);
       }
@@ -66,7 +66,7 @@ describe("Various error cases", () => {
           client.setConfigurationSetting(
             {
               ...addedSetting,
-              etag: nonMatchingETag // purposefully make the etag not match the server
+              etag: nonMatchingETag, // purposefully make the etag not match the server
             },
             { onlyIfUnchanged: true }
           ),
@@ -98,13 +98,13 @@ describe("Various error cases", () => {
       // the 'no label' value for 'hello'
       addedSetting = await client.addConfigurationSetting({
         key: recorder.getUniqueName(`etags`),
-        value: "world"
+        value: "world",
       });
 
       nonExistentKey = "bogus key " + addedSetting.key;
     });
 
-    afterEach(async function(this: Context) {
+    afterEach(async function (this: Context) {
       if (!this.currentTest?.isPending()) {
         await deleteKeyCompletely([addedSetting.key], client);
       }
@@ -112,7 +112,7 @@ describe("Various error cases", () => {
 
     it("get: value is unchanged from etag (304) using ifNoneMatch, sets all properties to undefined", async () => {
       const response = await client.getConfigurationSetting(addedSetting, {
-        onlyIfChanged: true
+        onlyIfChanged: true,
       });
 
       assert.equal(304, response.statusCode);

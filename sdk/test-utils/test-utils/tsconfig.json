@@ -2,7 +2,6 @@
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
     "declarationDir": "./types",
-    "target": "es5",
     "outDir": "./dist-esm",
     "lib": ["dom", "es5", "es6", "es7", "esnext"]
   },

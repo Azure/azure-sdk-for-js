@@ -2,7 +2,7 @@
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config({ path: "../.env" });
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: "./",
@@ -16,7 +16,7 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       "dist-test/index.browser.js",
-      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true }
+      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true },
     ],
 
     // list of files / patterns to exclude
@@ -25,7 +25,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      "**/*.js": ["sourcemap", "env"]
+      "**/*.js": ["sourcemap", "env"],
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
       //"dist-test/index.browser.js": ["coverage"]
@@ -58,8 +58,8 @@ module.exports = function(config) {
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
         base: "ChromeHeadless",
-        flags: ["--no-sandbox", "--disable-web-security"]
-      }
+        flags: ["--no-sandbox", "--disable-web-security"],
+      },
     },
 
     // Continuous Integration mode
@@ -76,6 +76,6 @@ module.exports = function(config) {
     browserConsoleLogOptions: {
       // We would usually hide the logs from the tests, but we don't need to do this inside of the recorder package because we are not recording the tests.
       // // terminal: process.env.TEST_MODE !== "record"
-    }
+    },
   });
 };

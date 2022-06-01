@@ -11,7 +11,7 @@ import { Endpoints } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { CdnManagementClientContext } from "../cdnManagementClientContext";
+import { CdnManagementClient } from "../cdnManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -49,13 +49,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Endpoints operations. */
 export class EndpointsImpl implements Endpoints {
-  private readonly client: CdnManagementClientContext;
+  private readonly client: CdnManagementClient;
 
   /**
    * Initialize a new instance of the class Endpoints class.
    * @param client Reference to the service client
    */
-  constructor(client: CdnManagementClientContext) {
+  constructor(client: CdnManagementClient) {
     this.client = client;
   }
 
@@ -312,10 +312,12 @@ export class EndpointsImpl implements Endpoints {
       { resourceGroupName, profileName, endpointName, endpoint, options },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -417,10 +419,12 @@ export class EndpointsImpl implements Endpoints {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -509,10 +513,12 @@ export class EndpointsImpl implements Endpoints {
       { resourceGroupName, profileName, endpointName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -600,10 +606,12 @@ export class EndpointsImpl implements Endpoints {
       { resourceGroupName, profileName, endpointName, options },
       startOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -687,10 +695,12 @@ export class EndpointsImpl implements Endpoints {
       { resourceGroupName, profileName, endpointName, options },
       stopOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -782,10 +792,12 @@ export class EndpointsImpl implements Endpoints {
       },
       purgeContentOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -881,10 +893,12 @@ export class EndpointsImpl implements Endpoints {
       },
       loadContentOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1068,7 +1082,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.endpoint,
+  requestBody: Parameters.endpoint1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1077,7 +1091,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.profileName,
     Parameters.endpointName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1102,7 +1116,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.endpointUpdateProperties,
+  requestBody: Parameters.endpointUpdateProperties1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -1111,7 +1125,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.profileName,
     Parameters.endpointName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1225,7 +1239,7 @@ const purgeContentOperationSpec: coreClient.OperationSpec = {
     Parameters.profileName,
     Parameters.endpointName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1251,7 +1265,7 @@ const loadContentOperationSpec: coreClient.OperationSpec = {
     Parameters.profileName,
     Parameters.endpointName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -1276,7 +1290,7 @@ const validateCustomDomainOperationSpec: coreClient.OperationSpec = {
     Parameters.profileName,
     Parameters.endpointName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

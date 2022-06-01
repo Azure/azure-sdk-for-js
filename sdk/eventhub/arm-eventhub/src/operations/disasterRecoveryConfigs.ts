@@ -11,7 +11,7 @@ import { DisasterRecoveryConfigs } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { EventHubManagementClientContext } from "../eventHubManagementClientContext";
+import { EventHubManagementClient } from "../eventHubManagementClient";
 import {
   ArmDisasterRecovery,
   DisasterRecoveryConfigsListNextOptionalParams,
@@ -42,13 +42,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DisasterRecoveryConfigs operations. */
 export class DisasterRecoveryConfigsImpl implements DisasterRecoveryConfigs {
-  private readonly client: EventHubManagementClientContext;
+  private readonly client: EventHubManagementClient;
 
   /**
    * Initialize a new instance of the class DisasterRecoveryConfigs class.
    * @param client Reference to the service client
    */
-  constructor(client: EventHubManagementClientContext) {
+  constructor(client: EventHubManagementClient) {
     this.client = client;
   }
 
@@ -519,6 +519,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   httpMethod: "DELETE",
   responses: {
     200: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

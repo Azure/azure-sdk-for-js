@@ -85,7 +85,7 @@ describe("AppPlatform test", () => {
     const res = await client.apps.beginCreateOrUpdateAndWait(resourceGroup,serviceName,appName,{
       properties: {
             public: true,
-            activeDeploymentName: "mydeployment1",
+            // activeDeploymentName: "mydeployment1",
             fqdn: "myapp.mydomain.com",
             httpsOnly: false,
             temporaryDisk: {

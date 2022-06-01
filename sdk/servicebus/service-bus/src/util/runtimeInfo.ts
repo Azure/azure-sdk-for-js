@@ -11,12 +11,12 @@ import * as os from "os";
 export function getRuntimeInfo(): string {
   const runtimeInfo = {
     key: "Node",
-    value: process.version
+    value: process.version,
   };
 
   const osInfo = {
     key: "OS",
-    value: `(${os.arch()}-${os.type()}-${os.release()})`
+    value: `(${os.arch()}-${os.type()}-${os.release()})`,
   };
 
   return `${runtimeInfo.key}/${runtimeInfo.value} ${osInfo.key}/${osInfo.value}`;

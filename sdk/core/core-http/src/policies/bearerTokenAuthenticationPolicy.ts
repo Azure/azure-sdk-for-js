@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
   BaseRequestPolicy,
   RequestPolicy,
+  RequestPolicyFactory,
   RequestPolicyOptions,
-  RequestPolicyFactory
 } from "../policies/requestPolicy";
 import { Constants } from "../util/constants";
 import { HttpOperationResponse } from "../httpOperationResponse";
@@ -48,7 +48,7 @@ interface TokenCyclerOptions {
 export const DEFAULT_CYCLER_OPTIONS: TokenCyclerOptions = {
   forcedRefreshWindowInMs: 1000, // Force waiting for a refresh 1s before the token expires
   retryIntervalInMs: 3000, // Allow refresh attempts every 3s
-  refreshWindowInMs: 1000 * 60 * 2 // Start refreshing 2m before expiry
+  refreshWindowInMs: 1000 * 60 * 2, // Start refreshing 2m before expiry
 };
 
 /**
@@ -126,7 +126,7 @@ function createTokenCycler(
 
   const options = {
     ...DEFAULT_CYCLER_OPTIONS,
-    ...tokenCyclerOptions
+    ...tokenCyclerOptions,
   };
 
   /**
@@ -158,7 +158,7 @@ function createTokenCycler(
       return (
         token === null || token.expiresOnTimestamp - options.forcedRefreshWindowInMs < Date.now()
       );
-    }
+    },
   };
 
   /**
@@ -249,8 +249,8 @@ export function bearerTokenAuthenticationPolicy(
       const { token } = await getToken({
         abortSignal: webResource.abortSignal,
         tracingOptions: {
-          tracingContext: webResource.tracingContext
-        }
+          tracingContext: webResource.tracingContext,
+        },
       });
       webResource.headers.set(Constants.HeaderConstants.AUTHORIZATION, `Bearer ${token}`);
       return this._nextPolicy.sendRequest(webResource);
@@ -260,6 +260,6 @@ export function bearerTokenAuthenticationPolicy(
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new BearerTokenAuthenticationPolicy(nextPolicy, options);
-    }
+    },
   };
 }

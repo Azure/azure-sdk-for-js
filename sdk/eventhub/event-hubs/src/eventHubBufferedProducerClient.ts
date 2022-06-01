@@ -1,21 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortController } from "@azure/abort-controller";
-import { AmqpAnnotatedMessage } from "@azure/core-amqp";
-import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
-import { BatchingPartitionChannel } from "./batchingPartitionChannel";
-import { PartitionAssigner } from "./impl/partitionAssigner";
-import { EventData, EventHubProducerClient, OperationOptions } from "./index";
-import { EventHubProperties, PartitionProperties } from "./managementClient";
+import { EventData } from "./eventData";
+import { EventHubProducerClient } from "./eventHubProducerClient";
+import { OperationOptions } from "./util/operationOptions";
 import {
   EventHubClientOptions,
   GetEventHubPropertiesOptions,
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
-  SendBatchOptions
+  SendBatchOptions,
 } from "./models/public";
+import { EventHubProperties, PartitionProperties } from "./managementClient";
+import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import { isCredential, isDefined } from "./util/typeGuards";
+import { AbortController } from "@azure/abort-controller";
+import { AmqpAnnotatedMessage, delay } from "@azure/core-amqp";
+import { BatchingPartitionChannel } from "./batchingPartitionChannel";
+import { PartitionAssigner } from "./impl/partitionAssigner";
+import { logger } from "./log";
 
 /**
  * Contains the events that were successfully sent to the Event Hub,
@@ -70,11 +73,19 @@ export interface EventHubBufferedProducerClientOptions extends EventHubClientOpt
   /**
    * The handler to call once a batch has successfully published.
    */
-  onSendEventsSuccessHandler?: (ctx: OnSendEventsSuccessContext) => Promise<void>;
+  onSendEventsSuccessHandler?: (ctx: OnSendEventsSuccessContext) => void;
   /**
    * The handler to call when a batch fails to publish.
    */
-  onSendEventsErrorHandler: (ctx: OnSendEventsErrorContext) => Promise<void>;
+  onSendEventsErrorHandler: (ctx: OnSendEventsErrorContext) => void;
+  /**
+   * Indicates whether or not the EventHubProducerClient should enable idempotent publishing to Event Hub partitions.
+   * If enabled, the producer will only be able to publish directly to partitions;
+   * it will not be able to publish to the Event Hubs gateway for automatic partition routing
+   * nor will it be able to use a partition key.
+   * Default: false
+   */
+  enableIdempotentRetries?: boolean;
 }
 
 /**
@@ -164,6 +175,16 @@ export class EventHubBufferedProducerClient {
    * The options passed by the user when creating the EventHubBufferedProducerClient instance.
    */
   private _clientOptions: EventHubBufferedProducerClientOptions;
+
+  /**
+   * The interval at which the background management operation should run.
+   */
+  private _backgroundManagementInterval = 10000; // 10 seconds
+
+  /**
+   * Indicates whether the background management loop is running.
+   */
+  private _isBackgroundManagementRunning = false;
 
   /**
    * @readonly
@@ -271,6 +292,9 @@ export class EventHubBufferedProducerClient {
       );
       this._clientOptions = { ...options4! };
     }
+
+    // setting internal idempotent publishing option on the standard producer.
+    (this._producer as any)._enableIdempotentRetries = this._clientOptions.enableIdempotentRetries;
   }
 
   /**
@@ -286,13 +310,16 @@ export class EventHubBufferedProducerClient {
    * @throws Error if the underlying connection encounters an error while closing.
    */
   async close(options: BufferedCloseOptions = {}): Promise<void> {
+    logger.verbose("closing buffered producer client...");
     if (!isDefined(options.flush) || options.flush === true) {
       await this.flush(options);
     }
     // Calling abort signals to the BatchingPartitionChannels that they
-    // should stop reading/sending events.
+    // should stop reading/sending events, and to the background management
+    // loop that it should stop periodic partition id updates.
     this._abortController.abort();
-    return this._producer.close();
+    await this._producer.close();
+    this._isClosed = true;
   }
 
   /**
@@ -323,16 +350,25 @@ export class EventHubBufferedProducerClient {
       );
     }
 
-    // TODO: Start a loop that queries partition Ids.
-    // partition ids can be added to an Event Hub after it's been created.
     if (!this._partitionIds.length) {
-      this._partitionIds = await this.getPartitionIds();
-      this._partitionAssigner.setPartitionIds(this._partitionIds);
+      await this._updatePartitionIds();
+    }
+    if (!this._isBackgroundManagementRunning) {
+      this._startPartitionIdsUpdateLoop().catch((e) => {
+        logger.error(
+          `The following error occured during batch creation or sending: ${JSON.stringify(
+            e,
+            undefined,
+            "  "
+          )}`
+        );
+      });
+      this._isBackgroundManagementRunning = true;
     }
 
     const partitionId = this._partitionAssigner.assignPartition({
       partitionId: options.partitionId,
-      partitionKey: options.partitionKey
+      partitionKey: options.partitionKey,
     });
 
     const partitionChannel = this._getPartitionChannel(partitionId);
@@ -436,7 +472,7 @@ export class EventHubBufferedProducerClient {
         onSendEventsErrorHandler: this._clientOptions.onSendEventsErrorHandler,
         onSendEventsSuccessHandler: this._clientOptions.onSendEventsSuccessHandler,
         partitionId,
-        producer: this._producer
+        producer: this._producer,
       });
     this._partitionChannels.set(partitionId, partitionChannel);
     return partitionChannel;
@@ -452,5 +488,26 @@ export class EventHubBufferedProducerClient {
     }
 
     return total;
+  }
+
+  private async _updatePartitionIds(): Promise<void> {
+    logger.verbose("Checking for partition Id updates...");
+    const queriedPartitionIds = await this.getPartitionIds();
+
+    if (this._partitionIds.length !== queriedPartitionIds.length) {
+      logger.verbose("Applying partition Id updates");
+      this._partitionIds = queriedPartitionIds;
+      this._partitionAssigner.setPartitionIds(this._partitionIds);
+    }
+  }
+
+  private async _startPartitionIdsUpdateLoop(): Promise<void> {
+    logger.verbose("Starting a background loop to check and apply partition id updates...");
+    while (!this._abortController.signal.aborted && !this._isClosed) {
+      await delay<void>(this._backgroundManagementInterval);
+      if (!this._isClosed) {
+        await this._updatePartitionIds();
+      }
+    }
   }
 }

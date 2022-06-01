@@ -60,7 +60,7 @@ export const defaultDataTransformer = {
       try {
         const bodyStr = JSON.stringify(body);
         result = message.data_section(Buffer.from(bodyStr, "utf8"));
-      } catch (err) {
+      } catch (err: any) {
         const msg =
           `An error occurred while executing JSON.stringify() on the given body ` +
           body +
@@ -84,16 +84,17 @@ export const defaultDataTransformer = {
    * of the AMQP mesage.
    *
    * @param body - The AMQP message body
+   * @param skipParsingBodyAsJson - Boolean to skip running JSON.parse() on message body content.
    * @returns decoded body or the given body as-is.
    */
-  decode(body: unknown): unknown {
+  decode(body: unknown, skipParsingBodyAsJson: boolean): unknown {
     let actualContent = body;
 
     if (isRheaAmqpSection(body)) {
       actualContent = body.content;
     }
 
-    return tryToJsonDecode(actualContent);
+    return skipParsingBodyAsJson ? actualContent : tryToJsonDecode(actualContent);
   },
   /**
    * A function that takes the body property from an AMQP message, which can come from either
@@ -103,16 +104,21 @@ export const defaultDataTransformer = {
    * indicating which part of the AMQP message the body was decoded from.
    *
    * @param body - The AMQP message body as received from rhea.
+   * @param skipParsingBodyAsJson - Boolean to skip running JSON.parse() on message body.
    * @returns The decoded/raw body and the body type.
    */
   decodeWithType(
-    body: unknown | RheaAmqpSection
+    body: unknown | RheaAmqpSection,
+    skipParsingBodyAsJson: boolean
   ): { body: unknown; bodyType: "data" | "sequence" | "value" } {
     try {
       if (isRheaAmqpSection(body)) {
         switch (body.typecode) {
           case dataSectionTypeCode:
-            return { body: tryToJsonDecode(body.content), bodyType: "data" };
+            return {
+              body: skipParsingBodyAsJson ? body.content : tryToJsonDecode(body.content),
+              bodyType: "data",
+            };
           case sequenceSectionTypeCode:
             // typecode:
             // handle sequences
@@ -125,19 +131,19 @@ export const defaultDataTransformer = {
         // not sure - we have to try to infer the proper bodyType and content
         if (isBuffer(body)) {
           // This indicates that we are getting the AMQP described type. Let us try decoding it.
-          return { body: tryToJsonDecode(body), bodyType: "data" };
+          return { body: skipParsingBodyAsJson ? body : tryToJsonDecode(body), bodyType: "data" };
         } else {
           return { body: body, bodyType: "value" };
         }
       }
-    } catch (err) {
+    } catch (err: any) {
       logger.verbose(
         "[decode] An error occurred while decoding the received message body. The error is: %O",
         err
       );
       throw err;
     }
-  }
+  },
 };
 
 /** @internal */
@@ -170,7 +176,7 @@ export function tryToJsonDecode(body: any): any {
     // the original type back
     const bodyStr: string = processedBody.toString("utf8");
     processedBody = JSON.parse(bodyStr);
-  } catch (err) {
+  } catch (err: any) {
     logger.verbose(
       "[decode] An error occurred while trying JSON.parse() on the received body. " +
         "The error is %O",

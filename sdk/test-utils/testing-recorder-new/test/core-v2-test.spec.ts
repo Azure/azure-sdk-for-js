@@ -1,17 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { TableEntity, TableClient } from "@azure/data-tables";
-import {
-  TestProxyHttpClient,
-  recorderHttpPolicy,
-  RecorderStartOptions
-} from "@azure-tools/test-recorder-new";
-import { config } from "dotenv";
-import { createSimpleEntity } from "./utils/utils";
-import { SanitizerOptions } from "@azure-tools/test-recorder-new";
-config();
+import { Recorder, RecorderStartOptions, env, SanitizerOptions } from "@azure-tools/test-recorder";
+import { createSimpleEntity, assertEnvironmentVariable } from "./utils/utils";
 
 const fakeConnString =
   "TableEndpoint=https://fakeaccountname.table.core.windows.net/;SharedAccessSignature=st=2021-08-03T08:52:15Z&spr=https&sig=fakesigval";
@@ -19,25 +11,25 @@ const sanitizerOptions: SanitizerOptions = {
   connectionStringSanitizers: [
     {
       actualConnString: env.TABLES_SAS_CONNECTION_STRING,
-      fakeConnString
-    }
+      fakeConnString,
+    },
   ],
   removeHeaderSanitizer: { headersForRemoval: ["X-Content-Type-Options"] },
-  generalRegexSanitizers: [{ regex: "abc", value: "fake_abc" }]
+  generalSanitizers: [{ target: "abc", value: "fake_abc" }],
 };
 
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: {
-    TABLES_SAS_CONNECTION_STRING: fakeConnString
+    TABLES_SAS_CONNECTION_STRING: fakeConnString,
   },
-  sanitizerOptions
+  sanitizerOptions,
 };
 
 describe("Core V2 tests", () => {
-  let recorder: TestProxyHttpClient;
+  let recorder: Recorder;
 
-  beforeEach(async function() {
-    recorder = new TestProxyHttpClient(this.currentTest);
+  beforeEach(async function () {
+    recorder = new Recorder(this.currentTest);
     await recorder.start(recorderOptions);
   });
 
@@ -45,15 +37,12 @@ describe("Core V2 tests", () => {
     await recorder.stop();
   });
 
-  it("data-tables create entity", async function() {
-    if (!isPlaybackMode()) {
-      recorder.variables["table-name"] = `table${Math.ceil(Math.random() * 1000 + 1000)}`;
-    }
+  it("data-tables create entity", async function () {
     const client = TableClient.fromConnectionString(
-      env.TABLES_SAS_CONNECTION_STRING,
-      recorder.variables["table-name"]
+      assertEnvironmentVariable("TABLES_SAS_CONNECTION_STRING"),
+      recorder.variable("table-name", `table${Math.ceil(Math.random() * 1000 + 1000)}`),
+      recorder.configureClientOptions({})
     );
-    client.pipeline.addPolicy(recorderHttpPolicy(recorder));
     await client.createTable();
     const simpleEntity: TableEntity = createSimpleEntity();
     await client.createEntity(simpleEntity);

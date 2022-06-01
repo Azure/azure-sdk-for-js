@@ -1,0 +1,107 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": [
+        "dtmi:dtdl:context;3",
+        "dtmi:dtdl:extension:initialization;1"
+      ],
+      "@id": "dtmi:test:anInterface;1",
+      "@type": "Interface",
+      "contents": [
+        {
+          "@id": "dtmi:test:aProperty;1",
+          "@type": [ "Property", "Initialized" ],
+          "name": "someProp",
+          "schema": {
+            "@type": "Object",
+            "fields": [
+              {
+                "name": "alpha",
+                "schema": "string"
+              },
+              {
+                "name": "beta",
+                "schema": "integer"
+              },
+              {
+                "name": "gamma",
+                "schema": "boolean"
+              },
+              {
+                "name": "delta",
+                "schema": "float"
+              }
+            ]
+          },
+          "initialValue": {
+            "alpha": "hello",
+            "beta": 42,
+            "gamma": true,
+            "delta": 3.14159
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:aProperty;1",
+        "type": "Property",
+        "properties": {
+          "name": "someProp",
+          "schema": "dtmi:test:aProperty:_schema;1"
+        },
+        "supplementalTypes": [
+          "dtmi:dtdl:extension:initialization:v1:Initialized"
+        ],
+        "supplementalProperties": {
+          "dtmi:dtdl:extension:initialization:v1:Initialized:initialValue": {
+            "alpha": "hello",
+            "beta": 42,
+            "gamma": true,
+            "delta": 3.14159
+          }
+        }
+      },
+      {
+        "id": "dtmi:test:aProperty:_schema;1",
+        "type": "Object",
+        "properties": {
+          "fields": [
+            "dtmi:test:aProperty:_schema:_fields:__alpha;1",
+            "dtmi:test:aProperty:_schema:_fields:__beta;1",
+            "dtmi:test:aProperty:_schema:_fields:__gamma;1",
+            "dtmi:test:aProperty:_schema:_fields:__delta;1"
+          ]
+        }
+      },
+      {
+        "id": "dtmi:test:aProperty:_schema:_fields:__alpha;1",
+        "type": "Field",
+        "name": "alpha",
+        "schema": "dtmi:dtdl:instance:Schema:string;3"
+      },
+      {
+        "id": "dtmi:test:aProperty:_schema:_fields:__beta;1",
+        "type": "Field",
+        "name": "beta",
+        "schema": "dtmi:dtdl:instance:Schema:integer;3"
+      },
+      {
+        "id": "dtmi:test:aProperty:_schema:_fields:__gamma;1",
+        "type": "Field",
+        "name": "gamma",
+        "schema": "dtmi:dtdl:instance:Schema:boolean;3"
+      },
+      {
+        "id": "dtmi:test:aProperty:_schema:_fields:__delta;1",
+        "type": "Field",
+        "name": "delta",
+        "schema": "dtmi:dtdl:instance:Schema:float;3"
+      }
+    ]
+  }
+}

@@ -11,7 +11,7 @@
 import {
   TableServiceClient,
   AzureNamedKeyCredential,
-  AzureSASCredential
+  AzureSASCredential,
 } from "@azure/data-tables";
 
 import { DefaultAzureCredential } from "@azure/identity";
@@ -36,7 +36,7 @@ const sasConnectionString = process.env["SAS_CONNECTION_STRING"] || "";
 const sasToken = process.env["SAS_TOKEN"] || "";
 
 /**
- * Create a TableServiceCLient using a SAS connection String
+ * Create a TableServiceClient using a SAS connection String
  */
 async function tableServiceClientWithSasConnectionString() {
   const client = TableServiceClient.fromConnectionString(sasConnectionString);
@@ -44,7 +44,7 @@ async function tableServiceClientWithSasConnectionString() {
 }
 
 /**
- * Create a TableServiceCLient using a SAS connection String
+ * Create a TableServiceClient using a SAS connection String
  */
 async function tableServiceClientWithAAD() {
   // DefaultAzureCredential expects the following three environment variables:
@@ -57,7 +57,7 @@ async function tableServiceClientWithAAD() {
 }
 
 /**
- * Create a TableServiceCLient using a SAS token
+ * Create a TableServiceClient using a SAS token
  */
 async function tableServiceClientWithSasToken() {
   const client = new TableServiceClient(tablesUrl, new AzureSASCredential(sasToken));
@@ -65,7 +65,7 @@ async function tableServiceClientWithSasToken() {
 }
 
 /**
- * Create a TableServiceCLient using an Account connection String.
+ * Create a TableServiceClient using an Account connection String.
  * Note that this authentication method is only supported in Node,
  * and it is not available for browsers
  */
@@ -75,7 +75,7 @@ async function tableServiceClientWithAccountConnectionString() {
 }
 
 /**
- * Create a TableServiceCLient using account name and account key
+ * Create a TableServiceClient using account name and account key
  * Note that this authentication method is only supported in Node,
  * and it is not available for browsers
  */

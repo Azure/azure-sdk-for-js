@@ -4,11 +4,11 @@
 import { assert } from "chai";
 import {
   BatchRequest as GeneratedBatchRequest,
-  BatchQueryRequest
+  BatchQueryRequest,
 } from "../../../src/generated/logquery/src";
 import {
   MetricsListOptionalParams as GeneratedMetricsListOptionalParams,
-  MetricsListResponse as GeneratedMetricsListResponse
+  MetricsListResponse as GeneratedMetricsListResponse,
 } from "../../../src/generated/metrics/src";
 import { MetricDefinitionsListOptionalParams as GeneratedMetricDefinitionsListOptionalParams } from "../../../src/generated/metricsdefinitions/src";
 import {
@@ -16,21 +16,25 @@ import {
   convertRequestOptionsForMetricsDefinitions,
   convertRequestForMetrics,
   convertResponseForMetrics,
-  convertResponseForMetricsDefinitions
+  convertResponseForMetricsDefinitions,
 } from "../../../src/internal/modelConverters";
 import {
   OperationRequestOptions,
   RawResponseCallback,
-  SerializerOptions
+  SerializerOptions,
 } from "@azure/core-client";
 import { OperationTracingOptions } from "@azure/core-tracing";
 import {
   Durations,
   ListMetricDefinitionsOptions,
   MetricsQueryOptions,
-  MetricsQueryResult
+  MetricsQueryResult,
 } from "../../../src";
 import { AbortSignalLike } from "@azure/abort-controller";
+import {
+  convertIntervalToTimeIntervalObject,
+  convertTimespanToInterval,
+} from "../../../src/timespanConversion";
 
 describe("Model unit tests", () => {
   describe("LogsClient", () => {
@@ -39,8 +43,8 @@ describe("Model unit tests", () => {
         {
           query: "the kusto query",
           workspaceId: "the primary workspace id",
-          timespan: { duration: Durations.twentyFourHours }
-        }
+          timespan: { duration: Durations.twentyFourHours },
+        },
       ]);
 
       assert.deepEqual(generatedRequest, <GeneratedBatchRequest>{
@@ -51,10 +55,10 @@ describe("Model unit tests", () => {
             headers: undefined,
             body: {
               query: "the kusto query",
-              timespan: Durations.twentyFourHours
-            }
-          }
-        ]
+              timespan: Durations.twentyFourHours,
+            },
+          },
+        ],
       });
     });
 
@@ -63,7 +67,7 @@ describe("Model unit tests", () => {
         {
           query: "<placeholder>",
           workspaceId: "<placeholder>",
-          timespan: { duration: Durations.twentyFourHours }
+          timespan: { duration: Durations.twentyFourHours },
         },
         {
           query: "the kusto query",
@@ -71,20 +75,20 @@ describe("Model unit tests", () => {
           workspaceId: "the primary workspace id",
           includeQueryStatistics: true,
           serverTimeoutInSeconds: 100,
-          additionalWorkspaces: ["additionalWorkspace", "resourceId1"]
-        }
+          additionalWorkspaces: ["additionalWorkspace", "resourceId1"],
+        },
       ]);
       assert.deepEqual(generatedRequest.requests?.[1], <BatchQueryRequest>{
         body: {
           workspaces: ["additionalWorkspace", "resourceId1"],
           query: "the kusto query",
-          timespan: "PT5M"
+          timespan: "PT5M",
         },
         headers: {
-          Prefer: "wait=100,include-statistics=true"
+          Prefer: "wait=100,include-statistics=true",
         },
         workspace: "the primary workspace id",
-        id: "1" // auto-generated (increments by 1 for each query in the batch)
+        id: "1", // auto-generated (increments by 1 for each query in the batch)
       });
 
       assert.equal(generatedRequest?.requests?.length, 2);
@@ -113,7 +117,7 @@ describe("Model unit tests", () => {
         timespan: { duration: "P20H" },
         tracingOptions,
         serializerOptions,
-        onResponse
+        onResponse,
       };
 
       const actualMetricsRequest: GeneratedMetricsListOptionalParams = convertRequestForMetrics(
@@ -135,7 +139,7 @@ describe("Model unit tests", () => {
         top: 10,
         tracingOptions,
         serializerOptions,
-        onResponse
+        onResponse,
       };
 
       assert.deepEqual(actualMetricsRequest, expectedMetricsRequest);
@@ -143,7 +147,7 @@ describe("Model unit tests", () => {
 
     it("convertRequestForMetrics (only required fields)", () => {
       assert.deepEqual(convertRequestForMetrics(["SuccessfulCalls", "TotalCalls"], {}), {
-        metricnames: "SuccessfulCalls,TotalCalls"
+        metricnames: "SuccessfulCalls,TotalCalls",
       });
     });
 
@@ -159,41 +163,41 @@ describe("Model unit tests", () => {
             displayDescription: "displayDescription",
             errorCode: "anErrorCode",
             name: {
-              value: "fakeValue"
+              value: "fakeValue",
             },
             timeseries: [
               {
                 data: [
                   {
                     timeStamp: now,
-                    count: 100
-                  }
+                    count: 100,
+                  },
                 ],
                 // this value is renamed in track 2
                 metadatavalues: [
                   {
                     name: {
-                      value: "metadataName"
-                    }
+                      value: "metadataName",
+                    },
                   },
                   {
                     name: {
-                      value: "metadataName2"
+                      value: "metadataName2",
                     },
-                    value: "value2"
-                  }
-                ]
-              }
+                    value: "value2",
+                  },
+                ],
+              },
             ],
             type: "metricType",
-            unit: "BitsPerSecond"
-          }
+            unit: "BitsPerSecond",
+          },
         ],
         cost: 100,
         interval: "anInterval",
         namespace: "aNamespace",
         // ...except this one which gets a slight rename.
-        resourceregion: "aResourceRegion"
+        resourceregion: "aResourceRegion",
       };
 
       const actualConvertedResponse = convertResponseForMetrics(generatedResponse);
@@ -210,30 +214,30 @@ describe("Model unit tests", () => {
                 data: [
                   {
                     timeStamp: now,
-                    count: 100
-                  }
+                    count: 100,
+                  },
                 ],
                 // this value is renamed in track 2
                 metadataValues: [
                   {
-                    name: "metadataName"
+                    name: "metadataName",
                     // note we don't unnecesssarily add properties that weren't in the input
                   },
                   {
                     name: "metadataName2",
-                    value: "value2"
-                  }
-                ]
-              }
+                    value: "value2",
+                  },
+                ],
+              },
             ],
             type: "metricType",
-            unit: "BitsPerSecond"
-          }
+            unit: "BitsPerSecond",
+          },
         ],
         cost: 100,
         granularity: "anInterval",
         namespace: "aNamespace",
-        resourceRegion: "aResourceRegion"
+        resourceRegion: "aResourceRegion",
         // NOTE: _response is not returned as part of our track 2 response.
       };
 
@@ -258,12 +262,11 @@ describe("Model unit tests", () => {
         tracingOptions,
         metricNamespace: "myMetricNamespace",
         serializerOptions,
-        onResponse
+        onResponse,
       };
 
-      const actualOptions: GeneratedMetricDefinitionsListOptionalParams = convertRequestOptionsForMetricsDefinitions(
-        track2
-      );
+      const actualOptions: GeneratedMetricDefinitionsListOptionalParams =
+        convertRequestOptionsForMetricsDefinitions(track2);
 
       assert.deepEqual(actualOptions, {
         abortSignal,
@@ -271,7 +274,7 @@ describe("Model unit tests", () => {
         tracingOptions,
         metricnamespace: "myMetricNamespace",
         serializerOptions,
-        onResponse
+        onResponse,
       });
     });
 
@@ -286,14 +289,14 @@ describe("Model unit tests", () => {
           dimensions: [
             {
               value: "the value",
-              localizedValue: "optional localized value but it's ignored"
-            }
+              localizedValue: "optional localized value but it's ignored",
+            },
           ],
           name: {
-            value: "the name"
+            value: "the name",
           },
-          id: "anything"
-        }
+          id: "anything",
+        },
       ]);
 
       assert.deepEqual(
@@ -301,8 +304,8 @@ describe("Model unit tests", () => {
           {
             id: "anything",
             name: "the name",
-            dimensions: ["the value"]
-          }
+            dimensions: ["the value"],
+          },
         ],
         actualResponse
       );
@@ -311,8 +314,8 @@ describe("Model unit tests", () => {
     it("convertResponseForMetricsDefinitions (optional fields removed)", () => {
       const actualResponse = convertResponseForMetricsDefinitions([
         {
-          id: "anything"
-        }
+          id: "anything",
+        },
       ]);
 
       assert.deepEqual(
@@ -320,21 +323,58 @@ describe("Model unit tests", () => {
           // we don't add fields if they weren't in the original response (for instance, we don't add in an
           // undefined 'name', or 'dimensions')
           {
-            id: "anything"
-          }
+            id: "anything",
+          },
         ],
         actualResponse
       );
     });
 
-    // it("convertResponseForMetricNamespaces", () => {
-    //   const actualResponse = convertResponseForMetricNamespaces({
-    //     value: [{ id: "anything" } as any]
-    //   });
+    it("convertIntervalToTimeIntervalObject", () => {
+      const res1 = convertIntervalToTimeIntervalObject("2007-11-13T00:00/2007-11-16T00:00");
+      assert.deepEqual(res1, {
+        startTime: new Date("2007-11-13T00:00"),
+        endTime: new Date("2007-11-16T00:00"),
+      });
+      const res2 = convertIntervalToTimeIntervalObject("2007-03-01T13:00:00Z/P1Y2M10DT2H30M");
+      assert.deepEqual(res2, {
+        startTime: new Date("2007-03-01T13:00:00Z"),
+        duration: "P1Y2M10DT2H30M",
+      });
+      const res3 = convertIntervalToTimeIntervalObject("P1Y2M10DT2H30M/2008-05-11T15:30:00Z");
+      assert.deepEqual(res3, {
+        duration: "P1Y2M10DT2H30M",
+        endTime: new Date("2008-05-11T15:30:00Z"),
+      });
+      const res4 = convertIntervalToTimeIntervalObject("P1Y2M10DT2H30M");
+      assert.deepEqual(res4, {
+        duration: "P1Y2M10DT2H30M",
+      });
+    });
 
-    //   assert.deepEqual(actualResponse, <GetMetricNamespacesResult>{
-    //     namespaces: [{ id: "anything" } as any]
-    //   });
-    // });
+    it("convertTimespanToInterval", () => {
+      const res1 = convertTimespanToInterval({
+        startTime: new Date("2007-11-13T08:00:00Z"),
+        endTime: new Date("2007-11-16T08:00:00Z"),
+      });
+      assert.equal(res1, "2007-11-13T08:00:00.000Z/2007-11-16T08:00:00.000Z");
+
+      const res2 = convertTimespanToInterval({
+        startTime: new Date("2007-03-01T13:00:00Z"),
+        duration: "P1Y2M10DT2H30M",
+      });
+      assert.deepEqual(res2, "2007-03-01T13:00:00.000Z/P1Y2M10DT2H30M");
+
+      const res3 = convertTimespanToInterval({
+        duration: "P1Y2M10DT2H30M",
+        endTime: new Date("2008-05-11T15:30:00Z"),
+      });
+      assert.deepEqual(res3, "P1Y2M10DT2H30M/2008-05-11T15:30:00.000Z");
+
+      const res4 = convertTimespanToInterval({
+        duration: "P1Y2M10DT2H30M",
+      });
+      assert.deepEqual(res4, "P1Y2M10DT2H30M");
+    });
   });
 });

@@ -1,0 +1,72 @@
+{
+  "displayNames": {
+    "**/test-results.xml": ""
+  },
+  "matrix": {
+    "Agent": {
+      "windows-2019": {
+        "OSVmImage": "MMS2019",
+        "Pool": "azsdk-pool-mms-win-2019-general",
+        "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "true"
+      },
+      "ubuntu-20.04": {
+        "OSVmImage": "MMSUbuntu20.04",
+        "Pool": "azsdk-pool-mms-ubuntu-2004-general",
+        "AZURE_TEST_AGENT": "UBUNTU_2004_NODE14",
+        "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "false"
+      },
+      "macOS-10.15": {
+        "OSVmImage": "macOS-10.15",
+        "Pool": "Azure Pipelines",
+        "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "true"
+      }
+    },
+    "NodeTestVersion": ["12.x", "14.x", "16.x", "17.x"],
+    "TestType": "node",
+    "TestResultsFiles": "**/test-results.xml"
+  },
+  "include": [
+    {
+      "Agent": {
+        "windows-2019": {
+          "OSVmImage": "MMS2019",
+          "Pool": "azsdk-pool-mms-win-2019-general"
+        }
+      },
+      "Scenario": {
+        "coverage": {
+          "TestType": "node",
+          "TestResultsFiles": "**/test-results.xml",
+          "PublishCodeCoverage": "true",
+          "AZURE_TEST_AGENT": "WINDOWS_2019_NODE12",
+          "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "false"
+        },
+        "sample": {
+          "TestType": "sample",
+          "TestResultsFiles": "**/test-results.xml",
+          "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "true"
+        },
+        "browser": {
+          "TestType": "browser",
+          "TestResultsFiles": "**/test-results.browser.xml",
+          "AZURE_TEST_AGENT": "WINDOWS_2019_BROWSER",
+          "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "false"
+        }
+      },
+      "NodeTestVersion": "12.x"
+    },
+    {
+      "Agent": {
+        "ubuntu-20.04": {
+          "OSVmImage": "MMSUbuntu20.04",
+          "Pool": "azsdk-pool-mms-ubuntu-2004-general"
+        }
+      },
+      "TestType": "node",
+      "NodeTestVersion": "12.x",
+      "DependencyVersion": ["max", "min"],
+      "TestResultsFiles": "**/test-results.xml",
+      "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "true"
+    }
+  ]
+}

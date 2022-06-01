@@ -69,7 +69,7 @@ export enum LogsQueryResultStatus {
   /** Represents Failure scenario where only error of type {@link LogsQueryError} is returned for query */
   Failure = "Failure",
   /** Represents Success scenario where all data of type {@link LogsQuerySuccessfulResult} is returned for query */
-  Success = "Success"
+  Success = "Success",
 }
 
 /** Result type for Success Scenario for logs query workspace and query batch operations. */

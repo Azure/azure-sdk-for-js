@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import * as os from "os";
-import { TelemetryInfo } from "./userAgentPolicy";
 import { Constants } from "../util/constants";
+import { TelemetryInfo } from "./userAgentPolicy";
 
 export function getDefaultUserAgentKey(): string {
   return Constants.HeaderConstants.USER_AGENT;
@@ -12,12 +12,12 @@ export function getDefaultUserAgentKey(): string {
 export function getPlatformSpecificData(): TelemetryInfo[] {
   const runtimeInfo = {
     key: "Node",
-    value: process.version
+    value: process.version,
   };
 
   const osInfo = {
     key: "OS",
-    value: `(${os.arch()}-${os.type()}-${os.release()})`
+    value: `(${os.arch()}-${os.type()}-${os.release()})`,
   };
 
   return [runtimeInfo, osInfo];

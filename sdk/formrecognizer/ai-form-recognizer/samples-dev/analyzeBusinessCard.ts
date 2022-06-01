@@ -23,12 +23,12 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 async function main() {
-  const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT ?? "<endpoint>";
-  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY ?? "<api key>");
+  const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
+  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
 
   const client = new DocumentAnalysisClient(endpoint, credential);
 
-  const poller = await client.beginAnalyzeDocuments(
+  const poller = await client.beginAnalyzeDocument(
     PrebuiltModels.BusinessCard,
     // The form recognizer service will access the following URL to a business card image and extract data from it
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/businessCard/business-card-english.jpg"
@@ -45,14 +45,21 @@ async function main() {
 
     // There are more fields than just these few, and the model allows for multiple contact & company names as well as
     // phone numbers, though we'll only show the first extracted values here.
-    const [name] = businessCard.contactNames?.values ?? [];
-    console.log("Name:", name?.properties.firstName?.value, name?.properties.lastName?.value);
+    const name = businessCard.contactNames && businessCard.contactNames.values[0];
+    if (name) {
+      const { firstName, lastName } = name.properties;
+      console.log("Name:", firstName && firstName.value, lastName && lastName.value);
+    }
 
-    const [company] = businessCard.companyNames?.values ?? [];
-    console.log("Company:", company?.value);
+    const company = businessCard.companyNames && businessCard.companyNames.values[0];
+    if (company) {
+      console.log("Company:", company.value);
+    }
 
-    const [address] = businessCard.addresses?.values ?? [];
-    console.log("Address:", address?.value);
+    const address = businessCard.addresses && businessCard.addresses.values[0];
+    if (address) {
+      console.log("Address:", address.value);
+    }
   } else {
     throw new Error("Expected at least one business card in the result.");
   }

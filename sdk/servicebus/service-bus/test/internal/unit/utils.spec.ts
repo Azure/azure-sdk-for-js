@@ -3,7 +3,7 @@
 
 import {
   checkAndRegisterWithAbortSignal,
-  waitForTimeoutOrAbortOrResolve
+  waitForTimeoutOrAbortOrResolve,
 } from "../../../src/util/utils";
 import { StandardAbortMessage } from "@azure/core-amqp";
 import { AbortController, AbortError, AbortSignalLike } from "@azure/abort-controller";
@@ -12,7 +12,7 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import {
   extractSpanContextFromServiceBusMessage,
-  TRACEPARENT_PROPERTY
+  TRACEPARENT_PROPERTY,
 } from "../../../src/diagnostics/instrumentServiceBusMessage";
 import { ServiceBusReceivedMessage } from "../../../src";
 import { TraceFlags } from "@azure/core-tracing";
@@ -65,7 +65,7 @@ describe("utils", () => {
 
       timeoutFunctions = {
         setTimeoutFn,
-        clearTimeoutFn
+        clearTimeoutFn,
       };
     });
 
@@ -77,7 +77,7 @@ describe("utils", () => {
         timeoutMessage: "the message for the timeout",
         timeoutMs: neverFireMs,
         abortSignal,
-        timeoutFunctions
+        timeoutFunctions,
       });
 
       await delay(500);
@@ -86,7 +86,7 @@ describe("utils", () => {
       try {
         await prm;
         assert.fail("Should have thrown an AbortError");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
@@ -109,11 +109,11 @@ describe("utils", () => {
           timeoutMessage: "the message for the timeout",
           timeoutMs: neverFireMs,
           abortSignal,
-          timeoutFunctions
+          timeoutFunctions,
         });
 
         assert.fail("Should have thrown an AbortError");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
@@ -134,11 +134,11 @@ describe("utils", () => {
           },
           timeoutMs: 500,
           timeoutMessage: "the message for the timeout",
-          timeoutFunctions
+          timeoutFunctions,
         });
 
         assert.fail("Should have thrown an TimeoutError");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, "the message for the timeout");
         assert.equal(err.name, "OperationTimeoutError");
       }
@@ -155,11 +155,11 @@ describe("utils", () => {
           timeoutMessage: "the message for the timeout",
           timeoutMs: 500,
           abortSignal,
-          timeoutFunctions
+          timeoutFunctions,
         });
 
         assert.fail("Should have thrown an TimeoutError");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, "the message for the timeout");
         assert.equal(err.name, "OperationTimeoutError");
       }
@@ -180,7 +180,7 @@ describe("utils", () => {
         timeoutMessage: "the message for the timeout",
         timeoutMs: neverFireMs,
         abortSignal,
-        timeoutFunctions
+        timeoutFunctions,
       });
 
       assert.equal(result, 100);
@@ -200,11 +200,11 @@ describe("utils", () => {
           timeoutMessage: "the message for the timeout",
           timeoutMs: neverFireMs,
           abortSignal,
-          timeoutFunctions
+          timeoutFunctions,
         });
 
         assert.fail("Should have thrown");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, "Error thrown from action");
       }
 
@@ -223,9 +223,9 @@ describe("utils", () => {
           },
           timeoutMessage: "the message for the timeout",
           timeoutMs: 1,
-          abortSignal
+          abortSignal,
         });
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, "the message for the timeout");
       }
 
@@ -238,9 +238,9 @@ describe("utils", () => {
           },
           timeoutMessage: "the message for the timeout",
           timeoutMs: neverFireMs,
-          abortSignal
+          abortSignal,
         });
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, StandardAbortMessage);
       }
     });
@@ -273,7 +273,7 @@ describe("utils", () => {
           throw new Error("Will never be called");
         }, abortSignal);
         assert.fail("Should have thrown an AbortError");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.name, "AbortError");
         assert.equal(err.message, StandardAbortMessage);
       }
@@ -324,18 +324,19 @@ describe("utils", () => {
     });
   });
 
-  describe("extractSpanContextFromServiceBusMessage", function() {
-    it("should extract a SpanContext from a properly instrumented ServiceBusMessage", function() {
+  describe("extractSpanContextFromServiceBusMessage", function () {
+    it("should extract a SpanContext from a properly instrumented ServiceBusMessage", function () {
       const traceId = "11111111111111111111111111111111";
       const spanId = "2222222222222222";
       const flags = "00";
       const receivedMessage: ServiceBusReceivedMessage = {
         body: "This is a test.",
+        state: "active",
         enqueuedTimeUtc: new Date(),
         applicationProperties: {
-          [TRACEPARENT_PROPERTY]: `00-${traceId}-${spanId}-${flags}`
+          [TRACEPARENT_PROPERTY]: `00-${traceId}-${spanId}-${flags}`,
         },
-        _rawAmqpMessage: { body: "This is a test." }
+        _rawAmqpMessage: { body: "This is a test." },
       };
 
       const spanContext = extractSpanContextFromServiceBusMessage(receivedMessage);
@@ -350,17 +351,18 @@ describe("utils", () => {
       );
     });
 
-    it("should return undefined when ServiceBusMessage is not properly instrumented", function() {
+    it("should return undefined when ServiceBusMessage is not properly instrumented", function () {
       const traceId = "11111111111111111111111111111111";
       const spanId = "2222222222222222";
       const flags = "00";
       const receivedMessage: ServiceBusReceivedMessage = {
         body: "This is a test.",
+        state: "active",
         enqueuedTimeUtc: new Date(),
         applicationProperties: {
-          [TRACEPARENT_PROPERTY]: `99-${traceId}-${spanId}-${flags}`
+          [TRACEPARENT_PROPERTY]: `99-${traceId}-${spanId}-${flags}`,
         },
-        _rawAmqpMessage: { body: "This is a test." }
+        _rawAmqpMessage: { body: "This is a test." },
       };
 
       const spanContext = extractSpanContextFromServiceBusMessage(receivedMessage);
@@ -371,11 +373,12 @@ describe("utils", () => {
       );
     });
 
-    it("should return undefined when ServiceBusMessage is not instrumented", function() {
+    it("should return undefined when ServiceBusMessage is not instrumented", function () {
       const receivedMessage: ServiceBusReceivedMessage = {
         body: "This is a test.",
+        state: "active",
         enqueuedTimeUtc: new Date(),
-        _rawAmqpMessage: { body: "This is a test." }
+        _rawAmqpMessage: { body: "This is a test." },
       };
 
       const spanContext = extractSpanContextFromServiceBusMessage(receivedMessage);
@@ -391,7 +394,7 @@ describe("utils", () => {
 function getAbortSignalWithTracking(
   abortController: AbortController
 ): AbortSignalLike & { ourListenersWereRemoved(): boolean } {
-  const signal = (abortController.signal as any) as ReturnType<typeof getAbortSignalWithTracking>;
+  const signal = abortController.signal as any as ReturnType<typeof getAbortSignalWithTracking>;
 
   const allFunctions = new Set<(signal: AbortSignalLike, ev: any) => any>();
 

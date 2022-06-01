@@ -1,0 +1,23 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:anInterface;1",
+      "@type": "Interface"
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:anInterface;1",
+        "type": "Interface",
+        "properties": {
+          "contents": {
+          }
+        }
+      }
+    ]
+  }
+}

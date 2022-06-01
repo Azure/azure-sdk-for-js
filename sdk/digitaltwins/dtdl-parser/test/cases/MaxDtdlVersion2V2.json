@@ -1,0 +1,70 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "maxDtdlVersion": 2,
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:anInterface;1",
+      "@type": "Interface",
+      "contents": [
+        {
+          "@id": "dtmi:test:aProperty;1",
+          "@type": "Property",
+          "name": "expectedDistance",
+          "schema": "double"
+        },
+        {
+          "@id": "dtmi:test:aTelemetry;1",
+          "@type": "Telemetry",
+          "name": "currentDistance",
+          "schema": "double"
+        },
+        {
+          "@id": "dtmi:test:aCommand;1",
+          "@type": "Command",
+          "name": "setDistance"
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:aProperty;1",
+        "type": "Property",
+        "properties": {
+          "name": "expectedDistance",
+          "writable": false,
+          "schema": "dtmi:dtdl:instance:Schema:double;2"
+        }
+      },
+      {
+        "id": "dtmi:test:aTelemetry;1",
+        "type": "Telemetry",
+        "properties": {
+          "name": "currentDistance",
+          "schema": "dtmi:dtdl:instance:Schema:double;2"
+        }
+      },
+      {
+        "id": "dtmi:test:aCommand;1",
+        "type": "Command",
+        "properties": {
+          "name": "setDistance"
+        }
+      },
+      {
+        "id": "dtmi:test:anInterface;1",
+        "type": "Interface",
+        "properties": {
+          "contents": {
+            "expectedDistance": "dtmi:test:aProperty;1",
+            "currentDistance": "dtmi:test:aTelemetry;1",
+            "setDistance": "dtmi:test:aCommand;1"
+          }
+        }
+      }
+    ]
+  }
+}

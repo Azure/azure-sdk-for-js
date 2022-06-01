@@ -1,0 +1,64 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:parentInterface;1",
+      "@type": "Interface",
+      "contents": [
+        {
+          "@type": "Component",
+          "name": "child",
+          "schema": [
+            {
+              "@id": "dtmi:test:anInterface;1",
+              "@type": "Interface",
+              "contents": [
+                {
+                  "@id": "dtmi:test:aProperty;1",
+                  "@type": "Property",
+                  "name": "expectedDistance",
+                  "schema": "double"
+                },
+                {
+                  "@id": "dtmi:test:aTelemetry;1",
+                  "@type": "Telemetry",
+                  "name": "currentDistance",
+                  "schema": "double"
+                }
+              ]
+            },
+            {
+              "@id": "dtmi:test:anotherInterface;1",
+              "@type": "Interface",
+              "contents": [
+                {
+                  "@id": "dtmi:test:aCommand;1",
+                  "@type": "Command",
+                  "name": "setDistance"
+                },
+                {
+                  "@id": "dtmi:test:aRelationship;1",
+                  "@type": "Relationship",
+                  "name": "proximity"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:propertyCountAboveMax",
+        "PrimaryID": "dtmi:test:parentInterface:_contents:__child;1",
+        "SecondaryID": null,
+        "Property": "schema",
+        "Value": null
+      }
+    ]
+  }
+}

@@ -20,8 +20,8 @@
  */
 import api from "@opentelemetry/api";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
-import { NodeTracerProvider } from "@opentelemetry/node";
-import { SimpleSpanProcessor, Tracer } from "@opentelemetry/tracing";
+import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+import { SimpleSpanProcessor, Tracer } from "@opentelemetry/sdk-trace-base";
 import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
 import { HttpInstrumentation } from "@opentelemetry/instrumentation-http";
 
@@ -62,7 +62,7 @@ function handleRequest(request: any, response: any) {
   }
   const span = serverTracer.startSpan("handleRequest", {
     kind: 1, // server
-    attributes: { key: "value" }
+    attributes: { key: "value" },
   });
   // Annotate our span to capture metadata about the operation
   span.addEvent("invoking handleRequest");
@@ -96,7 +96,7 @@ function makeRequest() {
     http.get(
       {
         host: "localhost",
-        port: 8080
+        port: 8080,
       },
       (response) => {
         const body: any = [];
@@ -115,7 +115,7 @@ function setupOpenTelemetry() {
   const provider = new NodeTracerProvider();
   const exporter = new AzureMonitorTraceExporter({
     connectionString:
-      process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>"
+      process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
   });
 
   provider.addSpanProcessor(new SimpleSpanProcessor(exporter as any));
@@ -125,7 +125,7 @@ function setupOpenTelemetry() {
 
   registerInstrumentations({
     // // when boostraping with lerna for testing purposes
-    instrumentations: [new HttpInstrumentation()]
+    instrumentations: [new HttpInstrumentation()],
   });
   serverTracer = provider.getTracer("serverTracer");
   clientTracer = provider.getTracer("clientTracer");

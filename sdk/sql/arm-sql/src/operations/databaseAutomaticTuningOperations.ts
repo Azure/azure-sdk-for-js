@@ -10,25 +10,25 @@ import { DatabaseAutomaticTuningOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { SqlManagementClientContext } from "../sqlManagementClientContext";
+import { SqlManagementClient } from "../sqlManagementClient";
 import {
-  DatabaseAutomaticTuningOperationsGetOptionalParams,
-  DatabaseAutomaticTuningOperationsGetResponse,
+  DatabaseAutomaticTuningGetOptionalParams,
+  DatabaseAutomaticTuningGetResponse,
   DatabaseAutomaticTuning,
-  DatabaseAutomaticTuningOperationsUpdateOptionalParams,
-  DatabaseAutomaticTuningOperationsUpdateResponse
+  DatabaseAutomaticTuningUpdateOptionalParams,
+  DatabaseAutomaticTuningUpdateResponse
 } from "../models";
 
 /** Class containing DatabaseAutomaticTuningOperations operations. */
 export class DatabaseAutomaticTuningOperationsImpl
   implements DatabaseAutomaticTuningOperations {
-  private readonly client: SqlManagementClientContext;
+  private readonly client: SqlManagementClient;
 
   /**
    * Initialize a new instance of the class DatabaseAutomaticTuningOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: SqlManagementClientContext) {
+  constructor(client: SqlManagementClient) {
     this.client = client;
   }
 
@@ -44,8 +44,8 @@ export class DatabaseAutomaticTuningOperationsImpl
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DatabaseAutomaticTuningOperationsGetOptionalParams
-  ): Promise<DatabaseAutomaticTuningOperationsGetResponse> {
+    options?: DatabaseAutomaticTuningGetOptionalParams
+  ): Promise<DatabaseAutomaticTuningGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, options },
       getOperationSpec
@@ -66,8 +66,8 @@ export class DatabaseAutomaticTuningOperationsImpl
     serverName: string,
     databaseName: string,
     parameters: DatabaseAutomaticTuning,
-    options?: DatabaseAutomaticTuningOperationsUpdateOptionalParams
-  ): Promise<DatabaseAutomaticTuningOperationsUpdateResponse> {
+    options?: DatabaseAutomaticTuningUpdateOptionalParams
+  ): Promise<DatabaseAutomaticTuningUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, serverName, databaseName, parameters, options },
       updateOperationSpec
@@ -108,7 +108,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters19,
+  requestBody: Parameters.parameters17,
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,

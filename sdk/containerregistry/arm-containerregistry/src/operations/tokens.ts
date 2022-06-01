@@ -11,7 +11,7 @@ import { Tokens } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ContainerRegistryManagementClientContext } from "../containerRegistryManagementClientContext";
+import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -33,13 +33,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Tokens operations. */
 export class TokensImpl implements Tokens {
-  private readonly client: ContainerRegistryManagementClientContext;
+  private readonly client: ContainerRegistryManagementClient;
 
   /**
    * Initialize a new instance of the class Tokens class.
    * @param client Reference to the service client
    */
-  constructor(client: ContainerRegistryManagementClientContext) {
+  constructor(client: ContainerRegistryManagementClient) {
     this.client = client;
   }
 
@@ -205,10 +205,12 @@ export class TokensImpl implements Tokens {
       },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -293,10 +295,12 @@ export class TokensImpl implements Tokens {
       { resourceGroupName, registryName, tokenName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -388,10 +392,12 @@ export class TokensImpl implements Tokens {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -448,6 +454,9 @@ const listOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.TokenListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -467,6 +476,9 @@ const getOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.Token
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -496,6 +508,9 @@ const createOperationSpec: coreClient.OperationSpec = {
     },
     204: {
       bodyMapper: Mappers.Token
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.tokenCreateParameters,
@@ -515,7 +530,15 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/tokens/{tokenName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -524,6 +547,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.registryName,
     Parameters.tokenName
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
@@ -542,6 +566,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     204: {
       bodyMapper: Mappers.Token
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.tokenUpdateParameters,
@@ -563,6 +590,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.TokenListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],

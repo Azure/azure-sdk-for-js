@@ -1,0 +1,29 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": [
+        "dtmi:dtdl:context;3",
+        {
+          "foo": "dtmi:a/b"
+        }
+      ],
+      "@id": "dtmi:test:aTelemetry;1",
+      "@type": [ "Telemetry" ],
+      "name": "height",
+      "schema": "double"
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:disallowedLocalContext",
+        "PrimaryID": null,
+        "SecondaryID": null,
+        "Property": null,
+        "Value": null
+      }
+    ]
+  }
+}

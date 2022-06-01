@@ -1,0 +1,40 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId-5980?api-version=2021-01-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "44",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 Node/v16.13.0 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "a6cc665b-c312-4d40-a62a-44b1bf5e4955"
+      },
+      "RequestBody": {
+        "maxLeaseTimeMinutes": -4,
+        "size": "Standard"
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Content-Length": "93",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 02 Feb 2022 00:26:56 GMT",
+        "MS-CV": "RI5D7DHYJEKGIXpmtAuBnA.0",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "BadRequest",
+          "message": "The maxLeaseTimeMinutes value cannot be negative."
+        }
+      }
+    }
+  ],
+  "Variables": {
+    "sessionId": "sessionId-5980"
+  }
+}

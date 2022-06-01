@@ -1,0 +1,40 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://fakeaccountname-secondary.table.core.windows.net/?st=2021-08-03T08:52:15Z\u0026spr=https\u0026sig=fakesigval\u0026restype=service\u0026comp=stats",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/xml",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "daf85fb6-9736-4caf-8df8-cf1affc2c740",
+        "x-ms-useragent": "azsdk-js-data-tables/13.0.2 core-rest-pipeline/1.5.1 OS/Linuxx86_64",
+        "x-ms-version": "2019-02-02"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/xml",
+        "Date": "Tue, 15 Feb 2022 21:39:23 GMT",
+        "Server": [
+          "Windows-Azure-Table/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "Transfer-Encoding": "chunked",
+        "x-ms-client-request-id": "daf85fb6-9736-4caf-8df8-cf1affc2c740",
+        "x-ms-request-id": "17d2cc60-7002-005f-55b4-22142e000000",
+        "x-ms-version": "2019-02-02"
+      },
+      "ResponseBody": "\uFEFF\u003C?xml version=\u00221.0\u0022 encoding=\u0022utf-8\u0022?\u003E\u003CStorageServiceStats\u003E\u003CGeoReplication\u003E\u003CStatus\u003Elive\u003C/Status\u003E\u003CLastSyncTime\u003ETue, 15 Feb 2022 21:35:13 GMT\u003C/LastSyncTime\u003E\u003C/GeoReplication\u003E\u003C/StorageServiceStats\u003E"
+    }
+  ],
+  "Variables": {}
+}

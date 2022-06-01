@@ -45,8 +45,6 @@ export class UserDelegationKeyCredential {
   public computeHMACSHA256(stringToSign: string): string {
     // console.log(`stringToSign: ${JSON.stringify(stringToSign)}`);
 
-    return createHmac("sha256", this.key)
-      .update(stringToSign, "utf8")
-      .digest("base64");
+    return createHmac("sha256", this.key).update(stringToSign, "utf8").digest("base64");
   }
 }

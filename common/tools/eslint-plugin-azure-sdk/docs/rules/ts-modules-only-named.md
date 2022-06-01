@@ -19,11 +19,11 @@ All examples are representative of the main entrypoint.
 ### Good
 
 ```ts
-export /* package contents */{};
+export /* package contents */ {};
 ```
 
 ```ts
-export /* package contents */{};
+export /* package contents */ {};
 ```
 
 ```ts

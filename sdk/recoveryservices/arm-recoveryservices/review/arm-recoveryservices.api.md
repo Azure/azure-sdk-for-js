@@ -108,6 +108,20 @@ export interface ErrorModel {
 }
 
 // @public
+export interface GetOperationResultOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GetOperationResultResponse = Vault;
+
+// @public
+export interface GetOperationStatusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type GetOperationStatusResponse = OperationResource;
+
+// @public
 export interface IdentityData {
     readonly principalId?: string;
     readonly tenantId?: string;
@@ -429,10 +443,14 @@ export interface RecoveryServicesCheckNameAvailabilityOptionalParams extends cor
 export type RecoveryServicesCheckNameAvailabilityResponse = CheckNameAvailabilityResult;
 
 // @public (undocumented)
-export class RecoveryServicesClient extends RecoveryServicesClientContext {
+export class RecoveryServicesClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: RecoveryServicesClientOptionalParams);
-    getOperationResult(resourceGroupName: string, vaultName: string, operationId: string, options?: RecoveryServicesClientGetOperationResultOptionalParams): Promise<RecoveryServicesClientGetOperationResultResponse>;
-    getOperationStatus(resourceGroupName: string, vaultName: string, operationId: string, options?: RecoveryServicesClientGetOperationStatusOptionalParams): Promise<RecoveryServicesClientGetOperationStatusResponse>;
+    // (undocumented)
+    apiVersion: string;
+    getOperationResult(resourceGroupName: string, vaultName: string, operationId: string, options?: GetOperationResultOptionalParams): Promise<GetOperationResultResponse>;
+    getOperationStatus(resourceGroupName: string, vaultName: string, operationId: string, options?: GetOperationStatusOptionalParams): Promise<GetOperationStatusResponse>;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -444,6 +462,8 @@ export class RecoveryServicesClient extends RecoveryServicesClientContext {
     // (undocumented)
     replicationUsages: ReplicationUsages;
     // (undocumented)
+    subscriptionId: string;
+    // (undocumented)
     usages: Usages;
     // (undocumented)
     vaultCertificates: VaultCertificates;
@@ -452,31 +472,6 @@ export class RecoveryServicesClient extends RecoveryServicesClientContext {
     // (undocumented)
     vaults: Vaults;
 }
-
-// @public (undocumented)
-export class RecoveryServicesClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: RecoveryServicesClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    subscriptionId: string;
-}
-
-// @public
-export interface RecoveryServicesClientGetOperationResultOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RecoveryServicesClientGetOperationResultResponse = Vault;
-
-// @public
-export interface RecoveryServicesClientGetOperationStatusOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type RecoveryServicesClientGetOperationStatusResponse = OperationResource;
 
 // @public
 export interface RecoveryServicesClientOptionalParams extends coreClient.ServiceClientOptions {
@@ -825,7 +820,6 @@ export interface VaultUsage {
 export interface VaultUsageList {
     value?: VaultUsage[];
 }
-
 
 // (No @packageDocumentation comment for this package)
 

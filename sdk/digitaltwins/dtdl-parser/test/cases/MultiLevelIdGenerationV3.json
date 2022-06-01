@@ -1,0 +1,142 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:example:start;1",
+      "@type": "Interface",
+      "contents": [
+        {
+          "@type": "Relationship",
+          "name": "Friend",
+          "properties": [
+            {
+              "@type": "Property",
+              "name": "Friendliness",
+              "schema": {
+                "@type": "Object",
+                "fields": [
+                  {
+                    "name": "outerField",
+                    "schema": {
+                      "@type": "Map",
+                      "mapKey": {
+                        "name": "keyFoo",
+                        "schema": "string"
+                      },
+                      "mapValue": {
+                        "name": "valFoo",
+                        "schema": {
+                          "@type": "Object",
+                          "fields": [
+                            {
+                              "name": "innerField",
+                              "schema": {
+                                "@type": "Map",
+                                "mapKey": {
+                                  "name": "keyBar",
+                                  "schema": "string"
+                                },
+                                "mapValue": {
+                                  "name": "valBar",
+                                  "schema": "double"
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:example:start;1",
+        "type": "Interface",
+        "properties": {
+          "contents": {
+            "Friend": "dtmi:example:start:_contents:__Friend;1"
+          }
+        }
+      },
+      {
+        "id": "dtmi:example:start:_contents:__Friend;1",
+        "type": "Relationship",
+        "properties": {
+          "properties": [
+            "dtmi:example:start:_contents:__Friend:_properties:__Friendliness;1"
+          ]
+        }
+      },
+      {
+        "id": "dtmi:example:start:_contents:__Friend:_properties:__Friendliness;1",
+        "type": "Property",
+        "properties": {
+          "schema": "dtmi:example:start:_contents:__Friend:_properties:__Friendliness:_schema;1"
+        }
+      },
+      {
+        "id": "dtmi:example:start:_contents:__Friend:_properties:__Friendliness:_schema;1",
+        "type": "Object",
+        "properties": {
+          "fields": [
+            "dtmi:example:start:_contents:__Friend:_properties:__Friendliness:_schema:_fields:__outerField;1"
+          ]
+        }
+      },
+      {
+        "id": "dtmi:example:start:_contents:__Friend:_properties:__Friendliness:_schema:_fields:__outerField;1",
+        "type": "Field",
+        "properties": {
+          "schema": "dtmi:example:start:_contents:__Friend:_properties:__Friendliness:_schema:_fields:__outerField:_schema;1"
+        }
+      },
+      {
+        "id": "dtmi:example:start:_contents:__Friend:_properties:__Friendliness:_schema:_fields:__outerField:_schema;1",
+        "type": "Map",
+        "properties": {
+          "mapValue": "dtmi:example:start:_contents:__Friend:_properties:__Friendliness:_schema:_fields:__outerField:_schema:_mapValue;1"
+        }
+      },
+      {
+        "id": "dtmi:example:start:_contents:__Friend:_properties:__Friendliness:_schema:_fields:__outerField:_schema:_mapValue;1",
+        "type": "MapValue",
+        "properties": {
+          "schema": "dtmi:example:start:_contents:__Friend:_properties:__Friendliness:_schema:_fields:__outerField:_schema:_mapValue:_schema;1"
+        }
+      },
+      {
+        "id": "dtmi:example:start:_contents:__Friend:_properties:__Friendliness:_schema:_fields:__outerField:_schema:_mapValue:_schema;1",
+        "type": "Object",
+        "properties": {
+          "fields": [
+            "dtmi:example:start:_contents:__Friend:_properties:__Friendliness:_schema:_fields:__outerField:_schema:_mapValue:_schema:_fields:__innerField;1"
+          ]
+        }
+      },
+      {
+        "id": "dtmi:example:start:_contents:__Friend:_properties:__Friendliness:_schema:_fields:__outerField:_schema:_mapValue:_schema:_fields:__innerField;1",
+        "type": "Field",
+        "properties": {
+          "schema": "dtmi:example:start:_contents:__Friend:_properties:__Friendliness:_schema:_fields:__outerField:_schema:_mapValue:_schema:_fields:__innerField:_schema;1"
+        }
+      },
+      {
+        "id": "dtmi:example:start:_contents:__Friend:_properties:__Friendliness:_schema:_fields:__outerField:_schema:_mapValue:_schema:_fields:__innerField:_schema;1",
+        "type": "Map",
+        "properties": {
+          "mapValue": "dtmi:example:start:_contents:__Friend:_properties:__Friendliness:_schema:_fields:__outerField:_schema:_mapValue:_schema:_fields:__innerField:_schema:_mapValue;1"
+        }
+      }
+    ]
+  }
+}

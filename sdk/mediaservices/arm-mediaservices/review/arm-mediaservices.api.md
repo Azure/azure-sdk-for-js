@@ -11,7 +11,7 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
-export type AacAudio = Audio & {
+export type AacAudio = Audio_2 & {
     odataType: "#Microsoft.Media.AacAudio";
     profile?: AacAudioProfile;
 };
@@ -121,6 +121,33 @@ export interface AkamaiSignatureHeaderAuthenticationKey {
 
 // @public
 export type AnalysisResolution = string;
+
+// @public
+export interface ArmStreamingEndpointCapacity {
+    default?: number;
+    maximum?: number;
+    minimum?: number;
+    readonly scaleType?: string;
+}
+
+// @public
+export interface ArmStreamingEndpointCurrentSku {
+    capacity?: number;
+    readonly name?: string;
+}
+
+// @public
+export interface ArmStreamingEndpointSku {
+    readonly name?: string;
+}
+
+// @public (undocumented)
+export interface ArmStreamingEndpointSkuInfo {
+    capacity?: ArmStreamingEndpointCapacity;
+    // (undocumented)
+    resourceType?: string;
+    sku?: ArmStreamingEndpointSku;
+}
 
 // @public
 export type Asset = ProxyResource & {
@@ -312,15 +339,37 @@ export interface AssetsUpdateOptionalParams extends coreClient.OperationOptions 
 export type AssetsUpdateResponse = Asset;
 
 // @public
+export type AssetTrack = ProxyResource & {
+    track?: TrackBaseUnion;
+    readonly provisioningState?: ProvisioningState;
+};
+
+// @public
+export interface AssetTrackCollection {
+    value?: AssetTrack[];
+}
+
+// @public
+export interface AssetTrackOperationStatus {
+    endTime?: Date;
+    error?: ErrorDetail;
+    id?: string;
+    name: string;
+    startTime?: Date;
+    status: string;
+}
+
+// @public
 export type AttributeFilter = string;
 
 // @public
-export type Audio = Codec & {
+type Audio_2 = Codec & {
     odataType: "#Microsoft.Media.Audio" | "#Microsoft.Media.AacAudio";
     channels?: number;
     samplingRate?: number;
     bitrate?: number;
 };
+export { Audio_2 as Audio }
 
 // @public
 export type AudioAnalysisMode = string;
@@ -344,6 +393,11 @@ export type AudioOverlay = Overlay & {
 };
 
 // @public
+export type AudioTrack = TrackBase & {
+    odataType: "#Microsoft.Media.AudioTrack";
+};
+
+// @public
 export type AudioTrackDescriptor = TrackDescriptor & {
     odataType: "#Microsoft.Media.AudioTrackDescriptor" | "#Microsoft.Media.SelectAudioTrackByAttribute" | "#Microsoft.Media.SelectAudioTrackById";
     channelMapping?: ChannelMapping;
@@ -353,10 +407,12 @@ export type AudioTrackDescriptor = TrackDescriptor & {
 export type AudioTrackDescriptorUnion = AudioTrackDescriptor | SelectAudioTrackByAttribute | SelectAudioTrackById;
 
 // @public (undocumented)
-export type AudioUnion = Audio | AacAudio;
+export type AudioUnion = Audio_2 | AacAudio;
 
 // @public (undocumented)
-export class AzureMediaServices extends AzureMediaServicesContext {
+export class AzureMediaServices extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureMediaServicesOptionalParams);
     // (undocumented)
     accountFilters: AccountFilters;
@@ -377,7 +433,11 @@ export class AzureMediaServices extends AzureMediaServicesContext {
     // (undocumented)
     mediaservices: Mediaservices;
     // (undocumented)
+    operationResults: OperationResults;
+    // (undocumented)
     operations: Operations;
+    // (undocumented)
+    operationStatuses: OperationStatuses;
     // (undocumented)
     privateEndpointConnections: PrivateEndpointConnections;
     // (undocumented)
@@ -389,24 +449,16 @@ export class AzureMediaServices extends AzureMediaServicesContext {
     // (undocumented)
     streamingPolicies: StreamingPolicies;
     // (undocumented)
-    transforms: Transforms;
-}
-
-// @public (undocumented)
-export class AzureMediaServicesContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AzureMediaServicesOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
     subscriptionId: string;
+    // (undocumented)
+    tracks: Tracks;
+    // (undocumented)
+    transforms: Transforms;
 }
 
 // @public
 export interface AzureMediaServicesOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
-    apiVersion?: string;
     endpoint?: string;
 }
 
@@ -937,20 +989,24 @@ export type H264Complexity = string;
 
 // @public
 export type H264Layer = VideoLayer & {
-    odataType: "#Microsoft.Media.H264Layer";
     profile?: H264VideoProfile;
     level?: string;
     bufferWindow?: string;
+    crf?: number;
     referenceFrames?: number;
     entropyMode?: EntropyMode;
 };
 
 // @public
+export type H264RateControlMode = string;
+
+// @public
 export type H264Video = Video & {
     odataType: "#Microsoft.Media.H264Video";
-    sceneChangeDetection?: boolean;
     complexity?: H264Complexity;
     layers?: H264Layer[];
+    rateControlMode?: H264RateControlMode;
+    sceneChangeDetection?: boolean;
 };
 
 // @public
@@ -961,10 +1017,10 @@ export type H265Complexity = string;
 
 // @public
 export type H265Layer = H265VideoLayer & {
-    odataType: "#Microsoft.Media.H265Layer";
     profile?: H265VideoProfile;
     level?: string;
     bufferWindow?: string;
+    crf?: number;
     referenceFrames?: number;
 };
 
@@ -978,7 +1034,6 @@ export type H265Video = Video & {
 
 // @public
 export type H265VideoLayer = Layer & {
-    odataType: "#Microsoft.Media.H265VideoLayer" | "#Microsoft.Media.H265Layer";
     bitrate: number;
     maxBitrate?: number;
     bFrames?: number;
@@ -986,9 +1041,6 @@ export type H265VideoLayer = Layer & {
     slices?: number;
     adaptiveBFrame?: boolean;
 };
-
-// @public (undocumented)
-export type H265VideoLayerUnion = H265VideoLayer | H265Layer;
 
 // @public
 export type H265VideoProfile = string;
@@ -999,12 +1051,20 @@ export interface Hls {
 }
 
 // @public
-export type Image = Video & {
+export interface HlsSettings {
+    characteristics?: string;
+    default?: boolean;
+    forced?: boolean;
+}
+
+// @public
+type Image_2 = Video & {
     odataType: "#Microsoft.Media.Image" | "#Microsoft.Media.JpgImage" | "#Microsoft.Media.PngImage";
     start: string;
     step?: string;
     range?: string;
 };
+export { Image_2 as Image }
 
 // @public
 export type ImageFormat = Format & {
@@ -1015,7 +1075,7 @@ export type ImageFormat = Format & {
 export type ImageFormatUnion = ImageFormat | JpgFormat | PngFormat;
 
 // @public (undocumented)
-export type ImageUnion = Image | JpgImage | PngImage;
+export type ImageUnion = Image_2 | JpgImage | PngImage;
 
 // @public
 export interface InputDefinition {
@@ -1229,7 +1289,7 @@ export type JpgFormat = ImageFormat & {
 };
 
 // @public
-export type JpgImage = Image & {
+export type JpgImage = Image_2 & {
     odataType: "#Microsoft.Media.JpgImage";
     layers?: JpgLayer[];
     spriteColumn?: number;
@@ -1237,7 +1297,6 @@ export type JpgImage = Image & {
 
 // @public
 export type JpgLayer = Layer & {
-    odataType: "#Microsoft.Media.JpgLayer";
     quality?: number;
 };
 
@@ -1468,6 +1527,13 @@ export enum KnownH264Complexity {
 }
 
 // @public
+export enum KnownH264RateControlMode {
+    ABR = "ABR",
+    CBR = "CBR",
+    CRF = "CRF"
+}
+
+// @public
 export enum KnownH264VideoProfile {
     Auto = "Auto",
     Baseline = "Baseline",
@@ -1487,7 +1553,8 @@ export enum KnownH265Complexity {
 // @public
 export enum KnownH265VideoProfile {
     Auto = "Auto",
-    Main = "Main"
+    Main = "Main",
+    Main10 = "Main10"
 }
 
 // @public
@@ -1625,6 +1692,13 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
 }
 
 // @public
+export enum KnownProvisioningState {
+    Failed = "Failed",
+    InProgress = "InProgress",
+    Succeeded = "Succeeded"
+}
+
+// @public
 export enum KnownPublicNetworkAccess {
     Disabled = "Disabled",
     Enabled = "Enabled"
@@ -1680,7 +1754,8 @@ export enum KnownStreamingPolicyStreamingProtocol {
 // @public
 export enum KnownStreamOptionsFlag {
     Default = "Default",
-    LowLatency = "LowLatency"
+    LowLatency = "LowLatency",
+    LowLatencyV2 = "LowLatencyV2"
 }
 
 // @public
@@ -1717,15 +1792,17 @@ export enum KnownVideoSyncMode {
 }
 
 // @public
+export enum KnownVisibility {
+    Hidden = "Hidden",
+    Visible = "Visible"
+}
+
+// @public
 export interface Layer {
     height?: string;
     label?: string;
-    odataType: "#Microsoft.Media.H265VideoLayer" | "#Microsoft.Media.H265Layer" | "#Microsoft.Media.VideoLayer" | "#Microsoft.Media.H264Layer" | "#Microsoft.Media.JpgLayer" | "#Microsoft.Media.PngLayer";
     width?: string;
 }
-
-// @public (undocumented)
-export type LayerUnion = Layer | H265VideoLayerUnion | VideoLayerUnion | JpgLayer | PngLayer;
 
 // @public
 export interface ListContainerSasInput {
@@ -2228,6 +2305,25 @@ export interface OperationDisplay {
 }
 
 // @public
+export interface OperationResults {
+    get(resourceGroupName: string, accountName: string, assetName: string, trackName: string, operationId: string, options?: OperationResultsGetOptionalParams): Promise<OperationResultsGetResponse>;
+}
+
+// @public
+export interface OperationResultsGetHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface OperationResultsGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationResultsGetResponse = AssetTrack;
+
+// @public
 export interface Operations {
     list(options?: OperationsListOptionalParams): Promise<OperationsListResponse>;
 }
@@ -2238,6 +2334,18 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 
 // @public
 export type OperationsListResponse = OperationCollection;
+
+// @public
+export interface OperationStatuses {
+    get(resourceGroupName: string, accountName: string, assetName: string, trackName: string, operationId: string, options?: OperationStatusesGetOptionalParams): Promise<OperationStatusesGetResponse>;
+}
+
+// @public
+export interface OperationStatusesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type OperationStatusesGetResponse = AssetTrackOperationStatus;
 
 // @public
 export interface OutputFile {
@@ -2264,15 +2372,13 @@ export type PngFormat = ImageFormat & {
 };
 
 // @public
-export type PngImage = Image & {
+export type PngImage = Image_2 & {
     odataType: "#Microsoft.Media.PngImage";
     layers?: PngLayer[];
 };
 
 // @public
-export type PngLayer = Layer & {
-    odataType: "#Microsoft.Media.PngLayer";
-};
+export type PngLayer = Layer & {};
 
 // @public
 export interface PresentationTimeRange {
@@ -2408,6 +2514,9 @@ export interface Properties {
 }
 
 // @public
+export type ProvisioningState = string;
+
+// @public
 export type ProxyResource = Resource & {};
 
 // @public
@@ -2502,6 +2611,7 @@ export interface StorageEncryptedAssetDecryptionData {
 // @public
 export type StreamingEndpoint = TrackedResource & {
     readonly systemData?: SystemData;
+    sku?: ArmStreamingEndpointCurrentSku;
     description?: string;
     scaleUnits?: number;
     availabilitySetName?: string;
@@ -2552,6 +2662,7 @@ export interface StreamingEndpoints {
     beginUpdateAndWait(resourceGroupName: string, accountName: string, streamingEndpointName: string, parameters: StreamingEndpoint, options?: StreamingEndpointsUpdateOptionalParams): Promise<StreamingEndpointsUpdateResponse>;
     get(resourceGroupName: string, accountName: string, streamingEndpointName: string, options?: StreamingEndpointsGetOptionalParams): Promise<StreamingEndpointsGetResponse>;
     list(resourceGroupName: string, accountName: string, options?: StreamingEndpointsListOptionalParams): PagedAsyncIterableIterator<StreamingEndpoint>;
+    skus(resourceGroupName: string, accountName: string, streamingEndpointName: string, options?: StreamingEndpointsSkusOptionalParams): Promise<StreamingEndpointsSkusResponse>;
 }
 
 // @public
@@ -2577,6 +2688,11 @@ export interface StreamingEndpointsGetOptionalParams extends coreClient.Operatio
 // @public
 export type StreamingEndpointsGetResponse = StreamingEndpoint;
 
+// @public (undocumented)
+export interface StreamingEndpointSkuInfoListResult {
+    value?: ArmStreamingEndpointSkuInfo[];
+}
+
 // @public
 export interface StreamingEndpointsListNextOptionalParams extends coreClient.OperationOptions {
 }
@@ -2596,6 +2712,13 @@ export interface StreamingEndpointsScaleOptionalParams extends coreClient.Operat
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface StreamingEndpointsSkusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type StreamingEndpointsSkusResponse = StreamingEndpointSkuInfoListResult;
 
 // @public
 export interface StreamingEndpointsStartOptionalParams extends coreClient.OperationOptions {
@@ -2844,7 +2967,26 @@ export interface SystemData {
 }
 
 // @public
+type TextTrack_2 = TrackBase & {
+    odataType: "#Microsoft.Media.TextTrack";
+    fileName?: string;
+    displayName?: string;
+    readonly languageCode?: string;
+    playerVisibility?: Visibility;
+    hlsSettings?: HlsSettings;
+};
+export { TextTrack_2 as TextTrack }
+
+// @public
 export type TrackAttribute = string;
+
+// @public
+export interface TrackBase {
+    odataType: "#Microsoft.Media.AudioTrack" | "#Microsoft.Media.VideoTrack" | "#Microsoft.Media.TextTrack";
+}
+
+// @public (undocumented)
+export type TrackBaseUnion = TrackBase | AudioTrack | VideoTrack | TextTrack_2;
 
 // @public
 export interface TrackDescriptor {
@@ -2876,9 +3018,101 @@ export interface TrackPropertyCondition {
 export type TrackPropertyType = string;
 
 // @public
+export interface Tracks {
+    beginCreateOrUpdate(resourceGroupName: string, accountName: string, assetName: string, trackName: string, parameters: AssetTrack, options?: TracksCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<TracksCreateOrUpdateResponse>, TracksCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, accountName: string, assetName: string, trackName: string, parameters: AssetTrack, options?: TracksCreateOrUpdateOptionalParams): Promise<TracksCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, accountName: string, assetName: string, trackName: string, options?: TracksDeleteOptionalParams): Promise<PollerLike<PollOperationState<TracksDeleteResponse>, TracksDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, accountName: string, assetName: string, trackName: string, options?: TracksDeleteOptionalParams): Promise<TracksDeleteResponse>;
+    beginUpdate(resourceGroupName: string, accountName: string, assetName: string, trackName: string, parameters: AssetTrack, options?: TracksUpdateOptionalParams): Promise<PollerLike<PollOperationState<TracksUpdateResponse>, TracksUpdateResponse>>;
+    beginUpdateAndWait(resourceGroupName: string, accountName: string, assetName: string, trackName: string, parameters: AssetTrack, options?: TracksUpdateOptionalParams): Promise<TracksUpdateResponse>;
+    beginUpdateTrackData(resourceGroupName: string, accountName: string, assetName: string, trackName: string, options?: TracksUpdateTrackDataOptionalParams): Promise<PollerLike<PollOperationState<TracksUpdateTrackDataResponse>, TracksUpdateTrackDataResponse>>;
+    beginUpdateTrackDataAndWait(resourceGroupName: string, accountName: string, assetName: string, trackName: string, options?: TracksUpdateTrackDataOptionalParams): Promise<TracksUpdateTrackDataResponse>;
+    get(resourceGroupName: string, accountName: string, assetName: string, trackName: string, options?: TracksGetOptionalParams): Promise<TracksGetResponse>;
+    list(resourceGroupName: string, accountName: string, assetName: string, options?: TracksListOptionalParams): PagedAsyncIterableIterator<AssetTrack>;
+}
+
+// @public
+export interface TracksCreateOrUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface TracksCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type TracksCreateOrUpdateResponse = TracksCreateOrUpdateHeaders & AssetTrack;
+
+// @public
+export interface TracksDeleteHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface TracksDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type TracksDeleteResponse = TracksDeleteHeaders;
+
+// @public
 export interface TrackSelection {
     trackSelections?: TrackPropertyCondition[];
 }
+
+// @public
+export interface TracksGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TracksGetResponse = AssetTrack;
+
+// @public
+export interface TracksListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TracksListResponse = AssetTrackCollection;
+
+// @public
+export interface TracksUpdateHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface TracksUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type TracksUpdateResponse = TracksUpdateHeaders & AssetTrack;
+
+// @public
+export interface TracksUpdateTrackDataHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface TracksUpdateTrackDataOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type TracksUpdateTrackDataResponse = TracksUpdateTrackDataHeaders;
 
 // @public
 export type Transform = ProxyResource & {
@@ -2987,7 +3221,6 @@ export type VideoAnalyzerPreset = AudioAnalyzerPreset & {
 
 // @public
 export type VideoLayer = Layer & {
-    odataType: "#Microsoft.Media.VideoLayer" | "#Microsoft.Media.H264Layer";
     bitrate: number;
     maxBitrate?: number;
     bFrames?: number;
@@ -2995,9 +3228,6 @@ export type VideoLayer = Layer & {
     slices?: number;
     adaptiveBFrame?: boolean;
 };
-
-// @public (undocumented)
-export type VideoLayerUnion = VideoLayer | H264Layer;
 
 // @public
 export type VideoOverlay = Overlay & {
@@ -3011,6 +3241,11 @@ export type VideoOverlay = Overlay & {
 export type VideoSyncMode = string;
 
 // @public
+export type VideoTrack = TrackBase & {
+    odataType: "#Microsoft.Media.VideoTrack";
+};
+
+// @public
 export type VideoTrackDescriptor = TrackDescriptor & {
     odataType: "#Microsoft.Media.VideoTrackDescriptor" | "#Microsoft.Media.SelectVideoTrackByAttribute" | "#Microsoft.Media.SelectVideoTrackById";
 };
@@ -3021,6 +3256,8 @@ export type VideoTrackDescriptorUnion = VideoTrackDescriptor | SelectVideoTrackB
 // @public (undocumented)
 export type VideoUnion = Video | H265Video | ImageUnion | H264Video;
 
+// @public
+export type Visibility = string;
 
 // (No @packageDocumentation comment for this package)
 

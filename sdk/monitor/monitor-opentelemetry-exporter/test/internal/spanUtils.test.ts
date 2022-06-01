@@ -3,7 +3,7 @@
 
 import fs from "fs";
 import path from "path";
-import { Span, BasicTracerProvider, TracerConfig } from "@opentelemetry/tracing";
+import { Span, BasicTracerProvider, TracerConfig } from "@opentelemetry/sdk-trace-base";
 import { SpanKind, SpanStatusCode, ROOT_CONTEXT } from "@opentelemetry/api";
 import * as assert from "assert";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
@@ -11,7 +11,7 @@ import { Resource } from "@opentelemetry/resources";
 import {
   DbSystemValues,
   SemanticAttributes,
-  SemanticResourceAttributes
+  SemanticResourceAttributes,
 } from "@opentelemetry/semantic-conventions";
 
 import { Tags, Properties, Measurements } from "../../src/types";
@@ -27,12 +27,12 @@ const tracerProviderConfig: TracerConfig = {
   resource: new Resource({
     [SemanticResourceAttributes.SERVICE_INSTANCE_ID]: "testServiceInstanceID",
     [SemanticResourceAttributes.SERVICE_NAME]: "testServiceName",
-    [SemanticResourceAttributes.SERVICE_NAMESPACE]: "testServiceNamespace"
-  })
+    [SemanticResourceAttributes.SERVICE_NAMESPACE]: "testServiceNamespace",
+  }),
 };
 
 const tracer = new BasicTracerProvider(tracerProviderConfig).getTracer("default");
-const packageJsonPath = path.resolve(__dirname, "../../", "./package.json");
+const packageJsonPath = path.resolve(__dirname, "../../../", "./package.json");
 let packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
 
 function assertEnvelope(
@@ -61,12 +61,12 @@ function assertEnvelope(
 
   const expectedServiceTags: Tags = {
     [KnownContextTagKeys.AiCloudRole]: "testServiceNamespace.testServiceName",
-    [KnownContextTagKeys.AiCloudRoleInstance]: "testServiceInstanceID"
+    [KnownContextTagKeys.AiCloudRoleInstance]: "testServiceInstanceID",
   };
   assert.deepStrictEqual(envelope.tags, {
     ...context.tags,
     ...expectedServiceTags,
-    ...expectedTags
+    ...expectedTags,
   });
   assert.deepStrictEqual((envelope?.data?.baseData as RequestData).properties, expectedProperties);
   assert.deepStrictEqual(
@@ -93,19 +93,19 @@ describe("spanUtils.ts", () => {
         span.setAttributes({
           "extra.attribute": "foo",
           [SemanticAttributes.RPC_GRPC_STATUS_CODE]: 123,
-          [SemanticAttributes.RPC_SYSTEM]: "test rpc system"
+          [SemanticAttributes.RPC_SYSTEM]: "test rpc system",
         });
         span.setStatus({
-          code: SpanStatusCode.OK
+          code: SpanStatusCode.OK,
         });
         span.end();
         const expectedTags: Tags = {
           [KnownContextTagKeys.AiOperationId]: "traceid",
           [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
-          [KnownContextTagKeys.AiOperationName]: "parent span"
+          [KnownContextTagKeys.AiOperationName]: "parent span",
         };
         const expectedProperties = {
-          "extra.attribute": "foo"
+          "extra.attribute": "foo",
         };
 
         const expectedBaseData: Partial<RequestData> = {
@@ -117,7 +117,7 @@ describe("spanUtils.ts", () => {
           name: `parent span`,
           version: 2,
           properties: expectedProperties,
-          measurements: {}
+          measurements: {},
         };
 
         const envelope = readableSpanToEnvelope(span, "ikey");
@@ -143,18 +143,18 @@ describe("spanUtils.ts", () => {
         span.setAttributes({
           "extra.attribute": "foo",
           [SemanticAttributes.RPC_GRPC_STATUS_CODE]: 123,
-          [SemanticAttributes.RPC_SYSTEM]: "test rpc system"
+          [SemanticAttributes.RPC_SYSTEM]: "test rpc system",
         });
         span.setStatus({
-          code: SpanStatusCode.OK
+          code: SpanStatusCode.OK,
         });
         span.end();
         const expectedTags: Tags = {
           [KnownContextTagKeys.AiOperationId]: "traceid",
-          [KnownContextTagKeys.AiOperationParentId]: "parentSpanId"
+          [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
         };
         const expectedProperties = {
-          "extra.attribute": "foo"
+          "extra.attribute": "foo",
         };
 
         const expectedBaseData: Partial<RemoteDependencyData> = {
@@ -167,7 +167,7 @@ describe("spanUtils.ts", () => {
           name: `parent span`,
           version: 2,
           properties: expectedProperties,
-          measurements: {}
+          measurements: {},
         };
 
         const envelope = readableSpanToEnvelope(span, "ikey");
@@ -193,20 +193,20 @@ describe("spanUtils.ts", () => {
           "parentSpanId"
         );
         span.setAttributes({
-          "extra.attribute": "foo"
+          "extra.attribute": "foo",
         });
         span.setStatus({
-          code: SpanStatusCode.OK
+          code: SpanStatusCode.OK,
         });
         span.end();
         const expectedTime = new Date(hrTimeToMilliseconds(span.startTime));
         const expectedTags: Tags = {
           [KnownContextTagKeys.AiOperationId]: "traceid",
           [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
-          [KnownContextTagKeys.AiOperationName]: "parent span"
+          [KnownContextTagKeys.AiOperationName]: "parent span",
         };
         const expectedProperties = {
-          "extra.attribute": "foo"
+          "extra.attribute": "foo",
         };
 
         const expectedBaseData: Partial<RequestData> = {
@@ -218,7 +218,7 @@ describe("spanUtils.ts", () => {
           version: 2,
           source: undefined,
           properties: expectedProperties,
-          measurements: {}
+          measurements: {},
         };
 
         const envelope = readableSpanToEnvelope(span, "ikey");
@@ -244,18 +244,18 @@ describe("spanUtils.ts", () => {
           "parentSpanId"
         );
         span.setAttributes({
-          "extra.attribute": "foo"
+          "extra.attribute": "foo",
         });
         span.setStatus({
-          code: SpanStatusCode.OK
+          code: SpanStatusCode.OK,
         });
         span.end();
         const expectedTags: Tags = {
           [KnownContextTagKeys.AiOperationId]: "traceid",
-          [KnownContextTagKeys.AiOperationParentId]: "parentSpanId"
+          [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
         };
         const expectedProperties = {
-          "extra.attribute": "foo"
+          "extra.attribute": "foo",
         };
 
         const expectedBaseData: Partial<RemoteDependencyData> = {
@@ -267,7 +267,7 @@ describe("spanUtils.ts", () => {
           name: `parent span`,
           version: 2,
           properties: expectedProperties,
-          measurements: {}
+          measurements: {},
         };
 
         const envelope = readableSpanToEnvelope(span, "ikey");
@@ -298,10 +298,10 @@ describe("spanUtils.ts", () => {
           [SemanticAttributes.HTTP_ROUTE]: "/api/example",
           [SemanticAttributes.HTTP_URL]: "https://example.com/api/example",
           [SemanticAttributes.HTTP_STATUS_CODE]: 200,
-          "extra.attribute": "foo"
+          "extra.attribute": "foo",
         });
         span.setStatus({
-          code: SpanStatusCode.OK
+          code: SpanStatusCode.OK,
         });
         span.end();
         const expectedTags: Tags = {};
@@ -310,7 +310,7 @@ describe("spanUtils.ts", () => {
         expectedTags[KnownContextTagKeys.AiOperationName] = "GET /api/example";
 
         const expectedProperties = {
-          "extra.attribute": "foo"
+          "extra.attribute": "foo",
         };
 
         const expectedBaseData: RequestData = {
@@ -323,7 +323,7 @@ describe("spanUtils.ts", () => {
           version: 2,
           source: undefined,
           properties: expectedProperties,
-          measurements: {}
+          measurements: {},
         };
 
         const envelope = readableSpanToEnvelope(span, "ikey");
@@ -351,17 +351,17 @@ describe("spanUtils.ts", () => {
           [SemanticAttributes.HTTP_URL]: "https://example.com/api/example",
           [SemanticAttributes.PEER_SERVICE]: "https://someotherexample.com/api/example",
           [SemanticAttributes.HTTP_STATUS_CODE]: 200,
-          "extra.attribute": "foo"
+          "extra.attribute": "foo",
         });
         span.setStatus({
-          code: SpanStatusCode.OK
+          code: SpanStatusCode.OK,
         });
         span.end();
         const expectedTags: Tags = {};
         expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
         expectedTags[KnownContextTagKeys.AiOperationParentId] = "parentSpanId";
         const expectedProperties = {
-          "extra.attribute": "foo"
+          "extra.attribute": "foo",
         };
 
         const expectedBaseData: RemoteDependencyData = {
@@ -375,7 +375,7 @@ describe("spanUtils.ts", () => {
           name: `GET /api/example`,
           version: 2,
           properties: expectedProperties,
-          measurements: {}
+          measurements: {},
         };
 
         const envelope = readableSpanToEnvelope(span, "ikey");
@@ -404,17 +404,17 @@ describe("spanUtils.ts", () => {
         span.setAttributes({
           [SemanticAttributes.DB_SYSTEM]: DbSystemValues.MYSQL,
           [SemanticAttributes.DB_STATEMENT]: "SELECT * FROM Test",
-          "extra.attribute": "foo"
+          "extra.attribute": "foo",
         });
         span.setStatus({
-          code: SpanStatusCode.OK
+          code: SpanStatusCode.OK,
         });
         span.end();
         const expectedTags: Tags = {};
         expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
         expectedTags[KnownContextTagKeys.AiOperationParentId] = "parentSpanId";
         const expectedProperties = {
-          "extra.attribute": "foo"
+          "extra.attribute": "foo",
         };
 
         const expectedBaseData: RemoteDependencyData = {
@@ -428,7 +428,7 @@ describe("spanUtils.ts", () => {
           name: `parent span`,
           version: 2,
           properties: expectedProperties,
-          measurements: {}
+          measurements: {},
         };
 
         const envelope = readableSpanToEnvelope(span, "ikey");

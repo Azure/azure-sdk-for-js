@@ -1,0 +1,25 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:aTelemetry;1",
+      "@type": "Telemetry",
+      "name": "Foo",
+      "displayName": "SupercalifragilisticexpialidociousSupercalifragilisticexpialidocious",
+      "schema": "double"
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:langStringValueTooLong",
+        "PrimaryID": "dtmi:test:aTelemetry;1",
+        "SecondaryID": null,
+        "Property": "displayName",
+        "Value": "SupercalifragilisticexpialidociousSupercalifragilisticexpialidocious"
+      }
+    ]
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://fakeaccountname.table.core.windows.net/tableClientTestnode?st=2021-08-03T08:52:15Z\u0026spr=https\u0026sig=fakesigval",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json;odata=minimalmetadata",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "172",
+        "Content-Type": "application/json;odata=nometadata",
+        "DataServiceVersion": "3.0",
+        "Prefer": "return-no-content",
+        "User-Agent": "azsdk-js-data-tables/13.0.2 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "d4bb5742-5c02-4d34-8bec-86c2db01912f",
+        "x-ms-version": "2019-02-02"
+      },
+      "RequestBody": {
+        "PartitionKey": "CreateBinary_node",
+        "RowKey": "first_node",
+        "binary": "QmFy",
+        "binary@odata.type": "Edm.Binary",
+        "binaryMetadata": "QmFy",
+        "binaryMetadata@odata.type": "Edm.Binary"
+      },
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "0",
+        "DataServiceId": "https://fakeaccountname.table.core.windows.net/tableClientTestnode(PartitionKey=\u0027CreateBinary_node\u0027,RowKey=\u0027first_node\u0027)",
+        "Date": "Tue, 01 Feb 2022 20:52:37 GMT",
+        "ETag": "W/\u0022datetime\u00272022-02-01T20%3A52%3A38.3515604Z\u0027\u0022",
+        "Location": "https://fakeaccountname.table.core.windows.net/tableClientTestnode(PartitionKey=\u0027CreateBinary_node\u0027,RowKey=\u0027first_node\u0027)",
+        "Preference-Applied": "return-no-content",
+        "Server": [
+          "Windows-Azure-Table/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "d4bb5742-5c02-4d34-8bec-86c2db01912f",
+        "x-ms-request-id": "a5ad738b-0002-0010-14ad-17b759000000",
+        "x-ms-version": "2019-02-02"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://fakeaccountname.table.core.windows.net/tableClientTestnode(PartitionKey=\u0027CreateBinary_node\u0027,RowKey=\u0027first_node\u0027)?st=2021-08-03T08:52:15Z\u0026spr=https\u0026sig=fakesigval",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json;odata=minimalmetadata",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "DataServiceVersion": "3.0",
+        "User-Agent": "azsdk-js-data-tables/13.0.2 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "4a971f14-165c-4ee1-97ca-2d9bca588165",
+        "x-ms-version": "2019-02-02"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,ETag,Content-Type,Content-Length,Date,Transfer-Encoding",
+        "Cache-Control": "no-cache",
+        "Content-Type": "application/json; odata=minimalmetadata; streaming=true; charset=utf-8",
+        "Date": "Tue, 01 Feb 2022 20:52:37 GMT",
+        "ETag": "W/\u0022datetime\u00272022-02-01T20%3A52%3A38.3515604Z\u0027\u0022",
+        "Server": [
+          "Windows-Azure-Table/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "4a971f14-165c-4ee1-97ca-2d9bca588165",
+        "x-ms-request-id": "a5ad7396-0002-0010-1fad-17b759000000",
+        "x-ms-version": "2019-02-02"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://fakeaccountname.table.core.windows.net/$metadata#tableClientTestnode/@Element",
+        "odata.etag": "W/\u0022datetime\u00272022-02-01T20%3A52%3A38.3515604Z\u0027\u0022",
+        "PartitionKey": "CreateBinary_node",
+        "RowKey": "first_node",
+        "Timestamp": "2022-02-01T20:52:38.3515604Z",
+        "binary@odata.type": "Edm.Binary",
+        "binary": "QmFy",
+        "binaryMetadata@odata.type": "Edm.Binary",
+        "binaryMetadata": "QmFy"
+      }
+    }
+  ],
+  "Variables": {}
+}

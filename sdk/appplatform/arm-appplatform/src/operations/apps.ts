@@ -11,7 +11,7 @@ import { Apps } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AppPlatformManagementClientContext } from "../appPlatformManagementClientContext";
+import { AppPlatformManagementClient } from "../appPlatformManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -28,6 +28,9 @@ import {
   AppsListResponse,
   AppsGetResourceUploadUrlOptionalParams,
   AppsGetResourceUploadUrlResponse,
+  ActiveDeploymentCollection,
+  AppsSetActiveDeploymentsOptionalParams,
+  AppsSetActiveDeploymentsResponse,
   CustomDomainValidatePayload,
   AppsValidateDomainOptionalParams,
   AppsValidateDomainResponse,
@@ -37,13 +40,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Apps operations. */
 export class AppsImpl implements Apps {
-  private readonly client: AppPlatformManagementClientContext;
+  private readonly client: AppPlatformManagementClient;
 
   /**
    * Initialize a new instance of the class Apps class.
    * @param client Reference to the service client
    */
-  constructor(client: AppPlatformManagementClientContext) {
+  constructor(client: AppPlatformManagementClient) {
     this.client = client;
   }
 
@@ -192,11 +195,12 @@ export class AppsImpl implements Apps {
       { resourceGroupName, serviceName, appName, appResource, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -283,11 +287,12 @@ export class AppsImpl implements Apps {
       { resourceGroupName, serviceName, appName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -375,11 +380,12 @@ export class AppsImpl implements Apps {
       { resourceGroupName, serviceName, appName, appResource, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -444,6 +450,111 @@ export class AppsImpl implements Apps {
       { resourceGroupName, serviceName, appName, options },
       getResourceUploadUrlOperationSpec
     );
+  }
+
+  /**
+   * Set existing Deployment under the app as active
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param appName The name of the App resource.
+   * @param activeDeploymentCollection A list of Deployment name to be active.
+   * @param options The options parameters.
+   */
+  async beginSetActiveDeployments(
+    resourceGroupName: string,
+    serviceName: string,
+    appName: string,
+    activeDeploymentCollection: ActiveDeploymentCollection,
+    options?: AppsSetActiveDeploymentsOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<AppsSetActiveDeploymentsResponse>,
+      AppsSetActiveDeploymentsResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<AppsSetActiveDeploymentsResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      {
+        resourceGroupName,
+        serviceName,
+        appName,
+        activeDeploymentCollection,
+        options
+      },
+      setActiveDeploymentsOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Set existing Deployment under the app as active
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param appName The name of the App resource.
+   * @param activeDeploymentCollection A list of Deployment name to be active.
+   * @param options The options parameters.
+   */
+  async beginSetActiveDeploymentsAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    appName: string,
+    activeDeploymentCollection: ActiveDeploymentCollection,
+    options?: AppsSetActiveDeploymentsOptionalParams
+  ): Promise<AppsSetActiveDeploymentsResponse> {
+    const poller = await this.beginSetActiveDeployments(
+      resourceGroupName,
+      serviceName,
+      appName,
+      activeDeploymentCollection,
+      options
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -649,6 +760,40 @@ const getResourceUploadUrlOperationSpec: coreClient.OperationSpec = {
     Parameters.appName
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const setActiveDeploymentsOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/setActiveDeployments",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AppResource
+    },
+    201: {
+      bodyMapper: Mappers.AppResource
+    },
+    202: {
+      bodyMapper: Mappers.AppResource
+    },
+    204: {
+      bodyMapper: Mappers.AppResource
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.activeDeploymentCollection,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.appName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const validateDomainOperationSpec: coreClient.OperationSpec = {

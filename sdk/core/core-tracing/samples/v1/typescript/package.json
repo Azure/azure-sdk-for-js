@@ -1,0 +1,38 @@
+{
+  "name": "@azure-samples/core-tracing-ts",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure SDK Core client library samples for TypeScript",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/core/core-tracing"
+  },
+  "keywords": [
+    "azure",
+    "tracing",
+    "cloud"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-tracing",
+  "dependencies": {
+    "@azure/core-tracing": "latest",
+    "dotenv": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "^12.0.0",
+    "typescript": "~4.4.0",
+    "rimraf": "latest"
+  }
+}

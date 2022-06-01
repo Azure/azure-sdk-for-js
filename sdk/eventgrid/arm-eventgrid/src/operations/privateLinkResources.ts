@@ -11,7 +11,7 @@ import { PrivateLinkResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { EventGridManagementClientContext } from "../eventGridManagementClientContext";
+import { EventGridManagementClient } from "../eventGridManagementClient";
 import {
   PrivateLinkResource,
   PrivateLinkResourcesListByResourceNextOptionalParams,
@@ -25,21 +25,23 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateLinkResources operations. */
 export class PrivateLinkResourcesImpl implements PrivateLinkResources {
-  private readonly client: EventGridManagementClientContext;
+  private readonly client: EventGridManagementClient;
 
   /**
    * Initialize a new instance of the class PrivateLinkResources class.
    * @param client Reference to the service client
    */
-  constructor(client: EventGridManagementClientContext) {
+  constructor(client: EventGridManagementClient) {
     this.client = client;
   }
 
   /**
-   * List all the private link resources under a topic or domain.
+   * List all the private link resources under a topic, domain, or partner namespace.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
-   * @param parentName The name of the parent resource (namely, either, the topic name or domain name).
+   * @param parentType The type of the parent resource. This can be either \'topics\', \'domains\', or
+   *                   \'partnerNamespaces\'.
+   * @param parentName The name of the parent resource (namely, either, the topic name, domain name, or
+   *                   partner namespace name).
    * @param options The options parameters.
    */
   public listByResource(
@@ -118,8 +120,10 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   /**
    * Get properties of a private link resource.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
-   * @param parentName The name of the parent resource (namely, either, the topic name or domain name).
+   * @param parentType The type of the parent resource. This can be either \'topics\', \'domains\', or
+   *                   \'partnerNamespaces\'.
+   * @param parentName The name of the parent resource (namely, either, the topic name, domain name, or
+   *                   partner namespace name).
    * @param privateLinkResourceName The name of private link resource.
    * @param options The options parameters.
    */
@@ -143,10 +147,12 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   }
 
   /**
-   * List all the private link resources under a topic or domain.
+   * List all the private link resources under a topic, domain, or partner namespace.
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
-   * @param parentName The name of the parent resource (namely, either, the topic name or domain name).
+   * @param parentType The type of the parent resource. This can be either \'topics\', \'domains\', or
+   *                   \'partnerNamespaces\'.
+   * @param parentName The name of the parent resource (namely, either, the topic name, domain name, or
+   *                   partner namespace name).
    * @param options The options parameters.
    */
   private _listByResource(
@@ -164,8 +170,10 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   /**
    * ListByResourceNext
    * @param resourceGroupName The name of the resource group within the user's subscription.
-   * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
-   * @param parentName The name of the parent resource (namely, either, the topic name or domain name).
+   * @param parentType The type of the parent resource. This can be either \'topics\', \'domains\', or
+   *                   \'partnerNamespaces\'.
+   * @param parentName The name of the parent resource (namely, either, the topic name, domain name, or
+   *                   partner namespace name).
    * @param nextLink The nextLink from the previous successful call to the ListByResource method.
    * @param options The options parameters.
    */
@@ -201,7 +209,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.parentName,
-    Parameters.parentType4,
+    Parameters.parentType1,
     Parameters.privateLinkResourceName
   ],
   headerParameters: [Parameters.accept],
@@ -223,7 +231,7 @@ const listByResourceOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.parentName,
-    Parameters.parentType4
+    Parameters.parentType1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -244,7 +252,7 @@ const listByResourceNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.nextLink,
     Parameters.parentName,
-    Parameters.parentType4
+    Parameters.parentType1
   ],
   headerParameters: [Parameters.accept],
   serializer

@@ -1,0 +1,30 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:someInterface;1",
+      "@type": "Interface",
+      "contents": [
+        {
+          "@id": "dtmi:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong;1234",
+          "@type": "Property",
+          "name": "foo",
+          "schema": "double"
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:idTooLong",
+        "PrimaryID": null,
+        "SecondaryID": null,
+        "Property": null,
+        "Value": "dtmi:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong:tooLong;1234"
+      }
+    ]
+  }
+}

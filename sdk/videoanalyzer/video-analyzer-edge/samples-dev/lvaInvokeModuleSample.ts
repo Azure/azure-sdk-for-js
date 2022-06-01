@@ -15,7 +15,7 @@ import {
   createRequest,
   RemoteDeviceAdapterProperties,
   RemoteDeviceAdapter,
-  VideoSink
+  VideoSink,
 } from "@azure/video-analyzer-edge";
 
 import { Client } from "azure-iothub";
@@ -30,15 +30,15 @@ function buildPipelineTopology() {
       credentials: {
         username: "${rtspUserName}",
         password: "${rtspPassword}",
-        "@type": "#Microsoft.VideoAnalyzer.UsernamePasswordCredentials"
-      }
+        "@type": "#Microsoft.VideoAnalyzer.UsernamePasswordCredentials",
+      },
     } as UnsecuredEndpoint,
-    "@type": "#Microsoft.VideoAnalyzer.RtspSource"
+    "@type": "#Microsoft.VideoAnalyzer.RtspSource",
   };
 
   const nodeInput: NodeInput = {
     //Create an input for your sink
-    nodeName: "rtspSource"
+    nodeName: "rtspSource",
   };
 
   const videoSink: VideoSink = {
@@ -47,7 +47,7 @@ function buildPipelineTopology() {
     videoName: "video",
     localMediaCachePath: "/var/lib/videoanalyzer/tmp/",
     localMediaCacheMaximumSizeMiB: "1024",
-    "@type": "#Microsoft.VideoAnalyzer.VideoSink"
+    "@type": "#Microsoft.VideoAnalyzer.VideoSink",
   };
 
   const pipelineTopology: PipelineTopology = {
@@ -57,11 +57,11 @@ function buildPipelineTopology() {
       parameters: [
         { name: "rtspUserName", type: "String", default: "testUsername" },
         { name: "rtspPassword", type: "SecretString", default: "testPassword" },
-        { name: "rtspUrl", type: "String" }
+        { name: "rtspUrl", type: "String" },
       ],
       sources: [rtspSource],
-      sinks: [videoSink]
-    }
+      sinks: [videoSink],
+    },
   };
 
   return pipelineTopology;
@@ -73,8 +73,8 @@ function buildLivePipeline(pipelineTopologyName: string) {
     properties: {
       description: "description",
       topologyName: pipelineTopologyName,
-      parameters: [{ name: "rtspUrl", value: "rtsp://sample.com" }]
-    }
+      parameters: [{ name: "rtspUrl", value: "rtsp://sample.com" }],
+    },
   };
 
   return livePipeline;
@@ -87,14 +87,14 @@ function createRemoteDeviceAdapter(deviceName: string, iotDeviceName: string): R
       deviceId: iotDeviceName,
       credentials: {
         "@type": "#Microsoft.VideoAnalyzer.SymmetricKeyCredentials",
-        key: process.env.iothub_deviceprimarykey
-      }
-    }
+        key: process.env.iothub_deviceprimarykey,
+      },
+    },
   };
 
   const remoteDeviceAdapter: RemoteDeviceAdapter = {
     name: deviceName,
-    properties: remoteDeviceProperties
+    properties: remoteDeviceProperties,
   };
 
   return remoteDeviceAdapter;
@@ -110,7 +110,7 @@ export async function main() {
     //Helper method to send a module method request to your IoT Hub device
     return await iotHubClient.invokeDeviceMethod(deviceId ?? "", moduleId ?? "", {
       methodName: methodRequest.methodName,
-      payload: methodRequest.payload
+      payload: methodRequest.payload,
     });
   }
 
@@ -159,7 +159,7 @@ export async function main() {
 
   const endpoint: UnsecuredEndpoint = {
     url: "http://camerasimulator:8554",
-    "@type": "#Microsoft.VideoAnalyzer.UnsecuredEndpoint"
+    "@type": "#Microsoft.VideoAnalyzer.UnsecuredEndpoint",
   };
   const getOnvifDeviceRequest = createRequest("onvifDeviceGet", endpoint);
   const getOnvifDeviceResponse = await invokeMethodHelper(getOnvifDeviceRequest);

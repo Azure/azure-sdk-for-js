@@ -185,14 +185,14 @@ export class LockRenewer {
                 bMessage.lockedUntilUtc = await this._context
                   .getManagementClient(linkEntity.entityPath)
                   .renewLock(lockToken, {
-                    associatedLinkName: linkEntity.name
+                    associatedLinkName: linkEntity.name,
                   });
                 logger.verbose(
                   `${logPrefix} Successfully renewed the lock for message with id '${bMessage.messageId}'. Starting next auto-lock-renew cycle for message.`
                 );
 
                 autoRenewLockTask();
-              } catch (err) {
+              } catch (err: any) {
                 logger.logError(
                   err,
                   `${logPrefix} An error occurred while auto renewing the message lock '${bMessage.lockToken}' for message with id '${bMessage.messageId}'`
@@ -227,7 +227,7 @@ export class LockRenewer {
 
       // start
       autoRenewLockTask();
-    } catch (err) {
+    } catch (err: any) {
       onError(err);
     }
   }

@@ -44,7 +44,7 @@ export enum KnownTimeGranularity {
   /**
    * None
    */
-  none = "none"
+  none = "none",
 }
 
 export {
@@ -66,7 +66,6 @@ export {
   DetectionStatus,
   AnomalyState,
   AnomalyValue,
-  AnomalyContributor,
   AnomalyDetectorGetDetectionResultResponse,
   AnomalyDetectorExportModelResponse,
   AnomalyDetectorListMultivariateModelNextOptionalParams,
@@ -86,7 +85,37 @@ export {
   DiagnosticsInfo,
   FillNAMethod,
   AnomalyDetectorDetectAnomalyHeaders,
-  AnomalyDetectorExportModelHeaders,
   AnomalyDetectorTrainMultivariateModelHeaders,
-  TimeGranularity
+  TimeGranularity,
+  AnomalyDetectorExportModelOptionalParams,
+  AnomalyDetectorGetDetectionResultOptionalParams,
+  AnomalyDetectorDetectAnomalyOptionalParams,
+  AnomalyDetectorDeleteMultivariateModelOptionalParams,
+  AnomalyDetectorGetMultivariateModelOptionalParams,
+  AnomalyDetectorTrainMultivariateModelOptionalParams,
+  AnomalyDetectorDetectChangePointOptionalParams,
+  AnomalyDetectorDetectLastPointOptionalParams,
+  AnomalyDetectorDetectEntireSeriesOptionalParams,
+  AnomalyDetectorListMultivariateModelNextExceptionHeaders,
+  AnomalyDetectorLastDetectAnomalyExceptionHeaders,
+  AnomalyDetectorExportModelExceptionHeaders,
+  AnomalyDetectorGetDetectionResultExceptionHeaders,
+  AnomalyDetectorDetectAnomalyExceptionHeaders,
+  AnomalyDetectorDeleteMultivariateModelExceptionHeaders,
+  AnomalyDetectorGetMultivariateModelExceptionHeaders,
+  AnomalyDetectorListMultivariateModelExceptionHeaders,
+  AnomalyDetectorTrainMultivariateModelExceptionHeaders,
+  AnomalyDetectorDetectChangePointExceptionHeaders,
+  AnomalyDetectorDetectLastPointExceptionHeaders,
+  ImputeMode,
+  KnownImputeMode,
+  AnomalyDetectorLastDetectAnomalyResponse,
+  KnownFillNAMethod,
+  AnomalyDetectorDetectEntireSeriesExceptionHeaders,
+  LastDetectionResult,
+  VariableValues,
+  LastDetectionRequest,
+  CorrelationChanges,
+  AnomalyInterpretation,
+  AnomalyDetectorLastDetectAnomalyOptionalParams,
 } from "./generated/models";

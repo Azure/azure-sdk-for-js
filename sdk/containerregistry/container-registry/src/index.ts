@@ -7,7 +7,7 @@ export {
   DeleteRepositoryOptions,
   GetRepositoryPropertiesOptions,
   UpdateRepositoryPropertiesOptions,
-  ListManifestPropertiesOptions
+  ListManifestPropertiesOptions,
 } from "./containerRepository";
 export {
   RegistryArtifact,
@@ -17,6 +17,7 @@ export {
   GetTagPropertiesOptions,
   UpdateManifestPropertiesOptions,
   UpdateTagPropertiesOptions,
-  ListTagPropertiesOptions
+  ListTagPropertiesOptions,
 } from "./registryArtifact";
 export * from "./models";
+export * from "./blob";

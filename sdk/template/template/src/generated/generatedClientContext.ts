@@ -6,14 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 import { GeneratedClientOptionalParams } from "./models";
 
-const packageName = "@azure/template";
-const packageVersion = "1.0.11-beta.1";
-
-/** @hidden */
-export class GeneratedClientContext extends coreHttp.ServiceClient {
+/** @internal */
+export class GeneratedClientContext extends coreClient.ServiceClient {
   endpoint: string;
   syncToken?: string;
   apiVersion: string;
@@ -32,18 +29,25 @@ export class GeneratedClientContext extends coreHttp.ServiceClient {
     if (!options) {
       options = {};
     }
+    const defaults: GeneratedClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8"
+    };
 
-    if (!options.userAgent) {
-      const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
-      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-    }
+    const packageDetails = `azsdk-js-template/1.0.11-beta.1`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
 
-    super(undefined, options);
-
-    this.requestContentType = "application/json; charset=utf-8";
-
-    this.baseUri = options.endpoint || "{endpoint}";
-
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri: options.endpoint || "{endpoint}"
+    };
+    super(optionsWithDefaults);
     // Parameter assignments
     this.endpoint = endpoint;
 

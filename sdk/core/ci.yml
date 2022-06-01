@@ -14,6 +14,7 @@ trigger:
       - rush.json
     exclude:
       - common/smoke-test/
+      - eng/common/
 
 pr:
   branches:
@@ -30,6 +31,7 @@ pr:
       - rush.json
     exclude:
       - common/smoke-test/
+      - eng/common/
 
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
@@ -40,20 +42,12 @@ extends:
         safeName: azureabortcontroller
       - name: azure-core-amqp
         safeName: azurecoreamqp
-      - name: azure-core-asynciterator-polyfill
-        safeName: azurecoreasynciteratorpolyfill
       - name: azure-core-auth
         safeName: azurecoreauth
       - name: azure-core-client
         safeName: azurecoreclient
       - name: azure-rest-core-client
         safeName: azurerestcoreclient
-      - name: azure-rest-core-client-paging
-        safeName: azurerestcoreclientpaging
-      - name: azure-rest-core-client-lro
-        safeName: azurerestcoreclientlro
-      - name: azure-core-crypto
-        safeName: azurecorecrypto
       - name: azure-core-http
         safeName: azurecorehttp
       - name: azure-core-rest-pipeline
@@ -70,3 +64,5 @@ extends:
         safeName: azurecoreutil
       - name: azure-logger
         safeName: azurelogger
+      - name: azure-core-http-compat
+        safeName: azurecorehttpcompat

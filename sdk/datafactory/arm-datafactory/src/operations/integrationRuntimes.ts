@@ -11,7 +11,7 @@ import { IntegrationRuntimes } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { DataFactoryManagementClientContext } from "../dataFactoryManagementClientContext";
+import { DataFactoryManagementClient } from "../dataFactoryManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -56,13 +56,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing IntegrationRuntimes operations. */
 export class IntegrationRuntimesImpl implements IntegrationRuntimes {
-  private readonly client: DataFactoryManagementClientContext;
+  private readonly client: DataFactoryManagementClient;
 
   /**
    * Initialize a new instance of the class IntegrationRuntimes class.
    * @param client Reference to the service client
    */
-  constructor(client: DataFactoryManagementClientContext) {
+  constructor(client: DataFactoryManagementClient) {
     this.client = client;
   }
 
@@ -415,10 +415,12 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
       { resourceGroupName, factoryName, integrationRuntimeName, options },
       startOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -500,10 +502,12 @@ export class IntegrationRuntimesImpl implements IntegrationRuntimes {
       { resourceGroupName, factoryName, integrationRuntimeName, options },
       stopOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

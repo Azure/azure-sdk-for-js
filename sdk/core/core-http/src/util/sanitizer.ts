@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { URLBuilder, URLQuery } from "../url";
-import { isObject, UnknownObject } from "./utils";
+import { UnknownObject, isObject } from "./utils";
 
 export interface SanitizerOptions {
   /**
@@ -62,7 +62,8 @@ const defaultAllowedHeaderNames = [
   "Retry-After",
   "Server",
   "Transfer-Encoding",
-  "User-Agent"
+  "User-Agent",
+  "WWW-Authenticate",
 ];
 
 const defaultAllowedQueryParameters: string[] = ["api-version"];
@@ -94,7 +95,7 @@ export class Sanitizer {
           return {
             ...value,
             name: value.name,
-            message: value.message
+            message: value.message,
           };
         }
 

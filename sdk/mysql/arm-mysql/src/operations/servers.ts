@@ -11,7 +11,7 @@ import { Servers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { MySQLManagementClientContext } from "../mySQLManagementClientContext";
+import { MySQLManagementClient } from "../mySQLManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -39,13 +39,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Servers operations. */
 export class ServersImpl implements Servers {
-  private readonly client: MySQLManagementClientContext;
+  private readonly client: MySQLManagementClient;
 
   /**
    * Initialize a new instance of the class Servers class.
    * @param client Reference to the service client
    */
-  constructor(client: MySQLManagementClientContext) {
+  constructor(client: MySQLManagementClient) {
     this.client = client;
   }
 
@@ -188,10 +188,12 @@ export class ServersImpl implements Servers {
       { resourceGroupName, serverName, parameters, options },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -277,10 +279,12 @@ export class ServersImpl implements Servers {
       { resourceGroupName, serverName, parameters, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -361,10 +365,12 @@ export class ServersImpl implements Servers {
       { resourceGroupName, serverName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -483,10 +489,12 @@ export class ServersImpl implements Servers {
       { resourceGroupName, serverName, options },
       restartOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -563,10 +571,12 @@ export class ServersImpl implements Servers {
       { resourceGroupName, serverName, options },
       startOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -643,10 +653,12 @@ export class ServersImpl implements Servers {
       { resourceGroupName, serverName, options },
       stopOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -721,10 +733,12 @@ export class ServersImpl implements Servers {
       { resourceGroupName, serverName, parameters, options },
       upgradeOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

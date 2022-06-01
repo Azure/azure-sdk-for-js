@@ -9,7 +9,11 @@ import { AccessToken } from "@azure/core-auth";
 import { MsalNodeOptions, MsalNode } from "./msalNodeCommon";
 import { formatError } from "../../util/logging";
 import { CredentialFlowGetTokenOptions } from "../credentials";
-import { ClientCertificateCredentialPEMConfiguration } from "../../credentials/clientCertificateCredential";
+import {
+  ClientCertificateCredentialPEMConfiguration,
+  ClientCertificatePEMCertificate,
+  ClientCertificatePEMCertificatePath,
+} from "../../credentials/clientCertificateCredential";
 
 const readFileAsync = promisify(readFile);
 
@@ -62,13 +66,18 @@ export async function parseCertificate(
 ): Promise<CertificateParts> {
   const certificateParts: Partial<CertificateParts> = {};
 
+  const certificate: string | undefined = (configuration as ClientCertificatePEMCertificate)
+    .certificate;
+  const certificatePath: string | undefined = (configuration as ClientCertificatePEMCertificatePath)
+    .certificatePath;
   certificateParts.certificateContents =
-    configuration.certificate || (await readFileAsync(configuration.certificatePath!, "utf8"));
+    certificate || (await readFileAsync(certificatePath!, "utf8"));
   if (sendCertificateChain) {
     certificateParts.x5c = certificateParts.certificateContents;
   }
 
-  const certificatePattern = /(-+BEGIN CERTIFICATE-+)(\n\r?|\r\n?)([A-Za-z0-9+/\n\r]+=*)(\n\r?|\r\n?)(-+END CERTIFICATE-+)/g;
+  const certificatePattern =
+    /(-+BEGIN CERTIFICATE-+)(\n\r?|\r\n?)([A-Za-z0-9+/\n\r]+=*)(\n\r?|\r\n?)(-+END CERTIFICATE-+)/g;
   const publicKeys: string[] = [];
 
   // Match all possible certificates, in the order they are in the file. These will form the chain that is used for x5c
@@ -114,9 +123,9 @@ export class MsalClientCertificate extends MsalNode {
       this.msalConfig.auth.clientCertificate = {
         thumbprint: parts.thumbprint,
         privateKey: parts.certificateContents,
-        x5c: parts.x5c
+        x5c: parts.x5c,
       };
-    } catch (error) {
+    } catch (error: any) {
       this.logger.info(formatError("", error));
       throw error;
     }
@@ -133,13 +142,13 @@ export class MsalClientCertificate extends MsalNode {
         correlationId: options.correlationId,
         azureRegion: this.azureRegion,
         authority: options.authority,
-        claims: options.claims
+        claims: options.claims,
       });
       // Even though we're providing the same default in memory persistence cache that we use for DeviceCodeCredential,
       // The Client Credential flow does not return the account information from the authentication service,
       // so each time getToken gets called, we will have to acquire a new token through the service.
       return this.handleResult(scopes, this.clientId, result || undefined);
-    } catch (err) {
+    } catch (err: any) {
       throw this.handleError(scopes, err, options);
     }
   }

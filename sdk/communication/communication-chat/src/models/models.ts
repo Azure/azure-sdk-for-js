@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import { CommunicationIdentifier, CommunicationIdentifierKind } from "@azure/communication-common";
-import { ChatMessageType, ChatError } from "../generated/src";
+import { ChatError, ChatMessageType } from "../generated/src";
 
 export {
   AddChatParticipantsResult,
   ChatMessageType,
   ChatThreadItem,
   ChatError,
-  SendChatMessageResult
+  SendChatMessageResult,
 } from "../generated/src/models";
 
 /** Chat thread. */

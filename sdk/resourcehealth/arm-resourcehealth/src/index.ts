@@ -9,5 +9,4 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { MicrosoftResourceHealth } from "./microsoftResourceHealth";
-export { MicrosoftResourceHealthContext } from "./microsoftResourceHealthContext";
 export * from "./operationsInterfaces";

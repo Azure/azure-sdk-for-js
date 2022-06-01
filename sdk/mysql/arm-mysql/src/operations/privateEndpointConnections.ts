@@ -11,7 +11,7 @@ import { PrivateEndpointConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { MySQLManagementClientContext } from "../mySQLManagementClientContext";
+import { MySQLManagementClient } from "../mySQLManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -34,13 +34,13 @@ import {
 /** Class containing PrivateEndpointConnections operations. */
 export class PrivateEndpointConnectionsImpl
   implements PrivateEndpointConnections {
-  private readonly client: MySQLManagementClientContext;
+  private readonly client: MySQLManagementClient;
 
   /**
    * Initialize a new instance of the class PrivateEndpointConnections class.
    * @param client Reference to the service client
    */
-  constructor(client: MySQLManagementClientContext) {
+  constructor(client: MySQLManagementClient) {
     this.client = client;
   }
 
@@ -204,10 +204,12 @@ export class PrivateEndpointConnectionsImpl
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -292,10 +294,12 @@ export class PrivateEndpointConnectionsImpl
       { resourceGroupName, serverName, privateEndpointConnectionName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -390,10 +394,12 @@ export class PrivateEndpointConnectionsImpl
       },
       updateTagsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

@@ -38,7 +38,7 @@ async function getEnrichedSeriesData(client: MetricsAdvisorClient, detectionConf
       detectionConfigId,
       [
         { city: "Manila", category: "Handmade" },
-        { city: "Shanghai", category: "Shoes Handbags & Sunglasses" }
+        { city: "Shanghai", category: "Shoes Handbags & Sunglasses" },
       ],
       new Date("09/01/2020"),
       new Date("09/12/2020")
@@ -60,7 +60,7 @@ async function getEnrichedSeriesData(client: MetricsAdvisorClient, detectionConf
         }
       }
     }
-  } catch (err) {
+  } catch (err: any) {
     console.log("!!!!!  error in listing enriched series data");
     console.log(err);
   }
@@ -73,7 +73,7 @@ async function getMetricSeriesData(client: MetricsAdvisorClient, metricId: strin
       metricId,
       [
         { city: "Manila", category: "Handmade" },
-        { city: "Shanghai", category: "Shoes Handbags & Sunglasses" }
+        { city: "Shanghai", category: "Shoes Handbags & Sunglasses" },
       ],
       new Date("09/01/2020"),
       new Date("09/12/2020")
@@ -87,7 +87,7 @@ async function getMetricSeriesData(client: MetricsAdvisorClient, metricId: strin
           console.log(`  ${series.values![i]}`);
         }
     }
-  } catch (err) {
+  } catch (err: any) {
     console.log("!!!!!  error in listing metric series data");
     console.log(err);
   }

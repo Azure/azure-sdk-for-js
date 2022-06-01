@@ -1,43 +1,41 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { CheckpointStore, EventProcessor, FullEventProcessorOptions } from "./eventProcessor";
 import { ConnectionContext, createConnectionContext } from "./connectionContext";
 import {
   EventHubConsumerClientOptions,
   GetEventHubPropertiesOptions,
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
-  LoadBalancingOptions
+  LoadBalancingOptions,
 } from "./models/public";
-import { InMemoryCheckpointStore } from "./inMemoryCheckpointStore";
-import { CheckpointStore, EventProcessor, FullEventProcessorOptions } from "./eventProcessor";
-import { Constants } from "@azure/core-amqp";
-import { logger } from "./log";
-
+import { EventHubProperties, PartitionProperties } from "./managementClient";
+import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import {
   SubscribeOptions,
   Subscription,
-  SubscriptionEventHandlers
+  SubscriptionEventHandlers,
 } from "./eventHubConsumerClientModels";
-import { TokenCredential, NamedKeyCredential, SASCredential } from "@azure/core-auth";
-import { EventHubProperties, PartitionProperties } from "./managementClient";
+import { BalancedLoadBalancingStrategy } from "./loadBalancerStrategies/balancedStrategy";
+import { Constants } from "@azure/core-amqp";
+import { GreedyLoadBalancingStrategy } from "./loadBalancerStrategies/greedyStrategy";
+import { InMemoryCheckpointStore } from "./inMemoryCheckpointStore";
+import { LoadBalancingStrategy } from "./loadBalancerStrategies/loadBalancingStrategy";
 import { PartitionGate } from "./impl/partitionGate";
+import { UnbalancedLoadBalancingStrategy } from "./loadBalancerStrategies/unbalancedStrategy";
+import { isCredential } from "./util/typeGuards";
+import { logger } from "./log";
 import { v4 as uuid } from "uuid";
 import { validateEventPositions } from "./eventPosition";
-import { LoadBalancingStrategy } from "./loadBalancerStrategies/loadBalancingStrategy";
-import { UnbalancedLoadBalancingStrategy } from "./loadBalancerStrategies/unbalancedStrategy";
-import { GreedyLoadBalancingStrategy } from "./loadBalancerStrategies/greedyStrategy";
-import { BalancedLoadBalancingStrategy } from "./loadBalancerStrategies/balancedStrategy";
-import { isCredential } from "./util/typeGuards";
 
-const defaultConsumerClientOptions: Required<Pick<
-  FullEventProcessorOptions,
-  "maxWaitTimeInSeconds" | "maxBatchSize"
->> = {
+const defaultConsumerClientOptions: Required<
+  Pick<FullEventProcessorOptions, "maxWaitTimeInSeconds" | "maxBatchSize">
+> = {
   // to support our current "process single event only" workflow we'll also purposefully
   // only request a single event at a time.
   maxBatchSize: 1,
-  maxWaitTimeInSeconds: 60
+  maxWaitTimeInSeconds: 60,
 };
 
 /**
@@ -335,7 +333,7 @@ export class EventHubConsumerClient {
       updateIntervalInMs: 10000,
       partitionOwnershipExpirationIntervalInMs: 60000,
       // options supplied by user
-      ...this._clientOptions?.loadBalancingOptions
+      ...this._clientOptions?.loadBalancingOptions,
     };
   }
 
@@ -369,7 +367,7 @@ export class EventHubConsumerClient {
     return this._context
       .managementSession!.getEventHubProperties({
         ...options,
-        retryOptions: this._clientOptions.retryOptions
+        retryOptions: this._clientOptions.retryOptions,
       })
       .then((eventHubProperties) => {
         return eventHubProperties.partitionIds;
@@ -390,7 +388,7 @@ export class EventHubConsumerClient {
   ): Promise<PartitionProperties> {
     return this._context.managementSession!.getPartitionProperties(partitionId, {
       ...options,
-      retryOptions: this._clientOptions.retryOptions
+      retryOptions: this._clientOptions.retryOptions,
     });
   }
 
@@ -404,7 +402,7 @@ export class EventHubConsumerClient {
   getEventHubProperties(options: GetEventHubPropertiesOptions = {}): Promise<EventHubProperties> {
     return this._context.managementSession!.getEventHubProperties({
       ...options,
-      retryOptions: this._clientOptions.retryOptions
+      retryOptions: this._clientOptions.retryOptions,
     });
   }
 
@@ -515,7 +513,7 @@ export class EventHubConsumerClient {
         this._partitionGate.remove(targetedPartitionId);
         this._subscriptions.delete(subscription);
         return eventProcessor.stop();
-      }
+      },
     };
     this._subscriptions.add(subscription);
     return subscription;
@@ -531,8 +529,8 @@ export class EventHubConsumerClient {
       return new UnbalancedLoadBalancingStrategy();
     }
 
-    const partitionOwnershipExpirationIntervalInMs = this._loadBalancingOptions
-      .partitionOwnershipExpirationIntervalInMs;
+    const partitionOwnershipExpirationIntervalInMs =
+      this._loadBalancingOptions.partitionOwnershipExpirationIntervalInMs;
     if (this._loadBalancingOptions?.strategy === "greedy") {
       return new GreedyLoadBalancingStrategy(partitionOwnershipExpirationIntervalInMs);
     }
@@ -570,7 +568,7 @@ export class EventHubConsumerClient {
         ownerId: this._id,
         retryOptions: this._clientOptions.retryOptions,
         loadBalancingStrategy,
-        loopIntervalInMs: this._loadBalancingOptions.updateIntervalInMs
+        loopIntervalInMs: this._loadBalancingOptions.updateIntervalInMs,
       }
     );
 
@@ -607,7 +605,7 @@ export class EventHubConsumerClient {
         ownerLevel: getOwnerLevel(subscribeOptions, this._userChoseCheckpointStore),
         retryOptions: this._clientOptions.retryOptions,
         loadBalancingStrategy: new UnbalancedLoadBalancingStrategy(),
-        loopIntervalInMs: this._loadBalancingOptions.updateIntervalInMs ?? 10000
+        loopIntervalInMs: this._loadBalancingOptions.updateIntervalInMs ?? 10000,
       }
     );
 

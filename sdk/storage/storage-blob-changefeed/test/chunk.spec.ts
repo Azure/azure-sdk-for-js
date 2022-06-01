@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import { Chunk } from "../src/Chunk";
 import * as sinon from "sinon";
 import { AvroReader } from "../../storage-internal-avro/src";
+import { BlobChangeFeedEvent } from "../src";
 
 class FakeAvroReader {
   constructor(
@@ -63,7 +64,7 @@ describe("Chunk", async () => {
 
     // act and verify
     const change = await chunk.getChange();
-    assert.deepStrictEqual(change, record);
+    assert.deepStrictEqual(change, record as unknown as BlobChangeFeedEvent);
     assert.equal(chunk.blockOffset, avroReaderStub.blockOffset);
     assert.equal(chunk.eventIndex, avroReaderStub.objectIndex);
 

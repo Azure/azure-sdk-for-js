@@ -33,24 +33,14 @@ export class File {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileDeleteFromTaskResponse>
    */
-  deleteFromTask(
-    jobId: string,
-    taskId: string,
-    filePath: string,
-    options?: Models.FileDeleteFromTaskOptionalParams
-  ): Promise<Models.FileDeleteFromTaskResponse>;
+  deleteFromTask(jobId: string, taskId: string, filePath: string, options?: Models.FileDeleteFromTaskOptionalParams): Promise<Models.FileDeleteFromTaskResponse>;
   /**
    * @param jobId The ID of the Job that contains the Task.
    * @param taskId The ID of the Task whose file you want to delete.
    * @param filePath The path to the Task file or directory that you want to delete.
    * @param callback The callback
    */
-  deleteFromTask(
-    jobId: string,
-    taskId: string,
-    filePath: string,
-    callback: msRest.ServiceCallback<void>
-  ): void;
+  deleteFromTask(jobId: string, taskId: string, filePath: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param jobId The ID of the Job that contains the Task.
    * @param taskId The ID of the Task whose file you want to delete.
@@ -58,20 +48,8 @@ export class File {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteFromTask(
-    jobId: string,
-    taskId: string,
-    filePath: string,
-    options: Models.FileDeleteFromTaskOptionalParams,
-    callback: msRest.ServiceCallback<void>
-  ): void;
-  deleteFromTask(
-    jobId: string,
-    taskId: string,
-    filePath: string,
-    options?: Models.FileDeleteFromTaskOptionalParams | msRest.ServiceCallback<void>,
-    callback?: msRest.ServiceCallback<void>
-  ): Promise<Models.FileDeleteFromTaskResponse> {
+  deleteFromTask(jobId: string, taskId: string, filePath: string, options: Models.FileDeleteFromTaskOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  deleteFromTask(jobId: string, taskId: string, filePath: string, options?: Models.FileDeleteFromTaskOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FileDeleteFromTaskResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -80,8 +58,7 @@ export class File {
         options
       },
       deleteFromTaskOperationSpec,
-      callback
-    ) as Promise<Models.FileDeleteFromTaskResponse>;
+      callback) as Promise<Models.FileDeleteFromTaskResponse>;
   }
 
   /**
@@ -92,24 +69,14 @@ export class File {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileGetFromTaskResponse>
    */
-  getFromTask(
-    jobId: string,
-    taskId: string,
-    filePath: string,
-    options?: Models.FileGetFromTaskOptionalParams
-  ): Promise<Models.FileGetFromTaskResponse>;
+  getFromTask(jobId: string, taskId: string, filePath: string, options?: Models.FileGetFromTaskOptionalParams): Promise<Models.FileGetFromTaskResponse>;
   /**
    * @param jobId The ID of the Job that contains the Task.
    * @param taskId The ID of the Task whose file you want to retrieve.
    * @param filePath The path to the Task file that you want to get the content of.
    * @param callback The callback
    */
-  getFromTask(
-    jobId: string,
-    taskId: string,
-    filePath: string,
-    callback: msRest.ServiceCallback<void>
-  ): void;
+  getFromTask(jobId: string, taskId: string, filePath: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param jobId The ID of the Job that contains the Task.
    * @param taskId The ID of the Task whose file you want to retrieve.
@@ -117,20 +84,8 @@ export class File {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getFromTask(
-    jobId: string,
-    taskId: string,
-    filePath: string,
-    options: Models.FileGetFromTaskOptionalParams,
-    callback: msRest.ServiceCallback<void>
-  ): void;
-  getFromTask(
-    jobId: string,
-    taskId: string,
-    filePath: string,
-    options?: Models.FileGetFromTaskOptionalParams | msRest.ServiceCallback<void>,
-    callback?: msRest.ServiceCallback<void>
-  ): Promise<Models.FileGetFromTaskResponse> {
+  getFromTask(jobId: string, taskId: string, filePath: string, options: Models.FileGetFromTaskOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  getFromTask(jobId: string, taskId: string, filePath: string, options?: Models.FileGetFromTaskOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FileGetFromTaskResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -139,8 +94,7 @@ export class File {
         options
       },
       getFromTaskOperationSpec,
-      callback
-    ) as Promise<Models.FileGetFromTaskResponse>;
+      callback) as Promise<Models.FileGetFromTaskResponse>;
   }
 
   /**
@@ -151,24 +105,14 @@ export class File {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileGetPropertiesFromTaskResponse>
    */
-  getPropertiesFromTask(
-    jobId: string,
-    taskId: string,
-    filePath: string,
-    options?: Models.FileGetPropertiesFromTaskOptionalParams
-  ): Promise<Models.FileGetPropertiesFromTaskResponse>;
+  getPropertiesFromTask(jobId: string, taskId: string, filePath: string, options?: Models.FileGetPropertiesFromTaskOptionalParams): Promise<Models.FileGetPropertiesFromTaskResponse>;
   /**
    * @param jobId The ID of the Job that contains the Task.
    * @param taskId The ID of the Task whose file you want to get the properties of.
    * @param filePath The path to the Task file that you want to get the properties of.
    * @param callback The callback
    */
-  getPropertiesFromTask(
-    jobId: string,
-    taskId: string,
-    filePath: string,
-    callback: msRest.ServiceCallback<void>
-  ): void;
+  getPropertiesFromTask(jobId: string, taskId: string, filePath: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param jobId The ID of the Job that contains the Task.
    * @param taskId The ID of the Task whose file you want to get the properties of.
@@ -176,20 +120,8 @@ export class File {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPropertiesFromTask(
-    jobId: string,
-    taskId: string,
-    filePath: string,
-    options: Models.FileGetPropertiesFromTaskOptionalParams,
-    callback: msRest.ServiceCallback<void>
-  ): void;
-  getPropertiesFromTask(
-    jobId: string,
-    taskId: string,
-    filePath: string,
-    options?: Models.FileGetPropertiesFromTaskOptionalParams | msRest.ServiceCallback<void>,
-    callback?: msRest.ServiceCallback<void>
-  ): Promise<Models.FileGetPropertiesFromTaskResponse> {
+  getPropertiesFromTask(jobId: string, taskId: string, filePath: string, options: Models.FileGetPropertiesFromTaskOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  getPropertiesFromTask(jobId: string, taskId: string, filePath: string, options?: Models.FileGetPropertiesFromTaskOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FileGetPropertiesFromTaskResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -198,8 +130,7 @@ export class File {
         options
       },
       getPropertiesFromTaskOperationSpec,
-      callback
-    ) as Promise<Models.FileGetPropertiesFromTaskResponse>;
+      callback) as Promise<Models.FileGetPropertiesFromTaskResponse>;
   }
 
   /**
@@ -210,24 +141,14 @@ export class File {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileDeleteFromComputeNodeResponse>
    */
-  deleteFromComputeNode(
-    poolId: string,
-    nodeId: string,
-    filePath: string,
-    options?: Models.FileDeleteFromComputeNodeOptionalParams
-  ): Promise<Models.FileDeleteFromComputeNodeResponse>;
+  deleteFromComputeNode(poolId: string, nodeId: string, filePath: string, options?: Models.FileDeleteFromComputeNodeOptionalParams): Promise<Models.FileDeleteFromComputeNodeResponse>;
   /**
    * @param poolId The ID of the Pool that contains the Compute Node.
    * @param nodeId The ID of the Compute Node from which you want to delete the file.
    * @param filePath The path to the file or directory that you want to delete.
    * @param callback The callback
    */
-  deleteFromComputeNode(
-    poolId: string,
-    nodeId: string,
-    filePath: string,
-    callback: msRest.ServiceCallback<void>
-  ): void;
+  deleteFromComputeNode(poolId: string, nodeId: string, filePath: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param poolId The ID of the Pool that contains the Compute Node.
    * @param nodeId The ID of the Compute Node from which you want to delete the file.
@@ -235,20 +156,8 @@ export class File {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteFromComputeNode(
-    poolId: string,
-    nodeId: string,
-    filePath: string,
-    options: Models.FileDeleteFromComputeNodeOptionalParams,
-    callback: msRest.ServiceCallback<void>
-  ): void;
-  deleteFromComputeNode(
-    poolId: string,
-    nodeId: string,
-    filePath: string,
-    options?: Models.FileDeleteFromComputeNodeOptionalParams | msRest.ServiceCallback<void>,
-    callback?: msRest.ServiceCallback<void>
-  ): Promise<Models.FileDeleteFromComputeNodeResponse> {
+  deleteFromComputeNode(poolId: string, nodeId: string, filePath: string, options: Models.FileDeleteFromComputeNodeOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  deleteFromComputeNode(poolId: string, nodeId: string, filePath: string, options?: Models.FileDeleteFromComputeNodeOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FileDeleteFromComputeNodeResponse> {
     return this.client.sendOperationRequest(
       {
         poolId,
@@ -257,8 +166,7 @@ export class File {
         options
       },
       deleteFromComputeNodeOperationSpec,
-      callback
-    ) as Promise<Models.FileDeleteFromComputeNodeResponse>;
+      callback) as Promise<Models.FileDeleteFromComputeNodeResponse>;
   }
 
   /**
@@ -269,24 +177,14 @@ export class File {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileGetFromComputeNodeResponse>
    */
-  getFromComputeNode(
-    poolId: string,
-    nodeId: string,
-    filePath: string,
-    options?: Models.FileGetFromComputeNodeOptionalParams
-  ): Promise<Models.FileGetFromComputeNodeResponse>;
+  getFromComputeNode(poolId: string, nodeId: string, filePath: string, options?: Models.FileGetFromComputeNodeOptionalParams): Promise<Models.FileGetFromComputeNodeResponse>;
   /**
    * @param poolId The ID of the Pool that contains the Compute Node.
    * @param nodeId The ID of the Compute Node that contains the file.
    * @param filePath The path to the Compute Node file that you want to get the content of.
    * @param callback The callback
    */
-  getFromComputeNode(
-    poolId: string,
-    nodeId: string,
-    filePath: string,
-    callback: msRest.ServiceCallback<void>
-  ): void;
+  getFromComputeNode(poolId: string, nodeId: string, filePath: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param poolId The ID of the Pool that contains the Compute Node.
    * @param nodeId The ID of the Compute Node that contains the file.
@@ -294,20 +192,8 @@ export class File {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getFromComputeNode(
-    poolId: string,
-    nodeId: string,
-    filePath: string,
-    options: Models.FileGetFromComputeNodeOptionalParams,
-    callback: msRest.ServiceCallback<void>
-  ): void;
-  getFromComputeNode(
-    poolId: string,
-    nodeId: string,
-    filePath: string,
-    options?: Models.FileGetFromComputeNodeOptionalParams | msRest.ServiceCallback<void>,
-    callback?: msRest.ServiceCallback<void>
-  ): Promise<Models.FileGetFromComputeNodeResponse> {
+  getFromComputeNode(poolId: string, nodeId: string, filePath: string, options: Models.FileGetFromComputeNodeOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  getFromComputeNode(poolId: string, nodeId: string, filePath: string, options?: Models.FileGetFromComputeNodeOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FileGetFromComputeNodeResponse> {
     return this.client.sendOperationRequest(
       {
         poolId,
@@ -316,8 +202,7 @@ export class File {
         options
       },
       getFromComputeNodeOperationSpec,
-      callback
-    ) as Promise<Models.FileGetFromComputeNodeResponse>;
+      callback) as Promise<Models.FileGetFromComputeNodeResponse>;
   }
 
   /**
@@ -328,24 +213,14 @@ export class File {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileGetPropertiesFromComputeNodeResponse>
    */
-  getPropertiesFromComputeNode(
-    poolId: string,
-    nodeId: string,
-    filePath: string,
-    options?: Models.FileGetPropertiesFromComputeNodeOptionalParams
-  ): Promise<Models.FileGetPropertiesFromComputeNodeResponse>;
+  getPropertiesFromComputeNode(poolId: string, nodeId: string, filePath: string, options?: Models.FileGetPropertiesFromComputeNodeOptionalParams): Promise<Models.FileGetPropertiesFromComputeNodeResponse>;
   /**
    * @param poolId The ID of the Pool that contains the Compute Node.
    * @param nodeId The ID of the Compute Node that contains the file.
    * @param filePath The path to the Compute Node file that you want to get the properties of.
    * @param callback The callback
    */
-  getPropertiesFromComputeNode(
-    poolId: string,
-    nodeId: string,
-    filePath: string,
-    callback: msRest.ServiceCallback<void>
-  ): void;
+  getPropertiesFromComputeNode(poolId: string, nodeId: string, filePath: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param poolId The ID of the Pool that contains the Compute Node.
    * @param nodeId The ID of the Compute Node that contains the file.
@@ -353,20 +228,8 @@ export class File {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getPropertiesFromComputeNode(
-    poolId: string,
-    nodeId: string,
-    filePath: string,
-    options: Models.FileGetPropertiesFromComputeNodeOptionalParams,
-    callback: msRest.ServiceCallback<void>
-  ): void;
-  getPropertiesFromComputeNode(
-    poolId: string,
-    nodeId: string,
-    filePath: string,
-    options?: Models.FileGetPropertiesFromComputeNodeOptionalParams | msRest.ServiceCallback<void>,
-    callback?: msRest.ServiceCallback<void>
-  ): Promise<Models.FileGetPropertiesFromComputeNodeResponse> {
+  getPropertiesFromComputeNode(poolId: string, nodeId: string, filePath: string, options: Models.FileGetPropertiesFromComputeNodeOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  getPropertiesFromComputeNode(poolId: string, nodeId: string, filePath: string, options?: Models.FileGetPropertiesFromComputeNodeOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.FileGetPropertiesFromComputeNodeResponse> {
     return this.client.sendOperationRequest(
       {
         poolId,
@@ -375,8 +238,7 @@ export class File {
         options
       },
       getPropertiesFromComputeNodeOperationSpec,
-      callback
-    ) as Promise<Models.FileGetPropertiesFromComputeNodeResponse>;
+      callback) as Promise<Models.FileGetPropertiesFromComputeNodeResponse>;
   }
 
   /**
@@ -386,41 +248,21 @@ export class File {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileListFromTaskResponse>
    */
-  listFromTask(
-    jobId: string,
-    taskId: string,
-    options?: Models.FileListFromTaskOptionalParams
-  ): Promise<Models.FileListFromTaskResponse>;
+  listFromTask(jobId: string, taskId: string, options?: Models.FileListFromTaskOptionalParams): Promise<Models.FileListFromTaskResponse>;
   /**
    * @param jobId The ID of the Job that contains the Task.
    * @param taskId The ID of the Task whose files you want to list.
    * @param callback The callback
    */
-  listFromTask(
-    jobId: string,
-    taskId: string,
-    callback: msRest.ServiceCallback<Models.NodeFileListResult>
-  ): void;
+  listFromTask(jobId: string, taskId: string, callback: msRest.ServiceCallback<Models.NodeFileListResult>): void;
   /**
    * @param jobId The ID of the Job that contains the Task.
    * @param taskId The ID of the Task whose files you want to list.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listFromTask(
-    jobId: string,
-    taskId: string,
-    options: Models.FileListFromTaskOptionalParams,
-    callback: msRest.ServiceCallback<Models.NodeFileListResult>
-  ): void;
-  listFromTask(
-    jobId: string,
-    taskId: string,
-    options?:
-      | Models.FileListFromTaskOptionalParams
-      | msRest.ServiceCallback<Models.NodeFileListResult>,
-    callback?: msRest.ServiceCallback<Models.NodeFileListResult>
-  ): Promise<Models.FileListFromTaskResponse> {
+  listFromTask(jobId: string, taskId: string, options: Models.FileListFromTaskOptionalParams, callback: msRest.ServiceCallback<Models.NodeFileListResult>): void;
+  listFromTask(jobId: string, taskId: string, options?: Models.FileListFromTaskOptionalParams | msRest.ServiceCallback<Models.NodeFileListResult>, callback?: msRest.ServiceCallback<Models.NodeFileListResult>): Promise<Models.FileListFromTaskResponse> {
     return this.client.sendOperationRequest(
       {
         jobId,
@@ -428,8 +270,7 @@ export class File {
         options
       },
       listFromTaskOperationSpec,
-      callback
-    ) as Promise<Models.FileListFromTaskResponse>;
+      callback) as Promise<Models.FileListFromTaskResponse>;
   }
 
   /**
@@ -439,41 +280,21 @@ export class File {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileListFromComputeNodeResponse>
    */
-  listFromComputeNode(
-    poolId: string,
-    nodeId: string,
-    options?: Models.FileListFromComputeNodeOptionalParams
-  ): Promise<Models.FileListFromComputeNodeResponse>;
+  listFromComputeNode(poolId: string, nodeId: string, options?: Models.FileListFromComputeNodeOptionalParams): Promise<Models.FileListFromComputeNodeResponse>;
   /**
    * @param poolId The ID of the Pool that contains the Compute Node.
    * @param nodeId The ID of the Compute Node whose files you want to list.
    * @param callback The callback
    */
-  listFromComputeNode(
-    poolId: string,
-    nodeId: string,
-    callback: msRest.ServiceCallback<Models.NodeFileListResult>
-  ): void;
+  listFromComputeNode(poolId: string, nodeId: string, callback: msRest.ServiceCallback<Models.NodeFileListResult>): void;
   /**
    * @param poolId The ID of the Pool that contains the Compute Node.
    * @param nodeId The ID of the Compute Node whose files you want to list.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listFromComputeNode(
-    poolId: string,
-    nodeId: string,
-    options: Models.FileListFromComputeNodeOptionalParams,
-    callback: msRest.ServiceCallback<Models.NodeFileListResult>
-  ): void;
-  listFromComputeNode(
-    poolId: string,
-    nodeId: string,
-    options?:
-      | Models.FileListFromComputeNodeOptionalParams
-      | msRest.ServiceCallback<Models.NodeFileListResult>,
-    callback?: msRest.ServiceCallback<Models.NodeFileListResult>
-  ): Promise<Models.FileListFromComputeNodeResponse> {
+  listFromComputeNode(poolId: string, nodeId: string, options: Models.FileListFromComputeNodeOptionalParams, callback: msRest.ServiceCallback<Models.NodeFileListResult>): void;
+  listFromComputeNode(poolId: string, nodeId: string, options?: Models.FileListFromComputeNodeOptionalParams | msRest.ServiceCallback<Models.NodeFileListResult>, callback?: msRest.ServiceCallback<Models.NodeFileListResult>): Promise<Models.FileListFromComputeNodeResponse> {
     return this.client.sendOperationRequest(
       {
         poolId,
@@ -481,8 +302,7 @@ export class File {
         options
       },
       listFromComputeNodeOperationSpec,
-      callback
-    ) as Promise<Models.FileListFromComputeNodeResponse>;
+      callback) as Promise<Models.FileListFromComputeNodeResponse>;
   }
 
   /**
@@ -491,43 +311,26 @@ export class File {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileListFromTaskResponse>
    */
-  listFromTaskNext(
-    nextPageLink: string,
-    options?: Models.FileListFromTaskNextOptionalParams
-  ): Promise<Models.FileListFromTaskResponse>;
+  listFromTaskNext(nextPageLink: string, options?: Models.FileListFromTaskNextOptionalParams): Promise<Models.FileListFromTaskResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listFromTaskNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.NodeFileListResult>
-  ): void;
+  listFromTaskNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.NodeFileListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listFromTaskNext(
-    nextPageLink: string,
-    options: Models.FileListFromTaskNextOptionalParams,
-    callback: msRest.ServiceCallback<Models.NodeFileListResult>
-  ): void;
-  listFromTaskNext(
-    nextPageLink: string,
-    options?:
-      | Models.FileListFromTaskNextOptionalParams
-      | msRest.ServiceCallback<Models.NodeFileListResult>,
-    callback?: msRest.ServiceCallback<Models.NodeFileListResult>
-  ): Promise<Models.FileListFromTaskResponse> {
+  listFromTaskNext(nextPageLink: string, options: Models.FileListFromTaskNextOptionalParams, callback: msRest.ServiceCallback<Models.NodeFileListResult>): void;
+  listFromTaskNext(nextPageLink: string, options?: Models.FileListFromTaskNextOptionalParams | msRest.ServiceCallback<Models.NodeFileListResult>, callback?: msRest.ServiceCallback<Models.NodeFileListResult>): Promise<Models.FileListFromTaskResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listFromTaskNextOperationSpec,
-      callback
-    ) as Promise<Models.FileListFromTaskResponse>;
+      callback) as Promise<Models.FileListFromTaskResponse>;
   }
 
   /**
@@ -536,43 +339,26 @@ export class File {
    * @param [options] The optional parameters
    * @returns Promise<Models.FileListFromComputeNodeResponse>
    */
-  listFromComputeNodeNext(
-    nextPageLink: string,
-    options?: Models.FileListFromComputeNodeNextOptionalParams
-  ): Promise<Models.FileListFromComputeNodeResponse>;
+  listFromComputeNodeNext(nextPageLink: string, options?: Models.FileListFromComputeNodeNextOptionalParams): Promise<Models.FileListFromComputeNodeResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listFromComputeNodeNext(
-    nextPageLink: string,
-    callback: msRest.ServiceCallback<Models.NodeFileListResult>
-  ): void;
+  listFromComputeNodeNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.NodeFileListResult>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listFromComputeNodeNext(
-    nextPageLink: string,
-    options: Models.FileListFromComputeNodeNextOptionalParams,
-    callback: msRest.ServiceCallback<Models.NodeFileListResult>
-  ): void;
-  listFromComputeNodeNext(
-    nextPageLink: string,
-    options?:
-      | Models.FileListFromComputeNodeNextOptionalParams
-      | msRest.ServiceCallback<Models.NodeFileListResult>,
-    callback?: msRest.ServiceCallback<Models.NodeFileListResult>
-  ): Promise<Models.FileListFromComputeNodeResponse> {
+  listFromComputeNodeNext(nextPageLink: string, options: Models.FileListFromComputeNodeNextOptionalParams, callback: msRest.ServiceCallback<Models.NodeFileListResult>): void;
+  listFromComputeNodeNext(nextPageLink: string, options?: Models.FileListFromComputeNodeNextOptionalParams | msRest.ServiceCallback<Models.NodeFileListResult>, callback?: msRest.ServiceCallback<Models.NodeFileListResult>): Promise<Models.FileListFromComputeNodeResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listFromComputeNodeNextOperationSpec,
-      callback
-    ) as Promise<Models.FileListFromComputeNodeResponse>;
+      callback) as Promise<Models.FileListFromComputeNodeResponse>;
   }
 }
 
@@ -581,8 +367,17 @@ const serializer = new msRest.Serializer(Mappers);
 const deleteFromTaskOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "jobs/{jobId}/tasks/{taskId}/files/{filePath}",
-  urlParameters: [Parameters.batchUrl, Parameters.jobId, Parameters.taskId, Parameters.filePath],
-  queryParameters: [Parameters.recursive, Parameters.apiVersion, Parameters.timeout37],
+  urlParameters: [
+    Parameters.batchUrl,
+    Parameters.jobId,
+    Parameters.taskId,
+    Parameters.filePath
+  ],
+  queryParameters: [
+    Parameters.recursive,
+    Parameters.apiVersion,
+    Parameters.timeout37
+  ],
   headerParameters: [
     Parameters.acceptLanguage,
     Parameters.clientRequestId46,
@@ -604,8 +399,16 @@ const deleteFromTaskOperationSpec: msRest.OperationSpec = {
 const getFromTaskOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "jobs/{jobId}/tasks/{taskId}/files/{filePath}",
-  urlParameters: [Parameters.batchUrl, Parameters.jobId, Parameters.taskId, Parameters.filePath],
-  queryParameters: [Parameters.apiVersion, Parameters.timeout38],
+  urlParameters: [
+    Parameters.batchUrl,
+    Parameters.jobId,
+    Parameters.taskId,
+    Parameters.filePath
+  ],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.timeout38
+  ],
   headerParameters: [
     Parameters.acceptLanguage,
     Parameters.clientRequestId47,
@@ -636,8 +439,16 @@ const getFromTaskOperationSpec: msRest.OperationSpec = {
 const getPropertiesFromTaskOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
   path: "jobs/{jobId}/tasks/{taskId}/files/{filePath}",
-  urlParameters: [Parameters.batchUrl, Parameters.jobId, Parameters.taskId, Parameters.filePath],
-  queryParameters: [Parameters.apiVersion, Parameters.timeout39],
+  urlParameters: [
+    Parameters.batchUrl,
+    Parameters.jobId,
+    Parameters.taskId,
+    Parameters.filePath
+  ],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.timeout39
+  ],
   headerParameters: [
     Parameters.acceptLanguage,
     Parameters.clientRequestId48,
@@ -661,8 +472,17 @@ const getPropertiesFromTaskOperationSpec: msRest.OperationSpec = {
 const deleteFromComputeNodeOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "pools/{poolId}/nodes/{nodeId}/files/{filePath}",
-  urlParameters: [Parameters.batchUrl, Parameters.poolId, Parameters.nodeId, Parameters.filePath],
-  queryParameters: [Parameters.recursive, Parameters.apiVersion, Parameters.timeout40],
+  urlParameters: [
+    Parameters.batchUrl,
+    Parameters.poolId,
+    Parameters.nodeId,
+    Parameters.filePath
+  ],
+  queryParameters: [
+    Parameters.recursive,
+    Parameters.apiVersion,
+    Parameters.timeout40
+  ],
   headerParameters: [
     Parameters.acceptLanguage,
     Parameters.clientRequestId49,
@@ -684,8 +504,16 @@ const deleteFromComputeNodeOperationSpec: msRest.OperationSpec = {
 const getFromComputeNodeOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "pools/{poolId}/nodes/{nodeId}/files/{filePath}",
-  urlParameters: [Parameters.batchUrl, Parameters.poolId, Parameters.nodeId, Parameters.filePath],
-  queryParameters: [Parameters.apiVersion, Parameters.timeout41],
+  urlParameters: [
+    Parameters.batchUrl,
+    Parameters.poolId,
+    Parameters.nodeId,
+    Parameters.filePath
+  ],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.timeout41
+  ],
   headerParameters: [
     Parameters.acceptLanguage,
     Parameters.clientRequestId50,
@@ -716,8 +544,16 @@ const getFromComputeNodeOperationSpec: msRest.OperationSpec = {
 const getPropertiesFromComputeNodeOperationSpec: msRest.OperationSpec = {
   httpMethod: "HEAD",
   path: "pools/{poolId}/nodes/{nodeId}/files/{filePath}",
-  urlParameters: [Parameters.batchUrl, Parameters.poolId, Parameters.nodeId, Parameters.filePath],
-  queryParameters: [Parameters.apiVersion, Parameters.timeout42],
+  urlParameters: [
+    Parameters.batchUrl,
+    Parameters.poolId,
+    Parameters.nodeId,
+    Parameters.filePath
+  ],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.timeout42
+  ],
   headerParameters: [
     Parameters.acceptLanguage,
     Parameters.clientRequestId51,
@@ -741,7 +577,11 @@ const getPropertiesFromComputeNodeOperationSpec: msRest.OperationSpec = {
 const listFromTaskOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "jobs/{jobId}/tasks/{taskId}/files",
-  urlParameters: [Parameters.batchUrl, Parameters.jobId, Parameters.taskId],
+  urlParameters: [
+    Parameters.batchUrl,
+    Parameters.jobId,
+    Parameters.taskId
+  ],
   queryParameters: [
     Parameters.recursive,
     Parameters.apiVersion,
@@ -771,7 +611,11 @@ const listFromTaskOperationSpec: msRest.OperationSpec = {
 const listFromComputeNodeOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "pools/{poolId}/nodes/{nodeId}/files",
-  urlParameters: [Parameters.batchUrl, Parameters.poolId, Parameters.nodeId],
+  urlParameters: [
+    Parameters.batchUrl,
+    Parameters.poolId,
+    Parameters.nodeId
+  ],
   queryParameters: [
     Parameters.recursive,
     Parameters.apiVersion,
@@ -802,8 +646,13 @@ const listFromTaskNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "{batchUrl}",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.recursive, Parameters.apiVersion],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.recursive,
+    Parameters.apiVersion
+  ],
   headerParameters: [
     Parameters.acceptLanguage,
     Parameters.clientRequestId54,
@@ -827,8 +676,13 @@ const listFromComputeNodeNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "{batchUrl}",
   path: "{nextLink}",
-  urlParameters: [Parameters.nextPageLink],
-  queryParameters: [Parameters.recursive, Parameters.apiVersion],
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  queryParameters: [
+    Parameters.recursive,
+    Parameters.apiVersion
+  ],
   headerParameters: [
     Parameters.acceptLanguage,
     Parameters.clientRequestId55,

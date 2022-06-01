@@ -427,21 +427,6 @@ export const SharedAccessAuthorizationRuleListResult: coreClient.CompositeMapper
   }
 };
 
-export const PolicykeyResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "PolicykeyResource",
-    modelProperties: {
-      policyKey: {
-        serializedName: "policyKey",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const ResourceListKeys: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -473,6 +458,21 @@ export const ResourceListKeys: coreClient.CompositeMapper = {
       },
       keyName: {
         serializedName: "keyName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PolicykeyResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PolicykeyResource",
+    modelProperties: {
+      policyKey: {
+        serializedName: "policyKey",
         type: {
           name: "String"
         }

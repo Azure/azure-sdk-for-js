@@ -5,7 +5,7 @@ import {
   PipelineResponse,
   PipelineRequest,
   SendRequest,
-  PipelinePolicy
+  PipelinePolicy,
 } from "@azure/core-rest-pipeline";
 
 export const CloudEventBatchContentType = "application/cloudevents-batch+json; charset=utf-8";
@@ -65,6 +65,6 @@ export function cloudEventDistributedTracingEnricherPolicy(): PipelinePolicy {
       }
 
       return next(request);
-    }
+    },
   };
 }

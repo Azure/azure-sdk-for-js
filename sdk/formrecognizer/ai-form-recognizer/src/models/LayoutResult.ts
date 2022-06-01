@@ -24,6 +24,9 @@ export function toLayoutResult(analyzeResult: AnalyzeResult<unknown>): LayoutRes
  * This model produces only basic elements: pages, tables, and styles.
  */
 export interface LayoutResult {
+  /**
+   * Pages extracted from the input document.
+   */
   pages: DocumentPage[];
   /**
    * Extracted tables, organized into cells that individually contain their extracted contents.

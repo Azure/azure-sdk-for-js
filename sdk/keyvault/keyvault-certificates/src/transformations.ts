@@ -13,7 +13,7 @@ import {
   KeyVaultCertificateWithPolicy,
   SubjectAlternativeNames,
   CertificateContact,
-  CertificateOperationError
+  CertificateOperationError,
 } from "./certificatesModels";
 import {
   CertificateAttributes,
@@ -28,7 +28,7 @@ import {
   CertificateOperation as CoreCertificateOperation,
   Contacts as CoreContacts,
   JsonWebKeyType as CertificateKeyType,
-  ErrorModel
+  ErrorModel,
 } from "./generated/models";
 import { parseKeyVaultCertificateIdentifier } from "./identifier";
 
@@ -39,7 +39,7 @@ export function toCoreAttributes(properties: CertificateProperties): Certificate
     notBefore: properties.notBefore,
     expires: properties.expiresOn,
     created: properties.createdOn,
-    updated: properties.updatedOn
+    updated: properties.updatedOn,
   };
 }
 
@@ -53,7 +53,7 @@ export function toCorePolicy(
     subjectAlternativeNames = {
       emails: policy.subjectAlternativeNames.emails,
       dnsNames: policy.subjectAlternativeNames.dnsNames,
-      upns: policy.subjectAlternativeNames.userPrincipalNames
+      upns: policy.subjectAlternativeNames.userPrincipalNames,
     };
   }
 
@@ -64,8 +64,8 @@ export function toCorePolicy(
           action: { actionType: action.action },
           trigger: {
             lifetimePercentage: action.lifetimePercentage,
-            daysBeforeExpiry: action.daysBeforeExpiry
-          }
+            daysBeforeExpiry: action.daysBeforeExpiry,
+          },
         }))
       : undefined,
     keyProperties: {
@@ -73,24 +73,24 @@ export function toCorePolicy(
       keySize: policy.keySize,
       reuseKey: policy.reuseKey,
       curve: policy.keyCurveName,
-      exportable: policy.exportable
+      exportable: policy.exportable,
     },
     secretProperties: {
-      contentType: policy.contentType
+      contentType: policy.contentType,
     },
     x509CertificateProperties: {
       subject: policy.subject,
       ekus: policy.enhancedKeyUsage,
       subjectAlternativeNames,
       keyUsage: policy.keyUsage,
-      validityInMonths: policy.validityInMonths
+      validityInMonths: policy.validityInMonths,
     },
     issuerParameters: {
       name: policy.issuerName,
       certificateType: policy.certificateType,
-      certificateTransparency: policy.certificateTransparency
+      certificateTransparency: policy.certificateTransparency,
     },
-    attributes
+    attributes,
   };
 }
 
@@ -104,19 +104,19 @@ export function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificateP
       if (names.emails && names.emails.length) {
         subjectAlternativeNames = {
           ...subjectAlternativeNames,
-          emails: names.emails as ArrayOneOrMore<string>
+          emails: names.emails as ArrayOneOrMore<string>,
         };
       }
       if (names.dnsNames && names.dnsNames.length) {
         subjectAlternativeNames = {
           ...subjectAlternativeNames,
-          dnsNames: names.dnsNames as ArrayOneOrMore<string>
+          dnsNames: names.dnsNames as ArrayOneOrMore<string>,
         };
       }
       if (names.upns && names.upns.length) {
         subjectAlternativeNames = {
           ...subjectAlternativeNames,
-          userPrincipalNames: names.upns as ArrayOneOrMore<string>
+          userPrincipalNames: names.upns as ArrayOneOrMore<string>,
         };
       }
     }
@@ -127,7 +127,7 @@ export function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificateP
       ? policy.lifetimeActions.map((action) => ({
           action: action.action ? action.action.actionType : undefined,
           daysBeforeExpiry: action.trigger ? action.trigger.daysBeforeExpiry : undefined,
-          lifetimePercentage: action.trigger ? action.trigger.lifetimePercentage : undefined
+          lifetimePercentage: action.trigger ? action.trigger.lifetimePercentage : undefined,
         }))
       : undefined,
     contentType: policy.secretProperties
@@ -137,7 +137,7 @@ export function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificateP
     keyUsage: x509Properties.keyUsage,
     validityInMonths: x509Properties.validityInMonths,
     subject: x509Properties.subject,
-    subjectAlternativeNames: subjectAlternativeNames!
+    subjectAlternativeNames: subjectAlternativeNames!,
   };
 
   if (policy.attributes) {
@@ -174,7 +174,7 @@ export function toPublicIssuer(issuer: IssuerBundle = {}): CertificateIssuer {
     password: issuer.credentials && issuer.credentials.password,
     enabled: attributes.enabled,
     createdOn: attributes.created,
-    updatedOn: attributes.updated
+    updatedOn: attributes.updated,
   };
 
   if (issuer.organizationDetails) {
@@ -184,7 +184,7 @@ export function toPublicIssuer(issuer: IssuerBundle = {}): CertificateIssuer {
           email: x.emailAddress,
           phone: x.phone,
           firstName: x.firstName,
-          lastName: x.lastName
+          lastName: x.lastName,
         }))
       : undefined;
   }
@@ -211,7 +211,7 @@ export function getCertificateFromCertificateBundle(
     version: parsedId.version,
     tags: certificateBundle.tags,
     x509Thumbprint: certificateBundle.x509Thumbprint,
-    recoverableDays: attributes.recoverableDays
+    recoverableDays: attributes.recoverableDays,
   };
 
   return {
@@ -219,7 +219,7 @@ export function getCertificateFromCertificateBundle(
     secretId: certificateBundle.sid,
     name: parsedId.name,
     cer: certificateBundle.cer,
-    properties: abstractProperties
+    properties: abstractProperties,
   };
 }
 
@@ -244,7 +244,7 @@ export function getCertificateWithPolicyFromCertificateBundle(
     version: parsedId.version,
     tags: certificateBundle.tags,
     x509Thumbprint: certificateBundle.x509Thumbprint,
-    recoverableDays: attributes.recoverableDays
+    recoverableDays: attributes.recoverableDays,
   };
 
   return {
@@ -253,16 +253,15 @@ export function getCertificateWithPolicyFromCertificateBundle(
     name: parsedId.name,
     cer: certificateBundle.cer,
     policy,
-    properties: abstractProperties
+    properties: abstractProperties,
   };
 }
 
 export function getDeletedCertificateFromDeletedCertificateBundle(
   certificateBundle: DeletedCertificateBundle
 ): DeletedCertificate {
-  const certificate: KeyVaultCertificateWithPolicy = getCertificateWithPolicyFromCertificateBundle(
-    certificateBundle
-  );
+  const certificate: KeyVaultCertificateWithPolicy =
+    getCertificateWithPolicyFromCertificateBundle(certificateBundle);
 
   return {
     policy: certificate.policy,
@@ -274,7 +273,7 @@ export function getDeletedCertificateFromDeletedCertificateBundle(
     properties: certificate.properties,
     recoveryId: certificateBundle.recoveryId,
     scheduledPurgeDate: certificateBundle.scheduledPurgeDate,
-    deletedOn: certificateBundle.deletedDate
+    deletedOn: certificateBundle.deletedDate,
   };
 }
 
@@ -297,7 +296,7 @@ export function getDeletedCertificateFromItem(item: DeletedCertificateItem): Del
     x509Thumbprint: item.x509Thumbprint,
 
     recoverableDays: item.attributes?.recoverableDays,
-    recoveryLevel: item.attributes?.recoveryLevel
+    recoveryLevel: item.attributes?.recoveryLevel,
   };
 
   return {
@@ -305,7 +304,7 @@ export function getDeletedCertificateFromItem(item: DeletedCertificateItem): Del
     recoveryId: item.recoveryId,
     scheduledPurgeDate: item.scheduledPurgeDate,
     name: parsedId.name,
-    properties: abstractProperties
+    properties: abstractProperties,
   };
 }
 
@@ -316,7 +315,7 @@ function getCertificateOperationErrorFromErrorModel(
     return {
       code: error.code,
       innerError: getCertificateOperationErrorFromErrorModel(error.innerError),
-      message: error.message
+      message: error.message,
     };
   }
   return undefined;
@@ -344,7 +343,7 @@ export function getCertificateOperationFromCoreOperation(
     status: operation.status,
     statusDetails: operation.statusDetails,
     target: operation.target,
-    vaultUrl: vaultUrl
+    vaultUrl: vaultUrl,
   };
 }
 
@@ -375,7 +374,7 @@ export function getPropertiesFromCertificateBundle(
     version: parsedId.version,
     tags: certificateBundle.tags,
     x509Thumbprint: certificateBundle.x509Thumbprint,
-    recoverableDays: attributes.recoverableDays
+    recoverableDays: attributes.recoverableDays,
   };
 
   return abstractProperties;

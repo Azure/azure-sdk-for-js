@@ -10,7 +10,7 @@ import { HierarchySettingsOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ManagementGroupsAPIContext } from "../managementGroupsAPIContext";
+import { ManagementGroupsAPI } from "../managementGroupsAPI";
 import {
   HierarchySettingsListOptionalParams,
   HierarchySettingsListResponse,
@@ -27,13 +27,13 @@ import {
 /** Class containing HierarchySettingsOperations operations. */
 export class HierarchySettingsOperationsImpl
   implements HierarchySettingsOperations {
-  private readonly client: ManagementGroupsAPIContext;
+  private readonly client: ManagementGroupsAPI;
 
   /**
    * Initialize a new instance of the class HierarchySettingsOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: ManagementGroupsAPIContext) {
+  constructor(client: ManagementGroupsAPI) {
     this.client = client;
   }
 

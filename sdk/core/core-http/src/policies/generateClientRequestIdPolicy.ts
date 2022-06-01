@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpOperationResponse } from "../httpOperationResponse";
-import { WebResourceLike } from "../webResource";
 import {
   BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyFactory,
-  RequestPolicyOptions
+  RequestPolicyOptions,
 } from "./requestPolicy";
+import { HttpOperationResponse } from "../httpOperationResponse";
+import { WebResourceLike } from "../webResource";
 
 /**
  * Creates a policy that assigns a unique request id to outgoing requests.
@@ -20,7 +20,7 @@ export function generateClientRequestIdPolicy(
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new GenerateClientRequestIdPolicy(nextPolicy, options, requestIdHeaderName);
-    }
+    },
   };
 }
 

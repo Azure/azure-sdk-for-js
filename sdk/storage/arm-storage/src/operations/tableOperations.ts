@@ -6,38 +6,37 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { TableOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { StorageManagementClientContext } from "../storageManagementClientContext";
+import { StorageManagementClient } from "../storageManagementClient";
 import {
   Table,
-  TableOperationsListNextOptionalParams,
-  TableOperationsListOptionalParams,
-  TableOperationsCreateOptionalParams,
-  TableOperationsCreateResponse,
-  TableOperationsUpdateOptionalParams,
-  TableOperationsUpdateResponse,
-  TableOperationsGetOptionalParams,
-  TableOperationsGetResponse,
-  TableOperationsDeleteOptionalParams,
-  TableOperationsListResponse,
-  TableOperationsListNextResponse
+  TableListNextOptionalParams,
+  TableListOptionalParams,
+  TableCreateOptionalParams,
+  TableCreateResponse,
+  TableUpdateOptionalParams,
+  TableUpdateResponse,
+  TableGetOptionalParams,
+  TableGetResponse,
+  TableDeleteOptionalParams,
+  TableListResponse,
+  TableListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a TableOperations. */
+/** Class containing TableOperations operations. */
 export class TableOperationsImpl implements TableOperations {
-  private readonly client: StorageManagementClientContext;
+  private readonly client: StorageManagementClient;
 
   /**
    * Initialize a new instance of the class TableOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: StorageManagementClientContext) {
+  constructor(client: StorageManagementClient) {
     this.client = client;
   }
 
@@ -53,7 +52,7 @@ export class TableOperationsImpl implements TableOperations {
   public list(
     resourceGroupName: string,
     accountName: string,
-    options?: TableOperationsListOptionalParams
+    options?: TableListOptionalParams
   ): PagedAsyncIterableIterator<Table> {
     const iter = this.listPagingAll(resourceGroupName, accountName, options);
     return {
@@ -72,7 +71,7 @@ export class TableOperationsImpl implements TableOperations {
   private async *listPagingPage(
     resourceGroupName: string,
     accountName: string,
-    options?: TableOperationsListOptionalParams
+    options?: TableListOptionalParams
   ): AsyncIterableIterator<Table[]> {
     let result = await this._list(resourceGroupName, accountName, options);
     yield result.value || [];
@@ -92,7 +91,7 @@ export class TableOperationsImpl implements TableOperations {
   private async *listPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: TableOperationsListOptionalParams
+    options?: TableListOptionalParams
   ): AsyncIterableIterator<Table> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
@@ -119,8 +118,8 @@ export class TableOperationsImpl implements TableOperations {
     resourceGroupName: string,
     accountName: string,
     tableName: string,
-    options?: TableOperationsCreateOptionalParams
-  ): Promise<TableOperationsCreateResponse> {
+    options?: TableCreateOptionalParams
+  ): Promise<TableCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, tableName, options },
       createOperationSpec
@@ -143,8 +142,8 @@ export class TableOperationsImpl implements TableOperations {
     resourceGroupName: string,
     accountName: string,
     tableName: string,
-    options?: TableOperationsUpdateOptionalParams
-  ): Promise<TableOperationsUpdateResponse> {
+    options?: TableUpdateOptionalParams
+  ): Promise<TableUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, tableName, options },
       updateOperationSpec
@@ -167,8 +166,8 @@ export class TableOperationsImpl implements TableOperations {
     resourceGroupName: string,
     accountName: string,
     tableName: string,
-    options?: TableOperationsGetOptionalParams
-  ): Promise<TableOperationsGetResponse> {
+    options?: TableGetOptionalParams
+  ): Promise<TableGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, tableName, options },
       getOperationSpec
@@ -191,7 +190,7 @@ export class TableOperationsImpl implements TableOperations {
     resourceGroupName: string,
     accountName: string,
     tableName: string,
-    options?: TableOperationsDeleteOptionalParams
+    options?: TableDeleteOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, tableName, options },
@@ -211,8 +210,8 @@ export class TableOperationsImpl implements TableOperations {
   private _list(
     resourceGroupName: string,
     accountName: string,
-    options?: TableOperationsListOptionalParams
-  ): Promise<TableOperationsListResponse> {
+    options?: TableListOptionalParams
+  ): Promise<TableListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
       listOperationSpec
@@ -233,8 +232,8 @@ export class TableOperationsImpl implements TableOperations {
     resourceGroupName: string,
     accountName: string,
     nextLink: string,
-    options?: TableOperationsListNextOptionalParams
-  ): Promise<TableOperationsListNextResponse> {
+    options?: TableListNextOptionalParams
+  ): Promise<TableListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, nextLink, options },
       listNextOperationSpec
@@ -253,9 +252,10 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Table
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -264,7 +264,8 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.accountName1,
     Parameters.tableName
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
@@ -276,9 +277,10 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Table
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -287,7 +289,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.accountName1,
     Parameters.tableName
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
@@ -299,7 +302,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Table
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -320,7 +323,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -343,7 +346,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ListTableResource
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -364,7 +367,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ListTableResource
     },
     default: {
-      bodyMapper: Mappers.CloudErrorAutoGenerated
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],

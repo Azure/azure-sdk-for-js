@@ -11,7 +11,7 @@ import { BotConnection } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureBotServiceContext } from "../azureBotServiceContext";
+import { AzureBotService } from "../azureBotService";
 import {
   ConnectionSetting,
   BotConnectionListByBotServiceNextOptionalParams,
@@ -34,13 +34,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing BotConnection operations. */
 export class BotConnectionImpl implements BotConnection {
-  private readonly client: AzureBotServiceContext;
+  private readonly client: AzureBotService;
 
   /**
    * Initialize a new instance of the class BotConnection class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureBotServiceContext) {
+  constructor(client: AzureBotService) {
     this.client = client;
   }
 

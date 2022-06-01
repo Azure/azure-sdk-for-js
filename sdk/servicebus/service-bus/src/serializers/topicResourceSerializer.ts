@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpOperationResponse, OperationOptions } from "@azure/core-http";
+import { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
-  serializeToAtomXmlRequest
+  serializeToAtomXmlRequest,
 } from "../util/atomXmlHelper";
 import * as Constants from "../util/constants";
 import {
@@ -20,7 +20,7 @@ import {
   getString,
   getStringOrUndefined,
   getDate,
-  getMessageCountDetails
+  getMessageCountDetails,
 } from "../util/utils";
 
 /**
@@ -51,7 +51,7 @@ export function buildTopicOptions(topic: CreateTopicOptions): InternalTopicOptio
     EnablePartitioning: getStringOrUndefined(topic.enablePartitioning),
     EntityAvailabilityStatus: getStringOrUndefined(topic.availabilityStatus),
     EnableExpress: getStringOrUndefined(topic.enableExpress),
-    MaxMessageSizeInKilobytes: getStringOrUndefined(topic.maxMessageSizeInKilobytes)
+    MaxMessageSizeInKilobytes: getStringOrUndefined(topic.maxMessageSizeInKilobytes),
   };
 }
 
@@ -98,7 +98,7 @@ export function buildTopic(rawTopic: Record<string, any>): TopicProperties {
 
     maxMessageSizeInKilobytes: getIntegerOrUndefined(
       rawTopic[Constants.MAX_MESSAGE_SIZE_IN_KILOBYTES]
-    )
+    ),
   };
 }
 
@@ -116,7 +116,7 @@ export function buildTopicRuntimeProperties(rawTopic: Record<string, any>): Topi
     scheduledMessageCount: getMessageCountDetails(rawTopic[Constants.COUNT_DETAILS])
       .scheduledMessageCount,
     modifiedAt: getDate(rawTopic[Constants.UPDATED_AT], "modifiedAt"),
-    accessedAt: getDate(rawTopic[Constants.ACCESSED_AT], "accessedAt")
+    accessedAt: getDate(rawTopic[Constants.ACCESSED_AT], "accessedAt"),
   };
 }
 
@@ -482,7 +482,7 @@ export class TopicResourceSerializer implements AtomXmlSerializer {
   serialize(resource: InternalTopicOptions): Record<string, unknown> {
     return serializeToAtomXmlRequest("TopicDescription", resource);
   }
-  async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {
+  async deserialize(response: FullOperationResponse): Promise<FullOperationResponse> {
     return deserializeAtomXmlResponse(["TopicName"], response);
   }
 }

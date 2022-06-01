@@ -6,10 +6,11 @@ import {
   AuthorizeRequestOptions,
   ChallengeCallbacks,
   PipelineRequest,
-  RequestBodyType
+  RequestBodyType,
 } from "@azure/core-rest-pipeline";
-import { GetTokenOptions } from "@azure/core-auth";
 import { ParsedWWWAuthenticate, parseWWWAuthenticate } from "../../keyvault-common/src";
+
+import { GetTokenOptions } from "@azure/core-auth";
 
 /**
  * @internal
@@ -56,9 +57,9 @@ export function createChallengeCallbacks(): ChallengeCallbacks {
     return {
       abortSignal: request.abortSignal,
       requestOptions: {
-        timeout: request.timeout
+        timeout: request.timeout,
       },
-      tracingOptions: request.tracingOptions
+      tracingOptions: request.tracingOptions,
     };
   }
 
@@ -70,7 +71,7 @@ export function createChallengeCallbacks(): ChallengeCallbacks {
       case "none":
         challengeState = {
           status: "started",
-          originalBody: request.body
+          originalBody: request.body,
         };
         request.body = null;
         break;
@@ -119,7 +120,7 @@ export function createChallengeCallbacks(): ChallengeCallbacks {
     options.request.headers.set("Authorization", `Bearer ${accessToken.token}`);
 
     challengeState = {
-      status: "complete"
+      status: "complete",
     };
 
     return true;
@@ -127,6 +128,6 @@ export function createChallengeCallbacks(): ChallengeCallbacks {
 
   return {
     authorizeRequest,
-    authorizeRequestOnChallenge
+    authorizeRequestOnChallenge,
   };
 }

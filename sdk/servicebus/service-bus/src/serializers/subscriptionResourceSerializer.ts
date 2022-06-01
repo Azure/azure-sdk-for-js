@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpOperationResponse, OperationOptions } from "@azure/core-http";
+import { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { CorrelationRuleFilter } from "..";
 import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
-  serializeToAtomXmlRequest
+  serializeToAtomXmlRequest,
 } from "../util/atomXmlHelper";
 import * as Constants from "../util/constants";
 import {
@@ -17,13 +17,13 @@ import {
   getInteger,
   getString,
   getStringOrUndefined,
-  getDate
+  getDate,
 } from "../util/utils";
 import {
   buildInternalRuleResource,
   InternalRuleOptions,
   SqlRuleAction,
-  SqlRuleFilter
+  SqlRuleFilter,
 } from "./ruleResourceSerializer";
 
 /**
@@ -61,7 +61,7 @@ export function buildSubscriptionOptions(
     UserMetadata: getStringOrUndefined(subscription.userMetadata),
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(subscription.forwardDeadLetteredMessagesTo),
     AutoDeleteOnIdle: getStringOrUndefined(subscription.autoDeleteOnIdle),
-    EntityAvailabilityStatus: getStringOrUndefined(subscription.availabilityStatus)
+    EntityAvailabilityStatus: getStringOrUndefined(subscription.availabilityStatus),
   };
 }
 
@@ -110,7 +110,7 @@ export function buildSubscription(rawSubscription: Record<string, any>): Subscri
     availabilityStatus: getString(
       rawSubscription[Constants.ENTITY_AVAILABILITY_STATUS],
       "availabilityStatus"
-    ) as EntityAvailabilityStatus
+    ) as EntityAvailabilityStatus,
   };
 }
 
@@ -133,7 +133,7 @@ export function buildSubscriptionRuntimeProperties(
     transferMessageCount: messageCountDetails.transferMessageCount,
     createdAt: getDate(rawSubscription[Constants.CREATED_AT], "createdAt"),
     modifiedAt: getDate(rawSubscription[Constants.UPDATED_AT], "modifiedAt"),
-    accessedAt: getDate(rawSubscription[Constants.ACCESSED_AT], "accessedAt")
+    accessedAt: getDate(rawSubscription[Constants.ACCESSED_AT], "accessedAt"),
   };
 }
 
@@ -564,7 +564,7 @@ export class SubscriptionResourceSerializer implements AtomXmlSerializer {
     return serializeToAtomXmlRequest("SubscriptionDescription", resource);
   }
 
-  async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {
+  async deserialize(response: FullOperationResponse): Promise<FullOperationResponse> {
     return deserializeAtomXmlResponse(["TopicName", "SubscriptionName"], response);
   }
 }

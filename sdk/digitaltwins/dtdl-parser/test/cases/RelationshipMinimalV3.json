@@ -1,0 +1,24 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:aRelationship;1",
+      "@type": "Relationship",
+      "name": "proximity"
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:aRelationship;1",
+        "type": "Relationship",
+        "properties": {
+          "name": "proximity",
+          "definedIn": null
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": [
+        "dtmi:dtdl:context;3",
+        "dtmi:iotcentral:context;2"
+      ],
+      "@id": "dtmi:test:aProperty;1",
+      "@type": [
+        "Property",
+        "VelocityVector"
+      ],
+      "name": "currentVelocity",
+      "schema": "vector"
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:invalidCotypeVersion",
+        "PrimaryID": "dtmi:test:aProperty;1",
+        "Value": "VelocityVector"
+      }
+    ]
+  }
+}

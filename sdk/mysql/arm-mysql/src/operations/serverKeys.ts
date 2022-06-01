@@ -11,7 +11,7 @@ import { ServerKeys } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { MySQLManagementClientContext } from "../mySQLManagementClientContext";
+import { MySQLManagementClient } from "../mySQLManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -30,13 +30,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ServerKeys operations. */
 export class ServerKeysImpl implements ServerKeys {
-  private readonly client: MySQLManagementClientContext;
+  private readonly client: MySQLManagementClient;
 
   /**
    * Initialize a new instance of the class ServerKeys class.
    * @param client Reference to the service client
    */
-  constructor(client: MySQLManagementClientContext) {
+  constructor(client: MySQLManagementClient) {
     this.client = client;
   }
 
@@ -199,10 +199,12 @@ export class ServerKeysImpl implements ServerKeys {
       { serverName, keyName, resourceGroupName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -287,10 +289,12 @@ export class ServerKeysImpl implements ServerKeys {
       { serverName, keyName, resourceGroupName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

@@ -12,13 +12,14 @@ urlFragment: communication-network-traversal-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Communication Services - Network Traversal in some common scenarios.
 
-| **File Name**                                     | **Description**                 |
-| ------------------------------------------------- | ------------------------------- |
-| [getRelayConfiguration.ts][getrelayconfiguration] | Issue a new Relay configuration |
+| **File Name**                                                                   | **Description**                                           |
+| ------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| [getRelayConfigurationWithIdentity.ts][getrelayconfigurationwithidentity]       | Issue a new Relay configuration providing a user identity |
+| [getRelayConfigurationWithoutIdentity.ts][getrelayconfigurationwithoutidentity] | Issue a new Relay configuration without user identity     |
 
 ## Prerequisites
 
-The sample programs are compatible with Node.js >=12.0.0.
+The sample programs are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
 
 Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using:
 
@@ -55,20 +56,22 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/getRelayConfiguration.js
+node dist/getRelayConfigurationWithIdentity.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env COMMUNICATION_CONNECTION_STRING="<communication connection string>" node dist/getRelayConfiguration.js
+npx cross-env COMMUNICATION_CONNECTION_STRING="<communication connection string>" node dist/getRelayConfigurationWithIdentity.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[getrelayconfiguration]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-network-traversal/samples/v1/typescript/src/getRelayConfiguration.ts
+[getrelayconfigurationwithidentity]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-network-traversal/samples/v1/typescript/src/getRelayConfigurationWithIdentity.ts
+[getrelayconfigurationwithoutidentity]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-network-traversal/samples/v1/typescript/src/getRelayConfigurationWithoutIdentity.ts
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-network-traversal
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecommunicationservicesaccount]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-network-traversal/README.md

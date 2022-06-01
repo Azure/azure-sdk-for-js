@@ -1,23 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ProxySettings } from ".";
+import { LogPolicyOptions, logPolicy } from "./policies/logPolicy";
 import { Pipeline, createEmptyPipeline } from "./pipeline";
+import { PipelineRetryOptions, TlsSettings } from "./interfaces";
+import { RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy";
+import { UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy";
+
+import { ProxySettings } from ".";
 import { decompressResponsePolicy } from "./policies/decompressResponsePolicy";
-import {
-  exponentialRetryPolicy,
-  ExponentialRetryPolicyOptions
-} from "./policies/exponentialRetryPolicy";
+import { defaultRetryPolicy } from "./policies/defaultRetryPolicy";
 import { formDataPolicy } from "./policies/formDataPolicy";
-import { logPolicy, LogPolicyOptions } from "./policies/logPolicy";
+import { isNode } from "@azure/core-util";
 import { proxyPolicy } from "./policies/proxyPolicy";
-import { redirectPolicy, RedirectPolicyOptions } from "./policies/redirectPolicy";
 import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy";
-import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
-import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
+import { tlsPolicy } from "./policies/tlsPolicy";
 import { tracingPolicy } from "./policies/tracingPolicy";
-import { userAgentPolicy, UserAgentPolicyOptions } from "./policies/userAgentPolicy";
-import { isNode } from "./util/helpers";
 
 /**
  * Defines options that are used to configure the HTTP pipeline for
@@ -27,12 +25,15 @@ export interface PipelineOptions {
   /**
    * Options that control how to retry failed requests.
    */
-  retryOptions?: ExponentialRetryPolicyOptions;
+  retryOptions?: PipelineRetryOptions;
 
   /**
    * Options to configure a proxy for outgoing requests.
    */
   proxyOptions?: ProxySettings;
+
+  /** Options for configuring TLS authentication */
+  tlsOptions?: TlsSettings;
 
   /**
    * Options for how redirect responses are handled.
@@ -64,18 +65,23 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
   const pipeline = createEmptyPipeline();
 
   if (isNode) {
+    if (options.tlsOptions) {
+      pipeline.addPolicy(tlsPolicy(options.tlsOptions));
+    }
     pipeline.addPolicy(proxyPolicy(options.proxyOptions));
     pipeline.addPolicy(decompressResponsePolicy());
   }
 
   pipeline.addPolicy(formDataPolicy());
-  pipeline.addPolicy(tracingPolicy(options.userAgentOptions));
   pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
   pipeline.addPolicy(setClientRequestIdPolicy());
-  pipeline.addPolicy(throttlingRetryPolicy(), { phase: "Retry" });
-  pipeline.addPolicy(systemErrorRetryPolicy(options.retryOptions), { phase: "Retry" });
-  pipeline.addPolicy(exponentialRetryPolicy(options.retryOptions), { phase: "Retry" });
-  pipeline.addPolicy(redirectPolicy(options.redirectOptions), { afterPhase: "Retry" });
+  pipeline.addPolicy(defaultRetryPolicy(options.retryOptions), { phase: "Retry" });
+  pipeline.addPolicy(tracingPolicy(options.userAgentOptions), { afterPhase: "Retry" });
+  if (isNode) {
+    // Both XHR and Fetch expect to handle redirects automatically,
+    // so only include this policy when we're in Node.
+    pipeline.addPolicy(redirectPolicy(options.redirectOptions), { afterPhase: "Retry" });
+  }
   pipeline.addPolicy(logPolicy(options.loggingOptions), { afterPhase: "Retry" });
 
   return pipeline;

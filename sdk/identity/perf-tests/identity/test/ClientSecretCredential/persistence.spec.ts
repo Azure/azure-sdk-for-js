@@ -24,8 +24,8 @@ export class ClientSecretCredentialPersistenceTest extends PerfTest {
       tokenCachePersistenceOptions: {
         enabled: true,
         name: "nodeTestSilent",
-        unsafeAllowUnencryptedStorage: true
-      }
+        unsafeAllowUnencryptedStorage: true,
+      },
     });
 
     // This getToken call will cache the token.

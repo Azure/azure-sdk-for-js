@@ -34,12 +34,12 @@ export class MSALAuthCode extends MsalBrowser {
 
     this.msalConfig.cache = {
       cacheLocation: "sessionStorage",
-      storeAuthStateInCookie: true // Set to true to improve the experience on IE11 and Edge.
+      storeAuthStateInCookie: true, // Set to true to improve the experience on IE11 and Edge.
     };
     this.msalConfig.system = {
       loggerOptions: {
-        loggerCallback: defaultLoggerCallback(this.logger, "Browser")
-      }
+        loggerCallback: defaultLoggerCallback(this.logger, "Browser"),
+      },
     };
 
     // Preparing the MSAL application.
@@ -90,7 +90,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         // However, we want to avoid kicking the user out of their authentication on the Azure side.
         // We do this by calling to logout while specifying a `onRedirectNavigate` that returns false.
         await this.app.logout({
-          onRedirectNavigate: () => false
+          onRedirectNavigate: () => false,
         });
         return;
       }
@@ -103,7 +103,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       }
 
       this.logger.info(`No accounts were found through MSAL.`);
-    } catch (e) {
+    } catch (e: any) {
       this.logger.info(`Failed to acquire token through MSAL. ${e.message}`);
     }
     return;
@@ -125,7 +125,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
     const loginRequest: msalBrowser.RedirectRequest = {
       scopes: arrayScopes,
-      loginHint: this.loginHint
+      loginHint: this.loginHint,
     };
     switch (this.loginStyle) {
       case "redirect": {
@@ -161,7 +161,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         scopes,
         getTokenOptions: options,
         message:
-          "Silent authentication failed. We couldn't retrieve an active account from the cache."
+          "Silent authentication failed. We couldn't retrieve an active account from the cache.",
       });
     }
 
@@ -171,14 +171,14 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       claims: options?.claims,
       account: publicToMsal(account),
       forceRefresh: false,
-      scopes
+      scopes,
     };
 
     try {
       this.logger.info("Attempting to acquire token silently");
       const response = await this.app.acquireTokenSilent(parameters);
       return this.handleResult(scopes, this.clientId, response);
-    } catch (err) {
+    } catch (err: any) {
       throw this.handleError(scopes, err, options);
     }
   }
@@ -196,7 +196,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         scopes,
         getTokenOptions: options,
         message:
-          "Silent authentication failed. We couldn't retrieve an active account from the cache."
+          "Silent authentication failed. We couldn't retrieve an active account from the cache.",
       });
     }
 
@@ -206,7 +206,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       claims: options?.claims,
       account: publicToMsal(account),
       loginHint: this.loginHint,
-      scopes
+      scopes,
     };
 
     switch (this.loginStyle) {

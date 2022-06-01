@@ -7,6 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
+import * as coreHttpCompat from "@azure/core-http-compat";
 
 export type SearchIndexerDataIdentityUnion =
   | SearchIndexerDataIdentity
@@ -38,7 +39,8 @@ export type SearchIndexerSkillUnion =
   | CustomEntityLookupSkill
   | TextTranslationSkill
   | DocumentExtractionSkill
-  | WebApiSkill;
+  | WebApiSkill
+  | AzureMachineLearningSkill;
 export type CognitiveServicesAccountUnion =
   | CognitiveServicesAccount
   | DefaultCognitiveServicesAccount
@@ -589,7 +591,8 @@ export interface SearchIndexerSkill {
     | "#Microsoft.Skills.Text.CustomEntityLookupSkill"
     | "#Microsoft.Skills.Text.TranslationSkill"
     | "#Microsoft.Skills.Util.DocumentExtractionSkill"
-    | "#Microsoft.Skills.Custom.WebApiSkill";
+    | "#Microsoft.Skills.Custom.WebApiSkill"
+    | "#Microsoft.Skills.Custom.AmlSkill";
   /** The name of the skill which uniquely identifies it within the skillset. A skill with no name defined will be given a default name of its 1-based index in the skills array, prefixed with the character '#'. */
   name?: string;
   /** The description of the skill which describes the inputs, outputs, and usage of the skill. */
@@ -1004,6 +1007,25 @@ export interface AnalyzedTokenInfo {
   readonly position: number;
 }
 
+/** Represents an index alias, which describes a mapping from the alias name to an index. The alias name can be used in place of the index name for supported operations. */
+export interface SearchAlias {
+  /** The name of the alias. */
+  name: string;
+  /** The name of the index this alias maps to. Only one index name may be specified. */
+  indexes: string[];
+  /** The ETag of the alias. */
+  etag?: string;
+}
+
+/** Response from a List Aliases request. If successful, it includes the associated index mappings for all aliases. */
+export interface ListAliasesResult {
+  /**
+   * The aliases in the Search service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly aliases: SearchAlias[];
+}
+
 /** Response from a get service statistics request. If successful, it includes service level counters and limits. */
 export interface ServiceStatistics {
   /** Service level resource counters. */
@@ -1014,6 +1036,8 @@ export interface ServiceStatistics {
 
 /** Represents service-level resource counters and quotas. */
 export interface ServiceCounters {
+  /** Total number of aliases. */
+  aliasCounter?: ResourceCounter;
   /** Total number of documents across all indexes in the service. */
   documentCounter: ResourceCounter;
   /** Total number of indexes. */
@@ -1375,6 +1399,24 @@ export type WebApiSkill = SearchIndexerSkill & {
   /** The desired batch size which indicates number of documents. */
   batchSize?: number;
   /** If set, the number of parallel calls that can be made to the Web API. */
+  degreeOfParallelism?: number;
+};
+
+/** The AML skill allows you to extend AI enrichment with a custom Azure Machine Learning (AML) model. Once an AML model is trained and deployed, an AML skill integrates it into AI enrichment. */
+export type AzureMachineLearningSkill = SearchIndexerSkill & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Skills.Custom.AmlSkill";
+  /** (Required for no authentication or key authentication) The scoring URI of the AML service to which the JSON payload will be sent. Only the https URI scheme is allowed. */
+  scoringUri?: string;
+  /** (Required for key authentication) The key for the AML service. */
+  authenticationKey?: string;
+  /** (Required for token authentication). The Azure Resource Manager resource ID of the AML service. It should be in the format subscriptions/{guid}/resourceGroups/{resource-group-name}/Microsoft.MachineLearningServices/workspaces/{workspace-name}/services/{service_name}. */
+  resourceId?: string;
+  /** (Optional) When specified, indicates the timeout for the http client making the API call. */
+  timeout?: string;
+  /** (Optional for token authentication). The region the AML service is deployed in. */
+  region?: string;
+  /** (Optional) When specified, indicates the number of calls the indexer will make in parallel to the endpoint you have provided. You can decrease this value if your endpoint is failing under too high of a request load, or raise it if your endpoint is able to accept more requests and you would like an increase in the performance of the indexer. If not set, a default value of 5 is used. The degreeOfParallelism can be set to a maximum of 10 and a minimum of 1. */
   degreeOfParallelism?: number;
 };
 
@@ -2736,7 +2778,9 @@ export enum KnownOcrSkillLanguage {
   /** Serbian (Latin, Serbia) */
   SrLatn = "sr-Latn",
   /** Slovak */
-  Sk = "sk"
+  Sk = "sk",
+  /** Unknown.  If the language is explicitly set to "unk", the language will be auto-detected. */
+  Unk = "unk"
 }
 
 /**
@@ -2769,7 +2813,8 @@ export enum KnownOcrSkillLanguage {
  * **ro**: Romanian \
  * **sr-Cyrl**: Serbian (Cyrillic, Serbia) \
  * **sr-Latn**: Serbian (Latin, Serbia) \
- * **sk**: Slovak
+ * **sk**: Slovak \
+ * **unk**: Unknown.  If the language is explicitly set to "unk", the language will be auto-detected.
  */
 export type OcrSkillLanguage = string;
 
@@ -4083,18 +4128,71 @@ export interface IndexesAnalyzeOptionalParams
 export type IndexesAnalyzeResponse = AnalyzeResult;
 
 /** Optional parameters. */
-export interface SearchServiceClientGetServiceStatisticsOptionalParams
+export interface AliasesCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Parameter group */
+  requestOptionsParam?: RequestOptions;
+}
+
+/** Contains response data for the create operation. */
+export type AliasesCreateResponse = SearchAlias;
+
+/** Optional parameters. */
+export interface AliasesListOptionalParams extends coreClient.OperationOptions {
+  /** Parameter group */
+  requestOptionsParam?: RequestOptions;
+}
+
+/** Contains response data for the list operation. */
+export type AliasesListResponse = ListAliasesResult;
+
+/** Optional parameters. */
+export interface AliasesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Parameter group */
+  requestOptionsParam?: RequestOptions;
+  /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
+  ifMatch?: string;
+  /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
+  ifNoneMatch?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type AliasesCreateOrUpdateResponse = SearchAlias;
+
+/** Optional parameters. */
+export interface AliasesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Parameter group */
+  requestOptionsParam?: RequestOptions;
+  /** Defines the If-Match condition. The operation will be performed only if the ETag on the server matches this value. */
+  ifMatch?: string;
+  /** Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value. */
+  ifNoneMatch?: string;
+}
+
+/** Optional parameters. */
+export interface AliasesGetOptionalParams extends coreClient.OperationOptions {
+  /** Parameter group */
+  requestOptionsParam?: RequestOptions;
+}
+
+/** Contains response data for the get operation. */
+export type AliasesGetResponse = SearchAlias;
+
+/** Optional parameters. */
+export interface GetServiceStatisticsOptionalParams
   extends coreClient.OperationOptions {
   /** Parameter group */
   requestOptionsParam?: RequestOptions;
 }
 
 /** Contains response data for the getServiceStatistics operation. */
-export type SearchServiceClientGetServiceStatisticsResponse = ServiceStatistics;
+export type GetServiceStatisticsResponse = ServiceStatistics;
 
 /** Optional parameters. */
 export interface SearchServiceClientOptionalParams
-  extends coreClient.ServiceClientOptions {
+  extends coreHttpCompat.ExtendedServiceClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
 }

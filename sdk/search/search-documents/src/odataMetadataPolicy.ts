@@ -5,7 +5,7 @@ import {
   PipelinePolicy,
   PipelineRequest,
   SendRequest,
-  PipelineResponse
+  PipelineResponse,
 } from "@azure/core-rest-pipeline";
 
 const AcceptHeaderName = "Accept";
@@ -23,6 +23,6 @@ export function createOdataMetadataPolicy(metadataLevel: MetadataLevel): Pipelin
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       request.headers.set(AcceptHeaderName, `application/json;odata.metadata=${metadataLevel}`);
       return next(request);
-    }
+    },
   };
 }

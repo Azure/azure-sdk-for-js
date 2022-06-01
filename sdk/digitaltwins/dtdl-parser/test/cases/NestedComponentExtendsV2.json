@@ -1,0 +1,66 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    [
+      {
+        "@context": "dtmi:dtdl:context;2",
+        "@id": "dtmi:test:uncleInterface;1",
+        "@type": "Interface",
+        "contents": [
+          {
+            "@type": "Component",
+            "name": "grandnephew",
+            "schema": {
+              "@id": "dtmi:test:anInterface;1",
+              "@type": "Interface",
+              "contents": [
+                {
+                  "@id": "dtmi:test:aProperty;1",
+                  "@type": "Property",
+                  "name": "expectedDistance",
+                  "schema": "double"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "@context": "dtmi:dtdl:context;2",
+        "@id": "dtmi:test:grandparentInterface;1",
+        "@type": "Interface",
+        "contents": [
+          {
+            "@type": "Component",
+            "name": "child",
+            "schema": {
+              "@id": "dtmi:test:parentInterface;1",
+              "@type": "Interface",
+              "contents": [
+                {
+                  "@id": "dtmi:test:anotherProperty;1",
+                  "@type": "Property",
+                  "name": "actualDistance",
+                  "schema": "double"
+                }
+              ],
+              "extends": "dtmi:test:uncleInterface;1"
+            }
+          }
+        ]
+      }
+    ]
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:excludedType",
+        "PrimaryID": "dtmi:test:grandparentInterface:_contents:__child;1",
+        "SecondaryID": "dtmi:test:uncleInterface:_contents:__grandnephew;1",
+        "Property": null,
+        "Value": null
+      }
+    ]
+  }
+}

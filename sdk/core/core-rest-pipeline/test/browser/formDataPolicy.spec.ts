@@ -4,33 +4,33 @@
 import { assert } from "chai";
 import * as sinon from "sinon";
 import {
-  createPipelineRequest,
-  SendRequest,
   PipelineResponse,
+  SendRequest,
   createHttpHeaders,
-  formDataPolicy
+  createPipelineRequest,
+  formDataPolicy,
 } from "../../src";
 
-describe("formDataPolicy", function() {
-  afterEach(function() {
+describe("formDataPolicy", function () {
+  afterEach(function () {
     sinon.restore();
   });
 
-  it("prepares x-www-form-urlencoded form data correctly", async function() {
+  it("prepares x-www-form-urlencoded form data correctly", async function () {
     const request = createPipelineRequest({
       url: "https://bing.com",
       headers: createHttpHeaders({
-        "Content-Type": "application/x-www-form-urlencoded"
-      })
+        "Content-Type": "application/x-www-form-urlencoded",
+      }),
     });
     request.formData = {
       service: "registry.azurecr.io",
-      scope: "repository:library/hello-world:metadata_read"
+      scope: "repository:library/hello-world:metadata_read",
     };
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
-      status: 200
+      status: 200,
     };
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.resolves(successResponse);
@@ -46,18 +46,18 @@ describe("formDataPolicy", function() {
     );
   });
 
-  it("prepares x-www-form-urlencoded form data correctly for array value", async function() {
+  it("prepares x-www-form-urlencoded form data correctly for array value", async function () {
     const request = createPipelineRequest({
       url: "https://bing.com",
       headers: createHttpHeaders({
-        "Content-Type": "application/x-www-form-urlencoded"
-      })
+        "Content-Type": "application/x-www-form-urlencoded",
+      }),
     });
     request.formData = { a: "va", b: "vb", c: ["vc1", "vc2"] };
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
-      status: 200
+      status: 200,
     };
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.resolves(successResponse);
@@ -70,18 +70,18 @@ describe("formDataPolicy", function() {
     assert.strictEqual(result.request.body, `a=va&b=vb&c=vc1&c=vc2`);
   });
 
-  it("prepares multipart/form-data form data correctly", async function() {
+  it("prepares multipart/form-data form data correctly", async function () {
     const request = createPipelineRequest({
       url: "https://bing.com",
       headers: createHttpHeaders({
-        "Content-Type": "multipart/form-data"
-      })
+        "Content-Type": "multipart/form-data",
+      }),
     });
     request.formData = { a: "va", b: "v:b" };
     const successResponse: PipelineResponse = {
       headers: createHttpHeaders(),
       request,
-      status: 200
+      status: 200,
     };
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     next.resolves(successResponse);

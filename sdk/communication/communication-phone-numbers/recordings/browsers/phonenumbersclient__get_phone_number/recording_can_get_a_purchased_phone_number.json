@@ -4,21 +4,20 @@
    "method": "GET",
    "url": "https://endpoint/phoneNumbers/%2B14155550100",
    "query": {
-    "api-version": "2021-03-07"
+    "api-version": "2022-06-01-preview"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"tollFree\",\"capabilities\":{\"calling\":\"none\",\"sms\":\"outbound\"},\"assignmentType\":\"application\",\"purchaseDate\":\"2021-03-09T15:03:04.7513808+00:00\",\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"}}",
+   "response": "{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"geographic\",\"capabilities\":{\"calling\":\"outbound\",\"sms\":\"none\"},\"assignmentType\":\"application\",\"purchaseDate\":\"2022-03-14T18:26:44.3415816+00:00\",\"cost\":{\"amount\":1.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"},\"operatorId\":\"sanitized\",\"operatorName\":\"Microsoft PPE (Dogfood)\",\"phoneNumberSource\":\"cloud\"}",
    "responseHeaders": {
-    "api-supported-versions": "2021-03-07",
+    "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 18 Jun 2021 16:38:55 GMT",
-    "ms-cv": "R4GWZrAg1UCUw0Vf0xqNBw.0",
-    "request-context": "appId=",
-    "status": "200",
-    "x-azure-ref": "0H8zMYAAAAADvV2KoWrgAR5NAw11afSD9WVZSMzBFREdFMDMxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "date": "Thu, 12 May 2022 16:07:27 GMT",
+    "ms-cv": "cp05JwcSpEqZuh1oRaU3cw.0",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0vzB9YgAAAACo452w59k4TquNwdIGiQvvUFJHMDFFREdFMDcxOQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "1105ms"
+    "x-processing-time": "1322ms"
    }
   }
  ],
@@ -26,5 +25,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "6ae4c43f2e4aa30856ac043ba5656ee5"
+ "hash": "dfa25d7a491b6db3233381759e90355a"
 }

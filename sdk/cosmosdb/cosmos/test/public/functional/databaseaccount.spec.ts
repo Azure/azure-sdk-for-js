@@ -10,17 +10,17 @@ import { masterKey } from "../common/_fakeTestSecrets";
 const client = new CosmosClient({
   endpoint,
   key: masterKey,
-  connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+  connectionPolicy: { enableBackgroundEndpointRefreshing: false },
 });
 
-describe("NodeJS CRUD Tests", function(this: Suite) {
+describe("NodeJS CRUD Tests", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   });
 
-  describe("validate database account functionality", function() {
-    it("nativeApi Should get database account successfully name based", async function() {
+  describe("validate database account functionality", function () {
+    it("nativeApi Should get database account successfully name based", async function () {
       const { resource: databaseAccount, headers } = await client.getDatabaseAccount();
       assert.equal(databaseAccount.DatabasesLink, "/dbs/");
       assert.equal(databaseAccount.MediaLink, "/media/");

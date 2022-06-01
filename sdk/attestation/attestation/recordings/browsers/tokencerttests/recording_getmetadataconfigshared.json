@@ -1,25 +1,67 @@
 {
- "recordings": [
-  {
-   "method": "GET",
-   "url": "https://sharedwus.wus.attest.azure.net/.well-known/openid-configuration",
-   "query": {},
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"response_types_supported\":[\"token\",\"none\"],\"id_token_signing_alg_values_supported\":[\"RS256\"],\"revocation_endpoint\":\"https://sharedwus.wus.attest.azure.net/revoke\",\"issuer\":\"https://sharedwus.wus.attest.azure.net\",\"jwks_uri\":\"https://sharedwus.wus.attest.azure.net/certs\",\"claims_supported\":[\"cnf\",\"nonce\",\"x-ms-ver\",\"x-ms-attestation-type\",\"x-ms-policy-hash\",\"x-ms-policy-signer\",\"x-ms-sgx-is-debuggable\",\"x-ms-sgx-mrenclave\",\"x-ms-sgx-mrsigner\",\"x-ms-sgx-svn\",\"x-ms-sgx-ehd\",\"x-ms-sgx-collateral\",\"is-debuggable\",\"sgx-mrsigner\",\"sgx-mrenclave\",\"product-id\",\"svn\",\"tee\"]}",
-   "responseHeaders": {
-    "content-length": "573",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 27 Jul 2021 23:26:02 GMT",
-    "server": "Kestrel",
-    "x-ms-maa-service-version": "1.10.01644.0004",
-    "x-ms-request-id": "00-3a50967bd8cd6e72a6e6822e44c3d9fd-0000000000000000-00"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "e3275d08499fc0dbb1a6659fd18e58f1"
+  "Entries": [
+    {
+      "RequestUri": "https://sharedwus.wus.attest.azure.net/.well-known/openid-configuration",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "18f690d8-201c-4fd8-a8a6-b627bd9c8eb8",
+        "x-ms-useragent": "azsdk-js-attestation/1.0.1 core-rest-pipeline/1.4.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "573",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 28 Jan 2022 23:52:30 GMT",
+        "Server": "Kestrel",
+        "x-ms-maa-service-version": "1.10.01780.0001",
+        "x-ms-request-id": "00-ee8ae7b62291693e5f03eb09ce455f1f-997acb33ea4337cd-00"
+      },
+      "ResponseBody": {
+        "response_types_supported": [
+          "token",
+          "none"
+        ],
+        "id_token_signing_alg_values_supported": [
+          "RS256"
+        ],
+        "revocation_endpoint": "https://sharedwus.wus.attest.azure.net/revoke",
+        "issuer": "https://sharedwus.wus.attest.azure.net",
+        "jwks_uri": "https://sharedwus.wus.attest.azure.net/certs",
+        "claims_supported": [
+          "cnf",
+          "nonce",
+          "x-ms-ver",
+          "x-ms-attestation-type",
+          "x-ms-policy-hash",
+          "x-ms-policy-signer",
+          "x-ms-sgx-is-debuggable",
+          "x-ms-sgx-mrenclave",
+          "x-ms-sgx-mrsigner",
+          "x-ms-sgx-svn",
+          "x-ms-sgx-ehd",
+          "x-ms-sgx-collateral",
+          "is-debuggable",
+          "sgx-mrsigner",
+          "sgx-mrenclave",
+          "product-id",
+          "svn",
+          "tee"
+        ]
+      }
+    }
+  ],
+  "Variables": {}
 }

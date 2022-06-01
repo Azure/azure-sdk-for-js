@@ -1,9 +1,9 @@
 {
-  "name": "azure-web-pubsub-express-samples-js",
+  "name": "@azure-samples/web-pubsub-express-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Web PubSub CloudEvents Handlers for Express client library samples for JavaScript",
-  "engine": {
+  "engines": {
     "node": ">=12.0.0"
   },
   "repository": {
@@ -12,7 +12,7 @@
     "directory": "sdk/web-pubsub/web-pubsub-express"
   },
   "keywords": [
-    "Azure",
+    "azure",
     "cloud"
   ],
   "author": "Microsoft Corporation",
@@ -22,8 +22,8 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-express",
   "dependencies": {
-    "@azure/web-pubsub-express": "next",
-    "dotenv": "latest",
-    "express": "^4.17.1"
+    "@azure/web-pubsub-express": "latest",
+    "express": "^4.16.3",
+    "dotenv": "latest"
   }
 }

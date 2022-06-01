@@ -10,7 +10,7 @@ import { PrivateLinkResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ServiceBusManagementClientContext } from "../serviceBusManagementClientContext";
+import { ServiceBusManagementClient } from "../serviceBusManagementClient";
 import {
   PrivateLinkResourcesGetOptionalParams,
   PrivateLinkResourcesGetResponse
@@ -18,13 +18,13 @@ import {
 
 /** Class containing PrivateLinkResources operations. */
 export class PrivateLinkResourcesImpl implements PrivateLinkResources {
-  private readonly client: ServiceBusManagementClientContext;
+  private readonly client: ServiceBusManagementClient;
 
   /**
    * Initialize a new instance of the class PrivateLinkResources class.
    * @param client Reference to the service client
    */
-  constructor(client: ServiceBusManagementClientContext) {
+  constructor(client: ServiceBusManagementClient) {
     this.client = client;
   }
 
@@ -63,9 +63,9 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.subscriptionId
+    Parameters.namespaceName1
   ],
   headerParameters: [Parameters.accept],
   serializer

@@ -34,5 +34,5 @@ export enum ConsistencyLevel {
    * ConsistentPrefix Consistency guarantees that reads will return some prefix of all writes with no gaps.
    * All writes will be eventually be available for reads.
    */
-  ConsistentPrefix = "ConsistentPrefix"
+  ConsistentPrefix = "ConsistentPrefix",
 }

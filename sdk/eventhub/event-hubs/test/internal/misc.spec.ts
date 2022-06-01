@@ -1,31 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { v4 as uuid } from "uuid";
-import chai from "chai";
-import assert from "assert";
-const should = chai.should();
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-import debugModule from "debug";
-const debug = debugModule("azure:event-hubs:misc-spec");
+import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import {
   EventData,
   EventHubConsumerClient,
   EventHubProducerClient,
   EventHubProperties,
   ReceivedEventData,
-  Subscription
+  Subscription,
 } from "../../src";
-import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import {
   TRACEPARENT_PROPERTY,
-  extractSpanContextFromEventData
+  extractSpanContextFromEventData,
 } from "../../src/diagnostics/instrumentEventData";
-import { TraceFlags } from "@azure/core-tracing";
 import { SubscriptionHandlerForTests } from "../public/utils/subscriptionHandlerForTests";
-import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+import chai, { assert } from "chai";
+import chaiAsPromised from "chai-as-promised";
 import { createMockServer } from "../public/utils/mockService";
+import debugModule from "debug";
+import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
+import { v4 as uuid } from "uuid";
+import { tracingClient } from "../../src/diagnostics/tracing";
+import Sinon from "sinon";
+
+const should = chai.should();
+chai.use(chaiAsPromised);
+const debug = debugModule("azure:event-hubs:misc-spec");
 
 testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();
@@ -41,10 +42,10 @@ testWithServiceTypes((serviceVersion) => {
     });
   }
 
-  describe("Misc tests", function(): void {
+  describe("Misc tests", function (): void {
     const service = {
       connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-      path: env[EnvVarKeys.EVENTHUB_NAME]
+      path: env[EnvVarKeys.EVENTHUB_NAME],
     };
     let consumerClient: EventHubConsumerClient;
     let producerClient: EventHubProducerClient;
@@ -52,7 +53,7 @@ testWithServiceTypes((serviceVersion) => {
     let partitionId: string;
     let lastEnqueuedOffset: number;
 
-    before("validate environment", async function(): Promise<void> {
+    before("validate environment", async function (): Promise<void> {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
         "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
@@ -83,9 +84,7 @@ testWithServiceTypes((serviceVersion) => {
       await consumerClient.close();
     });
 
-    it("should be able to send and receive a large message correctly", async function(): Promise<
-      void
-    > {
+    it("should be able to send and receive a large message correctly", async function (): Promise<void> {
       const bodysize = 220 * 1024;
       const msgString = "A".repeat(220 * 1024);
       const msgBody = Buffer.from(msgString);
@@ -110,19 +109,17 @@ testWithServiceTypes((serviceVersion) => {
             },
             processError: async (err) => {
               reject(err);
-            }
+            },
           },
           {
-            startPosition: { offset: lastEnqueuedOffset }
+            startPosition: { offset: lastEnqueuedOffset },
           }
         );
       });
       await subscription!.close();
     });
 
-    it("should be able to send and receive a JSON object as a message correctly", async function(): Promise<
-      void
-    > {
+    it("should be able to send and receive a JSON object as a message correctly", async function (): Promise<void> {
       const msgBody = {
         id: "123-456-789",
         weight: 10,
@@ -131,9 +128,9 @@ testWithServiceTypes((serviceVersion) => {
           {
             id: "098-789-564",
             weight: 20,
-            isBlue: false
-          }
-        ]
+            isBlue: false,
+          },
+        ],
       };
       const obj: EventData = { body: msgBody };
       debug(`Partition ${partitionId} has last message with offset ${lastEnqueuedOffset}.`);
@@ -156,28 +153,26 @@ testWithServiceTypes((serviceVersion) => {
             },
             processError: async (err) => {
               reject(err);
-            }
+            },
           },
           {
-            startPosition: { offset: lastEnqueuedOffset }
+            startPosition: { offset: lastEnqueuedOffset },
           }
         );
       });
       await subscription!.close();
     });
 
-    it("should be able to send and receive an array as a message correctly", async function(): Promise<
-      void
-    > {
+    it("should be able to send and receive an array as a message correctly", async function (): Promise<void> {
       const msgBody = [
         {
           id: "098-789-564",
           weight: 20,
-          isBlue: false
+          isBlue: false,
         },
         10,
         20,
-        "some string"
+        "some string",
       ];
       const obj: EventData = { body: msgBody, properties: { message_id: uuid() } };
       debug(`Partition ${partitionId} has last message with offset ${lastEnqueuedOffset}.`);
@@ -200,17 +195,17 @@ testWithServiceTypes((serviceVersion) => {
             },
             processError: async (err) => {
               reject(err);
-            }
+            },
           },
           {
-            startPosition: { offset: lastEnqueuedOffset }
+            startPosition: { offset: lastEnqueuedOffset },
           }
         );
       });
       await subscription!.close();
     });
 
-    it("should be able to send a boolean as a message correctly", async function(): Promise<void> {
+    it("should be able to send a boolean as a message correctly", async function (): Promise<void> {
       const msgBody = true;
       const obj: EventData = { body: msgBody };
       debug(`Partition ${partitionId} has last message with offset ${lastEnqueuedOffset}.`);
@@ -233,19 +228,17 @@ testWithServiceTypes((serviceVersion) => {
             },
             processError: async (err) => {
               reject(err);
-            }
+            },
           },
           {
-            startPosition: { offset: lastEnqueuedOffset }
+            startPosition: { offset: lastEnqueuedOffset },
           }
         );
       });
       await subscription!.close();
     });
 
-    it("should be able to send and receive batched messages correctly ", async function(): Promise<
-      void
-    > {
+    it("should be able to send and receive batched messages correctly ", async function (): Promise<void> {
       debug(`Partition ${partitionId} has last message with offset ${lastEnqueuedOffset}.`);
       const messageCount = 5;
       const d: EventData[] = [];
@@ -272,10 +265,10 @@ testWithServiceTypes((serviceVersion) => {
             },
             processError: async (err) => {
               reject(err);
-            }
+            },
           },
           {
-            startPosition: { offset: lastEnqueuedOffset }
+            startPosition: { offset: lastEnqueuedOffset },
           }
         );
       });
@@ -286,9 +279,7 @@ testWithServiceTypes((serviceVersion) => {
       }
     });
 
-    it("should be able to send and receive batched messages as JSON objects correctly ", async function(): Promise<
-      void
-    > {
+    it("should be able to send and receive batched messages as JSON objects correctly ", async function (): Promise<void> {
       debug(`Partition ${partitionId} has last message with offset ${lastEnqueuedOffset}.`);
       const messageCount = 5;
       const d: EventData[] = [];
@@ -303,13 +294,13 @@ testWithServiceTypes((serviceVersion) => {
               {
                 id: "098-789-564",
                 weight: 20,
-                isBlue: false
-              }
-            ]
+                isBlue: false,
+              },
+            ],
           },
           properties: {
-            message_id: uuid()
-          }
+            message_id: uuid(),
+          },
         };
         d.push(obj);
       }
@@ -332,10 +323,10 @@ testWithServiceTypes((serviceVersion) => {
             },
             processError: async (err) => {
               reject(err);
-            }
+            },
           },
           {
-            startPosition: { offset: lastEnqueuedOffset }
+            startPosition: { offset: lastEnqueuedOffset },
           }
         );
       });
@@ -347,13 +338,9 @@ testWithServiceTypes((serviceVersion) => {
       }
     });
 
-    it("should consistently send messages with partitionkey to a partitionId", async function(): Promise<
-      void
-    > {
-      const {
-        subscriptionEventHandler,
-        startPosition
-      } = await SubscriptionHandlerForTests.startingFromHere(consumerClient);
+    it("should consistently send messages with partitionkey to a partitionId", async function (): Promise<void> {
+      const { subscriptionEventHandler, startPosition } =
+        await SubscriptionHandlerForTests.startingFromHere(consumerClient);
 
       const msgToSendCount = 50;
       debug("Sending %d messages.", msgToSendCount);
@@ -368,7 +355,7 @@ testWithServiceTypes((serviceVersion) => {
         const partitionKey = getRandomInt(10);
         senderPromises.push(
           producerClient.sendBatch([{ body: "Hello EventHub " + i }], {
-            partitionKey: partitionKey.toString()
+            partitionKey: partitionKey.toString(),
           })
         );
       }
@@ -382,7 +369,7 @@ testWithServiceTypes((serviceVersion) => {
 
       try {
         subscription = consumerClient.subscribe(subscriptionEventHandler, {
-          startPosition
+          startPosition,
         });
         const receivedEvents = await subscriptionEventHandler.waitForFullEvents(
           hubInfo.partitionIds,
@@ -412,11 +399,10 @@ testWithServiceTypes((serviceVersion) => {
     });
   }).timeout(60000);
 
-  describe("extractSpanContextFromEventData", function() {
-    it("should extract a SpanContext from a properly instrumented EventData", function() {
-      const traceId = "11111111111111111111111111111111";
-      const spanId = "2222222222222222";
-      const flags = "00";
+  describe("extractSpanContextFromEventData", function () {
+    it("should use diagnostic Id from a properly instrumented EventData", function () {
+      const tracingClientSpy = Sinon.spy(tracingClient, "parseTraceparentHeader");
+      const traceparent = `00-11111111111111111111111111111111-2222222222222222-00`;
       const eventData: ReceivedEventData = {
         body: "This is a test.",
         enqueuedTimeUtc: new Date(),
@@ -424,52 +410,17 @@ testWithServiceTypes((serviceVersion) => {
         sequenceNumber: 0,
         partitionKey: null,
         properties: {
-          [TRACEPARENT_PROPERTY]: `00-${traceId}-${spanId}-${flags}`
+          [TRACEPARENT_PROPERTY]: traceparent,
         },
         getRawAmqpMessage() {
           return {} as any;
-        }
-      };
-
-      const spanContext = extractSpanContextFromEventData(eventData);
-
-      should.exist(spanContext, "Extracted spanContext should be defined.");
-      should.equal(spanContext!.traceId, traceId, "Extracted traceId does not match expectation.");
-      should.equal(spanContext!.spanId, spanId, "Extracted spanId does not match expectation.");
-      should.equal(
-        spanContext!.traceFlags,
-        TraceFlags.NONE,
-        "Extracted traceFlags do not match expectations."
-      );
-    });
-
-    it("should return undefined when EventData is not properly instrumented", function() {
-      const traceId = "11111111111111111111111111111111";
-      const spanId = "2222222222222222";
-      const flags = "00";
-      const eventData: ReceivedEventData = {
-        body: "This is a test.",
-        enqueuedTimeUtc: new Date(),
-        offset: 0,
-        sequenceNumber: 0,
-        partitionKey: null,
-        properties: {
-          [TRACEPARENT_PROPERTY]: `99-${traceId}-${spanId}-${flags}`
         },
-        getRawAmqpMessage() {
-          return {} as any;
-        }
       };
-
-      const spanContext = extractSpanContextFromEventData(eventData);
-
-      should.not.exist(
-        spanContext,
-        "Invalid diagnosticId version should return undefined spanContext."
-      );
+      extractSpanContextFromEventData(eventData);
+      assert.isTrue(tracingClientSpy.calledWith(traceparent));
     });
 
-    it("should return undefined when EventData is not instrumented", function() {
+    it("should return undefined when EventData is not instrumented", function () {
       const eventData: ReceivedEventData = {
         body: "This is a test.",
         enqueuedTimeUtc: new Date(),
@@ -478,7 +429,7 @@ testWithServiceTypes((serviceVersion) => {
         partitionKey: null,
         getRawAmqpMessage() {
           return {} as any;
-        }
+        },
       };
 
       const spanContext = extractSpanContextFromEventData(eventData);

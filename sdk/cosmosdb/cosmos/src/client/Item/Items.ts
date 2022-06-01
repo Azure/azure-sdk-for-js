@@ -23,7 +23,7 @@ import {
   OperationResponse,
   OperationInput,
   BulkOptions,
-  decorateBatchOperation
+  decorateBatchOperation,
 } from "../../utils/batch";
 import { hashV1PartitionKey } from "../../utils/hashing/v1";
 import { hashV2PartitionKey } from "../../utils/hashing/v2";
@@ -98,7 +98,7 @@ export class Items {
         resultFn: (result) => (result ? result.Documents : []),
         query,
         options: innerOptions,
-        partitionKey: options.partitionKey
+        partitionKey: options.partitionKey,
       });
     };
 
@@ -282,7 +282,7 @@ export class Items {
       resourceType: ResourceType.item,
       resourceId: id,
       options,
-      partitionKey
+      partitionKey,
     });
 
     const ref = new Item(
@@ -354,7 +354,7 @@ export class Items {
       resourceType: ResourceType.item,
       resourceId: id,
       options,
-      partitionKey
+      partitionKey,
     });
 
     const ref = new Item(
@@ -405,9 +405,9 @@ export class Items {
     bulkOptions?: BulkOptions,
     options?: RequestOptions
   ): Promise<OperationResponse[]> {
-    const {
-      resources: partitionKeyRanges
-    } = await this.container.readPartitionKeyRanges().fetchAll();
+    const { resources: partitionKeyRanges } = await this.container
+      .readPartitionKeyRanges()
+      .fetchAll();
     const { resource: definition } = await this.container.getPartitionKeyDefinition();
     const batches: Batch[] = partitionKeyRanges.map((keyRange: PartitionKeyRange) => {
       return {
@@ -415,7 +415,7 @@ export class Items {
         max: keyRange.maxExclusive,
         rangeId: keyRange.id,
         indexes: [],
-        operations: []
+        operations: [],
       };
     });
     operations
@@ -449,12 +449,12 @@ export class Items {
               path,
               resourceId: this.container.url,
               bulkOptions,
-              options
+              options,
             });
             response.result.forEach((operationResponse: OperationResponse, index: number) => {
               orderedResponses[batch.indexes[index]] = operationResponse;
             });
-          } catch (err) {
+          } catch (err: any) {
             // In the case of 410 errors, we need to recompute the partition key ranges
             // and redo the batch request, however, 410 errors occur for unsupported
             // partition key types as well since we don't support them, so for now we throw
@@ -515,10 +515,10 @@ export class Items {
         partitionKey,
         path,
         resourceId: this.container.url,
-        options
+        options,
       });
       return response;
-    } catch (err) {
+    } catch (err: any) {
       throw new Error(`Batch request error: ${err.message}`);
     }
   }

@@ -5,7 +5,7 @@
 // were a part of the GA'd library and can't be removed until the next major
 // release. They currently get called always, even if tracing is not enabled.
 
-import { createSpanFunction as coreTracingCreateSpanFunction, Span } from "@azure/core-tracing";
+import { Span, createSpanFunction as coreTracingCreateSpanFunction } from "@azure/core-tracing";
 import { OperationOptions } from "./operationOptions";
 
 /**
@@ -27,9 +27,9 @@ export interface SpanConfig {
 
 /**
  * This function is only here for compatibility. Use createSpanFunction in core-tracing.
- * 
+ *
  * @deprecated This function is only here for compatibility. Use createSpanFunction in core-tracing.
- * @hidden 
+ * @hidden
 
  * @param spanConfig - The name of the operation being performed.
  * @param tracingOptions - The options for the underlying http request.

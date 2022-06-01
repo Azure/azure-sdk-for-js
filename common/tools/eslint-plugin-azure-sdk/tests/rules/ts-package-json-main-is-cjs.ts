@@ -6,8 +6,8 @@
  * @author Arpan Laha
  */
 
-import rule from "../../src/rules/ts-package-json-main-is-cjs";
 import { RuleTester } from "eslint";
+import rule from "../../src/rules/ts-package-json-main-is-cjs";
 
 //------------------------------------------------------------------------------
 // Example files
@@ -80,7 +80,7 @@ const examplePackageGood = `{
     "eslint-detailed-reporter": "^0.8.0",
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",
-    "eslint-plugin-promise": "^4.1.1",    
+    "eslint-plugin-promise": "^4.1.1",
     "https-proxy-agent": "^2.2.1",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^2.2.0",
@@ -193,7 +193,7 @@ const examplePackageBad = `{
     "eslint-detailed-reporter": "^0.8.0",
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",
-    "eslint-plugin-promise": "^4.1.1",    
+    "eslint-plugin-promise": "^4.1.1",
     "https-proxy-agent": "^2.2.1",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^2.2.0",
@@ -247,8 +247,8 @@ const ruleTester = new RuleTester({
   parser: require.resolve("@typescript-eslint/parser"),
   parserOptions: {
     createDefaultProgram: true,
-    project: "./tsconfig.json"
-  }
+    project: "./tsconfig.json",
+  },
 });
 
 ruleTester.run("ts-package-json-main-is-cjs", rule, {
@@ -256,23 +256,23 @@ ruleTester.run("ts-package-json-main-is-cjs", rule, {
     {
       // correct format #1
       code: '{"main": "dist/index.js"}',
-      filename: "package.json"
+      filename: "package.json",
     },
     {
       // correct format #2
       code: '{"main": "./dist/index.js"}',
-      filename: "package.json"
+      filename: "package.json",
     },
     {
       // a full example package.json (taken from https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/package.json with "scripts" removed for testing purposes)
       code: examplePackageGood,
-      filename: "package.json"
+      filename: "package.json",
     },
     {
       // incorrect format but in a file we don't care about
       code: '{"main": "index.js"}',
-      filename: "not_package.json"
-    }
+      filename: "not_package.json",
+    },
   ],
   invalid: [
     {
@@ -280,9 +280,9 @@ ruleTester.run("ts-package-json-main-is-cjs", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "main does not exist at the outermost level"
-        }
-      ]
+          message: "main does not exist at the outermost level",
+        },
+      ],
     },
     {
       // main is in a nested object
@@ -290,9 +290,9 @@ ruleTester.run("ts-package-json-main-is-cjs", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "main does not exist at the outermost level"
-        }
-      ]
+          message: "main does not exist at the outermost level",
+        },
+      ],
     },
     // bad paths
     {
@@ -300,30 +300,30 @@ ruleTester.run("ts-package-json-main-is-cjs", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "main is set to dist//index.js when it should be set to dist/index.js"
-        }
+          message: "main is set to dist//index.js when it should be set to dist/index.js",
+        },
       ],
-      output: '{"main": "dist/index.js"}'
+      output: '{"main": "dist/index.js"}',
     },
     {
       code: '{"main": ".dist/index.js"}',
       filename: "package.json",
       errors: [
         {
-          message: "main is set to .dist/index.js when it should be set to dist/index.js"
-        }
+          message: "main is set to .dist/index.js when it should be set to dist/index.js",
+        },
       ],
-      output: '{"main": "dist/index.js"}'
+      output: '{"main": "dist/index.js"}',
     },
     {
       code: '{"main": "/dist/index.js"}',
       filename: "package.json",
       errors: [
         {
-          message: "main is set to /dist/index.js when it should be set to dist/index.js"
-        }
+          message: "main is set to /dist/index.js when it should be set to dist/index.js",
+        },
       ],
-      output: '{"main": "dist/index.js"}'
+      output: '{"main": "dist/index.js"}',
     },
     // other errors
     {
@@ -331,30 +331,30 @@ ruleTester.run("ts-package-json-main-is-cjs", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "main is set to dist when it should be set to dist/index.js"
-        }
+          message: "main is set to dist when it should be set to dist/index.js",
+        },
       ],
-      output: '{"main": "dist/index.js"}'
+      output: '{"main": "dist/index.js"}',
     },
     {
       code: '{"main": "index.js"}',
       filename: "package.json",
       errors: [
         {
-          message: "main is set to index.js when it should be set to dist/index.js"
-        }
+          message: "main is set to index.js when it should be set to dist/index.js",
+        },
       ],
-      output: '{"main": "dist/index.js"}'
+      output: '{"main": "dist/index.js"}',
     },
     {
       code: '{"main": "dist/src/index.js"}',
       filename: "package.json",
       errors: [
         {
-          message: "main is set to dist/src/index.js when it should be set to dist/index.js"
-        }
+          message: "main is set to dist/src/index.js when it should be set to dist/index.js",
+        },
       ],
-      output: '{"main": "dist/index.js"}'
+      output: '{"main": "dist/index.js"}',
     },
     {
       // example file with main set to index.js
@@ -362,10 +362,10 @@ ruleTester.run("ts-package-json-main-is-cjs", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "main is set to index.js when it should be set to dist/index.js"
-        }
+          message: "main is set to index.js when it should be set to dist/index.js",
+        },
       ],
-      output: examplePackageGood
-    }
-  ]
+      output: examplePackageGood,
+    },
+  ],
 });

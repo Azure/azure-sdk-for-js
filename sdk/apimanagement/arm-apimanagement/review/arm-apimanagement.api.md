@@ -630,7 +630,9 @@ export interface ApiListByTagsOptionalParams extends coreClient.OperationOptions
 export type ApiListByTagsResponse = TagResourceCollection;
 
 // @public (undocumented)
-export class ApiManagementClient extends ApiManagementClientContext {
+export class ApiManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ApiManagementClientOptionalParams);
     // (undocumented)
     api: Api;
@@ -668,6 +670,8 @@ export class ApiManagementClient extends ApiManagementClientContext {
     apiSchema: ApiSchema;
     // (undocumented)
     apiTagDescription: ApiTagDescription;
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     apiVersionSet: ApiVersionSet;
     // (undocumented)
@@ -761,6 +765,8 @@ export class ApiManagementClient extends ApiManagementClientContext {
     // (undocumented)
     subscription: Subscription;
     // (undocumented)
+    subscriptionId: string;
+    // (undocumented)
     tag: Tag;
     // (undocumented)
     tagResource: TagResource;
@@ -782,17 +788,6 @@ export class ApiManagementClient extends ApiManagementClientContext {
     userIdentities: UserIdentities;
     // (undocumented)
     userSubscription: UserSubscription;
-}
-
-// @public (undocumented)
-export class ApiManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ApiManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    subscriptionId: string;
 }
 
 // @public
@@ -2750,7 +2745,7 @@ export interface ContentItemCollection {
 // @public
 export type ContentItemContract = Resource & {
     properties?: {
-        [propertyName: string]: Record<string, unknown>;
+        [propertyName: string]: any;
     };
 };
 

@@ -6,10 +6,10 @@ import {
   QueryMetrics,
   QueryPreparationTimes,
   RuntimeExecutionTimes,
-  TimeSpan
+  TimeSpan,
 } from "../../../src";
 
-describe("QueryMetrics", function() {
+describe("QueryMetrics", function () {
   // Properties
   const totalQueryExecutionTime = TimeSpan.fromMilliseconds(33.67);
   const queryCompilationTime = TimeSpan.fromMilliseconds(0.06);
@@ -64,7 +64,7 @@ describe("QueryMetrics", function() {
     new ClientSideMetrics(requestCharge)
   );
 
-  const assertQueryMetricsEquality = function(
+  const assertQueryMetricsEquality = function (
     queryMetrics1: QueryMetrics,
     queryMetrics2: QueryMetrics
   ): void {
@@ -116,7 +116,7 @@ describe("QueryMetrics", function() {
     );
   };
 
-  it("Can Be Cloned", function() {
+  it("Can Be Cloned", function () {
     const queryMetrics2 = new QueryMetrics(
       queryMetrics.retrievedDocumentCount,
       queryMetrics.retrievedDocumentSize,
@@ -136,7 +136,7 @@ describe("QueryMetrics", function() {
     assertQueryMetricsEquality(queryMetrics, queryMetrics2);
   });
 
-  it("Should Add Two Query Metrics", function() {
+  it("Should Add Two Query Metrics", function () {
     const doubleQueryMetrics = queryMetrics.add([queryMetrics]);
 
     const doubleRetrievedDocumentCount = retrievedDocumentCount * 2;
@@ -214,7 +214,7 @@ describe("QueryMetrics", function() {
     assertQueryMetricsEquality(queryMetricsFromCreateArray, expectedQueryMetrics);
   });
 
-  it("Can Be Create From Delimited String", function() {
+  it("Can Be Create From Delimited String", function () {
     const queryMetricsFromDelimitedString = QueryMetrics.createFromDelimitedString(
       delimitedString,
       new ClientSideMetrics(requestCharge)
@@ -223,7 +223,7 @@ describe("QueryMetrics", function() {
     assertQueryMetricsEquality(queryMetricsFromDelimitedString, queryMetrics);
   });
 
-  it("Can Be Converted To A Delimited String", function() {
+  it("Can Be Converted To A Delimited String", function () {
     const delimitedStringFromMetrics = queryMetrics.toDelimitedString();
     const queryMetricsFromDelimitedString = QueryMetrics.createFromDelimitedString(
       delimitedStringFromMetrics,

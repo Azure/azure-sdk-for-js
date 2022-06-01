@@ -39,14 +39,14 @@ async function sendMessages() {
     { step: 2, title: "Unpack" },
     { step: 3, title: "Prepare" },
     { step: 4, title: "Cook" },
-    { step: 5, title: "Eat" }
+    { step: 5, title: "Eat" },
   ];
   const promises = new Array();
   for (let index = 0; index < data.length; index++) {
     const message = {
       body: data[index],
       subject: "RecipeStep",
-      contentType: "application/json"
+      contentType: "application/json",
     };
     // the way we shuffle the message order is to introduce a tiny random delay before each of the messages is sent
     promises.push(
@@ -110,7 +110,7 @@ async function receiveMessage() {
     receiver.subscribe(
       { processMessage, processError },
       {
-        autoCompleteMessages: false
+        autoCompleteMessages: false,
       }
     ); // Disabling autoCompleteMessages so we can control when message can be completed, deferred or deadlettered
     await delay(10000);

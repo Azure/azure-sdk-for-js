@@ -5,14 +5,14 @@ import { ServiceBusMessage, toRheaMessage } from "./serviceBusMessage";
 import {
   errorInvalidMessageTypeSingle,
   throwIfNotValidServiceBusMessage,
-  throwTypeErrorIfParameterMissing
+  throwTypeErrorIfParameterMissing,
 } from "./util/errors";
 import { ConnectionContext } from "./connectionContext";
 import {
   MessageAnnotations,
   messageProperties as RheaMessagePropertiesList,
   message as RheaMessageUtil,
-  Message as RheaMessage
+  Message as RheaMessage,
 } from "rhea-promise";
 import { SpanContext } from "@azure/core-tracing";
 import { convertTryAddOptionsForCompatibility, instrumentMessage } from "./diagnostics/tracing";
@@ -175,7 +175,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
     const batchEnvelope: RheaMessage = {
       body: RheaMessageUtil.data_sections(encodedMessages),
       message_annotations: annotations,
-      application_properties: applicationProperties
+      application_properties: applicationProperties,
     };
     if (messageProperties) {
       for (const prop of RheaMessagePropertiesList) {

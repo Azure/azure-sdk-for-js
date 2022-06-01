@@ -7,7 +7,7 @@
 /**
  * An interface structurally compatible with OpenTelemetry.
  */
-export interface Context {
+export interface TracingContext {
   /**
    * Get a value from the context.
    *
@@ -21,12 +21,12 @@ export interface Context {
    * @param key - context key for which to set the value
    * @param value - value to set for the given key
    */
-  setValue(key: symbol, value: unknown): Context;
+  setValue(key: symbol, value: unknown): TracingContext;
   /**
    * Return a new context which inherits from this context but does
    * not contain a value for the given key.
    *
    * @param key - context key for which to clear a value
    */
-  deleteValue(key: symbol): Context;
+  deleteValue(key: symbol): TracingContext;
 }

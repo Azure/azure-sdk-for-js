@@ -28,8 +28,8 @@ export interface ClassificationRulesCreateOrUpdateBodyParam {
   body?: ClassificationRule;
 }
 
-export type ClassificationRulesCreateOrUpdateParameters = ClassificationRulesCreateOrUpdateBodyParam &
-  RequestParameters;
+export type ClassificationRulesCreateOrUpdateParameters =
+  ClassificationRulesCreateOrUpdateBodyParam & RequestParameters;
 export type ClassificationRulesDeleteParameters = RequestParameters;
 export type ClassificationRulesListAllParameters = RequestParameters;
 export type ClassificationRulesListVersionsByClassificationRuleNameParameters = RequestParameters;
@@ -42,8 +42,8 @@ export interface ClassificationRulesTagClassificationVersionQueryParam {
   queryParameters: ClassificationRulesTagClassificationVersionQueryParamProperties;
 }
 
-export type ClassificationRulesTagClassificationVersionParameters = ClassificationRulesTagClassificationVersionQueryParam &
-  RequestParameters;
+export type ClassificationRulesTagClassificationVersionParameters =
+  ClassificationRulesTagClassificationVersionQueryParam & RequestParameters;
 
 export interface DataSourcesCreateOrUpdateBodyParam {
   body?: DataSource;
@@ -203,8 +203,8 @@ export interface SystemScanRulesetsListVersionsByDataSourceQueryParam {
   queryParameters?: SystemScanRulesetsListVersionsByDataSourceQueryParamProperties;
 }
 
-export type SystemScanRulesetsListVersionsByDataSourceParameters = SystemScanRulesetsListVersionsByDataSourceQueryParam &
-  RequestParameters;
+export type SystemScanRulesetsListVersionsByDataSourceParameters =
+  SystemScanRulesetsListVersionsByDataSourceQueryParam & RequestParameters;
 export type TriggersGetTriggerParameters = RequestParameters;
 
 export interface TriggersCreateTriggerBodyParam {

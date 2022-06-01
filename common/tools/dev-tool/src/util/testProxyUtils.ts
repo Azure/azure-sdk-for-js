@@ -5,54 +5,69 @@ import { spawn } from "child_process";
 import path from "path";
 import { IncomingMessage, request, RequestOptions } from "http";
 import fs from "fs-extra";
+import os from "os";
 import { createPrinter } from "./printer";
+import { resolveRoot } from "./resolveProject";
 
 const log = createPrinter("test-proxy");
-export async function startProxyTool() {
-  log.info(
-    `Attempting to start test proxy at http://localhost:5000 & https://localhost:5001.\n`
-  );
+
+const CONTAINER_NAME = "js-azsdk-test-proxy";
+
+export async function startProxyTool(): Promise<void> {
+  log.info(`Attempting to start test proxy at http://localhost:5000 & https://localhost:5001.\n`);
 
   const subprocess = spawn(await getDockerRunCommand(), [], {
-    shell: true
+    shell: true,
   });
 
   const outFileName = "test-proxy-output.log";
-  const out = fs.createWriteStream(`./${outFileName}`, { flags: 'a' });
+  const out = fs.createWriteStream(`./${outFileName}`, { flags: "a" });
   subprocess.stdout.pipe(out);
   subprocess.stderr.pipe(out);
 
   log.info(`Check the output file "${outFileName}" for test-proxy logs.`);
+
+  await new Promise<void>((resolve, reject) => {
+    subprocess.on("exit", (code) => {
+      if (code === 0) {
+        resolve();
+      } else {
+        fs.readFile(`./${outFileName}`, (_err, data) => {
+          const lines = data.toString().split(os.EOL);
+          reject(
+            new Error(
+              `Could not start test proxy. Below is the last 10 lines of output. See ${outFileName} for the full output.\n${lines
+                .slice(-10)
+                .join("\n")}`
+            )
+          );
+        });
+      }
+    });
+  });
 }
 
-async function getRootLocation(start?: string): Promise<string> {
-  start ??= process.cwd();
-  if (await fs.pathExists(path.join(start, "rush.json"))) {
-    return start;
-  } else {
-    const nextPath = path.resolve(start, "..");
-    if (nextPath === start) {
-      throw new Error("Reached filesystem root, but no rush.json was found.");
-    } else {
-      return getRootLocation(nextPath);
-    }
-  }
+export async function stopProxyTool(): Promise<void> {
+  log.info("Attempting to stop the test proxy if it is running");
+
+  const stopProcess = spawn(`docker stop ${CONTAINER_NAME}`, [], { shell: true });
+  return new Promise((resolve) => stopProcess.on("close", resolve));
 }
 
 async function getDockerRunCommand() {
-  const repoRoot = await getRootLocation(); // /workspaces/azure-sdk-for-js/
+  const repoRoot = await resolveRoot(); // /workspaces/azure-sdk-for-js/
   const testProxyRecordingsLocation = "/srv/testproxy";
   const allowLocalhostAccess = "--add-host host.docker.internal:host-gateway";
   const imageToLoad = `azsdkengsys.azurecr.io/engsys/testproxy-lin:${await getImageTag()}`;
-  return `docker run -v ${repoRoot}:${testProxyRecordingsLocation} -p 5001:5001 -p 5000:5000 ${allowLocalhostAccess} ${imageToLoad}`;
+  return `docker run --rm --name ${CONTAINER_NAME} -v ${repoRoot}:${testProxyRecordingsLocation} -p 5001:5001 -p 5000:5000 ${allowLocalhostAccess} ${imageToLoad}`;
 }
 
-export async function isProxyToolActive() {
+export async function isProxyToolActive(): Promise<boolean> {
   try {
     await makeRequest("http://localhost:5000/info/available", {});
     log.info(`Proxy tool seems to be active at http://localhost:5000\n`);
     return true;
-  } catch (error) {
+  } catch (error: any) {
     return false;
   }
 }
@@ -66,19 +81,25 @@ async function makeRequest(uri: string, requestOptions: RequestOptions): Promise
 }
 
 async function getImageTag() {
-  // Grab the tag from the `/eng/common/testproxy/docker-start-proxy.ps1` file [..is used to run the proxy-tool in the CI]
+  // Grab the tag from the `/eng/common/testproxy/target_version.txt` file [..is used to control the default version]
+  // Example content:
   //
-  // $SELECTED_IMAGE_TAG = "1147815";
+  // 1.0.0-dev.20220224.2
   // (Bot regularly updates the tag in the file above.)
   try {
-    const contentInPWSHScript = await fs.readFile(
-      `${path.join(await getRootLocation(), "eng/common/testproxy/docker-start-proxy.ps1")}`,
+    const contentInVersionFile = await fs.readFile(
+      `${path.join(await resolveRoot(), "eng/common/testproxy/target_version.txt")}`,
       "utf-8"
     );
-    const tag = contentInPWSHScript.match(/\$SELECTED_IMAGE_TAG \= \"(.*)\"/)![1];
+
+    const tag = contentInVersionFile.trim();
+    if (tag === undefined) {
+      throw new Error();
+    }
+
     log.info(`Image tag obtained from the powershell script => ${tag}\n`);
     return tag;
-  } catch (_) {
+  } catch (_: any) {
     log.warn(
       `Unable to get the image tag from the powershell script, trying "latest" tag instead\n`
     );

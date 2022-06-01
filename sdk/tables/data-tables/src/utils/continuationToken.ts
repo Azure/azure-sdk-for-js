@@ -1,30 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { base64Encode, base64Decode } from "./bufferSerializer";
+import { base64Decode, base64Encode } from "./bufferSerializer";
 
-export interface ContinuationToken {
+interface ContinuationToken {
   nextPartitionKey: string;
-  nextRowKey: string;
+  nextRowKey?: string;
 }
 
 /**
  * Encodes the nextPartitionKey and nextRowKey into a single continuation token
  */
 export function encodeContinuationToken(
-  nextPartitionKey: string = "",
-  nextRowKey: string = ""
+  nextPartitionKey?: string,
+  nextRowKey?: string
 ): string | undefined {
-  if (!nextPartitionKey && !nextRowKey) {
+  if (!nextPartitionKey) {
     return undefined;
   }
 
-  const continuationToken = JSON.stringify({
+  const continuationToken = {
     nextPartitionKey,
-    nextRowKey
-  });
+    // Only add nextRowKey if the value is not null, undefined or empty string.
+    ...(nextRowKey && { nextRowKey }),
+  };
 
-  return base64Encode(continuationToken);
+  return base64Encode(JSON.stringify(continuationToken));
 }
 
 /**

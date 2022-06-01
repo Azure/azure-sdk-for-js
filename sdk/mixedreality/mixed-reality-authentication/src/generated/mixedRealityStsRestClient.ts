@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import { MixedRealityStsRestClientContext } from "./mixedRealityStsRestClientContext";
 import {
   MixedRealityStsRestClientOptionalParams,
-  MixedRealityStsRestClientGetTokenOptionalParams,
-  MixedRealityStsRestClientGetTokenResponse
+  GetTokenOptionalParams,
+  GetTokenResponse
 } from "./models";
 
-/** @hidden */
+/** @internal */
 export class MixedRealityStsRestClient extends MixedRealityStsRestClientContext {
   /**
    * Initializes a new instance of the MixedRealityStsRestClient class.
@@ -33,22 +33,18 @@ export class MixedRealityStsRestClient extends MixedRealityStsRestClientContext 
    */
   getToken(
     accountId: string,
-    options?: MixedRealityStsRestClientGetTokenOptionalParams
-  ): Promise<MixedRealityStsRestClientGetTokenResponse> {
-    const operationArguments: coreHttp.OperationArguments = {
-      accountId,
-      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
-    };
+    options?: GetTokenOptionalParams
+  ): Promise<GetTokenResponse> {
     return this.sendOperationRequest(
-      operationArguments,
+      { accountId, options },
       getTokenOperationSpec
-    ) as Promise<MixedRealityStsRestClientGetTokenResponse>;
+    );
   }
 }
 // Operation Specifications
-const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const getTokenOperationSpec: coreHttp.OperationSpec = {
+const getTokenOperationSpec: coreClient.OperationSpec = {
   path: "/Accounts/{accountId}/token",
   httpMethod: "GET",
   responses: {

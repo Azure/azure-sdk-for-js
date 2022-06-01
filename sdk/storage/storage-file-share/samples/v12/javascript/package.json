@@ -1,0 +1,35 @@
+{
+  "name": "@azure-samples/storage-file-share-js",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Storage File Share client library samples for JavaScript",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/storage/storage-file-share"
+  },
+  "keywords": [
+    "azure",
+    "storage",
+    "file",
+    "cloud",
+    "node.js",
+    "typescript",
+    "javascript",
+    "browser"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-share",
+  "dependencies": {
+    "@azure/storage-file-share": "latest",
+    "dotenv": "latest",
+    "@azure/abort-controller": "^1.0.0"
+  }
+}

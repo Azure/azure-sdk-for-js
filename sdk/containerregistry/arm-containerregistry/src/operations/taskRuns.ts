@@ -11,7 +11,7 @@ import { TaskRuns } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ContainerRegistryManagementClientContext } from "../containerRegistryManagementClientContext";
+import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -35,13 +35,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing TaskRuns operations. */
 export class TaskRunsImpl implements TaskRuns {
-  private readonly client: ContainerRegistryManagementClientContext;
+  private readonly client: ContainerRegistryManagementClient;
 
   /**
    * Initialize a new instance of the class TaskRuns class.
    * @param client Reference to the service client
    */
-  constructor(client: ContainerRegistryManagementClientContext) {
+  constructor(client: ContainerRegistryManagementClient) {
     this.client = client;
   }
 
@@ -187,10 +187,12 @@ export class TaskRunsImpl implements TaskRuns {
       { resourceGroupName, registryName, taskRunName, taskRun, options },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -275,10 +277,12 @@ export class TaskRunsImpl implements TaskRuns {
       { resourceGroupName, registryName, taskRunName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -373,10 +377,12 @@ export class TaskRunsImpl implements TaskRuns {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

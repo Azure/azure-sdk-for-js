@@ -11,7 +11,7 @@ const endpoint = "https://failovertest.documents.azure.com/";
 const databaseAccountResponse = () => ({
   headers: {
     "content-location": "https://failovertest.documents.azure.com/",
-    "content-type": "application/json"
+    "content-type": "application/json",
   },
   result: {
     _self: "",
@@ -23,44 +23,44 @@ const databaseAccountResponse = () => ({
     writableLocations: [
       {
         name: "East US",
-        databaseAccountEndpoint: "https://failovertest-eastus.documents.azure.com:443/"
+        databaseAccountEndpoint: "https://failovertest-eastus.documents.azure.com:443/",
       },
       {
         name: "Australia East",
-        databaseAccountEndpoint: "https://failovertest-australiaeast.documents.azure.com:443/"
-      }
+        databaseAccountEndpoint: "https://failovertest-australiaeast.documents.azure.com:443/",
+      },
     ],
     readableLocations: [
       {
         name: "East US",
-        databaseAccountEndpoint: "https://failovertest-eastus.documents.azure.com:443/"
+        databaseAccountEndpoint: "https://failovertest-eastus.documents.azure.com:443/",
       },
       {
         name: "Australia East",
-        databaseAccountEndpoint: "https://failovertest-australiaeast.documents.azure.com:443/"
-      }
+        databaseAccountEndpoint: "https://failovertest-australiaeast.documents.azure.com:443/",
+      },
     ],
     enableMultipleWriteLocations: true,
     userReplicationPolicy: {
       asyncReplication: false,
       minReplicaSetSize: 3,
-      maxReplicasetSize: 4
+      maxReplicasetSize: 4,
     },
     userConsistencyPolicy: {
-      defaultConsistencyLevel: "Session"
+      defaultConsistencyLevel: "Session",
     },
     systemReplicationPolicy: {
       minReplicaSetSize: 3,
-      maxReplicasetSize: 4
+      maxReplicasetSize: 4,
     },
     readPolicy: {
       primaryReadCoefficient: 1,
-      secondaryReadCoefficient: 1
+      secondaryReadCoefficient: 1,
     },
     queryEngineConfiguration:
-      '{"maxSqlQueryInputLength":262144,"maxJoinsPerSqlQuery":5,"maxLogicalAndPerSqlQuery":500,"maxLogicalOrPerSqlQuery":500,"maxUdfRefPerSqlQuery":10,"maxInExpressionItemsCount":16000,"queryMaxInMemorySortDocumentCount":500,"maxQueryRequestTimeoutFraction":0.9,"sqlAllowNonFiniteNumbers":false,"sqlAllowAggregateFunctions":true,"sqlAllowSubQuery":true,"sqlAllowScalarSubQuery":true,"allowNewKeywords":true,"sqlAllowLike":false,"sqlAllowGroupByClause":true,"maxSpatialQueryCells":12,"spatialMaxGeometryPointCount":256,"sqlAllowTop":true,"enableSpatialIndexing":true}'
+      '{"maxSqlQueryInputLength":262144,"maxJoinsPerSqlQuery":5,"maxLogicalAndPerSqlQuery":500,"maxLogicalOrPerSqlQuery":500,"maxUdfRefPerSqlQuery":10,"maxInExpressionItemsCount":16000,"queryMaxInMemorySortDocumentCount":500,"maxQueryRequestTimeoutFraction":0.9,"sqlAllowNonFiniteNumbers":false,"sqlAllowAggregateFunctions":true,"sqlAllowSubQuery":true,"sqlAllowScalarSubQuery":true,"allowNewKeywords":true,"sqlAllowLike":false,"sqlAllowGroupByClause":true,"maxSpatialQueryCells":12,"spatialMaxGeometryPointCount":256,"sqlAllowTop":true,"enableSpatialIndexing":true}',
   },
-  code: 200
+  code: 200,
 });
 
 const collectionResponse = {
@@ -72,26 +72,26 @@ const collectionResponse = {
       automatic: true,
       includedPaths: [
         {
-          path: "/*"
-        }
+          path: "/*",
+        },
       ],
       excludedPaths: [
         {
-          path: '/"_etag"/?'
-        }
-      ]
+          path: '/"_etag"/?',
+        },
+      ],
     },
     partitionKey: {
       paths: ["/_partitionKey"],
-      kind: "Hash"
+      kind: "Hash",
     },
     conflictResolutionPolicy: {
       mode: "LastWriterWins",
       conflictResolutionPath: "/_ts",
-      conflictResolutionProcedure: ""
+      conflictResolutionProcedure: "",
     },
     geospatialConfig: {
-      type: "Geography"
+      type: "Geography",
     },
     _rid: "kdY4AIn8g54=",
     _ts: 1572274839,
@@ -101,9 +101,9 @@ const collectionResponse = {
     _sprocs: "sprocs/",
     _triggers: "triggers/",
     _udfs: "udfs/",
-    _conflicts: "conflicts/"
+    _conflicts: "conflicts/",
   },
-  code: 200
+  code: 200,
 };
 
 const readResponse = {
@@ -114,21 +114,21 @@ const readResponse = {
     _self: "dbs/kdY4AA==/colls/kdY4AIn8g54=/docs/kdY4AIn8g54BAAAAAAAAAA==/",
     _etag: '"2400118c-0000-0100-0000-5db702980000"',
     _attachments: "attachments/",
-    _ts: 1572274840
+    _ts: 1572274840,
   },
-  code: 200
+  code: 200,
 };
 
 const DatabaseAccountNotFoundResponse = {
   code: 403,
   substatus: 1008,
-  headers: {}
+  headers: {},
 };
 
 const WriteForbiddenResponse = {
   code: 403,
   substatus: 3,
-  headers: {}
+  headers: {},
 };
 
 describe("Region Failover", () => {
@@ -143,7 +143,7 @@ describe("Region Failover", () => {
       readResponse,
       WriteForbiddenResponse,
       databaseAccountResponse(),
-      readResponse
+      readResponse,
     ];
     const options: CosmosClientOptions = { endpoint, key: masterKey };
     const plugins: PluginConfig[] = [
@@ -157,12 +157,12 @@ describe("Region Failover", () => {
             throw response;
           }
           return response;
-        }
-      }
+        },
+      },
     ];
     const client = new CosmosClient({
       ...options,
-      plugins
+      plugins,
     } as any);
     const containerRef = client.database("any").container("any");
     await containerRef.item("any", undefined).read();
@@ -184,7 +184,7 @@ describe("Region Failover", () => {
       readResponse,
       DatabaseAccountNotFoundResponse,
       databaseAccountResponse(),
-      readResponse
+      readResponse,
     ];
     const options: CosmosClientOptions = { endpoint, key: masterKey };
     const plugins: PluginConfig[] = [
@@ -198,12 +198,12 @@ describe("Region Failover", () => {
             throw response;
           }
           return response;
-        }
-      }
+        },
+      },
     ];
     const client = new CosmosClient({
       ...options,
-      plugins
+      plugins,
     } as any);
     const containerRef = client.database("any").container("any");
     await containerRef.item("any", undefined).read();
@@ -227,7 +227,7 @@ describe("Region Failover", () => {
       databaseAccountResponse(),
       DatabaseAccountNotFoundResponse,
       databaseAccountResponse(),
-      readResponse
+      readResponse,
     ];
     const options: CosmosClientOptions = { endpoint, key: masterKey };
     const plugins: PluginConfig[] = [
@@ -241,12 +241,12 @@ describe("Region Failover", () => {
             throw response;
           }
           return response;
-        }
-      }
+        },
+      },
     ];
     const client = new CosmosClient({
       ...options,
-      plugins
+      plugins,
     } as any);
     const containerRef = client.database("any").container("any");
     await containerRef.item("any", undefined).read();

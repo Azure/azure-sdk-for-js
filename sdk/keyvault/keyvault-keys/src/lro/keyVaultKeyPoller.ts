@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay, OperationOptions } from "@azure/core-http";
-import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
+import { OperationOptions, delay } from "@azure/core-http";
+import { PollOperation, PollOperationState, Poller } from "@azure/core-lro";
 import { KeyVaultClient } from "../generated/keyVaultClient";
 
 /**
@@ -85,7 +85,7 @@ export class KeyVaultKeyPollOperation<TState, TResult> implements PollOperation<
    */
   public toString(): string {
     return JSON.stringify({
-      state: this.state
+      state: this.state,
     });
   }
 }

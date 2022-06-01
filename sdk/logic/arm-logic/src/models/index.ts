@@ -16,29 +16,6 @@ export interface WorkflowListResult {
   nextLink?: string;
 }
 
-/** The base resource type. */
-export interface Resource {
-  /**
-   * The resource id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Gets the resource name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Gets the resource type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** The resource location. */
-  location?: string;
-  /** The resource tags. */
-  tags?: { [propertyName: string]: string };
-}
-
 /** The endpoints configuration. */
 export interface FlowEndpointsConfiguration {
   /** The workflow endpoints. */
@@ -177,6 +154,29 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
+/** The base resource type. */
+export interface Resource {
+  /**
+   * The resource id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Gets the resource name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Gets the resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** The resource location. */
+  location?: string;
+  /** The resource tags. */
+  tags?: { [propertyName: string]: string };
+}
+
 /** Error response indicates Logic service is not able to process the incoming request. The error property contains the error details. */
 export interface ErrorResponse {
   /** The error properties. */
@@ -269,15 +269,6 @@ export interface WorkflowTriggerListResult {
   nextLink?: string;
 }
 
-/** The sub resource type. */
-export interface SubResource {
-  /**
-   * The resource id.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-}
-
 /** The workflow trigger recurrence. */
 export interface WorkflowTriggerRecurrence {
   /** The frequency. */
@@ -314,6 +305,15 @@ export interface RecurrenceScheduleOccurrence {
   day?: DayOfWeek;
   /** The occurrence. */
   occurrence?: number;
+}
+
+/** The sub resource type. */
+export interface SubResource {
+  /**
+   * The resource id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
 }
 
 /** The JSON schema. */
@@ -519,6 +519,14 @@ export interface WorkflowRunActionRepetitionDefinitionCollection {
   value?: WorkflowRunActionRepetitionDefinition[];
 }
 
+/** The workflow run action repetition index. */
+export interface RepetitionIndex {
+  /** The scope. */
+  scopeName?: string;
+  /** The index. */
+  itemIndex: number;
+}
+
 /** The run operation result properties. */
 export interface OperationResultProperties {
   /** The start time of the workflow scope repetition. */
@@ -533,14 +541,6 @@ export interface OperationResultProperties {
   code?: string;
   /** Anything */
   error?: any;
-}
-
-/** The workflow run action repetition index. */
-export interface RepetitionIndex {
-  /** The scope. */
-  scopeName?: string;
-  /** The index. */
-  itemIndex: number;
 }
 
 /** The list of workflow request histories. */
@@ -1740,6 +1740,12 @@ export interface IntegrationServiceEnvironmentManagedApiListResult {
   nextLink?: string;
 }
 
+/** The integration service environment managed api deployment parameters. */
+export interface IntegrationServiceEnvironmentManagedApiDeploymentParameters {
+  /** The integration service environment managed api content link for deployment. */
+  contentLinkDefinition?: ContentLink;
+}
+
 /** The API resource properties. */
 export interface ApiResourceProperties {
   /**
@@ -1898,12 +1904,6 @@ export interface ApiResourceDefinitions {
   originalSwaggerUrl?: string;
   /** The modified swagger url. */
   modifiedSwaggerUrl?: string;
-}
-
-/** The integration service environment managed api deployment parameters. */
-export interface IntegrationServiceEnvironmentManagedApiDeploymentParameters {
-  /** The integration service environment managed api content link for deployment. */
-  contentLinkDefinition?: ContentLink;
 }
 
 /** The list of managed API operations. */
@@ -2207,6 +2207,47 @@ export interface IntegrationAccountSessionFilter {
   /** The changed time of integration account sessions. */
   changedTime: Date;
 }
+
+/** The workflow reference. */
+export type WorkflowReference = ResourceReference & {};
+
+/** The workflow trigger reference. */
+export type WorkflowTriggerReference = ResourceReference & {
+  /** The workflow name. */
+  flowName?: string;
+  /** The workflow trigger name. */
+  triggerName?: string;
+};
+
+/** The key vault reference. */
+export type KeyVaultReference = ResourceReference & {};
+
+/** The Api reference. */
+export type ApiReference = ResourceReference & {
+  /** The display name of the api. */
+  displayName?: string;
+  /** The description of the api. */
+  description?: string;
+  /** The icon uri of the api. */
+  iconUri?: string;
+  /** The swagger of the api. */
+  swagger?: Record<string, unknown>;
+  /** The brand color of the api. */
+  brandColor?: string;
+  /** The tier. */
+  category?: ApiTier;
+  /** The integration service environment reference. */
+  integrationServiceEnvironment?: ResourceReference;
+};
+
+/** The workflow output parameter. */
+export type WorkflowOutputParameter = WorkflowParameter & {
+  /**
+   * Gets the error.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly error?: Record<string, unknown>;
+};
 
 /** The workflow type. */
 export type Workflow = Resource & {
@@ -2619,47 +2660,6 @@ export type ApiOperation = Resource & {
 export type ManagedApi = Resource & {
   /** The api resource properties. */
   properties?: ApiResourceProperties;
-};
-
-/** The workflow reference. */
-export type WorkflowReference = ResourceReference & {};
-
-/** The workflow trigger reference. */
-export type WorkflowTriggerReference = ResourceReference & {
-  /** The workflow name. */
-  flowName?: string;
-  /** The workflow trigger name. */
-  triggerName?: string;
-};
-
-/** The key vault reference. */
-export type KeyVaultReference = ResourceReference & {};
-
-/** The Api reference. */
-export type ApiReference = ResourceReference & {
-  /** The display name of the api. */
-  displayName?: string;
-  /** The description of the api. */
-  description?: string;
-  /** The icon uri of the api. */
-  iconUri?: string;
-  /** The swagger of the api. */
-  swagger?: Record<string, unknown>;
-  /** The brand color of the api. */
-  brandColor?: string;
-  /** The tier. */
-  category?: ApiTier;
-  /** The integration service environment reference. */
-  integrationServiceEnvironment?: ResourceReference;
-};
-
-/** The workflow output parameter. */
-export type WorkflowOutputParameter = WorkflowParameter & {
-  /**
-   * Gets the error.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly error?: Record<string, unknown>;
 };
 
 /** The workflow trigger. */

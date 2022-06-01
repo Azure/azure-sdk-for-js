@@ -1,52 +1,49 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1322",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 11 Jun 2021 18:41:12 GMT",
-    "expires": "-1",
-    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.11829.4 - WUS2 ProdSlices",
-    "x-ms-request-id": "d460f1b2-71cd-4271-a6c8-f4d2c5302a00"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://testaccount.dev.azuresynapse.net/dataflows",
-   "query": {
-    "api-version": "2020-12-01"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"value\":[{\"id\":\"/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/xiangyan/providers/Microsoft.Synapse/workspaces/xysynapsetest/dataflows/testdataflow\",\"name\":\"testdataflow\",\"type\":\"Microsoft.Synapse/workspaces/dataflows\",\"etag\":\"4f0029e7-0000-0800-0000-60c3ae420000\",\"properties\":{\"type\":\"MappingDataFlow\"}}]}",
-   "responseHeaders": {
-    "content-length": "328",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 11 Jun 2021 18:41:11 GMT",
-    "server": "Microsoft-HTTPAPI/2.0",
-    "status": "200",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "6decd8ca-2079-42d1-bf29-55d0ed599686"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "1352d707f054182c3ed762040d9f9a76"
+  "Entries": [
+    {
+      "RequestUri": "https://testaccount.dev.azuresynapse.net/dataflows?api-version=2020-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "9359348f-93f5-4ac3-b5b0-5958e29206b1",
+        "x-ms-useragent": "azsdk-js-synapse-artifacts/1.0.0-beta.9 core-rest-pipeline/1.4.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "331",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 31 Jan 2022 23:00:25 GMT",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-request-id": "802b2ce5-f1bc-4a6e-8c9c-b9236413cd96"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/joheredi-test/providers/Microsoft.Synapse/workspaces/joheredisyn/dataflows/testdataflow",
+            "name": "testdataflow",
+            "type": "Microsoft.Synapse/workspaces/dataflows",
+            "etag": "57006af4-0000-0200-0000-61f86a010000",
+            "properties": {
+              "type": "MappingDataFlow"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
 }

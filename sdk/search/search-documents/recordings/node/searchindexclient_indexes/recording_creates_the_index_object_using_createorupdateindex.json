@@ -1,0 +1,731 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/synonymmaps?api-version=2021-04-30-Preview\u0026$select=name",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json;odata.metadata=minimal",
+        "Accept-Encoding": "gzip,deflate",
+        "api-key": "admin_key",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "242e5c1f-8328-476f-82ba-de8261264ddc"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "76",
+        "Content-Type": "application/json; odata.metadata=minimal",
+        "Date": "Thu, 03 Feb 2022 20:04:01 GMT",
+        "elapsed-time": "7",
+        "Expires": "-1",
+        "OData-Version": "4.0",
+        "Pragma": "no-cache",
+        "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
+        "request-id": "242e5c1f-8328-476f-82ba-de8261264ddc",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Vary": "Accept-Encoding"
+      },
+      "ResponseBody": {
+        "@odata.context": "https://endpoint/$metadata#synonymmaps(name)",
+        "value": []
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/synonymmaps?api-version=2021-04-30-Preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json;odata.metadata=minimal",
+        "Accept-Encoding": "gzip,deflate",
+        "api-key": "admin_key",
+        "Connection": "keep-alive",
+        "Content-Length": "133",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "436ff9ad-7b4d-4651-9e37-0ec705bf6372"
+      },
+      "RequestBody": {
+        "name": "my-azure-synonymmap-1",
+        "format": "solr",
+        "synonyms": "United States, United States of America =\u003E USA\nWashington, Wash. =\u003E WA"
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "258",
+        "Content-Type": "application/json; odata.metadata=minimal",
+        "Date": "Thu, 03 Feb 2022 20:04:01 GMT",
+        "elapsed-time": "26",
+        "ETag": "W/\u00220x8D9E750525E342D\u0022",
+        "Expires": "-1",
+        "Location": "https://endpoint/synonymmaps(\u0027my-azure-synonymmap-1\u0027)?api-version=2021-04-30-Preview",
+        "OData-Version": "4.0",
+        "Pragma": "no-cache",
+        "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
+        "request-id": "436ff9ad-7b4d-4651-9e37-0ec705bf6372",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
+      },
+      "ResponseBody": {
+        "@odata.context": "https://endpoint/$metadata#synonymmaps/$entity",
+        "@odata.etag": "\u00220x8D9E750525E342D\u0022",
+        "name": "my-azure-synonymmap-1",
+        "format": "solr",
+        "synonyms": "United States, United States of America =\u003E USA\nWashington, Wash. =\u003E WA",
+        "encryptionKey": null
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/synonymmaps?api-version=2021-04-30-Preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json;odata.metadata=minimal",
+        "Accept-Encoding": "gzip,deflate",
+        "api-key": "admin_key",
+        "Connection": "keep-alive",
+        "Content-Length": "133",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "340dd1aa-3a89-46f4-9586-0613dd1686cd"
+      },
+      "RequestBody": {
+        "name": "my-azure-synonymmap-2",
+        "format": "solr",
+        "synonyms": "United States, United States of America =\u003E USA\nWashington, Wash. =\u003E WA"
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "258",
+        "Content-Type": "application/json; odata.metadata=minimal",
+        "Date": "Thu, 03 Feb 2022 20:04:01 GMT",
+        "elapsed-time": "22",
+        "ETag": "W/\u00220x8D9E75052638A91\u0022",
+        "Expires": "-1",
+        "Location": "https://endpoint/synonymmaps(\u0027my-azure-synonymmap-2\u0027)?api-version=2021-04-30-Preview",
+        "OData-Version": "4.0",
+        "Pragma": "no-cache",
+        "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
+        "request-id": "340dd1aa-3a89-46f4-9586-0613dd1686cd",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
+      },
+      "ResponseBody": {
+        "@odata.context": "https://endpoint/$metadata#synonymmaps/$entity",
+        "@odata.etag": "\u00220x8D9E75052638A91\u0022",
+        "name": "my-azure-synonymmap-2",
+        "format": "solr",
+        "synonyms": "United States, United States of America =\u003E USA\nWashington, Wash. =\u003E WA",
+        "encryptionKey": null
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/indexes?api-version=2021-04-30-Preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json;odata.metadata=minimal",
+        "Accept-Encoding": "gzip,deflate",
+        "api-key": "admin_key",
+        "Connection": "keep-alive",
+        "Content-Length": "707",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "d89588b9-1c0c-4944-afdb-144d024fefa1"
+      },
+      "RequestBody": {
+        "name": "hotel-live-test-1012685",
+        "fields": [
+          {
+            "name": "id",
+            "type": "Edm.String",
+            "key": true,
+            "searchable": false,
+            "filterable": false,
+            "sortable": false,
+            "facetable": false
+          },
+          {
+            "name": "awesomenessLevel",
+            "type": "Edm.Double",
+            "searchable": false,
+            "filterable": true,
+            "sortable": true,
+            "facetable": true
+          },
+          {
+            "name": "description",
+            "type": "Edm.String",
+            "searchable": true,
+            "filterable": false,
+            "sortable": false,
+            "facetable": false
+          },
+          {
+            "name": "details",
+            "type": "Edm.ComplexType",
+            "fields": [
+              {
+                "name": "tags",
+                "type": "Collection(Edm.String)",
+                "searchable": true,
+                "filterable": false,
+                "sortable": false,
+                "facetable": false
+              }
+            ]
+          },
+          {
+            "name": "hiddenWeight",
+            "type": "Edm.Int32",
+            "retrievable": false,
+            "searchable": false,
+            "filterable": false,
+            "sortable": false,
+            "facetable": false
+          }
+        ]
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "1695",
+        "Content-Type": "application/json; odata.metadata=minimal",
+        "Date": "Thu, 03 Feb 2022 20:04:01 GMT",
+        "elapsed-time": "584",
+        "ETag": "W/\u00220x8D9E75052BC4BD2\u0022",
+        "Expires": "-1",
+        "Location": "https://endpoint/indexes(\u0027hotel-live-test-1012685\u0027)?api-version=2021-04-30-Preview",
+        "OData-Version": "4.0",
+        "Pragma": "no-cache",
+        "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
+        "request-id": "d89588b9-1c0c-4944-afdb-144d024fefa1",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
+      },
+      "ResponseBody": {
+        "@odata.context": "https://endpoint/$metadata#indexes/$entity",
+        "@odata.etag": "\u00220x8D9E75052BC4BD2\u0022",
+        "name": "hotel-live-test-1012685",
+        "defaultScoringProfile": null,
+        "fields": [
+          {
+            "name": "id",
+            "type": "Edm.String",
+            "searchable": false,
+            "filterable": false,
+            "retrievable": true,
+            "sortable": false,
+            "facetable": false,
+            "key": true,
+            "indexAnalyzer": null,
+            "searchAnalyzer": null,
+            "analyzer": null,
+            "normalizer": null,
+            "synonymMaps": []
+          },
+          {
+            "name": "awesomenessLevel",
+            "type": "Edm.Double",
+            "searchable": false,
+            "filterable": true,
+            "retrievable": true,
+            "sortable": true,
+            "facetable": true,
+            "key": false,
+            "indexAnalyzer": null,
+            "searchAnalyzer": null,
+            "analyzer": null,
+            "normalizer": null,
+            "synonymMaps": []
+          },
+          {
+            "name": "description",
+            "type": "Edm.String",
+            "searchable": true,
+            "filterable": false,
+            "retrievable": true,
+            "sortable": false,
+            "facetable": false,
+            "key": false,
+            "indexAnalyzer": null,
+            "searchAnalyzer": null,
+            "analyzer": null,
+            "normalizer": null,
+            "synonymMaps": []
+          },
+          {
+            "name": "details",
+            "type": "Edm.ComplexType",
+            "fields": [
+              {
+                "name": "tags",
+                "type": "Collection(Edm.String)",
+                "searchable": true,
+                "filterable": false,
+                "retrievable": true,
+                "sortable": false,
+                "facetable": false,
+                "key": false,
+                "indexAnalyzer": null,
+                "searchAnalyzer": null,
+                "analyzer": null,
+                "normalizer": null,
+                "synonymMaps": []
+              }
+            ]
+          },
+          {
+            "name": "hiddenWeight",
+            "type": "Edm.Int32",
+            "searchable": false,
+            "filterable": false,
+            "retrievable": false,
+            "sortable": false,
+            "facetable": false,
+            "key": false,
+            "indexAnalyzer": null,
+            "searchAnalyzer": null,
+            "analyzer": null,
+            "normalizer": null,
+            "synonymMaps": []
+          }
+        ],
+        "scoringProfiles": [],
+        "corsOptions": null,
+        "suggesters": [],
+        "analyzers": [],
+        "normalizers": [],
+        "tokenizers": [],
+        "tokenFilters": [],
+        "charFilters": [],
+        "encryptionKey": null,
+        "similarity": {
+          "@odata.type": "#Microsoft.Azure.Search.BM25Similarity",
+          "k1": null,
+          "b": null
+        },
+        "semantic": null
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test4\u0027)?api-version=2021-04-30-Preview",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json;odata.metadata=minimal",
+        "Accept-Encoding": "gzip,deflate",
+        "api-key": "admin_key",
+        "Connection": "keep-alive",
+        "Content-Length": "700",
+        "Content-Type": "application/json",
+        "Prefer": "return=representation",
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "41957458-6892-42a2-914f-d1f9701c7d25"
+      },
+      "RequestBody": {
+        "name": "hotel-live-test4",
+        "fields": [
+          {
+            "name": "id",
+            "type": "Edm.String",
+            "key": true,
+            "searchable": false,
+            "filterable": false,
+            "sortable": false,
+            "facetable": false
+          },
+          {
+            "name": "awesomenessLevel",
+            "type": "Edm.Double",
+            "searchable": false,
+            "filterable": true,
+            "sortable": true,
+            "facetable": true
+          },
+          {
+            "name": "description",
+            "type": "Edm.String",
+            "searchable": true,
+            "filterable": false,
+            "sortable": false,
+            "facetable": false
+          },
+          {
+            "name": "details",
+            "type": "Edm.ComplexType",
+            "fields": [
+              {
+                "name": "tags",
+                "type": "Collection(Edm.String)",
+                "searchable": true,
+                "filterable": false,
+                "sortable": false,
+                "facetable": false
+              }
+            ]
+          },
+          {
+            "name": "hiddenWeight",
+            "type": "Edm.Int32",
+            "retrievable": false,
+            "searchable": false,
+            "filterable": false,
+            "sortable": false,
+            "facetable": false
+          }
+        ]
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "1688",
+        "Content-Type": "application/json; odata.metadata=minimal",
+        "Date": "Thu, 03 Feb 2022 20:04:06 GMT",
+        "elapsed-time": "662",
+        "ETag": "W/\u00220x8D9E7505585FEDA\u0022",
+        "Expires": "-1",
+        "Location": "https://endpoint/indexes(\u0027hotel-live-test4\u0027)?api-version=2021-04-30-Preview",
+        "OData-Version": "4.0",
+        "Pragma": "no-cache",
+        "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
+        "request-id": "41957458-6892-42a2-914f-d1f9701c7d25",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
+      },
+      "ResponseBody": {
+        "@odata.context": "https://endpoint/$metadata#indexes/$entity",
+        "@odata.etag": "\u00220x8D9E7505585FEDA\u0022",
+        "name": "hotel-live-test4",
+        "defaultScoringProfile": null,
+        "fields": [
+          {
+            "name": "id",
+            "type": "Edm.String",
+            "searchable": false,
+            "filterable": false,
+            "retrievable": true,
+            "sortable": false,
+            "facetable": false,
+            "key": true,
+            "indexAnalyzer": null,
+            "searchAnalyzer": null,
+            "analyzer": null,
+            "normalizer": null,
+            "synonymMaps": []
+          },
+          {
+            "name": "awesomenessLevel",
+            "type": "Edm.Double",
+            "searchable": false,
+            "filterable": true,
+            "retrievable": true,
+            "sortable": true,
+            "facetable": true,
+            "key": false,
+            "indexAnalyzer": null,
+            "searchAnalyzer": null,
+            "analyzer": null,
+            "normalizer": null,
+            "synonymMaps": []
+          },
+          {
+            "name": "description",
+            "type": "Edm.String",
+            "searchable": true,
+            "filterable": false,
+            "retrievable": true,
+            "sortable": false,
+            "facetable": false,
+            "key": false,
+            "indexAnalyzer": null,
+            "searchAnalyzer": null,
+            "analyzer": null,
+            "normalizer": null,
+            "synonymMaps": []
+          },
+          {
+            "name": "details",
+            "type": "Edm.ComplexType",
+            "fields": [
+              {
+                "name": "tags",
+                "type": "Collection(Edm.String)",
+                "searchable": true,
+                "filterable": false,
+                "retrievable": true,
+                "sortable": false,
+                "facetable": false,
+                "key": false,
+                "indexAnalyzer": null,
+                "searchAnalyzer": null,
+                "analyzer": null,
+                "normalizer": null,
+                "synonymMaps": []
+              }
+            ]
+          },
+          {
+            "name": "hiddenWeight",
+            "type": "Edm.Int32",
+            "searchable": false,
+            "filterable": false,
+            "retrievable": false,
+            "sortable": false,
+            "facetable": false,
+            "key": false,
+            "indexAnalyzer": null,
+            "searchAnalyzer": null,
+            "analyzer": null,
+            "normalizer": null,
+            "synonymMaps": []
+          }
+        ],
+        "scoringProfiles": [],
+        "corsOptions": null,
+        "suggesters": [],
+        "analyzers": [],
+        "normalizers": [],
+        "tokenizers": [],
+        "tokenFilters": [],
+        "charFilters": [],
+        "encryptionKey": null,
+        "similarity": {
+          "@odata.type": "#Microsoft.Azure.Search.BM25Similarity",
+          "k1": null,
+          "b": null
+        },
+        "semantic": null
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test4\u0027)?api-version=2021-04-30-Preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json;odata.metadata=minimal",
+        "Accept-Encoding": "gzip,deflate",
+        "api-key": "admin_key",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "b275a3d6-7474-4eb1-ab02-3d1ad884313c"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "1688",
+        "Content-Type": "application/json; odata.metadata=minimal",
+        "Date": "Thu, 03 Feb 2022 20:04:06 GMT",
+        "elapsed-time": "17",
+        "ETag": "W/\u00220x8D9E7505585FEDA\u0022",
+        "Expires": "-1",
+        "OData-Version": "4.0",
+        "Pragma": "no-cache",
+        "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
+        "request-id": "b275a3d6-7474-4eb1-ab02-3d1ad884313c",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Vary": "Accept-Encoding"
+      },
+      "ResponseBody": {
+        "@odata.context": "https://endpoint/$metadata#indexes/$entity",
+        "@odata.etag": "\u00220x8D9E7505585FEDA\u0022",
+        "name": "hotel-live-test4",
+        "defaultScoringProfile": null,
+        "fields": [
+          {
+            "name": "id",
+            "type": "Edm.String",
+            "searchable": false,
+            "filterable": false,
+            "retrievable": true,
+            "sortable": false,
+            "facetable": false,
+            "key": true,
+            "indexAnalyzer": null,
+            "searchAnalyzer": null,
+            "analyzer": null,
+            "normalizer": null,
+            "synonymMaps": []
+          },
+          {
+            "name": "awesomenessLevel",
+            "type": "Edm.Double",
+            "searchable": false,
+            "filterable": true,
+            "retrievable": true,
+            "sortable": true,
+            "facetable": true,
+            "key": false,
+            "indexAnalyzer": null,
+            "searchAnalyzer": null,
+            "analyzer": null,
+            "normalizer": null,
+            "synonymMaps": []
+          },
+          {
+            "name": "description",
+            "type": "Edm.String",
+            "searchable": true,
+            "filterable": false,
+            "retrievable": true,
+            "sortable": false,
+            "facetable": false,
+            "key": false,
+            "indexAnalyzer": null,
+            "searchAnalyzer": null,
+            "analyzer": null,
+            "normalizer": null,
+            "synonymMaps": []
+          },
+          {
+            "name": "details",
+            "type": "Edm.ComplexType",
+            "fields": [
+              {
+                "name": "tags",
+                "type": "Collection(Edm.String)",
+                "searchable": true,
+                "filterable": false,
+                "retrievable": true,
+                "sortable": false,
+                "facetable": false,
+                "key": false,
+                "indexAnalyzer": null,
+                "searchAnalyzer": null,
+                "analyzer": null,
+                "normalizer": null,
+                "synonymMaps": []
+              }
+            ]
+          },
+          {
+            "name": "hiddenWeight",
+            "type": "Edm.Int32",
+            "searchable": false,
+            "filterable": false,
+            "retrievable": false,
+            "sortable": false,
+            "facetable": false,
+            "key": false,
+            "indexAnalyzer": null,
+            "searchAnalyzer": null,
+            "analyzer": null,
+            "normalizer": null,
+            "synonymMaps": []
+          }
+        ],
+        "scoringProfiles": [],
+        "corsOptions": null,
+        "suggesters": [],
+        "analyzers": [],
+        "normalizers": [],
+        "tokenizers": [],
+        "tokenFilters": [],
+        "charFilters": [],
+        "encryptionKey": null,
+        "similarity": {
+          "@odata.type": "#Microsoft.Azure.Search.BM25Similarity",
+          "k1": null,
+          "b": null
+        },
+        "semantic": null
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test4\u0027)?api-version=2021-04-30-Preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json;odata.metadata=minimal",
+        "Accept-Encoding": "gzip,deflate",
+        "api-key": "admin_key",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "62d96eaa-cdd0-488e-a33f-4b46445729cc"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Date": "Thu, 03 Feb 2022 20:04:06 GMT",
+        "elapsed-time": "144",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "request-id": "62d96eaa-cdd0-488e-a33f-4b46445729cc",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1012685\u0027)?api-version=2021-04-30-Preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json;odata.metadata=minimal",
+        "Accept-Encoding": "gzip,deflate",
+        "api-key": "admin_key",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "f0aed2d1-f3e8-4487-9f50-b6ee8e3212fb"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Date": "Thu, 03 Feb 2022 20:04:06 GMT",
+        "elapsed-time": "164",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "request-id": "f0aed2d1-f3e8-4487-9f50-b6ee8e3212fb",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/synonymmaps(\u0027my-azure-synonymmap-1\u0027)?api-version=2021-04-30-Preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json;odata.metadata=minimal",
+        "Accept-Encoding": "gzip,deflate",
+        "api-key": "admin_key",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "0bd8621d-c6e8-4b66-aa46-a222ad151b20"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Date": "Thu, 03 Feb 2022 20:04:10 GMT",
+        "elapsed-time": "12",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "request-id": "0bd8621d-c6e8-4b66-aa46-a222ad151b20",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/synonymmaps(\u0027my-azure-synonymmap-2\u0027)?api-version=2021-04-30-Preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json;odata.metadata=minimal",
+        "Accept-Encoding": "gzip,deflate",
+        "api-key": "admin_key",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "25355e91-44b0-456d-b463-45e2e409590e"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Date": "Thu, 03 Feb 2022 20:04:10 GMT",
+        "elapsed-time": "11",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "request-id": "25355e91-44b0-456d-b463-45e2e409590e",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {
+    "TEST_INDEX_NAME": "hotel-live-test-1012685"
+  }
+}

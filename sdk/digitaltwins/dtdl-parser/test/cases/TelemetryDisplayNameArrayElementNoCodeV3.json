@@ -1,0 +1,33 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:aTelemetry;1",
+      "@type": "Telemetry",
+      "name": "Foo",
+      "displayName": [
+        {
+          "@language": "en",
+          "@value": "valid"
+        },
+        {
+          "@value": "invalid"
+        }
+      ],
+      "schema": "double"
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:langStringElementNoCode",
+        "PrimaryID": "dtmi:test:aTelemetry;1",
+        "SecondaryID": null,
+        "Property": "displayName",
+        "Value": null
+      }
+    ]
+  }
+}

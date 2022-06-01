@@ -63,6 +63,7 @@ function DockerValidation() {
     $commandLine = "$commandLine$folder"
   }
   $commandLine = "$commandLine $DocValidationImageId 2>&1"
+  Write-Host $commandLine
   $installOutput = Invoke-Expression $commandLine
 
   # The docker exit codes: https://docs.docker.com/engine/reference/run/#exit-status

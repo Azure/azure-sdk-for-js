@@ -6,31 +6,31 @@ import {
   TokenCredential,
   isTokenCredential,
   NamedKeyCredential,
-  isNamedKeyCredential
+  isNamedKeyCredential,
 } from "@azure/core-auth";
 import {
-  bearerTokenAuthenticationPolicy,
-  createPipelineFromOptions,
-  HttpOperationResponse,
-  OperationOptions,
-  RequestPolicyFactory,
-  RestError,
   ServiceClient,
-  signingPolicy,
-  stripRequest,
-  stripResponse,
-  URLBuilder,
-  WebResource,
-  PipelineOptions,
-  HttpResponse
-} from "@azure/core-http";
+  OperationOptions,
+  CommonClientOptions,
+  FullOperationResponse,
+} from "@azure/core-client";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import {
+  bearerTokenAuthenticationPolicy,
+  RestError,
+  PipelineResponse,
+  createPipelineFromOptions,
+  PipelineRequest,
+  createPipelineRequest,
+  PipelinePolicy,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
 import { CorrelationRuleFilter } from "./core/managementClient";
 import { administrationLogger as logger } from "./log";
 import {
   buildNamespace,
   NamespaceProperties,
-  NamespaceResourceSerializer
+  NamespaceResourceSerializer,
 } from "./serializers/namespaceResourceSerializer";
 import {
   buildQueue,
@@ -40,7 +40,7 @@ import {
   InternalQueueOptions,
   QueueProperties,
   QueueResourceSerializer,
-  QueueRuntimeProperties
+  QueueRuntimeProperties,
 } from "./serializers/queueResourceSerializer";
 import {
   buildRule,
@@ -49,7 +49,7 @@ import {
   RuleProperties,
   RuleResourceSerializer,
   SqlRuleAction,
-  SqlRuleFilter
+  SqlRuleFilter,
 } from "./serializers/ruleResourceSerializer";
 import {
   buildSubscription,
@@ -59,7 +59,7 @@ import {
   InternalSubscriptionOptions,
   SubscriptionProperties,
   SubscriptionResourceSerializer,
-  SubscriptionRuntimeProperties
+  SubscriptionRuntimeProperties,
 } from "./serializers/subscriptionResourceSerializer";
 import {
   buildTopic,
@@ -69,7 +69,7 @@ import {
   InternalTopicOptions,
   TopicProperties,
   TopicResourceSerializer,
-  TopicRuntimeProperties
+  TopicRuntimeProperties,
 } from "./serializers/topicResourceSerializer";
 import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
 import * as Constants from "./util/constants";
@@ -82,9 +82,10 @@ import {
   getHttpResponseOnly,
   isAbsoluteUrl,
   isJSONLikeObject,
-  ServiceBusAtomAPIVersion
+  ServiceBusAtomAPIVersion,
 } from "./util/utils";
 import { SpanStatusCode } from "@azure/core-tracing";
+import { HttpResponse } from "./util/compat";
 
 /**
  * Request options for list<entity-type>() operations
@@ -115,7 +116,7 @@ export type WithResponse<T extends object> = T & {
 /**
  * Represents the client options of the `ServiceBusAdministrationClient`.
  */
-export interface ServiceBusAdministrationClientOptions extends PipelineOptions {
+export interface ServiceBusAdministrationClientOptions extends CommonClientOptions {
   /**
    * Service version of the ATOM API.
    *
@@ -132,6 +133,18 @@ export interface ServiceBusAdministrationClientOptions extends PipelineOptions {
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type EntitiesResponse<T extends object> = WithResponse<Array<T>> &
   Pick<PageSettings, "continuationToken">;
+
+function signingPolicy(credentials: {
+  signRequest(request: PipelineRequest): Promise<PipelineRequest>;
+}): PipelinePolicy {
+  return {
+    name: "signingPolicy",
+    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      const signed = await credentials.signRequest(request);
+      return next(signed);
+    },
+  };
+}
 
 /**
  * All operations return promises that resolve to an object that has the relevant output.
@@ -203,12 +216,15 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     let options: ServiceBusAdministrationClientOptions;
     let fullyQualifiedNamespace: string;
     let credentials: SasServiceClientCredentials | TokenCredential;
-    let authPolicy: RequestPolicyFactory;
+    let authPolicy: PipelinePolicy;
     if (isTokenCredential(credentialOrOptions2)) {
       fullyQualifiedNamespace = fullyQualifiedNamespaceOrConnectionString1;
       options = options3 || {};
       credentials = credentialOrOptions2;
-      authPolicy = bearerTokenAuthenticationPolicy(credentials, AMQPConstants.aadServiceBusScope);
+      authPolicy = bearerTokenAuthenticationPolicy({
+        credential: credentials,
+        scopes: AMQPConstants.aadServiceBusScope,
+      });
     } else if (isNamedKeyCredential(credentialOrOptions2)) {
       fullyQualifiedNamespace = fullyQualifiedNamespaceOrConnectionString1;
       credentials = new SasServiceClientCredentials(credentialOrOptions2);
@@ -223,27 +239,25 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       }
       try {
         fullyQualifiedNamespace = connectionStringObj.Endpoint.match(".*://([^/]*)")[1];
-      } catch (error) {
+      } catch (error: any) {
         throw new Error("Endpoint in the connection string is not valid.");
       }
       credentials = new SasServiceClientCredentials({
         key: connectionStringObj.SharedAccessKey,
-        name: connectionStringObj.SharedAccessKeyName
+        name: connectionStringObj.SharedAccessKeyName,
       });
       authPolicy = signingPolicy(credentials);
     }
 
     const userAgentPrefix = formatUserAgentPrefix(options.userAgentOptions?.userAgentPrefix);
-    const serviceClientOptions = createPipelineFromOptions(
-      {
-        ...options,
-        userAgentOptions: {
-          userAgentPrefix
-        }
+    const serviceClientOptions = createPipelineFromOptions({
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix,
       },
-      authPolicy
-    );
-    super(credentials, serviceClientOptions);
+    });
+    serviceClientOptions.addPolicy(authPolicy);
+    super({ pipeline: serviceClientOptions });
     this.endpoint = fullyQualifiedNamespace;
     this.endpointWithProtocol = fullyQualifiedNamespace.endsWith("/")
       ? "sb://" + fullyQualifiedNamespace
@@ -272,17 +286,16 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      const response: HttpOperationResponse = await this.getResource(
+      const response = await this.getResource(
         "$namespaceinfo",
         this.namespaceResourceSerializer,
         updatedOptions
       );
-
       return this.buildNamespacePropertiesResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -319,7 +332,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         `Performing management operation - createQueue() for "${queueName}" with options: %j`,
         options
       );
-      const response: HttpOperationResponse = await this.putResource(
+      const response = await this.putResource(
         queueName,
         buildQueueOptions(options || {}),
         this.queueResourceSerializer,
@@ -328,10 +341,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return this.buildQueueResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -364,17 +377,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(`Performing management operation - getQueue() for "${queueName}"`);
-      const response: HttpOperationResponse = await this.getResource(
+      const response = await this.getResource(
         queueName,
         this.queueResourceSerializer,
         updatedOptions
       );
 
       return this.buildQueueResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -408,17 +421,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       logger.verbose(
         `Performing management operation - getQueueRuntimeProperties() for "${queueName}"`
       );
-      const response: HttpOperationResponse = await this.getResource(
+      const response = await this.getResource(
         queueName,
         this.queueResourceSerializer,
         updatedOptions
       );
 
       return this.buildQueueRuntimePropertiesResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -448,17 +461,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(`Performing management operation - getQueues() with options: %j`, options);
-      const response: HttpOperationResponse = await this.listResources(
+      const response = await this.listResources(
         "$Resources/Queues",
         updatedOptions,
         this.queueResourceSerializer
       );
 
       return this.buildListQueuesResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -475,7 +488,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listResponse = await this.getQueues({
         skip: Number(marker),
         maxCount: options.maxPageSize,
-        ...options
+        ...options,
       });
       marker = listResponse.continuationToken;
       yield listResponse;
@@ -521,9 +534,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
         return this.listQueuesPage(settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
-          ...options
+          ...options,
         });
-      }
+      },
     };
   }
 
@@ -551,17 +564,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         `Performing management operation - getQueuesRuntimeProperties() with options: %j`,
         options
       );
-      const response: HttpOperationResponse = await this.listResources(
+      const response = await this.listResources(
         "$Resources/Queues",
         updatedOptions,
         this.queueResourceSerializer
       );
 
       return this.buildListQueuesRuntimePropertiesResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -578,7 +591,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listResponse = await this.getQueuesRuntimeProperties({
         skip: Number(marker),
         maxCount: options.maxPageSize,
-        ...options
+        ...options,
       });
       marker = listResponse.continuationToken;
       yield listResponse;
@@ -628,9 +641,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
         return this.listQueuesRuntimePropertiesPage(settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
-          ...options
+          ...options,
         });
-      }
+      },
     };
   }
 
@@ -639,7 +652,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * All queue properties must be set even though only a subset of them are actually updatable.
    * Therefore, the suggested flow is to use the output from `getQueue()`, update the desired properties in it, and then pass the modified object to `updateQueue()`.
    *
-   * See https://docs.microsoft.com/rest/api/servicebus/update-queue for more details.
+   * The properties that cannot be updated are marked as readonly in the `QueueProperties` interface.
    *
    * @param queue - Object representing the properties of the queue and the raw response.
    * `requiresSession`, `requiresDuplicateDetection`, `enablePartitioning`, and `name` can't be updated after creating the queue.
@@ -679,7 +692,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         throw new TypeError(`"name" attribute of the parameter "queue" cannot be undefined.`);
       }
 
-      const response: HttpOperationResponse = await this.putResource(
+      const response = await this.putResource(
         queue.name,
         buildQueueOptions(queue),
         this.queueResourceSerializer,
@@ -688,10 +701,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return this.buildQueueResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -724,17 +737,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(`Performing management operation - deleteQueue() for "${queueName}"`);
-      const response: HttpOperationResponse = await this.deleteResource(
+      const response = await this.deleteResource(
         queueName,
         this.queueResourceSerializer,
         updatedOptions
       );
 
       return { _response: getHttpResponseOnly(response) };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -756,17 +769,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       logger.verbose(`Performing management operation - queueExists() for "${queueName}"`);
       try {
         await this.getQueue(queueName, updatedOptions);
-      } catch (error) {
+      } catch (error: any) {
         if (error.code === "MessageEntityNotFoundError") {
           return false;
         }
         throw error;
       }
       return true;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -803,7 +816,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         `Performing management operation - createTopic() for "${topicName}" with options: %j`,
         options
       );
-      const response: HttpOperationResponse = await this.putResource(
+      const response = await this.putResource(
         topicName,
         buildTopicOptions(options || {}),
         this.topicResourceSerializer,
@@ -812,10 +825,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return this.buildTopicResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -848,17 +861,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(`Performing management operation - getTopic() for "${topicName}"`);
-      const response: HttpOperationResponse = await this.getResource(
+      const response = await this.getResource(
         topicName,
         this.topicResourceSerializer,
         updatedOptions
       );
 
       return this.buildTopicResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -892,17 +905,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       logger.verbose(
         `Performing management operation - getTopicRuntimeProperties() for "${topicName}"`
       );
-      const response: HttpOperationResponse = await this.getResource(
+      const response = await this.getResource(
         topicName,
         this.topicResourceSerializer,
         updatedOptions
       );
 
       return this.buildTopicRuntimePropertiesResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -932,17 +945,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(`Performing management operation - getTopics() with options: %j`, options);
-      const response: HttpOperationResponse = await this.listResources(
+      const response = await this.listResources(
         "$Resources/Topics",
         updatedOptions,
         this.topicResourceSerializer
       );
 
       return this.buildListTopicsResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -959,7 +972,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listResponse = await this.getTopics({
         skip: Number(marker),
         maxCount: options.maxPageSize,
-        ...options
+        ...options,
       });
       marker = listResponse.continuationToken;
       yield listResponse;
@@ -1006,9 +1019,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
         return this.listTopicsPage(settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
-          ...options
+          ...options,
         });
-      }
+      },
     };
   }
 
@@ -1036,17 +1049,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         `Performing management operation - getTopicsRuntimeProperties() with options: %j`,
         options
       );
-      const response: HttpOperationResponse = await this.listResources(
+      const response = await this.listResources(
         "$Resources/Topics",
         updatedOptions,
         this.topicResourceSerializer
       );
 
       return this.buildListTopicsRuntimePropertiesResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1063,7 +1076,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listResponse = await this.getTopicsRuntimeProperties({
         skip: Number(marker),
         maxCount: options.maxPageSize,
-        ...options
+        ...options,
       });
       marker = listResponse.continuationToken;
       yield listResponse;
@@ -1116,9 +1129,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
         return this.listTopicsRuntimePropertiesPage(settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
-          ...options
+          ...options,
         });
-      }
+      },
     };
   }
 
@@ -1127,7 +1140,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * All topic properties must be set even though only a subset of them are actually updatable.
    * Therefore, the suggested flow is to use the output from `getTopic()`, update the desired properties in it, and then pass the modified object to `updateTopic()`.
    *
-   * See https://docs.microsoft.com/rest/api/servicebus/update-topic for more details.
+   * The properties that cannot be updated are marked as readonly in the `TopicProperties` interface.
    *
    * @param topic - Object representing the properties of the topic and the raw response.
    * `requiresDuplicateDetection`, `enablePartitioning`, and `name` can't be updated after creating the topic.
@@ -1167,7 +1180,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         throw new TypeError(`"name" attribute of the parameter "topic" cannot be undefined.`);
       }
 
-      const response: HttpOperationResponse = await this.putResource(
+      const response = await this.putResource(
         topic.name,
         buildTopicOptions(topic),
         this.topicResourceSerializer,
@@ -1176,10 +1189,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return this.buildTopicResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1212,17 +1225,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     );
     try {
       logger.verbose(`Performing management operation - deleteTopic() for "${topicName}"`);
-      const response: HttpOperationResponse = await this.deleteResource(
+      const response = await this.deleteResource(
         topicName,
         this.topicResourceSerializer,
         updatedOptions
       );
 
       return { _response: getHttpResponseOnly(response) };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1244,17 +1257,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       logger.verbose(`Performing management operation - topicExists() for "${topicName}"`);
       try {
         await this.getTopic(topicName, updatedOptions);
-      } catch (error) {
+      } catch (error: any) {
         if (error.code === "MessageEntityNotFoundError") {
           return false;
         }
         throw error;
       }
       return true;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1293,7 +1306,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         options
       );
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
-      const response: HttpOperationResponse = await this.putResource(
+      const response = await this.putResource(
         fullPath,
         buildSubscriptionOptions(options || {}),
         this.subscriptionResourceSerializer,
@@ -1302,10 +1315,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return this.buildSubscriptionResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1342,17 +1355,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         `Performing management operation - getSubscription() for "${subscriptionName}"`
       );
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
-      const response: HttpOperationResponse = await this.getResource(
+      const response = await this.getResource(
         fullPath,
         this.subscriptionResourceSerializer,
         updatedOptions
       );
 
       return this.buildSubscriptionResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1388,17 +1401,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         `Performing management operation - getSubscriptionRuntimeProperties() for "${subscriptionName}"`
       );
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
-      const response: HttpOperationResponse = await this.getResource(
+      const response = await this.getResource(
         fullPath,
         this.subscriptionResourceSerializer,
         updatedOptions
       );
 
       return this.buildSubscriptionRuntimePropertiesResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1432,17 +1445,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         `Performing management operation - getSubscriptions() with options: %j`,
         options
       );
-      const response: HttpOperationResponse = await this.listResources(
+      const response = await this.listResources(
         topicName + "/Subscriptions/",
         updatedOptions,
         this.subscriptionResourceSerializer
       );
 
       return this.buildListSubscriptionsResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1460,7 +1473,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listResponse = await this.getSubscriptions(topicName, {
         skip: Number(marker),
         maxCount: options.maxPageSize,
-        ...options
+        ...options,
       });
       marker = listResponse.continuationToken;
       yield listResponse;
@@ -1513,9 +1526,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
         return this.listSubscriptionsPage(topicName, settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
-          ...options
+          ...options,
         });
-      }
+      },
     };
   }
 
@@ -1544,17 +1557,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         `Performing management operation - getSubscriptionsRuntimeProperties() with options: %j`,
         options
       );
-      const response: HttpOperationResponse = await this.listResources(
+      const response = await this.listResources(
         topicName + "/Subscriptions/",
         updatedOptions,
         this.subscriptionResourceSerializer
       );
 
       return this.buildListSubscriptionsRuntimePropertiesResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1572,7 +1585,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listResponse = await this.getSubscriptionsRuntimeProperties(topicName, {
         skip: Number(marker),
         maxCount: options.maxPageSize,
-        ...options
+        ...options,
       });
       marker = listResponse.continuationToken;
       yield listResponse;
@@ -1631,9 +1644,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
         return this.listSubscriptionsRuntimePropertiesPage(topicName, settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
-          ...options
+          ...options,
         });
-      }
+      },
     };
   }
 
@@ -1642,6 +1655,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * All subscription properties must be set even though only a subset of them are actually updatable.
    * Therefore, the suggested flow is to use the output from `getSubscription()`, update the desired properties in it, and then pass the modified object to `updateSubscription()`.
    *
+   * The properties that cannot be updated are marked as readonly in the `SubscriptionProperties` interface.
    * @param subscription - Object representing the properties of the subscription and the raw response.
    * `subscriptionName`, `topicName`, and `requiresSession` can't be updated after creating the subscription.
    * @param operationOptions - The options that can be used to abort, trace and control other configurations on the HTTP request.
@@ -1687,7 +1701,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         subscription.subscriptionName
       );
 
-      const response: HttpOperationResponse = await this.putResource(
+      const response = await this.putResource(
         fullPath,
         buildSubscriptionOptions(subscription),
         this.subscriptionResourceSerializer,
@@ -1696,10 +1710,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return this.buildSubscriptionResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1736,17 +1750,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         `Performing management operation - deleteSubscription() for "${subscriptionName}"`
       );
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
-      const response: HttpOperationResponse = await this.deleteResource(
+      const response = await this.deleteResource(
         fullPath,
         this.subscriptionResourceSerializer,
         updatedOptions
       );
 
       return { _response: getHttpResponseOnly(response) };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1774,17 +1788,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
       try {
         await this.getSubscription(topicName, subscriptionName, updatedOptions);
-      } catch (error) {
+      } catch (error: any) {
         if (error.code === "MessageEntityNotFoundError") {
           return false;
         }
         throw error;
       }
       return true;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1872,7 +1886,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         ruleFilter
       );
       const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
-      const response: HttpOperationResponse = await this.putResource(
+      const response = await this.putResource(
         fullPath,
         { name: ruleName, filter: ruleFilter, action: ruleAction },
         this.ruleResourceSerializer,
@@ -1880,10 +1894,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         updatedOptions
       );
       return this.buildRuleResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1918,17 +1932,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     try {
       logger.verbose(`Performing management operation - getRule() for "${ruleName}"`);
       const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
-      const response: HttpOperationResponse = await this.getResource(
+      const response = await this.getResource(
         fullPath,
         this.ruleResourceSerializer,
         updatedOptions
       );
 
       return this.buildRuleResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1957,17 +1971,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     try {
       logger.verbose(`Performing management operation - getRules() with options: %j`, options);
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName) + "/Rules/";
-      const response: HttpOperationResponse = await this.listResources(
+      const response = await this.listResources(
         fullPath,
         updatedOptions,
         this.ruleResourceSerializer
       );
 
       return this.buildListRulesResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1986,7 +2000,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listResponse = await this.getRules(topicName, subscriptionName, {
         skip: Number(marker),
         maxCount: options.maxPageSize,
-        ...options
+        ...options,
       });
       marker = listResponse.continuationToken;
       yield listResponse;
@@ -2037,9 +2051,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         this.throwIfInvalidContinuationToken(settings.continuationToken);
         return this.listRulesPage(topicName, subscriptionName, settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
-          ...options
+          ...options,
         });
-      }
+      },
     };
   }
 
@@ -2089,7 +2103,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       }
 
       const fullPath = this.getRulePath(topicName, subscriptionName, rule.name);
-      const response: HttpOperationResponse = await this.putResource(
+      const response = await this.putResource(
         fullPath,
         rule,
         this.ruleResourceSerializer,
@@ -2098,10 +2112,10 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
 
       return this.buildRuleResponse(response);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2137,17 +2151,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     try {
       logger.verbose(`Performing management operation - deleteRule() for "${ruleName}"`);
       const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
-      const response: HttpOperationResponse = await this.deleteResource(
+      const response = await this.deleteResource(
         fullPath,
         this.ruleResourceSerializer,
         updatedOptions
       );
 
       return { _response: getHttpResponseOnly(response) };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2174,17 +2188,17 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       logger.verbose(`Performing management operation - ruleExists() for "${ruleName}"`);
       try {
         await this.getRule(topicName, subscriptionName, ruleName, updatedOptions);
-      } catch (error) {
+      } catch (error: any) {
         if (error.code === "MessageEntityNotFoundError") {
           return false;
         }
         throw error;
       }
       return true;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2205,16 +2219,18 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     serializer: AtomXmlSerializer,
     isUpdate: boolean = false,
     operationOptions: OperationOptions = {}
-  ): Promise<HttpOperationResponse> {
+  ): Promise<PipelineResponse> {
     const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-putResource",
       operationOptions
     );
     try {
-      const webResource: WebResource = new WebResource(this.getUrl(name), "PUT");
-      webResource.body = entityFields;
+      const request: PipelineRequest = createPipelineRequest({
+        url: this.getUrl(name),
+        method: "PUT",
+      });
       if (isUpdate) {
-        webResource.headers.set("If-Match", "*");
+        request.headers.set("If-Match", "*");
       }
 
       const queueOrSubscriptionFields = entityFields as
@@ -2230,7 +2246,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
             : (await this.credentials.getToken([AMQPConstants.aadServiceBusScope]))!.token;
 
         if (queueOrSubscriptionFields.ForwardTo) {
-          webResource.headers.set("ServiceBusSupplementaryAuthorization", token);
+          request.headers.set("ServiceBusSupplementaryAuthorization", token);
           if (!isAbsoluteUrl(queueOrSubscriptionFields.ForwardTo)) {
             queueOrSubscriptionFields.ForwardTo = this.endpointWithProtocol.concat(
               queueOrSubscriptionFields.ForwardTo
@@ -2238,22 +2254,23 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           }
         }
         if (queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo) {
-          webResource.headers.set("ServiceBusDlqSupplementaryAuthorization", token);
+          request.headers.set("ServiceBusDlqSupplementaryAuthorization", token);
           if (!isAbsoluteUrl(queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo)) {
-            queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo = this.endpointWithProtocol.concat(
-              queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
-            );
+            queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo =
+              this.endpointWithProtocol.concat(
+                queueOrSubscriptionFields.ForwardDeadLetteredMessagesTo
+              );
           }
         }
       }
 
-      webResource.headers.set("content-type", "application/atom+xml;type=entry;charset=utf-8");
+      request.headers.set("content-type", "application/atom+xml;type=entry;charset=utf-8");
 
-      return executeAtomXmlOperation(this, webResource, serializer, updatedOptions);
-    } catch (e) {
+      return executeAtomXmlOperation(this, request, serializer, updatedOptions, entityFields);
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2268,33 +2285,38 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     name: string,
     serializer: AtomXmlSerializer,
     operationOptions: OperationOptions = {}
-  ): Promise<HttpOperationResponse> {
+  ): Promise<FullOperationResponse> {
     const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-getResource",
       operationOptions
     );
     try {
-      const webResource: WebResource = new WebResource(this.getUrl(name), "GET");
+      const request = createPipelineRequest({
+        url: this.getUrl(name),
+        method: "GET",
+      });
 
-      const response = await executeAtomXmlOperation(this, webResource, serializer, updatedOptions);
+      const response = await executeAtomXmlOperation(this, request, serializer, updatedOptions);
       if (
         !isDefined(response.parsedBody) ||
         (Array.isArray(response.parsedBody) && response.parsedBody.length === 0)
       ) {
         const err = new RestError(
           `The messaging entity "${name}" being requested cannot be found.`,
-          "MessageEntityNotFoundError",
-          response.status,
-          stripRequest(webResource),
-          stripResponse(response)
+          {
+            code: "MessageEntityNotFoundError",
+            statusCode: response.status,
+            request,
+            response,
+          }
         );
         throw err;
       }
       return response;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2309,7 +2331,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     name: string,
     options: ListRequestOptions & OperationOptions = {},
     serializer: AtomXmlSerializer
-  ): Promise<HttpOperationResponse> {
+  ): Promise<FullOperationResponse> {
     const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-listResources",
       options
@@ -2325,13 +2347,16 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         }
       }
 
-      const webResource: WebResource = new WebResource(this.getUrl(name, queryParams), "GET");
+      const request = createPipelineRequest({
+        url: this.getUrl(name, queryParams),
+        method: "GET",
+      });
 
-      return executeAtomXmlOperation(this, webResource, serializer, updatedOptions);
-    } catch (e) {
+      return executeAtomXmlOperation(this, request, serializer, updatedOptions);
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2346,19 +2371,21 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     name: string,
     serializer: AtomXmlSerializer,
     operationOptions: OperationOptions = {}
-  ): Promise<HttpOperationResponse> {
+  ): Promise<FullOperationResponse> {
     const { span, updatedOptions } = createSpan(
       "ServiceBusAdministrationClient-deleteResource",
       operationOptions
     );
     try {
-      const webResource: WebResource = new WebResource(this.getUrl(name), "DELETE");
-
-      return executeAtomXmlOperation(this, webResource, serializer, updatedOptions);
-    } catch (e) {
+      const request = createPipelineRequest({
+        url: this.getUrl(name),
+        method: "DELETE",
+      });
+      return executeAtomXmlOperation(this, request, serializer, updatedOptions);
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2369,12 +2396,12 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   private getUrl(path: string, queryParams?: { [key: string]: string }): string {
     const baseUri = `https://${this.endpoint}/${path}`;
 
-    const requestUrl: URLBuilder = URLBuilder.parse(baseUri);
-    requestUrl.setQueryParameter(Constants.API_VERSION_QUERY_KEY, this.serviceVersion);
+    const requestUrl = new URL(baseUri);
+    requestUrl.searchParams.set(Constants.API_VERSION_QUERY_KEY, this.serviceVersion);
 
     if (queryParams) {
       for (const key of Object.keys(queryParams)) {
-        requestUrl.setQueryParameter(key, queryParams[key]);
+        requestUrl.searchParams.set(key, queryParams[key]);
       }
     }
 
@@ -2396,7 +2423,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     try {
       const value = parseURL(url).searchParams.get(Constants.XML_METADATA_MARKER + "skip");
       return value !== null ? value : undefined;
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(
         `Unable to parse the '${Constants.XML_METADATA_MARKER}skip' from the next-link in the response ` +
           error
@@ -2405,7 +2432,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   }
 
   private buildNamespacePropertiesResponse(
-    response: HttpOperationResponse
+    response: FullOperationResponse
   ): WithResponse<NamespaceProperties> {
     try {
       const namespace = buildNamespace(response.parsedBody);
@@ -2413,22 +2440,24 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         namespace || {},
         "_response",
         { value: getHttpResponseOnly(response) }
-      );
+      ) as WithResponse<NamespaceProperties>;
       return namespaceResponse;
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a namespace object using the response from the service.`,
-        RestError.PARSE_ERROR,
-        response.status,
-        stripRequest(response.request),
-        stripResponse(response)
+        {
+          code: RestError.PARSE_ERROR,
+          statusCode: response.status,
+          request: response.request,
+          response,
+        }
       );
     }
   }
 
   private buildListQueuesResponse(
-    response: HttpOperationResponse
+    response: FullOperationResponse
   ): EntitiesResponse<QueueProperties> {
     try {
       const queues: QueueProperties[] = [];
@@ -2447,25 +2476,27 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         queues,
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
-      );
+      ) as EntitiesResponse<QueueProperties>;
       listQueuesResponse.continuationToken = nextMarker;
       return listQueuesResponse;
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of queues using the response from the service.`,
-        RestError.PARSE_ERROR,
-        response.status,
-        stripRequest(response.request),
-        stripResponse(response)
+        {
+          code: RestError.PARSE_ERROR,
+          statusCode: response.status,
+          request: response.request,
+          response,
+        }
       );
     }
   }
 
   private buildListQueuesRuntimePropertiesResponse(
-    response: HttpOperationResponse
+    response: FullOperationResponse
   ): EntitiesResponse<QueueRuntimeProperties> {
     try {
       const queues: QueueRuntimeProperties[] = [];
@@ -2484,48 +2515,52 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         queues,
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
-      );
+      ) as EntitiesResponse<QueueRuntimeProperties>;
       listQueuesResponse.continuationToken = nextMarker;
       return listQueuesResponse;
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of queues using the response from the service.`,
-        RestError.PARSE_ERROR,
-        response.status,
-        stripRequest(response.request),
-        stripResponse(response)
+        {
+          code: RestError.PARSE_ERROR,
+          statusCode: response.status,
+          request: response.request,
+          response,
+        }
       );
     }
   }
 
-  private buildQueueResponse(response: HttpOperationResponse): WithResponse<QueueProperties> {
+  private buildQueueResponse(response: FullOperationResponse): WithResponse<QueueProperties> {
     try {
       const queue = buildQueue(response.parsedBody);
       const queueResponse: WithResponse<QueueProperties> = Object.defineProperty(
         queue || {},
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
-      );
+      ) as WithResponse<QueueProperties>;
       return queueResponse;
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a queue object using the response from the service.`,
-        RestError.PARSE_ERROR,
-        response.status,
-        stripRequest(response.request),
-        stripResponse(response)
+        {
+          code: RestError.PARSE_ERROR,
+          statusCode: response.status,
+          request: response.request,
+          response,
+        }
       );
     }
   }
 
   private buildQueueRuntimePropertiesResponse(
-    response: HttpOperationResponse
+    response: FullOperationResponse
   ): WithResponse<QueueRuntimeProperties> {
     try {
       const queue = buildQueueRuntimeProperties(response.parsedBody);
@@ -2533,24 +2568,26 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         queue || {},
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
-      );
+      ) as WithResponse<QueueRuntimeProperties>;
       return queueResponse;
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a queue object using the response from the service.`,
-        RestError.PARSE_ERROR,
-        response.status,
-        stripRequest(response.request),
-        stripResponse(response)
+        {
+          code: RestError.PARSE_ERROR,
+          statusCode: response.status,
+          request: response.request,
+          response,
+        }
       );
     }
   }
 
   private buildListTopicsResponse(
-    response: HttpOperationResponse
+    response: FullOperationResponse
   ): EntitiesResponse<TopicProperties> {
     try {
       const topics: TopicProperties[] = [];
@@ -2569,25 +2606,27 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         topics,
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
-      );
+      ) as EntitiesResponse<TopicProperties>;
       listTopicsResponse.continuationToken = nextMarker;
       return listTopicsResponse;
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of topics using the response from the service.`,
-        RestError.PARSE_ERROR,
-        response.status,
-        stripRequest(response.request),
-        stripResponse(response)
+        {
+          code: RestError.PARSE_ERROR,
+          statusCode: response.status,
+          request: response.request,
+          response,
+        }
       );
     }
   }
 
   private buildListTopicsRuntimePropertiesResponse(
-    response: HttpOperationResponse
+    response: FullOperationResponse
   ): EntitiesResponse<TopicRuntimeProperties> {
     try {
       const topics: TopicRuntimeProperties[] = [];
@@ -2606,47 +2645,51 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         topics,
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
-      );
+      ) as EntitiesResponse<TopicRuntimeProperties>;
       listTopicsResponse.continuationToken = nextMarker;
       return listTopicsResponse;
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of topics using the response from the service.`,
-        RestError.PARSE_ERROR,
-        response.status,
-        stripRequest(response.request),
-        stripResponse(response)
+        {
+          code: RestError.PARSE_ERROR,
+          statusCode: response.status,
+          request: response.request,
+          response,
+        }
       );
     }
   }
-  private buildTopicResponse(response: HttpOperationResponse): WithResponse<TopicProperties> {
+  private buildTopicResponse(response: FullOperationResponse): WithResponse<TopicProperties> {
     try {
       const topic = buildTopic(response.parsedBody);
       const topicResponse: WithResponse<TopicProperties> = Object.defineProperty(
         topic || {},
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
-      );
+      ) as WithResponse<TopicProperties>;
       return topicResponse;
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a topic object using the response from the service.`,
-        RestError.PARSE_ERROR,
-        response.status,
-        stripRequest(response.request),
-        stripResponse(response)
+        {
+          code: RestError.PARSE_ERROR,
+          statusCode: response.status,
+          request: response.request,
+          response,
+        }
       );
     }
   }
 
   private buildTopicRuntimePropertiesResponse(
-    response: HttpOperationResponse
+    response: FullOperationResponse
   ): WithResponse<TopicRuntimeProperties> {
     try {
       const topic = buildTopicRuntimeProperties(response.parsedBody);
@@ -2654,24 +2697,26 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         topic || {},
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
-      );
+      ) as WithResponse<TopicRuntimeProperties>;
       return topicResponse;
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a topic object using the response from the service.`,
-        RestError.PARSE_ERROR,
-        response.status,
-        stripRequest(response.request),
-        stripResponse(response)
+        {
+          code: RestError.PARSE_ERROR,
+          statusCode: response.status,
+          request: response.request,
+          response,
+        }
       );
     }
   }
 
   private buildListSubscriptionsResponse(
-    response: HttpOperationResponse
+    response: FullOperationResponse
   ): EntitiesResponse<SubscriptionProperties> {
     try {
       const subscriptions: SubscriptionProperties[] = [];
@@ -2686,29 +2731,28 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           subscriptions.push(subscription);
         }
       }
-      const listSubscriptionsResponse: EntitiesResponse<SubscriptionProperties> = Object.defineProperty(
-        subscriptions,
-        "_response",
-        {
-          value: getHttpResponseOnly(response)
-        }
-      );
+      const listSubscriptionsResponse: EntitiesResponse<SubscriptionProperties> =
+        Object.defineProperty(subscriptions, "_response", {
+          value: getHttpResponseOnly(response),
+        }) as EntitiesResponse<SubscriptionProperties>;
       listSubscriptionsResponse.continuationToken = nextMarker;
       return listSubscriptionsResponse;
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of subscriptions using the response from the service.`,
-        RestError.PARSE_ERROR,
-        response.status,
-        stripRequest(response.request),
-        stripResponse(response)
+        {
+          code: RestError.PARSE_ERROR,
+          statusCode: response.status,
+          request: response.request,
+          response,
+        }
       );
     }
   }
 
   private buildListSubscriptionsRuntimePropertiesResponse(
-    response: HttpOperationResponse
+    response: FullOperationResponse
   ): EntitiesResponse<SubscriptionRuntimeProperties> {
     try {
       const subscriptions: SubscriptionRuntimeProperties[] = [];
@@ -2723,29 +2767,28 @@ export class ServiceBusAdministrationClient extends ServiceClient {
           subscriptions.push(subscription);
         }
       }
-      const listSubscriptionsResponse: EntitiesResponse<SubscriptionRuntimeProperties> = Object.defineProperty(
-        subscriptions,
-        "_response",
-        {
-          value: getHttpResponseOnly(response)
-        }
-      );
+      const listSubscriptionsResponse: EntitiesResponse<SubscriptionRuntimeProperties> =
+        Object.defineProperty(subscriptions, "_response", {
+          value: getHttpResponseOnly(response),
+        }) as EntitiesResponse<SubscriptionRuntimeProperties>;
       listSubscriptionsResponse.continuationToken = nextMarker;
       return listSubscriptionsResponse;
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of subscriptions using the response from the service.`,
-        RestError.PARSE_ERROR,
-        response.status,
-        stripRequest(response.request),
-        stripResponse(response)
+        {
+          code: RestError.PARSE_ERROR,
+          statusCode: response.status,
+          request: response.request,
+          response,
+        }
       );
     }
   }
 
   private buildSubscriptionResponse(
-    response: HttpOperationResponse
+    response: FullOperationResponse
   ): WithResponse<SubscriptionProperties> {
     try {
       const subscription = buildSubscription(response.parsedBody);
@@ -2753,49 +2796,50 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         subscription || {},
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
-      );
+      ) as WithResponse<SubscriptionProperties>;
       return subscriptionResponse;
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a subscription object using the response from the service.`,
-        RestError.PARSE_ERROR,
-        response.status,
-        stripRequest(response.request),
-        stripResponse(response)
+        {
+          code: RestError.PARSE_ERROR,
+          statusCode: response.status,
+          request: response.request,
+          response,
+        }
       );
     }
   }
 
   private buildSubscriptionRuntimePropertiesResponse(
-    response: HttpOperationResponse
+    response: FullOperationResponse
   ): WithResponse<SubscriptionRuntimeProperties> {
     try {
       const subscription = buildSubscriptionRuntimeProperties(response.parsedBody);
-      const subscriptionResponse: WithResponse<SubscriptionRuntimeProperties> = Object.defineProperty(
-        subscription || {},
-        "_response",
-        {
-          value: getHttpResponseOnly(response)
-        }
-      );
+      const subscriptionResponse: WithResponse<SubscriptionRuntimeProperties> =
+        Object.defineProperty(subscription || {}, "_response", {
+          value: getHttpResponseOnly(response),
+        }) as WithResponse<SubscriptionRuntimeProperties>;
       return subscriptionResponse;
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a subscription object using the response from the service.`,
-        RestError.PARSE_ERROR,
-        response.status,
-        stripRequest(response.request),
-        stripResponse(response)
+        {
+          code: RestError.PARSE_ERROR,
+          statusCode: response.status,
+          request: response.request,
+          response,
+        }
       );
     }
   }
 
   private buildListRulesResponse(
-    response: HttpOperationResponse
+    response: FullOperationResponse
   ): EntitiesResponse<RuleProperties> {
     try {
       const rules: RuleProperties[] = [];
@@ -2814,42 +2858,46 @@ export class ServiceBusAdministrationClient extends ServiceClient {
         rules,
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
-      );
+      ) as EntitiesResponse<RuleProperties>;
       listRulesResponse.continuationToken = nextMarker;
       return listRulesResponse;
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of rules using the response from the service.`,
-        RestError.PARSE_ERROR,
-        response.status,
-        stripRequest(response.request),
-        stripResponse(response)
+        {
+          code: RestError.PARSE_ERROR,
+          statusCode: response.status,
+          request: response.request,
+          response,
+        }
       );
     }
   }
 
-  private buildRuleResponse(response: HttpOperationResponse): WithResponse<RuleProperties> {
+  private buildRuleResponse(response: FullOperationResponse): WithResponse<RuleProperties> {
     try {
       const rule = buildRule(response.parsedBody);
       const ruleResponse: WithResponse<RuleProperties> = Object.defineProperty(
         rule || {},
         "_response",
         {
-          value: getHttpResponseOnly(response)
+          value: getHttpResponseOnly(response),
         }
-      );
+      ) as WithResponse<RuleProperties>;
       return ruleResponse;
-    } catch (err) {
+    } catch (err: any) {
       logger.logError(err, "Failure parsing response from service");
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a rule object using the response from the service.`,
-        RestError.PARSE_ERROR,
-        response.status,
-        stripRequest(response.request),
-        stripResponse(response)
+        {
+          code: RestError.PARSE_ERROR,
+          statusCode: response.status,
+          request: response.request,
+          response,
+        }
       );
     }
   }

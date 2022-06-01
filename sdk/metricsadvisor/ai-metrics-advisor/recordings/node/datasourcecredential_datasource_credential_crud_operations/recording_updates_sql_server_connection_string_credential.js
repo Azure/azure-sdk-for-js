@@ -1,26 +1,26 @@
 let nock = require('nock');
 
-module.exports.hash = "fa3c76bf9f6192b425e9fdeaa7d98062";
+module.exports.hash = "3e76fa943e1b177525a3aa883b624b91";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .patch('/metricsadvisor/v1.0/credentials/44d64215-151e-441d-a446-44477a71f5c6', {"dataSourceCredentialType":"AzureSQLConnectionString","dataSourceCredentialName":"js-test-sqlServerCred-163702281643106715","dataSourceCredentialDescription":"updated description","parameters":{"connectionString":"updated-string"}})
-  .reply(200, {"dataSourceCredentialId":"44d64215-151e-441d-a446-44477a71f5c6","dataSourceCredentialName":"js-test-sqlServerCred-163702281643106715","dataSourceCredentialDescription":"updated description","dataSourceCredentialType":"AzureSQLConnectionString","parameters":{}}, [
+  .patch('/metricsadvisor/v1.0/credentials/2527beee-a546-4f61-b95a-e807d5c645a2', {"dataSourceCredentialType":"AzureSQLConnectionString","dataSourceCredentialName":"js-test-sqlServerCred-164264036985608229","dataSourceCredentialDescription":"updated description","parameters":{"connectionString":"updated-string"}})
+  .reply(200, {"dataSourceCredentialId":"2527beee-a546-4f61-b95a-e807d5c645a2","dataSourceCredentialName":"js-test-sqlServerCred-164264036985608229","dataSourceCredentialDescription":"updated description","dataSourceCredentialType":"AzureSQLConnectionString","parameters":{}}, [
   'Content-Length',
   '261',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'cea0c529-f5bf-40bf-b165-24d4594d6b21',
+  'fc20b860-e0a9-435c-a9d0-1c755b6ea209',
   'x-envoy-upstream-service-time',
-  '446',
+  '291',
   'apim-request-id',
-  'cea0c529-f5bf-40bf-b165-24d4594d6b21',
+  'fc20b860-e0a9-435c-a9d0-1c755b6ea209',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 16 Nov 2021 00:33:36 GMT'
+  'Thu, 20 Jan 2022 00:59:30 GMT'
 ]);

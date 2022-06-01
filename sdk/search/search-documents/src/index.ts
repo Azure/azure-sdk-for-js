@@ -5,7 +5,7 @@ export { SearchClient, SearchClientOptions } from "./searchClient";
 export {
   DEFAULT_BATCH_SIZE,
   DEFAULT_FLUSH_WINDOW,
-  DEFAULT_RETRY_COUNT
+  DEFAULT_RETRY_COUNT,
 } from "./searchIndexingBufferedSender";
 export {
   AutocompleteRequest,
@@ -36,7 +36,7 @@ export {
   SearchIndexingBufferedSenderFlushDocumentsOptions,
   SearchIndexingBufferedSenderMergeDocumentsOptions,
   SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions,
-  SearchIndexingBufferedSenderUploadDocumentsOptions
+  SearchIndexingBufferedSenderUploadDocumentsOptions,
 } from "./indexModels";
 export { SearchIndexingBufferedSender, IndexDocumentsClient } from "./searchIndexingBufferedSender";
 export { SearchIndexClient, SearchIndexClientOptions } from "./searchIndexClient";
@@ -114,7 +114,14 @@ export {
   LexicalNormalizer,
   SearchIndexerDataIdentity,
   ResetDocumentsOptions,
-  ResetSkillsOptions
+  ResetSkillsOptions,
+  SearchIndexAlias,
+  CreateAliasOptions,
+  CreateOrUpdateAliasOptions,
+  DeleteAliasOptions,
+  GetAliasOptions,
+  ListAliasesOptions,
+  AliasIterator,
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
@@ -144,7 +151,7 @@ export {
   QuerySpellerType,
   KnownQuerySpellerType,
   KnownQueryAnswerType,
-  KnownQueryCaptionType
+  KnownQueryCaptionType,
 } from "./generated/data/models";
 export {
   RegexFlags,
@@ -228,6 +235,7 @@ export {
   SentimentSkillV3,
   TextTranslationSkill,
   WebApiSkill,
+  AzureMachineLearningSkill,
   SentimentSkillLanguage,
   KnownSentimentSkillLanguage,
   SplitSkillLanguage,
@@ -329,7 +337,8 @@ export {
   SemanticSettings,
   SemanticConfiguration,
   PrioritizedFields,
-  SemanticField
+  SemanticField,
+  SearchAlias,
 } from "./generated/service/models";
 export { AzureKeyCredential } from "@azure/core-auth";
 export { createSynonymMapFromFile } from "./synonymMapHelper";

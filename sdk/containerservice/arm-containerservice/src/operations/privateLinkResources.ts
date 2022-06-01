@@ -10,7 +10,7 @@ import { PrivateLinkResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ContainerServiceClientContext } from "../containerServiceClientContext";
+import { ContainerServiceClient } from "../containerServiceClient";
 import {
   PrivateLinkResourcesListOptionalParams,
   PrivateLinkResourcesListResponse
@@ -18,19 +18,19 @@ import {
 
 /** Class containing PrivateLinkResources operations. */
 export class PrivateLinkResourcesImpl implements PrivateLinkResources {
-  private readonly client: ContainerServiceClientContext;
+  private readonly client: ContainerServiceClient;
 
   /**
    * Initialize a new instance of the class PrivateLinkResources class.
    * @param client Reference to the service client
    */
-  constructor(client: ContainerServiceClientContext) {
+  constructor(client: ContainerServiceClient) {
     this.client = client;
   }
 
   /**
    * To learn more about private clusters, see: https://docs.microsoft.com/azure/aks/private-clusters
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */

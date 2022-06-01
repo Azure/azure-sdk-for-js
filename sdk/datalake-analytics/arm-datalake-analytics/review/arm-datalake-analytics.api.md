@@ -323,10 +323,14 @@ export interface DataLakeAnalyticsAccountListResult {
 }
 
 // @public (undocumented)
-export class DataLakeAnalyticsAccountManagementClient extends DataLakeAnalyticsAccountManagementClientContext {
+export class DataLakeAnalyticsAccountManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DataLakeAnalyticsAccountManagementClientOptionalParams);
     // (undocumented)
     accounts: Accounts;
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     computePolicies: ComputePolicies;
     // (undocumented)
@@ -339,15 +343,6 @@ export class DataLakeAnalyticsAccountManagementClient extends DataLakeAnalyticsA
     operations: Operations;
     // (undocumented)
     storageAccounts: StorageAccounts;
-}
-
-// @public (undocumented)
-export class DataLakeAnalyticsAccountManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: DataLakeAnalyticsAccountManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
     // (undocumented)
     subscriptionId: string;
 }

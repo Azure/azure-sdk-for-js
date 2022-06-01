@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortController, AbortError } from "@azure/abort-controller";
 import * as chai from "chai";
+import { AbortController, AbortError } from "@azure/abort-controller";
+import { CancellableAsyncLock, CancellableAsyncLockImpl } from "../src/util/lock";
 import { OperationTimeoutError } from "rhea-promise";
 import { delay } from "../src";
-const should = chai.should();
-
-import { CancellableAsyncLock, CancellableAsyncLockImpl } from "../src/util/lock";
 import { settleAllTasks } from "./utils/utils";
 
-describe("CancellableAsyncLock", function() {
+const should = chai.should();
+
+describe("CancellableAsyncLock", function () {
   const TEST_FAILURE = "Test failure";
 
-  describe(".acquire", function() {
+  describe(".acquire", function () {
     let lock: CancellableAsyncLock;
     beforeEach("create lock", () => {
       lock = new CancellableAsyncLockImpl();
@@ -27,7 +27,7 @@ describe("CancellableAsyncLock", function() {
         tasks.push(
           lock.acquire("lock", async () => val, {
             timeoutInMs: undefined,
-            abortSignal: undefined
+            abortSignal: undefined,
           })
         );
       }
@@ -47,7 +47,8 @@ describe("CancellableAsyncLock", function() {
         );
         throw new Error(TEST_FAILURE);
       } catch (err) {
-        should.equal(err.message, "I break things!");
+        should.equal(true, err instanceof Error);
+        should.equal((err as Error).message, "I break things!");
       }
     });
 
@@ -126,7 +127,7 @@ describe("CancellableAsyncLock", function() {
             return 3;
           },
           { timeoutInMs: undefined, abortSignal: undefined }
-        )
+        ),
       ];
 
       const results: number[] = [];
@@ -192,7 +193,7 @@ describe("CancellableAsyncLock", function() {
             return 4;
           },
           { timeoutInMs: 0, abortSignal: undefined }
-        )
+        ),
       ];
 
       const results = await settleAllTasks(tasks);
@@ -254,7 +255,7 @@ describe("CancellableAsyncLock", function() {
             return 4;
           },
           { abortSignal, timeoutInMs: undefined }
-        )
+        ),
       ];
 
       const results: any[] = [];
@@ -339,7 +340,7 @@ describe("CancellableAsyncLock", function() {
             return 4;
           },
           { abortSignal, timeoutInMs: undefined }
-        )
+        ),
       ];
 
       const results: any[] = [];

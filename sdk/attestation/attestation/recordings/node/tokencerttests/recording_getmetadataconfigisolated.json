@@ -1,0 +1,58 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://isolated_attestation_url.wus.attest.azure.net/.well-known/openid-configuration",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-attestation/1.0.1 core-rest-pipeline/1.4.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "27dc2b32-fd85-4364-bc93-1a7bf6f7d5b7"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "618",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 28 Jan 2022 23:44:56 GMT",
+        "Server": "Kestrel",
+        "x-ms-maa-service-version": "1.10.01780.0001",
+        "x-ms-request-id": "00-70139992045d052dd5065e77f39230d7-84baf3fe5dd4ab75-00"
+      },
+      "ResponseBody": {
+        "response_types_supported": [
+          "token",
+          "none"
+        ],
+        "id_token_signing_alg_values_supported": [
+          "RS256"
+        ],
+        "revocation_endpoint": "https://isolated_attestation_url.wus.attest.azure.net/revoke",
+        "issuer": "https://isolated_attestation_url.wus.attest.azure.net",
+        "jwks_uri": "https://isolated_attestation_url.wus.attest.azure.net/certs",
+        "claims_supported": [
+          "cnf",
+          "nonce",
+          "x-ms-ver",
+          "x-ms-attestation-type",
+          "x-ms-policy-hash",
+          "x-ms-policy-signer",
+          "x-ms-sgx-is-debuggable",
+          "x-ms-sgx-mrenclave",
+          "x-ms-sgx-mrsigner",
+          "x-ms-sgx-svn",
+          "x-ms-sgx-ehd",
+          "x-ms-sgx-collateral",
+          "is-debuggable",
+          "sgx-mrsigner",
+          "sgx-mrenclave",
+          "product-id",
+          "svn",
+          "tee"
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

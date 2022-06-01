@@ -11,7 +11,7 @@ import { ResourceSkus } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ComputeManagementClientContext } from "../computeManagementClientContext";
+import { ComputeManagementClient } from "../computeManagementClient";
 import {
   ResourceSku,
   ResourceSkusListNextOptionalParams,
@@ -23,13 +23,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ResourceSkus operations. */
 export class ResourceSkusImpl implements ResourceSkus {
-  private readonly client: ComputeManagementClientContext;
+  private readonly client: ComputeManagementClient;
 
   /**
    * Initialize a new instance of the class ResourceSkus class.
    * @param client Reference to the service client
    */
-  constructor(client: ComputeManagementClientContext) {
+  constructor(client: ComputeManagementClient) {
     this.client = client;
   }
 
@@ -112,8 +112,8 @@ const listOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.apiVersion,
     Parameters.filter,
+    Parameters.apiVersion1,
     Parameters.includeExtendedLocations
   ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
@@ -129,8 +129,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [
-    Parameters.apiVersion,
     Parameters.filter,
+    Parameters.apiVersion1,
     Parameters.includeExtendedLocations
   ],
   urlParameters: [

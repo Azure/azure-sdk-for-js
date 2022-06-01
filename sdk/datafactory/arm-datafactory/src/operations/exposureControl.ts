@@ -10,7 +10,7 @@ import { ExposureControl } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { DataFactoryManagementClientContext } from "../dataFactoryManagementClientContext";
+import { DataFactoryManagementClient } from "../dataFactoryManagementClient";
 import {
   ExposureControlRequest,
   ExposureControlGetFeatureValueOptionalParams,
@@ -24,13 +24,13 @@ import {
 
 /** Class containing ExposureControl operations. */
 export class ExposureControlImpl implements ExposureControl {
-  private readonly client: DataFactoryManagementClientContext;
+  private readonly client: DataFactoryManagementClient;
 
   /**
    * Initialize a new instance of the class ExposureControl class.
    * @param client Reference to the service client
    */
-  constructor(client: DataFactoryManagementClientContext) {
+  constructor(client: DataFactoryManagementClient) {
     this.client = client;
   }
 

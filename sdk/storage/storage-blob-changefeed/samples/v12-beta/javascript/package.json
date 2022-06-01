@@ -1,0 +1,36 @@
+{
+  "name": "@azure-samples/storage-blob-changefeed-js-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Storage Blob Change Feed client library samples for JavaScript (Beta)",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/storage/storage-blob-changefeed"
+  },
+  "keywords": [
+    "azure",
+    "storage",
+    "blob",
+    "cloud",
+    "changefeed",
+    "node.js",
+    "typescript",
+    "javascript",
+    "browser"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-changefeed",
+  "dependencies": {
+    "@azure/storage-blob-changefeed": "next",
+    "dotenv": "latest",
+    "@azure/storage-blob": "^12.8.0"
+  }
+}

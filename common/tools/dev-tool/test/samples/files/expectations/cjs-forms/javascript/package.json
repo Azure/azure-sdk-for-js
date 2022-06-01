@@ -1,0 +1,29 @@
+{
+  "name": "@azure-samples/cjs-forms-js",
+  "private": true,
+  "version": "1.0.0",
+  "description": "CommonJS client library samples for JavaScript",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "common/tools/dev-tool/test/samples/files/expectations/cjs-forms"
+  },
+  "keywords": [
+    "cjs-forms"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/dev-tool/test/samples/files/expectations/cjs-forms",
+  "dependencies": {
+    "cjs-forms": "latest",
+    "dotenv": "latest",
+    "@azure/test1": "latest",
+    "@azure-test2/test2": "next"
+  }
+}

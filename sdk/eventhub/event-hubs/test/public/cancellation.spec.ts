@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
+import { EventHubConsumerClient, EventHubProducerClient } from "../../src";
 import { AbortController } from "@azure/abort-controller";
 import chai from "chai";
-const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
-import { EventHubConsumerClient, EventHubProducerClient } from "../../src";
 import { createMockServer } from "./utils/mockService";
-chai.use(chaiAsPromised);
-
-import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import { testWithServiceTypes } from "./utils/testWithServiceTypes";
+
+const should = chai.should();
+chai.use(chaiAsPromised);
 
 testWithServiceTypes((serviceVersion) => {
   const env = getEnvVars();
@@ -29,7 +29,7 @@ testWithServiceTypes((serviceVersion) => {
   describe("Cancellation via AbortSignal", () => {
     const service = {
       connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-      path: env[EnvVarKeys.EVENTHUB_NAME]
+      path: env[EnvVarKeys.EVENTHUB_NAME],
     };
     before("validate environment", () => {
       should.exist(
@@ -51,7 +51,7 @@ testWithServiceTypes((serviceVersion) => {
           const controller = new AbortController();
           controller.abort();
           return controller.signal;
-        }
+        },
       },
       {
         type: "aborted after timeout",
@@ -61,8 +61,8 @@ testWithServiceTypes((serviceVersion) => {
             controller.abort();
           }, 0);
           return controller.signal;
-        }
-      }
+        },
+      },
     ];
 
     describe("EventHubConsumerClient", () => {
@@ -85,7 +85,7 @@ testWithServiceTypes((serviceVersion) => {
           try {
             await consumerClient.getEventHubProperties({ abortSignal });
             throw new Error(TEST_FAILURE);
-          } catch (err) {
+          } catch (err: any) {
             should.equal(err.name, "AbortError");
             should.equal(err.message, "The operation was aborted.");
           }
@@ -96,7 +96,7 @@ testWithServiceTypes((serviceVersion) => {
           try {
             await consumerClient.getPartitionIds({ abortSignal });
             throw new Error(TEST_FAILURE);
-          } catch (err) {
+          } catch (err: any) {
             should.equal(err.name, "AbortError");
             should.equal(err.message, "The operation was aborted.");
           }
@@ -107,7 +107,7 @@ testWithServiceTypes((serviceVersion) => {
           try {
             await consumerClient.getPartitionProperties("0", { abortSignal });
             throw new Error(TEST_FAILURE);
-          } catch (err) {
+          } catch (err: any) {
             should.equal(err.name, "AbortError");
             should.equal(err.message, "The operation was aborted.");
           }
@@ -131,7 +131,7 @@ testWithServiceTypes((serviceVersion) => {
           try {
             await producerClient.getEventHubProperties({ abortSignal });
             throw new Error(TEST_FAILURE);
-          } catch (err) {
+          } catch (err: any) {
             should.equal(err.name, "AbortError");
             should.equal(err.message, "The operation was aborted.");
           }
@@ -142,7 +142,7 @@ testWithServiceTypes((serviceVersion) => {
           try {
             await producerClient.getPartitionIds({ abortSignal });
             throw new Error(TEST_FAILURE);
-          } catch (err) {
+          } catch (err: any) {
             should.equal(err.name, "AbortError");
             should.equal(err.message, "The operation was aborted.");
           }
@@ -153,7 +153,7 @@ testWithServiceTypes((serviceVersion) => {
           try {
             await producerClient.getPartitionProperties("0", { abortSignal });
             throw new Error(TEST_FAILURE);
-          } catch (err) {
+          } catch (err: any) {
             should.equal(err.name, "AbortError");
             should.equal(err.message, "The operation was aborted.");
           }
@@ -164,7 +164,7 @@ testWithServiceTypes((serviceVersion) => {
           try {
             await producerClient.createBatch({ abortSignal });
             throw new Error(TEST_FAILURE);
-          } catch (err) {
+          } catch (err: any) {
             should.equal(err.name, "AbortError");
             should.equal(err.message, "The operation was aborted.");
           }
@@ -175,7 +175,7 @@ testWithServiceTypes((serviceVersion) => {
           try {
             await producerClient.sendBatch([{ body: "unsung hero" }], { abortSignal });
             throw new Error(TEST_FAILURE);
-          } catch (err) {
+          } catch (err: any) {
             should.equal(err.name, "AbortError");
             should.equal(err.message, "The operation was aborted.");
           }

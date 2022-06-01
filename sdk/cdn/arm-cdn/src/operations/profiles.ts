@@ -11,7 +11,7 @@ import { Profiles } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { CdnManagementClientContext } from "../cdnManagementClientContext";
+import { CdnManagementClient } from "../cdnManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -46,18 +46,19 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Profiles operations. */
 export class ProfilesImpl implements Profiles {
-  private readonly client: CdnManagementClientContext;
+  private readonly client: CdnManagementClient;
 
   /**
    * Initialize a new instance of the class Profiles class.
    * @param client Reference to the service client
    */
-  constructor(client: CdnManagementClientContext) {
+  constructor(client: CdnManagementClient) {
     this.client = client;
   }
 
   /**
-   * Lists all of the CDN profiles within an Azure subscription.
+   * Lists all of the Azure Front Door Standard, Azure Front Door Premium, and CDN profiles within an
+   * Azure subscription.
    * @param options The options parameters.
    */
   public list(
@@ -99,7 +100,8 @@ export class ProfilesImpl implements Profiles {
   }
 
   /**
-   * Lists all of the CDN profiles within a resource group.
+   * Lists all of the Azure Front Door Standard, Azure Front Door Premium, and CDN profiles within a
+   * resource group.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param options The options parameters.
    */
@@ -152,9 +154,11 @@ export class ProfilesImpl implements Profiles {
   }
 
   /**
-   * Checks the quota and actual usage of endpoints under the given CDN profile.
+   * Checks the quota and actual usage of endpoints under the given Azure Front Door Standard or Azure
+   * Front Door Premium or CDN profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
    * @param options The options parameters.
    */
   public listResourceUsage(
@@ -223,7 +227,8 @@ export class ProfilesImpl implements Profiles {
   }
 
   /**
-   * Lists all of the CDN profiles within an Azure subscription.
+   * Lists all of the Azure Front Door Standard, Azure Front Door Premium, and CDN profiles within an
+   * Azure subscription.
    * @param options The options parameters.
    */
   private _list(
@@ -233,7 +238,8 @@ export class ProfilesImpl implements Profiles {
   }
 
   /**
-   * Lists all of the CDN profiles within a resource group.
+   * Lists all of the Azure Front Door Standard, Azure Front Door Premium, and CDN profiles within a
+   * resource group.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param options The options parameters.
    */
@@ -248,10 +254,11 @@ export class ProfilesImpl implements Profiles {
   }
 
   /**
-   * Gets a CDN profile with the specified profile name under the specified subscription and resource
-   * group.
+   * Gets an Azure Front Door Standard or Azure Front Door Premium or CDN profile with the specified
+   * profile name under the specified subscription and resource group.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
    * @param options The options parameters.
    */
   get(
@@ -266,9 +273,11 @@ export class ProfilesImpl implements Profiles {
   }
 
   /**
-   * Creates a new CDN profile with a profile name under the specified subscription and resource group.
+   * Creates a new Azure Front Door Standard or Azure Front Door Premium or CDN profile with a profile
+   * name under the specified subscription and resource group.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
    * @param profile Profile properties needed to create a new profile.
    * @param options The options parameters.
    */
@@ -327,16 +336,20 @@ export class ProfilesImpl implements Profiles {
       { resourceGroupName, profileName, profile, options },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Creates a new CDN profile with a profile name under the specified subscription and resource group.
+   * Creates a new Azure Front Door Standard or Azure Front Door Premium or CDN profile with a profile
+   * name under the specified subscription and resource group.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
    * @param profile Profile properties needed to create a new profile.
    * @param options The options parameters.
    */
@@ -356,10 +369,11 @@ export class ProfilesImpl implements Profiles {
   }
 
   /**
-   * Updates an existing CDN profile with the specified profile name under the specified subscription and
-   * resource group.
+   * Updates an existing Azure Front Door Standard or Azure Front Door Premium or CDN profile with the
+   * specified profile name under the specified subscription and resource group.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
    * @param profileUpdateParameters Profile properties needed to update an existing profile.
    * @param options The options parameters.
    */
@@ -418,17 +432,20 @@ export class ProfilesImpl implements Profiles {
       { resourceGroupName, profileName, profileUpdateParameters, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Updates an existing CDN profile with the specified profile name under the specified subscription and
-   * resource group.
+   * Updates an existing Azure Front Door Standard or Azure Front Door Premium or CDN profile with the
+   * specified profile name under the specified subscription and resource group.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
    * @param profileUpdateParameters Profile properties needed to update an existing profile.
    * @param options The options parameters.
    */
@@ -448,10 +465,12 @@ export class ProfilesImpl implements Profiles {
   }
 
   /**
-   * Deletes an existing CDN profile with the specified parameters. Deleting a profile will result in the
-   * deletion of all of the sub-resources including endpoints, origins and custom domains.
+   * Deletes an existing  Azure Front Door Standard or Azure Front Door Premium or CDN profile with the
+   * specified parameters. Deleting a profile will result in the deletion of all of the sub-resources
+   * including endpoints, origins and custom domains.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
    * @param options The options parameters.
    */
   async beginDelete(
@@ -503,17 +522,21 @@ export class ProfilesImpl implements Profiles {
       { resourceGroupName, profileName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Deletes an existing CDN profile with the specified parameters. Deleting a profile will result in the
-   * deletion of all of the sub-resources including endpoints, origins and custom domains.
+   * Deletes an existing  Azure Front Door Standard or Azure Front Door Premium or CDN profile with the
+   * specified parameters. Deleting a profile will result in the deletion of all of the sub-resources
+   * including endpoints, origins and custom domains.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -553,7 +576,8 @@ export class ProfilesImpl implements Profiles {
    * Gets the supported optimization types for the current profile. A user can create an endpoint with an
    * optimization type from the listed values.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
    * @param options The options parameters.
    */
   listSupportedOptimizationTypes(
@@ -568,9 +592,11 @@ export class ProfilesImpl implements Profiles {
   }
 
   /**
-   * Checks the quota and actual usage of endpoints under the given CDN profile.
+   * Checks the quota and actual usage of endpoints under the given Azure Front Door Standard or Azure
+   * Front Door Premium or CDN profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
    * @param options The options parameters.
    */
   private _listResourceUsage(
@@ -619,7 +645,8 @@ export class ProfilesImpl implements Profiles {
   /**
    * ListResourceUsageNext
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile
+   *                    which is unique within the resource group.
    * @param nextLink The nextLink from the previous successful call to the ListResourceUsage method.
    * @param options The options parameters.
    */
@@ -726,7 +753,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.profileName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -759,7 +786,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.profileName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

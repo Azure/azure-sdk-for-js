@@ -5,7 +5,7 @@ import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth"
 
 import {
   MixedRealityStsClient,
-  MixedRealityStsClientOptions
+  MixedRealityStsClientOptions,
 } from "@azure/mixed-reality-authentication";
 
 /**

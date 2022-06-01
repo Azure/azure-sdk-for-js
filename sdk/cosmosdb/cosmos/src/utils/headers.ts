@@ -16,14 +16,14 @@ export async function generateHeaders(
   if (masterKey.startsWith("type=sas&")) {
     return {
       [Constants.HttpHeaders.Authorization]: encodeURIComponent(masterKey),
-      [Constants.HttpHeaders.XDate]: date.toUTCString()
+      [Constants.HttpHeaders.XDate]: date.toUTCString(),
     };
   }
   const sig = await signature(masterKey, method, resourceType, resourceId, date);
 
   return {
     [Constants.HttpHeaders.Authorization]: sig,
-    [Constants.HttpHeaders.XDate]: date.toUTCString()
+    [Constants.HttpHeaders.XDate]: date.toUTCString(),
   };
 }
 

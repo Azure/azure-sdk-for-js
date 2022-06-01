@@ -11,7 +11,7 @@ import { Location } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { BatchManagementClientContext } from "../batchManagementClientContext";
+import { BatchManagementClient } from "../batchManagementClient";
 import {
   SupportedSku,
   LocationListSupportedVirtualMachineSkusNextOptionalParams,
@@ -32,13 +32,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Location operations. */
 export class LocationImpl implements Location {
-  private readonly client: BatchManagementClientContext;
+  private readonly client: BatchManagementClient;
 
   /**
    * Initialize a new instance of the class Location class.
    * @param client Reference to the service client
    */
-  constructor(client: BatchManagementClientContext) {
+  constructor(client: BatchManagementClient) {
     this.client = client;
   }
 

@@ -11,7 +11,7 @@ import { Quota } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureQuotaExtensionAPIContext } from "../azureQuotaExtensionAPIContext";
+import { AzureQuotaExtensionAPI } from "../azureQuotaExtensionAPI";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -31,13 +31,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Quota operations. */
 export class QuotaImpl implements Quota {
-  private readonly client: AzureQuotaExtensionAPIContext;
+  private readonly client: AzureQuotaExtensionAPI;
 
   /**
    * Initialize a new instance of the class Quota class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureQuotaExtensionAPIContext) {
+  constructor(client: AzureQuotaExtensionAPI) {
     this.client = client;
   }
 
@@ -192,11 +192,13 @@ export class QuotaImpl implements Quota {
       { resourceName, scope, createQuotaRequest, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -305,11 +307,13 @@ export class QuotaImpl implements Quota {
       { resourceName, scope, createQuotaRequest, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

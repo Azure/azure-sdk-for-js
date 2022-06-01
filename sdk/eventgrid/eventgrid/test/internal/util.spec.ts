@@ -5,7 +5,7 @@ import { assert } from "chai";
 
 import { dateToServiceTimeString } from "../../src/util";
 
-describe("util", function() {
+describe("util", function () {
   describe("dateToServiceTimeString", () => {
     it("converts dates correctly", () => {
       const simpleMorningDate = new Date(Date.UTC(2020, 0, 2, 3, 4, 5));
@@ -16,6 +16,11 @@ describe("util", function() {
 
       const slightlyAfterMidnight = new Date(Date.UTC(2020, 0, 2, 0, 10, 21));
       assert.equal(dateToServiceTimeString(slightlyAfterMidnight), "1/2/2020 12:10:21 AM");
+    });
+
+    it("converts am/pm correctly", () => {
+      const slightlyAfterNoon = new Date(Date.UTC(2020, 0, 2, 12, 10, 21));
+      assert.equal(dateToServiceTimeString(slightlyAfterNoon), "1/2/2020 12:10:21 PM");
     });
   });
 });

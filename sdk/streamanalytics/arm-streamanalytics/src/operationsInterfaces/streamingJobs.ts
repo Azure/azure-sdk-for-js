@@ -20,7 +20,8 @@ import {
   StreamingJobsGetOptionalParams,
   StreamingJobsGetResponse,
   StreamingJobsStartOptionalParams,
-  StreamingJobsStopOptionalParams
+  StreamingJobsStopOptionalParams,
+  StreamingJobsScaleOptionalParams
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -172,5 +173,27 @@ export interface StreamingJobs {
     resourceGroupName: string,
     jobName: string,
     options?: StreamingJobsStopOptionalParams
+  ): Promise<void>;
+  /**
+   * Scales a streaming job when the job is running.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName The name of the streaming job.
+   * @param options The options parameters.
+   */
+  beginScale(
+    resourceGroupName: string,
+    jobName: string,
+    options?: StreamingJobsScaleOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Scales a streaming job when the job is running.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param jobName The name of the streaming job.
+   * @param options The options parameters.
+   */
+  beginScaleAndWait(
+    resourceGroupName: string,
+    jobName: string,
+    options?: StreamingJobsScaleOptionalParams
   ): Promise<void>;
 }

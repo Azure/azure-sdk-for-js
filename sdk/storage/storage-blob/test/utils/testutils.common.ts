@@ -6,7 +6,7 @@ import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http"
 import { isPlaybackMode, env, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
 
 export const testPollerProperties = {
-  intervalInMs: isPlaybackMode() ? 0 : undefined
+  intervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
 const mockAccountName = "fakestorageaccount";
@@ -42,7 +42,7 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     SOFT_DELETE_ACCOUNT_NAME: `${mockAccountName}`,
     SOFT_DELETE_ACCOUNT_KEY: `${mockAccountKey}`,
     SOFT_DELETE_ACCOUNT_SAS: `${mockAccountKey}`,
-    SOFT_DELETE_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`
+    SOFT_DELETE_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
   },
   customizationsOnRecordings: [
     // Used in record mode
@@ -57,7 +57,7 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
       recording.replace(
         /Authorization: SharedKey [^\\]+/g,
         "Authorization: SharedKey fakestorageaccount:pass123"
-      )
+      ),
   ],
   // SAS token may contain sensitive information
   queryParametersToSkip: [
@@ -71,8 +71,8 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     "ss",
     "sr",
     "st",
-    "sv"
-  ]
+    "sv",
+  ],
 };
 
 /**
@@ -113,7 +113,7 @@ export class SimpleTokenCredential implements TokenCredential {
   ): Promise<AccessToken | null> {
     return {
       token: this.token,
-      expiresOnTimestamp: this.expiresOn.getTime()
+      expiresOnTimestamp: this.expiresOn.getTime(),
     };
   }
 }

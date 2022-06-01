@@ -28,7 +28,7 @@ function walk(start: unknown, mapper: (val: any) => any): any {
   const seenMarker = new WeakMap<object, boolean>();
   const result = { value: undefined };
   const queue: { value: any; parent: any; key: string }[] = [
-    { value: start, parent: result, key: "value" }
+    { value: start, parent: result, key: "value" },
   ];
 
   while (queue.length) {
@@ -51,7 +51,7 @@ function walk(start: unknown, mapper: (val: any) => any): any {
         queue.push({
           value: mapped[key],
           parent: mapped,
-          key
+          key,
         });
       }
     }
@@ -132,7 +132,7 @@ function isGeoJSONPoint(obj: any): obj is GeoJSONPoint {
         default:
           return false;
       }
-    }
+    },
   });
 }
 
@@ -163,7 +163,7 @@ function isCrs(maybeCrs: any): boolean {
         default:
           return false;
       }
-    }
+    },
   });
 }
 
@@ -176,7 +176,7 @@ function isCrsProperties(maybeProperties: any): boolean {
       } else {
         return false;
       }
-    }
+    },
   });
 }
 

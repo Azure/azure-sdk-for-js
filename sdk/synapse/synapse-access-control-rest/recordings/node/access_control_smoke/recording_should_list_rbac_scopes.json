@@ -1,0 +1,34 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://testaccount.dev.azuresynapse.net/rbacScopes?api-version=2020-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "core-rest-pipeline/1.3.3 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "26b8a1b9-2fa6-4473-86cd-a63040685e36"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "342",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 31 Jan 2022 22:40:54 GMT",
+        "Server": [
+          "Microsoft-HTTPAPI/2.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-request-id": [
+          "c46d9196-cd8d-4d49-8fbb-43f5b1f0099c",
+          "c46d9196-cd8d-4d49-8fbb-43f5b1f0099c"
+        ]
+      },
+      "ResponseBody": "[\u0022workspaces/{workspaceName}\u0022,\u0022workspaces/{workspaceName}/bigDataPools/{bigDataPoolName}\u0022,\u0022workspaces/{workspaceName}/scopePools/{scopePoolName}\u0022,\u0022workspaces/{workspaceName}/integrationRuntimes/{integrationRuntimeName}\u0022,\u0022workspaces/{workspaceName}/credentials/{credentialName}\u0022,\u0022workspaces/{workspaceName}/linkedServices/{linkedServiceName}\u0022]"
+    }
+  ],
+  "Variables": {}
+}

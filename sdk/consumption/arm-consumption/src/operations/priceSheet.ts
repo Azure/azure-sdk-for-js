@@ -10,7 +10,7 @@ import { PriceSheet } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ConsumptionManagementClientContext } from "../consumptionManagementClientContext";
+import { ConsumptionManagementClient } from "../consumptionManagementClient";
 import {
   PriceSheetGetOptionalParams,
   PriceSheetGetResponse,
@@ -20,13 +20,13 @@ import {
 
 /** Class containing PriceSheet operations. */
 export class PriceSheetImpl implements PriceSheet {
-  private readonly client: ConsumptionManagementClientContext;
+  private readonly client: ConsumptionManagementClient;
 
   /**
    * Initialize a new instance of the class PriceSheet class.
    * @param client Reference to the service client
    */
-  constructor(client: ConsumptionManagementClientContext) {
+  constructor(client: ConsumptionManagementClient) {
     this.client = client;
   }
 

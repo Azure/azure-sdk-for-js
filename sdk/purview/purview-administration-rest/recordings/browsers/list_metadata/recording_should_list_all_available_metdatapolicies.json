@@ -1,52 +1,275 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1318",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 04 Nov 2021 15:45:04 GMT",
-    "expires": "-1",
-    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12197.4 - WUS2 ProdSlices",
-    "x-ms-request-id": "e46eea25-cd4f-430c-a303-0447d4392500"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/policyStore/metadataPolicies",
-   "query": {
-    "api-version": "2021-07-01-preview"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"values\":[{\"name\":\"policy_joheredipv\",\"id\":\"5a7d5a3b-7451-4f89-85d5-1b5e7f182e01\",\"version\":2,\"properties\":{\"description\":\"\",\"decisionRules\":[{\"kind\":\"decisionrule\",\"effect\":\"Permit\",\"dnfCondition\":[[{\"attributeName\":\"resource.purview.collection\",\"attributeValueIncludes\":\"joheredipv\"},{\"fromRule\":\"permission:joheredipv\",\"attributeName\":\"derived.purview.permission\",\"attributeValueIncludes\":\"permission:joheredipv\"}]]}],\"attributeRules\":[{\"kind\":\"attributerule\",\"id\":\"purviewmetadatarole_builtin_collection-administrator:joheredipv\",\"version\":0,\"dnfCondition\":[[{\"attributeName\":\"principal.microsoft.id\",\"attributeValueIncludedIn\":[\"35ac9d32-a8ca-4324-9393-d4000746f07c\"]},{\"fromRule\":\"purviewmetadatarole_builtin_collection-administrator\",\"attributeName\":\"derived.purview.role\",\"attributeValueIncludes\":\"purviewmetadatarole_builtin_collection-administrator\"}]]},{\"kind\":\"attributerule\",\"id\":\"purviewmetadatarole_builtin_purview-reader:joheredipv\",\"version\":0,\"dnfCondition\":[[{\"attributeName\":\"principal.microsoft.id\",\"attributeValueIncludedIn\":[\"35ac9d32-a8ca-4324-9393-d4000746f07c\"]},{\"fromRule\":\"purviewmetadatarole_builtin_purview-reader\",\"attributeName\":\"derived.purview.role\",\"attributeValueIncludes\":\"purviewmetadatarole_builtin_purview-reader\"}]]},{\"kind\":\"attributerule\",\"id\":\"purviewmetadatarole_builtin_data-curator:joheredipv\",\"version\":0,\"dnfCondition\":[[{\"attributeName\":\"principal.microsoft.id\",\"attributeValueIncludedIn\":[\"35ac9d32-a8ca-4324-9393-d4000746f07c\"]},{\"fromRule\":\"purviewmetadatarole_builtin_data-curator\",\"attributeName\":\"derived.purview.role\",\"attributeValueIncludes\":\"purviewmetadatarole_builtin_data-curator\"}]]},{\"kind\":\"attributerule\",\"id\":\"purviewmetadatarole_builtin_data-source-administrator:joheredipv\",\"version\":0,\"dnfCondition\":[[{\"attributeName\":\"principal.microsoft.id\",\"attributeValueIncludedIn\":[\"35ac9d32-a8ca-4324-9393-d4000746f07c\",\"f8cfe8ca-1f83-4deb-814c-ee49336fdebd\"]},{\"fromRule\":\"purviewmetadatarole_builtin_data-source-administrator\",\"attributeName\":\"derived.purview.role\",\"attributeValueIncludes\":\"purviewmetadatarole_builtin_data-source-administrator\"}]]},{\"kind\":\"attributerule\",\"id\":\"permission:joheredipv\",\"version\":0,\"dnfCondition\":[[{\"fromRule\":\"purviewmetadatarole_builtin_collection-administrator:joheredipv\",\"attributeName\":\"derived.purview.permission\",\"attributeValueIncludes\":\"purviewmetadatarole_builtin_collection-administrator:joheredipv\"}],[{\"fromRule\":\"purviewmetadatarole_builtin_purview-reader:joheredipv\",\"attributeName\":\"derived.purview.permission\",\"attributeValueIncludes\":\"purviewmetadatarole_builtin_purview-reader:joheredipv\"}],[{\"fromRule\":\"purviewmetadatarole_builtin_data-curator:joheredipv\",\"attributeName\":\"derived.purview.permission\",\"attributeValueIncludes\":\"purviewmetadatarole_builtin_data-curator:joheredipv\"}],[{\"fromRule\":\"purviewmetadatarole_builtin_data-source-administrator:joheredipv\",\"attributeName\":\"derived.purview.permission\",\"attributeValueIncludes\":\"purviewmetadatarole_builtin_data-source-administrator:joheredipv\"}]]}],\"collection\":{\"type\":\"CollectionReference\",\"referenceName\":\"joheredipv\"}}},{\"name\":\"policy_Collection-lGe\",\"id\":\"824cac41-8055-4338-abf9-661f213147bf\",\"version\":0,\"properties\":{\"description\":\"\",\"decisionRules\":[{\"kind\":\"decisionrule\",\"effect\":\"Permit\",\"dnfCondition\":[[{\"attributeName\":\"resource.purview.collection\",\"attributeValueIncludes\":\"collection-lge\"},{\"fromRule\":\"permission:collection-lge\",\"attributeName\":\"derived.purview.permission\",\"attributeValueIncludes\":\"permission:collection-lge\"}]]}],\"attributeRules\":[{\"kind\":\"attributerule\",\"id\":\"purviewmetadatarole_builtin_collection-administrator:collection-lge\",\"name\":\"purviewmetadatarole_builtin_collection-administrator:collection-lge\",\"dnfCondition\":[[{\"attributeName\":\"principal.microsoft.id\",\"attributeValueIncludedIn\":[\"35ac9d32-a8ca-4324-9393-d4000746f07c\"]},{\"fromRule\":\"purviewmetadatarole_builtin_collection-administrator\",\"attributeName\":\"derived.purview.role\",\"attributeValueIncludes\":\"purviewmetadatarole_builtin_collection-administrator\"}],[{\"fromRule\":\"purviewmetadatarole_builtin_collection-administrator:joheredipv\",\"attributeName\":\"derived.purview.permission\",\"attributeValueIncludes\":\"purviewmetadatarole_builtin_collection-administrator:joheredipv\"}]]},{\"kind\":\"attributerule\",\"id\":\"permission:collection-lge\",\"name\":\"permission:collection-lge\",\"dnfCondition\":[[{\"fromRule\":\"purviewmetadatarole_builtin_collection-administrator:collection-lge\",\"attributeName\":\"derived.purview.permission\",\"attributeValueIncludes\":\"purviewmetadatarole_builtin_collection-administrator:collection-lge\"}],[{\"fromRule\":\"permission:joheredipv\",\"attributeName\":\"derived.purview.permission\",\"attributeValueIncludes\":\"permission:joheredipv\"}]]}],\"collection\":{\"type\":\"CollectionReference\",\"referenceName\":\"collection-lge\"},\"parentCollectionName\":\"joheredipv\"}}]}",
-   "responseHeaders": {
-    "api-supported-versions": "2021-07-01-preview, 2021-07-01",
-    "content-length": "4842",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 04 Nov 2021 15:45:04 GMT",
-    "server": "Kestrel",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-correlation-request-id": "01be005c-5829-4723-92a6-c16199adf385"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "a2c9182786497c58377f858d8a709c57"
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/policyStore/metadataPolicies?api-version=2021-07-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "03e0559d-385b-4e9e-96c3-888f3a1e7a2a",
+        "x-ms-useragent": "core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-07-01-preview, 2021-07-01",
+        "Content-Length": "5197",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 14 Feb 2022 19:22:14 GMT",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-correlation-request-id": "0abfa1e3-9ea2-4932-9bae-02dd96d0a2ec"
+      },
+      "ResponseBody": {
+        "values": [
+          {
+            "name": "policy_newpurviewllc",
+            "id": "a4362b7c-071a-4e95-a68d-1d7ced1d3a43",
+            "version": 4,
+            "properties": {
+              "description": "",
+              "decisionRules": [
+                {
+                  "kind": "decisionrule",
+                  "effect": "Permit",
+                  "dnfCondition": [
+                    [
+                      {
+                        "attributeName": "resource.purview.collection",
+                        "attributeValueIncludes": "newpurviewllc"
+                      },
+                      {
+                        "fromRule": "permission:newpurviewllc",
+                        "attributeName": "derived.purview.permission",
+                        "attributeValueIncludes": "permission:newpurviewllc"
+                      }
+                    ]
+                  ]
+                }
+              ],
+              "attributeRules": [
+                {
+                  "kind": "attributerule",
+                  "id": "purviewmetadatarole_builtin_collection-administrator:newpurviewllc",
+                  "name": "purviewmetadatarole_builtin_collection-administrator:newpurviewllc",
+                  "dnfCondition": [
+                    [
+                      {
+                        "attributeName": "principal.microsoft.id",
+                        "attributeValueIncludedIn": [
+                          "35ac9d32-a8ca-4324-9393-d4000746f07c",
+                          "f8cfe8ca-1f83-4deb-814c-ee49336fdebd"
+                        ]
+                      },
+                      {
+                        "fromRule": "purviewmetadatarole_builtin_collection-administrator",
+                        "attributeName": "derived.purview.role",
+                        "attributeValueIncludes": "purviewmetadatarole_builtin_collection-administrator"
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "kind": "attributerule",
+                  "id": "purviewmetadatarole_builtin_purview-reader:newpurviewllc",
+                  "name": "purviewmetadatarole_builtin_purview-reader:newpurviewllc",
+                  "dnfCondition": [
+                    [
+                      {
+                        "attributeName": "principal.microsoft.id",
+                        "attributeValueIncludedIn": [
+                          "35ac9d32-a8ca-4324-9393-d4000746f07c",
+                          "f8cfe8ca-1f83-4deb-814c-ee49336fdebd"
+                        ]
+                      },
+                      {
+                        "fromRule": "purviewmetadatarole_builtin_purview-reader",
+                        "attributeName": "derived.purview.role",
+                        "attributeValueIncludes": "purviewmetadatarole_builtin_purview-reader"
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "kind": "attributerule",
+                  "id": "purviewmetadatarole_builtin_data-curator:newpurviewllc",
+                  "name": "purviewmetadatarole_builtin_data-curator:newpurviewllc",
+                  "dnfCondition": [
+                    [
+                      {
+                        "attributeName": "principal.microsoft.id",
+                        "attributeValueIncludedIn": [
+                          "35ac9d32-a8ca-4324-9393-d4000746f07c",
+                          "f8cfe8ca-1f83-4deb-814c-ee49336fdebd"
+                        ]
+                      },
+                      {
+                        "fromRule": "purviewmetadatarole_builtin_data-curator",
+                        "attributeName": "derived.purview.role",
+                        "attributeValueIncludes": "purviewmetadatarole_builtin_data-curator"
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "kind": "attributerule",
+                  "id": "purviewmetadatarole_builtin_data-source-administrator:newpurviewllc",
+                  "name": "purviewmetadatarole_builtin_data-source-administrator:newpurviewllc",
+                  "dnfCondition": [
+                    [
+                      {
+                        "attributeName": "principal.microsoft.id",
+                        "attributeValueIncludedIn": [
+                          "35ac9d32-a8ca-4324-9393-d4000746f07c",
+                          "f8cfe8ca-1f83-4deb-814c-ee49336fdebd"
+                        ]
+                      },
+                      {
+                        "fromRule": "purviewmetadatarole_builtin_data-source-administrator",
+                        "attributeName": "derived.purview.role",
+                        "attributeValueIncludes": "purviewmetadatarole_builtin_data-source-administrator"
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "kind": "attributerule",
+                  "id": "permission:newpurviewllc",
+                  "name": "permission:newpurviewllc",
+                  "dnfCondition": [
+                    [
+                      {
+                        "fromRule": "purviewmetadatarole_builtin_collection-administrator:newpurviewllc",
+                        "attributeName": "derived.purview.permission",
+                        "attributeValueIncludes": "purviewmetadatarole_builtin_collection-administrator:newpurviewllc"
+                      }
+                    ],
+                    [
+                      {
+                        "fromRule": "purviewmetadatarole_builtin_purview-reader:newpurviewllc",
+                        "attributeName": "derived.purview.permission",
+                        "attributeValueIncludes": "purviewmetadatarole_builtin_purview-reader:newpurviewllc"
+                      }
+                    ],
+                    [
+                      {
+                        "fromRule": "purviewmetadatarole_builtin_data-curator:newpurviewllc",
+                        "attributeName": "derived.purview.permission",
+                        "attributeValueIncludes": "purviewmetadatarole_builtin_data-curator:newpurviewllc"
+                      }
+                    ],
+                    [
+                      {
+                        "fromRule": "purviewmetadatarole_builtin_data-source-administrator:newpurviewllc",
+                        "attributeName": "derived.purview.permission",
+                        "attributeValueIncludes": "purviewmetadatarole_builtin_data-source-administrator:newpurviewllc"
+                      }
+                    ]
+                  ]
+                }
+              ],
+              "collection": {
+                "type": "CollectionReference",
+                "referenceName": "newpurviewllc"
+              }
+            }
+          },
+          {
+            "name": "policy_la7eio",
+            "id": "88ce2dc3-3573-4c9a-8111-14fc9bc548b4",
+            "version": 1,
+            "properties": {
+              "description": "",
+              "decisionRules": [
+                {
+                  "kind": "decisionrule",
+                  "effect": "Permit",
+                  "dnfCondition": [
+                    [
+                      {
+                        "attributeName": "resource.purview.collection",
+                        "attributeValueIncludes": "la7eio"
+                      },
+                      {
+                        "fromRule": "permission:la7eio",
+                        "attributeName": "derived.purview.permission",
+                        "attributeValueIncludes": "permission:la7eio"
+                      }
+                    ]
+                  ]
+                }
+              ],
+              "attributeRules": [
+                {
+                  "kind": "attributerule",
+                  "id": "purviewmetadatarole_builtin_collection-administrator:la7eio",
+                  "name": "purviewmetadatarole_builtin_collection-administrator:la7eio",
+                  "dnfCondition": [
+                    [
+                      {
+                        "attributeName": "principal.microsoft.id",
+                        "attributeValueIncludedIn": [
+                          "f8cfe8ca-1f83-4deb-814c-ee49336fdebd"
+                        ]
+                      },
+                      {
+                        "fromRule": "purviewmetadatarole_builtin_collection-administrator",
+                        "attributeName": "derived.purview.role",
+                        "attributeValueIncludes": "purviewmetadatarole_builtin_collection-administrator"
+                      }
+                    ],
+                    [
+                      {
+                        "fromRule": "purviewmetadatarole_builtin_collection-administrator:newpurviewllc",
+                        "attributeName": "derived.purview.permission",
+                        "attributeValueIncludes": "purviewmetadatarole_builtin_collection-administrator:newpurviewllc"
+                      }
+                    ]
+                  ]
+                },
+                {
+                  "kind": "attributerule",
+                  "id": "permission:la7eio",
+                  "name": "permission:la7eio",
+                  "dnfCondition": [
+                    [
+                      {
+                        "fromRule": "purviewmetadatarole_builtin_collection-administrator:la7eio",
+                        "attributeName": "derived.purview.permission",
+                        "attributeValueIncludes": "purviewmetadatarole_builtin_collection-administrator:la7eio"
+                      }
+                    ],
+                    [
+                      {
+                        "fromRule": "permission:newpurviewllc",
+                        "attributeName": "derived.purview.permission",
+                        "attributeValueIncludes": "permission:newpurviewllc"
+                      }
+                    ]
+                  ]
+                }
+              ],
+              "collection": {
+                "type": "CollectionReference",
+                "referenceName": "la7eio"
+              },
+              "parentCollectionName": "newpurviewllc"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
 }

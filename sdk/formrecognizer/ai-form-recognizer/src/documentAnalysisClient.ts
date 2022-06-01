@@ -2,11 +2,15 @@
 // Licensed under the MIT license.
 
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { createTracingClient } from "@azure/core-tracing";
+import { ReadResult } from ".";
+import { TracingClient } from "@azure/core-tracing";
+import { SDK_VERSION } from "./constants";
 import {
   AnalyzeDocumentRequest,
+  AnalyzeResultOperation,
   ContentType,
   GeneratedClient,
-  GeneratedClientGetAnalyzeDocumentResultResponse,
 } from "./generated";
 import { accept1 } from "./generated/models/parameters";
 import {
@@ -20,9 +24,10 @@ import {
   toDocumentAnalysisPollOperationState,
 } from "./lro/analyze";
 import { lro } from "./lro/util/poller";
-import { GenericDocumentResult, toGenericDocumentResult } from "./models/GenericDocumentResult";
+import { GeneralDocumentResult, toGeneralDocumentResult } from "./models/GeneralDocumentResult";
 import { LayoutResult, toLayoutResult } from "./models/LayoutResult";
-import { AnalyzeDocumentsOptions } from "./options/AnalyzeDocumentsOptions";
+import { toReadResult } from "./models/ReadResult";
+import { AnalyzeDocumentOptions } from "./options/AnalyzeDocumentsOptions";
 import { DocumentAnalysisClientOptions } from "./options/FormRecognizerClientOptions";
 import { DocumentModel, getMapper } from "./prebuilt/models";
 import { identity, makeServiceClient, Mappers, SERIALIZER } from "./util";
@@ -59,6 +64,7 @@ import { identity, makeServiceClient, Mappers, SERIALIZER } from "./util";
  */
 export class DocumentAnalysisClient {
   private _restClient: GeneratedClient;
+  private _tracing: TracingClient;
 
   /**
    * Create a `DocumentAnalysisClient` instance from a resource endpoint and a an Azure Identity `TokenCredential`.
@@ -124,6 +130,11 @@ export class DocumentAnalysisClient {
     options: DocumentAnalysisClientOptions = {}
   ) {
     this._restClient = makeServiceClient(endpoint, credential, options);
+    this._tracing = createTracingClient({
+      packageName: "@azure/ai-form-recognizer",
+      packageVersion: SDK_VERSION,
+      namespace: "Microsoft.CognitiveServices",
+    });
   }
 
   // #region Analysis
@@ -156,7 +167,7 @@ export class DocumentAnalysisClient {
    *
    * // The model that is passed to the following function call determines the type of the eventual result. In the
    * // example, we will use the prebuilt receipt model, but you could use a custom model ID/name instead.
-   * const poller = await client.beginAnalyzeDocuments("prebuilt-receipt", url);
+   * const poller = await client.beginAnalyzeDocument("prebuilt-receipt", url);
    *
    * // The result is a long-running operation (poller), which must itself be polled until the operation completes
    * const {
@@ -189,7 +200,7 @@ export class DocumentAnalysisClient {
    *
    * // The model that is passed to the following function call determines the type of the eventual result. In the
    * // example, we will use the prebuilt receipt model, but you could use a custom model ID/name instead.
-   * const poller = await client.beginAnalyzeDocuments("prebuilt-receipt", file);
+   * const poller = await client.beginAnalyzeDocument("prebuilt-receipt", file);
    *
    * // The result is a long-running operation (poller), which must itself be polled until the operation completes
    * const {
@@ -217,11 +228,11 @@ export class DocumentAnalysisClient {
    * @param options - optional settings for the analysis operation and poller
    * @returns a long-running operation (poller) that will eventually produce an `AnalyzeResult`
    */
-  public async beginAnalyzeDocuments(
+  public async beginAnalyzeDocument(
     modelId: string,
     input: string | FormRecognizerRequestBody,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: AnalyzeDocumentsOptions
+    options?: AnalyzeDocumentOptions
   ): Promise<AnalysisPoller>;
   /**
    * Extract data from an input using a model that has a known, strongly-typed document schema (a `DocumentModel`). It
@@ -252,7 +263,7 @@ export class DocumentAnalysisClient {
    *
    * // The model that is passed to the following function call determines the type of the eventual result. In the
    * // example, we will use the prebuilt receipt model.
-   * const poller = await client.beginAnalyzeDocuments(PrebuiltModels.Receipt, url);
+   * const poller = await client.beginAnalyzeDocument(PrebuiltModels.Receipt, url);
    *
    * // The result is a long-running operation (poller), which must itself be polled until the operation completes
    * const {
@@ -286,7 +297,7 @@ export class DocumentAnalysisClient {
    *
    * // The model that is passed to the following function call determines the type of the eventual result. In the
    * // example, we will use the prebuilt receipt model.
-   * const poller = await client.beginAnalyzeDocuments(PrebuiltModels.Receipt, file);
+   * const poller = await client.beginAnalyzeDocument(PrebuiltModels.Receipt, file);
    *
    * // The result is a long-running operation (poller), which must itself be polled until the operation completes
    * const {
@@ -314,30 +325,34 @@ export class DocumentAnalysisClient {
    * @returns a long-running operation (poller) that will eventually produce an `AnalyzeResult` with documents that have
    *          the result type associated with the input model
    */
-  public async beginAnalyzeDocuments<Document>(
+  public async beginAnalyzeDocument<Document>(
     model: DocumentModel<Document>,
     input: string | FormRecognizerRequestBody,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: AnalyzeDocumentsOptions<AnalyzeResult<Document>>
+    options?: AnalyzeDocumentOptions<AnalyzeResult<Document>>
   ): Promise<AnalysisPoller<AnalyzeResult<Document>>>;
-  public async beginAnalyzeDocuments(
+  public async beginAnalyzeDocument(
     model: string | DocumentModel<unknown>,
     input: string | FormRecognizerRequestBody,
-    options: AnalyzeDocumentsOptions<unknown> = {}
+    options: AnalyzeDocumentOptions<unknown> = {}
   ): Promise<AnalysisPoller<unknown>> {
-    const initialModelId = typeof model === "string" ? model : model.modelId;
-
-    const analysisPoller = this.createAnalysisPoller<unknown>(input, {
-      initialModelId,
+    return this._tracing.withSpan(
+      "DocumentAnalysisClient.beginAnalyzeDocument",
       options,
-      transformResult: (result) =>
-        toAnalyzeResultFromGenerated(
-          result,
-          typeof model === "string" ? toAnalyzedDocumentFromGenerated : getMapper(model)
-        ),
-    });
+      (finalOptions) => {
+        const initialModelId = typeof model === "string" ? model : model.modelId;
 
-    return analysisPoller;
+        return this.createAnalysisPoller<unknown>(input, {
+          initialModelId,
+          options: finalOptions,
+          transformResult: (result) =>
+            toAnalyzeResultFromGenerated(
+              result,
+              typeof model === "string" ? toAnalyzedDocumentFromGenerated : getMapper(model)
+            ),
+        });
+      }
+    );
   }
 
   /**
@@ -397,17 +412,22 @@ export class DocumentAnalysisClient {
   public async beginExtractLayout(
     input: string | FormRecognizerRequestBody,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options: AnalyzeDocumentsOptions<LayoutResult> = {}
+    options: AnalyzeDocumentOptions<LayoutResult> = {}
   ): Promise<AnalysisPoller<LayoutResult>> {
-    return this.createAnalysisPoller(input, {
-      initialModelId: "prebuilt-layout",
+    return this._tracing.withSpan(
+      "DocumentAnalysisClient.beginExtractLayout",
       options,
-      transformResult: (res) => toLayoutResult(toAnalyzeResultFromGenerated(res, identity)),
-    });
+      (finalOptions) =>
+        this.createAnalysisPoller(input, {
+          initialModelId: "prebuilt-layout",
+          options: finalOptions,
+          transformResult: (res) => toLayoutResult(toAnalyzeResultFromGenerated(res, identity)),
+        })
+    );
   }
 
   /**
-   * Extracts generic document information from an input file. The generic document result includes the information from
+   * Extracts general document information from an input file. The general document result includes the information from
    * layout analysis (pages, tables, and styles) as well as extracted key-value pairs and entities.
    *
    * ### Examples
@@ -425,7 +445,7 @@ export class DocumentAnalysisClient {
    * // the URL must be publicly accessible
    * const url = "<document url>";
    *
-   * const poller = await client.beginExtractGenericDocument(url);
+   * const poller = await client.beginExtractGeneralDocument(url);
    *
    * // The result is a long-running operation (poller), which must itself be polled until the operation completes
    * const {
@@ -450,7 +470,7 @@ export class DocumentAnalysisClient {
    *
    * const file = fs.createReadStream("path/to/file.pdf");
    *
-   * const poller = await client.beginExtractGenericDocument(file);
+   * const poller = await client.beginExtractGeneralDocument(file);
    *
    * // The result is a long-running operation (poller), which must itself be polled until the operation completes
    * const {
@@ -468,19 +488,94 @@ export class DocumentAnalysisClient {
    * @param input - a URL (string) to an input document accessible from the public internet, or a
    *                {@link FormRecognizerRequestBody} that will be uploaded with the request
    * @param options - optional settings for the analysis operation and poller
-   * @returns a long-running operation (poller) that will eventually produce a generic document result or an error
+   * @returns a long-running operation (poller) that will eventually produce a general document result or an error
    */
-  public async beginExtractGenericDocument(
+  public async beginExtractGeneralDocument(
     input: string | FormRecognizerRequestBody,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options: AnalyzeDocumentsOptions<GenericDocumentResult> = {}
-  ): Promise<AnalysisPoller<GenericDocumentResult>> {
-    return this.createAnalysisPoller(input, {
-      initialModelId: "prebuilt-document",
+    options: AnalyzeDocumentOptions<GeneralDocumentResult> = {}
+  ): Promise<AnalysisPoller<GeneralDocumentResult>> {
+    return this._tracing.withSpan(
+      "DocumentAnalysisClient.beginExtractGeneralDocument",
       options,
-      transformResult: (res) =>
-        toGenericDocumentResult(toAnalyzeResultFromGenerated(res, identity)),
-    });
+      (finalOptions) =>
+        this.createAnalysisPoller(input, {
+          initialModelId: "prebuilt-document",
+          options: finalOptions,
+          transformResult: (res) =>
+            toGeneralDocumentResult(toAnalyzeResultFromGenerated(res, identity)),
+        })
+    );
+  }
+
+  /**
+   * Extracts textual information from a document such as the text contents of pages and identified written languages.
+   *
+   * ### Examples
+   *
+   * This method supports both URLs (string) and streamable request bodies ({@link FormRecognizerRequestBody}) such as
+   * Node.JS `ReadableStream` objects, browser `Blob`s, and `ArrayBuffer`s.
+   *
+   * #### From URL
+   *
+   * The Form Recognizer service will attempt to download a file using the submitted URL, so the URL must be accessible
+   * from the public internet. For example, a SAS token can be used to grant read access to a blob in Azure Storage, and
+   * the service will use the SAS-encoded URL to request the file.
+   *
+   * ```javascript
+   * // the URL must be publicly accessible
+   * const url = "<document url>";
+   *
+   * const poller = await client.beginReadDocument(url);
+   *
+   * // The result is a long-running operation (poller), which must itself be polled until the operation completes
+   * const {
+   *   // This operation only produces `pages` and `languages`
+   *   pages, // pages extracted from the document, which contain lines and words
+   *   languages, // extracted spans identifying the written language of text in the document
+   * } = await poller.pollUntilDone();
+   * ```
+   *
+   * #### From Request Body
+   *
+   * Alternatively, if the file is local (or in memory in the browser), a binary object can be uploaded. The following
+   * example uses the Node.JS filesystem API.
+   *
+   * ```javascript
+   * import * as fs from "fs";
+   *
+   * const file = fs.createReadStream("path/to/file.pdf");
+   *
+   * const poller = await client.beginReadDocument(file);
+   *
+   * // The result is a long-running operation (poller), which must itself be polled until the operation completes
+   * const {
+   *   // This operation only produces `pages` and `languages`
+   *   pages, // pages extracted from the document, which contain lines and words
+   *   languages, // extracted spans identifying the written language of text in the document
+   * } = await poller.pollUntilDone();
+   * ```
+   *
+   * @param input - a URL (string) to an input document accessible from the public internet, or a
+   *                {@link FormRecognizerRequestBody} that will be uploaded with the request
+   * @param options - optional settings for the analysis operation and poller
+   * @returns a long-running operation (poller) that will eventually produce a read result or an error
+   */
+  public async beginReadDocument(
+    input: string | FormRecognizerRequestBody,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options: AnalyzeDocumentOptions<ReadResult> = {}
+  ): Promise<AnalysisPoller<ReadResult>> {
+    return this._tracing.withSpan(
+      "DocumentAnalysisClient.beginReadDocument",
+      options,
+      (finalOptions) =>
+        this.createAnalysisPoller(input, {
+          initialModelId: "prebuilt-read",
+          options: finalOptions,
+          transformResult: (res) => toReadResult(toAnalyzeResultFromGenerated(res, identity)),
+        })
+    );
   }
 
   /**
@@ -488,7 +583,6 @@ export class DocumentAnalysisClient {
    *
    * This is the meat of all analysis polling operations.
    *
-   * @internal
    * @param input - either a string for URL inputs or a FormRecognizerRequestBody to upload a file directly to the Form
    *                Recognizer API
    * @param definition - operation definition (initial model ID, operation transforms, request options)
@@ -503,90 +597,108 @@ export class DocumentAnalysisClient {
     // TODO: what should we do if resumeFrom.modelId is different from initialModelId?
     // And what do we do with the redundant input??
 
-    const getAnalyzeResult = (
-      operationLocation: string
-    ): Promise<GeneratedClientGetAnalyzeDocumentResultResponse> =>
-      this._restClient.sendOperationRequest(
-        {
-          options: definition.options,
-        },
-        {
-          path: operationLocation,
-          httpMethod: "GET",
-          responses: {
-            200: {
-              bodyMapper: Mappers.AnalyzeResultOperation,
+    const getAnalyzeResult = (operationLocation: string): Promise<AnalyzeResultOperation> =>
+      this._tracing.withSpan(
+        "DocumentAnalysisClient.createAnalysisPoller-getAnalyzeResult",
+        definition.options,
+        (finalOptions) =>
+          this._restClient.sendOperationRequest<AnalyzeResultOperation>(
+            {
+              options: finalOptions,
             },
-            default: {
-              bodyMapper: Mappers.ErrorResponse,
-            },
-          },
-          // URL is fully-formed, so we don't need any
-          headerParameters: [accept1],
-          serializer: SERIALIZER,
-        }
+            {
+              path: operationLocation,
+              httpMethod: "GET",
+              responses: {
+                200: {
+                  bodyMapper: Mappers.AnalyzeResultOperation,
+                },
+                default: {
+                  bodyMapper: Mappers.ErrorResponse,
+                },
+              },
+              // URL is fully-formed, so we don't need any query parameters
+              headerParameters: [accept1],
+              serializer: SERIALIZER,
+            }
+          )
       );
 
     const toInit =
       // If the user gave us a stored token, we'll poll it again
       resumeFrom !== undefined
-        ? async () => {
-            const { operationLocation, modelId } = JSON.parse(resumeFrom) as {
-              operationLocation: string;
-              modelId: string;
-            };
+        ? async () =>
+            this._tracing.withSpan(
+              "DocumentAnalysisClient.createAnalysisPoller-resume",
+              definition.options,
+              async () => {
+                const { operationLocation, modelId } = JSON.parse(resumeFrom) as {
+                  operationLocation: string;
+                  modelId: string;
+                };
 
-            const result = await getAnalyzeResult(operationLocation);
+                const result = await getAnalyzeResult(operationLocation);
 
-            return toDocumentAnalysisPollOperationState(
-              definition,
-              modelId,
-              operationLocation,
-              result
-            );
-          }
+                return toDocumentAnalysisPollOperationState(
+                  definition,
+                  modelId,
+                  operationLocation,
+                  result
+                );
+              }
+            )
         : // Otherwise, we'll start a new operation from the initialModelId
-          async () => {
-            const [contentType, analyzeRequest] = toAnalyzeRequest(input);
+          async () =>
+            this._tracing.withSpan(
+              "DocumentAnalysisClient.createAnalysisPoller-start",
+              definition.options,
+              async () => {
+                const [contentType, analyzeRequest] = toAnalyzeRequest(input);
 
-            const { operationLocation } = await this._restClient.analyzeDocument(
-              definition.initialModelId,
-              contentType as any,
-              {
-                ...definition.options,
-                analyzeRequest,
+                const { operationLocation } = await this._restClient.analyzeDocument(
+                  definition.initialModelId,
+                  contentType as any,
+                  {
+                    ...definition.options,
+                    analyzeRequest,
+                  }
+                );
+
+                if (operationLocation === undefined) {
+                  throw new Error(
+                    "Unable to start analysis operation: no Operation-Location received."
+                  );
+                }
+
+                const result = await getAnalyzeResult(operationLocation);
+
+                return toDocumentAnalysisPollOperationState(
+                  definition,
+                  definition.initialModelId,
+                  operationLocation,
+                  result
+                );
               }
             );
-
-            if (operationLocation === undefined) {
-              throw new Error(
-                "Unable to start analysis operation: no Operation-Location received."
-              );
-            }
-
-            const result = await getAnalyzeResult(operationLocation);
-
-            return toDocumentAnalysisPollOperationState(
-              definition,
-              definition.initialModelId,
-              operationLocation,
-              result
-            );
-          };
 
     const poller = await lro<Result, DocumentAnalysisPollOperationState<Result>>(
       {
         init: toInit,
-        poll: async ({ operationLocation, modelId }) => {
-          const result = await getAnalyzeResult(operationLocation);
+        poll: async ({ operationLocation, modelId }) =>
+          this._tracing.withSpan(
+            "DocumentAnalysisClient.createAnalysisPoller-poll",
+            {},
+            async () => {
+              const result = await getAnalyzeResult(operationLocation);
 
-          return toDocumentAnalysisPollOperationState(
-            definition,
-            modelId,
-            operationLocation,
-            result
-          );
-        },
+              return toDocumentAnalysisPollOperationState(
+                definition,
+                modelId,
+                operationLocation,
+                result
+              );
+            }
+          ),
         serialize: ({ operationLocation, modelId }) =>
           JSON.stringify({ modelId, operationLocation }),
       },

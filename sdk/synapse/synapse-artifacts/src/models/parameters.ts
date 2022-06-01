@@ -12,8 +12,14 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
+  LinkConnectionResource as LinkConnectionResourceMapper,
+  EditTablesRequest as EditTablesRequestMapper,
+  QueryTableStatusRequest as QueryTableStatusRequestMapper,
+  UpdateLandingZoneCredential as UpdateLandingZoneCredentialMapper,
   KqlScriptResource as KqlScriptResourceMapper,
   ArtifactRenameRequest as ArtifactRenameRequestMapper,
+  MetastoreRegisterObject as MetastoreRegisterObjectMapper,
+  MetastoreUpdateObject as MetastoreUpdateObjectMapper,
   SparkConfigurationResource as SparkConfigurationResourceMapper,
   DataFlowResource as DataFlowResourceMapper,
   CreateDataFlowDebugSessionRequest as CreateDataFlowDebugSessionRequestMapper,
@@ -58,13 +64,56 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-11-01-preview",
+    defaultValue: "2021-12-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
       name: "String"
     }
   }
+};
+
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const linkConnection: OperationParameter = {
+  parameterPath: "linkConnection",
+  mapper: LinkConnectionResourceMapper
+};
+
+export const linkConnectionName: OperationURLParameter = {
+  parameterPath: "linkConnectionName",
+  mapper: {
+    serializedName: "linkConnectionName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const editTablesRequest: OperationParameter = {
+  parameterPath: "editTablesRequest",
+  mapper: EditTablesRequestMapper
+};
+
+export const queryTableStatusRequest: OperationParameter = {
+  parameterPath: "queryTableStatusRequest",
+  mapper: QueryTableStatusRequestMapper
+};
+
+export const updateLandingZoneCredentialRequest: OperationParameter = {
+  parameterPath: "updateLandingZoneCredentialRequest",
+  mapper: UpdateLandingZoneCredentialMapper
 };
 
 export const nextLink: OperationURLParameter = {
@@ -79,12 +128,12 @@ export const nextLink: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const contentType: OperationParameter = {
-  parameterPath: ["options", "contentType"],
+export const apiVersion1: OperationQueryParameter = {
+  parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "application/json",
+    defaultValue: "2021-11-01-preview",
     isConstant: true,
-    serializedName: "Content-Type",
+    serializedName: "api-version",
     type: {
       name: "String"
     }
@@ -112,7 +161,40 @@ export const renameRequest: OperationParameter = {
   mapper: ArtifactRenameRequestMapper
 };
 
-export const apiVersion1: OperationQueryParameter = {
+export const registerBody: OperationParameter = {
+  parameterPath: "registerBody",
+  mapper: MetastoreRegisterObjectMapper
+};
+
+export const apiVersion2: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2021-07-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const id: OperationURLParameter = {
+  parameterPath: "id",
+  mapper: {
+    serializedName: "id",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const updateBody: OperationParameter = {
+  parameterPath: "updateBody",
+  mapper: MetastoreUpdateObjectMapper
+};
+
+export const apiVersion3: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2021-06-01-preview",
@@ -165,7 +247,7 @@ export const request: OperationParameter = {
   mapper: ArtifactRenameRequestMapper
 };
 
-export const apiVersion2: OperationQueryParameter = {
+export const apiVersion4: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2020-12-01",

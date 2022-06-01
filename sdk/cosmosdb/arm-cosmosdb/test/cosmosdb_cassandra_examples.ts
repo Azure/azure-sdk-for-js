@@ -61,7 +61,7 @@ describe("Cosmosdb test", () => {
     client = new CosmosDBManagementClient(credential, subscriptionId);
     location = "eastus";
     resourceGroupName = "myjstest";
-    accountName = "myaccountxxx4";
+    accountName = "myaccountxxyy1";
     keyspaceName = "mykeyspacexxx";
   });
 
@@ -137,15 +137,6 @@ describe("Cosmosdb test", () => {
     await client.cassandraResources.beginDeleteCassandraKeyspaceAndWait(resourceGroupName,accountName,keyspaceName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.cassandraResources.listCassandraKeyspaces(resourceGroupName,accountName)){
-        resArray.push(item);
-    }
-    assert.equal(resArray.length,0);
-  });
-
-  it("databaseAccounts delete for cassandraResources test", async function() {
-    await client.databaseAccounts.beginDeleteAndWait(resourceGroupName,accountName, testPollingOptions);
-    const resArray = new Array();
-    for await (let item of client.databaseAccounts.listByResourceGroup(resourceGroupName)){
         resArray.push(item);
     }
     assert.equal(resArray.length,0);

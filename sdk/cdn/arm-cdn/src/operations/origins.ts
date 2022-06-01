@@ -11,7 +11,7 @@ import { Origins } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { CdnManagementClientContext } from "../cdnManagementClientContext";
+import { CdnManagementClient } from "../cdnManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -33,13 +33,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Origins operations. */
 export class OriginsImpl implements Origins {
-  private readonly client: CdnManagementClientContext;
+  private readonly client: CdnManagementClient;
 
   /**
    * Initialize a new instance of the class Origins class.
    * @param client Reference to the service client
    */
-  constructor(client: CdnManagementClientContext) {
+  constructor(client: CdnManagementClient) {
     this.client = client;
   }
 
@@ -233,10 +233,12 @@ export class OriginsImpl implements Origins {
       },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -337,10 +339,12 @@ export class OriginsImpl implements Origins {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -430,10 +434,12 @@ export class OriginsImpl implements Origins {
       { resourceGroupName, profileName, endpointName, originName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -553,7 +559,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.origin,
+  requestBody: Parameters.origin1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -563,7 +569,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.endpointName,
     Parameters.originName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -588,7 +594,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.originUpdateProperties,
+  requestBody: Parameters.originUpdateProperties1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -598,7 +604,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.endpointName,
     Parameters.originName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

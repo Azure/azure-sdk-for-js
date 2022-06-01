@@ -6,8 +6,8 @@
  * @author Arpan Laha
  */
 
-import { Rule } from "eslint";
 import { getRuleMetaData, getVerifiers, stripPath } from "../utils";
+import { Rule } from "eslint";
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -22,7 +22,7 @@ export = {
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const verifiers = getVerifiers(context, {
       outer: "repository",
-      expected: "github:Azure/azure-sdk-for-js"
+      expected: "github:Azure/azure-sdk-for-js",
     });
     return stripPath(context.getFilename()) === "package.json"
       ? ({
@@ -33,8 +33,8 @@ export = {
 
           // check the node corresponding to repository to see if its value is github:Azure/azure-sdk-for-js
           "ExpressionStatement > ObjectExpression > Property[key.value='repository']":
-            verifiers.outerMatchesExpected
+            verifiers.outerMatchesExpected,
         } as Rule.RuleListener)
       : {};
-  }
+  },
 };

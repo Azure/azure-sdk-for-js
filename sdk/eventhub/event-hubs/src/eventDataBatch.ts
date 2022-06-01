@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EventData, toRheaMessage } from "./eventData";
+import { AmqpAnnotatedMessage } from "@azure/core-amqp";
+import { EventData, populateIdempotentMessageAnnotations, toRheaMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { MessageAnnotations, message, Message as RheaMessage } from "rhea-promise";
-import { throwTypeErrorIfParameterMissing } from "./util/error";
-import { AmqpAnnotatedMessage } from "@azure/core-amqp";
-import { Span, SpanContext } from "@azure/core-tracing";
-import { instrumentEventData } from "./diagnostics/instrumentEventData";
-import { convertTryAddOptionsForCompatibility } from "./diagnostics/tracing";
 import { isDefined, isObjectWithProperties } from "./util/typeGuards";
-import { OperationTracingOptions } from "@azure/core-tracing";
+import { OperationTracingOptions, TracingContext } from "@azure/core-tracing";
+import { instrumentEventData } from "./diagnostics/instrumentEventData";
+import { throwTypeErrorIfParameterMissing } from "./util/error";
+import { PartitionPublishingProperties } from "./models/private";
 
 /**
  * The amount of bytes to reserve as overhead for a small message.
@@ -47,11 +46,6 @@ export interface TryAddOptions {
    * The options to use when creating Spans for tracing.
    */
   tracingOptions?: OperationTracingOptions;
-
-  /**
-   * @deprecated Tracing options have been moved to the `tracingOptions` property.
-   */
-  parentSpan?: Span | SpanContext;
 }
 
 /**
@@ -110,22 +104,6 @@ export interface EventDataBatch {
    * @returns A boolean value indicating if the event data has been added to the batch or not.
    */
   tryAdd(eventData: EventData | AmqpAnnotatedMessage, options?: TryAddOptions): boolean;
-
-  /**
-   * The AMQP message containing encoded events that were added to the batch.
-   * Used internally by the `sendBatch()` method on the `EventHubProducerClient`.
-   * This is not meant for the user to use directly.
-   *
-   * @internal
-   */
-  _generateMessage(): Buffer;
-
-  /**
-   * Gets the "message" span contexts that were created when adding events to the batch.
-   * Used internally by the `sendBatch()` method to set up the right spans in traces if tracing is enabled.
-   * @internal
-   */
-  readonly _messageSpanContexts: SpanContext[];
 }
 
 /**
@@ -168,7 +146,7 @@ export class EventDataBatchImpl implements EventDataBatch {
   /**
    * List of 'message' span contexts.
    */
-  private _spanContexts: SpanContext[] = [];
+  private _spanContexts: TracingContext[] = [];
   /**
    * The message annotations to apply on the batch envelope.
    * This will reflect the message annotations on the first event
@@ -176,6 +154,22 @@ export class EventDataBatchImpl implements EventDataBatch {
    * A common annotation is the partition key.
    */
   private _batchAnnotations?: MessageAnnotations;
+  /**
+   * Indicates that the batch should be treated as idempotent.
+   */
+  private _isIdempotent: boolean;
+  /**
+   * The sequence number assigned to the first event in the batch while
+   * the batch is being sent to the service.
+   */
+  private _pendingStartingSequenceNumber?: number;
+  /**
+   * The publishing sequence number assigned to the first event in the batch at the time
+   * the batch was successfully published.
+   * If the producer was not configured to apply sequence numbering or if the batch
+   * has not yet been successfully published, the value will be `undefined`.
+   */
+  private _startingPublishSequenceNumber?: number;
 
   /**
    * EventDataBatch should not be constructed using `new EventDataBatch()`
@@ -185,11 +179,13 @@ export class EventDataBatchImpl implements EventDataBatch {
   constructor(
     context: ConnectionContext,
     maxSizeInBytes: number,
+    isIdempotent: boolean,
     partitionKey?: string,
     partitionId?: string
   ) {
     this._context = context;
     this._maxSizeInBytes = maxSizeInBytes;
+    this._isIdempotent = isIdempotent;
     this._partitionKey = isDefined(partitionKey) ? String(partitionKey) : partitionKey;
     this._partitionId = isDefined(partitionId) ? String(partitionId) : partitionId;
     this._sizeInBytes = 0;
@@ -240,10 +236,20 @@ export class EventDataBatchImpl implements EventDataBatch {
   }
 
   /**
+   * The publishing sequence number assigned to the first event in the batch at the time
+   * the batch was successfully published.
+   * If the producer was not configured to apply sequence numbering or if the batch
+   * has not yet been successfully published, the value will be `undefined`.
+   */
+  get startingPublishedSequenceNumber(): number | undefined {
+    return this._startingPublishSequenceNumber;
+  }
+
+  /**
    * Gets the "message" span contexts that were created when adding events to the batch.
    * @internal
    */
-  get _messageSpanContexts(): SpanContext[] {
+  get _messageSpanContexts(): TracingContext[] {
     return this._spanContexts;
   }
 
@@ -251,15 +257,86 @@ export class EventDataBatchImpl implements EventDataBatch {
    * Generates an AMQP message that contains the provided encoded events and annotations.
    * @param encodedEvents - The already encoded events to include in the AMQP batch.
    * @param annotations - The message annotations to set on the batch.
+   * @param publishingProps - Idempotent publishing properties used to decorate the events in the batch while sending.
    */
-  private _generateBatch(encodedEvents: Buffer[], annotations?: MessageAnnotations): Buffer {
+  private _generateBatch(
+    encodedEvents: Buffer[],
+    annotations: MessageAnnotations | undefined,
+    publishingProps?: PartitionPublishingProperties
+  ): Buffer {
+    if (this._isIdempotent && publishingProps) {
+      // We need to decode the encoded events, add the idempotent annotations, and re-encode them.
+      // We can't lazily encode the events because we rely on `message.encode` to capture the
+      // byte length of anything not in `event.body`.
+      // Events can't be decorated ahead of time because the publishing properties aren't known
+      // until the events are being sent to the service.
+      const decodedEvents = encodedEvents.map(message.decode) as unknown as RheaMessage[];
+      const decoratedEvents = this._decorateRheaMessagesWithPublishingProps(
+        decodedEvents,
+        publishingProps
+      );
+      encodedEvents = decoratedEvents.map(message.encode);
+    }
+
     const batchEnvelope: RheaMessage = {
-      body: message.data_sections(encodedEvents)
+      body: message.data_sections(encodedEvents),
     };
     if (annotations) {
       batchEnvelope.message_annotations = annotations;
     }
     return message.encode(batchEnvelope);
+  }
+
+  /**
+   * Uses the publishingProps to add idempotent properties as message annotations to rhea messages.
+   */
+  private _decorateRheaMessagesWithPublishingProps(
+    events: RheaMessage[],
+    publishingProps: PartitionPublishingProperties
+  ): RheaMessage[] {
+    if (!this._isIdempotent) {
+      return events;
+    }
+
+    const { lastPublishedSequenceNumber = 0, ownerLevel, producerGroupId } = publishingProps;
+    const startingSequenceNumber = lastPublishedSequenceNumber + 1;
+    for (let i = 0; i < events.length; i++) {
+      const event = events[i];
+      populateIdempotentMessageAnnotations(event, {
+        isIdempotentPublishingEnabled: this._isIdempotent,
+        ownerLevel,
+        producerGroupId,
+        publishSequenceNumber: startingSequenceNumber + i,
+      });
+    }
+
+    this._pendingStartingSequenceNumber = startingSequenceNumber;
+    return events;
+  }
+
+  /**
+   * Annotates a rhea message with placeholder idempotent properties if the batch is idempotent.
+   * This is necessary so that we can accurately calculate the size of the batch while adding events.
+   * Placeholder values are used because real values won't be known until we attempt to send the batch.
+   */
+  private _decorateRheaMessageWithPlaceholderIdempotencyProps(event: RheaMessage): RheaMessage {
+    if (!this._isIdempotent) {
+      return event;
+    }
+
+    if (!event.message_annotations) {
+      event.message_annotations = {};
+    }
+
+    // Set placeholder values for these annotations.
+    populateIdempotentMessageAnnotations(event, {
+      isIdempotentPublishingEnabled: this._isIdempotent,
+      ownerLevel: 0,
+      publishSequenceNumber: 0,
+      producerGroupId: 0,
+    });
+
+    return event;
   }
 
   /**
@@ -272,8 +349,15 @@ export class EventDataBatchImpl implements EventDataBatch {
    * this single batched AMQP message is what gets sent over the wire to the service.
    * @readonly
    */
-  _generateMessage(): Buffer {
-    return this._generateBatch(this._encodedMessages, this._batchAnnotations);
+  _generateMessage(publishingProps?: PartitionPublishingProperties): Buffer {
+    return this._generateBatch(this._encodedMessages, this._batchAnnotations, publishingProps);
+  }
+
+  /**
+   * Sets startingPublishSequenceNumber to the pending publish sequence number.
+   */
+  _commitPublish(): void {
+    this._startingPublishSequenceNumber = this._pendingStartingSequenceNumber;
   }
 
   /**
@@ -286,7 +370,6 @@ export class EventDataBatchImpl implements EventDataBatch {
    */
   public tryAdd(eventData: EventData | AmqpAnnotatedMessage, options: TryAddOptions = {}): boolean {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "tryAdd", "eventData", eventData);
-    options = convertTryAddOptionsForCompatibility(options);
 
     const { entityPath, host } = this._context.config;
     const { event: instrumentedEvent, spanContext } = instrumentEventData(
@@ -298,6 +381,10 @@ export class EventDataBatchImpl implements EventDataBatch {
 
     // Convert EventData to RheaMessage.
     const amqpMessage = toRheaMessage(instrumentedEvent, this._partitionKey);
+    const originalAnnotations = amqpMessage.message_annotations && {
+      ...amqpMessage.message_annotations,
+    };
+    this._decorateRheaMessageWithPlaceholderIdempotencyProps(amqpMessage);
     const encodedMessage = message.encode(amqpMessage);
 
     let currentSize = this._sizeInBytes;
@@ -305,8 +392,8 @@ export class EventDataBatchImpl implements EventDataBatch {
     // the overhead of creating an AMQP batch, including the
     // message_annotations that are taken from the 1st message.
     if (this.count === 0) {
-      if (amqpMessage.message_annotations) {
-        this._batchAnnotations = amqpMessage.message_annotations;
+      if (originalAnnotations) {
+        this._batchAnnotations = originalAnnotations;
       }
 
       // Figure out the overhead of creating a batch by generating an empty batch

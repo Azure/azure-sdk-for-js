@@ -58,7 +58,7 @@ export const BulkOperationType = {
   Read: "Read",
   Delete: "Delete",
   Replace: "Replace",
-  Patch: "Patch"
+  Patch: "Patch",
 } as const;
 
 export type OperationInput =

@@ -1,32 +1,53 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://endpoint/",
-   "query": {
-    "api-version": "2018-01-01"
-   },
-   "requestBody": "[{\"id\":\"singleEventId161541018238407087\",\"subject\":\"Single 1\",\"data\":{\"hello\":\"world\"},\"eventType\":\"Azure.Sdk.TestEvent1\",\"eventTime\":\"2021-03-10T21:03:02.384Z\",\"dataVersion\":\"1.0\"}]",
-   "status": 404,
-   "response": "{\r\n    \"error\": {\r\n        \"code\": \"NotFound\",\r\n        \"message\": \"No HTTP resource was found that matches the request URI 'https://endpoint/?api-version=2018-01-01'. Report 'ad759273-5527-4620-b57e-02de35ba90c2:3/10/2021 9:03:01 PM (UTC)' to our forums for assistance or raise a support ticket.\",\r\n        \"details\": [{\r\n            \"code\": \"ResourceNotFound\",\r\n            \"message\": \"No HTTP resource was found that matches the request URI 'https://endpoint/?api-version=2018-01-01'. Report 'ad759273-5527-4620-b57e-02de35ba90c2:3/10/2021 9:03:01 PM (UTC)' to our forums for assistance or raise a support ticket.\"\r\n    }]\r\n  }\r\n}",
-   "responseHeaders": {
-    "content-length": "721",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 10 Mar 2021 21:03:01 GMT",
-    "server": "Microsoft-HTTPAPI/2.0",
-    "status": "404",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-request-id": "ad759273-5527-4620-b57e-02de35ba90c2"
-   }
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/?api-version=2018-01-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "*/*",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "aeg-sas-key": "api_key",
+        "Connection": "keep-alive",
+        "Content-Length": "170",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/101.0.4950.0 Safari/537.36",
+        "x-ms-client-request-id": "f93fb6c3-783f-479e-b173-baf422341c9b",
+        "x-ms-useragent": "azsdk-js-eventgrid/4.10.0-beta.2 core-rest-pipeline/1.8.2 OS/Linuxx86_64"
+      },
+      "RequestBody": "[{\u0022id\u0022:\u0022singleEventId100224\u0022,\u0022subject\u0022:\u0022Single 1\u0022,\u0022data\u0022:{\u0022hello\u0022:\u0022world\u0022},\u0022eventType\u0022:\u0022Azure.Sdk.TestEvent1\u0022,\u0022eventTime\u0022:\u00222022-05-11T00:24:51.000Z\u0022,\u0022dataVersion\u0022:\u00221.0\u0022}]",
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Content-Length": "635",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 11 May 2022 00:24:51 GMT",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-request-id": "ea738ce5-4938-422b-ac61-4d618e75b27f"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "NotFound",
+          "message": "No HTTP resource was found that matches the request URI \u0027https://endpoint/?api-version=2018-01-01\u0027. Report \u0027ea738ce5-4938-422b-ac61-4d618e75b27f:5/11/2022 12:24:52 AM (UTC)\u0027 to our forums for assistance or raise a support ticket.",
+          "details": [
+            {
+              "code": "ResourceNotFound",
+              "message": "No HTTP resource was found that matches the request URI \u0027https://endpoint/?api-version=2018-01-01\u0027. Report \u0027ea738ce5-4938-422b-ac61-4d618e75b27f:5/11/2022 12:24:52 AM (UTC)\u0027 to our forums for assistance or raise a support ticket."
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "Variables": {
+    "singleEventDate": "Tue May 10 2022 17:24:51 GMT-0700 (Pacific Daylight Time)",
+    "singleEventId": "singleEventId100224"
   }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {
-   "singleEventId": "singleEventId161541018238407087"
-  },
-  "newDate": {
-   "singleEventDate": "2021-03-10T21:03:02.384Z"
-  }
- },
- "hash": "562b2aac2dd8746fdfbcfa44dda66cdd"
 }

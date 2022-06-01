@@ -27,12 +27,12 @@ export class IoTModelsRepositoryServiceClient extends ServiceClient {
   constructor(url: string, options: IoTModelsRepositoryServiceClientOptions = {}) {
     const defaults: IoTModelsRepositoryServiceClientOptions = {
       baseUri: `${url}`,
-      requestContentType: "application/json; charset=utf-8"
+      requestContentType: "application/json; charset=utf-8",
     };
 
     const optionsWithDefaults = {
       ...defaults,
-      ...options
+      ...options,
     };
 
     super(optionsWithDefaults);

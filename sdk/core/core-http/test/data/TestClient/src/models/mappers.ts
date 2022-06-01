@@ -12,32 +12,32 @@ internalMappers.SimpleProduct = {
         constraints: {},
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       name: {
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       maxProductDisplayName: {
         serializedName: "details.max_product_display_name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       capacity: {
         defaultValue: "Large",
         isConstant: true,
         serializedName: "details.max_product_capacity",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 internalMappers.SimpleProductConstFirst = {
@@ -50,32 +50,32 @@ internalMappers.SimpleProductConstFirst = {
         constraints: {},
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       name: {
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       capacity: {
         defaultValue: "Large",
         isConstant: true,
         serializedName: "details.max_product_capacity",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       maxProductDisplayName: {
         serializedName: "details.max_product_display_name",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 internalMappers.Cat = {
@@ -89,29 +89,29 @@ internalMappers.Cat = {
         required: false,
         serializedName: "id",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       name: {
         required: false,
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       pettype: {
         required: true,
         serializedName: "pet\\.type",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       color: {
         required: false,
         serializedName: "color",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       hates: {
         required: false,
@@ -123,13 +123,13 @@ internalMappers.Cat = {
             serializedName: "DogElementType",
             type: {
               name: "Composite",
-              className: "Dog"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "Dog",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 internalMappers.Dog = {
   required: false,
@@ -142,32 +142,32 @@ internalMappers.Dog = {
         required: false,
         serializedName: "id",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       name: {
         required: false,
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       pettype: {
         required: true,
         serializedName: "pet\\.type",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       food: {
         required: false,
         serializedName: "food",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 internalMappers.Fish = {
   required: false,
@@ -176,7 +176,7 @@ internalMappers.Fish = {
     name: "Composite",
     polymorphicDiscriminator: {
       serializedName: "fish.type",
-      clientName: "fishtype"
+      clientName: "fishtype",
     },
     uberParent: "Fish",
     className: "Fish",
@@ -185,15 +185,15 @@ internalMappers.Fish = {
         required: false,
         serializedName: "species",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       length: {
         required: true,
         serializedName: "length",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       siblings: {
         required: false,
@@ -207,23 +207,23 @@ internalMappers.Fish = {
               name: "Composite",
               polymorphicDiscriminator: {
                 serializedName: "fish.type",
-                clientName: "fishtype"
+                clientName: "fishtype",
               },
               uberParent: "Fish",
-              className: "Fish"
-            }
-          }
-        }
+              className: "Fish",
+            },
+          },
+        },
       },
       fishtype: {
         required: true,
         serializedName: "fish\\.type",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 internalMappers.Invoice = {
   required: false,
@@ -236,15 +236,15 @@ internalMappers.Invoice = {
         serializedName: "invoiceId",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       invDate: {
         serializedName: "invDate",
         required: false,
         type: {
-          name: "Date"
-        }
+          name: "Date",
+        },
       },
       invProducts: {
         serializedName: "invProducts",
@@ -257,15 +257,15 @@ internalMappers.Invoice = {
               value: {
                 type: {
                   name: "Composite",
-                  className: "Product"
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+                  className: "Product",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 };
 internalMappers.Pet = {
   required: false,
@@ -279,25 +279,25 @@ internalMappers.Pet = {
         required: false,
         serializedName: "id",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       name: {
         required: false,
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       pettype: {
         required: true,
         serializedName: "pet\\.type",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 internalMappers.PetAP = {
   required: false,
@@ -306,8 +306,8 @@ internalMappers.PetAP = {
     name: "Composite",
     additionalProperties: {
       type: {
-        name: "String"
-      }
+        name: "String",
+      },
     },
     className: "PetAP",
     modelProperties: {
@@ -315,15 +315,15 @@ internalMappers.PetAP = {
         required: true,
         serializedName: "id",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       name: {
         required: false,
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       eyeColor: {
         required: true,
@@ -331,31 +331,31 @@ internalMappers.PetAP = {
         isConstant: true,
         defaultValue: "brown",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       favoriteFood: {
         required: false,
         serializedName: "favoriteFood",
         defaultValue: "bones",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       status: {
         required: false,
         readOnly: true,
         serializedName: "status",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       odatalocation: {
         required: true,
         serializedName: "@odata\\.location",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       additionalProperties1: {
         required: false,
@@ -366,13 +366,13 @@ internalMappers.PetAP = {
             required: false,
             serializedName: "NumberElementType",
             type: {
-              name: "Number"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "Number",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 internalMappers.PetGallery = {
   required: false,
@@ -385,15 +385,15 @@ internalMappers.PetGallery = {
         required: false,
         serializedName: "id",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       name: {
         required: false,
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       pets: {
         required: false,
@@ -407,13 +407,13 @@ internalMappers.PetGallery = {
               name: "Composite",
               polymorphicDiscriminator: "pet.type",
               uberParent: "Pet",
-              className: "Pet"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "Pet",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 internalMappers.Product = {
   required: false,
@@ -427,28 +427,28 @@ internalMappers.Product = {
         constraints: {},
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       name: {
         serializedName: "name",
         required: true,
         type: {
-          name: "String"
+          name: "String",
         },
         constraints: {
           MaxLength: 256,
           MinLength: 1,
-          Pattern: /^[A-Za-z0-9-._]+$/
-        }
+          Pattern: /^[A-Za-z0-9-._]+$/,
+        },
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
         required: false,
         type: {
           name: "Enum",
-          allowedValues: ["Creating", "Failed", "Succeeded"]
-        }
+          allowedValues: ["Creating", "Failed", "Succeeded"],
+        },
       },
       tags: {
         serializedName: "tags",
@@ -457,25 +457,25 @@ internalMappers.Product = {
           name: "Dictionary",
           value: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       dispatchTime: {
         serializedName: "dispatchTime",
         required: false,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       invoiceInfo: {
         serializedName: "invoiceInfo",
         required: false,
         type: {
           name: "Composite",
-          className: "Invoice"
-        }
+          className: "Invoice",
+        },
       },
       subProducts: {
         serializedName: "subProducts",
@@ -485,13 +485,13 @@ internalMappers.Product = {
           element: {
             type: {
               name: "Composite",
-              className: "SubProduct"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "SubProduct",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 internalMappers.ProductListResult = {
   required: false,
@@ -508,13 +508,13 @@ internalMappers.ProductListResult = {
           element: {
             type: {
               name: "Composite",
-              className: "Product"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "Product",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 internalMappers.ProductListResultNextLink = {
   required: false,
@@ -531,20 +531,20 @@ internalMappers.ProductListResultNextLink = {
           element: {
             type: {
               name: "Composite",
-              className: "Product"
-            }
-          }
-        }
+              className: "Product",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         required: false,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 internalMappers.ProductListResultNextLinkFirst = {
   required: false,
@@ -557,8 +557,8 @@ internalMappers.ProductListResultNextLinkFirst = {
         serializedName: "nextLink",
         required: false,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       value: {
         serializedName: "",
@@ -568,13 +568,13 @@ internalMappers.ProductListResultNextLinkFirst = {
           element: {
             type: {
               name: "Composite",
-              className: "Product"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "Product",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 internalMappers.SawShark = {
   required: false,
@@ -583,7 +583,7 @@ internalMappers.SawShark = {
     name: "Composite",
     polymorphicDiscriminator: {
       serializedName: "fish.type",
-      clientName: "fishtype"
+      clientName: "fishtype",
     },
     uberParent: "Fish",
     className: "Sawshark",
@@ -592,15 +592,15 @@ internalMappers.SawShark = {
         required: false,
         serializedName: "species",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       length: {
         required: true,
         serializedName: "length",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       siblings: {
         required: false,
@@ -614,44 +614,44 @@ internalMappers.SawShark = {
               name: "Composite",
               polymorphicDiscriminator: {
                 serializedName: "fish.type",
-                clientName: "fishtype"
+                clientName: "fishtype",
               },
               uberParent: "Fish",
-              className: "Fish"
-            }
-          }
-        }
+              className: "Fish",
+            },
+          },
+        },
       },
       fishtype: {
         required: true,
         serializedName: "fish\\.type",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       age: {
         required: false,
         serializedName: "age",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       birthday: {
         required: true,
         serializedName: "birthday",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       picture: {
         required: false,
         serializedName: "picture",
         type: {
-          name: "ByteArray"
-        }
-      }
-    }
-  }
+          name: "ByteArray",
+        },
+      },
+    },
+  },
 };
 internalMappers.Shark = {
   required: false,
@@ -660,7 +660,7 @@ internalMappers.Shark = {
     name: "Composite",
     polymorphicDiscriminator: {
       serializedName: "fish.type",
-      clientName: "fishtype"
+      clientName: "fishtype",
     },
     uberParent: "Fish",
     className: "Shark",
@@ -669,15 +669,15 @@ internalMappers.Shark = {
         required: false,
         serializedName: "species",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       length: {
         required: true,
         serializedName: "length",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       siblings: {
         required: false,
@@ -691,37 +691,37 @@ internalMappers.Shark = {
               name: "Composite",
               polymorphicDiscriminator: {
                 serializedName: "fish.type",
-                clientName: "fishtype"
+                clientName: "fishtype",
               },
               uberParent: "Fish",
-              className: "Fish"
-            }
-          }
-        }
+              className: "Fish",
+            },
+          },
+        },
       },
       fishtype: {
         required: true,
         serializedName: "fish\\.type",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       age: {
         required: false,
         serializedName: "age",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       birthday: {
         required: true,
         serializedName: "birthday",
         type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 internalMappers.SubProduct = {
   required: false,
@@ -734,41 +734,41 @@ internalMappers.SubProduct = {
         serializedName: "subId",
         required: true,
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       subName: {
         serializedName: "subName",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       provisioningState: {
         serializedName: "provisioningState",
         required: false,
         type: {
           name: "Enum",
-          allowedValues: ["Creating", "Failed", "Succeeded"]
-        }
+          allowedValues: ["Creating", "Failed", "Succeeded"],
+        },
       },
       makeTime: {
         serializedName: "makeTime",
         required: false,
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       invoiceInfo: {
         serializedName: "invoiceInfo",
         required: false,
         type: {
           name: "Composite",
-          className: "Invoice"
-        }
-      }
-    }
-  }
+          className: "Invoice",
+        },
+      },
+    },
+  },
 };
 
 internalMappers.discriminators = {
@@ -777,7 +777,7 @@ internalMappers.discriminators = {
   "Fish.sawshark": internalMappers.SawShark,
   Pet: internalMappers.Pet,
   "Pet.Cat": internalMappers.Cat,
-  "Pet.Dog": internalMappers.Dog
+  "Pet.Dog": internalMappers.Dog,
 };
 
 export const Mappers = internalMappers;

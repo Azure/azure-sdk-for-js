@@ -6,7 +6,7 @@ import {
   PipelineResponse,
   PipelineRequest,
   SendRequest,
-  PipelinePolicy
+  PipelinePolicy,
 } from "@azure/core-rest-pipeline";
 
 import { isKeyCredentialLike } from "./util";
@@ -43,6 +43,6 @@ export function eventGridCredentialPolicy(
       }
 
       return next(request);
-    }
+    },
   };
 }

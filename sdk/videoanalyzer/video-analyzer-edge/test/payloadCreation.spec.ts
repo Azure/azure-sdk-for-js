@@ -8,7 +8,7 @@ import {
   UnsecuredEndpoint,
   NodeInput,
   VideoSink,
-  createRequest
+  createRequest,
 } from "../src";
 
 describe("test", () => {
@@ -21,14 +21,14 @@ describe("test", () => {
         credentials: {
           username: "${rtspUserName}",
           password: "${rtspPassword}",
-          "@type": "#Microsoft.VideoAnalyzer.UsernamePasswordCredentials"
-        }
+          "@type": "#Microsoft.VideoAnalyzer.UsernamePasswordCredentials",
+        },
       } as UnsecuredEndpoint,
-      "@type": "#Microsoft.VideoAnalyzer.RtspSource"
+      "@type": "#Microsoft.VideoAnalyzer.RtspSource",
     };
 
     const nodeInput: NodeInput = {
-      nodeName: "rtspSource"
+      nodeName: "rtspSource",
     };
 
     const videoSink: VideoSink = {
@@ -37,7 +37,7 @@ describe("test", () => {
       videoName: "video",
       localMediaCachePath: "/var/lib/videoanalyzer/tmp/",
       localMediaCacheMaximumSizeMiB: "1024",
-      "@type": "#Microsoft.VideoAnalyzer.VideoSink"
+      "@type": "#Microsoft.VideoAnalyzer.VideoSink",
     };
 
     const pipelineTopology: PipelineTopology = {
@@ -47,11 +47,11 @@ describe("test", () => {
         parameters: [
           { name: "rtspUserName", type: "String", default: "dummyUsername" },
           { name: "rtspPassword", type: "SecretString", default: "dummyPassword" },
-          { name: "rtspUrl", type: "String" }
+          { name: "rtspUrl", type: "String" },
         ],
         sources: [rtspSource],
-        sinks: [videoSink]
-      }
+        sinks: [videoSink],
+      },
     };
 
     const pipelineTopologySetRequest = createRequest("pipelineTopologySet", pipelineTopology);

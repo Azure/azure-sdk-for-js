@@ -11,7 +11,7 @@ import {
   LeaseStateType,
   LeaseStatusType,
   BlobDownloadHeaders,
-  BlobQueryResponseModel
+  BlobQueryResponseModel,
 } from "./generatedModels";
 import { Metadata } from "./models";
 import { BlobQuickQueryStreamOptions } from "./utils/BlobQuickQueryStream";

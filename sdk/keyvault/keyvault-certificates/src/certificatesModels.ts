@@ -6,13 +6,13 @@ import {
   DeletionRecoveryLevel,
   KeyUsageType,
   JsonWebKeyType as CertificateKeyType,
-  JsonWebKeyCurveName as CertificateKeyCurveName
+  JsonWebKeyCurveName as CertificateKeyCurveName,
 } from "./generated/models";
 
 /**
  * The latest supported KeyVault service API version
  */
-export const LATEST_API_VERSION = "7.3-preview";
+export const LATEST_API_VERSION = "7.3";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
@@ -21,7 +21,7 @@ export interface CertificateClientOptions extends coreHttp.PipelineOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
-  serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3-preview";
+  serviceVersion?: "7.0" | "7.1" | "7.2" | "7.3";
 }
 
 /**
@@ -192,7 +192,7 @@ export enum WellKnownIssuerNames {
   /**
    * For certificates whose issuer will be defined later
    */
-  Unknown = "Unknown"
+  Unknown = "Unknown",
 }
 
 /**
@@ -382,7 +382,7 @@ export type ImportCertificatePolicy = CertificatePolicyProperties &
  */
 export const DefaultCertificatePolicy = {
   issuerName: "Self",
-  subject: "cn=MyCert"
+  subject: "cn=MyCert",
 };
 
 /**
@@ -439,6 +439,7 @@ export interface CertificateProperties {
   readonly vaultUrl?: string;
   /**
    * The version of certificate. May be undefined.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly version?: string;
   /**
@@ -831,7 +832,7 @@ export enum KnownCertificateKeyCurveNames {
   /**
    * P-256K Key Curve.
    */
-  P256K = "P-256K"
+  P256K = "P-256K",
 }
 
 /** Known values of {@link CertificateKeyType} that the service accepts. */
@@ -859,11 +860,11 @@ export enum KnownCertificateKeyTypes {
   /**
    * oct-HSM Key Type
    */
-  OctHSM = "oct-HSM"
+  OctHSM = "oct-HSM",
 }
 
 /** Known values of {@link KeyUsageType} that the service accepts. */
-export const enum KnownKeyUsageTypes {
+export enum KnownKeyUsageTypes {
   /**
    * DigitalSignature Usage Type.
    */
@@ -899,5 +900,5 @@ export const enum KnownKeyUsageTypes {
   /**
    * DecipherOnly Usage Type.
    */
-  DecipherOnly = "decipherOnly"
+  DecipherOnly = "decipherOnly",
 }

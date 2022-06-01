@@ -10,7 +10,7 @@ import { IntegrationRuntimeObjectMetadata } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { DataFactoryManagementClientContext } from "../dataFactoryManagementClientContext";
+import { DataFactoryManagementClient } from "../dataFactoryManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -23,13 +23,13 @@ import {
 /** Class containing IntegrationRuntimeObjectMetadata operations. */
 export class IntegrationRuntimeObjectMetadataImpl
   implements IntegrationRuntimeObjectMetadata {
-  private readonly client: DataFactoryManagementClientContext;
+  private readonly client: DataFactoryManagementClient;
 
   /**
    * Initialize a new instance of the class IntegrationRuntimeObjectMetadata class.
    * @param client Reference to the service client
    */
-  constructor(client: DataFactoryManagementClientContext) {
+  constructor(client: DataFactoryManagementClient) {
     this.client = client;
   }
 
@@ -95,10 +95,12 @@ export class IntegrationRuntimeObjectMetadataImpl
       { resourceGroupName, factoryName, integrationRuntimeName, options },
       refreshOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

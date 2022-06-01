@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ApiKeyCredentials, ApiKeyCredentialOptions } from "./apiKeyCredentials";
+import { ApiKeyCredentialOptions, ApiKeyCredentials } from "./apiKeyCredentials";
 
 /**
  * A {@link TopicCredentials} object used for Azure Event Grid.
@@ -18,8 +18,8 @@ export class TopicCredentials extends ApiKeyCredentials {
     }
     const options: ApiKeyCredentialOptions = {
       inHeader: {
-        "aeg-sas-key": topicKey
-      }
+        "aeg-sas-key": topicKey,
+      },
     };
     super(options);
   }

@@ -10,7 +10,7 @@ import { TriggerRuns } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { DataFactoryManagementClientContext } from "../dataFactoryManagementClientContext";
+import { DataFactoryManagementClient } from "../dataFactoryManagementClient";
 import {
   TriggerRunsRerunOptionalParams,
   TriggerRunsCancelOptionalParams,
@@ -21,13 +21,13 @@ import {
 
 /** Class containing TriggerRuns operations. */
 export class TriggerRunsImpl implements TriggerRuns {
-  private readonly client: DataFactoryManagementClientContext;
+  private readonly client: DataFactoryManagementClient;
 
   /**
    * Initialize a new instance of the class TriggerRuns class.
    * @param client Reference to the service client
    */
-  constructor(client: DataFactoryManagementClientContext) {
+  constructor(client: DataFactoryManagementClient) {
     this.client = client;
   }
 

@@ -1,0 +1,59 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement", "ResolveIgnoresElementsWithAutoIDsAndDuplicateNames" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:parentInterface;1",
+      "@type": "Interface",
+      "contents": [
+        {
+          "@type": "Component",
+          "name": "child",
+          "schema": "dtmi:test:childInterface;1"
+        }
+      ]
+    },
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:childInterface;1",
+      "@type": "Interface",
+      "contents": [
+        {
+          "@type": "Property",
+          "name": "expectedDistance",
+          "schema": "double"
+        },
+        {
+          "@type": "Property",
+          "name": "expectedDistance",
+          "schema": "integer"
+        },
+        {
+          "@type": "Telemetry",
+          "name": "currentDistance",
+          "schema": "double"
+        },
+        {
+          "@type": "Command",
+          "name": "setDistance"
+        },
+        {
+          "@type": "Relationship",
+          "name": "proximity"
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:nonUniquePropertyValue",
+        "PrimaryID": "dtmi:test:childInterface;1",
+        "SecondaryID": null,
+        "Property": "contents",
+        "Value": "name"
+      }
+    ]
+  }
+}

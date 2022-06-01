@@ -9,8 +9,7 @@ const { SecretClient } = require("@azure/keyvault-secrets");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   // DefaultAzureCredential expects the following three environment variables:
@@ -24,6 +23,9 @@ async function main() {
   const client = new SecretClient(url, credential);
 
   // Create a secret
+  // The secret can be a string of any kind. For example,
+  // a multiline text block such as an RSA private key with newline characters,
+  // or a stringified JSON object, like `JSON.stringify({ mySecret: 'MySecretValue'})`.
   const uniqueString = new Date().getTime();
   const secretName = `secret${uniqueString}`;
   const result = await client.setSecret(secretName, "MySecretValue");
@@ -35,7 +37,7 @@ async function main() {
 
   // Update the secret with different attributes
   const updatedSecret = await client.updateSecretProperties(secretName, result.properties.version, {
-    enabled: false
+    enabled: false,
   });
   console.log("updated secret: ", updatedSecret);
 
@@ -48,3 +50,5 @@ main().catch((error) => {
   console.error("An error occurred:", error);
   process.exit(1);
 });
+
+module.exports = { main };

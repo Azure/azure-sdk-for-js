@@ -5,9 +5,7 @@ import { TimeSpan } from "./timeSpan";
 /**
  * @hidden
  */
-export function parseDelimitedString(
-  delimitedString: string
-): {
+export function parseDelimitedString(delimitedString: string): {
   [key: string]: any;
 } {
   if (delimitedString == null) {

@@ -8,7 +8,7 @@ import {
   MetricUnit,
   MetricClass,
   AggregationType,
-  NamespaceClassification
+  NamespaceClassification,
 } from "..";
 import { QueryTimeInterval } from "./timeInterval";
 

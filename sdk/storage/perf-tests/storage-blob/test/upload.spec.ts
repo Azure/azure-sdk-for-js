@@ -18,8 +18,8 @@ export class StorageBlobUploadTest extends StorageBlobTest<StorageBlobUploadTest
       description: "Size in bytes",
       shortName: "sz",
       longName: "size",
-      defaultValue: 10240
-    }
+      defaultValue: 10240,
+    },
   };
 
   constructor() {

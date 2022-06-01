@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationOptions } from "@azure/core-http";
+import { OperationOptions } from "@azure/core-client";
 import {
   createSpanFunction,
   extractSpanContextFromTraceParentHeader,
@@ -12,7 +12,7 @@ import {
   SpanContext,
   SpanKind,
   context as otContext,
-  setSpanContext
+  setSpanContext,
 } from "@azure/core-tracing";
 import { ServiceBusMessage } from "../serviceBusMessage";
 import { TryAddOptions } from "../modelsToBeSharedWithEventHubs";
@@ -23,7 +23,7 @@ import { TryAddOptions } from "../modelsToBeSharedWithEventHubs";
  */
 export const createSpan = createSpanFunction({
   packagePrefix: "Azure.ServiceBus",
-  namespace: "Microsoft.ServiceBus"
+  namespace: "Microsoft.ServiceBus",
 });
 
 /**
@@ -35,7 +35,7 @@ export function createMessageSpan(
   host: string
 ): ReturnType<typeof createServiceBusSpan> {
   return createServiceBusSpan("message", operationOptions, entityPath, host, {
-    kind: SpanKind.PRODUCER
+    kind: SpanKind.PRODUCER,
   });
 }
 
@@ -57,9 +57,9 @@ export function createServiceBusSpan(
       spanOptions: {
         // By passing spanOptions if they exist at runtime, we're backwards compatible with @azure/core-tracing@preview.13 and earlier.
         ...(operationOptions?.tracingOptions as any)?.spanOptions,
-        ...additionalSpanOptions
-      }
-    }
+        ...additionalSpanOptions,
+      },
+    },
   });
 
   span.setAttribute("message_bus.destination", entityPath);
@@ -67,7 +67,7 @@ export function createServiceBusSpan(
 
   return {
     span,
-    updatedOptions
+    updatedOptions,
   };
 }
 
@@ -117,7 +117,7 @@ export function instrumentMessage<T extends InstrumentableMessage>(
   if (previouslyInstrumented) {
     return {
       message,
-      spanContext: undefined
+      spanContext: undefined,
     };
   }
 
@@ -127,7 +127,7 @@ export function instrumentMessage<T extends InstrumentableMessage>(
     if (!messageSpan.isRecording()) {
       return {
         message,
-        spanContext: undefined
+        spanContext: undefined,
       };
     }
 
@@ -139,14 +139,14 @@ export function instrumentMessage<T extends InstrumentableMessage>(
         ...message,
         applicationProperties: {
           ...message.applicationProperties,
-          [TRACEPARENT_PROPERTY]: traceParent
-        }
+          [TRACEPARENT_PROPERTY]: traceParent,
+        },
       };
     }
 
     return {
       message,
-      spanContext: messageSpan.spanContext()
+      spanContext: messageSpan.spanContext(),
     };
   } finally {
     messageSpan.end();
@@ -192,8 +192,8 @@ export function convertTryAddOptionsForCompatibility(tryAddOptions: TryAddOption
     }
 
     function takeSomeOptionsFromSomewhere(someOptionsPassedIntoTheirFunction) {
-      
-      batch.tryAddMessage(message, { 
+
+      batch.tryAddMessage(message, {
         // "runtime" blend of options from some other part of their app
         ...someOptionsPassedIntoTheirFunction,      // parentSpan comes along for the ride...
 
@@ -208,9 +208,9 @@ export function convertTryAddOptionsForCompatibility(tryAddOptions: TryAddOption
 
     And now they've accidentally been opted into the legacy code path even though they think
     they're using the modern code path.
-    
+
     This does kick the can down the road a bit - at some point we will be putting them in this
-    situation where things looked okay but their spans are becoming unparented but we can 
+    situation where things looked okay but their spans are becoming unparented but we can
     try to announce this (and other changes related to tracing) in our next big rev.
   */
 
@@ -225,8 +225,8 @@ export function convertTryAddOptionsForCompatibility(tryAddOptions: TryAddOption
     tracingOptions: {
       tracingContext: isSpan(legacyParentSpanOrSpanContext)
         ? setSpan(otContext.active(), legacyParentSpanOrSpanContext)
-        : setSpanContext(otContext.active(), legacyParentSpanOrSpanContext)
-    }
+        : setSpanContext(otContext.active(), legacyParentSpanOrSpanContext),
+    },
   };
 
   return convertedOptions;

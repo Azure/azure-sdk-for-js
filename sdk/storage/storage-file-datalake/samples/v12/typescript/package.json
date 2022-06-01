@@ -1,0 +1,45 @@
+{
+  "name": "@azure-samples/storage-file-datalake-ts",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Data Lake Storage client library samples for TypeScript",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/storage/storage-file-datalake"
+  },
+  "keywords": [
+    "azure",
+    "storage",
+    "ADLS",
+    "DFS",
+    "cloud",
+    "datalake",
+    "node.js",
+    "typescript",
+    "javascript",
+    "browser"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-file-datalake",
+  "dependencies": {
+    "@azure/storage-file-datalake": "latest",
+    "dotenv": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "^12.0.0",
+    "typescript": "~4.4.0",
+    "rimraf": "latest"
+  }
+}

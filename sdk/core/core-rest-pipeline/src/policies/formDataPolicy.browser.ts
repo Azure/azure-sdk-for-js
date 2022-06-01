@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 
 /**
@@ -41,6 +41,6 @@ export function formDataPolicy(): PipelinePolicy {
         }
       }
       return next(request);
-    }
+    },
   };
 }

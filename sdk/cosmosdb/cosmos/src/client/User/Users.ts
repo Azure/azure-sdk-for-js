@@ -44,7 +44,7 @@ export class Users {
         resourceId: id,
         resultFn: (result) => result.Users,
         query,
-        options: innerOptions
+        options: innerOptions,
       });
     });
   }
@@ -77,7 +77,7 @@ export class Users {
       path,
       resourceType: ResourceType.user,
       resourceId: id,
-      options
+      options,
     });
     const ref = new User(this.database, response.result.id, this.clientContext);
     return new UserResponse(response.result, response.headers, response.code, ref);
@@ -101,7 +101,7 @@ export class Users {
       path,
       resourceType: ResourceType.user,
       resourceId: id,
-      options
+      options,
     });
     const ref = new User(this.database, response.result.id, this.clientContext);
     return new UserResponse(response.result, response.headers, response.code, ref);

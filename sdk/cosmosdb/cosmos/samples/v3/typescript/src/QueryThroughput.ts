@@ -5,9 +5,8 @@
  * @summary Demonstrates query throughput scenarios.
  */
 
-import path from "path";
 import * as dotenv from "dotenv";
-dotenv.config({ path: path.resolve(__dirname, "../sample.env") });
+dotenv.config();
 
 import { Container, FeedOptions, SqlQuerySpec, CosmosClient } from "@azure/cosmos";
 const key = process.env.COSMOS_KEY || "<cosmos key>";
@@ -45,7 +44,7 @@ async function run() {
       console.log(
         'Scenario complete: "' + scenario.query + '" - took ' + (Date.now() - start) / 1000 + "s"
       );
-    } catch (e) {
+    } catch (e: any) {
       console.log("Scenario failed: " + scenario.query + " - " + JSON.stringify(scenario.options));
     }
   }

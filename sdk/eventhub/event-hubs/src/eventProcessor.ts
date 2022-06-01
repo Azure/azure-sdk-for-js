@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { v4 as uuid } from "uuid";
-import { PumpManager, PumpManagerImpl } from "./pumpManager";
-import { AbortController, AbortSignalLike, AbortError } from "@azure/abort-controller";
-import { logErrorStackTrace, logger } from "./log";
+import { AbortController, AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { Checkpoint, PartitionProcessor } from "./partitionProcessor";
-import { SubscriptionEventHandlers } from "./eventHubConsumerClientModels";
 import { EventPosition, isEventPosition, latestEventPosition } from "./eventPosition";
-import { delayWithoutThrow } from "./util/delayWithoutThrow";
-import { CommonEventProcessorOptions } from "./models/private";
+import { PumpManager, PumpManagerImpl } from "./pumpManager";
+import { logErrorStackTrace, logger } from "./log";
 import { CloseReason } from "./models/public";
+import { CommonEventProcessorOptions } from "./models/private";
 import { ConnectionContext } from "./connectionContext";
 import { LoadBalancingStrategy } from "./loadBalancerStrategies/loadBalancingStrategy";
 import { OperationOptions } from "./util/operationOptions";
+import { SubscriptionEventHandlers } from "./eventHubConsumerClientModels";
+import { delayWithoutThrow } from "./util/delayWithoutThrow";
+import { v4 as uuid } from "uuid";
 
 /**
  * An interface representing the details on which instance of a `EventProcessor` owns processing
@@ -269,7 +269,7 @@ export class EventProcessor {
       fullyQualifiedNamespace: this._fullyQualifiedNamespace,
       consumerGroup: this._consumerGroup,
       eventHubName: this._eventHubName,
-      etag: previousPartitionOwnership ? previousPartitionOwnership.etag : undefined
+      etag: previousPartitionOwnership ? previousPartitionOwnership.etag : undefined,
     };
 
     return partitionOwnership;
@@ -305,7 +305,7 @@ export class EventProcessor {
       );
 
       await this._startPump(ownershipRequest.partitionId, abortSignal);
-    } catch (err) {
+    } catch (err: any) {
       logger.warning(
         `[${this.id}] Failed to claim ownership of partition ${ownershipRequest.partitionId}`
       );
@@ -341,7 +341,7 @@ export class EventProcessor {
         eventHubName: this._eventHubName,
         consumerGroup: this._consumerGroup,
         partitionId: partitionId,
-        eventProcessorId: this.id
+        eventProcessorId: this.id,
       }
     );
 
@@ -384,7 +384,7 @@ export class EventProcessor {
     while (!abortSignal.aborted) {
       try {
         await this._startPump(partitionId, abortSignal);
-      } catch (err) {
+      } catch (err: any) {
         logger.warning(
           `[${this._id}] An error occured within the EventProcessor loop: ${err?.name}: ${err?.message}`
         );
@@ -434,10 +434,10 @@ export class EventProcessor {
       const iterationStartTimeInMs = Date.now();
       try {
         const { partitionIds } = await this._context.managementSession!.getEventHubProperties({
-          abortSignal: abortSignal
+          abortSignal: abortSignal,
         });
         await this._performLoadBalancing(loadBalancingStrategy, partitionIds, abortSignal);
-      } catch (err) {
+      } catch (err: any) {
         logger.warning(
           `[${this._id}] An error occured within the EventProcessor loop: ${err?.name}: ${err?.message}`
         );
@@ -540,9 +540,9 @@ export class EventProcessor {
           partitionId: "",
           updateCheckpoint: async () => {
             /* no-op */
-          }
+          },
         });
-      } catch (errorFromUser) {
+      } catch (errorFromUser: any) {
         logger.verbose(
           `[${this._id}] An error was thrown from the user's processError handler: ${errorFromUser}`
         );
@@ -612,7 +612,7 @@ export class EventProcessor {
       if (this._loopTask) {
         await this._loopTask;
       }
-    } catch (err) {
+    } catch (err: any) {
       logger.verbose(`[${this._id}] An error occured while stopping the EventProcessor: ${err}`);
     } finally {
       logger.verbose(`[${this._id}] EventProcessor stopped.`);

@@ -23,7 +23,7 @@ export {
   HubSendTextToConnectionOptions,
   HubSendTextToUserOptions,
   JSONTypes,
-  Permission
+  Permission,
 } from "./hubClient";
 export {
   WebPubSubGroup,
@@ -35,5 +35,5 @@ export {
   GroupRemoveConnectionOptions,
   GroupRemoveUserOptions,
   GroupSendTextToAllOptions,
-  GroupSendToAllOptions
+  GroupSendToAllOptions,
 } from "./groupClient";

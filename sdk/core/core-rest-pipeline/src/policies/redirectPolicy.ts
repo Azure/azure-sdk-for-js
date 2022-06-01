@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
-import { URL } from "../util/url";
 
 /**
  * The programmatic identifier of the redirectPolicy.
@@ -29,6 +28,7 @@ export interface RedirectPolicyOptions {
 /**
  * A policy to follow Location headers from the server in order
  * to support server-side redirection.
+ * In the browser, this policy is not used.
  * @param options - Options to control policy behavior.
  */
 export function redirectPolicy(options: RedirectPolicyOptions = {}): PipelinePolicy {
@@ -38,7 +38,7 @@ export function redirectPolicy(options: RedirectPolicyOptions = {}): PipelinePol
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       const response = await next(request);
       return handleRedirect(next, response, maxRetries);
-    }
+    },
   };
 }
 
@@ -69,6 +69,8 @@ async function handleRedirect(
       request.headers.delete("Content-Length");
       delete request.body;
     }
+
+    request.headers.delete("Authorization");
 
     const res = await next(request);
     return handleRedirect(next, res, maxRetries, currentRetries + 1);

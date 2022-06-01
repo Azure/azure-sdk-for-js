@@ -1,0 +1,44 @@
+{
+  "name": "@azure-samples/storage-queue-ts",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Storage Queue client library samples for TypeScript",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/storage/storage-queue"
+  },
+  "keywords": [
+    "azure",
+    "storage",
+    "queue",
+    "cloud",
+    "node.js",
+    "typescript",
+    "javascript",
+    "browser"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-queue",
+  "dependencies": {
+    "@azure/identity": "^2.0.1",
+    "@azure/storage-queue": "^12.8.0",
+    "dotenv": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "^12.0.0",
+    "typescript": "~4.4.0",
+    "rimraf": "latest"
+  }
+}

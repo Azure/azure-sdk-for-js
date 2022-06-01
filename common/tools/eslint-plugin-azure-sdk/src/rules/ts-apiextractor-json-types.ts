@@ -7,9 +7,9 @@
  * @author Will Temple
  */
 
-import { Rule } from "eslint";
-import { Property } from "estree";
 import { getRuleMetaData, getVerifiers, stripPath } from "../utils";
+import { Property } from "estree";
+import { Rule } from "eslint";
 import { stripFileName } from "../utils/verifiers";
 
 //------------------------------------------------------------------------------
@@ -25,7 +25,7 @@ export = {
     const verifiers = getVerifiers(context, {
       outer: "dtsRollup",
       inner: "publicTrimmedFilePath",
-      expected: false
+      expected: false,
     });
     const fileName = context.getFilename();
     return stripPath(fileName) === "api-extractor.json"
@@ -37,36 +37,35 @@ export = {
             verifiers.isMemberOf,
 
           // check the node corresponding to types to see if its value is a TypeScript declaration file
-          "ExpressionStatement > ObjectExpression > Property[key.value='dtsRollup'] > ObjectExpression > Property[key.value='publicTrimmedFilePath']": (
-            node: Property
-          ): void => {
-            const value = node.value;
-            if (value.type !== "Literal" || typeof value.value !== "string") {
-              context.report({
-                node: node.value,
-                message: ".d.ts rollup path is not set to a string"
-              });
-              return;
-            }
+          "ExpressionStatement > ObjectExpression > Property[key.value='dtsRollup'] > ObjectExpression > Property[key.value='publicTrimmedFilePath']":
+            (node: Property): void => {
+              const value = node.value;
+              if (value.type !== "Literal" || typeof value.value !== "string") {
+                context.report({
+                  node: node.value,
+                  message: ".d.ts rollup path is not set to a string",
+                });
+                return;
+              }
 
-            const baseName = stripPath(value.value);
-            // Get the name of the package directory
-            const packageDirectory = stripPath(stripFileName(fileName));
-            const typesOutputName = baseName.replace(/\..*$/, "");
-            // filename ending in '.d.ts' and matches package name
-            if (!/\.d\.ts$/.test(baseName)) {
-              context.report({
-                node: value,
-                message: "provided .d.ts rollup path is not a TypeScript declaration file"
-              });
-            } else if (typesOutputName !== packageDirectory) {
-              context.report({
-                node: value,
-                message: `provided .d.ts rollup path should be named '${packageDirectory}.d.ts' after the package directory`
-              });
-            }
-          }
+              const baseName = stripPath(value.value);
+              // Get the name of the package directory
+              const packageDirectory = stripPath(stripFileName(fileName));
+              const typesOutputName = baseName.replace(/\..*$/, "");
+              // filename ending in '.d.ts' and matches package name
+              if (!/\.d\.ts$/.test(baseName)) {
+                context.report({
+                  node: value,
+                  message: "provided .d.ts rollup path is not a TypeScript declaration file",
+                });
+              } else if (typesOutputName !== packageDirectory) {
+                context.report({
+                  node: value,
+                  message: `provided .d.ts rollup path should be named '${packageDirectory}.d.ts' after the package directory`,
+                });
+              }
+            },
         } as Rule.RuleListener)
       : {};
-  }
+  },
 };

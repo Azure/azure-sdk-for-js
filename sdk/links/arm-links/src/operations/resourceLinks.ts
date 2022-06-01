@@ -6,21 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ResourceLinks } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ManagementLinkClientContext } from "../managementLinkClientContext";
+import { ManagementLinkClient } from "../managementLinkClient";
 import {
   ResourceLink,
   ResourceLinksListAtSubscriptionNextOptionalParams,
   ResourceLinksListAtSubscriptionOptionalParams,
   ResourceLinksListAtSourceScopeNextOptionalParams,
   ResourceLinksListAtSourceScopeOptionalParams,
-  ResourceLinksListAtSubscriptionNextNextOptionalParams,
-  ResourceLinksListAtSourceScopeNextNextOptionalParams,
   ResourceLinksDeleteOptionalParams,
   ResourceLinksCreateOrUpdateOptionalParams,
   ResourceLinksCreateOrUpdateResponse,
@@ -29,21 +26,19 @@ import {
   ResourceLinksListAtSubscriptionResponse,
   ResourceLinksListAtSourceScopeResponse,
   ResourceLinksListAtSubscriptionNextResponse,
-  ResourceLinksListAtSourceScopeNextResponse,
-  ResourceLinksListAtSubscriptionNextNextResponse,
-  ResourceLinksListAtSourceScopeNextNextResponse
+  ResourceLinksListAtSourceScopeNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a ResourceLinks. */
+/** Class containing ResourceLinks operations. */
 export class ResourceLinksImpl implements ResourceLinks {
-  private readonly client: ManagementLinkClientContext;
+  private readonly client: ManagementLinkClient;
 
   /**
    * Initialize a new instance of the class ResourceLinks class.
    * @param client Reference to the service client
    */
-  constructor(client: ManagementLinkClientContext) {
+  constructor(client: ManagementLinkClient) {
     this.client = client;
   }
 
@@ -137,118 +132,6 @@ export class ResourceLinksImpl implements ResourceLinks {
     options?: ResourceLinksListAtSourceScopeOptionalParams
   ): AsyncIterableIterator<ResourceLink> {
     for await (const page of this.listAtSourceScopePagingPage(scope, options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * ListAtSubscriptionNext
-   * @param nextLink The nextLink from the previous successful call to the ListAtSubscription method.
-   * @param options The options parameters.
-   */
-  public listAtSubscriptionNext(
-    nextLink: string,
-    options?: ResourceLinksListAtSubscriptionNextOptionalParams
-  ): PagedAsyncIterableIterator<ResourceLink> {
-    const iter = this.listAtSubscriptionNextPagingAll(nextLink, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listAtSubscriptionNextPagingPage(nextLink, options);
-      }
-    };
-  }
-
-  private async *listAtSubscriptionNextPagingPage(
-    nextLink: string,
-    options?: ResourceLinksListAtSubscriptionNextOptionalParams
-  ): AsyncIterableIterator<ResourceLink[]> {
-    let result = await this._listAtSubscriptionNext(nextLink, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listAtSubscriptionNextNext(
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listAtSubscriptionNextPagingAll(
-    nextLink: string,
-    options?: ResourceLinksListAtSubscriptionNextOptionalParams
-  ): AsyncIterableIterator<ResourceLink> {
-    for await (const page of this.listAtSubscriptionNextPagingPage(
-      nextLink,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * ListAtSourceScopeNext
-   * @param scope The fully qualified ID of the scope for getting the resource links. For example, to
-   *              list resource links at and under a resource group, set the scope to
-   *              /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myGroup.
-   * @param nextLink The nextLink from the previous successful call to the ListAtSourceScope method.
-   * @param options The options parameters.
-   */
-  public listAtSourceScopeNext(
-    scope: string,
-    nextLink: string,
-    options?: ResourceLinksListAtSourceScopeNextOptionalParams
-  ): PagedAsyncIterableIterator<ResourceLink> {
-    const iter = this.listAtSourceScopeNextPagingAll(scope, nextLink, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: () => {
-        return this.listAtSourceScopeNextPagingPage(scope, nextLink, options);
-      }
-    };
-  }
-
-  private async *listAtSourceScopeNextPagingPage(
-    scope: string,
-    nextLink: string,
-    options?: ResourceLinksListAtSourceScopeNextOptionalParams
-  ): AsyncIterableIterator<ResourceLink[]> {
-    let result = await this._listAtSourceScopeNext(scope, nextLink, options);
-    yield result.value || [];
-    let continuationToken = result.nextLink;
-    while (continuationToken) {
-      result = await this._listAtSourceScopeNextNext(
-        scope,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      yield result.value || [];
-    }
-  }
-
-  private async *listAtSourceScopeNextPagingAll(
-    scope: string,
-    nextLink: string,
-    options?: ResourceLinksListAtSourceScopeNextOptionalParams
-  ): AsyncIterableIterator<ResourceLink> {
-    for await (const page of this.listAtSourceScopeNextPagingPage(
-      scope,
-      nextLink,
-      options
-    )) {
       yield* page;
     }
   }
@@ -370,40 +253,6 @@ export class ResourceLinksImpl implements ResourceLinks {
       listAtSourceScopeNextOperationSpec
     );
   }
-
-  /**
-   * ListAtSubscriptionNextNext
-   * @param nextLink The nextLink from the previous successful call to the ListAtSubscriptionNext method.
-   * @param options The options parameters.
-   */
-  private _listAtSubscriptionNextNext(
-    nextLink: string,
-    options?: ResourceLinksListAtSubscriptionNextNextOptionalParams
-  ): Promise<ResourceLinksListAtSubscriptionNextNextResponse> {
-    return this.client.sendOperationRequest(
-      { nextLink, options },
-      listAtSubscriptionNextNextOperationSpec
-    );
-  }
-
-  /**
-   * ListAtSourceScopeNextNext
-   * @param scope The fully qualified ID of the scope for getting the resource links. For example, to
-   *              list resource links at and under a resource group, set the scope to
-   *              /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myGroup.
-   * @param nextLink The nextLink from the previous successful call to the ListAtSourceScopeNext method.
-   * @param options The options parameters.
-   */
-  private _listAtSourceScopeNextNext(
-    scope: string,
-    nextLink: string,
-    options?: ResourceLinksListAtSourceScopeNextNextOptionalParams
-  ): Promise<ResourceLinksListAtSourceScopeNextNextResponse> {
-    return this.client.sendOperationRequest(
-      { scope, nextLink, options },
-      listAtSourceScopeNextNextOperationSpec
-    );
-  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -491,36 +340,6 @@ const listAtSubscriptionNextOperationSpec: coreClient.OperationSpec = {
   serializer
 };
 const listAtSourceScopeNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ResourceLinkResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter1],
-  urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listAtSubscriptionNextNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ResourceLinkResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion, Parameters.filter],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.nextLink,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listAtSourceScopeNextNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {

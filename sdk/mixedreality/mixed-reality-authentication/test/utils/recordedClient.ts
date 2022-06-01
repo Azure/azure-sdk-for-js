@@ -1,13 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Context } from "mocha";
-
-import { AzureKeyCredential } from "@azure/core-auth";
-import { env, record, Recorder, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
-
-import { MixedRealityStsClient } from "../../src";
 import "./env";
+import {
+  Recorder,
+  RecorderEnvironmentSetup,
+  env,
+  isLiveMode,
+  record,
+} from "@azure-tools/test-recorder";
+import { createXhrHttpClient, isNode } from "@azure/test-utils";
+import { AzureKeyCredential } from "@azure/core-auth";
+import { Context } from "mocha";
+import { MixedRealityStsClient } from "../../src";
 
 // When the recorder observes the values of these environment variables
 // in any recorded HTTP request or response, it will replace them with
@@ -15,7 +20,7 @@ import "./env";
 const replaceableVariables: Record<string, string> = {
   MIXEDREALITY_ACCOUNT_DOMAIN: "mixedreality.azure.com",
   MIXEDREALITY_ACCOUNT_ID: "68321d5a-7978-4ceb-b880-0f49751daae9",
-  MIXEDREALITY_ACCOUNT_KEY: "NjgzMjFkNWEtNzk3OC00Y2ViLWI4ODAtMGY0OTc1MWRhYWU5"
+  MIXEDREALITY_ACCOUNT_KEY: "NjgzMjFkNWEtNzk3OC00Y2ViLWI4ODAtMGY0OTc1MWRhYWU5",
 };
 
 export const environmentSetup: RecorderEnvironmentSetup = {
@@ -28,8 +33,8 @@ export const environmentSetup: RecorderEnvironmentSetup = {
       recording.replace(
         /"AccessToken":"[^"]*"/g,
         `"AccessToken":"eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJlbWFpbCI6IkJvYkBjb250b3NvLmNvbSIsImdpdmVuX25hbWUiOiJCb2IiLCJpc3MiOiJodHRwOi8vRGVmYXVsdC5Jc3N1ZXIuY29tIiwiYXVkIjoiaHR0cDovL0RlZmF1bHQuQXVkaWVuY2UuY29tIiwiaWF0IjoiMTYwNzk3ODY4MyIsIm5iZiI6IjE2MDc5Nzg2ODMiLCJleHAiOiIxNjA3OTc4OTgzIn0."`
-      )
-  ]
+      ),
+  ],
 };
 
 function getEnv(name: string): string {
@@ -43,10 +48,11 @@ export function createClient(): MixedRealityStsClient {
   const accountDomain = getEnv("MIXEDREALITY_ACCOUNT_DOMAIN");
   const accountId = getEnv("MIXEDREALITY_ACCOUNT_ID");
   const accountKey = getEnv("MIXEDREALITY_ACCOUNT_KEY");
+  const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
 
   const keyCredential = new AzureKeyCredential(accountKey);
 
-  return new MixedRealityStsClient(accountId, accountDomain, keyCredential);
+  return new MixedRealityStsClient(accountId, accountDomain, keyCredential, { httpClient });
 }
 
 /**

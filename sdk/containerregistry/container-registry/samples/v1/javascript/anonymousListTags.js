@@ -11,10 +11,9 @@
 // they wouldn't have permissions to modify or delete any of the images in the registry.
 const {
   ContainerRegistryClient,
-  KnownContainerRegistryAudience
+  KnownContainerRegistryAudience,
 } = require("@azure/container-registry");
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   // Get the service endpoint from the environment
@@ -22,7 +21,7 @@ async function main() {
 
   // Create a new ContainerRegistryClient for anonymous access
   const client = new ContainerRegistryClient(endpoint, {
-    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud
+    audience: KnownContainerRegistryAudience.AzureResourceManagerPublicCloud,
   });
 
   // Obtain a RegistryArtifact object to get access to image operations

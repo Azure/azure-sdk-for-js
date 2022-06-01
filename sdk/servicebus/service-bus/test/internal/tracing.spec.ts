@@ -10,39 +10,39 @@ import { TestClientType } from "../public/utils/testUtils";
 import {
   ServiceBusClientForTests,
   EntityName,
-  createServiceBusClientForTests
+  createServiceBusClientForTests,
 } from "../public/utils/testutils2";
 
 function legacyOptionsUsingSpanContext(rootSpan: TestSpan): Pick<TryAddOptions, "parentSpan"> {
   return {
-    parentSpan: rootSpan.spanContext()
+    parentSpan: rootSpan.spanContext(),
   };
 }
 
 function legacyOptionsUsingSpan(rootSpan: TestSpan): Pick<TryAddOptions, "parentSpan"> {
   return {
-    parentSpan: rootSpan
+    parentSpan: rootSpan,
   };
 }
 
 function modernOptions(rootSpan: TestSpan): OperationOptions {
   return {
     tracingOptions: {
-      tracingContext: setSpan(context.active(), rootSpan)
-    }
+      tracingContext: setSpan(context.active(), rootSpan),
+    },
   };
 }
 
 function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOptions {
   return {
     tracingOptions: {
-      tracingContext: setSpan(context.active(), rootSpan)
+      tracingContext: setSpan(context.active(), rootSpan),
     },
-    parentSpan: ({
+    parentSpan: {
       context: () => {
         throw new Error("Nobody should call this.");
-      }
-    } as any) as Span
+      },
+    } as any as Span,
   };
 }
 
@@ -50,9 +50,9 @@ function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOpt
   legacyOptionsUsingSpan,
   legacyOptionsUsingSpanContext,
   modernOptions,
-  modernOptionsWithAccidentalParentSpanSet
+  modernOptionsWithAccidentalParentSpanSet,
 ].forEach((optionFn) => {
-  describe(`Tracing for send (${optionFn.name})`, function(): void {
+  describe(`Tracing for send (${optionFn.name})`, function (): void {
     let sbClient: ServiceBusClientForTests;
     let sender: ServiceBusSender;
     let entityName: EntityName;
@@ -73,7 +73,7 @@ function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOpt
       );
     });
 
-    it("add messages with tryAdd - can be manually traced", async function(): Promise<void> {
+    it("add messages with tryAdd - can be manually traced", async function (): Promise<void> {
       const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("root");
@@ -99,15 +99,15 @@ function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOpt
             children: [
               {
                 name: "Azure.ServiceBus.message",
-                children: []
+                children: [],
               },
               {
                 name: "Azure.ServiceBus.message",
-                children: []
-              }
-            ]
-          }
-        ]
+                children: [],
+              },
+            ],
+          },
+        ],
       };
 
       tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
@@ -115,9 +115,7 @@ function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOpt
       resetTracer();
     });
 
-    it("add messages with tryAdd - will not instrument already instrumented messages", async function(): Promise<
-      void
-    > {
+    it("add messages with tryAdd - will not instrument already instrumented messages", async function (): Promise<void> {
       const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("test");
@@ -127,9 +125,9 @@ function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOpt
         {
           name: "Marie",
           applicationProperties: {
-            [TRACEPARENT_PROPERTY]: "foo"
-          }
-        }
+            [TRACEPARENT_PROPERTY]: "foo",
+          },
+        },
       ];
 
       const batch = await sender.createMessageBatch();
@@ -154,11 +152,11 @@ function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOpt
             children: [
               {
                 name: "Azure.ServiceBus.message",
-                children: []
-              }
-            ]
-          }
-        ]
+                children: [],
+              },
+            ],
+          },
+        ],
       };
 
       tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
@@ -166,7 +164,7 @@ function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOpt
       resetTracer();
     });
 
-    it("will support tracing batch and send", async function(): Promise<void> {
+    it("will support tracing batch and send", async function (): Promise<void> {
       const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("root");
@@ -179,8 +177,8 @@ function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOpt
       }
       await sender.sendMessages(batch, {
         tracingOptions: {
-          tracingContext: setSpan(context.active(), rootSpan)
-        }
+          tracingContext: setSpan(context.active(), rootSpan),
+        },
       });
       rootSpan.end();
 
@@ -195,19 +193,19 @@ function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOpt
             children: [
               {
                 name: "Azure.ServiceBus.message",
-                children: []
+                children: [],
               },
               {
                 name: "Azure.ServiceBus.message",
-                children: []
+                children: [],
               },
               {
                 name: "Azure.ServiceBus.send",
-                children: []
-              }
-            ]
-          }
-        ]
+                children: [],
+              },
+            ],
+          },
+        ],
       };
 
       tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
@@ -215,7 +213,7 @@ function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOpt
       resetTracer();
     });
 
-    it("array of messages - can be manually traced", async function(): Promise<void> {
+    it("array of messages - can be manually traced", async function (): Promise<void> {
       const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("root");
@@ -226,8 +224,8 @@ function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOpt
       }
       await sender.sendMessages(messages, {
         tracingOptions: {
-          tracingContext: setSpan(context.active(), rootSpan)
-        }
+          tracingContext: setSpan(context.active(), rootSpan),
+        },
       });
       rootSpan.end();
 
@@ -242,31 +240,31 @@ function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOpt
             children: [
               {
                 name: "Azure.ServiceBus.message",
-                children: []
+                children: [],
               },
               {
                 name: "Azure.ServiceBus.message",
-                children: []
+                children: [],
               },
               {
                 name: "Azure.ServiceBus.message",
-                children: []
+                children: [],
               },
               {
                 name: "Azure.ServiceBus.message",
-                children: []
+                children: [],
               },
               {
                 name: "Azure.ServiceBus.message",
-                children: []
+                children: [],
               },
               {
                 name: "Azure.ServiceBus.send",
-                children: []
-              }
-            ]
-          }
-        ]
+                children: [],
+              },
+            ],
+          },
+        ],
       };
 
       tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);
@@ -279,14 +277,12 @@ function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOpt
       knownSendSpans[0].attributes.should.deep.equal({
         "az.namespace": "Microsoft.ServiceBus",
         "message_bus.destination": sender.entityPath,
-        "peer.address": sbClient.fullyQualifiedNamespace
+        "peer.address": sbClient.fullyQualifiedNamespace,
       });
       resetTracer();
     });
 
-    it("array of messages - skips already instrumented messages when manually traced", async function(): Promise<
-      void
-    > {
+    it("array of messages - skips already instrumented messages when manually traced", async function (): Promise<void> {
       const { tracer, resetTracer } = setTracerForTest();
 
       const rootSpan = tracer.startSpan("root");
@@ -298,8 +294,8 @@ function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOpt
       messages[0].applicationProperties = { [TRACEPARENT_PROPERTY]: "foo" };
       await sender.sendMessages(messages, {
         tracingOptions: {
-          tracingContext: setSpan(context.active(), rootSpan)
-        }
+          tracingContext: setSpan(context.active(), rootSpan),
+        },
       });
       rootSpan.end();
 
@@ -314,27 +310,27 @@ function modernOptionsWithAccidentalParentSpanSet(rootSpan: TestSpan): TryAddOpt
             children: [
               {
                 name: "Azure.ServiceBus.message",
-                children: []
+                children: [],
               },
               {
                 name: "Azure.ServiceBus.message",
-                children: []
+                children: [],
               },
               {
                 name: "Azure.ServiceBus.message",
-                children: []
+                children: [],
               },
               {
                 name: "Azure.ServiceBus.message",
-                children: []
+                children: [],
               },
               {
                 name: "Azure.ServiceBus.send",
-                children: []
-              }
-            ]
-          }
-        ]
+                children: [],
+              },
+            ],
+          },
+        ],
       };
 
       tracer.getSpanGraph(rootSpan.spanContext().traceId).should.eql(expectedGraph);

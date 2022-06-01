@@ -10,7 +10,7 @@ import { VirtualMachineImages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ComputeManagementClientContext } from "../computeManagementClientContext";
+import { ComputeManagementClient } from "../computeManagementClient";
 import {
   VirtualMachineImagesGetOptionalParams,
   VirtualMachineImagesGetResponse,
@@ -26,13 +26,13 @@ import {
 
 /** Class containing VirtualMachineImages operations. */
 export class VirtualMachineImagesImpl implements VirtualMachineImages {
-  private readonly client: ComputeManagementClientContext;
+  private readonly client: ComputeManagementClient;
 
   /**
    * Initialize a new instance of the class VirtualMachineImages class.
    * @param client Reference to the service client
    */
-  constructor(client: ComputeManagementClientContext) {
+  constructor(client: ComputeManagementClient) {
     this.client = client;
   }
 
@@ -142,17 +142,20 @@ const getOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineImage
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location,
+    Parameters.location1,
     Parameters.publisherName,
-    Parameters.version,
     Parameters.offer,
-    Parameters.skus
+    Parameters.skus,
+    Parameters.version
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -174,18 +177,21 @@ const listOperationSpec: coreClient.OperationSpec = {
           }
         }
       }
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.expand,
+    Parameters.expand1,
     Parameters.top,
     Parameters.orderby
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location,
+    Parameters.location1,
     Parameters.publisherName,
     Parameters.offer,
     Parameters.skus
@@ -210,13 +216,16 @@ const listOffersOperationSpec: coreClient.OperationSpec = {
           }
         }
       }
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location,
+    Parameters.location1,
     Parameters.publisherName
   ],
   headerParameters: [Parameters.accept],
@@ -239,13 +248,16 @@ const listPublishersOperationSpec: coreClient.OperationSpec = {
           }
         }
       }
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -267,13 +279,16 @@ const listSkusOperationSpec: coreClient.OperationSpec = {
           }
         }
       }
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location,
+    Parameters.location1,
     Parameters.publisherName,
     Parameters.offer
   ],

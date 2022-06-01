@@ -9,5 +9,4 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { DesktopVirtualizationAPIClient } from "./desktopVirtualizationAPIClient";
-export { DesktopVirtualizationAPIClientContext } from "./desktopVirtualizationAPIClientContext";
 export * from "./operationsInterfaces";

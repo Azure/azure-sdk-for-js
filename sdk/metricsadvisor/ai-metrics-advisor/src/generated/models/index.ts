@@ -6,7 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
+import * as coreClient from "@azure/core-client";
+import * as coreHttpCompat from "@azure/core-http-compat";
 
 export type DataSourceCredentialUnion =
   | DataSourceCredential
@@ -1882,54 +1883,41 @@ export type ChangePointValue = "AutoDetect" | "ChangePoint" | "NotChangePoint";
 /** Defines values for PeriodType. */
 export type PeriodType = "AutoDetect" | "AssignValue";
 
+/** Optional parameters. */
+export interface GetActiveSeriesCountOptionalParams
+  extends coreClient.OperationOptions {}
+
 /** Contains response data for the getActiveSeriesCount operation. */
-export type GeneratedClientGetActiveSeriesCountResponse = UsageStats & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: UsageStats;
-  };
-};
-
-/** Contains response data for the getAnomalyAlertingConfiguration operation. */
-export type GeneratedClientGetAnomalyAlertingConfigurationResponse = AnomalyAlertingConfiguration & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: AnomalyAlertingConfiguration;
-  };
-};
-
-/** Contains response data for the updateAnomalyAlertingConfiguration operation. */
-export type GeneratedClientUpdateAnomalyAlertingConfigurationResponse = AnomalyAlertingConfiguration & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: AnomalyAlertingConfiguration;
-  };
-};
-
-/** Contains response data for the createAnomalyAlertingConfiguration operation. */
-export type GeneratedClientCreateAnomalyAlertingConfigurationResponse = GeneratedClientCreateAnomalyAlertingConfigurationHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: GeneratedClientCreateAnomalyAlertingConfigurationHeaders;
-  };
-};
+export type GetActiveSeriesCountResponse = UsageStats;
 
 /** Optional parameters. */
-export interface GeneratedClientGetAlertsByAnomalyAlertingConfigurationOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GetAnomalyAlertingConfigurationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAnomalyAlertingConfiguration operation. */
+export type GetAnomalyAlertingConfigurationResponse = AnomalyAlertingConfiguration;
+
+/** Optional parameters. */
+export interface UpdateAnomalyAlertingConfigurationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the updateAnomalyAlertingConfiguration operation. */
+export type UpdateAnomalyAlertingConfigurationResponse = AnomalyAlertingConfiguration;
+
+/** Optional parameters. */
+export interface DeleteAnomalyAlertingConfigurationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface CreateAnomalyAlertingConfigurationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createAnomalyAlertingConfiguration operation. */
+export type CreateAnomalyAlertingConfigurationResponse = GeneratedClientCreateAnomalyAlertingConfigurationHeaders;
+
+/** Optional parameters. */
+export interface GetAlertsByAnomalyAlertingConfigurationOptionalParams
+  extends coreClient.OperationOptions {
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
@@ -1937,20 +1925,11 @@ export interface GeneratedClientGetAlertsByAnomalyAlertingConfigurationOptionalP
 }
 
 /** Contains response data for the getAlertsByAnomalyAlertingConfiguration operation. */
-export type GeneratedClientGetAlertsByAnomalyAlertingConfigurationResponse = AlertResultList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: AlertResultList;
-  };
-};
+export type GetAlertsByAnomalyAlertingConfigurationResponse = AlertResultList;
 
 /** Optional parameters. */
-export interface GeneratedClientGetAnomaliesFromAlertByAnomalyAlertingConfigurationOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GetAnomaliesFromAlertByAnomalyAlertingConfigurationOptionalParams
+  extends coreClient.OperationOptions {
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
@@ -1958,20 +1937,11 @@ export interface GeneratedClientGetAnomaliesFromAlertByAnomalyAlertingConfigurat
 }
 
 /** Contains response data for the getAnomaliesFromAlertByAnomalyAlertingConfiguration operation. */
-export type GeneratedClientGetAnomaliesFromAlertByAnomalyAlertingConfigurationResponse = AnomalyResultList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: AnomalyResultList;
-  };
-};
+export type GetAnomaliesFromAlertByAnomalyAlertingConfigurationResponse = AnomalyResultList;
 
 /** Optional parameters. */
-export interface GeneratedClientGetIncidentsFromAlertByAnomalyAlertingConfigurationOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GetIncidentsFromAlertByAnomalyAlertingConfigurationOptionalParams
+  extends coreClient.OperationOptions {
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
@@ -1979,53 +1949,36 @@ export interface GeneratedClientGetIncidentsFromAlertByAnomalyAlertingConfigurat
 }
 
 /** Contains response data for the getIncidentsFromAlertByAnomalyAlertingConfiguration operation. */
-export type GeneratedClientGetIncidentsFromAlertByAnomalyAlertingConfigurationResponse = IncidentResultList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: IncidentResultList;
-  };
-};
-
-/** Contains response data for the getAnomalyDetectionConfiguration operation. */
-export type GeneratedClientGetAnomalyDetectionConfigurationResponse = AnomalyDetectionConfiguration & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: AnomalyDetectionConfiguration;
-  };
-};
-
-/** Contains response data for the updateAnomalyDetectionConfiguration operation. */
-export type GeneratedClientUpdateAnomalyDetectionConfigurationResponse = AnomalyDetectionConfiguration & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: AnomalyDetectionConfiguration;
-  };
-};
-
-/** Contains response data for the createAnomalyDetectionConfiguration operation. */
-export type GeneratedClientCreateAnomalyDetectionConfigurationResponse = GeneratedClientCreateAnomalyDetectionConfigurationHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: GeneratedClientCreateAnomalyDetectionConfigurationHeaders;
-  };
-};
+export type GetIncidentsFromAlertByAnomalyAlertingConfigurationResponse = IncidentResultList;
 
 /** Optional parameters. */
-export interface GeneratedClientGetAnomalyAlertingConfigurationsByAnomalyDetectionConfigurationOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GetAnomalyDetectionConfigurationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAnomalyDetectionConfiguration operation. */
+export type GetAnomalyDetectionConfigurationResponse = AnomalyDetectionConfiguration;
+
+/** Optional parameters. */
+export interface UpdateAnomalyDetectionConfigurationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the updateAnomalyDetectionConfiguration operation. */
+export type UpdateAnomalyDetectionConfigurationResponse = AnomalyDetectionConfiguration;
+
+/** Optional parameters. */
+export interface DeleteAnomalyDetectionConfigurationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface CreateAnomalyDetectionConfigurationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createAnomalyDetectionConfiguration operation. */
+export type CreateAnomalyDetectionConfigurationResponse = GeneratedClientCreateAnomalyDetectionConfigurationHeaders;
+
+/** Optional parameters. */
+export interface GetAnomalyAlertingConfigurationsByAnomalyDetectionConfigurationOptionalParams
+  extends coreClient.OperationOptions {
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
@@ -2033,32 +1986,18 @@ export interface GeneratedClientGetAnomalyAlertingConfigurationsByAnomalyDetecti
 }
 
 /** Contains response data for the getAnomalyAlertingConfigurationsByAnomalyDetectionConfiguration operation. */
-export type GeneratedClientGetAnomalyAlertingConfigurationsByAnomalyDetectionConfigurationResponse = AnomalyAlertingConfigurationList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: AnomalyAlertingConfigurationList;
-  };
-};
-
-/** Contains response data for the getSeriesByAnomalyDetectionConfiguration operation. */
-export type GeneratedClientGetSeriesByAnomalyDetectionConfigurationResponse = SeriesResultList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: SeriesResultList;
-  };
-};
+export type GetAnomalyAlertingConfigurationsByAnomalyDetectionConfigurationResponse = AnomalyAlertingConfigurationList;
 
 /** Optional parameters. */
-export interface GeneratedClientGetAnomaliesByAnomalyDetectionConfigurationOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GetSeriesByAnomalyDetectionConfigurationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getSeriesByAnomalyDetectionConfiguration operation. */
+export type GetSeriesByAnomalyDetectionConfigurationResponse = SeriesResultList;
+
+/** Optional parameters. */
+export interface GetAnomaliesByAnomalyDetectionConfigurationOptionalParams
+  extends coreClient.OperationOptions {
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
@@ -2066,20 +2005,11 @@ export interface GeneratedClientGetAnomaliesByAnomalyDetectionConfigurationOptio
 }
 
 /** Contains response data for the getAnomaliesByAnomalyDetectionConfiguration operation. */
-export type GeneratedClientGetAnomaliesByAnomalyDetectionConfigurationResponse = AnomalyResultList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: AnomalyResultList;
-  };
-};
+export type GetAnomaliesByAnomalyDetectionConfigurationResponse = AnomalyResultList;
 
 /** Optional parameters. */
-export interface GeneratedClientGetDimensionOfAnomaliesByAnomalyDetectionConfigurationOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GetDimensionOfAnomaliesByAnomalyDetectionConfigurationOptionalParams
+  extends coreClient.OperationOptions {
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
@@ -2087,39 +2017,21 @@ export interface GeneratedClientGetDimensionOfAnomaliesByAnomalyDetectionConfigu
 }
 
 /** Contains response data for the getDimensionOfAnomaliesByAnomalyDetectionConfiguration operation. */
-export type GeneratedClientGetDimensionOfAnomaliesByAnomalyDetectionConfigurationResponse = AnomalyDimensionList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: AnomalyDimensionList;
-  };
-};
+export type GetDimensionOfAnomaliesByAnomalyDetectionConfigurationResponse = AnomalyDimensionList;
 
 /** Optional parameters. */
-export interface GeneratedClientGetIncidentsByAnomalyDetectionConfigurationOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GetIncidentsByAnomalyDetectionConfigurationOptionalParams
+  extends coreClient.OperationOptions {
   /** the maximum number of items in one page */
   maxpagesize?: number;
 }
 
 /** Contains response data for the getIncidentsByAnomalyDetectionConfiguration operation. */
-export type GeneratedClientGetIncidentsByAnomalyDetectionConfigurationResponse = IncidentResultList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: IncidentResultList;
-  };
-};
+export type GetIncidentsByAnomalyDetectionConfigurationResponse = IncidentResultList;
 
 /** Optional parameters. */
-export interface GeneratedClientGetIncidentsByAnomalyDetectionConfigurationNextPagesOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GetIncidentsByAnomalyDetectionConfigurationNextPagesOptionalParams
+  extends coreClient.OperationOptions {
   /** the maximum number of items in one page */
   maxpagesize?: number;
   /** the token for getting the next page */
@@ -2127,41 +2039,25 @@ export interface GeneratedClientGetIncidentsByAnomalyDetectionConfigurationNextP
 }
 
 /** Contains response data for the getIncidentsByAnomalyDetectionConfigurationNextPages operation. */
-export type GeneratedClientGetIncidentsByAnomalyDetectionConfigurationNextPagesResponse = IncidentResultList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: IncidentResultList;
-  };
-};
-
-/** Contains response data for the getRootCauseOfIncidentByAnomalyDetectionConfiguration operation. */
-export type GeneratedClientGetRootCauseOfIncidentByAnomalyDetectionConfigurationResponse = RootCauseList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: RootCauseList;
-  };
-};
-
-/** Contains response data for the createCredential operation. */
-export type GeneratedClientCreateCredentialResponse = GeneratedClientCreateCredentialHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: GeneratedClientCreateCredentialHeaders;
-  };
-};
+export type GetIncidentsByAnomalyDetectionConfigurationNextPagesResponse = IncidentResultList;
 
 /** Optional parameters. */
-export interface GeneratedClientListCredentialsOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GetRootCauseOfIncidentByAnomalyDetectionConfigurationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getRootCauseOfIncidentByAnomalyDetectionConfiguration operation. */
+export type GetRootCauseOfIncidentByAnomalyDetectionConfigurationResponse = RootCauseList;
+
+/** Optional parameters. */
+export interface CreateCredentialOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createCredential operation. */
+export type CreateCredentialResponse = GeneratedClientCreateCredentialHeaders;
+
+/** Optional parameters. */
+export interface ListCredentialsOptionalParams
+  extends coreClient.OperationOptions {
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
@@ -2169,44 +2065,29 @@ export interface GeneratedClientListCredentialsOptionalParams
 }
 
 /** Contains response data for the listCredentials operation. */
-export type GeneratedClientListCredentialsResponse = DataSourceCredentialList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: DataSourceCredentialList;
-  };
-};
-
-/** Contains response data for the updateCredential operation. */
-export type GeneratedClientUpdateCredentialResponse = DataSourceCredentialUnion & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: DataSourceCredentialUnion;
-  };
-};
-
-/** Contains response data for the getCredential operation. */
-export type GeneratedClientGetCredentialResponse = DataSourceCredentialUnion & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: DataSourceCredentialUnion;
-  };
-};
+export type ListCredentialsResponse = DataSourceCredentialList;
 
 /** Optional parameters. */
-export interface GeneratedClientListDataFeedsOptionalParams
-  extends coreHttp.OperationOptions {
+export interface UpdateCredentialOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the updateCredential operation. */
+export type UpdateCredentialResponse = DataSourceCredentialUnion;
+
+/** Optional parameters. */
+export interface DeleteCredentialOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface GetCredentialOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getCredential operation. */
+export type GetCredentialResponse = DataSourceCredentialUnion;
+
+/** Optional parameters. */
+export interface ListDataFeedsOptionalParams
+  extends coreClient.OperationOptions {
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
@@ -2224,65 +2105,43 @@ export interface GeneratedClientListDataFeedsOptionalParams
 }
 
 /** Contains response data for the listDataFeeds operation. */
-export type GeneratedClientListDataFeedsResponse = DataFeedList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: DataFeedList;
-  };
-};
-
-/** Contains response data for the createDataFeed operation. */
-export type GeneratedClientCreateDataFeedResponse = GeneratedClientCreateDataFeedHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: GeneratedClientCreateDataFeedHeaders;
-  };
-};
-
-/** Contains response data for the getDataFeedById operation. */
-export type GeneratedClientGetDataFeedByIdResponse = DataFeedDetailUnion & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: DataFeedDetailUnion;
-  };
-};
-
-/** Contains response data for the updateDataFeed operation. */
-export type GeneratedClientUpdateDataFeedResponse = DataFeedDetailUnion & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: DataFeedDetailUnion;
-  };
-};
-
-/** Contains response data for the getMetricFeedback operation. */
-export type GeneratedClientGetMetricFeedbackResponse = MetricFeedbackUnion & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: MetricFeedbackUnion;
-  };
-};
+export type ListDataFeedsResponse = DataFeedList;
 
 /** Optional parameters. */
-export interface GeneratedClientListMetricFeedbacksOptionalParams
-  extends coreHttp.OperationOptions {
+export interface CreateDataFeedOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createDataFeed operation. */
+export type CreateDataFeedResponse = GeneratedClientCreateDataFeedHeaders;
+
+/** Optional parameters. */
+export interface GetDataFeedByIdOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getDataFeedById operation. */
+export type GetDataFeedByIdResponse = DataFeedDetailUnion;
+
+/** Optional parameters. */
+export interface UpdateDataFeedOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the updateDataFeed operation. */
+export type UpdateDataFeedResponse = DataFeedDetailUnion;
+
+/** Optional parameters. */
+export interface DeleteDataFeedOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface GetMetricFeedbackOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getMetricFeedback operation. */
+export type GetMetricFeedbackResponse = MetricFeedbackUnion;
+
+/** Optional parameters. */
+export interface ListMetricFeedbacksOptionalParams
+  extends coreClient.OperationOptions {
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
@@ -2290,29 +2149,17 @@ export interface GeneratedClientListMetricFeedbacksOptionalParams
 }
 
 /** Contains response data for the listMetricFeedbacks operation. */
-export type GeneratedClientListMetricFeedbacksResponse = MetricFeedbackList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: MetricFeedbackList;
-  };
-};
-
-/** Contains response data for the createMetricFeedback operation. */
-export type GeneratedClientCreateMetricFeedbackResponse = GeneratedClientCreateMetricFeedbackHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: GeneratedClientCreateMetricFeedbackHeaders;
-  };
-};
+export type ListMetricFeedbacksResponse = MetricFeedbackList;
 
 /** Optional parameters. */
-export interface GeneratedClientListHooksOptionalParams
-  extends coreHttp.OperationOptions {
+export interface CreateMetricFeedbackOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createMetricFeedback operation. */
+export type CreateMetricFeedbackResponse = GeneratedClientCreateMetricFeedbackHeaders;
+
+/** Optional parameters. */
+export interface ListHooksOptionalParams extends coreClient.OperationOptions {
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
@@ -2322,53 +2169,32 @@ export interface GeneratedClientListHooksOptionalParams
 }
 
 /** Contains response data for the listHooks operation. */
-export type GeneratedClientListHooksResponse = HookList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: HookList;
-  };
-};
-
-/** Contains response data for the createHook operation. */
-export type GeneratedClientCreateHookResponse = GeneratedClientCreateHookHeaders & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The parsed HTTP response headers. */
-    parsedHeaders: GeneratedClientCreateHookHeaders;
-  };
-};
-
-/** Contains response data for the getHook operation. */
-export type GeneratedClientGetHookResponse = HookInfoUnion & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: HookInfoUnion;
-  };
-};
-
-/** Contains response data for the updateHook operation. */
-export type GeneratedClientUpdateHookResponse = HookInfoUnion & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: HookInfoUnion;
-  };
-};
+export type ListHooksResponse = HookList;
 
 /** Optional parameters. */
-export interface GeneratedClientGetDataFeedIngestionStatusOptionalParams
-  extends coreHttp.OperationOptions {
+export interface CreateHookOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the createHook operation. */
+export type CreateHookResponse = GeneratedClientCreateHookHeaders;
+
+/** Optional parameters. */
+export interface GetHookOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the getHook operation. */
+export type GetHookResponse = HookInfoUnion;
+
+/** Optional parameters. */
+export interface UpdateHookOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the updateHook operation. */
+export type UpdateHookResponse = HookInfoUnion;
+
+/** Optional parameters. */
+export interface DeleteHookOptionalParams extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface GetDataFeedIngestionStatusOptionalParams
+  extends coreClient.OperationOptions {
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
@@ -2376,44 +2202,29 @@ export interface GeneratedClientGetDataFeedIngestionStatusOptionalParams
 }
 
 /** Contains response data for the getDataFeedIngestionStatus operation. */
-export type GeneratedClientGetDataFeedIngestionStatusResponse = IngestionStatusList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: IngestionStatusList;
-  };
-};
-
-/** Contains response data for the getIngestionProgress operation. */
-export type GeneratedClientGetIngestionProgressResponse = DataFeedIngestionProgress & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: DataFeedIngestionProgress;
-  };
-};
-
-/** Contains response data for the getMetricData operation. */
-export type GeneratedClientGetMetricDataResponse = MetricDataList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: MetricDataList;
-  };
-};
+export type GetDataFeedIngestionStatusResponse = IngestionStatusList;
 
 /** Optional parameters. */
-export interface GeneratedClientGetMetricSeriesOptionalParams
-  extends coreHttp.OperationOptions {
+export interface ResetDataFeedIngestionStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface GetIngestionProgressOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getIngestionProgress operation. */
+export type GetIngestionProgressResponse = DataFeedIngestionProgress;
+
+/** Optional parameters. */
+export interface GetMetricDataOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getMetricData operation. */
+export type GetMetricDataResponse = MetricDataList;
+
+/** Optional parameters. */
+export interface GetMetricSeriesOptionalParams
+  extends coreClient.OperationOptions {
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
@@ -2421,20 +2232,11 @@ export interface GeneratedClientGetMetricSeriesOptionalParams
 }
 
 /** Contains response data for the getMetricSeries operation. */
-export type GeneratedClientGetMetricSeriesResponse = MetricSeriesList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: MetricSeriesList;
-  };
-};
+export type GetMetricSeriesResponse = MetricSeriesList;
 
 /** Optional parameters. */
-export interface GeneratedClientGetMetricDimensionOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GetMetricDimensionOptionalParams
+  extends coreClient.OperationOptions {
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
@@ -2442,20 +2244,11 @@ export interface GeneratedClientGetMetricDimensionOptionalParams
 }
 
 /** Contains response data for the getMetricDimension operation. */
-export type GeneratedClientGetMetricDimensionResponse = MetricDimensionList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: MetricDimensionList;
-  };
-};
+export type GetMetricDimensionResponse = MetricDimensionList;
 
 /** Optional parameters. */
-export interface GeneratedClientGetAnomalyDetectionConfigurationsByMetricOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GetAnomalyDetectionConfigurationsByMetricOptionalParams
+  extends coreClient.OperationOptions {
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
@@ -2463,20 +2256,11 @@ export interface GeneratedClientGetAnomalyDetectionConfigurationsByMetricOptiona
 }
 
 /** Contains response data for the getAnomalyDetectionConfigurationsByMetric operation. */
-export type GeneratedClientGetAnomalyDetectionConfigurationsByMetricResponse = AnomalyDetectionConfigurationList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: AnomalyDetectionConfigurationList;
-  };
-};
+export type GetAnomalyDetectionConfigurationsByMetricResponse = AnomalyDetectionConfigurationList;
 
 /** Optional parameters. */
-export interface GeneratedClientGetEnrichmentStatusByMetricOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GetEnrichmentStatusByMetricOptionalParams
+  extends coreClient.OperationOptions {
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
@@ -2484,116 +2268,67 @@ export interface GeneratedClientGetEnrichmentStatusByMetricOptionalParams
 }
 
 /** Contains response data for the getEnrichmentStatusByMetric operation. */
-export type GeneratedClientGetEnrichmentStatusByMetricResponse = EnrichmentStatusList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: EnrichmentStatusList;
-  };
-};
-
-/** Contains response data for the getAlertsByAnomalyAlertingConfigurationNext operation. */
-export type GeneratedClientGetAlertsByAnomalyAlertingConfigurationNextResponse = AlertResultList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: AlertResultList;
-  };
-};
-
-/** Contains response data for the getAnomaliesByAnomalyDetectionConfigurationNext operation. */
-export type GeneratedClientGetAnomaliesByAnomalyDetectionConfigurationNextResponse = AnomalyResultList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: AnomalyResultList;
-  };
-};
-
-/** Contains response data for the getDimensionOfAnomaliesByAnomalyDetectionConfigurationNext operation. */
-export type GeneratedClientGetDimensionOfAnomaliesByAnomalyDetectionConfigurationNextResponse = AnomalyDimensionList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: AnomalyDimensionList;
-  };
-};
-
-/** Contains response data for the listMetricFeedbacksNext operation. */
-export type GeneratedClientListMetricFeedbacksNextResponse = MetricFeedbackList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: MetricFeedbackList;
-  };
-};
-
-/** Contains response data for the getDataFeedIngestionStatusNext operation. */
-export type GeneratedClientGetDataFeedIngestionStatusNextResponse = IngestionStatusList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: IngestionStatusList;
-  };
-};
-
-/** Contains response data for the getMetricSeriesNext operation. */
-export type GeneratedClientGetMetricSeriesNextResponse = MetricSeriesList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: MetricSeriesList;
-  };
-};
-
-/** Contains response data for the getMetricDimensionNext operation. */
-export type GeneratedClientGetMetricDimensionNextResponse = MetricDimensionList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: MetricDimensionList;
-  };
-};
-
-/** Contains response data for the getEnrichmentStatusByMetricNext operation. */
-export type GeneratedClientGetEnrichmentStatusByMetricNextResponse = EnrichmentStatusList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: EnrichmentStatusList;
-  };
-};
+export type GetEnrichmentStatusByMetricResponse = EnrichmentStatusList;
 
 /** Optional parameters. */
-export interface GeneratedClientGetAnomaliesFromAlertByAnomalyAlertingConfigurationNextOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GetAlertsByAnomalyAlertingConfigurationNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAlertsByAnomalyAlertingConfigurationNext operation. */
+export type GetAlertsByAnomalyAlertingConfigurationNextResponse = AlertResultList;
+
+/** Optional parameters. */
+export interface GetAnomaliesByAnomalyDetectionConfigurationNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAnomaliesByAnomalyDetectionConfigurationNext operation. */
+export type GetAnomaliesByAnomalyDetectionConfigurationNextResponse = AnomalyResultList;
+
+/** Optional parameters. */
+export interface GetDimensionOfAnomaliesByAnomalyDetectionConfigurationNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getDimensionOfAnomaliesByAnomalyDetectionConfigurationNext operation. */
+export type GetDimensionOfAnomaliesByAnomalyDetectionConfigurationNextResponse = AnomalyDimensionList;
+
+/** Optional parameters. */
+export interface ListMetricFeedbacksNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listMetricFeedbacksNext operation. */
+export type ListMetricFeedbacksNextResponse = MetricFeedbackList;
+
+/** Optional parameters. */
+export interface GetDataFeedIngestionStatusNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getDataFeedIngestionStatusNext operation. */
+export type GetDataFeedIngestionStatusNextResponse = IngestionStatusList;
+
+/** Optional parameters. */
+export interface GetMetricSeriesNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getMetricSeriesNext operation. */
+export type GetMetricSeriesNextResponse = MetricSeriesList;
+
+/** Optional parameters. */
+export interface GetMetricDimensionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getMetricDimensionNext operation. */
+export type GetMetricDimensionNextResponse = MetricDimensionList;
+
+/** Optional parameters. */
+export interface GetEnrichmentStatusByMetricNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getEnrichmentStatusByMetricNext operation. */
+export type GetEnrichmentStatusByMetricNextResponse = EnrichmentStatusList;
+
+/** Optional parameters. */
+export interface GetAnomaliesFromAlertByAnomalyAlertingConfigurationNextOptionalParams
+  extends coreClient.OperationOptions {
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
@@ -2601,20 +2336,11 @@ export interface GeneratedClientGetAnomaliesFromAlertByAnomalyAlertingConfigurat
 }
 
 /** Contains response data for the getAnomaliesFromAlertByAnomalyAlertingConfigurationNext operation. */
-export type GeneratedClientGetAnomaliesFromAlertByAnomalyAlertingConfigurationNextResponse = AnomalyResultList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: AnomalyResultList;
-  };
-};
+export type GetAnomaliesFromAlertByAnomalyAlertingConfigurationNextResponse = AnomalyResultList;
 
 /** Optional parameters. */
-export interface GeneratedClientGetIncidentsFromAlertByAnomalyAlertingConfigurationNextOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GetIncidentsFromAlertByAnomalyAlertingConfigurationNextOptionalParams
+  extends coreClient.OperationOptions {
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
@@ -2622,20 +2348,11 @@ export interface GeneratedClientGetIncidentsFromAlertByAnomalyAlertingConfigurat
 }
 
 /** Contains response data for the getIncidentsFromAlertByAnomalyAlertingConfigurationNext operation. */
-export type GeneratedClientGetIncidentsFromAlertByAnomalyAlertingConfigurationNextResponse = IncidentResultList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: IncidentResultList;
-  };
-};
+export type GetIncidentsFromAlertByAnomalyAlertingConfigurationNextResponse = IncidentResultList;
 
 /** Optional parameters. */
-export interface GeneratedClientGetAnomalyAlertingConfigurationsByAnomalyDetectionConfigurationNextOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GetAnomalyAlertingConfigurationsByAnomalyDetectionConfigurationNextOptionalParams
+  extends coreClient.OperationOptions {
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
@@ -2643,39 +2360,21 @@ export interface GeneratedClientGetAnomalyAlertingConfigurationsByAnomalyDetecti
 }
 
 /** Contains response data for the getAnomalyAlertingConfigurationsByAnomalyDetectionConfigurationNext operation. */
-export type GeneratedClientGetAnomalyAlertingConfigurationsByAnomalyDetectionConfigurationNextResponse = AnomalyAlertingConfigurationList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: AnomalyAlertingConfigurationList;
-  };
-};
+export type GetAnomalyAlertingConfigurationsByAnomalyDetectionConfigurationNextResponse = AnomalyAlertingConfigurationList;
 
 /** Optional parameters. */
-export interface GeneratedClientGetIncidentsByAnomalyDetectionConfigurationNextOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GetIncidentsByAnomalyDetectionConfigurationNextOptionalParams
+  extends coreClient.OperationOptions {
   /** the maximum number of items in one page */
   maxpagesize?: number;
 }
 
 /** Contains response data for the getIncidentsByAnomalyDetectionConfigurationNext operation. */
-export type GeneratedClientGetIncidentsByAnomalyDetectionConfigurationNextResponse = IncidentResultList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: IncidentResultList;
-  };
-};
+export type GetIncidentsByAnomalyDetectionConfigurationNextResponse = IncidentResultList;
 
 /** Optional parameters. */
-export interface GeneratedClientGetIncidentsByAnomalyDetectionConfigurationNextPagesNextOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GetIncidentsByAnomalyDetectionConfigurationNextPagesNextOptionalParams
+  extends coreClient.OperationOptions {
   /** the maximum number of items in one page */
   maxpagesize?: number;
   /** the token for getting the next page */
@@ -2683,20 +2382,11 @@ export interface GeneratedClientGetIncidentsByAnomalyDetectionConfigurationNextP
 }
 
 /** Contains response data for the getIncidentsByAnomalyDetectionConfigurationNextPagesNext operation. */
-export type GeneratedClientGetIncidentsByAnomalyDetectionConfigurationNextPagesNextResponse = IncidentResultList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: IncidentResultList;
-  };
-};
+export type GetIncidentsByAnomalyDetectionConfigurationNextPagesNextResponse = IncidentResultList;
 
 /** Optional parameters. */
-export interface GeneratedClientListCredentialsNextOptionalParams
-  extends coreHttp.OperationOptions {
+export interface ListCredentialsNextOptionalParams
+  extends coreClient.OperationOptions {
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
@@ -2704,20 +2394,11 @@ export interface GeneratedClientListCredentialsNextOptionalParams
 }
 
 /** Contains response data for the listCredentialsNext operation. */
-export type GeneratedClientListCredentialsNextResponse = DataSourceCredentialList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: DataSourceCredentialList;
-  };
-};
+export type ListCredentialsNextResponse = DataSourceCredentialList;
 
 /** Optional parameters. */
-export interface GeneratedClientListDataFeedsNextOptionalParams
-  extends coreHttp.OperationOptions {
+export interface ListDataFeedsNextOptionalParams
+  extends coreClient.OperationOptions {
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
@@ -2735,20 +2416,11 @@ export interface GeneratedClientListDataFeedsNextOptionalParams
 }
 
 /** Contains response data for the listDataFeedsNext operation. */
-export type GeneratedClientListDataFeedsNextResponse = DataFeedList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: DataFeedList;
-  };
-};
+export type ListDataFeedsNextResponse = DataFeedList;
 
 /** Optional parameters. */
-export interface GeneratedClientListHooksNextOptionalParams
-  extends coreHttp.OperationOptions {
+export interface ListHooksNextOptionalParams
+  extends coreClient.OperationOptions {
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
@@ -2758,20 +2430,11 @@ export interface GeneratedClientListHooksNextOptionalParams
 }
 
 /** Contains response data for the listHooksNext operation. */
-export type GeneratedClientListHooksNextResponse = HookList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: HookList;
-  };
-};
+export type ListHooksNextResponse = HookList;
 
 /** Optional parameters. */
-export interface GeneratedClientGetAnomalyDetectionConfigurationsByMetricNextOptionalParams
-  extends coreHttp.OperationOptions {
+export interface GetAnomalyDetectionConfigurationsByMetricNextOptionalParams
+  extends coreClient.OperationOptions {
   /** for paging, skipped number */
   skip?: number;
   /** the maximum number of items in one page */
@@ -2779,20 +2442,11 @@ export interface GeneratedClientGetAnomalyDetectionConfigurationsByMetricNextOpt
 }
 
 /** Contains response data for the getAnomalyDetectionConfigurationsByMetricNext operation. */
-export type GeneratedClientGetAnomalyDetectionConfigurationsByMetricNextResponse = AnomalyDetectionConfigurationList & {
-  /** The underlying HTTP response. */
-  _response: coreHttp.HttpResponse & {
-    /** The response body as text (string format) */
-    bodyAsText: string;
-
-    /** The response body as parsed JSON or XML */
-    parsedBody: AnomalyDetectionConfigurationList;
-  };
-};
+export type GetAnomalyDetectionConfigurationsByMetricNextResponse = AnomalyDetectionConfigurationList;
 
 /** Optional parameters. */
 export interface GeneratedClientOptionalParams
-  extends coreHttp.ServiceClientOptions {
+  extends coreHttpCompat.ExtendedServiceClientOptions {
   /** Overrides client endpoint. */
   endpoint?: string;
 }

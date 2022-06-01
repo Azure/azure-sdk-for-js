@@ -6,9 +6,9 @@
  * @author Arpan Laha
  */
 
-import { Rule } from "eslint";
 import { ClassDeclaration, Identifier, MethodDefinition } from "estree";
 import { getPublicMethods, getRuleMetaData } from "../utils";
+import { Rule } from "eslint";
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -27,7 +27,7 @@ const bannedPrefixes = [
   "pop",
   "getAll",
   "erase",
-  "fetch"
+  "fetch",
 ];
 
 export = {
@@ -52,10 +52,10 @@ export = {
           if (usedPrefix !== undefined) {
             context.report({
               node: method,
-              message: `method ${methodName} uses the banned prefix ${usedPrefix}, use one of the approved prefixes instead`
+              message: `method ${methodName} uses the banned prefix ${usedPrefix}, use one of the approved prefixes instead`,
             });
           }
         });
-      }
-    } as Rule.RuleListener)
+      },
+    } as Rule.RuleListener),
 };

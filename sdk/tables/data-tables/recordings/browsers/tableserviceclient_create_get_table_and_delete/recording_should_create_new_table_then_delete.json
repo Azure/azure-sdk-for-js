@@ -1,0 +1,221 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://fakeaccountname.table.core.windows.net/Tables?st=2021-08-03T08:52:15Z\u0026spr=https\u0026sig=fakesigval",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json;odata=minimalmetadata",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "Content-Length": "32",
+        "Content-Type": "application/json;odata=nometadata",
+        "DataServiceVersion": "3.0",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "ad51cf03-1c7b-449e-8489-0f2a715d27a5",
+        "x-ms-useragent": "azsdk-js-data-tables/13.0.2 core-rest-pipeline/1.5.0 OS/Linuxx86_64",
+        "x-ms-version": "2019-02-02"
+      },
+      "RequestBody": {
+        "TableName": "testTablebrowser"
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Type": "application/json; odata=minimalmetadata; streaming=true; charset=utf-8",
+        "Date": "Tue, 01 Feb 2022 19:03:54 GMT",
+        "Location": "https://fakeaccountname.table.core.windows.net/Tables(\u0027testTablebrowser\u0027)",
+        "Server": [
+          "Windows-Azure-Table/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "ad51cf03-1c7b-449e-8489-0f2a715d27a5",
+        "x-ms-request-id": "07e2293b-5002-00e6-3b9e-17904f000000",
+        "x-ms-version": "2019-02-02"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://fakeaccountname.table.core.windows.net/$metadata#Tables/@Element",
+        "TableName": "testTablebrowser"
+      }
+    },
+    {
+      "RequestUri": "https://fakeaccountname.table.core.windows.net/Tables?st=2021-08-03T08:52:15Z\u0026spr=https\u0026sig=fakesigval",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json;odata=minimalmetadata",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "DataServiceVersion": "3.0",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "c7219bf8-374e-42ef-9994-97b78a51a557",
+        "x-ms-useragent": "azsdk-js-data-tables/13.0.2 core-rest-pipeline/1.5.0 OS/Linuxx86_64",
+        "x-ms-version": "2019-02-02"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,Content-Type,Content-Length,Date,Transfer-Encoding",
+        "Cache-Control": "no-cache",
+        "Content-Type": "application/json; odata=minimalmetadata; streaming=true; charset=utf-8",
+        "Date": "Tue, 01 Feb 2022 19:03:54 GMT",
+        "Server": [
+          "Windows-Azure-Table/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "c7219bf8-374e-42ef-9994-97b78a51a557",
+        "x-ms-request-id": "07e2295d-5002-00e6-5a9e-17904f000000",
+        "x-ms-version": "2019-02-02"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://fakeaccountname.table.core.windows.net/$metadata#Tables",
+        "value": [
+          {
+            "TableName": "byPageTest"
+          },
+          {
+            "TableName": "CreateSimpleEntityBatchPerf"
+          },
+          {
+            "TableName": "createTableNew"
+          },
+          {
+            "TableName": "createTableNew2"
+          },
+          {
+            "TableName": "createTableOld"
+          },
+          {
+            "TableName": "DeleteTestAccountConnectionStringnode"
+          },
+          {
+            "TableName": "DeleteTestAccountKeynode"
+          },
+          {
+            "TableName": "DeleteTestSASConnectionStringbrowser"
+          },
+          {
+            "TableName": "DeleteTestSASConnectionStringnode"
+          },
+          {
+            "TableName": "DeleteTestSASTokenbrowser"
+          },
+          {
+            "TableName": "DeleteTestSASTokennode"
+          },
+          {
+            "TableName": "DeleteTestTokenCredentialbrowser"
+          },
+          {
+            "TableName": "doublesTest"
+          },
+          {
+            "TableName": "existsAccountConnectionStringnode"
+          },
+          {
+            "TableName": "existsAccountKeynode"
+          },
+          {
+            "TableName": "existsSASConnectionStringbrowser"
+          },
+          {
+            "TableName": "existsSASConnectionStringnode"
+          },
+          {
+            "TableName": "existsSASTokenbrowser"
+          },
+          {
+            "TableName": "existsSASTokennode"
+          },
+          {
+            "TableName": "existsTokenCredentialbrowser"
+          },
+          {
+            "TableName": "existsTokenCredentialnode"
+          },
+          {
+            "TableName": "foo"
+          },
+          {
+            "TableName": "manualListByPage"
+          },
+          {
+            "TableName": "TestChars"
+          },
+          {
+            "TableName": "TestChars2"
+          },
+          {
+            "TableName": "TestChars3"
+          },
+          {
+            "TableName": "testTable"
+          },
+          {
+            "TableName": "testTablebrowser"
+          },
+          {
+            "TableName": "TestTestTest"
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://fakeaccountname.table.core.windows.net/Tables(\u0027testTablebrowser\u0027)?st=2021-08-03T08:52:15Z\u0026spr=https\u0026sig=fakesigval",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "76f266ae-241f-4fa6-8317-4e50759973e7",
+        "x-ms-useragent": "azsdk-js-data-tables/13.0.2 core-rest-pipeline/1.5.0 OS/Linuxx86_64",
+        "x-ms-version": "2019-02-02"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "0",
+        "Date": "Tue, 01 Feb 2022 19:03:54 GMT",
+        "Server": [
+          "Windows-Azure-Table/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "76f266ae-241f-4fa6-8317-4e50759973e7",
+        "x-ms-request-id": "07e22980-5002-00e6-799e-17904f000000",
+        "x-ms-version": "2019-02-02"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {}
+}

@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { HttpOperationResponse } from "../httpOperationResponse";
-import { HttpPipelineLogger } from "../httpPipelineLogger";
 import { HttpPipelineLogLevel } from "../httpPipelineLogLevel";
+import { HttpPipelineLogger } from "../httpPipelineLogger";
 import { WebResourceLike } from "../webResource";
 
 /**

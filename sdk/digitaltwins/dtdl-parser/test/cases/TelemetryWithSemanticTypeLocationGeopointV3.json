@@ -1,0 +1,37 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": [
+        "dtmi:dtdl:context;3",
+        "dtmi:iotcentral:context;3"
+      ],
+      "@id": "dtmi:test:aTelemetry;1",
+      "@type": [
+        "Telemetry",
+        "Location"
+      ],
+      "name": "myLocation",
+      "schema": "geopoint"
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:aTelemetry;1",
+        "type": "Telemetry",
+        "properties": {
+          "name": "myLocation",
+          "schema": "dtmi:iotcentral:schema:geopoint;3",
+          "definedIn": null
+        },
+        "supplementalTypes": [
+          "dtmi:iotcentral:class:Location;3"
+        ],
+        "supplementalProperties": {
+        }
+      }
+    ]
+  }
+}

@@ -6,13 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SyncGroups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { SqlManagementClientContext } from "../sqlManagementClientContext";
+import { SqlManagementClient } from "../sqlManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -23,7 +22,7 @@ import {
   SyncGroupsListHubSchemasNextOptionalParams,
   SyncGroupsListHubSchemasOptionalParams,
   SyncGroupLogProperties,
-  Enum76,
+  Enum60,
   SyncGroupsListLogsNextOptionalParams,
   SyncGroupsListLogsOptionalParams,
   SyncGroup,
@@ -52,13 +51,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SyncGroups operations. */
 export class SyncGroupsImpl implements SyncGroups {
-  private readonly client: SqlManagementClientContext;
+  private readonly client: SqlManagementClient;
 
   /**
    * Initialize a new instance of the class SyncGroups class.
    * @param client Reference to the service client
    */
-  constructor(client: SqlManagementClientContext) {
+  constructor(client: SqlManagementClient) {
     this.client = client;
   }
 
@@ -224,7 +223,7 @@ export class SyncGroupsImpl implements SyncGroups {
     syncGroupName: string,
     startTime: string,
     endTime: string,
-    typeParam: Enum76,
+    typeParam: Enum60,
     options?: SyncGroupsListLogsOptionalParams
   ): PagedAsyncIterableIterator<SyncGroupLogProperties> {
     const iter = this.listLogsPagingAll(
@@ -266,7 +265,7 @@ export class SyncGroupsImpl implements SyncGroups {
     syncGroupName: string,
     startTime: string,
     endTime: string,
-    typeParam: Enum76,
+    typeParam: Enum60,
     options?: SyncGroupsListLogsOptionalParams
   ): AsyncIterableIterator<SyncGroupLogProperties[]> {
     let result = await this._listLogs(
@@ -305,7 +304,7 @@ export class SyncGroupsImpl implements SyncGroups {
     syncGroupName: string,
     startTime: string,
     endTime: string,
-    typeParam: Enum76,
+    typeParam: Enum60,
     options?: SyncGroupsListLogsOptionalParams
   ): AsyncIterableIterator<SyncGroupLogProperties> {
     for await (const page of this.listLogsPagingPage(
@@ -478,10 +477,12 @@ export class SyncGroupsImpl implements SyncGroups {
       { resourceGroupName, serverName, databaseName, syncGroupName, options },
       refreshHubSchemaOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -551,7 +552,7 @@ export class SyncGroupsImpl implements SyncGroups {
     syncGroupName: string,
     startTime: string,
     endTime: string,
-    typeParam: Enum76,
+    typeParam: Enum60,
     options?: SyncGroupsListLogsOptionalParams
   ): Promise<SyncGroupsListLogsResponse> {
     return this.client.sendOperationRequest(
@@ -709,10 +710,12 @@ export class SyncGroupsImpl implements SyncGroups {
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -804,10 +807,12 @@ export class SyncGroupsImpl implements SyncGroups {
       { resourceGroupName, serverName, databaseName, syncGroupName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -910,10 +915,12 @@ export class SyncGroupsImpl implements SyncGroups {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1034,7 +1041,7 @@ export class SyncGroupsImpl implements SyncGroups {
     startTime: string,
     endTime: string,
     nextLink: string,
-    typeParam: Enum76,
+    typeParam: Enum60,
     options?: SyncGroupsListLogsNextOptionalParams
   ): Promise<SyncGroupsListLogsNextResponse> {
     return this.client.sendOperationRequest(
@@ -1236,7 +1243,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters75,
+  requestBody: Parameters.parameters69,
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
@@ -1285,7 +1292,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters75,
+  requestBody: Parameters.parameters69,
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,

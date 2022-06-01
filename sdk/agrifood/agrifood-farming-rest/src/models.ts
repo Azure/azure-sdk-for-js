@@ -1,18 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export interface ApplicationDataListResponse {
-  /** List of requested objects. */
-  value?: ApplicationData[];
-  /** Token used in retrieving the next page. If null, there are no additional pages. */
-  skipToken?: string;
-  /** Continuation link (absolute URI) to the next page of results in the list. */
-  nextLink?: string;
-}
-
 export interface ApplicationData {
   /** Application product details. */
-  applicationProductDetails?: ApplicationProductDetail[];
+  applicationProductDetails?: Array<ApplicationProductDetail>;
   /** Schema for storing measurement reading and unit. */
   avgMaterial?: Measure;
   /** Schema for storing measurement reading and unit. */
@@ -25,11 +16,11 @@ export interface ApplicationData {
    * Modified date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ.
    * Note: this will be specified by the source provider itself.
    */
-  operationModifiedDateTime?: Date;
+  operationModifiedDateTime?: Date | string;
   /** Start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  operationStartDateTime?: Date;
+  operationStartDateTime?: Date | string;
   /** End date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  operationEndDateTime?: Date;
+  operationEndDateTime?: Date | string;
   /** Link for attachments. */
   attachmentsLink?: string;
   /** Optional boundary ID of the field for which operation was applied. */
@@ -45,9 +36,9 @@ export interface ApplicationData {
   /** Status of the resource. */
   status?: string;
   /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date;
+  createdDateTime?: Date | string;
   /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date;
+  modifiedDateTime?: Date | string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -58,7 +49,7 @@ export interface ApplicationData {
    * and must not have a value greater than 150 characters.
    * Note: A maximum of 25 key value pairs can be provided for a resource and only string and numeral values are supported.
    */
-  properties?: ApplicationDataPropertiesDictionary;
+  properties?: Record<string, any>;
 }
 
 export interface ApplicationProductDetail {
@@ -77,90 +68,6 @@ export interface Measure {
   unit?: string;
   /** Data value. */
   value?: number;
-}
-
-export interface ErrorResponse {
-  /** An error from the Azure AgPlatform service. */
-  error?: Error;
-  /** Unique trace ID. */
-  traceId?: string;
-}
-
-export interface Error {
-  /** Server-defined set of error codes. */
-  code?: string;
-  /** Human-readable representation of the error. */
-  message?: string;
-  /** Target of the error. */
-  target?: string;
-  /** Array of details about specific errors that led to this reported error. */
-  details?: Error[];
-  /**
-   * Inner error containing list of errors.
-   * <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
-   */
-  innererror?: InnerError;
-}
-
-export type InnerError = InnerErrorBase & InnerErrorDictionary;
-
-export interface InnerErrorBase {
-  /**
-   * Specific error code than was provided by the
-   * containing error.
-   */
-  code?: string;
-  /**
-   * Inner error containing list of errors.
-   * <see href="https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#innererror--object">InnerError reference document</see>.
-   */
-  innererror?: InnerError;
-}
-
-export interface AttachmentListResponse {
-  /** List of requested objects. */
-  value?: Attachment[];
-  /** Token used in retrieving the next page. If null, there are no additional pages. */
-  skipToken?: string;
-  /** Continuation link (absolute URI) to the next page of results in the list. */
-  nextLink?: string;
-}
-
-export interface Attachment {
-  /** Farmer id for this attachment. */
-  farmerId?: string;
-  /** Associated Resource id for this attachment. */
-  resourceId?: string;
-  /**
-   * Associated Resource type for this attachment
-   * i.e. Farmer, Farm, Field, SeasonalField, Boundary, FarmOperationApplicationData, HarvestData, TillageData, PlantingData.
-   */
-  resourceType?: string;
-  /** Original File Name for this attachment. */
-  originalFileName?: string;
-  /** Unique id. */
-  id?: string;
-  /** Status of the resource. */
-  status?: string;
-  /** Date when resource was created. */
-  createdDateTime?: Date;
-  /** Date when resource was last modified. */
-  modifiedDateTime?: Date;
-  /** Name to identify resource. */
-  name?: string;
-  /** Textual description of resource. */
-  description?: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
-}
-
-export interface BoundaryListResponse {
-  /** List of requested objects. */
-  value?: Boundary[];
-  /** Token used in retrieving the next page. If null, there are no additional pages. */
-  skipToken?: string;
-  /** Continuation link (absolute URI) to the next page of results in the list. */
-  nextLink?: string;
 }
 
 export interface Boundary {
@@ -183,9 +90,9 @@ export interface Boundary {
   /** Status of the resource. */
   status?: string;
   /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date;
+  createdDateTime?: Date | string;
   /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date;
+  modifiedDateTime?: Date | string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -196,107 +103,52 @@ export interface Boundary {
    * and must not have a value greater than 150 characters.
    * Note: A maximum of 25 key value pairs can be provided for a resource and only string and numeral values are supported.
    */
-  properties?: BoundaryPropertiesDictionary;
+  properties?: Record<string, any>;
 }
 
-export type GeoJsonObject = Polygon | MultiPolygon | Point;
+export interface GeoJsonObjectBase {
+  type: "MultiPolygon" | "Point" | "Polygon";
+}
 
 export interface SearchBoundaryQuery {
   /** Ids of the resource. */
-  ids?: string[];
+  ids?: Array<string>;
   /** Names of the resource. */
-  names?: string[];
+  names?: Array<string>;
   /**
    * Filters on key-value pairs within the Properties object.
    * eg. "{testKey} eq {testValue}".
    */
-  propertyFilters?: string[];
+  propertyFilters?: Array<string>;
   /** Statuses of the resource. */
-  statuses?: string[];
+  statuses?: Array<string>;
   /** Minimum creation date of resource (inclusive). */
-  minCreatedDateTime?: Date;
+  minCreatedDateTime?: Date | string;
   /** Maximum creation date of resource (inclusive). */
-  maxCreatedDateTime?: Date;
+  maxCreatedDateTime?: Date | string;
   /** Minimum last modified date of resource (inclusive). */
-  minLastModifiedDateTime?: Date;
+  minLastModifiedDateTime?: Date | string;
   /** Maximum last modified date of resource (inclusive). */
-  maxLastModifiedDateTime?: Date;
+  maxLastModifiedDateTime?: Date | string;
   /**
    * Maximum number of items needed (inclusive).
    * Minimum = 10, Maximum = 1000, Default value = 50.
    */
-  maxPageSize?: number;
+  $maxPageSize?: number;
   /** Skip token for getting next set of results. */
-  skipToken?: string;
+  $skipToken?: string;
   /** Is the boundary primary. */
   isPrimary?: boolean;
   /** Type of the parent it belongs to. */
   parentType?: string;
   /** Parent Ids of the resource. */
-  parentIds?: string[];
+  parentIds?: Array<string>;
   /** Minimum acreage of the boundary (inclusive). */
   minAcreage?: number;
   /** Maximum acreage of the boundary (inclusive). */
   maxAcreage?: number;
   /** GeoJSON abstract class. */
   intersectsWithGeometry?: GeoJsonObject;
-}
-
-export interface CascadeDeleteJob {
-  /** Farmer ID. */
-  farmerId: string;
-  /** The id of the resource. */
-  resourceId: string;
-  /** The type of the resource. */
-  resourceType: string;
-  /** Unique job id. */
-  id?: string;
-  /**
-   * Status of the job.
-   * Possible values: 'Waiting', 'Running', 'Succeeded', 'Failed', 'Cancelled'.
-   */
-  status?: string;
-  /** Duration of the job in seconds. */
-  durationInSeconds?: number;
-  /** Status message to capture more details of the job. */
-  message?: string;
-  /** Job created at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date;
-  /** Job was last acted upon at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  lastActionDateTime?: Date;
-  /** Job start time when available. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  startTime?: Date;
-  /** Job end time when available. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  endTime?: Date;
-  /** Name to identify resource. */
-  name?: string;
-  /** Textual description of the resource. */
-  description?: string;
-  /**
-   * A collection of key value pairs that belongs to the resource.
-   * Each pair must not have a key greater than 50 characters
-   * and must not have a value greater than 150 characters.
-   * Note: A maximum of 25 key value pairs can be provided for a resource and only string and numeral values are supported.
-   */
-  properties?: CascadeDeleteJobPropertiesDictionary;
-}
-
-export interface BoundaryOverlapResponse {
-  /** Acreage of Main boundary. */
-  boundaryAcreage?: number;
-  /** Acreage of other boundary. */
-  otherBoundaryAcreage?: number;
-  /** Acreage of intersecting boundary. */
-  intersectingAcreage?: number;
-}
-
-export interface CropListResponse {
-  /** List of requested objects. */
-  value?: Crop[];
-  /** Token used in retrieving the next page. If null, there are no additional pages. */
-  skipToken?: string;
-  /** Continuation link (absolute URI) to the next page of results in the list. */
-  nextLink?: string;
 }
 
 export interface Crop {
@@ -309,9 +161,9 @@ export interface Crop {
   /** Status of the resource. */
   status?: string;
   /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date;
+  createdDateTime?: Date | string;
   /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date;
+  modifiedDateTime?: Date | string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -322,16 +174,7 @@ export interface Crop {
    * and must not have a value greater than 150 characters.
    * Note: A maximum of 25 key value pairs can be provided for a resource and only string and numeral values are supported.
    */
-  properties?: CropPropertiesDictionary;
-}
-
-export interface CropVarietyListResponse {
-  /** List of requested objects. */
-  value?: CropVariety[];
-  /** Token used in retrieving the next page. If null, there are no additional pages. */
-  skipToken?: string;
-  /** Continuation link (absolute URI) to the next page of results in the list. */
-  nextLink?: string;
+  properties?: Record<string, any>;
 }
 
 export interface CropVariety {
@@ -348,9 +191,9 @@ export interface CropVariety {
   /** Status of the resource. */
   status?: string;
   /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date;
+  createdDateTime?: Date | string;
   /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date;
+  modifiedDateTime?: Date | string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -361,16 +204,7 @@ export interface CropVariety {
    * and must not have a value greater than 150 characters.
    * Note: A maximum of 25 key value pairs can be provided for a resource and only string and numeral values are supported.
    */
-  properties?: CropVarietyPropertiesDictionary;
-}
-
-export interface FarmerListResponse {
-  /** List of requested objects. */
-  value?: Farmer[];
-  /** Token used in retrieving the next page. If null, there are no additional pages. */
-  skipToken?: string;
-  /** Continuation link (absolute URI) to the next page of results in the list. */
-  nextLink?: string;
+  properties?: Record<string, any>;
 }
 
 export interface Farmer {
@@ -381,9 +215,9 @@ export interface Farmer {
   /** Status of the resource. */
   status?: string;
   /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date;
+  createdDateTime?: Date | string;
   /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date;
+  modifiedDateTime?: Date | string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -394,7 +228,7 @@ export interface Farmer {
    * and must not have a value greater than 150 characters.
    * Note: A maximum of 25 key value pairs can be provided for a resource and only string and numeral values are supported.
    */
-  properties?: FarmerPropertiesDictionary;
+  properties?: Record<string, any>;
 }
 
 export interface FarmOperationDataIngestionJob {
@@ -403,7 +237,7 @@ export interface FarmOperationDataIngestionJob {
   /** Authentication provider ID. */
   authProviderId: string;
   /** List of operation types for which data needs to be downloaded. Available values: AllOperations, Application, Planting, Harvest, Tillage. */
-  operations?: string[];
+  operations?: Array<string>;
   /** Start Year (Minimum = 2000, Maximum = CurrentYear). */
   startYear: number;
   /** Unique job id. */
@@ -418,13 +252,13 @@ export interface FarmOperationDataIngestionJob {
   /** Status message to capture more details of the job. */
   message?: string;
   /** Job created at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date;
+  createdDateTime?: Date | string;
   /** Job was last acted upon at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  lastActionDateTime?: Date;
+  lastActionDateTime?: Date | string;
   /** Job start time when available. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  startTime?: Date;
+  startTime?: Date | string;
   /** Job end time when available. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  endTime?: Date;
+  endTime?: Date | string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -435,16 +269,7 @@ export interface FarmOperationDataIngestionJob {
    * and must not have a value greater than 150 characters.
    * Note: A maximum of 25 key value pairs can be provided for a resource and only string and numeral values are supported.
    */
-  properties?: FarmOperationDataIngestionJobPropertiesDictionary;
-}
-
-export interface FarmListResponse {
-  /** List of requested objects. */
-  value?: Farm[];
-  /** Token used in retrieving the next page. If null, there are no additional pages. */
-  skipToken?: string;
-  /** Continuation link (absolute URI) to the next page of results in the list. */
-  nextLink?: string;
+  properties?: Record<string, any>;
 }
 
 export interface Farm {
@@ -457,9 +282,9 @@ export interface Farm {
   /** Status of the resource. */
   status?: string;
   /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date;
+  createdDateTime?: Date | string;
   /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date;
+  modifiedDateTime?: Date | string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -470,16 +295,7 @@ export interface Farm {
    * and must not have a value greater than 150 characters.
    * Note: A maximum of 25 key value pairs can be provided for a resource and only string and numeral values are supported.
    */
-  properties?: FarmPropertiesDictionary;
-}
-
-export interface FieldListResponse {
-  /** List of requested objects. */
-  value?: Field[];
-  /** Token used in retrieving the next page. If null, there are no additional pages. */
-  skipToken?: string;
-  /** Continuation link (absolute URI) to the next page of results in the list. */
-  nextLink?: string;
+  properties?: Record<string, any>;
 }
 
 export interface Field {
@@ -490,7 +306,7 @@ export interface Field {
   /** Primary boundary id. */
   primaryBoundaryId?: string;
   /** Boundary Ids. */
-  boundaryIds?: string[];
+  boundaryIds?: Array<string>;
   /** Unique resource ID. */
   id?: string;
   /** The ETag value to implement optimistic concurrency. */
@@ -498,9 +314,9 @@ export interface Field {
   /** Status of the resource. */
   status?: string;
   /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date;
+  createdDateTime?: Date | string;
   /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date;
+  modifiedDateTime?: Date | string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -511,16 +327,7 @@ export interface Field {
    * and must not have a value greater than 150 characters.
    * Note: A maximum of 25 key value pairs can be provided for a resource and only string and numeral values are supported.
    */
-  properties?: FieldPropertiesDictionary;
-}
-
-export interface HarvestDataListResponse {
-  /** List of requested objects. */
-  value?: HarvestData[];
-  /** Token used in retrieving the next page. If null, there are no additional pages. */
-  skipToken?: string;
-  /** Continuation link (absolute URI) to the next page of results in the list. */
-  nextLink?: string;
+  properties?: Record<string, any>;
 }
 
 export interface HarvestData {
@@ -537,7 +344,7 @@ export interface HarvestData {
   /** Schema for storing measurement reading and unit. */
   avgSpeed?: Measure;
   /** Harvest product details. */
-  harvestProductDetails?: HarvestProductDetail[];
+  harvestProductDetails?: Array<HarvestProductDetail>;
   /** Schema for storing measurement reading and unit. */
   area?: Measure;
   /** Source of the operation data. */
@@ -546,11 +353,11 @@ export interface HarvestData {
    * Modified date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ.
    * Note: this will be specified by the source provider itself.
    */
-  operationModifiedDateTime?: Date;
+  operationModifiedDateTime?: Date | string;
   /** Start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  operationStartDateTime?: Date;
+  operationStartDateTime?: Date | string;
   /** End date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  operationEndDateTime?: Date;
+  operationEndDateTime?: Date | string;
   /** Link for attachments. */
   attachmentsLink?: string;
   /** Optional boundary ID of the field for which operation was applied. */
@@ -566,9 +373,9 @@ export interface HarvestData {
   /** Status of the resource. */
   status?: string;
   /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date;
+  createdDateTime?: Date | string;
   /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date;
+  modifiedDateTime?: Date | string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -579,7 +386,7 @@ export interface HarvestData {
    * and must not have a value greater than 150 characters.
    * Note: A maximum of 25 key value pairs can be provided for a resource and only string and numeral values are supported.
    */
-  properties?: HarvestDataPropertiesDictionary;
+  properties?: Record<string, any>;
 }
 
 export interface HarvestProductDetail {
@@ -605,7 +412,7 @@ export interface ImageProcessingRasterizeJob {
   /** Shapefile attachment ID. */
   shapefileAttachmentId: string;
   /** List of shapefile column names to create raster attachments. */
-  shapefileColumnNames: string[];
+  shapefileColumnNames: Array<string>;
   /** Unique job id. */
   id?: string;
   /**
@@ -618,13 +425,13 @@ export interface ImageProcessingRasterizeJob {
   /** Status message to capture more details of the job. */
   message?: string;
   /** Job created at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date;
+  createdDateTime?: Date | string;
   /** Job was last acted upon at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  lastActionDateTime?: Date;
+  lastActionDateTime?: Date | string;
   /** Job start time when available. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  startTime?: Date;
+  startTime?: Date | string;
   /** Job end time when available. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  endTime?: Date;
+  endTime?: Date | string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -635,16 +442,7 @@ export interface ImageProcessingRasterizeJob {
    * and must not have a value greater than 150 characters.
    * Note: A maximum of 25 key value pairs can be provided for a resource and only string and numeral values are supported.
    */
-  properties?: ImageProcessingRasterizeJobPropertiesDictionary;
-}
-
-export interface OAuthProviderListResponse {
-  /** List of requested objects. */
-  value?: OAuthProvider[];
-  /** Token used in retrieving the next page. If null, there are no additional pages. */
-  skipToken?: string;
-  /** Continuation link (absolute URI) to the next page of results in the list. */
-  nextLink?: string;
+  properties?: Record<string, any>;
 }
 
 export interface OAuthProvider {
@@ -670,9 +468,9 @@ export interface OAuthProvider {
   /** The ETag value to implement optimistic concurrency. */
   eTag?: string;
   /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date;
+  createdDateTime?: Date | string;
   /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date;
+  modifiedDateTime?: Date | string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -683,31 +481,7 @@ export interface OAuthProvider {
    * and must not have a value greater than 150 characters.
    * Note: A maximum of 25 key value pairs can be provided for a resource and only string and numeral values are supported.
    */
-  properties?: OAuthProviderPropertiesDictionary;
-}
-
-export interface OAuthTokenListResponse {
-  /** List of requested objects. */
-  value?: OAuthToken[];
-  /** Token used in retrieving the next page. If null, there are no additional pages. */
-  skipToken?: string;
-  /** Continuation link (absolute URI) to the next page of results in the list. */
-  nextLink?: string;
-}
-
-export interface OAuthToken {
-  /** Farmer ID for this OAuth config. */
-  farmerId: string;
-  /** ID of the OAuth provider resource containing app information. */
-  authProviderId: string;
-  /** An optional flag indicating whether the token is a valid or expired (Default value: true). */
-  isValid?: boolean;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date;
+  properties?: Record<string, any>;
 }
 
 export interface OAuthConnectRequest {
@@ -721,15 +495,6 @@ export interface OAuthConnectRequest {
   userRedirectState?: string;
 }
 
-export interface PlantingDataListResponse {
-  /** List of requested objects. */
-  value?: PlantingData[];
-  /** Token used in retrieving the next page. If null, there are no additional pages. */
-  skipToken?: string;
-  /** Continuation link (absolute URI) to the next page of results in the list. */
-  nextLink?: string;
-}
-
 export interface PlantingData {
   /** Schema for storing measurement reading and unit. */
   avgPlantingRate?: Measure;
@@ -738,7 +503,7 @@ export interface PlantingData {
   /** Schema for storing measurement reading and unit. */
   avgMaterial?: Measure;
   /** Planting product details. */
-  plantingProductDetails?: PlantingProductDetail[];
+  plantingProductDetails?: Array<PlantingProductDetail>;
   /** Schema for storing measurement reading and unit. */
   area?: Measure;
   /** Source of the operation data. */
@@ -747,11 +512,11 @@ export interface PlantingData {
    * Modified date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ.
    * Note: this will be specified by the source provider itself.
    */
-  operationModifiedDateTime?: Date;
+  operationModifiedDateTime?: Date | string;
   /** Start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  operationStartDateTime?: Date;
+  operationStartDateTime?: Date | string;
   /** End date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  operationEndDateTime?: Date;
+  operationEndDateTime?: Date | string;
   /** Link for attachments. */
   attachmentsLink?: string;
   /** Optional boundary ID of the field for which operation was applied. */
@@ -767,9 +532,9 @@ export interface PlantingData {
   /** Status of the resource. */
   status?: string;
   /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date;
+  createdDateTime?: Date | string;
   /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date;
+  modifiedDateTime?: Date | string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -780,7 +545,7 @@ export interface PlantingData {
    * and must not have a value greater than 150 characters.
    * Note: A maximum of 25 key value pairs can be provided for a resource and only string and numeral values are supported.
    */
-  properties?: PlantingDataPropertiesDictionary;
+  properties?: Record<string, any>;
 }
 
 export interface PlantingProductDetail {
@@ -794,66 +559,19 @@ export interface PlantingProductDetail {
   avgMaterial?: Measure;
 }
 
-export interface SceneListResponse {
-  /** List of requested objects. */
-  value?: Scene[];
-  /** Token used in retrieving the next page. If null, there are no additional pages. */
-  skipToken?: string;
-  /** Continuation link (absolute URI) to the next page of results in the list. */
-  nextLink?: string;
-}
-
-export interface Scene {
-  /** Date-time of the scene, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  sceneDateTime?: Date;
-  /** Data provider of the scene. */
-  provider?: string;
-  /** Data source of the scene. */
-  source?: string;
-  /** Collection of image files. */
-  imageFiles?: ImageFile[];
-  /** Supported image formats for scene resource. */
-  imageFormat?: ImageFormat;
-  /** Cloud cover percentage of the scene. */
-  cloudCoverPercentage?: number;
-  /** Dark pixel percentage of the scene. */
-  darkPixelPercentage?: number;
-  /** Median of NDVI of the scene. */
-  ndviMedianValue?: number;
-  /** Boundary ID which belongs to the scene. */
-  boundaryId?: string;
-  /** Farmer ID which belongs to the scene. */
-  farmerId?: string;
-  /** Unique scene resource ID. */
-  id?: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
-}
-
-export interface ImageFile {
-  /** Link of the image file. */
-  fileLink?: string;
-  /** Name of the image file. */
-  name: string;
-  /** Supported image formats for scene resource. */
-  imageFormat?: ImageFormat;
-  /** Resolution of image file in meters. */
-  resolution?: number;
-}
-
 export interface SatelliteDataIngestionJob {
   /** Farmer ID. */
   farmerId: string;
   /** The id of the boundary object for which satellite data is being fetched. */
   boundaryId: string;
   /** Start Date. */
-  startDateTime: Date;
+  startDateTime: Date | string;
   /** End Date. */
-  endDateTime: Date;
+  endDateTime: Date | string;
   /** Provider of satellite data. */
-  provider?: DataProvider;
+  provider?: "Microsoft";
   /** Source of satellite data. */
-  source?: Source;
+  source?: "Sentinel_2_L2A";
   /** Data Model for SatelliteIngestionJobRequest. */
   data?: SatelliteData;
   /** Unique job id. */
@@ -868,13 +586,13 @@ export interface SatelliteDataIngestionJob {
   /** Status message to capture more details of the job. */
   message?: string;
   /** Job created at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date;
+  createdDateTime?: Date | string;
   /** Job was last acted upon at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  lastActionDateTime?: Date;
+  lastActionDateTime?: Date | string;
   /** Job start time when available. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  startTime?: Date;
+  startTime?: Date | string;
   /** Job end time when available. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  endTime?: Date;
+  endTime?: Date | string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -885,25 +603,16 @@ export interface SatelliteDataIngestionJob {
    * and must not have a value greater than 150 characters.
    * Note: A maximum of 25 key value pairs can be provided for a resource and only string and numeral values are supported.
    */
-  properties?: SatelliteDataIngestionJobPropertiesDictionary;
+  properties?: Record<string, any>;
 }
 
 export interface SatelliteData {
   /** List of ImageNames. */
-  imageNames?: string[];
+  imageNames?: Array<string>;
   /** List of ImageFormats. Available value: TIF. */
-  imageFormats?: string[];
+  imageFormats?: Array<string>;
   /** List of ImageResolutions in meters. Available values: 10, 20, 60. */
-  imageResolutions?: number[];
-}
-
-export interface SeasonalFieldListResponse {
-  /** List of requested objects. */
-  value?: SeasonalField[];
-  /** Token used in retrieving the next page. If null, there are no additional pages. */
-  skipToken?: string;
-  /** Continuation link (absolute URI) to the next page of results in the list. */
-  nextLink?: string;
+  imageResolutions?: Array<number>;
 }
 
 export interface SeasonalField {
@@ -912,7 +621,7 @@ export interface SeasonalField {
   /** Primary boundary id. */
   primaryBoundaryId?: string;
   /** Boundary Ids. */
-  boundaryIds?: string[];
+  boundaryIds?: Array<string>;
   /** ID of the associated Farm. */
   farmId?: string;
   /** ID of the associated Field. */
@@ -920,7 +629,7 @@ export interface SeasonalField {
   /** ID of the season it belongs to. */
   seasonId?: string;
   /** CropVariety ids. */
-  cropVarietyIds?: string[];
+  cropVarietyIds?: Array<string>;
   /** ID of the crop it belongs to. */
   cropId?: string;
   /** Average yield value of the seasonal field. */
@@ -932,7 +641,7 @@ export interface SeasonalField {
   /** Unit of average seed population value attribute. */
   avgSeedPopulationUnit?: string;
   /** Planting datetime, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  plantingDateTime?: Date;
+  plantingDateTime?: Date | string;
   /** Unique resource ID. */
   id?: string;
   /** The ETag value to implement optimistic concurrency. */
@@ -940,9 +649,9 @@ export interface SeasonalField {
   /** Status of the resource. */
   status?: string;
   /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date;
+  createdDateTime?: Date | string;
   /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date;
+  modifiedDateTime?: Date | string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -953,23 +662,14 @@ export interface SeasonalField {
    * and must not have a value greater than 150 characters.
    * Note: A maximum of 25 key value pairs can be provided for a resource and only string and numeral values are supported.
    */
-  properties?: SeasonalFieldPropertiesDictionary;
-}
-
-export interface SeasonListResponse {
-  /** List of requested objects. */
-  value?: Season[];
-  /** Token used in retrieving the next page. If null, there are no additional pages. */
-  skipToken?: string;
-  /** Continuation link (absolute URI) to the next page of results in the list. */
-  nextLink?: string;
+  properties?: Record<string, any>;
 }
 
 export interface Season {
   /** Season start datetime, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  startDateTime?: Date;
+  startDateTime?: Date | string;
   /** Season end datetime, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  endDateTime?: Date;
+  endDateTime?: Date | string;
   /** Season year. */
   year?: number;
   /** Unique resource ID. */
@@ -979,9 +679,9 @@ export interface Season {
   /** Status of the resource. */
   status?: string;
   /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date;
+  createdDateTime?: Date | string;
   /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date;
+  modifiedDateTime?: Date | string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -992,16 +692,7 @@ export interface Season {
    * and must not have a value greater than 150 characters.
    * Note: A maximum of 25 key value pairs can be provided for a resource and only string and numeral values are supported.
    */
-  properties?: SeasonPropertiesDictionary;
-}
-
-export interface TillageDataListResponse {
-  /** List of requested objects. */
-  value?: TillageData[];
-  /** Token used in retrieving the next page. If null, there are no additional pages. */
-  skipToken?: string;
-  /** Continuation link (absolute URI) to the next page of results in the list. */
-  nextLink?: string;
+  properties?: Record<string, any>;
 }
 
 export interface TillageData {
@@ -1017,11 +708,11 @@ export interface TillageData {
    * Modified date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ.
    * Note: this will be specified by the source provider itself.
    */
-  operationModifiedDateTime?: Date;
+  operationModifiedDateTime?: Date | string;
   /** Start date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  operationStartDateTime?: Date;
+  operationStartDateTime?: Date | string;
   /** End date-time of the operation data, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  operationEndDateTime?: Date;
+  operationEndDateTime?: Date | string;
   /** Link for attachments. */
   attachmentsLink?: string;
   /** Optional boundary ID of the field for which operation was applied. */
@@ -1037,9 +728,9 @@ export interface TillageData {
   /** Status of the resource. */
   status?: string;
   /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date;
+  createdDateTime?: Date | string;
   /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date;
+  modifiedDateTime?: Date | string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -1050,89 +741,7 @@ export interface TillageData {
    * and must not have a value greater than 150 characters.
    * Note: A maximum of 25 key value pairs can be provided for a resource and only string and numeral values are supported.
    */
-  properties?: TillageDataPropertiesDictionary;
-}
-
-export interface WeatherDataListResponse {
-  /** List of requested objects. */
-  value?: WeatherData[];
-  /** Token used in retrieving the next page. If null, there are no additional pages. */
-  skipToken?: string;
-  /** Continuation link (absolute URI) to the next page of results in the list. */
-  nextLink?: string;
-}
-
-export interface WeatherData {
-  /** Farmer ID. */
-  farmerId: string;
-  /** Boundary ID. */
-  boundaryId: string;
-  /** ID of the weather extension. */
-  extensionId: string;
-  /** Location model class. */
-  location: Location;
-  /** Date-time of the weather data, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  dateTime: Date;
-  /** Unit System like US/SI etc. */
-  unitSystemCode?: string;
-  /** Version of the weather data extension. */
-  extensionVersion: string;
-  /** Type of weather data (forecast/historical). */
-  weatherDataType: string;
-  /** Granularity of weather data (daily/hourly). */
-  granularity: string;
-  /** Schema for storing measurement reading and unit. */
-  cloudCover?: Measure;
-  /** Schema for storing measurement reading and unit. */
-  dewPoint?: Measure;
-  /** Schema for storing measurement reading and unit. */
-  growingDegreeDay?: Measure;
-  /** Schema for storing measurement reading and unit. */
-  precipitation?: Measure;
-  /** Schema for storing measurement reading and unit. */
-  pressure?: Measure;
-  /** Schema for storing measurement reading and unit. */
-  relativeHumidity?: Measure;
-  /** Schema for storing measurement reading and unit. */
-  soilMoisture?: Measure;
-  /** Schema for storing measurement reading and unit. */
-  soilTemperature?: Measure;
-  /** Schema for storing measurement reading and unit. */
-  temperature?: Measure;
-  /** Schema for storing measurement reading and unit. */
-  visibility?: Measure;
-  /** Schema for storing measurement reading and unit. */
-  wetBulbTemperature?: Measure;
-  /** Schema for storing measurement reading and unit. */
-  windChill?: Measure;
-  /** Schema for storing measurement reading and unit. */
-  windDirection?: Measure;
-  /** Schema for storing measurement reading and unit. */
-  windGust?: Measure;
-  /** Schema for storing measurement reading and unit. */
-  windSpeed?: Measure;
-  /** Weather data ID. */
-  id?: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
-  /** Date-time when resource was created, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date;
-  /** Date-time when resource was last modified, sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  modifiedDateTime?: Date;
-  /**
-   * A collection of key value pairs that belongs to the resource.
-   * Each pair must not have a key greater than 50 characters
-   * and must not have a value greater than 150 characters.
-   * Note: A maximum of 25 key value pairs can be provided for a resource and only string and numeral values are supported.
-   */
-  properties?: WeatherDataPropertiesDictionary;
-}
-
-export interface Location {
-  /** Latitude of the location. */
-  latitude: number;
-  /** Longitude of the location. */
-  longitude: number;
+  properties?: Record<string, any>;
 }
 
 export interface WeatherDataIngestionJob {
@@ -1145,7 +754,7 @@ export interface WeatherDataIngestionJob {
   /** Extension api name to which request is to be made. */
   extensionApiName: string;
   /** Extension api input dictionary which would be used to feed request query/body/parameter information. */
-  extensionApiInput: WeatherDataIngestionJobExtensionApiInputDictionary;
+  extensionApiInput: Record<string, any>;
   /** App id of the weather data provider. */
   extensionDataProviderAppId?: string;
   /** Api key of the weather data provider. */
@@ -1162,13 +771,13 @@ export interface WeatherDataIngestionJob {
   /** Status message to capture more details of the job. */
   message?: string;
   /** Job created at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date;
+  createdDateTime?: Date | string;
   /** Job was last acted upon at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  lastActionDateTime?: Date;
+  lastActionDateTime?: Date | string;
   /** Job start time when available. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  startTime?: Date;
+  startTime?: Date | string;
   /** Job end time when available. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  endTime?: Date;
+  endTime?: Date | string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -1179,7 +788,7 @@ export interface WeatherDataIngestionJob {
    * and must not have a value greater than 150 characters.
    * Note: A maximum of 25 key value pairs can be provided for a resource and only string and numeral values are supported.
    */
-  properties?: WeatherDataIngestionJobPropertiesDictionary;
+  properties?: Record<string, any>;
 }
 
 export interface WeatherDataDeleteJob {
@@ -1194,9 +803,9 @@ export interface WeatherDataDeleteJob {
   /** Granularity of weather data. Possible values include: 'daily' , 'hourly'. */
   granularity?: string;
   /** Weather data start UTC date-time (inclusive), sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  startDateTime?: Date;
+  startDateTime?: Date | string;
   /** Weather data end UTC date-time (inclusive), sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  endDateTime?: Date;
+  endDateTime?: Date | string;
   /** Unique job id. */
   id?: string;
   /**
@@ -1209,13 +818,13 @@ export interface WeatherDataDeleteJob {
   /** Status message to capture more details of the job. */
   message?: string;
   /** Job created at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  createdDateTime?: Date;
+  createdDateTime?: Date | string;
   /** Job was last acted upon at dateTime. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  lastActionDateTime?: Date;
+  lastActionDateTime?: Date | string;
   /** Job start time when available. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  startTime?: Date;
+  startTime?: Date | string;
   /** Job end time when available. Sample format: yyyy-MM-ddTHH:mm:ssZ. */
-  endTime?: Date;
+  endTime?: Date | string;
   /** Name to identify resource. */
   name?: string;
   /** Textual description of the resource. */
@@ -1226,7 +835,11 @@ export interface WeatherDataDeleteJob {
    * and must not have a value greater than 150 characters.
    * Note: A maximum of 25 key value pairs can be provided for a resource and only string and numeral values are supported.
    */
-  properties?: WeatherDataDeleteJobPropertiesDictionary;
+  properties?: Record<string, any>;
+}
+
+export interface MultiPolygon extends GeoJsonObjectBase, MultiPolygonCoordinates {
+  type: "MultiPolygon";
 }
 
 export interface MultiPolygonCoordinates {
@@ -1236,30 +849,24 @@ export interface MultiPolygonCoordinates {
    * For Polygons with more than one of these rings, the first MUST be the exterior ring,
    * and any others MUST be interior rings.
    */
-  coordinates: number[][][][];
+  coordinates: Array<Array<Array<Array<number>>>>;
 }
 
-export type MultiPolygon = MultiPolygonBase &
-  MultiPolygonCoordinates & {
-    type: "MultiPolygon";
-  };
-
-export interface MultiPolygonBase {}
+export interface Point extends GeoJsonObjectBase, PointCoordinates {
+  type: "Point";
+}
 
 export interface PointCoordinates {
   /**
    * Gets or sets the coordinate of this point.
    * It must be an array of 2 or 3 elements for a 2D or 3D system.
    */
-  coordinates: number[];
+  coordinates: Array<number>;
 }
 
-export type Point = PointBase &
-  PointCoordinates & {
-    type: "Point";
-  };
-
-export interface PointBase {}
+export interface Polygon extends GeoJsonObjectBase, PolygonCoordinates {
+  type: "Polygon";
+}
 
 export interface PolygonCoordinates {
   /**
@@ -1268,69 +875,7 @@ export interface PolygonCoordinates {
    * For Polygons with more than one of these rings, the first MUST be the exterior ring,
    * and any others MUST be interior rings.
    */
-  coordinates: number[][][];
+  coordinates: Array<Array<Array<number>>>;
 }
 
-export type Polygon = PolygonBase &
-  PolygonCoordinates & {
-    type: "Polygon";
-  };
-
-export interface PolygonBase {}
-
-export interface Paths1LxjoxzFarmersFarmeridAttachmentsAttachmentidPatchRequestbodyContentMultipartFormDataSchema {
-  /** File to be uploaded. */
-  file?: string;
-  /** Farmer id for this attachment. */
-  farmerId?: string;
-  /** Associated Resource id for this attachment. */
-  resourceId?: string;
-  /**
-   * Associated Resource type for this attachment
-   * i.e. Farmer, Farm, Field, SeasonalField, Boundary, FarmOperationApplicationData, HarvestData, TillageData, PlantingData.
-   */
-  resourceType?: string;
-  /** Original File Name for this attachment. */
-  originalFileName?: string;
-  /** Unique id. */
-  id?: string;
-  /** Status of the resource. */
-  status?: string;
-  /** Date when resource was created. */
-  createdDateTime?: string;
-  /** Date when resource was last modified. */
-  modifiedDateTime?: string;
-  /** Name to identify resource. */
-  name?: string;
-  /** Textual description of resource. */
-  description?: string;
-  /** The ETag value to implement optimistic concurrency. */
-  eTag?: string;
-}
-
-export type GeoJsonObjectType = "Point" | "Polygon" | "MultiPolygon";
-export type ImageFormat = "TIF";
-export type DataProvider = "Microsoft";
-export type Source = "Sentinel_2_L2A";
-export type ApplicationDataPropertiesDictionary = Record<string, unknown>;
-export type InnerErrorDictionary = Record<string, unknown>;
-export type BoundaryPropertiesDictionary = Record<string, unknown>;
-export type CascadeDeleteJobPropertiesDictionary = Record<string, unknown>;
-export type CropPropertiesDictionary = Record<string, unknown>;
-export type CropVarietyPropertiesDictionary = Record<string, unknown>;
-export type FarmerPropertiesDictionary = Record<string, unknown>;
-export type FarmOperationDataIngestionJobPropertiesDictionary = Record<string, unknown>;
-export type FarmPropertiesDictionary = Record<string, unknown>;
-export type FieldPropertiesDictionary = Record<string, unknown>;
-export type HarvestDataPropertiesDictionary = Record<string, unknown>;
-export type ImageProcessingRasterizeJobPropertiesDictionary = Record<string, unknown>;
-export type OAuthProviderPropertiesDictionary = Record<string, unknown>;
-export type PlantingDataPropertiesDictionary = Record<string, unknown>;
-export type SatelliteDataIngestionJobPropertiesDictionary = Record<string, unknown>;
-export type SeasonalFieldPropertiesDictionary = Record<string, unknown>;
-export type SeasonPropertiesDictionary = Record<string, unknown>;
-export type TillageDataPropertiesDictionary = Record<string, unknown>;
-export type WeatherDataPropertiesDictionary = Record<string, unknown>;
-export type WeatherDataIngestionJobExtensionApiInputDictionary = Record<string, unknown>;
-export type WeatherDataIngestionJobPropertiesDictionary = Record<string, unknown>;
-export type WeatherDataDeleteJobPropertiesDictionary = Record<string, unknown>;
+export type GeoJsonObject = MultiPolygon | Point | Polygon;

@@ -9,5 +9,4 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { AzureBotService } from "./azureBotService";
-export { AzureBotServiceContext } from "./azureBotServiceContext";
 export * from "./operationsInterfaces";

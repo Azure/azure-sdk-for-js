@@ -35,9 +35,9 @@ export async function main(): Promise<void> {
       subject: "azure/sdk/eventgrid/samples/sendEventSample",
       dataVersion: "1.0",
       data: {
-        message: "this is a sample event"
-      }
-    }
+        message: "this is a sample event",
+      },
+    },
   ]);
 }
 

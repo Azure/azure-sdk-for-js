@@ -86,7 +86,7 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
     }
 
     this.data.set(context.partitionId, {
-      closeReason: undefined
+      closeReason: undefined,
     });
   }
 
@@ -136,7 +136,7 @@ export class ReceivedMessagesTester implements Required<SubscriptionEventHandler
       this.expectedMessageBodies.add(body);
       messagesToSend.push({
         body,
-        partitionId
+        partitionId,
       });
     }
 

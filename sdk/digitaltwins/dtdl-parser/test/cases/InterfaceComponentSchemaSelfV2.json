@@ -1,0 +1,29 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:recursiveInterface;1",
+      "@type": "Interface",
+      "contents": [
+        {
+          "@type": "Component",
+          "name": "self",
+          "schema": "dtmi:test:recursiveInterface;1"
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:excludedType",
+        "PrimaryID": "dtmi:test:recursiveInterface:_contents:__self;1",
+        "SecondaryID": "dtmi:test:recursiveInterface:_contents:__self;1",
+        "Property": null,
+        "Value": null
+      }
+    ]
+  }
+}

@@ -6,6 +6,12 @@ and the `AbortSignal` used by [fetch](https://developer.mozilla.org/docs/Web/API
 Use the `AbortController` class to create an instance of the `AbortSignal` class that can be used to cancel an operation
 in an Azure SDK that accept a parameter of type `AbortSignalLike`.
 
+Key links:
+
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/abort-controller)
+- [Package (npm)](https://www.npmjs.com/package/@azure/abort-controller)
+- [API Reference Documentation](https://docs.microsoft.com/javascript/api/overview/azure/abort-controller-readme)
+
 ## Getting started
 
 ### Installation

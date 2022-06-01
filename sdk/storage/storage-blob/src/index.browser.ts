@@ -24,7 +24,7 @@ export {
   ContainerRequestConditions,
   HttpAuthorization,
   ModificationConditions,
-  MatchConditions
+  MatchConditions,
 } from "./models";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
@@ -36,6 +36,6 @@ export { RestError };
 export {
   PageBlobGetPageRangesDiffResponse,
   PageBlobGetPageRangesResponse,
-  PageList
+  PageList,
 } from "./PageBlobRangeResponse";
 export { logger } from "./log";

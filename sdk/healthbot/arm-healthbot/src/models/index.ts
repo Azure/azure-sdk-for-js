@@ -6,282 +6,182 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import * as coreClient from "@azure/core-client";
 
-export { BaseResource, CloudError };
-
-/**
- * The resource model definition representing SKU
- */
+/** The resource model definition representing SKU */
 export interface Sku {
-  /**
-   * The name of the HealthBot SKU. Possible values include: 'F0', 'S1', 'C0'
-   */
+  /** The name of the Azure Health Bot SKU */
   name: SkuName;
 }
 
-/**
- * Read only system data
- */
-export interface SystemData {
+/** Identity for the resource. */
+export interface Identity {
   /**
-   * The identity that created the resource.
+   * The principal ID of resource identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  createdBy?: string;
+  readonly principalId?: string;
   /**
-   * The type of identity that created the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
+   * The tenant ID of resource. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  createdByType?: IdentityType;
+  readonly tenantId?: string;
+  /** The identity type. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the Azure Health Bot */
+  type?: ResourceIdentityType;
   /**
-   * The timestamp of resource creation (UTC)
+   * The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form:
+   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+   *
    */
-  createdAt?: Date;
-  /**
-   * The identity that last modified the resource.
-   */
-  lastModifiedBy?: string;
-  /**
-   * The type of identity that last modified the resource. Possible values include: 'User',
-   * 'Application', 'ManagedIdentity', 'Key'
-   */
-  lastModifiedByType?: IdentityType;
-  /**
-   * The timestamp of resource last modification (UTC)
-   */
-  lastModifiedAt?: Date;
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
 }
 
-/**
- * The resource model definition for a ARM tracked top level resource
- */
-export interface Resource extends BaseResource {
+/** The details of the user assigned managed identity used by the Video Analyzer resource. */
+export interface UserAssignedIdentity {
   /**
-   * Fully qualified resource Id for the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The principal ID of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly id?: string;
+  readonly principalId?: string;
   /**
-   * The name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The client ID of user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly name?: string;
-  /**
-   * The type of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * Metadata pertaining to creation and last modification of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly systemData?: SystemData;
+  readonly clientId?: string;
 }
 
-/**
- * The resource model definition for a ARM tracked top level resource
- */
-export interface TrackedResource extends Resource {
-  /**
-   * Resource tags.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * The geo-location where the resource lives
-   */
-  location: string;
-}
-
-/**
- * The properties of a HealthBot. The Health Bot Service is a cloud platform that empowers
- * developers in Healthcare organizations to build and deploy their compliant, AI-powered virtual
- * health assistants and health bots, that help them improve processes and reduce costs.
- * @summary HealthBotProperties
- */
+/** The properties of a Azure Health Bot. The Health Bot Service is a cloud platform that empowers developers in Healthcare organizations to build and deploy their compliant, AI-powered virtual health assistants and health bots, that help them improve processes and reduce costs. */
 export interface HealthBotProperties {
   /**
-   * The provisioning state of the Healthbot resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The provisioning state of the Azure Health Bot resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
   /**
    * The link.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly botManagementPortalLink?: string;
 }
 
-/**
- * HealthBot resource definition
- */
-export interface HealthBot extends TrackedResource {
+/** The resource model definition for a ARM tracked top level resource */
+export interface Resource {
   /**
-   * SKU of the HealthBot.
+   * Fully qualified resource Id for the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  sku: Sku;
+  readonly id?: string;
   /**
-   * The set of properties specific to Healthbot resource.
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  properties?: HealthBotProperties;
-}
-
-/**
- * Parameters for updating a HealthBot.
- */
-export interface HealthBotUpdateParameters {
+  readonly name?: string;
   /**
-   * Tags for a HealthBot.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * SKU of the HealthBot.
-   */
-  sku?: Sku;
-}
-
-/**
- * The response returned from validation process
- * @summary ValidationResult
- */
-export interface ValidationResult {
-  /**
-   * The status code of the response validation.
-   */
-  status?: string;
-}
-
-/**
- * The resource management error additional info.
- */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The type of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
   /**
-   * The additional info.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Metadata pertaining to creation and last modification of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly info?: any;
+  readonly systemData?: SystemData;
 }
 
-/**
- * The error object.
- */
+/** Read only system data */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource */
+  createdByType?: IdentityType;
+  /** The timestamp of resource creation (UTC) */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource */
+  lastModifiedByType?: IdentityType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** The resource management error response. */
+export interface ErrorModel {
+  /** The error object. */
+  error?: ErrorError;
+}
+
+/** The error object. */
 export interface ErrorError {
   /**
    * The error code.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly code?: string;
   /**
    * The error message.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly message?: string;
   /**
    * The error target.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly target?: string;
   /**
    * The error details.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly details?: ErrorModel[];
   /**
    * The error additional info.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly additionalInfo?: ErrorAdditionalInfo[];
 }
 
-/**
- * The resource management error response.
- */
-export interface ErrorModel {
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
   /**
-   * The error object.
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  error?: ErrorError;
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
 }
 
-/**
- * Operation display payload
- */
-export interface OperationDisplay {
-  /**
-   * Resource provider of the operation
-   */
-  provider?: string;
-  /**
-   * Resource of the operation
-   */
-  resource?: string;
-  /**
-   * Localized friendly name for the operation
-   */
-  operation?: string;
-  /**
-   * Localized friendly description for the operation
-   */
-  description?: string;
+/** Parameters for updating a Azure Health Bot. */
+export interface HealthBotUpdateParameters {
+  /** Tags for a Azure Health Bot. */
+  tags?: { [propertyName: string]: string };
+  /** SKU of the Azure Health Bot. */
+  sku?: Sku;
+  /** The identity of the Azure Health Bot. */
+  identity?: Identity;
+  location?: string;
 }
 
-/**
- * Operation detail payload
- */
-export interface OperationDetail {
-  /**
-   * Name of the operation
-   */
-  name?: string;
-  /**
-   * Indicates whether the operation is a data action
-   */
-  isDataAction?: boolean;
-  /**
-   * Display of the operation
-   */
-  display?: OperationDisplay;
-  /**
-   * Origin of the operation
-   */
-  origin?: string;
-  /**
-   * Additional properties.
-   */
-  properties?: any;
-}
-
-/**
- * An interface representing HealthbotClientOptions.
- */
-export interface HealthbotClientOptions extends AzureServiceClientOptions {
-  baseUri?: string;
-}
-
-/**
- * @interface
- * The list of Healthbot operation response.
- * @extends Array<HealthBot>
- */
-export interface BotResponseList extends Array<HealthBot> {
+/** The list of Azure Health Bot operation response. */
+export interface BotResponseList {
   /**
    * The link used to get the next page of bot service resources.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+  /**
+   * Gets the list of Azure Health Bot results and their properties.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: HealthBot[];
 }
 
-/**
- * @interface
- * Available operations of the service
- * @extends Array<OperationDetail>
- */
-export interface AvailableOperations extends Array<OperationDetail> {
+/** Available operations of the service */
+export interface AvailableOperations {
+  /** Collection of available operation details */
+  value?: OperationDetail[];
   /**
    * URL client should use to fetch the next page (per server side paging).
    * It's null for now, added for future use.
@@ -289,218 +189,163 @@ export interface AvailableOperations extends Array<OperationDetail> {
   nextLink?: string;
 }
 
-/**
- * Defines values for SkuName.
- * Possible values include: 'F0', 'S1', 'C0'
- * @readonly
- * @enum {string}
- */
-export type SkuName = 'F0' | 'S1' | 'C0';
+/** Operation detail payload */
+export interface OperationDetail {
+  /** Name of the operation */
+  name?: string;
+  /** Indicates whether the operation is a data action */
+  isDataAction?: boolean;
+  /** Display of the operation */
+  display?: OperationDisplay;
+  /** Origin of the operation */
+  origin?: string;
+  /** Additional properties. */
+  properties?: Record<string, unknown>;
+}
 
-/**
- * Defines values for IdentityType.
- * Possible values include: 'User', 'Application', 'ManagedIdentity', 'Key'
- * @readonly
- * @enum {string}
- */
-export type IdentityType = 'User' | 'Application' | 'ManagedIdentity' | 'Key';
+/** Operation display payload */
+export interface OperationDisplay {
+  /** Resource provider of the operation */
+  provider?: string;
+  /** Resource of the operation */
+  resource?: string;
+  /** Localized friendly name for the operation */
+  operation?: string;
+  /** Localized friendly description for the operation */
+  description?: string;
+}
 
-/**
- * Contains response data for the create operation.
- */
-export type BotsCreateResponse = HealthBot & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** The response returned from validation process */
+export interface ValidationResult {
+  /** The status code of the response validation. */
+  status?: string;
+}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: HealthBot;
-    };
+/** The resource model definition for a ARM tracked top level resource */
+export type TrackedResource = Resource & {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
 };
 
-/**
- * Contains response data for the get operation.
- */
-export type BotsGetResponse = HealthBot & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: HealthBot;
-    };
+/** Azure Health Bot resource definition */
+export type HealthBot = TrackedResource & {
+  /** SKU of the Azure Health Bot. */
+  sku: Sku;
+  /** The identity of the Azure Health Bot. */
+  identity?: Identity;
+  /** The set of properties specific to Azure Health Bot resource. */
+  properties?: HealthBotProperties;
 };
 
-/**
- * Contains response data for the update operation.
- */
-export type BotsUpdateResponse = HealthBot & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: HealthBot;
-    };
-};
+/** Known values of {@link IdentityType} that the service accepts. */
+export enum KnownIdentityType {
+  User = "User",
+  Application = "Application",
+  ManagedIdentity = "ManagedIdentity",
+  Key = "Key"
+}
 
 /**
- * Contains response data for the listByResourceGroup operation.
+ * Defines values for IdentityType. \
+ * {@link KnownIdentityType} can be used interchangeably with IdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
  */
-export type BotsListByResourceGroupResponse = BotResponseList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+export type IdentityType = string;
+/** Defines values for SkuName. */
+export type SkuName = "F0" | "S1" | "C0";
+/** Defines values for ResourceIdentityType. */
+export type ResourceIdentityType =
+  | "SystemAssigned"
+  | "UserAssigned"
+  | "SystemAssigned, UserAssigned"
+  | "None";
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BotResponseList;
-    };
-};
+/** Optional parameters. */
+export interface BotsCreateOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-/**
- * Contains response data for the list operation.
- */
-export type BotsListResponse = BotResponseList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Contains response data for the create operation. */
+export type BotsCreateResponse = HealthBot;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BotResponseList;
-    };
-};
+/** Optional parameters. */
+export interface BotsGetOptionalParams extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the beginCreate operation.
- */
-export type BotsBeginCreateResponse = HealthBot & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Contains response data for the get operation. */
+export type BotsGetResponse = HealthBot;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: HealthBot;
-    };
-};
+/** Optional parameters. */
+export interface BotsUpdateOptionalParams extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type BotsListByResourceGroupNextResponse = BotResponseList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Contains response data for the update operation. */
+export type BotsUpdateResponse = HealthBot;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BotResponseList;
-    };
-};
+/** Optional parameters. */
+export interface BotsDeleteOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-/**
- * Contains response data for the listNext operation.
- */
-export type BotsListNextResponse = BotResponseList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface BotsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: BotResponseList;
-    };
-};
+/** Contains response data for the listByResourceGroup operation. */
+export type BotsListByResourceGroupResponse = BotResponseList;
 
-/**
- * Contains response data for the list operation.
- */
-export type OperationsListResponse = AvailableOperations & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface BotsListOptionalParams extends coreClient.OperationOptions {}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailableOperations;
-    };
-};
+/** Contains response data for the list operation. */
+export type BotsListResponse = BotResponseList;
 
-/**
- * Contains response data for the listNext operation.
- */
-export type OperationsListNextResponse = AvailableOperations & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+/** Optional parameters. */
+export interface BotsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailableOperations;
-    };
-};
+/** Contains response data for the listByResourceGroupNext operation. */
+export type BotsListByResourceGroupNextResponse = BotResponseList;
+
+/** Optional parameters. */
+export interface BotsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type BotsListNextResponse = BotResponseList;
+
+/** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = AvailableOperations;
+
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = AvailableOperations;
+
+/** Optional parameters. */
+export interface HealthbotClientOptionalParams
+  extends coreClient.ServiceClientOptions {
+  /** server parameter */
+  $host?: string;
+  /** Api Version */
+  apiVersion?: string;
+  /** Overrides client endpoint. */
+  endpoint?: string;
+}

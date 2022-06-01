@@ -490,7 +490,9 @@ export type LogFilesListByServerResponse = LogFileListResult;
 export type MinimalTlsVersionEnum = string;
 
 // @public (undocumented)
-export class MySQLManagementClient extends MySQLManagementClientContext {
+export class MySQLManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: MySQLManagementClientOptionalParams);
     // (undocumented)
     advisors: Advisors;
@@ -540,20 +542,13 @@ export class MySQLManagementClient extends MySQLManagementClientContext {
     // (undocumented)
     serverSecurityAlertPolicies: ServerSecurityAlertPolicies;
     // (undocumented)
+    subscriptionId: string;
+    // (undocumented)
     topQueryStatistics: TopQueryStatistics;
     // (undocumented)
     virtualNetworkRules: VirtualNetworkRules;
     // (undocumented)
     waitStatistics: WaitStatistics;
-}
-
-// @public (undocumented)
-export class MySQLManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: MySQLManagementClientOptionalParams);
-    // (undocumented)
-    subscriptionId: string;
 }
 
 // @public

@@ -321,7 +321,8 @@ const main = async () => {
       for (const pkgId of Object.keys(dumpData)) {
         resolveRushPackageDeps(dumpData, internalPackages, pnpmLock, pkgId, args.external);
       }
-      await writeFile(args.dump, "const data = " + JSON.stringify(dumpData) + ";");
+      await writeFile(`${args.dump}/data.js`, "const data = " + JSON.stringify(dumpData) + ";");
+      await writeFile(`${args.dump}/arcdata.json`, JSON.stringify(dumpData));
     }
   }
   catch (ex) {

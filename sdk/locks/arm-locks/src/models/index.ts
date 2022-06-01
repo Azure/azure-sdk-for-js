@@ -34,6 +34,55 @@ export interface OperationDisplay {
   operation?: string;
 }
 
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
 /** The lock information. */
 export interface ManagementLockObject {
   /**
@@ -51,6 +100,11 @@ export interface ManagementLockObject {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
   /** The level of the lock. Possible values are: NotSpecified, CanNotDelete, ReadOnly. CanNotDelete means authorized users are able to read and modify the resources, but not delete. ReadOnly means authorized users can only read from a resource, but they can't modify or delete it. */
   level: LockLevel;
   /** Notes about the lock. Maximum of 512 characters. */
@@ -63,6 +117,22 @@ export interface ManagementLockObject {
 export interface ManagementLockOwner {
   /** The application ID of the lock owner. */
   applicationId?: string;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
 }
 
 /** The list of locks. */
@@ -91,6 +161,26 @@ export enum KnownLockLevel {
  */
 export type LockLevel = string;
 
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  User = "User",
+  Application = "Application",
+  ManagedIdentity = "ManagedIdentity",
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
 /** Optional parameters. */
 export interface AuthorizationOperationsListOptionalParams
   extends coreClient.OperationOptions {}
@@ -104,13 +194,6 @@ export interface AuthorizationOperationsListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type AuthorizationOperationsListNextResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface AuthorizationOperationsListNextNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNextNext operation. */
-export type AuthorizationOperationsListNextNextResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface ManagementLocksCreateOrUpdateAtResourceGroupLevelOptionalParams
@@ -263,46 +346,6 @@ export interface ManagementLocksListByScopeNextOptionalParams
 
 /** Contains response data for the listByScopeNext operation. */
 export type ManagementLocksListByScopeNextResponse = ManagementLockListResult;
-
-/** Optional parameters. */
-export interface ManagementLocksListAtResourceGroupLevelNextNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
-
-/** Contains response data for the listAtResourceGroupLevelNextNext operation. */
-export type ManagementLocksListAtResourceGroupLevelNextNextResponse = ManagementLockListResult;
-
-/** Optional parameters. */
-export interface ManagementLocksListAtResourceLevelNextNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
-
-/** Contains response data for the listAtResourceLevelNextNext operation. */
-export type ManagementLocksListAtResourceLevelNextNextResponse = ManagementLockListResult;
-
-/** Optional parameters. */
-export interface ManagementLocksListAtSubscriptionLevelNextNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
-
-/** Contains response data for the listAtSubscriptionLevelNextNext operation. */
-export type ManagementLocksListAtSubscriptionLevelNextNextResponse = ManagementLockListResult;
-
-/** Optional parameters. */
-export interface ManagementLocksListByScopeNextNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the operation. */
-  filter?: string;
-}
-
-/** Contains response data for the listByScopeNextNext operation. */
-export type ManagementLocksListByScopeNextNextResponse = ManagementLockListResult;
 
 /** Optional parameters. */
 export interface ManagementLockClientOptionalParams

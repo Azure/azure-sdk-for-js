@@ -7,7 +7,7 @@
 
 import {
   ShortCodesClient,
-  ShortCodesUpsertUSProgramBriefOptionalParams
+  ShortCodesUpsertUSProgramBriefOptionalParams,
 } from "@azure-tools/communication-short-codes";
 
 // Load the .env file if it exists
@@ -38,21 +38,26 @@ export async function main() {
       id: programBriefId,
       programDetails: {
         privacyPolicyUrl: "https://contoso.com/updated-privacy",
-        termsOfServiceUrl: "https://contoso.com/updated-terms-of-service"
-      }
-    }
+        termsOfServiceUrl: "https://contoso.com/updated-terms-of-service",
+      },
+    },
   };
-  var upsertResponse = await client.upsertUSProgramBrief(programBriefId, updateRequest);
-  if (upsertResponse._response.status == 200) {
-    console.log(
-      `Successfully updated terms of service and privacy policy for program brief ${programBriefId}`
-    );
-  } else {
-    throw new Error(`Failed to update program brief with Id ${programBriefId}.
-      Status code: ${upsertResponse._response.status}; Error: ${
-      upsertResponse._response.bodyAsText
-    }; CV: ${upsertResponse._response.headers.get("MS-CV")}`);
-  }
+  var upsertResponse = await client.upsertUSProgramBrief(programBriefId, {
+    ...updateRequest,
+    onResponse:
+      (response) =>
+      (res = response) => {
+        if (!res || res.status != 200) {
+          throw new Error(
+            `Failed to update program brief with Id ${programBriefId}.
+          Status code: ${res.status}; Error: ${res.bodyAsText}; CV: ${res.headers.get("MS-CV")}`
+          );
+        }
+      },
+  });
+  console.log(
+    `Successfully updated terms of service and privacy policy for program brief ${programBriefId} ${upsertResponse}`
+  );
 }
 
 main().catch((error) => {

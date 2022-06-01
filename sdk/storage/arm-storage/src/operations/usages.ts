@@ -6,13 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Usages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { StorageManagementClientContext } from "../storageManagementClientContext";
+import { StorageManagementClient } from "../storageManagementClient";
 import {
   Usage,
   UsagesListByLocationOptionalParams,
@@ -20,15 +19,15 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a Usages. */
+/** Class containing Usages operations. */
 export class UsagesImpl implements Usages {
-  private readonly client: StorageManagementClientContext;
+  private readonly client: StorageManagementClient;
 
   /**
    * Initialize a new instance of the class Usages class.
    * @param client Reference to the service client
    */
-  constructor(client: StorageManagementClientContext) {
+  constructor(client: StorageManagementClient) {
     this.client = client;
   }
 

@@ -1,26 +1,69 @@
-## Release History
+# Release History
 
-### 15.0.0-beta.2 (Unreleased)
+## 16.1.1 (Unreleased)
 
-#### Features Added
+### Features Added
 
-#### Breaking Changes
+### Breaking Changes
 
-#### Bugs Fixed
+### Bugs Fixed
 
-#### Other Changes
+### Other Changes
 
-### 15.0.0-beta.1 (2021-10-27)
+## 16.1.0 (2022-05-23)
+    
+**Features**
 
-This is the first preview for the new version of the `@azure/arm-containerservice` package that follows the new [guidelines for TypeScript SDKs](https://azure.github.io/azure-sdk/typescript_introduction.html) for Azure services.
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter currentOrchestratorVersion
+  - Type Alias AgentPool has a new parameter currentOrchestratorVersion
+  - Type Alias ManagedCluster has a new parameter currentKubernetesVersion
+  - Type Alias ManagedCluster has a new parameter storageProfile
+    
+    
+## 16.0.0 (2022-04-20)
+    
+**Features**
 
-While this package remains auto generated, the SDK generator itself has undergone changes to comply with the above guidelines in order to generate packages that are idiomatic to the JavaScript/TypeScript ecosystem and consistent with other packages for Azure services. For more on this, please see [State of the Azure SDK 2021](https://devblogs.microsoft.com/azure-sdk/state-of-the-azure-sdk-2021/).
+  - Added Interface ManagedClusterStorageProfile
+  - Added Interface ManagedClusterStorageProfileDiskCSIDriver
+  - Added Interface ManagedClusterStorageProfileFileCSIDriver
+  - Added Interface ManagedClusterStorageProfileSnapshotController
+  - Added Type Alias TrackedResource
+  - Add parameters of TrackedResource to TypeAlias ManagedCluster
+  - Add parameters of TrackedResource to TypeAlias ManagedClusterAccessProfile
+  - Add parameters of TrackedResource to TypeAlias Snapshot
 
-Please note that this version has breaking changes, all of which were made after careful consideration during the authoring of the guidelines and user studies.
+**Breaking Changes**
 
-**Noteworthy changes and features**
-- Authentication: The packages `@azure/ms-rest-nodeauth` or `@azure/ms-rest-browserauth` are no longer supported. Use package [@azure/identity](https://www.npmjs.com/package/@azure/identity) instead. Select a credential from Azure Identity examples based on the authentication method of your choice.
-- Callbacks: Method overloads that used callbacks have been removed and the use of promises is encouraged instead.
-- List operations now return an iterable result that follows the `PagedAsyncIterableIterator` interface as opposed to the previous model where you had to make a new request using the link to the next page.
-- Long running operations i.e. the Lro related object returned by methods whose names started with `begin`, now uses `pollUntilDone` to check whether the request is finished, instead of `pollUntilFinished`. To get the final result, use the corresponding method that will have the suffix `AndWait`.
-- The SDK only supports ECMAScript 2015 (ES6) and beyond, all projects that referenced this SDK should be upgraded to use ES6.
+  - Interface Resource no longer has parameter location
+  - Interface Resource no longer has parameter tags
+  - Delete parameters of Resource in TypeAlias ManagedCluster
+  - Delete parameters of Resource in TypeAlias ManagedClusterAccessProfile
+  - Delete parameters of Resource in TypeAlias Snapshot
+    
+    
+## 15.2.0 (2022-03-23)
+    
+**Features**
+
+  - Interface Resource has a new optional parameter systemData
+    
+    
+## 15.1.0 (2022-02-24)
+    
+**Features**
+
+  - Added Type Alias Format
+  - Interface ManagedClustersListClusterUserCredentialsOptionalParams has a new optional parameter format
+  - Added Enum KnownFormat
+    
+    
+## 15.0.0 (2021-12-09)
+
+The package of @azure/arm-containerservice is using our next generation design principles since version 15.0.0, which contains breaking changes.
+
+To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
+
+To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
+
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).

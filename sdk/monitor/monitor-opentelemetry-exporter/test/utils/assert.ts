@@ -7,7 +7,7 @@ import {
   MonitorBase,
   RequestData,
   TelemetryItem as Envelope,
-  KnownContextTagKeys
+  KnownContextTagKeys,
 } from "../../src/generated";
 import { TelemetryItem as EnvelopeMapper } from "../../src/generated/models/mappers";
 

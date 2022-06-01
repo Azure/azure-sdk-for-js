@@ -421,6 +421,8 @@ export type ContactProfile = TrackedResource & {
   minimumElevationDegrees?: number;
   /** Auto track configuration. */
   autoTrackingConfiguration?: AutoTrackingConfiguration;
+  /** The URI of the Event Hub used for telemetry */
+  eventHubUri?: string;
   /** Links of the Contact Profile */
   links?: ContactProfileLink[];
 };
@@ -779,6 +781,8 @@ export interface ContactProfilesCreateOrUpdateOptionalParams
   minimumElevationDegrees?: number;
   /** Auto track configuration. */
   autoTrackingConfiguration?: AutoTrackingConfiguration;
+  /** The URI of the Event Hub used for telemetry */
+  eventHubUri?: string;
   /** Links of the Contact Profile */
   links?: ContactProfileLink[];
   /** Delay to wait until next poll, in milliseconds. */

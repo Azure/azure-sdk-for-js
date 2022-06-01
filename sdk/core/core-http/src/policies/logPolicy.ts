@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpOperationResponse } from "../httpOperationResponse";
-import { WebResourceLike } from "../webResource";
 import {
   BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyFactory,
-  RequestPolicyOptions
+  RequestPolicyOptions,
 } from "./requestPolicy";
 import { Debugger } from "@azure/logger";
-import { logger as coreLogger } from "../log";
+import { HttpOperationResponse } from "../httpOperationResponse";
 import { Sanitizer } from "../util/sanitizer";
+import { WebResourceLike } from "../webResource";
+import { logger as coreLogger } from "../log";
 
 /**
  * Options to pass to the {@link logPolicy}.
@@ -53,7 +53,7 @@ export function logPolicy(loggingOptions: LogPolicyOptions = {}): RequestPolicyF
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new LogPolicy(nextPolicy, options, loggingOptions);
-    }
+    },
   };
 }
 
@@ -110,7 +110,7 @@ export class LogPolicy extends BaseRequestPolicy {
     {
       logger = coreLogger.info,
       allowedHeaderNames = [],
-      allowedQueryParameters = []
+      allowedQueryParameters = [],
     }: LogPolicyOptions = {}
   ) {
     super(nextPolicy, options);

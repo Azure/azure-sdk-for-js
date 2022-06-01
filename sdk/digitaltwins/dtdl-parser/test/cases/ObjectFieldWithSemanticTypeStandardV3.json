@@ -1,0 +1,67 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:motionObject;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "@type": [ "Field", "Velocity" ],
+          "name": "velocity",
+          "schema": "double",
+          "unit": "metrePerSecond"
+        },
+        {
+          "@type": [ "Field", "Acceleration" ],
+          "name": "acceleration",
+          "schema": "double",
+          "unit": "metrePerSecondSquared"
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:motionObject;1",
+        "type": "Object",
+        "properties": {
+          "fields": [
+            "dtmi:test:motionObject:_fields:__velocity;1",
+            "dtmi:test:motionObject:_fields:__acceleration;1"
+          ]
+        }
+      },
+      {
+        "id": "dtmi:test:motionObject:_fields:__velocity;1",
+        "type": "Field",
+        "properties": {
+          "name": "velocity",
+          "schema": "dtmi:dtdl:instance:Schema:double;3"
+        },
+        "supplementalTypes": [
+          "dtmi:standard:class:Velocity;3"
+        ],
+        "supplementalProperties": {
+          "dtmi:dtdl:property:unit;3": "dtmi:standard:unit:metrePerSecond;3"
+        }
+      },
+      {
+        "id": "dtmi:test:motionObject:_fields:__acceleration;1",
+        "type": "Field",
+        "properties": {
+          "name": "acceleration",
+          "schema": "dtmi:dtdl:instance:Schema:double;3"
+        },
+        "supplementalTypes": [
+          "dtmi:standard:class:Acceleration;3"
+        ],
+        "supplementalProperties": {
+          "dtmi:dtdl:property:unit;3": "dtmi:standard:unit:metrePerSecondSquared;3"
+        }
+      }
+    ]
+  }
+}

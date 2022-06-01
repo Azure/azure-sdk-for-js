@@ -1,18 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import { getBSU, recorderEnvSetup } from "../utils";
-import * as dotenv from "dotenv";
 import {
-  ShareDirectoryClient,
   newPipeline,
+  ShareDirectoryClient,
   StorageSharedKeyCredential,
-  ShareClient
+  ShareClient,
 } from "../../src";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("DirectoryClient Node.js only", () => {
   let shareName: string;
@@ -22,7 +20,7 @@ describe("DirectoryClient Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
@@ -34,7 +32,7 @@ describe("DirectoryClient Node.js only", () => {
     await dirClient.create();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await dirClient.delete();
     await shareClient.delete();
     await recorder.stop();
@@ -59,8 +57,8 @@ describe("DirectoryClient Node.js only", () => {
     const credential = factories[factories.length - 1] as StorageSharedKeyCredential;
     const newClient = new ShareDirectoryClient(dirClient.url, credential, {
       retryOptions: {
-        maxTries: 5
-      }
+        maxTries: 5,
+      },
     });
 
     const result = await newClient.getProperties();

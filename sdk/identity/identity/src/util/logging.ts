@@ -69,6 +69,7 @@ export interface CredentialLoggerInstance {
   title: string;
   fullTitle: string;
   info(message: string): void;
+  warning(message: string): void;
   /**
    * The logging functions for warning and error are intentionally left out, since we want the identity logging to be at the info level.
    * Otherwise, they would look like:
@@ -97,10 +98,14 @@ export function credentialLoggerInstance(
     log.info(`${fullTitle} =>`, message);
   }
 
+  function warning(message: string): void {
+    log.warning(`${fullTitle} =>`, message);
+  }
   return {
     title,
     fullTitle,
-    info
+    info,
+    warning,
   };
 }
 
@@ -128,6 +133,6 @@ export function credentialLogger(title: string, log: AzureLogger = logger): Cred
   return {
     ...credLogger,
     parent: log,
-    getToken: credentialLoggerInstance("=> getToken()", credLogger, log)
+    getToken: credentialLoggerInstance("=> getToken()", credLogger, log),
   };
 }

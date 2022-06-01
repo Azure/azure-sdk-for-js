@@ -4,13 +4,13 @@
 import { SpanKind } from "@opentelemetry/api";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { SemanticAttributes } from "@opentelemetry/semantic-conventions";
-import { ReadableSpan } from "@opentelemetry/tracing";
+import { ReadableSpan } from "@opentelemetry/sdk-trace-base";
 import { RemoteDependencyData, RequestData } from "../generated";
 import { TIME_SINCE_ENQUEUED, ENQUEUED_TIME } from "./constants/applicationinsights";
 import {
   AzNamespace,
   MessageBusDestination,
-  MicrosoftEventHub
+  MicrosoftEventHub,
 } from "./constants/span/azAttributes";
 
 /**
@@ -43,9 +43,11 @@ export const parseEventHubSpan = (
   baseData: RequestData | RemoteDependencyData
 ): void => {
   const namespace = span.attributes[AzNamespace] as typeof MicrosoftEventHub;
-  const peerAddress = ((span.attributes[SemanticAttributes.NET_PEER_NAME] ||
-    span.attributes["peer.address"] ||
-    "unknown") as string).replace(/\/$/g, ""); // remove trailing "/"
+  const peerAddress = (
+    (span.attributes[SemanticAttributes.NET_PEER_NAME] ||
+      span.attributes["peer.address"] ||
+      "unknown") as string
+  ).replace(/\/$/g, ""); // remove trailing "/"
   const messageBusDestination = (span.attributes[MessageBusDestination] || "unknown") as string;
 
   switch (span.kind) {
@@ -62,7 +64,7 @@ export const parseEventHubSpan = (
       (baseData as any).source = `${peerAddress}/${messageBusDestination}`;
       baseData.measurements = {
         ...baseData.measurements,
-        [TIME_SINCE_ENQUEUED]: getTimeSinceEnqueued(span)
+        [TIME_SINCE_ENQUEUED]: getTimeSinceEnqueued(span),
       };
       break;
     default: // no op

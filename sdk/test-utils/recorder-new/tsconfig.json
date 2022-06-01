@@ -1,9 +1,0 @@
-{
-  "extends": "../../../tsconfig.package",
-  "compilerOptions": {
-    "declarationDir": "./types",
-    "outDir": "./dist-esm",
-    "lib": ["dom", "esnext"]
-  },
-  "include": ["./src/**/*.ts", "./test/**/*.ts"]
-}

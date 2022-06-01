@@ -1,0 +1,20 @@
+{
+  "include": [
+    {
+      "Agent": {
+        "ubuntu-20.04": {
+          "OSVmImage": "MMSUbuntu20.04",
+          "Pool": "azsdk-pool-mms-ubuntu-2004-general"
+        }
+      },
+      "TestType": "node",
+      "NodeTestVersion": "16.x",
+      "ServiceVersion": ["7.0", "7.1", "7.2"]
+    }
+  ],
+  "displayNames": {
+    "7.0": "service_version_7_0",
+    "7.1": "service_version_7_1",
+    "7.2": "service_version_7_2"
+  }
+}

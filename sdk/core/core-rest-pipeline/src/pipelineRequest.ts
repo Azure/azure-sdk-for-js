@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import {
-  PipelineRequest,
-  TransferProgressEvent,
-  RequestBodyType,
-  HttpMethods,
-  HttpHeaders,
   FormDataMap,
-  ProxySettings
+  HttpHeaders,
+  HttpMethods,
+  PipelineRequest,
+  ProxySettings,
+  RequestBodyType,
+  TransferProgressEvent,
 } from "./interfaces";
 import { createHttpHeaders } from "./httpHeaders";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -69,6 +69,17 @@ export interface PipelineRequestOptions {
   streamResponseStatusCodes?: Set<number>;
 
   /**
+   * BROWSER ONLY
+   *
+   * A browser only option to enable use of the Streams API. If this option is set and streaming is used
+   * (see `streamResponseStatusCodes`), the response will have a property `browserStream` instead of
+   * `blobBody` which will be undefined.
+   *
+   * Default value is false
+   */
+  enableBrowserStreams?: boolean;
+
+  /**
    * Proxy configuration.
    */
   proxySettings?: ProxySettings;
@@ -109,6 +120,7 @@ class PipelineRequestImpl implements PipelineRequest {
   public body?: RequestBodyType;
   public formData?: FormDataMap;
   public streamResponseStatusCodes?: Set<number>;
+  public enableBrowserStreams: boolean;
 
   public proxySettings?: ProxySettings;
   public disableKeepAlive: boolean;
@@ -136,6 +148,7 @@ class PipelineRequestImpl implements PipelineRequest {
     this.onDownloadProgress = options.onDownloadProgress;
     this.requestId = options.requestId || generateUuid();
     this.allowInsecureConnection = options.allowInsecureConnection ?? false;
+    this.enableBrowserStreams = options.enableBrowserStreams ?? false;
   }
 }
 

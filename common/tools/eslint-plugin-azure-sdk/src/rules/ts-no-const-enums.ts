@@ -26,9 +26,9 @@ export = {
             node: node,
             message: "const enums should not be used",
             fix: (fixer: Rule.RuleFixer): Rule.Fix =>
-              fixer.removeRange([node.range[0], node.range[0] + "const ".length])
+              fixer.removeRange([node.range[0], node.range[0] + "const ".length]),
           });
         }
-      }
-    } as Rule.RuleListener)
+      },
+    } as Rule.RuleListener),
 };

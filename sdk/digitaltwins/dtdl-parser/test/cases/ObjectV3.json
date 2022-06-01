@@ -1,0 +1,204 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:coordinateObject;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "name": "latitude",
+          "schema": "double",
+          "displayName": {
+            "en": "Latitude",
+            "es": "Latitud"
+          },
+          "description": {
+            "en": "distance from equator",
+            "es": "distancia del ecuador"
+          },
+          "comment": "positive is north"
+        },
+        {
+          "name": "longitude",
+          "schema": "double",
+          "displayName": {
+            "en": "Longitude",
+            "es": "Longitud"
+          },
+          "description": {
+            "en": "distance from meridian",
+            "es": "distancia del meridiano"
+          },
+          "comment": "positive is east"
+        }
+      ],
+      "displayName": {
+        "en": "Latitude/Longitude",
+        "es": "Latitud/Longitud"
+      },
+      "description": {
+        "en": "distances from origin",
+        "es": "distancias desde el origen"
+      },
+      "comment": "Where in the world?"
+    }
+  ],
+  "expect": {
+    "elementCount": 4,
+    "elements": [
+      {
+        "id": "dtmi:test:coordinateObject;1",
+        "type": "Object",
+        "properties": {
+          "fields": [
+            "dtmi:test:coordinateObject:_fields:__latitude;1",
+            "dtmi:test:coordinateObject:_fields:__longitude;1"
+          ],
+          "displayName": {
+            "en": "Latitude/Longitude",
+            "es": "Latitud/Longitud"
+          },
+          "description": {
+            "en": "distances from origin",
+            "es": "distancias desde el origen"
+          },
+          "comment": "Where in the world?"
+        }
+      },
+      {
+        "id": "dtmi:test:coordinateObject:_fields:__latitude;1",
+        "type": "Field",
+        "name": "latitude",
+        "schema": "dtmi:dtdl:instance:Schema:double;3",
+        "displayName": {
+          "en": "Latitude",
+          "es": "Latitud"
+        },
+        "description": {
+          "en": "distance from equator",
+          "es": "distancia del ecuador"
+        },
+        "comment": "positive is north"
+      },
+      {
+        "id": "dtmi:test:coordinateObject:_fields:__longitude;1",
+        "type": "Field",
+        "name": "longitude",
+        "schema": "dtmi:dtdl:instance:Schema:double;3",
+        "displayName": {
+          "en": "Longitude",
+          "es": "Longitud"
+        },
+        "description": {
+          "en": "distance from meridian",
+          "es": "distancia del meridiano"
+        },
+        "comment": "positive is east"
+      }
+    ]
+  },
+  "instances": [
+    {
+      "subject": "dtmi:test:coordinateObject;1",
+      "conforms": true,
+      "submit": "{ \"latitude\": 3.14, \"longitude\": 6.28 }"
+    },
+    {
+      "subject": "dtmi:test:coordinateObject;1",
+      "conforms": false,
+      "submit": "{ \"latitude\": true, \"longitude\": 6.28 }"
+    },
+    {
+      "subject": "dtmi:test:coordinateObject;1",
+      "conforms": false,
+      "submit": "{ \"latitude\": 3.14, \"longitude\": \"6.28\" }"
+    },
+    {
+      "subject": "dtmi:test:coordinateObject;1",
+      "conforms": true,
+      "submit": "{ \"longitude\": 3.14, \"latitude\": 6.28 }"
+    },
+    {
+      "subject": "dtmi:test:coordinateObject;1",
+      "conforms": true,
+      "submit": "{ \"latitude\": 3.14 }"
+    },
+    {
+      "subject": "dtmi:test:coordinateObject;1",
+      "conforms": true,
+      "submit": "{ \"longitude\": 6.28 }"
+    },
+    {
+      "subject": "dtmi:test:coordinateObject;1",
+      "conforms": true,
+      "submit": "{ }"
+    },
+    {
+      "subject": "dtmi:test:coordinateObject;1",
+      "conforms": false,
+      "submit": "{ \"latitude\": 3.14, \"longitude\": 6.28, \"altitude\": 9.42 }"
+    },
+    {
+      "subject": "dtmi:test:coordinateObject;1",
+      "conforms": false,
+      "submit": "{ \"latitude\": 3.14, \"longitude\": null }"
+    },
+    {
+      "subject": "dtmi:test:coordinateObject;1",
+      "conforms": false,
+      "submit": "[ { \"latitude\": 3.14, \"longitude\": 6.28 } ]"
+    },
+    {
+      "subject": "dtmi:test:coordinateObject;1",
+      "conforms": false,
+      "submit": ""
+    },
+    {
+      "subject": "dtmi:test:coordinateObject;1",
+      "conforms": false,
+      "submit": "true"
+    },
+    {
+      "subject": "dtmi:test:coordinateObject;1",
+      "conforms": false,
+      "submit": "\"{ \"latitude\": 3.14, \"longitude\": 6.28 }\""
+    },
+    {
+      "subject": "dtmi:test:coordinateObject;1",
+      "conforms": false,
+      "submit": "3.14"
+    },
+    {
+      "subject": "dtmi:test:coordinateObject;1",
+      "conforms": false,
+      "submit": "null"
+    },
+    {
+      "subject": "dtmi:test:coordinateObject;1",
+      "conforms": false,
+      "submit": "{ \"value\": { \"latitude\": 3.14, \"longitude\": 6.28 } }"
+    },
+    {
+      "subject": "dtmi:test:coordinateObject;1",
+      "conforms": false,
+      "submit": "$$"
+    },
+    {
+      "subject": "dtmi:test:coordinateObject;1",
+      "conforms": false,
+      "submit": "[ \"hi\": \"there\" ]"
+    },
+    {
+      "subject": "dtmi:test:coordinateObject;1",
+      "conforms": false,
+      "submit": "{ \"hello\" }"
+    },
+    {
+      "subject": "dtmi:test:coordinateObject;1",
+      "conforms": false,
+      "submit": "{ 23 ]"
+    }
+  ]
+}

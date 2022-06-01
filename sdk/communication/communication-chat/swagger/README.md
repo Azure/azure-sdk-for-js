@@ -5,7 +5,7 @@
 ## Configuration
 
 ```yaml
-package-name: azure-communication-chat
+package-name: "@azure/communication-chat"
 title: ChatApiClient
 description: Chat Client
 generate-metadata: false
@@ -19,8 +19,7 @@ typescript: true
 azure-arm: false
 add-credentials: false
 disable-async-iterators: true
-package-version: 1.1.0
-v3: true
+package-version: 1.2.1
 ```
 
 ### Rename CommunicationError to ChatError

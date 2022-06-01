@@ -6,12 +6,12 @@
  * @author Arpan Laha
  */
 
-import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
-import { ParserWeakMapESTreeToTSNode } from "@typescript-eslint/typescript-estree/dist/parser-options";
-import { Rule } from "eslint";
 import { ClassDeclaration, Identifier, MethodDefinition } from "estree";
+import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
 import { Symbol as TSSymbol, Type, TypeChecker, TypeFlags } from "typescript";
 import { getPublicMethods, getRuleMetaData } from "../utils";
+import { ParserWeakMapESTreeToTSNode } from "@typescript-eslint/typescript-estree/dist/parser-options";
+import { Rule } from "eslint";
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -128,11 +128,11 @@ export = {
           ) {
             context.report({
               node: method,
-              message: `async method ${key.name} should accept an AbortSignalLike parameter or option`
+              message: `async method ${key.name} should accept an AbortSignalLike parameter or option`,
             });
           }
         });
-      }
+      },
     } as Rule.RuleListener;
-  }
+  },
 };

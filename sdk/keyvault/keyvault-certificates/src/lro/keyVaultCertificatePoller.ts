@@ -41,7 +41,7 @@ export function cleanState<TState extends KeyVaultCertificatePollOperationState<
     isCancelled: state.isCancelled,
     isCompleted: state.isCompleted,
     error: state.error,
-    result: state.result
+    result: state.result,
   };
 }
 
@@ -85,7 +85,8 @@ export interface KeyVaultCertificatePollOperationOptions {
 export class KeyVaultCertificatePollOperation<
   TState extends KeyVaultCertificatePollOperationState<TResult>,
   TResult
-> implements PollOperation<TState, TResult> {
+> implements PollOperation<TState, TResult>
+{
   private cancelMessage: string = "";
 
   constructor(public state: TState, options: KeyVaultCertificatePollOperationOptions = {}) {
@@ -113,7 +114,7 @@ export class KeyVaultCertificatePollOperation<
    */
   public toString(): string {
     return JSON.stringify({
-      state: cleanState(this.state)
+      state: cleanState(this.state),
     });
   }
 }

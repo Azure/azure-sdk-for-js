@@ -19,7 +19,7 @@ export class LogQueryTest extends MonitorQueryLog<MonitorQueryTestOptions> {
   async run(): Promise<void> {
     await this.client.queryWorkspace(this.workspaceId, this.query, {
       startTime: new Date("2021-07-25"),
-      endTime: new Date("2021-07-26")
+      endTime: new Date("2021-07-26"),
     });
   }
 }

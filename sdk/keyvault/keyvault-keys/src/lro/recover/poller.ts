@@ -24,7 +24,7 @@ export class RecoverDeletedKeyPoller extends KeyVaultKeyPoller<
     const operation = new RecoverDeletedKeyPollOperation(
       {
         ...state,
-        name
+        name,
       },
       vaultUrl,
       client,

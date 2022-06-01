@@ -1,15 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 
 import { AbortController } from "@azure/abort-controller";
 import { getBSU, recorderEnvSetup } from "./utils";
 import { record, Recorder } from "@azure-tools/test-recorder";
-import * as dotenv from "dotenv";
 import { ShareClient } from "../src";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("Aborter", () => {
   let shareName: string;
@@ -17,14 +15,14 @@ describe("Aborter", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getBSU();
     shareName = recorder.getUniqueName("share");
     shareClient = serviceClient.getShareClient(shareName);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -32,7 +30,7 @@ describe("Aborter", () => {
     try {
       await shareClient.create({ abortSignal: AbortController.timeout(1) });
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
       assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
@@ -50,7 +48,7 @@ describe("Aborter", () => {
     try {
       await response;
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
       assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }
@@ -67,12 +65,12 @@ describe("Aborter", () => {
       const aborter = new AbortController();
       const childAborter = new AbortController(aborter.signal, AbortController.timeout(100));
       const response = shareClient.create({
-        abortSignal: childAborter.signal
+        abortSignal: childAborter.signal,
       });
       aborter.abort();
       await response;
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "AbortError");
       assert.equal(err.message, "The operation was aborted.", "Unexpected error caught: " + err);
     }

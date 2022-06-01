@@ -275,6 +275,13 @@ export interface BatchAccountDeleteOptionalParams extends coreClient.OperationOp
 }
 
 // @public
+export interface BatchAccountGetDetectorOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BatchAccountGetDetectorResponse = DetectorResponse;
+
+// @public
 export interface BatchAccountGetKeysOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -320,6 +327,20 @@ export interface BatchAccountListByResourceGroupOptionalParams extends coreClien
 export type BatchAccountListByResourceGroupResponse = BatchAccountListResult;
 
 // @public
+export interface BatchAccountListDetectorsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BatchAccountListDetectorsNextResponse = DetectorListResult;
+
+// @public
+export interface BatchAccountListDetectorsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BatchAccountListDetectorsResponse = DetectorListResult;
+
+// @public
 export interface BatchAccountListNextOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -360,9 +381,11 @@ export interface BatchAccountOperations {
     beginDelete(resourceGroupName: string, accountName: string, options?: BatchAccountDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, options?: BatchAccountDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, accountName: string, options?: BatchAccountGetOptionalParams): Promise<BatchAccountGetResponse>;
+    getDetector(resourceGroupName: string, accountName: string, detectorId: string, options?: BatchAccountGetDetectorOptionalParams): Promise<BatchAccountGetDetectorResponse>;
     getKeys(resourceGroupName: string, accountName: string, options?: BatchAccountGetKeysOptionalParams): Promise<BatchAccountGetKeysResponse>;
     list(options?: BatchAccountListOptionalParams): PagedAsyncIterableIterator<BatchAccount>;
     listByResourceGroup(resourceGroupName: string, options?: BatchAccountListByResourceGroupOptionalParams): PagedAsyncIterableIterator<BatchAccount>;
+    listDetectors(resourceGroupName: string, accountName: string, options?: BatchAccountListDetectorsOptionalParams): PagedAsyncIterableIterator<DetectorResponse>;
     listOutboundNetworkDependenciesEndpoints(resourceGroupName: string, accountName: string, options?: BatchAccountListOutboundNetworkDependenciesEndpointsOptionalParams): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
     regenerateKey(resourceGroupName: string, accountName: string, parameters: BatchAccountRegenerateKeyParameters, options?: BatchAccountRegenerateKeyOptionalParams): Promise<BatchAccountRegenerateKeyResponse>;
     synchronizeAutoStorageKeys(resourceGroupName: string, accountName: string, options?: BatchAccountSynchronizeAutoStorageKeysOptionalParams): Promise<void>;
@@ -409,8 +432,12 @@ export interface BatchLocationQuota {
 }
 
 // @public (undocumented)
-export class BatchManagementClient extends BatchManagementClientContext {
+export class BatchManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: BatchManagementClientOptionalParams);
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     applicationOperations: ApplicationOperations;
     // (undocumented)
@@ -429,15 +456,6 @@ export class BatchManagementClient extends BatchManagementClientContext {
     privateEndpointConnectionOperations: PrivateEndpointConnectionOperations;
     // (undocumented)
     privateLinkResourceOperations: PrivateLinkResourceOperations;
-}
-
-// @public (undocumented)
-export class BatchManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: BatchManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
     // (undocumented)
     subscriptionId: string;
 }
@@ -712,6 +730,17 @@ export interface DeploymentConfiguration {
 }
 
 // @public
+export interface DetectorListResult {
+    nextLink?: string;
+    value?: DetectorResponse[];
+}
+
+// @public
+export type DetectorResponse = ProxyResource & {
+    value?: string;
+};
+
+// @public
 export interface DiffDiskSettings {
     placement?: "CacheDisk";
 }
@@ -723,6 +752,9 @@ export interface DiskEncryptionConfiguration {
 
 // @public
 export type DiskEncryptionTarget = "OsDisk" | "TemporaryDisk";
+
+// @public
+export type DynamicVNetAssignmentScope = "none" | "job";
 
 // @public
 export type ElevationLevel = "NonAdmin" | "Admin";
@@ -925,6 +957,7 @@ export type NameAvailabilityReason = "Invalid" | "AlreadyExists";
 
 // @public
 export interface NetworkConfiguration {
+    dynamicVNetAssignmentScope?: DynamicVNetAssignmentScope;
     endpointConfiguration?: PoolEndpointConfiguration;
     publicIPAddressConfiguration?: PublicIPAddressConfiguration;
     subnetId?: string;

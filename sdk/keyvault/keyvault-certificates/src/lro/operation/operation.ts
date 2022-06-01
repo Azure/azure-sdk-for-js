@@ -8,24 +8,19 @@ import {
   CertificateOperation,
   GetCertificateOptions,
   GetPlainCertificateOperationOptions,
-  KeyVaultCertificateWithPolicy
+  KeyVaultCertificateWithPolicy,
 } from "../../certificatesModels";
 import {
   cleanState,
   KeyVaultCertificatePollOperation,
-  KeyVaultCertificatePollOperationState
+  KeyVaultCertificatePollOperationState,
 } from "../keyVaultCertificatePoller";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import {
   getCertificateOperationFromCoreOperation,
-  getCertificateWithPolicyFromCertificateBundle
+  getCertificateWithPolicyFromCertificateBundle,
 } from "../../transformations";
-import { createTraceFunction } from "../../../../keyvault-common/src";
-
-/**
- * @internal
- */
-const withTrace = createTraceFunction("Azure.KeyVault.Certificates.CertificateOperationPoller");
+import { tracingClient } from "../../tracing";
 
 /**
  * An interface representing the publicly available properties of the state of the CertificateOperationPoller.
@@ -62,19 +57,23 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
     certificateName: string,
     options: CancelCertificateOperationOptions = {}
   ): Promise<CertificateOperation> {
-    return withTrace("cancelCertificateOperation", options, async (updatedOptions) => {
-      const result = await this.client.updateCertificateOperation(
-        this.vaultUrl,
-        certificateName,
-        true,
-        updatedOptions
-      );
-      return getCertificateOperationFromCoreOperation(
-        certificateName,
-        this.vaultUrl,
-        result._response.parsedBody
-      );
-    });
+    return tracingClient.withSpan(
+      "CertificateOperationPoller.cancelCertificateOperation",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.updateCertificateOperation(
+          this.vaultUrl,
+          certificateName,
+          true,
+          updatedOptions
+        );
+        return getCertificateOperationFromCoreOperation(
+          certificateName,
+          this.vaultUrl,
+          result._response.parsedBody
+        );
+      }
+    );
   }
 
   /**
@@ -84,15 +83,19 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
     certificateName: string,
     options: GetCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
-    return withTrace("getCertificate", options, async (updatedOptions) => {
-      const result = await this.client.getCertificate(
-        this.vaultUrl,
-        certificateName,
-        "",
-        updatedOptions
-      );
-      return getCertificateWithPolicyFromCertificateBundle(result);
-    });
+    return tracingClient.withSpan(
+      "CertificateOperationPoller.getCertificate",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.getCertificate(
+          this.vaultUrl,
+          certificateName,
+          "",
+          updatedOptions
+        );
+        return getCertificateWithPolicyFromCertificateBundle(result);
+      }
+    );
   }
 
   /**
@@ -102,18 +105,22 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
     certificateName: string,
     options: GetPlainCertificateOperationOptions = {}
   ): Promise<CertificateOperation> {
-    return withTrace("getPlainCertificateOperation", options, async (updatedOptions) => {
-      const result = await this.client.getCertificateOperation(
-        this.vaultUrl,
-        certificateName,
-        updatedOptions
-      );
-      return getCertificateOperationFromCoreOperation(
-        certificateName,
-        this.vaultUrl,
-        result._response.parsedBody
-      );
-    });
+    return tracingClient.withSpan(
+      "CertificateOperationPoller.getPlainCertificateOperation",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.getCertificateOperation(
+          this.vaultUrl,
+          certificateName,
+          updatedOptions
+        );
+        return getCertificateOperationFromCoreOperation(
+          certificateName,
+          this.vaultUrl,
+          result._response.parsedBody
+        );
+      }
+    );
   }
 
   /**
@@ -186,10 +193,10 @@ export class CertificateOperationPollOperation extends KeyVaultCertificatePollOp
   public toString(): string {
     const state: CertificateOperationState = {
       certificateOperation: this.state.certificateOperation,
-      ...cleanState(this.state)
+      ...cleanState(this.state),
     };
     return JSON.stringify({
-      state
+      state,
     });
   }
 }

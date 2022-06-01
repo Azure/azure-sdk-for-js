@@ -6,13 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Rules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ServiceBusManagementClientContext } from "../serviceBusManagementClientContext";
+import { ServiceBusManagementClient } from "../serviceBusManagementClient";
 import {
   Rule,
   RulesListBySubscriptionsNextOptionalParams,
@@ -29,13 +28,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Rules operations. */
 export class RulesImpl implements Rules {
-  private readonly client: ServiceBusManagementClientContext;
+  private readonly client: ServiceBusManagementClient;
 
   /**
    * Initialize a new instance of the class Rules class.
    * @param client Reference to the service client
    */
-  constructor(client: ServiceBusManagementClientContext) {
+  constructor(client: ServiceBusManagementClient) {
     this.client = client;
   }
 
@@ -296,9 +295,9 @@ const listBySubscriptionsOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName1,
     Parameters.topicName,
     Parameters.subscriptionName
   ],
@@ -317,13 +316,13 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters16,
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName1,
     Parameters.topicName,
     Parameters.subscriptionName,
     Parameters.ruleName
@@ -346,9 +345,9 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName1,
     Parameters.topicName,
     Parameters.subscriptionName,
     Parameters.ruleName
@@ -371,9 +370,9 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName1,
     Parameters.topicName,
     Parameters.subscriptionName,
     Parameters.ruleName
@@ -395,9 +394,9 @@ const listBySubscriptionsNextOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName1,
     Parameters.nextLink,
     Parameters.topicName,
     Parameters.subscriptionName

@@ -6,10 +6,10 @@
  * @author Arpan Laha
  */
 
-import { TSESTree } from "@typescript-eslint/experimental-utils";
-import { Rule } from "eslint";
 import { ClassDeclaration, Identifier, MethodDefinition } from "estree";
 import { getPublicMethods, getRuleMetaData } from "../utils";
+import { Rule } from "eslint";
+import { TSESTree } from "@typescript-eslint/experimental-utils";
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -47,12 +47,12 @@ export = {
               if (methodName !== `get${typeName}`) {
                 context.report({
                   node: method,
-                  message: `${className}'s method ${methodName} returns a subclient of type ${typeName} and should be called get${typeName}`
+                  message: `${className}'s method ${methodName} returns a subclient of type ${typeName} and should be called get${typeName}`,
                 });
               }
             }
           }
         });
-      }
-    } as Rule.RuleListener)
+      },
+    } as Rule.RuleListener),
 };

@@ -15,22 +15,30 @@
 
 const {
   AzureKeyCredential,
-  DocumentModelAdministrationClient
+  DocumentModelAdministrationClient,
 } = require("@azure/ai-form-recognizer");
 
+const dotenv = require("dotenv");
+const { DocumentModelBuildMode } = require("../src/options/BuildModelOptions");
+dotenv.config();
+
 async function main() {
-  const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT ?? "<endpoint>";
-  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY ?? "<api key>");
+  const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
+  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
 
   const random = Date.now().toString();
   const modelId =
-    (process.env.CUSTOM_MODEL_ID ?? "<model id>") + random.substring(random.length - 6);
+    (process.env.CUSTOM_MODEL_ID || "<model id>") + random.substring(random.length - 6);
   const trainingDataSasUrl =
-    process.env.CUSTOM_MODEL_TRAINING_DATA_SAS_URL ?? "<training data container SAS url>";
+    process.env.CUSTOM_MODEL_TRAINING_DATA_SAS_URL || "<training data container SAS url>";
 
   const client = new DocumentModelAdministrationClient(endpoint, credential);
 
-  const poller = await client.beginBuildModel(modelId, trainingDataSasUrl);
+  const poller = await client.beginBuildModel(
+    modelId,
+    trainingDataSasUrl,
+    DocumentModelBuildMode.Template
+  );
   const model = await poller.pollUntilDone();
 
   console.log("Model ID:", model.modelId);
@@ -42,7 +50,7 @@ async function main() {
 
   console.log("Document Types:");
   for (const [docType, { description, fieldSchema: schema }] of Object.entries(
-    model.docTypes ?? {}
+    model.docTypes || {}
   )) {
     console.log(`- Name: "${docType}"`);
     console.log(`  Description: "${description}"`);
@@ -52,7 +60,7 @@ async function main() {
 
     for (const [fieldName, fieldSchema] of Object.entries(schema)) {
       console.log(`  - "${fieldName}" (${fieldSchema.type})`);
-      console.log(`    ${fieldSchema.description ?? "<no description>"}`);
+      console.log(`    ${fieldSchema.description || "<no description>"}`);
     }
   }
 }

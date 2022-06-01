@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay } from "@azure/core-amqp";
 import { AbortSignalLike } from "@azure/abort-controller";
+import { delay } from "@azure/core-amqp";
 
 /**
  * @param delayInMs - The number of milliseconds to be delayed.

@@ -9,7 +9,7 @@ import {
   AccountSASPermissions,
   SASProtocol,
   AccountSASResourceTypes,
-  AccountSASServices
+  AccountSASServices,
 } from "../../src";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import { env } from "@azure-tools/test-recorder";
@@ -89,7 +89,7 @@ export function getSASConnectionStringFromEnvironment(): string {
       resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
       services: AccountSASServices.parse("btqf").toString(),
       startsOn: now,
-      version: "2016-05-31"
+      version: "2016-05-31",
     },
     sharedKeyCredential as StorageSharedKeyCredential
   ).toString();

@@ -15,7 +15,7 @@ export declare type Operation = () => Promise<any>;
  */
 enum BatchStates {
   Good,
-  Error
+  Error,
 }
 
 /**
@@ -85,7 +85,7 @@ export class Batch {
         this.actives--;
         this.completed++;
         this.parallelExecute();
-      } catch (error) {
+      } catch (error: any) {
         this.emitter.emit("error", error);
       }
     });

@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "d775b4b529b46a7c162abc14ac2974b9";
+module.exports.hash = "bf9aaeaa90d32ba6e64f95081f31cb29";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -13,17 +13,17 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'bbf79546-9abf-49cb-a1e0-6a36a825862d',
+  '8bd5e9b1-b9b8-4754-b4e8-a696d6c83163',
   'x-envoy-upstream-service-time',
-  '110',
+  '107',
   'apim-request-id',
-  'bbf79546-9abf-49cb-a1e0-6a36a825862d',
+  '8bd5e9b1-b9b8-4754-b4e8-a696d6c83163',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 16 Nov 2021 00:33:52 GMT'
+  'Thu, 20 Jan 2022 00:59:43 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
@@ -35,15 +35,15 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  '58870ac9-3db5-4bdb-848b-971e7d5e2ffa',
+  'd23bd641-fb4b-44f8-be1c-a0c51052637c',
   'x-envoy-upstream-service-time',
-  '103',
+  '106',
   'apim-request-id',
-  '58870ac9-3db5-4bdb-848b-971e7d5e2ffa',
+  'd23bd641-fb4b-44f8-be1c-a0c51052637c',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 16 Nov 2021 00:33:52 GMT'
+  'Thu, 20 Jan 2022 00:59:43 GMT'
 ]);

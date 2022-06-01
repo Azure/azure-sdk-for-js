@@ -47,7 +47,7 @@ export class Triggers {
         resourceId: id,
         resultFn: (result) => result.Triggers,
         query,
-        options: innerOptions
+        options: innerOptions,
       });
     });
   }
@@ -88,7 +88,7 @@ export class Triggers {
       path,
       resourceType: ResourceType.trigger,
       resourceId: id,
-      options
+      options,
     });
     const ref = new Trigger(this.container, response.result.id, this.clientContext);
     return new TriggerResponse(response.result, response.headers, response.code, ref);

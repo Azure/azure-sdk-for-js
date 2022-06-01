@@ -6,7 +6,7 @@
     "paths": {
       "@azure/core-rest-pipeline": ["./src/index"]
     },
-    "lib": ["dom"]
+    "lib": ["dom", "dom.iterable"]
   },
   "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

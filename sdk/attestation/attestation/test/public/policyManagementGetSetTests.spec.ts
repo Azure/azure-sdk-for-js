@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, expect, use as chaiUse } from "chai";
+import { assert, use as chaiUse, expect } from "chai";
 import { Context } from "mocha";
 import chaiAsPromised from "chai-as-promised";
 chaiUse(chaiAsPromised);
+/* eslint-disable @typescript-eslint/no-invalid-this */
 
-import { Recorder } from "@azure-tools/test-recorder";
+import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 
 import {
   createRecordedAdminClient,
-  createRecorder,
-  getIsolatedSigningKey
+  getIsolatedSigningKey,
+  recorderOptions,
 } from "../utils/recordedClient";
 import { createRSAKey, createX509Certificate, generateSha1Hash } from "../utils/cryptoUtils";
 import { KnownCertificateModification } from "../../src/generated";
@@ -21,19 +22,20 @@ import { KnownCertificateModification } from "../../src/generated";
 import * as jsrsasign from "jsrsasign";
 import { byteArrayToHex } from "../../src/utils/base64";
 
-describe("PolicyManagementTests ", function() {
+describe("PolicyManagementTests ", function () {
   let recorder: Recorder;
 
-  beforeEach(function(this: Context) {
-    recorder = createRecorder(this);
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderOptions);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
   it("#getPolicyCertificates - AAD", async () => {
-    const client = createRecordedAdminClient("AAD");
+    const client = createRecordedAdminClient(recorder, "AAD");
 
     const policyResult = await client.getPolicyManagementCertificates();
     const result = policyResult.token;
@@ -42,7 +44,7 @@ describe("PolicyManagementTests ", function() {
   });
 
   it("#getPolicyCertificates - Shared", async () => {
-    const client = createRecordedAdminClient("Shared");
+    const client = createRecordedAdminClient(recorder, "Shared");
     const policyResult = await client.getPolicyManagementCertificates();
 
     const result = policyResult.token;
@@ -51,7 +53,7 @@ describe("PolicyManagementTests ", function() {
   });
 
   it("#getPolicyCertificates - Isolated", async () => {
-    const client = createRecordedAdminClient("Isolated");
+    const client = createRecordedAdminClient(recorder, "Isolated");
     const policyResult = await client.getPolicyManagementCertificates();
 
     const result = policyResult.token;
@@ -61,7 +63,7 @@ describe("PolicyManagementTests ", function() {
   });
 
   it("Add Policy Certificates failure conditions", async () => {
-    const adminClient = createRecordedAdminClient("Isolated");
+    const adminClient = createRecordedAdminClient(recorder, "Isolated");
 
     const [rsaKey, rsapubKey] = createRSAKey();
     const [rsaKey2] = createRSAKey();
@@ -77,7 +79,7 @@ describe("PolicyManagementTests ", function() {
   });
 
   it("Remove Policy failure conditions", async () => {
-    const adminClient = createRecordedAdminClient("Isolated");
+    const adminClient = createRecordedAdminClient(recorder, "Isolated");
 
     const [rsaKey, rsapubKey] = createRSAKey();
     const [rsaKey2] = createRSAKey();
@@ -92,13 +94,10 @@ describe("PolicyManagementTests ", function() {
     ).to.be.rejectedWith("Key does not match Certificate");
   });
 
-  it("setPolicyCertificates", async () => {
-    recorder.skip(
-      undefined,
-      "setPolicyCertificate APIs require keys and certificates from the environment, which are not available in playback"
-    );
+  it("setPolicyCertificates", async function () {
+    if (!isLiveMode()) this.skip(); // "setPolicyCertificate APIs require keys and certificates from the environment, which are not available in playback"
 
-    const client = createRecordedAdminClient("Isolated");
+    const client = createRecordedAdminClient(recorder, "Isolated");
 
     const signingKeys = getIsolatedSigningKey();
 

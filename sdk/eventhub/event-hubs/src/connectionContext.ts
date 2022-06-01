@@ -4,35 +4,35 @@
 /* eslint-disable @typescript-eslint/no-namespace */
 /* eslint-disable no-inner-declarations */
 
-import { logger, logErrorStackTrace } from "./log";
-import { getRuntimeInfo } from "./util/runtimeInfo";
-import { packageJsonInfo } from "./util/constants";
+import { Connection, ConnectionEvents, Dictionary, EventContext, OnAmqpEvent } from "rhea-promise";
 import {
-  EventHubConnectionStringProperties,
-  parseEventHubConnectionString
-} from "./util/connectionStringUtils";
-import { EventHubReceiver } from "./eventHubReceiver";
-import { EventHubSender } from "./eventHubSender";
-import {
+  ConnectionConfig,
   ConnectionContextBase,
   Constants,
   CreateConnectionContextBaseParameters,
-  ConnectionConfig,
   SasTokenProvider,
-  createSasTokenProvider
+  createSasTokenProvider,
 } from "@azure/core-amqp";
 import {
-  TokenCredential,
+  EventHubConnectionStringProperties,
+  parseEventHubConnectionString,
+} from "./util/connectionStringUtils";
+import { ManagementClient, ManagementClientOptions } from "./managementClient";
+import {
   NamedKeyCredential,
   SASCredential,
+  TokenCredential,
   isNamedKeyCredential,
-  isSASCredential
+  isSASCredential,
 } from "@azure/core-auth";
-import { ManagementClient, ManagementClientOptions } from "./managementClient";
+import { logErrorStackTrace, logger } from "./log";
 import { EventHubClientOptions } from "./models/public";
-import { Connection, ConnectionEvents, Dictionary, EventContext, OnAmqpEvent } from "rhea-promise";
 import { EventHubConnectionConfig } from "./eventhubConnectionConfig";
+import { EventHubReceiver } from "./eventHubReceiver";
+import { EventHubSender } from "./eventHubSender";
+import { getRuntimeInfo } from "./util/runtimeInfo";
 import { isCredential } from "./util/typeGuards";
+import { packageJsonInfo } from "./util/constants";
 
 /**
  * @internal
@@ -179,8 +179,8 @@ export namespace ConnectionContext {
       connectionProperties: {
         product: "MSJSClient",
         userAgent: getUserAgent(options),
-        version: packageJsonInfo.version
-      }
+        version: packageJsonInfo.version,
+      },
     };
     // Let us create the base context and then add EventHub specific ConnectionContext properties.
     const connectionContext = ConnectionContextBase.create(parameters) as ConnectionContext;
@@ -190,7 +190,7 @@ export namespace ConnectionContext {
     connectionContext.receivers = {};
     const mOptions: ManagementClientOptions = {
       address: options.managementSessionAddress,
-      audience: options.managementSessionAudience
+      audience: options.managementSessionAudience,
     };
     connectionContext.managementSession = new ManagementClient(connectionContext, mOptions);
 
@@ -259,7 +259,7 @@ export namespace ConnectionContext {
             this.wasConnectionCloseCalled = true;
             logger.info("Closed the amqp connection '%s' on the client.", this.connectionId);
           }
-        } catch (err) {
+        } catch (err: any) {
           const errorDescription =
             err instanceof Error ? `${err.name}: ${err.message}` : JSON.stringify(err);
           logger.warning(
@@ -268,7 +268,7 @@ export namespace ConnectionContext {
           logErrorStackTrace(err);
           throw err;
         }
-      }
+      },
     });
 
     // Define listeners to be added to the connection object for
@@ -316,7 +316,7 @@ export namespace ConnectionContext {
         }> = {
           wasConnectionCloseCalled: connectionContext.wasConnectionCloseCalled,
           numSenders: Object.keys(connectionContext.senders).length,
-          numReceivers: Object.keys(connectionContext.receivers).length
+          numReceivers: Object.keys(connectionContext.receivers).length,
         };
         logger.verbose(
           "[%s] Closing all open senders and receivers in the state: %O",
@@ -355,7 +355,7 @@ export namespace ConnectionContext {
             )
           );
         }
-      } catch (err) {
+      } catch (err: any) {
         logger.verbose(
           `[${connectionContext.connectionId}] An error occurred while closing the connection in 'disconnected'. %O`,
           err
@@ -364,7 +364,7 @@ export namespace ConnectionContext {
 
       try {
         await refreshConnection(connectionContext);
-      } catch (err) {
+      } catch (err: any) {
         logger.verbose(
           `[${connectionContext.connectionId}] An error occurred while refreshing the connection in 'disconnected'. %O`,
           err
@@ -441,7 +441,7 @@ export namespace ConnectionContext {
       const originalConnectionId = context.connectionId;
       try {
         await cleanConnectionContext(context);
-      } catch (err) {
+      } catch (err: any) {
         logger.verbose(
           `[${context.connectionId}] There was an error closing the connection before reconnecting: %O`,
           err

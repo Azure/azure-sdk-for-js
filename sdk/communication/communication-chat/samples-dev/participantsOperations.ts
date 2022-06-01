@@ -9,7 +9,7 @@ import { ChatClient } from "@azure/communication-chat";
 import {
   AzureCommunicationTokenCredential,
   getIdentifierKind,
-  parseConnectionString
+  parseConnectionString,
 } from "@azure/communication-common";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 
@@ -42,9 +42,9 @@ export async function main() {
     participants: [
       {
         id: userSue.user,
-        displayName: "Sue"
-      }
-    ]
+        displayName: "Sue",
+      },
+    ],
   };
   await chatThreadClient.addParticipants(addParticipantsRequest);
   console.log(`Added chat participant user.`);

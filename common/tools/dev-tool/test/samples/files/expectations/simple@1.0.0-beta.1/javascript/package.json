@@ -1,0 +1,27 @@
+{
+  "name": "@azure-samples/simple@1.0.0-beta.1-js-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Template client library samples for JavaScript (Beta)",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "common/tools/dev-tool/test/samples/files/expectations/simple@1.0.0-beta.1"
+  },
+  "keywords": [
+    "simple@1.0.0-beta.1"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/dev-tool/test/samples/files/expectations/simple@1.0.0-beta.1",
+  "dependencies": {
+    "simple@1.0.0-beta.1": "next",
+    "dotenv": "latest"
+  }
+}

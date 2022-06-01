@@ -7,7 +7,7 @@ import {
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import { RequestOptions } from "http";
 import { Agent as HttpsAgent } from "https";
@@ -17,7 +17,7 @@ const paths = {
   playback: "/playback",
   record: "/record",
   start: "/start",
-  stop: "/stop"
+  stop: "/stop",
 };
 
 /**
@@ -126,7 +126,7 @@ export class TestProxyHttpClient {
   async startRecording(): Promise<void> {
     this.stateManager.validateState("starting-recording");
     const options = this._createRecordingRequestOptions({
-      path: paths.record + paths.start
+      path: paths.record + paths.start,
     });
     const rsp = await makeRequest(this._uri, options, this.insecure);
     if (rsp.statusCode !== 200) {
@@ -149,11 +149,11 @@ export class TestProxyHttpClient {
   async stopRecording(): Promise<void> {
     this.stateManager.validateState("stopping-recording");
     const options = this._createRecordingRequestOptions({
-      path: paths.record + paths.stop
+      path: paths.record + paths.stop,
     });
     options.headers = {
       ...options.headers,
-      "x-recording-id": this._recordingId
+      "x-recording-id": this._recordingId,
     };
     await makeRequest(this._uri, options, this.insecure);
     this.stateManager.setState("stopped-recording");
@@ -162,11 +162,11 @@ export class TestProxyHttpClient {
   async startPlayback(): Promise<void> {
     this.stateManager.validateState("starting-playback");
     const options = this._createRecordingRequestOptions({
-      path: paths.playback + paths.start
+      path: paths.playback + paths.start,
     });
     options.headers = {
       ...options.headers,
-      "x-recording-id": this._recordingId
+      "x-recording-id": this._recordingId,
     };
     const rsp = await makeRequest(this._uri, options, this.insecure);
     if (rsp.statusCode !== 200) {
@@ -189,12 +189,12 @@ export class TestProxyHttpClient {
   async stopPlayback(): Promise<void> {
     this.stateManager.validateState("stopping-playback");
     const options = this._createRecordingRequestOptions({
-      path: paths.playback + paths.stop
+      path: paths.playback + paths.stop,
     });
     options.headers = {
       ...options.headers,
       "x-recording-id": this._recordingId,
-      "x-purge-inmemory-recording": "true"
+      "x-purge-inmemory-recording": "true",
     };
     await makeRequest(this._uri, options, this.insecure);
     this._mode = "live";
@@ -206,7 +206,7 @@ export class TestProxyHttpClient {
     if (this._recordingId !== undefined) {
       options.headers = {
         ...options.headers,
-        "x-recording-id": this._recordingId
+        "x-recording-id": this._recordingId,
       };
     }
     return { ...options, method: "POST" };
@@ -226,7 +226,7 @@ export function testProxyHttpPolicy(
         modifiedRequest.agent = getCachedHttpsAgent(insecure);
       }
       return next(modifiedRequest);
-    }
+    },
   };
 }
 
@@ -251,10 +251,12 @@ class DefaultHttpClientCoreV1 extends DefaultHttpClient {
   }
 
   async prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>> {
-    const req: Partial<RequestInit & {
-      agent?: HttpsAgent;
-      compress?: boolean;
-    }> = await super.prepareRequest(httpRequest);
+    const req: Partial<
+      RequestInit & {
+        agent?: HttpsAgent;
+        compress?: boolean;
+      }
+    > = await super.prepareRequest(httpRequest);
     if (this.isHttps) {
       req.agent = getCachedHttpsAgent(this.insecure);
     }

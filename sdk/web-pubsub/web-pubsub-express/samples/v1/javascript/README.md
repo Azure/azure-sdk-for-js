@@ -17,7 +17,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 
 ## Prerequisites
 
-The sample programs are compatible with Node.js >=12.0.0.
+The sample programs are compatible with [LTS versions of Node.js](https://nodejs.org/about/releases/).
 
 You need [an Azure subscription][freesub] to run these sample programs.
 
@@ -49,6 +49,11 @@ Alternatively, run a single sample with the correct environment variables set (s
 npx cross-env  node server.js
 ```
 
+## Next Steps
+
+Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
+
 [server]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/web-pubsub/web-pubsub-express/samples/v1/javascript/server.js
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/web-pubsub-express
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-express/README.md

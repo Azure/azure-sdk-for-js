@@ -6,7 +6,7 @@ import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
   testPeekMsgsLength,
-  getRandomTestClientTypeWithSessions
+  getRandomTestClientTypeWithSessions,
 } from "./utils/testutils2";
 import { ServiceBusSender } from "../../src";
 import { ServiceBusMessage, ServiceBusSessionReceiver } from "../../src";
@@ -68,9 +68,9 @@ describe("sessions tests -  requires completely clean entity for each test", () 
   // peek, which _does_ wait for messages to arrive before returning.
   [
     getRandomTestClientTypeWithSessions("queue"),
-    getRandomTestClientTypeWithSessions("subscription")
+    getRandomTestClientTypeWithSessions("subscription"),
   ].forEach((testClientType) => {
-    describe(testClientType + "Peek session", function(): void {
+    describe(testClientType + "Peek session", function (): void {
       async function peekSession(
         sessionReceiverType: "acceptsession" | "acceptnextsession" | ":hell"
       ): Promise<void> {
@@ -128,32 +128,32 @@ describe("sessions tests -  requires completely clean entity for each test", () 
         await receiver.completeMessage(msgs[0]);
       }
 
-      it("acceptSession(sessionId)", async function(): Promise<void> {
+      it("acceptSession(sessionId)", async function (): Promise<void> {
         await beforeEachNoSessionTest(testClientType);
         await peekSession("acceptsession");
       });
 
-      it("acceptNextSession()", async function(): Promise<void> {
+      it("acceptNextSession()", async function (): Promise<void> {
         await beforeEachNoSessionTest(testClientType);
         await peekSession("acceptnextsession");
       });
     });
   });
 
-  describe(randomTestClientType + ": SessionReceiver with no sessionId", function(): void {
+  describe(randomTestClientType + ": SessionReceiver with no sessionId", function (): void {
     const testSessionId2 = "my-session2";
 
     const testMessagesWithDifferentSessionIds: ServiceBusMessage[] = [
       {
         body: "hello1",
         messageId: `test message ${Math.random()}`,
-        sessionId: TestMessage.sessionId
+        sessionId: TestMessage.sessionId,
       },
       {
         body: "hello2",
         messageId: `test message ${Math.random()}`,
-        sessionId: testSessionId2
-      }
+        sessionId: testSessionId2,
+      },
     ];
 
     async function testComplete_batching(): Promise<void> {
@@ -203,7 +203,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
 
     it(
       randomTestClientType + ": complete() removes message from random session",
-      async function(): Promise<void> {
+      async function (): Promise<void> {
         await beforeEachNoSessionTest(randomTestClientType);
         await testComplete_batching();
       }
@@ -212,20 +212,20 @@ describe("sessions tests -  requires completely clean entity for each test", () 
 
   describe.skip(
     randomTestClientType + ": SessionReceiver with empty string as sessionId",
-    function(): void {
+    function (): void {
       // Sending messages with different session id, so that we know for sure we pick the right one
       // and that Service Bus is not choosing a random one for us
       const testMessagesWithDifferentSessionIds: ServiceBusMessage[] = [
         {
           body: "hello1",
           messageId: `test message ${Math.random()}`,
-          sessionId: TestMessage.sessionId
+          sessionId: TestMessage.sessionId,
         },
         {
           body: "hello2",
           messageId: `test message ${Math.random()}`,
-          sessionId: ""
-        }
+          sessionId: "",
+        },
       ];
 
       async function testComplete_batching(): Promise<void> {
@@ -257,7 +257,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
         await receiver.close();
       }
 
-      it("complete() removes message from random session", async function(): Promise<void> {
+      it("complete() removes message from random session", async function (): Promise<void> {
         await beforeEachNoSessionTest(randomTestClientType);
         await testComplete_batching();
       });

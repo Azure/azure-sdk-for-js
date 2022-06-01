@@ -158,8 +158,11 @@ export const Constants = {
     IsBatchAtomic: "x-ms-cosmos-batch-atomic",
     BatchContinueOnError: "x-ms-cosmos-batch-continue-on-error",
 
+    // Dedicated Gateway Headers
+    DedicatedGatewayPerRequestCacheStaleness: "x-ms-dedicatedgateway-max-age",
+
     // Cache Refresh header
-    ForceRefresh: "x-ms-force-refresh"
+    ForceRefresh: "x-ms-force-refresh",
   },
 
   // GlobalDB related constants
@@ -176,13 +179,13 @@ export const Constants = {
   ThrottleRetryCount: "x-ms-throttle-retry-count",
   ThrottleRetryWaitTimeInMs: "x-ms-throttle-retry-wait-time-ms",
 
-  CurrentVersion: "2018-12-31",
+  CurrentVersion: "2020-07-15",
 
   SDKName: "azure-cosmos-js",
-  SDKVersion: "REPLACE_SDK_VERSION",
+  SDKVersion: "3.16.2",
 
   Quota: {
-    CollectionSize: "collectionSize"
+    CollectionSize: "collectionSize",
   },
 
   Path: {
@@ -201,21 +204,21 @@ export const Constants = {
     SchemasPathSegment: "schemas",
     OffersPathSegment: "offers",
     TopologyPathSegment: "topology",
-    DatabaseAccountPathSegment: "databaseaccount"
+    DatabaseAccountPathSegment: "databaseaccount",
   },
 
   PartitionKeyRange: {
     // Partition Key Range Constants
     MinInclusive: "minInclusive",
     MaxExclusive: "maxExclusive",
-    Id: "id"
+    Id: "id",
   } as PartitionKeyRangePropertiesNames,
 
   QueryRangeConstants: {
     // Partition Key Range Constants
     MinInclusive: "minInclusive",
     MaxExclusive: "maxExclusive",
-    min: "min"
+    min: "min",
   },
 
   /**
@@ -223,13 +226,13 @@ export const Constants = {
    */
   EffectiveParitionKeyConstants: {
     MinimumInclusiveEffectivePartitionKey: "",
-    MaximumExclusiveEffectivePartitionKey: "FF"
+    MaximumExclusiveEffectivePartitionKey: "FF",
   },
 
   EffectivePartitionKeyConstants: {
     MinimumInclusiveEffectivePartitionKey: "",
-    MaximumExclusiveEffectivePartitionKey: "FF"
-  }
+    MaximumExclusiveEffectivePartitionKey: "FF",
+  },
 };
 
 /**
@@ -247,7 +250,7 @@ export enum ResourceType {
   udf = "udfs",
   trigger = "triggers",
   item = "docs",
-  pkranges = "pkranges"
+  pkranges = "pkranges",
 }
 
 /**
@@ -258,7 +261,7 @@ export enum HTTPMethod {
   patch = "PATCH",
   post = "POST",
   put = "PUT",
-  delete = "DELETE"
+  delete = "DELETE",
 }
 
 /**
@@ -273,7 +276,7 @@ export enum OperationType {
   Query = "query",
   Execute = "execute",
   Batch = "batch",
-  Patch = "patch"
+  Patch = "patch",
 }
 
 /**
@@ -283,7 +286,7 @@ export enum CosmosKeyType {
   PrimaryMaster = "PRIMARY_MASTER",
   SecondaryMaster = "SECONDARY_MASTER",
   PrimaryReadOnly = "PRIMARY_READONLY",
-  SecondaryReadOnly = "SECONDARY_READONLY"
+  SecondaryReadOnly = "SECONDARY_READONLY",
 }
 
 /**
@@ -293,7 +296,7 @@ export enum CosmosContainerChildResourceKind {
   Item = "ITEM",
   StoredProcedure = "STORED_PROCEDURE",
   UserDefinedFunction = "USER_DEFINED_FUNCTION",
-  Trigger = "TRIGGER"
+  Trigger = "TRIGGER",
 }
 /**
  * @hidden
@@ -395,7 +398,7 @@ export enum PermissionScopeValues {
     PermissionScopeValues.ScopeItemUpsertValue |
     PermissionScopeValues.ScopeItemDeleteValue,
 
-  NoneValue = 0
+  NoneValue = 0,
 }
 /**
  * @hidden
@@ -439,5 +442,5 @@ export enum SasTokenPermissionKind {
   UserDefinedFuntionDelete = PermissionScopeValues.ScopeUserDefinedFunctionDeleteValue,
   TriggerRead = PermissionScopeValues.ScopeTriggerReadValue,
   TriggerReplace = PermissionScopeValues.ScopeTriggerReplaceValue,
-  TriggerDelete = PermissionScopeValues.ScopeTriggerDeleteValue
+  TriggerDelete = PermissionScopeValues.ScopeTriggerDeleteValue,
 }

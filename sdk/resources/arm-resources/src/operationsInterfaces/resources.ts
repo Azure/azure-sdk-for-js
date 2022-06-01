@@ -6,14 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   GenericResourceExpanded,
-  ResourcesListByResourceGroupNextOptionalParams,
   ResourcesListByResourceGroupOptionalParams,
-  ResourcesListNextOptionalParams,
   ResourcesListOptionalParams,
   ResourcesMoveInfo,
   ResourcesMoveResourcesOptionalParams,
@@ -57,26 +54,6 @@ export interface Resources {
    */
   list(
     options?: ResourcesListOptionalParams
-  ): PagedAsyncIterableIterator<GenericResourceExpanded>;
-  /**
-   * ListByResourceGroupNext
-   * @param resourceGroupName The resource group with the resources to get.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
-   * @param options The options parameters.
-   */
-  listByResourceGroupNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: ResourcesListByResourceGroupNextOptionalParams
-  ): PagedAsyncIterableIterator<GenericResourceExpanded>;
-  /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
-   * @param options The options parameters.
-   */
-  listNext(
-    nextLink: string,
-    options?: ResourcesListNextOptionalParams
   ): PagedAsyncIterableIterator<GenericResourceExpanded>;
   /**
    * The resources to be moved must be in the same source resource group in the source subscription being

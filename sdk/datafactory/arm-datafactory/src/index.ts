@@ -9,5 +9,4 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { DataFactoryManagementClient } from "./dataFactoryManagementClient";
-export { DataFactoryManagementClientContext } from "./dataFactoryManagementClientContext";
 export * from "./operationsInterfaces";

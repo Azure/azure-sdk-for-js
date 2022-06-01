@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpOperationResponse } from "@azure/core-http";
+import { FullOperationResponse } from "@azure/core-client";
 import { CorrelationRuleFilter } from "../core/managementClient";
 import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
-  serializeToAtomXmlRequest
+  serializeToAtomXmlRequest,
 } from "../util/atomXmlHelper";
 import * as Constants from "../util/constants";
 import { isDefined, isObjectWithProperties } from "../util/typeGuards";
@@ -21,7 +21,7 @@ export function buildRule(rawRule: Record<string, any>): RuleProperties {
   return {
     name: getString(rawRule["RuleName"], "ruleName"),
     filter: getTopicFilter(rawRule["Filter"]),
-    action: getRuleAction(rawRule["Action"])
+    action: getRuleAction(rawRule["Action"]),
   };
 }
 
@@ -36,7 +36,7 @@ function getTopicFilter(value: any): SqlRuleFilter | CorrelationRuleFilter {
   if (isDefined(value["SqlExpression"])) {
     result = {
       sqlExpression: value["SqlExpression"],
-      sqlParameters: getKeyValuePairsOrUndefined(value["Parameters"], "SQLParameters")
+      sqlParameters: getKeyValuePairsOrUndefined(value["Parameters"], "SQLParameters"),
     };
   } else {
     result = {
@@ -51,7 +51,7 @@ function getTopicFilter(value: any): SqlRuleFilter | CorrelationRuleFilter {
       applicationProperties: getKeyValuePairsOrUndefined(
         value["Properties"],
         "ApplicationProperties"
-      )
+      ),
     };
   }
   return result;
@@ -64,7 +64,7 @@ function getTopicFilter(value: any): SqlRuleFilter | CorrelationRuleFilter {
 function getRuleAction(value: any): SqlRuleAction {
   return {
     sqlExpression: value["SqlExpression"],
-    sqlParameters: getKeyValuePairsOrUndefined(value["Parameters"], "SQLParameters")
+    sqlParameters: getKeyValuePairsOrUndefined(value["Parameters"], "SQLParameters"),
   };
 }
 
@@ -166,28 +166,28 @@ export function buildInternalRuleResource(rule: CreateRuleOptions): InternalRule
   const resource: InternalRuleOptions = {
     Filter: {},
     Action: {},
-    Name: rule.name
+    Name: rule.name,
   };
 
   if (!isDefined(rule.filter)) {
     // Defaults to creating a true filter if none specified
     resource.Filter = {
-      SqlExpression: "1=1"
+      SqlExpression: "1=1",
     };
     resource.Filter[Constants.XML_METADATA_MARKER] = {
       "p4:type": "SqlFilter",
-      "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
+      "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance",
     };
   } else {
     if (isObjectWithProperties(rule.filter, ["sqlExpression"])) {
       const sqlFilter: SqlRuleFilter = rule.filter as SqlRuleFilter;
       resource.Filter = {
         SqlExpression: sqlFilter.sqlExpression,
-        Parameters: buildInternalRawKeyValuePairs(sqlFilter.sqlParameters, "sqlParameters")
+        Parameters: buildInternalRawKeyValuePairs(sqlFilter.sqlParameters, "sqlParameters"),
       };
       resource.Filter[Constants.XML_METADATA_MARKER] = {
         "p4:type": "SqlFilter",
-        "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
+        "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance",
       };
     } else {
       const correlationFilter: CorrelationRuleFilter = rule.filter as CorrelationRuleFilter;
@@ -204,11 +204,11 @@ export function buildInternalRuleResource(rule: CreateRuleOptions): InternalRule
         Properties: buildInternalRawKeyValuePairs(
           correlationFilter.applicationProperties,
           "applicationProperties"
-        )
+        ),
       };
       resource.Filter[Constants.XML_METADATA_MARKER] = {
         "p4:type": "CorrelationFilter",
-        "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
+        "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance",
       };
     }
   }
@@ -218,16 +218,16 @@ export function buildInternalRuleResource(rule: CreateRuleOptions): InternalRule
     resource.Action = {};
     resource.Action[Constants.XML_METADATA_MARKER] = {
       "p4:type": "EmptyRuleAction",
-      "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
+      "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance",
     };
   } else {
     resource.Action = {
       SqlExpression: rule.action.sqlExpression,
-      Parameters: buildInternalRawKeyValuePairs(rule.action.sqlParameters, "sqlParameters")
+      Parameters: buildInternalRawKeyValuePairs(rule.action.sqlParameters, "sqlParameters"),
     };
     resource.Action[Constants.XML_METADATA_MARKER] = {
       "p4:type": "SqlRuleAction",
-      "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
+      "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance",
     };
   }
 
@@ -243,7 +243,7 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
     return serializeToAtomXmlRequest("RuleDescription", buildInternalRuleResource(rule));
   }
 
-  async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {
+  async deserialize(response: FullOperationResponse): Promise<FullOperationResponse> {
     return deserializeAtomXmlResponse(["TopicName", "SubscriptionName", "RuleName"], response);
   }
 }
@@ -266,7 +266,7 @@ enum TypeMapForRequestSerialization {
   string = "l28:string",
   long = "l28:long",
   date = "l28:dateTime",
-  boolean = "l28:boolean"
+  boolean = "l28:boolean",
 }
 
 /**
@@ -277,7 +277,7 @@ enum TypeMapForResponseDeserialization {
   double = "double",
   string = "string",
   boolean = "boolean",
-  date = "dateTime"
+  date = "dateTime",
 }
 
 /**
@@ -407,14 +407,14 @@ export function buildInternalRawKeyValuePairs(
       Value: {
         [Constants.XML_METADATA_MARKER]: {
           "p4:type": type,
-          "xmlns:l28": "http://www.w3.org/2001/XMLSchema"
+          "xmlns:l28": "http://www.w3.org/2001/XMLSchema",
         },
-        [Constants.XML_VALUE_MARKER]: value
-      }
+        [Constants.XML_VALUE_MARKER]: value,
+      },
     };
     rawParameters.push(rawParameter);
   }
   return {
-    [keyValuePairXMLTag]: rawParameters
+    [keyValuePairXMLTag]: rawParameters,
   };
 }

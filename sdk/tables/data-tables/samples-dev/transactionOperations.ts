@@ -36,8 +36,8 @@ async function batchOperations() {
         rowKey: "A1",
         name: "Marker Set",
         price: 5.0,
-        quantity: 21
-      }
+        quantity: 21,
+      },
     ],
     [
       "create",
@@ -46,8 +46,8 @@ async function batchOperations() {
         rowKey: "A2",
         name: "Pen Set",
         price: 2.0,
-        quantity: 6
-      }
+        quantity: 6,
+      },
     ],
     [
       "create",
@@ -56,9 +56,9 @@ async function batchOperations() {
         rowKey: "A3",
         name: "Pencil",
         price: 1.5,
-        quantity: 100
-      }
-    ]
+        quantity: 100,
+      },
+    ],
   ];
 
   // Submit the transaction with the list of actions.
@@ -95,8 +95,8 @@ async function batchOperations() {
     [
       "update",
       { partitionKey, rowKey: "A2", name: "[Updated - Replace] Pen Set", price: 99, quantity: 33 },
-      "Replace"
-    ]
+      "Replace",
+    ],
   ];
 
   const updateResult = await client.submitTransaction(updateTransaction);

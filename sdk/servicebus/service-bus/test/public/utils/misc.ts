@@ -12,6 +12,6 @@ export function setTracerForTest<T extends TestTracer>(
 
   return {
     tracer,
-    resetTracer
+    resetTracer,
   };
 }

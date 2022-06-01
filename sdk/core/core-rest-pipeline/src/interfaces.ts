@@ -49,11 +49,14 @@ export interface HttpHeaders extends Iterable<[string, string]> {
 
 /**
  * Types of bodies supported on the request.
- * NodeJS.ReadableStream is Node only.
- * Blob is browser only.
+ * NodeJS.ReadableStream and () =\> NodeJS.ReadableStream is Node only.
+ * Blob, ReadableStream<Uint8Array>, and () =\> ReadableStream<Uint8Array> are browser only.
  */
 export type RequestBodyType =
   | NodeJS.ReadableStream
+  | (() => NodeJS.ReadableStream)
+  | ReadableStream<Uint8Array>
+  | (() => ReadableStream<Uint8Array>)
   | Blob
   | ArrayBuffer
   | ArrayBufferView
@@ -116,7 +119,7 @@ export interface PipelineRequest {
   timeout: number;
 
   /**
-   * If credentials (cookies) should be sent along during an XHR.
+   * Indicates whether the user agent should send cookies from the other domain in the case of cross-origin requests.
    * Defaults to false.
    */
   withCredentials: boolean;
@@ -180,6 +183,19 @@ export interface PipelineRequest {
    * Does nothing when running in the browser.
    */
   agent?: Agent;
+
+  /**
+   * BROWSER ONLY
+   *
+   * A browser only option to enable browser Streams. If this option is set and a response is a stream
+   * the response will have a property `browserStream` instead of `blobBody` which will be undefined.
+   *
+   * Default value is false
+   */
+  enableBrowserStreams?: boolean;
+
+  /** Settings for configuring TLS authentication */
+  tlsSettings?: TlsSettings;
 }
 
 /**
@@ -211,6 +227,14 @@ export interface PipelineResponse {
    * Always undefined in node.js.
    */
   blobBody?: Promise<Blob>;
+
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser ReadableStream.
+   * Always undefined in node.js.
+   */
+  browserStreamBody?: ReadableStream<Uint8Array>;
 
   /**
    * NODEJS ONLY
@@ -294,3 +318,154 @@ export type FormDataValue = string | Blob;
  * A simple object that provides form data, as if from a browser form.
  */
 export type FormDataMap = { [key: string]: FormDataValue | FormDataValue[] };
+
+/**
+ * Options that control how to retry failed requests.
+ */
+export interface PipelineRetryOptions {
+  /**
+   * The maximum number of retry attempts. Defaults to 3.
+   */
+  maxRetries?: number;
+
+  /**
+   * The amount of delay in milliseconds between retry attempts. Defaults to 1000
+   * (1 second). The delay increases exponentially with each retry up to a maximum
+   * specified by maxRetryDelayInMs.
+   */
+  retryDelayInMs?: number;
+
+  /**
+   * The maximum delay in milliseconds allowed before retrying an operation. Defaults
+   * to 64000 (64 seconds).
+   */
+  maxRetryDelayInMs?: number;
+}
+
+/**
+ * Represents a certificate credential for authentication.
+ */
+export interface CertificateCredential {
+  /**
+   * Optionally override the trusted CA certificates. Default is to trust
+   * the well-known CAs curated by Mozilla. Mozilla's CAs are completely
+   * replaced when CAs are explicitly specified using this option.
+   */
+  ca?: string | Buffer | Array<string | Buffer> | undefined;
+  /**
+   *  Cert chains in PEM format. One cert chain should be provided per
+   *  private key. Each cert chain should consist of the PEM formatted
+   *  certificate for a provided private key, followed by the PEM
+   *  formatted intermediate certificates (if any), in order, and not
+   *  including the root CA (the root CA must be pre-known to the peer,
+   *  see ca). When providing multiple cert chains, they do not have to
+   *  be in the same order as their private keys in key. If the
+   *  intermediate certificates are not provided, the peer will not be
+   *  able to validate the certificate, and the handshake will fail.
+   */
+  cert?: string | Buffer | Array<string | Buffer> | undefined;
+  /**
+   * Private keys in PEM format. PEM allows the option of private keys
+   * being encrypted. Encrypted keys will be decrypted with
+   * options.passphrase. Multiple keys using different algorithms can be
+   * provided either as an array of unencrypted key strings or buffers,
+   * or an array of objects in the form `{pem: <string|buffer>[,passphrase: <string>]}`.
+   * The object form can only occur in an array.object.passphrase is optional.
+   * Encrypted keys will be decrypted with object.passphrase if provided, or options.passphrase if it is not.
+   */
+  key?: string | Buffer | Array<Buffer | KeyObject> | undefined;
+  /**
+   * Shared passphrase used for a single private key and/or a PFX.
+   */
+  passphrase?: string | undefined;
+  /**
+   * PFX or PKCS12 encoded private key and certificate chain. pfx is an
+   * alternative to providing key and cert individually. PFX is usually
+   * encrypted, if it is, passphrase will be used to decrypt it. Multiple
+   * PFX can be provided either as an array of unencrypted PFX buffers,
+   * or an array of objects in the form `{buf: <string|buffer>[,passphrase: <string>]}`.
+   * The object form can only occur in an array.object.passphrase is optional.
+   * Encrypted PFX will be decrypted with object.passphrase if provided, or options.passphrase if it is not.
+   */
+  pfx?: string | Buffer | Array<string | Buffer | PxfObject> | undefined;
+}
+
+/**
+ * Represents a certificate for TLS authentication.
+ */
+export interface TlsSettings {
+  /**
+   * Optionally override the trusted CA certificates. Default is to trust
+   * the well-known CAs curated by Mozilla. Mozilla's CAs are completely
+   * replaced when CAs are explicitly specified using this option.
+   */
+  ca?: string | Buffer | Array<string | Buffer> | undefined;
+  /**
+   *  Cert chains in PEM format. One cert chain should be provided per
+   *  private key. Each cert chain should consist of the PEM formatted
+   *  certificate for a provided private key, followed by the PEM
+   *  formatted intermediate certificates (if any), in order, and not
+   *  including the root CA (the root CA must be pre-known to the peer,
+   *  see ca). When providing multiple cert chains, they do not have to
+   *  be in the same order as their private keys in key. If the
+   *  intermediate certificates are not provided, the peer will not be
+   *  able to validate the certificate, and the handshake will fail.
+   */
+  cert?: string | Buffer | Array<string | Buffer> | undefined;
+  /**
+   * Private keys in PEM format. PEM allows the option of private keys
+   * being encrypted. Encrypted keys will be decrypted with
+   * options.passphrase. Multiple keys using different algorithms can be
+   * provided either as an array of unencrypted key strings or buffers,
+   * or an array of objects in the form `{pem: <string|buffer>[,passphrase: <string>]}`.
+   * The object form can only occur in an array.object.passphrase is optional.
+   * Encrypted keys will be decrypted with object.passphrase if provided, or options.passphrase if it is not.
+   */
+  key?: string | Buffer | Array<Buffer | KeyObject> | undefined;
+  /**
+   * Shared passphrase used for a single private key and/or a PFX.
+   */
+  passphrase?: string | undefined;
+  /**
+   * PFX or PKCS12 encoded private key and certificate chain. pfx is an
+   * alternative to providing key and cert individually. PFX is usually
+   * encrypted, if it is, passphrase will be used to decrypt it. Multiple
+   * PFX can be provided either as an array of unencrypted PFX buffers,
+   * or an array of objects in the form `{buf: <string|buffer>[,passphrase: <string>]}`.
+   * The object form can only occur in an array.object.passphrase is optional.
+   * Encrypted PFX will be decrypted with object.passphrase if provided, or options.passphrase if it is not.
+   */
+  pfx?: string | Buffer | Array<string | Buffer | PxfObject> | undefined;
+}
+
+/**
+ * An interface compatible with NodeJS's `tls.KeyObject`.
+ * We want to avoid publicly re-exporting the actual interface,
+ * since it might vary across runtime versions.
+ */
+export interface KeyObject {
+  /**
+   * Private keys in PEM format.
+   */
+  pem: string | Buffer;
+  /**
+   * Optional passphrase.
+   */
+  passphrase?: string | undefined;
+}
+
+/**
+ * An interface compatible with NodeJS's `tls.PxfObject`.
+ * We want to avoid publicly re-exporting the actual interface,
+ * since it might vary across runtime versions.
+ */
+export interface PxfObject {
+  /**
+   * PFX or PKCS12 encoded private key and certificate chain.
+   */
+  buf: string | Buffer;
+  /**
+   * Optional passphrase.
+   */
+  passphrase?: string | undefined;
+}

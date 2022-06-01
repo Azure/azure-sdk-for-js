@@ -54,6 +54,14 @@ export type PerfOptionDictionary<TOptions = Record<string, unknown>> = {
 };
 
 /**
+ * This is exactly same as {@link PerfOptionDictionary}, but the `value` is required.
+ * If it's absent and is required, we throw during validation.
+ */
+export type ParsedPerfOptions<TOptions = Record<string, unknown>> = {
+  [longName in keyof TOptions]: OptionDetails<TOptions[longName]> & { value: TOptions[longName] };
+};
+
+/**
  * These represent the default options the tests can assume.
  *
  * @interface DefaultPerfOptions
@@ -69,6 +77,8 @@ export interface DefaultPerfOptions {
   "test-proxies": string;
   insecure: boolean;
   "list-transitive-dependencies": boolean;
+  cpus: number;
+  "use-worker-threads": boolean;
 }
 
 /**
@@ -77,51 +87,62 @@ export interface DefaultPerfOptions {
 export const defaultPerfOptions: PerfOptionDictionary<DefaultPerfOptions> = {
   help: {
     description: "Shows all of the available options",
-    shortName: "h"
+    shortName: "h",
   },
   parallel: {
     description: "How many of the same test to call at the same time",
     shortName: "p",
-    defaultValue: 1
+    defaultValue: 1,
   },
   duration: {
     description: "When to stop calling tests at all",
     shortName: "d",
-    defaultValue: 10
+    defaultValue: 10,
   },
   warmup: {
     description: "Duration of warmup in seconds",
     shortName: "w",
-    defaultValue: 5
+    defaultValue: 5,
   },
   iterations: {
     description: "Times to repeat the whole process, after warmup",
     shortName: "i",
-    defaultValue: 1
+    defaultValue: 1,
   },
   "no-cleanup": {
-    description: "Disables test cleanup"
+    description: "Disables test cleanup",
   },
   "test-proxies": {
     description: "URIs of TestProxy servers (separated by ';')",
-    defaultValue: undefined
+    defaultValue: undefined,
   },
   insecure: {
     description:
       "Applied when test-proxies option is defined, connects with https(insecurely by disabling SSL validation)",
     shortName: "ins",
-    defaultValue: false
+    defaultValue: false,
   },
   "milliseconds-to-log": {
     description: "Log frequency in milliseconds",
     shortName: "mtl",
-    defaultValue: 1000
+    defaultValue: 1000,
   },
   "list-transitive-dependencies": {
     description: "List all dependencies, instead of only direct ones, before test run",
     shortName: "ltd",
-    defaultValue: false
-  }
+    defaultValue: false,
+  },
+  cpus: {
+    description:
+      "Number of CPUs to use. Parallel tests will be split evenly across CPUs. Specify 0 to use the number of logical CPUs available on the machine.",
+    shortName: "c",
+    defaultValue: 0,
+  },
+  "use-worker-threads": {
+    description:
+      "Set to true to use the Node worker_thread API when running tests across multiple CPUs. Set to false to use child_process (default).",
+    defaultValue: false,
+  },
 };
 
 /**
@@ -133,7 +154,7 @@ export const defaultPerfOptions: PerfOptionDictionary<DefaultPerfOptions> = {
  */
 export function parsePerfOption<TOptions>(
   options: PerfOptionDictionary<TOptions>
-): Required<PerfOptionDictionary<TOptions>> {
+): ParsedPerfOptions<TOptions> {
   const minimistResult: MinimistParsedArgs = minimist(
     process.argv,
     getBooleanOptionDetails(options)
@@ -165,11 +186,11 @@ export function parsePerfOption<TOptions>(
     result[optionName as keyof TOptions] = {
       ...option,
       longName,
-      value
+      value,
     };
   }
 
-  return result as Required<PerfOptionDictionary<TOptions>>;
+  return result as ParsedPerfOptions<TOptions>;
 }
 
 /**
@@ -203,7 +224,7 @@ export function validateOptions<TOptions>(options: PerfOptionDictionary<TOptions
 function getBooleanOptionDetails<TOptions>(options: PerfOptionDictionary<TOptions>) {
   const booleanProps: { boolean: string[]; default: { [key: string]: boolean } } = {
     boolean: [],
-    default: {}
+    default: {},
   };
 
   for (const key in options) {

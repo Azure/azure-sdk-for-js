@@ -66,7 +66,7 @@ async function main() {
               break;
           }
         }
-      }
+      },
     });
 
     // Waiting long enough before closing the receiver to receive messages

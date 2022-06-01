@@ -13,8 +13,8 @@ export function createCbsAccepted(options: CreateCbsAcceptedOptions = {}): Messa
     body: undefined,
     application_properties: {
       "status-code": types.wrap_int(202),
-      "status-description": "Accepted"
-    }
+      "status-description": "Accepted",
+    },
   };
 
   if (options.toLinkName) {

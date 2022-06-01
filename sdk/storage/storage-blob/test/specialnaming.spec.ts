@@ -3,13 +3,11 @@
 
 import { BlockBlobClient, BlobServiceClient } from "../src";
 import { getBSU, recorderEnvSetup } from "./utils/index";
-import * as assert from "assert";
+import { assert } from "chai";
 import { appendToURLPath } from "../src/utils/utils.common";
 import { record, Recorder } from "@azure-tools/test-recorder";
-import * as dotenv from "dotenv";
 import { ContainerClient } from "../src";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("Special Naming Tests", () => {
   let containerName: string;
@@ -18,7 +16,7 @@ describe("Special Naming Tests", () => {
   let recorder: Recorder;
 
   let blobServiceClient: BlobServiceClient;
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     blobServiceClient = getBSU();
     containerName = recorder.getUniqueName("1container-with-dash");
@@ -26,7 +24,7 @@ describe("Special Naming Tests", () => {
     await containerClient.create();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await containerClient.delete();
     await recorder.stop();
   });
@@ -39,7 +37,7 @@ describe("Special Naming Tests", () => {
     const response = (
       await containerClient
         .listBlobsFlat({
-          prefix: blobName
+          prefix: blobName,
         })
         .byPage()
         .next()
@@ -59,7 +57,7 @@ describe("Special Naming Tests", () => {
     const response = (
       await containerClient
         .listBlobsFlat({
-          prefix: blobName
+          prefix: blobName,
         })
         .byPage()
         .next()
@@ -77,7 +75,7 @@ describe("Special Naming Tests", () => {
     const response = (
       await containerClient
         .listBlobsFlat({
-          prefix: blobName
+          prefix: blobName,
         })
         .byPage()
         .next()
@@ -98,7 +96,7 @@ describe("Special Naming Tests", () => {
     const response = (
       await containerClient
         .listBlobsFlat({
-          prefix: blobName
+          prefix: blobName,
         })
         .byPage()
         .next()
@@ -116,7 +114,7 @@ describe("Special Naming Tests", () => {
     const response = (
       await containerClient
         .listBlobsFlat({
-          prefix: blobName
+          prefix: blobName,
         })
         .byPage()
         .next()
@@ -137,7 +135,7 @@ describe("Special Naming Tests", () => {
     const response = (
       await containerClient
         .listBlobsFlat({
-          prefix: blobName
+          prefix: blobName,
         })
         .byPage()
         .next()
@@ -155,7 +153,7 @@ describe("Special Naming Tests", () => {
     const response = (
       await containerClient
         .listBlobsFlat({
-          prefix: blobName
+          prefix: blobName,
         })
         .byPage()
         .next()
@@ -176,7 +174,7 @@ describe("Special Naming Tests", () => {
     const response = (
       await containerClient
         .listBlobsFlat({
-          prefix: blobName
+          prefix: blobName,
         })
         .byPage()
         .next()
@@ -197,7 +195,7 @@ describe("Special Naming Tests", () => {
       await containerClient
         .listBlobsFlat({
           // NOTICE: Azure Storage Server will replace "\" with "/" in the blob names
-          prefix: blobName.replace(/\\/g, "/")
+          prefix: blobName.replace(/\\/g, "/"),
         })
         .byPage()
         .next()
@@ -224,7 +222,7 @@ describe("Special Naming Tests", () => {
       await containerClient
         .listBlobsFlat({
           // NOTICE: Azure Storage Server will replace "\" with "/" in the blob names
-          prefix: blobName.replace(/\\/g, "/")
+          prefix: blobName.replace(/\\/g, "/"),
         })
         .byPage()
         .next()
@@ -243,7 +241,7 @@ describe("Special Naming Tests", () => {
     const response = (
       await containerClient
         .listBlobsFlat({
-          prefix: blobNameEncoded
+          prefix: blobNameEncoded,
         })
         .byPage()
         .next()
@@ -261,7 +259,7 @@ describe("Special Naming Tests", () => {
     const response = (
       await containerClient
         .listBlobsFlat({
-          prefix: blobName
+          prefix: blobName,
         })
         .byPage()
         .next()
@@ -282,7 +280,7 @@ describe("Special Naming Tests", () => {
     const response = (
       await containerClient
         .listBlobsFlat({
-          prefix: blobName
+          prefix: blobName,
         })
         .byPage()
         .next()
@@ -301,7 +299,7 @@ describe("Special Naming Tests", () => {
     const response = (
       await containerClient
         .listBlobsFlat({
-          prefix: blobNameEncoded
+          prefix: blobNameEncoded,
         })
         .byPage()
         .next()
@@ -319,7 +317,7 @@ describe("Special Naming Tests", () => {
     const response = (
       await containerClient
         .listBlobsFlat({
-          prefix: blobName
+          prefix: blobName,
         })
         .byPage()
         .next()
@@ -340,7 +338,7 @@ describe("Special Naming Tests", () => {
     const response = (
       await containerClient
         .listBlobsFlat({
-          prefix: blobName
+          prefix: blobName,
         })
         .byPage()
         .next()
@@ -359,7 +357,7 @@ describe("Special Naming Tests", () => {
     const response = (
       await containerClient
         .listBlobsFlat({
-          prefix: blobNameEncoded
+          prefix: blobNameEncoded,
         })
         .byPage()
         .next()
@@ -377,7 +375,7 @@ describe("Special Naming Tests", () => {
     const response = (
       await containerClient
         .listBlobsFlat({
-          prefix: blobName
+          prefix: blobName,
         })
         .byPage()
         .next()
@@ -398,7 +396,7 @@ describe("Special Naming Tests", () => {
     const response = (
       await containerClient
         .listBlobsFlat({
-          prefix: blobName
+          prefix: blobName,
         })
         .byPage()
         .next()

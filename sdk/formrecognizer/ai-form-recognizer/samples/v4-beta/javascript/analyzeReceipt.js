@@ -15,41 +15,44 @@
 const {
   AzureKeyCredential,
   DocumentAnalysisClient,
-  PrebuiltModels
+  PrebuiltModels,
 } = require("@azure/ai-form-recognizer");
 
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
-  const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT ?? "<endpoint>";
-  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY ?? "<api key>");
+  const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
+  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
 
   const client = new DocumentAnalysisClient(endpoint, credential);
 
-  const poller = await client.beginAnalyzeDocuments(
+  const poller = await client.beginAnalyzeDocument(
     PrebuiltModels.Receipt,
     // The form recognizer service will access the following URL to a receipt image and extract data from it
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/receipt/contoso-receipt.png"
   );
 
   const {
-    documents: [result]
+    documents: [result],
   } = await poller.pollUntilDone();
 
-  // Use of PrebuiltModels.Receipt above (rather than the raw model ID), adds strong typing of the model's output
+  // Use of PrebuiltModels.Receipt above (rather than the raw model ID), as it adds strong typing of the model's output
   if (result) {
-    const receipt = result.fields;
+    const { merchantName, items, total } = result.fields;
+
     console.log("=== Receipt Information ===");
-    console.log("Type:", receipt.receiptType?.value);
-    console.log("Merchant:", receipt.merchantName?.value);
+    console.log("Type:", result.docType);
+    console.log("Merchant:", merchantName && merchantName.value);
 
     console.log("Items:");
-    for (const { properties: item } of receipt.items?.values ?? []) {
-      console.log("-", item.name?.value);
-      console.log("  Price:", item?.price?.value);
-      console.log("  Total Price:", item.totalPrice?.value);
+    for (const item of (items && items.values) || []) {
+      const { description, totalPrice } = item.properties;
+
+      console.log("- Description:", description && description.value);
+      console.log("  Total Price:", totalPrice && totalPrice.value);
     }
+
+    console.log("Total:", total && total.value);
   } else {
     throw new Error("Expected at least one receipt in the result.");
   }

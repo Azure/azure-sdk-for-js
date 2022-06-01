@@ -3,13 +3,13 @@
 
 import os from "os";
 import { URL } from "url";
-import { ReadableSpan } from "@opentelemetry/tracing";
+import { ReadableSpan } from "@opentelemetry/sdk-trace-base";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { diag, SpanKind, SpanStatusCode, Link } from "@opentelemetry/api";
 import {
   SemanticResourceAttributes,
   SemanticAttributes,
-  DbSystemValues
+  DbSystemValues,
 } from "@opentelemetry/semantic-conventions";
 
 import { Tags, Properties, MSLink, Measurements } from "../types";
@@ -22,7 +22,7 @@ import {
   RemoteDependencyData,
   RequestData,
   TelemetryItem as Envelope,
-  KnownContextTagKeys
+  KnownContextTagKeys,
 } from "../generated";
 
 function createTagsFromSpan(span: ReadableSpan): Tags {
@@ -64,14 +64,14 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
       const httpUrl = span.attributes[SemanticAttributes.HTTP_URL];
       tags[KnownContextTagKeys.AiOperationName] = span.name; // Default
       if (httpRoute) {
-        tags[
-          KnownContextTagKeys.AiOperationName
-        ] = `${httpMethod as string} ${httpRoute as string}`;
+        tags[KnownContextTagKeys.AiOperationName] = `${httpMethod as string} ${
+          httpRoute as string
+        }`;
       } else if (httpUrl) {
         try {
           let url = new URL(String(httpUrl));
           tags[KnownContextTagKeys.AiOperationName] = `${httpMethod} ${url.pathname}`;
-        } catch (ex) {}
+        } catch (ex: any) {}
       }
       if (httpClientIp) {
         tags[KnownContextTagKeys.AiLocationIp] = String(httpClientIp);
@@ -116,7 +116,7 @@ function createPropertiesFromSpan(span: ReadableSpan): [Properties, Measurements
 
   const links: MSLink[] = span.links.map((link: Link) => ({
     operation_Id: link.context.traceId,
-    id: link.context.spanId
+    id: link.context.spanId,
   }));
 
   if (links.length > 0) {
@@ -201,7 +201,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
     resultCode: "0",
     type: "Dependency",
     duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
-    version: 2
+    version: 2,
   };
   if (span.kind === SpanKind.PRODUCER) {
     remoteDependencyData.type = DependencyTypes.QueueMessage;
@@ -220,7 +220,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
       try {
         let dependencyUrl = new URL(String(httpUrl));
         remoteDependencyData.name = `${httpMethod} ${dependencyUrl.pathname}`;
-      } catch (ex) {}
+      } catch (ex: any) {}
     }
     remoteDependencyData.type = DependencyTypes.Http;
     remoteDependencyData.data = getUrl(span);
@@ -242,7 +242,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
             target = res[1] + res[2] + res[4];
           }
         }
-      } catch (error) {}
+      } catch (error: any) {}
       remoteDependencyData.target = `${target}`;
     }
   }
@@ -301,7 +301,7 @@ function createRequestData(span: ReadableSpan): RequestData {
     responseCode: "0",
     duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
     version: 2,
-    source: undefined
+    source: undefined,
   };
   const httpMethod = span.attributes[SemanticAttributes.HTTP_METHOD];
   const grpcStatusCode = span.attributes[SemanticAttributes.RPC_GRPC_STATUS_CODE];
@@ -374,8 +374,8 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
       baseData: {
         ...baseData,
         properties,
-        measurements
-      }
-    }
+        measurements,
+      },
+    },
   };
 }

@@ -13,6 +13,6 @@ export function getBaseTransactionHeaders(transactionGuid: string): RawHttpHeade
     "x-ms-version": "2019-02-02",
     DataServiceVersion: "3.0;",
     MaxDataServiceVersion: "3.0;NetFx",
-    "Content-Type": `multipart/mixed; boundary=batch_${transactionGuid}`
+    "Content-Type": `multipart/mixed; boundary=batch_${transactionGuid}`,
   };
 }

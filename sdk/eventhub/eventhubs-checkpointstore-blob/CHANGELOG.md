@@ -1,8 +1,9 @@
 # Release History
 
-## 1.1.0 (Unreleased)
+## 1.1.0-beta.1 (Unreleased)
 
 ### Features Added
+
 - With the dropping of support for Node.js versions that are no longer in LTS, the dependency on `@types/node` has been updated to version 12. Read our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 - Updates all async methods on `BlobCheckpointStore` to accept
   an optional `options` parameter that can be used to pass in an
@@ -12,6 +13,8 @@
 ### Breaking Changes
 
 ### Key Bugs Fixed
+
+- Fixed a bug where `ContainerClient` could not passed to `BlobCheckpointStore` if the `ContainerClient` was created by another version of `@azure/storage-blob`.
 
 ## 1.0.1 (2020-08-03)
 

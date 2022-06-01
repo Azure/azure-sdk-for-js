@@ -9,5 +9,4 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { CdnManagementClient } from "./cdnManagementClient";
-export { CdnManagementClientContext } from "./cdnManagementClientContext";
 export * from "./operationsInterfaces";

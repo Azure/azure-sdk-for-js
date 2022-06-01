@@ -29,6 +29,8 @@ import {
   RegistriesUpdateResponse,
   RegistriesListUsagesOptionalParams,
   RegistriesListUsagesResponse,
+  RegistriesGetPrivateLinkResourceOptionalParams,
+  RegistriesGetPrivateLinkResourceResponse,
   RegistriesListCredentialsOptionalParams,
   RegistriesListCredentialsResponse,
   RegenerateCredentialParameters,
@@ -216,6 +218,19 @@ export interface Registries {
     registryName: string,
     options?: RegistriesListUsagesOptionalParams
   ): Promise<RegistriesListUsagesResponse>;
+  /**
+   * Gets a private link resource by a specified group name for a container registry.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param groupName The name of the private link resource.
+   * @param options The options parameters.
+   */
+  getPrivateLinkResource(
+    resourceGroupName: string,
+    registryName: string,
+    groupName: string,
+    options?: RegistriesGetPrivateLinkResourceOptionalParams
+  ): Promise<RegistriesGetPrivateLinkResourceResponse>;
   /**
    * Lists the login credentials for the specified container registry.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.

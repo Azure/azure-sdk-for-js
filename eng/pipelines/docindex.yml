@@ -18,9 +18,9 @@ jobs:
         parameters:
           SkipDefaultCheckout: true
           Paths:
-            - ci-configs/packages-latest.json
-            - ci-configs/packages-preview.json
+            - ci-configs/
             - metadata/
+            - docs-ref-mapping/
           Repositories:
             - Name: $(DocRepoOwner)/$(DocRepoName)
               WorkingDirectory: $(DocRepoLocation)
@@ -38,6 +38,16 @@ jobs:
           filePath: eng/common/scripts/Update-DocsMsPackages.ps1
           arguments: -DocRepoLocation $(DocRepoLocation) -ImageId '$(DocValidationImageId)'
         displayName: Update Docs Onboarding
+        condition: and(succeeded(), or(eq(variables['Build.Reason'], 'Schedule'), eq(variables['Force.MainUpdate'], 'true')))
+
+      - task: Powershell@2
+        inputs:
+          pwsh: true
+          filePath: eng/common/scripts/Update-DocsMsToc.ps1
+          arguments: >-
+            -DocRepoLocation $(DocRepoLocation)
+            -OutputLocation $(DocRepoLocation)/docs-ref-mapping/reference-unified.yml
+        displayName: Generate ToC
         condition: and(succeeded(), or(eq(variables['Build.Reason'], 'Schedule'), eq(variables['Force.MainUpdate'], 'true')))
 
       # Push changes to docs repo
@@ -69,8 +79,17 @@ jobs:
         inputs:
           pwsh: true
           filePath: eng/common/scripts/Update-DocsMsPackages.ps1
-          arguments: -DocRepoLocation $(DocRepoLocation) -ImageId '$(DocValidationImageId)'
+          arguments: -DocRepoLocation $(DocRepoLocation)
         displayName: Update Docs Onboarding for Daily branch
+
+      - task: Powershell@2
+        inputs:
+          pwsh: true
+          filePath: eng/common/scripts/Update-DocsMsToc.ps1
+          arguments: >-
+            -DocRepoLocation $(DocRepoLocation)
+            -OutputLocation $(DocRepoLocation)/docs-ref-mapping/reference-unified.yml
+        displayName: Generate ToC for Daily branch
 
       - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
         parameters:

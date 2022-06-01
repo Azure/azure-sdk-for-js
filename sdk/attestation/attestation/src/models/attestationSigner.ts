@@ -33,6 +33,6 @@ export interface AttestationSigner {
 export function _attestationSignerFromGenerated(key?: JsonWebKey): AttestationSigner {
   return {
     keyId: key?.kid,
-    certificates: key?.x5C?.map((cert) => pemFromBase64(cert, "CERTIFICATE")) ?? []
+    certificates: key?.x5C?.map((cert) => pemFromBase64(cert, "CERTIFICATE")) ?? [],
   };
 }

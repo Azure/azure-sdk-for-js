@@ -25,7 +25,7 @@ export class IndexDocumentsBatch<T> {
     const batch = documents.map<IndexDocumentsAction<T>>((doc) => {
       return {
         ...doc,
-        __actionType: "upload"
+        __actionType: "upload",
       };
     });
 
@@ -41,7 +41,7 @@ export class IndexDocumentsBatch<T> {
     const batch = documents.map<IndexDocumentsAction<T>>((doc) => {
       return {
         ...doc,
-        __actionType: "merge"
+        __actionType: "merge",
       };
     });
 
@@ -57,7 +57,7 @@ export class IndexDocumentsBatch<T> {
     const batch = documents.map<IndexDocumentsAction<T>>((doc) => {
       return {
         ...doc,
-        __actionType: "mergeOrUpload"
+        __actionType: "mergeOrUpload",
       };
     });
 
@@ -84,7 +84,7 @@ export class IndexDocumentsBatch<T> {
       const batch = keyValues.map<IndexDocumentsAction<T>>((keyValue) => {
         return {
           __actionType: "delete",
-          [keyName]: keyValue
+          [keyName]: keyValue,
         } as IndexDocumentsAction<T>;
       });
 
@@ -95,7 +95,7 @@ export class IndexDocumentsBatch<T> {
       const batch = documents.map<IndexDocumentsAction<T>>((document) => {
         return {
           __actionType: "delete",
-          ...document
+          ...document,
         } as IndexDocumentsAction<T>;
       });
 

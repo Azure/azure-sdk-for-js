@@ -14,6 +14,7 @@ import * as Mappers from "./models/mappers";
 import * as operations from "./operations";
 import { BatchServiceClientContext } from "./batchServiceClientContext";
 
+
 class BatchServiceClient extends BatchServiceClientContext {
   // Operation groups
   application: operations.Application;
@@ -33,11 +34,7 @@ class BatchServiceClient extends BatchServiceClientContext {
    * @param batchUrl The base URL for all Azure Batch service requests.
    * @param [options] The parameter options
    */
-  constructor(
-    credentials: msRest.ServiceClientCredentials,
-    batchUrl: string,
-    options?: msRestAzure.AzureServiceClientOptions
-  ) {
+  constructor(credentials: msRest.ServiceClientCredentials, batchUrl: string, options?: msRestAzure.AzureServiceClientOptions) {
     super(credentials, batchUrl, options);
     this.application = new operations.Application(this);
     this.pool = new operations.Pool(this);

@@ -12,7 +12,7 @@ import { PollerOptions } from "./PollerOptions";
 /**
  * Options for the document analysis operation.
  */
-export interface AnalyzeDocumentsOptions<Result = AnalyzeResult<AnalyzedDocument>>
+export interface AnalyzeDocumentOptions<Result = AnalyzeResult<AnalyzedDocument>>
   extends OperationOptions,
     PollerOptions<DocumentAnalysisPollOperationState<Result>> {
   /**

@@ -1,20 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
-import * as dotenv from "dotenv";
+import { assert } from "chai";
 import { HttpHeaders } from "../src";
 import {
   sanitizeHeaders,
   sanitizeURL,
   extractConnectionStringParts,
-  isIpEndpointStyle
+  isIpEndpointStyle,
 } from "../src/utils/utils.common";
 import { record, Recorder } from "@azure-tools/test-recorder";
 import { recorderEnvSetup } from "./utils";
 import { URLBuilder } from "@azure/core-http";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("Utility Helpers", () => {
   let recorder: Recorder;
@@ -44,11 +42,11 @@ describe("Utility Helpers", () => {
     );
   }
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 

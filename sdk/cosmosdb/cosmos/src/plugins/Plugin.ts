@@ -16,7 +16,7 @@ export enum PluginOn {
   /**
    * Will be executed per API operation
    */
-  operation = "operation"
+  operation = "operation",
 }
 
 /**

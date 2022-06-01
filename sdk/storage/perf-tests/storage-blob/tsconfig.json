@@ -2,7 +2,7 @@
   "extends": "../../../../tsconfig.package",
   "compilerOptions": {
     "module": "commonjs",
-    "declarationDir": "./typings/latest",
+    "declarationDir": "./types/latest",
     "outDir": "./dist-esm",
     "lib": ["dom", "es5", "es6", "es7", "esnext"]
   },

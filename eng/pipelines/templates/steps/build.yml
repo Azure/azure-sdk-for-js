@@ -45,13 +45,17 @@ steps:
     condition: and(succeeded(),ne(variables['SetDevVersion'],'true'))
     displayName: "Install dependencies"
 
+  - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
+    parameters:
+      Artifacts: ${{ parameters.Artifacts }}
+
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
   # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
-      node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" --verbose -p max
+      node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose -p max
     displayName: "Build libraries"
   - script: |
-      node eng/tools/rush-runner.js build:samples "${{parameters.ServiceDirectory}}" --verbose
+      node eng/tools/rush-runner.js build:samples "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose
     displayName: "Build samples"
 
   - pwsh: |
@@ -59,7 +63,7 @@ steps:
     displayName: "Check api extractor output changes"
 
   - script: |
-      node eng/tools/rush-runner.js pack "${{parameters.ServiceDirectory}}" --verbose
+      node eng/tools/rush-runner.js pack "${{parameters.ServiceDirectory}}" -packages "$(ArtifactPackageNames)" --verbose
     displayName: "Pack libraries"
 
   # Unlink node_modules folders to significantly improve performance of subsequent tasks
@@ -81,7 +85,7 @@ steps:
         New-Item -Type Directory -Name $artifactName -Path $(Build.ArtifactStagingDirectory) > $null
         Copy-Item sdk/${{parameters.ServiceDirectory}}/**/$artifactName-[0-9]*.[0-9]*.[0-9]*.tgz $(Build.ArtifactStagingDirectory)/$artifactName
         Copy-Item sdk/${{parameters.ServiceDirectory}}/**/browser/$artifactName-[0-9]*.[0-9]*.[0-9]*.zip $(Build.ArtifactStagingDirectory)/$artifactName
-        if ($${{ parameters.IncludeRelease }} -eq $true)
+        if ($${{ parameters.IncludeRelease }} -eq $true -and $artifact.skipPublishDocMs -ne $true)
         {
           New-Item -Type Directory -Name documentation -Path $(Build.ArtifactStagingDirectory)/$artifactName > $null
           Copy-Item $(Build.SourcesDirectory)/docGen/$artifactName.zip $(Build.ArtifactStagingDirectory)/$artifactName/documentation
@@ -97,6 +101,16 @@ steps:
     parameters:
       ArtifactPath: '$(Build.ArtifactStagingDirectory)'
       ArtifactName: 'packages'
+
+  - task: AzureArtifacts.manifest-generator-task.manifest-generator-task.ManifestGeneratorTask@0
+    displayName: 'Upload Package SBOM'
+    inputs:
+      BuildDropPath: $(Build.ArtifactStagingDirectory)
+
+  - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
+    parameters:
+      ArtifactPath: '$(Build.ArtifactStagingDirectory)/_manifest'
+      ArtifactName: 'manifest'
 
   - template: /eng/common/pipelines/templates/steps/create-apireview.yml
     parameters:

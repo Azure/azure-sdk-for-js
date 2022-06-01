@@ -6,14 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   DataWarehouseUserActivities,
-  DataWarehouseUserActivitiesOperationsListByDatabaseOptionalParams,
+  DataWarehouseUserActivitiesListByDatabaseOptionalParams,
   DataWarehouseUserActivityName,
-  DataWarehouseUserActivitiesOperationsGetOptionalParams,
-  DataWarehouseUserActivitiesOperationsGetResponse
+  DataWarehouseUserActivitiesGetOptionalParams,
+  DataWarehouseUserActivitiesGetResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +30,7 @@ export interface DataWarehouseUserActivitiesOperations {
     resourceGroupName: string,
     serverName: string,
     databaseName: string,
-    options?: DataWarehouseUserActivitiesOperationsListByDatabaseOptionalParams
+    options?: DataWarehouseUserActivitiesListByDatabaseOptionalParams
   ): PagedAsyncIterableIterator<DataWarehouseUserActivities>;
   /**
    * Gets the user activities of a data warehouse which includes running and suspended queries
@@ -47,6 +46,6 @@ export interface DataWarehouseUserActivitiesOperations {
     serverName: string,
     databaseName: string,
     dataWarehouseUserActivityName: DataWarehouseUserActivityName,
-    options?: DataWarehouseUserActivitiesOperationsGetOptionalParams
-  ): Promise<DataWarehouseUserActivitiesOperationsGetResponse>;
+    options?: DataWarehouseUserActivitiesGetOptionalParams
+  ): Promise<DataWarehouseUserActivitiesGetResponse>;
 }

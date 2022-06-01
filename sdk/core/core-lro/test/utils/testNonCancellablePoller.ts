@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay, RequestOptionsBase, HttpOperationResponse } from "@azure/core-http";
+import { HttpOperationResponse, RequestOptionsBase, delay } from "@azure/core-http";
+import { TestOperationState, makeOperation } from "./testOperation";
 import { Poller } from "../../src";
 import { TestServiceClient } from "./testServiceClient";
-import { makeOperation, TestOperationState } from "./testOperation";
 
 export class TestNonCancellablePoller extends Poller<TestOperationState, string> {
   public intervalInMs: number;
@@ -17,13 +17,13 @@ export class TestNonCancellablePoller extends Poller<TestOperationState, string>
     onProgress?: (state: TestOperationState) => void
   ) {
     let state: TestOperationState = {
-      client
+      client,
     };
 
     if (baseOperation) {
       state = {
         ...JSON.parse(baseOperation).state,
-        ...state
+        ...state,
       };
     }
 
@@ -31,7 +31,7 @@ export class TestNonCancellablePoller extends Poller<TestOperationState, string>
       ...state,
       client,
       requestOptions,
-      unsupportedCancel: true
+      unsupportedCancel: true,
     });
 
     super(operation);

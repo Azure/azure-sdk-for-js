@@ -3,8 +3,7 @@
 
 import { AbortController } from "@azure/abort-controller";
 import { record, Recorder } from "@azure-tools/test-recorder";
-import * as assert from "assert";
-import * as dotenv from "dotenv";
+import { assert } from "chai";
 import { Context } from "mocha";
 import { join } from "path";
 
@@ -16,17 +15,16 @@ import {
   DataLakeSASPermissions,
   DataLakeServiceClient,
   PathAccessControlItem,
-  PathPermissions
+  PathPermissions,
 } from "../../src";
 import { toAcl, toRemoveAcl } from "../../src/transforms";
 import {
   bodyToString,
   getDataLakeServiceClient,
   recorderEnvSetup,
-  getDataLakeFileSystemClientWithSASCredential
+  getDataLakeFileSystemClientWithSASCredential,
 } from "../utils";
-
-dotenv.config();
+import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 
 describe("DataLakePathClient Node.js only", () => {
   let fileSystemName: string;
@@ -38,12 +36,12 @@ describe("DataLakePathClient Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
-    await fileSystemClient.create();
+    await fileSystemClient.createIfNotExists();
     fileName = recorder.getUniqueName("file");
     fileClient = fileSystemClient.getFileClient(fileName);
     await fileClient.create();
@@ -51,8 +49,8 @@ describe("DataLakePathClient Node.js only", () => {
     await fileClient.flush(content.length);
   });
 
-  afterEach(async function() {
-    await fileSystemClient.delete();
+  afterEach(async function () {
+    await fileSystemClient.deleteIfExists();
     await recorder.stop();
   });
 
@@ -65,8 +63,8 @@ describe("DataLakePathClient Node.js only", () => {
         permissions: {
           read: true,
           write: true,
-          execute: true
-        }
+          execute: true,
+        },
       },
       {
         accessControlType: "group",
@@ -75,8 +73,8 @@ describe("DataLakePathClient Node.js only", () => {
         permissions: {
           read: true,
           write: false,
-          execute: true
-        }
+          execute: true,
+        },
       },
       {
         accessControlType: "other",
@@ -85,9 +83,9 @@ describe("DataLakePathClient Node.js only", () => {
         permissions: {
           read: false,
           write: true,
-          execute: false
-        }
-      }
+          execute: false,
+        },
+      },
     ];
     await fileClient.setAccessControl(acl);
 
@@ -101,18 +99,18 @@ describe("DataLakePathClient Node.js only", () => {
       owner: {
         read: true,
         write: true,
-        execute: true
+        execute: true,
       },
       group: {
         read: true,
         write: false,
-        execute: true
+        execute: true,
       },
       other: {
         read: false,
         write: true,
-        execute: false
-      }
+        execute: false,
+      },
     });
     assert.deepStrictEqual(permissions.acl, acl);
   });
@@ -126,8 +124,8 @@ describe("DataLakePathClient Node.js only", () => {
         permissions: {
           read: true,
           write: true,
-          execute: true
-        }
+          execute: true,
+        },
       },
       {
         accessControlType: "group",
@@ -136,8 +134,8 @@ describe("DataLakePathClient Node.js only", () => {
         permissions: {
           read: true,
           write: false,
-          execute: true
-        }
+          execute: true,
+        },
       },
       {
         accessControlType: "other",
@@ -146,13 +144,13 @@ describe("DataLakePathClient Node.js only", () => {
         permissions: {
           read: false,
           write: true,
-          execute: false
-        }
-      }
+          execute: false,
+        },
+      },
     ];
     await fileClient.setAccessControl(acl, {
       owner: "$superuser",
-      group: "$superuser"
+      group: "$superuser",
     });
 
     const permissions = await fileClient.getAccessControl();
@@ -165,18 +163,18 @@ describe("DataLakePathClient Node.js only", () => {
       owner: {
         read: true,
         write: true,
-        execute: true
+        execute: true,
       },
       group: {
         read: true,
         write: false,
-        execute: true
+        execute: true,
       },
       other: {
         read: false,
         write: true,
-        execute: false
-      }
+        execute: false,
+      },
     });
     assert.deepStrictEqual(permissions.acl, acl);
   });
@@ -190,8 +188,8 @@ describe("DataLakePathClient Node.js only", () => {
         permissions: {
           read: true,
           write: true,
-          execute: false
-        }
+          execute: false,
+        },
       },
       {
         accessControlType: "group",
@@ -200,8 +198,8 @@ describe("DataLakePathClient Node.js only", () => {
         permissions: {
           read: true,
           write: false,
-          execute: true
-        }
+          execute: true,
+        },
       },
       {
         accessControlType: "other",
@@ -210,9 +208,9 @@ describe("DataLakePathClient Node.js only", () => {
         permissions: {
           read: false,
           write: true,
-          execute: true
-        }
-      }
+          execute: true,
+        },
+      },
     ];
 
     const permissions: PathPermissions = {
@@ -221,18 +219,18 @@ describe("DataLakePathClient Node.js only", () => {
       owner: {
         read: true,
         write: true,
-        execute: false
+        execute: false,
       },
       group: {
         read: true,
         write: false,
-        execute: true
+        execute: true,
       },
       other: {
         read: false,
         write: true,
-        execute: false
-      }
+        execute: false,
+      },
     };
 
     await fileClient.setPermissions(permissions);
@@ -243,7 +241,7 @@ describe("DataLakePathClient Node.js only", () => {
     assert.deepStrictEqual(response.group, "$superuser");
     assert.deepStrictEqual(response.permissions, {
       ...permissions,
-      other: { ...permissions.other, execute: true }
+      other: { ...permissions.other, execute: true },
     });
     assert.deepStrictEqual(response.acl, acl);
   });
@@ -257,8 +255,8 @@ describe("DataLakePathClient Node.js only", () => {
         permissions: {
           read: true,
           write: true,
-          execute: false
-        }
+          execute: false,
+        },
       },
       {
         accessControlType: "group",
@@ -267,8 +265,8 @@ describe("DataLakePathClient Node.js only", () => {
         permissions: {
           read: true,
           write: false,
-          execute: true
-        }
+          execute: true,
+        },
       },
       {
         accessControlType: "other",
@@ -277,9 +275,9 @@ describe("DataLakePathClient Node.js only", () => {
         permissions: {
           read: false,
           write: true,
-          execute: true
-        }
-      }
+          execute: true,
+        },
+      },
     ];
 
     const permissions: PathPermissions = {
@@ -288,18 +286,18 @@ describe("DataLakePathClient Node.js only", () => {
       owner: {
         read: true,
         write: true,
-        execute: false
+        execute: false,
       },
       group: {
         read: true,
         write: false,
-        execute: true
+        execute: true,
       },
       other: {
         read: false,
         write: true,
-        execute: false
-      }
+        execute: false,
+      },
     };
 
     await fileClient.setPermissions(permissions, { owner: "$superuser", group: "$superuser" });
@@ -310,7 +308,7 @@ describe("DataLakePathClient Node.js only", () => {
     assert.deepStrictEqual(response.group, "$superuser");
     assert.deepStrictEqual(response.permissions, {
       ...permissions,
-      other: { ...permissions.other, execute: true }
+      other: { ...permissions.other, execute: true },
     });
     assert.deepStrictEqual(response.acl, acl);
   });
@@ -342,7 +340,7 @@ describe("DataLakePathClient Node.js only", () => {
     await fileClient.move(destFileSystemName, destFileName);
 
     await destFileClient.getProperties();
-    await destFileSystemClient.delete();
+    await destFileSystemClient.deleteIfExists();
   });
 
   it("move should not encode / in the source", async () => {
@@ -377,7 +375,7 @@ describe("DataLakePathClient Node.js only", () => {
       fileSystemName: fileSystemClient.name,
       pathName: destFileName,
       expiresOn: new Date(Date.now() + 60 * 1000),
-      permissions: DataLakeSASPermissions.parse("rwm")
+      permissions: DataLakeSASPermissions.parse("rwm"),
     });
     const sasDestFileClient = sasFileSystemClient.getFileClient(destFileName);
     await fileClient.move(destFileName);
@@ -389,7 +387,7 @@ describe("DataLakePathClient Node.js only", () => {
     const sasFileSystemClient = getDataLakeFileSystemClientWithSASCredential({
       fileSystemName: fileSystemClient.name,
       expiresOn: new Date(Date.now() + 60 * 1000),
-      permissions: DataLakeSASPermissions.parse("rwdm")
+      permissions: DataLakeSASPermissions.parse("rwdm"),
     });
     const sasDestFileClient = sasFileSystemClient.getFileClient(destFileName);
     const sasSourceFileClient = sasFileSystemClient.getFileClient(fileClient.name);
@@ -423,14 +421,14 @@ describe("DataLakePathClient Node.js only", () => {
             type: "decimal",
             name: "name",
             precision: 4,
-            scale: 2
-          }
-        ]
-      }
+            scale: 2,
+          },
+        ],
+      },
     });
   });
 
-  it("query should work with Parquet input configuration", async function(this: Context) {
+  it("query should work with Parquet input configuration", async function (this: Context) {
     // Enable the case when STG78 - version 2020-10-02 features is enabled in production.
     this.skip();
     const parquetFilePath = join("test", "resources", "parquet.parquet");
@@ -440,11 +438,30 @@ describe("DataLakePathClient Node.js only", () => {
 
     const response = await fileClient2.query("select * from blobstorage where id < 1;", {
       inputTextConfiguration: {
-        kind: "parquet"
-      }
+        kind: "parquet",
+      },
     });
 
     assert.deepStrictEqual(await bodyToString(response), "0,mdifjt55.ea3,mdifjt55.ea3\n");
+  });
+
+  it("quick query with CPK", async () => {
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    const fileClient2 = fileSystemClient.getFileClient(fileName + "2");
+    await fileClient2.create({
+      customerProvidedKey: Test_CPK_INFO,
+    });
+    await fileClient2.append(csvContent, 0, csvContent.length, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+    await fileClient2.flush(csvContent.length, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    const response = await fileClient2.query("select * from BlobStorage", {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+    assert.deepStrictEqual(await bodyToString(response), csvContent);
   });
 });
 
@@ -458,12 +475,12 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
-    await fileSystemClient.create();
+    await fileSystemClient.createIfNotExists();
     fileName = recorder.getUniqueName("file");
     fileClient = fileSystemClient.getFileClient(fileName);
     await fileClient.create();
@@ -471,8 +488,8 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
     await fileClient.flush(content.length);
   });
 
-  afterEach(async function() {
-    await fileSystemClient.delete();
+  afterEach(async function () {
+    await fileSystemClient.deleteIfExists();
     await recorder.stop();
   });
 
@@ -550,12 +567,12 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
         maxBatches: 1,
         onProgress: () => {
           batchCounter++;
-        }
+        },
       }
     );
 
     assert.deepStrictEqual(1, batchCounter);
-    assert.notDeepStrictEqual(undefined, result.continuationToken);
+    assert.notDeepEqual(undefined, result.continuationToken);
   });
 
   it("setAccessControlRecursive should work with options - batchSize", async () => {
@@ -588,7 +605,7 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
     const cumulativeCounters: AccessControlChangeCounters = {
       changedDirectoriesCount: 0,
       changedFilesCount: 0,
-      failedChangesCount: 0
+      failedChangesCount: 0,
     };
     const result = await directoryClient.setAccessControlRecursive(
       toAcl(
@@ -622,7 +639,7 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
           );
 
           batchCounter++;
-        }
+        },
       }
     );
 
@@ -677,10 +694,10 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
             continuation = progress.continuationToken;
             aborter.abort();
           },
-          abortSignal: aborter.signal
+          abortSignal: aborter.signal,
         }
       );
-    } catch (err) {
+    } catch (err: any) {
       assert.equal(err.name, "DataLakeAclChangeFailedError");
       assert.equal(err.innerError.name, "AbortError");
       assert.equal(
@@ -695,7 +712,7 @@ describe("DataLakePathClient setAccessControlRecursive Node.js only", () => {
         "user::rwx,user:ec3595d6-2c17-4696-8caa-7e139758d24a:rw-,group::rw-,mask::rwx,other::---"
       ),
       {
-        continuationToken: continuation
+        continuationToken: continuation,
       }
     );
 

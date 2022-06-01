@@ -11,7 +11,7 @@ import { RestorableMongodbCollections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { CosmosDBManagementClientContext } from "../cosmosDBManagementClientContext";
+import { CosmosDBManagementClient } from "../cosmosDBManagementClient";
 import {
   RestorableMongodbCollectionGetResult,
   RestorableMongodbCollectionsListOptionalParams,
@@ -22,13 +22,13 @@ import {
 /** Class containing RestorableMongodbCollections operations. */
 export class RestorableMongodbCollectionsImpl
   implements RestorableMongodbCollections {
-  private readonly client: CosmosDBManagementClientContext;
+  private readonly client: CosmosDBManagementClient;
 
   /**
    * Initialize a new instance of the class RestorableMongodbCollections class.
    * @param client Reference to the service client
    */
-  constructor(client: CosmosDBManagementClientContext) {
+  constructor(client: CosmosDBManagementClient) {
     this.client = client;
   }
 
@@ -118,6 +118,8 @@ const listOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
+    Parameters.startTime,
+    Parameters.endTime,
     Parameters.restorableMongodbDatabaseRid
   ],
   urlParameters: [

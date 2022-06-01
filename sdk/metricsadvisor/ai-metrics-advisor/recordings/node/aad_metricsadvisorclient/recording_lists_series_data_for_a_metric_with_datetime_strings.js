@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "4b064248061c9457dc568643df832bb0";
+module.exports.hash = "b03cedf1d30f67333860cad6acd4ea6f";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -23,19 +23,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '2a994f6b-3de0-4986-ba31-db4fc4326c00',
+  '42ac91de-9ea8-4160-a931-56cc111d0e00',
   'x-ms-ests-server',
-  '2.1.12231.7 - WUS2 ProdSlices',
+  '2.1.12261.22 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=Ag5SG4NanCdAg6g21CGbctk; expires=Thu, 16-Dec-2021 00:32:31 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Atb6fQwoPepKhMIbobb0btA; expires=Sat, 19-Feb-2022 00:58:34 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrlAgHUUgafPzligu15nB5Ou1u7lBv4GR1cc9TIZZxtnCobTsM78exBkp0dUqzIduFjhbB5CDSjLuf6oeAWVBVuUx-7XJkU5eMPmhHt5M4X4j9ch-4Nv2YBGW8g9YxooVtn5g-B6bCHGufRa4mP231u6Kcze5hX7bdhXepyUBZvEAgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7Wevr9wYeHXpgLvZve8bfdYQGhDkWp1igK48OJZW7jBmFl5AYPF3UgXkRpVpyhIfmPol8bVM1Ll3GXMXckIPwwVqX6Xpk_EbKeuHOfjmzGI95HaPc7ii7LZ7oKitn-2giArhHEwcdTCJRO0Fz9LfZef8_eP3Nit5bh8QykIVJ2YVVqI0gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 16 Nov 2021 00:32:31 GMT',
+  'Thu, 20 Jan 2022 00:58:34 GMT',
   'Content-Length',
   '980'
 ]);
@@ -58,25 +58,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '9184cac9-6c37-40c9-b9df-905dab6f3a00',
+  '0ffc0263-ffac-4ace-9b5d-556046aaac00',
   'x-ms-ests-server',
-  '2.1.12231.7 - EUS ProdSlices',
+  '2.1.12261.22 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AoKe6iUsDDdCsv9TqMkLp7U; expires=Thu, 16-Dec-2021 00:32:31 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=As4Zs-LiCOZIotJruNQ7KW8; expires=Sat, 19-Feb-2022 00:58:35 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrEzBMDyRUE7iFuOM5M0CyTpQw1gxE2DQgdEm1eNVunAcPe-7J-5hjcWxCNzuE7tX9EJ9idKr2fSp5qTnMNztMIWRqr1MvZoU2Wfdc1oxwSOCMQ6MAB6MvrXmTpUc_unVvnIv_zKXPNEglpCIAlii7BrYlKUsTBuG10m_cHxB_kyEgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrvYkSoO6oRcKS-Fq4ezRe3166rOWUZsbMtxdVHG753uBTSrIkmLo3VsqC9vNi4nCi0TSfZ5CDRIw6ADN9g5AARQzCk8KF5vp6HIXjqzuvva---LsJ_8L832BJ43KYSNGM_9bRggdosyaMu73b1nJZBiWPpKhVotl_am3BDIabAH0gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 16 Nov 2021 00:32:31 GMT',
+  'Thu, 20 Jan 2022 00:58:34 GMT',
   'Content-Length',
   '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.3.3&x-client-OS=win32&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=d05db6e7-d2c2-4648-831d-e6255b8fed40&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
+  .post('/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.5.0&x-client-OS=win32&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=f6f3450b-9069-4dfb-bfc2-ad34c48f9757&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -93,19 +93,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '4075bfc4-5f01-4303-add0-7d32ea1dd000',
+  'bb3deba7-764d-484f-b423-1e5d56524d00',
   'x-ms-ests-server',
-  '2.1.12231.7 - WUS2 ProdSlices',
+  '2.1.12261.22 - WUS2 ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=Ao4pO_LD_ERJjaJ0jUYe6L8; expires=Thu, 16-Dec-2021 00:32:31 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AkEr4IBgNdxFmGMNitnzpsk; expires=Sat, 19-Feb-2022 00:58:35 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 16 Nov 2021 00:32:31 GMT',
+  'Thu, 20 Jan 2022 00:58:34 GMT',
   'Content-Length',
   '1331'
 ]);
@@ -118,15 +118,15 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-request-id',
-  'c93b8142-d974-4898-9db0-bd8ad4913009',
+  '233ad068-45c7-42e1-a594-455ecc141a04',
   'x-envoy-upstream-service-time',
-  '289',
+  '266',
   'apim-request-id',
-  'c93b8142-d974-4898-9db0-bd8ad4913009',
+  '233ad068-45c7-42e1-a594-455ecc141a04',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 16 Nov 2021 00:32:30 GMT'
+  'Thu, 20 Jan 2022 00:58:34 GMT'
 ]);

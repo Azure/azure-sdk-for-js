@@ -34,7 +34,7 @@ async function listEntities() {
     rowKey: "1",
     name: "Markers",
     price: 5.0,
-    quantity: 34
+    quantity: 34,
   };
 
   const planner: Entity = {
@@ -42,7 +42,7 @@ async function listEntities() {
     rowKey: "2",
     name: "Planner",
     price: 7.0,
-    quantity: 34
+    quantity: 34,
   };
 
   // create entities for marker and planner
@@ -51,7 +51,7 @@ async function listEntities() {
 
   // List all entities with PartitionKey "Stationery"
   const listResults = client.listEntities<Entity>({
-    queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` }
+    queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` },
   });
 
   for await (const product of listResults) {
@@ -60,7 +60,7 @@ async function listEntities() {
 
   // List all entities with a price less than 6.0
   const priceListResults = client.listEntities({
-    queryOptions: { filter: odata`price le 6` }
+    queryOptions: { filter: odata`price le 6` },
   });
 
   console.log("-- Products with a price less or equals to 6.00");
@@ -84,8 +84,8 @@ async function listTopNEntities() {
   // List all entities with PartitionKey "Stationery"
   const listResults = client.listEntities<Entity>({
     queryOptions: {
-      filter: odata`PartitionKey eq ${partitionKey}`
-    }
+      filter: odata`PartitionKey eq ${partitionKey}`,
+    },
   });
 
   let topEntities = [];

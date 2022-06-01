@@ -6,7 +6,7 @@ Client that can be used to manage Azure Cognitive Search services and API keys.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/search/arm-search) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-search) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-search?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-search) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -15,6 +15,8 @@ Client that can be used to manage Azure Cognitive Search services and API keys.
 
 - [LTS versions of Node.js](https://nodejs.org/about/releases/)
 - Latest versions of Safari, Chrome, Edge and Firefox.
+
+See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
 ### Prerequisites
 
@@ -49,8 +51,17 @@ For more information about how to create an Azure AD Application check out [this
 ```javascript
 const { SearchManagementClient } = require("@azure/arm-search");
 const { DefaultAzureCredential } = require("@azure/identity");
+// For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
+
 const subscriptionId = "00000000-0000-0000-0000-000000000000";
 const client = new SearchManagementClient(new DefaultAzureCredential(), subscriptionId);
+
+// For client-side applications running in the browser, use this code instead:
+// const credential = new InteractiveBrowserCredential({
+//   tenantId: "<YOUR_TENANT_ID>",
+//   clientId: "<YOUR_CLIENT_ID>"
+// });
+// const client = new SearchManagementClient(credential, subscriptionId);
 ```
 
 

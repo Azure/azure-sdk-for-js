@@ -11,7 +11,7 @@ export function createECDSKey(): [string, string] {
   const keyPair = jsrsasign.KEYUTIL.generateKeypair("EC", "secp256r1");
   return [
     jsrsasign.KEYUTIL.getPEM(keyPair.prvKeyObj, "PKCS8PRV"),
-    jsrsasign.KEYUTIL.getPEM(keyPair.pubKeyObj, "PKCS8PUB")
+    jsrsasign.KEYUTIL.getPEM(keyPair.pubKeyObj, "PKCS8PUB"),
   ];
 }
 
@@ -19,7 +19,7 @@ export function createRSAKey(): [string, string] {
   const keyPair = jsrsasign.KEYUTIL.generateKeypair("RSA", 1024);
   return [
     jsrsasign.KEYUTIL.getPEM(keyPair.prvKeyObj, "PKCS8PRV"),
-    jsrsasign.KEYUTIL.getPEM(keyPair.pubKeyObj, "PKCS8PUB")
+    jsrsasign.KEYUTIL.getPEM(keyPair.pubKeyObj, "PKCS8PUB"),
   ];
 }
 
@@ -70,10 +70,10 @@ export function createX509Certificate(
     ext: [
       { extname: "basicConstraints", critical: false, cA: false, pathLen: 0 },
       { extname: "subjectAltName", critical: false, array: [{ uri: "https://" + subject_name }] },
-      { extname: "keyUsage", critical: true, names: ["digitalSignature"] }
+      { extname: "keyUsage", critical: true, names: ["digitalSignature"] },
     ],
     sigalg: { name: "SHA256withRSA" },
-    cakey: privKey
+    cakey: privKey,
   });
 
   const x509 = new jsrsasign.X509();

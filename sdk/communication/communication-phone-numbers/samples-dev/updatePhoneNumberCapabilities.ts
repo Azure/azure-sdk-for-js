@@ -7,7 +7,7 @@
 
 import {
   PhoneNumbersClient,
-  PhoneNumberCapabilitiesRequest
+  PhoneNumberCapabilitiesRequest,
 } from "@azure/communication-phone-numbers";
 
 // Load the .env file if it exists
@@ -34,7 +34,7 @@ export async function main() {
   // This will update the phone number to send and receive sms, but only send calls.
   const updateRequest: PhoneNumberCapabilitiesRequest = {
     sms: "inbound+outbound",
-    calling: "outbound"
+    calling: "outbound",
   };
 
   const updatePoller = await client.beginUpdatePhoneNumberCapabilities(

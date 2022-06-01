@@ -6,3324 +6,2825 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import * as coreClient from "@azure/core-client";
 
-export { BaseResource, CloudError };
+export type ComputeUnion =
+  | Compute
+  | Aks
+  | Kubernetes
+  | AmlCompute
+  | ComputeInstance
+  | VirtualMachine
+  | HDInsight
+  | DataFactory
+  | Databricks
+  | DataLakeAnalytics
+  | SynapseSpark;
+export type ComputeSecretsUnion =
+  | ComputeSecrets
+  | AksComputeSecrets
+  | VirtualMachineSecrets
+  | DatabricksComputeSecrets;
 
-/**
- * Display name of operation
- */
-export interface OperationDisplay {
-  /**
-   * The resource provider name: Microsoft.MachineLearningExperimentation
-   */
-  provider?: string;
-  /**
-   * The resource on which the operation is performed.
-   */
-  resource?: string;
-  /**
-   * The operation that users can perform.
-   */
-  operation?: string;
-  /**
-   * The description for the operation.
-   */
-  description?: string;
+/** An array of operations supported by the resource provider. */
+export interface OperationListResult {
+  /** List of AML workspace operations supported by the AML workspace resource provider. */
+  value?: Operation[];
 }
 
-/**
- * Azure Machine Learning workspace REST API operation
- */
+/** Azure Machine Learning workspace REST API operation */
 export interface Operation {
-  /**
-   * Operation name: {provider}/{resource}/{operation}
-   */
+  /** Operation name: {provider}/{resource}/{operation} */
   name?: string;
-  /**
-   * Display name of operation
-   */
+  /** Display name of operation */
   display?: OperationDisplay;
 }
 
-/**
- * An interface representing NotebookListCredentialsResult.
- */
-export interface NotebookListCredentialsResult {
-  primaryAccessKey?: string;
-  secondaryAccessKey?: string;
+/** Display name of operation */
+export interface OperationDisplay {
+  /** The resource provider name: Microsoft.MachineLearningExperimentation */
+  provider?: string;
+  /** The resource on which the operation is performed. */
+  resource?: string;
+  /** The operation that users can perform. */
+  operation?: string;
+  /** The description for the operation. */
+  description?: string;
 }
 
-/**
- * An interface representing NotebookPreparationError.
- */
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+export interface EncryptionProperty {
+  /** Indicates whether or not the encryption is enabled for the workspace. */
+  status: EncryptionStatus;
+  /** The identity that will be used to access the key vault for encryption at rest. */
+  identity?: IdentityForCmk;
+  /** Customer Key vault properties. */
+  keyVaultProperties: KeyVaultProperties;
+}
+
+/** Identity that will be used to access key vault for encryption at rest */
+export interface IdentityForCmk {
+  /** The ArmId of the user assigned identity that will be used to access the customer managed key vault */
+  userAssignedIdentity?: string;
+}
+
+export interface KeyVaultProperties {
+  /** The ArmId of the keyVault where the customer owned encryption key is present. */
+  keyVaultArmId: string;
+  /** Key vault uri to access the encryption key. */
+  keyIdentifier: string;
+  /** For future use - The client id of the identity which will be used to access key vault. */
+  identityClientId?: string;
+}
+
+/** The Private Endpoint resource. */
+export interface PrivateEndpoint {
+  /**
+   * The ARM identifier for Private Endpoint
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The ARM identifier for Subnet resource that private endpoint links to
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subnetArmId?: string;
+}
+
+/** A collection of information about the state of the connection between service consumer and provider. */
+export interface PrivateLinkServiceConnectionState {
+  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
+  status?: PrivateEndpointServiceConnectionStatus;
+  /** The reason for approval/rejection of the connection. */
+  description?: string;
+  /** A message indicating if changes on the service provider require any updates on the consumer. */
+  actionsRequired?: string;
+}
+
+/** Identity for the resource. */
+export interface Identity {
+  /**
+   * The principal ID of resource identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** The identity type. */
+  type?: ResourceIdentityType;
+  /** The user assigned identities associated with the resource. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+}
+
+/** User Assigned Identity */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /**
+   * The clientId(aka appId) of the user assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
+/** Sku of the resource */
+export interface Sku {
+  /** Name of the sku */
+  name?: string;
+  /** Tier of the sku like Basic or Enterprise */
+  tier?: string;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+}
+
+export interface SharedPrivateLinkResource {
+  /** Unique name of the private link. */
+  name?: string;
+  /** The resource id that private link links to. */
+  privateLinkResourceId?: string;
+  /** The private link resource group id. */
+  groupId?: string;
+  /** Request message. */
+  requestMessage?: string;
+  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
+  status?: PrivateEndpointServiceConnectionStatus;
+}
+
+export interface NotebookResourceInfo {
+  fqdn?: string;
+  /** the data plane resourceId that used to initialize notebook component */
+  resourceId?: string;
+  /** The error that occurs when preparing notebook. */
+  notebookPreparationError?: NotebookPreparationError;
+}
+
 export interface NotebookPreparationError {
   errorMessage?: string;
   statusCode?: number;
 }
 
-/**
- * An interface representing NotebookResourceInfo.
- */
-export interface NotebookResourceInfo {
-  fqdn?: string;
-  /**
-   * the data plane resourceId that used to initialize notebook component
-   */
-  resourceId?: string;
-  /**
-   * The error that occurs when preparing notebook.
-   */
-  notebookPreparationError?: NotebookPreparationError;
+export interface ServiceManagedResourcesSettings {
+  /** The settings for the service managed cosmosdb account. */
+  cosmosDb?: CosmosDbSettings;
 }
 
-/**
- * An interface representing KeyVaultProperties.
- */
-export interface KeyVaultProperties {
-  /**
-   * The ArmId of the keyVault where the customer owned encryption key is present.
-   */
-  keyVaultArmId: string;
-  /**
-   * Key vault uri to access the encryption key.
-   */
-  keyIdentifier: string;
-  /**
-   * For future use - The client id of the identity which will be used to access key vault.
-   */
-  identityClientId?: string;
+export interface CosmosDbSettings {
+  /** The throughput of the collections in cosmosdb database */
+  collectionsThroughput?: number;
 }
 
-/**
- * An interface representing EncryptionProperty.
- */
-export interface EncryptionProperty {
-  /**
-   * Indicates whether or not the encryption is enabled for the workspace. Possible values include:
-   * 'Enabled', 'Disabled'
-   */
-  status: EncryptionStatus;
-  /**
-   * Customer Key vault properties.
-   */
-  keyVaultProperties: KeyVaultProperties;
-}
-
-/**
- * The Private Endpoint resource.
- */
-export interface PrivateEndpoint {
-  /**
-   * The ARM identifier for Private Endpoint
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-}
-
-/**
- * A collection of information about the state of the connection between service consumer and
- * provider.
- */
-export interface PrivateLinkServiceConnectionState {
-  /**
-   * Indicates whether the connection has been Approved/Rejected/Removed by the owner of the
-   * service. Possible values include: 'Pending', 'Approved', 'Rejected', 'Disconnected', 'Timeout'
-   */
-  status?: PrivateEndpointServiceConnectionStatus;
-  /**
-   * The reason for approval/rejection of the connection.
-   */
-  description?: string;
-  /**
-   * A message indicating if changes on the service provider require any updates on the consumer.
-   */
-  actionsRequired?: string;
-}
-
-/**
- * The Private Endpoint Connection resource.
- */
-export interface PrivateEndpointConnection extends BaseResource {
-  /**
-   * ResourceId of the private endpoint connection.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Friendly name of the private endpoint connection.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Resource type of private endpoint connection.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * The resource of private end point.
-   */
-  privateEndpoint?: PrivateEndpoint;
-  /**
-   * A collection of information about the state of the connection between service consumer and
-   * provider.
-   */
-  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
-  /**
-   * The provisioning state of the private endpoint connection resource. Possible values include:
-   * 'Succeeded', 'Creating', 'Deleting', 'Failed'
-   */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
-}
-
-/**
- * An interface representing SharedPrivateLinkResource.
- */
-export interface SharedPrivateLinkResource {
-  /**
-   * Unique name of the private link.
-   */
-  name?: string;
-  /**
-   * The resource id that private link links to.
-   */
-  privateLinkResourceId?: string;
-  /**
-   * The private link resource group id.
-   */
-  groupId?: string;
-  /**
-   * Request message.
-   */
-  requestMessage?: string;
-  /**
-   * Indicates whether the connection has been Approved/Rejected/Removed by the owner of the
-   * service. Possible values include: 'Pending', 'Approved', 'Rejected', 'Disconnected', 'Timeout'
-   */
-  status?: PrivateEndpointServiceConnectionStatus;
-}
-
-/**
- * Azure Resource Manager resource envelope.
- */
-export interface Resource extends BaseResource {
-  /**
-   * Specifies the resource ID.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Specifies the name of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The identity of the resource.
-   */
-  identity?: Identity;
-  /**
-   * Specifies the location of the resource.
-   */
-  location?: string;
-  /**
-   * Specifies the type of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * Contains resource tags defined as key/value pairs.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * The sku of the workspace.
-   */
-  sku?: Sku;
-}
-
-/**
- * An object that represents a machine learning workspace.
- */
-export interface Workspace extends Resource {
-  /**
-   * The immutable id associated with this workspace.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly workspaceId?: string;
-  /**
-   * The description of this workspace.
-   */
-  description?: string;
-  /**
-   * The friendly name for this workspace. This name in mutable
-   */
-  friendlyName?: string;
-  /**
-   * The creation time of the machine learning workspace in ISO8601 format.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly creationTime?: Date;
-  /**
-   * ARM id of the key vault associated with this workspace. This cannot be changed once the
-   * workspace has been created
-   */
-  keyVault?: string;
-  /**
-   * ARM id of the application insights associated with this workspace. This cannot be changed once
-   * the workspace has been created
-   */
-  applicationInsights?: string;
-  /**
-   * ARM id of the container registry associated with this workspace. This cannot be changed once
-   * the workspace has been created
-   */
-  containerRegistry?: string;
-  /**
-   * ARM id of the storage account associated with this workspace. This cannot be changed once the
-   * workspace has been created
-   */
-  storageAccount?: string;
-  /**
-   * Url for the discovery service to identify regional endpoints for machine learning
-   * experimentation services
-   */
-  discoveryUrl?: string;
-  /**
-   * The current deployment state of workspace resource. The provisioningState is to indicate
-   * states for resource provisioning. Possible values include: 'Unknown', 'Updating', 'Creating',
-   * 'Deleting', 'Succeeded', 'Failed', 'Canceled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * The encryption settings of Azure ML workspace.
-   */
-  encryption?: EncryptionProperty;
-  /**
-   * The flag to signal HBI data in the workspace and reduce diagnostic data collected by the
-   * service. Default value: false.
-   */
-  hbiWorkspace?: boolean;
-  /**
-   * The name of the managed resource group created by workspace RP in customer subscription if the
-   * workspace is CMK workspace
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly serviceProvisionedResourceGroup?: string;
-  /**
-   * Count of private connections in the workspace
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly privateLinkCount?: number;
-  /**
-   * The compute name for image build
-   */
-  imageBuildCompute?: string;
-  /**
-   * The flag to indicate whether to allow public access when behind VNet. Default value: false.
-   */
-  allowPublicAccessWhenBehindVnet?: boolean;
-  /**
-   * The list of private endpoint connections in the workspace.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly privateEndpointConnections?: PrivateEndpointConnection[];
-  /**
-   * The list of shared private link resources in this workspace.
-   */
-  sharedPrivateLinkResources?: SharedPrivateLinkResource[];
-  /**
-   * The notebook info of Azure ML workspace.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly notebookInfo?: NotebookResourceInfo;
-}
-
-/**
- * Sku of the resource
- */
-export interface Sku {
-  /**
-   * Name of the sku
-   */
-  name?: string;
-  /**
-   * Tier of the sku like Basic or Enterprise
-   */
-  tier?: string;
-}
-
-/**
- * The parameters for updating a machine learning workspace.
- */
+/** The parameters for updating a machine learning workspace. */
 export interface WorkspaceUpdateParameters {
-  /**
-   * The resource tags for the machine learning workspace.
-   */
+  /** The resource tags for the machine learning workspace. */
   tags?: { [propertyName: string]: string };
-  /**
-   * The sku of the workspace.
-   */
+  /** The sku of the workspace. */
   sku?: Sku;
-  /**
-   * The description of this workspace.
-   */
+  /** The identity of the resource. */
+  identity?: Identity;
+  /** The description of this workspace. */
   description?: string;
-  /**
-   * The friendly name for this workspace.
-   */
+  /** The friendly name for this workspace. */
   friendlyName?: string;
+  /** The compute name for image build */
+  imageBuildCompute?: string;
+  /** The service managed resource settings. */
+  serviceManagedResourcesSettings?: ServiceManagedResourcesSettings;
+  /** The user assigned identity resource id that represents the workspace identity. */
+  primaryUserAssignedIdentity?: string;
+  /** Whether requests from Public Network are allowed. */
+  publicNetworkAccess?: PublicNetworkAccess;
 }
 
-/**
- * Features enabled for a workspace
- */
-export interface AmlUserFeature {
-  /**
-   * Specifies the feature ID
-   */
-  id?: string;
-  /**
-   * Specifies the feature name
-   */
-  displayName?: string;
-  /**
-   * Describes the feature for user experience
-   */
-  description?: string;
+/** The result of a request to list machine learning workspaces. */
+export interface WorkspaceListResult {
+  /** The list of machine learning workspaces. Since this list may be incomplete, the nextLink field should be used to request the next list of machine learning workspaces. */
+  value?: Workspace[];
+  /** The URI that can be used to request the next list of machine learning workspaces. */
+  nextLink?: string;
 }
 
-/**
- * The Usage Names.
- */
-export interface UsageName {
-  /**
-   * The name of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly value?: string;
-  /**
-   * The localized name of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly localizedValue?: string;
+/** Parameters to diagnose a workspace */
+export interface DiagnoseWorkspaceParameters {
+  /** Value of Parameters */
+  value?: DiagnoseRequestProperties;
 }
 
-/**
- * Describes AML Resource Usage.
- */
-export interface Usage {
-  /**
-   * Specifies the resource ID.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Specifies the resource type.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * An enum describing the unit of usage measurement. Possible values include: 'Count'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly unit?: UsageUnit;
-  /**
-   * The current usage of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly currentValue?: number;
-  /**
-   * The maximum permitted usage of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly limit?: number;
-  /**
-   * The name of the type of usage.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: UsageName;
+export interface DiagnoseRequestProperties {
+  /** Setting for diagnosing user defined routing */
+  udr?: { [propertyName: string]: Record<string, unknown> };
+  /** Setting for diagnosing network security group */
+  nsg?: { [propertyName: string]: Record<string, unknown> };
+  /** Setting for diagnosing resource lock */
+  resourceLock?: { [propertyName: string]: Record<string, unknown> };
+  /** Setting for diagnosing dns resolution */
+  dnsResolution?: { [propertyName: string]: Record<string, unknown> };
+  /** Setting for diagnosing dependent storage account */
+  storageAccount?: { [propertyName: string]: Record<string, unknown> };
+  /** Setting for diagnosing dependent key vault */
+  keyVault?: { [propertyName: string]: Record<string, unknown> };
+  /** Setting for diagnosing dependent container registry */
+  containerRegistry?: { [propertyName: string]: Record<string, unknown> };
+  /** Setting for diagnosing dependent application insights */
+  applicationInsights?: { [propertyName: string]: Record<string, unknown> };
+  /** Setting for diagnosing unclassified category of problems */
+  others?: { [propertyName: string]: Record<string, unknown> };
 }
 
-/**
- * The estimated price info for using a VM of a particular OS type, tier, etc.
- */
-export interface EstimatedVMPrice {
-  /**
-   * Retail price. The price charged for using the VM.
-   */
-  retailPrice: number;
-  /**
-   * OS type. Operating system type used by the VM. Possible values include: 'Linux', 'Windows'
-   */
-  osType: VMPriceOSType;
-  /**
-   * VM tier. The type of the VM. Possible values include: 'Standard', 'LowPriority', 'Spot'
-   */
-  vmTier: VMTier;
+export interface DiagnoseResponseResult {
+  value?: DiagnoseResponseResultValue;
 }
 
-/**
- * The estimated price info for using a VM.
- */
-export interface EstimatedVMPrices {
-  /**
-   * List of estimated VM prices. The list of estimated prices for using a VM of a particular OS
-   * type, tier, etc.
-   */
-  values: EstimatedVMPrice[];
+export interface DiagnoseResponseResultValue {
+  userDefinedRouteResults?: DiagnoseResult[];
+  networkSecurityRuleResults?: DiagnoseResult[];
+  resourceLockResults?: DiagnoseResult[];
+  dnsResolutionResults?: DiagnoseResult[];
+  storageAccountResults?: DiagnoseResult[];
+  keyVaultResults?: DiagnoseResult[];
+  containerRegistryResults?: DiagnoseResult[];
+  applicationInsightsResults?: DiagnoseResult[];
+  otherResults?: DiagnoseResult[];
 }
 
-/**
- * Describes the properties of a VM size.
- */
-export interface VirtualMachineSize {
+/** Result of Diagnose */
+export interface DiagnoseResult {
   /**
-   * Virtual Machine size name. The name of the virtual machine size.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Code for workspace setup error
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly name?: string;
+  readonly code?: string;
   /**
-   * Virtual Machine family name. The family name of the virtual machine size.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Level of workspace setup error
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly family?: string;
+  readonly level?: DiagnoseResultLevel;
   /**
-   * Number of vPUs. The number of vCPUs supported by the virtual machine size.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Message of workspace setup error
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly vCPUs?: number;
-  /**
-   * Number of gPUs. The number of gPUs supported by the virtual machine size.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly gpus?: number;
-  /**
-   * OS VHD Disk size. The OS VHD disk size, in MB, allowed by the virtual machine size.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly osVhdSizeMB?: number;
-  /**
-   * Resource volume size. The resource volume size, in MB, allowed by the virtual machine size.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly maxResourceVolumeMB?: number;
-  /**
-   * Memory size. The amount of memory, in GB, supported by the virtual machine size.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly memoryGB?: number;
-  /**
-   * Low priority capable. Specifies if the virtual machine size supports low priority VMs.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly lowPriorityCapable?: boolean;
-  /**
-   * Premium IO supported. Specifies if the virtual machine size supports premium IO.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly premiumIO?: boolean;
-  /**
-   * Estimated VM prices. The estimated price information for using a VM.
-   */
-  estimatedVMPrices?: EstimatedVMPrices;
-  /**
-   * Supported Compute Types. Specifies the compute types supported by the virtual machine size.
-   */
-  supportedComputeTypes?: string[];
+  readonly message?: string;
 }
 
-/**
- * The List Virtual Machine size operation response.
- */
-export interface VirtualMachineSizeListResult {
-  /**
-   * The list of virtual machine sizes supported by AmlCompute.
-   */
-  amlCompute?: VirtualMachineSize[];
+export interface ListWorkspaceKeysResult {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly userStorageKey?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly userStorageResourceId?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly appInsightsInstrumentationKey?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly containerRegistryCredentials?: RegistryListCredentialsResult;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly notebookAccessKeys?: ListNotebookKeysResult;
 }
 
-/**
- * The properties for Quota update or retrieval.
- */
-export interface QuotaBaseProperties {
-  /**
-   * Specifies the resource ID.
-   */
-  id?: string;
-  /**
-   * Specifies the resource type.
-   */
-  type?: string;
-  /**
-   * Limit. The maximum permitted quota of the resource.
-   */
-  limit?: number;
-  /**
-   * An enum describing the unit of quota measurement. Possible values include: 'Count'
-   */
-  unit?: QuotaUnit;
-}
-
-/**
- * Quota update parameters.
- */
-export interface QuotaUpdateParameters {
-  /**
-   * The list for update quota.
-   */
-  value?: QuotaBaseProperties[];
-}
-
-/**
- * The properties for update Quota response.
- */
-export interface UpdateWorkspaceQuotas {
-  /**
-   * Specifies the resource ID.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Specifies the resource type.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * Limit. The maximum permitted quota of the resource.
-   */
-  limit?: number;
-  /**
-   * An enum describing the unit of quota measurement. Possible values include: 'Count'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly unit?: QuotaUnit;
-  /**
-   * Update Workspace Quota Status. Status of update workspace quota. Possible values include:
-   * 'Undefined', 'Success', 'Failure', 'InvalidQuotaBelowClusterMinimum',
-   * 'InvalidQuotaExceedsSubscriptionLimit', 'InvalidVMFamilyName', 'OperationNotSupportedForSku',
-   * 'OperationNotEnabledForRegion'
-   */
-  status?: Status;
-}
-
-/**
- * The result of update workspace quota.
- */
-export interface UpdateWorkspaceQuotasResult {
-  /**
-   * The list of workspace quota update result.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly value?: UpdateWorkspaceQuotas[];
-  /**
-   * The URI to fetch the next page of workspace quota update result. Call ListNext() with this to
-   * fetch the next page of Workspace Quota update result.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * The Resource Name.
- */
-export interface ResourceName {
-  /**
-   * The name of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly value?: string;
-  /**
-   * The localized name of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly localizedValue?: string;
-}
-
-/**
- * The quota assigned to a resource.
- */
-export interface ResourceQuota {
-  /**
-   * Specifies the resource ID.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Specifies the resource type.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * Name of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: ResourceName;
-  /**
-   * Limit. The maximum permitted quota of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly limit?: number;
-  /**
-   * An enum describing the unit of quota measurement. Possible values include: 'Count'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly unit?: QuotaUnit;
-}
-
-/**
- * An interface representing IdentityUserAssignedIdentitiesValue.
- */
-export interface IdentityUserAssignedIdentitiesValue {
-  /**
-   * The principal id of user assigned identity.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly principalId?: string;
-  /**
-   * The client id of user assigned identity.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly clientId?: string;
-}
-
-/**
- * Identity for the resource.
- */
-export interface Identity {
-  /**
-   * The principal ID of resource identity.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly principalId?: string;
-  /**
-   * The tenant ID of resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly tenantId?: string;
-  /**
-   * The identity type. Possible values include: 'SystemAssigned', 'UserAssigned',
-   * 'SystemAssigned,UserAssigned', 'None'
-   */
-  type: ResourceIdentityType;
-  /**
-   * The list of user identities associated with resource. The user identity dictionary key
-   * references will be ARM resource ids in the form:
-   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-   */
-  userAssignedIdentities?: { [propertyName: string]: IdentityUserAssignedIdentitiesValue };
-}
-
-/**
- * Represents a resource ID. For example, for a subnet, it is the resource URL for the subnet.
- */
-export interface ResourceId extends BaseResource {
-  /**
-   * The ID of the resource
-   */
-  id: string;
-}
-
-/**
- * An interface representing Password.
- */
-export interface Password {
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly value?: string;
-}
-
-/**
- * An interface representing RegistryListCredentialsResult.
- */
 export interface RegistryListCredentialsResult {
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly location?: string;
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly username?: string;
   passwords?: Password[];
 }
 
-/**
- * An interface representing ListWorkspaceKeysResult.
- */
-export interface ListWorkspaceKeysResult {
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly userStorageKey?: string;
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly userStorageResourceId?: string;
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly appInsightsInstrumentationKey?: string;
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly containerRegistryCredentials?: RegistryListCredentialsResult;
-  notebookAccessKeys?: NotebookListCredentialsResult;
+export interface Password {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly name?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly value?: string;
 }
 
-/**
- * Error detail information.
- */
-export interface ErrorDetail {
-  /**
-   * Error code.
-   */
-  code: string;
-  /**
-   * Error message.
-   */
-  message: string;
+export interface ListNotebookKeysResult {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly primaryAccessKey?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly secondaryAccessKey?: string;
 }
 
-/**
- * Error response information.
- */
-export interface ErrorResponse {
+/** The List Usages operation response. */
+export interface ListUsagesResult {
   /**
-   * Error code.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The list of AML resource usages.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly code?: string;
+  readonly value?: Usage[];
   /**
-   * Error message.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-  /**
-   * An array of error detail objects.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly details?: ErrorDetail[];
-}
-
-/**
- * Wrapper for error response to follow ARM guidelines.
- */
-export interface MachineLearningServiceError {
-  /**
-   * The error response.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly error?: ErrorResponse;
-}
-
-/**
- * Contains the possible cases for Compute.
- */
-export type ComputeUnion = Compute | AKS | AmlCompute | ComputeInstance | VirtualMachine | HDInsight | DataFactory | Databricks | DataLakeAnalytics;
-
-/**
- * Machine Learning compute object.
- */
-export interface Compute {
-  /**
-   * Polymorphic Discriminator
-   */
-  computeType: "Compute";
-  /**
-   * Location for the underlying compute
-   */
-  computeLocation?: string;
-  /**
-   * The provision state of the cluster. Valid values are Unknown, Updating, Provisioning,
-   * Succeeded, and Failed. Possible values include: 'Unknown', 'Updating', 'Creating', 'Deleting',
-   * 'Succeeded', 'Failed', 'Canceled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * The description of the Machine Learning compute.
-   */
-  description?: string;
-  /**
-   * The date and time when the compute was created.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdOn?: Date;
-  /**
-   * The date and time when the compute was last modified.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly modifiedOn?: Date;
-  /**
-   * ARM resource id of the underlying compute
-   */
-  resourceId?: string;
-  /**
-   * Errors during provisioning
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningErrors?: MachineLearningServiceError[];
-  /**
-   * Indicating whether the compute was provisioned by user and brought from outside if true, or
-   * machine learning service provisioned it if false.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly isAttachedCompute?: boolean;
-}
-
-/**
- * Machine Learning compute object wrapped into ARM resource envelope.
- */
-export interface ComputeResource extends Resource {
-  /**
-   * Compute properties
-   */
-  properties?: ComputeUnion;
-}
-
-/**
- * A system service running on a compute.
- */
-export interface SystemService {
-  /**
-   * The type of this system service.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly systemServiceType?: string;
-  /**
-   * Public IP address
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly publicIpAddress?: string;
-  /**
-   * The version for this type.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly version?: string;
-}
-
-/**
- * The ssl configuration for scoring
- */
-export interface SslConfiguration {
-  /**
-   * Enable or disable ssl for scoring. Possible values include: 'Disabled', 'Enabled'
-   */
-  status?: Status1;
-  /**
-   * Cert data
-   */
-  cert?: string;
-  /**
-   * Key data
-   */
-  key?: string;
-  /**
-   * CNAME of the cert
-   */
-  cname?: string;
-}
-
-/**
- * Advance configuration for AKS networking
- */
-export interface AksNetworkingConfiguration {
-  /**
-   * Virtual network subnet resource ID the compute nodes belong to
-   */
-  subnetId?: string;
-  /**
-   * A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with
-   * any Subnet IP ranges.
-   */
-  serviceCidr?: string;
-  /**
-   * An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service
-   * address range specified in serviceCidr.
-   */
-  dnsServiceIP?: string;
-  /**
-   * A CIDR notation IP range assigned to the Docker bridge network. It must not overlap with any
-   * Subnet IP ranges or the Kubernetes service address range.
-   */
-  dockerBridgeCidr?: string;
-}
-
-/**
- * AKS properties
- */
-export interface AKSProperties {
-  /**
-   * Cluster full qualified domain name
-   */
-  clusterFqdn?: string;
-  /**
-   * System services
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly systemServices?: SystemService[];
-  /**
-   * Number of agents
-   */
-  agentCount?: number;
-  /**
-   * Agent virtual machine size
-   */
-  agentVMSize?: string;
-  /**
-   * SSL configuration
-   */
-  sslConfiguration?: SslConfiguration;
-  /**
-   * AKS networking configuration for vnet
-   */
-  aksNetworkingConfiguration?: AksNetworkingConfiguration;
-}
-
-/**
- * A Machine Learning compute based on AKS.
- */
-export interface AKS {
-  /**
-   * Polymorphic Discriminator
-   */
-  computeType: "AKS";
-  /**
-   * Location for the underlying compute
-   */
-  computeLocation?: string;
-  /**
-   * The provision state of the cluster. Valid values are Unknown, Updating, Provisioning,
-   * Succeeded, and Failed. Possible values include: 'Unknown', 'Updating', 'Creating', 'Deleting',
-   * 'Succeeded', 'Failed', 'Canceled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * The description of the Machine Learning compute.
-   */
-  description?: string;
-  /**
-   * The date and time when the compute was created.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdOn?: Date;
-  /**
-   * The date and time when the compute was last modified.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly modifiedOn?: Date;
-  /**
-   * ARM resource id of the underlying compute
-   */
-  resourceId?: string;
-  /**
-   * Errors during provisioning
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningErrors?: MachineLearningServiceError[];
-  /**
-   * Indicating whether the compute was provisioned by user and brought from outside if true, or
-   * machine learning service provisioned it if false.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly isAttachedCompute?: boolean;
-  /**
-   * AKS properties
-   */
-  properties?: AKSProperties;
-}
-
-/**
- * scale settings for AML Compute
- */
-export interface ScaleSettings {
-  /**
-   * Max number of nodes to use
-   */
-  maxNodeCount: number;
-  /**
-   * Min number of nodes to use. Default value: 0.
-   */
-  minNodeCount?: number;
-  /**
-   * Node Idle Time before scaling down amlCompute
-   */
-  nodeIdleTimeBeforeScaleDown?: string;
-}
-
-/**
- * Settings for user account that gets created on each on the nodes of a compute.
- */
-export interface UserAccountCredentials {
-  /**
-   * User name. Name of the administrator user account which can be used to SSH to nodes.
-   */
-  adminUserName: string;
-  /**
-   * SSH public key. SSH public key of the administrator user account.
-   */
-  adminUserSshPublicKey?: string;
-  /**
-   * Password. Password of the administrator user account.
-   */
-  adminUserPassword?: string;
-}
-
-/**
- * Counts of various compute node states on the amlCompute.
- */
-export interface NodeStateCounts {
-  /**
-   * Idle node count. Number of compute nodes in idle state.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly idleNodeCount?: number;
-  /**
-   * Running node count. Number of compute nodes which are running jobs.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly runningNodeCount?: number;
-  /**
-   * Preparing node count. Number of compute nodes which are being prepared.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly preparingNodeCount?: number;
-  /**
-   * Unusable node count. Number of compute nodes which are in unusable state.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly unusableNodeCount?: number;
-  /**
-   * Leaving node count. Number of compute nodes which are leaving the amlCompute.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly leavingNodeCount?: number;
-  /**
-   * Preempted node count. Number of compute nodes which are in preempted state.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly preemptedNodeCount?: number;
-}
-
-/**
- * AML Compute properties
- */
-export interface AmlComputeProperties {
-  /**
-   * Virtual Machine Size
-   */
-  vmSize?: string;
-  /**
-   * Virtual Machine priority. Possible values include: 'Dedicated', 'LowPriority'
-   */
-  vmPriority?: VmPriority;
-  /**
-   * Scale settings for AML Compute
-   */
-  scaleSettings?: ScaleSettings;
-  /**
-   * User account credentials. Credentials for an administrator user account that will be created
-   * on each compute node.
-   */
-  userAccountCredentials?: UserAccountCredentials;
-  /**
-   * Subnet. Virtual network subnet resource ID the compute nodes belong to.
-   */
-  subnet?: ResourceId;
-  /**
-   * Close remote Login Access Port. State of the public SSH port. Possible values are: Disabled -
-   * Indicates that the public ssh port is closed on all nodes of the cluster. Enabled - Indicates
-   * that the public ssh port is open on all nodes of the cluster. NotSpecified - Indicates that
-   * the public ssh port is closed on all nodes of the cluster if VNet is defined, else is open all
-   * public nodes. It can be default only during cluster creation time, after creation it will be
-   * either enabled or disabled. Possible values include: 'Enabled', 'Disabled', 'NotSpecified'.
-   * Default value: 'NotSpecified'.
-   */
-  remoteLoginPortPublicAccess?: RemoteLoginPortPublicAccess;
-  /**
-   * Allocation state. Allocation state of the compute. Possible values are: steady - Indicates
-   * that the compute is not resizing. There are no changes to the number of compute nodes in the
-   * compute in progress. A compute enters this state when it is created and when no operations are
-   * being performed on the compute to change the number of compute nodes. resizing - Indicates
-   * that the compute is resizing; that is, compute nodes are being added to or removed from the
-   * compute. Possible values include: 'Steady', 'Resizing'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly allocationState?: AllocationState;
-  /**
-   * Allocation state transition time. The time at which the compute entered its current allocation
-   * state.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly allocationStateTransitionTime?: Date;
-  /**
-   * Errors. Collection of errors encountered by various compute nodes during node setup.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly errors?: MachineLearningServiceError[];
-  /**
-   * Current node count. The number of compute nodes currently assigned to the compute.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly currentNodeCount?: number;
-  /**
-   * Target node count. The target number of compute nodes for the compute. If the allocationState
-   * is resizing, this property denotes the target node count for the ongoing resize operation. If
-   * the allocationState is steady, this property denotes the target node count for the previous
-   * resize operation.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly targetNodeCount?: number;
-  /**
-   * Node state counts. Counts of various node states on the compute.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nodeStateCounts?: NodeStateCounts;
-}
-
-/**
- * An Azure Machine Learning compute.
- */
-export interface AmlCompute {
-  /**
-   * Polymorphic Discriminator
-   */
-  computeType: "AmlCompute";
-  /**
-   * Location for the underlying compute
-   */
-  computeLocation?: string;
-  /**
-   * The provision state of the cluster. Valid values are Unknown, Updating, Provisioning,
-   * Succeeded, and Failed. Possible values include: 'Unknown', 'Updating', 'Creating', 'Deleting',
-   * 'Succeeded', 'Failed', 'Canceled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * The description of the Machine Learning compute.
-   */
-  description?: string;
-  /**
-   * The date and time when the compute was created.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdOn?: Date;
-  /**
-   * The date and time when the compute was last modified.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly modifiedOn?: Date;
-  /**
-   * ARM resource id of the underlying compute
-   */
-  resourceId?: string;
-  /**
-   * Errors during provisioning
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningErrors?: MachineLearningServiceError[];
-  /**
-   * Indicating whether the compute was provisioned by user and brought from outside if true, or
-   * machine learning service provisioned it if false.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly isAttachedCompute?: boolean;
-  /**
-   * AML Compute properties
-   */
-  properties?: AmlComputeProperties;
-}
-
-/**
- * Specifies policy and settings for SSH access.
- */
-export interface ComputeInstanceSshSettings {
-  /**
-   * Access policy for SSH. State of the public SSH port. Possible values are: Disabled - Indicates
-   * that the public ssh port is closed on this instance. Enabled - Indicates that the public ssh
-   * port is open and accessible according to the VNet/subnet policy if applicable. Possible values
-   * include: 'Enabled', 'Disabled'. Default value: 'Disabled'.
-   */
-  sshPublicAccess?: SshPublicAccess;
-  /**
-   * Describes the admin user name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly adminUserName?: string;
-  /**
-   * Describes the port for connecting through SSH.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly sshPort?: number;
-  /**
-   * Specifies the SSH rsa public key file as a string. Use "ssh-keygen -t rsa -b 2048" to generate
-   * your SSH key pairs.
-   */
-  adminPublicKey?: string;
-}
-
-/**
- * Defines all connectivity endpoints and properties for a ComputeInstance.
- */
-export interface ComputeInstanceConnectivityEndpoints {
-  /**
-   * Public IP Address of this ComputeInstance.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly publicIpAddress?: string;
-  /**
-   * Private IP Address of this ComputeInstance (local to the VNET in which the compute instance is
-   * deployed).
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly privateIpAddress?: string;
-}
-
-/**
- * Defines an Aml Instance application and its connectivity endpoint URI.
- */
-export interface ComputeInstanceApplication {
-  /**
-   * Name of the ComputeInstance application.
-   */
-  displayName?: string;
-  /**
-   * Application' endpoint URI.
-   */
-  endpointUri?: string;
-}
-
-/**
- * Describes information on user who created this ComputeInstance.
- */
-export interface ComputeInstanceCreatedBy {
-  /**
-   * Name of the user.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly userName?: string;
-  /**
-   * Uniquely identifies user' Azure Active Directory organization.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly userOrgId?: string;
-  /**
-   * Uniquely identifies the user within his/her organization.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly userId?: string;
-}
-
-/**
- * The last operation on ComputeInstance.
- */
-export interface ComputeInstanceLastOperation {
-  /**
-   * Name of the last operation. Possible values include: 'Create', 'Start', 'Stop', 'Restart',
-   * 'Reimage', 'Delete'
-   */
-  operationName?: OperationName;
-  /**
-   * Time of the last operation.
-   */
-  operationTime?: Date;
-  /**
-   * Operation status. Possible values include: 'InProgress', 'Succeeded', 'CreateFailed',
-   * 'StartFailed', 'StopFailed', 'RestartFailed', 'ReimageFailed', 'DeleteFailed'
-   */
-  operationStatus?: OperationStatus;
-}
-
-/**
- * Compute Instance properties
- */
-export interface ComputeInstanceProperties {
-  /**
-   * Virtual Machine Size
-   */
-  vmSize?: string;
-  /**
-   * Subnet. Virtual network subnet resource ID the compute nodes belong to.
-   */
-  subnet?: ResourceId;
-  /**
-   * Sharing policy for applications on this compute instance. Policy for sharing applications on
-   * this compute instance among users of parent workspace. If Personal, only the creator can
-   * access applications on this compute instance. When Shared, any workspace user can access
-   * applications on this instance depending on his/her assigned role. Possible values include:
-   * 'Personal', 'Shared'. Default value: 'Shared'.
-   */
-  applicationSharingPolicy?: ApplicationSharingPolicy;
-  /**
-   * Specifies policy and settings for SSH access.
-   */
-  sshSettings?: ComputeInstanceSshSettings;
-  /**
-   * Describes all connectivity endpoints available for this ComputeInstance.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly connectivityEndpoints?: ComputeInstanceConnectivityEndpoints;
-  /**
-   * Describes available applications and their endpoints on this ComputeInstance.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly applications?: ComputeInstanceApplication[];
-  /**
-   * Describes information on user who created this ComputeInstance.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdBy?: ComputeInstanceCreatedBy;
-  /**
-   * Errors. Collection of errors encountered on this ComputeInstance.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly errors?: MachineLearningServiceError[];
-  /**
-   * The current state of this ComputeInstance. Possible values include: 'Creating',
-   * 'CreateFailed', 'Deleting', 'Running', 'Restarting', 'JobRunning', 'SettingUp', 'SetupFailed',
-   * 'Starting', 'Stopped', 'Stopping', 'UserSettingUp', 'UserSetupFailed', 'Unknown', 'Unusable'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly state?: ComputeInstanceState;
-  /**
-   * The last operation on ComputeInstance.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly lastOperation?: ComputeInstanceLastOperation;
-}
-
-/**
- * An Azure Machine Learning compute instance.
- */
-export interface ComputeInstance {
-  /**
-   * Polymorphic Discriminator
-   */
-  computeType: "ComputeInstance";
-  /**
-   * Location for the underlying compute
-   */
-  computeLocation?: string;
-  /**
-   * The provision state of the cluster. Valid values are Unknown, Updating, Provisioning,
-   * Succeeded, and Failed. Possible values include: 'Unknown', 'Updating', 'Creating', 'Deleting',
-   * 'Succeeded', 'Failed', 'Canceled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * The description of the Machine Learning compute.
-   */
-  description?: string;
-  /**
-   * The date and time when the compute was created.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdOn?: Date;
-  /**
-   * The date and time when the compute was last modified.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly modifiedOn?: Date;
-  /**
-   * ARM resource id of the underlying compute
-   */
-  resourceId?: string;
-  /**
-   * Errors during provisioning
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningErrors?: MachineLearningServiceError[];
-  /**
-   * Indicating whether the compute was provisioned by user and brought from outside if true, or
-   * machine learning service provisioned it if false.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly isAttachedCompute?: boolean;
-  /**
-   * Compute Instance properties
-   */
-  properties?: ComputeInstanceProperties;
-}
-
-/**
- * Admin credentials for virtual machine
- */
-export interface VirtualMachineSshCredentials {
-  /**
-   * Username of admin account
-   */
-  username?: string;
-  /**
-   * Password of admin account
-   */
-  password?: string;
-  /**
-   * Public key data
-   */
-  publicKeyData?: string;
-  /**
-   * Private key data
-   */
-  privateKeyData?: string;
-}
-
-/**
- * An interface representing VirtualMachineProperties.
- */
-export interface VirtualMachineProperties {
-  /**
-   * Virtual Machine size
-   */
-  virtualMachineSize?: string;
-  /**
-   * Port open for ssh connections.
-   */
-  sshPort?: number;
-  /**
-   * Public IP address of the virtual machine.
-   */
-  address?: string;
-  /**
-   * Admin credentials for virtual machine
-   */
-  administratorAccount?: VirtualMachineSshCredentials;
-}
-
-/**
- * A Machine Learning compute based on Azure Virtual Machines.
- */
-export interface VirtualMachine {
-  /**
-   * Polymorphic Discriminator
-   */
-  computeType: "VirtualMachine";
-  /**
-   * Location for the underlying compute
-   */
-  computeLocation?: string;
-  /**
-   * The provision state of the cluster. Valid values are Unknown, Updating, Provisioning,
-   * Succeeded, and Failed. Possible values include: 'Unknown', 'Updating', 'Creating', 'Deleting',
-   * 'Succeeded', 'Failed', 'Canceled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * The description of the Machine Learning compute.
-   */
-  description?: string;
-  /**
-   * The date and time when the compute was created.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdOn?: Date;
-  /**
-   * The date and time when the compute was last modified.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly modifiedOn?: Date;
-  /**
-   * ARM resource id of the underlying compute
-   */
-  resourceId?: string;
-  /**
-   * Errors during provisioning
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningErrors?: MachineLearningServiceError[];
-  /**
-   * Indicating whether the compute was provisioned by user and brought from outside if true, or
-   * machine learning service provisioned it if false.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly isAttachedCompute?: boolean;
-  properties?: VirtualMachineProperties;
-}
-
-/**
- * An interface representing HDInsightProperties.
- */
-export interface HDInsightProperties {
-  /**
-   * Port open for ssh connections on the master node of the cluster.
-   */
-  sshPort?: number;
-  /**
-   * Public IP address of the master node of the cluster.
-   */
-  address?: string;
-  /**
-   * Admin credentials for master node of the cluster
-   */
-  administratorAccount?: VirtualMachineSshCredentials;
-}
-
-/**
- * A HDInsight compute.
- */
-export interface HDInsight {
-  /**
-   * Polymorphic Discriminator
-   */
-  computeType: "HDInsight";
-  /**
-   * Location for the underlying compute
-   */
-  computeLocation?: string;
-  /**
-   * The provision state of the cluster. Valid values are Unknown, Updating, Provisioning,
-   * Succeeded, and Failed. Possible values include: 'Unknown', 'Updating', 'Creating', 'Deleting',
-   * 'Succeeded', 'Failed', 'Canceled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * The description of the Machine Learning compute.
-   */
-  description?: string;
-  /**
-   * The date and time when the compute was created.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdOn?: Date;
-  /**
-   * The date and time when the compute was last modified.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly modifiedOn?: Date;
-  /**
-   * ARM resource id of the underlying compute
-   */
-  resourceId?: string;
-  /**
-   * Errors during provisioning
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningErrors?: MachineLearningServiceError[];
-  /**
-   * Indicating whether the compute was provisioned by user and brought from outside if true, or
-   * machine learning service provisioned it if false.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly isAttachedCompute?: boolean;
-  properties?: HDInsightProperties;
-}
-
-/**
- * A DataFactory compute.
- */
-export interface DataFactory {
-  /**
-   * Polymorphic Discriminator
-   */
-  computeType: "DataFactory";
-  /**
-   * Location for the underlying compute
-   */
-  computeLocation?: string;
-  /**
-   * The provision state of the cluster. Valid values are Unknown, Updating, Provisioning,
-   * Succeeded, and Failed. Possible values include: 'Unknown', 'Updating', 'Creating', 'Deleting',
-   * 'Succeeded', 'Failed', 'Canceled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * The description of the Machine Learning compute.
-   */
-  description?: string;
-  /**
-   * The date and time when the compute was created.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdOn?: Date;
-  /**
-   * The date and time when the compute was last modified.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly modifiedOn?: Date;
-  /**
-   * ARM resource id of the underlying compute
-   */
-  resourceId?: string;
-  /**
-   * Errors during provisioning
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningErrors?: MachineLearningServiceError[];
-  /**
-   * Indicating whether the compute was provisioned by user and brought from outside if true, or
-   * machine learning service provisioned it if false.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly isAttachedCompute?: boolean;
-}
-
-/**
- * An interface representing DatabricksProperties.
- */
-export interface DatabricksProperties {
-  /**
-   * Databricks access token
-   */
-  databricksAccessToken?: string;
-}
-
-/**
- * A DataFactory compute.
- */
-export interface Databricks {
-  /**
-   * Polymorphic Discriminator
-   */
-  computeType: "Databricks";
-  /**
-   * Location for the underlying compute
-   */
-  computeLocation?: string;
-  /**
-   * The provision state of the cluster. Valid values are Unknown, Updating, Provisioning,
-   * Succeeded, and Failed. Possible values include: 'Unknown', 'Updating', 'Creating', 'Deleting',
-   * 'Succeeded', 'Failed', 'Canceled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * The description of the Machine Learning compute.
-   */
-  description?: string;
-  /**
-   * The date and time when the compute was created.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdOn?: Date;
-  /**
-   * The date and time when the compute was last modified.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly modifiedOn?: Date;
-  /**
-   * ARM resource id of the underlying compute
-   */
-  resourceId?: string;
-  /**
-   * Errors during provisioning
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningErrors?: MachineLearningServiceError[];
-  /**
-   * Indicating whether the compute was provisioned by user and brought from outside if true, or
-   * machine learning service provisioned it if false.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly isAttachedCompute?: boolean;
-  properties?: DatabricksProperties;
-}
-
-/**
- * An interface representing DataLakeAnalyticsProperties.
- */
-export interface DataLakeAnalyticsProperties {
-  /**
-   * DataLake Store Account Name
-   */
-  dataLakeStoreAccountName?: string;
-}
-
-/**
- * A DataLakeAnalytics compute.
- */
-export interface DataLakeAnalytics {
-  /**
-   * Polymorphic Discriminator
-   */
-  computeType: "DataLakeAnalytics";
-  /**
-   * Location for the underlying compute
-   */
-  computeLocation?: string;
-  /**
-   * The provision state of the cluster. Valid values are Unknown, Updating, Provisioning,
-   * Succeeded, and Failed. Possible values include: 'Unknown', 'Updating', 'Creating', 'Deleting',
-   * 'Succeeded', 'Failed', 'Canceled'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-  /**
-   * The description of the Machine Learning compute.
-   */
-  description?: string;
-  /**
-   * The date and time when the compute was created.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly createdOn?: Date;
-  /**
-   * The date and time when the compute was last modified.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly modifiedOn?: Date;
-  /**
-   * ARM resource id of the underlying compute
-   */
-  resourceId?: string;
-  /**
-   * Errors during provisioning
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningErrors?: MachineLearningServiceError[];
-  /**
-   * Indicating whether the compute was provisioned by user and brought from outside if true, or
-   * machine learning service provisioned it if false.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly isAttachedCompute?: boolean;
-  properties?: DataLakeAnalyticsProperties;
-}
-
-/**
- * Service principal credentials.
- */
-export interface ServicePrincipalCredentials {
-  /**
-   * Client Id
-   */
-  clientId: string;
-  /**
-   * Client secret
-   */
-  clientSecret: string;
-}
-
-/**
- * AmlCompute update parameters.
- */
-export interface ClusterUpdateParameters {
-  /**
-   * Scale settings. Desired scale settings for the amlCompute.
-   */
-  scaleSettings?: ScaleSettings;
-}
-
-/**
- * Contains the possible cases for ComputeNodesInformation.
- */
-export type ComputeNodesInformationUnion = ComputeNodesInformation | AmlComputeNodesInformation;
-
-/**
- * Compute nodes information related to a Machine Learning compute. Might differ for every type of
- * compute.
- */
-export interface ComputeNodesInformation {
-  /**
-   * Polymorphic Discriminator
-   */
-  computeType: "ComputeNodesInformation";
-  /**
-   * The continuation token.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The URI to fetch the next page of AML resource usage information. Call ListNext() with this to fetch the next page of AML resource usage information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
 }
 
-/**
- * Compute node information related to a AmlCompute.
- */
+/** Describes AML Resource Usage. */
+export interface Usage {
+  /**
+   * Specifies the resource ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Region of the AML workspace in the id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly amlWorkspaceLocation?: string;
+  /**
+   * Specifies the resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * An enum describing the unit of usage measurement.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly unit?: UsageUnit;
+  /**
+   * The current usage of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentValue?: number;
+  /**
+   * The maximum permitted usage of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly limit?: number;
+  /**
+   * The name of the type of usage.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: UsageName;
+}
+
+/** The Usage Names. */
+export interface UsageName {
+  /**
+   * The name of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: string;
+  /**
+   * The localized name of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly localizedValue?: string;
+}
+
+/** The List Virtual Machine size operation response. */
+export interface VirtualMachineSizeListResult {
+  /** The list of virtual machine sizes supported by AmlCompute. */
+  value?: VirtualMachineSize[];
+}
+
+/** Describes the properties of a VM size. */
+export interface VirtualMachineSize {
+  /**
+   * The name of the virtual machine size.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The family name of the virtual machine size.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly family?: string;
+  /**
+   * The number of vCPUs supported by the virtual machine size.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vCPUs?: number;
+  /**
+   * The number of gPUs supported by the virtual machine size.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly gpus?: number;
+  /**
+   * The OS VHD disk size, in MB, allowed by the virtual machine size.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly osVhdSizeMB?: number;
+  /**
+   * The resource volume size, in MB, allowed by the virtual machine size.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maxResourceVolumeMB?: number;
+  /**
+   * The amount of memory, in GB, supported by the virtual machine size.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly memoryGB?: number;
+  /**
+   * Specifies if the virtual machine size supports low priority VMs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lowPriorityCapable?: boolean;
+  /**
+   * Specifies if the virtual machine size supports premium IO.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly premiumIO?: boolean;
+  /** The estimated price information for using a VM. */
+  estimatedVMPrices?: EstimatedVMPrices;
+  /** Specifies the compute types supported by the virtual machine size. */
+  supportedComputeTypes?: string[];
+}
+
+/** The estimated price info for using a VM. */
+export interface EstimatedVMPrices {
+  /** Three lettered code specifying the currency of the VM price. Example: USD */
+  billingCurrency: BillingCurrency;
+  /** The unit of time measurement for the specified VM price. Example: OneHour */
+  unitOfMeasure: UnitOfMeasure;
+  /** The list of estimated prices for using a VM of a particular OS type, tier, etc. */
+  values: EstimatedVMPrice[];
+}
+
+/** The estimated price info for using a VM of a particular OS type, tier, etc. */
+export interface EstimatedVMPrice {
+  /** The price charged for using the VM. */
+  retailPrice: number;
+  /** Operating system type used by the VM. */
+  osType: VMPriceOSType;
+  /** The type of the VM. */
+  vmTier: VMTier;
+}
+
+/** Quota update parameters. */
+export interface QuotaUpdateParameters {
+  /** The list for update quota. */
+  value?: QuotaBaseProperties[];
+  /** Region of workspace quota to be updated. */
+  location?: string;
+}
+
+/** The properties for Quota update or retrieval. */
+export interface QuotaBaseProperties {
+  /** Specifies the resource ID. */
+  id?: string;
+  /** Specifies the resource type. */
+  type?: string;
+  /** The maximum permitted quota of the resource. */
+  limit?: number;
+  /** An enum describing the unit of quota measurement. */
+  unit?: QuotaUnit;
+}
+
+/** The result of update workspace quota. */
+export interface UpdateWorkspaceQuotasResult {
+  /**
+   * The list of workspace quota update result.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: UpdateWorkspaceQuotas[];
+  /**
+   * The URI to fetch the next page of workspace quota update result. Call ListNext() with this to fetch the next page of Workspace Quota update result.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The properties for update Quota response. */
+export interface UpdateWorkspaceQuotas {
+  /**
+   * Specifies the resource ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Specifies the resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** The maximum permitted quota of the resource. */
+  limit?: number;
+  /**
+   * An enum describing the unit of quota measurement.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly unit?: QuotaUnit;
+  /** Status of update workspace quota. */
+  status?: Status;
+}
+
+/** The List WorkspaceQuotasByVMFamily operation response. */
+export interface ListWorkspaceQuotas {
+  /**
+   * The list of Workspace Quotas by VM Family
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: ResourceQuota[];
+  /**
+   * The URI to fetch the next page of workspace quota information by VM Family. Call ListNext() with this to fetch the next page of Workspace Quota information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The quota assigned to a resource. */
+export interface ResourceQuota {
+  /**
+   * Specifies the resource ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Region of the AML workspace in the id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly amlWorkspaceLocation?: string;
+  /**
+   * Specifies the resource type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Name of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: ResourceName;
+  /**
+   * The maximum permitted quota of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly limit?: number;
+  /**
+   * An enum describing the unit of quota measurement.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly unit?: QuotaUnit;
+}
+
+/** The Resource Name. */
+export interface ResourceName {
+  /**
+   * The name of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: string;
+  /**
+   * The localized name of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly localizedValue?: string;
+}
+
+/** Paginated list of Machine Learning compute objects wrapped in ARM resource envelope. */
+export interface PaginatedComputeResourcesList {
+  /** An array of Machine Learning compute objects wrapped in ARM resource envelope. */
+  value?: ComputeResource[];
+  /** A continuation link (absolute URI) to the next page of results in the list. */
+  nextLink?: string;
+}
+
+export interface Components1D3SwueSchemasComputeresourceAllof1 {
+  /** Compute properties */
+  properties?: ComputeUnion;
+}
+
+/** Machine Learning compute object. */
+export interface Compute {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  computeType:
+    | "AKS"
+    | "Kubernetes"
+    | "AmlCompute"
+    | "ComputeInstance"
+    | "VirtualMachine"
+    | "HDInsight"
+    | "DataFactory"
+    | "Databricks"
+    | "DataLakeAnalytics"
+    | "SynapseSpark";
+  /** Location for the underlying compute */
+  computeLocation?: string;
+  /**
+   * The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and Failed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The description of the Machine Learning compute. */
+  description?: string;
+  /**
+   * The time at which the compute was created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdOn?: Date;
+  /**
+   * The time at which the compute was last modified.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly modifiedOn?: Date;
+  /** ARM resource id of the underlying compute */
+  resourceId?: string;
+  /**
+   * Errors during provisioning
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningErrors?: ErrorResponse[];
+  /**
+   * Indicating whether the compute was provisioned by user and brought from outside if true, or machine learning service provisioned it if false.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isAttachedCompute?: boolean;
+  /** Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication. */
+  disableLocalAuth?: boolean;
+}
+
+/** AmlCompute update parameters. */
+export interface ClusterUpdateParameters {
+  /** Properties of ClusterUpdate */
+  properties?: ScaleSettingsInformation;
+}
+
+/** Desired scale settings for the amlCompute. */
+export interface ScaleSettingsInformation {
+  /** scale settings for AML Compute */
+  scaleSettings?: ScaleSettings;
+}
+
+/** scale settings for AML Compute */
+export interface ScaleSettings {
+  /** Max number of nodes to use */
+  maxNodeCount: number;
+  /** Min number of nodes to use */
+  minNodeCount?: number;
+  /** Node Idle Time before scaling down amlCompute. This string needs to be in the RFC Format. */
+  nodeIdleTimeBeforeScaleDown?: string;
+}
+
+/** Result of AmlCompute Nodes */
+export interface AmlComputeNodesInformation {
+  /**
+   * The collection of returned AmlCompute nodes details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nodes?: AmlComputeNodeInformation[];
+  /**
+   * The continuation token.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Compute node information related to a AmlCompute. */
 export interface AmlComputeNodeInformation {
   /**
-   * Node ID. ID of the compute node.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * ID of the compute node.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nodeId?: string;
   /**
-   * Private IP address. Private IP address of the compute node.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Private IP address of the compute node.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateIpAddress?: string;
   /**
-   * Public IP address. Public IP address of the compute node.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Public IP address of the compute node.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly publicIpAddress?: string;
   /**
-   * Port. SSH port number of the node.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * SSH port number of the node.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly port?: number;
   /**
-   * State of the compute node. Values are idle, running, preparing, unusable, leaving and
-   * preempted. Possible values include: 'idle', 'running', 'preparing', 'unusable', 'leaving',
-   * 'preempted'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * State of the compute node. Values are idle, running, preparing, unusable, leaving and preempted.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nodeState?: NodeState;
   /**
-   * Run ID. ID of the Experiment running on the node, if any else null.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * ID of the Experiment running on the node, if any else null.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly runId?: string;
 }
 
-/**
- * Compute node information related to a AmlCompute.
- */
-export interface AmlComputeNodesInformation {
-  /**
-   * Polymorphic Discriminator
-   */
-  computeType: "AmlCompute";
-  /**
-   * The continuation token.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-  /**
-   * The collection of returned AmlCompute nodes details.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nodes?: AmlComputeNodeInformation[];
+export interface NotebookAccessTokenResult {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly notebookResourceId?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly hostName?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly publicDns?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly accessToken?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly tokenType?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly expiresIn?: number;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly refreshToken?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly scope?: string;
 }
 
-/**
- * Contains the possible cases for ComputeSecrets.
- */
-export type ComputeSecretsUnion = ComputeSecrets | AksComputeSecrets | VirtualMachineSecrets | DatabricksComputeSecrets;
-
-/**
- * Secrets related to a Machine Learning compute. Might differ for every type of compute.
- */
+/** Secrets related to a Machine Learning compute. Might differ for every type of compute. */
 export interface ComputeSecrets {
-  /**
-   * Polymorphic Discriminator
-   */
-  computeType: "ComputeSecrets";
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  computeType: "AKS" | "VirtualMachine" | "Databricks";
 }
 
-/**
- * Secrets related to a Machine Learning compute based on AKS.
- */
-export interface AksComputeSecrets {
-  /**
-   * Polymorphic Discriminator
-   */
-  computeType: "AKS";
-  /**
-   * Content of kubeconfig file that can be used to connect to the Kubernetes cluster.
-   */
-  userKubeConfig?: string;
-  /**
-   * Content of kubeconfig file that can be used to connect to the Kubernetes cluster.
-   */
-  adminKubeConfig?: string;
-  /**
-   * Image registry pull secret.
-   */
-  imagePullSecretName?: string;
+/** List of private endpoint connection associated with the specified workspace */
+export interface PrivateEndpointConnectionListResult {
+  /** Array of private endpoint connections */
+  value?: PrivateEndpointConnection[];
 }
 
-/**
- * Secrets related to a Machine Learning compute based on AKS.
- */
-export interface VirtualMachineSecrets {
-  /**
-   * Polymorphic Discriminator
-   */
-  computeType: "VirtualMachine";
-  /**
-   * Admin credentials for virtual machine.
-   */
-  administratorAccount?: VirtualMachineSshCredentials;
-}
-
-/**
- * Secrets related to a Machine Learning compute based on Databricks.
- */
-export interface DatabricksComputeSecrets {
-  /**
-   * Polymorphic Discriminator
-   */
-  computeType: "Databricks";
-  /**
-   * access token for databricks account.
-   */
-  databricksAccessToken?: string;
-}
-
-/**
- * Features/user capabilities associated with the sku
- */
-export interface SKUCapability {
-  /**
-   * Capability/Feature ID
-   */
-  name?: string;
-  /**
-   * Details about the feature/capability
-   */
-  value?: string;
-}
-
-/**
- * Describes The zonal capabilities of a SKU.
- */
-export interface ResourceSkuZoneDetails {
-  /**
-   * The set of zones that the SKU is available in with the specified capabilities.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string[];
-  /**
-   * A list of capabilities that are available for the SKU in the specified list of zones.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly capabilities?: SKUCapability[];
-}
-
-/**
- * An interface representing ResourceSkuLocationInfo.
- */
-export interface ResourceSkuLocationInfo {
-  /**
-   * Location of the SKU
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly location?: string;
-  /**
-   * List of availability zones where the SKU is supported.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly zones?: string[];
-  /**
-   * Details of capabilities available to a SKU in specific zones.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly zoneDetails?: ResourceSkuZoneDetails[];
-}
-
-/**
- * The restriction because of which SKU cannot be used.
- */
-export interface Restriction {
-  /**
-   * The type of restrictions. As of now only possible value for this is location.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * The value of restrictions. If the restriction type is set to location. This would be different
-   * locations where the SKU is restricted.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly values?: string[];
-  /**
-   * The reason for the restriction. Possible values include: 'NotSpecified',
-   * 'NotAvailableForRegion', 'NotAvailableForSubscription'
-   */
-  reasonCode?: ReasonCode;
-}
-
-/**
- * Describes Workspace Sku details and features
- */
-export interface SkuSettings {
-  /**
-   * The set of locations that the SKU is available. This will be supported and registered Azure
-   * Geo Regions (e.g. West US, East US, Southeast Asia, etc.).
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly locations?: string[];
-  /**
-   * A list of locations and availability zones in those locations where the SKU is available.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly locationInfo?: ResourceSkuLocationInfo[];
-  /**
-   * Sku Tier like Basic or Enterprise
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly tier?: string;
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly resourceType?: string;
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * List of features/user capabilities associated with the sku
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly capabilities?: SKUCapability[];
-  /**
-   * The restrictions because of which SKU cannot be used. This is empty if there are no
-   * restrictions.
-   */
-  restrictions?: Restriction[];
-}
-
-/**
- * AML workspace sku information
- */
-export interface WorkspaceSku {
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly resourceType?: string;
-  /**
-   * The list of workspace sku settings
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly skus?: SkuSettings[];
-}
-
-/**
- * A private link resource
- */
-export interface PrivateLinkResource extends Resource {
-  /**
-   * The private link resource group id.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly groupId?: string;
-  /**
-   * The private link resource required member names.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly requiredMembers?: string[];
-  /**
-   * The private link resource Private link DNS zone name.
-   */
-  requiredZoneNames?: string[];
-}
-
-/**
- * A list of private link resources
- */
+/** A list of private link resources */
 export interface PrivateLinkResourceListResult {
-  /**
-   * Array of private link resources
-   */
+  /** Array of private link resources */
   value?: PrivateLinkResource[];
 }
 
-/**
- * Workspace connection.
- */
-export interface WorkspaceConnection extends BaseResource {
+export interface ListStorageAccountKeysResult {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly userStorageKey?: string;
+}
+
+/** Paginated list of Workspace connection objects. */
+export interface PaginatedWorkspaceConnectionsList {
+  /** An array of Workspace connection objects. */
+  value?: WorkspaceConnection[];
+  /** A continuation link (absolute URI) to the next page of results in the list. */
+  nextLink?: string;
+}
+
+/** Workspace connection. */
+export interface WorkspaceConnection {
   /**
    * ResourceId of the workspace connection.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
    * Friendly name of the workspace connection.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
    * Resource type of workspace connection.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Category of the workspace connection. */
+  category?: string;
+  /** Target of the workspace connection. */
+  target?: string;
+  /** Authorization type of the workspace connection. */
+  authType?: string;
+  /** Value details of the workspace connection. */
+  value?: string;
+  /** format for the workspace connection value */
+  valueFormat?: ValueFormat;
+}
+
+export interface ExternalFqdnResponse {
+  value?: FqdnEndpoints[];
+}
+
+export interface FqdnEndpoints {
+  properties?: FqdnEndpointsProperties;
+}
+
+export interface FqdnEndpointsProperties {
+  category?: string;
+  endpoints?: FqdnEndpoint[];
+}
+
+export interface FqdnEndpoint {
+  domainName?: string;
+  endpointDetails?: FqdnEndpointDetail[];
+}
+
+export interface FqdnEndpointDetail {
+  port?: number;
+}
+
+/** The List Aml user feature operation response. */
+export interface ListAmlUserFeatureResult {
+  /**
+   * The list of AML user facing features.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: AmlUserFeature[];
+  /**
+   * The URI to fetch the next page of AML user features information. Call ListNext() with this to fetch the next page of AML user features information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Features enabled for a workspace */
+export interface AmlUserFeature {
+  /** Specifies the feature ID */
+  id?: string;
+  /** Specifies the feature name */
+  displayName?: string;
+  /** Describes the feature for user experience */
+  description?: string;
+}
+
+/** List of skus with features */
+export interface SkuListResult {
+  value?: WorkspaceSku[];
+  /** The URI to fetch the next page of Workspace Skus. Call ListNext() with this URI to fetch the next page of Workspace Skus */
+  nextLink?: string;
+}
+
+/** Describes Workspace Sku details and features */
+export interface WorkspaceSku {
+  /**
+   * The set of locations that the SKU is available. This will be supported and registered Azure Geo Regions (e.g. West US, East US, Southeast Asia, etc.).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly locations?: string[];
+  /**
+   * A list of locations and availability zones in those locations where the SKU is available.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly locationInfo?: ResourceSkuLocationInfo[];
+  /**
+   * Sku Tier like Basic or Enterprise
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tier?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly resourceType?: string;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly name?: string;
+  /**
+   * List of features/user capabilities associated with the sku
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly capabilities?: SKUCapability[];
+  /** The restrictions because of which SKU cannot be used. This is empty if there are no restrictions. */
+  restrictions?: Restriction[];
+}
+
+export interface ResourceSkuLocationInfo {
+  /**
+   * Location of the SKU
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly location?: string;
+  /**
+   * List of availability zones where the SKU is supported.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly zones?: string[];
+  /**
+   * Details of capabilities available to a SKU in specific zones.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly zoneDetails?: ResourceSkuZoneDetails[];
+}
+
+/** Describes The zonal capabilities of a SKU. */
+export interface ResourceSkuZoneDetails {
+  /**
+   * The set of zones that the SKU is available in with the specified capabilities.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string[];
+  /**
+   * A list of capabilities that are available for the SKU in the specified list of zones.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly capabilities?: SKUCapability[];
+}
+
+/** Features/user capabilities associated with the sku */
+export interface SKUCapability {
+  /** Capability/Feature ID */
+  name?: string;
+  /** Details about the feature/capability */
+  value?: string;
+}
+
+/** The restriction because of which SKU cannot be used. */
+export interface Restriction {
+  /**
+   * The type of restrictions. As of now only possible value for this is location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
   /**
-   * Category of the workspace connection.
+   * The value of restrictions. If the restriction type is set to location. This would be different locations where the SKU is restricted.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  category?: string;
+  readonly values?: string[];
+  /** The reason for the restriction. */
+  reasonCode?: ReasonCode;
+}
+
+/** Represents a resource ID. For example, for a subnet, it is the resource URL for the subnet. */
+export interface ResourceId {
+  /** The ID of the resource */
+  id: string;
+}
+
+/** AKS properties */
+export interface AKSProperties {
+  /** Cluster full qualified domain name */
+  clusterFqdn?: string;
   /**
-   * Target of the workspace connection.
+   * System services
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
+  readonly systemServices?: SystemService[];
+  /** Number of agents */
+  agentCount?: number;
+  /** Agent virtual machine size */
+  agentVmSize?: string;
+  /** Intended usage of the cluster */
+  clusterPurpose?: ClusterPurpose;
+  /** SSL configuration */
+  sslConfiguration?: SslConfiguration;
+  /** AKS networking configuration for vnet */
+  aksNetworkingConfiguration?: AksNetworkingConfiguration;
+  /** Load Balancer Type */
+  loadBalancerType?: LoadBalancerType;
+  /** Load Balancer Subnet */
+  loadBalancerSubnet?: string;
+}
+
+/** A system service running on a compute. */
+export interface SystemService {
+  /**
+   * The type of this system service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemServiceType?: string;
+  /**
+   * Public IP address
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publicIpAddress?: string;
+  /**
+   * The version for this type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly version?: string;
+}
+
+/** The ssl configuration for scoring */
+export interface SslConfiguration {
+  /** Enable or disable ssl for scoring */
+  status?: SslConfigurationStatus;
+  /** Cert data */
+  cert?: string;
+  /** Key data */
+  key?: string;
+  /** CNAME of the cert */
+  cname?: string;
+  /** Leaf domain label of public endpoint */
+  leafDomainLabel?: string;
+  /** Indicates whether to overwrite existing domain label. */
+  overwriteExistingDomain?: boolean;
+}
+
+/** Advance configuration for AKS networking */
+export interface AksNetworkingConfiguration {
+  /** Virtual network subnet resource ID the compute nodes belong to */
+  subnetId?: string;
+  /** A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP ranges. */
+  serviceCidr?: string;
+  /** An IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address range specified in serviceCidr. */
+  dnsServiceIP?: string;
+  /** A CIDR notation IP range assigned to the Docker bridge network. It must not overlap with any Subnet IP ranges or the Kubernetes service address range. */
+  dockerBridgeCidr?: string;
+}
+
+/** Kubernetes Compute Schema */
+export interface KubernetesSchema {
+  /** Properties of Kubernetes */
+  properties?: KubernetesProperties;
+}
+
+/** Kubernetes properties */
+export interface KubernetesProperties {
+  /** Relay connection string. */
+  relayConnectionString?: string;
+  /** ServiceBus connection string. */
+  serviceBusConnectionString?: string;
+  /** Extension principal-id. */
+  extensionPrincipalId?: string;
+  /** Extension instance release train. */
+  extensionInstanceReleaseTrain?: string;
+  /** VC name. */
+  vcName?: string;
+  /** Compute namespace */
+  namespace?: string;
+  /** Default instance type */
+  defaultInstanceType?: string;
+  /** Instance Type Schema */
+  instanceTypes?: { [propertyName: string]: InstanceTypeSchema };
+}
+
+/** Instance type schema. */
+export interface InstanceTypeSchema {
+  /** Node Selector */
+  nodeSelector?: { [propertyName: string]: string };
+  /** Resource requests/limits for this instance type */
+  resources?: InstanceTypeSchemaResources;
+}
+
+/** Resource requests/limits for this instance type */
+export interface InstanceTypeSchemaResources {
+  /** Resource requests for this instance type */
+  requests?: { [propertyName: string]: string };
+  /** Resource limits for this instance type */
+  limits?: { [propertyName: string]: string };
+}
+
+/** AML Compute properties */
+export interface AmlComputeProperties {
+  /** Compute OS Type */
+  osType?: OsType;
+  /** Virtual Machine Size */
+  vmSize?: string;
+  /** Virtual Machine priority */
+  vmPriority?: VmPriority;
+  /** Virtual Machine image for AML Compute - windows only */
+  virtualMachineImage?: VirtualMachineImage;
+  /** Network is isolated or not */
+  isolatedNetwork?: boolean;
+  /** Scale settings for AML Compute */
+  scaleSettings?: ScaleSettings;
+  /** Credentials for an administrator user account that will be created on each compute node. */
+  userAccountCredentials?: UserAccountCredentials;
+  /** Virtual network subnet resource ID the compute nodes belong to. */
+  subnet?: ResourceId;
+  /** State of the public SSH port. Possible values are: Disabled - Indicates that the public ssh port is closed on all nodes of the cluster. Enabled - Indicates that the public ssh port is open on all nodes of the cluster. NotSpecified - Indicates that the public ssh port is closed on all nodes of the cluster if VNet is defined, else is open all public nodes. It can be default only during cluster creation time, after creation it will be either enabled or disabled. */
+  remoteLoginPortPublicAccess?: RemoteLoginPortPublicAccess;
+  /**
+   * Allocation state of the compute. Possible values are: steady - Indicates that the compute is not resizing. There are no changes to the number of compute nodes in the compute in progress. A compute enters this state when it is created and when no operations are being performed on the compute to change the number of compute nodes. resizing - Indicates that the compute is resizing; that is, compute nodes are being added to or removed from the compute.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly allocationState?: AllocationState;
+  /**
+   * The time at which the compute entered its current allocation state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly allocationStateTransitionTime?: Date;
+  /**
+   * Collection of errors encountered by various compute nodes during node setup.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: ErrorResponse[];
+  /**
+   * The number of compute nodes currently assigned to the compute.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly currentNodeCount?: number;
+  /**
+   * The target number of compute nodes for the compute. If the allocationState is resizing, this property denotes the target node count for the ongoing resize operation. If the allocationState is steady, this property denotes the target node count for the previous resize operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetNodeCount?: number;
+  /**
+   * Counts of various node states on the compute.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nodeStateCounts?: NodeStateCounts;
+  /** Enable or disable node public IP address provisioning. Possible values are: Possible values are: true - Indicates that the compute nodes will have public IPs provisioned. false - Indicates that the compute nodes will have a private endpoint and no public IPs. */
+  enableNodePublicIp?: boolean;
+}
+
+/** Virtual Machine image for Windows AML Compute */
+export interface VirtualMachineImage {
+  /** Virtual Machine image path */
+  id: string;
+}
+
+/** Settings for user account that gets created on each on the nodes of a compute. */
+export interface UserAccountCredentials {
+  /** Name of the administrator user account which can be used to SSH to nodes. */
+  adminUserName: string;
+  /** SSH public key of the administrator user account. */
+  adminUserSshPublicKey?: string;
+  /** Password of the administrator user account. */
+  adminUserPassword?: string;
+}
+
+/** Counts of various compute node states on the amlCompute. */
+export interface NodeStateCounts {
+  /**
+   * Number of compute nodes in idle state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly idleNodeCount?: number;
+  /**
+   * Number of compute nodes which are running jobs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly runningNodeCount?: number;
+  /**
+   * Number of compute nodes which are being prepared.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly preparingNodeCount?: number;
+  /**
+   * Number of compute nodes which are in unusable state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly unusableNodeCount?: number;
+  /**
+   * Number of compute nodes which are leaving the amlCompute.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly leavingNodeCount?: number;
+  /**
+   * Number of compute nodes which are in preempted state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly preemptedNodeCount?: number;
+}
+
+/** Compute Instance properties */
+export interface ComputeInstanceProperties {
+  /** Virtual Machine Size */
+  vmSize?: string;
+  /** Virtual network subnet resource ID the compute nodes belong to. */
+  subnet?: ResourceId;
+  /** Policy for sharing applications on this compute instance among users of parent workspace. If Personal, only the creator can access applications on this compute instance. When Shared, any workspace user can access applications on this instance depending on his/her assigned role. */
+  applicationSharingPolicy?: ApplicationSharingPolicy;
+  /** Specifies policy and settings for SSH access. */
+  sshSettings?: ComputeInstanceSshSettings;
+  /**
+   * Describes all connectivity endpoints available for this ComputeInstance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly connectivityEndpoints?: ComputeInstanceConnectivityEndpoints;
+  /**
+   * Describes available applications and their endpoints on this ComputeInstance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applications?: ComputeInstanceApplication[];
+  /**
+   * Describes information on user who created this ComputeInstance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdBy?: ComputeInstanceCreatedBy;
+  /**
+   * Collection of errors encountered on this ComputeInstance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly errors?: ErrorResponse[];
+  /**
+   * The current state of this ComputeInstance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly state?: ComputeInstanceState;
+  /** The Compute Instance Authorization type. Available values are personal (default). */
+  computeInstanceAuthorizationType?: ComputeInstanceAuthorizationType;
+  /** Settings for a personal compute instance. */
+  personalComputeInstanceSettings?: PersonalComputeInstanceSettings;
+  /** Details of customized scripts to execute for setting up the cluster. */
+  setupScripts?: SetupScripts;
+  /**
+   * The last operation on ComputeInstance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastOperation?: ComputeInstanceLastOperation;
+}
+
+/** Specifies policy and settings for SSH access. */
+export interface ComputeInstanceSshSettings {
+  /** State of the public SSH port. Possible values are: Disabled - Indicates that the public ssh port is closed on this instance. Enabled - Indicates that the public ssh port is open and accessible according to the VNet/subnet policy if applicable. */
+  sshPublicAccess?: SshPublicAccess;
+  /**
+   * Describes the admin user name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly adminUserName?: string;
+  /**
+   * Describes the port for connecting through SSH.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sshPort?: number;
+  /** Specifies the SSH rsa public key file as a string. Use "ssh-keygen -t rsa -b 2048" to generate your SSH key pairs. */
+  adminPublicKey?: string;
+}
+
+/** Defines all connectivity endpoints and properties for an ComputeInstance. */
+export interface ComputeInstanceConnectivityEndpoints {
+  /**
+   * Public IP Address of this ComputeInstance.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publicIpAddress?: string;
+  /**
+   * Private IP Address of this ComputeInstance (local to the VNET in which the compute instance is deployed).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateIpAddress?: string;
+}
+
+/** Defines an Aml Instance application and its connectivity endpoint URI. */
+export interface ComputeInstanceApplication {
+  /** Name of the ComputeInstance application. */
+  displayName?: string;
+  /** Application' endpoint URI. */
+  endpointUri?: string;
+}
+
+/** Describes information on user who created this ComputeInstance. */
+export interface ComputeInstanceCreatedBy {
+  /**
+   * Name of the user.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly userName?: string;
+  /**
+   * Uniquely identifies user' Azure Active Directory organization.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly userOrgId?: string;
+  /**
+   * Uniquely identifies the user within his/her organization.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly userId?: string;
+}
+
+/** Settings for a personal compute instance. */
+export interface PersonalComputeInstanceSettings {
+  /** A user explicitly assigned to a personal compute instance. */
+  assignedUser?: AssignedUser;
+}
+
+/** A user that can be assigned to a compute instance. */
+export interface AssignedUser {
+  /** User’s AAD Object Id. */
+  objectId: string;
+  /** User’s AAD Tenant Id. */
+  tenantId: string;
+}
+
+/** Details of customized scripts to execute for setting up the cluster. */
+export interface SetupScripts {
+  /** Customized setup scripts */
+  scripts?: ScriptsToExecute;
+}
+
+/** Customized setup scripts */
+export interface ScriptsToExecute {
+  /** Script that's run every time the machine starts. */
+  startupScript?: ScriptReference;
+  /** Script that's run only once during provision of the compute. */
+  creationScript?: ScriptReference;
+}
+
+/** Script reference */
+export interface ScriptReference {
+  /** The storage source of the script: inline, workspace. */
+  scriptSource?: string;
+  /** The location of scripts in the mounted volume. */
+  scriptData?: string;
+  /** Optional command line arguments passed to the script to run. */
+  scriptArguments?: string;
+  /** Optional time period passed to timeout command. */
+  timeout?: string;
+}
+
+/** The last operation on ComputeInstance. */
+export interface ComputeInstanceLastOperation {
+  /** Name of the last operation. */
+  operationName?: OperationName;
+  /** Time of the last operation. */
+  operationTime?: Date;
+  /** Operation status. */
+  operationStatus?: OperationStatus;
+}
+
+export interface VirtualMachineProperties {
+  /** Virtual Machine size */
+  virtualMachineSize?: string;
+  /** Port open for ssh connections. */
+  sshPort?: number;
+  /** Public IP address of the virtual machine. */
+  address?: string;
+  /** Admin credentials for virtual machine */
+  administratorAccount?: VirtualMachineSshCredentials;
+  /** Indicates whether this compute will be used for running notebooks. */
+  isNotebookInstanceCompute?: boolean;
+}
+
+/** Admin credentials for virtual machine */
+export interface VirtualMachineSshCredentials {
+  /** Username of admin account */
+  username?: string;
+  /** Password of admin account */
+  password?: string;
+  /** Public key data */
+  publicKeyData?: string;
+  /** Private key data */
+  privateKeyData?: string;
+}
+
+/** HDInsight compute properties */
+export interface HDInsightProperties {
+  /** Port open for ssh connections on the master node of the cluster. */
+  sshPort?: number;
+  /** Public IP address of the master node of the cluster. */
+  address?: string;
+  /** Admin credentials for master node of the cluster */
+  administratorAccount?: VirtualMachineSshCredentials;
+}
+
+/** Properties of Databricks */
+export interface DatabricksProperties {
+  /** Databricks access token */
+  databricksAccessToken?: string;
+  /** Workspace Url */
+  workspaceUrl?: string;
+}
+
+export interface DataLakeAnalyticsProperties {
+  /** DataLake Store Account Name */
+  dataLakeStoreAccountName?: string;
+}
+
+export interface SynapseSparkProperties {
+  /** Auto scale properties. */
+  autoScaleProperties?: AutoScaleProperties;
+  /** Auto pause properties. */
+  autoPauseProperties?: AutoPauseProperties;
+  /** Spark version. */
+  sparkVersion?: string;
+  /** The number of compute nodes currently assigned to the compute. */
+  nodeCount?: number;
+  /** Node size. */
+  nodeSize?: string;
+  /** Node size family. */
+  nodeSizeFamily?: string;
+  /** Azure subscription identifier. */
+  subscriptionId?: string;
+  /** Name of the resource group in which workspace is located. */
+  resourceGroup?: string;
+  /** Name of Azure Machine Learning workspace. */
+  workspaceName?: string;
+  /** Pool name. */
+  poolName?: string;
+}
+
+/** Auto scale properties */
+export interface AutoScaleProperties {
+  minNodeCount?: number;
+  enabled?: boolean;
+  maxNodeCount?: number;
+}
+
+/** Auto pause properties */
+export interface AutoPauseProperties {
+  delayInMinutes?: number;
+  enabled?: boolean;
+}
+
+/** Service principal credentials. */
+export interface ServicePrincipalCredentials {
+  /** Client Id */
+  clientId: string;
+  /** Client secret */
+  clientSecret: string;
+}
+
+/** Properties of AksComputeSecrets */
+export interface AksComputeSecretsProperties {
+  /** Content of kubeconfig file that can be used to connect to the Kubernetes cluster. */
+  userKubeConfig?: string;
+  /** Content of kubeconfig file that can be used to connect to the Kubernetes cluster. */
+  adminKubeConfig?: string;
+  /** Image registry pull secret. */
+  imagePullSecretName?: string;
+}
+
+/** Properties of Databricks Compute Secrets */
+export interface DatabricksComputeSecretsProperties {
+  /** access token for databricks account. */
+  databricksAccessToken?: string;
+}
+
+/** The resource requirements for the container (cpu and memory). */
+export interface ContainerResourceRequirements {
+  /**
+   * The minimum amount of CPU cores to be used by the container. More info:
+   * https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+   */
+  cpu?: number;
+  /**
+   * The maximum amount of CPU cores allowed to be used by the container. More info:
+   * https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+   */
+  cpuLimit?: number;
+  /**
+   * The minimum amount of memory (in GB) to be used by the container. More info:
+   * https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+   */
+  memoryInGB?: number;
+  /**
+   * The maximum amount of memory (in GB) allowed to be used by the container. More info:
+   * https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/
+   */
+  memoryInGBLimit?: number;
+  /** The number of GPU cores in the container. */
+  gpu?: number;
+  /** The number of FPGA PCIE devices exposed to the container. Must be multiple of 2. */
+  fpga?: number;
+}
+
+/** The Private Endpoint Connection resource. */
+export type PrivateEndpointConnection = Resource & {
+  /** The identity of the resource. */
+  identity?: Identity;
+  /** Specifies the location of the resource. */
+  location?: string;
+  /** Contains resource tags defined as key/value pairs. */
+  tags?: { [propertyName: string]: string };
+  /** The sku of the workspace. */
+  sku?: Sku;
+  /**
+   * System data
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The resource of private end point. */
+  privateEndpoint?: PrivateEndpoint;
+  /** A collection of information about the state of the connection between service consumer and provider. */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /**
+   * The provisioning state of the private endpoint connection resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+};
+
+/** An object that represents a machine learning workspace. */
+export type Workspace = Resource & {
+  /** The identity of the resource. */
+  identity?: Identity;
+  /** Specifies the location of the resource. */
+  location?: string;
+  /** Contains resource tags defined as key/value pairs. */
+  tags?: { [propertyName: string]: string };
+  /** The sku of the workspace. */
+  sku?: Sku;
+  /**
+   * System data
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * The immutable id associated with this workspace.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly workspaceId?: string;
+  /** The description of this workspace. */
+  description?: string;
+  /** The friendly name for this workspace. This name in mutable */
+  friendlyName?: string;
+  /** ARM id of the key vault associated with this workspace. This cannot be changed once the workspace has been created */
+  keyVault?: string;
+  /** ARM id of the application insights associated with this workspace. This cannot be changed once the workspace has been created */
+  applicationInsights?: string;
+  /** ARM id of the container registry associated with this workspace. This cannot be changed once the workspace has been created */
+  containerRegistry?: string;
+  /** ARM id of the storage account associated with this workspace. This cannot be changed once the workspace has been created */
+  storageAccount?: string;
+  /** Url for the discovery service to identify regional endpoints for machine learning experimentation services */
+  discoveryUrl?: string;
+  /**
+   * The current deployment state of workspace resource. The provisioningState is to indicate states for resource provisioning.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The encryption settings of Azure ML workspace. */
+  encryption?: EncryptionProperty;
+  /** The flag to signal HBI data in the workspace and reduce diagnostic data collected by the service */
+  hbiWorkspace?: boolean;
+  /**
+   * The name of the managed resource group created by workspace RP in customer subscription if the workspace is CMK workspace
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceProvisionedResourceGroup?: string;
+  /**
+   * Count of private connections in the workspace
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateLinkCount?: number;
+  /** The compute name for image build */
+  imageBuildCompute?: string;
+  /** The flag to indicate whether to allow public access when behind VNet. */
+  allowPublicAccessWhenBehindVnet?: boolean;
+  /** Whether requests from Public Network are allowed. */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * The list of private endpoint connections in the workspace.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** The list of shared private link resources in this workspace. */
+  sharedPrivateLinkResources?: SharedPrivateLinkResource[];
+  /**
+   * The notebook info of Azure ML workspace.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly notebookInfo?: NotebookResourceInfo;
+  /** The service managed resource settings. */
+  serviceManagedResourcesSettings?: ServiceManagedResourcesSettings;
+  /** The user assigned identity resource id that represents the workspace identity. */
+  primaryUserAssignedIdentity?: string;
+  /**
+   * The tenant id associated with this workspace.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /**
+   * If the storage associated with the workspace has hierarchical namespace(HNS) enabled.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly storageHnsEnabled?: boolean;
+  /**
+   * The URI associated with this workspace that machine learning flow must point at to set up tracking.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly mlFlowTrackingUri?: string;
+};
+
+/** Machine Learning compute object wrapped into ARM resource envelope. */
+export type ComputeResource = Resource &
+  Components1D3SwueSchemasComputeresourceAllof1 & {
+    /** The identity of the resource. */
+    identity?: Identity;
+    /** Specifies the location of the resource. */
+    location?: string;
+    /** Contains resource tags defined as key/value pairs. */
+    tags?: { [propertyName: string]: string };
+    /** The sku of the workspace. */
+    sku?: Sku;
+    /**
+     * System data
+     * NOTE: This property will not be serialized. It can only be populated by the server.
+     */
+    readonly systemData?: SystemData;
+  };
+
+/** A private link resource */
+export type PrivateLinkResource = Resource & {
+  /** The identity of the resource. */
+  identity?: Identity;
+  /** Specifies the location of the resource. */
+  location?: string;
+  /** Contains resource tags defined as key/value pairs. */
+  tags?: { [propertyName: string]: string };
+  /** The sku of the workspace. */
+  sku?: Sku;
+  /**
+   * System data
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * The private link resource group id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requiredMembers?: string[];
+  /** The private link resource Private link DNS zone name. */
+  requiredZoneNames?: string[];
+};
+
+/** A Machine Learning compute based on AKS. */
+export type Aks = Compute & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  computeType: "AKS";
+  /** AKS properties */
+  properties?: AKSProperties;
+};
+
+/** A Machine Learning compute based on Kubernetes Compute. */
+export type Kubernetes = Compute &
+  KubernetesSchema & {
+    /** Polymorphic discriminator, which specifies the different types this object can be */
+    computeType: "Kubernetes";
+  };
+
+/** Properties(top level) of AmlCompute */
+export type AmlCompute = Compute & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  computeType: "AmlCompute";
+  /** Properties of AmlCompute */
+  properties?: AmlComputeProperties;
+};
+
+/** Properties(top level) of ComputeInstance */
+export type ComputeInstance = Compute & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  computeType: "ComputeInstance";
+  /** Properties of ComputeInstance */
+  properties?: ComputeInstanceProperties;
+};
+
+/** A Machine Learning compute based on Azure Virtual Machines. */
+export type VirtualMachine = Compute & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  computeType: "VirtualMachine";
+  properties?: VirtualMachineProperties;
+};
+
+/** A HDInsight compute. */
+export type HDInsight = Compute & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  computeType: "HDInsight";
+  /** HDInsight compute properties */
+  properties?: HDInsightProperties;
+};
+
+/** A DataFactory compute. */
+export type DataFactory = Compute & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  computeType: "DataFactory";
+};
+
+/** A DataFactory compute. */
+export type Databricks = Compute & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  computeType: "Databricks";
+  /** Properties of Databricks */
+  properties?: DatabricksProperties;
+};
+
+/** A DataLakeAnalytics compute. */
+export type DataLakeAnalytics = Compute & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  computeType: "DataLakeAnalytics";
+  properties?: DataLakeAnalyticsProperties;
+};
+
+/** A SynapseSpark compute. */
+export type SynapseSpark = Compute & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  computeType: "SynapseSpark";
+  properties?: SynapseSparkProperties;
+};
+
+/** Secrets related to a Machine Learning compute based on AKS. */
+export type AksComputeSecrets = ComputeSecrets &
+  AksComputeSecretsProperties & {
+    /** Polymorphic discriminator, which specifies the different types this object can be */
+    computeType: "AKS";
+  };
+
+/** Secrets related to a Machine Learning compute based on AKS. */
+export type VirtualMachineSecrets = ComputeSecrets & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  computeType: "VirtualMachine";
+  /** Admin credentials for virtual machine. */
+  administratorAccount?: VirtualMachineSshCredentials;
+};
+
+/** Secrets related to a Machine Learning compute based on Databricks. */
+export type DatabricksComputeSecrets = ComputeSecrets &
+  DatabricksComputeSecretsProperties & {
+    /** Polymorphic discriminator, which specifies the different types this object can be */
+    computeType: "Databricks";
+  };
+
+/** Defines headers for Workspaces_diagnose operation. */
+export interface WorkspacesDiagnoseHeaders {
+  /** URI to poll for asynchronous operation result. */
+  location?: string;
+  /** Duration the client should wait between requests, in seconds. */
+  retryAfter?: number;
+}
+
+/** Defines headers for Compute_createOrUpdate operation. */
+export interface ComputeCreateOrUpdateHeaders {
+  /** URI to poll for asynchronous operation status. */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for Compute_delete operation. */
+export interface ComputeDeleteHeaders {
+  /** URI to poll for asynchronous operation status. */
+  azureAsyncOperation?: string;
+  /** URI to poll for asynchronous operation result. */
+  location?: string;
+}
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  Unknown = "Unknown",
+  Updating = "Updating",
+  Creating = "Creating",
+  Deleting = "Deleting",
+  Succeeded = "Succeeded",
+  Failed = "Failed",
+  Canceled = "Canceled"
+}
+
+/**
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **Updating** \
+ * **Creating** \
+ * **Deleting** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled**
+ */
+export type ProvisioningState = string;
+
+/** Known values of {@link EncryptionStatus} that the service accepts. */
+export enum KnownEncryptionStatus {
+  Enabled = "Enabled",
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for EncryptionStatus. \
+ * {@link KnownEncryptionStatus} can be used interchangeably with EncryptionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type EncryptionStatus = string;
+
+/** Known values of {@link PublicNetworkAccess} that the service accepts. */
+export enum KnownPublicNetworkAccess {
+  Enabled = "Enabled",
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for PublicNetworkAccess. \
+ * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type PublicNetworkAccess = string;
+
+/** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
+export enum KnownPrivateEndpointServiceConnectionStatus {
+  Pending = "Pending",
+  Approved = "Approved",
+  Rejected = "Rejected",
+  Disconnected = "Disconnected",
+  Timeout = "Timeout"
+}
+
+/**
+ * Defines values for PrivateEndpointServiceConnectionStatus. \
+ * {@link KnownPrivateEndpointServiceConnectionStatus} can be used interchangeably with PrivateEndpointServiceConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending** \
+ * **Approved** \
+ * **Rejected** \
+ * **Disconnected** \
+ * **Timeout**
+ */
+export type PrivateEndpointServiceConnectionStatus = string;
+
+/** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
+export enum KnownPrivateEndpointConnectionProvisioningState {
+  Succeeded = "Succeeded",
+  Creating = "Creating",
+  Deleting = "Deleting",
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for PrivateEndpointConnectionProvisioningState. \
+ * {@link KnownPrivateEndpointConnectionProvisioningState} can be used interchangeably with PrivateEndpointConnectionProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Creating** \
+ * **Deleting** \
+ * **Failed**
+ */
+export type PrivateEndpointConnectionProvisioningState = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  User = "User",
+  Application = "Application",
+  ManagedIdentity = "ManagedIdentity",
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
+/** Known values of {@link DiagnoseResultLevel} that the service accepts. */
+export enum KnownDiagnoseResultLevel {
+  Warning = "Warning",
+  Error = "Error",
+  Information = "Information"
+}
+
+/**
+ * Defines values for DiagnoseResultLevel. \
+ * {@link KnownDiagnoseResultLevel} can be used interchangeably with DiagnoseResultLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Warning** \
+ * **Error** \
+ * **Information**
+ */
+export type DiagnoseResultLevel = string;
+
+/** Known values of {@link UsageUnit} that the service accepts. */
+export enum KnownUsageUnit {
+  Count = "Count"
+}
+
+/**
+ * Defines values for UsageUnit. \
+ * {@link KnownUsageUnit} can be used interchangeably with UsageUnit,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Count**
+ */
+export type UsageUnit = string;
+
+/** Known values of {@link BillingCurrency} that the service accepts. */
+export enum KnownBillingCurrency {
+  USD = "USD"
+}
+
+/**
+ * Defines values for BillingCurrency. \
+ * {@link KnownBillingCurrency} can be used interchangeably with BillingCurrency,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **USD**
+ */
+export type BillingCurrency = string;
+
+/** Known values of {@link UnitOfMeasure} that the service accepts. */
+export enum KnownUnitOfMeasure {
+  OneHour = "OneHour"
+}
+
+/**
+ * Defines values for UnitOfMeasure. \
+ * {@link KnownUnitOfMeasure} can be used interchangeably with UnitOfMeasure,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **OneHour**
+ */
+export type UnitOfMeasure = string;
+
+/** Known values of {@link VMPriceOSType} that the service accepts. */
+export enum KnownVMPriceOSType {
+  Linux = "Linux",
+  Windows = "Windows"
+}
+
+/**
+ * Defines values for VMPriceOSType. \
+ * {@link KnownVMPriceOSType} can be used interchangeably with VMPriceOSType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Linux** \
+ * **Windows**
+ */
+export type VMPriceOSType = string;
+
+/** Known values of {@link VMTier} that the service accepts. */
+export enum KnownVMTier {
+  Standard = "Standard",
+  LowPriority = "LowPriority",
+  Spot = "Spot"
+}
+
+/**
+ * Defines values for VMTier. \
+ * {@link KnownVMTier} can be used interchangeably with VMTier,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard** \
+ * **LowPriority** \
+ * **Spot**
+ */
+export type VMTier = string;
+
+/** Known values of {@link QuotaUnit} that the service accepts. */
+export enum KnownQuotaUnit {
+  Count = "Count"
+}
+
+/**
+ * Defines values for QuotaUnit. \
+ * {@link KnownQuotaUnit} can be used interchangeably with QuotaUnit,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Count**
+ */
+export type QuotaUnit = string;
+
+/** Known values of {@link Status} that the service accepts. */
+export enum KnownStatus {
+  Undefined = "Undefined",
+  Success = "Success",
+  Failure = "Failure",
+  InvalidQuotaBelowClusterMinimum = "InvalidQuotaBelowClusterMinimum",
+  InvalidQuotaExceedsSubscriptionLimit = "InvalidQuotaExceedsSubscriptionLimit",
+  InvalidVMFamilyName = "InvalidVMFamilyName",
+  OperationNotSupportedForSku = "OperationNotSupportedForSku",
+  OperationNotEnabledForRegion = "OperationNotEnabledForRegion"
+}
+
+/**
+ * Defines values for Status. \
+ * {@link KnownStatus} can be used interchangeably with Status,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Undefined** \
+ * **Success** \
+ * **Failure** \
+ * **InvalidQuotaBelowClusterMinimum** \
+ * **InvalidQuotaExceedsSubscriptionLimit** \
+ * **InvalidVMFamilyName** \
+ * **OperationNotSupportedForSku** \
+ * **OperationNotEnabledForRegion**
+ */
+export type Status = string;
+
+/** Known values of {@link ComputeType} that the service accepts. */
+export enum KnownComputeType {
+  AKS = "AKS",
+  Kubernetes = "Kubernetes",
+  AmlCompute = "AmlCompute",
+  ComputeInstance = "ComputeInstance",
+  DataFactory = "DataFactory",
+  VirtualMachine = "VirtualMachine",
+  HDInsight = "HDInsight",
+  Databricks = "Databricks",
+  DataLakeAnalytics = "DataLakeAnalytics",
+  SynapseSpark = "SynapseSpark"
+}
+
+/**
+ * Defines values for ComputeType. \
+ * {@link KnownComputeType} can be used interchangeably with ComputeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AKS** \
+ * **Kubernetes** \
+ * **AmlCompute** \
+ * **ComputeInstance** \
+ * **DataFactory** \
+ * **VirtualMachine** \
+ * **HDInsight** \
+ * **Databricks** \
+ * **DataLakeAnalytics** \
+ * **SynapseSpark**
+ */
+export type ComputeType = string;
+
+/** Known values of {@link UnderlyingResourceAction} that the service accepts. */
+export enum KnownUnderlyingResourceAction {
+  Delete = "Delete",
+  Detach = "Detach"
+}
+
+/**
+ * Defines values for UnderlyingResourceAction. \
+ * {@link KnownUnderlyingResourceAction} can be used interchangeably with UnderlyingResourceAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Delete** \
+ * **Detach**
+ */
+export type UnderlyingResourceAction = string;
+
+/** Known values of {@link NodeState} that the service accepts. */
+export enum KnownNodeState {
+  Idle = "idle",
+  Running = "running",
+  Preparing = "preparing",
+  Unusable = "unusable",
+  Leaving = "leaving",
+  Preempted = "preempted"
+}
+
+/**
+ * Defines values for NodeState. \
+ * {@link KnownNodeState} can be used interchangeably with NodeState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **idle** \
+ * **running** \
+ * **preparing** \
+ * **unusable** \
+ * **leaving** \
+ * **preempted**
+ */
+export type NodeState = string;
+
+/** Known values of {@link ValueFormat} that the service accepts. */
+export enum KnownValueFormat {
+  Json = "JSON"
+}
+
+/**
+ * Defines values for ValueFormat. \
+ * {@link KnownValueFormat} can be used interchangeably with ValueFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **JSON**
+ */
+export type ValueFormat = string;
+
+/** Known values of {@link ReasonCode} that the service accepts. */
+export enum KnownReasonCode {
+  NotSpecified = "NotSpecified",
+  NotAvailableForRegion = "NotAvailableForRegion",
+  NotAvailableForSubscription = "NotAvailableForSubscription"
+}
+
+/**
+ * Defines values for ReasonCode. \
+ * {@link KnownReasonCode} can be used interchangeably with ReasonCode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NotSpecified** \
+ * **NotAvailableForRegion** \
+ * **NotAvailableForSubscription**
+ */
+export type ReasonCode = string;
+
+/** Known values of {@link ClusterPurpose} that the service accepts. */
+export enum KnownClusterPurpose {
+  FastProd = "FastProd",
+  DenseProd = "DenseProd",
+  DevTest = "DevTest"
+}
+
+/**
+ * Defines values for ClusterPurpose. \
+ * {@link KnownClusterPurpose} can be used interchangeably with ClusterPurpose,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **FastProd** \
+ * **DenseProd** \
+ * **DevTest**
+ */
+export type ClusterPurpose = string;
+
+/** Known values of {@link SslConfigurationStatus} that the service accepts. */
+export enum KnownSslConfigurationStatus {
+  Disabled = "Disabled",
+  Enabled = "Enabled",
+  Auto = "Auto"
+}
+
+/**
+ * Defines values for SslConfigurationStatus. \
+ * {@link KnownSslConfigurationStatus} can be used interchangeably with SslConfigurationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled** \
+ * **Auto**
+ */
+export type SslConfigurationStatus = string;
+
+/** Known values of {@link LoadBalancerType} that the service accepts. */
+export enum KnownLoadBalancerType {
+  PublicIp = "PublicIp",
+  InternalLoadBalancer = "InternalLoadBalancer"
+}
+
+/**
+ * Defines values for LoadBalancerType. \
+ * {@link KnownLoadBalancerType} can be used interchangeably with LoadBalancerType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PublicIp** \
+ * **InternalLoadBalancer**
+ */
+export type LoadBalancerType = string;
+
+/** Known values of {@link OsType} that the service accepts. */
+export enum KnownOsType {
+  Linux = "Linux",
+  Windows = "Windows"
+}
+
+/**
+ * Defines values for OsType. \
+ * {@link KnownOsType} can be used interchangeably with OsType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Linux** \
+ * **Windows**
+ */
+export type OsType = string;
+
+/** Known values of {@link VmPriority} that the service accepts. */
+export enum KnownVmPriority {
+  Dedicated = "Dedicated",
+  LowPriority = "LowPriority"
+}
+
+/**
+ * Defines values for VmPriority. \
+ * {@link KnownVmPriority} can be used interchangeably with VmPriority,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Dedicated** \
+ * **LowPriority**
+ */
+export type VmPriority = string;
+
+/** Known values of {@link RemoteLoginPortPublicAccess} that the service accepts. */
+export enum KnownRemoteLoginPortPublicAccess {
+  Enabled = "Enabled",
+  Disabled = "Disabled",
+  NotSpecified = "NotSpecified"
+}
+
+/**
+ * Defines values for RemoteLoginPortPublicAccess. \
+ * {@link KnownRemoteLoginPortPublicAccess} can be used interchangeably with RemoteLoginPortPublicAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled** \
+ * **NotSpecified**
+ */
+export type RemoteLoginPortPublicAccess = string;
+
+/** Known values of {@link AllocationState} that the service accepts. */
+export enum KnownAllocationState {
+  Steady = "Steady",
+  Resizing = "Resizing"
+}
+
+/**
+ * Defines values for AllocationState. \
+ * {@link KnownAllocationState} can be used interchangeably with AllocationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Steady** \
+ * **Resizing**
+ */
+export type AllocationState = string;
+
+/** Known values of {@link ApplicationSharingPolicy} that the service accepts. */
+export enum KnownApplicationSharingPolicy {
+  Personal = "Personal",
+  Shared = "Shared"
+}
+
+/**
+ * Defines values for ApplicationSharingPolicy. \
+ * {@link KnownApplicationSharingPolicy} can be used interchangeably with ApplicationSharingPolicy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Personal** \
+ * **Shared**
+ */
+export type ApplicationSharingPolicy = string;
+
+/** Known values of {@link SshPublicAccess} that the service accepts. */
+export enum KnownSshPublicAccess {
+  Enabled = "Enabled",
+  Disabled = "Disabled"
+}
+
+/**
+ * Defines values for SshPublicAccess. \
+ * {@link KnownSshPublicAccess} can be used interchangeably with SshPublicAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type SshPublicAccess = string;
+
+/** Known values of {@link ComputeInstanceState} that the service accepts. */
+export enum KnownComputeInstanceState {
+  Creating = "Creating",
+  CreateFailed = "CreateFailed",
+  Deleting = "Deleting",
+  Running = "Running",
+  Restarting = "Restarting",
+  JobRunning = "JobRunning",
+  SettingUp = "SettingUp",
+  SetupFailed = "SetupFailed",
+  Starting = "Starting",
+  Stopped = "Stopped",
+  Stopping = "Stopping",
+  UserSettingUp = "UserSettingUp",
+  UserSetupFailed = "UserSetupFailed",
+  Unknown = "Unknown",
+  Unusable = "Unusable"
+}
+
+/**
+ * Defines values for ComputeInstanceState. \
+ * {@link KnownComputeInstanceState} can be used interchangeably with ComputeInstanceState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Creating** \
+ * **CreateFailed** \
+ * **Deleting** \
+ * **Running** \
+ * **Restarting** \
+ * **JobRunning** \
+ * **SettingUp** \
+ * **SetupFailed** \
+ * **Starting** \
+ * **Stopped** \
+ * **Stopping** \
+ * **UserSettingUp** \
+ * **UserSetupFailed** \
+ * **Unknown** \
+ * **Unusable**
+ */
+export type ComputeInstanceState = string;
+
+/** Known values of {@link ComputeInstanceAuthorizationType} that the service accepts. */
+export enum KnownComputeInstanceAuthorizationType {
+  Personal = "personal"
+}
+
+/**
+ * Defines values for ComputeInstanceAuthorizationType. \
+ * {@link KnownComputeInstanceAuthorizationType} can be used interchangeably with ComputeInstanceAuthorizationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **personal**
+ */
+export type ComputeInstanceAuthorizationType = string;
+
+/** Known values of {@link OperationName} that the service accepts. */
+export enum KnownOperationName {
+  Create = "Create",
+  Start = "Start",
+  Stop = "Stop",
+  Restart = "Restart",
+  Reimage = "Reimage",
+  Delete = "Delete"
+}
+
+/**
+ * Defines values for OperationName. \
+ * {@link KnownOperationName} can be used interchangeably with OperationName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Create** \
+ * **Start** \
+ * **Stop** \
+ * **Restart** \
+ * **Reimage** \
+ * **Delete**
+ */
+export type OperationName = string;
+
+/** Known values of {@link OperationStatus} that the service accepts. */
+export enum KnownOperationStatus {
+  InProgress = "InProgress",
+  Succeeded = "Succeeded",
+  CreateFailed = "CreateFailed",
+  StartFailed = "StartFailed",
+  StopFailed = "StopFailed",
+  RestartFailed = "RestartFailed",
+  ReimageFailed = "ReimageFailed",
+  DeleteFailed = "DeleteFailed"
+}
+
+/**
+ * Defines values for OperationStatus. \
+ * {@link KnownOperationStatus} can be used interchangeably with OperationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InProgress** \
+ * **Succeeded** \
+ * **CreateFailed** \
+ * **StartFailed** \
+ * **StopFailed** \
+ * **RestartFailed** \
+ * **ReimageFailed** \
+ * **DeleteFailed**
+ */
+export type OperationStatus = string;
+/** Defines values for ResourceIdentityType. */
+export type ResourceIdentityType =
+  | "SystemAssigned"
+  | "SystemAssigned,UserAssigned"
+  | "UserAssigned"
+  | "None";
+
+/** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface WorkspacesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WorkspacesGetResponse = Workspace;
+
+/** Optional parameters. */
+export interface WorkspacesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type WorkspacesCreateOrUpdateResponse = Workspace;
+
+/** Optional parameters. */
+export interface WorkspacesDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface WorkspacesUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type WorkspacesUpdateResponse = Workspace;
+
+/** Optional parameters. */
+export interface WorkspacesListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skip?: string;
+}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type WorkspacesListByResourceGroupResponse = WorkspaceListResult;
+
+/** Optional parameters. */
+export interface WorkspacesDiagnoseOptionalParams
+  extends coreClient.OperationOptions {
+  /** The parameter of diagnosing workspace health */
+  parameters?: DiagnoseWorkspaceParameters;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the diagnose operation. */
+export type WorkspacesDiagnoseResponse = DiagnoseResponseResult;
+
+/** Optional parameters. */
+export interface WorkspacesListKeysOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listKeys operation. */
+export type WorkspacesListKeysResponse = ListWorkspaceKeysResult;
+
+/** Optional parameters. */
+export interface WorkspacesResyncKeysOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface WorkspacesListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skip?: string;
+}
+
+/** Contains response data for the listBySubscription operation. */
+export type WorkspacesListBySubscriptionResponse = WorkspaceListResult;
+
+/** Optional parameters. */
+export interface WorkspacesListNotebookAccessTokenOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNotebookAccessToken operation. */
+export type WorkspacesListNotebookAccessTokenResponse = NotebookAccessTokenResult;
+
+/** Optional parameters. */
+export interface WorkspacesPrepareNotebookOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the prepareNotebook operation. */
+export type WorkspacesPrepareNotebookResponse = NotebookResourceInfo;
+
+/** Optional parameters. */
+export interface WorkspacesListStorageAccountKeysOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listStorageAccountKeys operation. */
+export type WorkspacesListStorageAccountKeysResponse = ListStorageAccountKeysResult;
+
+/** Optional parameters. */
+export interface WorkspacesListNotebookKeysOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNotebookKeys operation. */
+export type WorkspacesListNotebookKeysResponse = ListNotebookKeysResult;
+
+/** Optional parameters. */
+export interface WorkspacesListOutboundNetworkDependenciesEndpointsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listOutboundNetworkDependenciesEndpoints operation. */
+export type WorkspacesListOutboundNetworkDependenciesEndpointsResponse = ExternalFqdnResponse;
+
+/** Optional parameters. */
+export interface WorkspacesListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skip?: string;
+}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type WorkspacesListByResourceGroupNextResponse = WorkspaceListResult;
+
+/** Optional parameters. */
+export interface WorkspacesListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skip?: string;
+}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type WorkspacesListBySubscriptionNextResponse = WorkspaceListResult;
+
+/** Optional parameters. */
+export interface UsagesListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type UsagesListResponse = ListUsagesResult;
+
+/** Optional parameters. */
+export interface UsagesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type UsagesListNextResponse = ListUsagesResult;
+
+/** Optional parameters. */
+export interface VirtualMachineSizesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type VirtualMachineSizesListResponse = VirtualMachineSizeListResult;
+
+/** Optional parameters. */
+export interface QuotasUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type QuotasUpdateResponse = UpdateWorkspaceQuotasResult;
+
+/** Optional parameters. */
+export interface QuotasListOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type QuotasListResponse = ListWorkspaceQuotas;
+
+/** Optional parameters. */
+export interface QuotasListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type QuotasListNextResponse = ListWorkspaceQuotas;
+
+/** Optional parameters. */
+export interface ComputeListOptionalParams extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skip?: string;
+}
+
+/** Contains response data for the list operation. */
+export type ComputeListResponse = PaginatedComputeResourcesList;
+
+/** Optional parameters. */
+export interface ComputeGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ComputeGetResponse = ComputeResource;
+
+/** Optional parameters. */
+export interface ComputeCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ComputeCreateOrUpdateResponse = ComputeResource;
+
+/** Optional parameters. */
+export interface ComputeUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type ComputeUpdateResponse = ComputeResource;
+
+/** Optional parameters. */
+export interface ComputeDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ComputeListNodesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNodes operation. */
+export type ComputeListNodesResponse = AmlComputeNodesInformation;
+
+/** Optional parameters. */
+export interface ComputeListKeysOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listKeys operation. */
+export type ComputeListKeysResponse = ComputeSecretsUnion;
+
+/** Optional parameters. */
+export interface ComputeStartOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ComputeStopOptionalParams extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ComputeRestartOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ComputeListNextOptionalParams
+  extends coreClient.OperationOptions {
+  /** Continuation token for pagination. */
+  skip?: string;
+}
+
+/** Contains response data for the listNext operation. */
+export type ComputeListNextResponse = PaginatedComputeResourcesList;
+
+/** Optional parameters. */
+export interface ComputeListNodesNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNodesNext operation. */
+export type ComputeListNodesNextResponse = AmlComputeNodesInformation;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface PrivateLinkResourcesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type PrivateLinkResourcesListResponse = PrivateLinkResourceListResult;
+
+/** Optional parameters. */
+export interface WorkspaceConnectionsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Target of the workspace connection. */
   target?: string;
-  /**
-   * Authorization type of the workspace connection.
-   */
-  authType?: string;
-  /**
-   * Value details of the workspace connection.
-   */
-  value?: string;
-}
-
-/**
- * object used for creating workspace connection.
- */
-export interface WorkspaceConnectionDto {
-  /**
-   * Friendly name of the workspace connection
-   */
-  name?: string;
-  /**
-   * Category of the workspace connection.
-   */
-  category?: string;
-  /**
-   * Target of the workspace connection.
-   */
-  target?: string;
-  /**
-   * Authorization type of the workspace connection.
-   */
-  authType?: string;
-  /**
-   * Value details of the workspace connection.
-   */
-  value?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface WorkspacesListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Continuation token for pagination.
-   */
-  skiptoken?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface WorkspacesListBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Continuation token for pagination.
-   */
-  skiptoken?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface WorkspacesListByResourceGroupNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Continuation token for pagination.
-   */
-  skiptoken?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface WorkspacesListBySubscriptionNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Continuation token for pagination.
-   */
-  skiptoken?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface VirtualMachineSizesListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Type of compute to filter by.
-   */
-  computeType?: string;
-  /**
-   * Specifies whether to return recommended vm sizes or all vm sizes
-   */
-  recommended?: boolean;
-}
-
-/**
- * Optional Parameters.
- */
-export interface WorkspaceConnectionsListOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Target of the workspace connection.
-   */
-  target?: string;
-  /**
-   * Category of the workspace connection.
-   */
+  /** Category of the workspace connection. */
   category?: string;
 }
 
-/**
- * Optional Parameters.
- */
-export interface MachineLearningComputeListByWorkspaceOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Continuation token for pagination.
-   */
-  skiptoken?: string;
+/** Contains response data for the list operation. */
+export type WorkspaceConnectionsListResponse = PaginatedWorkspaceConnectionsList;
+
+/** Optional parameters. */
+export interface WorkspaceConnectionsCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type WorkspaceConnectionsCreateResponse = WorkspaceConnection;
+
+/** Optional parameters. */
+export interface WorkspaceConnectionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WorkspaceConnectionsGetResponse = WorkspaceConnection;
+
+/** Optional parameters. */
+export interface WorkspaceConnectionsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface WorkspaceFeaturesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type WorkspaceFeaturesListResponse = ListAmlUserFeatureResult;
+
+/** Optional parameters. */
+export interface WorkspaceFeaturesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type WorkspaceFeaturesListNextResponse = ListAmlUserFeatureResult;
+
+/** Optional parameters. */
+export interface WorkspaceSkusListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type WorkspaceSkusListResponse = SkuListResult;
+
+/** Optional parameters. */
+export interface WorkspaceSkusListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type WorkspaceSkusListNextResponse = SkuListResult;
+
+/** Optional parameters. */
+export interface AzureMachineLearningWorkspacesOptionalParams
+  extends coreClient.ServiceClientOptions {
+  /** server parameter */
+  $host?: string;
+  /** Api Version */
+  apiVersion?: string;
+  /** Overrides client endpoint. */
+  endpoint?: string;
 }
-
-/**
- * Optional Parameters.
- */
-export interface MachineLearningComputeListByWorkspaceNextOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Continuation token for pagination.
-   */
-  skiptoken?: string;
-}
-
-/**
- * An interface representing AzureMachineLearningWorkspacesOptions.
- */
-export interface AzureMachineLearningWorkspacesOptions extends AzureServiceClientOptions {
-  baseUri?: string;
-}
-
-/**
- * Defines headers for CreateOrUpdate operation.
- */
-export interface MachineLearningComputeCreateOrUpdateHeaders {
-  /**
-   * URI to poll for asynchronous operation status.
-   */
-  azureAsyncOperation: string;
-}
-
-/**
- * Defines headers for Delete operation.
- */
-export interface MachineLearningComputeDeleteHeaders {
-  /**
-   * URI to poll for asynchronous operation status.
-   */
-  azureAsyncOperation: string;
-  /**
-   * URI to poll for asynchronous operation result.
-   */
-  location: string;
-}
-
-/**
- * @interface
- * An array of operations supported by the resource provider.
- * @extends Array<Operation>
- */
-export interface OperationListResult extends Array<Operation> {
-}
-
-/**
- * @interface
- * The result of a request to list machine learning workspaces.
- * @extends Array<Workspace>
- */
-export interface WorkspaceListResult extends Array<Workspace> {
-  /**
-   * The URI that can be used to request the next list of machine learning workspaces.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * The List Aml user feature operation response.
- * @extends Array<AmlUserFeature>
- */
-export interface ListAmlUserFeatureResult extends Array<AmlUserFeature> {
-  /**
-   * The URI to fetch the next page of AML user features information. Call ListNext() with this to
-   * fetch the next page of AML user features information.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * The List Usages operation response.
- * @extends Array<Usage>
- */
-export interface ListUsagesResult extends Array<Usage> {
-  /**
-   * The URI to fetch the next page of AML resource usage information. Call ListNext() with this to
-   * fetch the next page of AML resource usage information.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * The List WorkspaceQuotasByVMFamily operation response.
- * @extends Array<ResourceQuota>
- */
-export interface ListWorkspaceQuotas extends Array<ResourceQuota> {
-  /**
-   * The URI to fetch the next page of workspace quota information by VM Family. Call ListNext()
-   * with this to fetch the next page of Workspace Quota information.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * Paginated list of Workspace connection objects.
- * @extends Array<WorkspaceConnection>
- */
-export interface PaginatedWorkspaceConnectionsList extends Array<WorkspaceConnection> {
-  /**
-   * A continuation link (absolute URI) to the next page of results in the list.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Paginated list of Machine Learning compute objects wrapped in ARM resource envelope.
- * @extends Array<ComputeResource>
- */
-export interface PaginatedComputeResourcesList extends Array<ComputeResource> {
-  /**
-   * A continuation link (absolute URI) to the next page of results in the list.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * List of skus with features
- * @extends Array<WorkspaceSku>
- */
-export interface SkuListResult extends Array<WorkspaceSku> {
-  /**
-   * The URI to fetch the next page of Workspace Skus. Call ListNext() with this URI to fetch the
-   * next page of Workspace Skus
-   */
-  nextLink?: string;
-}
-
-/**
- * Defines values for ProvisioningState.
- * Possible values include: 'Unknown', 'Updating', 'Creating', 'Deleting', 'Succeeded', 'Failed',
- * 'Canceled'
- * @readonly
- * @enum {string}
- */
-export type ProvisioningState = 'Unknown' | 'Updating' | 'Creating' | 'Deleting' | 'Succeeded' | 'Failed' | 'Canceled';
-
-/**
- * Defines values for EncryptionStatus.
- * Possible values include: 'Enabled', 'Disabled'
- * @readonly
- * @enum {string}
- */
-export type EncryptionStatus = 'Enabled' | 'Disabled';
-
-/**
- * Defines values for PrivateEndpointServiceConnectionStatus.
- * Possible values include: 'Pending', 'Approved', 'Rejected', 'Disconnected', 'Timeout'
- * @readonly
- * @enum {string}
- */
-export type PrivateEndpointServiceConnectionStatus = 'Pending' | 'Approved' | 'Rejected' | 'Disconnected' | 'Timeout';
-
-/**
- * Defines values for PrivateEndpointConnectionProvisioningState.
- * Possible values include: 'Succeeded', 'Creating', 'Deleting', 'Failed'
- * @readonly
- * @enum {string}
- */
-export type PrivateEndpointConnectionProvisioningState = 'Succeeded' | 'Creating' | 'Deleting' | 'Failed';
-
-/**
- * Defines values for UsageUnit.
- * Possible values include: 'Count'
- * @readonly
- * @enum {string}
- */
-export type UsageUnit = 'Count';
-
-/**
- * Defines values for VMPriceOSType.
- * Possible values include: 'Linux', 'Windows'
- * @readonly
- * @enum {string}
- */
-export type VMPriceOSType = 'Linux' | 'Windows';
-
-/**
- * Defines values for VMTier.
- * Possible values include: 'Standard', 'LowPriority', 'Spot'
- * @readonly
- * @enum {string}
- */
-export type VMTier = 'Standard' | 'LowPriority' | 'Spot';
-
-/**
- * Defines values for QuotaUnit.
- * Possible values include: 'Count'
- * @readonly
- * @enum {string}
- */
-export type QuotaUnit = 'Count';
-
-/**
- * Defines values for Status.
- * Possible values include: 'Undefined', 'Success', 'Failure', 'InvalidQuotaBelowClusterMinimum',
- * 'InvalidQuotaExceedsSubscriptionLimit', 'InvalidVMFamilyName', 'OperationNotSupportedForSku',
- * 'OperationNotEnabledForRegion'
- * @readonly
- * @enum {string}
- */
-export type Status = 'Undefined' | 'Success' | 'Failure' | 'InvalidQuotaBelowClusterMinimum' | 'InvalidQuotaExceedsSubscriptionLimit' | 'InvalidVMFamilyName' | 'OperationNotSupportedForSku' | 'OperationNotEnabledForRegion';
-
-/**
- * Defines values for ResourceIdentityType.
- * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned,UserAssigned', 'None'
- * @readonly
- * @enum {string}
- */
-export type ResourceIdentityType = 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned,UserAssigned' | 'None';
-
-/**
- * Defines values for VmPriority.
- * Possible values include: 'Dedicated', 'LowPriority'
- * @readonly
- * @enum {string}
- */
-export type VmPriority = 'Dedicated' | 'LowPriority';
-
-/**
- * Defines values for RemoteLoginPortPublicAccess.
- * Possible values include: 'Enabled', 'Disabled', 'NotSpecified'
- * @readonly
- * @enum {string}
- */
-export type RemoteLoginPortPublicAccess = 'Enabled' | 'Disabled' | 'NotSpecified';
-
-/**
- * Defines values for AllocationState.
- * Possible values include: 'Steady', 'Resizing'
- * @readonly
- * @enum {string}
- */
-export type AllocationState = 'Steady' | 'Resizing';
-
-/**
- * Defines values for ApplicationSharingPolicy.
- * Possible values include: 'Personal', 'Shared'
- * @readonly
- * @enum {string}
- */
-export type ApplicationSharingPolicy = 'Personal' | 'Shared';
-
-/**
- * Defines values for SshPublicAccess.
- * Possible values include: 'Enabled', 'Disabled'
- * @readonly
- * @enum {string}
- */
-export type SshPublicAccess = 'Enabled' | 'Disabled';
-
-/**
- * Defines values for ComputeInstanceState.
- * Possible values include: 'Creating', 'CreateFailed', 'Deleting', 'Running', 'Restarting',
- * 'JobRunning', 'SettingUp', 'SetupFailed', 'Starting', 'Stopped', 'Stopping', 'UserSettingUp',
- * 'UserSetupFailed', 'Unknown', 'Unusable'
- * @readonly
- * @enum {string}
- */
-export type ComputeInstanceState = 'Creating' | 'CreateFailed' | 'Deleting' | 'Running' | 'Restarting' | 'JobRunning' | 'SettingUp' | 'SetupFailed' | 'Starting' | 'Stopped' | 'Stopping' | 'UserSettingUp' | 'UserSetupFailed' | 'Unknown' | 'Unusable';
-
-/**
- * Defines values for OperationName.
- * Possible values include: 'Create', 'Start', 'Stop', 'Restart', 'Reimage', 'Delete'
- * @readonly
- * @enum {string}
- */
-export type OperationName = 'Create' | 'Start' | 'Stop' | 'Restart' | 'Reimage' | 'Delete';
-
-/**
- * Defines values for OperationStatus.
- * Possible values include: 'InProgress', 'Succeeded', 'CreateFailed', 'StartFailed', 'StopFailed',
- * 'RestartFailed', 'ReimageFailed', 'DeleteFailed'
- * @readonly
- * @enum {string}
- */
-export type OperationStatus = 'InProgress' | 'Succeeded' | 'CreateFailed' | 'StartFailed' | 'StopFailed' | 'RestartFailed' | 'ReimageFailed' | 'DeleteFailed';
-
-/**
- * Defines values for NodeState.
- * Possible values include: 'idle', 'running', 'preparing', 'unusable', 'leaving', 'preempted'
- * @readonly
- * @enum {string}
- */
-export type NodeState = 'idle' | 'running' | 'preparing' | 'unusable' | 'leaving' | 'preempted';
-
-/**
- * Defines values for ComputeType.
- * Possible values include: 'AKS', 'AmlCompute', 'ComputeInstance', 'DataFactory',
- * 'VirtualMachine', 'HDInsight', 'Databricks', 'DataLakeAnalytics'
- * @readonly
- * @enum {string}
- */
-export type ComputeType = 'AKS' | 'AmlCompute' | 'ComputeInstance' | 'DataFactory' | 'VirtualMachine' | 'HDInsight' | 'Databricks' | 'DataLakeAnalytics';
-
-/**
- * Defines values for ReasonCode.
- * Possible values include: 'NotSpecified', 'NotAvailableForRegion', 'NotAvailableForSubscription'
- * @readonly
- * @enum {string}
- */
-export type ReasonCode = 'NotSpecified' | 'NotAvailableForRegion' | 'NotAvailableForSubscription';
-
-/**
- * Defines values for UnderlyingResourceAction.
- * Possible values include: 'Delete', 'Detach'
- * @readonly
- * @enum {string}
- */
-export type UnderlyingResourceAction = 'Delete' | 'Detach';
-
-/**
- * Defines values for Status1.
- * Possible values include: 'Disabled', 'Enabled'
- * @readonly
- * @enum {string}
- */
-export type Status1 = 'Disabled' | 'Enabled';
-
-/**
- * Contains response data for the list operation.
- */
-export type OperationsListResponse = OperationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type WorkspacesGetResponse = Workspace & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workspace;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type WorkspacesCreateOrUpdateResponse = Workspace & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workspace;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type WorkspacesUpdateResponse = Workspace & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workspace;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type WorkspacesListByResourceGroupResponse = WorkspaceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceListResult;
-    };
-};
-
-/**
- * Contains response data for the listKeys operation.
- */
-export type WorkspacesListKeysResponse = ListWorkspaceKeysResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListWorkspaceKeysResult;
-    };
-};
-
-/**
- * Contains response data for the listBySubscription operation.
- */
-export type WorkspacesListBySubscriptionResponse = WorkspaceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type WorkspacesBeginCreateOrUpdateResponse = Workspace & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Workspace;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type WorkspacesListByResourceGroupNextResponse = WorkspaceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceListResult;
-    };
-};
-
-/**
- * Contains response data for the listBySubscriptionNext operation.
- */
-export type WorkspacesListBySubscriptionNextResponse = WorkspaceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceListResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type WorkspaceFeaturesListResponse = ListAmlUserFeatureResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListAmlUserFeatureResult;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type WorkspaceFeaturesListNextResponse = ListAmlUserFeatureResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListAmlUserFeatureResult;
-    };
-};
-
-/**
- * Contains response data for the prepare operation.
- */
-export type NotebooksPrepareResponse = NotebookResourceInfo & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NotebookResourceInfo;
-    };
-};
-
-/**
- * Contains response data for the beginPrepare operation.
- */
-export type NotebooksBeginPrepareResponse = NotebookResourceInfo & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: NotebookResourceInfo;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type UsagesListResponse = ListUsagesResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListUsagesResult;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type UsagesListNextResponse = ListUsagesResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListUsagesResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type VirtualMachineSizesListResponse = VirtualMachineSizeListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: VirtualMachineSizeListResult;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type QuotasUpdateResponse = UpdateWorkspaceQuotasResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: UpdateWorkspaceQuotasResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type QuotasListResponse = ListWorkspaceQuotas & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListWorkspaceQuotas;
-    };
-};
-
-/**
- * Contains response data for the listNext operation.
- */
-export type QuotasListNextResponse = ListWorkspaceQuotas & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ListWorkspaceQuotas;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type WorkspaceConnectionsListResponse = PaginatedWorkspaceConnectionsList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PaginatedWorkspaceConnectionsList;
-    };
-};
-
-/**
- * Contains response data for the create operation.
- */
-export type WorkspaceConnectionsCreateResponse = WorkspaceConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceConnection;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type WorkspaceConnectionsGetResponse = WorkspaceConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: WorkspaceConnection;
-    };
-};
-
-/**
- * Contains response data for the listByWorkspace operation.
- */
-export type MachineLearningComputeListByWorkspaceResponse = PaginatedComputeResourcesList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PaginatedComputeResourcesList;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type MachineLearningComputeGetResponse = ComputeResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ComputeResource;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type MachineLearningComputeCreateOrUpdateResponse = ComputeResource & MachineLearningComputeCreateOrUpdateHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: MachineLearningComputeCreateOrUpdateHeaders;
-
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ComputeResource;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type MachineLearningComputeUpdateResponse = ComputeResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ComputeResource;
-    };
-};
-
-/**
- * Contains response data for the deleteMethod operation.
- */
-export type MachineLearningComputeDeleteResponse = MachineLearningComputeDeleteHeaders & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: MachineLearningComputeDeleteHeaders;
-    };
-};
-
-/**
- * Contains response data for the listNodes operation.
- */
-export type MachineLearningComputeListNodesResponse = AmlComputeNodesInformation & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AmlComputeNodesInformation;
-    };
-};
-
-/**
- * Contains response data for the listKeys operation.
- */
-export type MachineLearningComputeListKeysResponse = ComputeSecretsUnion & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ComputeSecretsUnion;
-    };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type MachineLearningComputeBeginUpdateResponse = ComputeResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ComputeResource;
-    };
-};
-
-/**
- * Contains response data for the listByWorkspaceNext operation.
- */
-export type MachineLearningComputeListByWorkspaceNextResponse = PaginatedComputeResourcesList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PaginatedComputeResourcesList;
-    };
-};
-
-/**
- * Contains response data for the listSkus operation.
- */
-export type ListSkusResponse = SkuListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SkuListResult;
-    };
-};
-
-/**
- * Contains response data for the listSkusNext operation.
- */
-export type ListSkusNextResponse = SkuListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SkuListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
-};
-
-/**
- * Contains response data for the put operation.
- */
-export type PrivateEndpointConnectionsPutResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
-};
-
-/**
- * Contains response data for the listByWorkspace operation.
- */
-export type PrivateLinkResourcesListByWorkspaceResponse = PrivateLinkResourceListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResourceListResult;
-    };
-};

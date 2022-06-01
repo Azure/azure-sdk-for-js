@@ -40,7 +40,7 @@ export interface TokenCyclerOptions {
 export const DEFAULT_CYCLER_OPTIONS: TokenCyclerOptions = {
   forcedRefreshWindowInMs: 1000, // Force waiting for a refresh 1s before the token expires
   retryIntervalInMs: 3000, // Allow refresh attempts every 3s
-  refreshWindowInMs: 1000 * 60 * 2 // Start refreshing 2m before expiry
+  refreshWindowInMs: 1000 * 60 * 2, // Start refreshing 2m before expiry
 };
 
 /**
@@ -110,10 +110,11 @@ export function createTokenCycler(
 ): AccessTokenGetter {
   let refreshWorker: Promise<AccessToken> | null = null;
   let token: AccessToken | null = null;
+  let tenantId: string | undefined;
 
   const options = {
     ...DEFAULT_CYCLER_OPTIONS,
-    ...tokenCyclerOptions
+    ...tokenCyclerOptions,
   };
 
   /**
@@ -145,7 +146,7 @@ export function createTokenCycler(
       return (
         token === null || token.expiresOnTimestamp - options.forcedRefreshWindowInMs < Date.now()
       );
-    }
+    },
   };
 
   /**
@@ -172,6 +173,7 @@ export function createTokenCycler(
         .then((_token) => {
           refreshWorker = null;
           token = _token;
+          tenantId = getTokenOptions.tenantId;
           return token;
         })
         .catch((reason) => {
@@ -180,6 +182,7 @@ export function createTokenCycler(
           // new retry chain.
           refreshWorker = null;
           token = null;
+          tenantId = undefined;
           throw reason;
         });
     }
@@ -198,7 +201,11 @@ export function createTokenCycler(
     //   step 1.
     //
 
-    if (cycler.mustRefresh) return refresh(scopes, tokenOptions);
+    // IF the tenantId passed in token options is different to the one we have, we need to
+    // refresh the token with the new tenantId.
+    const mustRefresh = tenantId !== tokenOptions.tenantId || cycler.mustRefresh;
+
+    if (mustRefresh) return refresh(scopes, tokenOptions);
 
     if (cycler.shouldRefresh) {
       refresh(scopes, tokenOptions);

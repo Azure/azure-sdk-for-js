@@ -16,7 +16,7 @@ import {
   isServiceBusError,
   ProcessErrorArgs,
   ServiceBusClient,
-  ServiceBusReceivedMessage
+  ServiceBusReceivedMessage,
 } from "@azure/service-bus";
 
 // Load the .env file if it exists
@@ -73,7 +73,7 @@ export async function main() {
               break;
           }
         }
-      }
+      },
     });
 
     // Waiting long enough before closing the receiver to receive messages

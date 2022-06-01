@@ -17,7 +17,7 @@ import {
   Captions,
   QuerySpellerType,
   QueryAnswerType,
-  QueryCaptionType
+  QueryCaptionType,
 } from "./generated/data/models";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 

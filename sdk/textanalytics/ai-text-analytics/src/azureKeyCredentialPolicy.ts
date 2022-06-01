@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KeyCredential } from "@azure/core-auth";
 import {
-  PipelineResponse,
+  PipelinePolicy,
   PipelineRequest,
+  PipelineResponse,
   SendRequest,
-  PipelinePolicy
 } from "@azure/core-rest-pipeline";
+import { KeyCredential } from "@azure/core-auth";
 
 const API_KEY_HEADER_NAME = "Ocp-Apim-Subscription-Key";
 
@@ -27,6 +27,6 @@ export function textAnalyticsAzureKeyCredentialPolicy(credential: KeyCredential)
     sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       request.headers.set(API_KEY_HEADER_NAME, credential.key);
       return next(request);
-    }
+    },
   };
 }

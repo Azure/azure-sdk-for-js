@@ -39,6 +39,8 @@ export interface KeyProperties {
   readonly keyUriWithVersion?: string;
   /** Key rotation policy in response. It will be used for both output and input. Omitted if empty */
   rotationPolicy?: RotationPolicy;
+  /** Key release policy in response. It will be used for both output and input. Omitted if empty */
+  releasePolicy?: KeyReleasePolicy;
 }
 
 /** The object attributes managed by the Azure Key Vault service. */
@@ -64,6 +66,8 @@ export interface KeyAttributes {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly recoveryLevel?: DeletionRecoveryLevel;
+  /** Indicates if the private key can be exported. */
+  exportable?: boolean;
 }
 
 export interface RotationPolicy {
@@ -96,15 +100,22 @@ export interface LifetimeAction {
 }
 
 export interface Trigger {
-  /** The time duration after key creation to rotate the key. It should be in ISO8601 format. Eg: 'P90D', 'P1Y'. */
+  /** The time duration after key creation to rotate the key. It only applies to rotate. It will be in ISO 8601 duration format. Eg: 'P90D', 'P1Y'. */
   timeAfterCreate?: string;
-  /** The time duration before key expiring to rotate the key. It should be in ISO8601 format. Eg: 'P90D', 'P1Y'. */
+  /** The time duration before key expiring to rotate or notify. It will be in ISO 8601 duration format. Eg: 'P90D', 'P1Y'. */
   timeBeforeExpiry?: string;
 }
 
 export interface Action {
   /** The type of action. */
   type?: KeyRotationPolicyActionType;
+}
+
+export interface KeyReleasePolicy {
+  /** Content type and version of key release policy */
+  contentType?: string;
+  /** Blob encoding the policy rules under which the key can be released. */
+  data?: Uint8Array;
 }
 
 /** Key Vault resource */
@@ -539,44 +550,6 @@ export interface PrivateLinkResourceListResult {
   value?: PrivateLinkResource[];
 }
 
-/** Managed HSM resource */
-export interface ManagedHsmResource {
-  /**
-   * The Azure Resource Manager resource ID for the managed HSM Pool.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the managed HSM Pool.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The resource type of the managed HSM Pool.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** The supported Azure location where the managed HSM Pool should be created. */
-  location?: string;
-  /** SKU details */
-  sku?: ManagedHsmSku;
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-  /**
-   * Metadata pertaining to creation and last modification of the key vault resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-/** SKU details */
-export interface ManagedHsmSku {
-  /** SKU Family of the managed HSM Pool */
-  family: ManagedHsmSkuFamily;
-  /** SKU of the managed HSM Pool */
-  name: ManagedHsmSkuName;
-}
-
 /** Properties of the managed HSM Pool */
 export interface ManagedHsmProperties {
   /** The Azure Active Directory tenant ID that should be used for authenticating requests to the managed HSM pool. */
@@ -673,6 +646,44 @@ export interface MhsmPrivateLinkServiceConnectionState {
   description?: string;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
   actionsRequired?: ActionsRequired;
+}
+
+/** Managed HSM resource */
+export interface ManagedHsmResource {
+  /**
+   * The Azure Resource Manager resource ID for the managed HSM Pool.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the managed HSM Pool.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The resource type of the managed HSM Pool.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** The supported Azure location where the managed HSM Pool should be created. */
+  location?: string;
+  /** SKU details */
+  sku?: ManagedHsmSku;
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
+  /**
+   * Metadata pertaining to creation and last modification of the key vault resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** SKU details */
+export interface ManagedHsmSku {
+  /** SKU Family of the managed HSM Pool */
+  family: ManagedHsmSkuFamily;
+  /** SKU of the managed HSM Pool */
+  name: ManagedHsmSkuName;
 }
 
 /** The error exception. */
@@ -972,6 +983,8 @@ export type Key = Resource & {
   readonly keyUriWithVersion?: string;
   /** Key rotation policy in response. It will be used for both output and input. Omitted if empty */
   rotationPolicy?: RotationPolicy;
+  /** Key release policy in response. It will be used for both output and input. Omitted if empty */
+  releasePolicy?: KeyReleasePolicy;
 };
 
 /** Private endpoint connection resource. */
@@ -1125,7 +1138,8 @@ export enum KnownJsonWebKeyOperation {
   Verify = "verify",
   WrapKey = "wrapKey",
   UnwrapKey = "unwrapKey",
-  Import = "import"
+  Import = "import",
+  Release = "release"
 }
 
 /**
@@ -1139,7 +1153,8 @@ export enum KnownJsonWebKeyOperation {
  * **verify** \
  * **wrapKey** \
  * **unwrapKey** \
- * **import**
+ * **import** \
+ * **release**
  */
 export type JsonWebKeyOperation = string;
 
@@ -1197,7 +1212,9 @@ export enum KnownKeyPermissions {
   Recover = "recover",
   Purge = "purge",
   Release = "release",
-  Rotate = "rotate"
+  Rotate = "rotate",
+  Getrotationpolicy = "getrotationpolicy",
+  Setrotationpolicy = "setrotationpolicy"
 }
 
 /**
@@ -1223,7 +1240,9 @@ export enum KnownKeyPermissions {
  * **recover** \
  * **purge** \
  * **release** \
- * **rotate**
+ * **rotate** \
+ * **getrotationpolicy** \
+ * **setrotationpolicy**
  */
 export type KeyPermissions = string;
 
@@ -1471,20 +1490,6 @@ export enum KnownIdentityType {
  */
 export type IdentityType = string;
 
-/** Known values of {@link ManagedHsmSkuFamily} that the service accepts. */
-export enum KnownManagedHsmSkuFamily {
-  B = "B"
-}
-
-/**
- * Defines values for ManagedHsmSkuFamily. \
- * {@link KnownManagedHsmSkuFamily} can be used interchangeably with ManagedHsmSkuFamily,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **B**
- */
-export type ManagedHsmSkuFamily = string;
-
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
   /** The managed HSM Pool has been full provisioned. */
@@ -1536,6 +1541,20 @@ export enum KnownPublicNetworkAccess {
  * **Disabled**
  */
 export type PublicNetworkAccess = string;
+
+/** Known values of {@link ManagedHsmSkuFamily} that the service accepts. */
+export enum KnownManagedHsmSkuFamily {
+  B = "B"
+}
+
+/**
+ * Defines values for ManagedHsmSkuFamily. \
+ * {@link KnownManagedHsmSkuFamily} can be used interchangeably with ManagedHsmSkuFamily,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **B**
+ */
+export type ManagedHsmSkuFamily = string;
 /** Defines values for KeyRotationPolicyActionType. */
 export type KeyRotationPolicyActionType = "rotate" | "notify";
 /** Defines values for SkuName. */

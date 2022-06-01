@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
@@ -37,6 +36,8 @@ import {
   StorageAccountsListServiceSASOptionalParams,
   StorageAccountsListServiceSASResponse,
   StorageAccountsFailoverOptionalParams,
+  StorageAccountsHierarchicalNamespaceMigrationOptionalParams,
+  StorageAccountsAbortHierarchicalNamespaceMigrationOptionalParams,
   BlobRestoreParameters,
   StorageAccountsRestoreBlobRangesOptionalParams,
   StorageAccountsRestoreBlobRangesResponse,
@@ -265,6 +266,72 @@ export interface StorageAccounts {
     resourceGroupName: string,
     accountName: string,
     options?: StorageAccountsFailoverOptionalParams
+  ): Promise<void>;
+  /**
+   * Live Migration of storage account to enable Hns
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param requestType Required. Hierarchical namespace migration type can either be a hierarchical
+   *                    namespace validation request 'HnsOnValidationRequest' or a hydration request
+   *                    'HnsOnHydrationRequest'. The validation request will validate the migration whereas the hydration
+   *                    request will migrate the account.
+   * @param options The options parameters.
+   */
+  beginHierarchicalNamespaceMigration(
+    resourceGroupName: string,
+    accountName: string,
+    requestType: string,
+    options?: StorageAccountsHierarchicalNamespaceMigrationOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Live Migration of storage account to enable Hns
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param requestType Required. Hierarchical namespace migration type can either be a hierarchical
+   *                    namespace validation request 'HnsOnValidationRequest' or a hydration request
+   *                    'HnsOnHydrationRequest'. The validation request will validate the migration whereas the hydration
+   *                    request will migrate the account.
+   * @param options The options parameters.
+   */
+  beginHierarchicalNamespaceMigrationAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    requestType: string,
+    options?: StorageAccountsHierarchicalNamespaceMigrationOptionalParams
+  ): Promise<void>;
+  /**
+   * Abort live Migration of storage account to enable Hns
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param options The options parameters.
+   */
+  beginAbortHierarchicalNamespaceMigration(
+    resourceGroupName: string,
+    accountName: string,
+    options?: StorageAccountsAbortHierarchicalNamespaceMigrationOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  /**
+   * Abort live Migration of storage account to enable Hns
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param accountName The name of the storage account within the specified resource group. Storage
+   *                    account names must be between 3 and 24 characters in length and use numbers and lower-case letters
+   *                    only.
+   * @param options The options parameters.
+   */
+  beginAbortHierarchicalNamespaceMigrationAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    options?: StorageAccountsAbortHierarchicalNamespaceMigrationOptionalParams
   ): Promise<void>;
   /**
    * Restore blobs in the specified blob ranges

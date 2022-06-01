@@ -7,12 +7,12 @@ export {
   featureFlagPrefix,
   FeatureFlagValue,
   isFeatureFlag,
-  parseFeatureFlag
+  parseFeatureFlag,
 } from "./featureFlag";
 export * from "./models";
 export {
   isSecretReference,
   parseSecretReference,
   secretReferenceContentType,
-  SecretReferenceValue
+  SecretReferenceValue,
 } from "./secretReference";

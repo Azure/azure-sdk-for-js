@@ -8,7 +8,7 @@
 import {
   SearchIndexerClient,
   AzureKeyCredential,
-  SearchIndexerSkillset
+  SearchIndexerSkillset,
 } from "@azure/search-documents";
 
 import * as dotenv from "dotenv";
@@ -30,29 +30,29 @@ async function createSkillset(skillsetName: string, client: SearchIndexerClient)
         inputs: [
           {
             name: "text",
-            source: "/document/merged_content"
+            source: "/document/merged_content",
           },
           {
             name: "languageCode",
-            source: "/document/language"
-          }
+            source: "/document/language",
+          },
         ],
         outputs: [
           {
             name: "persons",
-            targetName: "people"
+            targetName: "people",
           },
           {
             name: "organizations",
-            targetName: "organizations"
+            targetName: "organizations",
           },
           {
             name: "locations",
-            targetName: "locations"
-          }
-        ]
-      }
-    ]
+            targetName: "locations",
+          },
+        ],
+      },
+    ],
   };
   await client.createSkillset(skillset);
 }
@@ -64,12 +64,12 @@ async function getAndUpdateSkillset(skillsetName: string, client: SearchIndexerC
   skillset.skills[0].outputs = [
     {
       name: "persons",
-      targetName: "people"
+      targetName: "people",
     },
     {
       name: "organizations",
-      targetName: "organizations"
-    }
+      targetName: "organizations",
+    },
   ];
 
   await client.createOrUpdateSkillset(skillset);

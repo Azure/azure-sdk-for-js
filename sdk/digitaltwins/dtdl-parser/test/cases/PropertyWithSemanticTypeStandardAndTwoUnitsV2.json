@@ -1,0 +1,31 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:aProperty;1",
+      "@type": [
+        "Property",
+        "Velocity"
+      ],
+      "name": "expectedSpeed",
+      "schema": "double",
+      "unit": [
+        "kilometrePerSecond",
+        "milePerHour"
+      ]
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:propertyCountAboveMax",
+        "PrimaryID": "dtmi:test:aProperty;1",
+        "SecondaryID": null,
+        "Property": "dtmi:dtdl:property:unit;2",
+        "Value": null
+      }
+    ]
+  }
+}

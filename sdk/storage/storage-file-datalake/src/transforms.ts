@@ -2,9 +2,13 @@
 // Licensed under the MIT license.
 import { URLBuilder } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { ContainerItem, PublicAccessType as ContainerPublicAccessType } from "@azure/storage-blob";
+import {
+  ContainerItem,
+  CpkInfo as BlobCpkInfo,
+  PublicAccessType as ContainerPublicAccessType,
+} from "@azure/storage-blob";
 
-import { AclFailedEntry, PathGetPropertiesResponse } from "./generated/src/models";
+import { AclFailedEntry, CpkInfo, PathGetPropertiesResponse } from "./generated/src/models";
 import {
   AccessControlChangeError,
   FileSystemItem,
@@ -16,7 +20,7 @@ import {
   RemovePathAccessControlItem,
   RolePermissions,
   ServiceListContainersSegmentResponse,
-  ServiceListFileSystemsSegmentResponse
+  ServiceListFileSystemsSegmentResponse,
 } from "./models";
 import { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants";
 import { base64encode } from "./utils/utils.common";
@@ -101,8 +105,8 @@ function toFileSystemAsyncIterableIterator(
               versionId: val.version,
               properties: {
                 ...val.properties,
-                publicAccess: toPublicAccessType(val.properties.publicAccess)
-              }
+                publicAccess: toPublicAccessType(val.properties.publicAccess),
+              },
             };
           }
         );
@@ -111,7 +115,7 @@ function toFileSystemAsyncIterableIterator(
     },
     [Symbol.asyncIterator]() {
       return this;
-    }
+    },
   };
 }
 
@@ -119,10 +123,10 @@ export function toFileSystemPagedAsyncIterableIterator(
   iter: PagedAsyncIterableIterator<ContainerItem, ServiceListContainersSegmentResponse>
 ): PagedAsyncIterableIterator<FileSystemItem, ServiceListFileSystemsSegmentResponse> {
   return {
-    async next(): Promise<{ done?: boolean; value: FileSystemItem }> {
+    async next(): Promise<IteratorResult<FileSystemItem>> {
       const rawResult = await iter.next();
-      const result = rawResult as { done?: boolean; value: FileSystemItem };
-      if (result.value) {
+      const result = rawResult as IteratorResult<FileSystemItem>;
+      if (!result.done && !rawResult.done) {
         result.value.properties.publicAccess = toPublicAccessType(
           rawResult.value.properties.publicAccess
         );
@@ -140,7 +144,7 @@ export function toFileSystemPagedAsyncIterableIterator(
       settings: PageSettings = {}
     ): AsyncIterableIterator<ServiceListFileSystemsSegmentResponse> {
       return toFileSystemAsyncIterableIterator(iter.byPage(settings));
-    }
+    },
   };
 }
 
@@ -205,7 +209,7 @@ export function toPathGetAccessControlResponse(
     ...response,
     _response: response._response,
     permissions: toPermissions(response.permissions),
-    acl: toAcl(response.acl)
+    acl: toAcl(response.acl),
   };
 }
 
@@ -289,7 +293,7 @@ export function toPermissions(permissionsString?: string): PathPermissions | und
     group,
     other,
     stickyBit,
-    extendedAcls
+    extendedAcls,
   };
 }
 
@@ -335,7 +339,7 @@ export function toAccessControlItem(aclItemString: string): PathAccessControlIte
     defaultScope,
     accessControlType,
     entityId,
-    permissions
+    permissions,
   };
 }
 
@@ -382,7 +386,7 @@ export function toRemoveAccessControlItem(aclItemString: string): RemovePathAcce
   return {
     defaultScope,
     accessControlType,
-    entityId
+    entityId,
   };
 }
 
@@ -446,7 +450,17 @@ export function toAccessControlChangeFailureArray(
     return {
       name: aclFailedEntry.name || "",
       isDirectory: (aclFailedEntry.type || "").toLowerCase() === "directory",
-      message: aclFailedEntry.errorMessage || ""
+      message: aclFailedEntry.errorMessage || "",
     };
   });
+}
+
+export function toBlobCpkInfo(input?: CpkInfo): BlobCpkInfo | undefined {
+  return input
+    ? {
+        encryptionKey: input.encryptionKey,
+        encryptionKeySha256: input.encryptionKeySha256,
+        encryptionAlgorithm: "AES256",
+      }
+    : undefined;
 }

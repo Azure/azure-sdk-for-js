@@ -12,9 +12,7 @@ const splitError = new Error("Fake Partition Split") as any;
 splitError.code = 410;
 splitError.substatus = SubStatusCodes.PartitionKeyRangeGone;
 
-const generateDocuments = function(
-  docSize: number
-): {
+const generateDocuments = function (docSize: number): {
   id: string;
 }[] {
   const docs = [];
@@ -29,7 +27,7 @@ const documentDefinitions = generateDocuments(20);
 describe("Partition Splits", () => {
   let container: Container;
 
-  before(async function() {
+  before(async function () {
     await removeAllDatabases();
     container = await getTestContainer(
       "Partition Splits",
@@ -37,8 +35,8 @@ describe("Partition Splits", () => {
       {
         id: "partitionSplits",
         partitionKey: {
-          paths: ["/id"]
-        }
+          paths: ["/id"],
+        },
       },
       { offerThroughput: 25100 }
     );
@@ -66,13 +64,13 @@ describe("Partition Splits", () => {
             partitionKeyRanges.add(partitionKeyRangeId);
           }
           return next(context);
-        }
-      }
+        },
+      },
     ];
     const client = new CosmosClient({
       ...options,
       plugins,
-      connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+      connectionPolicy: { enableBackgroundEndpointRefreshing: false },
     } as any);
     const { resources } = await client
       .database(container.database.id)
@@ -101,13 +99,13 @@ describe("Partition Splits", () => {
             throw error;
           }
           return next(context);
-        }
-      }
+        },
+      },
     ];
     const client = new CosmosClient({
       ...options,
       plugins,
-      connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+      connectionPolicy: { enableBackgroundEndpointRefreshing: false },
     } as any);
 
     // fetchAll()
@@ -118,7 +116,7 @@ describe("Partition Splits", () => {
         .items.query("SELECT * FROM root r", { maxItemCount: 2, maxDegreeOfParallelism: 1 })
         .fetchAll();
       assert.fail("Expected query to fail");
-    } catch (e) {
+    } catch (e: any) {
       assert.strictEqual(e.code, 503);
     }
 
@@ -130,7 +128,7 @@ describe("Partition Splits", () => {
         .items.query("SELECT * FROM root r", { maxItemCount: 2, maxDegreeOfParallelism: 1 })
         .fetchNext();
       assert.fail("Expected query to fail");
-    } catch (e) {
+    } catch (e: any) {
       assert.strictEqual(e.code, 503);
     }
 
@@ -146,7 +144,7 @@ describe("Partition Splits", () => {
         results.push(result);
       }
       assert.fail("Expected query to fail");
-    } catch (e) {
+    } catch (e: any) {
       assert.strictEqual(e.code, 503);
     }
   });

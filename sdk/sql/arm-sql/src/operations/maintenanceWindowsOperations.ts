@@ -10,24 +10,24 @@ import { MaintenanceWindowsOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { SqlManagementClientContext } from "../sqlManagementClientContext";
+import { SqlManagementClient } from "../sqlManagementClient";
 import {
-  MaintenanceWindowsOperationsGetOptionalParams,
-  MaintenanceWindowsOperationsGetResponse,
+  MaintenanceWindowsGetOptionalParams,
+  MaintenanceWindowsGetResponse,
   MaintenanceWindows,
-  MaintenanceWindowsOperationsCreateOrUpdateOptionalParams
+  MaintenanceWindowsCreateOrUpdateOptionalParams
 } from "../models";
 
 /** Class containing MaintenanceWindowsOperations operations. */
 export class MaintenanceWindowsOperationsImpl
   implements MaintenanceWindowsOperations {
-  private readonly client: SqlManagementClientContext;
+  private readonly client: SqlManagementClient;
 
   /**
    * Initialize a new instance of the class MaintenanceWindowsOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: SqlManagementClientContext) {
+  constructor(client: SqlManagementClient) {
     this.client = client;
   }
 
@@ -45,8 +45,8 @@ export class MaintenanceWindowsOperationsImpl
     serverName: string,
     databaseName: string,
     maintenanceWindowName: string,
-    options?: MaintenanceWindowsOperationsGetOptionalParams
-  ): Promise<MaintenanceWindowsOperationsGetResponse> {
+    options?: MaintenanceWindowsGetOptionalParams
+  ): Promise<MaintenanceWindowsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -75,7 +75,7 @@ export class MaintenanceWindowsOperationsImpl
     databaseName: string,
     maintenanceWindowName: string,
     parameters: MaintenanceWindows,
-    options?: MaintenanceWindowsOperationsCreateOrUpdateOptionalParams
+    options?: MaintenanceWindowsCreateOrUpdateOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -119,7 +119,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/maintenanceWindows/current",
   httpMethod: "PUT",
   responses: { 200: {}, default: {} },
-  requestBody: Parameters.parameters41,
+  requestBody: Parameters.parameters37,
   queryParameters: [Parameters.apiVersion2, Parameters.maintenanceWindowName],
   urlParameters: [
     Parameters.$host,

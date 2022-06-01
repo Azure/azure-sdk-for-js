@@ -11,7 +11,7 @@ import { Rules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { CdnManagementClientContext } from "../cdnManagementClientContext";
+import { CdnManagementClient } from "../cdnManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -33,20 +33,21 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Rules operations. */
 export class RulesImpl implements Rules {
-  private readonly client: CdnManagementClientContext;
+  private readonly client: CdnManagementClient;
 
   /**
    * Initialize a new instance of the class Rules class.
    * @param client Reference to the service client
    */
-  constructor(client: CdnManagementClientContext) {
+  constructor(client: CdnManagementClient) {
     this.client = client;
   }
 
   /**
    * Lists all of the existing delivery rules within a rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param options The options parameters.
    */
@@ -126,7 +127,8 @@ export class RulesImpl implements Rules {
   /**
    * Lists all of the existing delivery rules within a rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param options The options parameters.
    */
@@ -145,7 +147,8 @@ export class RulesImpl implements Rules {
   /**
    * Gets an existing delivery rule within a rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param options The options parameters.
@@ -166,7 +169,8 @@ export class RulesImpl implements Rules {
   /**
    * Creates a new delivery rule within the specified rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param rule The delivery rule properties.
@@ -226,17 +230,20 @@ export class RulesImpl implements Rules {
       { resourceGroupName, profileName, ruleSetName, ruleName, rule, options },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Creates a new delivery rule within the specified rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param rule The delivery rule properties.
@@ -264,7 +271,8 @@ export class RulesImpl implements Rules {
   /**
    * Updates an existing delivery rule within a rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param ruleUpdateProperties Delivery rule properties
@@ -331,17 +339,20 @@ export class RulesImpl implements Rules {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Updates an existing delivery rule within a rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param ruleUpdateProperties Delivery rule properties
@@ -369,7 +380,8 @@ export class RulesImpl implements Rules {
   /**
    * Deletes an existing delivery rule within a rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param options The options parameters.
@@ -425,17 +437,20 @@ export class RulesImpl implements Rules {
       { resourceGroupName, profileName, ruleSetName, ruleName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "azure-async-operation"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Deletes an existing delivery rule within a rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param ruleName Name of the delivery rule which is unique within the endpoint.
    * @param options The options parameters.
@@ -460,7 +475,8 @@ export class RulesImpl implements Rules {
   /**
    * ListByRuleSetNext
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group.
    * @param ruleSetName Name of the rule set under the profile.
    * @param nextLink The nextLink from the previous successful call to the ListByRuleSet method.
    * @param options The options parameters.
@@ -559,7 +575,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.ruleSetName,
     Parameters.ruleName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -594,7 +610,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.ruleSetName,
     Parameters.ruleName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

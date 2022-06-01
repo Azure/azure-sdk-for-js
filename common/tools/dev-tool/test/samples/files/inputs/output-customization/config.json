@@ -1,0 +1,18 @@
+{
+  "skipFolder": false,
+  "disableDocsMs": true,
+  "productName": "Azure Template",
+  "productSlugs": [],
+  "apiRefLink": "https://docs.microsoft.com/javascript/api/",
+  "requiredResources": {
+    "Azure App Configuration": "https://docs.microsoft.com/azure/azure-app-configuration/"
+  },
+  "customSnippets": {
+    "header": "_header.md",
+    "prerequisites": "_prerequisites.md",
+    "footer": "_footer.md"
+  },
+  "extraFiles": {
+    "./test.txt": ["typescript/testTs.txt", "javascript/testJs.txt"]
+  }
+}

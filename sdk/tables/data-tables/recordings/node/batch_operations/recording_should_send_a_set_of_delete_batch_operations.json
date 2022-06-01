@@ -1,0 +1,39 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://fakeaccountname.table.core.windows.net/$batch?st=2021-08-03T08:52:15Z\u0026spr=https\u0026sig=fakesigval",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Charset": "UTF-8",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "1015",
+        "Content-Type": "multipart/mixed; boundary=batch_fakeId",
+        "DataServiceVersion": "3.0;",
+        "MaxDataServiceVersion": "3.0;NetFx",
+        "User-Agent": "azsdk-js-data-tables/13.0.2 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "8479caee-e16f-46d2-a4bb-ce3cd4b5eb76",
+        "x-ms-version": "2019-02-02"
+      },
+      "RequestBody": "LS1iYXRjaF9mYWtlSWQNCmNvbnRlbnQtdHlwZTogbXVsdGlwYXJ0L21peGVkOyBib3VuZGFyeT1jaGFuZ2VzZXRfZmFrZUlkDQoNCg0KLS1jaGFuZ2VzZXRfZmFrZUlkDQpjb250ZW50LXR5cGU6IGFwcGxpY2F0aW9uL2h0dHANCmNvbnRlbnQtdHJhbnNmZXItZW5jb2Rpbmc6IGJpbmFyeQ0KDQpERUxFVEUgaHR0cHM6Ly9mYWtlYWNjb3VudG5hbWUudGFibGUuY29yZS53aW5kb3dzLm5ldC9iYXRjaFRhYmxlVGVzdG5vZGUoUGFydGl0aW9uS2V5PSdiYXRjaFRlc3QnLFJvd0tleT0nMScpIEhUVFAvMS4xDQpBY2NlcHQ6IGFwcGxpY2F0aW9uL2pzb247b2RhdGE9bWluaW1hbG1ldGFkYXRhDQpEYXRhU2VydmljZVZlcnNpb246IDMuMA0KSWYtTWF0Y2g6ICoNCg0KDQotLWNoYW5nZXNldF9mYWtlSWQNCmNvbnRlbnQtdHlwZTogYXBwbGljYXRpb24vaHR0cA0KY29udGVudC10cmFuc2Zlci1lbmNvZGluZzogYmluYXJ5DQoNCkRFTEVURSBodHRwczovL2Zha2VhY2NvdW50bmFtZS50YWJsZS5jb3JlLndpbmRvd3MubmV0L2JhdGNoVGFibGVUZXN0bm9kZShQYXJ0aXRpb25LZXk9J2JhdGNoVGVzdCcsUm93S2V5PScyJykgSFRUUC8xLjENCkFjY2VwdDogYXBwbGljYXRpb24vanNvbjtvZGF0YT1taW5pbWFsbWV0YWRhdGENCkRhdGFTZXJ2aWNlVmVyc2lvbjogMy4wDQpJZi1NYXRjaDogKg0KDQoNCi0tY2hhbmdlc2V0X2Zha2VJZA0KY29udGVudC10eXBlOiBhcHBsaWNhdGlvbi9odHRwDQpjb250ZW50LXRyYW5zZmVyLWVuY29kaW5nOiBiaW5hcnkNCg0KREVMRVRFIGh0dHBzOi8vZmFrZWFjY291bnRuYW1lLnRhYmxlLmNvcmUud2luZG93cy5uZXQvYmF0Y2hUYWJsZVRlc3Rub2RlKFBhcnRpdGlvbktleT0nYmF0Y2hUZXN0JyxSb3dLZXk9JzMnKSBIVFRQLzEuMQ0KQWNjZXB0OiBhcHBsaWNhdGlvbi9qc29uO29kYXRhPW1pbmltYWxtZXRhZGF0YQ0KRGF0YVNlcnZpY2VWZXJzaW9uOiAzLjANCklmLU1hdGNoOiAqDQoNCg0KLS1jaGFuZ2VzZXRfZmFrZUlkLS0NCi0tYmF0Y2hfZmFrZUlkLS0NCg==",
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Type": "multipart/mixed; boundary=batchresponse_4c43dc25-8b35-480b-804a-7ccb078ac9a1",
+        "Date": "Tue, 01 Feb 2022 20:52:46 GMT",
+        "Server": [
+          "Windows-Azure-Table/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "8479caee-e16f-46d2-a4bb-ce3cd4b5eb76",
+        "x-ms-request-id": "a5ad7d4b-0002-0010-3ead-17b759000000",
+        "x-ms-version": "2019-02-02"
+      },
+      "ResponseBody": "LS1iYXRjaHJlc3BvbnNlXzRjNDNkYzI1LThiMzUtNDgwYi04MDRhLTdjY2IwNzhhYzlhMQ0KQ29udGVudC1UeXBlOiBtdWx0aXBhcnQvbWl4ZWQ7IGJvdW5kYXJ5PWNoYW5nZXNldHJlc3BvbnNlXzk5YmZjNTQyLWUzYjItNDUwOS1hYjExLTFmZjYzN2I5NDBiMw0KDQotLWNoYW5nZXNldHJlc3BvbnNlXzk5YmZjNTQyLWUzYjItNDUwOS1hYjExLTFmZjYzN2I5NDBiMw0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi9odHRwDQpDb250ZW50LVRyYW5zZmVyLUVuY29kaW5nOiBiaW5hcnkNCg0KSFRUUC8xLjEgMjA0IE5vIENvbnRlbnQNClgtQ29udGVudC1UeXBlLU9wdGlvbnM6IG5vc25pZmYNCkNhY2hlLUNvbnRyb2w6IG5vLWNhY2hlDQpEYXRhU2VydmljZVZlcnNpb246IDEuMDsNCg0KDQotLWNoYW5nZXNldHJlc3BvbnNlXzk5YmZjNTQyLWUzYjItNDUwOS1hYjExLTFmZjYzN2I5NDBiMw0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi9odHRwDQpDb250ZW50LVRyYW5zZmVyLUVuY29kaW5nOiBiaW5hcnkNCg0KSFRUUC8xLjEgMjA0IE5vIENvbnRlbnQNClgtQ29udGVudC1UeXBlLU9wdGlvbnM6IG5vc25pZmYNCkNhY2hlLUNvbnRyb2w6IG5vLWNhY2hlDQpEYXRhU2VydmljZVZlcnNpb246IDEuMDsNCg0KDQotLWNoYW5nZXNldHJlc3BvbnNlXzk5YmZjNTQyLWUzYjItNDUwOS1hYjExLTFmZjYzN2I5NDBiMw0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi9odHRwDQpDb250ZW50LVRyYW5zZmVyLUVuY29kaW5nOiBiaW5hcnkNCg0KSFRUUC8xLjEgMjA0IE5vIENvbnRlbnQNClgtQ29udGVudC1UeXBlLU9wdGlvbnM6IG5vc25pZmYNCkNhY2hlLUNvbnRyb2w6IG5vLWNhY2hlDQpEYXRhU2VydmljZVZlcnNpb246IDEuMDsNCg0KDQotLWNoYW5nZXNldHJlc3BvbnNlXzk5YmZjNTQyLWUzYjItNDUwOS1hYjExLTFmZjYzN2I5NDBiMy0tDQotLWJhdGNocmVzcG9uc2VfNGM0M2RjMjUtOGIzNS00ODBiLTgwNGEtN2NjYjA3OGFjOWExLS0NCg=="
+    }
+  ],
+  "Variables": {}
+}

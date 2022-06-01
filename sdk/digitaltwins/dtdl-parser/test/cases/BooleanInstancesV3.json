@@ -1,0 +1,75 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:booleanArray;1",
+      "@type": "Array",
+      "elementSchema": "boolean"
+    }
+  ],
+  "expect": {},
+  "instances": [
+    {
+      "subject": "dtmi:dtdl:instance:Schema:boolean;3",
+      "conforms": true,
+      "submit": "true"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:boolean;3",
+      "conforms": true,
+      "submit": "false"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:boolean;3",
+      "conforms": false,
+      "submit": ""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:boolean;3",
+      "conforms": false,
+      "submit": "\"true\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:boolean;3",
+      "conforms": false,
+      "submit": "1"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:boolean;3",
+      "conforms": false,
+      "submit": "null"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:boolean;3",
+      "conforms": false,
+      "submit": "[ true ]"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:boolean;3",
+      "conforms": false,
+      "submit": "{ \"value\": true }"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:boolean;3",
+      "conforms": false,
+      "submit": "$$"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:boolean;3",
+      "conforms": false,
+      "submit": "[ \"hi\": \"there\" ]"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:boolean;3",
+      "conforms": false,
+      "submit": "{ \"hello\" }"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:boolean;3",
+      "conforms": false,
+      "submit": "{ 23 ]"
+    }
+  ]
+}

@@ -3,14 +3,14 @@
 
 import { assert } from "chai";
 import * as sinon from "sinon";
-import { decompressResponsePolicy, createPipelineRequest, SendRequest } from "../../src";
+import { SendRequest, createPipelineRequest, decompressResponsePolicy } from "../../src";
 
-describe("decompressResponsePolicy (node)", function() {
-  it("Sets the expected flag on the request", function() {
+describe("decompressResponsePolicy (node)", function () {
+  it("Sets the expected flag on the request", function () {
     const policy = decompressResponsePolicy();
 
     const request = createPipelineRequest({
-      url: "https://bing.com"
+      url: "https://bing.com",
     });
 
     assert.isFalse(request.headers.has("Accept-Encoding"), "acceptEncoding is set.");

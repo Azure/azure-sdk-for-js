@@ -1,0 +1,245 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/deviceupdate/sdkinstance/management/groups?api-version=2021-06-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "defc0ce4-db92-4ab1-b57e-7512ff4cd58c"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "1076",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 20 Jan 2022 11:48:46 GMT",
+        "traceparent": "00-6b88d662757ad852ba671a2c48452303-c3d5e489495029bb-00"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "deploymentId": "test20211117112017",
+            "groupId": "testgroup",
+            "tags": [
+              "testgroup"
+            ],
+            "createdDateTime": "2021-11-16T00:49:25.141\u002B00:00",
+            "groupType": "DeviceClassIdAndIoTHubTag",
+            "deviceCount": 1,
+            "deviceClassId": "0919e3ae422a2bfa8c84ff905813e60351e456d1"
+          },
+          {
+            "deploymentId": "test1118014304",
+            "groupId": "dpokluda-edgevm",
+            "tags": [
+              "dpokluda-edgevm"
+            ],
+            "createdDateTime": "2021-11-17T22:57:28.78\u002B00:00",
+            "groupType": "DeviceClassIdAndIoTHubTag",
+            "deviceCount": 0,
+            "deviceClassId": "0919e3ae422a2bfa8c84ff905813e60351e456d1"
+          },
+          {
+            "deploymentId": "dpokluda-test-2022-113-1741-7-0114014318",
+            "groupId": "dpokluda-test",
+            "tags": [
+              "dpokluda-test"
+            ],
+            "createdDateTime": "2022-01-12T01:10:50.868\u002B00:00",
+            "groupType": "DeviceClassIdAndIoTHubTag",
+            "deviceCount": 1,
+            "deviceClassId": "0919e3ae422a2bfa8c84ff905813e60351e456d1"
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/deviceupdate/sdkinstance/management/groups/joegroup?api-version=2021-06-01-preview",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "195",
+        "Content-Type": "application/json; charset=UTF-8",
+        "User-Agent": "core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "4de8d68b-e3ea-4915-b57b-03389cb8663f"
+      },
+      "RequestBody": {
+        "groupId": "joegroup",
+        "tags": [
+          "joegroup"
+        ],
+        "createdDateTime": "2021-11-17T16:29:56.5770502\u002B00:00",
+        "groupType": "DeviceClassIdAndIoTHubTag",
+        "deviceClassId": "0919e3ae422a2bfa8c84ff905813e60351e456d1"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "253",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 20 Jan 2022 11:48:47 GMT",
+        "traceparent": "00-f79384c6a7ffa78f6f6fde1073003b43-bc566b8afdba6690-00"
+      },
+      "ResponseBody": {
+        "groupId": "joegroup",
+        "tags": [
+          "joegroup"
+        ],
+        "createdDateTime": "2021-11-17T16:29:56.5770502\u002B00:00",
+        "groupType": "DeviceClassIdAndIoTHubTag",
+        "deviceCount": 1,
+        "deviceClassId": "0919e3ae422a2bfa8c84ff905813e60351e456d1"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/deviceupdate/sdkinstance/management/groups/joegroup?api-version=2021-06-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "fce01db3-06e8-4934-b8d4-52bd14f479c6"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "253",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 20 Jan 2022 11:48:47 GMT",
+        "traceparent": "00-1e6e29c4fd15b7dfa372661d36ce568b-5f704ef01528ef2c-00"
+      },
+      "ResponseBody": {
+        "groupId": "joegroup",
+        "tags": [
+          "joegroup"
+        ],
+        "createdDateTime": "2021-11-17T16:29:56.5770502\u002B00:00",
+        "groupType": "DeviceClassIdAndIoTHubTag",
+        "deviceCount": 1,
+        "deviceClassId": "0919e3ae422a2bfa8c84ff905813e60351e456d1"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/deviceupdate/sdkinstance/management/groups/joegroup/deployments/testdeployment1?api-version=2021-06-01-preview",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "181",
+        "Content-Type": "application/json; charset=UTF-8",
+        "User-Agent": "core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "03544775-6377-46e9-8adc-75f816b159d3"
+      },
+      "RequestBody": {
+        "deploymentId": "testdeployment1",
+        "startDateTime": "2021-09-02T16:29:56.5770502Z",
+        "groupId": "joegroup",
+        "updateId": {
+          "provider": "fabrikam",
+          "name": "vacuum",
+          "version": "2022.113.1741.7"
+        }
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "278",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 20 Jan 2022 11:48:47 GMT",
+        "traceparent": "00-53c92441ca7e5184953135b20b8f9b9b-7eb2a9d79720a682-00"
+      },
+      "ResponseBody": {
+        "deploymentId": "testdeployment1",
+        "startDateTime": "2021-09-02T16:29:56.5770502\u002B00:00",
+        "updateId": {
+          "provider": "fabrikam",
+          "name": "vacuum",
+          "version": "2022.113.1741.7"
+        },
+        "isCanceled": false,
+        "isRetry": false,
+        "groupId": "joegroup"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/deviceupdate/sdkinstance/management/groups/joegroup/deployments/testdeployment1?api-version=2021-06-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "e7b38cd9-ab53-46b6-b5bb-9ee22746833a"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "278",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 20 Jan 2022 11:48:48 GMT",
+        "traceparent": "00-c502f7ece8db0ec93bf32351350910f4-5799ed2076462ee3-00"
+      },
+      "ResponseBody": {
+        "deploymentId": "testdeployment1",
+        "startDateTime": "2021-09-02T16:29:56.5770502\u002B00:00",
+        "updateId": {
+          "provider": "fabrikam",
+          "name": "vacuum",
+          "version": "2022.113.1741.7"
+        },
+        "isCanceled": false,
+        "isRetry": false,
+        "groupId": "joegroup"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/deviceupdate/sdkinstance/management/groups/joegroup/deployments/testdeployment1?api-version=2021-06-01-preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "ee511d42-f117-441d-849b-65f923a850ea"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Date": "Thu, 20 Jan 2022 11:48:48 GMT",
+        "traceparent": "00-12e994ab34b322132670bfd14d07ee93-4670dff9b067bfee-00"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/deviceupdate/sdkinstance/management/groups/joegroup?api-version=2021-06-01-preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "4f9c89ab-4734-443a-ad92-d8c97d2d51a5"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Date": "Thu, 20 Jan 2022 11:48:48 GMT",
+        "traceparent": "00-0422878ff6fe1eb52e4f94f3f33413a8-4518d83ef41ead34-00"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {}
+}

@@ -70,7 +70,8 @@ export class AssetConversionOperationStateImpl implements AssetConversionOperati
  * @internal
  */
 class AssetConversionOperation
-  implements PollOperation<AssetConversionOperationState, AssetConversion> {
+  implements PollOperation<AssetConversionOperationState, AssetConversion>
+{
   private accountId: string;
   private operations: RemoteRendering;
   state: AssetConversionOperationState;

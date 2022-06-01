@@ -1,0 +1,35 @@
+{
+  "@context": "dtmi:dtdl:context;2",
+  "@id": "dtmi:test:importingInterface;1",
+  "@type": "Interface",
+  "extends": [
+    {
+      "@id": "dtmi:test:anInterface;1",
+      "@type": "Interface",
+      "contents": [
+        {
+          "@id": "dtmi:test:aProperty;1",
+          "@type": "Property",
+          "name": "expectedDistance",
+          "schema": "double"
+        },
+        {
+          "@id": "dtmi:test:aTelemetry;1",
+          "@type": "Telemetry",
+          "name": "currentDistance",
+          "schema": "double"
+        },
+        {
+          "@id": "dtmi:test:aCommand;1",
+          "@type": "Command",
+          "name": "setDistance"
+        },
+        {
+          "@id": "dtmi:test:aRelationship;1",
+          "@type": "Relationship",
+          "name": "proximity"
+        }
+      ]
+    }
+  ]
+}

@@ -50,7 +50,10 @@ import {
   SourceModifiedAccessConditions,
   ShareAccessTier,
   ShareSetPropertiesResponse,
-  ShareRootSquash
+  ShareRootSquash,
+  FileRenameResponse,
+  DirectoryRenameResponse,
+  FileLastWrittenMode,
 } from "./generatedModels";
 import { Share, Directory, File } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
@@ -59,7 +62,9 @@ import {
   DEFAULT_HIGH_LEVEL_CONCURRENCY,
   FILE_MAX_SIZE_BYTES,
   FILE_RANGE_MAX_SIZE_BYTES,
-  URLConstants
+  URLConstants,
+  FileAttributesPreserve,
+  FileAttributesNone,
 } from "./utils/constants";
 import {
   appendToURLPath,
@@ -68,7 +73,9 @@ import {
   extractConnectionStringParts,
   getShareNameAndPathFromUrl,
   appendToURLQuery,
-  httpAuthorizationToString
+  httpAuthorizationToString,
+  setURLPath,
+  setURLQueries,
 } from "./utils/utils.common";
 import { Credential } from "./credentials/Credential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
@@ -94,7 +101,8 @@ import {
   ShareProtocols,
   toShareProtocolsString,
   toShareProtocols,
-  HttpAuthorization
+  HttpAuthorization,
+  fileChangeTimeToString,
 } from "./models";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
@@ -103,7 +111,7 @@ import {
   fsStat,
   fsCreateReadStream,
   readStreamToLocalFile,
-  streamToBuffer
+  streamToBuffer,
 } from "./utils/utils.node";
 import { StorageClientContext } from "./generated/src/storageClientContext";
 import { SERVICE_VERSION } from "./utils/constants";
@@ -659,12 +667,12 @@ export class ShareClient extends StorageClient {
       return await this.context.create({
         ...options,
         enabledProtocols: toShareProtocolsString(options.protocols),
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -687,23 +695,23 @@ export class ShareClient extends StorageClient {
       const res = await this.create(updatedOptions);
       return {
         succeeded: true,
-        ...res
+        ...res,
       };
-    } catch (e) {
+    } catch (e: any) {
       if (e.details?.errorCode === "ShareAlreadyExists") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
-          message: "Expected exception when creating a share only if it doesn't already exist."
+          message: "Expected exception when creating a share only if it doesn't already exist.",
         });
         return {
           succeeded: false,
           ...e.response?.parsedHeaders,
-          _response: e.response
+          _response: e.response,
         };
       }
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -760,12 +768,12 @@ export class ShareClient extends StorageClient {
       const directoryCreateResponse = await directoryClient.create(updatedOptions);
       return {
         directoryClient,
-        directoryCreateResponse
+        directoryCreateResponse,
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -790,10 +798,10 @@ export class ShareClient extends StorageClient {
     try {
       const directoryClient = this.getDirectoryClient(directoryName);
       return await directoryClient.delete(updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -823,12 +831,12 @@ export class ShareClient extends StorageClient {
       const fileCreateResponse = await fileClient.create(size, updatedOptions);
       return {
         fileClient,
-        fileCreateResponse
+        fileCreateResponse,
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -865,10 +873,10 @@ export class ShareClient extends StorageClient {
       const directoryClient = this.rootDirectoryClient;
       const fileClient = directoryClient.getFileClient(fileName);
       return await fileClient.delete(updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -890,17 +898,17 @@ export class ShareClient extends StorageClient {
     try {
       await this.getProperties(updatedOptions);
       return true;
-    } catch (e) {
+    } catch (e: any) {
       if (e.statusCode === 404) {
         span.setStatus({
           code: SpanStatusCode.ERROR,
-          message: "Expected exception when checking share existence"
+          message: "Expected exception when checking share existence",
         });
         return false;
       }
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -927,17 +935,17 @@ export class ShareClient extends StorageClient {
     try {
       const res = await this.context.getProperties({
         ...options,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
 
       // parse protocols
       const protocols = toShareProtocols(res.enabledProtocols);
       (res as any).protocols = protocols;
       return res;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -958,12 +966,12 @@ export class ShareClient extends StorageClient {
     try {
       return await this.context.delete({
         ...options,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -986,23 +994,23 @@ export class ShareClient extends StorageClient {
       const res = await this.delete(updatedOptions);
       return {
         succeeded: true,
-        ...res
+        ...res,
       };
-    } catch (e) {
+    } catch (e: any) {
       if (e.details?.errorCode === "ShareNotFound") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
-          message: "Expected exception when deleting a share only if it exists."
+          message: "Expected exception when deleting a share only if it exists.",
         });
         return {
           succeeded: false,
           ...e.response?.parsedHeaders,
-          _response: e.response
+          _response: e.response,
         };
       }
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1030,12 +1038,12 @@ export class ShareClient extends StorageClient {
       return await this.context.setMetadata({
         ...options,
         metadata,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1062,7 +1070,7 @@ export class ShareClient extends StorageClient {
     try {
       const response = await this.context.getAccessPolicy({
         ...options,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
 
       const res: ShareGetAccessPolicyResponse = {
@@ -1072,14 +1080,14 @@ export class ShareClient extends StorageClient {
         lastModified: response.lastModified,
         requestId: response.requestId,
         signedIdentifiers: [],
-        version: response.version
+        version: response.version,
       };
 
       for (const identifier of response) {
         let accessPolicy: any = undefined;
         if (identifier.accessPolicy) {
           accessPolicy = {
-            permissions: identifier.accessPolicy.permissions
+            permissions: identifier.accessPolicy.permissions,
           };
 
           if (identifier.accessPolicy.expiresOn) {
@@ -1093,15 +1101,15 @@ export class ShareClient extends StorageClient {
 
         res.signedIdentifiers.push({
           accessPolicy,
-          id: identifier.id
+          id: identifier.id,
         });
       }
 
       return res;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1142,21 +1150,21 @@ export class ShareClient extends StorageClient {
             permissions: identifier.accessPolicy?.permissions,
             startsOn: identifier.accessPolicy?.startsOn
               ? truncatedISO8061Date(identifier.accessPolicy.startsOn)
-              : undefined
+              : undefined,
           },
-          id: identifier.id
+          id: identifier.id,
         });
       }
 
       return await this.context.setAccessPolicy({
         ...options,
         shareAcl: acl,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1178,12 +1186,12 @@ export class ShareClient extends StorageClient {
       return await this.context.createSnapshot({
         abortSignal: options.abortSignal,
         ...options,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1209,12 +1217,12 @@ export class ShareClient extends StorageClient {
       return await this.context.setProperties({
         ...options,
         quota: quotaInGB,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1236,12 +1244,12 @@ export class ShareClient extends StorageClient {
       return await this.context.setProperties({
         ...options,
         quota: options.quotaInGB,
-        tracingOptions: updatedOptions.tracingOptions
+        tracingOptions: updatedOptions.tracingOptions,
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1262,15 +1270,15 @@ export class ShareClient extends StorageClient {
     try {
       const response = await this.context.getStatistics({
         ...options,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
 
       const GBBytes = 1024 * 1024 * 1024;
       return { ...response, shareUsage: Math.ceil(response.shareUsageBytes / GBBytes) };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1294,17 +1302,17 @@ export class ShareClient extends StorageClient {
     try {
       return await this.context.createPermission(
         {
-          permission: filePermission
+          permission: filePermission,
         },
         {
           abortSignal: options.abortSignal,
-          ...convertTracingToRequestOptionsBase(updatedOptions)
+          ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1328,12 +1336,12 @@ export class ShareClient extends StorageClient {
     try {
       return await this.context.getPermission(filePermissionKey, {
         abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1362,7 +1370,7 @@ export class ShareClient extends StorageClient {
     const sas = generateFileSASQueryParameters(
       {
         shareName: this.name,
-        ...options
+        ...options,
       },
       this.credential
     ).toString();
@@ -1733,7 +1741,7 @@ export class ShareDirectoryClient extends StorageClient {
     ({
       baseName: this._name,
       shareName: this._shareName,
-      path: this._path
+      path: this._path,
     } = getShareNameAndPathFromUrl(this.url));
     this.context = new Directory(this.storageClientContext);
   }
@@ -1757,21 +1765,24 @@ export class ShareDirectoryClient extends StorageClient {
       }
 
       return await this.context.create(
-        fileAttributesToString(options.fileAttributes!),
-        fileCreationTimeToString(options.creationTime!),
-        fileLastWriteTimeToString(options.lastWriteTime!),
+        options.fileAttributes
+          ? fileAttributesToString(options.fileAttributes!)
+          : FileAttributesNone,
         {
           abortSignal: options.abortSignal,
           metadata: options.metadata,
           filePermission: options.filePermission,
           filePermissionKey: options.filePermissionKey,
-          ...convertTracingToRequestOptionsBase(updatedOptions)
+          fileChangeOn: fileChangeTimeToString(options.changeTime),
+          fileCreatedOn: fileCreationTimeToString(options.creationTime),
+          fileLastWriteOn: fileLastWriteTimeToString(options.lastWriteTime),
+          ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1794,23 +1805,24 @@ export class ShareDirectoryClient extends StorageClient {
       const res = await this.create(updatedOptions);
       return {
         succeeded: true,
-        ...res
+        ...res,
       };
-    } catch (e) {
+    } catch (e: any) {
       if (e.details?.errorCode === "ResourceAlreadyExists") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
-          message: "Expected exception when creating a directory only if it does not already exist."
+          message:
+            "Expected exception when creating a directory only if it does not already exist.",
         });
         return {
           succeeded: false,
           ...e.response?.parsedHeaders,
-          _response: e.response
+          _response: e.response,
         };
       }
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1833,20 +1845,23 @@ export class ShareDirectoryClient extends StorageClient {
       properties = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(properties);
 
       return await this.context.setProperties(
-        fileAttributesToString(properties.fileAttributes!),
-        fileCreationTimeToString(properties.creationTime!),
-        fileLastWriteTimeToString(properties.lastWriteTime!),
+        properties.fileAttributes
+          ? fileAttributesToString(properties.fileAttributes!)
+          : FileAttributesPreserve,
         {
           abortSignal: properties.abortSignal,
           filePermission: properties.filePermission,
           filePermissionKey: properties.filePermissionKey,
-          ...convertTracingToRequestOptionsBase(updatedOptions)
+          fileChangeOn: fileChangeTimeToString(updatedOptions.changeTime),
+          fileCreatedOn: fileCreationTimeToString(properties.creationTime),
+          fileLastWriteOn: fileLastWriteTimeToString(properties.lastWriteTime),
+          ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1896,12 +1911,12 @@ export class ShareDirectoryClient extends StorageClient {
       const directoryCreateResponse = await directoryClient.create(updatedOptions);
       return {
         directoryClient,
-        directoryCreateResponse
+        directoryCreateResponse,
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1926,10 +1941,10 @@ export class ShareDirectoryClient extends StorageClient {
     try {
       const directoryClient = this.getDirectoryClient(directoryName);
       return await directoryClient.delete(updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1957,12 +1972,12 @@ export class ShareDirectoryClient extends StorageClient {
       const fileCreateResponse = await fileClient.create(size, updatedOptions);
       return {
         fileClient,
-        fileCreateResponse
+        fileCreateResponse,
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1996,10 +2011,10 @@ export class ShareDirectoryClient extends StorageClient {
     try {
       const fileClient = this.getFileClient(fileName);
       return await fileClient.delete(updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2052,21 +2067,21 @@ export class ShareDirectoryClient extends StorageClient {
         abortSignal: options.abortSignal,
         tracingOptions: {
           ...options.tracingOptions,
-          ...convertTracingToRequestOptionsBase(updatedOptions)
-        }
+          ...convertTracingToRequestOptionsBase(updatedOptions),
+        },
       });
       return true;
-    } catch (e) {
+    } catch (e: any) {
       if (e.statusCode === 404) {
         span.setStatus({
           code: SpanStatusCode.ERROR,
-          message: "Expected exception when checking directory existence"
+          message: "Expected exception when checking directory existence",
         });
         return false;
       }
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2090,12 +2105,12 @@ export class ShareDirectoryClient extends StorageClient {
     try {
       return await this.context.getProperties({
         abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2116,12 +2131,12 @@ export class ShareDirectoryClient extends StorageClient {
     try {
       return await this.context.delete({
         abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2144,26 +2159,26 @@ export class ShareDirectoryClient extends StorageClient {
       const res = await this.delete(updatedOptions);
       return {
         succeeded: true,
-        ...res
+        ...res,
       };
-    } catch (e) {
+    } catch (e: any) {
       if (
         e.details?.errorCode === "ResourceNotFound" ||
         e.details?.errorCode === "ParentNotFound"
       ) {
         span.setStatus({
           code: SpanStatusCode.ERROR,
-          message: "Expected exception when deleting a directory only if it exists."
+          message: "Expected exception when deleting a directory only if it exists.",
         });
         return {
           succeeded: false,
           ...e.response?.parsedHeaders,
-          _response: e.response
+          _response: e.response,
         };
       }
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2188,12 +2203,12 @@ export class ShareDirectoryClient extends StorageClient {
       return await this.context.setMetadata({
         abortSignal: options.abortSignal,
         metadata,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2372,7 +2387,7 @@ export class ShareDirectoryClient extends StorageClient {
 
     const updatedOptions: DirectoryListFilesAndDirectoriesSegmentOptions = {
       ...options,
-      ...(include.length > 0 ? { include: include } : {})
+      ...(include.length > 0 ? { include: include } : {}),
     };
 
     // AsyncIterableIterator to iterate over files and directories
@@ -2396,9 +2411,9 @@ export class ShareDirectoryClient extends StorageClient {
       byPage: (settings: PageSettings = {}) => {
         return this.iterateFilesAndDirectoriesSegments(settings.continuationToken, {
           maxResults: settings.maxPageSize,
-          ...updatedOptions
+          ...updatedOptions,
         });
-      }
+      },
     };
   }
 
@@ -2428,12 +2443,12 @@ export class ShareDirectoryClient extends StorageClient {
       return await this.context.listFilesAndDirectoriesSegment({
         marker,
         ...options,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2583,9 +2598,9 @@ export class ShareDirectoryClient extends StorageClient {
       byPage: (settings: PageSettings = {}) => {
         return this.iterateHandleSegments(settings.continuationToken, {
           maxResults: settings.maxPageSize,
-          ...options
+          ...options,
         });
-      }
+      },
     };
   }
 
@@ -2610,7 +2625,7 @@ export class ShareDirectoryClient extends StorageClient {
       const response = await this.context.listHandles({
         marker,
         ...options,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
 
       // TODO: Protocol layer issue that when handle list is in returned XML
@@ -2619,10 +2634,10 @@ export class ShareDirectoryClient extends StorageClient {
         response.handleList = undefined;
       }
       return response;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2654,16 +2669,16 @@ export class ShareDirectoryClient extends StorageClient {
       const rawResponse = await this.context.forceCloseHandles("*", {
         marker,
         ...options,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
       const response = rawResponse as DirectoryForceCloseHandlesResponse;
       response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
       response.closeFailureCount = rawResponse.numberOfHandlesFailedToClose || 0;
       return response;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2704,10 +2719,10 @@ export class ShareDirectoryClient extends StorageClient {
       } while (marker);
 
       return { closedHandlesCount: handlesClosed, closeFailureCount: numberOfHandlesFailedToClose };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2739,16 +2754,88 @@ export class ShareDirectoryClient extends StorageClient {
 
       const rawResponse = await this.context.forceCloseHandles(handleId, {
         abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
       const response = rawResponse as DirectoryForceCloseHandlesResponse;
       response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
       response.closeFailureCount = rawResponse.numberOfHandlesFailedToClose || 0;
       return response;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Renames a directory.
+   * This API only supports renaming a directory in the same share.
+   *
+   * @param destinationPath - Specifies the destination path to rename to. The path will be encoded to put into a URL to specify the destination.
+   * @param options - Options for the renaming operation.
+   * @returns Response data for the file renaming operation.
+   *
+   * Example usage:
+   *
+   * ```js
+   *
+   * // Rename the directory
+   * await diretoryClient.rename(destinationPath);
+   * console.log("Renamed directory successfully!");
+   * ```
+   */
+  public async rename(
+    destinationPath: string,
+    options: DirectoryRenameOptions = {}
+  ): Promise<{
+    destinationDirectoryClient: ShareDirectoryClient;
+    directoryRenameResponse: DirectoryRenameResponse;
+  }> {
+    const { span, updatedOptions } = createSpan("ShareDirectoryClient-rename", options);
+    const split: string[] = destinationPath.split("?");
+    let destinationUrl: string;
+    if (split.length === 2) {
+      const pathOnly = encodeURIComponent(split[0]);
+      const renameDestination = `/${this.shareName}/${pathOnly}`;
+      destinationUrl = setURLPath(this.url, renameDestination);
+      destinationUrl = setURLQueries(destinationUrl, split[1]);
+    } else if (split.length === 1) {
+      const pathOnly = encodeURIComponent(destinationPath);
+      const renameDestination = `/${this.shareName}/${pathOnly}`;
+      destinationUrl = setURLPath(this.url, renameDestination);
+    } else {
+      throw new RangeError("Destination path should not contain more than one query string");
+    }
+
+    const destDirectory = new ShareDirectoryClient(destinationUrl, this.pipeline);
+
+    try {
+      const response = await destDirectory.context.rename(this.url, {
+        ...updatedOptions,
+        sourceLeaseAccessConditions: updatedOptions.sourceLeaseAccessConditions
+          ? {
+              sourceLeaseId: updatedOptions.sourceLeaseAccessConditions.leaseId,
+            }
+          : undefined,
+        destinationLeaseAccessConditions: updatedOptions.destinationLeaseAccessConditions
+          ? {
+              destinationLeaseId: updatedOptions.destinationLeaseAccessConditions.leaseId,
+            }
+          : undefined,
+      });
+
+      return {
+        destinationDirectoryClient: destDirectory,
+        directoryRenameResponse: response,
+      };
+    } catch (e: any) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2885,6 +2972,14 @@ export interface FileUploadRangeOptions extends CommonOptions {
    * Lease access conditions.
    */
   leaseAccessConditions?: LeaseAccessConditions;
+
+  /**
+   * The last write time for the file.
+   * A value of Preserve may be passed to keep an existing value unchanged.
+   * A value of Now may be used to indicate the time of the request.
+   * By default, the value will be set as Now.
+   */
+  fileLastWrittenMode?: FileLastWrittenMode;
 }
 
 /**
@@ -2918,6 +3013,13 @@ export interface FileUploadRangeFromURLOptions extends CommonOptions {
    * Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source.
    */
   sourceAuthorization?: HttpAuthorization;
+  /**
+   * The last write time for the file.
+   * A value of preserve may be passed to keep an existing value unchanged.
+   * A value of now may be used to indicate the time of the request.
+   * By default, the value will be set as now.
+   */
+  fileLastWrittenMode?: FileLastWrittenMode;
 }
 
 /**
@@ -3129,6 +3231,13 @@ export interface FileClearRangeOptions extends CommonOptions {
    * Lease access conditions.
    */
   leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * The last write time for the file.
+   * A value of preserve may be passed to keep an existing value unchanged.
+   * A value of now may be used to indicate the time of the request.
+   * By default, the value will be set as now.
+   */
+  fileLastWrittenMode?: FileLastWrittenMode;
 }
 
 /**
@@ -3360,6 +3469,136 @@ export interface FileGenerateSasUrlOptions extends CommonGenerateSasUrlOptions {
 }
 
 /**
+ * Options to configure the {@link ShareFileClient.rename} operation.
+ */
+export interface FileRenameOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+
+  /**
+   * Lease access condition for source file. Required if the source file has an active infinite lease.
+   */
+  sourceLeaseAccessConditions?: LeaseAccessConditions;
+
+  /**
+   * Lease access condition for destination file. Required if the destination file has an active infinite lease.
+   */
+  destinationLeaseAccessConditions?: LeaseAccessConditions;
+
+  /**
+   * Optional.
+   * Specifies the option to copy file security descriptor from source file or to set it using the value which is defined by the header value of x-ms-file-permission or x-ms-file-permission-key.
+   */
+  copyFileSmbInfo?: CopyFileSmbInfo;
+
+  /**
+   * A name-value pair to associate with a file storage object.
+   */
+  metadata?: Metadata;
+
+  /**
+   * Optional.
+   * The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a>
+   */
+  timeoutInSeconds?: number;
+
+  /**
+   * Optional.
+   * If specified the permission (security descriptor) shall be set for the directory/file.
+   */
+  filePermission?: string;
+
+  /**
+   * Optional.
+   * Key of the permission to be set for the directory/file. Note: Only one of the filePermission or filePermissionKey should be specified.
+   */
+  filePermissionKey?: string;
+
+  /**
+   * Optional.
+   * A boolean value for if the destination file already exists, whether this request will overwrite the file or not. If true, the rename will succeed and will overwrite the destination file. If not provided or if false and the destination file does exist, the request will not overwrite the destination file. If provided and the destination file doesn’t exist, the rename will succeed. Note: This value does not override the x-ms-file-copy-ignore-read-only header value.
+   */
+  replaceIfExists?: boolean;
+
+  /**
+   * Optional.
+   * A boolean value that specifies whether the ReadOnly attribute on a preexisting destination file should be respected. If true, the rename will succeed, otherwise, a previous file at the destination with the ReadOnly attribute set will cause the rename to fail.
+   */
+  ignoreReadOnly?: boolean;
+
+  /**
+   * Optional.
+   * Content type to set on the File.
+   */
+  contentType?: string;
+}
+
+/**
+ * Options to configure the {@link ShareDirectoryClient.rename} operation.
+ */
+export interface DirectoryRenameOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+
+  /**
+   * Lease access condition for source file. Required if the source file has an active infinite lease.
+   */
+  sourceLeaseAccessConditions?: LeaseAccessConditions;
+
+  /**
+   * Lease access condition for destination file. Required if the destination file has an active infinite lease.
+   */
+  destinationLeaseAccessConditions?: LeaseAccessConditions;
+
+  /**
+   * Optional.
+   * Specifies the option to copy file security descriptor from source file or to set it using the value which is defined by the header value of x-ms-file-permission or x-ms-file-permission-key.
+   */
+  copyFileSmbInfo?: CopyFileSmbInfo;
+
+  /**
+   * Optional.
+   * The timeout parameter is expressed in seconds. For more information, see <a href="https://docs.microsoft.com/en-us/rest/api/storageservices/Setting-Timeouts-for-File-Service-Operations?redirectedfrom=MSDN">Setting Timeouts for File Service Operations.</a>
+   */
+  timeoutInSeconds?: number;
+
+  /**
+   * Optional.
+   * A name-value pair to associate with a file storage object.
+   */
+  metadata?: Metadata;
+
+  /**
+   * Optional.
+   * If specified the permission (security descriptor) shall be set for the directory/file.
+   */
+  filePermission?: string;
+
+  /**
+   * Optional.
+   * Key of the permission to be set for the directory/file. Note: Only one of the filePermission or filePermissionKey should be specified.
+   */
+  filePermissionKey?: string;
+  /**
+   * Optional.
+   * A boolean value for if the destination file already exists, whether this request will overwrite the file or not. If true, the rename will succeed and will overwrite the destination file. If not provided or if false and the destination file does exist, the request will not overwrite the destination file. If provided and the destination file doesn’t exist, the rename will succeed. Note: This value does not override the x-ms-file-copy-ignore-read-only header value.
+   */
+  replaceIfExists?: boolean;
+
+  /**
+   * Optional.
+   * A boolean value that specifies whether the ReadOnly attribute on a preexisting destination file should be respected. If true, the rename will succeed, otherwise, a previous file at the destination with the ReadOnly attribute set will cause the rename to fail.
+   */
+  ignoreReadOnly?: boolean;
+}
+
+/**
  * A ShareFileClient represents a URL to an Azure Storage file.
  */
 export class ShareFileClient extends StorageClient {
@@ -3447,7 +3686,7 @@ export class ShareFileClient extends StorageClient {
     ({
       baseName: this._name,
       shareName: this._shareName,
-      path: this._path
+      path: this._path,
     } = getShareNameAndPathFromUrl(this.url));
     this.context = new File(this.storageClientContext);
   }
@@ -3500,34 +3739,30 @@ export class ShareFileClient extends StorageClient {
       }
       options = validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions(options);
 
-      if (!options.fileAttributes) {
-        // Note: It would be Archive in service side if None is set.
-        const attributes: FileSystemAttributes = new FileSystemAttributes();
-        attributes.none = true;
-        options.fileAttributes = attributes;
-      }
-
       options.fileHttpHeaders = options.fileHttpHeaders || {};
 
       return await this.context.create(
         size,
-        fileAttributesToString(options.fileAttributes!),
-        fileCreationTimeToString(options.creationTime!),
-        fileLastWriteTimeToString(options.lastWriteTime!),
+        options.fileAttributes
+          ? fileAttributesToString(options.fileAttributes!)
+          : FileAttributesNone,
         {
           abortSignal: options.abortSignal,
           fileHttpHeaders: options.fileHttpHeaders,
           metadata: options.metadata,
           filePermission: options.filePermission,
           filePermissionKey: options.filePermissionKey,
+          fileChangeOn: fileChangeTimeToString(options.changeTime),
+          fileCreatedOn: fileCreationTimeToString(options.creationTime),
+          fileLastWriteOn: fileLastWriteTimeToString(options.lastWriteTime),
           leaseAccessConditions: options.leaseAccessConditions,
-          ...convertTracingToRequestOptionsBase(updatedOptions)
+          ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -3611,12 +3846,12 @@ export class ShareFileClient extends StorageClient {
       const res = await this.context.download({
         abortSignal: options.abortSignal,
         requestOptions: {
-          onDownloadProgress: isNode ? undefined : options.onProgress // for Node.js, progress is reported by RetriableReadableStream
+          onDownloadProgress: isNode ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
         },
         range: downloadFullFile ? undefined : rangeToString({ offset, count }),
         rangeGetContentMD5: options.rangeGetContentMD5,
         leaseAccessConditions: options.leaseAccessConditions,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
 
       // Return browser response immediately
@@ -3644,8 +3879,8 @@ export class ShareFileClient extends StorageClient {
           const updatedDownloadOptions: FileDownloadOptionalParams = {
             range: rangeToString({
               count: offset + res.contentLength! - start,
-              offset: start
-            })
+              offset: start,
+            }),
           };
 
           // Debug purpose only
@@ -3659,7 +3894,7 @@ export class ShareFileClient extends StorageClient {
             abortSignal: options.abortSignal,
             leaseAccessConditions: options.leaseAccessConditions,
             ...updatedDownloadOptions,
-            ...convertTracingToRequestOptionsBase(updatedDownloadOptions)
+            ...convertTracingToRequestOptionsBase(updatedDownloadOptions),
           });
 
           if (!(downloadRes.etag === res.etag)) {
@@ -3672,13 +3907,13 @@ export class ShareFileClient extends StorageClient {
         {
           abortSignal: options.abortSignal,
           maxRetryRequests: options.maxRetryRequests,
-          onProgress: options.onProgress
+          onProgress: options.onProgress,
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -3702,21 +3937,21 @@ export class ShareFileClient extends StorageClient {
         abortSignal: options.abortSignal,
         tracingOptions: {
           ...options.tracingOptions,
-          ...convertTracingToRequestOptionsBase(updatedOptions)
-        }
+          ...convertTracingToRequestOptionsBase(updatedOptions),
+        },
       });
       return true;
-    } catch (e) {
+    } catch (e: any) {
       if (e.statusCode === 404) {
         span.setStatus({
           code: SpanStatusCode.ERROR,
-          message: "Expected exception when checking file existence"
+          message: "Expected exception when checking file existence",
         });
         return false;
       }
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -3740,12 +3975,12 @@ export class ShareFileClient extends StorageClient {
       return this.context.getProperties({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.leaseAccessConditions,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -3770,22 +4005,25 @@ export class ShareFileClient extends StorageClient {
       properties.fileHttpHeaders = properties.fileHttpHeaders || {};
 
       return await this.context.setHttpHeaders(
-        fileAttributesToString(properties.fileAttributes!),
-        fileCreationTimeToString(properties.creationTime!),
-        fileLastWriteTimeToString(properties.lastWriteTime!),
+        properties.fileAttributes
+          ? fileAttributesToString(properties.fileAttributes!)
+          : FileAttributesPreserve,
         {
           abortSignal: properties.abortSignal,
           fileHttpHeaders: properties.fileHttpHeaders,
           filePermission: properties.filePermission,
           filePermissionKey: properties.filePermissionKey,
           leaseAccessConditions: properties.leaseAccessConditions,
-          ...convertTracingToRequestOptionsBase(updatedOptions)
+          fileChangeOn: fileChangeTimeToString(properties.changeTime),
+          fileCreatedOn: fileCreationTimeToString(properties.creationTime),
+          fileLastWriteOn: fileLastWriteTimeToString(properties.lastWriteTime),
+          ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -3816,12 +4054,12 @@ export class ShareFileClient extends StorageClient {
       return await this.context.delete({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.leaseAccessConditions,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -3853,26 +4091,26 @@ export class ShareFileClient extends StorageClient {
       const res = await this.delete(updatedOptions);
       return {
         succeeded: true,
-        ...res
+        ...res,
       };
-    } catch (e) {
+    } catch (e: any) {
       if (
         e.details?.errorCode === "ResourceNotFound" ||
         e.details?.errorCode === "ParentNotFound"
       ) {
         span.setStatus({
           code: SpanStatusCode.ERROR,
-          message: "Expected exception when deleting a file only if it exists."
+          message: "Expected exception when deleting a file only if it exists.",
         });
         return {
           succeeded: false,
           ...e.response?.parsedHeaders,
-          _response: e.response
+          _response: e.response,
         };
       }
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -3901,22 +4139,25 @@ export class ShareFileClient extends StorageClient {
       // FileAttributes, filePermission, createTime, lastWriteTime will all be preserved
       options = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(options);
       return await this.context.setHttpHeaders(
-        fileAttributesToString(options.fileAttributes!),
-        fileCreationTimeToString(options.creationTime!),
-        fileLastWriteTimeToString(options.lastWriteTime!),
+        options.fileAttributes
+          ? fileAttributesToString(options.fileAttributes!)
+          : FileAttributesPreserve,
         {
           abortSignal: options.abortSignal,
           fileHttpHeaders,
           filePermission: options.filePermission,
           filePermissionKey: options.filePermissionKey,
           leaseAccessConditions: options.leaseAccessConditions,
-          ...convertTracingToRequestOptionsBase(updatedOptions)
+          fileCreatedOn: fileCreationTimeToString(options.creationTime),
+          fileLastWriteOn: fileLastWriteTimeToString(options.lastWriteTime),
+          fileChangeOn: fileChangeTimeToString(options.changeTime),
+          ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -3947,23 +4188,21 @@ export class ShareFileClient extends StorageClient {
       // FileAttributes, filePermission, createTime, lastWriteTime will all be preserved.
       options = validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(options);
 
-      return await this.context.setHttpHeaders(
-        fileAttributesToString(options.fileAttributes!),
-        fileCreationTimeToString(options.creationTime!),
-        fileLastWriteTimeToString(options.lastWriteTime!),
-        {
-          abortSignal: options.abortSignal,
-          fileContentLength: length,
-          filePermission: options.filePermission,
-          filePermissionKey: options.filePermissionKey,
-          leaseAccessConditions: options.leaseAccessConditions,
-          ...convertTracingToRequestOptionsBase(updatedOptions)
-        }
-      );
-    } catch (e) {
+      return await this.context.setHttpHeaders(fileAttributesToString(options.fileAttributes!), {
+        abortSignal: options.abortSignal,
+        fileContentLength: length,
+        filePermission: options.filePermission,
+        filePermissionKey: options.filePermissionKey,
+        leaseAccessConditions: options.leaseAccessConditions,
+        fileChangeOn: fileChangeTimeToString(options.changeTime),
+        fileCreatedOn: fileCreationTimeToString(options.creationTime),
+        fileLastWriteOn: fileLastWriteTimeToString(options.lastWriteTime),
+        ...convertTracingToRequestOptionsBase(updatedOptions),
+      });
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -3992,12 +4231,12 @@ export class ShareFileClient extends StorageClient {
         abortSignal: options.abortSignal,
         metadata,
         leaseAccessConditions: options.leaseAccessConditions,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4060,17 +4299,18 @@ export class ShareFileClient extends StorageClient {
           abortSignal: options.abortSignal,
           contentMD5: options.contentMD5,
           requestOptions: {
-            onUploadProgress: options.onProgress
+            onUploadProgress: options.onProgress,
           },
           body: body,
           ...convertTracingToRequestOptionsBase(updatedOptions),
-          leaseAccessConditions: options.leaseAccessConditions
+          leaseAccessConditions: options.leaseAccessConditions,
+          fileLastWrittenMode: options.fileLastWrittenMode,
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4114,14 +4354,15 @@ export class ShareFileClient extends StorageClient {
           sourceRange: rangeToString({ offset: sourceOffset, count }),
           sourceModifiedAccessConditions: options.sourceConditions,
           copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
+          fileLastWrittenMode: options.fileLastWrittenMode,
           ...options,
-          ...convertTracingToRequestOptionsBase(updatedOptions)
+          ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4154,13 +4395,14 @@ export class ShareFileClient extends StorageClient {
         {
           abortSignal: options.abortSignal,
           ...convertTracingToRequestOptionsBase(updatedOptions),
-          leaseAccessConditions: options.leaseAccessConditions
+          leaseAccessConditions: options.leaseAccessConditions,
+          fileLastWrittenMode: options.fileLastWrittenMode,
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4182,7 +4424,7 @@ export class ShareFileClient extends StorageClient {
         abortSignal: options.abortSignal,
         range: options.range ? rangeToString(options.range) : undefined,
         leaseAccessConditions: options.leaseAccessConditions,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
 
       // Only returns ranges, ignoring clearRanges.
@@ -4192,12 +4434,12 @@ export class ShareFileClient extends StorageClient {
       return {
         ...originalResponse,
         _response: { ...originalResponse._response, parsedBody },
-        rangeList: originalResponse.ranges ? originalResponse.ranges : []
+        rangeList: originalResponse.ranges ? originalResponse.ranges : [],
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4221,12 +4463,12 @@ export class ShareFileClient extends StorageClient {
         prevsharesnapshot: prevShareSnapshot,
         ...options,
         range: options.range ? rangeToString(options.range) : undefined,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4259,12 +4501,12 @@ export class ShareFileClient extends StorageClient {
         filePermission: options.filePermission,
         filePermissionKey: options.filePermissionKey,
         copyFileSmbInfo: options.copyFileSmbInfo,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4289,12 +4531,12 @@ export class ShareFileClient extends StorageClient {
       return await this.context.abortCopy(copyId, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.leaseAccessConditions,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4340,10 +4582,10 @@ export class ShareFileClient extends StorageClient {
           updatedOptions
         );
       }
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4369,10 +4611,10 @@ export class ShareFileClient extends StorageClient {
     const { span, updatedOptions } = createSpan("ShareFileClient-UploadSeekableBlob", options);
     try {
       return this.uploadSeekableInternal(blobFactory, size, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4402,16 +4644,16 @@ export class ShareFileClient extends StorageClient {
             fsCreateReadStream(filePath, {
               autoClose: true,
               end: count ? offset + count - 1 : Infinity,
-              start: offset
+              start: offset,
             });
         },
         size,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4446,10 +4688,10 @@ export class ShareFileClient extends StorageClient {
         size,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4495,7 +4737,7 @@ export class ShareFileClient extends StorageClient {
         fileHttpHeaders: options.fileHttpHeaders,
         metadata: options.metadata,
         leaseAccessConditions: options.leaseAccessConditions,
-        tracingOptions: updatedOptions.tracingOptions
+        tracingOptions: updatedOptions.tracingOptions,
       });
 
       const numBlocks: number = Math.floor((size - 1) / options.rangeSize) + 1;
@@ -4503,29 +4745,27 @@ export class ShareFileClient extends StorageClient {
       const batch = new Batch(options.concurrency);
 
       for (let i = 0; i < numBlocks; i++) {
-        batch.addOperation(
-          async (): Promise<any> => {
-            const start = options.rangeSize! * i;
-            const end = i === numBlocks - 1 ? size : start + options.rangeSize!;
-            const contentLength = end - start;
-            await this.uploadRange(bodyFactory(start, contentLength), start, contentLength, {
-              abortSignal: options.abortSignal,
-              leaseAccessConditions: options.leaseAccessConditions,
-              tracingOptions: updatedOptions.tracingOptions
-            });
-            // Update progress after block is successfully uploaded to server, in case of block trying
-            transferProgress += contentLength;
-            if (options.onProgress) {
-              options.onProgress({ loadedBytes: transferProgress });
-            }
+        batch.addOperation(async (): Promise<any> => {
+          const start = options.rangeSize! * i;
+          const end = i === numBlocks - 1 ? size : start + options.rangeSize!;
+          const contentLength = end - start;
+          await this.uploadRange(bodyFactory(start, contentLength), start, contentLength, {
+            abortSignal: options.abortSignal,
+            leaseAccessConditions: options.leaseAccessConditions,
+            tracingOptions: updatedOptions.tracingOptions,
+          });
+          // Update progress after block is successfully uploaded to server, in case of block trying
+          transferProgress += contentLength;
+          if (options.onProgress) {
+            options.onProgress({ loadedBytes: transferProgress });
           }
-        );
+        });
       }
       return await batch.do();
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4626,7 +4866,7 @@ export class ShareFileClient extends StorageClient {
         const response = await this.getProperties({
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.leaseAccessConditions,
-          tracingOptions: updatedOptions.tracingOptions
+          tracingOptions: updatedOptions.tracingOptions,
         });
         count = response.contentLength! - offset;
         if (count < 0) {
@@ -4639,7 +4879,7 @@ export class ShareFileClient extends StorageClient {
       if (!buffer) {
         try {
           buffer = Buffer.alloc(count);
-        } catch (error) {
+        } catch (error: any) {
           throw new Error(
             `Unable to allocate a buffer of size: ${count} bytes. Please try passing your own Buffer to ` +
               'the "downloadToBuffer method or try using other methods like "download" or "downloadToFile".' +
@@ -4667,7 +4907,7 @@ export class ShareFileClient extends StorageClient {
             abortSignal: options.abortSignal,
             maxRetryRequests: options.maxRetryRequestsPerRange,
             leaseAccessConditions: options.leaseAccessConditions,
-            tracingOptions: updatedOptions.tracingOptions
+            tracingOptions: updatedOptions.tracingOptions,
           });
           const stream = response.readableStreamBody!;
           await streamToBuffer(stream, buffer!, off - offset, chunkEnd - offset);
@@ -4682,10 +4922,10 @@ export class ShareFileClient extends StorageClient {
       }
       await batch.do();
       return buffer;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4741,7 +4981,7 @@ export class ShareFileClient extends StorageClient {
         fileHttpHeaders: options.fileHttpHeaders,
         metadata: options.metadata,
         leaseAccessConditions: options.leaseAccessConditions,
-        tracingOptions: updatedOptions.tracingOptions
+        tracingOptions: updatedOptions.tracingOptions,
       });
 
       let transferProgress: number = 0;
@@ -4760,7 +5000,7 @@ export class ShareFileClient extends StorageClient {
           await this.uploadRange(buffer, offset!, buffer.length, {
             abortSignal: options.abortSignal,
             leaseAccessConditions: options.leaseAccessConditions,
-            tracingOptions: updatedOptions.tracingOptions
+            tracingOptions: updatedOptions.tracingOptions,
           });
 
           // Update progress after block is successfully uploaded to server, in case of block trying
@@ -4776,10 +5016,10 @@ export class ShareFileClient extends StorageClient {
         Math.ceil((maxBuffers / 4) * 3)
       );
       return await scheduler.do();
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4819,10 +5059,10 @@ export class ShareFileClient extends StorageClient {
       // The stream is no longer accessible so setting it to undefined.
       (response as any).fileDownloadStream = undefined;
       return response;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4852,7 +5092,7 @@ export class ShareFileClient extends StorageClient {
         abortSignal: options.abortSignal,
         marker,
         ...options,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
 
       // TODO: Protocol layer issue that when handle list is in returned XML
@@ -4861,10 +5101,10 @@ export class ShareFileClient extends StorageClient {
         response.handleList = undefined;
       }
       return response;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4948,9 +5188,9 @@ export class ShareFileClient extends StorageClient {
       byPage: (settings: PageSettings = {}) => {
         return this.iterateHandleSegments(settings.continuationToken, {
           maxPageSize: settings.maxPageSize,
-          ...options
+          ...options,
         });
-      }
+      },
     };
   }
 
@@ -4978,16 +5218,16 @@ export class ShareFileClient extends StorageClient {
       const rawResponse = await this.context.forceCloseHandles("*", {
         abortSignal: options.abortSignal,
         marker,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
       const response = rawResponse as FileForceCloseHandlesResponse;
       response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
       response.closeFailureCount = rawResponse.numberOfHandlesFailedToClose || 0;
       return response;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5026,12 +5266,12 @@ export class ShareFileClient extends StorageClient {
 
       return {
         closedHandlesCount: handlesClosed,
-        closeFailureCount: numberOfHandlesFailedToClose
+        closeFailureCount: numberOfHandlesFailedToClose,
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5061,16 +5301,16 @@ export class ShareFileClient extends StorageClient {
 
       const rawResponse = await this.context.forceCloseHandles(handleId, {
         abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
       const response = rawResponse as FileForceCloseHandlesResponse;
       response.closedHandlesCount = rawResponse.numberOfHandlesClosed || 0;
       response.closeFailureCount = rawResponse.numberOfHandlesFailedToClose || 0;
       return response;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5110,12 +5350,89 @@ export class ShareFileClient extends StorageClient {
       {
         shareName: this.shareName,
         filePath: this.path,
-        ...options
+        ...options,
       },
       this.credential
     ).toString();
 
     return appendToURLQuery(this.url, sas);
+  }
+
+  /**
+   * Renames a file.
+   * This API only supports renaming a file in the same share.
+   *
+   * @param destinationPath - Specifies the destination path to rename to. The path will be encoded to put into a URL to specify the destination.
+   * @param options - Options for the renaming operation.
+   * @returns Response data for the file renaming operation.
+   *
+   * Example usage:
+   *
+   * ```js
+   *
+   * // Rename the file
+   * await fileClient.rename(destinationPath);
+   * console.log("Renamed file successfully!");
+   * ```
+   */
+  public async rename(
+    destinationPath: string,
+    options: FileRenameOptions = {}
+  ): Promise<{
+    destinationFileClient: ShareFileClient;
+    fileRenameResponse: FileRenameResponse;
+  }> {
+    const { span, updatedOptions } = createSpan("ShareFileClient-rename", options);
+    const split: string[] = destinationPath.split("?");
+    let destinationUrl: string;
+    if (split.length === 2) {
+      const pathOnly = encodeURIComponent(split[0]);
+      const renameDestination = `/${this.shareName}/${pathOnly}`;
+      destinationUrl = setURLPath(this.url, renameDestination);
+      destinationUrl = setURLQueries(destinationUrl, split[1]);
+    } else if (split.length === 1) {
+      const pathOnly = encodeURIComponent(destinationPath);
+      const renameDestination = `/${this.shareName}/${pathOnly}`;
+      destinationUrl = setURLPath(this.url, renameDestination);
+    } else {
+      throw new RangeError("Destination path should not contain more than one query string");
+    }
+
+    const destFile = new ShareFileClient(destinationUrl, this.pipeline);
+
+    try {
+      const response = await destFile.context.rename(this.url, {
+        ...updatedOptions,
+        sourceLeaseAccessConditions: updatedOptions.sourceLeaseAccessConditions
+          ? {
+              sourceLeaseId: updatedOptions.sourceLeaseAccessConditions.leaseId,
+            }
+          : undefined,
+        destinationLeaseAccessConditions: updatedOptions.destinationLeaseAccessConditions
+          ? {
+              destinationLeaseId: updatedOptions.destinationLeaseAccessConditions.leaseId,
+            }
+          : undefined,
+        fileHttpHeaders: options.contentType
+          ? {
+              fileContentType: options.contentType,
+            }
+          : undefined,
+      });
+
+      return {
+        destinationFileClient: destFile,
+        fileRenameResponse: response,
+      };
+    } catch (e: any) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 }
 
@@ -5225,7 +5542,7 @@ export class ShareLeaseClient {
   constructor(client: ShareFileClient, leaseId?: string) {
     const clientContext = new StorageClientContext(client.url, {
       version: SERVICE_VERSION,
-      ...(client as any).pipeline.toServiceClientOptions()
+      ...(client as any).pipeline.toServiceClientOptions(),
     });
 
     if (client instanceof ShareClient) {
@@ -5260,12 +5577,12 @@ export class ShareLeaseClient {
         abortSignal: options.abortSignal,
         duration,
         proposedLeaseId: this._leaseId,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5289,14 +5606,14 @@ export class ShareLeaseClient {
       const response = await this.fileOrShare.changeLease(this._leaseId, {
         proposedLeaseId,
         abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
       this._leaseId = proposedLeaseId;
       return response;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5316,12 +5633,12 @@ export class ShareLeaseClient {
     try {
       return await this.fileOrShare.releaseLease(this._leaseId, {
         abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5340,12 +5657,12 @@ export class ShareLeaseClient {
     try {
       return await this.fileOrShare.breakLease({
         abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5371,12 +5688,12 @@ export class ShareLeaseClient {
     try {
       return await (this.fileOrShare as Share).renewLease(this._leaseId, {
         abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {

@@ -226,7 +226,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
       url: queueEndpoint,
       accountName,
       accountKey,
-      proxyUri
+      proxyUri,
     };
   } else {
     // SAS connection string
@@ -353,7 +353,7 @@ export function getAccountNameFromUrl(url: string): string {
       accountName = "";
     }
     return accountName;
-  } catch (error) {
+  } catch (error: any) {
     throw new Error("Unable to extract accountName with provided information.");
   }
 }

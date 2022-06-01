@@ -1,0 +1,51 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": [
+        "dtmi:dtdl:context;3",
+        "dtmi:dtdl:extension:initialization;1"
+      ],
+      "@id": "dtmi:test:anInterface;1",
+      "@type": "Interface",
+      "contents": [
+        {
+          "@id": "dtmi:test:aProperty;1",
+          "@type": [ "Property", "Initialized" ],
+          "name": "someProp",
+          "schema": {
+            "@type": "Array",
+            "elementSchema": "integer"
+          },
+          "initialValue": [ 1, 1, 2, 3, 5, 8, 13 ]
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:aProperty;1",
+        "type": "Property",
+        "properties": {
+          "name": "someProp",
+          "schema": "dtmi:test:aProperty:_schema;1"
+        },
+        "supplementalTypes": [
+          "dtmi:dtdl:extension:initialization:v1:Initialized"
+        ],
+        "supplementalProperties": {
+          "dtmi:dtdl:extension:initialization:v1:Initialized:initialValue": [ 1, 1, 2, 3, 5, 8, 13 ]
+        }
+      },
+      {
+        "id": "dtmi:test:aProperty:_schema;1",
+        "type": "Array",
+        "properties": {
+          "elementSchema": "dtmi:dtdl:instance:Schema:integer;3"
+        }
+      }
+    ]
+  }
+}

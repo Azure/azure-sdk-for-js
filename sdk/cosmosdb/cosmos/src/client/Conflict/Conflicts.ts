@@ -45,7 +45,7 @@ export class Conflicts {
         resourceId: id,
         resultFn: (result) => result.Conflicts,
         query,
-        options: innerOptions
+        options: innerOptions,
       });
     });
   }

@@ -4,11 +4,11 @@
 import {
   RenderingServerSize,
   SessionProperties,
-  KnownRenderingSessionStatus
+  KnownRenderingSessionStatus,
 } from "../generated/index";
 import {
   RemoteRenderingServiceError,
-  createRemoteRenderingServiceError
+  createRemoteRenderingServiceError,
 } from "../remoteRenderingServiceError";
 
 /** Properties available for a rendering session in any state */
@@ -153,7 +153,7 @@ function renderingSessionPropertiesFromSessionProperties(
     elapsedTimeInMinutes: session.elapsedTimeInMinutes!,
     host: session.host!,
     teraflops: session.teraflops!,
-    createdOn: session.createdOn!
+    createdOn: session.createdOn!,
   };
 }
 
@@ -169,7 +169,7 @@ function partialRenderingSessionPropertiesFromSessionProperties(
     elapsedTimeInMinutes: session.elapsedTimeInMinutes,
     host: session.host,
     teraflops: session.teraflops,
-    createdOn: session.createdOn
+    createdOn: session.createdOn,
   };
 }
 
@@ -183,39 +183,39 @@ export function renderingSessionFromSessionProperties(
   const baseProperties: RenderingSessionBase = {
     sessionId: session.sessionId,
     size: session.size,
-    maxLeaseTimeInMinutes: session.maxLeaseTimeInMinutes!
+    maxLeaseTimeInMinutes: session.maxLeaseTimeInMinutes!,
   };
   switch (session.status) {
     case KnownRenderingSessionStatus.Ready:
       return {
         status: "Ready",
         ...baseProperties,
-        properties: renderingSessionPropertiesFromSessionProperties(session)
+        properties: renderingSessionPropertiesFromSessionProperties(session),
       };
     case KnownRenderingSessionStatus.Starting:
       return {
         status: "Starting",
         ...baseProperties,
-        partialProperties: partialRenderingSessionPropertiesFromSessionProperties(session)
+        partialProperties: partialRenderingSessionPropertiesFromSessionProperties(session),
       };
     case KnownRenderingSessionStatus.Error:
       return {
         status: "Error",
         ...baseProperties,
         error: createRemoteRenderingServiceError(session.error!),
-        partialProperties: partialRenderingSessionPropertiesFromSessionProperties(session)
+        partialProperties: partialRenderingSessionPropertiesFromSessionProperties(session),
       };
     case KnownRenderingSessionStatus.Expired:
       return {
         status: "Expired",
         ...baseProperties,
-        properties: renderingSessionPropertiesFromSessionProperties(session)
+        properties: renderingSessionPropertiesFromSessionProperties(session),
       };
     case KnownRenderingSessionStatus.Stopped:
       return {
         status: "Stopped",
         ...baseProperties,
-        partialProperties: partialRenderingSessionPropertiesFromSessionProperties(session)
+        partialProperties: partialRenderingSessionPropertiesFromSessionProperties(session),
       };
     default:
       throw new Error("Unrecognized RenderingSessionStatus returned by the service");

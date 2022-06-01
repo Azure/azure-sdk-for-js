@@ -6,9 +6,9 @@
  * @author Arpan Laha
  */
 
+import { Literal, Property } from "estree";
 import { getRuleMetaData, getVerifiers, stripPath } from "../utils";
 import { Rule } from "eslint";
-import { Literal, Property } from "estree";
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -21,7 +21,7 @@ export = {
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const verifiers = getVerifiers(context, {
-      outer: "homepage"
+      outer: "homepage",
     });
     return stripPath(context.getFilename()) === "package.json"
       ? ({
@@ -44,11 +44,11 @@ export = {
               context.report({
                 node: nodeValue,
                 message:
-                  "homepage is not a URL pointing to your library's readme inside the git repo"
+                  "homepage is not a URL pointing to your library's readme inside the git repo",
               });
             }
-          }
+          },
         } as Rule.RuleListener)
       : {};
-  }
+  },
 };

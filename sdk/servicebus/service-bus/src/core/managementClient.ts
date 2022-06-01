@@ -12,7 +12,7 @@ import {
   types,
   Typed,
   ReceiverEvents,
-  Message as RheaMessage
+  Message as RheaMessage,
 } from "rhea-promise";
 import {
   ConditionErrorNameMapper,
@@ -21,7 +21,7 @@ import {
   RequestResponseLink,
   SendRequestOptions,
   RetryOptions,
-  AmqpAnnotatedMessage
+  AmqpAnnotatedMessage,
 } from "@azure/core-amqp";
 import { ConnectionContext } from "../connectionContext";
 import {
@@ -32,7 +32,7 @@ import {
   toRheaMessage,
   fromRheaMessage,
   updateScheduledTime,
-  updateMessageId
+  updateMessageId,
 } from "../serviceBusMessage";
 import { LinkEntity, RequestResponseLinkOptions } from "./linkEntity";
 import { managementClientLogger, receiverLogger, senderLogger, ServiceBusLogger } from "../log";
@@ -43,7 +43,7 @@ import {
   throwTypeErrorIfParameterIsEmptyString,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
-  throwTypeErrorIfParameterTypeMismatch
+  throwTypeErrorIfParameterTypeMismatch,
 } from "../util/errors";
 import { max32BitNumber } from "../util/constants";
 import { Buffer } from "buffer";
@@ -63,6 +63,12 @@ export interface SendManagementRequestOptions extends SendRequestOptions {
    * This is used for service side optimization.
    */
   associatedLinkName?: string;
+  /**
+   * Option to disable the client from running JSON.parse() on the message body when receiving the message.
+   * Not applicable if the message was sent with AMQP body type value or sequence. Use this option when you
+   * prefer to work directly with the bytes present in the message body than have the client attempt to parse it.
+   */
+  skipParsingBodyAsJson?: boolean;
 }
 
 /**
@@ -144,7 +150,7 @@ const correlationProperties = [
   "sessionId",
   "replyToSessionId",
   "contentType",
-  "applicationProperties"
+  "applicationProperties",
 ];
 
 /**
@@ -215,7 +221,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       audience:
         options && options.audience
           ? options.audience
-          : `${context.config.endpoint}${entityPath}/$management`
+          : `${context.config.endpoint}${entityPath}/$management`,
     });
     this._context = context;
   }
@@ -233,7 +239,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
             sbError,
             `${this.logPrefix} An error occurred on the session for request/response links for $management`
           );
-        }
+        },
       };
       const sropt: SenderOptions = {
         target: { address: this.address },
@@ -243,7 +249,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
             ehError,
             `${this.logPrefix} An error occurred on the $management sender link`
           );
-        }
+        },
       };
 
       // Even if multiple parallel requests reach here, the initLink secures a lock
@@ -251,11 +257,11 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       await this.initLink(
         {
           senderOptions: sropt,
-          receiverOptions: rxopt
+          receiverOptions: rxopt,
         },
         abortSignal
       );
-    } catch (err) {
+    } catch (err: any) {
       const translatedError = translateServiceBusError(err);
       managementClientLogger.logError(
         translatedError,
@@ -313,7 +319,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
       const e: Error = {
         name: "OperationTimeoutError",
-        message: desc
+        message: desc,
       };
 
       reject(e);
@@ -342,7 +348,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     try {
       if (!request.message_id) request.message_id = generate_uuid();
       return await this.link!.sendRequest(request, sendRequestOptions);
-    } catch (err) {
+    } catch (err: any) {
       const translatedError = translateServiceBusError(err);
       internalLogger.logError(
         translatedError,
@@ -368,7 +374,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       // we can change this back to closeLink("permanent").
       await this.closeLink();
       managementClientLogger.verbose("Successfully closed the management session.");
-    } catch (err) {
+    } catch (err: any) {
       managementClientLogger.logError(
         err,
         `${this.logPrefix} An error occurred while closing the management session`
@@ -387,9 +393,11 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * also fetch even Deferred messages (but not Deadlettered message).
    *
    * @param messageCount - The number of messages to retrieve. Default value `1`.
+   * @param omitMessageBody - Whether to omit message body when peeking. Default value `false`.
    */
   async peek(
     messageCount: number,
+    omitMessageBody?: boolean,
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<ServiceBusReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context);
@@ -397,6 +405,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       this._lastPeekedSequenceNumber.add(1),
       messageCount,
       undefined,
+      omitMessageBody,
       options
     );
   }
@@ -412,10 +421,12 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    *
    * @param sessionId - The sessionId from which messages need to be peeked.
    * @param messageCount - The number of messages to retrieve. Default value `1`.
+   * @param omitMessageBody - Whether to omit message body when peeking Default value `false`.
    */
   async peekMessagesBySession(
     sessionId: string,
     messageCount: number,
+    omitMessageBody?: boolean,
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<ServiceBusReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context);
@@ -423,6 +434,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       this._lastPeekedSequenceNumber.add(1),
       messageCount,
       sessionId,
+      omitMessageBody,
       options
     );
   }
@@ -433,11 +445,13 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * @param fromSequenceNumber - The sequence number from where to read the message.
    * @param messageCount - The number of messages to retrieve. Default value `1`.
    * @param sessionId - The sessionId from which messages need to be peeked.
+   * @param omitMessageBody - Whether to omit message body when peeking. Default value `false`.
    */
   async peekBySequenceNumber(
     fromSequenceNumber: Long,
     maxMessageCount: number,
     sessionId?: string,
+    omitMessageBody?: boolean,
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<ServiceBusReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context);
@@ -474,12 +488,16 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       if (isDefined(sessionId)) {
         messageBody[Constants.sessionIdMapKey] = sessionId;
       }
+      if (isDefined(omitMessageBody)) {
+        const omitMessageBodyKey = "omit-message-body"; // TODO: Service Bus specific. Put it somewhere
+        messageBody[omitMessageBodyKey] = types.wrap_boolean(omitMessageBody);
+      }
       const request: RheaMessage = {
         body: messageBody,
         reply_to: this.replyTo,
         application_properties: {
-          operation: Constants.operations.peekMessage
-        }
+          operation: Constants.operations.peekMessage,
+        },
       };
       if (options?.associatedLinkName) {
         request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
@@ -499,14 +517,15 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         const messages = result.body.messages as { message: Buffer }[];
         for (const msg of messages) {
           const decodedMessage = RheaMessageUtil.decode(msg.message);
-          const message = fromRheaMessage(decodedMessage as any);
-
-          message.body = defaultDataTransformer.decode(message.body);
+          const message = fromRheaMessage(
+            decodedMessage as any,
+            options?.skipParsingBodyAsJson ?? false
+          );
           messageList.push(message);
           this._lastPeekedSequenceNumber = message.sequenceNumber!;
         }
       }
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err) as MessagingError;
       receiverLogger.logError(
         error,
@@ -552,8 +571,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         body: messageBody,
         reply_to: this.replyTo,
         application_properties: {
-          operation: Constants.operations.renewLock
-        }
+          operation: Constants.operations.renewLock,
+        },
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
       if (options.associatedLinkName) {
@@ -566,11 +585,11 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       );
       const result = await this._makeManagementRequest(request, receiverLogger, {
         abortSignal: options?.abortSignal,
-        requestName: "renewLock"
+        requestName: "renewLock",
       });
       const lockedUntilUtc = new Date(result.body.expirations[0]);
       return lockedUntilUtc;
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       receiverLogger.logError(
         error,
@@ -612,7 +631,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           [Constants.sessionIdMapKey]?: string | undefined;
         } = {
           message: RheaMessageUtil.encode(rheaMessage),
-          "message-id": rheaMessage.message_id
+          "message-id": rheaMessage.message_id,
         };
 
         if (rheaMessage.group_id) {
@@ -630,7 +649,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
 
         const wrappedEntry = types.wrap_map(entry);
         messageBody.push(wrappedEntry);
-      } catch (err) {
+      } catch (err: any) {
         const error = translateServiceBusError(err);
         senderLogger.logError(
           error,
@@ -644,8 +663,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         body: { messages: messageBody },
         reply_to: this.replyTo,
         application_properties: {
-          operation: Constants.operations.scheduleMessage
-        }
+          operation: Constants.operations.scheduleMessage,
+        },
       };
       if (options?.associatedLinkName) {
         request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
@@ -663,7 +682,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         }
       }
       return sequenceNumbersAsLong;
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       senderLogger.logError(
         error,
@@ -691,7 +710,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       const sequenceNumber = sequenceNumbers[i];
       try {
         messageBody[Constants.sequenceNumbers].push(Buffer.from(sequenceNumber.toBytesBE()));
-      } catch (err) {
+      } catch (err: any) {
         const error = translateServiceBusError(err);
         senderLogger.logError(
           error,
@@ -711,8 +730,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         body: messageBody,
         reply_to: this.replyTo,
         application_properties: {
-          operation: Constants.operations.cancelScheduledMessage
-        }
+          operation: Constants.operations.cancelScheduledMessage,
+        },
       };
 
       if (options?.associatedLinkName) {
@@ -727,7 +746,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
 
       await this._makeManagementRequest(request, senderLogger, options);
       return;
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       senderLogger.logError(
         error,
@@ -764,7 +783,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       const sequenceNumber = sequenceNumbers[i];
       try {
         messageBody[Constants.sequenceNumbers].push(Buffer.from(sequenceNumber.toBytesBE()));
-      } catch (err) {
+      } catch (err: any) {
         const error = translateServiceBusError(err);
         receiverLogger.logError(
           error,
@@ -789,8 +808,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         body: messageBody,
         reply_to: this.replyTo,
         application_properties: {
-          operation: Constants.operations.receiveBySequenceNumber
-        }
+          operation: Constants.operations.receiveBySequenceNumber,
+        },
       };
       if (options?.associatedLinkName) {
         request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
@@ -813,12 +832,13 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           decodedMessage as any,
           { tag: msg["lock-token"] } as any,
           false,
-          receiveMode
+          receiveMode,
+          options?.skipParsingBodyAsJson ?? false
         );
         messageList.push(message);
       }
       return messageList;
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       receiverLogger.logError(
         error,
@@ -873,8 +893,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         body: messageBody,
         reply_to: this.replyTo,
         application_properties: {
-          operation: Constants.operations.updateDisposition
-        }
+          operation: Constants.operations.updateDisposition,
+        },
       };
       if (options.associatedLinkName) {
         request.application_properties![Constants.associatedLinkName] = options.associatedLinkName;
@@ -886,7 +906,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         request.body
       );
       await this._makeManagementRequest(request, receiverLogger, options);
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       receiverLogger.logError(
         error,
@@ -915,8 +935,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         body: messageBody,
         reply_to: this.replyTo,
         application_properties: {
-          operation: Constants.operations.renewSessionLock
-        }
+          operation: Constants.operations.renewSessionLock,
+        },
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
       if (options?.associatedLinkName) {
@@ -936,7 +956,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         lockedUntilUtc.toString()
       );
       return lockedUntilUtc;
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       receiverLogger.logError(
         error,
@@ -967,8 +987,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         body: messageBody,
         reply_to: this.replyTo,
         application_properties: {
-          operation: Constants.operations.setSessionState
-        }
+          operation: Constants.operations.setSessionState,
+        },
       };
       if (options?.associatedLinkName) {
         request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
@@ -980,7 +1000,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         request.body
       );
       await this._makeManagementRequest(request, receiverLogger, options);
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       receiverLogger.logError(
         error,
@@ -1008,8 +1028,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         body: messageBody,
         reply_to: this.replyTo,
         application_properties: {
-          operation: Constants.operations.getSessionState
-        }
+          operation: Constants.operations.getSessionState,
+        },
       };
       if (options?.associatedLinkName) {
         request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
@@ -1024,7 +1044,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       return result.body["session-state"]
         ? tryToJsonDecode(result.body["session-state"])
         : result.body["session-state"];
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       receiverLogger.logError(
         error,
@@ -1070,8 +1090,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         body: messageBody,
         reply_to: this.replyTo,
         application_properties: {
-          operation: Constants.operations.enumerateSessions
-        }
+          operation: Constants.operations.enumerateSessions,
+        },
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
       managementClientLogger.verbose(
@@ -1082,7 +1102,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       const response = await this._makeManagementRequest(request, managementClientLogger, options);
 
       return (response && response.body && response.body["sessions-ids"]) || [];
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       managementClientLogger.logError(
         error,
@@ -1104,12 +1124,12 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       const request: RheaMessage = {
         body: {
           top: types.wrap_int(max32BitNumber),
-          skip: types.wrap_int(0)
+          skip: types.wrap_int(0),
         },
         reply_to: this.replyTo,
         application_properties: {
-          operation: Constants.operations.enumerateRules
-        }
+          operation: Constants.operations.enumerateRules,
+        },
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
 
@@ -1147,7 +1167,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         const filtersRawData: Typed = ruleDescriptor.value[0];
         const actionsRawData: Typed = ruleDescriptor.value[1];
         const rule: RuleDescription = {
-          name: ruleDescriptor.value[2].value
+          name: ruleDescriptor.value[2].value,
         };
 
         switch (filtersRawData.descriptor.value) {
@@ -1170,7 +1190,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
               sessionId: this._safelyGetTypedValueFromArray(filtersRawData.value, 5),
               replyToSessionId: this._safelyGetTypedValueFromArray(filtersRawData.value, 6),
               contentType: this._safelyGetTypedValueFromArray(filtersRawData.value, 7),
-              applicationProperties: this._safelyGetTypedValueFromArray(filtersRawData.value, 8)
+              applicationProperties: this._safelyGetTypedValueFromArray(filtersRawData.value, 8),
             };
             break;
           default:
@@ -1192,7 +1212,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       });
 
       return rules;
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       managementClientLogger.logError(
         error,
@@ -1217,12 +1237,12 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     try {
       const request: RheaMessage = {
         body: {
-          "rule-name": types.wrap_string(ruleName)
+          "rule-name": types.wrap_string(ruleName),
         },
         reply_to: this.replyTo,
         application_properties: {
-          operation: Constants.operations.removeRule
-        }
+          operation: Constants.operations.removeRule,
+        },
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
 
@@ -1232,7 +1252,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         request.body
       );
       await this._makeManagementRequest(request, managementClientLogger, options);
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       managementClientLogger.logError(
         error,
@@ -1278,12 +1298,12 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       switch (typeof filter) {
         case "boolean":
           ruleDescription["sql-filter"] = {
-            expression: filter ? "1=1" : "1=0"
+            expression: filter ? "1=1" : "1=0",
           };
           break;
         case "string":
           ruleDescription["sql-filter"] = {
-            expression: filter
+            expression: filter,
           };
           break;
         default:
@@ -1296,31 +1316,31 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
             "session-id": filter.sessionId,
             "reply-to-session-id": filter.replyToSessionId,
             "content-type": filter.contentType,
-            applicationProperties: filter.applicationProperties
+            applicationProperties: filter.applicationProperties,
           };
           break;
       }
 
       if (sqlRuleActionExpression !== undefined) {
         ruleDescription["sql-rule-action"] = {
-          expression: String(sqlRuleActionExpression)
+          expression: String(sqlRuleActionExpression),
         };
       }
       const request: RheaMessage = {
         body: {
           "rule-name": types.wrap_string(ruleName),
-          "rule-description": types.wrap_map(ruleDescription)
+          "rule-description": types.wrap_map(ruleDescription),
         },
         reply_to: this.replyTo,
         application_properties: {
-          operation: Constants.operations.addRule
-        }
+          operation: Constants.operations.addRule,
+        },
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
 
       managementClientLogger.verbose("%s Add Rule request body: %O.", this.logPrefix, request.body);
       await this._makeManagementRequest(request, managementClientLogger, options);
-    } catch (err) {
+    } catch (err: any) {
       const error = translateServiceBusError(err);
       managementClientLogger.logError(
         error,
@@ -1352,12 +1372,12 @@ export function toScheduleableMessage(
 
   const entry: Record<string, unknown> = {
     message: RheaMessageUtil.encode(rheaMessage),
-    "message-id": rheaMessage.message_id
+    "message-id": rheaMessage.message_id,
   };
 
   rheaMessage.message_annotations = {
     ...rheaMessage.message_annotations,
-    [Constants.scheduledEnqueueTime]: scheduledEnqueueTimeUtc
+    [Constants.scheduledEnqueueTime]: scheduledEnqueueTimeUtc,
   };
 
   if (rheaMessage.group_id) {

@@ -102,13 +102,6 @@ export interface OperationsListNextOptionalParams
 export type OperationsListNextResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface OperationsListNextNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNextNext operation. */
-export type OperationsListNextNextResponse = OperationListResult;
-
-/** Optional parameters. */
 export interface ResourceLinksDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -159,23 +152,6 @@ export interface ResourceLinksListAtSourceScopeNextOptionalParams
 
 /** Contains response data for the listAtSourceScopeNext operation. */
 export type ResourceLinksListAtSourceScopeNextResponse = ResourceLinkResult;
-
-/** Optional parameters. */
-export interface ResourceLinksListAtSubscriptionNextNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The filter to apply on the list resource links operation. The supported filter for list resource links is targetId. For example, $filter=targetId eq {value} */
-  filter?: string;
-}
-
-/** Contains response data for the listAtSubscriptionNextNext operation. */
-export type ResourceLinksListAtSubscriptionNextNextResponse = ResourceLinkResult;
-
-/** Optional parameters. */
-export interface ResourceLinksListAtSourceScopeNextNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAtSourceScopeNextNext operation. */
-export type ResourceLinksListAtSourceScopeNextNextResponse = ResourceLinkResult;
 
 /** Optional parameters. */
 export interface ManagementLinkClientOptionalParams

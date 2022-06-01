@@ -17,7 +17,7 @@ export class IncidentsListTest extends MetricsAdvisorTest<MetricsAdvisorTestOpti
   async run(): Promise<void> {
     const listIterator = this.client.listIncidents({
       alertConfigId: this.alertConfigId,
-      id: this.alertId
+      id: this.alertId,
     });
 
     // eslint-disable-next-line no-empty

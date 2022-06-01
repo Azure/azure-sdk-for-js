@@ -10,7 +10,7 @@ import { VirtualMachineExtensionImages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ComputeManagementClientContext } from "../computeManagementClientContext";
+import { ComputeManagementClient } from "../computeManagementClient";
 import {
   VirtualMachineExtensionImagesGetOptionalParams,
   VirtualMachineExtensionImagesGetResponse,
@@ -23,13 +23,13 @@ import {
 /** Class containing VirtualMachineExtensionImages operations. */
 export class VirtualMachineExtensionImagesImpl
   implements VirtualMachineExtensionImages {
-  private readonly client: ComputeManagementClientContext;
+  private readonly client: ComputeManagementClient;
 
   /**
    * Initialize a new instance of the class VirtualMachineExtensionImages class.
    * @param client Reference to the service client
    */
-  constructor(client: ComputeManagementClientContext) {
+  constructor(client: ComputeManagementClient) {
     this.client = client;
   }
 
@@ -100,16 +100,19 @@ const getOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.VirtualMachineExtensionImage
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location,
+    Parameters.location1,
     Parameters.publisherName,
-    Parameters.typeParam,
-    Parameters.version
+    Parameters.version,
+    Parameters.typeParam
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -131,13 +134,16 @@ const listTypesOperationSpec: coreClient.OperationSpec = {
           }
         }
       }
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location,
+    Parameters.location1,
     Parameters.publisherName
   ],
   headerParameters: [Parameters.accept],
@@ -160,6 +166,9 @@ const listVersionsOperationSpec: coreClient.OperationSpec = {
           }
         }
       }
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [
@@ -171,7 +180,7 @@ const listVersionsOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location,
+    Parameters.location1,
     Parameters.publisherName,
     Parameters.typeParam
   ],

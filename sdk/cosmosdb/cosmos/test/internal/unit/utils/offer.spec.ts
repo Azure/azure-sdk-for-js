@@ -4,44 +4,44 @@ import assert from "assert";
 import { validateOffer } from "../../../../src/utils/offers";
 import { ContainerRequest } from "../../../../src";
 
-describe("Offer utils", function() {
-  describe("validateOffer", function() {
-    it("fails with maxThroughput and throughput specified", function() {
+describe("Offer utils", function () {
+  describe("validateOffer", function () {
+    it("fails with maxThroughput and throughput specified", function () {
       const body: ContainerRequest = {
         throughput: 400,
         autoUpgradePolicy: {
           throughputPolicy: {
-            incrementPercent: 15
-          }
-        }
+            incrementPercent: 15,
+          },
+        },
       };
       assert.throws(() => validateOffer(body));
     });
-    it("fails with throughput and autoUpgradePolicy specified", function() {
+    it("fails with throughput and autoUpgradePolicy specified", function () {
       const body: ContainerRequest = {
         throughput: 400,
         autoUpgradePolicy: {
           throughputPolicy: {
-            incrementPercent: 15
-          }
-        }
+            incrementPercent: 15,
+          },
+        },
       };
       assert.throws(() => validateOffer(body));
     });
-    it("passes with autoscale params", function() {
+    it("passes with autoscale params", function () {
       const body: ContainerRequest = {
         maxThroughput: 50000,
         autoUpgradePolicy: {
           throughputPolicy: {
-            incrementPercent: 50
-          }
-        }
+            incrementPercent: 50,
+          },
+        },
       };
       assert.equal(validateOffer(body), undefined);
     });
-    it("passes with throughput", function() {
+    it("passes with throughput", function () {
       const body: ContainerRequest = {
-        throughput: 400
+        throughput: 400,
       };
       assert.equal(validateOffer(body), undefined);
     });

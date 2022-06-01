@@ -1,67 +1,66 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { HttpClient } from "./httpClient";
-import { HttpOperationResponse, RestResponse } from "./httpOperationResponse";
-import { HttpPipelineLogger } from "./httpPipelineLogger";
-import { logPolicy, LogPolicyOptions } from "./policies/logPolicy";
-import { OperationArguments } from "./operationArguments";
+import * as utils from "./util/utils";
+import { CompositeMapper, DictionaryMapper, Mapper, MapperType, Serializer } from "./serializer";
 import {
+  DefaultDeserializationOptions,
+  DeserializationContentTypes,
+  deserializationPolicy,
+} from "./policies/deserializationPolicy";
+import { DefaultKeepAliveOptions, keepAlivePolicy } from "./policies/keepAlivePolicy";
+import { DefaultRedirectOptions, redirectPolicy } from "./policies/redirectPolicy";
+import { DefaultRetryOptions, exponentialRetryPolicy } from "./policies/exponentialRetryPolicy";
+import { HttpOperationResponse, RestResponse } from "./httpOperationResponse";
+import { LogPolicyOptions, logPolicy } from "./policies/logPolicy";
+import {
+  OperationParameter,
+  ParameterPath,
   getPathStringFromParameter,
   getPathStringFromParameterPath,
-  OperationParameter,
-  ParameterPath
 } from "./operationParameter";
-import { getStreamResponseStatusCodes, OperationSpec } from "./operationSpec";
-import {
-  deserializationPolicy,
-  DeserializationContentTypes,
-  DefaultDeserializationOptions
-} from "./policies/deserializationPolicy";
-import { exponentialRetryPolicy, DefaultRetryOptions } from "./policies/exponentialRetryPolicy";
-import { generateClientRequestIdPolicy } from "./policies/generateClientRequestIdPolicy";
-import {
-  userAgentPolicy,
-  getDefaultUserAgentHeaderName,
-  getDefaultUserAgentValue
-} from "./policies/userAgentPolicy";
-import { redirectPolicy, DefaultRedirectOptions } from "./policies/redirectPolicy";
-import {
-  RequestPolicy,
-  RequestPolicyFactory,
-  RequestPolicyOptions
-} from "./policies/requestPolicy";
-import { rpRegistrationPolicy } from "./policies/rpRegistrationPolicy";
-import { bearerTokenAuthenticationPolicy } from "./policies/bearerTokenAuthenticationPolicy";
-import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
-import { QueryCollectionFormat } from "./queryCollectionFormat";
-import { CompositeMapper, DictionaryMapper, Mapper, MapperType, Serializer } from "./serializer";
-import { URLBuilder } from "./url";
-import * as utils from "./util/utils";
-import { stringifyXML } from "./util/xml";
+import { OperationSpec, getStreamResponseStatusCodes } from "./operationSpec";
 import {
   RequestOptionsBase,
   RequestPrepareOptions,
   WebResource,
   WebResourceLike,
-  isWebResourceLike
+  isWebResourceLike,
 } from "./webResource";
-import { OperationResponse } from "./operationResponse";
+import {
+  RequestPolicy,
+  RequestPolicyFactory,
+  RequestPolicyOptions,
+} from "./policies/requestPolicy";
+import { SerializerOptions, XML_ATTRKEY, XML_CHARKEY } from "./util/serializer.common";
 import { ServiceCallback, isNode } from "./util/utils";
-import { proxyPolicy } from "./policies/proxyPolicy";
-import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
-import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
-import { signingPolicy } from "./policies/signingPolicy";
-import { logger } from "./log";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import {
+  getDefaultUserAgentHeaderName,
+  getDefaultUserAgentValue,
+  userAgentPolicy,
+} from "./policies/userAgentPolicy";
+import { HttpClient } from "./httpClient";
+import { HttpPipelineLogger } from "./httpPipelineLogger";
 import { InternalPipelineOptions } from "./pipelineOptions";
-import { DefaultKeepAliveOptions, keepAlivePolicy } from "./policies/keepAlivePolicy";
-import { tracingPolicy } from "./policies/tracingPolicy";
+import { OperationArguments } from "./operationArguments";
+import { OperationResponse } from "./operationResponse";
+import { QueryCollectionFormat } from "./queryCollectionFormat";
+import { ServiceClientCredentials } from "./credentials/serviceClientCredentials";
+import { URLBuilder } from "./url";
+import { bearerTokenAuthenticationPolicy } from "./policies/bearerTokenAuthenticationPolicy";
 import { disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
-import { ndJsonPolicy } from "./policies/ndJsonPolicy";
-import { XML_ATTRKEY, SerializerOptions, XML_CHARKEY } from "./util/serializer.common";
-import { URL } from "./url";
+import { generateClientRequestIdPolicy } from "./policies/generateClientRequestIdPolicy";
 import { getCachedDefaultHttpClient } from "./httpClientCache";
+import { logger } from "./log";
+import { ndJsonPolicy } from "./policies/ndJsonPolicy";
+import { proxyPolicy } from "./policies/proxyPolicy";
+import { rpRegistrationPolicy } from "./policies/rpRegistrationPolicy";
+import { signingPolicy } from "./policies/signingPolicy";
+import { stringifyXML } from "./util/xml";
+import { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
+import { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
+import { tracingPolicy } from "./policies/tracingPolicy";
 
 /**
  * Options to configure a proxy for outgoing requests (Node.js only).
@@ -245,7 +244,7 @@ export class ServiceClient {
               }
 
               return bearerTokenPolicyFactory.create(nextPolicy, createOptions);
-            }
+            },
           };
         };
 
@@ -262,9 +261,8 @@ export class ServiceClient {
       if (options.requestPolicyFactories) {
         // options.requestPolicyFactories can also be a function that manipulates
         // the default requestPolicyFactories array
-        const newRequestPolicyFactories:
-          | void
-          | RequestPolicyFactory[] = options.requestPolicyFactories(requestPolicyFactories);
+        const newRequestPolicyFactories: void | RequestPolicyFactory[] =
+          options.requestPolicyFactories(requestPolicyFactories);
         if (newRequestPolicyFactories) {
           requestPolicyFactories = newRequestPolicyFactories;
         }
@@ -290,7 +288,7 @@ export class ServiceClient {
         httpRequest = new WebResource();
         httpRequest = httpRequest.prepare(options);
       }
-    } catch (error) {
+    } catch (error: any) {
       return Promise.reject(error);
     }
 
@@ -520,7 +518,7 @@ export class ServiceClient {
       let sendRequestError;
       try {
         rawResponse = await this.sendRequest(httpRequest);
-      } catch (error) {
+      } catch (error: any) {
         sendRequestError = error;
       }
       if (sendRequestError) {
@@ -537,7 +535,7 @@ export class ServiceClient {
           flattenResponse(rawResponse!, operationSpec.responses[rawResponse!.status])
         );
       }
-    } catch (error) {
+    } catch (error: any) {
       result = Promise.reject(error);
     }
 
@@ -562,7 +560,7 @@ export function serializeRequestBody(
   const updatedOptions: Required<SerializerOptions> = {
     rootName: serializerOptions.rootName ?? "",
     includeRoot: serializerOptions.includeRoot ?? false,
-    xmlCharKey: serializerOptions.xmlCharKey ?? XML_CHARKEY
+    xmlCharKey: serializerOptions.xmlCharKey ?? XML_CHARKEY,
   };
 
   const xmlCharKey = serializerOptions.xmlCharKey;
@@ -575,14 +573,8 @@ export function serializeRequestBody(
     );
 
     const bodyMapper = operationSpec.requestBody.mapper;
-    const {
-      required,
-      xmlName,
-      xmlElementName,
-      serializedName,
-      xmlNamespace,
-      xmlNamespacePrefix
-    } = bodyMapper;
+    const { required, xmlName, xmlElementName, serializedName, xmlNamespace, xmlNamespacePrefix } =
+      bodyMapper;
     const typeName = bodyMapper.type.name;
 
     try {
@@ -618,13 +610,13 @@ export function serializeRequestBody(
               ),
               {
                 rootName: xmlName || serializedName,
-                xmlCharKey
+                xmlCharKey,
               }
             );
           } else if (!isStream) {
             httpRequest.body = stringifyXML(value, {
               rootName: xmlName || serializedName,
-              xmlCharKey
+              xmlCharKey,
             });
           }
         } else if (
@@ -638,7 +630,7 @@ export function serializeRequestBody(
           httpRequest.body = JSON.stringify(httpRequest.body);
         }
       }
-    } catch (error) {
+    } catch (error: any) {
       throw new Error(
         `Error "${error.message}" occurred in serializing the payload - ${JSON.stringify(
           serializedName,
@@ -786,17 +778,17 @@ export function createPipelineFromOptions(
 
   const keepAliveOptions = {
     ...DefaultKeepAliveOptions,
-    ...pipelineOptions.keepAliveOptions
+    ...pipelineOptions.keepAliveOptions,
   };
 
   const retryOptions = {
     ...DefaultRetryOptions,
-    ...pipelineOptions.retryOptions
+    ...pipelineOptions.retryOptions,
   };
 
   const redirectOptions = {
     ...DefaultRedirectOptions,
-    ...pipelineOptions.redirectOptions
+    ...pipelineOptions.redirectOptions,
   };
 
   if (isNode) {
@@ -805,11 +797,11 @@ export function createPipelineFromOptions(
 
   const deserializationOptions = {
     ...DefaultDeserializationOptions,
-    ...pipelineOptions.deserializationOptions
+    ...pipelineOptions.deserializationOptions,
   };
 
   const loggingOptions: LogPolicyOptions = {
-    ...pipelineOptions.loggingOptions
+    ...pipelineOptions.loggingOptions,
   };
 
   requestPolicyFactories.push(
@@ -843,7 +835,7 @@ export function createPipelineFromOptions(
 
   return {
     httpClient: pipelineOptions.httpClient,
-    requestPolicyFactories
+    requestPolicyFactories,
   };
 }
 
@@ -997,14 +989,16 @@ export function flattenResponse(
   const parsedHeaders = _response.parsedHeaders;
   const bodyMapper = responseSpec && responseSpec.bodyMapper;
 
-  const addOperationResponse = (
-    obj: Record<string, unknown>
-  ): {
+  const addOperationResponse = <T extends Record<string, unknown>>(
+    obj: T
+  ): T & {
     _response: HttpOperationResponse;
   } => {
     return Object.defineProperty(obj, "_response", {
-      value: _response
-    });
+      value: _response,
+    }) as T & {
+      _response: HttpOperationResponse;
+    };
   };
 
   if (bodyMapper) {
@@ -1013,7 +1007,7 @@ export function flattenResponse(
       return addOperationResponse({
         ...parsedHeaders,
         blobBody: _response.blobBody,
-        readableStreamBody: _response.readableStreamBody
+        readableStreamBody: _response.readableStreamBody,
       });
     }
 
@@ -1043,7 +1037,7 @@ export function flattenResponse(
     if (typeName === "Composite" || typeName === "Dictionary") {
       return addOperationResponse({
         ...parsedHeaders,
-        ..._response.parsedBody
+        ..._response.parsedBody,
       });
     }
   }
@@ -1056,13 +1050,13 @@ export function flattenResponse(
     // primitive body types and HEAD booleans
     return addOperationResponse({
       ...parsedHeaders,
-      body: _response.parsedBody
+      body: _response.parsedBody,
     });
   }
 
   return addOperationResponse({
     ...parsedHeaders,
-    ..._response.parsedBody
+    ..._response.parsedBody,
   });
 }
 

@@ -11,7 +11,7 @@ import { FirewallRules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { RedisManagementClientContext } from "../redisManagementClientContext";
+import { RedisManagementClient } from "../redisManagementClient";
 import {
   RedisFirewallRule,
   FirewallRulesListNextOptionalParams,
@@ -28,13 +28,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing FirewallRules operations. */
 export class FirewallRulesImpl implements FirewallRules {
-  private readonly client: RedisManagementClientContext;
+  private readonly client: RedisManagementClient;
 
   /**
    * Initialize a new instance of the class FirewallRules class.
    * @param client Reference to the service client
    */
-  constructor(client: RedisManagementClientContext) {
+  constructor(client: RedisManagementClient) {
     this.client = client;
   }
 

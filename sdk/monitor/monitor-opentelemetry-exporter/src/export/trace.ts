@@ -3,14 +3,14 @@
 
 import { diag } from "@opentelemetry/api";
 import { ExportResult, ExportResultCode } from "@opentelemetry/core";
-import { ReadableSpan, SpanExporter } from "@opentelemetry/tracing";
+import { ReadableSpan, SpanExporter } from "@opentelemetry/sdk-trace-base";
 import { RestError } from "@azure/core-rest-pipeline";
 import { ConnectionStringParser } from "../utils/connectionStringParser";
 import { HttpSender, FileSystemPersist } from "../platform";
 import {
   DEFAULT_EXPORTER_CONFIG,
   AzureExporterConfig,
-  AzureExporterInternalConfig
+  AzureExporterInternalConfig,
 } from "../config";
 import { PersistentStorage, Sender } from "../types";
 import { isRetriable, BreezeResponse } from "../utils/breezeUtils";
@@ -36,9 +36,10 @@ export class AzureMonitorTraceExporter implements SpanExporter {
     this._numConsecutiveRedirects = 0;
     const connectionString = options.connectionString || process.env[ENV_CONNECTION_STRING];
     this._options = {
-      ...DEFAULT_EXPORTER_CONFIG
+      ...DEFAULT_EXPORTER_CONFIG,
     };
     this._options.apiVersion = options.apiVersion ?? this._options.apiVersion;
+    this._options.aadTokenCredential = options.aadTokenCredential;
 
     if (connectionString) {
       const parsedConnectionString = ConnectionStringParser.parse(connectionString);
@@ -68,9 +69,9 @@ export class AzureMonitorTraceExporter implements SpanExporter {
         ? { code: ExportResultCode.SUCCESS }
         : {
             code: ExportResultCode.FAILED,
-            error: new Error("Failed to persist envelope in disk.")
+            error: new Error("Failed to persist envelope in disk."),
           };
-    } catch (ex) {
+    } catch (ex: any) {
       return { code: ExportResultCode.FAILED, error: ex };
     }
   }
@@ -108,7 +109,7 @@ export class AzureMonitorTraceExporter implements SpanExporter {
           }
           // Failed -- not retriable
           return {
-            code: ExportResultCode.FAILED
+            code: ExportResultCode.FAILED,
           };
         } else {
           // calls resultCallback(ExportResult) based on result of persister.push
@@ -117,10 +118,10 @@ export class AzureMonitorTraceExporter implements SpanExporter {
       } else {
         // Failed -- not retriable
         return {
-          code: ExportResultCode.FAILED
+          code: ExportResultCode.FAILED,
         };
       }
-    } catch (error) {
+    } catch (error: any) {
       const restError = error as RestError;
       if (
         restError.statusCode &&
@@ -192,7 +193,7 @@ export class AzureMonitorTraceExporter implements SpanExporter {
       if (envelopes) {
         await this._sender.send(envelopes);
       }
-    } catch (err) {
+    } catch (err: any) {
       diag.warn(`Failed to fetch persisted file`, err);
     }
   }

@@ -1,5 +1,5 @@
 {
-  "name": "azure-schema-registry-avro-samples-js",
+  "name": "@azure-samples/schema-registry-avro-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Schema Registry client library samples for JavaScript",
@@ -23,9 +23,10 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry-avro",
   "dependencies": {
-    "@azure/schema-registry-avro": "next",
+    "@azure/schema-registry-avro": "latest",
     "dotenv": "latest",
     "@azure/identity": "^2.0.1",
-    "@azure/schema-registry": "1.0.1"
+    "@azure/schema-registry": "^1.0.1",
+    "@azure/event-hubs": "^5.8.0"
   }
 }

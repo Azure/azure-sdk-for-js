@@ -10,7 +10,7 @@ import { VaultExtendedInfo } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { RecoveryServicesClientContext } from "../recoveryServicesClientContext";
+import { RecoveryServicesClient } from "../recoveryServicesClient";
 import {
   VaultExtendedInfoGetOptionalParams,
   VaultExtendedInfoGetResponse,
@@ -23,13 +23,13 @@ import {
 
 /** Class containing VaultExtendedInfo operations. */
 export class VaultExtendedInfoImpl implements VaultExtendedInfo {
-  private readonly client: RecoveryServicesClientContext;
+  private readonly client: RecoveryServicesClient;
 
   /**
    * Initialize a new instance of the class VaultExtendedInfo class.
    * @param client Reference to the service client
    */
-  constructor(client: RecoveryServicesClientContext) {
+  constructor(client: RecoveryServicesClient) {
     this.client = client;
   }
 

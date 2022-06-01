@@ -42,9 +42,9 @@ export const defaultConnectionPolicy: ConnectionPolicy = Object.freeze({
   retryOptions: {
     maxRetryAttemptCount: 9,
     fixedRetryIntervalInMilliseconds: 0,
-    maxWaitTimeInSeconds: 30
+    maxWaitTimeInSeconds: 30,
   },
   useMultipleWriteLocations: true,
   endpointRefreshRateInMs: 300000,
-  enableBackgroundEndpointRefreshing: true
+  enableBackgroundEndpointRefreshing: true,
 });

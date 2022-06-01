@@ -1,6 +1,6 @@
 # Release History
 
-## 7.4.1 (Unreleased)
+## 7.6.0-beta.4 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,46 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 7.6.0-beta.3 (2022-05-19)
+
+### Features Added
+
+- Add an option `omitMessageBody` in `PeekMessagesOptions` allowing omitting message body when peeking messages using `receiver.peekMessages()`
+
+## 7.6.0-beta.2 (2022-05-10)
+
+### Features Added
+
+- Adds the `customEndpointAddress` field to `ServiceBusClientOptions`. This allows for specifying a custom endpoint to use when communicating with the Service Bus service, which is useful when your network does not allow communicating to the standard endpoint. Resolves [#21574](https://github.com/Azure/azure-sdk-for-js/issues/21574).
+
+## 7.6.0-beta.1 (2022-04-05)
+
+### Bugs Fixed
+
+- Correct typing of `propertiesToModify` options to `abandonMessages()`, `deferMessages()`, and "deadLetterMessages()" [PR #20577](https://github.com/Azure/azure-sdk-for-js/pull/20577)
+
+### Other Changes
+
+- Migrate to depend on newer version of Core libraries core-client and core-rest-pipeline which bring better maintainability and performance. [PR #19587](https://github.com/Azure/azure-sdk-for-js/pull/19587)
+
+## 7.5.1 (2022-03-08)
+
+### Bugs Fixed
+
+- Fix an issue where we don't respect user request to close the receiver if the connection is disconnected when using the `subscribe()` method. [PR #20427](https://github.com/Azure/azure-sdk-for-js/pull/20427)
+
+## 7.5.0 (2022-02-14)
+
+### Features Added
+
+- Add `state` property to `ServiceBusReceivedMessage`. Its value is one of `"active"`, `"deferred"`, or `"scheduled"`. [PR #18938](https://github.com/Azure/azure-sdk-for-js/pull/18938)
+- Add optional boolean `skipParsingBodyAsJson` property to `ServiceBusReceiverOptions` and `ServiceBusSessionReceiverOptions`. By default, the client attempts to parse message body as JSON object, and this new parameter controls whether the client should skip performing this parsing. [PR #18692](https://github.com/Azure/azure-sdk-for-js/pull/18692)
+
+### Bugs Fixed
+
+- The `processError` callback to `subscribe()` was previously called only for errors on setting up the receiver, errors on message settlement or message lock renewal and not for errors on AMQP link or session. This is now fixed. [PR #19189](https://github.com/Azure/azure-sdk-for-js/pull/19189)
+- Fix an issue where we don't respect retry options before starting the next retry cycle when using the `subscribe()` method. [PR #20316](https://github.com/Azure/azure-sdk-for-js/pull/20316)
 
 ## 7.4.0 (2021-11-08)
 

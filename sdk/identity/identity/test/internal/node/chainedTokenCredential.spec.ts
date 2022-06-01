@@ -14,7 +14,7 @@ class TestMockCredential implements TokenCredential {
   }
 }
 
-describe("ChainedTokenCredential", function() {
+describe("ChainedTokenCredential", function () {
   it("Logs the expected successful message", async () => {
     const chainedTokenCredential = new ChainedTokenCredential(
       new TestMockCredential(Promise.resolve({ token: "firstToken", expiresOnTimestamp: 0 }))
@@ -42,7 +42,7 @@ describe("ChainedTokenCredential", function() {
   it("Doesn't throw with a clossure credential", async () => {
     function mockCredential(returnPromise: Promise<AccessToken | null>): TokenCredential {
       return {
-        getToken: () => returnPromise
+        getToken: () => returnPromise,
       };
     }
 

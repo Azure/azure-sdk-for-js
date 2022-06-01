@@ -1,0 +1,26 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:aTelemetry;1",
+      "@type": "Telemetry",
+      "name": "currentDistance",
+      "schema": "double"
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:aTelemetry;1",
+        "type": "Telemetry",
+        "properties": {
+          "name": "currentDistance",
+          "schema": "dtmi:dtdl:instance:Schema:double;3",
+          "definedIn": null
+        }
+      }
+    ]
+  }
+}

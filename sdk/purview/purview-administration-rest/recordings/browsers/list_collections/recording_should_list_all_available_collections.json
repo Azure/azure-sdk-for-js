@@ -1,50 +1,73 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1318",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 04 Nov 2021 15:45:03 GMT",
-    "expires": "-1",
-    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12197.4 - NCUS ProdSlices",
-    "x-ms-request-id": "2f72b34f-7338-4ca0-bee2-216c16601800"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/collections",
-   "query": {
-    "api-version": "2019-11-01-preview"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"value\":[{\"name\":\"joheredipv\",\"friendlyName\":\"joheredipv\",\"description\":\"The root collection.\",\"systemData\":{\"createdBy\":\"35ac9d32-a8ca-4324-9393-d4000746f07c\",\"createdByType\":\"User\",\"createdAt\":\"2021-08-10T17:25:46.5991716Z\",\"lastModifiedByType\":\"User\",\"lastModifiedAt\":\"2021-09-15T23:38:59.768035Z\"},\"collectionProvisioningState\":\"Succeeded\"},{\"name\":\"Collection-lGe\",\"friendlyName\":\"Collection-lGe\",\"parentCollection\":{\"type\":\"CollectionReference\",\"referenceName\":\"joheredipv\"},\"systemData\":{\"createdBy\":\"35ac9d32-a8ca-4324-9393-d4000746f07c\",\"createdByType\":\"Application\",\"createdAt\":\"2021-10-11T20:20:20.1813272Z\",\"lastModifiedByType\":\"Application\",\"lastModifiedAt\":\"2021-10-11T20:20:20.1813273Z\"},\"collectionProvisioningState\":\"Succeeded\"}],\"count\":2}",
-   "responseHeaders": {
-    "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 04 Nov 2021 15:45:04 GMT",
-    "server": "Kestrel",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-ms-correlation-request-id": "39046b73-e3c2-445a-9bff-2ae979481e1f"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "8621a4bca85ac35362a59cc9339b7f2a"
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/collections?api-version=2019-11-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "9acc537c-2b30-4950-a41a-3453451f2a89",
+        "x-ms-useragent": "core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 14 Feb 2022 19:22:13 GMT",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "x-ms-correlation-request-id": "2ddd5a0f-3b60-4be9-b959-3fe7f59a6d0a"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "name": "newpurviewllc",
+            "friendlyName": "newpurviewllc",
+            "description": "The root collection.",
+            "systemData": {
+              "createdBy": "35ac9d32-a8ca-4324-9393-d4000746f07c",
+              "createdByType": "User",
+              "createdAt": "2021-09-29T18:35:18.4761382Z",
+              "lastModifiedBy": "35ac9d32-a8ca-4324-9393-d4000746f07c",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2021-09-29T18:35:18.4761382Z"
+            },
+            "collectionProvisioningState": "Succeeded"
+          },
+          {
+            "name": "la7eio",
+            "friendlyName": "Foo",
+            "description": "Test foo",
+            "parentCollection": {
+              "type": "CollectionReference",
+              "referenceName": "newpurviewllc"
+            },
+            "systemData": {
+              "createdBy": "35ac9d32-a8ca-4324-9393-d4000746f07c",
+              "createdByType": "User",
+              "createdAt": "2021-09-29T18:40:02.8364266Z",
+              "lastModifiedBy": "35ac9d32-a8ca-4324-9393-d4000746f07c",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2021-09-29T18:40:02.8364266Z"
+            },
+            "collectionProvisioningState": "Succeeded"
+          }
+        ],
+        "count": 2
+      }
+    }
+  ],
+  "Variables": {}
 }

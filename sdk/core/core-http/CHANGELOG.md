@@ -1,6 +1,6 @@
 # Release History
 
-## 2.2.3 (Unreleased)
+## 2.2.6 (Unreleased)
 
 ### Features Added
 
@@ -8,9 +8,35 @@
 
 ### Bugs Fixed
 
+### Other Changes
+
+- Removed the constraints check during serialization. Please refer [#21839](https://github.com/Azure/azure-sdk-for-js/issues/21839) for further details.
+
+## 2.2.5 (2022-05-05)
+
+### Bugs Fixed
+
+- Fix an issue where React-Native is loading the wrong file. Adding a `react-native` mapping to point to the ESM entrypoint file. [PR #21118](https://github.com/Azure/azure-sdk-for-js/pull/21118)
+- delay creating XML parser/builder objects so that packages not requiring XML functionality but running on platforms lacking XML support can still load this package. [PR #21118](https://github.com/Azure/azure-sdk-for-js/pull/21118)
+- Add a `react-native` mapping to use `xml2js` as it is already in our dependency list. Customer can get it to work after installing `stream` and `timers` packages in their React-Native project.
+- Fix a run-time error in user agent policy when running in React-Native.
+
+## 2.2.4 (2022-02-03)
+
+### Bugs Fixed
+
+- Updated the HTTP tracing span names to conform to the [OpenTelemetry Specification](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/trace/semantic_conventions/http.md#name). [#19838](https://github.com/Azure/azure-sdk-for-js/pull/19838)
+  - New HTTP spans will use the `HTTP <VERB>` convention instead of using the URL path.
+
+## 2.2.3 (2022-01-06)
+
+### Bugs Fixed
+
 - Fix `HttpHeaders.rawHeaders()` to preserve header name case. As a result HttpClient now sends requests with their original header names. `HttpHeaders.toJson()` now has an option to preserve header key casing.
 
 ### Other Changes
+
+- Update dependency `node-fetch` version to `2.6.6` to address advisory [CVE-2020-15168](https://github.com/advisories/GHSA-w7rc-rwvf-8q5r)
 
 ## 2.2.2 (2021-11-03)
 

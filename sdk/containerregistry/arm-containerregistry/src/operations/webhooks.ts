@@ -11,7 +11,7 @@ import { Webhooks } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ContainerRegistryManagementClientContext } from "../containerRegistryManagementClientContext";
+import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -43,13 +43,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Webhooks operations. */
 export class WebhooksImpl implements Webhooks {
-  private readonly client: ContainerRegistryManagementClientContext;
+  private readonly client: ContainerRegistryManagementClient;
 
   /**
    * Initialize a new instance of the class Webhooks class.
    * @param client Reference to the service client
    */
-  constructor(client: ContainerRegistryManagementClientContext) {
+  constructor(client: ContainerRegistryManagementClient) {
     this.client = client;
   }
 
@@ -298,10 +298,12 @@ export class WebhooksImpl implements Webhooks {
       },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -386,10 +388,12 @@ export class WebhooksImpl implements Webhooks {
       { resourceGroupName, registryName, webhookName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -484,10 +488,12 @@ export class WebhooksImpl implements Webhooks {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

@@ -140,7 +140,7 @@ export interface StorageDirectoryDeletedEventData {
   /** The path to the deleted directory. */
   url: string;
   /** Is this event for a recursive delete operation. */
-  recursive: boolean;
+  recursive: string;
   /** An opaque string value representing the logical sequence of events for any particular directory name. Users can use standard string comparison to understand the relative sequence of two events on the same directory name. */
   sequencer: string;
   /** The identity of the requester that triggered this event. */
@@ -280,7 +280,7 @@ export interface StorageBlobInventoryPolicyCompletedEventData {
 /** Schema of the Data property of an EventGridEvent for a Microsoft.EventHub.CaptureFileCreated event. */
 export interface EventHubCaptureFileCreatedEventData {
   /** The path to the capture file. */
-  fileurl: string;
+  fileUrl: string;
   /** The file type of the capture file. */
   fileType: string;
   /** The shard ID. */
@@ -316,13 +316,35 @@ export interface ResourceWriteSuccessEventData {
   /** The status of the operation. */
   status: string;
   /** The requested authorization for the operation. */
-  authorization: string;
+  authorization: ResourceAuthorization;
   /** The properties of the claims. */
-  claims: string;
+  claims: { [propertyName: string]: string };
   /** An operation ID used for troubleshooting. */
   correlationId: string;
   /** The details of the operation. */
-  httpRequest: string;
+  httpRequest: ResourceHttpRequest;
+}
+
+/** The details of the authorization for the resource. */
+export interface ResourceAuthorization {
+  /** The scope of the authorization. */
+  scope: string;
+  /** The action being requested. */
+  action: string;
+  /** The evidence for the authorization. */
+  evidence: { [propertyName: string]: string };
+}
+
+/** The details of the HTTP request. */
+export interface ResourceHttpRequest {
+  /** The client request ID. */
+  clientRequestId: string;
+  /** The client IP address. */
+  clientIpAddress: string;
+  /** The request method. */
+  method: string;
+  /** The url used in the request. */
+  url: string;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Resources.ResourceWriteFailure event. This is raised when a resource create or update operation fails. */
@@ -342,13 +364,13 @@ export interface ResourceWriteFailureEventData {
   /** The status of the operation. */
   status: string;
   /** The requested authorization for the operation. */
-  authorization: string;
+  authorization: ResourceAuthorization;
   /** The properties of the claims. */
-  claims: string;
+  claims: { [propertyName: string]: string };
   /** An operation ID used for troubleshooting. */
   correlationId: string;
   /** The details of the operation. */
-  httpRequest: string;
+  httpRequest: ResourceHttpRequest;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Resources.ResourceWriteCancel event. This is raised when a resource create or update operation is canceled. */
@@ -368,13 +390,13 @@ export interface ResourceWriteCancelEventData {
   /** The status of the operation. */
   status: string;
   /** The requested authorization for the operation. */
-  authorization: string;
+  authorization: ResourceAuthorization;
   /** The properties of the claims. */
-  claims: string;
+  claims: { [propertyName: string]: string };
   /** An operation ID used for troubleshooting. */
   correlationId: string;
   /** The details of the operation. */
-  httpRequest: string;
+  httpRequest: ResourceHttpRequest;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Resources.ResourceDeleteSuccess event. This is raised when a resource delete operation succeeds. */
@@ -394,13 +416,13 @@ export interface ResourceDeleteSuccessEventData {
   /** The status of the operation. */
   status: string;
   /** The requested authorization for the operation. */
-  authorization: string;
+  authorization: ResourceAuthorization;
   /** The properties of the claims. */
-  claims: string;
+  claims: { [propertyName: string]: string };
   /** An operation ID used for troubleshooting. */
   correlationId: string;
   /** The details of the operation. */
-  httpRequest: string;
+  httpRequest: ResourceHttpRequest;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Resources.ResourceDeleteFailure event. This is raised when a resource delete operation fails. */
@@ -420,13 +442,13 @@ export interface ResourceDeleteFailureEventData {
   /** The status of the operation. */
   status: string;
   /** The requested authorization for the operation. */
-  authorization: string;
+  authorization: ResourceAuthorization;
   /** The properties of the claims. */
-  claims: string;
+  claims: { [propertyName: string]: string };
   /** An operation ID used for troubleshooting. */
   correlationId: string;
   /** The details of the operation. */
-  httpRequest: string;
+  httpRequest: ResourceHttpRequest;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Resources.ResourceDeleteCancel event. This is raised when a resource delete operation is canceled. */
@@ -446,13 +468,13 @@ export interface ResourceDeleteCancelEventData {
   /** The status of the operation. */
   status: string;
   /** The requested authorization for the operation. */
-  authorization: string;
+  authorization: ResourceAuthorization;
   /** The properties of the claims. */
-  claims: string;
+  claims: { [propertyName: string]: string };
   /** An operation ID used for troubleshooting. */
   correlationId: string;
   /** The details of the operation. */
-  httpRequest: string;
+  httpRequest: ResourceHttpRequest;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Resources.ResourceActionSuccess event. This is raised when a resource action operation succeeds. */
@@ -472,13 +494,13 @@ export interface ResourceActionSuccessEventData {
   /** The status of the operation. */
   status: string;
   /** The requested authorization for the operation. */
-  authorization: string;
+  authorization: ResourceAuthorization;
   /** The properties of the claims. */
-  claims: string;
+  claims: { [propertyName: string]: string };
   /** An operation ID used for troubleshooting. */
   correlationId: string;
   /** The details of the operation. */
-  httpRequest: string;
+  httpRequest: ResourceHttpRequest;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Resources.ResourceActionFailure event. This is raised when a resource action operation fails. */
@@ -498,13 +520,13 @@ export interface ResourceActionFailureEventData {
   /** The status of the operation. */
   status: string;
   /** The requested authorization for the operation. */
-  authorization: string;
+  authorization: ResourceAuthorization;
   /** The properties of the claims. */
-  claims: string;
+  claims: { [propertyName: string]: string };
   /** An operation ID used for troubleshooting. */
   correlationId: string;
   /** The details of the operation. */
-  httpRequest: string;
+  httpRequest: ResourceHttpRequest;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Resources.ResourceActionCancel event. This is raised when a resource action operation is canceled. */
@@ -524,13 +546,13 @@ export interface ResourceActionCancelEventData {
   /** The status of the operation. */
   status: string;
   /** The requested authorization for the operation. */
-  authorization: string;
+  authorization: ResourceAuthorization;
   /** The properties of the claims. */
-  claims: string;
+  claims: { [propertyName: string]: string };
   /** An operation ID used for troubleshooting. */
   correlationId: string;
   /** The details of the operation. */
-  httpRequest: string;
+  httpRequest: ResourceHttpRequest;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.EventGrid.SubscriptionValidationEvent event. */
@@ -664,6 +686,8 @@ export interface ContainerRegistryEventData {
   timestamp: string;
   /** The action that encompasses the provided event. */
   action: string;
+  /** The location of the event. */
+  location: string;
   /** The target of the event. */
   target: ContainerRegistryEventTarget;
   /** The request that generated the event. */
@@ -672,6 +696,8 @@ export interface ContainerRegistryEventData {
   actor: ContainerRegistryEventActor;
   /** The registry node that generated the event. Put differently, while the actor initiates the event, the source generates it. */
   source: ContainerRegistryEventSource;
+  /** The connected registry information if the event is generated by a connected registry. */
+  connectedRegistry: ContainerRegistryEventConnectedRegistry;
 }
 
 /** The target of the event. */
@@ -720,6 +746,12 @@ export interface ContainerRegistryEventSource {
   instanceID: string;
 }
 
+/** The connected registry information if the event is generated by a connected registry. */
+export interface ContainerRegistryEventConnectedRegistry {
+  /** The name of the connected registry that generated this event. */
+  name: string;
+}
+
 /** The content of the event request message. */
 export interface ContainerRegistryArtifactEventData {
   /** The event ID. */
@@ -728,8 +760,12 @@ export interface ContainerRegistryArtifactEventData {
   timestamp: string;
   /** The action that encompasses the provided event. */
   action: string;
+  /** The location of the event. */
+  location: string;
   /** The target of the event. */
   target: ContainerRegistryArtifactEventTarget;
+  /** The connected registry information if the event is generated by a connected registry. */
+  connectedRegistry: ContainerRegistryEventConnectedRegistry;
 }
 
 /** The target of the event. */
@@ -1261,7 +1297,7 @@ export interface MediaLiveEventTrackDiscontinuityDetectedEventData {
   readonly discontinuityGap: string;
 }
 
-/** Channel Archive heartbeat event data. Schema of the data property of an EventGridEvent for a Microsoft.Media.LiveEventChannelArchiveHeartbeatEventData event. */
+/** Channel Archive heartbeat event data. Schema of the data property of an EventGridEvent for a Microsoft.Media.LiveEventChannelArchiveHeartbeat event. */
 export interface MediaLiveEventChannelArchiveHeartbeatEventData {
   /**
    * Gets the channel latency in ms.
@@ -2013,6 +2049,12 @@ export interface AcsRecordingFileStatusUpdatedEventData {
   recordingStartTime: string;
   /** The recording duration in milliseconds */
   recordingDurationMs: number;
+  /** The recording content type- AudioVideo, or Audio */
+  recordingContentType: RecordingContentType;
+  /** The recording  channel type - Mixed, Unmixed */
+  recordingChannelType: RecordingChannelType;
+  /** The recording format type - Mp4, Mp3, Wav */
+  recordingFormatType: RecordingFormatType;
   /** The reason for ending recording session */
   sessionEndReason: string;
 }
@@ -2035,6 +2077,8 @@ export interface AcsRecordingChunkInfo {
   metadataLocation: string;
   /** The location of the content for this chunk */
   contentLocation: string;
+  /** The location to delete all chunk storage */
+  deleteLocation: string;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.PolicyInsights.PolicyStateCreated event. */
@@ -2191,6 +2235,42 @@ export interface ApiManagementApiReleaseUpdatedEventData {
 export interface ApiManagementApiReleaseDeletedEventData {
   /** The fully qualified ID of the resource that the compliance state change is for, including the resource name and resource type. Uses the format, `/subscriptions/<SubscriptionID>/resourceGroups/<ResourceGroup>/Microsoft.ApiManagement/service/<ServiceName>/<ResourceType>/<ResourceName>` */
   resourceUri: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.HealthcareApis.FhirResourceCreated event. */
+export interface HealthcareFhirResourceCreatedEventData {
+  /** Type of HL7 FHIR resource. */
+  resourceType: HealthcareFhirResourceType;
+  /** Domain name of FHIR account for this resource. */
+  resourceFhirAccount: string;
+  /** Id of HL7 FHIR resource. */
+  resourceFhirId: string;
+  /** VersionId of HL7 FHIR resource. It changes when the resource is created, updated, or deleted(soft-deletion). */
+  resourceVersionId: number;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.HealthcareApis.FhirResourceUpdated event. */
+export interface HealthcareFhirResourceUpdatedEventData {
+  /** Type of HL7 FHIR resource. */
+  resourceType: HealthcareFhirResourceType;
+  /** Domain name of FHIR account for this resource. */
+  resourceFhirAccount: string;
+  /** Id of HL7 FHIR resource. */
+  resourceFhirId: string;
+  /** VersionId of HL7 FHIR resource. It changes when the resource is created, updated, or deleted(soft-deletion). */
+  resourceVersionId: number;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.HealthcareApis.FhirResourceDeleted event. */
+export interface HealthcareFhirResourceDeletedEventData {
+  /** Type of HL7 FHIR resource. */
+  resourceType: HealthcareFhirResourceType;
+  /** Domain name of FHIR account for this resource. */
+  resourceFhirAccount: string;
+  /** Id of HL7 FHIR resource. */
+  resourceFhirId: string;
+  /** VersionId of HL7 FHIR resource. It changes when the resource is created, updated, or deleted(soft-deletion). */
+  resourceVersionId: number;
 }
 
 /** Event data for Microsoft.Devices.DeviceCreated event. */
@@ -2604,6 +2684,551 @@ export const enum KnownCommunicationCloudEnvironmentModel {
  * **gcch**
  */
 export type CommunicationCloudEnvironmentModel = string;
+
+/** Known values of {@link RecordingContentType} that the service accepts. */
+export const enum KnownRecordingContentType {
+  AudioVideo = "AudioVideo",
+  Audio = "Audio"
+}
+
+/**
+ * Defines values for RecordingContentType. \
+ * {@link KnownRecordingContentType} can be used interchangeably with RecordingContentType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AudioVideo** \
+ * **Audio**
+ */
+export type RecordingContentType = string;
+
+/** Known values of {@link RecordingChannelType} that the service accepts. */
+export const enum KnownRecordingChannelType {
+  Mixed = "Mixed",
+  Unmixed = "Unmixed"
+}
+
+/**
+ * Defines values for RecordingChannelType. \
+ * {@link KnownRecordingChannelType} can be used interchangeably with RecordingChannelType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Mixed** \
+ * **Unmixed**
+ */
+export type RecordingChannelType = string;
+
+/** Known values of {@link RecordingFormatType} that the service accepts. */
+export const enum KnownRecordingFormatType {
+  Wav = "Wav",
+  Mp3 = "Mp3",
+  Mp4 = "Mp4"
+}
+
+/**
+ * Defines values for RecordingFormatType. \
+ * {@link KnownRecordingFormatType} can be used interchangeably with RecordingFormatType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Wav** \
+ * **Mp3** \
+ * **Mp4**
+ */
+export type RecordingFormatType = string;
+
+/** Known values of {@link HealthcareFhirResourceType} that the service accepts. */
+export const enum KnownHealthcareFhirResourceType {
+  /** The FHIR resource type defined in STU3 and R4. */
+  Account = "Account",
+  /** The FHIR resource type defined in STU3 and R4. */
+  ActivityDefinition = "ActivityDefinition",
+  /** The FHIR resource type defined in STU3 and R4. */
+  AdverseEvent = "AdverseEvent",
+  /** The FHIR resource type defined in STU3 and R4. */
+  AllergyIntolerance = "AllergyIntolerance",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Appointment = "Appointment",
+  /** The FHIR resource type defined in STU3 and R4. */
+  AppointmentResponse = "AppointmentResponse",
+  /** The FHIR resource type defined in STU3 and R4. */
+  AuditEvent = "AuditEvent",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Basic = "Basic",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Binary = "Binary",
+  /** The FHIR resource type defined in R4. */
+  BiologicallyDerivedProduct = "BiologicallyDerivedProduct",
+  /** The FHIR resource type defined in STU3. */
+  BodySite = "BodySite",
+  /** The FHIR resource type defined in R4. */
+  BodyStructure = "BodyStructure",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Bundle = "Bundle",
+  /** The FHIR resource type defined in STU3 and R4. */
+  CapabilityStatement = "CapabilityStatement",
+  /** The FHIR resource type defined in STU3 and R4. */
+  CarePlan = "CarePlan",
+  /** The FHIR resource type defined in STU3 and R4. */
+  CareTeam = "CareTeam",
+  /** The FHIR resource type defined in R4. */
+  CatalogEntry = "CatalogEntry",
+  /** The FHIR resource type defined in STU3 and R4. */
+  ChargeItem = "ChargeItem",
+  /** The FHIR resource type defined in R4. */
+  ChargeItemDefinition = "ChargeItemDefinition",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Claim = "Claim",
+  /** The FHIR resource type defined in STU3 and R4. */
+  ClaimResponse = "ClaimResponse",
+  /** The FHIR resource type defined in STU3 and R4. */
+  ClinicalImpression = "ClinicalImpression",
+  /** The FHIR resource type defined in STU3 and R4. */
+  CodeSystem = "CodeSystem",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Communication = "Communication",
+  /** The FHIR resource type defined in STU3 and R4. */
+  CommunicationRequest = "CommunicationRequest",
+  /** The FHIR resource type defined in STU3 and R4. */
+  CompartmentDefinition = "CompartmentDefinition",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Composition = "Composition",
+  /** The FHIR resource type defined in STU3 and R4. */
+  ConceptMap = "ConceptMap",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Condition = "Condition",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Consent = "Consent",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Contract = "Contract",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Coverage = "Coverage",
+  /** The FHIR resource type defined in R4. */
+  CoverageEligibilityRequest = "CoverageEligibilityRequest",
+  /** The FHIR resource type defined in R4. */
+  CoverageEligibilityResponse = "CoverageEligibilityResponse",
+  /** The FHIR resource type defined in STU3. */
+  DataElement = "DataElement",
+  /** The FHIR resource type defined in STU3 and R4. */
+  DetectedIssue = "DetectedIssue",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Device = "Device",
+  /** The FHIR resource type defined in STU3. */
+  DeviceComponent = "DeviceComponent",
+  /** The FHIR resource type defined in R4. */
+  DeviceDefinition = "DeviceDefinition",
+  /** The FHIR resource type defined in STU3 and R4. */
+  DeviceMetric = "DeviceMetric",
+  /** The FHIR resource type defined in STU3 and R4. */
+  DeviceRequest = "DeviceRequest",
+  /** The FHIR resource type defined in STU3 and R4. */
+  DeviceUseStatement = "DeviceUseStatement",
+  /** The FHIR resource type defined in STU3 and R4. */
+  DiagnosticReport = "DiagnosticReport",
+  /** The FHIR resource type defined in STU3 and R4. */
+  DocumentManifest = "DocumentManifest",
+  /** The FHIR resource type defined in STU3 and R4. */
+  DocumentReference = "DocumentReference",
+  /** The FHIR resource type defined in STU3 and R4. */
+  DomainResource = "DomainResource",
+  /** The FHIR resource type defined in R4. */
+  EffectEvidenceSynthesis = "EffectEvidenceSynthesis",
+  /** The FHIR resource type defined in STU3. */
+  EligibilityRequest = "EligibilityRequest",
+  /** The FHIR resource type defined in STU3. */
+  EligibilityResponse = "EligibilityResponse",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Encounter = "Encounter",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Endpoint = "Endpoint",
+  /** The FHIR resource type defined in STU3 and R4. */
+  EnrollmentRequest = "EnrollmentRequest",
+  /** The FHIR resource type defined in STU3 and R4. */
+  EnrollmentResponse = "EnrollmentResponse",
+  /** The FHIR resource type defined in STU3 and R4. */
+  EpisodeOfCare = "EpisodeOfCare",
+  /** The FHIR resource type defined in R4. */
+  EventDefinition = "EventDefinition",
+  /** The FHIR resource type defined in R4. */
+  Evidence = "Evidence",
+  /** The FHIR resource type defined in R4. */
+  EvidenceVariable = "EvidenceVariable",
+  /** The FHIR resource type defined in R4. */
+  ExampleScenario = "ExampleScenario",
+  /** The FHIR resource type defined in STU3. */
+  ExpansionProfile = "ExpansionProfile",
+  /** The FHIR resource type defined in STU3 and R4. */
+  ExplanationOfBenefit = "ExplanationOfBenefit",
+  /** The FHIR resource type defined in STU3 and R4. */
+  FamilyMemberHistory = "FamilyMemberHistory",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Flag = "Flag",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Goal = "Goal",
+  /** The FHIR resource type defined in STU3 and R4. */
+  GraphDefinition = "GraphDefinition",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Group = "Group",
+  /** The FHIR resource type defined in STU3 and R4. */
+  GuidanceResponse = "GuidanceResponse",
+  /** The FHIR resource type defined in STU3 and R4. */
+  HealthcareService = "HealthcareService",
+  /** The FHIR resource type defined in STU3. */
+  ImagingManifest = "ImagingManifest",
+  /** The FHIR resource type defined in STU3 and R4. */
+  ImagingStudy = "ImagingStudy",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Immunization = "Immunization",
+  /** The FHIR resource type defined in R4. */
+  ImmunizationEvaluation = "ImmunizationEvaluation",
+  /** The FHIR resource type defined in STU3 and R4. */
+  ImmunizationRecommendation = "ImmunizationRecommendation",
+  /** The FHIR resource type defined in STU3 and R4. */
+  ImplementationGuide = "ImplementationGuide",
+  /** The FHIR resource type defined in R4. */
+  InsurancePlan = "InsurancePlan",
+  /** The FHIR resource type defined in R4. */
+  Invoice = "Invoice",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Library = "Library",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Linkage = "Linkage",
+  /** The FHIR resource type defined in STU3 and R4. */
+  List = "List",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Location = "Location",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Measure = "Measure",
+  /** The FHIR resource type defined in STU3 and R4. */
+  MeasureReport = "MeasureReport",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Media = "Media",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Medication = "Medication",
+  /** The FHIR resource type defined in STU3 and R4. */
+  MedicationAdministration = "MedicationAdministration",
+  /** The FHIR resource type defined in STU3 and R4. */
+  MedicationDispense = "MedicationDispense",
+  /** The FHIR resource type defined in R4. */
+  MedicationKnowledge = "MedicationKnowledge",
+  /** The FHIR resource type defined in STU3 and R4. */
+  MedicationRequest = "MedicationRequest",
+  /** The FHIR resource type defined in STU3 and R4. */
+  MedicationStatement = "MedicationStatement",
+  /** The FHIR resource type defined in R4. */
+  MedicinalProduct = "MedicinalProduct",
+  /** The FHIR resource type defined in R4. */
+  MedicinalProductAuthorization = "MedicinalProductAuthorization",
+  /** The FHIR resource type defined in R4. */
+  MedicinalProductContraindication = "MedicinalProductContraindication",
+  /** The FHIR resource type defined in R4. */
+  MedicinalProductIndication = "MedicinalProductIndication",
+  /** The FHIR resource type defined in R4. */
+  MedicinalProductIngredient = "MedicinalProductIngredient",
+  /** The FHIR resource type defined in R4. */
+  MedicinalProductInteraction = "MedicinalProductInteraction",
+  /** The FHIR resource type defined in R4. */
+  MedicinalProductManufactured = "MedicinalProductManufactured",
+  /** The FHIR resource type defined in R4. */
+  MedicinalProductPackaged = "MedicinalProductPackaged",
+  /** The FHIR resource type defined in R4. */
+  MedicinalProductPharmaceutical = "MedicinalProductPharmaceutical",
+  /** The FHIR resource type defined in R4. */
+  MedicinalProductUndesirableEffect = "MedicinalProductUndesirableEffect",
+  /** The FHIR resource type defined in STU3 and R4. */
+  MessageDefinition = "MessageDefinition",
+  /** The FHIR resource type defined in STU3 and R4. */
+  MessageHeader = "MessageHeader",
+  /** The FHIR resource type defined in R4. */
+  MolecularSequence = "MolecularSequence",
+  /** The FHIR resource type defined in STU3 and R4. */
+  NamingSystem = "NamingSystem",
+  /** The FHIR resource type defined in STU3 and R4. */
+  NutritionOrder = "NutritionOrder",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Observation = "Observation",
+  /** The FHIR resource type defined in R4. */
+  ObservationDefinition = "ObservationDefinition",
+  /** The FHIR resource type defined in STU3 and R4. */
+  OperationDefinition = "OperationDefinition",
+  /** The FHIR resource type defined in STU3 and R4. */
+  OperationOutcome = "OperationOutcome",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Organization = "Organization",
+  /** The FHIR resource type defined in R4. */
+  OrganizationAffiliation = "OrganizationAffiliation",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Parameters = "Parameters",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Patient = "Patient",
+  /** The FHIR resource type defined in STU3 and R4. */
+  PaymentNotice = "PaymentNotice",
+  /** The FHIR resource type defined in STU3 and R4. */
+  PaymentReconciliation = "PaymentReconciliation",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Person = "Person",
+  /** The FHIR resource type defined in STU3 and R4. */
+  PlanDefinition = "PlanDefinition",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Practitioner = "Practitioner",
+  /** The FHIR resource type defined in STU3 and R4. */
+  PractitionerRole = "PractitionerRole",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Procedure = "Procedure",
+  /** The FHIR resource type defined in STU3. */
+  ProcedureRequest = "ProcedureRequest",
+  /** The FHIR resource type defined in STU3. */
+  ProcessRequest = "ProcessRequest",
+  /** The FHIR resource type defined in STU3. */
+  ProcessResponse = "ProcessResponse",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Provenance = "Provenance",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Questionnaire = "Questionnaire",
+  /** The FHIR resource type defined in STU3 and R4. */
+  QuestionnaireResponse = "QuestionnaireResponse",
+  /** The FHIR resource type defined in STU3. */
+  ReferralRequest = "ReferralRequest",
+  /** The FHIR resource type defined in STU3 and R4. */
+  RelatedPerson = "RelatedPerson",
+  /** The FHIR resource type defined in STU3 and R4. */
+  RequestGroup = "RequestGroup",
+  /** The FHIR resource type defined in R4. */
+  ResearchDefinition = "ResearchDefinition",
+  /** The FHIR resource type defined in R4. */
+  ResearchElementDefinition = "ResearchElementDefinition",
+  /** The FHIR resource type defined in STU3 and R4. */
+  ResearchStudy = "ResearchStudy",
+  /** The FHIR resource type defined in STU3 and R4. */
+  ResearchSubject = "ResearchSubject",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Resource = "Resource",
+  /** The FHIR resource type defined in STU3 and R4. */
+  RiskAssessment = "RiskAssessment",
+  /** The FHIR resource type defined in R4. */
+  RiskEvidenceSynthesis = "RiskEvidenceSynthesis",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Schedule = "Schedule",
+  /** The FHIR resource type defined in STU3 and R4. */
+  SearchParameter = "SearchParameter",
+  /** The FHIR resource type defined in STU3. */
+  Sequence = "Sequence",
+  /** The FHIR resource type defined in STU3. */
+  ServiceDefinition = "ServiceDefinition",
+  /** The FHIR resource type defined in R4. */
+  ServiceRequest = "ServiceRequest",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Slot = "Slot",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Specimen = "Specimen",
+  /** The FHIR resource type defined in R4. */
+  SpecimenDefinition = "SpecimenDefinition",
+  /** The FHIR resource type defined in STU3 and R4. */
+  StructureDefinition = "StructureDefinition",
+  /** The FHIR resource type defined in STU3 and R4. */
+  StructureMap = "StructureMap",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Subscription = "Subscription",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Substance = "Substance",
+  /** The FHIR resource type defined in R4. */
+  SubstanceNucleicAcid = "SubstanceNucleicAcid",
+  /** The FHIR resource type defined in R4. */
+  SubstancePolymer = "SubstancePolymer",
+  /** The FHIR resource type defined in R4. */
+  SubstanceProtein = "SubstanceProtein",
+  /** The FHIR resource type defined in R4. */
+  SubstanceReferenceInformation = "SubstanceReferenceInformation",
+  /** The FHIR resource type defined in R4. */
+  SubstanceSourceMaterial = "SubstanceSourceMaterial",
+  /** The FHIR resource type defined in R4. */
+  SubstanceSpecification = "SubstanceSpecification",
+  /** The FHIR resource type defined in STU3 and R4. */
+  SupplyDelivery = "SupplyDelivery",
+  /** The FHIR resource type defined in STU3 and R4. */
+  SupplyRequest = "SupplyRequest",
+  /** The FHIR resource type defined in STU3 and R4. */
+  Task = "Task",
+  /** The FHIR resource type defined in R4. */
+  TerminologyCapabilities = "TerminologyCapabilities",
+  /** The FHIR resource type defined in STU3 and R4. */
+  TestReport = "TestReport",
+  /** The FHIR resource type defined in STU3 and R4. */
+  TestScript = "TestScript",
+  /** The FHIR resource type defined in STU3 and R4. */
+  ValueSet = "ValueSet",
+  /** The FHIR resource type defined in R4. */
+  VerificationResult = "VerificationResult",
+  /** The FHIR resource type defined in STU3 and R4. */
+  VisionPrescription = "VisionPrescription"
+}
+
+/**
+ * Defines values for HealthcareFhirResourceType. \
+ * {@link KnownHealthcareFhirResourceType} can be used interchangeably with HealthcareFhirResourceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Account**: The FHIR resource type defined in STU3 and R4. \
+ * **ActivityDefinition**: The FHIR resource type defined in STU3 and R4. \
+ * **AdverseEvent**: The FHIR resource type defined in STU3 and R4. \
+ * **AllergyIntolerance**: The FHIR resource type defined in STU3 and R4. \
+ * **Appointment**: The FHIR resource type defined in STU3 and R4. \
+ * **AppointmentResponse**: The FHIR resource type defined in STU3 and R4. \
+ * **AuditEvent**: The FHIR resource type defined in STU3 and R4. \
+ * **Basic**: The FHIR resource type defined in STU3 and R4. \
+ * **Binary**: The FHIR resource type defined in STU3 and R4. \
+ * **BiologicallyDerivedProduct**: The FHIR resource type defined in R4. \
+ * **BodySite**: The FHIR resource type defined in STU3. \
+ * **BodyStructure**: The FHIR resource type defined in R4. \
+ * **Bundle**: The FHIR resource type defined in STU3 and R4. \
+ * **CapabilityStatement**: The FHIR resource type defined in STU3 and R4. \
+ * **CarePlan**: The FHIR resource type defined in STU3 and R4. \
+ * **CareTeam**: The FHIR resource type defined in STU3 and R4. \
+ * **CatalogEntry**: The FHIR resource type defined in R4. \
+ * **ChargeItem**: The FHIR resource type defined in STU3 and R4. \
+ * **ChargeItemDefinition**: The FHIR resource type defined in R4. \
+ * **Claim**: The FHIR resource type defined in STU3 and R4. \
+ * **ClaimResponse**: The FHIR resource type defined in STU3 and R4. \
+ * **ClinicalImpression**: The FHIR resource type defined in STU3 and R4. \
+ * **CodeSystem**: The FHIR resource type defined in STU3 and R4. \
+ * **Communication**: The FHIR resource type defined in STU3 and R4. \
+ * **CommunicationRequest**: The FHIR resource type defined in STU3 and R4. \
+ * **CompartmentDefinition**: The FHIR resource type defined in STU3 and R4. \
+ * **Composition**: The FHIR resource type defined in STU3 and R4. \
+ * **ConceptMap**: The FHIR resource type defined in STU3 and R4. \
+ * **Condition**: The FHIR resource type defined in STU3 and R4. \
+ * **Consent**: The FHIR resource type defined in STU3 and R4. \
+ * **Contract**: The FHIR resource type defined in STU3 and R4. \
+ * **Coverage**: The FHIR resource type defined in STU3 and R4. \
+ * **CoverageEligibilityRequest**: The FHIR resource type defined in R4. \
+ * **CoverageEligibilityResponse**: The FHIR resource type defined in R4. \
+ * **DataElement**: The FHIR resource type defined in STU3. \
+ * **DetectedIssue**: The FHIR resource type defined in STU3 and R4. \
+ * **Device**: The FHIR resource type defined in STU3 and R4. \
+ * **DeviceComponent**: The FHIR resource type defined in STU3. \
+ * **DeviceDefinition**: The FHIR resource type defined in R4. \
+ * **DeviceMetric**: The FHIR resource type defined in STU3 and R4. \
+ * **DeviceRequest**: The FHIR resource type defined in STU3 and R4. \
+ * **DeviceUseStatement**: The FHIR resource type defined in STU3 and R4. \
+ * **DiagnosticReport**: The FHIR resource type defined in STU3 and R4. \
+ * **DocumentManifest**: The FHIR resource type defined in STU3 and R4. \
+ * **DocumentReference**: The FHIR resource type defined in STU3 and R4. \
+ * **DomainResource**: The FHIR resource type defined in STU3 and R4. \
+ * **EffectEvidenceSynthesis**: The FHIR resource type defined in R4. \
+ * **EligibilityRequest**: The FHIR resource type defined in STU3. \
+ * **EligibilityResponse**: The FHIR resource type defined in STU3. \
+ * **Encounter**: The FHIR resource type defined in STU3 and R4. \
+ * **Endpoint**: The FHIR resource type defined in STU3 and R4. \
+ * **EnrollmentRequest**: The FHIR resource type defined in STU3 and R4. \
+ * **EnrollmentResponse**: The FHIR resource type defined in STU3 and R4. \
+ * **EpisodeOfCare**: The FHIR resource type defined in STU3 and R4. \
+ * **EventDefinition**: The FHIR resource type defined in R4. \
+ * **Evidence**: The FHIR resource type defined in R4. \
+ * **EvidenceVariable**: The FHIR resource type defined in R4. \
+ * **ExampleScenario**: The FHIR resource type defined in R4. \
+ * **ExpansionProfile**: The FHIR resource type defined in STU3. \
+ * **ExplanationOfBenefit**: The FHIR resource type defined in STU3 and R4. \
+ * **FamilyMemberHistory**: The FHIR resource type defined in STU3 and R4. \
+ * **Flag**: The FHIR resource type defined in STU3 and R4. \
+ * **Goal**: The FHIR resource type defined in STU3 and R4. \
+ * **GraphDefinition**: The FHIR resource type defined in STU3 and R4. \
+ * **Group**: The FHIR resource type defined in STU3 and R4. \
+ * **GuidanceResponse**: The FHIR resource type defined in STU3 and R4. \
+ * **HealthcareService**: The FHIR resource type defined in STU3 and R4. \
+ * **ImagingManifest**: The FHIR resource type defined in STU3. \
+ * **ImagingStudy**: The FHIR resource type defined in STU3 and R4. \
+ * **Immunization**: The FHIR resource type defined in STU3 and R4. \
+ * **ImmunizationEvaluation**: The FHIR resource type defined in R4. \
+ * **ImmunizationRecommendation**: The FHIR resource type defined in STU3 and R4. \
+ * **ImplementationGuide**: The FHIR resource type defined in STU3 and R4. \
+ * **InsurancePlan**: The FHIR resource type defined in R4. \
+ * **Invoice**: The FHIR resource type defined in R4. \
+ * **Library**: The FHIR resource type defined in STU3 and R4. \
+ * **Linkage**: The FHIR resource type defined in STU3 and R4. \
+ * **List**: The FHIR resource type defined in STU3 and R4. \
+ * **Location**: The FHIR resource type defined in STU3 and R4. \
+ * **Measure**: The FHIR resource type defined in STU3 and R4. \
+ * **MeasureReport**: The FHIR resource type defined in STU3 and R4. \
+ * **Media**: The FHIR resource type defined in STU3 and R4. \
+ * **Medication**: The FHIR resource type defined in STU3 and R4. \
+ * **MedicationAdministration**: The FHIR resource type defined in STU3 and R4. \
+ * **MedicationDispense**: The FHIR resource type defined in STU3 and R4. \
+ * **MedicationKnowledge**: The FHIR resource type defined in R4. \
+ * **MedicationRequest**: The FHIR resource type defined in STU3 and R4. \
+ * **MedicationStatement**: The FHIR resource type defined in STU3 and R4. \
+ * **MedicinalProduct**: The FHIR resource type defined in R4. \
+ * **MedicinalProductAuthorization**: The FHIR resource type defined in R4. \
+ * **MedicinalProductContraindication**: The FHIR resource type defined in R4. \
+ * **MedicinalProductIndication**: The FHIR resource type defined in R4. \
+ * **MedicinalProductIngredient**: The FHIR resource type defined in R4. \
+ * **MedicinalProductInteraction**: The FHIR resource type defined in R4. \
+ * **MedicinalProductManufactured**: The FHIR resource type defined in R4. \
+ * **MedicinalProductPackaged**: The FHIR resource type defined in R4. \
+ * **MedicinalProductPharmaceutical**: The FHIR resource type defined in R4. \
+ * **MedicinalProductUndesirableEffect**: The FHIR resource type defined in R4. \
+ * **MessageDefinition**: The FHIR resource type defined in STU3 and R4. \
+ * **MessageHeader**: The FHIR resource type defined in STU3 and R4. \
+ * **MolecularSequence**: The FHIR resource type defined in R4. \
+ * **NamingSystem**: The FHIR resource type defined in STU3 and R4. \
+ * **NutritionOrder**: The FHIR resource type defined in STU3 and R4. \
+ * **Observation**: The FHIR resource type defined in STU3 and R4. \
+ * **ObservationDefinition**: The FHIR resource type defined in R4. \
+ * **OperationDefinition**: The FHIR resource type defined in STU3 and R4. \
+ * **OperationOutcome**: The FHIR resource type defined in STU3 and R4. \
+ * **Organization**: The FHIR resource type defined in STU3 and R4. \
+ * **OrganizationAffiliation**: The FHIR resource type defined in R4. \
+ * **Parameters**: The FHIR resource type defined in STU3 and R4. \
+ * **Patient**: The FHIR resource type defined in STU3 and R4. \
+ * **PaymentNotice**: The FHIR resource type defined in STU3 and R4. \
+ * **PaymentReconciliation**: The FHIR resource type defined in STU3 and R4. \
+ * **Person**: The FHIR resource type defined in STU3 and R4. \
+ * **PlanDefinition**: The FHIR resource type defined in STU3 and R4. \
+ * **Practitioner**: The FHIR resource type defined in STU3 and R4. \
+ * **PractitionerRole**: The FHIR resource type defined in STU3 and R4. \
+ * **Procedure**: The FHIR resource type defined in STU3 and R4. \
+ * **ProcedureRequest**: The FHIR resource type defined in STU3. \
+ * **ProcessRequest**: The FHIR resource type defined in STU3. \
+ * **ProcessResponse**: The FHIR resource type defined in STU3. \
+ * **Provenance**: The FHIR resource type defined in STU3 and R4. \
+ * **Questionnaire**: The FHIR resource type defined in STU3 and R4. \
+ * **QuestionnaireResponse**: The FHIR resource type defined in STU3 and R4. \
+ * **ReferralRequest**: The FHIR resource type defined in STU3. \
+ * **RelatedPerson**: The FHIR resource type defined in STU3 and R4. \
+ * **RequestGroup**: The FHIR resource type defined in STU3 and R4. \
+ * **ResearchDefinition**: The FHIR resource type defined in R4. \
+ * **ResearchElementDefinition**: The FHIR resource type defined in R4. \
+ * **ResearchStudy**: The FHIR resource type defined in STU3 and R4. \
+ * **ResearchSubject**: The FHIR resource type defined in STU3 and R4. \
+ * **Resource**: The FHIR resource type defined in STU3 and R4. \
+ * **RiskAssessment**: The FHIR resource type defined in STU3 and R4. \
+ * **RiskEvidenceSynthesis**: The FHIR resource type defined in R4. \
+ * **Schedule**: The FHIR resource type defined in STU3 and R4. \
+ * **SearchParameter**: The FHIR resource type defined in STU3 and R4. \
+ * **Sequence**: The FHIR resource type defined in STU3. \
+ * **ServiceDefinition**: The FHIR resource type defined in STU3. \
+ * **ServiceRequest**: The FHIR resource type defined in R4. \
+ * **Slot**: The FHIR resource type defined in STU3 and R4. \
+ * **Specimen**: The FHIR resource type defined in STU3 and R4. \
+ * **SpecimenDefinition**: The FHIR resource type defined in R4. \
+ * **StructureDefinition**: The FHIR resource type defined in STU3 and R4. \
+ * **StructureMap**: The FHIR resource type defined in STU3 and R4. \
+ * **Subscription**: The FHIR resource type defined in STU3 and R4. \
+ * **Substance**: The FHIR resource type defined in STU3 and R4. \
+ * **SubstanceNucleicAcid**: The FHIR resource type defined in R4. \
+ * **SubstancePolymer**: The FHIR resource type defined in R4. \
+ * **SubstanceProtein**: The FHIR resource type defined in R4. \
+ * **SubstanceReferenceInformation**: The FHIR resource type defined in R4. \
+ * **SubstanceSourceMaterial**: The FHIR resource type defined in R4. \
+ * **SubstanceSpecification**: The FHIR resource type defined in R4. \
+ * **SupplyDelivery**: The FHIR resource type defined in STU3 and R4. \
+ * **SupplyRequest**: The FHIR resource type defined in STU3 and R4. \
+ * **Task**: The FHIR resource type defined in STU3 and R4. \
+ * **TerminologyCapabilities**: The FHIR resource type defined in R4. \
+ * **TestReport**: The FHIR resource type defined in STU3 and R4. \
+ * **TestScript**: The FHIR resource type defined in STU3 and R4. \
+ * **ValueSet**: The FHIR resource type defined in STU3 and R4. \
+ * **VerificationResult**: The FHIR resource type defined in R4. \
+ * **VisionPrescription**: The FHIR resource type defined in STU3 and R4.
+ */
+export type HealthcareFhirResourceType = string;
 /** Defines values for MediaJobState. */
 export type MediaJobState =
   | "Canceled"
@@ -2623,14 +3248,16 @@ export type MediaJobErrorCode =
   | "UploadTransientError"
   | "ConfigurationUnsupported"
   | "ContentMalformed"
-  | "ContentUnsupported";
+  | "ContentUnsupported"
+  | "IdentityUnsupported";
 /** Defines values for MediaJobErrorCategory. */
 export type MediaJobErrorCategory =
   | "Service"
   | "Download"
   | "Upload"
   | "Configuration"
-  | "Content";
+  | "Content"
+  | "Account";
 /** Defines values for MediaJobRetry. */
 export type MediaJobRetry = "DoNotRetry" | "MayRetry";
 
@@ -2640,7 +3267,10 @@ export interface GeneratedClientPublishEventsOptionalParams
 
 /** Optional parameters. */
 export interface GeneratedClientPublishCloudEventEventsOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Required only when publishing to partner namespaces with partner topic routing mode ChannelNameHeader. */
+  aegChannelName?: string;
+}
 
 /** Optional parameters. */
 export interface GeneratedClientPublishCustomEventEventsOptionalParams

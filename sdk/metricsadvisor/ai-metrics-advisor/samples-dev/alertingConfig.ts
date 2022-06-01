@@ -13,7 +13,7 @@ dotenv.config();
 import {
   MetricsAdvisorKeyCredential,
   MetricsAdvisorAdministrationClient,
-  AnomalyAlertConfiguration
+  AnomalyAlertConfiguration,
 } from "@azure/ai-metrics-advisor";
 
 main()
@@ -59,19 +59,19 @@ async function createAlertConfig(
       {
         detectionConfigurationId: detectionConfigId,
         alertScope: {
-          scopeType: "All"
-        }
+          scopeType: "All",
+        },
       },
       {
         detectionConfigurationId: detectionConfigId,
         alertScope: {
           scopeType: "Dimension",
-          seriesGroupInScope: { city: "Manila", category: "Handmade" }
-        }
-      }
+          seriesGroupInScope: { city: "Manila", category: "Handmade" },
+        },
+      },
     ],
     hookIds: [],
-    description: "alerting config description"
+    description: "alerting config description",
   };
   const result = await adminClient.createAlertConfig(alertConfig);
   console.log(result);
@@ -94,8 +94,8 @@ async function updateAlertConfig(
       {
         detectionConfigurationId: detectionConfigId,
         alertScope: {
-          scopeType: "All"
-        }
+          scopeType: "All",
+        },
       },
       {
         detectionConfigurationId: detectionConfigId,
@@ -103,11 +103,11 @@ async function updateAlertConfig(
           scopeType: "Dimension",
           seriesGroupInScope: {
             city: "Kolkata",
-            category: "Shoes Handbags & Sunglasses"
-          }
-        }
-      }
-    ]
+            category: "Shoes Handbags & Sunglasses",
+          },
+        },
+      },
+    ],
   };
   console.log(`Updating alerting configuration ${detectionConfigId}`);
   const updated = await adminClient.updateAlertConfig(alertConfigId, patch);

@@ -6,8 +6,8 @@
  * @author Arpan Laha
  */
 
-import rule from "../../src/rules/ts-package-json-types";
 import { RuleTester } from "eslint";
+import rule from "../../src/rules/ts-package-json-types";
 
 //------------------------------------------------------------------------------
 // Example files
@@ -80,7 +80,7 @@ const examplePackageGood = `{
     "eslint-detailed-reporter": "^0.8.0",
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",
-    "eslint-plugin-promise": "^4.1.1",    
+    "eslint-plugin-promise": "^4.1.1",
     "https-proxy-agent": "^2.2.1",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^2.2.0",
@@ -193,7 +193,7 @@ const examplePackageBad = `{
     "eslint-detailed-reporter": "^0.8.0",
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",
-    "eslint-plugin-promise": "^4.1.1",    
+    "eslint-plugin-promise": "^4.1.1",
     "https-proxy-agent": "^2.2.1",
     "karma": "^4.0.1",
     "karma-chrome-launcher": "^2.2.0",
@@ -247,8 +247,8 @@ const ruleTester = new RuleTester({
   parser: require.resolve("@typescript-eslint/parser"),
   parserOptions: {
     createDefaultProgram: true,
-    project: "./tsconfig.json"
-  }
+    project: "./tsconfig.json",
+  },
 });
 
 ruleTester.run("ts-package-json-types", rule, {
@@ -256,18 +256,18 @@ ruleTester.run("ts-package-json-types", rule, {
     {
       // only the fields we care about
       code: '{"types": "typings/index.d.ts"}',
-      filename: "index/package.json"
+      filename: "index/package.json",
     },
     {
       // a full example package.json (taken from https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/event-hubs/package.json with "scripts" removed for testing purposes)
       code: examplePackageGood,
-      filename: "service-bus/package.json"
+      filename: "service-bus/package.json",
     },
     {
       // incorrect format but in a file we don't care about
       code: '{"types": "typings/index.ts"}',
-      filename: "service-bus/not_package.json"
-    }
+      filename: "service-bus/not_package.json",
+    },
   ],
   invalid: [
     {
@@ -275,9 +275,9 @@ ruleTester.run("ts-package-json-types", rule, {
       filename: "index/package.json",
       errors: [
         {
-          message: "types does not exist at the outermost level"
-        }
-      ]
+          message: "types does not exist at the outermost level",
+        },
+      ],
     },
     {
       // types is in a nested object
@@ -285,9 +285,9 @@ ruleTester.run("ts-package-json-types", rule, {
       filename: "service-bus/package.json",
       errors: [
         {
-          message: "types does not exist at the outermost level"
-        }
-      ]
+          message: "types does not exist at the outermost level",
+        },
+      ],
     },
     {
       // Incorrect node type for `types` key (object)
@@ -295,9 +295,9 @@ ruleTester.run("ts-package-json-types", rule, {
       filename: "service-bus/package.json",
       errors: [
         {
-          message: "types is not set to a string"
-        }
-      ]
+          message: "types is not set to a string",
+        },
+      ],
     },
     {
       // Incorrect node type for `types` key (regex)
@@ -305,9 +305,9 @@ ruleTester.run("ts-package-json-types", rule, {
       filename: "service-bus/package.json",
       errors: [
         {
-          message: "types is not set to a string"
-        }
-      ]
+          message: "types is not set to a string",
+        },
+      ],
     },
     {
       // only the fields we care about
@@ -315,9 +315,9 @@ ruleTester.run("ts-package-json-types", rule, {
       filename: "service-bus/package.json",
       errors: [
         {
-          message: "provided types path is not a TypeScript declaration file"
-        }
-      ]
+          message: "provided types path is not a TypeScript declaration file",
+        },
+      ],
     },
     {
       // example file with types set to "typings/index.ts"
@@ -325,9 +325,9 @@ ruleTester.run("ts-package-json-types", rule, {
       filename: "service-bus/package.json",
       errors: [
         {
-          message: "provided types path is not a TypeScript declaration file"
-        }
-      ]
+          message: "provided types path is not a TypeScript declaration file",
+        },
+      ],
     },
     // example file with typings set, but to a non-matching package name
     {
@@ -336,9 +336,9 @@ ruleTester.run("ts-package-json-types", rule, {
       errors: [
         {
           message:
-            "provided types file should be named 'wrongpackage.d.ts' after the package directory"
-        }
-      ]
-    }
-  ]
+            "provided types file should be named 'wrongpackage.d.ts' after the package directory",
+        },
+      ],
+    },
+  ],
 });

@@ -1,5 +1,27 @@
 # Release History
 
+## 1.3.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.3.0 (2022-05-18)
+
+### Other Changes
+
+- The default implementation of `byPage` now supports using the continuationToken option as a URL for the page to get first.
+
+## 1.2.1 (2022-01-06)
+
+### Bugs Fixed
+
+- Use a TS v3.4-friendly iterator protocol [PR# 19507](https://github.com/Azure/azure-sdk-for-js/pull/19507). Fixed [Issue 19394](https://github.com/Azure/azure-sdk-for-js/issues/19394)
+
 ## 1.2.0 (2021-08-30)
 
 ### Features Added

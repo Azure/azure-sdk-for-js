@@ -5,12 +5,12 @@ import { GetTokenOptions } from "@azure/core-auth";
 import {
   AuthorizeRequestOnChallengeOptions,
   ChallengeCallbacks,
-  AuthorizeRequestOptions
+  AuthorizeRequestOptions,
 } from "@azure/core-rest-pipeline";
 import { parseWWWAuthenticate } from "./utils/wwwAuthenticateParser";
 import {
   ContainerRegistryGetTokenOptions,
-  ContainerRegistryRefreshTokenCredential
+  ContainerRegistryRefreshTokenCredential,
 } from "./containerRegistryTokenCredential";
 import { AccessTokenRefresher, createTokenCycler } from "./utils/tokenCycler";
 
@@ -41,7 +41,7 @@ export class ChallengeHandler implements ChallengeCallbacks {
     private options: GetTokenOptions & { claims?: string } = {}
   ) {
     this.cycler = createTokenCycler(credential, {
-      refreshWindowInMs: fiveMinutesInMs
+      refreshWindowInMs: fiveMinutesInMs,
     });
   }
 
@@ -83,13 +83,14 @@ export class ChallengeHandler implements ChallengeCallbacks {
     }
 
     // Step 4: Send in acrRefreshToken and get back acrAccessToken
-    const acrAccessToken = await this.credential.tokenService.ExchangeAcrRefreshTokenForAcrAccessTokenAsync(
-      acrRefreshToken,
-      service,
-      scope,
-      grantType,
-      this.options
-    );
+    const acrAccessToken =
+      await this.credential.tokenService.ExchangeAcrRefreshTokenForAcrAccessTokenAsync(
+        acrRefreshToken,
+        service,
+        scope,
+        grantType,
+        this.options
+      );
 
     // Step 5 - Authorize Request.  At this point we're done with AAD and using an ACR access token.
     options.request.headers.set("Authorization", `Bearer ${acrAccessToken}`);

@@ -3,6 +3,9 @@
 
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { createTracingClient, TracingClient } from "@azure/core-tracing";
+import { __decorate } from "tslib";
+import { SDK_VERSION } from "./constants";
 import {
   CopyAuthorization,
   GeneratedClient,
@@ -32,6 +35,7 @@ import {
   ListModelsOptions,
   ListOperationsOptions,
 } from "./options";
+import { DocumentModelBuildMode } from "./options/BuildModelOptions";
 import { makeServiceClient, Mappers, SERIALIZER } from "./util";
 
 /**
@@ -65,6 +69,7 @@ import { makeServiceClient, Mappers, SERIALIZER } from "./util";
  */
 export class DocumentModelAdministrationClient {
   private _restClient: GeneratedClient;
+  private _tracing: TracingClient;
 
   /**
    * Create a DocumentModelAdministrationClient instance from a resource endpoint and a an Azure Identity `TokenCredential`.
@@ -131,6 +136,11 @@ export class DocumentModelAdministrationClient {
     options: DocumentModelAdministrationClientOptions = {}
   ) {
     this._restClient = makeServiceClient(endpoint, credential, options);
+    this._tracing = createTracingClient({
+      packageName: "@azure/ai-form-recognizer",
+      packageVersion: SDK_VERSION,
+      namespace: "Microsoft.CognitiveServices",
+    });
   }
 
   // #region Model Creation
@@ -173,28 +183,36 @@ export class DocumentModelAdministrationClient {
    *
    * @param modelId - the unique ID of the model to create
    * @param containerUrl - SAS-encoded URL to an Azure Storage container holding the training data set
+   * @param buildMode - the mode to use when building the model (see `DocumentModelBuildMode`)
    * @param options - optional settings for the model build operation
    * @returns a long-running operation (poller) that will eventually produce the created model information or an error
    */
   public async beginBuildModel(
     modelId: string,
     containerUrl: string,
+    buildMode: DocumentModelBuildMode,
     options: BuildModelOptions = {}
   ): Promise<TrainingPoller> {
-    return this.createTrainingPoller({
+    return this._tracing.withSpan(
+      "DocumentModelAdministrationClient.beginBuildModel",
       options,
-      start: () =>
-        this._restClient.buildDocumentModel(
-          {
-            modelId,
-            description: options.description,
-            azureBlobSource: {
-              containerUrl,
-            },
-          },
-          options
-        ),
-    });
+      (finalOptions) =>
+        this.createTrainingPoller({
+          options: finalOptions,
+          start: () =>
+            this._restClient.buildDocumentModel(
+              {
+                modelId,
+                description: finalOptions.description,
+                azureBlobSource: {
+                  containerUrl,
+                },
+                buildMode,
+              },
+              finalOptions
+            ),
+        })
+    );
   }
 
   /**
@@ -232,33 +250,39 @@ export class DocumentModelAdministrationClient {
    * ```
    *
    * @param modelId - the unique ID of the model to create
-   * @param componentModels - an Iterable of strings representing the unique model IDs of the models to compose
+   * @param componentModelIds - an Iterable of strings representing the unique model IDs of the models to compose
    * @param options - optional settings for model creation
    * @returns a long-running operation (poller) that will eventually produce the created model information or an error
    */
   public async beginComposeModel(
     modelId: string,
-    componentModels: Iterable<string>,
+    componentModelIds: Iterable<string>,
     options: BuildModelOptions = {}
   ): Promise<TrainingPoller> {
-    return this.createTrainingPoller({
+    return this._tracing.withSpan(
+      "DocumentModelAdministrationClient.beginComposeModel",
       options,
-      start: () =>
-        this._restClient.composeDocumentModel(
-          {
-            modelId,
-            componentModels: [...componentModels].map((submodelId) => ({
-              modelId: submodelId,
-            })),
-            description: options.description,
-          },
-          options
-        ),
-    });
+      (finalOptions) =>
+        this.createTrainingPoller({
+          options: finalOptions,
+          start: () =>
+            this._restClient.composeDocumentModel(
+              {
+                modelId,
+                componentModels: [...componentModelIds].map((submodelId) => ({
+                  modelId: submodelId,
+                })),
+                description: finalOptions.description,
+                tags: finalOptions.tags,
+              },
+              finalOptions
+            ),
+        })
+    );
   }
 
   /**
-   * Creates an authorization to copy a model into the resource, used with the `beginCopyModel` method.
+   * Creates an authorization to copy a model into the resource, used with the `beginCopyModelTo` method.
    *
    * The `CopyAuthorization` grants another cognitive service resource the right to create a model in this client's
    * resource with the model ID and optional description that are encoded into the authorization.
@@ -279,12 +303,18 @@ export class DocumentModelAdministrationClient {
     destinationModelId: string,
     options: GetCopyAuthorizationOptions = {}
   ): Promise<CopyAuthorization> {
-    return this._restClient.authorizeCopyDocumentModel(
-      {
-        modelId: destinationModelId,
-        description: options.description,
-      },
-      options
+    return this._tracing.withSpan(
+      "DocumentModelAdministrationClient.getCopyAuthorization",
+      options,
+      (finalOptions) =>
+        this._restClient.authorizeCopyDocumentModel(
+          {
+            modelId: destinationModelId,
+            description: finalOptions.description,
+            tags: finalOptions.tags,
+          },
+          finalOptions
+        )
     );
   }
 
@@ -306,7 +336,7 @@ export class DocumentModelAdministrationClient {
    * const copyAuthorization = await client.getCopyAuthorization("<destination model ID>");
    *
    * // Finally, use the _source_ client to copy the model and await the copy operation
-   * const poller = await sourceClient.beginCopyModel("<source model ID>");
+   * const poller = await sourceClient.beginCopyModelTo("<source model ID>");
    *
    * // Model copying, like all other model creation operations, returns a poller that eventually produces a ModelInfo
    * // object
@@ -325,15 +355,21 @@ export class DocumentModelAdministrationClient {
    * @param options - optional settings for
    * @returns a long-running operation (poller) that will eventually produce the copied model information or an error
    */
-  public async beginCopyModel(
+  public async beginCopyModelTo(
     sourceModelId: string,
     authorization: CopyAuthorization,
     options: CopyModelOptions = {}
   ): Promise<TrainingPoller> {
-    return this.createTrainingPoller({
+    return this._tracing.withSpan(
+      "DocumentModelAdministrationClient.beginCopyModel",
       options,
-      start: () => this._restClient.copyDocumentModelTo(sourceModelId, authorization, options),
-    });
+      (finalOptions) =>
+        this.createTrainingPoller({
+          options: finalOptions,
+          start: () =>
+            this._restClient.copyDocumentModelTo(sourceModelId, authorization, finalOptions),
+        })
+    );
   }
 
   /**
@@ -341,7 +377,6 @@ export class DocumentModelAdministrationClient {
    *
    * This is the meat of all training polling operations.
    *
-   * @internal
    * @param definition - operation definition (start operation method, request options)
    * @returns a training poller that produces a ModelInfo
    */
@@ -352,49 +387,64 @@ export class DocumentModelAdministrationClient {
 
     const toInit =
       resumeFrom === undefined
-        ? async () => {
-            const { operationLocation } = await definition.start();
+        ? () =>
+            this._tracing.withSpan(
+              "DocumentModelAdministrationClient.createTrainingPoller-start",
+              definition.options,
+              async (options) => {
+                const { operationLocation } = await definition.start();
 
-            if (operationLocation === undefined) {
-              throw new Error(
-                "Unable to start model creation operation: no Operation-Location received."
-              );
-            }
+                if (operationLocation === undefined) {
+                  throw new Error(
+                    "Unable to start model creation operation: no Operation-Location received."
+                  );
+                }
 
-            return this._restClient.sendOperationRequest(
-              {
-                options: definition.options,
-              },
-              {
-                path: operationLocation,
-                httpMethod: "GET",
-                responses: {
-                  200: {
-                    bodyMapper: Mappers.GetOperationResponse,
+                return this._restClient.sendOperationRequest(
+                  {
+                    options,
                   },
-                  default: {
-                    bodyMapper: Mappers.ErrorResponse,
-                  },
-                },
-                headerParameters: [accept1],
-                serializer: SERIALIZER,
+                  {
+                    path: operationLocation,
+                    httpMethod: "GET",
+                    responses: {
+                      200: {
+                        bodyMapper: Mappers.GetOperationResponse,
+                      },
+                      default: {
+                        bodyMapper: Mappers.ErrorResponse,
+                      },
+                    },
+                    headerParameters: [accept1],
+                    serializer: SERIALIZER,
+                  }
+                ) as Promise<GetOperationResponse>;
               }
-            ) as Promise<GetOperationResponse>;
-          }
-        : () => {
-            const { operationId } = JSON.parse(resumeFrom) as { operationId: string };
+            )
+        : () =>
+            this._tracing.withSpan(
+              "DocumentModelAdministrationClient.createTrainingPoller-resume",
+              definition.options,
+              (options) => {
+                const { operationId } = JSON.parse(resumeFrom) as { operationId: string };
 
-            return this._restClient.getOperation(operationId, definition.options);
-          };
+                return this._restClient.getOperation(operationId, options);
+              }
+            );
 
     const poller = await lro<ModelInfo, TrainingPollOperationState>(
       {
         init: async () => toTrainingPollOperationState(await toInit()),
-        poll: async ({ operationId }) => {
-          const res = await this._restClient.getOperation(operationId, definition.options);
+        poll: async ({ operationId }) =>
+          this._tracing.withSpan(
+            "DocumentModelAdminstrationClient.createTrainingPoller-poll",
+            definition.options,
+            async (options) => {
+              const res = await this._restClient.getOperation(operationId, options);
 
-          return toTrainingPollOperationState(res);
-        },
+              return toTrainingPollOperationState(res);
+            }
+          ),
         serialize: ({ operationId }) => JSON.stringify({ operationId }),
       },
       definition.options.updateIntervalInMs
@@ -432,8 +482,12 @@ export class DocumentModelAdministrationClient {
    * @param options - optional settings for the request
    * @returns basic information about this client's resource
    */
-  public getInfo(options?: GetInfoOptions): Promise<GetInfoResponse> {
-    return this._restClient.getInfo(options);
+  public getInfo(options: GetInfoOptions = {}): Promise<GetInfoResponse> {
+    return this._tracing.withSpan(
+      "DocumentModelAdministrationClient.getInfo",
+      options,
+      (finalOptions) => this._restClient.getInfo(finalOptions)
+    );
   }
 
   /**
@@ -478,8 +532,12 @@ export class DocumentModelAdministrationClient {
    * @param options - optional settings for the request
    * @returns information about the model with the given ID
    */
-  public getModel(modelId: string, options?: GetModelOptions): Promise<ModelInfo> {
-    return this._restClient.getModel(modelId, options);
+  public getModel(modelId: string, options: GetModelOptions = {}): Promise<ModelInfo> {
+    return this._tracing.withSpan(
+      "DocumentModelAdministrationClient.getModel",
+      options,
+      (finalOptions) => this._restClient.getModel(modelId, finalOptions)
+    );
   }
 
   /**
@@ -537,7 +595,7 @@ export class DocumentModelAdministrationClient {
    * @param options - optional settings for the model requests
    * @returns an async iterable of model summaries that supports paging
    */
-  public listModels(options?: ListModelsOptions): PagedAsyncIterableIterator<ModelSummary> {
+  public listModels(options: ListModelsOptions = {}): PagedAsyncIterableIterator<ModelSummary> {
     return this._restClient.listModels(options);
   }
 
@@ -566,8 +624,15 @@ export class DocumentModelAdministrationClient {
    * } = await client.getOperation(operationId);
    * ```
    */
-  public getOperation(operationId: string, options?: GetOperationOptions): Promise<OperationInfo> {
-    return this._restClient.getOperation(operationId, options);
+  public getOperation(
+    operationId: string,
+    options: GetOperationOptions = {}
+  ): Promise<OperationInfo> {
+    return this._tracing.withSpan(
+      "DocumentModelAdministrationClient.getOperation",
+      options,
+      (finalOptions) => this._restClient.getOperation(operationId, finalOptions)
+    );
   }
 
   /**
@@ -627,8 +692,12 @@ export class DocumentModelAdministrationClient {
    * @param modelId - the unique ID of the model to delete from the resource
    * @param options - optional settings for the request
    */
-  public deleteModel(modelId: string, options?: DeleteModelOptions): Promise<void> {
-    return this._restClient.deleteModel(modelId, options);
+  public deleteModel(modelId: string, options: DeleteModelOptions = {}): Promise<void> {
+    return this._tracing.withSpan(
+      "DocumentModelAdministrationClient.deleteModel",
+      options,
+      (finalOptions) => this._restClient.deleteModel(modelId, finalOptions)
+    );
   }
 
   // #endregion

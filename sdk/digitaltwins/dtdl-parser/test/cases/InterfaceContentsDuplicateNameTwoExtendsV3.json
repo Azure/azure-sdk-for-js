@@ -1,0 +1,93 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:importingInterface;1",
+      "@type": "Interface",
+      "extends": [
+        "dtmi:test:anInterface;1",
+        "dtmi:test:anotherInterface;1"
+      ]
+    }
+  ],
+  "resolution": [
+    {
+      "request": [
+        "dtmi:test:anInterface;1",
+        "dtmi:test:anotherInterface;1"
+      ],
+      "response": [
+        {
+          "@context": "dtmi:dtdl:context;3",
+          "@id": "dtmi:test:anInterface;1",
+          "@type": "Interface",
+          "contents": [
+            {
+              "@id": "dtmi:test:aProperty;1",
+              "@type": "Property",
+              "name": "expectedDistance",
+              "schema": "double"
+            },
+            {
+              "@id": "dtmi:test:aTelemetry;1",
+              "@type": "Telemetry",
+              "name": "currentDistance",
+              "schema": "double"
+            },
+            {
+              "@id": "dtmi:test:aCommand;1",
+              "@type": "Command",
+              "name": "setDistance"
+            },
+            {
+              "@id": "dtmi:test:aRelationship;1",
+              "@type": "Relationship",
+              "name": "proximity"
+            }
+          ],
+          "displayName": {
+            "en": "Distance",
+            "es": "Distancia"
+          },
+          "description": [
+            {
+              "@language": "en",
+              "@value": "how close"
+            },
+            {
+              "@language": "es",
+              "@value": "lo cerca que"
+            }
+          ],
+          "comment": "How close is it?"
+        },
+        {
+          "@context": "dtmi:dtdl:context;3",
+          "@id": "dtmi:test:anotherInterface;1",
+          "@type": "Interface",
+          "contents": [
+            {
+              "@id": "dtmi:test:anotherProperty;1",
+              "@type": "Property",
+              "name": "expectedDistance",
+              "schema": "double"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:nonUniqueImportedPropertyValue",
+        "PrimaryID": "dtmi:test:importingInterface;1",
+        "SecondaryID": [ "dtmi:test:anInterface;1", "dtmi:test:anotherInterface;1" ],
+        "Property": "contents",
+        "Value": "name"
+      }
+    ]
+  }
+}

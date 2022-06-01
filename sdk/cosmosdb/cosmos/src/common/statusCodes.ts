@@ -72,7 +72,7 @@ export const StatusCodes: StatusCodesType = {
 
   // Operation pause and cancel. These are FAKE status codes for QOS logging purpose only.
   OperationPaused: 1200,
-  OperationCancelled: 1201
+  OperationCancelled: 1201,
 };
 
 /**
@@ -112,5 +112,5 @@ export const SubStatusCodes: SubStatusCodesType = {
 
   // 403: Forbidden Substatus
   WriteForbidden: 3,
-  DatabaseAccountNotFound: 1008
+  DatabaseAccountNotFound: 1008,
 };

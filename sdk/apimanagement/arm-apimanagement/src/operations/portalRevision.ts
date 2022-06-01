@@ -11,7 +11,7 @@ import { PortalRevision } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ApiManagementClientContext } from "../apiManagementClientContext";
+import { ApiManagementClient } from "../apiManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -33,13 +33,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PortalRevision operations. */
 export class PortalRevisionImpl implements PortalRevision {
-  private readonly client: ApiManagementClientContext;
+  private readonly client: ApiManagementClient;
 
   /**
    * Initialize a new instance of the class PortalRevision class.
    * @param client Reference to the service client
    */
-  constructor(client: ApiManagementClientContext) {
+  constructor(client: ApiManagementClient) {
     this.client = client;
   }
 
@@ -237,11 +237,13 @@ export class PortalRevisionImpl implements PortalRevision {
       { resourceGroupName, serviceName, portalRevisionId, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -346,11 +348,13 @@ export class PortalRevisionImpl implements PortalRevision {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

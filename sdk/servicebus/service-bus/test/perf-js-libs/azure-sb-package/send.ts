@@ -53,7 +53,7 @@ function RunTest(
   function sendMessages(): void {
     while (_sent < messages && inflight() < maxInflight) {
       _sent++;
-      sbService.sendQueueMessage(entityPath, { body: _payload }, function(err: any) {
+      sbService.sendQueueMessage(entityPath, { body: _payload }, function (err: any) {
         if (err) {
           _rejected++;
           console.log(err.message);

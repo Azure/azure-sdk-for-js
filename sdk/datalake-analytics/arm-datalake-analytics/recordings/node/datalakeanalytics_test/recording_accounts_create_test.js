@@ -127,7 +127,7 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Location',
   'https://management.azure.com/subscriptions/azure_subscription_id/resourcegroups/myjstest/providers/Microsoft.DataLakeAnalytics/accounts/myaccountxxx/operationresults/0?api-version=2019-11-01-preview',
   'Retry-After',
-  '10',
+  '0',
   'Azure-AsyncOperation',
   'https://management.azure.com/subscriptions/azure_subscription_id/providers/Microsoft.DataLakeAnalytics/locations/eastus2/operationResults/bb5483e6-b01e-4879-a6f2-f5d9289d426e_0?api-version=2019-11-01-preview',
   'x-ms-request-id',

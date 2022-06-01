@@ -10,7 +10,7 @@ import { PrivateLinkResources } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureMediaServicesContext } from "../azureMediaServicesContext";
+import { AzureMediaServices } from "../azureMediaServices";
 import {
   PrivateLinkResourcesListOptionalParams,
   PrivateLinkResourcesListResponse,
@@ -20,13 +20,13 @@ import {
 
 /** Class containing PrivateLinkResources operations. */
 export class PrivateLinkResourcesImpl implements PrivateLinkResources {
-  private readonly client: AzureMediaServicesContext;
+  private readonly client: AzureMediaServices;
 
   /**
    * Initialize a new instance of the class PrivateLinkResources class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMediaServicesContext) {
+  constructor(client: AzureMediaServices) {
     this.client = client;
   }
 
@@ -81,7 +81,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -103,7 +103,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

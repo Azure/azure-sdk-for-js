@@ -6,8 +6,8 @@
  * @author Wei Jun Tan
  */
 
-import rule from "../../src/rules/ts-config-include";
 import { RuleTester } from "eslint";
+import rule from "../../src/rules/ts-config-include";
 
 //------------------------------------------------------------------------------
 // Example files
@@ -101,8 +101,8 @@ const ruleTester = new RuleTester({
   parser: require.resolve("@typescript-eslint/parser"),
   parserOptions: {
     createDefaultProgram: true,
-    project: "./tsconfig.json"
-  }
+    project: "./tsconfig.json",
+  },
 });
 
 ruleTester.run("ts-config-include", rule, {
@@ -110,18 +110,18 @@ ruleTester.run("ts-config-include", rule, {
     {
       // only the fields we care about
       code: '{"include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]}',
-      filename: "tsconfig.json"
+      filename: "tsconfig.json",
     },
     {
       // a full example tsconfig.json
       code: exampleTsconfigGood,
-      filename: "tsconfig.json"
+      filename: "tsconfig.json",
     },
     {
       // incorrect format but in a file we don't care about
       code: '{"include": []}',
-      filename: "not_tsconfig.json"
-    }
+      filename: "not_tsconfig.json",
+    },
   ],
   invalid: [
     {
@@ -129,9 +129,9 @@ ruleTester.run("ts-config-include", rule, {
       filename: "tsconfig.json",
       errors: [
         {
-          message: "include does not exist at the outermost level"
-        }
-      ]
+          message: "include does not exist at the outermost level",
+        },
+      ],
     },
     {
       // exclude is in a nested object
@@ -139,9 +139,9 @@ ruleTester.run("ts-config-include", rule, {
       filename: "tsconfig.json",
       errors: [
         {
-          message: "include does not exist at the outermost level"
-        }
-      ]
+          message: "include does not exist at the outermost level",
+        },
+      ],
     },
     {
       // only the fields we care about
@@ -149,10 +149,11 @@ ruleTester.run("ts-config-include", rule, {
       filename: "tsconfig.json",
       errors: [
         {
-          message: 'include does not contain ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]'
-        }
+          message:
+            'include does not contain ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]',
+        },
       ],
-      output: '{"include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]}'
+      output: '{"include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]}',
     },
     {
       // example file with empty include
@@ -160,10 +161,11 @@ ruleTester.run("ts-config-include", rule, {
       filename: "tsconfig.json",
       errors: [
         {
-          message: 'include does not contain ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]'
-        }
+          message:
+            'include does not contain ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]',
+        },
       ],
-      output: exampleTsconfigGood
-    }
-  ]
+      output: exampleTsconfigGood,
+    },
+  ],
 });

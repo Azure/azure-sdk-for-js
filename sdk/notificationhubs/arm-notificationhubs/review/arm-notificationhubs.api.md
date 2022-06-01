@@ -239,7 +239,7 @@ export interface NamespacesListKeysOptionalParams extends coreClient.OperationOp
 }
 
 // @public
-export type NamespacesListKeysResponse = SharedAccessAuthorizationRuleListResult;
+export type NamespacesListKeysResponse = ResourceListKeys;
 
 // @public
 export interface NamespacesListNextOptionalParams extends coreClient.OperationOptions {
@@ -429,23 +429,18 @@ export interface NotificationHubsListOptionalParams extends coreClient.Operation
 export type NotificationHubsListResponse = NotificationHubListResult;
 
 // @public (undocumented)
-export class NotificationHubsManagementClient extends NotificationHubsManagementClientContext {
+export class NotificationHubsManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: NotificationHubsManagementClientOptionalParams);
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     namespaces: Namespaces;
     // (undocumented)
     notificationHubs: NotificationHubs;
     // (undocumented)
     operations: Operations;
-}
-
-// @public (undocumented)
-export class NotificationHubsManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: NotificationHubsManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
     // (undocumented)
     subscriptionId: string;
 }
@@ -606,7 +601,6 @@ export interface WnsCredential {
     secretKey?: string;
     windowsLiveEndpoint?: string;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

@@ -5,6 +5,7 @@ import * as msalNode from "@azure/msal-node";
 import * as msalCommon from "@azure/msal-common";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { AbortSignalLike } from "@azure/abort-controller";
+import { LogPolicyOptions } from "@azure/core-rest-pipeline";
 
 import { IdentityClient } from "../../client/identityClient";
 import { TokenCredentialOptions } from "../../tokenCredentialOptions";
@@ -20,7 +21,7 @@ import {
   getKnownAuthorities,
   MsalBaseUtilities,
   msalToPublic,
-  publicToMsal
+  publicToMsal,
 } from "../utils";
 import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
 import { processMultiTenantRequest } from "../../util/validateMultiTenant";
@@ -39,6 +40,12 @@ export interface MsalNodeOptions extends MsalFlowOptions {
    * If the property is not specified, uses a non-regional authority endpoint.
    */
   regionalAuthority?: string;
+  /**
+   * Allows logging account information once the authentication flow succeeds.
+   */
+  loggingOptions?: LogPolicyOptions & {
+    allowLoggingAccountIdentifiers?: boolean;
+  };
 }
 
 /**
@@ -56,7 +63,7 @@ let persistenceProvider:
 export const msalNodeFlowCacheControl = {
   setPersistence(pluginProvider: Exclude<typeof persistenceProvider, undefined>): void {
     persistenceProvider = pluginProvider;
-  }
+  },
 };
 
 /**
@@ -80,6 +87,13 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected azureRegion?: string;
   protected createCachePlugin: (() => Promise<msalCommon.ICachePlugin>) | undefined;
 
+  /**
+   * MSAL currently caches the tokens depending on the claims used to retrieve them.
+   * In cases like CAE, in which we use claims to update the tokens, trying to retrieve the token without the claims will yield the original token.
+   * To ensure we always get the latest token, we have to keep track of the claims.
+   */
+  private cachedClaims: string | undefined;
+
   constructor(options: MsalNodeOptions) {
     super(options);
     this.msalConfig = this.defaultNodeMsalConfig(options);
@@ -95,7 +109,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
           "Persistent token caching was requested, but no persistence provider was configured.",
           "You must install the identity-cache-persistence plugin package (`npm install --save @azure/identity-cache-persistence`)",
           "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
-          "`useIdentityPlugin(cachePersistencePlugin)` before using `tokenCachePersistenceOptions`."
+          "`useIdentityPlugin(cachePersistencePlugin)` before using `tokenCachePersistenceOptions`.",
         ].join(" ")
       );
     }
@@ -118,7 +132,8 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
 
     this.identityClient = new IdentityClient({
       ...options.tokenCredentialOptions,
-      authorityHost: authority
+      authorityHost: authority,
+      loggingOptions: options.loggingOptions,
     });
 
     let clientCapabilities: string[] = ["cp1"];
@@ -131,15 +146,15 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
         clientId,
         authority,
         knownAuthorities: getKnownAuthorities(tenantId, authority),
-        clientCapabilities
+        clientCapabilities,
       },
       // Cache is defined in this.prepare();
       system: {
         networkClient: this.identityClient,
         loggerOptions: {
-          loggerCallback: defaultLoggerCallback(options.logger)
-        }
-      }
+          loggerCallback: defaultLoggerCallback(options.logger),
+        },
+      },
     };
   }
 
@@ -161,7 +176,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
 
     if (this.createCachePlugin !== undefined) {
       this.msalConfig.cache = {
-        cachePlugin: await this.createCachePlugin()
+        cachePlugin: await this.createCachePlugin(),
       };
     }
 
@@ -246,7 +261,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         scopes,
         getTokenOptions: options,
         message:
-          "Silent authentication failed. We couldn't retrieve an active account from the cache."
+          "Silent authentication failed. We couldn't retrieve an active account from the cache.",
       });
     }
 
@@ -256,7 +271,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       correlationId: options?.correlationId,
       scopes,
       authority: options?.authority,
-      claims: options?.claims
+      claims: options?.claims,
     };
 
     try {
@@ -265,7 +280,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         (await this.confidentialApp?.acquireTokenSilent(silentRequest)) ??
         (await this.publicApp!.acquireTokenSilent(silentRequest));
       return this.handleResult(scopes, this.clientId, response || undefined);
-    } catch (err) {
+    } catch (err: any) {
       throw this.handleError(scopes, err, options);
     }
   }
@@ -291,8 +306,19 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     await this.init(options);
 
     try {
+      // MSAL now caches tokens based on their claims,
+      // so now one has to keep track fo claims in order to retrieve the newer tokens from acquireTokenSilent
+      // This update happened on PR: https://github.com/AzureAD/microsoft-authentication-library-for-js/pull/4533
+      const optionsClaims = (options as any).claims;
+      if (optionsClaims) {
+        this.cachedClaims = optionsClaims;
+      }
+      if (this.cachedClaims && !optionsClaims) {
+        (options as any).claims = this.cachedClaims;
+      }
+      // We don't return the promise since we want to catch errors right here.
       return await this.getTokenSilent(scopes, options);
-    } catch (err) {
+    } catch (err: any) {
       if (err.name !== "AuthenticationRequiredError") {
         throw err;
       }
@@ -301,7 +327,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
           scopes,
           getTokenOptions: options,
           message:
-            "Automatic authentication has been disabled. You may call the authentication() method."
+            "Automatic authentication has been disabled. You may call the authentication() method.",
         });
       }
       this.logger.info(`Silent authentication failed, falling back to interactive method.`);

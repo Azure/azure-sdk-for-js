@@ -33,7 +33,7 @@ async function updateAndUpsertEntities() {
     rowKey: "A1",
     name: "Marker Set",
     price: 5.0,
-    brand: "myCompany"
+    brand: "myCompany",
   };
 
   // Entity doesn't exist in table, so calling upsertEntity will simply insert the entity.
@@ -48,7 +48,7 @@ async function updateAndUpsertEntities() {
       name: "Marker Set",
       price: 5.0,
       // Replace with the same entity but without a brand
-      brand: undefined
+      brand: undefined,
     },
     "Replace"
   );
@@ -63,7 +63,7 @@ async function updateAndUpsertEntities() {
   await client.updateEntity({
     partitionKey: noBrandEntity.partitionKey,
     rowKey: noBrandEntity.rowKey,
-    price: 7.0
+    price: 7.0,
   });
 
   // Getting the entity should gice us an entity like the original, but without a brand and with a price of 7

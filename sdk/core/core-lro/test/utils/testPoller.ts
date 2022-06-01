@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay, RequestOptionsBase, HttpOperationResponse } from "@azure/core-http";
+import { HttpOperationResponse, RequestOptionsBase, delay } from "@azure/core-http";
+import { PublicTestOperationState, TestOperationState, makeOperation } from "./testOperation";
 import { Poller } from "../../src";
 import { TestServiceClient } from "./testServiceClient";
-import { makeOperation, TestOperationState, PublicTestOperationState } from "./testOperation";
 
 export class TestPoller extends Poller<TestOperationState, string> {
   public intervalInMs: number;
@@ -17,20 +17,20 @@ export class TestPoller extends Poller<TestOperationState, string> {
     onProgress?: (state: TestOperationState) => void
   ) {
     let state: TestOperationState = {
-      client
+      client,
     };
 
     if (baseOperation) {
       state = {
         ...JSON.parse(baseOperation).state,
-        ...state
+        ...state,
       };
     }
 
     const operation = makeOperation({
       ...state,
       client,
-      requestOptions
+      requestOptions,
     });
 
     super(operation);
@@ -70,7 +70,7 @@ export class TestPoller extends Poller<TestOperationState, string> {
 
       // The only other property needed by PublicTestOperationState.
       // The other properties from TestOperationState will be hidden from the user.
-      previousResponse: state.previousResponse
+      previousResponse: state.previousResponse,
     };
   }
 }

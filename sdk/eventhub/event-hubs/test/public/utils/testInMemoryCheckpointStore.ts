@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CheckpointStore, PartitionOwnership, Checkpoint } from "../../../src";
+import { Checkpoint, CheckpointStore, PartitionOwnership } from "../../../src";
 import { generate_uuid } from "rhea-promise";
 
 /**
@@ -63,7 +63,7 @@ export class TestInMemoryCheckpointStore implements CheckpointStore {
         const newOwnership = {
           ...ownership,
           etag: generate_uuid(),
-          lastModifiedTimeInMs: date.getTime()
+          lastModifiedTimeInMs: date.getTime(),
         };
 
         this._partitionOwnershipMap.set(newOwnership.partitionId, newOwnership);

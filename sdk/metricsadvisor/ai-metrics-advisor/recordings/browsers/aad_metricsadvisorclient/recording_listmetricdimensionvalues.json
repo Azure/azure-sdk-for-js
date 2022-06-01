@@ -11,17 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Nov 2021 02:01:12 GMT",
+    "date": "Thu, 20 Jan 2022 01:04:41 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12231.7 - NCUS ProdSlices",
-    "x-ms-request-id": "f213b6ce-89d4-48b8-9068-bf6b46434000"
+    "x-ms-ests-server": "2.1.12261.22 - SCUS ProdSlices",
+    "x-ms-request-id": "c535950c-d978-4395-8eb8-2021b8ffc200"
    }
   },
   {
@@ -32,14 +32,14 @@
    "status": 200,
    "response": "{\"value\":[\"__SUM__\",\"Electronics (Accessories)\",\"Electronics (Consumer)\",\"Grocery & Gourmet Food\",\"Handmade\",\"Home & Garden\",\"Office Products\",\"Shoes Handbags & Sunglasses\"]}",
    "responseHeaders": {
-    "apim-request-id": "f86834ee-6fd7-46d3-8245-f3a80c8d55fb",
+    "apim-request-id": "251d49ff-2178-4cbc-a3ef-6aa35ecd9439",
     "content-length": "174",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Nov 2021 02:01:13 GMT",
+    "date": "Thu, 20 Jan 2022 01:04:42 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "62",
-    "x-request-id": "f86834ee-6fd7-46d3-8245-f3a80c8d55fb"
+    "x-envoy-upstream-service-time": "53",
+    "x-request-id": "251d49ff-2178-4cbc-a3ef-6aa35ecd9439"
    }
   }
  ],

@@ -11,52 +11,52 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Nov 2021 02:02:24 GMT",
+    "date": "Thu, 20 Jan 2022 01:05:57 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12231.7 - NCUS ProdSlices",
-    "x-ms-request-id": "d7184e58-b106-4d55-b394-2226fdaf9a00"
+    "x-ms-ests-server": "2.1.12261.22 - NCUS ProdSlices",
+    "x-ms-request-id": "11198f48-3872-4e61-8cfb-0a889d5fa800"
    }
   },
   {
    "method": "DELETE",
-   "url": "https://endpoint/metricsadvisor/v1.0/hooks/8bde93da-ea72-4f5e-afeb-ce28b8d59e05",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks/b69f533d-89bc-47ce-b670-bdcecf20fb75",
    "query": {},
    "requestBody": null,
    "status": 204,
    "response": "",
    "responseHeaders": {
-    "apim-request-id": "d851deb7-634c-400f-b329-e30299520355",
+    "apim-request-id": "14ca122c-dca0-4ae1-9042-105e915fe867",
     "content-length": "0",
-    "date": "Tue, 16 Nov 2021 02:02:24 GMT",
+    "date": "Thu, 20 Jan 2022 01:05:57 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "125",
-    "x-request-id": "d851deb7-634c-400f-b329-e30299520355"
+    "x-envoy-upstream-service-time": "141",
+    "x-request-id": "14ca122c-dca0-4ae1-9042-105e915fe867"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/metricsadvisor/v1.0/hooks/8bde93da-ea72-4f5e-afeb-ce28b8d59e05",
+   "url": "https://endpoint/metricsadvisor/v1.0/hooks/b69f533d-89bc-47ce-b670-bdcecf20fb75",
    "query": {},
    "requestBody": null,
    "status": 404,
    "response": "{\"code\":\"404 NOT_FOUND\",\"message\":\"hookId is invalid.\"}",
    "responseHeaders": {
-    "apim-request-id": "dea1b4df-a3b1-46e1-a23f-da2805273d96",
+    "apim-request-id": "5a44e3b2-1538-42ec-a4c0-8546e10efa99",
     "content-length": "55",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Nov 2021 02:02:24 GMT",
+    "date": "Thu, 20 Jan 2022 01:05:57 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "16",
-    "x-request-id": "dea1b4df-a3b1-46e1-a23f-da2805273d96"
+    "x-envoy-upstream-service-time": "30",
+    "x-request-id": "5a44e3b2-1538-42ec-a4c0-8546e10efa99"
    }
   }
  ],

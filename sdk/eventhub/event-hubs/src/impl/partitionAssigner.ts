@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { isDefined } from "../util/typeGuards";
-import { mapPartitionKeyToId } from "./patitionKeyToIdMapper";
+import { mapPartitionKeyToId } from "./partitionKeyToIdMapper";
 
 /**
  * @internal
@@ -33,7 +33,7 @@ export class PartitionAssigner {
    */
   assignPartition({
     partitionId,
-    partitionKey
+    partitionKey,
   }: {
     partitionId?: string;
     partitionKey?: string;

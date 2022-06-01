@@ -15,54 +15,66 @@
 const {
   AzureKeyCredential,
   DocumentAnalysisClient,
-  PrebuiltModels
+  PrebuiltModels,
 } = require("@azure/ai-form-recognizer");
 
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
-  const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT ?? "<endpoint>";
-  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY ?? "<api key>");
+  const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
+  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
 
   const client = new DocumentAnalysisClient(endpoint, credential);
 
-  const poller = await client.beginAnalyzeDocuments(
+  const poller = await client.beginAnalyzeDocument(
     PrebuiltModels.Invoice,
     // The form recognizer service will access the following URL to an invoice image and extract data from it
     "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/invoice/sample_invoice.jpg"
   );
 
   const {
-    documents: [result]
+    documents: [result],
   } = await poller.pollUntilDone();
 
   // Use of PrebuiltModels.Receipt above (rather than the raw model ID), adds strong typing of the model's output
   if (result) {
-    const invoice = result.fields;
+    const {
+      vendorName,
+      customerName,
+      invoiceDate,
+      dueDate,
+      items,
+      subTotal,
+      previousUnpaidBalance,
+      totalTax,
+      amountDue,
+    } = result.fields;
 
     // The invoice model has many fields, and we will only show some of them for the sake of the example
-    console.log("Vendor Name:", invoice.vendorName?.value);
-    console.log("Customer Name:", invoice.customerName?.value);
-    console.log("Invoice Date:", invoice.invoiceDate?.value);
-    console.log("Due Date:", invoice.dueDate?.value);
+    console.log("Vendor Name:", vendorName && vendorName.value);
+    console.log("Customer Name:", customerName && customerName.value);
+    console.log("Invoice Date:", invoiceDate && invoiceDate.value);
+    console.log("Due Date:", dueDate && dueDate.value);
 
     console.log("Items:");
-    for (const { properties: item } of invoice.items?.values ?? []) {
-      console.log("-", item.productCode?.value ?? "<no product code>");
-      console.log("  Description:", item.description?.value);
-      console.log("  Quantity:", item.quantity?.value);
-      console.log("  Date:", item.date?.value);
-      console.log("  Unit:", item.unit?.value);
-      console.log("  Unit Price:", item.unitPrice?.value);
-      console.log("  Tax:", item.tax?.value);
-      console.log("  Amount:", item.amount?.value);
+    for (const item of (items && items.values) || []) {
+      const { productCode, description, quantity, date, unit, unitPrice, tax, amount } =
+        item.properties;
+
+      console.log("-", (productCode && productCode.value) || "<no product code>");
+      console.log("  Description:", description && description.value);
+      console.log("  Quantity:", quantity && quantity.value);
+      console.log("  Date:", date && date.value);
+      console.log("  Unit:", unit && unit.value);
+      console.log("  Unit Price:", unitPrice && unitPrice.value);
+      console.log("  Tax:", tax && tax.value);
+      console.log("  Amount:", amount && amount.value);
     }
 
-    console.log("Subtotal:", invoice.subTotal?.value);
-    console.log("Previous Unpaid Balance:", invoice.previousUnpaidBalance?.value);
-    console.log("Tax:", invoice.totalTax?.value);
-    console.log("Amount Due:", invoice.amountDue?.value);
+    console.log("Subtotal:", subTotal && subTotal.value);
+    console.log("Previous Unpaid Balance:", previousUnpaidBalance && previousUnpaidBalance.value);
+    console.log("Tax:", totalTax && totalTax.value);
+    console.log("Amount Due:", amountDue && amountDue.value);
   } else {
     throw new Error("Expected at least one receipt in the result.");
   }

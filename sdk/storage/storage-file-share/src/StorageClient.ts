@@ -62,7 +62,7 @@ export abstract class StorageClient {
     this.pipeline = pipeline;
     this.storageClientContext = new StorageClientContext(this.url, {
       version: SERVICE_VERSION,
-      ...pipeline.toServiceClientOptions()
+      ...pipeline.toServiceClientOptions(),
     });
 
     // Remove the default content-type in generated code of StorageClientContext

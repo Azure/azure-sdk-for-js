@@ -10,7 +10,7 @@ import { WorkflowVersionTriggers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { LogicManagementClientContext } from "../logicManagementClientContext";
+import { LogicManagementClient } from "../logicManagementClient";
 import {
   WorkflowVersionTriggersListCallbackUrlOptionalParams,
   WorkflowVersionTriggersListCallbackUrlResponse
@@ -18,13 +18,13 @@ import {
 
 /** Class containing WorkflowVersionTriggers operations. */
 export class WorkflowVersionTriggersImpl implements WorkflowVersionTriggers {
-  private readonly client: LogicManagementClientContext;
+  private readonly client: LogicManagementClient;
 
   /**
    * Initialize a new instance of the class WorkflowVersionTriggers class.
    * @param client Reference to the service client
    */
-  constructor(client: LogicManagementClientContext) {
+  constructor(client: LogicManagementClient) {
     this.client = client;
   }
 

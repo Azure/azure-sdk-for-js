@@ -9,5 +9,4 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { PostgreSQLManagementClient } from "./postgreSQLManagementClient";
-export { PostgreSQLManagementClientContext } from "./postgreSQLManagementClientContext";
 export * from "./operationsInterfaces";

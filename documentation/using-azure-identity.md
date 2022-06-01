@@ -90,7 +90,7 @@ credential for your application:
   - **Do you want your application to pick the appropriate credential type based on the
     environment?**
 
-        - Use the `DefaultAzureCredential`
+    - Use the `DefaultAzureCredential`
 
 - **Is the application deployed to a user device or running in the browser?**
 
@@ -309,7 +309,7 @@ locally, you can also add a redirect URI for your development endpoint
 (e.g. `http://localhost:8080/authresponse`).
 
 A complete example of hosting your own authentication response endpoint can be
-found in the [`authorization code sample`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/manual/authorizationCodeSample.ts).
+found in the [`authorization code manual test`](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity/test/manual/authorization-code-credential).
 
 ### DefaultAzureCredential
 

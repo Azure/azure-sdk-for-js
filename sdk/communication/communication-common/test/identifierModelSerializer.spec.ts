@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import {
-  serializeCommunicationIdentifier,
-  deserializeCommunicationIdentifier,
   CommunicationIdentifier,
+  CommunicationIdentifierKind,
   SerializedCommunicationIdentifier,
-  CommunicationIdentifierKind
+  deserializeCommunicationIdentifier,
+  serializeCommunicationIdentifier,
 } from "../src";
+import { assert } from "chai";
 
 const assertSerialize = (
   identifier: CommunicationIdentifier,
@@ -51,57 +51,89 @@ describe("Identifier model serializer", () => {
     assertSerialize(
       {
         communicationUserId:
-          "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"
+          "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14",
       },
       {
+        rawId: "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14",
         communicationUser: {
-          id: "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"
-        }
+          id: "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14",
+        },
       }
     );
-    assertSerialize({ phoneNumber: "+1234555000" }, { phoneNumber: { value: "+1234555000" } });
     assertSerialize(
       { microsoftTeamsUserId: "37691ec4-57fb-4c0f-ae31-32791610cb14" },
       {
+        rawId: "8:orgid:37691ec4-57fb-4c0f-ae31-32791610cb14",
         microsoftTeamsUser: {
           userId: "37691ec4-57fb-4c0f-ae31-32791610cb14",
           isAnonymous: false,
-          cloud: "public"
-        }
+          cloud: "public",
+        },
       }
     );
     assertSerialize(
       { microsoftTeamsUserId: "37691ec4-57fb-4c0f-ae31-32791610cb14", isAnonymous: false },
       {
+        rawId: "8:orgid:37691ec4-57fb-4c0f-ae31-32791610cb14",
         microsoftTeamsUser: {
           userId: "37691ec4-57fb-4c0f-ae31-32791610cb14",
           isAnonymous: false,
-          cloud: "public"
-        }
+          cloud: "public",
+        },
       }
     );
     assertSerialize(
       { microsoftTeamsUserId: "37691ec4-57fb-4c0f-ae31-32791610cb14", isAnonymous: true },
       {
+        rawId: "8:teamsvisitor:37691ec4-57fb-4c0f-ae31-32791610cb14",
         microsoftTeamsUser: {
           userId: "37691ec4-57fb-4c0f-ae31-32791610cb14",
           isAnonymous: true,
-          cloud: "public"
-        }
+          cloud: "public",
+        },
+      }
+    );
+    assertSerialize(
+      { microsoftTeamsUserId: "37691ec4-57fb-4c0f-ae31-32791610cb14", rawId: "override" },
+      {
+        rawId: "override",
+        microsoftTeamsUser: {
+          userId: "37691ec4-57fb-4c0f-ae31-32791610cb14",
+          isAnonymous: false,
+          cloud: "public",
+        },
       }
     );
     assertSerialize(
       {
         microsoftTeamsUserId: "37691ec4-57fb-4c0f-ae31-32791610cb14",
-        isAnonymous: true,
-        cloud: "dod"
+        cloud: "dod",
       },
       {
+        rawId: "8:dod:37691ec4-57fb-4c0f-ae31-32791610cb14",
         microsoftTeamsUser: {
           userId: "37691ec4-57fb-4c0f-ae31-32791610cb14",
-          isAnonymous: true,
-          cloud: "dod"
-        }
+          isAnonymous: false,
+          cloud: "dod",
+        },
+      }
+    );
+    assertSerialize(
+      { phoneNumber: "+12345556789" },
+      {
+        rawId: "4:12345556789",
+        phoneNumber: {
+          value: "+12345556789",
+        },
+      }
+    );
+    assertSerialize(
+      { phoneNumber: "+12345556789", rawId: "override" },
+      {
+        rawId: "override",
+        phoneNumber: {
+          value: "+12345556789",
+        },
       }
     );
     assertSerialize(
@@ -112,7 +144,7 @@ describe("Identifier model serializer", () => {
 
   it("serializes as unknown identifier if kind not understood", () => {
     assertSerialize({ kind: "foobar", id: "42", someOtherProp: true } as any, {
-      rawId: "42"
+      rawId: "42",
     });
   });
 
@@ -120,13 +152,13 @@ describe("Identifier model serializer", () => {
     assertDeserialize(
       {
         communicationUser: {
-          id: "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"
-        }
+          id: "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14",
+        },
       },
       {
         kind: "communicationUser",
         communicationUserId:
-          "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14"
+          "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14",
       }
     );
     assertDeserialize(
@@ -138,16 +170,16 @@ describe("Identifier model serializer", () => {
         microsoftTeamsUser: {
           userId: "37691ec4-57fb-4c0f-ae31-32791610cb14",
           isAnonymous: false,
-          cloud: "public"
+          cloud: "public",
         },
-        rawId: "8:orgid:37691ec4-57fb-4c0f-ae31-32791610cb14"
+        rawId: "8:orgid:37691ec4-57fb-4c0f-ae31-32791610cb14",
       },
       {
         kind: "microsoftTeamsUser",
         microsoftTeamsUserId: "37691ec4-57fb-4c0f-ae31-32791610cb14",
         isAnonymous: false,
         cloud: "public",
-        rawId: "8:orgid:37691ec4-57fb-4c0f-ae31-32791610cb14"
+        rawId: "8:orgid:37691ec4-57fb-4c0f-ae31-32791610cb14",
       }
     );
     assertDeserialize(
@@ -155,16 +187,16 @@ describe("Identifier model serializer", () => {
         microsoftTeamsUser: {
           userId: "37691ec4-57fb-4c0f-ae31-32791610cb14",
           isAnonymous: true,
-          cloud: "public"
+          cloud: "public",
         },
-        rawId: "8:teamsvisitor:37691ec4-57fb-4c0f-ae31-32791610cb14"
+        rawId: "8:teamsvisitor:37691ec4-57fb-4c0f-ae31-32791610cb14",
       },
       {
         kind: "microsoftTeamsUser",
         microsoftTeamsUserId: "37691ec4-57fb-4c0f-ae31-32791610cb14",
         isAnonymous: true,
         cloud: "public",
-        rawId: "8:teamsvisitor:37691ec4-57fb-4c0f-ae31-32791610cb14"
+        rawId: "8:teamsvisitor:37691ec4-57fb-4c0f-ae31-32791610cb14",
       }
     );
     assertDeserialize(
@@ -172,16 +204,16 @@ describe("Identifier model serializer", () => {
         microsoftTeamsUser: {
           userId: "37691ec4-57fb-4c0f-ae31-32791610cb14",
           isAnonymous: false,
-          cloud: "gcch"
+          cloud: "gcch",
         },
-        rawId: "8:gcch:37691ec4-57fb-4c0f-ae31-32791610cb14"
+        rawId: "8:gcch:37691ec4-57fb-4c0f-ae31-32791610cb14",
       },
       {
         kind: "microsoftTeamsUser",
         microsoftTeamsUserId: "37691ec4-57fb-4c0f-ae31-32791610cb14",
         isAnonymous: false,
         cloud: "gcch",
-        rawId: "8:gcch:37691ec4-57fb-4c0f-ae31-32791610cb14"
+        rawId: "8:gcch:37691ec4-57fb-4c0f-ae31-32791610cb14",
       }
     );
     assertDeserialize(
@@ -193,21 +225,21 @@ describe("Identifier model serializer", () => {
   it("deserializes as unknown identifier if kind not understood", () => {
     assertDeserialize({ rawId: "42", someOtherProp: true } as any, {
       kind: "unknown",
-      id: "42"
+      id: "42",
     });
   });
 
   it("throws if property is missing", () => {
     assertThrowsMissingProperty(
       {
-        communicationUser: {} as any
+        communicationUser: {} as any,
       },
       "communicationUser",
       "id"
     );
     assertThrowsMissingProperty(
       {
-        phoneNumber: {} as any
+        phoneNumber: {} as any,
       },
       "phoneNumber",
       "value"
@@ -215,8 +247,8 @@ describe("Identifier model serializer", () => {
     assertThrowsMissingProperty(
       {
         microsoftTeamsUser: {
-          isAnonymous: false
-        } as any
+          isAnonymous: false,
+        } as any,
       },
       "microsoftTeamsUser",
       "userId"
@@ -225,8 +257,8 @@ describe("Identifier model serializer", () => {
       {
         microsoftTeamsUser: {
           userId: "37691ec4-57fb-4c0f-ae31-32791610cb14",
-          cloud: "public"
-        } as any
+          cloud: "public",
+        } as any,
       },
       "microsoftTeamsUser",
       "isAnonymous"
@@ -235,8 +267,8 @@ describe("Identifier model serializer", () => {
       {
         microsoftTeamsUser: {
           userId: "37691ec4-57fb-4c0f-ae31-32791610cb14",
-          isAnonymous: false
-        } as any
+          isAnonymous: false,
+        } as any,
       },
       "microsoftTeamsUser",
       "cloud"
@@ -254,9 +286,9 @@ describe("Identifier model serializer", () => {
           userId: "37691ec4-57fb-4c0f-ae31-32791610cb14",
           isAnonymous: true,
           cloud: "public",
-          someOtherProp: true
+          someOtherProp: true,
         } as any,
-        rawId: "8:teamsvisitor:37691ec4-57fb-4c0f-ae31-32791610cb14"
+        rawId: "8:teamsvisitor:37691ec4-57fb-4c0f-ae31-32791610cb14",
       });
     });
   });
@@ -267,45 +299,45 @@ describe("Identifier model serializer", () => {
       microsoftTeamsUser: {
         userId: "37691ec4-57fb-4c0f-ae31-32791610cb14",
         isAnonymous: false,
-        cloud: "public"
+        cloud: "public",
       },
       communicationUser: {
-        id: "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14"
-      }
+        id: "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14",
+      },
     });
     assertThrowsTooManyProperties({
       rawId: "rawId",
       communicationUser: {
-        id: "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14"
+        id: "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14",
       },
       phoneNumber: {
-        value: "phoneNumber"
-      }
-    });
-    assertThrowsTooManyProperties({
-      rawId: "rawId",
-      microsoftTeamsUser: {
-        userId: "37691ec4-57fb-4c0f-ae31-32791610cb14",
-        isAnonymous: false,
-        cloud: "public"
+        value: "phoneNumber",
       },
-      phoneNumber: {
-        value: "phoneNumber"
-      }
     });
     assertThrowsTooManyProperties({
       rawId: "rawId",
       microsoftTeamsUser: {
         userId: "37691ec4-57fb-4c0f-ae31-32791610cb14",
         isAnonymous: false,
-        cloud: "public"
-      },
-      communicationUser: {
-        id: "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14"
+        cloud: "public",
       },
       phoneNumber: {
-        value: "phoneNumber"
-      }
+        value: "phoneNumber",
+      },
+    });
+    assertThrowsTooManyProperties({
+      rawId: "rawId",
+      microsoftTeamsUser: {
+        userId: "37691ec4-57fb-4c0f-ae31-32791610cb14",
+        isAnonymous: false,
+        cloud: "public",
+      },
+      communicationUser: {
+        id: "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14",
+      },
+      phoneNumber: {
+        value: "phoneNumber",
+      },
     });
   });
 });

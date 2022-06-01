@@ -1,5 +1,5 @@
 {
-  "name": "azure-app-configuration-samples-ts",
+  "name": "@azure-samples/app-configuration-ts",
   "private": true,
   "version": "1.0.0",
   "description": "Azure App Configuration client library samples for TypeScript",

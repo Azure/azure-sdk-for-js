@@ -11,7 +11,7 @@ import { MsixPackages } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { DesktopVirtualizationAPIClientContext } from "../desktopVirtualizationAPIClientContext";
+import { DesktopVirtualizationAPIClient } from "../desktopVirtualizationAPIClient";
 import {
   MsixPackage,
   MsixPackagesListNextOptionalParams,
@@ -30,13 +30,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing MsixPackages operations. */
 export class MsixPackagesImpl implements MsixPackages {
-  private readonly client: DesktopVirtualizationAPIClientContext;
+  private readonly client: DesktopVirtualizationAPIClient;
 
   /**
    * Initialize a new instance of the class MsixPackages class.
    * @param client Reference to the service client
    */
-  constructor(client: DesktopVirtualizationAPIClientContext) {
+  constructor(client: DesktopVirtualizationAPIClient) {
     this.client = client;
   }
 

@@ -11,7 +11,7 @@ import { SystemTopics } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { EventGridManagementClientContext } from "../eventGridManagementClientContext";
+import { EventGridManagementClient } from "../eventGridManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -37,13 +37,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing SystemTopics operations. */
 export class SystemTopicsImpl implements SystemTopics {
-  private readonly client: EventGridManagementClientContext;
+  private readonly client: EventGridManagementClient;
 
   /**
    * Initialize a new instance of the class SystemTopics class.
    * @param client Reference to the service client
    */
-  constructor(client: EventGridManagementClientContext) {
+  constructor(client: EventGridManagementClient) {
     this.client = client;
   }
 
@@ -221,10 +221,12 @@ export class SystemTopicsImpl implements SystemTopics {
       { resourceGroupName, systemTopicName, systemTopicInfo, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -304,10 +306,12 @@ export class SystemTopicsImpl implements SystemTopics {
       { resourceGroupName, systemTopicName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -396,10 +400,12 @@ export class SystemTopicsImpl implements SystemTopics {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

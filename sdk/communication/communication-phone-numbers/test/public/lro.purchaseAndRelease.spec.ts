@@ -2,37 +2,37 @@
 // Licensed under the MIT license.
 
 import { matrix } from "@azure/test-utils";
-import { isPlaybackMode, Recorder, env } from "@azure-tools/test-recorder";
+import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { PhoneNumbersClient, SearchAvailablePhoneNumbersRequest } from "../../src";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
 
-matrix([[true, false]], async function(useAad) {
-  describe(`PhoneNumbersClient - lro - purchase and release${useAad ? " [AAD]" : ""}`, function() {
+matrix([[true, false]], async function (useAad) {
+  describe(`PhoneNumbersClient - lro - purchase and release${useAad ? " [AAD]" : ""}`, function () {
     let recorder: Recorder;
     let client: PhoneNumbersClient;
 
-    before(function(this: Context) {
+    before(function (this: Context) {
       const includePhoneNumberLiveTests = env.INCLUDE_PHONENUMBER_LIVE_TESTS === "true";
       if (!includePhoneNumberLiveTests && !isPlaybackMode()) {
         this.skip();
       }
     });
 
-    beforeEach(function(this: Context) {
+    beforeEach(function (this: Context) {
       ({ client, recorder } = useAad
         ? createRecordedClientWithToken(this)!
         : createRecordedClient(this));
     });
 
-    afterEach(async function(this: Context) {
+    afterEach(async function (this: Context) {
       if (!this.currentTest?.isPending()) {
         await recorder.stop();
       }
     });
 
-    it("can purchase and release a phone number", async function(this: Context) {
+    it("can purchase and release a phone number", async function (this: Context) {
       // search for phone number
       const searchRequest: SearchAvailablePhoneNumbersRequest = {
         countryCode: "US",
@@ -40,8 +40,8 @@ matrix([[true, false]], async function(useAad) {
         assignmentType: "application",
         capabilities: {
           sms: "inbound+outbound",
-          calling: "none"
-        }
+          calling: "none",
+        },
       };
       const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
       const searchResults = await searchPoller.pollUntilDone();
@@ -74,7 +74,7 @@ matrix([[true, false]], async function(useAad) {
       await releasePoller.pollUntilDone();
       assert.ok(releasePoller.getOperationState().isCompleted);
       const result = releasePoller.getOperationState().result! as any;
-      assert.equal(result.status, "succeeded");
+      assert.equal(result.body.status, "succeeded");
 
       console.log(`Released: ${purchasedPhoneNumber}`);
     }).timeout(90000);

@@ -6,16 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  AccountFiltersImpl,
   OperationsImpl,
   MediaservicesImpl,
   PrivateLinkResourcesImpl,
   PrivateEndpointConnectionsImpl,
   LocationsImpl,
-  AccountFiltersImpl,
   AssetsImpl,
   AssetFiltersImpl,
+  TracksImpl,
+  OperationStatusesImpl,
+  OperationResultsImpl,
   ContentKeyPoliciesImpl,
   TransformsImpl,
   JobsImpl,
@@ -26,14 +31,17 @@ import {
   StreamingEndpointsImpl
 } from "./operations";
 import {
+  AccountFilters,
   Operations,
   Mediaservices,
   PrivateLinkResources,
   PrivateEndpointConnections,
   Locations,
-  AccountFilters,
   Assets,
   AssetFilters,
+  Tracks,
+  OperationStatuses,
+  OperationResults,
   ContentKeyPolicies,
   Transforms,
   Jobs,
@@ -43,10 +51,12 @@ import {
   LiveOutputs,
   StreamingEndpoints
 } from "./operationsInterfaces";
-import { AzureMediaServicesContext } from "./azureMediaServicesContext";
 import { AzureMediaServicesOptionalParams } from "./models";
 
-export class AzureMediaServices extends AzureMediaServicesContext {
+export class AzureMediaServices extends coreClient.ServiceClient {
+  $host: string;
+  subscriptionId: string;
+
   /**
    * Initializes a new instance of the AzureMediaServices class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
@@ -58,15 +68,80 @@ export class AzureMediaServices extends AzureMediaServicesContext {
     subscriptionId: string,
     options?: AzureMediaServicesOptionalParams
   ) {
-    super(credentials, subscriptionId, options);
+    if (credentials === undefined) {
+      throw new Error("'credentials' cannot be null");
+    }
+    if (subscriptionId === undefined) {
+      throw new Error("'subscriptionId' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: AzureMediaServicesOptionalParams = {
+      requestContentType: "application/json; charset=utf-8",
+      credential: credentials
+    };
+
+    const packageDetails = `azsdk-js-arm-mediaservices/11.0.1`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri:
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+    };
+    super(optionsWithDefaults);
+
+    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+        (pipelinePolicy) =>
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
+      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
+    }
+    // Parameter assignments
+    this.subscriptionId = subscriptionId;
+
+    // Assigning values to Constant parameters
+    this.$host = options.$host || "https://management.azure.com";
+    this.accountFilters = new AccountFiltersImpl(this);
     this.operations = new OperationsImpl(this);
     this.mediaservices = new MediaservicesImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.locations = new LocationsImpl(this);
-    this.accountFilters = new AccountFiltersImpl(this);
     this.assets = new AssetsImpl(this);
     this.assetFilters = new AssetFiltersImpl(this);
+    this.tracks = new TracksImpl(this);
+    this.operationStatuses = new OperationStatusesImpl(this);
+    this.operationResults = new OperationResultsImpl(this);
     this.contentKeyPolicies = new ContentKeyPoliciesImpl(this);
     this.transforms = new TransformsImpl(this);
     this.jobs = new JobsImpl(this);
@@ -77,14 +152,17 @@ export class AzureMediaServices extends AzureMediaServicesContext {
     this.streamingEndpoints = new StreamingEndpointsImpl(this);
   }
 
+  accountFilters: AccountFilters;
   operations: Operations;
   mediaservices: Mediaservices;
   privateLinkResources: PrivateLinkResources;
   privateEndpointConnections: PrivateEndpointConnections;
   locations: Locations;
-  accountFilters: AccountFilters;
   assets: Assets;
   assetFilters: AssetFilters;
+  tracks: Tracks;
+  operationStatuses: OperationStatuses;
+  operationResults: OperationResults;
   contentKeyPolicies: ContentKeyPolicies;
   transforms: Transforms;
   jobs: Jobs;

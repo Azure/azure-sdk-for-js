@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import { randomBytes } from "crypto";
-import * as dotenv from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
 import { delay, extractConnectionStringParts } from "../../src/utils/utils.common";
@@ -11,13 +10,12 @@ import { Readable, ReadableOptions, PassThrough } from "stream";
 import {
   readStreamToLocalFile,
   streamToBuffer2,
-  streamToBuffer3
+  streamToBuffer3,
 } from "../../src/utils/utils.node";
 import {
   ReadableStreamGetter,
-  RetriableReadableStream
+  RetriableReadableStream,
 } from "../../src/utils/RetriableReadableStream";
-dotenv.config();
 
 describe("Utility Helpers Node.js only", () => {
   const protocol = "https";
@@ -51,7 +49,7 @@ describe("Utility Helpers Node.js only", () => {
         "DefaultEndpointsProtocol=a;AccountName=b;AccountKey=c;EndpointSuffix=d"
       );
       assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
+    } catch (error: any) {
       assert.ok(
         error.message ===
           "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'"
@@ -67,7 +65,7 @@ describe("Utility Helpers Node.js only", () => {
       );
 
       assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         "Invalid AccountName in the provided Connection String",
         error.message,
@@ -82,7 +80,7 @@ describe("Utility Helpers Node.js only", () => {
         "DefaultEndpointsProtocol=https;AccountName=b;AccountKey=cdefg;EndpointSuffix="
       );
       assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         "Invalid EndpointSuffix in the provided Connection String",
         error.message,
@@ -97,7 +95,7 @@ describe("Utility Helpers Node.js only", () => {
         "DefaultEndpointsProtocol=https;AccountName=b;AccountKey=;EndpointSuffix=d"
       );
       assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         "Invalid AccountKey in the provided Connection String",
         error.message,
@@ -112,7 +110,7 @@ describe("Utility Helpers Node.js only", () => {
         "DefaultEndpointsProtocol=https;AccountName=;AccountKey=c;EndpointSuffix=d"
       );
       assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         "Invalid AccountName in the provided Connection String",
         error.message,
@@ -127,7 +125,7 @@ describe("Utility Helpers Node.js only", () => {
         "DefaultEndpointsProtocol=;AccountName=b;AccountKey=c;EndpointSuffix=d"
       );
       assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         "Invalid DefaultEndpointsProtocol in the provided Connection String. Expecting 'https' or 'http'",
         error.message,
@@ -220,7 +218,7 @@ describe("Utility Helpers Node.js only", () => {
       try {
         await readStreamToLocalFile(readStream, validFilePath);
         throw new Error("Test failure");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(
           err.message,
           "Expected error.",
@@ -237,7 +235,7 @@ describe("Utility Helpers Node.js only", () => {
       try {
         await readStreamToLocalFile(readStream, __dirname);
         throw new Error("Test failure");
-      } catch (err) {
+      } catch (err: any) {
         assert.notEqual(err.message, "Test failure");
       }
     });
@@ -279,7 +277,7 @@ describe("Utility Helpers Node.js only", () => {
         streamLength: len,
         bufferLength: len,
         bytesPerRead: len,
-        expectedSuccess: true
+        expectedSuccess: true,
       },
       {
         title:
@@ -288,7 +286,7 @@ describe("Utility Helpers Node.js only", () => {
         streamLength: len,
         bufferLength: len + 1,
         bytesPerRead: len,
-        expectedSuccess: true
+        expectedSuccess: true,
       },
       {
         title:
@@ -297,7 +295,7 @@ describe("Utility Helpers Node.js only", () => {
         streamLength: len,
         bufferLength: len - 1,
         bytesPerRead: len,
-        expectedSuccess: false
+        expectedSuccess: false,
       },
       {
         title:
@@ -306,7 +304,7 @@ describe("Utility Helpers Node.js only", () => {
         streamLength: len,
         bufferLength: len,
         bytesPerRead: 100,
-        expectedSuccess: true
+        expectedSuccess: true,
       },
       {
         title:
@@ -315,7 +313,7 @@ describe("Utility Helpers Node.js only", () => {
         streamLength: len,
         bufferLength: len + 1,
         bytesPerRead: 100,
-        expectedSuccess: true
+        expectedSuccess: true,
       },
       {
         title:
@@ -324,7 +322,7 @@ describe("Utility Helpers Node.js only", () => {
         streamLength: len,
         bufferLength: len - 1,
         bytesPerRead: 100,
-        expectedSuccess: false
+        expectedSuccess: false,
       },
       {
         title:
@@ -332,7 +330,7 @@ describe("Utility Helpers Node.js only", () => {
         streamType: "passthrough",
         streamLength: len,
         bufferLength: len,
-        expectedSuccess: true
+        expectedSuccess: true,
       },
       {
         title:
@@ -340,7 +338,7 @@ describe("Utility Helpers Node.js only", () => {
         streamType: "passthrough",
         streamLength: len,
         bufferLength: len + 1,
-        expectedSuccess: true
+        expectedSuccess: true,
       },
       {
         title:
@@ -348,11 +346,11 @@ describe("Utility Helpers Node.js only", () => {
         streamType: "passthrough",
         streamLength: len,
         bufferLength: len - 1,
-        expectedSuccess: false
-      }
+        expectedSuccess: false,
+      },
     ];
 
-    tests.forEach(function(test) {
+    tests.forEach(function (test) {
       it(test.title, async () => {
         const inputBuffer = randomBytes(test.streamLength);
 
@@ -380,7 +378,7 @@ describe("Utility Helpers Node.js only", () => {
           } else {
             throw new Error("Test failure");
           }
-        } catch (err) {
+        } catch (err: any) {
           if (test.expectedSuccess) {
             throw err;
           } else {
@@ -478,7 +476,7 @@ describe("RetriableReadableStream", () => {
   it("retry should work on source error", async () => {
     const counter = new Counter();
     const retriable = new RetriableReadableStream(counter, getter, 0, counterMax, {
-      maxRetryRequests: 1
+      maxRetryRequests: 1,
     });
     counter.destroy(new Error("Manual injected error."));
 
@@ -489,7 +487,7 @@ describe("RetriableReadableStream", () => {
   it("retry should work on source unexpected end", async () => {
     const counter = new Counter(2);
     const retriable = new RetriableReadableStream(counter, getter, 0, counterMax, {
-      maxRetryRequests: 1
+      maxRetryRequests: 1,
     });
 
     const resBuf = await streamToBuffer3(retriable);

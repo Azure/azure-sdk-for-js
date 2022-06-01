@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import * as coreClient from "@azure/core-client";
 import * as coreAuth from "@azure/core-auth";
 import {
   OperationsImpl,
@@ -18,6 +19,7 @@ import {
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
   ObjectReplicationPoliciesOperationsImpl,
+  LocalUsersOperationsImpl,
   EncryptionScopesImpl,
   BlobServicesImpl,
   BlobContainersImpl,
@@ -39,6 +41,7 @@ import {
   PrivateEndpointConnections,
   PrivateLinkResources,
   ObjectReplicationPoliciesOperations,
+  LocalUsersOperations,
   EncryptionScopes,
   BlobServices,
   BlobContainers,
@@ -49,10 +52,13 @@ import {
   TableServices,
   TableOperations
 } from "./operationsInterfaces";
-import { StorageManagementClientContext } from "./storageManagementClientContext";
 import { StorageManagementClientOptionalParams } from "./models";
 
-export class StorageManagementClient extends StorageManagementClientContext {
+export class StorageManagementClient extends coreClient.ServiceClient {
+  $host: string;
+  apiVersion: string;
+  subscriptionId: string;
+
   /**
    * Initializes a new instance of the StorageManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
@@ -64,7 +70,47 @@ export class StorageManagementClient extends StorageManagementClientContext {
     subscriptionId: string,
     options?: StorageManagementClientOptionalParams
   ) {
-    super(credentials, subscriptionId, options);
+    if (credentials === undefined) {
+      throw new Error("'credentials' cannot be null");
+    }
+    if (subscriptionId === undefined) {
+      throw new Error("'subscriptionId' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: StorageManagementClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8",
+      credential: credentials
+    };
+
+    const packageDetails = `azsdk-js-arm-storage/17.2.1`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri:
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+    };
+    super(optionsWithDefaults);
+    // Parameter assignments
+    this.subscriptionId = subscriptionId;
+
+    // Assigning values to Constant parameters
+    this.$host = options.$host || "https://management.azure.com";
+    this.apiVersion = options.apiVersion || "2021-09-01";
     this.operations = new OperationsImpl(this);
     this.skus = new SkusImpl(this);
     this.storageAccounts = new StorageAccountsImpl(this);
@@ -77,6 +123,7 @@ export class StorageManagementClient extends StorageManagementClientContext {
     this.objectReplicationPoliciesOperations = new ObjectReplicationPoliciesOperationsImpl(
       this
     );
+    this.localUsersOperations = new LocalUsersOperationsImpl(this);
     this.encryptionScopes = new EncryptionScopesImpl(this);
     this.blobServices = new BlobServicesImpl(this);
     this.blobContainers = new BlobContainersImpl(this);
@@ -98,6 +145,7 @@ export class StorageManagementClient extends StorageManagementClientContext {
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
   objectReplicationPoliciesOperations: ObjectReplicationPoliciesOperations;
+  localUsersOperations: LocalUsersOperations;
   encryptionScopes: EncryptionScopes;
   blobServices: BlobServices;
   blobContainers: BlobContainers;

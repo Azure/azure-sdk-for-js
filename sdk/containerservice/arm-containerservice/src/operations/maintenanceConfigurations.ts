@@ -11,7 +11,7 @@ import { MaintenanceConfigurations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ContainerServiceClientContext } from "../containerServiceClientContext";
+import { ContainerServiceClient } from "../containerServiceClient";
 import {
   MaintenanceConfiguration,
   MaintenanceConfigurationsListByManagedClusterNextOptionalParams,
@@ -29,19 +29,19 @@ import {
 /** Class containing MaintenanceConfigurations operations. */
 export class MaintenanceConfigurationsImpl
   implements MaintenanceConfigurations {
-  private readonly client: ContainerServiceClientContext;
+  private readonly client: ContainerServiceClient;
 
   /**
    * Initialize a new instance of the class MaintenanceConfigurations class.
    * @param client Reference to the service client
    */
-  constructor(client: ContainerServiceClientContext) {
+  constructor(client: ContainerServiceClient) {
     this.client = client;
   }
 
   /**
    * Gets a list of maintenance configurations in the specified managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -112,7 +112,7 @@ export class MaintenanceConfigurationsImpl
 
   /**
    * Gets a list of maintenance configurations in the specified managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -129,7 +129,7 @@ export class MaintenanceConfigurationsImpl
 
   /**
    * Gets the specified maintenance configuration of a managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param configName The name of the maintenance configuration.
    * @param options The options parameters.
@@ -148,7 +148,7 @@ export class MaintenanceConfigurationsImpl
 
   /**
    * Creates or updates a maintenance configuration in the specified managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param configName The name of the maintenance configuration.
    * @param parameters The maintenance configuration to create or update.
@@ -169,7 +169,7 @@ export class MaintenanceConfigurationsImpl
 
   /**
    * Deletes a maintenance configuration.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param configName The name of the maintenance configuration.
    * @param options The options parameters.
@@ -188,7 +188,7 @@ export class MaintenanceConfigurationsImpl
 
   /**
    * ListByManagedClusterNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param nextLink The nextLink from the previous successful call to the ListByManagedCluster method.
    * @param options The options parameters.

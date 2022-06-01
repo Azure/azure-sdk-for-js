@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
@@ -28,7 +27,9 @@ import {
   RegenerateKeyParameters,
   WebPubSubRegenerateKeyOptionalParams,
   WebPubSubRegenerateKeyResponse,
-  WebPubSubRestartOptionalParams
+  WebPubSubRestartOptionalParams,
+  WebPubSubListSkusOptionalParams,
+  WebPubSubListSkusResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -235,4 +236,16 @@ export interface WebPubSub {
     resourceName: string,
     options?: WebPubSubRestartOptionalParams
   ): Promise<void>;
+  /**
+   * List all available skus of the resource.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceName The name of the resource.
+   * @param options The options parameters.
+   */
+  listSkus(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: WebPubSubListSkusOptionalParams
+  ): Promise<WebPubSubListSkusResponse>;
 }

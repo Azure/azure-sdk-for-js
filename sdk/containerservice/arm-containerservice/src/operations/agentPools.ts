@@ -11,7 +11,7 @@ import { AgentPools } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ContainerServiceClientContext } from "../containerServiceClientContext";
+import { ContainerServiceClient } from "../containerServiceClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -35,19 +35,19 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AgentPools operations. */
 export class AgentPoolsImpl implements AgentPools {
-  private readonly client: ContainerServiceClientContext;
+  private readonly client: ContainerServiceClient;
 
   /**
    * Initialize a new instance of the class AgentPools class.
    * @param client Reference to the service client
    */
-  constructor(client: ContainerServiceClientContext) {
+  constructor(client: ContainerServiceClient) {
     this.client = client;
   }
 
   /**
    * Gets a list of agent pools in the specified managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -106,7 +106,7 @@ export class AgentPoolsImpl implements AgentPools {
 
   /**
    * Gets a list of agent pools in the specified managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -123,7 +123,7 @@ export class AgentPoolsImpl implements AgentPools {
 
   /**
    * Gets the specified managed cluster agent pool.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
@@ -142,7 +142,7 @@ export class AgentPoolsImpl implements AgentPools {
 
   /**
    * Creates or updates an agent pool in the specified managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param parameters The agent pool to create or update.
@@ -204,15 +204,17 @@ export class AgentPoolsImpl implements AgentPools {
       { resourceGroupName, resourceName, agentPoolName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Creates or updates an agent pool in the specified managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param parameters The agent pool to create or update.
@@ -237,7 +239,7 @@ export class AgentPoolsImpl implements AgentPools {
 
   /**
    * Deletes an agent pool in the specified managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
@@ -292,15 +294,17 @@ export class AgentPoolsImpl implements AgentPools {
       { resourceGroupName, resourceName, agentPoolName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Deletes an agent pool in the specified managed cluster.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
@@ -322,7 +326,7 @@ export class AgentPoolsImpl implements AgentPools {
 
   /**
    * Gets the upgrade profile for an agent pool.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
@@ -343,7 +347,7 @@ export class AgentPoolsImpl implements AgentPools {
    * See [supported Kubernetes
    * versions](https://docs.microsoft.com/azure/aks/supported-kubernetes-versions) for more details about
    * the version lifecycle.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -362,7 +366,7 @@ export class AgentPoolsImpl implements AgentPools {
    * Upgrading the node image version of an agent pool applies the newest OS and runtime updates to the
    * nodes. AKS provides one new image per week with the latest updates. For more details on node image
    * versions, see: https://docs.microsoft.com/azure/aks/node-image-upgrade
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
@@ -417,17 +421,19 @@ export class AgentPoolsImpl implements AgentPools {
       { resourceGroupName, resourceName, agentPoolName, options },
       upgradeNodeImageVersionOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Upgrading the node image version of an agent pool applies the newest OS and runtime updates to the
    * nodes. AKS provides one new image per week with the latest updates. For more details on node image
    * versions, see: https://docs.microsoft.com/azure/aks/node-image-upgrade
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param agentPoolName The name of the agent pool.
    * @param options The options parameters.
@@ -449,7 +455,7 @@ export class AgentPoolsImpl implements AgentPools {
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.

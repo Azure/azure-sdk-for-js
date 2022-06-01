@@ -10,7 +10,7 @@ import { Validate } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { CdnManagementClientContext } from "../cdnManagementClientContext";
+import { CdnManagementClient } from "../cdnManagementClient";
 import {
   ValidateSecretInput,
   ValidateSecretOptionalParams,
@@ -19,13 +19,13 @@ import {
 
 /** Class containing Validate operations. */
 export class ValidateImpl implements Validate {
-  private readonly client: CdnManagementClientContext;
+  private readonly client: CdnManagementClient;
 
   /**
    * Initialize a new instance of the class Validate class.
    * @param client Reference to the service client
    */
-  constructor(client: CdnManagementClientContext) {
+  constructor(client: CdnManagementClient) {
     this.client = client;
   }
 
@@ -62,7 +62,7 @@ const secretOperationSpec: coreClient.OperationSpec = {
   requestBody: Parameters.validateSecretInput,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };

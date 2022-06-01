@@ -10,7 +10,7 @@ import { PrivateEndpointConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ContainerServiceClientContext } from "../containerServiceClientContext";
+import { ContainerServiceClient } from "../containerServiceClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -27,19 +27,19 @@ import {
 /** Class containing PrivateEndpointConnections operations. */
 export class PrivateEndpointConnectionsImpl
   implements PrivateEndpointConnections {
-  private readonly client: ContainerServiceClientContext;
+  private readonly client: ContainerServiceClient;
 
   /**
    * Initialize a new instance of the class PrivateEndpointConnections class.
    * @param client Reference to the service client
    */
-  constructor(client: ContainerServiceClientContext) {
+  constructor(client: ContainerServiceClient) {
     this.client = client;
   }
 
   /**
    * To learn more about private clusters, see: https://docs.microsoft.com/azure/aks/private-clusters
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -56,7 +56,7 @@ export class PrivateEndpointConnectionsImpl
 
   /**
    * To learn more about private clusters, see: https://docs.microsoft.com/azure/aks/private-clusters
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param options The options parameters.
@@ -80,7 +80,7 @@ export class PrivateEndpointConnectionsImpl
 
   /**
    * Updates a private endpoint connection.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param parameters The updated private endpoint connection.
@@ -107,7 +107,7 @@ export class PrivateEndpointConnectionsImpl
 
   /**
    * Deletes a private endpoint connection.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param options The options parameters.
@@ -167,15 +167,17 @@ export class PrivateEndpointConnectionsImpl
       },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
    * Deletes a private endpoint connection.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param options The options parameters.

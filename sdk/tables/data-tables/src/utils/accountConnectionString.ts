@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TableServiceClientOptions } from "..";
 import { ClientParamsFromConnectionString, ConnectionString } from "./internalModels";
 import { AzureNamedKeyCredential } from "@azure/core-auth";
+import { TableServiceClientOptions } from "..";
 
 /**
  * Gets client parameters from an Account Connection String
@@ -23,7 +23,7 @@ export function fromAccountConnectionString(
   return {
     url: extractedCreds.url,
     options,
-    credential: sharedKeyCredential
+    credential: sharedKeyCredential,
   };
 }
 
@@ -59,6 +59,6 @@ export function getAccountConnectionString(
     kind: "AccountConnString",
     url: tableEndpoint,
     accountName,
-    accountKey
+    accountKey,
   };
 }

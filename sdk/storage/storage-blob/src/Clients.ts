@@ -10,7 +10,7 @@ import {
   isTokenCredential,
   TokenCredential,
   TransferProgressEvent,
-  URLBuilder
+  URLBuilder,
 } from "@azure/core-http";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import { SpanStatusCode } from "@azure/core-tracing";
@@ -60,7 +60,11 @@ import {
   RehydratePriority,
   SequenceNumberActionType,
   BlockBlobPutBlobFromUrlResponse,
-  BlobHTTPHeaders
+  BlobHTTPHeaders,
+  PageBlobGetPageRangesResponseModel,
+  PageRangeInfo,
+  PageBlobGetPageRangesDiffResponseModel,
+  BlobCopySourceTags,
 } from "./generatedModels";
 import {
   AppendBlobRequestConditions,
@@ -80,24 +84,26 @@ import {
   ModifiedAccessConditions,
   BlobQueryArrowField,
   BlobImmutabilityPolicy,
-  HttpAuthorization
+  HttpAuthorization,
 } from "./models";
 import {
   PageBlobGetPageRangesDiffResponse,
   PageBlobGetPageRangesResponse,
-  rangeResponseFromModel
+  rangeResponseFromModel,
 } from "./PageBlobRangeResponse";
 import { newPipeline, PipelineLike, isPipelineLike, StoragePipelineOptions } from "./Pipeline";
 import {
   BlobBeginCopyFromUrlPoller,
   BlobBeginCopyFromUrlPollState,
-  CopyPollerBlobClient
+  CopyPollerBlobClient,
 } from "./pollers/BlobStartCopyFromUrlPoller";
 import { Range, rangeToString } from "./Range";
 import { CommonOptions, StorageClient } from "./StorageClient";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "../../storage-common/src";
 import {
+  BlobDoesNotUseCustomerSpecifiedEncryption,
+  BlobUsesCustomerSpecifiedEncryptionMsg,
   BLOCK_BLOB_MAX_BLOCKS,
   BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
   BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES,
@@ -105,13 +111,14 @@ import {
   DEFAULT_BLOCK_BUFFER_SIZE_BYTES,
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   ETagAny,
-  URLConstants
+  URLConstants,
 } from "./utils/constants";
 import { createSpan, convertTracingToRequestOptionsBase } from "./utils/tracing";
 import {
   appendToURLPath,
   appendToURLQuery,
   extractConnectionStringParts,
+  ExtractPageRangeInfoItems,
   generateBlockID,
   getURLParameter,
   httpAuthorizationToString,
@@ -121,13 +128,13 @@ import {
   toBlobTags,
   toBlobTagsString,
   toQuerySerialization,
-  toTags
+  toTags,
 } from "./utils/utils.common";
 import {
   fsCreateReadStream,
   fsStat,
   readStreamToLocalFile,
-  streamToBuffer
+  streamToBuffer,
 } from "./utils/utils.node";
 import { SASProtocol } from "./sas/SASQueryParameters";
 import { SasIPRange } from "./sas/SasIPRange";
@@ -137,8 +144,9 @@ import { BlobLeaseClient } from "./BlobLeaseClient";
 import {
   BlobDeleteImmutabilityPolicyResponse,
   BlobSetImmutabilityPolicyResponse,
-  BlobSetLegalHoldResponse
+  BlobSetLegalHoldResponse,
 } from "./generatedModels";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
@@ -626,6 +634,10 @@ export interface BlobSyncCopyFromURLOptions extends CommonOptions {
    * Optional. Version 2019-07-07 and later.  Specifies the name of the encryption scope to use to encrypt the data provided in the request. If not specified, encryption is performed with the default account encryption scope.  For more information, see Encryption at Rest for Azure Storage Services.
    */
   encryptionScope?: string;
+  /**
+   * Optional. Default 'REPLACE'.  Indicates if source tags should be copied or replaced with the tags specified by {@link tags}.
+   */
+  copySourceTags?: BlobCopySourceTags;
 }
 
 /**
@@ -986,7 +998,10 @@ export class BlobClient extends StorageClient {
             encodeURIComponent(blobName)
           );
 
-          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+          if (!options.proxyOptions) {
+            options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+          }
+
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
@@ -1010,10 +1025,8 @@ export class BlobClient extends StorageClient {
     }
 
     super(url, pipeline);
-    ({
-      blobName: this._name,
-      containerName: this._containerName
-    } = this.getBlobAndContainerNamesFromUrl());
+    ({ blobName: this._name, containerName: this._containerName } =
+      this.getBlobAndContainerNamesFromUrl());
     this.blobContext = new StorageBlob(this.storageClientContext);
 
     this._snapshot = getURLParameter(this.url, URLConstants.Parameters.SNAPSHOT) as string;
@@ -1156,24 +1169,24 @@ export class BlobClient extends StorageClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         requestOptions: {
-          onDownloadProgress: isNode ? undefined : options.onProgress // for Node.js, progress is reported by RetriableReadableStream
+          onDownloadProgress: isNode ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
         },
         range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
         rangeGetContentMD5: options.rangeGetContentMD5,
         rangeGetContentCRC64: options.rangeGetContentCrc64,
         snapshot: options.snapshot,
         cpkInfo: options.customerProvidedKey,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
 
       const wrappedRes = {
         ...res,
         _response: res._response, // _response is made non-enumerable
         objectReplicationDestinationPolicyId: res.objectReplicationPolicyId,
-        objectReplicationSourceProperties: parseObjectReplicationRecord(res.objectReplicationRules)
+        objectReplicationSourceProperties: parseObjectReplicationRecord(res.objectReplicationRules),
       };
       // Return browser response immediately
       if (!isNode) {
@@ -1208,16 +1221,16 @@ export class BlobClient extends StorageClient {
               ifModifiedSince: options.conditions!.ifModifiedSince,
               ifNoneMatch: options.conditions!.ifNoneMatch,
               ifUnmodifiedSince: options.conditions!.ifUnmodifiedSince,
-              ifTags: options.conditions?.tagConditions
+              ifTags: options.conditions?.tagConditions,
             },
             range: rangeToString({
               count: offset + res.contentLength! - start,
-              offset: start
+              offset: start,
             }),
             rangeGetContentMD5: options.rangeGetContentMD5,
             rangeGetContentCRC64: options.rangeGetContentCrc64,
             snapshot: options.snapshot,
-            cpkInfo: options.customerProvidedKey
+            cpkInfo: options.customerProvidedKey,
           };
 
           // Debug purpose only
@@ -1230,7 +1243,7 @@ export class BlobClient extends StorageClient {
           return (
             await this.blobContext.download({
               abortSignal: options.abortSignal,
-              ...updatedDownloadOptions
+              ...updatedDownloadOptions,
             })
           ).readableStreamBody!;
         },
@@ -1238,13 +1251,13 @@ export class BlobClient extends StorageClient {
         res.contentLength!,
         {
           maxRetryRequests: options.maxRetryRequests,
-          onProgress: options.onProgress
+          onProgress: options.onProgress,
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1269,20 +1282,25 @@ export class BlobClient extends StorageClient {
         abortSignal: options.abortSignal,
         customerProvidedKey: options.customerProvidedKey,
         conditions: options.conditions,
-        tracingOptions: updatedOptions.tracingOptions
+        tracingOptions: updatedOptions.tracingOptions,
       });
       return true;
-    } catch (e) {
+    } catch (e: any) {
       if (e.statusCode === 404) {
-        span.setStatus({
-          code: SpanStatusCode.ERROR,
-          message: "Expected exception when checking blob existence"
-        });
+        // Expected exception when checking blob existence
         return false;
+      } else if (
+        e.statusCode === 409 &&
+        (e.details.errorCode === BlobUsesCustomerSpecifiedEncryptionMsg ||
+          e.details.errorCode === BlobDoesNotUseCustomerSpecifiedEncryption)
+      ) {
+        // Expected exception when checking blob existence
+        return true;
       }
+
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1314,22 +1332,22 @@ export class BlobClient extends StorageClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         cpkInfo: options.customerProvidedKey,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
 
       return {
         ...res,
         _response: res._response, // _response is made non-enumerable
         objectReplicationDestinationPolicyId: res.objectReplicationPolicyId,
-        objectReplicationSourceProperties: parseObjectReplicationRecord(res.objectReplicationRules)
+        objectReplicationSourceProperties: parseObjectReplicationRecord(res.objectReplicationRules),
       };
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1356,14 +1374,14 @@ export class BlobClient extends StorageClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1389,23 +1407,23 @@ export class BlobClient extends StorageClient {
       return {
         succeeded: true,
         ...res,
-        _response: res._response // _response is made non-enumerable
+        _response: res._response, // _response is made non-enumerable
       };
-    } catch (e) {
+    } catch (e: any) {
       if (e.details?.errorCode === "BlobNotFound") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
-          message: "Expected exception when deleting a blob or snapshot only if it exists."
+          message: "Expected exception when deleting a blob or snapshot only if it exists.",
         });
         return {
           succeeded: false,
           ...e.response?.parsedHeaders,
-          _response: e.response
+          _response: e.response,
         };
       }
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1426,12 +1444,12 @@ export class BlobClient extends StorageClient {
     try {
       return await this.blobContext.undelete({
         abortSignal: options.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1468,15 +1486,15 @@ export class BlobClient extends StorageClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         // cpkInfo: options.customerProvidedKey, // CPK is not included in Swagger, should change this back when this issue is fixed in Swagger.
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1509,16 +1527,16 @@ export class BlobClient extends StorageClient {
         metadata,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1543,15 +1561,15 @@ export class BlobClient extends StorageClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         ...convertTracingToRequestOptionsBase(updatedOptions),
-        tags: toBlobTags(tags)
+        tags: toBlobTags(tags),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1572,20 +1590,20 @@ export class BlobClient extends StorageClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
       const wrappedResponse: BlobGetTagsResponse = {
         ...response,
         _response: response._response, // _response is made non-enumerable
-        tags: toTags({ blobTagSet: response.blobTagSet }) || {}
+        tags: toTags({ blobTagSet: response.blobTagSet }) || {},
       };
       return wrappedResponse;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1622,16 +1640,16 @@ export class BlobClient extends StorageClient {
         metadata: options.metadata,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1720,7 +1738,7 @@ export class BlobClient extends StorageClient {
     const client: CopyPollerBlobClient = {
       abortCopyFromURL: (...args) => this.abortCopyFromURL(...args),
       getProperties: (...args) => this.getProperties(...args),
-      startCopyFromURL: (...args) => this.startCopyFromURL(...args)
+      startCopyFromURL: (...args) => this.startCopyFromURL(...args),
     };
     const poller = new BlobBeginCopyFromUrlPoller({
       blobClient: client,
@@ -1728,7 +1746,7 @@ export class BlobClient extends StorageClient {
       intervalInMs: options.intervalInMs,
       onProgress: options.onProgress,
       resumeFrom: options.resumeFrom,
-      startCopyFromURLOptions: options
+      startCopyFromURLOptions: options,
     });
 
     // Trigger the startCopyFromURL call by calling poll.
@@ -1755,12 +1773,12 @@ export class BlobClient extends StorageClient {
       return await this.blobContext.abortCopyFromURL(copyId, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1791,13 +1809,13 @@ export class BlobClient extends StorageClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         sourceModifiedAccessConditions: {
           sourceIfMatch: options.sourceConditions.ifMatch,
           sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
           sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
-          sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
+          sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
         },
         sourceContentMD5: options.sourceContentMD5,
         copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
@@ -1806,12 +1824,13 @@ export class BlobClient extends StorageClient {
         immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
         legalHold: options.legalHold,
         encryptionScope: options.encryptionScope,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        copySourceTags: options.copySourceTags,
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1841,15 +1860,15 @@ export class BlobClient extends StorageClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         rehydratePriority: options.rehydratePriority,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -1951,8 +1970,8 @@ export class BlobClient extends StorageClient {
           ...options,
           tracingOptions: {
             ...options.tracingOptions,
-            ...convertTracingToRequestOptionsBase(updatedOptions)
-          }
+            ...convertTracingToRequestOptionsBase(updatedOptions),
+          },
         });
         count = response.contentLength! - offset;
         if (count < 0) {
@@ -1966,7 +1985,7 @@ export class BlobClient extends StorageClient {
       if (!buffer) {
         try {
           buffer = Buffer.alloc(count);
-        } catch (error) {
+        } catch (error: any) {
           throw new Error(
             `Unable to allocate the buffer of size: ${count}(in bytes). Please try passing your own buffer to the "downloadToBuffer" method or try using other methods like "download" or "downloadToFile".\t ${error.message}`
           );
@@ -1995,8 +2014,8 @@ export class BlobClient extends StorageClient {
             customerProvidedKey: options.customerProvidedKey,
             tracingOptions: {
               ...options.tracingOptions,
-              ...convertTracingToRequestOptionsBase(updatedOptions)
-            }
+              ...convertTracingToRequestOptionsBase(updatedOptions),
+            },
           });
           const stream = response.readableStreamBody!;
           await streamToBuffer(stream, buffer!, off - offset, chunkEnd - offset);
@@ -2011,10 +2030,10 @@ export class BlobClient extends StorageClient {
       }
       await batch.do();
       return buffer;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2050,8 +2069,8 @@ export class BlobClient extends StorageClient {
         ...options,
         tracingOptions: {
           ...options.tracingOptions,
-          ...convertTracingToRequestOptionsBase(updatedOptions)
-        }
+          ...convertTracingToRequestOptionsBase(updatedOptions),
+        },
       });
       if (response.readableStreamBody) {
         await readStreamToLocalFile(response.readableStreamBody, filePath);
@@ -2060,10 +2079,10 @@ export class BlobClient extends StorageClient {
       // The stream is no longer accessible so setting it to undefined.
       (response as any).blobDownloadStream = undefined;
       return response;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2119,7 +2138,7 @@ export class BlobClient extends StorageClient {
       }
 
       return { blobName, containerName };
-    } catch (error) {
+    } catch (error: any) {
       throw new Error("Unable to extract blobName and containerName with provided information.");
     }
   }
@@ -2152,14 +2171,14 @@ export class BlobClient extends StorageClient {
         metadata: options.metadata,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         sourceModifiedAccessConditions: {
           sourceIfMatch: options.sourceConditions.ifMatch,
           sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
           sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
           sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
-          sourceIfTags: options.sourceConditions.tagConditions
+          sourceIfTags: options.sourceConditions.tagConditions,
         },
         immutabilityPolicyExpiry: options.immutabilityPolicy?.expiriesOn,
         immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
@@ -2168,12 +2187,12 @@ export class BlobClient extends StorageClient {
         tier: toAccessTier(options.tier),
         blobTagsString: toBlobTagsString(options.tags),
         sealBlob: options.sealBlob,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2206,7 +2225,7 @@ export class BlobClient extends StorageClient {
           blobName: this._name,
           snapshotTime: this._snapshot,
           versionId: this._versionId,
-          ...options
+          ...options,
         },
         this.credential
       ).toString();
@@ -2227,12 +2246,12 @@ export class BlobClient extends StorageClient {
     try {
       return await this.blobContext.deleteImmutabilityPolicy({
         abortSignal: options?.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2256,12 +2275,12 @@ export class BlobClient extends StorageClient {
         immutabilityPolicyExpiry: immutabilityPolicy.expiriesOn,
         immutabilityPolicyMode: immutabilityPolicy.policyMode,
         modifiedAccessConditions: options?.modifiedAccessCondition,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2282,12 +2301,12 @@ export class BlobClient extends StorageClient {
     try {
       return await this.blobContext.setLegalHold(legalHoldEnabled, {
         abortSignal: options?.abortSignal,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2647,7 +2666,11 @@ export class AppendBlobClient extends BlobClient {
             appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)),
             encodeURIComponent(blobName)
           );
-          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+
+          if (!options.proxyOptions) {
+            options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+          }
+
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
@@ -2719,7 +2742,7 @@ export class AppendBlobClient extends BlobClient {
         metadata: options.metadata,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
@@ -2727,12 +2750,12 @@ export class AppendBlobClient extends BlobClient {
         immutabilityPolicyMode: options.immutabilityPolicy?.policyMode,
         legalHold: options.legalHold,
         blobTagsString: toBlobTagsString(options.tags),
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2755,29 +2778,29 @@ export class AppendBlobClient extends BlobClient {
     try {
       const res = await this.create({
         ...updatedOptions,
-        conditions
+        conditions,
       });
       return {
         succeeded: true,
         ...res,
-        _response: res._response // _response is made non-enumerable
+        _response: res._response, // _response is made non-enumerable
       };
-    } catch (e) {
+    } catch (e: any) {
       if (e.details?.errorCode === "BlobAlreadyExists") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
-          message: "Expected exception when creating a blob only if it does not already exist."
+          message: "Expected exception when creating a blob only if it does not already exist.",
         });
         return {
           succeeded: false,
           ...e.response?.parsedHeaders,
-          _response: e.response
+          _response: e.response,
         };
       }
 
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2800,14 +2823,14 @@ export class AppendBlobClient extends BlobClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2855,21 +2878,21 @@ export class AppendBlobClient extends BlobClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         requestOptions: {
-          onUploadProgress: options.onProgress
+          onUploadProgress: options.onProgress,
         },
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -2912,23 +2935,23 @@ export class AppendBlobClient extends BlobClient {
         appendPositionAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         sourceModifiedAccessConditions: {
           sourceIfMatch: options.sourceConditions.ifMatch,
           sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
           sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
-          sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
+          sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
         },
         copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -3071,6 +3094,10 @@ export interface BlockBlobSyncUploadFromURLOptions extends CommonOptions {
    * Only Bearer type is supported. Credentials should be a valid OAuth access token to copy source.
    */
   sourceAuthorization?: HttpAuthorization;
+  /**
+   * Optional, default 'replace'.  Indicates if source tags should be copied or replaced with the tags specified by {@link tags}.
+   */
+  copySourceTags?: BlobCopySourceTags;
 }
 
 /**
@@ -3651,7 +3678,11 @@ export class BlockBlobClient extends BlobClient {
             appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)),
             encodeURIComponent(blobName)
           );
-          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+
+          if (!options.proxyOptions) {
+            options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+          }
+
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
@@ -3739,31 +3770,32 @@ export class BlockBlobClient extends BlobClient {
       if (!isNode) {
         throw new Error("This operation currently is only supported in Node.js.");
       }
-
+      ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
       const response = await this._blobContext.query({
         abortSignal: options.abortSignal,
         queryRequest: {
           queryType: "SQL",
           expression: query,
           inputSerialization: toQuerySerialization(options.inputTextConfiguration),
-          outputSerialization: toQuerySerialization(options.outputTextConfiguration)
+          outputSerialization: toQuerySerialization(options.outputTextConfiguration),
         },
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        cpkInfo: options.customerProvidedKey,
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
       return new BlobQueryResponse(response, {
         abortSignal: options.abortSignal,
         onProgress: options.onProgress,
-        onError: options.onError
+        onError: options.onError,
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -3814,10 +3846,10 @@ export class BlockBlobClient extends BlobClient {
         metadata: options.metadata,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         requestOptions: {
-          onUploadProgress: options.onProgress
+          onUploadProgress: options.onProgress,
         },
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
@@ -3826,12 +3858,12 @@ export class BlockBlobClient extends BlobClient {
         legalHold: options.legalHold,
         tier: toAccessTier(options.tier),
         blobTagsString: toBlobTagsString(options.tags),
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -3872,25 +3904,26 @@ export class BlockBlobClient extends BlobClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions.tagConditions
+          ifTags: options.conditions.tagConditions,
         },
         sourceModifiedAccessConditions: {
           sourceIfMatch: options.sourceConditions?.ifMatch,
           sourceIfModifiedSince: options.sourceConditions?.ifModifiedSince,
           sourceIfNoneMatch: options.sourceConditions?.ifNoneMatch,
           sourceIfUnmodifiedSince: options.sourceConditions?.ifUnmodifiedSince,
-          sourceIfTags: options.sourceConditions?.tagConditions
+          sourceIfTags: options.sourceConditions?.tagConditions,
         },
         cpkInfo: options.customerProvidedKey,
         copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
         tier: toAccessTier(options.tier),
         blobTagsString: toBlobTagsString(options.tags),
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        copySourceTags: options.copySourceTags,
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -3922,18 +3955,18 @@ export class BlockBlobClient extends BlobClient {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         requestOptions: {
-          onUploadProgress: options.onProgress
+          onUploadProgress: options.onProgress,
         },
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -3981,12 +4014,12 @@ export class BlockBlobClient extends BlobClient {
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
         copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4023,7 +4056,7 @@ export class BlockBlobClient extends BlobClient {
           metadata: options.metadata,
           modifiedAccessConditions: {
             ...options.conditions,
-            ifTags: options.conditions?.tagConditions
+            ifTags: options.conditions?.tagConditions,
           },
           cpkInfo: options.customerProvidedKey,
           encryptionScope: options.encryptionScope,
@@ -4032,13 +4065,13 @@ export class BlockBlobClient extends BlobClient {
           legalHold: options.legalHold,
           tier: toAccessTier(options.tier),
           blobTagsString: toBlobTagsString(options.tags),
-          ...convertTracingToRequestOptionsBase(updatedOptions)
+          ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4067,9 +4100,9 @@ export class BlockBlobClient extends BlobClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
 
       if (!res.committedBlocks) {
@@ -4081,10 +4114,10 @@ export class BlockBlobClient extends BlobClient {
       }
 
       return res;
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4139,10 +4172,10 @@ export class BlockBlobClient extends BlobClient {
           updatedOptions
         );
       }
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4181,10 +4214,10 @@ export class BlockBlobClient extends BlobClient {
         browserBlob.size,
         updatedOptions
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4272,37 +4305,35 @@ export class BlockBlobClient extends BlobClient {
 
       const batch = new Batch(options.concurrency);
       for (let i = 0; i < numBlocks; i++) {
-        batch.addOperation(
-          async (): Promise<any> => {
-            const blockID = generateBlockID(blockIDPrefix, i);
-            const start = options.blockSize! * i;
-            const end = i === numBlocks - 1 ? size : start + options.blockSize!;
-            const contentLength = end - start;
-            blockList.push(blockID);
-            await this.stageBlock(blockID, bodyFactory(start, contentLength), contentLength, {
-              abortSignal: options.abortSignal,
-              conditions: options.conditions,
-              encryptionScope: options.encryptionScope,
-              tracingOptions: updatedOptions.tracingOptions
+        batch.addOperation(async (): Promise<any> => {
+          const blockID = generateBlockID(blockIDPrefix, i);
+          const start = options.blockSize! * i;
+          const end = i === numBlocks - 1 ? size : start + options.blockSize!;
+          const contentLength = end - start;
+          blockList.push(blockID);
+          await this.stageBlock(blockID, bodyFactory(start, contentLength), contentLength, {
+            abortSignal: options.abortSignal,
+            conditions: options.conditions,
+            encryptionScope: options.encryptionScope,
+            tracingOptions: updatedOptions.tracingOptions,
+          });
+          // Update progress after block is successfully uploaded to server, in case of block trying
+          // TODO: Hook with convenience layer progress event in finer level
+          transferProgress += contentLength;
+          if (options.onProgress) {
+            options.onProgress!({
+              loadedBytes: transferProgress,
             });
-            // Update progress after block is successfully uploaded to server, in case of block trying
-            // TODO: Hook with convenience layer progress event in finer level
-            transferProgress += contentLength;
-            if (options.onProgress) {
-              options.onProgress!({
-                loadedBytes: transferProgress
-              });
-            }
           }
-        );
+        });
       }
       await batch.do();
 
       return this.commitBlockList(blockList, updatedOptions);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4336,7 +4367,7 @@ export class BlockBlobClient extends BlobClient {
             fsCreateReadStream(filePath, {
               autoClose: true,
               end: count ? offset + count - 1 : Infinity,
-              start: offset
+              start: offset,
             });
         },
         size,
@@ -4344,14 +4375,14 @@ export class BlockBlobClient extends BlobClient {
           ...options,
           tracingOptions: {
             ...options!.tracingOptions,
-            ...convertTracingToRequestOptionsBase(updatedOptions)
-          }
+            ...convertTracingToRequestOptionsBase(updatedOptions),
+          },
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4408,7 +4439,7 @@ export class BlockBlobClient extends BlobClient {
           await this.stageBlock(blockID, body, length, {
             conditions: options.conditions,
             encryptionScope: options.encryptionScope,
-            tracingOptions: updatedOptions.tracingOptions
+            tracingOptions: updatedOptions.tracingOptions,
           });
 
           // Update progress after block is successfully uploaded to server, in case of block trying
@@ -4429,13 +4460,13 @@ export class BlockBlobClient extends BlobClient {
         ...options,
         tracingOptions: {
           ...options!.tracingOptions,
-          ...convertTracingToRequestOptionsBase(updatedOptions)
-        }
+          ...convertTracingToRequestOptionsBase(updatedOptions),
+        },
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -4642,6 +4673,51 @@ export interface PageBlobGetPageRangesOptions extends CommonOptions {
 }
 
 /**
+ * Options to configure page blob - get page ranges segment operations.
+ *
+ * See:
+ * - {@link PageBlobClient.listPageRangesSegment}
+ * - {@link PageBlobClient.listPageRangeItemSegments}
+ * - {@link PageBlobClient.listPageRangeItems}
+ */
+interface PageBlobListPageRangesSegmentOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Conditions to meet when getting page ranges.
+   */
+  conditions?: BlobRequestConditions;
+  /**
+   * Specifies the maximum number of containers
+   * to return. If the request does not specify maxPageSize, or specifies a
+   * value greater than 5000, the server will return up to 5000 items. Note
+   * that if the listing operation crosses a partition boundary, then the
+   * service will return a continuation token for retrieving the remainder of
+   * the results. For this reason, it is possible that the service will return
+   * fewer results than specified by maxPageSize, or than the default of 5000.
+   */
+  maxPageSize?: number;
+}
+
+/**
+ * Options to configure the {@link PageBlobClient.listPageRanges} operation.
+ */
+export interface PageBlobListPageRangesOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Conditions to meet when getting page ranges.
+   */
+  conditions?: BlobRequestConditions;
+}
+
+/**
  * Options to configure the {@link PageBlobClient.getRangesDiff} operation.
  */
 export interface PageBlobGetPageRangesDiffOptions extends CommonOptions {
@@ -4658,6 +4734,51 @@ export interface PageBlobGetPageRangesDiffOptions extends CommonOptions {
    * (unused)
    */
   range?: string;
+}
+
+/**
+ * Options to configure page blob - get page ranges diff segment operations.
+ *
+ * See:
+ * - {@link PageBlobClient.listPageRangesDiffSegment}
+ * - {@link PageBlobClient.listPageRangeDiffItemSegments}
+ * - {@link PageBlobClient.listPageRangeDiffItems}
+ */
+interface PageBlobListPageRangesDiffSegmentOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Conditions to meet when getting page ranges.
+   */
+  conditions?: BlobRequestConditions;
+  /**
+   * Specifies the maximum number of containers
+   * to return. If the request does not specify maxPageSize, or specifies a
+   * value greater than 5000, the server will return up to 5000 items. Note
+   * that if the listing operation crosses a partition boundary, then the
+   * service will return a continuation token for retrieving the remainder of
+   * the results. For this reason, it is possible that the service will return
+   * fewer results than specified by maxPageSize, or than the default of 5000.
+   */
+  maxPageSize?: number;
+}
+
+/**
+ * Options to configure the {@link PageBlobClient.listPageRangesDiff} operation.
+ */
+export interface PageBlobListPageRangesDiffOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Conditions to meet when getting page ranges diff.
+   */
+  conditions?: BlobRequestConditions;
 }
 
 /**
@@ -4897,7 +5018,11 @@ export class PageBlobClient extends BlobClient {
             appendToURLPath(extractedCreds.url, encodeURIComponent(containerName)),
             encodeURIComponent(blobName)
           );
-          options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+
+          if (!options.proxyOptions) {
+            options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
+          }
+
           pipeline = newPipeline(sharedKeyCredential, options);
         } else {
           throw new Error("Account connection string is only supported in Node.js environment");
@@ -4967,7 +5092,7 @@ export class PageBlobClient extends BlobClient {
         metadata: options.metadata,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
@@ -4976,12 +5101,12 @@ export class PageBlobClient extends BlobClient {
         legalHold: options.legalHold,
         tier: toAccessTier(options.tier),
         blobTagsString: toBlobTagsString(options.tags),
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5008,29 +5133,29 @@ export class PageBlobClient extends BlobClient {
       const res = await this.create(size, {
         ...options,
         conditions,
-        tracingOptions: updatedOptions.tracingOptions
+        tracingOptions: updatedOptions.tracingOptions,
       });
       return {
         succeeded: true,
         ...res,
-        _response: res._response // _response is made non-enumerable
+        _response: res._response, // _response is made non-enumerable
       };
-    } catch (e) {
+    } catch (e: any) {
       if (e.details?.errorCode === "BlobAlreadyExists") {
         span.setStatus({
           code: SpanStatusCode.ERROR,
-          message: "Expected exception when creating a blob only if it does not already exist."
+          message: "Expected exception when creating a blob only if it does not already exist.",
         });
         return {
           succeeded: false,
           ...e.response?.parsedHeaders,
-          _response: e.response
+          _response: e.response,
         };
       }
 
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5063,10 +5188,10 @@ export class PageBlobClient extends BlobClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         requestOptions: {
-          onUploadProgress: options.onProgress
+          onUploadProgress: options.onProgress,
         },
         range: rangeToString({ offset, count }),
         sequenceNumberAccessConditions: options.conditions,
@@ -5074,12 +5199,12 @@ export class PageBlobClient extends BlobClient {
         transactionalContentCrc64: options.transactionalContentCrc64,
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5123,24 +5248,24 @@ export class PageBlobClient extends BlobClient {
           sequenceNumberAccessConditions: options.conditions,
           modifiedAccessConditions: {
             ...options.conditions,
-            ifTags: options.conditions?.tagConditions
+            ifTags: options.conditions?.tagConditions,
           },
           sourceModifiedAccessConditions: {
             sourceIfMatch: options.sourceConditions.ifMatch,
             sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
             sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
-            sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
+            sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
           },
           cpkInfo: options.customerProvidedKey,
           encryptionScope: options.encryptionScope,
           copySourceAuthorization: httpAuthorizationToString(options.sourceAuthorization),
-          ...convertTracingToRequestOptionsBase(updatedOptions)
+          ...convertTracingToRequestOptionsBase(updatedOptions),
         }
       );
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5170,18 +5295,18 @@ export class PageBlobClient extends BlobClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         range: rangeToString({ offset, count }),
         sequenceNumberAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5212,21 +5337,225 @@ export class PageBlobClient extends BlobClient {
           leaseAccessConditions: options.conditions,
           modifiedAccessConditions: {
             ...options.conditions,
-            ifTags: options.conditions?.tagConditions
+            ifTags: options.conditions?.tagConditions,
           },
           range: rangeToString({ offset, count }),
-          ...convertTracingToRequestOptionsBase(updatedOptions)
+          ...convertTracingToRequestOptionsBase(updatedOptions),
         })
         .then(rangeResponseFromModel);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
       span.end();
     }
+  }
+
+  /**
+   * getPageRangesSegment returns a single segment of page ranges starting from the
+   * specified Marker. Use an empty Marker to start enumeration from the beginning.
+   * After getting a segment, process it, and then call getPageRangesSegment again
+   * (passing the the previously-returned Marker) to get the next segment.
+   * @see https://docs.microsoft.com/rest/api/storageservices/get-page-ranges
+   *
+   * @param offset - Starting byte position of the page ranges.
+   * @param count - Number of bytes to get.
+   * @param marker - A string value that identifies the portion of the list to be returned with the next list operation.
+   * @param options - Options to PageBlob Get Page Ranges Segment operation.
+   */
+  private async listPageRangesSegment(
+    offset: number = 0,
+    count?: number,
+    marker?: string,
+    options: PageBlobListPageRangesSegmentOptions = {}
+  ): Promise<PageBlobGetPageRangesResponseModel> {
+    const { span, updatedOptions } = createSpan("PageBlobClient-getPageRangesSegment", options);
+    try {
+      return await this.pageBlobContext.getPageRanges({
+        abortSignal: options.abortSignal,
+        leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions,
+        },
+        range: rangeToString({ offset, count }),
+        marker: marker,
+        maxPageSize: options.maxPageSize,
+        ...convertTracingToRequestOptionsBase(updatedOptions),
+      });
+    } catch (e: any) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+  /**
+   * Returns an AsyncIterableIterator for {@link PageBlobGetPageRangesResponseModel}
+   *
+   * @param offset - Starting byte position of the page ranges.
+   * @param count - Number of bytes to get.
+   * @param marker - A string value that identifies the portion of
+   *                          the get of page ranges to be returned with the next getting operation. The
+   *                          operation returns the ContinuationToken value within the response body if the
+   *                          getting operation did not return all page ranges remaining within the current page.
+   *                          The ContinuationToken value can be used as the value for
+   *                          the marker parameter in a subsequent call to request the next page of get
+   *                          items. The marker value is opaque to the client.
+   * @param options - Options to List Page Ranges operation.
+   */
+  private async *listPageRangeItemSegments(
+    offset: number = 0,
+    count?: number,
+    marker?: string,
+    options: PageBlobListPageRangesSegmentOptions = {}
+  ): AsyncIterableIterator<PageBlobGetPageRangesResponseModel> {
+    let getPageRangeItemSegmentsResponse;
+    if (!!marker || marker === undefined) {
+      do {
+        getPageRangeItemSegmentsResponse = await this.listPageRangesSegment(
+          offset,
+          count,
+          marker,
+          options
+        );
+        marker = getPageRangeItemSegmentsResponse.continuationToken;
+        yield await getPageRangeItemSegmentsResponse;
+      } while (marker);
+    }
+  }
+
+  /**
+   * Returns an AsyncIterableIterator of {@link PageRangeInfo} objects
+   *
+   * @param offset - Starting byte position of the page ranges.
+   * @param count - Number of bytes to get.
+   * @param options - Options to List Page Ranges operation.
+   */
+  private async *listPageRangeItems(
+    offset: number = 0,
+    count?: number,
+    options: PageBlobListPageRangesSegmentOptions = {}
+  ): AsyncIterableIterator<PageRangeInfo> {
+    let marker: string | undefined;
+    for await (const getPageRangesSegment of this.listPageRangeItemSegments(
+      offset,
+      count,
+      marker,
+      options
+    )) {
+      yield* ExtractPageRangeInfoItems(getPageRangesSegment);
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator to list of page ranges for a page blob.
+   * @see https://docs.microsoft.com/rest/api/storageservices/get-page-ranges
+   *
+   *  .byPage() returns an async iterable iterator to list of page ranges for a page blob.
+   *
+   * Example using `for await` syntax:
+   *
+   * ```js
+   * // Get the pageBlobClient before you run these snippets,
+   * // Can be obtained from `blobServiceClient.getContainerClient("<your-container-name>").getPageBlobClient("<your-blob-name>");`
+   * let i = 1;
+   * for await (const pageRange of pageBlobClient.listPageRanges()) {
+   *   console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
+   * }
+   * ```
+   *
+   * Example using `iter.next()`:
+   *
+   * ```js
+   * let i = 1;
+   * let iter = pageBlobClient.listPageRanges();
+   * let pageRangeItem = await iter.next();
+   * while (!pageRangeItem.done) {
+   *   console.log(`Page range ${i++}: ${pageRangeItem.value.start} - ${pageRangeItem.value.end}, IsClear: ${pageRangeItem.value.isClear}`);
+   *   pageRangeItem = await iter.next();
+   * }
+   * ```
+   *
+   * Example using `byPage()`:
+   *
+   * ```js
+   * // passing optional maxPageSize in the page settings
+   * let i = 1;
+   * for await (const response of pageBlobClient.listPageRanges().byPage({ maxPageSize: 20 })) {
+   *   for (const pageRange of response) {
+   *     console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
+   *   }
+   * }
+   * ```
+   *
+   * Example using paging with a marker:
+   *
+   * ```js
+   * let i = 1;
+   * let iterator = pageBlobClient.listPageRanges().byPage({ maxPageSize: 2 });
+   * let response = (await iterator.next()).value;
+   *
+   * // Prints 2 page ranges
+   * for (const pageRange of response) {
+   *   console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
+   * }
+   *
+   * // Gets next marker
+   * let marker = response.continuationToken;
+   *
+   * // Passing next marker as continuationToken
+   *
+   * iterator = pageBlobClient.listPageRanges().byPage({ continuationToken: marker, maxPageSize: 10 });
+   * response = (await iterator.next()).value;
+   *
+   * // Prints 10 page ranges
+   * for (const blob of response) {
+   *   console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
+   * }
+   * ```
+   * @param offset - Starting byte position of the page ranges.
+   * @param count - Number of bytes to get.
+   * @param options - Options to the Page Blob Get Ranges operation.
+   * @returns An asyncIterableIterator that supports paging.
+   */
+  public listPageRanges(
+    offset: number = 0,
+    count?: number,
+    options: PageBlobListPageRangesOptions = {}
+  ): PagedAsyncIterableIterator<PageRangeInfo, PageBlobGetPageRangesResponseModel> {
+    options.conditions = options.conditions || {};
+    // AsyncIterableIterator to iterate over blobs
+    const iter = this.listPageRangeItems(offset, count, options);
+    return {
+      /**
+       * The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        return this.listPageRangeItemSegments(offset, count, settings.continuationToken, {
+          maxPageSize: settings.maxPageSize,
+          ...options,
+        });
+      },
+    };
   }
 
   /**
@@ -5255,22 +5584,251 @@ export class PageBlobClient extends BlobClient {
           leaseAccessConditions: options.conditions,
           modifiedAccessConditions: {
             ...options.conditions,
-            ifTags: options.conditions?.tagConditions
+            ifTags: options.conditions?.tagConditions,
           },
           prevsnapshot: prevSnapshot,
           range: rangeToString({ offset, count }),
-          ...convertTracingToRequestOptionsBase(updatedOptions)
+          ...convertTracingToRequestOptionsBase(updatedOptions),
         })
         .then(rangeResponseFromModel);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
       span.end();
     }
+  }
+
+  /**
+   * getPageRangesDiffSegment returns a single segment of page ranges starting from the
+   * specified Marker for difference between previous snapshot and the target page blob.
+   * Use an empty Marker to start enumeration from the beginning.
+   * After getting a segment, process it, and then call getPageRangesDiffSegment again
+   * (passing the the previously-returned Marker) to get the next segment.
+   * @see https://docs.microsoft.com/rest/api/storageservices/get-page-ranges
+   *
+   * @param offset - Starting byte position of the page ranges.
+   * @param count - Number of bytes to get.
+   * @param prevSnapshotOrUrl - Timestamp of snapshot to retrieve the difference or URL of snapshot to retrieve the difference.
+   * @param marker - A string value that identifies the portion of the get to be returned with the next get operation.
+   * @param options - Options to the Page Blob Get Page Ranges Diff operation.
+   */
+  private async listPageRangesDiffSegment(
+    offset: number,
+    count: number,
+    prevSnapshotOrUrl: string,
+    marker?: string,
+    options?: PageBlobListPageRangesDiffSegmentOptions
+  ): Promise<PageBlobGetPageRangesResponseModel> {
+    const { span, updatedOptions } = createSpan("PageBlobClient-getPageRangesDiffSegment", options);
+    try {
+      return await this.pageBlobContext.getPageRangesDiff({
+        abortSignal: options?.abortSignal,
+        leaseAccessConditions: options?.conditions,
+        modifiedAccessConditions: {
+          ...options?.conditions,
+          ifTags: options?.conditions?.tagConditions,
+        },
+        prevsnapshot: prevSnapshotOrUrl,
+        range: rangeToString({
+          offset: offset,
+          count: count,
+        }),
+        marker: marker,
+        maxPageSize: options?.maxPageSize,
+        ...convertTracingToRequestOptionsBase(updatedOptions),
+      });
+    } catch (e: any) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+  /**
+   * Returns an AsyncIterableIterator for {@link PageBlobGetPageRangesDiffResponseModel}
+   *
+   *
+   * @param offset - Starting byte position of the page ranges.
+   * @param count - Number of bytes to get.
+   * @param prevSnapshotOrUrl - Timestamp of snapshot to retrieve the difference or URL of snapshot to retrieve the difference.
+   * @param marker - A string value that identifies the portion of
+   *                          the get of page ranges to be returned with the next getting operation. The
+   *                          operation returns the ContinuationToken value within the response body if the
+   *                          getting operation did not return all page ranges remaining within the current page.
+   *                          The ContinuationToken value can be used as the value for
+   *                          the marker parameter in a subsequent call to request the next page of get
+   *                          items. The marker value is opaque to the client.
+   * @param options - Options to the Page Blob Get Page Ranges Diff operation.
+   */
+  private async *listPageRangeDiffItemSegments(
+    offset: number,
+    count: number,
+    prevSnapshotOrUrl: string,
+    marker?: string,
+    options?: PageBlobListPageRangesDiffSegmentOptions
+  ): AsyncIterableIterator<PageBlobGetPageRangesDiffResponseModel> {
+    let getPageRangeItemSegmentsResponse;
+    if (!!marker || marker === undefined) {
+      do {
+        getPageRangeItemSegmentsResponse = await this.listPageRangesDiffSegment(
+          offset,
+          count,
+          prevSnapshotOrUrl,
+          marker,
+          options
+        );
+        marker = getPageRangeItemSegmentsResponse.continuationToken;
+        yield await getPageRangeItemSegmentsResponse;
+      } while (marker);
+    }
+  }
+
+  /**
+   * Returns an AsyncIterableIterator of {@link PageRangeInfo} objects
+   *
+   * @param offset - Starting byte position of the page ranges.
+   * @param count - Number of bytes to get.
+   * @param prevSnapshotOrUrl - Timestamp of snapshot to retrieve the difference or URL of snapshot to retrieve the difference.
+   * @param options - Options to the Page Blob Get Page Ranges Diff operation.
+   */
+  private async *listPageRangeDiffItems(
+    offset: number,
+    count: number,
+    prevSnapshotOrUrl: string,
+    options?: PageBlobListPageRangesDiffSegmentOptions
+  ): AsyncIterableIterator<PageRangeInfo> {
+    let marker: string | undefined;
+    for await (const getPageRangesSegment of this.listPageRangeDiffItemSegments(
+      offset,
+      count,
+      prevSnapshotOrUrl,
+      marker,
+      options
+    )) {
+      yield* ExtractPageRangeInfoItems(getPageRangesSegment);
+    }
+  }
+
+  /**
+   * Returns an async iterable iterator to list of page ranges that differ between a specified snapshot and this page blob.
+   * @see https://docs.microsoft.com/rest/api/storageservices/get-page-ranges
+   *
+   *  .byPage() returns an async iterable iterator to list of page ranges that differ between a specified snapshot and this page blob.
+   *
+   * Example using `for await` syntax:
+   *
+   * ```js
+   * // Get the pageBlobClient before you run these snippets,
+   * // Can be obtained from `blobServiceClient.getContainerClient("<your-container-name>").getPageBlobClient("<your-blob-name>");`
+   * let i = 1;
+   * for await (const pageRange of pageBlobClient.listPageRangesDiff()) {
+   *   console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
+   * }
+   * ```
+   *
+   * Example using `iter.next()`:
+   *
+   * ```js
+   * let i = 1;
+   * let iter = pageBlobClient.listPageRangesDiff();
+   * let pageRangeItem = await iter.next();
+   * while (!pageRangeItem.done) {
+   *   console.log(`Page range ${i++}: ${pageRangeItem.value.start} - ${pageRangeItem.value.end}, IsClear: ${pageRangeItem.value.isClear}`);
+   *   pageRangeItem = await iter.next();
+   * }
+   * ```
+   *
+   * Example using `byPage()`:
+   *
+   * ```js
+   * // passing optional maxPageSize in the page settings
+   * let i = 1;
+   * for await (const response of pageBlobClient.listPageRangesDiff().byPage({ maxPageSize: 20 })) {
+   *   for (const pageRange of response) {
+   *     console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
+   *   }
+   * }
+   * ```
+   *
+   * Example using paging with a marker:
+   *
+   * ```js
+   * let i = 1;
+   * let iterator = pageBlobClient.listPageRangesDiff().byPage({ maxPageSize: 2 });
+   * let response = (await iterator.next()).value;
+   *
+   * // Prints 2 page ranges
+   * for (const pageRange of response) {
+   *   console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
+   * }
+   *
+   * // Gets next marker
+   * let marker = response.continuationToken;
+   *
+   * // Passing next marker as continuationToken
+   *
+   * iterator = pageBlobClient.listPageRangesDiff().byPage({ continuationToken: marker, maxPageSize: 10 });
+   * response = (await iterator.next()).value;
+   *
+   * // Prints 10 page ranges
+   * for (const blob of response) {
+   *   console.log(`Page range ${i++}: ${pageRange.start} - ${pageRange.end}`);
+   * }
+   * ```
+   * @param offset - Starting byte position of the page ranges.
+   * @param count - Number of bytes to get.
+   * @param prevSnapshot - Timestamp of snapshot to retrieve the difference.
+   * @param options - Options to the Page Blob Get Ranges operation.
+   * @returns An asyncIterableIterator that supports paging.
+   */
+  public listPageRangesDiff(
+    offset: number,
+    count: number,
+    prevSnapshot: string,
+    options: PageBlobListPageRangesDiffOptions = {}
+  ): PagedAsyncIterableIterator<PageRangeInfo, PageBlobGetPageRangesDiffResponseModel> {
+    options.conditions = options.conditions || {};
+
+    // AsyncIterableIterator to iterate over blobs
+    const iter = this.listPageRangeDiffItems(offset, count, prevSnapshot, {
+      ...options,
+    });
+    return {
+      /**
+       * The next method, part of the iteration protocol
+       */
+      next() {
+        return iter.next();
+      },
+      /**
+       * The connection to the async iterator, part of the iteration protocol
+       */
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      /**
+       * Return an AsyncIterableIterator that works a page at a time
+       */
+      byPage: (settings: PageSettings = {}) => {
+        return this.listPageRangeDiffItemSegments(
+          offset,
+          count,
+          prevSnapshot,
+          settings.continuationToken,
+          {
+            maxPageSize: settings.maxPageSize,
+            ...options,
+          }
+        );
+      },
+    };
   }
 
   /**
@@ -5302,17 +5860,17 @@ export class PageBlobClient extends BlobClient {
           leaseAccessConditions: options.conditions,
           modifiedAccessConditions: {
             ...options.conditions,
-            ifTags: options.conditions?.tagConditions
+            ifTags: options.conditions?.tagConditions,
           },
           prevSnapshotUrl,
           range: rangeToString({ offset, count }),
-          ...convertTracingToRequestOptionsBase(updatedOptions)
+          ...convertTracingToRequestOptionsBase(updatedOptions),
         })
         .then(rangeResponseFromModel);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5340,15 +5898,15 @@ export class PageBlobClient extends BlobClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
         encryptionScope: options.encryptionScope,
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5379,14 +5937,14 @@ export class PageBlobClient extends BlobClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {
@@ -5417,14 +5975,14 @@ export class PageBlobClient extends BlobClient {
         abortSignal: options.abortSignal,
         modifiedAccessConditions: {
           ...options.conditions,
-          ifTags: options.conditions?.tagConditions
+          ifTags: options.conditions?.tagConditions,
         },
-        ...convertTracingToRequestOptionsBase(updatedOptions)
+        ...convertTracingToRequestOptionsBase(updatedOptions),
       });
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {

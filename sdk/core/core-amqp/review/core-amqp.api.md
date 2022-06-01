@@ -8,7 +8,6 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AccessToken } from '@azure/core-auth';
-import { AmqpError } from 'rhea-promise';
 import { AzureLogger } from '@azure/logger';
 import { Connection } from 'rhea-promise';
 import { Message } from 'rhea-promise';
@@ -244,6 +243,7 @@ export const Constants: {
     readonly publisher: "x-opt-publisher-name";
     readonly viaPartitionKey: "x-opt-via-partition-key";
     readonly deadLetterSource: "x-opt-deadletter-source";
+    readonly messageState: "x-opt-message-state";
     readonly enqueuedTimeAnnotation: "amqp.annotation.x-opt-enqueued-time";
     readonly offsetAnnotation: "amqp.annotation.x-opt-offset";
     readonly sequenceNumberAnnotation: "amqp.annotation.x-opt-sequence-number";
@@ -596,7 +596,7 @@ export enum TokenType {
 }
 
 // @public
-export function translate(err: AmqpError | Error): MessagingError | Error;
+export function translate(err: unknown): MessagingError | Error;
 
 // @public
 export interface WebSocketOptions {

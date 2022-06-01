@@ -10,7 +10,7 @@ import { ClusterVersions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ServiceFabricManagementClientContext } from "../serviceFabricManagementClientContext";
+import { ServiceFabricManagementClient } from "../serviceFabricManagementClient";
 import {
   ClusterVersionsGetOptionalParams,
   ClusterVersionsGetResponse,
@@ -25,13 +25,13 @@ import {
 
 /** Class containing ClusterVersions operations. */
 export class ClusterVersionsImpl implements ClusterVersions {
-  private readonly client: ServiceFabricManagementClientContext;
+  private readonly client: ServiceFabricManagementClient;
 
   /**
    * Initialize a new instance of the class ClusterVersions class.
    * @param client Reference to the service client
    */
-  constructor(client: ServiceFabricManagementClientContext) {
+  constructor(client: ServiceFabricManagementClient) {
     this.client = client;
   }
 

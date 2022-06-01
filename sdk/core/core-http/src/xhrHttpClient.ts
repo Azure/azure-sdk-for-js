@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { HttpHeaders, HttpHeadersLike } from "./httpHeaders";
+import { TransferProgressEvent, WebResourceLike } from "./webResource";
 import { AbortError } from "@azure/abort-controller";
 import { HttpClient } from "./httpClient";
-import { HttpHeaders, HttpHeadersLike } from "./httpHeaders";
-import { WebResourceLike, TransferProgressEvent } from "./webResource";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { RestError } from "./restError";
 
@@ -92,13 +92,13 @@ export class XhrHttpClient implements HttpClient {
         rejectOnTerminalEvent(request, xhr, reject);
       });
     } else {
-      return new Promise(function(resolve, reject) {
+      return new Promise(function (resolve, reject) {
         xhr.addEventListener("load", () =>
           resolve({
             request,
             status: xhr.status,
             headers: parseHeaders(xhr),
-            bodyAsText: xhr.responseText
+            bodyAsText: xhr.responseText,
           })
         );
         rejectOnTerminalEvent(request, xhr, reject);
@@ -127,7 +127,7 @@ function handleBlobResponse(
           request,
           status: xhr.status,
           headers: parseHeaders(xhr),
-          blobBody
+          blobBody,
         });
       } else {
         xhr.addEventListener("load", () => {
@@ -137,16 +137,16 @@ function handleBlobResponse(
           if (xhr.response) {
             // Blob.text() is not supported in IE so using FileReader instead
             const reader = new FileReader();
-            reader.onload = function(e) {
+            reader.onload = function (e) {
               const text = e.target?.result as string;
               res({
                 request,
                 status: xhr.status,
                 headers: parseHeaders(xhr),
-                bodyAsText: text
+                bodyAsText: text,
               });
             };
-            reader.onerror = function(_e) {
+            reader.onerror = function (_e) {
               rej(reader.error);
             };
             reader.readAsText(xhr.response, "UTF-8");
@@ -154,7 +154,7 @@ function handleBlobResponse(
             res({
               request,
               status: xhr.status,
-              headers: parseHeaders(xhr)
+              headers: parseHeaders(xhr),
             });
           }
         });
@@ -170,7 +170,7 @@ function addProgressListener(
   if (listener) {
     xhr.addEventListener("progress", (rawEvent) =>
       listener({
-        loadedBytes: rawEvent.loaded
+        loadedBytes: rawEvent.loaded,
       })
     );
   }

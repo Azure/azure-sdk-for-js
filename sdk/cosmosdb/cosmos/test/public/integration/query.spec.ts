@@ -7,20 +7,20 @@ import { getTestContainer, getTestDatabase, removeAllDatabases } from "../common
 
 const doc = { id: "myId", pk: "pk" };
 
-describe("ResourceLink Trimming of leading and trailing slashes", function(this: Suite) {
+describe("ResourceLink Trimming of leading and trailing slashes", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
   const containerId = "testcontainer";
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     await removeAllDatabases();
   });
 
-  it("validate correct execution of query using named container link with leading and trailing slashes", async function() {
+  it("validate correct execution of query using named container link with leading and trailing slashes", async function () {
     const containerDefinition = {
       id: containerId,
       partitionKey: {
-        paths: ["/pk"]
-      }
+        paths: ["/pk"],
+      },
     };
     const containerOptions = { offerThroughput: 10100 };
 
@@ -40,15 +40,15 @@ describe("ResourceLink Trimming of leading and trailing slashes", function(this:
   });
 });
 
-describe("Test Query Metrics", function(this: Suite) {
+describe("Test Query Metrics", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
   const collectionId = "testCollection2";
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     await removeAllDatabases();
   });
 
-  it("validate that query metrics are correct for a single partition query", async function() {
+  it("validate that query metrics are correct for a single partition query", async function () {
     const database = await getTestDatabase("query metrics test db");
 
     const collectionDefinition = { id: collectionId };
@@ -70,7 +70,7 @@ describe("Test Query Metrics", function(this: Suite) {
         resources: results,
         queryMetrics,
         activityId,
-        requestCharge
+        requestCharge,
       } = await queryIterator.fetchNext();
       assert(activityId, "activityId must exist");
       assert(requestCharge, "requestCharge must exist");
@@ -85,19 +85,19 @@ describe("Test Query Metrics", function(this: Suite) {
   });
 });
 
-describe("Partition key in FeedOptions", function(this: Suite) {
+describe("Partition key in FeedOptions", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     await removeAllDatabases();
   });
 
-  it("passing partition key in FeedOptions", async function() {
+  it("passing partition key in FeedOptions", async function () {
     const containerDefinition = {
       id: "testcontainer",
       partitionKey: {
-        paths: ["/id"]
-      }
+        paths: ["/id"],
+      },
     };
 
     const container = await getTestContainer(

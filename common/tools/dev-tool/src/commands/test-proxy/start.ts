@@ -12,7 +12,7 @@ export const commandInfo = makeCommandInfo(
   {}
 );
 
-export default leafCommand(commandInfo, async (_options) => {
+export default leafCommand(commandInfo, async () => {
   await startProxyTool();
   return true;
 });

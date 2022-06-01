@@ -11,7 +11,7 @@ import { Transforms } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureMediaServicesContext } from "../azureMediaServicesContext";
+import { AzureMediaServices } from "../azureMediaServices";
 import {
   Transform,
   TransformsListNextOptionalParams,
@@ -30,13 +30,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Transforms operations. */
 export class TransformsImpl implements Transforms {
-  private readonly client: AzureMediaServicesContext;
+  private readonly client: AzureMediaServices;
 
   /**
    * Initialize a new instance of the class Transforms class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMediaServicesContext) {
+  constructor(client: AzureMediaServices) {
     this.client = client;
   }
 
@@ -282,7 +282,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters11,
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -329,7 +329,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters11,
+  requestBody: Parameters.parameters12,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

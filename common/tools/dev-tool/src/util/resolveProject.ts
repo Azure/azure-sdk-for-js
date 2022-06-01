@@ -27,6 +27,8 @@ declare global {
     name: string;
     version: string;
     description: string;
+    main: string;
+    module?: string;
     bin?: Record<string, string>;
     files: string[];
     scripts: Record<string, string>;
@@ -134,6 +136,26 @@ export async function resolveProject(workingDirectory: string): Promise<ProjectI
     name: packageJson.name,
     path,
     version: packageJson.version,
-    packageJson
+    packageJson,
   };
+}
+
+/**
+ * Finds the monorepo root.
+ *
+ * @param start - an optional starting point (defaults to CWD)
+ * @returns an absolute path to the root of the monorepo
+ */
+export async function resolveRoot(start?: string): Promise<string> {
+  start ??= process.cwd();
+  if (await fs.pathExists(path.join(start, "rush.json"))) {
+    return start;
+  } else {
+    const nextPath = path.resolve(start, "..");
+    if (nextPath === start) {
+      throw new Error("Reached filesystem root, but no rush.json was found.");
+    } else {
+      return resolveRoot(nextPath);
+    }
+  }
 }

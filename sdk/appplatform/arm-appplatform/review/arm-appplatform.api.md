@@ -11,21 +11,43 @@ import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 
 // @public
+export type ActionType = string;
+
+// @public
+export interface ActiveDeploymentCollection {
+    activeDeploymentNames?: string[];
+}
+
+// @public
 export interface ApplicationInsightsAgentVersions {
     readonly java?: string;
 }
 
 // @public (undocumented)
-export class AppPlatformManagementClient extends AppPlatformManagementClientContext {
+export class AppPlatformManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AppPlatformManagementClientOptionalParams);
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     apps: Apps;
     // (undocumented)
     bindings: Bindings;
     // (undocumented)
+    buildpackBinding: BuildpackBinding;
+    // (undocumented)
+    buildServiceAgentPool: BuildServiceAgentPool;
+    // (undocumented)
+    buildServiceBuilder: BuildServiceBuilder;
+    // (undocumented)
+    buildServiceOperations: BuildServiceOperations;
+    // (undocumented)
     certificates: Certificates;
     // (undocumented)
     configServers: ConfigServers;
+    // (undocumented)
+    configurationServices: ConfigurationServices;
     // (undocumented)
     customDomains: CustomDomains;
     // (undocumented)
@@ -37,20 +59,11 @@ export class AppPlatformManagementClient extends AppPlatformManagementClientCont
     // (undocumented)
     runtimeVersions: RuntimeVersions;
     // (undocumented)
+    serviceRegistries: ServiceRegistries;
+    // (undocumented)
     services: Services;
     // (undocumented)
     skus: Skus;
-    // (undocumented)
-    storages: Storages;
-}
-
-// @public (undocumented)
-export class AppPlatformManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: AppPlatformManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
     // (undocumented)
     subscriptionId: string;
 }
@@ -77,9 +90,11 @@ export interface AppResourceCollection {
 
 // @public
 export interface AppResourceProperties {
-    activeDeploymentName?: string;
-    readonly createdTime?: Date;
-    customPersistentDisks?: CustomPersistentDiskResource[];
+    addonConfigs?: {
+        [propertyName: string]: {
+            [propertyName: string]: Record<string, unknown>;
+        };
+    };
     enableEndToEndTLS?: boolean;
     fqdn?: string;
     httpsOnly?: boolean;
@@ -100,6 +115,8 @@ export interface Apps {
     beginCreateOrUpdateAndWait(resourceGroupName: string, serviceName: string, appName: string, appResource: AppResource, options?: AppsCreateOrUpdateOptionalParams): Promise<AppsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, serviceName: string, appName: string, options?: AppsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, serviceName: string, appName: string, options?: AppsDeleteOptionalParams): Promise<void>;
+    beginSetActiveDeployments(resourceGroupName: string, serviceName: string, appName: string, activeDeploymentCollection: ActiveDeploymentCollection, options?: AppsSetActiveDeploymentsOptionalParams): Promise<PollerLike<PollOperationState<AppsSetActiveDeploymentsResponse>, AppsSetActiveDeploymentsResponse>>;
+    beginSetActiveDeploymentsAndWait(resourceGroupName: string, serviceName: string, appName: string, activeDeploymentCollection: ActiveDeploymentCollection, options?: AppsSetActiveDeploymentsOptionalParams): Promise<AppsSetActiveDeploymentsResponse>;
     beginUpdate(resourceGroupName: string, serviceName: string, appName: string, appResource: AppResource, options?: AppsUpdateOptionalParams): Promise<PollerLike<PollOperationState<AppsUpdateResponse>, AppsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, serviceName: string, appName: string, appResource: AppResource, options?: AppsUpdateOptionalParams): Promise<AppsUpdateResponse>;
     get(resourceGroupName: string, serviceName: string, appName: string, options?: AppsGetOptionalParams): Promise<AppsGetResponse>;
@@ -153,6 +170,15 @@ export interface AppsListOptionalParams extends coreClient.OperationOptions {
 export type AppsListResponse = AppResourceCollection;
 
 // @public
+export interface AppsSetActiveDeploymentsOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AppsSetActiveDeploymentsResponse = AppResource;
+
+// @public
 export interface AppsUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -178,12 +204,6 @@ export interface AvailableOperations {
 export interface AvailableRuntimeVersions {
     readonly value?: SupportedRuntimeVersion[];
 }
-
-// @public
-export type AzureFileVolume = CustomPersistentDiskProperties & {
-    type: "AzureFileVolume";
-    shareName: string;
-};
 
 // @public
 export type BindingResource = ProxyResource & {
@@ -266,6 +286,447 @@ export interface BindingsUpdateOptionalParams extends coreClient.OperationOption
 
 // @public
 export type BindingsUpdateResponse = BindingResource;
+
+// @public
+export type BindingType = string;
+
+// @public
+export type Build = ProxyResource & {
+    properties?: BuildProperties;
+};
+
+// @public
+export interface BuildCollection {
+    nextLink?: string;
+    value?: Build[];
+}
+
+// @public
+export interface BuilderProperties {
+    buildpackGroups?: BuildpacksGroupProperties[];
+    readonly provisioningState?: BuilderProvisioningState;
+    stack?: StackProperties;
+}
+
+// @public
+export type BuilderProvisioningState = string;
+
+// @public
+export type BuilderResource = ProxyResource & {
+    properties?: BuilderProperties;
+};
+
+// @public
+export interface BuilderResourceCollection {
+    nextLink?: string;
+    value?: BuilderResource[];
+}
+
+// @public
+export interface BuildpackBinding {
+    beginCreateOrUpdate(resourceGroupName: string, serviceName: string, buildServiceName: string, builderName: string, buildpackBindingName: string, buildpackBinding: BuildpackBindingResource, options?: BuildpackBindingCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<BuildpackBindingCreateOrUpdateResponse>, BuildpackBindingCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, serviceName: string, buildServiceName: string, builderName: string, buildpackBindingName: string, buildpackBinding: BuildpackBindingResource, options?: BuildpackBindingCreateOrUpdateOptionalParams): Promise<BuildpackBindingCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, serviceName: string, buildServiceName: string, builderName: string, buildpackBindingName: string, options?: BuildpackBindingDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, serviceName: string, buildServiceName: string, builderName: string, buildpackBindingName: string, options?: BuildpackBindingDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, serviceName: string, buildServiceName: string, builderName: string, buildpackBindingName: string, options?: BuildpackBindingGetOptionalParams): Promise<BuildpackBindingGetResponse>;
+    list(resourceGroupName: string, serviceName: string, buildServiceName: string, builderName: string, options?: BuildpackBindingListOptionalParams): PagedAsyncIterableIterator<BuildpackBindingResource>;
+}
+
+// @public
+export interface BuildpackBindingCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BuildpackBindingCreateOrUpdateResponse = BuildpackBindingResource;
+
+// @public
+export interface BuildpackBindingDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BuildpackBindingGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildpackBindingGetResponse = BuildpackBindingResource;
+
+// @public
+export interface BuildpackBindingLaunchProperties {
+    properties?: {
+        [propertyName: string]: string;
+    };
+    secrets?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface BuildpackBindingListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildpackBindingListNextResponse = BuildpackBindingResourceCollection;
+
+// @public
+export interface BuildpackBindingListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildpackBindingListResponse = BuildpackBindingResourceCollection;
+
+// @public
+export interface BuildpackBindingProperties {
+    bindingType?: BindingType;
+    launchProperties?: BuildpackBindingLaunchProperties;
+    readonly provisioningState?: BuildpackBindingProvisioningState;
+}
+
+// @public
+export type BuildpackBindingProvisioningState = string;
+
+// @public
+export type BuildpackBindingResource = ProxyResource & {
+    properties?: BuildpackBindingProperties;
+};
+
+// @public
+export interface BuildpackBindingResourceCollection {
+    nextLink?: string;
+    value?: BuildpackBindingResource[];
+}
+
+// @public
+export interface BuildpackProperties {
+    id?: string;
+}
+
+// @public
+export interface BuildpacksGroupProperties {
+    buildpacks?: BuildpackProperties[];
+    name?: string;
+}
+
+// @public
+export interface BuildProperties {
+    agentPool?: string;
+    builder?: string;
+    env?: {
+        [propertyName: string]: string;
+    };
+    readonly provisioningState?: BuildProvisioningState;
+    relativePath?: string;
+    readonly triggeredBuildResult?: TriggeredBuildResult;
+}
+
+// @public
+export type BuildProvisioningState = string;
+
+// @public
+export type BuildResult = ProxyResource & {
+    properties?: BuildResultProperties;
+};
+
+// @public
+export interface BuildResultCollection {
+    nextLink?: string;
+    value?: BuildResult[];
+}
+
+// @public
+export interface BuildResultLog {
+    blobUrl?: string;
+}
+
+// @public
+export interface BuildResultProperties {
+    buildPodName?: string;
+    readonly buildStages?: BuildStageProperties[];
+    name?: string;
+    readonly provisioningState?: BuildResultProvisioningState;
+}
+
+// @public
+export type BuildResultProvisioningState = string;
+
+// @public
+export type BuildResultUserSourceInfo = UserSourceInfo & {
+    type: "BuildResult";
+    buildResultId?: string;
+};
+
+// @public
+export type BuildService = ProxyResource & {
+    properties?: BuildServiceProperties;
+};
+
+// @public
+export interface BuildServiceAgentPool {
+    beginUpdatePut(resourceGroupName: string, serviceName: string, buildServiceName: string, agentPoolName: string, agentPoolResource: BuildServiceAgentPoolResource, options?: BuildServiceAgentPoolUpdatePutOptionalParams): Promise<PollerLike<PollOperationState<BuildServiceAgentPoolUpdatePutResponse>, BuildServiceAgentPoolUpdatePutResponse>>;
+    beginUpdatePutAndWait(resourceGroupName: string, serviceName: string, buildServiceName: string, agentPoolName: string, agentPoolResource: BuildServiceAgentPoolResource, options?: BuildServiceAgentPoolUpdatePutOptionalParams): Promise<BuildServiceAgentPoolUpdatePutResponse>;
+    get(resourceGroupName: string, serviceName: string, buildServiceName: string, agentPoolName: string, options?: BuildServiceAgentPoolGetOptionalParams): Promise<BuildServiceAgentPoolGetResponse>;
+    list(resourceGroupName: string, serviceName: string, buildServiceName: string, options?: BuildServiceAgentPoolListOptionalParams): PagedAsyncIterableIterator<BuildServiceAgentPoolResource>;
+}
+
+// @public
+export interface BuildServiceAgentPoolGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildServiceAgentPoolGetResponse = BuildServiceAgentPoolResource;
+
+// @public
+export interface BuildServiceAgentPoolListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildServiceAgentPoolListNextResponse = BuildServiceAgentPoolResourceCollection;
+
+// @public
+export interface BuildServiceAgentPoolListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildServiceAgentPoolListResponse = BuildServiceAgentPoolResourceCollection;
+
+// @public
+export interface BuildServiceAgentPoolProperties {
+    poolSize?: BuildServiceAgentPoolSizeProperties;
+    readonly provisioningState?: string;
+}
+
+// @public
+export type BuildServiceAgentPoolResource = ProxyResource & {
+    properties?: BuildServiceAgentPoolProperties;
+};
+
+// @public
+export interface BuildServiceAgentPoolResourceCollection {
+    nextLink?: string;
+    value?: BuildServiceAgentPoolResource[];
+}
+
+// @public
+export interface BuildServiceAgentPoolSizeProperties {
+    readonly cpu?: string;
+    readonly memory?: string;
+    name?: string;
+}
+
+// @public
+export interface BuildServiceAgentPoolUpdatePutOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BuildServiceAgentPoolUpdatePutResponse = BuildServiceAgentPoolResource;
+
+// @public
+export interface BuildServiceBuilder {
+    beginCreateOrUpdate(resourceGroupName: string, serviceName: string, buildServiceName: string, builderName: string, builderResource: BuilderResource, options?: BuildServiceBuilderCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<BuildServiceBuilderCreateOrUpdateResponse>, BuildServiceBuilderCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, serviceName: string, buildServiceName: string, builderName: string, builderResource: BuilderResource, options?: BuildServiceBuilderCreateOrUpdateOptionalParams): Promise<BuildServiceBuilderCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, serviceName: string, buildServiceName: string, builderName: string, options?: BuildServiceBuilderDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, serviceName: string, buildServiceName: string, builderName: string, options?: BuildServiceBuilderDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, serviceName: string, buildServiceName: string, builderName: string, options?: BuildServiceBuilderGetOptionalParams): Promise<BuildServiceBuilderGetResponse>;
+    list(resourceGroupName: string, serviceName: string, buildServiceName: string, options?: BuildServiceBuilderListOptionalParams): PagedAsyncIterableIterator<BuilderResource>;
+}
+
+// @public
+export interface BuildServiceBuilderCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type BuildServiceBuilderCreateOrUpdateResponse = BuilderResource;
+
+// @public
+export interface BuildServiceBuilderDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface BuildServiceBuilderGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildServiceBuilderGetResponse = BuilderResource;
+
+// @public
+export interface BuildServiceBuilderListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildServiceBuilderListNextResponse = BuilderResourceCollection;
+
+// @public
+export interface BuildServiceBuilderListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildServiceBuilderListResponse = BuilderResourceCollection;
+
+// @public
+export interface BuildServiceCollection {
+    nextLink?: string;
+    value?: BuildService[];
+}
+
+// @public
+export interface BuildServiceCreateOrUpdateBuildOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildServiceCreateOrUpdateBuildResponse = Build;
+
+// @public
+export interface BuildServiceGetBuildOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildServiceGetBuildResponse = Build;
+
+// @public
+export interface BuildServiceGetBuildResultLogOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildServiceGetBuildResultLogResponse = BuildResultLog;
+
+// @public
+export interface BuildServiceGetBuildResultOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildServiceGetBuildResultResponse = BuildResult;
+
+// @public
+export interface BuildServiceGetBuildServiceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildServiceGetBuildServiceResponse = BuildService;
+
+// @public
+export interface BuildServiceGetResourceUploadUrlOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildServiceGetResourceUploadUrlResponse = ResourceUploadDefinition;
+
+// @public
+export interface BuildServiceGetSupportedBuildpackOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildServiceGetSupportedBuildpackResponse = SupportedBuildpackResource;
+
+// @public
+export interface BuildServiceGetSupportedStackOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildServiceGetSupportedStackResponse = SupportedStackResource;
+
+// @public
+export interface BuildServiceListBuildResultsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildServiceListBuildResultsNextResponse = BuildResultCollection;
+
+// @public
+export interface BuildServiceListBuildResultsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildServiceListBuildResultsResponse = BuildResultCollection;
+
+// @public
+export interface BuildServiceListBuildServicesNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildServiceListBuildServicesNextResponse = BuildServiceCollection;
+
+// @public
+export interface BuildServiceListBuildServicesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildServiceListBuildServicesResponse = BuildServiceCollection;
+
+// @public
+export interface BuildServiceListBuildsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildServiceListBuildsNextResponse = BuildCollection;
+
+// @public
+export interface BuildServiceListBuildsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildServiceListBuildsResponse = BuildCollection;
+
+// @public
+export interface BuildServiceListSupportedBuildpacksOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildServiceListSupportedBuildpacksResponse = SupportedBuildpacksCollection;
+
+// @public
+export interface BuildServiceListSupportedStacksOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type BuildServiceListSupportedStacksResponse = SupportedStacksCollection;
+
+// @public
+export interface BuildServiceOperations {
+    createOrUpdateBuild(resourceGroupName: string, serviceName: string, buildServiceName: string, buildName: string, build: Build, options?: BuildServiceCreateOrUpdateBuildOptionalParams): Promise<BuildServiceCreateOrUpdateBuildResponse>;
+    getBuild(resourceGroupName: string, serviceName: string, buildServiceName: string, buildName: string, options?: BuildServiceGetBuildOptionalParams): Promise<BuildServiceGetBuildResponse>;
+    getBuildResult(resourceGroupName: string, serviceName: string, buildServiceName: string, buildName: string, buildResultName: string, options?: BuildServiceGetBuildResultOptionalParams): Promise<BuildServiceGetBuildResultResponse>;
+    getBuildResultLog(resourceGroupName: string, serviceName: string, buildServiceName: string, buildName: string, buildResultName: string, options?: BuildServiceGetBuildResultLogOptionalParams): Promise<BuildServiceGetBuildResultLogResponse>;
+    getBuildService(resourceGroupName: string, serviceName: string, buildServiceName: string, options?: BuildServiceGetBuildServiceOptionalParams): Promise<BuildServiceGetBuildServiceResponse>;
+    getResourceUploadUrl(resourceGroupName: string, serviceName: string, buildServiceName: string, options?: BuildServiceGetResourceUploadUrlOptionalParams): Promise<BuildServiceGetResourceUploadUrlResponse>;
+    getSupportedBuildpack(resourceGroupName: string, serviceName: string, buildServiceName: string, buildpackName: string, options?: BuildServiceGetSupportedBuildpackOptionalParams): Promise<BuildServiceGetSupportedBuildpackResponse>;
+    getSupportedStack(resourceGroupName: string, serviceName: string, buildServiceName: string, stackName: string, options?: BuildServiceGetSupportedStackOptionalParams): Promise<BuildServiceGetSupportedStackResponse>;
+    listBuildResults(resourceGroupName: string, serviceName: string, buildServiceName: string, buildName: string, options?: BuildServiceListBuildResultsOptionalParams): PagedAsyncIterableIterator<BuildResult>;
+    listBuilds(resourceGroupName: string, serviceName: string, buildServiceName: string, options?: BuildServiceListBuildsOptionalParams): PagedAsyncIterableIterator<Build>;
+    listBuildServices(resourceGroupName: string, serviceName: string, options?: BuildServiceListBuildServicesOptionalParams): PagedAsyncIterableIterator<BuildService>;
+    listSupportedBuildpacks(resourceGroupName: string, serviceName: string, buildServiceName: string, options?: BuildServiceListSupportedBuildpacksOptionalParams): Promise<BuildServiceListSupportedBuildpacksResponse>;
+    listSupportedStacks(resourceGroupName: string, serviceName: string, buildServiceName: string, options?: BuildServiceListSupportedStacksOptionalParams): Promise<BuildServiceListSupportedStacksResponse>;
+}
+
+// @public
+export interface BuildServiceProperties {
+    kPackVersion?: string;
+    readonly provisioningState?: BuildServiceProvisioningState;
+    resourceRequests?: BuildServicePropertiesResourceRequests;
+}
+
+// @public
+export interface BuildServicePropertiesResourceRequests {
+    readonly cpu?: string;
+    readonly memory?: string;
+}
+
+// @public
+export type BuildServiceProvisioningState = string;
+
+// @public
+export interface BuildStageProperties {
+    readonly name?: string;
+    readonly status?: KPackBuildStageProvisioningState;
+}
 
 // @public
 export interface CertificateProperties {
@@ -354,11 +815,13 @@ export interface CloudErrorBody {
 
 // @public
 export interface ClusterResourceProperties {
+    readonly fqdn?: string;
     networkProfile?: NetworkProfile;
-    readonly powerState?: PowerState;
     readonly provisioningState?: ProvisioningState;
     readonly serviceId?: string;
     readonly version?: number;
+    // (undocumented)
+    zoneRedundant?: boolean;
 }
 
 // @public
@@ -454,22 +917,141 @@ export interface ConfigServersValidateOptionalParams extends coreClient.Operatio
 export type ConfigServersValidateResponse = ConfigServerSettingsValidateResult;
 
 // @public
+export interface ConfigurationServiceGitProperty {
+    repositories?: ConfigurationServiceGitRepository[];
+}
+
+// @public
+export interface ConfigurationServiceGitPropertyValidateResult {
+    gitReposValidationResult?: ValidationMessages[];
+    isValid?: boolean;
+}
+
+// @public
+export interface ConfigurationServiceGitRepository {
+    hostKey?: string;
+    hostKeyAlgorithm?: string;
+    label: string;
+    name: string;
+    password?: string;
+    patterns: string[];
+    privateKey?: string;
+    searchPaths?: string[];
+    strictHostKeyChecking?: boolean;
+    uri: string;
+    username?: string;
+}
+
+// @public
+export interface ConfigurationServiceInstance {
+    readonly name?: string;
+    readonly status?: string;
+}
+
+// @public
+export interface ConfigurationServiceProperties {
+    readonly instances?: ConfigurationServiceInstance[];
+    readonly provisioningState?: ConfigurationServiceProvisioningState;
+    readonly resourceRequests?: ConfigurationServiceResourceRequests;
+    settings?: ConfigurationServiceSettings;
+}
+
+// @public
+export type ConfigurationServiceProvisioningState = string;
+
+// @public
+export type ConfigurationServiceResource = ProxyResource & {
+    properties?: ConfigurationServiceProperties;
+};
+
+// @public
+export interface ConfigurationServiceResourceCollection {
+    nextLink?: string;
+    value?: ConfigurationServiceResource[];
+}
+
+// @public
+export interface ConfigurationServiceResourceRequests {
+    readonly cpu?: string;
+    readonly instanceCount?: number;
+    readonly memory?: string;
+}
+
+// @public
+export interface ConfigurationServices {
+    beginCreateOrUpdate(resourceGroupName: string, serviceName: string, configurationServiceName: string, configurationServiceResource: ConfigurationServiceResource, options?: ConfigurationServicesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ConfigurationServicesCreateOrUpdateResponse>, ConfigurationServicesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, serviceName: string, configurationServiceName: string, configurationServiceResource: ConfigurationServiceResource, options?: ConfigurationServicesCreateOrUpdateOptionalParams): Promise<ConfigurationServicesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, serviceName: string, configurationServiceName: string, options?: ConfigurationServicesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, serviceName: string, configurationServiceName: string, options?: ConfigurationServicesDeleteOptionalParams): Promise<void>;
+    beginValidate(resourceGroupName: string, serviceName: string, configurationServiceName: string, settings: ConfigurationServiceSettings, options?: ConfigurationServicesValidateOptionalParams): Promise<PollerLike<PollOperationState<ConfigurationServicesValidateResponse>, ConfigurationServicesValidateResponse>>;
+    beginValidateAndWait(resourceGroupName: string, serviceName: string, configurationServiceName: string, settings: ConfigurationServiceSettings, options?: ConfigurationServicesValidateOptionalParams): Promise<ConfigurationServicesValidateResponse>;
+    get(resourceGroupName: string, serviceName: string, configurationServiceName: string, options?: ConfigurationServicesGetOptionalParams): Promise<ConfigurationServicesGetResponse>;
+    list(resourceGroupName: string, serviceName: string, options?: ConfigurationServicesListOptionalParams): PagedAsyncIterableIterator<ConfigurationServiceResource>;
+}
+
+// @public
+export interface ConfigurationServicesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ConfigurationServicesCreateOrUpdateResponse = ConfigurationServiceResource;
+
+// @public
+export interface ConfigurationServicesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ConfigurationServiceSettings {
+    gitProperty?: ConfigurationServiceGitProperty;
+}
+
+// @public
+export interface ConfigurationServiceSettingsValidateResult {
+    gitPropertyValidationResult?: ConfigurationServiceGitPropertyValidateResult;
+}
+
+// @public
+export interface ConfigurationServicesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConfigurationServicesGetResponse = ConfigurationServiceResource;
+
+// @public
+export interface ConfigurationServicesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConfigurationServicesListNextResponse = ConfigurationServiceResourceCollection;
+
+// @public
+export interface ConfigurationServicesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ConfigurationServicesListResponse = ConfigurationServiceResourceCollection;
+
+// @public
+export interface ConfigurationServicesValidateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ConfigurationServicesValidateResponse = ConfigurationServiceSettingsValidateResult;
+
+// @public
 export type ContentCertificateProperties = CertificateProperties & {
     type: "ContentCertificate";
-    content: string;
+    content?: string;
 };
 
 // @public
 export type CreatedByType = string;
-
-// @public
-export interface CustomContainer {
-    args?: string[];
-    command?: string[];
-    containerImage?: string;
-    imageRegistryCredential?: ImageRegistryCredential;
-    server?: string;
-}
 
 // @public
 export interface CustomDomainProperties {
@@ -558,29 +1140,13 @@ export interface CustomDomainValidateResult {
 }
 
 // @public
-export interface CustomPersistentDiskProperties {
-    mountOptions?: string[];
-    mountPath: string;
-    readonly?: boolean;
-    type: "AzureFileVolume";
-}
-
-// @public (undocumented)
-export type CustomPersistentDiskPropertiesUnion = CustomPersistentDiskProperties | AzureFileVolume;
-
-// @public
-export interface CustomPersistentDiskResource {
-    customPersistentDiskProperties?: CustomPersistentDiskPropertiesUnion;
-    storageId: string;
-}
-
-// @public
 export interface DeploymentInstance {
     readonly discoveryStatus?: string;
     readonly name?: string;
     readonly reason?: string;
     readonly startTime?: string;
     readonly status?: string;
+    readonly zone?: string;
 }
 
 // @public
@@ -597,13 +1163,11 @@ export interface DeploymentResourceCollection {
 
 // @public
 export interface DeploymentResourceProperties {
-    readonly active?: boolean;
-    readonly appName?: string;
-    readonly createdTime?: Date;
+    active?: boolean;
     deploymentSettings?: DeploymentSettings;
     readonly instances?: DeploymentInstance[];
     readonly provisioningState?: DeploymentResourceProvisioningState;
-    source?: UserSourceInfo;
+    source?: UserSourceInfoUnion;
     readonly status?: DeploymentResourceStatus;
 }
 
@@ -656,15 +1220,15 @@ export interface DeploymentsDeleteOptionalParams extends coreClient.OperationOpt
 
 // @public
 export interface DeploymentSettings {
-    cpu?: number;
+    addonConfigs?: {
+        [propertyName: string]: {
+            [propertyName: string]: Record<string, unknown>;
+        };
+    };
     environmentVariables?: {
         [propertyName: string]: string;
     };
-    jvmOptions?: string;
-    memoryInGB?: number;
-    netCoreMainEntryPath?: string;
     resourceRequests?: ResourceRequests;
-    runtimeVersion?: RuntimeVersion;
 }
 
 // @public
@@ -787,10 +1351,11 @@ export interface GitPatternRepository {
 }
 
 // @public
-export interface ImageRegistryCredential {
-    password?: string;
-    username?: string;
-}
+export type JarUploadedUserSourceInfo = UploadedUserSourceInfo & {
+    type: "Jar";
+    runtimeVersion?: string;
+    jvmOptions?: string;
+};
 
 // @public
 export type KeyVaultCertificateProperties = CertificateProperties & {
@@ -802,9 +1367,103 @@ export type KeyVaultCertificateProperties = CertificateProperties & {
 };
 
 // @public
+export enum KnownActionType {
+    // (undocumented)
+    Internal = "Internal"
+}
+
+// @public
 export enum KnownAppResourceProvisioningState {
     // (undocumented)
     Creating = "Creating",
+    // (undocumented)
+    Deleting = "Deleting",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Succeeded = "Succeeded",
+    // (undocumented)
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownBindingType {
+    // (undocumented)
+    ApacheSkyWalking = "ApacheSkyWalking",
+    // (undocumented)
+    AppDynamics = "AppDynamics",
+    // (undocumented)
+    ApplicationInsights = "ApplicationInsights",
+    // (undocumented)
+    Dynatrace = "Dynatrace",
+    // (undocumented)
+    ElasticAPM = "ElasticAPM",
+    // (undocumented)
+    NewRelic = "NewRelic"
+}
+
+// @public
+export enum KnownBuilderProvisioningState {
+    // (undocumented)
+    Creating = "Creating",
+    // (undocumented)
+    Deleting = "Deleting",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Succeeded = "Succeeded",
+    // (undocumented)
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownBuildpackBindingProvisioningState {
+    // (undocumented)
+    Creating = "Creating",
+    // (undocumented)
+    Deleting = "Deleting",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Succeeded = "Succeeded",
+    // (undocumented)
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownBuildProvisioningState {
+    // (undocumented)
+    Creating = "Creating",
+    // (undocumented)
+    Deleting = "Deleting",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Succeeded = "Succeeded",
+    // (undocumented)
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownBuildResultProvisioningState {
+    // (undocumented)
+    Building = "Building",
+    // (undocumented)
+    Deleting = "Deleting",
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Queuing = "Queuing",
+    // (undocumented)
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownBuildServiceProvisioningState {
+    // (undocumented)
+    Creating = "Creating",
+    // (undocumented)
+    Deleting = "Deleting",
     // (undocumented)
     Failed = "Failed",
     // (undocumented)
@@ -821,6 +1480,20 @@ export enum KnownConfigServerState {
     Failed = "Failed",
     // (undocumented)
     NotAvailable = "NotAvailable",
+    // (undocumented)
+    Succeeded = "Succeeded",
+    // (undocumented)
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownConfigurationServiceProvisioningState {
+    // (undocumented)
+    Creating = "Creating",
+    // (undocumented)
+    Deleting = "Deleting",
+    // (undocumented)
+    Failed = "Failed",
     // (undocumented)
     Succeeded = "Succeeded",
     // (undocumented)
@@ -854,19 +1527,33 @@ export enum KnownDeploymentResourceProvisioningState {
 // @public
 export enum KnownDeploymentResourceStatus {
     // (undocumented)
-    Allocating = "Allocating",
+    Running = "Running",
     // (undocumented)
-    Compiling = "Compiling",
+    Stopped = "Stopped"
+}
+
+// @public
+export enum KnownKPackBuildStageProvisioningState {
     // (undocumented)
     Failed = "Failed",
     // (undocumented)
+    NotStarted = "NotStarted",
+    // (undocumented)
     Running = "Running",
     // (undocumented)
-    Stopped = "Stopped",
+    Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownLastModifiedByType {
     // (undocumented)
-    Unknown = "Unknown",
+    Application = "Application",
     // (undocumented)
-    Upgrading = "Upgrading"
+    Key = "Key",
+    // (undocumented)
+    ManagedIdentity = "ManagedIdentity",
+    // (undocumented)
+    User = "User"
 }
 
 // @public
@@ -894,14 +1581,6 @@ export enum KnownMonitoringSettingState {
 }
 
 // @public
-export enum KnownPowerState {
-    // (undocumented)
-    Running = "Running",
-    // (undocumented)
-    Stopped = "Stopped"
-}
-
-// @public
 export enum KnownProvisioningState {
     // (undocumented)
     Creating = "Creating",
@@ -917,6 +1596,10 @@ export enum KnownProvisioningState {
     MoveFailed = "MoveFailed",
     // (undocumented)
     Moving = "Moving",
+    // (undocumented)
+    Starting = "Starting",
+    // (undocumented)
+    Stopping = "Stopping",
     // (undocumented)
     Succeeded = "Succeeded",
     // (undocumented)
@@ -940,13 +1623,17 @@ export enum KnownResourceSkuRestrictionsType {
 }
 
 // @public
-export enum KnownRuntimeVersion {
+export enum KnownServiceRegistryProvisioningState {
     // (undocumented)
-    Java11 = "Java_11",
+    Creating = "Creating",
     // (undocumented)
-    Java8 = "Java_8",
+    Deleting = "Deleting",
     // (undocumented)
-    NetCore31 = "NetCore_31"
+    Failed = "Failed",
+    // (undocumented)
+    Succeeded = "Succeeded",
+    // (undocumented)
+    Updating = "Updating"
 }
 
 // @public
@@ -972,6 +1659,8 @@ export enum KnownSupportedRuntimeValue {
     // (undocumented)
     Java11 = "Java_11",
     // (undocumented)
+    Java17 = "Java_17",
+    // (undocumented)
     Java8 = "Java_8",
     // (undocumented)
     NetCore31 = "NetCore_31"
@@ -994,16 +1683,10 @@ export enum KnownTrafficDirection {
 }
 
 // @public
-export enum KnownUserSourceType {
-    // (undocumented)
-    Container = "Container",
-    // (undocumented)
-    Jar = "Jar",
-    // (undocumented)
-    NetCoreZip = "NetCoreZip",
-    // (undocumented)
-    Source = "Source"
-}
+export type KPackBuildStageProvisioningState = string;
+
+// @public
+export type LastModifiedByType = string;
 
 // @public
 export interface LoadedCertificate {
@@ -1121,6 +1804,13 @@ export interface NameAvailabilityParameters {
 }
 
 // @public
+export type NetCoreZipUploadedUserSourceInfo = UploadedUserSourceInfo & {
+    type: "NetCoreZip";
+    netCoreMainEntryPath?: string;
+    runtimeVersion?: string;
+};
+
+// @public
 export interface NetworkProfile {
     appNetworkResourceGroup?: string;
     appSubnetId?: string;
@@ -1138,6 +1828,7 @@ export interface NetworkProfileOutboundIPs {
 
 // @public
 export interface OperationDetail {
+    readonly actionType?: ActionType;
     display?: OperationDisplay;
     isDataAction?: boolean;
     name?: string;
@@ -1185,9 +1876,6 @@ export interface PersistentDisk {
 }
 
 // @public
-export type PowerState = string;
-
-// @public
 export type ProvisioningState = string;
 
 // @public
@@ -1211,6 +1899,7 @@ export interface RequiredTraffic {
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -1283,9 +1972,6 @@ export interface ResourceUploadDefinition {
 }
 
 // @public
-export type RuntimeVersion = string;
-
-// @public
 export interface RuntimeVersions {
     listRuntimeVersions(options?: RuntimeVersionsListRuntimeVersionsOptionalParams): Promise<RuntimeVersionsListRuntimeVersionsResponse>;
 }
@@ -1296,6 +1982,86 @@ export interface RuntimeVersionsListRuntimeVersionsOptionalParams extends coreCl
 
 // @public
 export type RuntimeVersionsListRuntimeVersionsResponse = AvailableRuntimeVersions;
+
+// @public
+export interface ServiceRegistries {
+    beginCreateOrUpdate(resourceGroupName: string, serviceName: string, serviceRegistryName: string, options?: ServiceRegistriesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ServiceRegistriesCreateOrUpdateResponse>, ServiceRegistriesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, serviceName: string, serviceRegistryName: string, options?: ServiceRegistriesCreateOrUpdateOptionalParams): Promise<ServiceRegistriesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, serviceName: string, serviceRegistryName: string, options?: ServiceRegistriesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, serviceName: string, serviceRegistryName: string, options?: ServiceRegistriesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, serviceName: string, serviceRegistryName: string, options?: ServiceRegistriesGetOptionalParams): Promise<ServiceRegistriesGetResponse>;
+    list(resourceGroupName: string, serviceName: string, options?: ServiceRegistriesListOptionalParams): PagedAsyncIterableIterator<ServiceRegistryResource>;
+}
+
+// @public
+export interface ServiceRegistriesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ServiceRegistriesCreateOrUpdateResponse = ServiceRegistryResource;
+
+// @public
+export interface ServiceRegistriesDeleteOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ServiceRegistriesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServiceRegistriesGetResponse = ServiceRegistryResource;
+
+// @public
+export interface ServiceRegistriesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServiceRegistriesListNextResponse = ServiceRegistryResourceCollection;
+
+// @public
+export interface ServiceRegistriesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServiceRegistriesListResponse = ServiceRegistryResourceCollection;
+
+// @public
+export interface ServiceRegistryInstance {
+    readonly name?: string;
+    readonly status?: string;
+}
+
+// @public
+export interface ServiceRegistryProperties {
+    readonly instances?: ServiceRegistryInstance[];
+    readonly provisioningState?: ServiceRegistryProvisioningState;
+    readonly resourceRequests?: ServiceRegistryResourceRequests;
+}
+
+// @public
+export type ServiceRegistryProvisioningState = string;
+
+// @public
+export type ServiceRegistryResource = ProxyResource & {
+    properties?: ServiceRegistryProperties;
+};
+
+// @public
+export interface ServiceRegistryResourceCollection {
+    nextLink?: string;
+    value?: ServiceRegistryResource[];
+}
+
+// @public
+export interface ServiceRegistryResourceRequests {
+    readonly cpu?: string;
+    readonly instanceCount?: number;
+    readonly memory?: string;
+}
 
 // @public
 export type ServiceResource = TrackedResource & {
@@ -1315,10 +2081,6 @@ export interface Services {
     beginCreateOrUpdateAndWait(resourceGroupName: string, serviceName: string, resource: ServiceResource, options?: ServicesCreateOrUpdateOptionalParams): Promise<ServicesCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, serviceName: string, options?: ServicesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, serviceName: string, options?: ServicesDeleteOptionalParams): Promise<void>;
-    beginStart(resourceGroupName: string, serviceName: string, options?: ServicesStartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginStartAndWait(resourceGroupName: string, serviceName: string, options?: ServicesStartOptionalParams): Promise<void>;
-    beginStop(resourceGroupName: string, serviceName: string, options?: ServicesStopOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginStopAndWait(resourceGroupName: string, serviceName: string, options?: ServicesStopOptionalParams): Promise<void>;
     beginUpdate(resourceGroupName: string, serviceName: string, resource: ServiceResource, options?: ServicesUpdateOptionalParams): Promise<PollerLike<PollOperationState<ServicesUpdateResponse>, ServicesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, serviceName: string, resource: ServiceResource, options?: ServicesUpdateOptionalParams): Promise<ServicesUpdateResponse>;
     checkNameAvailability(location: string, availabilityParameters: NameAvailabilityParameters, options?: ServicesCheckNameAvailabilityOptionalParams): Promise<ServicesCheckNameAvailabilityResponse>;
@@ -1420,18 +2182,6 @@ export interface ServicesRegenerateTestKeyOptionalParams extends coreClient.Oper
 export type ServicesRegenerateTestKeyResponse = TestKeys;
 
 // @public
-export interface ServicesStartOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface ServicesStopOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
 export interface ServicesUpdateOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1478,77 +2228,33 @@ export interface SkusListOptionalParams extends coreClient.OperationOptions {
 export type SkusListResponse = ResourceSkuCollection;
 
 // @public
-export type StorageAccount = StorageProperties & {
-    storageType: "StorageAccount";
-    accountName: string;
-    accountKey: string;
+export type SourceUploadedUserSourceInfo = UploadedUserSourceInfo & {
+    type: "Source";
+    artifactSelector?: string;
+    runtimeVersion?: string;
 };
 
 // @public
-export interface StorageProperties {
-    storageType: "StorageAccount";
+export interface StackProperties {
+    id?: string;
+    version?: string;
 }
 
-// @public (undocumented)
-export type StoragePropertiesUnion = StorageProperties | StorageAccount;
-
 // @public
-export type StorageResource = ProxyResource & {
-    properties?: StoragePropertiesUnion;
-    readonly systemData?: SystemData;
+export type SupportedBuildpackResource = ProxyResource & {
+    properties?: SupportedBuildpackResourceProperties;
 };
 
 // @public
-export interface StorageResourceCollection {
+export interface SupportedBuildpackResourceProperties {
+    buildpackId?: string;
+}
+
+// @public
+export interface SupportedBuildpacksCollection {
     nextLink?: string;
-    value?: StorageResource[];
+    value?: SupportedBuildpackResource[];
 }
-
-// @public
-export interface Storages {
-    beginCreateOrUpdate(resourceGroupName: string, serviceName: string, storageName: string, storageResource: StorageResource, options?: StoragesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<StoragesCreateOrUpdateResponse>, StoragesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, serviceName: string, storageName: string, storageResource: StorageResource, options?: StoragesCreateOrUpdateOptionalParams): Promise<StoragesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, serviceName: string, storageName: string, options?: StoragesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, serviceName: string, storageName: string, options?: StoragesDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, serviceName: string, storageName: string, options?: StoragesGetOptionalParams): Promise<StoragesGetResponse>;
-    list(resourceGroupName: string, serviceName: string, options?: StoragesListOptionalParams): PagedAsyncIterableIterator<StorageResource>;
-}
-
-// @public
-export interface StoragesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type StoragesCreateOrUpdateResponse = StorageResource;
-
-// @public
-export interface StoragesDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface StoragesGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StoragesGetResponse = StorageResource;
-
-// @public
-export interface StoragesListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StoragesListNextResponse = StorageResourceCollection;
-
-// @public
-export interface StoragesListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type StoragesListResponse = StorageResourceCollection;
 
 // @public
 export type SupportedRuntimePlatform = string;
@@ -1564,13 +2270,30 @@ export interface SupportedRuntimeVersion {
 }
 
 // @public
+export type SupportedStackResource = ProxyResource & {
+    properties?: SupportedStackResourceProperties;
+};
+
+// @public
+export interface SupportedStackResourceProperties {
+    stackId?: string;
+    version?: string;
+}
+
+// @public
+export interface SupportedStacksCollection {
+    nextLink?: string;
+    value?: SupportedStackResource[];
+}
+
+// @public
 export interface SystemData {
     createdAt?: Date;
     createdBy?: string;
     createdByType?: CreatedByType;
     lastModifiedAt?: Date;
     lastModifiedBy?: string;
-    lastModifiedByType?: CreatedByType;
+    lastModifiedByType?: LastModifiedByType;
 }
 
 // @public
@@ -1603,17 +2326,33 @@ export type TrackedResource = Resource & {
 export type TrafficDirection = string;
 
 // @public
-export interface UserSourceInfo {
-    artifactSelector?: string;
-    customContainer?: CustomContainer;
-    relativePath?: string;
-    type?: UserSourceType;
-    version?: string;
+export interface TriggeredBuildResult {
+    id?: string;
 }
 
 // @public
-export type UserSourceType = string;
+export type UploadedUserSourceInfo = UserSourceInfo & {
+    type: "UploadedUserSourceInfo" | "Jar" | "Source" | "NetCoreZip";
+    relativePath?: string;
+};
 
+// @public (undocumented)
+export type UploadedUserSourceInfoUnion = UploadedUserSourceInfo | JarUploadedUserSourceInfo | SourceUploadedUserSourceInfo | NetCoreZipUploadedUserSourceInfo;
+
+// @public
+export interface UserSourceInfo {
+    type: "UploadedUserSourceInfo" | "Jar" | "Source" | "NetCoreZip" | "BuildResult";
+    version?: string;
+}
+
+// @public (undocumented)
+export type UserSourceInfoUnion = UserSourceInfo | UploadedUserSourceInfoUnion | BuildResultUserSourceInfo;
+
+// @public
+export interface ValidationMessages {
+    messages?: string[];
+    name?: string;
+}
 
 // (No @packageDocumentation comment for this package)
 

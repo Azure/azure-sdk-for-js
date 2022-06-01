@@ -7,46 +7,46 @@ import {
   credentialLogger,
   CredentialLogger,
   formatSuccess,
-  formatError
+  formatError,
 } from "../../src/util/logging";
 import { TokenCredential, GetTokenOptions, AccessToken } from "../../src";
 
-describe("Identity logging utilities", function() {
-  describe("credentialLoggerInstance", function() {
-    it("info", async function() {
+describe("Identity logging utilities", function () {
+  describe("credentialLoggerInstance", function () {
+    it("info", async function () {
       const allParams: any[] = [];
       const fakeLogger = {
-        info: (...params: any) => allParams.push(params)
+        info: (...params: any) => allParams.push(params),
       };
       const logger = credentialLoggerInstance("title", undefined, fakeLogger as any);
       logger.info("message");
       assert.equal(allParams[0].join(" "), "title => message");
     });
 
-    it("success", async function() {
+    it("success", async function () {
       const allParams: any[] = [];
       const fakeLogger = {
-        info: (...params: any) => allParams.push(params)
+        info: (...params: any) => allParams.push(params),
       };
       const logger = credentialLoggerInstance("title", undefined, fakeLogger as any);
       logger.info(formatSuccess("scope"));
       assert.equal(allParams[0].join(" "), "title => SUCCESS. Scopes: scope.");
     });
 
-    it("success with multiple scopes", async function() {
+    it("success with multiple scopes", async function () {
       const allParams: any[] = [];
       const fakeLogger = {
-        info: (...params: any) => allParams.push(params)
+        info: (...params: any) => allParams.push(params),
       };
       const logger = credentialLoggerInstance("title", undefined, fakeLogger as any);
       logger.info(formatSuccess(["scope 1", "scope 2"]));
       assert.equal(allParams[0].join(" "), "title => SUCCESS. Scopes: scope 1, scope 2.");
     });
 
-    it("error (with formatError)", async function() {
+    it("error (with formatError)", async function () {
       const allParams: any[] = [];
       const fakeLogger = {
-        info: (...params: any) => allParams.push(params)
+        info: (...params: any) => allParams.push(params),
       };
       const logger = credentialLoggerInstance("title", undefined, fakeLogger as any);
       logger.info(formatError("scope", new Error("message")));
@@ -57,21 +57,21 @@ describe("Identity logging utilities", function() {
     });
   });
 
-  describe("credentialLogger", function() {
-    it("info", async function() {
+  describe("credentialLogger", function () {
+    it("info", async function () {
       const allParams: any[] = [];
       const fakeLogger = {
-        info: (...params: any) => allParams.push(params)
+        info: (...params: any) => allParams.push(params),
       };
       const logger = credentialLogger("title", fakeLogger as any);
       logger.info("message");
       assert.equal(allParams[0].join(" "), "title => message");
     });
 
-    it("getToken.info", async function() {
+    it("getToken.info", async function () {
       const allParams: any[] = [];
       const fakeLogger = {
-        info: (...params: any) => allParams.push(params)
+        info: (...params: any) => allParams.push(params),
       };
       const logger = credentialLogger("title", fakeLogger as any);
       logger.getToken.info("message");
@@ -79,10 +79,10 @@ describe("Identity logging utilities", function() {
     });
   });
 
-  it("credentialLogger with a fake credential", async function() {
+  it("credentialLogger with a fake credential", async function () {
     const allInfoParams: any[] = [];
     const fakeLogger = {
-      info: (...params: any) => allInfoParams.push(params)
+      info: (...params: any) => allInfoParams.push(params),
     };
 
     class FakeCredential implements TokenCredential {

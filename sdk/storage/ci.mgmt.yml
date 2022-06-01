@@ -1,0 +1,36 @@
+# NOTE: Please refer to https://aka.ms/azsdk/engsys/ci-yaml before editing this file.
+                
+trigger:
+  branches:
+    include:
+      - main
+      - release/*
+      - hotfix/*
+  paths:
+    include:
+      - sdk/storage/ci.mgmt.yml
+      - sdk/storage/arm-storage-profile-2020-09-01-hybrid
+      - sdk/storage/arm-storage
+pr:
+  branches:
+    include:
+      - main
+      - feature/*
+      - release/*
+      - hotfix/*
+    exclude:
+      - feature/v4
+  paths:
+    include:
+      - sdk/storage/ci.mgmt.yml
+      - sdk/storage/arm-storage-profile-2020-09-01-hybrid
+      - sdk/storage/arm-storage
+extends:
+  template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
+  parameters:
+    ServiceDirectory: storage
+    Artifacts:
+      - name: azure-arm-storage
+        safeName: azurearmstorage
+      - name: azure-arm-storage-profile-2020-09-01-hybrid
+        safeName: azurearmstorageprofile20200901hybrid

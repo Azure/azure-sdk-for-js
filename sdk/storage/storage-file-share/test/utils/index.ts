@@ -1,24 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential } from "@azure/core-http";
 import { randomBytes } from "crypto";
 import * as fs from "fs";
 import * as path from "path";
+
+import { TokenCredential } from "@azure/core-http";
+import { BlobServiceClient } from "@azure/storage-blob";
 
 import {
   AccountSASPermissions,
   AccountSASResourceTypes,
   AccountSASServices,
   generateAccountSASQueryParameters,
-  SASProtocol
+  SASProtocol,
 } from "../../src";
 import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
 import { newPipeline } from "../../src/Pipeline";
 import { ShareServiceClient } from "../../src/ShareServiceClient";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import { getUniqueName, SimpleTokenCredential } from "./testutils.common";
-import { BlobServiceClient } from "@azure/storage-blob";
 
 export * from "./testutils.common";
 
@@ -162,7 +163,7 @@ export function getSASConnectionStringFromEnvironment(): string {
       resourceTypes: AccountSASResourceTypes.parse("sco").toString(),
       services: AccountSASServices.parse("btqf").toString(),
       startsOn: now,
-      version: "2016-05-31"
+      version: "2016-05-31",
     },
     sharedKeyCredential as StorageSharedKeyCredential
   ).toString();

@@ -9,10 +9,10 @@ import * as testData from "./utils/testData";
 
 chaiUse(chaiPromises);
 
-describe("EventGridDeserializer", function() {
+describe("EventGridDeserializer", function () {
   const consumer = new EventGridDeserializer();
 
-  describe("#deserializeEventGridEvents", function() {
+  describe("#deserializeEventGridEvents", function () {
     it("deserializes a single event", async () => {
       const events = await consumer.deserializeEventGridEvents(
         testData.customTestEvent1.eventGridSchema.encodedEvent
@@ -35,7 +35,7 @@ describe("EventGridDeserializer", function() {
       const events = await consumer.deserializeEventGridEvents(
         wrapEncodedEventsInArray([
           testData.customTestEvent1.eventGridSchema,
-          testData.customTestEvent2.eventGridSchema
+          testData.customTestEvent2.eventGridSchema,
         ])
       );
 
@@ -52,7 +52,7 @@ describe("EventGridDeserializer", function() {
         "id",
         "metadataVersion",
         "data",
-        "dataVersion"
+        "dataVersion",
       ]) {
         delete o[property];
 
@@ -74,7 +74,7 @@ describe("EventGridDeserializer", function() {
     });
   });
 
-  describe("#deserializeCloudEvents", function() {
+  describe("#deserializeCloudEvents", function () {
     it("deserializes a single event", async () => {
       const events = await consumer.deserializeCloudEvents(
         testData.customTestEvent1.cloudEventSchema.encodedEvent
@@ -97,7 +97,7 @@ describe("EventGridDeserializer", function() {
       const events = await consumer.deserializeCloudEvents(
         wrapEncodedEventsInArray([
           testData.customTestEvent1.cloudEventSchema,
-          testData.customTestEvent2.cloudEventSchema
+          testData.customTestEvent2.cloudEventSchema,
         ])
       );
 
@@ -134,7 +134,7 @@ describe("EventGridDeserializer", function() {
         id: "a-unique-id",
         source: "/azure/sdk/test",
         specversion: "1.0",
-        data_base64: "AAECAwQFBgcICQ==" /* Base 64 encoding of: 0x01 0x02 ... 0x09 */
+        data_base64: "AAECAwQFBgcICQ==" /* Base 64 encoding of: 0x01 0x02 ... 0x09 */,
       });
 
       assert.strictEqual(events.length, 1);

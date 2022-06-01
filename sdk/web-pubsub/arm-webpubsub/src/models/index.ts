@@ -25,11 +25,11 @@ export interface Operation {
   name?: string;
   /** If the operation is a data action. (for data plane rbac) */
   isDataAction?: boolean;
-  /** The object that describes the operation. */
+  /** The object that describes a operation. */
   display?: OperationDisplay;
   /** Optional. The intended executor of the operation; governs the display of the operation in the RBAC UX and the audit logs UX. */
   origin?: string;
-  /** Extra properties for the operation. */
+  /** Extra Operation properties. */
   properties?: OperationProperties;
 }
 
@@ -47,7 +47,7 @@ export interface OperationDisplay {
 
 /** Extra Operation properties. */
 export interface OperationProperties {
-  /** The service specifications. */
+  /** An object that describes a specification. */
   serviceSpecification?: ServiceSpecification;
 }
 
@@ -214,25 +214,6 @@ export interface WebPubSubResourceList {
   nextLink?: string;
 }
 
-/** The core properties of ARM resources. */
-export interface Resource {
-  /**
-   * Fully qualified resource Id for the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource - e.g. "Microsoft.SignalRService/SignalR"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-}
-
 /** The billing information of the resource. */
 export interface ResourceSku {
   /**
@@ -299,89 +280,88 @@ export interface PrivateLinkServiceConnectionState {
   actionsRequired?: string;
 }
 
+/** The core properties of ARM resources. */
+export interface Resource {
+  /**
+   * Fully qualified resource Id for the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource - e.g. "Microsoft.SignalRService/SignalR"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+}
+
 /** TLS settings for the resource */
 export interface WebPubSubTlsSettings {
   /** Request client certificate during TLS handshake if enabled */
   clientCertEnabled?: boolean;
 }
 
-/** Diagnostic configuration of a Microsoft.SignalRService resource. Used together with Azure monitor DiagnosticSettings. */
-export interface DiagnosticConfiguration {
+/** Live trace configuration of a Microsoft.SignalRService resource. */
+export interface LiveTraceConfiguration {
   /**
-   * Indicate whether or not enable Connectivity logs.
-   * Available values: Enabled, Disabled.
+   * Indicates whether or not enable live trace.
+   * When it's set to true, live trace client can connect to the service.
+   * Otherwise, live trace client can't connect to the service, so that you are unable to receive any log, no matter what you configure in "categories".
+   * Available values: true, false.
    * Case insensitive.
    */
-  enableConnectivityLogs?: string;
+  enabled?: string;
+  /** Gets or sets the list of category configurations. */
+  categories?: LiveTraceCategory[];
+}
+
+/** Live trace category configuration of a Microsoft.SignalRService resource. */
+export interface LiveTraceCategory {
   /**
-   * Indicate whether or not enable Messaging logs.
-   * Available values: Enabled, Disabled.
+   * Gets or sets the live trace category's name.
+   * Available values: ConnectivityLogs, MessagingLogs.
    * Case insensitive.
    */
-  enableMessagingLogs?: string;
+  name?: string;
   /**
-   * Indicate whether or not enable Live Trace.
-   * Available values: Enabled, Disabled.
+   * Indicates whether or the live trace category is enabled.
+   * Available values: true, false.
    * Case insensitive.
-   * Live Trace allows you to know what's happening inside Azure SignalR service, it will give you live traces in real time, it will be helpful when you developing your own Azure SignalR based web application or self-troubleshooting some issues.
    */
-  enableLiveTrace?: string;
+  enabled?: string;
 }
 
-/** The settings for event handler in webpubsub service */
-export interface EventHandlerSettings {
-  /** Get or set the EventHandler items. The key is the hub name and the value is the corresponding EventHandlerTemplate. */
-  items?: { [propertyName: string]: EventHandlerTemplate[] };
+/** Resource log configuration of a Microsoft.SignalRService resource. */
+export interface ResourceLogConfiguration {
+  /** Gets or sets the list of category configurations. */
+  categories?: ResourceLogCategory[];
 }
 
-/** EventHandler template item settings. */
-export interface EventHandlerTemplate {
+/** Resource log category configuration of a Microsoft.SignalRService resource. */
+export interface ResourceLogCategory {
   /**
-   * Gets or sets the EventHandler URL template. You can use a predefined parameter {hub} and {event} inside the template, the value of the EventHandler URL is dynamically calculated when the client request comes in.
-   * For example, UrlTemplate can be `http://example.com/api/{hub}/{event}`. The host part can't contains parameters.
+   * Gets or sets the resource log category's name.
+   * Available values: ConnectivityLogs, MessagingLogs.
+   * Case insensitive.
    */
-  urlTemplate: string;
+  name?: string;
   /**
-   * Gets or sets the matching pattern for event names.
-   * There are 3 kind of patterns supported:
-   *     1. "*", it to matches any event name
-   *     2. Combine multiple events with ",", for example "event1,event2", it matches event "event1" and "event2"
-   *     3. The single event name, for example, "event1", it matches "event1"
+   * Indicates whether or the resource log category is enabled.
+   * Available values: true, false.
+   * Case insensitive.
    */
-  userEventPattern?: string;
-  /**
-   * Gets ot sets the system event pattern.
-   * There are 2 kind of patterns supported:
-   *     1. The single event name, for example, "connect", it matches "connect"
-   *     2. Combine multiple events with ",", for example "connect,disconnected", it matches event "connect" and "disconnected"
-   */
-  systemEventPattern?: string;
-  /** Gets or sets the auth settings for an event handler. If not set, no auth is used. */
-  auth?: UpstreamAuthSettings;
-}
-
-/** Upstream auth settings. */
-export interface UpstreamAuthSettings {
-  /** Gets or sets the type of auth. None or ManagedIdentity is supported now. */
-  type?: UpstreamAuthType;
-  /** Gets or sets the managed identity settings. It's required if the auth type is set to ManagedIdentity. */
-  managedIdentity?: ManagedIdentitySettings;
-}
-
-/** Managed identity settings for upstream. */
-export interface ManagedIdentitySettings {
-  /**
-   * The Resource indicating the App ID URI of the target resource.
-   * It also appears in the aud (audience) claim of the issued token.
-   */
-  resource?: string;
+  enabled?: string;
 }
 
 /** Network ACLs for the resource */
 export interface WebPubSubNetworkACLs {
-  /** Default action when no other rule matches */
+  /** Azure Networking ACL Action. */
   defaultAction?: ACLAction;
-  /** ACL for requests from public network */
+  /** Network ACL */
   publicNetwork?: NetworkACL;
   /** ACLs for requests from private endpoints */
   privateEndpoints?: PrivateEndpointACL[];
@@ -397,7 +377,7 @@ export interface NetworkACL {
 
 /** A class represent managed identities used for request and response */
 export interface ManagedIdentity {
-  /** Represent the identity type: systemAssigned, userAssigned, None */
+  /** Represents the identity type: systemAssigned, userAssigned, None */
   type?: ManagedIdentityType;
   /** Get or set the user assigned identities */
   userAssignedIdentities?: {
@@ -429,6 +409,64 @@ export interface UserAssignedIdentityProperty {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly clientId?: string;
+}
+
+/** Hub setting list */
+export interface WebPubSubHubList {
+  /** List of hub settings to this resource. */
+  value?: WebPubSubHub[];
+  /**
+   * The URL the client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Properties of a hub. */
+export interface WebPubSubHubProperties {
+  /** Event handler of a hub. */
+  eventHandlers?: EventHandler[];
+  /** The settings for configuring if anonymous connections are allowed for this hub: "allow" or "deny". Default to "deny". */
+  anonymousConnectPolicy?: string;
+}
+
+/** Properties of event handler. */
+export interface EventHandler {
+  /**
+   * Gets or sets the EventHandler URL template. You can use a predefined parameter {hub} and {event} inside the template, the value of the EventHandler URL is dynamically calculated when the client request comes in.
+   * For example, UrlTemplate can be `http://example.com/api/{hub}/{event}`. The host part can't contains parameters.
+   */
+  urlTemplate: string;
+  /**
+   * Gets or sets the matching pattern for event names.
+   * There are 3 kind of patterns supported:
+   *     1. "*", it to matches any event name
+   *     2. Combine multiple events with ",", for example "event1,event2", it matches event "event1" and "event2"
+   *     3. The single event name, for example, "event1", it matches "event1"
+   */
+  userEventPattern?: string;
+  /** Gets ot sets the list of system events. */
+  systemEvents?: string[];
+  /** Upstream auth settings. If not set, no auth is used for upstream messages. */
+  auth?: UpstreamAuthSettings;
+}
+
+/** Upstream auth settings. If not set, no auth is used for upstream messages. */
+export interface UpstreamAuthSettings {
+  /** Upstream auth type enum. */
+  type?: UpstreamAuthType;
+  /** Managed identity settings for upstream. */
+  managedIdentity?: ManagedIdentitySettings;
+}
+
+/** Managed identity settings for upstream. */
+export interface ManagedIdentitySettings {
+  /**
+   * The Resource indicating the App ID URI of the target resource.
+   * It also appears in the aud (audience) claim of the issued token.
+   */
+  resource?: string;
 }
 
 /** A class represents the access keys of the resource. */
@@ -482,7 +520,7 @@ export interface ShareablePrivateLinkResourceProperties {
 
 /** Parameters describes the request to regenerate access keys */
 export interface RegenerateKeyParameters {
-  /** The keyType to regenerate. Must be either 'primary' or 'secondary'(case-insensitive). */
+  /** The type of access key. */
   keyType?: KeyType;
 }
 
@@ -494,6 +532,72 @@ export interface SharedPrivateLinkResourceList {
   nextLink?: string;
 }
 
+/** The list skus operation response */
+export interface SkuList {
+  /**
+   * The list of skus available for the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: Sku[];
+  /**
+   * The URL the client should use to fetch the next page (per server side paging).
+   * It's null for now, added for future use.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Describes an available sku." */
+export interface Sku {
+  /**
+   * The resource type that this object applies to
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceType?: string;
+  /**
+   * The billing information of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sku?: ResourceSku;
+  /**
+   * Describes scaling information of a sku.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly capacity?: SkuCapacity;
+}
+
+/** Describes scaling information of a sku. */
+export interface SkuCapacity {
+  /**
+   * The lowest permitted capacity for this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly minimum?: number;
+  /**
+   * The highest permitted capacity for this resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maximum?: number;
+  /**
+   * The default capacity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly default?: number;
+  /**
+   * Allows capacity value list.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly allowedValues?: number[];
+  /**
+   * The scale type applicable to the sku.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly scaleType?: ScaleType;
+}
+
+/** The resource model definition for a ARM proxy resource. It will have everything other than required location and tags */
+export type ProxyResource = Resource & {};
+
 /** The resource model definition for a ARM tracked top level resource. */
 export type TrackedResource = Resource & {
   /** The GEO location of the resource. e.g. West US | East US | North Central US | South Central US. */
@@ -502,20 +606,88 @@ export type TrackedResource = Resource & {
   tags?: { [propertyName: string]: string };
 };
 
-/** The resource model definition for a ARM proxy resource. It will have everything other than required location and tags */
-export type ProxyResource = Resource & {};
-
 /** ACL for a private endpoint */
 export type PrivateEndpointACL = NetworkACL & {
   /** Name of the private endpoint connection */
   name: string;
 };
 
+/** A private endpoint connection to an azure resource */
+export type PrivateEndpointConnection = ProxyResource & {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** Private endpoint */
+  privateEndpoint?: PrivateEndpoint;
+  /**
+   * Group IDs
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupIds?: string[];
+  /** Connection state of the private endpoint connection */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+};
+
+/** Describes a Shared Private Link Resource */
+export type SharedPrivateLinkResource = ProxyResource & {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** The group id from the provider of resource the shared private link resource is for */
+  groupId?: string;
+  /** The resource id of the resource the shared private link resource is for */
+  privateLinkResourceId?: string;
+  /**
+   * Provisioning state of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+  /** The request message for requesting approval of the shared private link resource */
+  requestMessage?: string;
+  /**
+   * Status of the shared private link resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: SharedPrivateLinkResourceStatus;
+};
+
+/** A hub setting */
+export type WebPubSubHub = ProxyResource & {
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /** Properties of a hub. */
+  properties: WebPubSubHubProperties;
+};
+
+/** Private link resource */
+export type PrivateLinkResource = ProxyResource & {
+  /** Group Id of the private link resource */
+  groupId?: string;
+  /** Required members of the private link resource */
+  requiredMembers?: string[];
+  /** Required private DNS zone names */
+  requiredZoneNames?: string[];
+  /** The list of resources that are onboarded to private link service */
+  shareablePrivateLinkResourceTypes?: ShareablePrivateLinkResourceType[];
+};
+
 /** A class represent a resource. */
 export type WebPubSubResource = TrackedResource & {
-  /** The billing information of the resource.(e.g. Free, Standard) */
+  /** The billing information of the resource. */
   sku?: ResourceSku;
-  /** The managed identity response */
+  /** A class represent managed identities used for request and response */
   identity?: ManagedIdentity;
   /**
    * Metadata pertaining to creation and last modification of the resource.
@@ -562,13 +734,18 @@ export type WebPubSubResource = TrackedResource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
-  /** TLS settings. */
+  /** TLS settings for the resource */
   tls?: WebPubSubTlsSettings;
-  /** Diagnostic configuration of a Microsoft.SignalRService resource. Used together with Azure monitor DiagnosticSettings. */
-  diagnosticConfiguration?: DiagnosticConfiguration;
-  /** The settings for event handler in webpubsub service. */
-  eventHandler?: EventHandlerSettings;
-  /** Network ACLs */
+  /**
+   * Deprecated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly hostNamePrefix?: string;
+  /** Live trace configuration of a Microsoft.SignalRService resource. */
+  liveTraceConfiguration?: LiveTraceConfiguration;
+  /** Resource log configuration of a Microsoft.SignalRService resource. */
+  resourceLogConfiguration?: ResourceLogConfiguration;
+  /** Network ACLs for the resource */
   networkACLs?: WebPubSubNetworkACLs;
   /**
    * Enable or disable public network access. Default to "Enabled".
@@ -588,61 +765,6 @@ export type WebPubSubResource = TrackedResource & {
    * When set as true, connection with AuthType=aad won't work.
    */
   disableAadAuth?: boolean;
-};
-
-/** A private endpoint connection to an azure resource */
-export type PrivateEndpointConnection = ProxyResource & {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /**
-   * Provisioning state of the private endpoint connection
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** Private endpoint associated with the private endpoint connection */
-  privateEndpoint?: PrivateEndpoint;
-  /** Connection state */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
-};
-
-/** Describes a Shared Private Link Resource */
-export type SharedPrivateLinkResource = ProxyResource & {
-  /**
-   * Metadata pertaining to creation and last modification of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-  /** The group id from the provider of resource the shared private link resource is for */
-  groupId?: string;
-  /** The resource id of the resource the shared private link resource is for */
-  privateLinkResourceId?: string;
-  /**
-   * Provisioning state of the shared private link resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
-  /** The request message for requesting approval of the shared private link resource */
-  requestMessage?: string;
-  /**
-   * Status of the shared private link resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: SharedPrivateLinkResourceStatus;
-};
-
-/** Private link resource */
-export type PrivateLinkResource = ProxyResource & {
-  /** Group Id of the private link resource */
-  groupId?: string;
-  /** Required members of the private link resource */
-  requiredMembers?: string[];
-  /** Required private DNS zone names */
-  requiredZoneNames?: string[];
-  /** The list of resources that are onboarded to private link service */
-  shareablePrivateLinkResourceTypes?: ShareablePrivateLinkResourceType[];
 };
 
 /** Known values of {@link WebPubSubSkuTier} that the service accepts. */
@@ -757,22 +879,6 @@ export enum KnownSharedPrivateLinkResourceStatus {
  */
 export type SharedPrivateLinkResourceStatus = string;
 
-/** Known values of {@link UpstreamAuthType} that the service accepts. */
-export enum KnownUpstreamAuthType {
-  None = "None",
-  ManagedIdentity = "ManagedIdentity"
-}
-
-/**
- * Defines values for UpstreamAuthType. \
- * {@link KnownUpstreamAuthType} can be used interchangeably with UpstreamAuthType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **ManagedIdentity**
- */
-export type UpstreamAuthType = string;
-
 /** Known values of {@link ACLAction} that the service accepts. */
 export enum KnownACLAction {
   Allow = "Allow",
@@ -827,10 +933,27 @@ export enum KnownManagedIdentityType {
  */
 export type ManagedIdentityType = string;
 
+/** Known values of {@link UpstreamAuthType} that the service accepts. */
+export enum KnownUpstreamAuthType {
+  None = "None",
+  ManagedIdentity = "ManagedIdentity"
+}
+
+/**
+ * Defines values for UpstreamAuthType. \
+ * {@link KnownUpstreamAuthType} can be used interchangeably with UpstreamAuthType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **ManagedIdentity**
+ */
+export type UpstreamAuthType = string;
+
 /** Known values of {@link KeyType} that the service accepts. */
 export enum KnownKeyType {
   Primary = "Primary",
-  Secondary = "Secondary"
+  Secondary = "Secondary",
+  Salt = "Salt"
 }
 
 /**
@@ -839,9 +962,28 @@ export enum KnownKeyType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Primary** \
- * **Secondary**
+ * **Secondary** \
+ * **Salt**
  */
 export type KeyType = string;
+
+/** Known values of {@link ScaleType} that the service accepts. */
+export enum KnownScaleType {
+  None = "None",
+  Manual = "Manual",
+  Automatic = "Automatic"
+}
+
+/**
+ * Defines values for ScaleType. \
+ * {@link KnownScaleType} can be used interchangeably with ScaleType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Manual** \
+ * **Automatic**
+ */
+export type ScaleType = string;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -947,6 +1089,13 @@ export interface WebPubSubRestartOptionalParams
 }
 
 /** Optional parameters. */
+export interface WebPubSubListSkusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSkus operation. */
+export type WebPubSubListSkusResponse = SkuList;
+
+/** Optional parameters. */
 export interface WebPubSubListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -972,6 +1121,48 @@ export interface UsagesListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type UsagesListNextResponse = SignalRServiceUsageList;
+
+/** Optional parameters. */
+export interface WebPubSubHubsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type WebPubSubHubsListResponse = WebPubSubHubList;
+
+/** Optional parameters. */
+export interface WebPubSubHubsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WebPubSubHubsGetResponse = WebPubSubHub;
+
+/** Optional parameters. */
+export interface WebPubSubHubsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type WebPubSubHubsCreateOrUpdateResponse = WebPubSubHub;
+
+/** Optional parameters. */
+export interface WebPubSubHubsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface WebPubSubHubsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type WebPubSubHubsListNextResponse = WebPubSubHubList;
 
 /** Optional parameters. */
 export interface WebPubSubPrivateEndpointConnectionsListOptionalParams

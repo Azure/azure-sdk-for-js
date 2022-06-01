@@ -9,7 +9,7 @@ import {
   PermissionDefinition,
   RequestOptions,
   Response,
-  UserDefinition
+  UserDefinition,
 } from "../../../src";
 import { ItemDefinition, ItemResponse, PermissionResponse, Resource, User } from "../../../src";
 import { UserResponse } from "../../../src";
@@ -21,7 +21,7 @@ import { ContainerRequest } from "../../../src";
 const defaultClient = new CosmosClient({
   endpoint,
   key: masterKey,
-  connectionPolicy: { enableBackgroundEndpointRefreshing: false }
+  connectionPolicy: { enableBackgroundEndpointRefreshing: false },
 });
 
 export function addEntropy(name: string): string {
@@ -46,7 +46,7 @@ export async function removeAllDatabases(client: CosmosClient = defaultClient): 
         client.database(database.id).delete()
       )
     );
-  } catch (err) {
+  } catch (err: any) {
     console.log("An error occured", err);
     assert.fail(err);
     throw err;
@@ -157,9 +157,9 @@ export async function bulkQueryItemsWithPartitionKey(
       parameters: [
         {
           name: "@key",
-          value: document[partitionKeyPropertyName]
-        }
-      ]
+          value: document[partitionKeyPropertyName],
+        },
+      ],
     };
 
     const { resources } = await container.items.query(querySpec).fetchAll();
@@ -236,9 +236,7 @@ export function replaceOrUpsertPermission(
   }
 }
 
-export function generateDocuments(
-  docSize: number
-): {
+export function generateDocuments(docSize: number): {
   id: string;
   name: string;
   spam: string;
@@ -260,7 +258,7 @@ export function generateDocuments(
       spam2: i === 3 ? "eggs" + i.toString() : i,
       spam3: `eggs${i % 3}`,
       boolVar: i % 2 === 0,
-      number: 1.1 * i
+      number: 1.1 * i,
     };
     docs.push(d);
   }
@@ -271,10 +269,10 @@ export function generateDocuments(
 export async function assertThrowsAsync(test: () => Promise<any>, error?: any): Promise<string> {
   try {
     await test();
-  } catch (e) {
+  } catch (e: any) {
     if (!error || e instanceof error) return "everything is fine";
   }
   throw new assert.AssertionError({
-    message: "Missing rejection" + (error ? " with " + error.name : "")
+    message: "Missing rejection" + (error ? " with " + error.name : ""),
   });
 }

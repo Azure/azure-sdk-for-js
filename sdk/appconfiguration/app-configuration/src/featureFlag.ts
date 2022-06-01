@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { errorMessageForUnexpectedSetting } from "./internal/helpers";
 import { JsonFeatureFlagValue } from "./internal/jsonModels";
 import { ConfigurationSetting, ConfigurationSettingParam } from "./models";
 
@@ -69,18 +68,18 @@ export const FeatureFlagHelper = {
       enabled: featureFlag.value.enabled,
       description: featureFlag.value.description,
       conditions: {
-        client_filters: featureFlag.value.conditions.clientFilters
+        client_filters: featureFlag.value.conditions.clientFilters,
       },
-      display_name: featureFlag.value.displayName
+      display_name: featureFlag.value.displayName,
     };
 
     const configSetting = {
       ...featureFlag,
       key,
-      value: JSON.stringify(jsonFeatureFlagValue)
+      value: JSON.stringify(jsonFeatureFlagValue),
     };
     return configSetting;
-  }
+  },
 };
 
 /**
@@ -90,7 +89,9 @@ export function parseFeatureFlag(
   setting: ConfigurationSetting
 ): ConfigurationSetting<FeatureFlagValue> {
   if (!isFeatureFlag(setting)) {
-    throw TypeError(errorMessageForUnexpectedSetting(setting.key, "FeatureFlag"));
+    throw TypeError(
+      `Setting with key ${setting.key} is not a valid FeatureFlag, make sure to have the correct content-type and a valid non-null value.`
+    );
   }
 
   const jsonFeatureFlagValue = JSON.parse(setting.value) as JsonFeatureFlagValue;
@@ -106,10 +107,10 @@ export function parseFeatureFlag(
       enabled: jsonFeatureFlagValue.enabled,
       description: jsonFeatureFlagValue.description,
       displayName: jsonFeatureFlagValue.display_name,
-      conditions: { clientFilters: jsonFeatureFlagValue.conditions.client_filters }
+      conditions: { clientFilters: jsonFeatureFlagValue.conditions.client_filters },
     },
     key,
-    contentType: featureFlagContentType
+    contentType: featureFlagContentType,
   };
   return featureflag;
 }

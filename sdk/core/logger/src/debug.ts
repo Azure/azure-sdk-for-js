@@ -85,7 +85,7 @@ const debugObj: Debug = Object.assign(
     enable,
     enabled,
     disable,
-    log
+    log,
   }
 );
 
@@ -137,7 +137,7 @@ function createDebugger(namespace: string): Debugger {
     destroy,
     log: debugObj.log,
     namespace,
-    extend
+    extend,
   });
 
   function debug(...args: any[]): void {

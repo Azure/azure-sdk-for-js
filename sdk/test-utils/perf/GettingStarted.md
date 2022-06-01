@@ -136,7 +136,7 @@ To add perf tests for the `sdk/<service>/<service-sdk>` package, follow the step
 Add an `index.spec.ts` at `sdk/<service>/perf-tests/<service-sdk>/test/`.
 
 ```js
-import { PerfProgram, selectPerfTest } from "@azure/test-utils-perf";
+import { createPerfProgram } from "@azure/test-utils-perf";
 import { `ServiceNameAPI1Name`Test } from "./api1-name.spec";
 import { `ServiceNameAPI2Name`Test } from "./api2-name.spec";
 
@@ -146,7 +146,7 @@ dotenv.config();
 
 console.log("=== Starting the perf test ===");
 
-const perfProgram = new PerfProgram(selectPerfTest([`ServiceNameAPIName`Test, `ServiceNameAPIName2`Test]));
+const perfProgram = createPerfProgram([`ServiceNameAPIName`Test, `ServiceNameAPIName2`Test]);
 
 perfProgram.run();
 ```
@@ -280,12 +280,11 @@ To be able to leverage the powers of playing back the requests using the test pr
       this.blobServiceClient = BlobServiceClient.fromConnectionString(connectionString, this.configureClientOptionsCoreV1({}));
 
       /// Core V2 SDKs - For services depending on core-rest-pipeline
-      /// this.configureClient call to modify your client
-      this.client = this.configureClient(TableClient.fromConnectionString(connectionString, tableName));
+      /// this.configureClientOptions call to modify your client
+      this.client = TableClient.fromConnectionString(connectionString, tableName, this.configureClientOptions({}));
 
       // Not all core-v1 SDKs allow passing httpClient option.
-      // Not all core-v2 SDKs allow adding policies via pipeline option.
-      // Please reach out if your service doesn't support.
+      // Please reach out if your service/SDK doesn't support or if you face difficulties in this area.
       ```
 
 ### Running the proxy server

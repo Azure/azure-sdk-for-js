@@ -11,7 +11,7 @@ import { CustomDomains } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AppPlatformManagementClientContext } from "../appPlatformManagementClientContext";
+import { AppPlatformManagementClient } from "../appPlatformManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -32,13 +32,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing CustomDomains operations. */
 export class CustomDomainsImpl implements CustomDomains {
-  private readonly client: AppPlatformManagementClientContext;
+  private readonly client: AppPlatformManagementClient;
 
   /**
    * Initialize a new instance of the class CustomDomains class.
    * @param client Reference to the service client
    */
-  constructor(client: AppPlatformManagementClientContext) {
+  constructor(client: AppPlatformManagementClient) {
     this.client = client;
   }
 
@@ -219,11 +219,12 @@ export class CustomDomainsImpl implements CustomDomains {
       },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -315,11 +316,12 @@ export class CustomDomainsImpl implements CustomDomains {
       { resourceGroupName, serviceName, appName, domainName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -422,11 +424,12 @@ export class CustomDomainsImpl implements CustomDomains {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

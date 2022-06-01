@@ -101,5 +101,5 @@ export enum PermissionScopeValues {
     PermissionScopeValues.ScopeItemUpsertValue |
     PermissionScopeValues.ScopeItemDeleteValue,
 
-  NoneValue = 0
+  NoneValue = 0,
 }

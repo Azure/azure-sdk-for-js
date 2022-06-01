@@ -20,7 +20,7 @@ describe("ManagementClient unit tests", () => {
     const fakeRequest: RheaMessage = {
       body: "body",
       reply_to: "address",
-      message_id: generate_uuid()
+      message_id: generate_uuid(),
     };
     try {
       mgmtClient["_init"] = async () => {
@@ -30,11 +30,11 @@ describe("ManagementClient unit tests", () => {
 
       // Error thrown from the actionAfterTimeout triggered by the setTimeout (0 seconds)
       await mgmtClient["_makeManagementRequest"](fakeRequest, createServiceBusLogger("namespace"), {
-        timeoutInMs: 0
+        timeoutInMs: 0,
       });
 
       chai.assert.fail("_makeManagementRequest should have failed");
-    } catch (error) {
+    } catch (error: any) {
       chai.assert.equal(
         error.message,
         `The request with message_id "${fakeRequest.message_id}" timed out. Please try again later.`

@@ -1,19 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse, PipelineRequest, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
-import { delay } from "../util/helpers";
+import { throttlingRetryStrategy } from "../retryStrategies/throttlingRetryStrategy";
+import { retryPolicy } from "./retryPolicy";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../constants";
 
 /**
- * The programmatic identifier of the throttlingRetryPolicy.
+ * Name of the {@link throttlingRetryPolicy}
  */
 export const throttlingRetryPolicyName = "throttlingRetryPolicy";
 
 /**
- * Maximum number of retries for the throttling retry policy
+ * Options that control how to retry failed requests.
  */
-export const DEFAULT_CLIENT_MAX_RETRY_COUNT = 3;
+export interface ThrottlingRetryPolicyOptions {
+  /**
+   * The maximum number of retry attempts. Defaults to 3.
+   */
+  maxRetries?: number;
+}
 
 /**
  * A policy that retries when the server sends a 429 response with a Retry-After header.
@@ -22,53 +28,14 @@ export const DEFAULT_CLIENT_MAX_RETRY_COUNT = 3;
  * https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-manager-request-limits,
  * https://docs.microsoft.com/en-us/azure/azure-subscription-service-limits and
  * https://docs.microsoft.com/en-us/azure/virtual-machines/troubleshooting/troubleshooting-throttling-errors
+ *
+ * @param options - Options that configure retry logic.
  */
-export function throttlingRetryPolicy(): PipelinePolicy {
+export function throttlingRetryPolicy(options: ThrottlingRetryPolicyOptions = {}): PipelinePolicy {
   return {
     name: throttlingRetryPolicyName,
-    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      let response = await next(request);
-
-      for (let count = 0; count < DEFAULT_CLIENT_MAX_RETRY_COUNT; count++) {
-        if (response.status !== 429 && response.status !== 503) {
-          return response;
-        }
-        const retryAfterHeader = response.headers.get("Retry-After");
-        if (!retryAfterHeader) {
-          break;
-        }
-        const delayInMs = parseRetryAfterHeader(retryAfterHeader);
-        if (!delayInMs) {
-          break;
-        }
-        await delay(delayInMs);
-        response = await next(request);
-      }
-      return response;
-    }
+    sendRequest: retryPolicy([throttlingRetryStrategy()], {
+      maxRetries: options.maxRetries ?? DEFAULT_RETRY_POLICY_COUNT,
+    }).sendRequest,
   };
-}
-
-/**
- * Returns the number of milliseconds to wait based on a Retry-After header value.
- * Returns undefined if there is no valid value.
- * @param headerValue - An HTTP Retry-After header value.
- */
-function parseRetryAfterHeader(headerValue: string): number | undefined {
-  try {
-    const retryAfterInSeconds = Number(headerValue);
-    if (!Number.isNaN(retryAfterInSeconds)) {
-      return retryAfterInSeconds * 1000;
-    } else {
-      // It might be formatted as a date instead of a number of seconds
-
-      const now: number = Date.now();
-      const date: number = Date.parse(headerValue);
-      const diff = date - now;
-
-      return Number.isNaN(diff) ? undefined : diff;
-    }
-  } catch (e) {
-    return undefined;
-  }
 }

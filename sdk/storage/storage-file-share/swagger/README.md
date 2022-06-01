@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/4a93ab078fba7f087116283c8ed169f9b8e30397/specification/storage/data-plane/Microsoft.FileStorage/preview/2020-10-02/file.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/e432d9cc87bfed320d8feead4b448be9481c9181/specification/storage/data-plane/Microsoft.FileStorage/preview/2021-06-08/file.json
 model-date-time-as-string: true
 optional-response-headers: true
 v3: true
@@ -20,7 +20,7 @@ disable-async-iterators: true
 add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20210218.1"
-package-version: 12.9.0-beta.2
+package-version: 12.10.1
 ```
 
 ## Customizations for Track 2 Generator
@@ -288,6 +288,10 @@ directive:
       delete $.format;
   - from: swagger-document
     where: $.parameters.FileLastWriteTime
+    transform: >
+      delete $.format;
+  - from: swagger-document
+    where: $.parameters.FileChangeTime
     transform: >
       delete $.format;
 ```

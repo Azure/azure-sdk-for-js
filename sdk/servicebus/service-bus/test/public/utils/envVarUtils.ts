@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export const isNode =
-  !!process && !!process.version && !!process.versions && !!process.versions.node;
+import { isNode } from "@azure/core-util";
 
 /**
  * Enum to abstract away string values used for referencing the Environment Variable names.
@@ -11,7 +10,7 @@ export enum EnvVarNames {
   SERVICEBUS_CONNECTION_STRING = "SERVICEBUS_CONNECTION_STRING",
   AZURE_CLIENT_ID = "AZURE_CLIENT_ID",
   AZURE_CLIENT_SECRET = "AZURE_CLIENT_SECRET",
-  AZURE_TENANT_ID = "AZURE_TENANT_ID"
+  AZURE_TENANT_ID = "AZURE_TENANT_ID",
 }
 
 /**
@@ -42,8 +41,8 @@ export function getEnvVars(): { [key in EnvVarNames]: string } {
     EnvVarNames.SERVICEBUS_CONNECTION_STRING,
     EnvVarNames.AZURE_CLIENT_ID,
     EnvVarNames.AZURE_CLIENT_SECRET,
-    EnvVarNames.AZURE_TENANT_ID
-  ].forEach(function(name: string) {
+    EnvVarNames.AZURE_TENANT_ID,
+  ].forEach(function (name: string) {
     if (!getEnvVarValue(name)) {
       throw new Error(`Define ${name} in your environment before running integration tests.`);
     }
@@ -55,7 +54,7 @@ export function getEnvVars(): { [key in EnvVarNames]: string } {
     ),
     [EnvVarNames.AZURE_CLIENT_ID]: getEnvVarValue(EnvVarNames.AZURE_CLIENT_ID),
     [EnvVarNames.AZURE_CLIENT_SECRET]: getEnvVarValue(EnvVarNames.AZURE_CLIENT_SECRET),
-    [EnvVarNames.AZURE_TENANT_ID]: getEnvVarValue(EnvVarNames.AZURE_TENANT_ID)
+    [EnvVarNames.AZURE_TENANT_ID]: getEnvVarValue(EnvVarNames.AZURE_TENANT_ID),
   };
 
   return envVars;

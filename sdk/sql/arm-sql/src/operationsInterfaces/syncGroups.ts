@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
@@ -15,7 +14,7 @@ import {
   SyncFullSchemaProperties,
   SyncGroupsListHubSchemasOptionalParams,
   SyncGroupLogProperties,
-  Enum76,
+  Enum60,
   SyncGroupsListLogsOptionalParams,
   SyncGroup,
   SyncGroupsListByDatabaseOptionalParams,
@@ -78,7 +77,7 @@ export interface SyncGroups {
     syncGroupName: string,
     startTime: string,
     endTime: string,
-    typeParam: Enum76,
+    typeParam: Enum60,
     options?: SyncGroupsListLogsOptionalParams
   ): PagedAsyncIterableIterator<SyncGroupLogProperties>;
   /**

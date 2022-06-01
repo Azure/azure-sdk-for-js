@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RoleAssignment, RoleDefinition } from "./generated/models";
 import {
   KeyVaultRoleAssignment,
   KeyVaultRoleDefinition,
-  KeyVaultRoleScope
+  KeyVaultRoleScope,
 } from "./accessControlModels";
+import { RoleAssignment, RoleDefinition } from "./generated/models";
 
 export const mappings = {
   roleAssignment: {
@@ -20,23 +20,15 @@ export const mappings = {
         properties: {
           scope: scope as KeyVaultRoleScope,
           roleDefinitionId: roleDefinitionId!,
-          principalId: principalId!
-        }
+          principalId: principalId!,
+        },
       };
-    }
+    },
   },
   roleDefinition: {
     generatedToPublic(roleDefinition: RoleDefinition): KeyVaultRoleDefinition {
-      const {
-        id,
-        name,
-        type,
-        roleName,
-        description,
-        roleType,
-        permissions,
-        assignableScopes
-      } = roleDefinition;
+      const { id, name, type, roleName, description, roleType, permissions, assignableScopes } =
+        roleDefinition;
       return {
         id: id!,
         name: name!,
@@ -45,9 +37,9 @@ export const mappings = {
         description: description!,
         roleType: roleType!,
         permissions: permissions!,
-        assignableScopes: assignableScopes!
+        assignableScopes: assignableScopes!,
       };
-    }
+    },
   },
   folderUriParts(folderUri: string): { folderName: string; folderUri: string } {
     const uriParts = folderUri.split("/");
@@ -60,7 +52,7 @@ export const mappings = {
 
     return {
       folderName,
-      folderUri: storageUri
+      folderUri: storageUri,
     };
-  }
+  },
 };

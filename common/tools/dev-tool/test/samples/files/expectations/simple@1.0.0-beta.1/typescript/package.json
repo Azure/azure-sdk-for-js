@@ -1,0 +1,36 @@
+{
+  "name": "@azure-samples/simple@1.0.0-beta.1-ts-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Template client library samples for TypeScript (Beta)",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "common/tools/dev-tool/test/samples/files/expectations/simple@1.0.0-beta.1"
+  },
+  "keywords": [
+    "simple@1.0.0-beta.1"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/dev-tool/test/samples/files/expectations/simple@1.0.0-beta.1",
+  "dependencies": {
+    "simple@1.0.0-beta.1": "next",
+    "dotenv": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "^12.0.0",
+    "typescript": "~4.4.0",
+    "rimraf": "latest"
+  }
+}

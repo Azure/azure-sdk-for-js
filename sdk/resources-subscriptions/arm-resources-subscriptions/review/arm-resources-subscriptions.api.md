@@ -9,6 +9,14 @@ import * as coreClient from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public
+export interface CheckResourceNameOptionalParams extends coreClient.OperationOptions {
+    resourceNameDefinition?: ResourceName;
+}
+
+// @public
+export type CheckResourceNameResponse = CheckResourceNameResult;
+
+// @public
 export interface CheckResourceNameResult {
     name?: string;
     status?: ResourceNameStatus;
@@ -159,30 +167,17 @@ export interface Subscription {
 }
 
 // @public (undocumented)
-export class SubscriptionClient extends SubscriptionClientContext {
-    constructor(credentials: coreAuth.TokenCredential, options?: SubscriptionClientOptionalParams);
-    checkResourceName(options?: SubscriptionClientCheckResourceNameOptionalParams): Promise<SubscriptionClientCheckResourceNameResponse>;
-    // (undocumented)
-    subscriptions: Subscriptions;
-    // (undocumented)
-    tenants: Tenants;
-}
-
-// @public
-export interface SubscriptionClientCheckResourceNameOptionalParams extends coreClient.OperationOptions {
-    resourceNameDefinition?: ResourceName;
-}
-
-// @public
-export type SubscriptionClientCheckResourceNameResponse = CheckResourceNameResult;
-
-// @public (undocumented)
-export class SubscriptionClientContext extends coreClient.ServiceClient {
+export class SubscriptionClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, options?: SubscriptionClientOptionalParams);
     // (undocumented)
     apiVersion: string;
+    checkResourceName(options?: CheckResourceNameOptionalParams): Promise<CheckResourceNameResponse>;
+    // (undocumented)
+    subscriptions: Subscriptions;
+    // (undocumented)
+    tenants: Tenants;
 }
 
 // @public

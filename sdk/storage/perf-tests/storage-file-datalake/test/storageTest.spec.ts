@@ -7,7 +7,7 @@ import {
   DataLakeServiceClient,
   StorageSharedKeyCredential,
   DataLakeFileSystemClient,
-  DataLakeDirectoryClient
+  DataLakeDirectoryClient,
 } from "@azure/storage-file-datalake";
 
 // Expects the .env file at the same level as the "test" folder

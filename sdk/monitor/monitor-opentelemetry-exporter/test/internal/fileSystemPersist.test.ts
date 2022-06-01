@@ -75,7 +75,7 @@ describe("FileSystemPersist", () => {
     it("should store to disk the value provided", async () => {
       const envelope: Envelope = {
         name: "name",
-        time: new Date()
+        time: new Date(),
       };
       const persister = new FileSystemPersist({ instrumentationKey });
       const envelopes = [envelope];
@@ -93,7 +93,7 @@ describe("FileSystemPersist", () => {
     it("should store to disk several values", async () => {
       const envelopes: Envelope[] = new Array(10).fill({
         name: "name",
-        time: new Date()
+        time: new Date(),
       });
       const persister = new FileSystemPersist({ instrumentationKey });
 

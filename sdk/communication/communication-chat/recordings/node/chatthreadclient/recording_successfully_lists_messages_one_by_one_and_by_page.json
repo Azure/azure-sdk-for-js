@@ -1,0 +1,270 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/chat/threads/19%3A1LP8h-5WKvPuwtMH3edl4AihPeEZu3VWYitvgn-9uDw1%40thread.v2/messages?api-version=2021-09-07",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-chat/1.2.0 core-rest-pipeline/1.8.1 Node/v14.15.4 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "edee634b-2c81-4f1f-8454-6278298ada3f"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2021-10-01-preview7",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 02 May 2022 22:48:41 GMT",
+        "MS-CV": "q1e0p42vUE\u002B7/9X1qIlb/Q.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "x-azure-ref": "20220502T224841Z-1kdy40ce594zxd7ayzepxvrcq0000000052000000002q5xk",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "52ms"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "1651531715497",
+            "type": "text",
+            "sequenceId": "4",
+            "version": "1651531715497",
+            "content": {
+              "message": "content"
+            },
+            "senderDisplayName": "",
+            "createdOn": "2022-05-02T22:48:35Z",
+            "senderCommunicationIdentifier": {
+              "rawId": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000011-26d7-aecb-570c-113a0d00b7d6",
+              "communicationUser": {
+                "id": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000011-26d7-aecb-570c-113a0d00b7d6"
+              }
+            },
+            "metadata": {
+              "tags": "sometag"
+            }
+          },
+          {
+            "id": "1651531714927",
+            "type": "topicUpdated",
+            "sequenceId": "3",
+            "version": "1651531714927",
+            "content": {
+              "topic": "new topic",
+              "initiatorCommunicationIdentifier": {
+                "rawId": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000011-26d7-aecb-570c-113a0d00b7d6",
+                "communicationUser": {
+                  "id": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000011-26d7-aecb-570c-113a0d00b7d6"
+                }
+              }
+            },
+            "createdOn": "2022-05-02T22:48:34Z"
+          },
+          {
+            "id": "1651531714250",
+            "type": "topicUpdated",
+            "sequenceId": "2",
+            "version": "1651531714250",
+            "content": {
+              "topic": "test topic",
+              "initiatorCommunicationIdentifier": {
+                "rawId": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000011-26d7-aecb-570c-113a0d00b7d6",
+                "communicationUser": {
+                  "id": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000011-26d7-aecb-570c-113a0d00b7d6"
+                }
+              }
+            },
+            "createdOn": "2022-05-02T22:48:34Z"
+          },
+          {
+            "id": "1651531714216",
+            "type": "participantAdded",
+            "sequenceId": "1",
+            "version": "1651531714216",
+            "content": {
+              "participants": [
+                {
+                  "communicationIdentifier": {
+                    "rawId": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000011-26d7-aecb-570c-113a0d00b7d6",
+                    "communicationUser": {
+                      "id": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000011-26d7-aecb-570c-113a0d00b7d6"
+                    }
+                  },
+                  "shareHistoryTime": "1970-01-01T00:00:00Z"
+                },
+                {
+                  "communicationIdentifier": {
+                    "rawId": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000011-26d7-b05b-570c-113a0d00b7d7",
+                    "communicationUser": {
+                      "id": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000011-26d7-b05b-570c-113a0d00b7d7"
+                    }
+                  },
+                  "shareHistoryTime": "1970-01-01T00:00:00Z"
+                }
+              ],
+              "initiatorCommunicationIdentifier": {
+                "rawId": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000011-26d7-aecb-570c-113a0d00b7d6",
+                "communicationUser": {
+                  "id": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000011-26d7-aecb-570c-113a0d00b7d6"
+                }
+              }
+            },
+            "createdOn": "2022-05-02T22:48:34Z"
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/chat/threads/19%3A1LP8h-5WKvPuwtMH3edl4AihPeEZu3VWYitvgn-9uDw1%40thread.v2/messages?maxPageSize=3\u0026api-version=2021-09-07",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-chat/1.2.0 core-rest-pipeline/1.8.1 Node/v14.15.4 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "10fea2ab-1dba-47e9-a9fb-50ded8067dbe"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2021-10-01-preview7",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 02 May 2022 22:48:41 GMT",
+        "MS-CV": "LqtyFPihIk6HAPTMWA8IbQ.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "x-azure-ref": "20220502T224841Z-1kdy40ce594zxd7ayzepxvrcq0000000052000000002q5yf",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "24ms"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "1651531715497",
+            "type": "text",
+            "sequenceId": "4",
+            "version": "1651531715497",
+            "content": {
+              "message": "content"
+            },
+            "senderDisplayName": "",
+            "createdOn": "2022-05-02T22:48:35Z",
+            "senderCommunicationIdentifier": {
+              "rawId": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000011-26d7-aecb-570c-113a0d00b7d6",
+              "communicationUser": {
+                "id": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000011-26d7-aecb-570c-113a0d00b7d6"
+              }
+            },
+            "metadata": {
+              "tags": "sometag"
+            }
+          },
+          {
+            "id": "1651531714927",
+            "type": "topicUpdated",
+            "sequenceId": "3",
+            "version": "1651531714927",
+            "content": {
+              "topic": "new topic",
+              "initiatorCommunicationIdentifier": {
+                "rawId": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000011-26d7-aecb-570c-113a0d00b7d6",
+                "communicationUser": {
+                  "id": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000011-26d7-aecb-570c-113a0d00b7d6"
+                }
+              }
+            },
+            "createdOn": "2022-05-02T22:48:34Z"
+          },
+          {
+            "id": "1651531714250",
+            "type": "topicUpdated",
+            "sequenceId": "2",
+            "version": "1651531714250",
+            "content": {
+              "topic": "test topic",
+              "initiatorCommunicationIdentifier": {
+                "rawId": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000011-26d7-aecb-570c-113a0d00b7d6",
+                "communicationUser": {
+                  "id": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000011-26d7-aecb-570c-113a0d00b7d6"
+                }
+              }
+            },
+            "createdOn": "2022-05-02T22:48:34Z"
+          }
+        ],
+        "nextLink": "https://endpoint/chat/threads/19:1LP8h-5WKvPuwtMH3edl4AihPeEZu3VWYitvgn-9uDw1@thread.v2/messages?syncState=3e3900000031393a314c5038682d35574b76507577744d483365646c344169685065455a7533565759697476676e2d3975447731407468726561642e763201ca0ef68680010000a913f68680010000\u0026startTime=1%2F1%2F1970%2012%3A00%3A00%20AM%20%2B00%3A00\u0026maxPageSize=3\u0026api-version=2021-09-07"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/chat/threads/19:1LP8h-5WKvPuwtMH3edl4AihPeEZu3VWYitvgn-9uDw1@thread.v2/messages?syncState=3e3900000031393a314c5038682d35574b76507577744d483365646c344169685065455a7533565759697476676e2d3975447731407468726561642e763201ca0ef68680010000a913f68680010000\u0026startTime=1%2F1%2F1970%2012%3A00%3A00%20AM%20%2B00%3A00\u0026maxPageSize=3\u0026api-version=2021-09-07",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-communication-chat/1.2.0 core-rest-pipeline/1.8.1 Node/v14.15.4 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "2255d0e4-bb69-4227-b8c6-c6cb3d665a32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2021-10-01-preview7",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 02 May 2022 22:48:42 GMT",
+        "MS-CV": "EvsulIYQukOEXDctAi/MaA.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "Transfer-Encoding": "chunked",
+        "x-azure-ref": "20220502T224841Z-1kdy40ce594zxd7ayzepxvrcq0000000052000000002q5yp",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "50ms"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "1651531714216",
+            "type": "participantAdded",
+            "sequenceId": "1",
+            "version": "1651531714216",
+            "content": {
+              "participants": [
+                {
+                  "communicationIdentifier": {
+                    "rawId": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000011-26d7-aecb-570c-113a0d00b7d6",
+                    "communicationUser": {
+                      "id": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000011-26d7-aecb-570c-113a0d00b7d6"
+                    }
+                  },
+                  "shareHistoryTime": "1970-01-01T00:00:00Z"
+                },
+                {
+                  "communicationIdentifier": {
+                    "rawId": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000011-26d7-b05b-570c-113a0d00b7d7",
+                    "communicationUser": {
+                      "id": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000011-26d7-b05b-570c-113a0d00b7d7"
+                    }
+                  },
+                  "shareHistoryTime": "1970-01-01T00:00:00Z"
+                }
+              ],
+              "initiatorCommunicationIdentifier": {
+                "rawId": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000011-26d7-aecb-570c-113a0d00b7d6",
+                "communicationUser": {
+                  "id": "8:acs:b6aada1f-0b1d-47ac-866f-91aae00a1d01_00000011-26d7-aecb-570c-113a0d00b7d6"
+                }
+              }
+            },
+            "createdOn": "2022-05-02T22:48:34Z"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

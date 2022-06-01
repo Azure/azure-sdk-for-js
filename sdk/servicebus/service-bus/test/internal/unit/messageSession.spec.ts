@@ -8,7 +8,7 @@ import {
   addCloseablesCleanup,
   createConnectionContextForTests,
   createConnectionContextForTestsWithSessionId,
-  defer
+  defer,
 } from "./unittestUtils";
 import sinon, { SinonSpy } from "sinon";
 import { EventEmitter } from "events";
@@ -17,7 +17,7 @@ import {
   EventContext,
   Message as RheaMessage,
   SessionEvents,
-  Receiver as RheaPromiseReceiver
+  Receiver as RheaPromiseReceiver,
 } from "rhea-promise";
 import { OnAmqpEventAsPromise } from "../../../src/core/messageReceiver";
 import { ServiceBusMessageImpl } from "../../../src/serviceBusMessage";
@@ -54,7 +54,8 @@ describe("Message session unit tests", () => {
             undefined,
             {
               receiveMode: lockMode,
-              retryOptions: undefined
+              retryOptions: undefined,
+              skipParsingBodyAsJson: false,
             }
           );
 
@@ -65,7 +66,7 @@ describe("Message session unit tests", () => {
 
           // batch fulfillment is checked when we receive a message...
           emitter.emit(ReceiverEvents.message, {
-            message: { body: "the message" } as RheaMessage
+            message: { body: "the message" } as RheaMessage,
           } as EventContext);
 
           const messages = await receivePromise;
@@ -84,7 +85,8 @@ describe("Message session unit tests", () => {
             undefined,
             {
               receiveMode: lockMode,
-              retryOptions: undefined
+              retryOptions: undefined,
+              skipParsingBodyAsJson: false,
             }
           );
 
@@ -114,7 +116,8 @@ describe("Message session unit tests", () => {
               undefined,
               {
                 receiveMode: lockMode,
-                retryOptions: undefined
+                retryOptions: undefined,
+                skipParsingBodyAsJson: false,
               }
             );
 
@@ -125,7 +128,7 @@ describe("Message session unit tests", () => {
 
             // batch fulfillment is checked when we receive a message...
             emitter.emit(ReceiverEvents.message, {
-              message: { body: "the first message" } as RheaMessage
+              message: { body: "the first message" } as RheaMessage,
             } as EventContext);
 
             // advance the timeout to _just_ before the expiration of the first one (which must have been set
@@ -135,7 +138,7 @@ describe("Message session unit tests", () => {
             // now emit a second message - this second message should _not_ change any existing timers
             // or start new ones.
             emitter.emit(ReceiverEvents.message, {
-              message: { body: "the second message" } as RheaMessage
+              message: { body: "the second message" } as RheaMessage,
             } as EventContext);
 
             // now we'll advance the clock to 'littleTimeout' which should now fire off our timer.
@@ -160,7 +163,8 @@ describe("Message session unit tests", () => {
             undefined,
             {
               receiveMode: lockMode,
-              retryOptions: undefined
+              retryOptions: undefined,
+              skipParsingBodyAsJson: false,
             }
           );
 
@@ -172,8 +176,8 @@ describe("Message session unit tests", () => {
           // batch fulfillment is checked when we receive a message...
           emitter.emit(ReceiverEvents.message, {
             message: {
-              body: "the first message"
-            } as RheaMessage
+              body: "the first message",
+            } as RheaMessage,
           } as EventContext);
 
           // In the peekLock algorithm we would've resolved the promise here but_ we disable
@@ -184,8 +188,8 @@ describe("Message session unit tests", () => {
           // the time all the way....
           emitter.emit(ReceiverEvents.message, {
             message: {
-              body: "the second message"
-            } as RheaMessage
+              body: "the second message",
+            } as RheaMessage,
           } as EventContext);
 
           clock.tick(bigTimeout);
@@ -212,7 +216,8 @@ describe("Message session unit tests", () => {
               undefined,
               {
                 receiveMode: lockMode,
-                retryOptions: undefined
+                retryOptions: undefined,
+                skipParsingBodyAsJson: false,
               }
             );
 
@@ -243,8 +248,8 @@ describe("Message session unit tests", () => {
 
             emitter.emit(ReceiverEvents.message, {
               message: {
-                body: "the second message"
-              } as RheaMessage
+                body: "the second message",
+              } as RheaMessage,
             } as EventContext);
 
             // and just to be _really_ sure we'll only tick the `arbitraryAmountOfTimeInMs`.
@@ -306,7 +311,7 @@ describe("Message session unit tests", () => {
           removeListener(evt: SessionEvents, handler: OnAmqpEventAsPromise) {
             remainingRegisteredListeners.delete(evt.toString());
             emitter.removeListener(evt, handler);
-          }
+          },
         },
         isOpen: () => true,
         addCredit: (_credit: number) => {
@@ -320,22 +325,22 @@ describe("Message session unit tests", () => {
           return credit;
         },
         connection: {
-          id: "connection-id"
-        }
+          id: "connection-id",
+        },
       } as RheaPromiseReceiver;
 
       batchingReceiver["_link"] = fakeRheaReceiver;
 
       batchingReceiver["_batchingReceiverLite"]["_createServiceBusMessage"] = (eventContext) => {
         return {
-          body: eventContext.message?.body
+          body: eventContext.message?.body,
         } as ServiceBusMessageImpl;
       };
 
       return {
         receiveIsReady,
         emitter,
-        remainingRegisteredListeners
+        remainingRegisteredListeners,
       };
     }
   });
@@ -343,14 +348,14 @@ describe("Message session unit tests", () => {
   describe("errors", () => {
     const closeables = addCloseablesCleanup();
     let messageSession: MessageSession;
-    const eventContextWithMessage: EventContext = ({
+    const eventContextWithMessage: EventContext = {
       delivery: {},
       message: {
         message_annotations: {
-          [Constants.enqueuedTime]: new Date()
-        }
-      }
-    } as any) as EventContext;
+          [Constants.enqueuedTime]: new Date(),
+        },
+      },
+    } as any as EventContext;
     let processCreditErrorSpy: SinonSpy;
 
     beforeEach(async () => {
@@ -360,14 +365,15 @@ describe("Message session unit tests", () => {
         "session id",
         {
           receiveMode: "receiveAndDelete",
-          retryOptions: undefined
+          retryOptions: undefined,
+          skipParsingBodyAsJson: false,
         }
       );
 
       closeables.push(messageSession);
 
       processCreditErrorSpy = sinon.spy(
-        (messageSession as any) as { processCreditError: (err: any) => void },
+        messageSession as any as { processCreditError: (err: any) => void },
         "processCreditError"
       );
     });
@@ -400,13 +406,13 @@ describe("Message session unit tests", () => {
           message: errorArgs!.error.message,
           errorSource: errorArgs!.errorSource,
           entityPath: errorArgs!.entityPath,
-          fullyQualifiedNamespace: errorArgs!.fullyQualifiedNamespace
+          fullyQualifiedNamespace: errorArgs!.fullyQualifiedNamespace,
         },
         {
           message: "Error thrown from the user's processMessage callback",
           errorSource: "processMessageCallback",
           entityPath: "entity path",
-          fullyQualifiedNamespace: "fakeHost"
+          fullyQualifiedNamespace: "fakeHost",
         }
       );
     });
@@ -445,13 +451,13 @@ describe("Message session unit tests", () => {
           message: errorArgs!.error.message,
           errorSource: errorArgs!.errorSource,
           entityPath: errorArgs!.entityPath,
-          fullyQualifiedNamespace: errorArgs!.fullyQualifiedNamespace
+          fullyQualifiedNamespace: errorArgs!.fullyQualifiedNamespace,
         },
         {
           message: "Cannot request messages on the receiver",
           errorSource: "processMessageCallback",
           entityPath: "entity path",
-          fullyQualifiedNamespace: "fakeHost"
+          fullyQualifiedNamespace: "fakeHost",
         }
       );
 
@@ -479,7 +485,7 @@ describe("Message session unit tests", () => {
         (errorArgs) => {
           errors.push({
             message: errorArgs.error.message,
-            code: (errorArgs.error as ServiceBusError).code
+            code: (errorArgs.error as ServiceBusError).code,
           });
         },
         {}
@@ -488,8 +494,8 @@ describe("Message session unit tests", () => {
       assert.deepEqual(errors, [
         {
           message: "Cannot request messages on the receiver",
-          code: "SessionLockLost"
-        }
+          code: "SessionLockLost",
+        },
       ]);
 
       assert.isTrue(processCreditErrorSpy.called);
@@ -525,12 +531,12 @@ describe("Message session unit tests", () => {
         {
           name: err.name,
           code: (err as ServiceBusError).code,
-          retryable: (err as ServiceBusError).retryable
+          retryable: (err as ServiceBusError).retryable,
         },
         {
           name: "ServiceBusError",
           code: "SessionLockLost",
-          retryable: false
+          retryable: false,
         }
       );
     });

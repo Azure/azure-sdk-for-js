@@ -1,0 +1,47 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://fakeaccountname.table.core.windows.net/$batch?st=2021-08-03T08:52:15Z\u0026spr=https\u0026sig=fakesigval",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "Content-Length": "1271",
+        "Content-Type": "multipart/mixed; boundary=batch_fakeId",
+        "DataServiceVersion": "3.0;",
+        "MaxDataServiceVersion": "3.0;NetFx",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "62301620-a323-4fba-914c-22a3b771427d",
+        "x-ms-useragent": "azsdk-js-data-tables/13.0.2 core-rest-pipeline/1.5.0 OS/Linuxx86_64",
+        "x-ms-version": "2019-02-02"
+      },
+      "RequestBody": "LS1iYXRjaF9mYWtlSWQNCmNvbnRlbnQtdHlwZTogbXVsdGlwYXJ0L21peGVkOyBib3VuZGFyeT1jaGFuZ2VzZXRfZmFrZUlkDQoNCg0KLS1jaGFuZ2VzZXRfZmFrZUlkDQpjb250ZW50LXR5cGU6IGFwcGxpY2F0aW9uL2h0dHANCmNvbnRlbnQtdHJhbnNmZXItZW5jb2Rpbmc6IGJpbmFyeQ0KDQpQT1NUIGh0dHBzOi8vZmFrZWFjY291bnRuYW1lLnRhYmxlLmNvcmUud2luZG93cy5uZXQvYmF0Y2hUYWJsZVRlc3Ricm93c2VyIEhUVFAvMS4xDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb247b2RhdGE9bm9tZXRhZGF0YQ0KQWNjZXB0OiBhcHBsaWNhdGlvbi9qc29uO29kYXRhPW1pbmltYWxtZXRhZGF0YQ0KRGF0YVNlcnZpY2VWZXJzaW9uOiAzLjANClByZWZlcjogcmV0dXJuLW5vLWNvbnRlbnQNCg0KDQp7IlBhcnRpdGlvbktleSI6ImJhdGNoVGVzdCIsIlJvd0tleSI6IjEiLCJuYW1lIjoiZmlyc3QifQ0KLS1jaGFuZ2VzZXRfZmFrZUlkDQpjb250ZW50LXR5cGU6IGFwcGxpY2F0aW9uL2h0dHANCmNvbnRlbnQtdHJhbnNmZXItZW5jb2Rpbmc6IGJpbmFyeQ0KDQpQT1NUIGh0dHBzOi8vZmFrZWFjY291bnRuYW1lLnRhYmxlLmNvcmUud2luZG93cy5uZXQvYmF0Y2hUYWJsZVRlc3Ricm93c2VyIEhUVFAvMS4xDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb247b2RhdGE9bm9tZXRhZGF0YQ0KQWNjZXB0OiBhcHBsaWNhdGlvbi9qc29uO29kYXRhPW1pbmltYWxtZXRhZGF0YQ0KRGF0YVNlcnZpY2VWZXJzaW9uOiAzLjANClByZWZlcjogcmV0dXJuLW5vLWNvbnRlbnQNCg0KDQp7IlBhcnRpdGlvbktleSI6ImJhdGNoVGVzdCIsIlJvd0tleSI6IjIiLCJuYW1lIjoic2Vjb25kIn0NCi0tY2hhbmdlc2V0X2Zha2VJZA0KY29udGVudC10eXBlOiBhcHBsaWNhdGlvbi9odHRwDQpjb250ZW50LXRyYW5zZmVyLWVuY29kaW5nOiBiaW5hcnkNCg0KUE9TVCBodHRwczovL2Zha2VhY2NvdW50bmFtZS50YWJsZS5jb3JlLndpbmRvd3MubmV0L2JhdGNoVGFibGVUZXN0YnJvd3NlciBIVFRQLzEuMQ0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi9qc29uO29kYXRhPW5vbWV0YWRhdGENCkFjY2VwdDogYXBwbGljYXRpb24vanNvbjtvZGF0YT1taW5pbWFsbWV0YWRhdGENCkRhdGFTZXJ2aWNlVmVyc2lvbjogMy4wDQpQcmVmZXI6IHJldHVybi1uby1jb250ZW50DQoNCg0KeyJQYXJ0aXRpb25LZXkiOiJiYXRjaFRlc3QiLCJSb3dLZXkiOiIzIiwibmFtZSI6InRoaXJkIn0NCi0tY2hhbmdlc2V0X2Zha2VJZC0tDQotLWJhdGNoX2Zha2VJZC0tDQo=",
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Type": "multipart/mixed; boundary=batchresponse_0c9ee021-8094-45d3-93d1-bd6e3aaa701f",
+        "Date": "Tue, 01 Feb 2022 19:04:00 GMT",
+        "Server": [
+          "Windows-Azure-Table/1.0",
+          "Microsoft-HTTPAPI/2.0"
+        ],
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-client-request-id": "62301620-a323-4fba-914c-22a3b771427d",
+        "x-ms-request-id": "07e23206-5002-00e6-7e9e-17904f000000",
+        "x-ms-version": "2019-02-02"
+      },
+      "ResponseBody": "LS1iYXRjaHJlc3BvbnNlXzBjOWVlMDIxLTgwOTQtNDVkMy05M2QxLWJkNmUzYWFhNzAxZg0KQ29udGVudC1UeXBlOiBtdWx0aXBhcnQvbWl4ZWQ7IGJvdW5kYXJ5PWNoYW5nZXNldHJlc3BvbnNlXzhiYTFmMmY4LTdmZjktNDFiMC1iZjM1LTE3MjM0MTA3MGRlNQ0KDQotLWNoYW5nZXNldHJlc3BvbnNlXzhiYTFmMmY4LTdmZjktNDFiMC1iZjM1LTE3MjM0MTA3MGRlNQ0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi9odHRwDQpDb250ZW50LVRyYW5zZmVyLUVuY29kaW5nOiBiaW5hcnkNCg0KSFRUUC8xLjEgMjA0IE5vIENvbnRlbnQNClgtQ29udGVudC1UeXBlLU9wdGlvbnM6IG5vc25pZmYNCkNhY2hlLUNvbnRyb2w6IG5vLWNhY2hlDQpQcmVmZXJlbmNlLUFwcGxpZWQ6IHJldHVybi1uby1jb250ZW50DQpEYXRhU2VydmljZVZlcnNpb246IDMuMDsNCkxvY2F0aW9uOiBodHRwczovL2Zha2VhY2NvdW50bmFtZS50YWJsZS5jb3JlLndpbmRvd3MubmV0L2JhdGNoVGFibGVUZXN0YnJvd3NlcihQYXJ0aXRpb25LZXk9J2JhdGNoVGVzdCcsUm93S2V5PScxJykNCkRhdGFTZXJ2aWNlSWQ6IGh0dHBzOi8vZmFrZWFjY291bnRuYW1lLnRhYmxlLmNvcmUud2luZG93cy5uZXQvYmF0Y2hUYWJsZVRlc3Ricm93c2VyKFBhcnRpdGlvbktleT0nYmF0Y2hUZXN0JyxSb3dLZXk9JzEnKQ0KRVRhZzogVy8iZGF0ZXRpbWUnMjAyMi0wMi0wMVQxOSUzQTA0JTNBMDAuNzg4MjIwMlonIg0KDQoNCi0tY2hhbmdlc2V0cmVzcG9uc2VfOGJhMWYyZjgtN2ZmOS00MWIwLWJmMzUtMTcyMzQxMDcwZGU1DQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2h0dHANCkNvbnRlbnQtVHJhbnNmZXItRW5jb2Rpbmc6IGJpbmFyeQ0KDQpIVFRQLzEuMSAyMDQgTm8gQ29udGVudA0KWC1Db250ZW50LVR5cGUtT3B0aW9uczogbm9zbmlmZg0KQ2FjaGUtQ29udHJvbDogbm8tY2FjaGUNClByZWZlcmVuY2UtQXBwbGllZDogcmV0dXJuLW5vLWNvbnRlbnQNCkRhdGFTZXJ2aWNlVmVyc2lvbjogMy4wOw0KTG9jYXRpb246IGh0dHBzOi8vZmFrZWFjY291bnRuYW1lLnRhYmxlLmNvcmUud2luZG93cy5uZXQvYmF0Y2hUYWJsZVRlc3Ricm93c2VyKFBhcnRpdGlvbktleT0nYmF0Y2hUZXN0JyxSb3dLZXk9JzInKQ0KRGF0YVNlcnZpY2VJZDogaHR0cHM6Ly9mYWtlYWNjb3VudG5hbWUudGFibGUuY29yZS53aW5kb3dzLm5ldC9iYXRjaFRhYmxlVGVzdGJyb3dzZXIoUGFydGl0aW9uS2V5PSdiYXRjaFRlc3QnLFJvd0tleT0nMicpDQpFVGFnOiBXLyJkYXRldGltZScyMDIyLTAyLTAxVDE5JTNBMDQlM0EwMC43ODgyMjAyWiciDQoNCg0KLS1jaGFuZ2VzZXRyZXNwb25zZV84YmExZjJmOC03ZmY5LTQxYjAtYmYzNS0xNzIzNDEwNzBkZTUNCkNvbnRlbnQtVHlwZTogYXBwbGljYXRpb24vaHR0cA0KQ29udGVudC1UcmFuc2Zlci1FbmNvZGluZzogYmluYXJ5DQoNCkhUVFAvMS4xIDIwNCBObyBDb250ZW50DQpYLUNvbnRlbnQtVHlwZS1PcHRpb25zOiBub3NuaWZmDQpDYWNoZS1Db250cm9sOiBuby1jYWNoZQ0KUHJlZmVyZW5jZS1BcHBsaWVkOiByZXR1cm4tbm8tY29udGVudA0KRGF0YVNlcnZpY2VWZXJzaW9uOiAzLjA7DQpMb2NhdGlvbjogaHR0cHM6Ly9mYWtlYWNjb3VudG5hbWUudGFibGUuY29yZS53aW5kb3dzLm5ldC9iYXRjaFRhYmxlVGVzdGJyb3dzZXIoUGFydGl0aW9uS2V5PSdiYXRjaFRlc3QnLFJvd0tleT0nMycpDQpEYXRhU2VydmljZUlkOiBodHRwczovL2Zha2VhY2NvdW50bmFtZS50YWJsZS5jb3JlLndpbmRvd3MubmV0L2JhdGNoVGFibGVUZXN0YnJvd3NlcihQYXJ0aXRpb25LZXk9J2JhdGNoVGVzdCcsUm93S2V5PSczJykNCkVUYWc6IFcvImRhdGV0aW1lJzIwMjItMDItMDFUMTklM0EwNCUzQTAwLjc4ODIyMDJaJyINCg0KDQotLWNoYW5nZXNldHJlc3BvbnNlXzhiYTFmMmY4LTdmZjktNDFiMC1iZjM1LTE3MjM0MTA3MGRlNS0tDQotLWJhdGNocmVzcG9uc2VfMGM5ZWUwMjEtODA5NC00NWQzLTkzZDEtYmQ2ZTNhYWE3MDFmLS0NCg=="
+    }
+  ],
+  "Variables": {}
+}

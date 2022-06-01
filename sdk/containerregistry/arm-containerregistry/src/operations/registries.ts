@@ -11,7 +11,7 @@ import { Registries } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ContainerRegistryManagementClientContext } from "../containerRegistryManagementClientContext";
+import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -41,6 +41,8 @@ import {
   RegistriesListUsagesOptionalParams,
   RegistriesListUsagesResponse,
   RegistriesListPrivateLinkResourcesResponse,
+  RegistriesGetPrivateLinkResourceOptionalParams,
+  RegistriesGetPrivateLinkResourceResponse,
   RegistriesListCredentialsOptionalParams,
   RegistriesListCredentialsResponse,
   RegenerateCredentialParameters,
@@ -62,13 +64,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Registries operations. */
 export class RegistriesImpl implements Registries {
-  private readonly client: ContainerRegistryManagementClientContext;
+  private readonly client: ContainerRegistryManagementClient;
 
   /**
    * Initialize a new instance of the class Registries class.
    * @param client Reference to the service client
    */
-  constructor(client: ContainerRegistryManagementClientContext) {
+  constructor(client: ContainerRegistryManagementClient) {
     this.client = client;
   }
 
@@ -295,10 +297,12 @@ export class RegistriesImpl implements Registries {
       { resourceGroupName, registryName, parameters, options },
       importImageOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -443,10 +447,12 @@ export class RegistriesImpl implements Registries {
       { resourceGroupName, registryName, registry, options },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -526,10 +532,12 @@ export class RegistriesImpl implements Registries {
       { resourceGroupName, registryName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -613,10 +621,12 @@ export class RegistriesImpl implements Registries {
       { resourceGroupName, registryName, registryUpdateParameters, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -672,6 +682,25 @@ export class RegistriesImpl implements Registries {
     return this.client.sendOperationRequest(
       { resourceGroupName, registryName, options },
       listPrivateLinkResourcesOperationSpec
+    );
+  }
+
+  /**
+   * Gets a private link resource by a specified group name for a container registry.
+   * @param resourceGroupName The name of the resource group to which the container registry belongs.
+   * @param registryName The name of the container registry.
+   * @param groupName The name of the private link resource.
+   * @param options The options parameters.
+   */
+  getPrivateLinkResource(
+    resourceGroupName: string,
+    registryName: string,
+    groupName: string,
+    options?: RegistriesGetPrivateLinkResourceOptionalParams
+  ): Promise<RegistriesGetPrivateLinkResourceResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, registryName, groupName, options },
+      getPrivateLinkResourceOperationSpec
     );
   }
 
@@ -784,10 +813,12 @@ export class RegistriesImpl implements Registries {
       },
       generateCredentialsOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -874,10 +905,12 @@ export class RegistriesImpl implements Registries {
       { resourceGroupName, registryName, runRequest, options },
       scheduleRunOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1170,6 +1203,29 @@ const listPrivateLinkResourcesOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const getPrivateLinkResourceOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/privateLinkResources/{groupName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateLinkResource
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.registryName,
+    Parameters.groupName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const listCredentialsOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/listCredentials",
@@ -1226,6 +1282,9 @@ const generateCredentialsOperationSpec: coreClient.OperationSpec = {
     },
     204: {
       bodyMapper: Mappers.GenerateCredentialsResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.generateCredentialsParameters,

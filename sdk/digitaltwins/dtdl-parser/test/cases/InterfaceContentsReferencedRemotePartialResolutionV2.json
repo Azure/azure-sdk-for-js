@@ -1,0 +1,48 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:anInterface;1",
+      "@type": "Interface",
+      "contents": [
+        "dtmi:test:aProperty;1",
+        "dtmi:test:aTelemetry;1",
+        "dtmi:test:aCommand;1",
+        "dtmi:test:aRelationship;1"
+      ]
+    }
+  ],
+  "resolution": [
+    {
+      "request": [
+        "dtmi:test:aProperty;1",
+        "dtmi:test:aTelemetry;1",
+        "dtmi:test:aCommand;1",
+        "dtmi:test:aRelationship;1"
+      ],
+      "response": [
+        {
+          "@context": "dtmi:dtdl:context;2",
+          "@id": "dtmi:test:aProperty;1",
+          "@type": "Property",
+          "name": "expectedDistance",
+          "schema": "double"
+        },
+        {
+          "@context": "dtmi:dtdl:context;2",
+          "@id": "dtmi:test:aCommand;1",
+          "@type": "Command",
+          "name": "setDistance"
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "unresolvedIdentifiers": [
+      "dtmi:test:aTelemetry;1",
+      "dtmi:test:aRelationship;1"
+    ]
+  }
+}

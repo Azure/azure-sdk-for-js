@@ -2,7 +2,7 @@
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config({ path: "../.env" });
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     basePath: "./",
     frameworks: ["mocha"],
@@ -17,18 +17,18 @@ module.exports = function(config) {
       "karma-env-preprocessor",
       "karma-coverage",
       "karma-sourcemap-loader",
-      "karma-junit-reporter"
+      "karma-junit-reporter",
     ],
 
     files: [
       "dist-test/index.browser.js",
-      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true }
+      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true },
     ],
 
     exclude: [],
 
     preprocessors: {
-      "**/*.js": ["sourcemap", "env"]
+      "**/*.js": ["sourcemap", "env"],
       //"dist-test/index.browser.js": ["coverage"]
     },
 
@@ -41,8 +41,8 @@ module.exports = function(config) {
         { type: "json", subdir: ".", file: "coverage.json" },
         { type: "lcovonly", subdir: ".", file: "lcov.info" },
         { type: "html", subdir: "html" },
-        { type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" }
-      ]
+        { type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" },
+      ],
     },
 
     junitReporter: {
@@ -52,7 +52,7 @@ module.exports = function(config) {
       useBrowserName: false,
       nameFormatter: undefined,
       classNameFormatter: undefined,
-      properties: {}
+      properties: {},
     },
 
     port: 9328,
@@ -65,8 +65,8 @@ module.exports = function(config) {
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
         base: "ChromeHeadless",
-        flags: ["--no-sandbox"]
-      }
+        flags: ["--no-sandbox"],
+      },
     },
 
     singleRun: false,
@@ -80,8 +80,8 @@ module.exports = function(config) {
       mocha: {
         // change Karma's debug.html to the mocha web reporter
         reporter: "html",
-        timeout: "600000"
-      }
-    }
+        timeout: "600000",
+      },
+    },
   });
 };

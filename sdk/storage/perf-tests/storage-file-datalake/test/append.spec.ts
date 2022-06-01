@@ -17,8 +17,8 @@ export class StorageDFSAppendTest extends StorageDFSTest<StorageDFSAppendTestOpt
       description: "Size to append in bytes",
       shortName: "sz",
       longName: "size",
-      defaultValue: 1024
-    }
+      defaultValue: 1024,
+    },
   };
   fileClient: DataLakeFileClient;
 

@@ -4,22 +4,22 @@
    "method": "GET",
    "url": "https://endpoint/phoneNumbers",
    "query": {
-    "api-version": "2021-03-07",
+    "api-version": "2022-06-01-preview",
+    "skip": "0",
     "top": "100"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"phoneNumbers\":[{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"geographic\",\"capabilities\":{\"calling\":\"inbound+outbound\",\"sms\":\"none\"},\"assignmentType\":\"application\",\"purchaseDate\":\"2021-04-14T00:23:52.1861991+00:00\",\"cost\":{\"amount\":1.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"}},{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"geographic\",\"capabilities\":{\"calling\":\"outbound\",\"sms\":\"none\"},\"assignmentType\":\"application\",\"purchaseDate\":\"2021-04-06T23:27:52.858607+00:00\",\"cost\":{\"amount\":1.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"}},{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"tollFree\",\"capabilities\":{\"calling\":\"none\",\"sms\":\"outbound\"},\"assignmentType\":\"application\",\"purchaseDate\":\"2021-05-25T00:03:06.2985305+00:00\",\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"}},{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"tollFree\",\"capabilities\":{\"calling\":\"none\",\"sms\":\"outbound\"},\"assignmentType\":\"application\",\"purchaseDate\":\"2021-05-24T23:39:11.2079613+00:00\",\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"}},{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"tollFree\",\"capabilities\":{\"calling\":\"inbound\",\"sms\":\"inbound+outbound\"},\"assignmentType\":\"application\",\"purchaseDate\":\"2021-05-26T23:18:22.4715623+00:00\",\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"}},{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"tollFree\",\"capabilities\":{\"calling\":\"inbound\",\"sms\":\"inbound+outbound\"},\"assignmentType\":\"application\",\"purchaseDate\":\"2021-05-27T03:05:50.816041+00:00\",\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"}},{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"tollFree\",\"capabilities\":{\"calling\":\"outbound\",\"sms\":\"outbound\"},\"assignmentType\":\"application\",\"purchaseDate\":\"2021-02-10T17:52:41.818335+00:00\",\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"}},{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"tollFree\",\"capabilities\":{\"calling\":\"none\",\"sms\":\"inbound+outbound\"},\"assignmentType\":\"application\",\"purchaseDate\":\"2021-02-10T18:01:46.4199999+00:00\",\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"}},{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"tollFree\",\"capabilities\":{\"calling\":\"none\",\"sms\":\"outbound\"},\"assignmentType\":\"application\",\"purchaseDate\":\"2021-03-09T15:01:55.0949003+00:00\",\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"}},{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"tollFree\",\"capabilities\":{\"calling\":\"none\",\"sms\":\"outbound\"},\"assignmentType\":\"application\",\"purchaseDate\":\"2021-03-09T15:03:04.7513808+00:00\",\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"}},{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"tollFree\",\"capabilities\":{\"calling\":\"outbound\",\"sms\":\"inbound+outbound\"},\"assignmentType\":\"application\",\"purchaseDate\":\"2000-01-01T00:00:00+00:00\",\"cost\":{\"amount\":2.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"}}]}",
+   "response": "{\"phoneNumbers\":[{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"geographic\",\"capabilities\":{\"calling\":\"outbound\",\"sms\":\"none\"},\"assignmentType\":\"application\",\"purchaseDate\":\"2022-03-14T18:26:44.3415816+00:00\",\"cost\":{\"amount\":1.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"},\"operatorId\":\"sanitized\",\"operatorName\":\"Microsoft PPE (Dogfood)\",\"phoneNumberSource\":\"cloud\"},{\"id\":\"14155550100\",\"phoneNumber\":\"+14155550100\",\"countryCode\":\"US\",\"phoneNumberType\":\"geographic\",\"capabilities\":{\"calling\":\"inbound+outbound\",\"sms\":\"none\"},\"assignmentType\":\"application\",\"purchaseDate\":\"2022-03-14T19:15:38.2651776+00:00\",\"cost\":{\"amount\":1.0,\"currencyCode\":\"USD\",\"billingFrequency\":\"monthly\"},\"operatorId\":\"sanitized\",\"operatorName\":\"???\",\"phoneNumberSource\":\"cloud\"}]}",
    "responseHeaders": {
-    "api-supported-versions": "2021-03-07",
+    "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 18 Jun 2021 16:38:59 GMT",
-    "ms-cv": "ev0eI8vIb02Mw9Bk1YS5Wg.0",
-    "request-context": "appId=",
-    "status": "200",
-    "x-azure-ref": "0IszMYAAAAABZJmgvc8ANT4lgye/4RsscWVZSMzBFREdFMDMxMAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+    "date": "Thu, 12 May 2022 16:07:31 GMT",
+    "ms-cv": "0PfYXYxolEGltoY6+/PP/Q.0",
+    "strict-transport-security": "max-age=2592000",
+    "x-azure-ref": "0wzB9YgAAAAAffojYh6bmQoT1eCHWITquUFJHMDFFREdFMDcxOQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "1582ms"
+    "x-processing-time": "1227ms"
    }
   }
  ],

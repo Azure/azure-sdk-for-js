@@ -4,10 +4,9 @@
 import * as http from "http";
 import * as https from "https";
 import * as tunnel from "tunnel";
-
+import { HttpHeadersLike } from "./httpHeaders";
 import { ProxySettings } from "./serviceClient";
 import { URLBuilder } from "./url";
-import { HttpHeadersLike } from "./httpHeaders";
 
 export type ProxyAgent = { isHttps: boolean; agent: http.Agent | https.Agent };
 export function createProxyAgent(
@@ -26,8 +25,8 @@ export function createProxyAgent(
     proxy: {
       host: host,
       port: proxySettings.port,
-      headers: (headers && headers.rawHeaders()) || {}
-    }
+      headers: (headers && headers.rawHeaders()) || {},
+    },
   };
 
   if (proxySettings.username && proxySettings.password) {
@@ -41,7 +40,7 @@ export function createProxyAgent(
 
   const proxyAgent = {
     isHttps: isRequestHttps,
-    agent: createTunnel(isRequestHttps, isProxyHttps, tunnelOptions)
+    agent: createTunnel(isRequestHttps, isProxyHttps, tunnelOptions),
   };
 
   return proxyAgent;

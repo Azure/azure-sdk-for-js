@@ -26,22 +26,22 @@ export class SendTest extends PerfTest<SendTestOptions> {
       description: "Size in bytes",
       shortName: "sz",
       longName: "size",
-      defaultValue: 1024
+      defaultValue: 1024,
     },
     numberOfEvents: {
       required: true,
       description: "Number of events per send",
       shortName: "num",
       longName: "numberOfEvents",
-      defaultValue: 10
-    }
+      defaultValue: 10,
+    },
   };
 
   constructor() {
     super();
     this.producer = producer;
     const event = {
-      body: Buffer.alloc(this.parsedOptions.eventBodySize.value!)
+      body: Buffer.alloc(this.parsedOptions.eventBodySize.value!),
     };
     this.eventBatch = new Array(this.parsedOptions.numberOfEvents.value!).fill(event);
   }

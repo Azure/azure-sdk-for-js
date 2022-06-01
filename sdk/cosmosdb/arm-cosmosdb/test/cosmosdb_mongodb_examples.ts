@@ -61,7 +61,7 @@ describe("Cosmosdb test", () => {
     client = new CosmosDBManagementClient(credential, subscriptionId);
     location = "eastus";
     resourceGroupName = "myjstest";
-    accountName = "myaccountxxx6";
+    accountName = "myaccountxxyy3";
     databaseName = "mydatabasexxxx";
   });
 
@@ -130,15 +130,6 @@ describe("Cosmosdb test", () => {
     await client.mongoDBResources.beginDeleteMongoDBDatabaseAndWait(resourceGroupName,accountName,databaseName, testPollingOptions);
     const resArray = new Array();
     for await (let item of client.mongoDBResources.listMongoDBDatabases(resourceGroupName,accountName)){
-        resArray.push(item);
-    }
-    assert.equal(resArray.length,0);
-  });
-
-  it("databaseAccounts delete for mongoDBResources test", async function() {
-    await client.databaseAccounts.beginDeleteAndWait(resourceGroupName,accountName, testPollingOptions);
-    const resArray = new Array();
-    for await (let item of client.databaseAccounts.listByResourceGroup(resourceGroupName)){
         resArray.push(item);
     }
     assert.equal(resArray.length,0);

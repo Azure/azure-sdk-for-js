@@ -1,0 +1,66 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": [
+        "dtmi:dtdl:context;3",
+        "dtmi:iotcentral:context;3"
+      ],
+      "@id": "dtmi:test:motionObject;1",
+      "@type": "Object",
+      "fields": [
+        {
+          "@type": [ "Field", "VelocityVector" ],
+          "name": "velocity",
+          "schema": "vector"
+        },
+        {
+          "@type": [ "Field", "AccelerationVector" ],
+          "name": "acceleration",
+          "schema": "vector"
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:motionObject;1",
+        "type": "Object",
+        "properties": {
+          "fields": [
+            "dtmi:test:motionObject:_fields:__velocity;1",
+            "dtmi:test:motionObject:_fields:__acceleration;1"
+          ]
+        }
+      },
+      {
+        "id": "dtmi:test:motionObject:_fields:__velocity;1",
+        "type": "Field",
+        "properties": {
+          "name": "velocity",
+          "schema": "dtmi:iotcentral:schema:vector;3"
+        },
+        "supplementalTypes": [
+          "dtmi:iotcentral:class:VelocityVector;3"
+        ],
+        "supplementalProperties": {
+        }
+      },
+      {
+        "id": "dtmi:test:motionObject:_fields:__acceleration;1",
+        "type": "Field",
+        "properties": {
+          "name": "acceleration",
+          "schema": "dtmi:iotcentral:schema:vector;3"
+        },
+        "supplementalTypes": [
+          "dtmi:iotcentral:class:AccelerationVector;3"
+        ],
+        "supplementalProperties": {
+        }
+      }
+    ]
+  }
+}

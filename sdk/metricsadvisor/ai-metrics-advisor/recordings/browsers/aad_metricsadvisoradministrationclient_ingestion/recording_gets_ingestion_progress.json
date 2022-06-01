@@ -11,17 +11,17 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1331",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Nov 2021 02:00:45 GMT",
+    "date": "Thu, 20 Jan 2022 01:04:13 GMT",
     "expires": "-1",
     "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12231.7 - NCUS ProdSlices",
-    "x-ms-request-id": "66610f1e-74e4-4ee3-930f-ee36f85f4400"
+    "x-ms-ests-server": "2.1.12261.22 - SCUS ProdSlices",
+    "x-ms-request-id": "98cc7b01-31cb-4795-9813-0a61e369e500"
    }
   },
   {
@@ -30,16 +30,16 @@
    "query": {},
    "requestBody": null,
    "status": 200,
-   "response": "{\"latestSuccessTimestamp\":\"2021-11-15T00:00:00Z\",\"latestActiveTimestamp\":\"2021-11-15T00:00:00Z\"}",
+   "response": "{\"latestSuccessTimestamp\":\"2022-01-19T00:00:00Z\",\"latestActiveTimestamp\":\"2022-01-19T00:00:00Z\"}",
    "responseHeaders": {
-    "apim-request-id": "021267a0-79f8-4422-b3e4-f577e37c5a6d",
+    "apim-request-id": "efa72980-4d16-4604-92c3-a80f6ae18970",
     "content-length": "96",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 16 Nov 2021 02:00:45 GMT",
+    "date": "Thu, 20 Jan 2022 01:04:14 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "312",
-    "x-request-id": "021267a0-79f8-4422-b3e4-f577e37c5a6d"
+    "x-envoy-upstream-service-time": "376",
+    "x-request-id": "efa72980-4d16-4604-92c3-a80f6ae18970"
    }
   }
  ],

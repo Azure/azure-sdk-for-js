@@ -1,0 +1,24 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:aCommand;1",
+      "@type": "Command",
+      "name": "setDistance"
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:aCommand;1",
+        "type": "Command",
+        "properties": {
+          "name": "setDistance",
+          "definedIn": null
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": [
+        "dtmi:dtdl:context;3",
+        "dtmi:iotcentral:context;3"
+      ],
+      "@id": "dtmi:test:aTelemetry;1",
+      "@type": [
+        "Telemetry",
+        "VelocityVector"
+      ],
+      "name": "currentVelocity",
+      "schema": "vector"
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:aTelemetry;1",
+        "type": "Telemetry",
+        "properties": {
+          "name": "currentVelocity",
+          "schema": "dtmi:iotcentral:schema:vector;3",
+          "definedIn": null
+        },
+        "supplementalTypes": [
+          "dtmi:iotcentral:class:VelocityVector;3"
+        ],
+        "supplementalProperties": {
+        }
+      }
+    ]
+  }
+}

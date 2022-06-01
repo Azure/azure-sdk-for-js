@@ -1,0 +1,37 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:anInterface;1",
+      "@type": "Interface",
+      "contents": [
+        {
+          "@context": [
+            {
+              "Altitude": "dtmi:standard:class:Length;2"
+            },
+            "dtmi:dtdl:context;2"
+          ],
+          "@id": "dtmi:test:aTelemetry;1",
+          "@type": [ "Telemetry", "Altitude" ],
+          "name": "height",
+          "schema": "double",
+          "unit": "kilometre"
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:localContextNotLast",
+        "PrimaryID": null,
+        "SecondaryID": null,
+        "Property": null,
+        "Value": null
+      }
+    ]
+  }
+}

@@ -7,7 +7,8 @@ import { GeneratedClientOptionalParams } from "../generated";
 /**
  * Valid values of the Form Recognizer service REST API version.
  */
-export type FormRecognizerApiVersion = "2021-09-30-preview";
+export type FormRecognizerApiVersion = "2022-01-30-preview";
+
 /**
  * Supported and common values of FormRecognizerApiVersion.
  */
@@ -19,18 +20,16 @@ export const FormRecognizerApiVersion = {
    * If using a beta package version, this will be identical to the latest preview version. Otherwise, it will be
    * identical to the latest stable version.
    */
-  Latest: "2021-09-30-preview",
-  /**
-   * The newest preview version of the service known to be supported by the client.
-   */
-  Preview: "2021-09-30-preview",
-  // Stable: when we have a GA version and a stable REST API
+  Latest: "2022-01-30-preview",
+  // TODO (GA): Add a `Stable` version selector that picks the latest GA version, even in beta packages, and an exact
+  // version entry for the GA version.
 } as const;
 
 /**
  * Valid string index types supported by the Form Recognizer service and SDK clients.
  */
 export type StringIndexType = typeof StringIndexType[keyof typeof StringIndexType];
+
 /**
  * Supported values of StringIndexType.
  */

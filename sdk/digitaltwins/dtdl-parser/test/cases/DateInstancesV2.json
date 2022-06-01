@@ -1,0 +1,260 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:dateArray;1",
+      "@type": "Array",
+      "elementSchema": "date"
+    }
+  ],
+  "expect": {},
+  "instances": [
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": true,
+      "submit": "\"1980-01-01\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": true,
+      "submit": "\"1582-10-15\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": true,
+      "submit": "\"0001-01-01\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": "\"0000-01-01\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": "\"0001-00-01\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": "\"0001-01-00\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": true,
+      "submit": "\"9999-12-31\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": true,
+      "submit": "\"1965-01-01\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": true,
+      "submit": "\"1965-01-31\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": "\"1965-01-32\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": true,
+      "submit": "\"1965-02-28\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": "\"1965-02-29\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": true,
+      "submit": "\"1965-03-31\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": "\"1965-03-32\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": true,
+      "submit": "\"1965-04-30\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": "\"1965-04-31\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": true,
+      "submit": "\"1965-05-31\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": "\"1965-05-32\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": true,
+      "submit": "\"1965-06-30\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": "\"1965-06-31\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": true,
+      "submit": "\"1965-07-31\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": "\"1965-07-32\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": true,
+      "submit": "\"1965-08-31\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": "\"1965-08-32\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": true,
+      "submit": "\"1965-09-30\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": "\"1965-09-31\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": true,
+      "submit": "\"1965-10-31\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": "\"1965-10-32\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": true,
+      "submit": "\"1965-11-30\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": "\"1965-11-31\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": true,
+      "submit": "\"1965-12-31\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": "\"1965-12-32\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": "\"1965-13-01\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": "\"1965-06-00\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": true,
+      "submit": "\"1964-02-29\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": "\"1964-02-30\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": "\"19650101\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": "\"1965-01\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": "\"65-01-01\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": ""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": "true"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": "1"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": "null"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": "[ \"1980-01-01\" ]"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": "{ \"date\": \"1980-01-01\" }"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": "$$"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": "[ \"hi\": \"there\" ]"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": "{ \"hello\" }"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:date;2",
+      "conforms": false,
+      "submit": "{ 23 ]"
+    }
+  ]
+}

@@ -25,7 +25,7 @@ import {
   TokenCredential,
   tracingPolicy,
   UserAgentOptions,
-  WebResource
+  WebResource,
 } from "@azure/core-http";
 
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -37,7 +37,7 @@ import { TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import {
   StorageDataLakeLoggingAllowedHeaderNames,
   StorageDataLakeLoggingAllowedQueryParameters,
-  StorageOAuthScopes
+  StorageOAuthScopes,
 } from "./utils/constants";
 import { getCachedDefaultHttpClient } from "./utils/cache";
 
@@ -54,7 +54,7 @@ export {
   WebResource,
   RequestPolicyFactory,
   RequestPolicy,
-  RequestPolicyOptions
+  RequestPolicyOptions,
 };
 
 /**
@@ -97,7 +97,7 @@ export class Pipeline {
     // avoid each client creating its own http client.
     this.options = {
       ...options,
-      httpClient: options.httpClient || getCachedDefaultHttpClient()
+      httpClient: options.httpClient || getCachedDefaultHttpClient(),
     };
   }
 
@@ -110,7 +110,7 @@ export class Pipeline {
   public toServiceClientOptions(): ServiceClientOptions {
     return {
       httpClient: this.options.httpClient,
-      requestPolicyFactories: this.factories
+      requestPolicyFactories: this.factories,
     };
   }
 }
@@ -172,8 +172,8 @@ export function newPipeline(
     logPolicy({
       logger: logger.info,
       allowedHeaderNames: StorageDataLakeLoggingAllowedHeaderNames,
-      allowedQueryParameters: StorageDataLakeLoggingAllowedQueryParameters
-    })
+      allowedQueryParameters: StorageDataLakeLoggingAllowedQueryParameters,
+    }),
   ];
 
   if (isNode) {

@@ -1,0 +1,33 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/deviceupdate/sdkinstance/management/devicetags?api-version=2021-06-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "core-rest-pipeline/1.3.3 Node/v16.13.1 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "a37e01d9-0611-4ddf-8ef2-e72d65b7c228"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "50",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 20 Jan 2022 11:48:46 GMT",
+        "traceparent": "00-b88e8e6f33c7862c0e93390fa3d12b27-5026eac51a502f6f-00"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "tagName": "joegroup",
+            "deviceCount": 1
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

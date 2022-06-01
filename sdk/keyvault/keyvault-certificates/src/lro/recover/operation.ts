@@ -3,32 +3,24 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { OperationOptions } from "@azure/core-http";
-import { createTraceFunction } from "../../../../keyvault-common/src";
 import {
   GetCertificateOptions,
   KeyVaultCertificateWithPolicy,
-  RecoverDeletedCertificateOptions
+  RecoverDeletedCertificateOptions,
 } from "../../certificatesModels";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
+import { tracingClient } from "../../tracing";
 import { getCertificateWithPolicyFromCertificateBundle } from "../../transformations";
 import {
   KeyVaultCertificatePollOperation,
-  KeyVaultCertificatePollOperationState
+  KeyVaultCertificatePollOperationState,
 } from "../keyVaultCertificatePoller";
-
-/**
- * @internal
- */
-const withTrace = createTraceFunction(
-  "Azure.KeyVault.Certificates.RecoverDeletedCertificatePoller"
-);
 
 /**
  * Deprecated: Public representation of the recovery of a deleted certificate poll operation
  */
-export type RecoverDeletedCertificateState = KeyVaultCertificatePollOperationState<
-  KeyVaultCertificateWithPolicy
->;
+export type RecoverDeletedCertificateState =
+  KeyVaultCertificatePollOperationState<KeyVaultCertificateWithPolicy>;
 
 /**
  * An interface representing the recovery of a deleted certificate's poll operation
@@ -44,7 +36,7 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
     private operationOptions: OperationOptions = {}
   ) {
     super(state, {
-      cancelMessage: "Canceling the recovery of a deleted certificate is not supported."
+      cancelMessage: "Canceling the recovery of a deleted certificate is not supported.",
     });
   }
 
@@ -55,15 +47,19 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
     certificateName: string,
     options: GetCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
-    return withTrace("getCertificate", options, async (updatedOptions) => {
-      const result = await this.client.getCertificate(
-        this.vaultUrl,
-        certificateName,
-        "",
-        updatedOptions
-      );
-      return getCertificateWithPolicyFromCertificateBundle(result);
-    });
+    return tracingClient.withSpan(
+      "RecoverDeletedCertificatePoller.getCertificate",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.getCertificate(
+          this.vaultUrl,
+          certificateName,
+          "",
+          updatedOptions
+        );
+        return getCertificateWithPolicyFromCertificateBundle(result);
+      }
+    );
   }
 
   /**
@@ -74,14 +70,18 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
     certificateName: string,
     options: RecoverDeletedCertificateOptions = {}
   ): Promise<KeyVaultCertificateWithPolicy> {
-    return withTrace("recoverDeletedCertificate", options, async (updatedOptions) => {
-      const result = await this.client.recoverDeletedCertificate(
-        this.vaultUrl,
-        certificateName,
-        updatedOptions
-      );
-      return getCertificateWithPolicyFromCertificateBundle(result._response.parsedBody);
-    });
+    return tracingClient.withSpan(
+      "RecoverDeletedCertificatePoller.recoverDeletedCertificate",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.recoverDeletedCertificate(
+          this.vaultUrl,
+          certificateName,
+          updatedOptions
+        );
+        return getCertificateWithPolicyFromCertificateBundle(result._response.parsedBody);
+      }
+    );
   }
 
   /**
@@ -104,7 +104,7 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
       try {
         state.result = await this.getCertificate(certificateName, this.operationOptions);
         state.isCompleted = true;
-      } catch (e) {
+      } catch (e: any) {
         // getCertificate will only work once the LRO is completed.
       }
       if (!state.isCompleted) {
@@ -117,7 +117,7 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
       try {
         state.result = await this.getCertificate(certificateName, this.operationOptions);
         state.isCompleted = true;
-      } catch (error) {
+      } catch (error: any) {
         if (error.statusCode === 403) {
           // At this point, the resource exists but the user doesn't have access to it.
           state.isCompleted = true;

@@ -4,16 +4,16 @@ import { PurviewMetadataPolicies } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
-import { createMetadataClient, createRecorder } from "./utils/recordedClient";
+import { createMetadataClient } from "./utils/recordedClient";
 import { Context } from "mocha";
 
 describe("List Metadata", () => {
   let recorder: Recorder;
   let client: PurviewMetadataPolicies.Client.PurviewMetadataPoliciesRestClient;
 
-  beforeEach(function (this: Context) {
-    recorder = createRecorder(this);
-    client = createMetadataClient();
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    client = await createMetadataClient(recorder);
   });
 
   afterEach(async function () {

@@ -13,21 +13,21 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 async function main() {
-  const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT ?? "<endpoint>";
-  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY ?? "<api key>");
+  const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
+  const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
 
   const client = new DocumentModelAdministrationClient(endpoint, credential);
 
   for await (const modelSummary of client.listModels()) {
     console.log("- ID", modelSummary.modelId);
     console.log("  Created:", modelSummary.createdDateTime);
-    console.log("  Description: ", modelSummary.description ?? "<none>");
+    console.log("  Description: ", modelSummary.description || "<none>");
 
     // The model summary does not include `docTypes`, so we must additionally call `getModel` to retrieve them
     const { docTypes } = await client.getModel(modelSummary.modelId);
 
     console.log("  Document Types:");
-    for (const docType of Object.keys(docTypes ?? {})) {
+    for (const docType of Object.keys(docTypes || {})) {
       console.log("  -", docType);
     }
   }

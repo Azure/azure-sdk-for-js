@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AbortController, AbortError, AbortSignal } from "../src";
 import { assert } from "chai";
-import { AbortController, AbortSignal, AbortError } from "../src";
 
 describe("AbortController", () => {
   function doAsyncOperation(aborter: AbortSignal, runningTimeinMs: number = 100): Promise<void> {
@@ -40,7 +40,7 @@ describe("AbortController", () => {
       const rs = await response;
       console.log("got result", rs);
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.strictEqual(err.name, "AbortError");
     }
   });
@@ -54,7 +54,7 @@ describe("AbortController", () => {
       const r = await response;
       console.log("got, r", r);
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.strictEqual(err.name, "AbortError");
     }
   });
@@ -78,7 +78,7 @@ describe("AbortController", () => {
       controller.abort();
       await response;
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.strictEqual(s, "aborted");
     }
   });
@@ -98,7 +98,7 @@ describe("AbortController", () => {
       controller.abort();
       await response;
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.deepEqual(s, ["aborted", "aborted"]);
     }
   });
@@ -127,7 +127,7 @@ describe("AbortController", () => {
       controller.abort();
       await response;
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.deepEqual(acks, ["foo", "bar"]);
     }
   });
@@ -141,7 +141,7 @@ describe("AbortController", () => {
       };
       await doAsyncOperation(aborter, 200);
       assert.fail();
-    } catch (err) {
+    } catch (err: any) {
       assert.deepEqual(s, "aborted");
     }
   });
@@ -211,7 +211,7 @@ describe("AbortController", () => {
     assert.strictEqual(s, "parent1");
   });
 
-  it("should call abort() on child signals that were created before parent abort() call", async function() {
+  it("should call abort() on child signals that were created before parent abort() call", async function () {
     const parentController = new AbortController();
     const parentSignal = parentController.signal;
 
@@ -308,7 +308,7 @@ describe("AbortController", () => {
     assert.strictEqual(true, values.includes("child"));
   });
 
-  it("should call abort() on deeply nested child signals that were created before parent abort() call", async function() {
+  it("should call abort() on deeply nested child signals that were created before parent abort() call", async function () {
     const parentController = new AbortController();
     const parentSignal = parentController.signal;
 
@@ -339,7 +339,7 @@ describe("AbortController", () => {
     assert.strictEqual(true, values.includes("child2"));
   });
 
-  it("should not call abort() on parent signals when child calls abort()", async function() {
+  it("should not call abort() on parent signals when child calls abort()", async function () {
     const parentController = new AbortController();
     const parentSignal = parentController.signal;
 

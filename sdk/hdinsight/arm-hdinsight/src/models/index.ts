@@ -6,2981 +6,2210 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { BaseResource, CloudError, AzureServiceClientOptions } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import * as coreClient from "@azure/core-client";
 
-export { BaseResource, CloudError };
+/** The CreateCluster request parameters. */
+export interface ClusterCreateParametersExtended {
+  /** The location of the cluster. */
+  location?: string;
+  /** The resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The availability zones. */
+  zones?: string[];
+  /** The cluster create parameters. */
+  properties?: ClusterCreateProperties;
+  /** The identity of the cluster, if configured. */
+  identity?: ClusterIdentity;
+}
 
-/**
- * The cluster definition.
- */
+/** The cluster create parameters. */
+export interface ClusterCreateProperties {
+  /** The version of the cluster. */
+  clusterVersion?: string;
+  /** The type of operating system. */
+  osType?: OSType;
+  /** The cluster tier. */
+  tier?: Tier;
+  /** The cluster definition. */
+  clusterDefinition?: ClusterDefinition;
+  /** The cluster kafka rest proxy configuration. */
+  kafkaRestProperties?: KafkaRestProperties;
+  /** The security profile. */
+  securityProfile?: SecurityProfile;
+  /** The compute profile. */
+  computeProfile?: ComputeProfile;
+  /** The storage profile. */
+  storageProfile?: StorageProfile;
+  /** The disk encryption properties. */
+  diskEncryptionProperties?: DiskEncryptionProperties;
+  /** The encryption-in-transit properties. */
+  encryptionInTransitProperties?: EncryptionInTransitProperties;
+  /** The minimal supported tls version. */
+  minSupportedTlsVersion?: string;
+  /** The network properties. */
+  networkProperties?: NetworkProperties;
+  /** The compute isolation properties. */
+  computeIsolationProperties?: ComputeIsolationProperties;
+  /** The private link configurations. */
+  privateLinkConfigurations?: PrivateLinkConfiguration[];
+}
+
+/** The cluster definition. */
 export interface ClusterDefinition {
-  /**
-   * The link to the blueprint.
-   */
+  /** The link to the blueprint. */
   blueprint?: string;
-  /**
-   * The type of cluster.
-   */
+  /** The type of cluster. */
   kind?: string;
-  /**
-   * The versions of different services in the cluster.
-   */
+  /** The versions of different services in the cluster. */
   componentVersion?: { [propertyName: string]: string };
-  /**
-   * The cluster configurations.
-   */
-  configurations?: any;
+  /** The cluster configurations. */
+  configurations?: Record<string, unknown>;
 }
 
-/**
- * The information of AAD security group.
- */
-export interface ClientGroupInfo {
-  /**
-   * The AAD security group name.
-   */
-  groupName?: string;
-  /**
-   * The AAD security group id.
-   */
-  groupId?: string;
-}
-
-/**
- * The kafka rest proxy configuration which contains AAD security group information.
- */
+/** The kafka rest proxy configuration which contains AAD security group information. */
 export interface KafkaRestProperties {
-  /**
-   * The information of AAD security group.
-   */
+  /** The information of AAD security group. */
   clientGroupInfo?: ClientGroupInfo;
-  /**
-   * The configurations that need to be overriden.
-   */
+  /** The configurations that need to be overriden. */
   configurationOverride?: { [propertyName: string]: string };
 }
 
-/**
- * The security profile which contains Ssh public key for the HDInsight cluster.
- */
+/** The information of AAD security group. */
+export interface ClientGroupInfo {
+  /** The AAD security group name. */
+  groupName?: string;
+  /** The AAD security group id. */
+  groupId?: string;
+}
+
+/** The security profile which contains Ssh public key for the HDInsight cluster. */
 export interface SecurityProfile {
-  /**
-   * The directory type. Possible values include: 'ActiveDirectory'
-   */
+  /** The directory type. */
   directoryType?: DirectoryType;
-  /**
-   * The organization's active directory domain.
-   */
+  /** The organization's active directory domain. */
   domain?: string;
-  /**
-   * The organizational unit within the Active Directory to place the cluster and service accounts.
-   */
+  /** The organizational unit within the Active Directory to place the cluster and service accounts. */
   organizationalUnitDN?: string;
-  /**
-   * The LDAPS protocol URLs to communicate with the Active Directory.
-   */
+  /** The LDAPS protocol URLs to communicate with the Active Directory. */
   ldapsUrls?: string[];
-  /**
-   * The domain user account that will have admin privileges on the cluster.
-   */
+  /** The domain user account that will have admin privileges on the cluster. */
   domainUsername?: string;
   /**
    * The domain admin password.
+   * This value contains a credential. Consider obscuring before showing to users
    */
   domainUserPassword?: string;
-  /**
-   * Optional. The Distinguished Names for cluster user groups
-   */
+  /** Optional. The Distinguished Names for cluster user groups */
   clusterUsersGroupDNs?: string[];
-  /**
-   * The resource ID of the user's Azure Active Directory Domain Service.
-   */
+  /** The resource ID of the user's Azure Active Directory Domain Service. */
   aaddsResourceId?: string;
-  /**
-   * User assigned identity that has permissions to read and create cluster-related artifacts in
-   * the user's AADDS.
-   */
+  /** User assigned identity that has permissions to read and create cluster-related artifacts in the user's AADDS. */
   msiResourceId?: string;
 }
 
-/**
- * Time and capacity request parameters
- */
-export interface AutoscaleTimeAndCapacity {
-  /**
-   * 24-hour time in the form xx:xx
-   */
-  time?: string;
-  /**
-   * The minimum instance count of the cluster
-   */
+/** Describes the compute profile. */
+export interface ComputeProfile {
+  /** The list of roles in the cluster. */
+  roles?: Role[];
+}
+
+/** Describes a role on the cluster. */
+export interface Role {
+  /** The name of the role. */
+  name?: string;
+  /** The minimum instance count of the cluster. */
   minInstanceCount?: number;
-  /**
-   * The maximum instance count of the cluster
-   */
-  maxInstanceCount?: number;
+  /** The instance count of the cluster. */
+  targetInstanceCount?: number;
+  /** The name of the virtual machine group. */
+  vMGroupName?: string;
+  /** The autoscale configurations. */
+  autoscaleConfiguration?: Autoscale;
+  /** The hardware profile. */
+  hardwareProfile?: HardwareProfile;
+  /** The operating system profile. */
+  osProfile?: OsProfile;
+  /** The virtual network profile. */
+  virtualNetworkProfile?: VirtualNetworkProfile;
+  /** The data disks groups for the role. */
+  dataDisksGroups?: DataDisksGroups[];
+  /** The list of script actions on the role. */
+  scriptActions?: ScriptAction[];
+  /** Indicates whether encrypt the data disks. */
+  encryptDataDisks?: boolean;
 }
 
-/**
- * Parameters for a schedule-based autoscale rule, consisting of an array of days + a time and
- * capacity
- */
-export interface AutoscaleSchedule {
-  /**
-   * Days of the week for a schedule-based autoscale rule
-   */
-  days?: DaysOfWeek[];
-  /**
-   * Time and capacity for a schedule-based autoscale rule
-   */
-  timeAndCapacity?: AutoscaleTimeAndCapacity;
-}
-
-/**
- * The load-based autoscale request parameters
- */
-export interface AutoscaleCapacity {
-  /**
-   * The minimum instance count of the cluster
-   */
-  minInstanceCount?: number;
-  /**
-   * The maximum instance count of the cluster
-   */
-  maxInstanceCount?: number;
-}
-
-/**
- * Schedule-based autoscale request parameters
- */
-export interface AutoscaleRecurrence {
-  /**
-   * The time zone for the autoscale schedule times
-   */
-  timeZone?: string;
-  /**
-   * Array of schedule-based autoscale rules
-   */
-  schedule?: AutoscaleSchedule[];
-}
-
-/**
- * The autoscale request parameters
- */
+/** The autoscale request parameters */
 export interface Autoscale {
-  /**
-   * Parameters for load-based autoscale
-   */
+  /** Parameters for load-based autoscale */
   capacity?: AutoscaleCapacity;
-  /**
-   * Parameters for schedule-based autoscale
-   */
+  /** Parameters for schedule-based autoscale */
   recurrence?: AutoscaleRecurrence;
 }
 
-/**
- * The autoscale configuration update parameter.
- */
-export interface AutoscaleConfigurationUpdateParameter {
-  /**
-   * The autoscale configuration.
-   */
-  autoscale?: Autoscale;
+/** The load-based autoscale request parameters */
+export interface AutoscaleCapacity {
+  /** The minimum instance count of the cluster */
+  minInstanceCount?: number;
+  /** The maximum instance count of the cluster */
+  maxInstanceCount?: number;
 }
 
-/**
- * The hardware profile.
- */
+/** Schedule-based autoscale request parameters */
+export interface AutoscaleRecurrence {
+  /** The time zone for the autoscale schedule times */
+  timeZone?: string;
+  /** Array of schedule-based autoscale rules */
+  schedule?: AutoscaleSchedule[];
+}
+
+/** Parameters for a schedule-based autoscale rule, consisting of an array of days + a time and capacity */
+export interface AutoscaleSchedule {
+  /** Days of the week for a schedule-based autoscale rule */
+  days?: DaysOfWeek[];
+  /** Time and capacity for a schedule-based autoscale rule */
+  timeAndCapacity?: AutoscaleTimeAndCapacity;
+}
+
+/** Time and capacity request parameters */
+export interface AutoscaleTimeAndCapacity {
+  /** 24-hour time in the form xx:xx */
+  time?: string;
+  /** The minimum instance count of the cluster */
+  minInstanceCount?: number;
+  /** The maximum instance count of the cluster */
+  maxInstanceCount?: number;
+}
+
+/** The hardware profile. */
 export interface HardwareProfile {
-  /**
-   * The size of the VM
-   */
+  /** The size of the VM */
   vmSize?: string;
 }
 
-/**
- * The virtual network properties.
- */
+/** The Linux operation systems profile. */
+export interface OsProfile {
+  /** The Linux OS profile. */
+  linuxOperatingSystemProfile?: LinuxOperatingSystemProfile;
+}
+
+/** The ssh username, password, and ssh public key. */
+export interface LinuxOperatingSystemProfile {
+  /** The username. */
+  username?: string;
+  /** The password. */
+  password?: string;
+  /** The SSH profile. */
+  sshProfile?: SshProfile;
+}
+
+/** The list of SSH public keys. */
+export interface SshProfile {
+  /** The list of SSH public keys. */
+  publicKeys?: SshPublicKey[];
+}
+
+/** The SSH public key for the cluster nodes. */
+export interface SshPublicKey {
+  /** The certificate for SSH. */
+  certificateData?: string;
+}
+
+/** The virtual network properties. */
 export interface VirtualNetworkProfile {
-  /**
-   * The ID of the virtual network.
-   */
+  /** The ID of the virtual network. */
   id?: string;
-  /**
-   * The name of the subnet.
-   */
+  /** The name of the subnet. */
   subnet?: string;
 }
 
-/**
- * The data disks groups for the role.
- */
+/** The data disks groups for the role. */
 export interface DataDisksGroups {
-  /**
-   * The number of disks per node.
-   */
+  /** The number of disks per node. */
   disksPerNode?: number;
   /**
    * ReadOnly. The storage account type. Do not set this value.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly storageAccountType?: string;
   /**
    * ReadOnly. The DiskSize in GB. Do not set this value.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly diskSizeGB?: number;
 }
 
-/**
- * The SSH public key for the cluster nodes.
- */
-export interface SshPublicKey {
-  /**
-   * The certificate for SSH.
-   */
-  certificateData?: string;
-}
-
-/**
- * The list of SSH public keys.
- */
-export interface SshProfile {
-  /**
-   * The list of SSH public keys.
-   */
-  publicKeys?: SshPublicKey[];
-}
-
-/**
- * The ssh username, password, and ssh public key.
- */
-export interface LinuxOperatingSystemProfile {
-  /**
-   * The username.
-   */
-  username?: string;
-  /**
-   * The password.
-   */
-  password?: string;
-  /**
-   * The SSH profile.
-   */
-  sshProfile?: SshProfile;
-}
-
-/**
- * The Linux operation systems profile.
- */
-export interface OsProfile {
-  /**
-   * The Linux OS profile.
-   */
-  linuxOperatingSystemProfile?: LinuxOperatingSystemProfile;
-}
-
-/**
- * Describes a script action on role on the cluster.
- */
+/** Describes a script action on role on the cluster. */
 export interface ScriptAction {
-  /**
-   * The name of the script action.
-   */
+  /** The name of the script action. */
   name: string;
-  /**
-   * The URI to the script.
-   */
+  /** The URI to the script. */
   uri: string;
-  /**
-   * The parameters for the script provided.
-   */
+  /** The parameters for the script provided. */
   parameters: string;
 }
 
-/**
- * Describes a role on the cluster.
- */
-export interface Role {
-  /**
-   * The name of the role.
-   */
-  name?: string;
-  /**
-   * The minimum instance count of the cluster.
-   */
-  minInstanceCount?: number;
-  /**
-   * The instance count of the cluster.
-   */
-  targetInstanceCount?: number;
-  /**
-   * The name of the virtual machine group.
-   */
-  vMGroupName?: string;
-  /**
-   * The autoscale configurations.
-   */
-  autoscaleConfiguration?: Autoscale;
-  /**
-   * The hardware profile.
-   */
-  hardwareProfile?: HardwareProfile;
-  /**
-   * The operating system profile.
-   */
-  osProfile?: OsProfile;
-  /**
-   * The virtual network profile.
-   */
-  virtualNetworkProfile?: VirtualNetworkProfile;
-  /**
-   * The data disks groups for the role.
-   */
-  dataDisksGroups?: DataDisksGroups[];
-  /**
-   * The list of script actions on the role.
-   */
-  scriptActions?: ScriptAction[];
-  /**
-   * Indicates whether encrypt the data disks. Default value: false.
-   */
-  encryptDataDisks?: boolean;
-}
-
-/**
- * Describes the compute profile.
- */
-export interface ComputeProfile {
-  /**
-   * The list of roles in the cluster.
-   */
-  roles?: Role[];
-}
-
-/**
- * The storage Account.
- */
-export interface StorageAccount {
-  /**
-   * The name of the storage account.
-   */
-  name?: string;
-  /**
-   * Whether or not the storage account is the default storage account.
-   */
-  isDefault?: boolean;
-  /**
-   * The container in the storage account, only to be specified for WASB storage accounts.
-   */
-  container?: string;
-  /**
-   * The filesystem, only to be specified for Azure Data Lake Storage Gen 2.
-   */
-  fileSystem?: string;
-  /**
-   * The storage account access key.
-   */
-  key?: string;
-  /**
-   * The resource ID of storage account, only to be specified for Azure Data Lake Storage Gen 2.
-   */
-  resourceId?: string;
-  /**
-   * The managed identity (MSI) that is allowed to access the storage account, only to be specified
-   * for Azure Data Lake Storage Gen 2.
-   */
-  msiResourceId?: string;
-  /**
-   * The shared access signature key.
-   */
-  saskey?: string;
-  /**
-   * The file share name.
-   */
-  fileshare?: string;
-}
-
-/**
- * The storage profile.
- */
+/** The storage profile. */
 export interface StorageProfile {
-  /**
-   * The list of storage accounts in the cluster.
-   */
+  /** The list of storage accounts in the cluster. */
   storageaccounts?: StorageAccount[];
 }
 
-/**
- * The configuration that services will be excluded when creating cluster.
- */
-export interface ExcludedServicesConfig {
-  /**
-   * The config id of excluded services.
-   */
-  excludedServicesConfigId?: string;
-  /**
-   * The list of excluded services.
-   */
-  excludedServicesList?: string;
-}
-
-/**
- * The network properties.
- */
-export interface NetworkProperties {
-  /**
-   * The direction for the resource provider connection. Possible values include: 'Inbound',
-   * 'Outbound'
-   */
-  resourceProviderConnection?: ResourceProviderConnection;
-  /**
-   * Indicates whether or not private link is enabled. Possible values include: 'Disabled',
-   * 'Enabled'
-   */
-  privateLink?: PrivateLink;
-}
-
-/**
- * The compute isolation properties.
- */
-export interface ComputeIsolationProperties {
-  /**
-   * The flag indicates whether enable compute isolation or not. Default value: false.
-   */
-  enableComputeIsolation?: boolean;
-  /**
-   * The host sku.
-   */
-  hostSku?: string;
-}
-
-/**
- * The disk encryption properties
- */
-export interface DiskEncryptionProperties {
-  /**
-   * Base key vault URI where the customers key is located eg. https://myvault.vault.azure.net
-   */
-  vaultUri?: string;
-  /**
-   * Key name that is used for enabling disk encryption.
-   */
-  keyName?: string;
-  /**
-   * Specific key version that is used for enabling disk encryption.
-   */
-  keyVersion?: string;
-  /**
-   * Algorithm identifier for encryption, default RSA-OAEP. Possible values include: 'RSA-OAEP',
-   * 'RSA-OAEP-256', 'RSA1_5'
-   */
-  encryptionAlgorithm?: JsonWebKeyEncryptionAlgorithm;
-  /**
-   * Resource ID of Managed Identity that is used to access the key vault.
-   */
+/** The storage Account. */
+export interface StorageAccount {
+  /** The name of the storage account. */
+  name?: string;
+  /** Whether or not the storage account is the default storage account. */
+  isDefault?: boolean;
+  /** The container in the storage account, only to be specified for WASB storage accounts. */
+  container?: string;
+  /** The filesystem, only to be specified for Azure Data Lake Storage Gen 2. */
+  fileSystem?: string;
+  /** The storage account access key. */
+  key?: string;
+  /** The resource ID of storage account, only to be specified for Azure Data Lake Storage Gen 2. */
+  resourceId?: string;
+  /** The managed identity (MSI) that is allowed to access the storage account, only to be specified for Azure Data Lake Storage Gen 2. */
   msiResourceId?: string;
-  /**
-   * Indicates whether or not resource disk encryption is enabled. Default value: false.
-   */
+  /** The shared access signature key. */
+  saskey?: string;
+  /** The file share name. */
+  fileshare?: string;
+}
+
+/** The disk encryption properties */
+export interface DiskEncryptionProperties {
+  /** Base key vault URI where the customers key is located eg. https://myvault.vault.azure.net */
+  vaultUri?: string;
+  /** Key name that is used for enabling disk encryption. */
+  keyName?: string;
+  /** Specific key version that is used for enabling disk encryption. */
+  keyVersion?: string;
+  /** Algorithm identifier for encryption, default RSA-OAEP. */
+  encryptionAlgorithm?: JsonWebKeyEncryptionAlgorithm;
+  /** Resource ID of Managed Identity that is used to access the key vault. */
+  msiResourceId?: string;
+  /** Indicates whether or not resource disk encryption is enabled. */
   encryptionAtHost?: boolean;
 }
 
-/**
- * The encryption-in-transit properties.
- */
+/** The encryption-in-transit properties. */
 export interface EncryptionInTransitProperties {
-  /**
-   * Indicates whether or not inter cluster node communication is encrypted in transit. Default
-   * value: false.
-   */
+  /** Indicates whether or not inter cluster node communication is encrypted in transit. */
   isEncryptionInTransitEnabled?: boolean;
 }
 
-/**
- * The cluster create parameters.
- */
-export interface ClusterCreateProperties {
-  /**
-   * The version of the cluster.
-   */
-  clusterVersion?: string;
-  /**
-   * The type of operating system. Possible values include: 'Windows', 'Linux'
-   */
-  osType?: OSType;
-  /**
-   * The cluster tier. Possible values include: 'Standard', 'Premium'. Default value: 'Standard'.
-   */
-  tier?: Tier;
-  /**
-   * The cluster definition.
-   */
-  clusterDefinition?: ClusterDefinition;
-  /**
-   * The cluster kafka rest proxy configuration.
-   */
-  kafkaRestProperties?: KafkaRestProperties;
-  /**
-   * The security profile.
-   */
-  securityProfile?: SecurityProfile;
-  /**
-   * The compute profile.
-   */
-  computeProfile?: ComputeProfile;
-  /**
-   * The storage profile.
-   */
-  storageProfile?: StorageProfile;
-  /**
-   * The disk encryption properties.
-   */
-  diskEncryptionProperties?: DiskEncryptionProperties;
-  /**
-   * The encryption-in-transit properties.
-   */
-  encryptionInTransitProperties?: EncryptionInTransitProperties;
-  /**
-   * The minimal supported tls version.
-   */
-  minSupportedTlsVersion?: string;
-  /**
-   * The network properties.
-   */
-  networkProperties?: NetworkProperties;
-  /**
-   * The compute isolation properties.
-   */
-  computeIsolationProperties?: ComputeIsolationProperties;
+/** The network properties. */
+export interface NetworkProperties {
+  /** The direction for the resource provider connection. */
+  resourceProviderConnection?: ResourceProviderConnection;
+  /** Indicates whether or not private link is enabled. */
+  privateLink?: PrivateLink;
 }
 
-/**
- * An interface representing ClusterIdentityUserAssignedIdentitiesValue.
- */
-export interface ClusterIdentityUserAssignedIdentitiesValue {
+/** The compute isolation properties. */
+export interface ComputeIsolationProperties {
+  /** The flag indicates whether enable compute isolation or not. */
+  enableComputeIsolation?: boolean;
+  /** The host sku. */
+  hostSku?: string;
+}
+
+/** The private link configuration. */
+export interface PrivateLinkConfiguration {
+  /**
+   * The private link configuration id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /** The name of private link configuration. */
+  name: string;
+  /**
+   * The type of the private link configuration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** The HDInsight private linkable sub-resource name to apply the private link configuration to. For example, 'headnode', 'gateway', 'edgenode'. */
+  groupId: string;
+  /**
+   * The private link configuration provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: PrivateLinkConfigurationProvisioningState;
+  /** The IP configurations for the private link service. */
+  ipConfigurations: IPConfiguration[];
+}
+
+/** The ip configurations for the private link service. */
+export interface IPConfiguration {
+  /**
+   * The private link IP configuration id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /** The name of private link IP configuration. */
+  name: string;
+  /**
+   * The type of the private link IP configuration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The private link configuration provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: PrivateLinkConfigurationProvisioningState;
+  /** Indicates whether this IP configuration is primary for the corresponding NIC. */
+  primary?: boolean;
+  /** The IP address. */
+  privateIPAddress?: string;
+  /** The method that private IP address is allocated. */
+  privateIPAllocationMethod?: PrivateIPAllocationMethod;
+  /** The subnet resource id. */
+  subnet?: ResourceId;
+}
+
+/** The azure resource id. */
+export interface ResourceId {
+  /** The azure resource id. */
+  id?: string;
+}
+
+/** Identity for the cluster. */
+export interface ClusterIdentity {
+  /**
+   * The principal id of cluster identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant id associated with the cluster. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** The type of identity used for the cluster. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. */
+  type?: ResourceIdentityType;
+  /** The list of user identities associated with the cluster. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
+  userAssignedIdentities?: { [propertyName: string]: UserAssignedIdentity };
+}
+
+/** The User Assigned Identity */
+export interface UserAssignedIdentity {
   /**
    * The principal id of user assigned identity.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly principalId?: string;
   /**
    * The client id of user assigned identity.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly clientId?: string;
-  /**
-   * The tenant id of user assigned identity.
-   */
+  /** The tenant id of user assigned identity. */
   tenantId?: string;
 }
 
-/**
- * Identity for the cluster.
- */
-export interface ClusterIdentity {
+/** The properties of cluster. */
+export interface ClusterGetProperties {
+  /** The version of the cluster. */
+  clusterVersion?: string;
+  /** The hdp version of the cluster. */
+  clusterHdpVersion?: string;
+  /** The type of operating system. */
+  osType?: OSType;
+  /** The cluster tier. */
+  tier?: Tier;
+  /** The cluster id. */
+  clusterId?: string;
+  /** The cluster definition. */
+  clusterDefinition: ClusterDefinition;
+  /** The cluster kafka rest proxy configuration. */
+  kafkaRestProperties?: KafkaRestProperties;
+  /** The security profile. */
+  securityProfile?: SecurityProfile;
+  /** The compute profile. */
+  computeProfile?: ComputeProfile;
+  /** The provisioning state, which only appears in the response. */
+  provisioningState?: HDInsightClusterProvisioningState;
+  /** The date on which the cluster was created. */
+  createdDate?: string;
+  /** The state of the cluster. */
+  clusterState?: string;
+  /** The quota information. */
+  quotaInfo?: QuotaInfo;
+  /** The list of errors. */
+  errors?: Errors[];
+  /** The list of connectivity endpoints. */
+  connectivityEndpoints?: ConnectivityEndpoint[];
+  /** The disk encryption properties. */
+  diskEncryptionProperties?: DiskEncryptionProperties;
+  /** The encryption-in-transit properties. */
+  encryptionInTransitProperties?: EncryptionInTransitProperties;
+  /** The storage profile. */
+  storageProfile?: StorageProfile;
+  /** The minimal supported tls version. */
+  minSupportedTlsVersion?: string;
+  /** The excluded services config. */
+  excludedServicesConfig?: ExcludedServicesConfig;
+  /** The network properties. */
+  networkProperties?: NetworkProperties;
+  /** The compute isolation properties. */
+  computeIsolationProperties?: ComputeIsolationProperties;
+  /** The private link configurations. */
+  privateLinkConfigurations?: PrivateLinkConfiguration[];
   /**
-   * The principal id of cluster identity. This property will only be provided for a system
-   * assigned identity.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The list of private endpoint connections.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly principalId?: string;
-  /**
-   * The tenant id associated with the cluster. This property will only be provided for a system
-   * assigned identity.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly tenantId?: string;
-  /**
-   * The type of identity used for the cluster. The type 'SystemAssigned, UserAssigned' includes
-   * both an implicitly created identity and a set of user assigned identities. Possible values
-   * include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned, UserAssigned', 'None'
-   */
-  type?: ResourceIdentityType;
-  /**
-   * The list of user identities associated with the cluster. The user identity dictionary key
-   * references will be ARM resource ids in the form:
-   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-   */
-  userAssignedIdentities?: { [propertyName: string]: ClusterIdentityUserAssignedIdentitiesValue };
+  readonly privateEndpointConnections?: PrivateEndpointConnection[];
 }
 
-/**
- * The CreateCluster request parameters.
- */
-export interface ClusterCreateParametersExtended {
-  /**
-   * The location of the cluster.
-   */
-  location?: string;
-  /**
-   * The resource tags.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * The cluster create parameters.
-   */
-  properties?: ClusterCreateProperties;
-  /**
-   * The identity of the cluster, if configured.
-   */
-  identity?: ClusterIdentity;
-}
-
-/**
- * The PatchCluster request parameters
- */
-export interface ClusterPatchParameters {
-  /**
-   * The resource tags.
-   */
-  tags?: { [propertyName: string]: string };
-}
-
-/**
- * The quota properties for the cluster.
- */
+/** The quota properties for the cluster. */
 export interface QuotaInfo {
-  /**
-   * The cores used by the cluster.
-   */
+  /** The cores used by the cluster. */
   coresUsed?: number;
 }
 
-/**
- * The error message associated with the cluster creation.
- */
+/** The error message associated with the cluster creation. */
 export interface Errors {
-  /**
-   * The error code.
-   */
+  /** The error code. */
   code?: string;
-  /**
-   * The error message.
-   */
+  /** The error message. */
   message?: string;
 }
 
-/**
- * The connectivity properties
- */
+/** The connectivity properties */
 export interface ConnectivityEndpoint {
-  /**
-   * The name of the endpoint.
-   */
+  /** The name of the endpoint. */
   name?: string;
-  /**
-   * The protocol of the endpoint.
-   */
+  /** The protocol of the endpoint. */
   protocol?: string;
-  /**
-   * The location of the endpoint.
-   */
+  /** The location of the endpoint. */
   location?: string;
-  /**
-   * The port to connect to.
-   */
+  /** The port to connect to. */
   port?: number;
-  /**
-   * The private ip address of the endpoint.
-   */
+  /** The private ip address of the endpoint. */
   privateIPAddress?: string;
 }
 
-/**
- * The properties of cluster.
- */
-export interface ClusterGetProperties {
-  /**
-   * The version of the cluster.
-   */
-  clusterVersion?: string;
-  /**
-   * The hdp version of the cluster.
-   */
-  clusterHdpVersion?: string;
-  /**
-   * The type of operating system. Possible values include: 'Windows', 'Linux'
-   */
-  osType?: OSType;
-  /**
-   * The cluster tier. Possible values include: 'Standard', 'Premium'
-   */
-  tier?: Tier;
-  /**
-   * The cluster id.
-   */
-  clusterId?: string;
-  /**
-   * The cluster definition.
-   */
-  clusterDefinition: ClusterDefinition;
-  /**
-   * The cluster kafka rest proxy configuration.
-   */
-  kafkaRestProperties?: KafkaRestProperties;
-  /**
-   * The security profile.
-   */
-  securityProfile?: SecurityProfile;
-  /**
-   * The compute profile.
-   */
-  computeProfile?: ComputeProfile;
-  /**
-   * The provisioning state, which only appears in the response. Possible values include:
-   * 'InProgress', 'Failed', 'Succeeded', 'Canceled', 'Deleting'
-   */
-  provisioningState?: HDInsightClusterProvisioningState;
-  /**
-   * The date on which the cluster was created.
-   */
-  createdDate?: string;
-  /**
-   * The state of the cluster.
-   */
-  clusterState?: string;
-  /**
-   * The quota information.
-   */
-  quotaInfo?: QuotaInfo;
-  /**
-   * The list of errors.
-   */
-  errors?: Errors[];
-  /**
-   * The list of connectivity endpoints.
-   */
-  connectivityEndpoints?: ConnectivityEndpoint[];
-  /**
-   * The disk encryption properties.
-   */
-  diskEncryptionProperties?: DiskEncryptionProperties;
-  /**
-   * The encryption-in-transit properties.
-   */
-  encryptionInTransitProperties?: EncryptionInTransitProperties;
-  /**
-   * The storage profile.
-   */
-  storageProfile?: StorageProfile;
-  /**
-   * The minimal supported tls version.
-   */
-  minSupportedTlsVersion?: string;
-  /**
-   * The excluded services config.
-   */
-  excludedServicesConfig?: ExcludedServicesConfig;
-  /**
-   * The network properties.
-   */
-  networkProperties?: NetworkProperties;
-  /**
-   * The compute isolation properties.
-   */
-  computeIsolationProperties?: ComputeIsolationProperties;
+/** The configuration that services will be excluded when creating cluster. */
+export interface ExcludedServicesConfig {
+  /** The config id of excluded services. */
+  excludedServicesConfigId?: string;
+  /** The list of excluded services. */
+  excludedServicesList?: string;
 }
 
-/**
- * The core properties of ARM resources
- */
-export interface Resource extends BaseResource {
+/** The private endpoint. */
+export interface PrivateEndpoint {
+  /** The private endpoint id. */
+  id?: string;
+}
+
+/** The private link service connection state. */
+export interface PrivateLinkServiceConnectionState {
+  /** The concrete private link service connection. */
+  status: PrivateLinkServiceConnectionStatus;
+  /** The optional description of the status. */
+  description?: string;
+  /** Whether there is further actions. */
+  actionsRequired?: string;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
   /**
-   * Fully qualified resource Id for the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly id?: string;
   /**
    * The name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * The type of the resource.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
 }
 
-/**
- * The resource model definition for a ARM tracked top level resource
- */
-export interface TrackedResource extends Resource {
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface ResourceAutoGenerated {
   /**
-   * The Azure Region where the resource lives
+   * Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  location?: string;
+  readonly id?: string;
   /**
-   * Resource tags.
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+}
+
+/** Describes the format of Error response. */
+export interface ErrorResponse {
+  /** Error code */
+  code?: string;
+  /** Error message indicating why the operation failed. */
+  message?: string;
+}
+
+/** The PatchCluster request parameters */
+export interface ClusterPatchParameters {
+  /** The resource tags. */
   tags?: { [propertyName: string]: string };
 }
 
-/**
- * The HDInsight cluster.
- */
-export interface Cluster extends TrackedResource {
-  /**
-   * The ETag for the resource
-   */
-  etag?: string;
-  /**
-   * The properties of the cluster.
-   */
-  properties?: ClusterGetProperties;
-  /**
-   * The identity of the cluster, if configured.
-   */
-  identity?: ClusterIdentity;
-}
-
-/**
- * Describes a script action on a running cluster.
- */
-export interface RuntimeScriptAction {
-  /**
-   * The name of the script action.
-   */
-  name: string;
-  /**
-   * The URI to the script.
-   */
-  uri: string;
-  /**
-   * The parameters for the script
-   */
-  parameters?: string;
-  /**
-   * The list of roles where script will be executed.
-   */
-  roles: string[];
-  /**
-   * The application name of the script action, if any.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly applicationName?: string;
-}
-
-/**
- * The parameters for the script actions to execute on a running cluster.
- */
-export interface ExecuteScriptActionParameters {
-  /**
-   * The list of run time script actions.
-   */
-  scriptActions?: RuntimeScriptAction[];
-  /**
-   * Gets or sets if the scripts needs to be persisted.
-   */
-  persistOnSuccess: boolean;
-}
-
-/**
- * The ListPersistedScriptActions operation response.
- */
-export interface ClusterListPersistedScriptActionsResult {
-  /**
-   * The list of Persisted Script Actions.
-   */
-  value?: RuntimeScriptAction[];
+/** The List Cluster operation response. */
+export interface ClusterListResult {
+  /** The list of Clusters. */
+  value?: Cluster[];
   /**
    * The link (url) to the next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
 }
 
-/**
- * The execution summary of a script action.
- */
-export interface ScriptActionExecutionSummary {
-  /**
-   * The status of script action execution.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: string;
-  /**
-   * The instance count for a given script action execution status.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly instanceCount?: number;
-}
-
-/**
- * The execution details of a script action.
- */
-export interface RuntimeScriptActionDetail extends RuntimeScriptAction {
-  /**
-   * The execution id of the script action.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly scriptExecutionId?: number;
-  /**
-   * The start time of script action execution.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly startTime?: string;
-  /**
-   * The end time of script action execution.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly endTime?: string;
-  /**
-   * The current execution status of the script action.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: string;
-  /**
-   * The reason why the script action was executed.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly operation?: string;
-  /**
-   * The summary of script action execution result.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly executionSummary?: ScriptActionExecutionSummary[];
-  /**
-   * The script action execution debug information.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly debugInformation?: string;
-}
-
-/**
- * The list runtime script action detail response.
- */
-export interface ClusterListRuntimeScriptActionDetailResult {
-  /**
-   * The list of persisted script action details for the cluster.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly value?: RuntimeScriptActionDetail[];
-  /**
-   * The link (url) to the next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly nextLink?: string;
-}
-
-/**
- * The Resize Cluster request parameters.
- */
+/** The Resize Cluster request parameters. */
 export interface ClusterResizeParameters {
-  /**
-   * The target instance count for the operation.
-   */
+  /** The target instance count for the operation. */
   targetInstanceCount?: number;
 }
 
-/**
- * The Disk Encryption Cluster request parameters.
- */
+/** The autoscale configuration update parameter. */
+export interface AutoscaleConfigurationUpdateParameter {
+  /** The autoscale configuration. */
+  autoscale?: Autoscale;
+}
+
+/** The Disk Encryption Cluster request parameters. */
 export interface ClusterDiskEncryptionParameters {
-  /**
-   * Base key vault URI where the customers key is located eg. https://myvault.vault.azure.net
-   */
+  /** Base key vault URI where the customers key is located eg. https://myvault.vault.azure.net */
   vaultUri?: string;
-  /**
-   * Key name that is used for enabling disk encryption.
-   */
+  /** Key name that is used for enabling disk encryption. */
   keyName?: string;
-  /**
-   * Specific key version that is used for enabling disk encryption.
-   */
+  /** Specific key version that is used for enabling disk encryption. */
   keyVersion?: string;
 }
 
-/**
- * The update gateway settings request parameters.
- */
-export interface UpdateGatewaySettingsParameters {
-  /**
-   * Indicates whether or not the gateway settings based authorization is enabled. Default value:
-   * true.
-   */
-  isCredentialEnabled?: boolean;
-  /**
-   * The gateway settings user name.
-   */
-  userName?: string;
-  /**
-   * The gateway settings user password.
-   */
-  password?: string;
-}
-
-/**
- * Gateway settings.
- */
+/** Gateway settings. */
 export interface GatewaySettings {
   /**
    * Indicates whether or not the gateway settings based authorization is enabled.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isCredentialEnabled?: string;
   /**
    * The gateway settings user name.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly userName?: string;
   /**
    * The gateway settings user password.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly password?: string;
 }
 
-/**
- * The azure async operation response.
- */
+/** The update gateway settings request parameters. */
+export interface UpdateGatewaySettingsParameters {
+  /** Indicates whether or not the gateway settings based authorization is enabled. */
+  isCredentialEnabled?: boolean;
+  /** The gateway settings user name. */
+  userName?: string;
+  /** The gateway settings user password. */
+  password?: string;
+}
+
+/** The azure async operation response. */
 export interface AsyncOperationResult {
-  /**
-   * The async operation state. Possible values include: 'InProgress', 'Succeeded', 'Failed'
-   */
+  /** The async operation state. */
   status?: AsyncOperationState;
-  /**
-   * The operation error information.
-   */
+  /** The operation error information. */
   error?: Errors;
 }
 
-/**
- * The update cluster identity certificate request parameters.
- */
+/** The update cluster identity certificate request parameters. */
 export interface UpdateClusterIdentityCertificateParameters {
-  /**
-   * The application id.
-   */
+  /** The application id. */
   applicationId?: string;
-  /**
-   * The certificate in base64 encoded format.
-   */
+  /** The certificate in base64 encoded format. */
   certificate?: string;
-  /**
-   * The password of the certificate.
-   */
+  /** The password of the certificate. */
   certificatePassword?: string;
 }
 
-/**
- * The resource model definition for a ARM proxy resource. It will have everything other than
- * required location and tags
- */
-export interface ProxyResource extends Resource {}
-
-/**
- * Describes the format of Error response.
- */
-export interface ErrorResponse {
+/** Result of the request to list cluster Applications. It contains a list of operations and a URL link to get the next set of results. */
+export interface ApplicationListResult {
+  /** The list of HDInsight applications installed on HDInsight cluster. */
+  value?: Application[];
   /**
-   * Error code
+   * The URL to get the next set of operation list results if there are any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  code?: string;
-  /**
-   * Error message indicating why the operation failed.
-   */
-  message?: string;
+  readonly nextLink?: string;
 }
 
-/**
- * Gets the application HTTP endpoints.
- */
-export interface ApplicationGetHttpsEndpoint {
-  /**
-   * The list of access modes for the application.
-   */
-  accessModes?: string[];
-  /**
-   * The location of the endpoint.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly location?: string;
-  /**
-   * The destination port to connect to.
-   */
-  destinationPort?: number;
-  /**
-   * The public port to connect to.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly publicPort?: number;
-  /**
-   * The private ip address of the endpoint.
-   */
-  privateIPAddress?: string;
-  /**
-   * The subdomain suffix of the application.
-   */
-  subDomainSuffix?: string;
-  /**
-   * The value indicates whether to disable GatewayAuth.
-   */
-  disableGatewayAuth?: boolean;
-}
-
-/**
- * Gets the application SSH endpoint
- */
-export interface ApplicationGetEndpoint {
-  /**
-   * The location of the endpoint.
-   */
-  location?: string;
-  /**
-   * The destination port to connect to.
-   */
-  destinationPort?: number;
-  /**
-   * The public port to connect to.
-   */
-  publicPort?: number;
-  /**
-   * The private ip address of the endpoint.
-   */
-  privateIPAddress?: string;
-}
-
-/**
- * The HDInsight cluster application GET response.
- */
+/** The HDInsight cluster application GET response. */
 export interface ApplicationProperties {
-  /**
-   * The list of roles in the cluster.
-   */
+  /** The list of roles in the cluster. */
   computeProfile?: ComputeProfile;
-  /**
-   * The list of install script actions.
-   */
+  /** The list of install script actions. */
   installScriptActions?: RuntimeScriptAction[];
-  /**
-   * The list of uninstall script actions.
-   */
+  /** The list of uninstall script actions. */
   uninstallScriptActions?: RuntimeScriptAction[];
-  /**
-   * The list of application HTTPS endpoints.
-   */
+  /** The list of application HTTPS endpoints. */
   httpsEndpoints?: ApplicationGetHttpsEndpoint[];
-  /**
-   * The list of application SSH endpoints.
-   */
+  /** The list of application SSH endpoints. */
   sshEndpoints?: ApplicationGetEndpoint[];
   /**
    * The provisioning state of the application.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-  /**
-   * The application type.
-   */
+  /** The application type. */
   applicationType?: string;
   /**
    * The application state.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly applicationState?: string;
-  /**
-   * The list of errors.
-   */
+  /** The list of errors. */
   errors?: Errors[];
   /**
    * The application create date time.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly createdDate?: string;
   /**
    * The marketplace identifier.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly marketplaceIdentifier?: string;
+  /** The private link configurations. */
+  privateLinkConfigurations?: PrivateLinkConfiguration[];
 }
 
-/**
- * The HDInsight cluster application
- */
-export interface Application extends ProxyResource {
+/** Describes a script action on a running cluster. */
+export interface RuntimeScriptAction {
+  /** The name of the script action. */
+  name: string;
+  /** The URI to the script. */
+  uri: string;
+  /** The parameters for the script */
+  parameters?: string;
+  /** The list of roles where script will be executed. */
+  roles: string[];
   /**
-   * The ETag for the application
+   * The application name of the script action, if any.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  etag?: string;
-  /**
-   * The tags for the application.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * The properties of the application.
-   */
-  properties?: ApplicationProperties;
+  readonly applicationName?: string;
 }
 
-/**
- * The version properties.
- */
-export interface VersionSpec {
+/** Gets the application HTTP endpoints. */
+export interface ApplicationGetHttpsEndpoint {
+  /** The list of access modes for the application. */
+  accessModes?: string[];
   /**
-   * The friendly name
+   * The location of the endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  friendlyName?: string;
+  readonly location?: string;
+  /** The destination port to connect to. */
+  destinationPort?: number;
   /**
-   * The display name
+   * The public port to connect to.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  displayName?: string;
-  /**
-   * Whether or not the version is the default version.
-   */
-  isDefault?: boolean;
-  /**
-   * The component version property.
-   */
-  componentVersions?: { [propertyName: string]: string };
+  readonly publicPort?: number;
+  /** The private ip address of the endpoint. */
+  privateIPAddress?: string;
+  /** The subdomain suffix of the application. */
+  subDomainSuffix?: string;
+  /** The value indicates whether to disable GatewayAuth. */
+  disableGatewayAuth?: boolean;
 }
 
-/**
- * The version capability.
- */
-export interface VersionsCapability {
-  /**
-   * The list of version capabilities.
-   */
-  available?: VersionSpec[];
+/** Gets the application SSH endpoint */
+export interface ApplicationGetEndpoint {
+  /** The location of the endpoint. */
+  location?: string;
+  /** The destination port to connect to. */
+  destinationPort?: number;
+  /** The public port to connect to. */
+  publicPort?: number;
+  /** The private ip address of the endpoint. */
+  privateIPAddress?: string;
 }
 
-/**
- * The regions capability.
- */
-export interface RegionsCapability {
-  /**
-   * The list of region capabilities.
-   */
-  available?: string[];
-}
-
-/**
- * The virtual machine sizes capability.
- */
-export interface VmSizesCapability {
-  /**
-   * The list of virtual machine size capabilities.
-   */
-  available?: string[];
-}
-
-/**
- * The virtual machine type compatibility filter.
- */
-export interface VmSizeCompatibilityFilter {
-  /**
-   * The mode for the filter.
-   */
-  filterMode?: string;
-  /**
-   * The list of regions.
-   */
-  regions?: string[];
-  /**
-   * The list of cluster types available.
-   */
-  clusterFlavors?: string[];
-  /**
-   * The list of node types.
-   */
-  nodeTypes?: string[];
-  /**
-   * The list of cluster versions.
-   */
-  clusterVersions?: string[];
-  /**
-   * The list of OS types.
-   */
-  osType?: string[];
-  /**
-   * The list of virtual machine sizes.
-   */
-  vMSizes?: string[];
-  /**
-   * Whether apply for ESP cluster. 'true' means only for ESP, 'false' means only for non-ESP, null
-   * or empty string or others mean for both.
-   */
-  eSPApplied?: string;
-  /**
-   * Whether support compute isolation. 'true' means only for ComputeIsolationEnabled, 'false'
-   * means only for regular cluster.
-   */
-  computeIsolationSupported?: string;
-}
-
-/**
- * The regional quota capacity.
- */
-export interface RegionalQuotaCapability {
-  /**
-   * The region name.
-   */
-  regionName?: string;
-  /**
-   * The number of cores used in the region.
-   */
-  coresUsed?: number;
-  /**
-   * The number of cores available in the region.
-   */
-  coresAvailable?: number;
-}
-
-/**
- * The regional quota capability.
- */
-export interface QuotaCapability {
-  /**
-   * The number of cores used in the subscription.
-   */
-  coresUsed?: number;
-  /**
-   * The number of cores that the subscription allowed.
-   */
-  maxCoresAllowed?: number;
-  /**
-   * The list of region quota capabilities.
-   */
-  regionalQuotas?: RegionalQuotaCapability[];
-}
-
-/**
- * The Get Capabilities operation response.
- */
+/** The Get Capabilities operation response. */
 export interface CapabilitiesResult {
-  /**
-   * The version capability.
-   */
+  /** The version capability. */
   versions?: { [propertyName: string]: VersionsCapability };
-  /**
-   * The virtual machine size compatibility features.
-   */
+  /** The virtual machine size compatibility features. */
   regions?: { [propertyName: string]: RegionsCapability };
-  /**
-   * The virtual machine sizes.
-   */
-  vmsizes?: { [propertyName: string]: VmSizesCapability };
-  /**
-   * The virtual machine size compatibility filters.
-   */
-  vmsizeFilters?: VmSizeCompatibilityFilter[];
-  /**
-   * The capability features.
-   */
+  /** The capability features. */
   features?: string[];
   /**
    * The quota capability.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  quota?: QuotaCapability;
+  readonly quota?: QuotaCapability;
 }
 
-/**
- * The details about the localizable name of a type of usage.
- */
-export interface LocalizedName {
-  /**
-   * The name of the used resource.
-   */
-  value?: string;
-  /**
-   * The localized name of the used resource.
-   */
-  localizedValue?: string;
+/** The version capability. */
+export interface VersionsCapability {
+  /** The list of version capabilities. */
+  available?: VersionSpec[];
 }
 
-/**
- * The details about the usage of a particular limited resource.
- */
-export interface Usage {
-  /**
-   * The type of measurement for usage.
-   */
-  unit?: string;
-  /**
-   * The current usage.
-   */
-  currentValue?: number;
-  /**
-   * The maximum allowed usage.
-   */
-  limit?: number;
-  /**
-   * The details about the localizable name of the used resource.
-   */
-  name?: LocalizedName;
+/** The version properties. */
+export interface VersionSpec {
+  /** The friendly name */
+  friendlyName?: string;
+  /** The display name */
+  displayName?: string;
+  /** Whether or not the version is the default version. */
+  isDefault?: boolean;
+  /** The component version property. */
+  componentVersions?: { [propertyName: string]: string };
 }
 
-/**
- * The response for the operation to get regional usages for a subscription.
- */
+/** The regions capability. */
+export interface RegionsCapability {
+  /** The list of region capabilities. */
+  available?: string[];
+}
+
+/** The regional quota capability. */
+export interface QuotaCapability {
+  /** The number of cores used in the subscription. */
+  coresUsed?: number;
+  /** The number of cores that the subscription allowed. */
+  maxCoresAllowed?: number;
+  /** The list of region quota capabilities. */
+  regionalQuotas?: RegionalQuotaCapability[];
+}
+
+/** The regional quota capacity. */
+export interface RegionalQuotaCapability {
+  /** The region name. */
+  regionName?: string;
+  /** The number of cores used in the region. */
+  coresUsed?: number;
+  /** The number of cores available in the region. */
+  coresAvailable?: number;
+}
+
+/** The response for the operation to get regional usages for a subscription. */
 export interface UsagesListResult {
-  /**
-   * The list of usages.
-   */
+  /** The list of usages. */
   value?: Usage[];
 }
 
-/**
- * This class represent a single filter object that defines a multidimensional set. The dimensions
- * of this set are Regions, ClusterFlavors, NodeTypes and ClusterVersions. The constraint should be
- * defined based on the following: FilterMode (Exclude vs Include), VMSizes (the vm sizes in affect
- * of exclusion/inclusion) and the ordering of the Filters. Later filters override previous
- * settings if conflicted.
- */
-export interface VmSizeCompatibilityFilterV2 {
-  /**
-   * The filtering mode. Effectively this can enabling or disabling the VM sizes in a particular
-   * set. Possible values include: 'Exclude', 'Include', 'Recommend', 'Default'
-   */
-  filterMode?: FilterMode;
-  /**
-   * The list of regions under the effect of the filter.
-   */
-  regions?: string[];
-  /**
-   * The list of cluster flavors under the effect of the filter.
-   */
-  clusterFlavors?: string[];
-  /**
-   * The list of node types affected by the filter.
-   */
-  nodeTypes?: string[];
-  /**
-   * The list of cluster versions affected in Major.Minor format.
-   */
-  clusterVersions?: string[];
-  /**
-   * The OSType affected, Windows or Linux.
-   */
-  osType?: OSType[];
-  /**
-   * The list of virtual machine sizes to include or exclude.
-   */
-  vmSizes?: string[];
-}
-
-/**
- * The vm size property
- */
-export interface VmSizeProperty {
-  /**
-   * The vm size name.
-   */
-  name?: string;
-  /**
-   * The number of cores that the vm size has.
-   */
-  cores?: number;
-  /**
-   * The data disk storage tier of the vm size.
-   */
-  dataDiskStorageTier?: string;
-  /**
-   * The label of the vm size.
-   */
-  label?: string;
-  /**
-   * The max data disk count of the vm size.
-   */
-  maxDataDiskCount?: number;
-  /**
-   * The memory whose unit is MB of the vm size.
-   */
-  memoryInMb?: number;
-  /**
-   * This indicates this vm size is supported by virtual machines or not
-   */
-  supportedByVirtualMachines?: boolean;
-  /**
-   * The indicates this vm size is supported by web worker roles or not
-   */
-  supportedByWebWorkerRoles?: boolean;
-  /**
-   * The virtual machine resource disk size whose unit is MB of the vm size.
-   */
-  virtualMachineResourceDiskSizeInMb?: number;
-  /**
-   * The web worker resource disk size whose unit is MB of the vm size.
-   */
-  webWorkerResourceDiskSizeInMb?: number;
-}
-
-/**
- * The billing meters.
- */
-export interface BillingMeters {
-  /**
-   * The virtual machine sizes.
-   */
-  meterParameter?: string;
-  /**
-   * The HDInsight meter guid.
-   */
-  meter?: string;
-  /**
-   * The unit of meter, VMHours or CoreHours.
-   */
+/** The details about the usage of a particular limited resource. */
+export interface Usage {
+  /** The type of measurement for usage. */
   unit?: string;
+  /** The current usage. */
+  currentValue?: number;
+  /** The maximum allowed usage. */
+  limit?: number;
+  /**
+   * The details about the localizable name of the used resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: LocalizedName;
 }
 
-/**
- * The disk billing meters.
- */
-export interface DiskBillingMeters {
-  /**
-   * The managed disk meter guid.
-   */
-  diskRpMeter?: string;
-  /**
-   * The managed disk billing sku, P30 or S30.
-   */
-  sku?: string;
-  /**
-   * The managed disk billing tier, Standard or Premium. Possible values include: 'Standard',
-   * 'Premium'
-   */
-  tier?: Tier;
+/** The details about the localizable name of a type of usage. */
+export interface LocalizedName {
+  /** The name of the used resource. */
+  value?: string;
+  /** The localized name of the used resource. */
+  localizedValue?: string;
 }
 
-/**
- * The billing resources.
- */
-export interface BillingResources {
-  /**
-   * The region or location.
-   */
-  region?: string;
-  /**
-   * The billing meter information.
-   */
-  billingMeters?: BillingMeters[];
-  /**
-   * The managed disk billing information.
-   */
-  diskBillingMeters?: DiskBillingMeters[];
-}
-
-/**
- * The response for the operation to get regional billingSpecs for a subscription.
- */
+/** The response for the operation to get regional billingSpecs for a subscription. */
 export interface BillingResponseListResult {
-  /**
-   * The virtual machine sizes to include or exclude.
-   */
+  /** The virtual machine sizes to include or exclude. */
   vmSizes?: string[];
-  /**
-   * The vm sizes which enable encryption at host.
-   */
+  /** The vm sizes which enable encryption at host. */
   vmSizesWithEncryptionAtHost?: string[];
-  /**
-   * The virtual machine filtering mode. Effectively this can enabling or disabling the virtual
-   * machine sizes in a particular set.
-   */
+  /** The virtual machine filtering mode. Effectively this can enabling or disabling the virtual machine sizes in a particular set. */
   vmSizeFilters?: VmSizeCompatibilityFilterV2[];
   /**
    * The vm size properties.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly vmSizeProperties?: VmSizeProperty[];
-  /**
-   * The billing and managed disk billing resources for a region.
-   */
+  /** The billing and managed disk billing resources for a region. */
   billingResources?: BillingResources[];
 }
 
-/**
- * The request spec of checking name availability.
- */
-export interface NameAvailabilityCheckRequestParameters {
-  /**
-   * The resource name.
-   */
+/** This class represent a single filter object that defines a multidimensional set. The dimensions of this set are Regions, ClusterFlavors, NodeTypes and ClusterVersions. The constraint should be defined based on the following: FilterMode (Exclude vs Include), VMSizes (the vm sizes in affect of exclusion/inclusion) and the ordering of the Filters. Later filters override previous settings if conflicted. */
+export interface VmSizeCompatibilityFilterV2 {
+  /** The filtering mode. Effectively this can enabling or disabling the VM sizes in a particular set. */
+  filterMode?: FilterMode;
+  /** The list of regions under the effect of the filter. */
+  regions?: string[];
+  /** The list of cluster flavors under the effect of the filter. */
+  clusterFlavors?: string[];
+  /** The list of node types affected by the filter. */
+  nodeTypes?: string[];
+  /** The list of cluster versions affected in Major.Minor format. */
+  clusterVersions?: string[];
+  /** The OSType affected, Windows or Linux. */
+  osType?: OSType[];
+  /** The list of virtual machine sizes to include or exclude. */
+  vmSizes?: string[];
+  /** Whether apply for ESP cluster. 'true' means only for ESP, 'false' means only for non-ESP, null or empty string or others mean for both. */
+  espApplied?: string;
+  /** Whether support compute isolation. 'true' means only for ComputeIsolationEnabled, 'false' means only for regular cluster. */
+  computeIsolationSupported?: string;
+}
+
+/** The vm size property */
+export interface VmSizeProperty {
+  /** The vm size name. */
   name?: string;
-  /**
-   * The resource type
-   */
+  /** The number of cores that the vm size has. */
+  cores?: number;
+  /** The data disk storage tier of the vm size. */
+  dataDiskStorageTier?: string;
+  /** The label of the vm size. */
+  label?: string;
+  /** The max data disk count of the vm size. */
+  maxDataDiskCount?: number;
+  /** The memory whose unit is MB of the vm size. */
+  memoryInMb?: number;
+  /** This indicates this vm size is supported by virtual machines or not */
+  supportedByVirtualMachines?: boolean;
+  /** The indicates this vm size is supported by web worker roles or not */
+  supportedByWebWorkerRoles?: boolean;
+  /** The virtual machine resource disk size whose unit is MB of the vm size. */
+  virtualMachineResourceDiskSizeInMb?: number;
+  /** The web worker resource disk size whose unit is MB of the vm size. */
+  webWorkerResourceDiskSizeInMb?: number;
+}
+
+/** The billing resources. */
+export interface BillingResources {
+  /** The region or location. */
+  region?: string;
+  /** The billing meter information. */
+  billingMeters?: BillingMeters[];
+  /** The managed disk billing information. */
+  diskBillingMeters?: DiskBillingMeters[];
+}
+
+/** The billing meters. */
+export interface BillingMeters {
+  /** The virtual machine sizes. */
+  meterParameter?: string;
+  /** The HDInsight meter guid. */
+  meter?: string;
+  /** The unit of meter, VMHours or CoreHours. */
+  unit?: string;
+}
+
+/** The disk billing meters. */
+export interface DiskBillingMeters {
+  /** The managed disk meter guid. */
+  diskRpMeter?: string;
+  /** The managed disk billing sku, P30 or S30. */
+  sku?: string;
+  /** The managed disk billing tier, Standard or Premium. */
+  tier?: Tier;
+}
+
+/** The request spec of checking name availability. */
+export interface NameAvailabilityCheckRequestParameters {
+  /** The resource name. */
+  name?: string;
+  /** The resource type */
   type?: string;
 }
 
-/**
- * The response spec of checking name availability.
- */
+/** The response spec of checking name availability. */
 export interface NameAvailabilityCheckResult {
-  /**
-   * This indicates whether the name is available.
-   */
+  /** This indicates whether the name is available. */
   nameAvailable?: boolean;
   /**
    * The reason of the result.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly reason?: string;
   /**
    * The related message.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly message?: string;
 }
 
-/**
- * The cluster create request specification.
- */
-export interface ClusterCreateRequestValidationParameters extends ClusterCreateParametersExtended {
-  /**
-   * The cluster name.
-   */
-  name?: string;
-  /**
-   * The resource type.
-   */
-  type?: string;
-  /**
-   * The tenant id.
-   */
-  tenantId?: string;
-  /**
-   * This indicates whether fetch Aadds resource or not.
-   */
-  fetchAaddsResource?: boolean;
-}
-
-/**
- * The validation error information.
- */
-export interface ValidationErrorInfo {
-  /**
-   * The error code.
-   */
-  code?: string;
-  /**
-   * The error message.
-   */
-  message?: string;
-  /**
-   * The error resource.
-   */
-  errorResource?: string;
-  /**
-   * The message arguments
-   */
-  messageArguments?: string[];
-}
-
-/**
- * The Azure active directory domain service resource details.
- */
-export interface AaddsResourceDetails {
-  /**
-   * The Azure active directory domain service name.
-   */
-  domainName?: string;
-  /**
-   * This indicates whether initial sync complete or not.
-   */
-  initialSyncComplete?: boolean;
-  /**
-   * This indicates whether enable ldaps or not.
-   */
-  ldapsEnabled?: boolean;
-  /**
-   * The base 64 format string of public ldap certificate.
-   */
-  ldapsPublicCertificateInBase64?: string;
-  /**
-   * The resource id of azure active directory domain service.
-   */
-  resourceId?: string;
-  /**
-   * The subnet resource id.
-   */
-  subnetId?: string;
-  /**
-   * The tenant id of azure active directory domain service .
-   */
-  tenantId?: string;
-}
-
-/**
- * The response of cluster create request validation.
- */
+/** The response of cluster create request validation. */
 export interface ClusterCreateValidationResult {
-  /**
-   * The validation errors.
-   */
+  /** The validation errors. */
   validationErrors?: ValidationErrorInfo[];
-  /**
-   * The validation warnings.
-   */
+  /** The validation warnings. */
   validationWarnings?: ValidationErrorInfo[];
-  /**
-   * The estimated creation duration.
-   */
+  /** The estimated creation duration. */
   estimatedCreationDuration?: string;
-  /**
-   * The Azure active directory domain service resource details.
-   */
+  /** The Azure active directory domain service resource details. */
   aaddsResourcesDetails?: AaddsResourceDetails[];
 }
 
-/**
- * The configuration object for the specified cluster.
- */
+/** The validation error information. */
+export interface ValidationErrorInfo {
+  /** The error code. */
+  code?: string;
+  /** The error message. */
+  message?: string;
+  /** The error resource. */
+  errorResource?: string;
+  /** The message arguments */
+  messageArguments?: string[];
+}
+
+/** The Azure active directory domain service resource details. */
+export interface AaddsResourceDetails {
+  /** The Azure active directory domain service name. */
+  domainName?: string;
+  /** This indicates whether initial sync complete or not. */
+  initialSyncComplete?: boolean;
+  /** This indicates whether enable ldaps or not. */
+  ldapsEnabled?: boolean;
+  /** The base 64 format string of public ldap certificate. */
+  ldapsPublicCertificateInBase64?: string;
+  /** The resource id of azure active directory domain service. */
+  resourceId?: string;
+  /** The subnet resource id. */
+  subnetId?: string;
+  /** The tenant id of azure active directory domain service . */
+  tenantId?: string;
+}
+
+/** The configuration object for the specified cluster. */
 export interface ClusterConfigurations {
-  /**
-   * The configuration object for the specified configuration for the specified cluster.
-   */
-  configurations?: { [propertyName: string]: { [propertyName: string]: string } };
+  /** The configuration object for the specified configuration for the specified cluster. */
+  configurations?: {
+    [propertyName: string]: { [propertyName: string]: string };
+  };
 }
 
-/**
- * Cluster monitoring extensions.
- */
-export interface Extension {
-  /**
-   * The workspace ID for the cluster monitoring extension.
-   */
-  workspaceId?: string;
-  /**
-   * The certificate for the cluster monitoring extensions.
-   */
-  primaryKey?: string;
-}
-
-/**
- * The cluster monitoring status response.
- */
-export interface ClusterMonitoringResponse {
-  /**
-   * The status of the monitor on the HDInsight cluster.
-   */
-  clusterMonitoringEnabled?: boolean;
-  /**
-   * The workspace ID of the monitor on the HDInsight cluster.
-   */
-  workspaceId?: string;
-}
-
-/**
- * The cluster monitor parameters.
- */
+/** The cluster monitor parameters. */
 export interface ClusterMonitoringRequest {
-  /**
-   * The cluster monitor workspace ID.
-   */
+  /** The cluster monitor workspace ID. */
   workspaceId?: string;
-  /**
-   * The cluster monitor workspace key.
-   */
+  /** The cluster monitor workspace key. */
   primaryKey?: string;
 }
 
-/**
- * The table configuration for the Log Analytics integration.
- */
-export interface AzureMonitorTableConfiguration {
-  /**
-   * The name.
-   */
-  name?: string;
+/** The cluster monitoring status response. */
+export interface ClusterMonitoringResponse {
+  /** The status of the monitor on the HDInsight cluster. */
+  clusterMonitoringEnabled?: boolean;
+  /** The workspace ID of the monitor on the HDInsight cluster. */
+  workspaceId?: string;
 }
 
-/**
- * The selected configurations for azure monitor.
- */
+/** The azure monitor parameters. */
+export interface AzureMonitorRequest {
+  /** The Log Analytics workspace ID. */
+  workspaceId?: string;
+  /** The Log Analytics workspace key. */
+  primaryKey?: string;
+  /** The selected configurations. */
+  selectedConfigurations?: AzureMonitorSelectedConfigurations;
+}
+
+/** The selected configurations for azure monitor. */
 export interface AzureMonitorSelectedConfigurations {
-  /**
-   * The configuration version.
-   */
+  /** The configuration version. */
   configurationVersion?: string;
-  /**
-   * The global configurations of selected configurations.
-   */
+  /** The global configurations of selected configurations. */
   globalConfigurations?: { [propertyName: string]: string };
-  /**
-   * The table list.
-   */
+  /** The table list. */
   tableList?: AzureMonitorTableConfiguration[];
 }
 
-/**
- * The azure monitor parameters.
- */
-export interface AzureMonitorRequest {
-  /**
-   * The Log Analytics workspace ID.
-   */
-  workspaceId?: string;
-  /**
-   * The Log Analytics workspace key.
-   */
-  primaryKey?: string;
-  /**
-   * The selected configurations.
-   */
-  selectedConfigurations?: AzureMonitorSelectedConfigurations;
+/** The table configuration for the Log Analytics integration. */
+export interface AzureMonitorTableConfiguration {
+  /** The name. */
+  name?: string;
 }
 
-/**
- * The azure monitor status response.
- */
+/** The azure monitor status response. */
 export interface AzureMonitorResponse {
-  /**
-   * The status of the monitor on the HDInsight cluster.
-   */
+  /** The status of the monitor on the HDInsight cluster. */
   clusterMonitoringEnabled?: boolean;
-  /**
-   * The workspace ID of the monitor on the HDInsight cluster.
-   */
+  /** The workspace ID of the monitor on the HDInsight cluster. */
   workspaceId?: string;
-  /**
-   * The selected configurations.
-   */
+  /** The selected configurations. */
   selectedConfigurations?: AzureMonitorSelectedConfigurations;
 }
 
-/**
- * The persisted script action for cluster.
- */
-export interface ScriptActionPersistedGetResponseSpec {
-  /**
-   * The name of script action.
-   */
-  name?: string;
-  /**
-   * The URI to the script.
-   */
-  uri?: string;
-  /**
-   * The parameters for the script provided.
-   */
-  parameters?: string;
-  /**
-   * The list of roles where script will be executed.
-   */
-  roles?: string[];
-  /**
-   * The application name for the script action.
-   */
-  applicationName?: string;
+/** Cluster monitoring extensions. */
+export interface Extension {
+  /** The workspace ID for the cluster monitoring extension. */
+  workspaceId?: string;
+  /** The certificate for the cluster monitoring extensions. */
+  primaryKey?: string;
 }
 
-/**
- * The object that represents the operation.
- */
-export interface OperationDisplay {
-  /**
-   * The service provider: Microsoft.HDInsight
-   */
-  provider?: string;
-  /**
-   * The resource on which the operation is performed: Cluster, Applications, etc.
-   */
-  resource?: string;
-  /**
-   * The operation type: read, write, delete, etc.
-   */
-  operation?: string;
-  /**
-   * Localized friendly description for the operation
-   */
-  description?: string;
+/** The parameters for the script actions to execute on a running cluster. */
+export interface ExecuteScriptActionParameters {
+  /** The list of run time script actions. */
+  scriptActions?: RuntimeScriptAction[];
+  /** Gets or sets if the scripts needs to be persisted. */
+  persistOnSuccess: boolean;
 }
 
-/**
- * The definition of Dimension.
- */
-export interface Dimension {
-  /**
-   * The name of the dimension.
-   */
-  name?: string;
-  /**
-   * The display name of the dimension.
-   */
-  displayName?: string;
-  /**
-   * The display name of the dimension.
-   */
-  internalName?: string;
-  /**
-   * The flag indicates whether the metric will be exported for shoebox or not.
-   */
-  toBeExportedForShoebox?: boolean;
-}
-
-/**
- * The details of metric specifications.
- */
-export interface MetricSpecifications {
-  /**
-   * The name of the metric specification.
-   */
-  name?: string;
-  /**
-   * The display name of the metric specification.
-   */
-  displayName?: string;
-  /**
-   * The display description of the metric specification.
-   */
-  displayDescription?: string;
-  /**
-   * The unit of the metric specification.
-   */
-  unit?: string;
-  /**
-   * The aggregation type of the metric specification.
-   */
-  aggregationType?: string;
-  /**
-   * The supported aggregation types of the metric specification.
-   */
-  supportedAggregationTypes?: string[];
-  /**
-   * The supported time grain types of the metric specification.
-   */
-  supportedTimeGrainTypes?: string[];
-  /**
-   * The flag indicates whether enable regional mdm account or not.
-   */
-  enableRegionalMdmAccount?: boolean;
-  /**
-   * The source mdm account.
-   */
-  sourceMdmAccount?: string;
-  /**
-   * The source mdm namespace.
-   */
-  sourceMdmNamespace?: string;
-  /**
-   * The metric filter pattern.
-   */
-  metricFilterPattern?: string;
-  /**
-   * The flag indicates whether filling gap with zero.
-   */
-  fillGapWithZero?: boolean;
-  /**
-   * The category of the metric.
-   */
-  category?: string;
-  /**
-   * The override name of resource id dimension name.
-   */
-  resourceIdDimensionNameOverride?: string;
-  /**
-   * The flag indicates whether the metric is internal or not.
-   */
-  isInternal?: boolean;
-  /**
-   * The override name of delegate metric.
-   */
-  delegateMetricNameOverride?: string;
-  /**
-   * The dimensions of the metric specification.
-   */
-  dimensions?: Dimension[];
-}
-
-/**
- * The specification of the service.
- */
-export interface ServiceSpecification {
-  /**
-   * The metric specifications.
-   */
-  metricSpecifications?: MetricSpecifications[];
-}
-
-/**
- * The details of operation.
- */
-export interface OperationProperties {
-  /**
-   * The specification of the service.
-   */
-  serviceSpecification?: ServiceSpecification;
-}
-
-/**
- * The HDInsight REST API operation.
- */
-export interface Operation {
-  /**
-   * The operation name: {provider}/{resource}/{operation}
-   */
-  name?: string;
-  /**
-   * The object that represents the operation.
-   */
-  display?: OperationDisplay;
-  /**
-   * The operation properties.
-   */
-  properties?: OperationProperties;
-}
-
-/**
- * The cluster host information.
- */
-export interface HostInfo {
-  /**
-   * The host name
-   */
-  name?: string;
-  /**
-   * The Fully Qualified Domain Name of host
-   */
-  fqdn?: string;
-  /**
-   * The effective disk encryption key URL used by the host
-   */
-  effectiveDiskEncryptionKeyUrl?: string;
-}
-
-/**
- * An interface representing HDInsightManagementClientOptions.
- */
-export interface HDInsightManagementClientOptions extends AzureServiceClientOptions {
-  baseUri?: string;
-}
-
-/**
- * @interface
- * The List Cluster operation response.
- * @extends Array<Cluster>
- */
-export interface ClusterListResult extends Array<Cluster> {
+/** The persisted script action for the cluster. */
+export interface ScriptActionsList {
+  /** The list of persisted script action details for the cluster. */
+  value?: RuntimeScriptActionDetail[];
   /**
    * The link (url) to the next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
 }
 
-/**
- * @interface
- * Result of the request to list cluster Applications. It contains a list of operations and a URL
- * link to get the next set of results.
- * @extends Array<Application>
- */
-export interface ApplicationListResult extends Array<Application> {
+/** The execution summary of a script action. */
+export interface ScriptActionExecutionSummary {
   /**
-   * The URL to get the next set of operation list results if there are any.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The status of script action execution.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly nextLink?: string;
-}
-
-/**
- * @interface
- * The persisted script action for the cluster.
- * @extends Array<RuntimeScriptActionDetail>
- */
-export interface ScriptActionsList extends Array<RuntimeScriptActionDetail> {
+  readonly status?: string;
   /**
-   * The link (url) to the next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The instance count for a given script action execution status.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly nextLink?: string;
+  readonly instanceCount?: number;
 }
 
-/**
- * @interface
- * The list script execution history response.
- * @extends Array<RuntimeScriptActionDetail>
- */
-export interface ScriptActionExecutionHistoryList extends Array<RuntimeScriptActionDetail> {
+/** The list script execution history response. */
+export interface ScriptActionExecutionHistoryList {
+  /**
+   * The list of persisted script action details for the cluster.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: RuntimeScriptActionDetail[];
   /**
    * The link (url) to the next page of results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
 }
 
-/**
- * @interface
- * Result of the request to list HDInsight operations. It contains a list of operations and a URL
- * link to get the next set of results.
- * @extends Array<Operation>
- */
-export interface OperationListResult extends Array<Operation> {
-  /**
-   * The URL to get the next set of operation list results if there are any.
-   */
+/** Result of the request to list HDInsight operations. It contains a list of operations and a URL link to get the next set of results. */
+export interface OperationListResult {
+  /** The list of HDInsight operations supported by the HDInsight resource provider. */
+  value?: Operation[];
+  /** The URL to get the next set of operation list results if there are any. */
   nextLink?: string;
 }
 
-/**
- * Defines values for DirectoryType.
- * Possible values include: 'ActiveDirectory'
- * @readonly
- * @enum {string}
- */
-export type DirectoryType = "ActiveDirectory";
+/** The HDInsight REST API operation. */
+export interface Operation {
+  /** The operation name: {provider}/{resource}/{operation} */
+  name?: string;
+  /** The display of operation. */
+  display?: OperationDisplay;
+  /** The operation properties. */
+  properties?: OperationProperties;
+}
 
-/**
- * Defines values for DaysOfWeek.
- * Possible values include: 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
- * 'Sunday'
- * @readonly
- * @enum {string}
- */
-export type DaysOfWeek =
-  | "Monday"
-  | "Tuesday"
-  | "Wednesday"
-  | "Thursday"
-  | "Friday"
-  | "Saturday"
-  | "Sunday";
+/** The object that represents the operation. */
+export interface OperationDisplay {
+  /** The service provider: Microsoft.HDInsight */
+  provider?: string;
+  /** The resource on which the operation is performed: Cluster, Applications, etc. */
+  resource?: string;
+  /** The operation type: read, write, delete, etc. */
+  operation?: string;
+  /** Localized friendly description for the operation */
+  description?: string;
+}
 
-/**
- * Defines values for ResourceProviderConnection.
- * Possible values include: 'Inbound', 'Outbound'
- * @readonly
- * @enum {string}
- */
-export type ResourceProviderConnection = "Inbound" | "Outbound";
+/** The details of operation. */
+export interface OperationProperties {
+  /** The specification of the service. */
+  serviceSpecification?: ServiceSpecification;
+}
 
-/**
- * Defines values for PrivateLink.
- * Possible values include: 'Disabled', 'Enabled'
- * @readonly
- * @enum {string}
- */
-export type PrivateLink = "Disabled" | "Enabled";
+/** The specification of the service. */
+export interface ServiceSpecification {
+  /** The metric specifications. */
+  metricSpecifications?: MetricSpecifications[];
+}
 
-/**
- * Defines values for OSType.
- * Possible values include: 'Windows', 'Linux'
- * @readonly
- * @enum {string}
- */
-export type OSType = "Windows" | "Linux";
+/** The details of metric specifications. */
+export interface MetricSpecifications {
+  /** The name of the metric specification. */
+  name?: string;
+  /** The display name of the metric specification. */
+  displayName?: string;
+  /** The display description of the metric specification. */
+  displayDescription?: string;
+  /** The unit of the metric specification. */
+  unit?: string;
+  /** The aggregation type of the metric specification. */
+  aggregationType?: string;
+  /** The supported aggregation types of the metric specification. */
+  supportedAggregationTypes?: string[];
+  /** The supported time grain types of the metric specification. */
+  supportedTimeGrainTypes?: string[];
+  /** The flag indicates whether enable regional mdm account or not. */
+  enableRegionalMdmAccount?: boolean;
+  /** The source mdm account. */
+  sourceMdmAccount?: string;
+  /** The source mdm namespace. */
+  sourceMdmNamespace?: string;
+  /** The metric filter pattern. */
+  metricFilterPattern?: string;
+  /** The flag indicates whether filling gap with zero. */
+  fillGapWithZero?: boolean;
+  /** The category of the metric. */
+  category?: string;
+  /** The override name of resource id dimension name. */
+  resourceIdDimensionNameOverride?: string;
+  /** The flag indicates whether the metric is internal or not. */
+  isInternal?: boolean;
+  /** The override name of delegate metric. */
+  delegateMetricNameOverride?: string;
+  /** The dimensions of the metric specification. */
+  dimensions?: Dimension[];
+}
 
-/**
- * Defines values for Tier.
- * Possible values include: 'Standard', 'Premium'
- * @readonly
- * @enum {string}
- */
-export type Tier = "Standard" | "Premium";
+/** The definition of Dimension. */
+export interface Dimension {
+  /** The name of the dimension. */
+  name?: string;
+  /** The display name of the dimension. */
+  displayName?: string;
+  /** The display name of the dimension. */
+  internalName?: string;
+  /** The flag indicates whether the metric will be exported for shoebox or not. */
+  toBeExportedForShoebox?: boolean;
+}
 
-/**
- * Defines values for JsonWebKeyEncryptionAlgorithm.
- * Possible values include: 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5'
- * @readonly
- * @enum {string}
- */
-export type JsonWebKeyEncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
+/** The cluster host information. */
+export interface HostInfo {
+  /** The host name */
+  name?: string;
+  /** The Fully Qualified Domain Name of host */
+  fqdn?: string;
+  /** The effective disk encryption key URL used by the host */
+  effectiveDiskEncryptionKeyUrl?: string;
+}
 
-/**
- * Defines values for ResourceIdentityType.
- * Possible values include: 'SystemAssigned', 'UserAssigned', 'SystemAssigned, UserAssigned',
- * 'None'
- * @readonly
- * @enum {string}
- */
-export type ResourceIdentityType =
-  | "SystemAssigned"
-  | "UserAssigned"
-  | "SystemAssigned, UserAssigned"
-  | "None";
-
-/**
- * Defines values for HDInsightClusterProvisioningState.
- * Possible values include: 'InProgress', 'Failed', 'Succeeded', 'Canceled', 'Deleting'
- * @readonly
- * @enum {string}
- */
-export type HDInsightClusterProvisioningState =
-  | "InProgress"
-  | "Failed"
-  | "Succeeded"
-  | "Canceled"
-  | "Deleting";
-
-/**
- * Defines values for AsyncOperationState.
- * Possible values include: 'InProgress', 'Succeeded', 'Failed'
- * @readonly
- * @enum {string}
- */
-export type AsyncOperationState = "InProgress" | "Succeeded" | "Failed";
-
-/**
- * Defines values for FilterMode.
- * Possible values include: 'Exclude', 'Include', 'Recommend', 'Default'
- * @readonly
- * @enum {string}
- */
-export type FilterMode = "Exclude" | "Include" | "Recommend" | "Default";
-
-/**
- * Contains response data for the create operation.
- */
-export type ClustersCreateResponse = Cluster & {
+/** The list private endpoint connections response. */
+export interface PrivateEndpointConnectionListResult {
+  /** The list of private endpoint connections. */
+  value?: PrivateEndpointConnection[];
   /**
-   * The underlying HTTP response.
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+  readonly nextLink?: string;
+}
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Cluster;
-  };
+/** A list of private link resources */
+export interface PrivateLinkResourceListResult {
+  /** Array of private link resources */
+  value?: PrivateLinkResource[];
+}
+
+/** The ListPersistedScriptActions operation response. */
+export interface ClusterListPersistedScriptActionsResult {
+  /** The list of Persisted Script Actions. */
+  value?: RuntimeScriptAction[];
+  /**
+   * The link (url) to the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The persisted script action for cluster. */
+export interface ScriptActionPersistedGetResponseSpec {
+  /** The name of script action. */
+  name?: string;
+  /** The URI to the script. */
+  uri?: string;
+  /** The parameters for the script provided. */
+  parameters?: string;
+  /** The list of roles where script will be executed. */
+  roles?: string[];
+  /** The application name for the script action. */
+  applicationName?: string;
+}
+
+/** The cluster create request specification. */
+export type ClusterCreateRequestValidationParameters = ClusterCreateParametersExtended & {
+  /** The cluster name. */
+  name?: string;
+  /** The resource type. */
+  type?: string;
+  /** The tenant id. */
+  tenantId?: string;
+  /** This indicates whether fetch Aadds resource or not. */
+  fetchAaddsResource?: boolean;
 };
 
-/**
- * Contains response data for the update operation.
- */
-export type ClustersUpdateResponse = Cluster & {
+/** The private endpoint connection. */
+export type PrivateEndpointConnection = Resource & {
   /**
-   * The underlying HTTP response.
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Cluster;
-  };
+  readonly systemData?: SystemData;
+  /**
+   * The private endpoint of the private endpoint connection
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpoint?: PrivateEndpoint;
+  /** The private link service connection state. */
+  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+  /**
+   * The link identifier.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly linkIdentifier?: string;
+  /**
+   * The provisioning state, which only appears in the response.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
 };
 
-/**
- * Contains response data for the get operation.
- */
-export type ClustersGetResponse = Cluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export type ProxyResource = Resource & {};
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Cluster;
-  };
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export type TrackedResource = ResourceAutoGenerated & {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
 };
 
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type ClustersListByResourceGroupResponse = ClusterListResult & {
+/** A private link resource */
+export type PrivateLinkResource = ResourceAutoGenerated & {
   /**
-   * The underlying HTTP response.
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterListResult;
-  };
+  readonly systemData?: SystemData;
+  /**
+   * The private link resource group id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requiredMembers?: string[];
+  /** The private link resource Private link DNS zone name. */
+  requiredZoneNames?: string[];
 };
 
-/**
- * Contains response data for the list operation.
- */
-export type ClustersListResponse = ClusterListResult & {
+/** The execution details of a script action. */
+export type RuntimeScriptActionDetail = RuntimeScriptAction & {
   /**
-   * The underlying HTTP response.
+   * The execution id of the script action.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterListResult;
-  };
+  readonly scriptExecutionId?: number;
+  /**
+   * The start time of script action execution.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: string;
+  /**
+   * The end time of script action execution.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly endTime?: string;
+  /**
+   * The current execution status of the script action.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /**
+   * The reason why the script action was executed.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operation?: string;
+  /**
+   * The summary of script action execution result.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly executionSummary?: ScriptActionExecutionSummary[];
+  /**
+   * The script action execution debug information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly debugInformation?: string;
 };
 
-/**
- * Contains response data for the getGatewaySettings operation.
- */
-export type ClustersGetGatewaySettingsResponse = GatewaySettings & {
+/** The HDInsight cluster application */
+export type Application = ProxyResource & {
+  /** The ETag for the application */
+  etag?: string;
+  /** The tags for the application. */
+  tags?: { [propertyName: string]: string };
+  /** The properties of the application. */
+  properties?: ApplicationProperties;
   /**
-   * The underlying HTTP response.
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: GatewaySettings;
-  };
+  readonly systemData?: SystemData;
 };
 
-/**
- * Contains response data for the getAzureAsyncOperationStatus operation.
- */
-export type ClustersGetAzureAsyncOperationStatusResponse = AsyncOperationResult & {
+/** The HDInsight cluster. */
+export type Cluster = TrackedResource & {
+  /** The ETag for the resource */
+  etag?: string;
+  /** The availability zones. */
+  zones?: string[];
+  /** The properties of the cluster. */
+  properties?: ClusterGetProperties;
+  /** The identity of the cluster, if configured. */
+  identity?: ClusterIdentity;
   /**
-   * The underlying HTTP response.
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AsyncOperationResult;
-  };
+  readonly systemData?: SystemData;
 };
 
-/**
- * Contains response data for the beginCreate operation.
- */
-export type ClustersBeginCreateResponse = Cluster & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
-
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Cluster;
-  };
-};
+/** Known values of {@link OSType} that the service accepts. */
+export enum KnownOSType {
+  Windows = "Windows",
+  Linux = "Linux"
+}
 
 /**
- * Contains response data for the listByResourceGroupNext operation.
+ * Defines values for OSType. \
+ * {@link KnownOSType} can be used interchangeably with OSType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Windows** \
+ * **Linux**
  */
-export type ClustersListByResourceGroupNextResponse = ClusterListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+export type OSType = string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterListResult;
-  };
-};
+/** Known values of {@link Tier} that the service accepts. */
+export enum KnownTier {
+  Standard = "Standard",
+  Premium = "Premium"
+}
 
 /**
- * Contains response data for the listNext operation.
+ * Defines values for Tier. \
+ * {@link KnownTier} can be used interchangeably with Tier,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Standard** \
+ * **Premium**
  */
-export type ClustersListNextResponse = ClusterListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+export type Tier = string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterListResult;
-  };
-};
+/** Known values of {@link DirectoryType} that the service accepts. */
+export enum KnownDirectoryType {
+  ActiveDirectory = "ActiveDirectory"
+}
 
 /**
- * Contains response data for the listByCluster operation.
+ * Defines values for DirectoryType. \
+ * {@link KnownDirectoryType} can be used interchangeably with DirectoryType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ActiveDirectory**
  */
-export type ApplicationsListByClusterResponse = ApplicationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+export type DirectoryType = string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ApplicationListResult;
-  };
-};
+/** Known values of {@link DaysOfWeek} that the service accepts. */
+export enum KnownDaysOfWeek {
+  Monday = "Monday",
+  Tuesday = "Tuesday",
+  Wednesday = "Wednesday",
+  Thursday = "Thursday",
+  Friday = "Friday",
+  Saturday = "Saturday",
+  Sunday = "Sunday"
+}
 
 /**
- * Contains response data for the get operation.
+ * Defines values for DaysOfWeek. \
+ * {@link KnownDaysOfWeek} can be used interchangeably with DaysOfWeek,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Monday** \
+ * **Tuesday** \
+ * **Wednesday** \
+ * **Thursday** \
+ * **Friday** \
+ * **Saturday** \
+ * **Sunday**
  */
-export type ApplicationsGetResponse = Application & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+export type DaysOfWeek = string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Application;
-  };
-};
+/** Known values of {@link JsonWebKeyEncryptionAlgorithm} that the service accepts. */
+export enum KnownJsonWebKeyEncryptionAlgorithm {
+  RSAOaep = "RSA-OAEP",
+  RSAOaep256 = "RSA-OAEP-256",
+  RSA15 = "RSA1_5"
+}
 
 /**
- * Contains response data for the create operation.
+ * Defines values for JsonWebKeyEncryptionAlgorithm. \
+ * {@link KnownJsonWebKeyEncryptionAlgorithm} can be used interchangeably with JsonWebKeyEncryptionAlgorithm,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **RSA-OAEP** \
+ * **RSA-OAEP-256** \
+ * **RSA1_5**
  */
-export type ApplicationsCreateResponse = Application & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+export type JsonWebKeyEncryptionAlgorithm = string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Application;
-  };
-};
+/** Known values of {@link ResourceProviderConnection} that the service accepts. */
+export enum KnownResourceProviderConnection {
+  Inbound = "Inbound",
+  Outbound = "Outbound"
+}
 
 /**
- * Contains response data for the getAzureAsyncOperationStatus operation.
+ * Defines values for ResourceProviderConnection. \
+ * {@link KnownResourceProviderConnection} can be used interchangeably with ResourceProviderConnection,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Inbound** \
+ * **Outbound**
  */
-export type ApplicationsGetAzureAsyncOperationStatusResponse = AsyncOperationResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+export type ResourceProviderConnection = string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AsyncOperationResult;
-  };
-};
+/** Known values of {@link PrivateLink} that the service accepts. */
+export enum KnownPrivateLink {
+  Disabled = "Disabled",
+  Enabled = "Enabled"
+}
 
 /**
- * Contains response data for the beginCreate operation.
+ * Defines values for PrivateLink. \
+ * {@link KnownPrivateLink} can be used interchangeably with PrivateLink,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled**
  */
-export type ApplicationsBeginCreateResponse = Application & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+export type PrivateLink = string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: Application;
-  };
-};
+/** Known values of {@link PrivateLinkConfigurationProvisioningState} that the service accepts. */
+export enum KnownPrivateLinkConfigurationProvisioningState {
+  InProgress = "InProgress",
+  Failed = "Failed",
+  Succeeded = "Succeeded",
+  Canceled = "Canceled",
+  Deleting = "Deleting"
+}
 
 /**
- * Contains response data for the listByClusterNext operation.
+ * Defines values for PrivateLinkConfigurationProvisioningState. \
+ * {@link KnownPrivateLinkConfigurationProvisioningState} can be used interchangeably with PrivateLinkConfigurationProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InProgress** \
+ * **Failed** \
+ * **Succeeded** \
+ * **Canceled** \
+ * **Deleting**
  */
-export type ApplicationsListByClusterNextResponse = ApplicationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+export type PrivateLinkConfigurationProvisioningState = string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ApplicationListResult;
-  };
-};
+/** Known values of {@link PrivateIPAllocationMethod} that the service accepts. */
+export enum KnownPrivateIPAllocationMethod {
+  Dynamic = "dynamic",
+  Static = "static"
+}
 
 /**
- * Contains response data for the getCapabilities operation.
+ * Defines values for PrivateIPAllocationMethod. \
+ * {@link KnownPrivateIPAllocationMethod} can be used interchangeably with PrivateIPAllocationMethod,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **dynamic** \
+ * **static**
  */
-export type LocationsGetCapabilitiesResponse = CapabilitiesResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+export type PrivateIPAllocationMethod = string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: CapabilitiesResult;
-  };
-};
+/** Known values of {@link ResourceIdentityType} that the service accepts. */
+export enum KnownResourceIdentityType {
+  SystemAssigned = "SystemAssigned",
+  UserAssigned = "UserAssigned",
+  SystemAssignedUserAssigned = "SystemAssigned, UserAssigned",
+  None = "None"
+}
 
 /**
- * Contains response data for the listUsages operation.
+ * Defines values for ResourceIdentityType. \
+ * {@link KnownResourceIdentityType} can be used interchangeably with ResourceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned, UserAssigned** \
+ * **None**
  */
-export type LocationsListUsagesResponse = UsagesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+export type ResourceIdentityType = string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: UsagesListResult;
-  };
-};
+/** Known values of {@link HDInsightClusterProvisioningState} that the service accepts. */
+export enum KnownHDInsightClusterProvisioningState {
+  InProgress = "InProgress",
+  Failed = "Failed",
+  Succeeded = "Succeeded",
+  Canceled = "Canceled",
+  Deleting = "Deleting"
+}
 
 /**
- * Contains response data for the listBillingSpecs operation.
+ * Defines values for HDInsightClusterProvisioningState. \
+ * {@link KnownHDInsightClusterProvisioningState} can be used interchangeably with HDInsightClusterProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InProgress** \
+ * **Failed** \
+ * **Succeeded** \
+ * **Canceled** \
+ * **Deleting**
  */
-export type LocationsListBillingSpecsResponse = BillingResponseListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+export type HDInsightClusterProvisioningState = string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: BillingResponseListResult;
-  };
-};
+/** Known values of {@link PrivateLinkServiceConnectionStatus} that the service accepts. */
+export enum KnownPrivateLinkServiceConnectionStatus {
+  Approved = "Approved",
+  Rejected = "Rejected",
+  Pending = "Pending",
+  Removed = "Removed"
+}
 
 /**
- * Contains response data for the getAzureAsyncOperationStatus operation.
+ * Defines values for PrivateLinkServiceConnectionStatus. \
+ * {@link KnownPrivateLinkServiceConnectionStatus} can be used interchangeably with PrivateLinkServiceConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Approved** \
+ * **Rejected** \
+ * **Pending** \
+ * **Removed**
  */
-export type LocationsGetAzureAsyncOperationStatusResponse = AsyncOperationResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+export type PrivateLinkServiceConnectionStatus = string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AsyncOperationResult;
-  };
-};
+/** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
+export enum KnownPrivateEndpointConnectionProvisioningState {
+  InProgress = "InProgress",
+  Updating = "Updating",
+  Failed = "Failed",
+  Succeeded = "Succeeded",
+  Canceled = "Canceled",
+  Deleting = "Deleting"
+}
 
 /**
- * Contains response data for the checkNameAvailability operation.
+ * Defines values for PrivateEndpointConnectionProvisioningState. \
+ * {@link KnownPrivateEndpointConnectionProvisioningState} can be used interchangeably with PrivateEndpointConnectionProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InProgress** \
+ * **Updating** \
+ * **Failed** \
+ * **Succeeded** \
+ * **Canceled** \
+ * **Deleting**
  */
-export type LocationsCheckNameAvailabilityResponse = NameAvailabilityCheckResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+export type PrivateEndpointConnectionProvisioningState = string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: NameAvailabilityCheckResult;
-  };
-};
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  User = "User",
+  Application = "Application",
+  ManagedIdentity = "ManagedIdentity",
+  Key = "Key"
+}
 
 /**
- * Contains response data for the validateClusterCreateRequest operation.
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
  */
-export type LocationsValidateClusterCreateRequestResponse = ClusterCreateValidationResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+export type CreatedByType = string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterCreateValidationResult;
-  };
-};
+/** Known values of {@link RoleName} that the service accepts. */
+export enum KnownRoleName {
+  Workernode = "workernode"
+}
 
 /**
- * Contains response data for the list operation.
+ * Defines values for RoleName. \
+ * {@link KnownRoleName} can be used interchangeably with RoleName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **workernode**
  */
-export type ConfigurationsListResponse = ClusterConfigurations & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+export type RoleName = string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterConfigurations;
-  };
-};
+/** Known values of {@link AsyncOperationState} that the service accepts. */
+export enum KnownAsyncOperationState {
+  InProgress = "InProgress",
+  Succeeded = "Succeeded",
+  Failed = "Failed"
+}
 
 /**
- * Contains response data for the get operation.
+ * Defines values for AsyncOperationState. \
+ * {@link KnownAsyncOperationState} can be used interchangeably with AsyncOperationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InProgress** \
+ * **Succeeded** \
+ * **Failed**
  */
-export type ConfigurationsGetResponse = {
-  /**
-   * The response body properties.
-   */
-  [propertyName: string]: string;
-} & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+export type AsyncOperationState = string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: { [propertyName: string]: string };
-  };
-};
+/** Known values of {@link FilterMode} that the service accepts. */
+export enum KnownFilterMode {
+  Exclude = "Exclude",
+  Include = "Include",
+  Recommend = "Recommend",
+  Default = "Default"
+}
 
 /**
- * Contains response data for the getMonitoringStatus operation.
+ * Defines values for FilterMode. \
+ * {@link KnownFilterMode} can be used interchangeably with FilterMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Exclude** \
+ * **Include** \
+ * **Recommend** \
+ * **Default**
  */
-export type ExtensionsGetMonitoringStatusResponse = ClusterMonitoringResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+export type FilterMode = string;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterMonitoringResponse;
-  };
-};
+/** Optional parameters. */
+export interface ClustersCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-/**
- * Contains response data for the getAzureMonitorStatus operation.
- */
-export type ExtensionsGetAzureMonitorStatusResponse = AzureMonitorResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Contains response data for the create operation. */
+export type ClustersCreateResponse = Cluster;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AzureMonitorResponse;
-  };
-};
+/** Optional parameters. */
+export interface ClustersUpdateOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the get operation.
- */
-export type ExtensionsGetResponse = ClusterMonitoringResponse & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Contains response data for the update operation. */
+export type ClustersUpdateResponse = Cluster;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ClusterMonitoringResponse;
-  };
-};
+/** Optional parameters. */
+export interface ClustersDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-/**
- * Contains response data for the getAzureAsyncOperationStatus operation.
- */
-export type ExtensionsGetAzureAsyncOperationStatusResponse = AsyncOperationResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Optional parameters. */
+export interface ClustersGetOptionalParams
+  extends coreClient.OperationOptions {}
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AsyncOperationResult;
-  };
-};
+/** Contains response data for the get operation. */
+export type ClustersGetResponse = Cluster;
 
-/**
- * Contains response data for the listByCluster operation.
- */
-export type ScriptActionsListByClusterResponse = ScriptActionsList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Optional parameters. */
+export interface ClustersListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ScriptActionsList;
-  };
-};
+/** Contains response data for the listByResourceGroup operation. */
+export type ClustersListByResourceGroupResponse = ClusterListResult;
 
-/**
- * Contains response data for the getExecutionDetail operation.
- */
-export type ScriptActionsGetExecutionDetailResponse = RuntimeScriptActionDetail & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Optional parameters. */
+export interface ClustersResizeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: RuntimeScriptActionDetail;
-  };
-};
+/** Optional parameters. */
+export interface ClustersUpdateAutoScaleConfigurationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-/**
- * Contains response data for the getExecutionAsyncOperationStatus operation.
- */
-export type ScriptActionsGetExecutionAsyncOperationStatusResponse = AsyncOperationResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Optional parameters. */
+export interface ClustersListOptionalParams
+  extends coreClient.OperationOptions {}
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AsyncOperationResult;
-  };
-};
+/** Contains response data for the list operation. */
+export type ClustersListResponse = ClusterListResult;
 
-/**
- * Contains response data for the listByClusterNext operation.
- */
-export type ScriptActionsListByClusterNextResponse = ScriptActionsList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Optional parameters. */
+export interface ClustersRotateDiskEncryptionKeyOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ScriptActionsList;
-  };
-};
+/** Optional parameters. */
+export interface ClustersGetGatewaySettingsOptionalParams
+  extends coreClient.OperationOptions {}
 
-/**
- * Contains response data for the listByCluster operation.
- */
-export type ScriptExecutionHistoryListByClusterResponse = ScriptActionExecutionHistoryList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Contains response data for the getGatewaySettings operation. */
+export type ClustersGetGatewaySettingsResponse = GatewaySettings;
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ScriptActionExecutionHistoryList;
-  };
-};
+/** Optional parameters. */
+export interface ClustersUpdateGatewaySettingsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-/**
- * Contains response data for the listByClusterNext operation.
- */
-export type ScriptExecutionHistoryListByClusterNextResponse = ScriptActionExecutionHistoryList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Optional parameters. */
+export interface ClustersGetAzureAsyncOperationStatusOptionalParams
+  extends coreClient.OperationOptions {}
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: ScriptActionExecutionHistoryList;
-  };
-};
+/** Contains response data for the getAzureAsyncOperationStatus operation. */
+export type ClustersGetAzureAsyncOperationStatusResponse = AsyncOperationResult;
 
-/**
- * Contains response data for the list operation.
- */
-export type OperationsListResponse = OperationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Optional parameters. */
+export interface ClustersUpdateIdentityCertificateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationListResult;
-  };
-};
+/** Optional parameters. */
+export interface ClustersExecuteScriptActionsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
-/**
- * Contains response data for the listNext operation.
- */
-export type OperationsListNextResponse = OperationListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Optional parameters. */
+export interface ClustersListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: OperationListResult;
-  };
-};
+/** Contains response data for the listByResourceGroupNext operation. */
+export type ClustersListByResourceGroupNextResponse = ClusterListResult;
 
-/**
- * Contains response data for the listHosts operation.
- */
-export type VirtualMachinesListHostsResponse = Array<HostInfo> & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Optional parameters. */
+export interface ClustersListNextOptionalParams
+  extends coreClient.OperationOptions {}
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: HostInfo[];
-  };
-};
+/** Contains response data for the listNext operation. */
+export type ClustersListNextResponse = ClusterListResult;
 
-/**
- * Contains response data for the getAsyncOperationStatus operation.
- */
-export type VirtualMachinesGetAsyncOperationStatusResponse = AsyncOperationResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-    /**
-     * The response body as text (string format)
-     */
-    bodyAsText: string;
+/** Optional parameters. */
+export interface ApplicationsListByClusterOptionalParams
+  extends coreClient.OperationOptions {}
 
-    /**
-     * The response body as parsed JSON or XML
-     */
-    parsedBody: AsyncOperationResult;
-  };
-};
+/** Contains response data for the listByCluster operation. */
+export type ApplicationsListByClusterResponse = ApplicationListResult;
+
+/** Optional parameters. */
+export interface ApplicationsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ApplicationsGetResponse = Application;
+
+/** Optional parameters. */
+export interface ApplicationsCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the create operation. */
+export type ApplicationsCreateResponse = Application;
+
+/** Optional parameters. */
+export interface ApplicationsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ApplicationsGetAzureAsyncOperationStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAzureAsyncOperationStatus operation. */
+export type ApplicationsGetAzureAsyncOperationStatusResponse = AsyncOperationResult;
+
+/** Optional parameters. */
+export interface ApplicationsListByClusterNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByClusterNext operation. */
+export type ApplicationsListByClusterNextResponse = ApplicationListResult;
+
+/** Optional parameters. */
+export interface LocationsGetCapabilitiesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getCapabilities operation. */
+export type LocationsGetCapabilitiesResponse = CapabilitiesResult;
+
+/** Optional parameters. */
+export interface LocationsListUsagesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listUsages operation. */
+export type LocationsListUsagesResponse = UsagesListResult;
+
+/** Optional parameters. */
+export interface LocationsListBillingSpecsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBillingSpecs operation. */
+export type LocationsListBillingSpecsResponse = BillingResponseListResult;
+
+/** Optional parameters. */
+export interface LocationsGetAzureAsyncOperationStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAzureAsyncOperationStatus operation. */
+export type LocationsGetAzureAsyncOperationStatusResponse = AsyncOperationResult;
+
+/** Optional parameters. */
+export interface LocationsCheckNameAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkNameAvailability operation. */
+export type LocationsCheckNameAvailabilityResponse = NameAvailabilityCheckResult;
+
+/** Optional parameters. */
+export interface LocationsValidateClusterCreateRequestOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the validateClusterCreateRequest operation. */
+export type LocationsValidateClusterCreateRequestResponse = ClusterCreateValidationResult;
+
+/** Optional parameters. */
+export interface ConfigurationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type ConfigurationsListResponse = ClusterConfigurations;
+
+/** Optional parameters. */
+export interface ConfigurationsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ConfigurationsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ConfigurationsGetResponse = { [propertyName: string]: string };
+
+/** Optional parameters. */
+export interface ExtensionsEnableMonitoringOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ExtensionsGetMonitoringStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getMonitoringStatus operation. */
+export type ExtensionsGetMonitoringStatusResponse = ClusterMonitoringResponse;
+
+/** Optional parameters. */
+export interface ExtensionsDisableMonitoringOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ExtensionsEnableAzureMonitorOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ExtensionsGetAzureMonitorStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAzureMonitorStatus operation. */
+export type ExtensionsGetAzureMonitorStatusResponse = AzureMonitorResponse;
+
+/** Optional parameters. */
+export interface ExtensionsDisableAzureMonitorOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ExtensionsCreateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ExtensionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ExtensionsGetResponse = ClusterMonitoringResponse;
+
+/** Optional parameters. */
+export interface ExtensionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ExtensionsGetAzureAsyncOperationStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAzureAsyncOperationStatus operation. */
+export type ExtensionsGetAzureAsyncOperationStatusResponse = AsyncOperationResult;
+
+/** Optional parameters. */
+export interface ScriptActionsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ScriptActionsListByClusterOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCluster operation. */
+export type ScriptActionsListByClusterResponse = ScriptActionsList;
+
+/** Optional parameters. */
+export interface ScriptActionsGetExecutionDetailOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getExecutionDetail operation. */
+export type ScriptActionsGetExecutionDetailResponse = RuntimeScriptActionDetail;
+
+/** Optional parameters. */
+export interface ScriptActionsGetExecutionAsyncOperationStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getExecutionAsyncOperationStatus operation. */
+export type ScriptActionsGetExecutionAsyncOperationStatusResponse = AsyncOperationResult;
+
+/** Optional parameters. */
+export interface ScriptActionsListByClusterNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByClusterNext operation. */
+export type ScriptActionsListByClusterNextResponse = ScriptActionsList;
+
+/** Optional parameters. */
+export interface ScriptExecutionHistoryListByClusterOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCluster operation. */
+export type ScriptExecutionHistoryListByClusterResponse = ScriptActionExecutionHistoryList;
+
+/** Optional parameters. */
+export interface ScriptExecutionHistoryPromoteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ScriptExecutionHistoryListByClusterNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByClusterNext operation. */
+export type ScriptExecutionHistoryListByClusterNextResponse = ScriptActionExecutionHistoryList;
+
+/** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface VirtualMachinesListHostsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listHosts operation. */
+export type VirtualMachinesListHostsResponse = HostInfo[];
+
+/** Optional parameters. */
+export interface VirtualMachinesRestartHostsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface VirtualMachinesGetAsyncOperationStatusOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAsyncOperationStatus operation. */
+export type VirtualMachinesGetAsyncOperationStatusResponse = AsyncOperationResult;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsListByClusterOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCluster operation. */
+export type PrivateEndpointConnectionsListByClusterResponse = PrivateEndpointConnectionListResult;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsListByClusterNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByClusterNext operation. */
+export type PrivateEndpointConnectionsListByClusterNextResponse = PrivateEndpointConnectionListResult;
+
+/** Optional parameters. */
+export interface PrivateLinkResourcesListByClusterOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCluster operation. */
+export type PrivateLinkResourcesListByClusterResponse = PrivateLinkResourceListResult;
+
+/** Optional parameters. */
+export interface PrivateLinkResourcesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PrivateLinkResourcesGetResponse = PrivateLinkResource;
+
+/** Optional parameters. */
+export interface HDInsightManagementClientOptionalParams
+  extends coreClient.ServiceClientOptions {
+  /** server parameter */
+  $host?: string;
+  /** Api Version */
+  apiVersion?: string;
+  /** Overrides client endpoint. */
+  endpoint?: string;
+}

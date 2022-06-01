@@ -1,0 +1,53 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    [
+      {
+        "@context": "dtmi:dtdl:context;3",
+        "@id": "dtmi:test:anInterface;1",
+        "@type": "Interface",
+        "contents": [
+          {
+            "@type": "Component",
+            "name": "child",
+            "schema": "dtmi:test:anotherInterface;1"
+          }
+        ]
+      },
+      {
+        "@context": "dtmi:dtdl:context;3",
+        "@id": "dtmi:test:anotherInterface;1",
+        "@type": "Interface",
+        "contents": [
+          {
+            "@id": "dtmi:test:aTelemetry;1",
+            "@type": "Telemetry",
+            "name": "distance",
+            "schema": "double"
+          }
+        ]
+      }
+    ]
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:anInterface;1",
+        "type": "Interface",
+        "properties": {
+          "contents": {
+            "child": "dtmi:test:anInterface:_contents:__child;1"
+          }
+        }
+      },
+      {
+        "id": "dtmi:test:anInterface:_contents:__child;1",
+        "type": "Component",
+        "properties": {
+          "schema": "dtmi:test:anotherInterface;1"
+        }
+      }
+    ]
+  }
+}

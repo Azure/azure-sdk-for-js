@@ -1,0 +1,13 @@
+{
+  "valid": true,
+  "idText": "dtmi:foo:bar;1#_invalidUserId",
+  "expect": {
+    "MajorVersion": 1,
+    "MinorVersion": 0,
+    "CompleteVersion": 1.000000,
+    "Versionless": "dtmi:foo:bar#_invalidUserId",
+    "Labels": [ "foo", "bar" ],
+    "IsReserved": true,
+    "Fragment": "#_invalidUserId"
+  }
+}

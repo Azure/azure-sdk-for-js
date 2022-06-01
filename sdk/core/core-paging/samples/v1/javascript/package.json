@@ -1,0 +1,30 @@
+{
+  "name": "@azure-samples/core-paging-js",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure SDK Core client library samples for JavaScript",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/core/core-paging"
+  },
+  "keywords": [
+    "microsoft",
+    "clientruntime",
+    "azure",
+    "cloud"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-paging",
+  "dependencies": {
+    "@azure/core-paging": "latest",
+    "dotenv": "latest"
+  }
+}

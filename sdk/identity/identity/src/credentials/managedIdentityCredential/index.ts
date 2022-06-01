@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SpanStatusCode } from "@azure/core-tracing";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 
 import { IdentityClient } from "../../client/identityClient";
@@ -9,15 +8,42 @@ import { TokenCredentialOptions } from "../../tokenCredentialOptions";
 import { AuthenticationError, CredentialUnavailableError } from "../../errors";
 import { credentialLogger, formatSuccess, formatError } from "../../util/logging";
 import { appServiceMsi2017 } from "./appServiceMsi2017";
-import { createSpan } from "../../util/tracing";
+import { tracingClient } from "../../util/tracing";
 import { cloudShellMsi } from "./cloudShellMsi";
 import { imdsMsi } from "./imdsMsi";
 import { MSI } from "./models";
 import { arcMsi } from "./arcMsi";
 import { tokenExchangeMsi } from "./tokenExchangeMsi";
 import { fabricMsi } from "./fabricMsi";
+import { appServiceMsi2019 } from "./appServiceMsi2019";
 
 const logger = credentialLogger("ManagedIdentityCredential");
+
+/**
+ * Options to send on the {@link ManagedIdentityCredential} constructor.
+ * This variation supports `clientId` and not `resourceId`, since only one of both is supported.
+ */
+export interface ManagedIdentityCredentialClientIdOptions extends TokenCredentialOptions {
+  /**
+   * The client ID of the user - assigned identity, or app registration(when working with AKS pod - identity).
+   */
+  clientId?: string;
+}
+
+/**
+ * Options to send on the {@link ManagedIdentityCredential} constructor.
+ * This variation supports `resourceId` and not `clientId`, since only one of both is supported.
+ */
+export interface ManagedIdentityCredentialResourceIdOptions extends TokenCredentialOptions {
+  /**
+   * Allows specifying a custom resource Id.
+   * In scenarios such as when user assigned identities are created using an ARM template,
+   * where the resource Id of the identity is known but the client Id can't be known ahead of time,
+   * this parameter allows programs to use these user assigned identities
+   * without having to first determine the client Id of the created identity.
+   */
+  resourceId: string;
+}
 
 /**
  * Attempts authentication using a managed identity available at the deployment environment.
@@ -30,7 +56,9 @@ const logger = credentialLogger("ManagedIdentityCredential");
 export class ManagedIdentityCredential implements TokenCredential {
   private identityClient: IdentityClient;
   private clientId: string | undefined;
+  private resourceId: string | undefined;
   private isEndpointUnavailable: boolean | null = null;
+  private isAvailableIdentityClient: IdentityClient;
 
   /**
    * Creates an instance of ManagedIdentityCredential with the client ID of a
@@ -41,44 +69,82 @@ export class ManagedIdentityCredential implements TokenCredential {
    */
   constructor(clientId: string, options?: TokenCredentialOptions);
   /**
-   * Creates an instance of ManagedIdentityCredential
+   * Creates an instance of ManagedIdentityCredential with clientId
    *
    * @param options - Options for configuring the client which makes the access token request.
    */
-  constructor(options?: TokenCredentialOptions);
+  constructor(options?: ManagedIdentityCredentialClientIdOptions);
+  /**
+   * Creates an instance of ManagedIdentityCredential with Resource Id
+   *
+   * @param options - Options for configuring the resource which makes the access token request.
+   */
+  constructor(options?: ManagedIdentityCredentialResourceIdOptions);
   /**
    * @internal
    * @hidden
    */
   constructor(
-    clientIdOrOptions: string | TokenCredentialOptions | undefined,
+    clientIdOrOptions?:
+      | string
+      | ManagedIdentityCredentialClientIdOptions
+      | ManagedIdentityCredentialResourceIdOptions,
     options?: TokenCredentialOptions
   ) {
+    let _options: TokenCredentialOptions | undefined;
     if (typeof clientIdOrOptions === "string") {
-      // clientId, options constructor
       this.clientId = clientIdOrOptions;
-      this.identityClient = new IdentityClient(options);
+      _options = options;
     } else {
-      // options only constructor
-      this.identityClient = new IdentityClient(clientIdOrOptions);
+      this.clientId = (clientIdOrOptions as ManagedIdentityCredentialClientIdOptions)?.clientId;
+      _options = clientIdOrOptions;
     }
+    this.resourceId = (_options as ManagedIdentityCredentialResourceIdOptions)?.resourceId;
+    // For JavaScript users.
+    if (this.clientId && this.resourceId) {
+      throw new Error(
+        `${ManagedIdentityCredential.name} - Client Id and Resource Id can't be provided at the same time.`
+      );
+    }
+    this.identityClient = new IdentityClient(_options);
+    this.isAvailableIdentityClient = new IdentityClient({
+      ..._options,
+      retryOptions: {
+        maxRetries: 0,
+      },
+    });
   }
 
   private cachedMSI: MSI | undefined;
 
   private async cachedAvailableMSI(
     scopes: string | string[],
-    clientId?: string,
     getTokenOptions?: GetTokenOptions
   ): Promise<MSI> {
     if (this.cachedMSI) {
       return this.cachedMSI;
     }
 
-    const MSIs = [fabricMsi, appServiceMsi2017, cloudShellMsi, arcMsi, tokenExchangeMsi(), imdsMsi];
+    const MSIs = [
+      arcMsi,
+      fabricMsi,
+      appServiceMsi2019,
+      appServiceMsi2017,
+      cloudShellMsi,
+      tokenExchangeMsi(),
+      imdsMsi,
+    ];
 
     for (const msi of MSIs) {
-      if (await msi.isAvailable(scopes, this.identityClient, clientId, getTokenOptions)) {
+      if (
+        await msi.isAvailable({
+          scopes,
+          identityClient: this.isAvailableIdentityClient,
+          clientId: this.clientId,
+          resourceId: this.resourceId,
+          getTokenOptions,
+        })
+      ) {
         this.cachedMSI = msi;
         return msi;
       }
@@ -91,30 +157,30 @@ export class ManagedIdentityCredential implements TokenCredential {
 
   private async authenticateManagedIdentity(
     scopes: string | string[],
-    clientId?: string,
     getTokenOptions?: GetTokenOptions
   ): Promise<AccessToken | null> {
-    const { span, updatedOptions } = createSpan(
+    const { span, updatedOptions } = tracingClient.startSpan(
       `${ManagedIdentityCredential.name}.authenticateManagedIdentity`,
       getTokenOptions
     );
 
     try {
       // Determining the available MSI, and avoiding checking for other MSIs while the program is running.
-      const availableMSI = await this.cachedAvailableMSI(scopes, clientId, updatedOptions);
+      const availableMSI = await this.cachedAvailableMSI(scopes, updatedOptions);
 
       return availableMSI.getToken(
         {
           identityClient: this.identityClient,
           scopes,
-          clientId
+          clientId: this.clientId,
+          resourceId: this.resourceId,
         },
         updatedOptions
       );
-    } catch (err) {
+    } catch (err: any) {
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: err.message
+        status: "error",
+        error: err,
       });
       throw err;
     } finally {
@@ -137,7 +203,7 @@ export class ManagedIdentityCredential implements TokenCredential {
   ): Promise<AccessToken> {
     let result: AccessToken | null = null;
 
-    const { span, updatedOptions } = createSpan(
+    const { span, updatedOptions } = tracingClient.startSpan(
       `${ManagedIdentityCredential.name}.getToken`,
       options
     );
@@ -147,7 +213,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       // If it's null, it means we don't yet know whether
       // the endpoint is available and need to check for it.
       if (this.isEndpointUnavailable !== true) {
-        result = await this.authenticateManagedIdentity(scopes, this.clientId, updatedOptions);
+        result = await this.authenticateManagedIdentity(scopes, updatedOptions);
 
         if (result === null) {
           // If authenticateManagedIdentity returns null,
@@ -180,7 +246,7 @@ export class ManagedIdentityCredential implements TokenCredential {
 
       logger.getToken.info(formatSuccess(scopes));
       return result;
-    } catch (err) {
+    } catch (err: any) {
       // CredentialUnavailable errors are expected to reach here.
       // We intend them to bubble up, so that DefaultAzureCredential can catch them.
       if (err.name === "AuthenticationRequiredError") {
@@ -194,8 +260,8 @@ export class ManagedIdentityCredential implements TokenCredential {
       //   but no identity is available.
 
       span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: err.message
+        status: "error",
+        error: err,
       });
 
       // If either the network is unreachable,
@@ -239,7 +305,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       // Any other error should break the chain.
       throw new AuthenticationError(err.statusCode, {
         error: `${ManagedIdentityCredential.name} authentication failed.`,
-        error_description: err.message
+        error_description: err.message,
       });
     } finally {
       // Finally is always called, both if we return and if we throw in the above try/catch.

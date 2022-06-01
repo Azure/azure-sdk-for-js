@@ -24,12 +24,12 @@ export function convertTimespanToInterval(timespan: QueryTimeInterval): string {
 export function convertIntervalToTimeIntervalObject(timespan: string): QueryTimeInterval {
   if (timespan.includes("/")) {
     const intervalUnits: string[] = timespan.split("/");
-    if (Date.parse(intervalUnits[0]) && Date.parse(intervalUnits[2])) {
-      return { startTime: new Date(intervalUnits[0]), endTime: new Date(intervalUnits[2]) };
-    } else if (Date.parse(intervalUnits[0]) && !Date.parse(intervalUnits[2])) {
-      return { startTime: new Date(intervalUnits[0]), duration: intervalUnits[2] };
-    } else if (!Date.parse(intervalUnits[0]) && Date.parse(intervalUnits[2])) {
-      return { duration: intervalUnits[0], endTime: new Date(intervalUnits[2]) };
+    if (Date.parse(intervalUnits[0]) && Date.parse(intervalUnits[1])) {
+      return { startTime: new Date(intervalUnits[0]), endTime: new Date(intervalUnits[1]) };
+    } else if (Date.parse(intervalUnits[0]) && !Date.parse(intervalUnits[1])) {
+      return { startTime: new Date(intervalUnits[0]), duration: intervalUnits[1] };
+    } else if (!Date.parse(intervalUnits[0]) && Date.parse(intervalUnits[1])) {
+      return { duration: intervalUnits[0], endTime: new Date(intervalUnits[1]) };
     } else {
       return { duration: timespan };
     }
@@ -44,7 +44,7 @@ export function convertIntervalToTimeIntervalObject(timespan: string): QueryTime
  * @param property - The name of the property that should appear in the object.
  * @internal
  */
-export function objectHasProperty<Thing extends unknown, PropertyName extends string>(
+export function objectHasProperty<Thing, PropertyName extends string>(
   thing: Thing,
   property: PropertyName
 ): thing is Thing & Record<PropertyName, unknown> {
@@ -67,7 +67,7 @@ export function isDefined<T>(thing: T | undefined | null): thing is T {
  * @param properties - The name of the properties that should appear in the object.
  * @internal
  */
-export function isObjectWithProperties<Thing extends unknown, PropertyName extends string>(
+export function isObjectWithProperties<Thing, PropertyName extends string>(
   thing: Thing,
   properties: PropertyName[]
 ): thing is Thing & Record<PropertyName, unknown> {

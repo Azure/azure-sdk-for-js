@@ -11,7 +11,7 @@ import { EventSubscriptions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { EventGridManagementClientContext } from "../eventGridManagementClientContext";
+import { EventGridManagementClient } from "../eventGridManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -73,13 +73,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing EventSubscriptions operations. */
 export class EventSubscriptionsImpl implements EventSubscriptions {
-  private readonly client: EventGridManagementClientContext;
+  private readonly client: EventGridManagementClient;
 
   /**
    * Initialize a new instance of the class EventSubscriptions class.
    * @param client Reference to the service client
    */
-  constructor(client: EventGridManagementClientContext) {
+  constructor(client: EventGridManagementClient) {
     this.client = client;
   }
 
@@ -602,7 +602,7 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
   }
 
   /**
-   * List all event subscriptions that have been created for a specific topic.
+   * List all event subscriptions that have been created for a specific resource.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param providerNamespace Namespace of the provider of the topic.
    * @param resourceTypeName Name of the resource type.
@@ -867,10 +867,12 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
       { scope, eventSubscriptionName, eventSubscriptionInfo, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -968,10 +970,12 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
       { scope, eventSubscriptionName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1074,10 +1078,12 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
       },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1267,7 +1273,7 @@ export class EventSubscriptionsImpl implements EventSubscriptions {
   }
 
   /**
-   * List all event subscriptions that have been created for a specific topic.
+   * List all event subscriptions that have been created for a specific resource.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param providerNamespace Namespace of the provider of the topic.
    * @param resourceTypeName Name of the resource type.
@@ -2068,8 +2074,8 @@ const listByDomainTopicNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.domainName,
     Parameters.nextLink,
+    Parameters.domainName,
     Parameters.topicName
   ],
   headerParameters: [Parameters.accept],

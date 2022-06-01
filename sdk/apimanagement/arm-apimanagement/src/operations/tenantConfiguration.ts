@@ -10,7 +10,7 @@ import { TenantConfiguration } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ApiManagementClientContext } from "../apiManagementClientContext";
+import { ApiManagementClient } from "../apiManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -29,13 +29,13 @@ import {
 
 /** Class containing TenantConfiguration operations. */
 export class TenantConfigurationImpl implements TenantConfiguration {
-  private readonly client: ApiManagementClientContext;
+  private readonly client: ApiManagementClient;
 
   /**
    * Initialize a new instance of the class TenantConfiguration class.
    * @param client Reference to the service client
    */
-  constructor(client: ApiManagementClientContext) {
+  constructor(client: ApiManagementClient) {
     this.client = client;
   }
 
@@ -110,11 +110,13 @@ export class TenantConfigurationImpl implements TenantConfiguration {
       },
       deployOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -214,11 +216,13 @@ export class TenantConfigurationImpl implements TenantConfiguration {
       },
       saveOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -318,11 +322,13 @@ export class TenantConfigurationImpl implements TenantConfiguration {
       },
       validateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       lroResourceLocationConfig: "location"
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

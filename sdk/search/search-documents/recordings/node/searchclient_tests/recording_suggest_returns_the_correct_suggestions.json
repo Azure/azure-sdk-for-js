@@ -1,0 +1,1230 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/indexes?api-version=2021-04-30-Preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json;odata.metadata=minimal",
+        "Accept-Encoding": "gzip,deflate",
+        "api-key": "admin_key",
+        "Connection": "keep-alive",
+        "Content-Length": "3356",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "c70e9d0c-ff12-4694-a07d-3f8caf287f6c"
+      },
+      "RequestBody": {
+        "name": "hotel-live-test-1084813",
+        "fields": [
+          {
+            "name": "hotelId",
+            "type": "Edm.String",
+            "key": true,
+            "searchable": false,
+            "filterable": true,
+            "sortable": true,
+            "facetable": false
+          },
+          {
+            "name": "hotelName",
+            "type": "Edm.String",
+            "searchable": true,
+            "filterable": true,
+            "sortable": true,
+            "facetable": false
+          },
+          {
+            "name": "description",
+            "type": "Edm.String",
+            "searchable": true,
+            "filterable": false,
+            "sortable": false,
+            "facetable": false,
+            "analyzer": "en.lucene"
+          },
+          {
+            "name": "descriptionFr",
+            "type": "Edm.String",
+            "searchable": true,
+            "filterable": false,
+            "sortable": false,
+            "facetable": false,
+            "analyzer": "fr.lucene"
+          },
+          {
+            "name": "category",
+            "type": "Edm.String",
+            "searchable": true,
+            "filterable": true,
+            "sortable": true,
+            "facetable": true
+          },
+          {
+            "name": "tags",
+            "type": "Collection(Edm.String)",
+            "searchable": true,
+            "filterable": true,
+            "sortable": false,
+            "facetable": true
+          },
+          {
+            "name": "parkingIncluded",
+            "type": "Edm.Boolean",
+            "searchable": false,
+            "filterable": true,
+            "sortable": true,
+            "facetable": true
+          },
+          {
+            "name": "smokingAllowed",
+            "type": "Edm.Boolean",
+            "searchable": false,
+            "filterable": true,
+            "sortable": true,
+            "facetable": true
+          },
+          {
+            "name": "lastRenovationDate",
+            "type": "Edm.DateTimeOffset",
+            "searchable": false,
+            "filterable": true,
+            "sortable": true,
+            "facetable": true
+          },
+          {
+            "name": "rating",
+            "type": "Edm.Double",
+            "searchable": false,
+            "filterable": true,
+            "sortable": true,
+            "facetable": true
+          },
+          {
+            "name": "location",
+            "type": "Edm.GeographyPoint",
+            "searchable": false,
+            "filterable": true,
+            "sortable": true,
+            "facetable": false
+          },
+          {
+            "name": "address",
+            "type": "Edm.ComplexType",
+            "fields": [
+              {
+                "name": "streetAddress",
+                "type": "Edm.String",
+                "searchable": true,
+                "filterable": false,
+                "sortable": false,
+                "facetable": false
+              },
+              {
+                "name": "city",
+                "type": "Edm.String",
+                "searchable": true,
+                "filterable": true,
+                "sortable": true,
+                "facetable": true
+              },
+              {
+                "name": "stateProvince",
+                "type": "Edm.String",
+                "searchable": true,
+                "filterable": true,
+                "sortable": true,
+                "facetable": true
+              },
+              {
+                "name": "country",
+                "type": "Edm.String",
+                "searchable": true,
+                "filterable": true,
+                "sortable": true,
+                "facetable": true
+              },
+              {
+                "name": "postalCode",
+                "type": "Edm.String",
+                "searchable": true,
+                "filterable": true,
+                "sortable": true,
+                "facetable": true
+              }
+            ]
+          },
+          {
+            "name": "rooms",
+            "type": "Collection(Edm.ComplexType)",
+            "fields": [
+              {
+                "name": "description",
+                "type": "Edm.String",
+                "searchable": true,
+                "filterable": false,
+                "sortable": false,
+                "facetable": false,
+                "analyzer": "en.lucene"
+              },
+              {
+                "name": "descriptionFr",
+                "type": "Edm.String",
+                "searchable": true,
+                "filterable": false,
+                "sortable": false,
+                "facetable": false,
+                "analyzer": "fr.lucene"
+              },
+              {
+                "name": "type",
+                "type": "Edm.String",
+                "searchable": true,
+                "filterable": true,
+                "sortable": false,
+                "facetable": true
+              },
+              {
+                "name": "baseRate",
+                "type": "Edm.Double",
+                "searchable": false,
+                "filterable": true,
+                "sortable": false,
+                "facetable": true
+              },
+              {
+                "name": "bedOptions",
+                "type": "Edm.String",
+                "searchable": true,
+                "filterable": true,
+                "sortable": false,
+                "facetable": true
+              },
+              {
+                "name": "sleepsCount",
+                "type": "Edm.Int32",
+                "searchable": false,
+                "filterable": true,
+                "sortable": false,
+                "facetable": true
+              },
+              {
+                "name": "smokingAllowed",
+                "type": "Edm.Boolean",
+                "searchable": false,
+                "filterable": true,
+                "sortable": false,
+                "facetable": true
+              },
+              {
+                "name": "tags",
+                "type": "Collection(Edm.String)",
+                "searchable": true,
+                "filterable": true,
+                "sortable": false,
+                "facetable": true
+              }
+            ]
+          }
+        ],
+        "scoringProfiles": [
+          {
+            "name": "nearest",
+            "functions": [
+              {
+                "type": "distance",
+                "fieldName": "location",
+                "boost": 2,
+                "distance": {
+                  "referencePointParameter": "myloc",
+                  "boostingDistance": 100
+                }
+              }
+            ],
+            "functionAggregation": "sum"
+          }
+        ],
+        "corsOptions": {
+          "allowedOrigins": [
+            "*"
+          ]
+        },
+        "suggesters": [
+          {
+            "name": "sg",
+            "searchMode": "analyzingInfixMatching",
+            "sourceFields": [
+              "description",
+              "hotelName"
+            ]
+          }
+        ]
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "6727",
+        "Content-Type": "application/json; odata.metadata=minimal",
+        "Date": "Thu, 03 Feb 2022 19:57:49 GMT",
+        "elapsed-time": "588",
+        "ETag": "W/\u00220x8D9E74F74AFBD04\u0022",
+        "Expires": "-1",
+        "Location": "https://endpoint/indexes(\u0027hotel-live-test-1084813\u0027)?api-version=2021-04-30-Preview",
+        "OData-Version": "4.0",
+        "Pragma": "no-cache",
+        "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
+        "request-id": "c70e9d0c-ff12-4694-a07d-3f8caf287f6c",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
+      },
+      "ResponseBody": {
+        "@odata.context": "https://endpoint/$metadata#indexes/$entity",
+        "@odata.etag": "\u00220x8D9E74F74AFBD04\u0022",
+        "name": "hotel-live-test-1084813",
+        "defaultScoringProfile": null,
+        "fields": [
+          {
+            "name": "hotelId",
+            "type": "Edm.String",
+            "searchable": false,
+            "filterable": true,
+            "retrievable": true,
+            "sortable": true,
+            "facetable": false,
+            "key": true,
+            "indexAnalyzer": null,
+            "searchAnalyzer": null,
+            "analyzer": null,
+            "normalizer": null,
+            "synonymMaps": []
+          },
+          {
+            "name": "hotelName",
+            "type": "Edm.String",
+            "searchable": true,
+            "filterable": true,
+            "retrievable": true,
+            "sortable": true,
+            "facetable": false,
+            "key": false,
+            "indexAnalyzer": null,
+            "searchAnalyzer": null,
+            "analyzer": null,
+            "normalizer": null,
+            "synonymMaps": []
+          },
+          {
+            "name": "description",
+            "type": "Edm.String",
+            "searchable": true,
+            "filterable": false,
+            "retrievable": true,
+            "sortable": false,
+            "facetable": false,
+            "key": false,
+            "indexAnalyzer": null,
+            "searchAnalyzer": null,
+            "analyzer": "en.lucene",
+            "normalizer": null,
+            "synonymMaps": []
+          },
+          {
+            "name": "descriptionFr",
+            "type": "Edm.String",
+            "searchable": true,
+            "filterable": false,
+            "retrievable": true,
+            "sortable": false,
+            "facetable": false,
+            "key": false,
+            "indexAnalyzer": null,
+            "searchAnalyzer": null,
+            "analyzer": "fr.lucene",
+            "normalizer": null,
+            "synonymMaps": []
+          },
+          {
+            "name": "category",
+            "type": "Edm.String",
+            "searchable": true,
+            "filterable": true,
+            "retrievable": true,
+            "sortable": true,
+            "facetable": true,
+            "key": false,
+            "indexAnalyzer": null,
+            "searchAnalyzer": null,
+            "analyzer": null,
+            "normalizer": null,
+            "synonymMaps": []
+          },
+          {
+            "name": "tags",
+            "type": "Collection(Edm.String)",
+            "searchable": true,
+            "filterable": true,
+            "retrievable": true,
+            "sortable": false,
+            "facetable": true,
+            "key": false,
+            "indexAnalyzer": null,
+            "searchAnalyzer": null,
+            "analyzer": null,
+            "normalizer": null,
+            "synonymMaps": []
+          },
+          {
+            "name": "parkingIncluded",
+            "type": "Edm.Boolean",
+            "searchable": false,
+            "filterable": true,
+            "retrievable": true,
+            "sortable": true,
+            "facetable": true,
+            "key": false,
+            "indexAnalyzer": null,
+            "searchAnalyzer": null,
+            "analyzer": null,
+            "normalizer": null,
+            "synonymMaps": []
+          },
+          {
+            "name": "smokingAllowed",
+            "type": "Edm.Boolean",
+            "searchable": false,
+            "filterable": true,
+            "retrievable": true,
+            "sortable": true,
+            "facetable": true,
+            "key": false,
+            "indexAnalyzer": null,
+            "searchAnalyzer": null,
+            "analyzer": null,
+            "normalizer": null,
+            "synonymMaps": []
+          },
+          {
+            "name": "lastRenovationDate",
+            "type": "Edm.DateTimeOffset",
+            "searchable": false,
+            "filterable": true,
+            "retrievable": true,
+            "sortable": true,
+            "facetable": true,
+            "key": false,
+            "indexAnalyzer": null,
+            "searchAnalyzer": null,
+            "analyzer": null,
+            "normalizer": null,
+            "synonymMaps": []
+          },
+          {
+            "name": "rating",
+            "type": "Edm.Double",
+            "searchable": false,
+            "filterable": true,
+            "retrievable": true,
+            "sortable": true,
+            "facetable": true,
+            "key": false,
+            "indexAnalyzer": null,
+            "searchAnalyzer": null,
+            "analyzer": null,
+            "normalizer": null,
+            "synonymMaps": []
+          },
+          {
+            "name": "location",
+            "type": "Edm.GeographyPoint",
+            "searchable": false,
+            "filterable": true,
+            "retrievable": true,
+            "sortable": true,
+            "facetable": false,
+            "key": false,
+            "indexAnalyzer": null,
+            "searchAnalyzer": null,
+            "analyzer": null,
+            "normalizer": null,
+            "synonymMaps": []
+          },
+          {
+            "name": "address",
+            "type": "Edm.ComplexType",
+            "fields": [
+              {
+                "name": "streetAddress",
+                "type": "Edm.String",
+                "searchable": true,
+                "filterable": false,
+                "retrievable": true,
+                "sortable": false,
+                "facetable": false,
+                "key": false,
+                "indexAnalyzer": null,
+                "searchAnalyzer": null,
+                "analyzer": null,
+                "normalizer": null,
+                "synonymMaps": []
+              },
+              {
+                "name": "city",
+                "type": "Edm.String",
+                "searchable": true,
+                "filterable": true,
+                "retrievable": true,
+                "sortable": true,
+                "facetable": true,
+                "key": false,
+                "indexAnalyzer": null,
+                "searchAnalyzer": null,
+                "analyzer": null,
+                "normalizer": null,
+                "synonymMaps": []
+              },
+              {
+                "name": "stateProvince",
+                "type": "Edm.String",
+                "searchable": true,
+                "filterable": true,
+                "retrievable": true,
+                "sortable": true,
+                "facetable": true,
+                "key": false,
+                "indexAnalyzer": null,
+                "searchAnalyzer": null,
+                "analyzer": null,
+                "normalizer": null,
+                "synonymMaps": []
+              },
+              {
+                "name": "country",
+                "type": "Edm.String",
+                "searchable": true,
+                "filterable": true,
+                "retrievable": true,
+                "sortable": true,
+                "facetable": true,
+                "key": false,
+                "indexAnalyzer": null,
+                "searchAnalyzer": null,
+                "analyzer": null,
+                "normalizer": null,
+                "synonymMaps": []
+              },
+              {
+                "name": "postalCode",
+                "type": "Edm.String",
+                "searchable": true,
+                "filterable": true,
+                "retrievable": true,
+                "sortable": true,
+                "facetable": true,
+                "key": false,
+                "indexAnalyzer": null,
+                "searchAnalyzer": null,
+                "analyzer": null,
+                "normalizer": null,
+                "synonymMaps": []
+              }
+            ]
+          },
+          {
+            "name": "rooms",
+            "type": "Collection(Edm.ComplexType)",
+            "fields": [
+              {
+                "name": "description",
+                "type": "Edm.String",
+                "searchable": true,
+                "filterable": false,
+                "retrievable": true,
+                "sortable": false,
+                "facetable": false,
+                "key": false,
+                "indexAnalyzer": null,
+                "searchAnalyzer": null,
+                "analyzer": "en.lucene",
+                "normalizer": null,
+                "synonymMaps": []
+              },
+              {
+                "name": "descriptionFr",
+                "type": "Edm.String",
+                "searchable": true,
+                "filterable": false,
+                "retrievable": true,
+                "sortable": false,
+                "facetable": false,
+                "key": false,
+                "indexAnalyzer": null,
+                "searchAnalyzer": null,
+                "analyzer": "fr.lucene",
+                "normalizer": null,
+                "synonymMaps": []
+              },
+              {
+                "name": "type",
+                "type": "Edm.String",
+                "searchable": true,
+                "filterable": true,
+                "retrievable": true,
+                "sortable": false,
+                "facetable": true,
+                "key": false,
+                "indexAnalyzer": null,
+                "searchAnalyzer": null,
+                "analyzer": null,
+                "normalizer": null,
+                "synonymMaps": []
+              },
+              {
+                "name": "baseRate",
+                "type": "Edm.Double",
+                "searchable": false,
+                "filterable": true,
+                "retrievable": true,
+                "sortable": false,
+                "facetable": true,
+                "key": false,
+                "indexAnalyzer": null,
+                "searchAnalyzer": null,
+                "analyzer": null,
+                "normalizer": null,
+                "synonymMaps": []
+              },
+              {
+                "name": "bedOptions",
+                "type": "Edm.String",
+                "searchable": true,
+                "filterable": true,
+                "retrievable": true,
+                "sortable": false,
+                "facetable": true,
+                "key": false,
+                "indexAnalyzer": null,
+                "searchAnalyzer": null,
+                "analyzer": null,
+                "normalizer": null,
+                "synonymMaps": []
+              },
+              {
+                "name": "sleepsCount",
+                "type": "Edm.Int32",
+                "searchable": false,
+                "filterable": true,
+                "retrievable": true,
+                "sortable": false,
+                "facetable": true,
+                "key": false,
+                "indexAnalyzer": null,
+                "searchAnalyzer": null,
+                "analyzer": null,
+                "normalizer": null,
+                "synonymMaps": []
+              },
+              {
+                "name": "smokingAllowed",
+                "type": "Edm.Boolean",
+                "searchable": false,
+                "filterable": true,
+                "retrievable": true,
+                "sortable": false,
+                "facetable": true,
+                "key": false,
+                "indexAnalyzer": null,
+                "searchAnalyzer": null,
+                "analyzer": null,
+                "normalizer": null,
+                "synonymMaps": []
+              },
+              {
+                "name": "tags",
+                "type": "Collection(Edm.String)",
+                "searchable": true,
+                "filterable": true,
+                "retrievable": true,
+                "sortable": false,
+                "facetable": true,
+                "key": false,
+                "indexAnalyzer": null,
+                "searchAnalyzer": null,
+                "analyzer": null,
+                "normalizer": null,
+                "synonymMaps": []
+              }
+            ]
+          }
+        ],
+        "scoringProfiles": [
+          {
+            "name": "nearest",
+            "functionAggregation": "sum",
+            "text": null,
+            "functions": [
+              {
+                "fieldName": "location",
+                "interpolation": "linear",
+                "type": "distance",
+                "boost": 2.0,
+                "freshness": null,
+                "magnitude": null,
+                "distance": {
+                  "referencePointParameter": "myloc",
+                  "boostingDistance": 100.0
+                },
+                "tag": null
+              }
+            ]
+          }
+        ],
+        "corsOptions": {
+          "allowedOrigins": [
+            "*"
+          ],
+          "maxAgeInSeconds": null
+        },
+        "suggesters": [
+          {
+            "name": "sg",
+            "searchMode": "analyzingInfixMatching",
+            "sourceFields": [
+              "description",
+              "hotelName"
+            ]
+          }
+        ],
+        "analyzers": [],
+        "normalizers": [],
+        "tokenizers": [],
+        "tokenFilters": [],
+        "charFilters": [],
+        "encryptionKey": null,
+        "similarity": {
+          "@odata.type": "#Microsoft.Azure.Search.BM25Similarity",
+          "k1": null,
+          "b": null
+        },
+        "semantic": null
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1084813\u0027)/docs/search.index?api-version=2021-04-30-Preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json;odata.metadata=none",
+        "Accept-Encoding": "gzip,deflate",
+        "api-key": "admin_key",
+        "Connection": "keep-alive",
+        "Content-Length": "6379",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "793c038a-bd1f-42ce-9583-d639f8cb68ac"
+      },
+      "RequestBody": {
+        "value": [
+          {
+            "@search.action": "upload",
+            "hotelId": "1",
+            "description": "Best hotel in town if you like luxury hotels. They have an amazing infinity pool, a spa, and a really helpful concierge. The location is perfect -- right downtown, close to all the tourist attractions. We highly recommend this hotel.",
+            "descriptionFr": "Meilleur h\u00F4tel en ville si vous aimez les h\u00F4tels de luxe. Ils ont une magnifique piscine \u00E0 d\u00E9bordement, un spa et un concierge tr\u00E8s utile. L\u0027emplacement est parfait \u2013 en plein centre, \u00E0 proximit\u00E9 de toutes les attractions touristiques. Nous recommandons fortement cet h\u00F4tel.",
+            "hotelName": "Fancy Stay",
+            "category": "Luxury",
+            "tags": [
+              "pool",
+              "view",
+              "wifi",
+              "concierge"
+            ],
+            "parkingIncluded": false,
+            "smokingAllowed": false,
+            "lastRenovationDate": "2010-06-27T00:00:00.000Z",
+            "rating": 5,
+            "location": {
+              "type": "Point",
+              "coordinates": [
+                -122.131577,
+                47.678581
+              ],
+              "crs": {
+                "type": "name",
+                "properties": {
+                  "name": "EPSG:4326"
+                }
+              }
+            }
+          },
+          {
+            "@search.action": "upload",
+            "hotelId": "2",
+            "description": "Cheapest hotel in town. Infact, a motel.",
+            "descriptionFr": "H\u00F4tel le moins cher en ville. Infact, un motel.",
+            "hotelName": "Roach Motel",
+            "category": "Budget",
+            "tags": [
+              "motel",
+              "budget"
+            ],
+            "parkingIncluded": true,
+            "smokingAllowed": true,
+            "lastRenovationDate": "1982-04-28T00:00:00.000Z",
+            "rating": 1,
+            "location": {
+              "type": "Point",
+              "coordinates": [
+                -122.131577,
+                49.678581
+              ],
+              "crs": {
+                "type": "name",
+                "properties": {
+                  "name": "EPSG:4326"
+                }
+              }
+            }
+          },
+          {
+            "@search.action": "upload",
+            "hotelId": "3",
+            "description": "Very popular hotel in town",
+            "descriptionFr": "H\u00F4tel le plus populaire en ville",
+            "hotelName": "EconoStay",
+            "category": "Budget",
+            "tags": [
+              "wifi",
+              "budget"
+            ],
+            "parkingIncluded": true,
+            "smokingAllowed": false,
+            "lastRenovationDate": "1995-07-01T00:00:00.000Z",
+            "rating": 4,
+            "location": {
+              "type": "Point",
+              "coordinates": [
+                -122.131577,
+                46.678581
+              ],
+              "crs": {
+                "type": "name",
+                "properties": {
+                  "name": "EPSG:4326"
+                }
+              }
+            }
+          },
+          {
+            "@search.action": "upload",
+            "hotelId": "4",
+            "description": "Pretty good hotel",
+            "descriptionFr": "Assez bon h\u00F4tel",
+            "hotelName": "Express Rooms",
+            "category": "Budget",
+            "tags": [
+              "wifi",
+              "budget"
+            ],
+            "parkingIncluded": true,
+            "smokingAllowed": false,
+            "lastRenovationDate": "1995-07-01T00:00:00.000Z",
+            "rating": 4,
+            "location": {
+              "type": "Point",
+              "coordinates": [
+                -122.131577,
+                46.678581
+              ],
+              "crs": {
+                "type": "name",
+                "properties": {
+                  "name": "EPSG:4326"
+                }
+              }
+            }
+          },
+          {
+            "@search.action": "upload",
+            "hotelId": "5",
+            "description": "Another good hotel",
+            "descriptionFr": "Un autre bon h\u00F4tel",
+            "hotelName": "Comfy Place",
+            "category": "Budget",
+            "tags": [
+              "wifi",
+              "budget"
+            ],
+            "parkingIncluded": true,
+            "smokingAllowed": false,
+            "lastRenovationDate": "2012-08-12T00:00:00.000Z",
+            "rating": 4,
+            "location": {
+              "type": "Point",
+              "coordinates": [
+                -122.131577,
+                48.678581
+              ],
+              "crs": {
+                "type": "name",
+                "properties": {
+                  "name": "EPSG:4326"
+                }
+              }
+            }
+          },
+          {
+            "@search.action": "upload",
+            "hotelId": "6",
+            "description": "Surprisingly expensive. Model suites have an ocean-view.",
+            "lastRenovationDate": null
+          },
+          {
+            "@search.action": "upload",
+            "hotelId": "7",
+            "description": "Modern architecture, very polite staff and very clean. Also very affordable.",
+            "descriptionFr": "Architecture moderne, personnel poli et tr\u00E8s propre. Aussi tr\u00E8s abordable.",
+            "hotelName": "Modern Stay"
+          },
+          {
+            "@search.action": "upload",
+            "hotelId": "8",
+            "description": "Has some road noise and is next to the very police station. Bathrooms had morel coverings.",
+            "descriptionFr": "Il y a du bruit de la route et se trouve \u00E0 c\u00F4t\u00E9 de la station de police. Les salles de bain avaient des rev\u00EAtements de morilles."
+          },
+          {
+            "@search.action": "upload",
+            "hotelId": "9",
+            "hotelName": "Secret Point Motel",
+            "description": "The hotel is ideally located on the main commercial artery of the city in the heart of New York. A few minutes away is Time\u0027s Square and the historic centre of the city, as well as other places of interest that make New York one of America\u0027s most attractive and cosmopolitan cities.",
+            "descriptionFr": "L\u0027h\u00F4tel est id\u00E9alement situ\u00E9 sur la principale art\u00E8re commerciale de la ville en plein c\u0153ur de New York. A quelques minutes se trouve la place du temps et le centre historique de la ville, ainsi que d\u0027autres lieux d\u0027int\u00E9r\u00EAt qui font de New York l\u0027une des villes les plus attractives et cosmopolites de l\u0027Am\u00E9rique.",
+            "category": "Boutique",
+            "tags": [
+              "pool",
+              "air conditioning",
+              "concierge"
+            ],
+            "parkingIncluded": false,
+            "smokingAllowed": true,
+            "lastRenovationDate": "1970-01-18T00:00:00.000Z",
+            "rating": 4,
+            "location": {
+              "type": "Point",
+              "coordinates": [
+                -73.975403,
+                40.760586
+              ],
+              "crs": {
+                "type": "name",
+                "properties": {
+                  "name": "EPSG:4326"
+                }
+              }
+            },
+            "address": {
+              "streetAddress": "677 5th Ave",
+              "city": "New York",
+              "stateProvince": "NY",
+              "country": "USA",
+              "postalCode": "10022"
+            },
+            "rooms": [
+              {
+                "description": "Budget Room, 1 Queen Bed (Cityside)",
+                "descriptionFr": "Chambre \u00C9conomique, 1 grand lit (c\u00F4t\u00E9 ville)",
+                "type": "Budget Room",
+                "baseRate": 9.69,
+                "bedOptions": "1 Queen Bed",
+                "sleepsCount": 2,
+                "smokingAllowed": true,
+                "tags": [
+                  "vcr/dvd"
+                ]
+              },
+              {
+                "description": "Budget Room, 1 King Bed (Mountain View)",
+                "descriptionFr": "Chambre \u00C9conomique, 1 tr\u00E8s grand lit (Mountain View)",
+                "type": "Budget Room",
+                "baseRate": 8.09,
+                "bedOptions": "1 King Bed",
+                "sleepsCount": 2,
+                "smokingAllowed": true,
+                "tags": [
+                  "vcr/dvd",
+                  "jacuzzi tub"
+                ]
+              }
+            ]
+          },
+          {
+            "@search.action": "upload",
+            "hotelId": "10",
+            "hotelName": "Countryside Hotel",
+            "description": "Save up to 50% off traditional hotels.  Free WiFi, great location near downtown, full kitchen, washer \u0026 dryer, 24/7 support, bowling alley, fitness center and more.",
+            "descriptionFr": "\u00C9conomisez jusqu\u0027\u00E0 50% sur les h\u00F4tels traditionnels.  WiFi gratuit, tr\u00E8s bien situ\u00E9 pr\u00E8s du centre-ville, cuisine compl\u00E8te, laveuse \u0026 s\u00E9cheuse, support 24/7, bowling, centre de fitness et plus encore.",
+            "category": "Budget",
+            "tags": [
+              "24-hour front desk service",
+              "coffee in lobby",
+              "restaurant"
+            ],
+            "parkingIncluded": false,
+            "smokingAllowed": true,
+            "lastRenovationDate": "1999-09-06T00:00:00.000Z",
+            "rating": 3,
+            "location": {
+              "type": "Point",
+              "coordinates": [
+                -78.940483,
+                35.90416
+              ],
+              "crs": {
+                "type": "name",
+                "properties": {
+                  "name": "EPSG:4326"
+                }
+              }
+            },
+            "address": {
+              "streetAddress": "6910 Fayetteville Rd",
+              "city": "Durham",
+              "stateProvince": "NC",
+              "country": "USA",
+              "postalCode": "27713"
+            },
+            "rooms": [
+              {
+                "description": "Suite, 1 King Bed (Amenities)",
+                "descriptionFr": "Suite, 1 tr\u00E8s grand lit (Services)",
+                "type": "Suite",
+                "baseRate": 2.44,
+                "bedOptions": "1 King Bed",
+                "sleepsCount": 2,
+                "smokingAllowed": true,
+                "tags": [
+                  "coffee maker"
+                ]
+              },
+              {
+                "description": "Budget Room, 1 Queen Bed (Amenities)",
+                "descriptionFr": "Chambre \u00C9conomique, 1 grand lit (Services)",
+                "type": "Budget Room",
+                "baseRate": 7.69,
+                "bedOptions": "1 Queen Bed",
+                "sleepsCount": 2,
+                "smokingAllowed": false,
+                "tags": [
+                  "coffee maker"
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "642",
+        "Content-Type": "application/json; odata.metadata=none",
+        "Date": "Thu, 03 Feb 2022 19:57:53 GMT",
+        "elapsed-time": "197",
+        "Expires": "-1",
+        "OData-Version": "4.0",
+        "Pragma": "no-cache",
+        "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
+        "request-id": "793c038a-bd1f-42ce-9583-d639f8cb68ac",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Vary": "Accept-Encoding"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "key": "1",
+            "status": true,
+            "errorMessage": null,
+            "statusCode": 201
+          },
+          {
+            "key": "2",
+            "status": true,
+            "errorMessage": null,
+            "statusCode": 201
+          },
+          {
+            "key": "3",
+            "status": true,
+            "errorMessage": null,
+            "statusCode": 201
+          },
+          {
+            "key": "4",
+            "status": true,
+            "errorMessage": null,
+            "statusCode": 201
+          },
+          {
+            "key": "5",
+            "status": true,
+            "errorMessage": null,
+            "statusCode": 201
+          },
+          {
+            "key": "6",
+            "status": true,
+            "errorMessage": null,
+            "statusCode": 201
+          },
+          {
+            "key": "7",
+            "status": true,
+            "errorMessage": null,
+            "statusCode": 201
+          },
+          {
+            "key": "8",
+            "status": true,
+            "errorMessage": null,
+            "statusCode": 201
+          },
+          {
+            "key": "9",
+            "status": true,
+            "errorMessage": null,
+            "statusCode": 201
+          },
+          {
+            "key": "10",
+            "status": true,
+            "errorMessage": null,
+            "statusCode": 201
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1084813\u0027)/docs/$count?api-version=2021-04-30-Preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json;odata.metadata=none",
+        "Accept-Encoding": "gzip,deflate",
+        "api-key": "admin_key",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "be0471fd-11b8-4d54-8efe-fad562080f34"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "4",
+        "Content-Type": "text/plain",
+        "Date": "Thu, 03 Feb 2022 19:57:53 GMT",
+        "elapsed-time": "5",
+        "Expires": "-1",
+        "OData-Version": "4.0",
+        "Pragma": "no-cache",
+        "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
+        "request-id": "be0471fd-11b8-4d54-8efe-fad562080f34",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Vary": "Accept-Encoding"
+      },
+      "ResponseBody": "\uFEFF0"
+    },
+    {
+      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1084813\u0027)/docs/$count?api-version=2021-04-30-Preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json;odata.metadata=none",
+        "Accept-Encoding": "gzip,deflate",
+        "api-key": "admin_key",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "d73f3248-9b0a-446a-b17e-123a70bdd3b9"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "5",
+        "Content-Type": "text/plain",
+        "Date": "Thu, 03 Feb 2022 19:57:57 GMT",
+        "elapsed-time": "5",
+        "Expires": "-1",
+        "OData-Version": "4.0",
+        "Pragma": "no-cache",
+        "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
+        "request-id": "d73f3248-9b0a-446a-b17e-123a70bdd3b9",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Vary": "Accept-Encoding"
+      },
+      "ResponseBody": "\uFEFF10"
+    },
+    {
+      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1084813\u0027)/docs/search.post.suggest?api-version=2021-04-30-Preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json;odata.metadata=none",
+        "Accept-Encoding": "gzip,deflate",
+        "api-key": "admin_key",
+        "Connection": "keep-alive",
+        "Content-Length": "38",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "345af2dd-9775-4f02-bcc5-fa3eaf93a87b"
+      },
+      "RequestBody": {
+        "search": "WiFi",
+        "suggesterName": "sg"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Encoding": "gzip",
+        "Content-Length": "210",
+        "Content-Type": "application/json; odata.metadata=none",
+        "Date": "Thu, 03 Feb 2022 19:58:01 GMT",
+        "elapsed-time": "79",
+        "Expires": "-1",
+        "OData-Version": "4.0",
+        "Pragma": "no-cache",
+        "Preference-Applied": "odata.include-annotations=\u0022*\u0022",
+        "request-id": "345af2dd-9775-4f02-bcc5-fa3eaf93a87b",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Vary": "Accept-Encoding"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "@search.text": "Save up to 50% off traditional hotels.  Free WiFi, great location near downtown, full kitchen, washer \u0026 dryer, 24/7 support, bowling alley, fitness center and more.",
+            "hotelId": "10"
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/indexes(\u0027hotel-live-test-1084813\u0027)?api-version=2021-04-30-Preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json;odata.metadata=minimal",
+        "Accept-Encoding": "gzip,deflate",
+        "api-key": "admin_key",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-search-documents/11.3.0-beta.6 azsdk-js-search-documents/11.3.0-beta.6 core-rest-pipeline/1.5.0 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "051961f0-f594-4207-b67b-af2ba8e9d54d"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Date": "Thu, 03 Feb 2022 19:58:01 GMT",
+        "elapsed-time": "188",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "request-id": "051961f0-f594-4207-b67b-af2ba8e9d54d",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {
+    "TEST_INDEX_NAME": "hotel-live-test-1084813"
+  }
+}

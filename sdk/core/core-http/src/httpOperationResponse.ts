@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { WebResourceLike } from "./webResource";
 import { HttpHeadersLike } from "./httpHeaders";
+import { WebResourceLike } from "./webResource";
 
 /**
  * The properties on an HTTP response which will always be present.
@@ -24,7 +24,6 @@ export interface HttpResponse {
   headers: HttpHeadersLike;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
 declare global {
   /**
    * Stub declaration of the browser-only Blob type.

@@ -11,7 +11,7 @@ import {
   LogsQueryClient,
   LogsTable,
   LogsQueryOptions,
-  LogsQueryResultStatus
+  LogsQueryResultStatus,
 } from "@azure/monitor-query";
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -35,7 +35,7 @@ export async function main() {
     serverTimeoutInSeconds: 60,
     // optionally enable returning additional statistics about the query's execution.
     // (by default this is off)
-    includeQueryStatistics: true
+    includeQueryStatistics: true,
   };
 
   const result = await logsQueryClient.queryWorkspace(

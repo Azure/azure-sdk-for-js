@@ -6,8 +6,8 @@
  * @author Arpan Laha
  */
 
-import rule from "../../src/rules/ts-apisurface-standardized-verbs";
 import { RuleTester } from "eslint";
+import rule from "../../src/rules/ts-apisurface-standardized-verbs";
 
 //------------------------------------------------------------------------------
 // Tests
@@ -17,15 +17,15 @@ const ruleTester = new RuleTester({
   parser: require.resolve("@typescript-eslint/parser"),
   parserOptions: {
     createDefaultProgram: true,
-    project: "./tsconfig.json"
-  }
+    project: "./tsconfig.json",
+  },
 });
 
 ruleTester.run("ts-apifurface-standardized-verbs", rule, {
   valid: [
     // single method
     {
-      code: "class ExampleClient { createItem(): void {}; };"
+      code: "class ExampleClient { createItem(): void {}; };",
     },
     // mutliple methods
     {
@@ -43,16 +43,16 @@ ruleTester.run("ts-apifurface-standardized-verbs", rule, {
           itemExists(): void {};
           deleteItem(): void {};
           removeItem(): void {};
-      };`
+      };`,
     },
     // private
     {
-      code: "class ExampleClient { private makeItem(): void {}; };"
+      code: "class ExampleClient { private makeItem(): void {}; };",
     },
     // not client
     {
-      code: "class Example { makeItem(): void {}; };"
-    }
+      code: "class Example { makeItem(): void {}; };",
+    },
   ],
   invalid: [
     // single error
@@ -61,9 +61,9 @@ ruleTester.run("ts-apifurface-standardized-verbs", rule, {
       errors: [
         {
           message:
-            "method makeItem uses the banned prefix make, use one of the approved prefixes instead"
-        }
-      ]
+            "method makeItem uses the banned prefix make, use one of the approved prefixes instead",
+        },
+      ],
     },
     // mutliple errors
     {
@@ -71,13 +71,13 @@ ruleTester.run("ts-apifurface-standardized-verbs", rule, {
       errors: [
         {
           message:
-            "method makeItem uses the banned prefix make, use one of the approved prefixes instead"
+            "method makeItem uses the banned prefix make, use one of the approved prefixes instead",
         },
         {
           message:
-            "method eraseItem uses the banned prefix erase, use one of the approved prefixes instead"
-        }
-      ]
-    }
-  ]
+            "method eraseItem uses the banned prefix erase, use one of the approved prefixes instead",
+        },
+      ],
+    },
+  ],
 });

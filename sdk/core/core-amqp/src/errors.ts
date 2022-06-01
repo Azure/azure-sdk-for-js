@@ -3,14 +3,9 @@
 /* eslint-disable eqeqeq */
 
 import { AmqpError, AmqpResponseStatusCode, isAmqpError as rheaIsAmqpError } from "rhea-promise";
-import { isNode, isNumber, isString } from "../src/util/utils";
 import { isDefined, isObjectWithProperties } from "./util/typeGuards";
-
-/**
- * The standard error message accompanying an AbortError.
- * @hidden
- */
-export const StandardAbortMessage = "The operation was aborted.";
+import { isNode, isNumber, isString } from "../src/util/utils";
+import { isError } from "@azure/core-util";
 
 /**
  * Maps the conditions to the numeric AMQP Response status codes.
@@ -36,7 +31,7 @@ export enum ConditionStatusMapper {
   "amqp:link:stolen" = AmqpResponseStatusCode.Gone,
   "amqp:not-allowed" = AmqpResponseStatusCode.BadRequest,
   "amqp:unauthorized-access" = AmqpResponseStatusCode.Unauthorized,
-  "amqp:resource-limit-exceeded" = AmqpResponseStatusCode.Forbidden
+  "amqp:resource-limit-exceeded" = AmqpResponseStatusCode.Forbidden,
 }
 
 /**
@@ -241,7 +236,7 @@ export enum ConditionErrorNameMapper {
    * Error is thrown when a low level system error is thrown by node.js.
    * {@link https://nodejs.org/dist/latest-v8.x/docs/api/all.html#errors_class_system_error}
    */
-  "system:error" = "SystemError"
+  "system:error" = "SystemError",
 }
 
 /**
@@ -438,7 +433,7 @@ export enum ErrorNameConditionMapper {
    * Error is thrown when a low level system error is thrown by node.js.
    * {@link https://nodejs.org/api/errors.html#errors_class_systemerror}
    */
-  SystemError = "system:error"
+  SystemError = "system:error",
 }
 
 /**
@@ -468,7 +463,7 @@ const systemErrorFieldsToCopy: (keyof Omit<NetworkSystemError, "name" | "message
   "info",
   "port",
   "stack",
-  "syscall"
+  "syscall",
 ];
 
 /**
@@ -570,7 +565,7 @@ export const retryableErrors: string[] = [
 
   // InsufficientCreditError occurs when the number of credits available on Rhea link is insufficient.
   // Since reasons for such shortage can be transient such as for pending delivery of messages, this is treated as a retryable error.
-  "InsufficientCreditError"
+  "InsufficientCreditError",
 ];
 
 /**
@@ -586,7 +581,7 @@ export enum SystemErrorConditionMapper {
   EHOSTDOWN = "com.microsoft:timeout",
   ENETRESET = "com.microsoft:timeout",
   ENETUNREACH = "com.microsoft:timeout",
-  ENONET = "com.microsoft:timeout"
+  ENONET = "com.microsoft:timeout",
 }
 
 /**
@@ -635,7 +630,7 @@ const rheaPromiseErrors = [
   "InsufficientCreditError",
 
   // Defines the error that occurs when the Sender fails to send a message.
-  "SendOperationFailedError"
+  "SendOperationFailedError",
 ];
 
 /**
@@ -645,12 +640,12 @@ const rheaPromiseErrors = [
  * @param err - The amqp error that was received.
  * @returns MessagingError object.
  */
-export function translate(err: AmqpError | Error): MessagingError | Error {
+export function translate(err: unknown): MessagingError | Error {
   if (!isDefined(err)) {
     return new Error(`Unknown error encountered.`);
   } else if (typeof err !== "object") {
     // The error is a scalar type, make it the message of an actual error.
-    return new Error(err);
+    return new Error(String(err));
   }
   // Built-in errors like TypeError and RangeError should not be retryable as these indicate issues
   // with user input and not an issue with the Messaging process.
@@ -682,7 +677,7 @@ export function translate(err: AmqpError | Error): MessagingError | Error {
     return error;
   }
 
-  if (err.name === "MessagingError") {
+  if (err instanceof Error && err.name === "MessagingError") {
     // already translated
     return err;
   }
@@ -716,7 +711,7 @@ export function translate(err: AmqpError | Error): MessagingError | Error {
 
   // Some errors come from rhea-promise and need to be converted to MessagingError.
   // A subset of these are also retryable.
-  if (rheaPromiseErrors.indexOf(err.name) !== -1) {
+  if (isError(err) && rheaPromiseErrors.indexOf(err.name) !== -1) {
     const error = new MessagingError(err.message, err);
     error.code = err.name;
     if (error.code && retryableErrors.indexOf(error.code) === -1) {
@@ -726,7 +721,7 @@ export function translate(err: AmqpError | Error): MessagingError | Error {
     return error;
   }
 
-  return err;
+  return isError(err) ? err : new Error(String(err));
 }
 
 /**

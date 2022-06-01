@@ -1,182 +1,424 @@
 {
- "recordings": [
-  {
-   "method": "GET",
-   "url": "https://sts.eastus2.mixedreality.azure.com/Accounts/00000000-1111-2222-3333-444455556666/token",
-   "query": {
-    "api-version": "2019-02-28-preview"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"AccessToken\":\"<access_token>\"}",
-   "responseHeaders": {
-    "cache-control": "no-store,no-cache",
-    "content-length": "1219",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 14 May 2021 16:25:12 GMT",
-    "ms-cv": "GosT3yrFvEGhrMFkLF5lNg.0",
-    "pragma": "no-cache",
-    "x-content-type-options": "nosniff"
-   }
-  },
-  {
-   "method": "PUT",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId162100951102003468",
-   "query": {
-    "api-version": "2021-01-01"
-   },
-   "requestBody": "{\"maxLeaseTimeMinutes\":4,\"size\":\"Standard\"}",
-   "status": 201,
-   "response": "{\"id\":\"sessionId162100951102003468\",\"creationTime\":\"2021-05-14T16:25:13.5686988+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":4,\"size\":\"Standard\",\"status\":\"Starting\"}",
-   "responseHeaders": {
-    "api-supported-versions": "2021-01-01-preview, 2021-01-01",
-    "content-length": "172",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 14 May 2021 16:25:12 GMT",
-    "ms-cv": "LTuW12JFFEm+UKgF3x2QQw.0",
-    "x-content-type-options": "nosniff"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId162100951102003468",
-   "query": {
-    "api-version": "2021-01-01"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"id\":\"sessionId162100951102003468\",\"creationTime\":\"2021-05-14T16:25:13.5686988+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":4,\"size\":\"Standard\",\"status\":\"Starting\"}",
-   "responseHeaders": {
-    "api-supported-versions": "2021-01-01-preview, 2021-01-01",
-    "cache-control": "no-store,no-cache",
-    "content-length": "172",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 14 May 2021 16:25:12 GMT",
-    "ms-cv": "4tkw8z/oeUOmGi3+utVOiQ.0",
-    "pragma": "no-cache",
-    "x-content-type-options": "nosniff"
-   }
-  },
-  {
-   "method": "PATCH",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId162100951102003468",
-   "query": {
-    "api-version": "2021-01-01"
-   },
-   "requestBody": "{\"maxLeaseTimeMinutes\":5}",
-   "status": 200,
-   "response": "{\"id\":\"sessionId162100951102003468\",\"creationTime\":\"2021-05-14T16:25:13.5686988+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":5,\"size\":\"Standard\",\"status\":\"Starting\"}",
-   "responseHeaders": {
-    "api-supported-versions": "2021-01-01-preview, 2021-01-01",
-    "content-length": "172",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 14 May 2021 16:25:13 GMT",
-    "ms-cv": "tWPQOWC+kUuY+elyrKekuA.0",
-    "x-content-type-options": "nosniff"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId162100951102003468",
-   "query": {
-    "api-version": "2021-01-01"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"id\":\"sessionId162100951102003468\",\"creationTime\":\"2021-05-14T16:25:13.5686988+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":5,\"size\":\"Standard\",\"status\":\"Starting\"}",
-   "responseHeaders": {
-    "api-supported-versions": "2021-01-01-preview, 2021-01-01",
-    "cache-control": "no-store,no-cache",
-    "content-length": "172",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 14 May 2021 16:25:13 GMT",
-    "ms-cv": "eTIcaCajoUq+cBJNcxn/dw.0",
-    "pragma": "no-cache",
-    "x-content-type-options": "nosniff"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId162100951102003468",
-   "query": {
-    "api-version": "2021-01-01"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"id\":\"sessionId162100951102003468\",\"creationTime\":\"2021-05-14T16:25:13.5686988+00:00\",\"elapsedTimeMinutes\":0,\"maxLeaseTimeMinutes\":5,\"size\":\"Standard\",\"status\":\"Starting\"}",
-   "responseHeaders": {
-    "api-supported-versions": "2021-01-01-preview, 2021-01-01",
-    "cache-control": "no-store,no-cache",
-    "content-length": "172",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 14 May 2021 16:27:55 GMT",
-    "ms-cv": "25kXfI5RKkqRSsVmSJABqw.0",
-    "pragma": "no-cache",
-    "x-content-type-options": "nosniff"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId162100951102003468",
-   "query": {
-    "api-version": "2021-01-01"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"id\":\"sessionId162100951102003468\",\"creationTime\":\"2021-05-14T16:25:13.5686988+00:00\",\"arrInspectorPort\":59540,\"handshakePort\":62073,\"elapsedTimeMinutes\":0,\"hostname\":\"1362320837-d19c5c2e-86ed-466d-8708-66a1a6369157.remoterendering.vm.eastus2.mixedreality.azure.com\",\"maxLeaseTimeMinutes\":5,\"size\":\"Standard\",\"status\":\"Ready\",\"teraflops\":8.1}",
-   "responseHeaders": {
-    "api-supported-versions": "2021-01-01-preview, 2021-01-01",
-    "cache-control": "no-store,no-cache",
-    "content-length": "343",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 14 May 2021 16:28:06 GMT",
-    "ms-cv": "8CP7b3Co2U+ai2tRwncMNA.0",
-    "pragma": "no-cache",
-    "x-content-type-options": "nosniff"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions",
-   "query": {
-    "api-version": "2021-01-01"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"sessions\":[{\"id\":\"sessionId162100951102003468\",\"creationTime\":\"2021-05-14T16:25:13.5686988+00:00\",\"arrInspectorPort\":59540,\"handshakePort\":62073,\"elapsedTimeMinutes\":0,\"hostname\":\"1362320837-d19c5c2e-86ed-466d-8708-66a1a6369157.remoterendering.vm.eastus2.mixedreality.azure.com\",\"maxLeaseTimeMinutes\":5,\"size\":\"Standard\",\"status\":\"Ready\",\"teraflops\":8.1}]}",
-   "responseHeaders": {
-    "api-supported-versions": "2021-01-01-preview, 2021-01-01",
-    "cache-control": "no-store,no-cache",
-    "content-length": "358",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 14 May 2021 16:28:08 GMT",
-    "ms-cv": "UcZ/VjtHr0+rn1nWXsmknQ.0",
-    "pragma": "no-cache",
-    "x-content-type-options": "nosniff"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId162100951102003468/:stop",
-   "query": {
-    "api-version": "2021-01-01"
-   },
-   "requestBody": null,
-   "status": 204,
-   "response": "",
-   "responseHeaders": {
-    "api-supported-versions": "2021-01-01-preview, 2021-01-01",
-    "date": "Fri, 14 May 2021 16:28:08 GMT",
-    "ms-cv": "Lb3FjYvR8EOY0RNe8EvKGg.0",
-    "x-content-type-options": "nosniff"
-   }
+  "Entries": [
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId-7588?api-version=2021-01-01",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "43",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "f220f95d-7202-4efd-a2c5-983b42e85ef5",
+        "x-ms-useragent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 OS/Linuxx86_64"
+      },
+      "RequestBody": {
+        "maxLeaseTimeMinutes": 4,
+        "size": "Standard"
+      },
+      "StatusCode": 201,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Content-Length": "159",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 04 Feb 2022 18:54:16 GMT",
+        "MS-CV": "65nnZH5gUESKpi5iWOMA7A.0",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "sessionId-7588",
+        "creationTime": "2022-02-04T18:54:16.2993414\u002B00:00",
+        "elapsedTimeMinutes": 0,
+        "maxLeaseTimeMinutes": 4,
+        "size": "Standard",
+        "status": "Starting"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId-7588?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "076ea57d-eed9-4020-9c05-3643ea79ff9b",
+        "x-ms-useragent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "159",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 04 Feb 2022 18:54:16 GMT",
+        "MS-CV": "jYfxzaq9QkWwj9O5033oKA.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "sessionId-7588",
+        "creationTime": "2022-02-04T18:54:16.2993414\u002B00:00",
+        "elapsedTimeMinutes": 0,
+        "maxLeaseTimeMinutes": 4,
+        "size": "Standard",
+        "status": "Starting"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId-7588?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "6d6089e5-1e9a-4ae4-8e22-20f555317d86",
+        "x-ms-useragent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "159",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 04 Feb 2022 18:54:16 GMT",
+        "MS-CV": "vUzWQyd2j0ergVmdp7Q7bQ.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "sessionId-7588",
+        "creationTime": "2022-02-04T18:54:16.2993414\u002B00:00",
+        "elapsedTimeMinutes": 0,
+        "maxLeaseTimeMinutes": 4,
+        "size": "Standard",
+        "status": "Starting"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId-7588?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "c792ceb8-b295-40ae-b8ba-09214e7f374e",
+        "x-ms-useragent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "159",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 04 Feb 2022 18:54:16 GMT",
+        "MS-CV": "hkuZnPfyy0m3DhSSjpRGOw.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "sessionId-7588",
+        "creationTime": "2022-02-04T18:54:16.2993414\u002B00:00",
+        "elapsedTimeMinutes": 0,
+        "maxLeaseTimeMinutes": 4,
+        "size": "Standard",
+        "status": "Starting"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId-7588?api-version=2021-01-01",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "25",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "5df63c15-d5de-4eea-a843-ad99b123374e",
+        "x-ms-useragent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 OS/Linuxx86_64"
+      },
+      "RequestBody": {
+        "maxLeaseTimeMinutes": 5
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Content-Length": "159",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 04 Feb 2022 18:54:16 GMT",
+        "MS-CV": "TdU6cmnrQk6ADrUk057LTg.0",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "sessionId-7588",
+        "creationTime": "2022-02-04T18:54:16.2993414\u002B00:00",
+        "elapsedTimeMinutes": 0,
+        "maxLeaseTimeMinutes": 5,
+        "size": "Standard",
+        "status": "Starting"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId-7588?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "a6c8f4bc-a5f2-4901-92cd-817f70dc0892",
+        "x-ms-useragent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "159",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 04 Feb 2022 18:54:16 GMT",
+        "MS-CV": "lbg56n91IUiceH0RREVQvg.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "sessionId-7588",
+        "creationTime": "2022-02-04T18:54:16.2993414\u002B00:00",
+        "elapsedTimeMinutes": 0,
+        "maxLeaseTimeMinutes": 5,
+        "size": "Standard",
+        "status": "Starting"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId-7588?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "8f99737d-091b-4a6b-a43d-7554c1ba1e39",
+        "x-ms-useragent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "159",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 04 Feb 2022 18:54:18 GMT",
+        "MS-CV": "Kw\u002BUPQ6MQ0OQf0rQ/g/k7A.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "sessionId-7588",
+        "creationTime": "2022-02-04T18:54:16.2993414\u002B00:00",
+        "elapsedTimeMinutes": 0,
+        "maxLeaseTimeMinutes": 5,
+        "size": "Standard",
+        "status": "Starting"
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId-7588?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "6bb62437-01f1-4e50-8ef9-39f1496a87ef",
+        "x-ms-useragent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "328",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 04 Feb 2022 18:54:21 GMT",
+        "MS-CV": "Hx5p48kDCUCxwgtKH2eLtw.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "id": "sessionId-7588",
+        "creationTime": "2022-02-04T18:54:16.2993414\u002B00:00",
+        "arrInspectorPort": 61171,
+        "handshakePort": 50058,
+        "elapsedTimeMinutes": 0,
+        "hostname": "arreustandard1d547917afc24e3fb1b510255a934769.remoterendering.vm.eastus2.mixedreality.azure.com",
+        "maxLeaseTimeMinutes": 5,
+        "size": "Standard",
+        "status": "Ready",
+        "teraflops": 8.1
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions?api-version=2021-01-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "f23c40e1-ba0f-431b-a243-8184187cb639",
+        "x-ms-useragent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Cache-Control": "no-store, no-cache",
+        "Content-Length": "343",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 04 Feb 2022 18:54:21 GMT",
+        "MS-CV": "5gmom4mG\u002BEGcvqdkenBgvQ.0",
+        "Pragma": "no-cache",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "sessions": [
+          {
+            "id": "sessionId-7588",
+            "creationTime": "2022-02-04T18:54:16.2993414\u002B00:00",
+            "arrInspectorPort": 61171,
+            "handshakePort": 50058,
+            "elapsedTimeMinutes": 0,
+            "hostname": "arreustandard1d547917afc24e3fb1b510255a934769.remoterendering.vm.eastus2.mixedreality.azure.com",
+            "maxLeaseTimeMinutes": 5,
+            "size": "Standard",
+            "status": "Ready",
+            "teraflops": 8.1
+          }
+        ]
+      }
+    },
+    {
+      "RequestUri": "https://remoterendering.eastus2.mixedreality.azure.com/accounts/00000000-1111-2222-3333-444455556666/sessions/sessionId-7588/:stop?api-version=2021-01-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "0",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "e3e2ce61-d423-4730-95f6-abe2e94fb441",
+        "x-ms-useragent": "azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 azsdk-js-mixed-reality-remote-rendering/1.0.0-beta.2 core-rest-pipeline/1.4.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "api-supported-versions": "2021-01-01-preview, 2021-01-01, 2021-08-01-preview",
+        "Date": "Fri, 04 Feb 2022 18:54:21 GMT",
+        "MS-CV": "2CopRgnSf0uWwqJa3tt9jg.0",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {
+    "sessionId": "sessionId-7588"
   }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {
-   "sessionId": "sessionId162100951102003468"
-  },
-  "newDate": {}
- },
- "hash": "9fb044520b5b46cc5068e1f2a4812c78"
 }

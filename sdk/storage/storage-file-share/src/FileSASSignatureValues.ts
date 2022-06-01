@@ -162,7 +162,7 @@ export function generateFileSASQueryParameters(
     fileSASSignatureValues.contentDisposition,
     fileSASSignatureValues.contentEncoding,
     fileSASSignatureValues.contentLanguage,
-    fileSASSignatureValues.contentType
+    fileSASSignatureValues.contentType,
   ].join("\n");
 
   const signature = sharedKeyCredential.computeHMACSHA256(stringToSign);

@@ -6,7 +6,7 @@ import {
   Constants,
   Container,
   PluginConfig,
-  CosmosClientOptions
+  CosmosClientOptions,
 } from "../../../src";
 import { removeAllDatabases, getTestContainer } from "../common/TestHelpers";
 import { endpoint } from "../common/_testConfig";
@@ -23,23 +23,23 @@ const plugins: PluginConfig[] = [
       }
       context.headers[Constants.HttpHeaders.Version] = "2018-06-18";
       return next(context);
-    }
-  }
+    },
+  },
 ];
 
 const options: CosmosClientOptions = {
   endpoint,
-  key: masterKey
+  key: masterKey,
 };
 
 const legacyClient = new CosmosClient({ ...options, plugins } as any);
 
 const client = new CosmosClient({
   endpoint,
-  key: masterKey
+  key: masterKey,
 });
 
-describe("Non Partitioned Container", function() {
+describe("Non Partitioned Container", function () {
   let container: Container;
   before(async () => {
     await removeAllDatabases();
@@ -63,7 +63,7 @@ describe("Non Partitioned Container", function() {
       id: "a",
       name,
       foo: "bar",
-      key: "value"
+      key: "value",
     });
 
     assert.equal(item1.name, name);
@@ -77,7 +77,7 @@ describe("Non Partitioned Container", function() {
       id: "b",
       name: "sample document",
       foo: "bar",
-      key: "value"
+      key: "value",
     });
     assert.equal(item3.name, name);
 
@@ -85,7 +85,7 @@ describe("Non Partitioned Container", function() {
     const newProp = "baz";
     const { resource: item4 } = await container.item("a", undefined).replace({
       id: "a",
-      newProp
+      newProp,
     });
     assert.equal(item4.newProp, newProp);
 

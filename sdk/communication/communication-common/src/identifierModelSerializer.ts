@@ -4,7 +4,8 @@
 import {
   CommunicationIdentifier,
   CommunicationIdentifierKind,
-  getIdentifierKind
+  getIdentifierKind,
+  getIdentifierRawId,
 } from "./identifierModels";
 
 /**
@@ -77,13 +78,6 @@ export interface SerializedMicrosoftTeamsUserIdentifier {
  */
 export type SerializedCommunicationCloudEnvironment = "public" | "dod" | "gcch";
 
-const addRawIdIfExisting = <T>(
-  identifier: T,
-  rawId: string | undefined
-): T & { rawId?: string } => {
-  return rawId === undefined ? identifier : { ...identifier, rawId: rawId };
-};
-
 const assertNotNullOrUndefined = <
   T extends Record<string, unknown>,
   P extends keyof T,
@@ -119,23 +113,26 @@ export const serializeCommunicationIdentifier = (
   const identifierKind = getIdentifierKind(identifier);
   switch (identifierKind.kind) {
     case "communicationUser":
-      return { communicationUser: { id: identifierKind.communicationUserId } };
+      return {
+        rawId: getIdentifierRawId(identifierKind),
+        communicationUser: { id: identifierKind.communicationUserId },
+      };
     case "phoneNumber":
-      return addRawIdIfExisting(
-        { phoneNumber: { value: identifierKind.phoneNumber } },
-        identifierKind.rawId
-      );
-    case "microsoftTeamsUser":
-      return addRawIdIfExisting(
-        {
-          microsoftTeamsUser: {
-            userId: identifierKind.microsoftTeamsUserId,
-            isAnonymous: identifierKind.isAnonymous ?? false,
-            cloud: identifierKind.cloud ?? "public"
-          }
+      return {
+        rawId: identifierKind.rawId ?? getIdentifierRawId(identifierKind),
+        phoneNumber: {
+          value: identifierKind.phoneNumber,
         },
-        identifierKind.rawId
-      );
+      };
+    case "microsoftTeamsUser":
+      return {
+        rawId: identifierKind.rawId ?? getIdentifierRawId(identifierKind),
+        microsoftTeamsUser: {
+          userId: identifierKind.microsoftTeamsUserId,
+          isAnonymous: identifierKind.isAnonymous ?? false,
+          cloud: identifierKind.cloud ?? "public",
+        },
+      };
     case "unknown":
       return { rawId: identifierKind.id };
     default:
@@ -157,14 +154,14 @@ export const deserializeCommunicationIdentifier = (
   if (communicationUser) {
     return {
       kind: "communicationUser",
-      communicationUserId: assertNotNullOrUndefined({ communicationUser }, "id")
+      communicationUserId: assertNotNullOrUndefined({ communicationUser }, "id"),
     };
   }
   if (phoneNumber) {
     return {
       kind: "phoneNumber",
       phoneNumber: assertNotNullOrUndefined({ phoneNumber }, "value"),
-      rawId: assertNotNullOrUndefined({ phoneNumber: serializedIdentifier }, "rawId")
+      rawId: assertNotNullOrUndefined({ phoneNumber: serializedIdentifier }, "rawId"),
     };
   }
   if (microsoftTeamsUser) {
@@ -173,11 +170,11 @@ export const deserializeCommunicationIdentifier = (
       microsoftTeamsUserId: assertNotNullOrUndefined({ microsoftTeamsUser }, "userId"),
       isAnonymous: assertNotNullOrUndefined({ microsoftTeamsUser }, "isAnonymous"),
       cloud: assertNotNullOrUndefined({ microsoftTeamsUser }, "cloud"),
-      rawId: assertNotNullOrUndefined({ microsoftTeamsUser: serializedIdentifier }, "rawId")
+      rawId: assertNotNullOrUndefined({ microsoftTeamsUser: serializedIdentifier }, "rawId"),
     };
   }
   return {
     kind: "unknown",
-    id: assertNotNullOrUndefined({ unknown: serializedIdentifier }, "rawId")
+    id: assertNotNullOrUndefined({ unknown: serializedIdentifier }, "rawId"),
   };
 };

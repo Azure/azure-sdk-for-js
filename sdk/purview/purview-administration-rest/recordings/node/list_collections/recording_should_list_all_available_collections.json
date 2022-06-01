@@ -1,0 +1,64 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/collections?api-version=2019-11-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "core-rest-pipeline/1.5.1 Node/v16.13.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "b501d98a-7962-4813-8ea6-e3dce212337c"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 14 Feb 2022 19:22:02 GMT",
+        "Server": "Kestrel",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "x-ms-correlation-request-id": "bf31c2c9-5697-4cbe-81cd-c63ab397775f"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "name": "newpurviewllc",
+            "friendlyName": "newpurviewllc",
+            "description": "The root collection.",
+            "systemData": {
+              "createdBy": "35ac9d32-a8ca-4324-9393-d4000746f07c",
+              "createdByType": "User",
+              "createdAt": "2021-09-29T18:35:18.4761382Z",
+              "lastModifiedBy": "35ac9d32-a8ca-4324-9393-d4000746f07c",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2021-09-29T18:35:18.4761382Z"
+            },
+            "collectionProvisioningState": "Succeeded"
+          },
+          {
+            "name": "la7eio",
+            "friendlyName": "Foo",
+            "description": "Test foo",
+            "parentCollection": {
+              "type": "CollectionReference",
+              "referenceName": "newpurviewllc"
+            },
+            "systemData": {
+              "createdBy": "35ac9d32-a8ca-4324-9393-d4000746f07c",
+              "createdByType": "User",
+              "createdAt": "2021-09-29T18:40:02.8364266Z",
+              "lastModifiedBy": "35ac9d32-a8ca-4324-9393-d4000746f07c",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2021-09-29T18:40:02.8364266Z"
+            },
+            "collectionProvisioningState": "Succeeded"
+          }
+        ],
+        "count": 2
+      }
+    }
+  ],
+  "Variables": {}
+}

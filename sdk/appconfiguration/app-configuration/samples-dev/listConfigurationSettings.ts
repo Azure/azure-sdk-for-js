@@ -21,24 +21,24 @@ export async function main() {
   await client.setConfigurationSetting({
     key: "sample key",
     value: "sample value",
-    label: "production"
+    label: "production",
   });
 
   await client.setConfigurationSetting({
     key: "sample key",
     value: "sample value",
-    label: "developmentA"
+    label: "developmentA",
   });
 
   await client.setConfigurationSetting({
     key: "key only for development",
     value: "value",
-    label: "developmentB"
+    label: "developmentB",
   });
 
   // ex: using a keyFilter
   const sampleKeys = client.listConfigurationSettings({
-    keyFilter: "sample*"
+    keyFilter: "sample*",
   });
 
   console.log(`Settings matching keyFilter 'sample*'`);
@@ -49,7 +49,7 @@ export async function main() {
 
   // ex: using a labelFilter
   const samplesWithDevelopmentLabel = client.listConfigurationSettings({
-    labelFilter: "development*"
+    labelFilter: "development*",
   });
 
   console.log(`Settings matching labelFilter 'development*'`);
@@ -74,7 +74,7 @@ export async function main() {
   let marker = response.value.continuationToken;
   // Passing next marker as continuationToken
   iterator = client.listConfigurationSettings({ keyFilter: "sample*" }).byPage({
-    continuationToken: marker
+    continuationToken: marker,
   });
   response = await iterator.next();
   if (response.done) {

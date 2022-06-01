@@ -7,11 +7,10 @@ import {
   DEFAULT_USER_AGENT,
   DEPENDENCY_MODE_DISABLED,
   DEPENDENCY_MODE_ENABLED,
-  DEPENDENCY_MODE_TRY_FROM_EXPANDED
+  DEPENDENCY_MODE_TRY_FROM_EXPANDED,
 } from "./utils/constants";
 import { createClientPipeline, InternalClientPipelineOptions } from "@azure/core-client";
 import { Fetcher } from "./fetcherAbstract";
-import { URL } from "./utils/url";
 import { isLocalPath, normalize } from "./utils/path";
 import { FilesystemFetcher } from "./fetcherFilesystem";
 import { dependencyResolutionType } from "./dependencyResolutionType";
@@ -110,9 +109,9 @@ export class ModelsRepositoryClient {
       ...pipelineOptions,
       ...{
         loggingOptions: {
-          logger: logger.info
-        }
-      }
+          logger: logger.info,
+        },
+      },
     };
 
     const pipeline = createClientPipeline(internalPipelineOptions);
@@ -202,7 +201,7 @@ export class ModelsRepositoryClient {
       try {
         logger.info(`Retreiving expanded model(s): ${dtmis}...`);
         modelMap = await this._resolver.resolve(dtmis, true, options);
-      } catch (e) {
+      } catch (e: any) {
         if (e.name === "RestError" && e.code === "ResouceNotFound") {
           logger.info("Could not retrieve model(s) from expanded model DTDL - ");
           const baseModelMap: { [dtmi: string]: unknown } = await this._resolver.resolve(

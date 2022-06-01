@@ -11,19 +11,20 @@ import {
   transformKeyValueResponseWithStatusCode,
   transformKeyValueResponse,
   formatFieldsForSelect,
-  serializeAsConfigurationSettingParam
+  serializeAsConfigurationSettingParam,
 } from "../../src/internal/helpers";
-import * as assert from "assert";
+import { assert } from "chai";
 import {
   ConfigurationSetting,
+  ConfigurationSettingParam,
   featureFlagContentType,
   HttpResponseField,
   HttpResponseFields,
-  secretReferenceContentType
+  secretReferenceContentType,
 } from "../../src";
-import { HttpHeaders } from "@azure/core-http";
 import { FeatureFlagValue } from "../../src/featureFlag";
 import { SecretReferenceValue } from "../../src/secretReference";
+import { HttpHeadersLike } from "@azure/core-http-compat";
 
 describe("helper methods", () => {
   it("checkAndFormatIfAndIfNoneMatch", () => {
@@ -32,7 +33,7 @@ describe("helper methods", () => {
     assert.deepEqual(
       {
         ifMatch: undefined,
-        ifNoneMatch: undefined
+        ifNoneMatch: undefined,
       },
       checkAndFormatIfAndIfNoneMatch({ key }, {})
     );
@@ -40,12 +41,12 @@ describe("helper methods", () => {
     assert.deepEqual(
       {
         ifMatch: '"hello"',
-        ifNoneMatch: undefined
+        ifNoneMatch: undefined,
       },
       checkAndFormatIfAndIfNoneMatch(
         { key, etag: "hello" },
         {
-          onlyIfUnchanged: true
+          onlyIfUnchanged: true,
         }
       )
     );
@@ -53,12 +54,12 @@ describe("helper methods", () => {
     assert.deepEqual(
       {
         ifNoneMatch: '"hello"',
-        ifMatch: undefined
+        ifMatch: undefined,
       },
       checkAndFormatIfAndIfNoneMatch(
         { key, etag: "hello" },
         {
-          onlyIfChanged: true
+          onlyIfChanged: true,
         }
       )
     );
@@ -73,7 +74,7 @@ describe("helper methods", () => {
           { key, etag: "won't get used" },
           {
             onlyIfChanged: true,
-            onlyIfUnchanged: true
+            onlyIfUnchanged: true,
           }
         ),
       /onlyIfChanged and onlyIfUnchanged are mutually-exclusive/
@@ -96,7 +97,7 @@ describe("helper methods", () => {
     it("undefined", () => {
       const result = formatFiltersAndSelect({
         keyFilter: undefined,
-        labelFilter: undefined
+        labelFilter: undefined,
       });
 
       assert.ok(!result.key);
@@ -106,7 +107,7 @@ describe("helper methods", () => {
     it("single values only", () => {
       const result = formatFiltersAndSelect({
         keyFilter: "key1",
-        labelFilter: "label1"
+        labelFilter: "label1",
       });
 
       assert.equal("key1", result.key);
@@ -116,7 +117,7 @@ describe("helper methods", () => {
     it("multiple values", () => {
       const result = formatFiltersAndSelect({
         keyFilter: "key1,key2",
-        labelFilter: "label1,label2"
+        labelFilter: "label1,label2",
       });
 
       assert.equal("key1,key2", result.key);
@@ -125,7 +126,7 @@ describe("helper methods", () => {
 
     it("fields map properly", () => {
       const result = formatFiltersAndSelect({
-        fields: ["isReadOnly", "value"]
+        fields: ["isReadOnly", "value"],
       });
 
       assert.deepEqual(["locked", "value"], result.select);
@@ -150,12 +151,12 @@ describe("helper methods", () => {
           contentType: featureFlagContentType,
           key: "key",
           isReadOnly: false,
-          value: { conditions: { clientFilters: [] }, enabled: true }
+          value: { conditions: { clientFilters: [] }, enabled: true },
         };
         featureFlag.value = value as any;
         assert.deepEqual(
           serializeAsConfigurationSettingParam(featureFlag),
-          featureFlag,
+          featureFlag as unknown as ConfigurationSettingParam<string>,
           "setting was modified"
         );
       });
@@ -165,12 +166,12 @@ describe("helper methods", () => {
           contentType: secretReferenceContentType,
           key: "key",
           isReadOnly: false,
-          value: { secretId: "abc" }
+          value: { secretId: "abc" },
         };
         setting.value = value as any;
         assert.deepEqual(
           serializeAsConfigurationSettingParam(setting),
-          setting,
+          setting as any,
           "setting was modified"
         );
       });
@@ -186,27 +187,19 @@ describe("helper methods", () => {
           // eslint-disable-next-line @typescript-eslint/no-empty-function
           addEventListener: () => {},
           // eslint-disable-next-line @typescript-eslint/no-empty-function
-          removeEventListener: () => {}
+          removeEventListener: () => {},
         },
         method: "GET",
         withCredentials: false,
-        headers: new HttpHeaders(),
+        headers: {} as HttpHeadersLike,
         timeout: 0,
         requestId: "",
-        clone: function() {
-          return this;
-        },
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        validateRequestProperties: () => {},
-        prepare: function() {
-          return this;
-        }
       },
       status: 204,
-      headers: new HttpHeaders(),
+      headers: {} as HttpHeadersLike,
       bodyAsText: "",
-      parsedHeaders: {}
-    }
+      parsedHeaders: {},
+    },
   };
 
   it("makeConfigurationSettingEmpty", () => {
@@ -214,7 +207,7 @@ describe("helper methods", () => {
       key: "mykey",
       statusCode: 204,
       isReadOnly: false,
-      ...fakeHttp204Response
+      ...fakeHttp204Response,
     };
 
     makeConfigurationSettingEmpty(response);
@@ -236,7 +229,7 @@ describe("helper methods", () => {
   it("transformKeyValue", () => {
     const configurationSetting = transformKeyValue({
       key: "hello",
-      locked: true
+      locked: true,
     });
 
     assert.deepEqual(configurationSetting, {
@@ -244,16 +237,19 @@ describe("helper methods", () => {
       // it should be 'renamed' to readOnly
       isReadOnly: true,
       key: "hello",
-      value: undefined
-    });
+      value: undefined,
+    } as unknown);
   });
 
   it("transformKeyValueResponseWithStatusCode", () => {
-    const configurationSetting = transformKeyValueResponseWithStatusCode({
-      key: "hello",
-      locked: true,
-      ...fakeHttp204Response
-    });
+    const configurationSetting = transformKeyValueResponseWithStatusCode(
+      {
+        key: "hello",
+        locked: true,
+        ...fakeHttp204Response,
+      },
+      204
+    );
 
     const actualKeys = Object.keys(configurationSetting).sort();
 
@@ -262,7 +258,7 @@ describe("helper methods", () => {
 
     // now make it enumerable so we can do our comparison
     Object.defineProperty(configurationSetting, "_response", {
-      enumerable: true
+      enumerable: true,
     });
 
     assert.deepEqual(configurationSetting, {
@@ -270,15 +266,15 @@ describe("helper methods", () => {
       key: "hello",
       value: undefined,
       statusCode: 204,
-      _response: fakeHttp204Response._response
-    });
+      _response: fakeHttp204Response._response,
+    } as unknown);
   });
 
   it("transformKeyValueResponse", () => {
     const configurationSetting = transformKeyValueResponse({
       key: "hello",
       locked: true,
-      ...fakeHttp204Response
+      ...fakeHttp204Response,
     });
 
     const actualKeys = Object.keys(configurationSetting).sort();
@@ -288,15 +284,15 @@ describe("helper methods", () => {
 
     // now make it enumerable so we can do our comparison
     Object.defineProperty(configurationSetting, "_response", {
-      enumerable: true
+      enumerable: true,
     });
 
     assert.deepEqual(configurationSetting, {
       isReadOnly: true,
       key: "hello",
       value: undefined,
-      _response: fakeHttp204Response._response
-    });
+      _response: fakeHttp204Response._response,
+    } as unknown);
   });
 
   it("normalizeFilterFields", () => {
@@ -310,7 +306,7 @@ describe("helper methods", () => {
       "last_modified",
       "locked", // isReadOnly maps to this
       "tags",
-      "value"
+      "value",
     ]);
 
     assert.ok(formatFieldsForSelect(undefined) === undefined);
@@ -331,7 +327,7 @@ describe("helper methods", () => {
       lastModified: new Date(),
       isReadOnly: true,
       tags: {},
-      value: ""
+      value: "",
     };
 
     return Object.keys(configObjectWithAllFieldsRequired).sort() as (keyof ConfigurationSetting)[];

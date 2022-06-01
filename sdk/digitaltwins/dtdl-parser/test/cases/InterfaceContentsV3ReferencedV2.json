@@ -1,0 +1,59 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:anInterface;1",
+      "@type": "Interface",
+      "contents": [
+        "dtmi:test:aProperty;1",
+        "dtmi:test:aTelemetry;1",
+        "dtmi:test:aCommand;1",
+        "dtmi:test:aRelationship;1"
+      ]
+    },
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:aProperty;1",
+      "@type": "Property",
+      "name": "expectedDistance",
+      "schema": "double"
+    },
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:aTelemetry;1",
+      "@type": "Telemetry",
+      "name": "currentDistance",
+      "schema": "double"
+    },
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:aCommand;1",
+      "@type": "Command",
+      "name": "setDistance"
+    },
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:aRelationship;1",
+      "@type": "Relationship",
+      "name": "proximity"
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:disallowedVersionReference",
+        "PrimaryID": "dtmi:test:anInterface;1",
+        "Property": "contents",
+        "Value": null
+      },
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:disallowedVersionReference",
+        "PrimaryID": "dtmi:test:anInterface;1",
+        "Property": "contents",
+        "Value": null
+      }
+    ]
+  }
+}

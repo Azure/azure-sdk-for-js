@@ -43,7 +43,7 @@ export class ShardFactory {
       for await (const blobItem of containerClient.listBlobsFlat({
         prefix: shardPath,
         abortSignal: options.abortSignal,
-        tracingOptions: updatedOptions.tracingOptions
+        tracingOptions: updatedOptions.tracingOptions,
       })) {
         chunks.push(blobItem.name);
       }
@@ -80,16 +80,16 @@ export class ShardFactory {
           eventIndex,
           {
             abortSignal: options.abortSignal,
-            tracingOptions: updatedOptions.tracingOptions
+            tracingOptions: updatedOptions.tracingOptions,
           }
         );
       }
 
       return new Shard(containerClient, this.chunkFactory, chunks, currentChunk, shardPath);
-    } catch (e) {
+    } catch (e: any) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
-        message: e.message
+        message: e.message,
       });
       throw e;
     } finally {

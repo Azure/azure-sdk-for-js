@@ -13,6 +13,8 @@ stages:
   - ${{if and(in(variables['Build.Reason'], 'Manual', ''), eq(variables['System.TeamProject'], 'internal'))}}:
     - ${{ each artifact in parameters.Artifacts }}:
       - stage:
+        variables:
+        - template: /eng/pipelines/templates/variables/globals.yml
         displayName: 'Release: ${{artifact.name}}'
         dependsOn: ${{parameters.DependsOn}}
         condition: and(succeeded(), ne(variables['SetDevVersion'], 'true'), ne(variables['Skip.Release'], 'true'), ne(variables['Build.Repository.Name'], 'Azure/azure-sdk-for-js-pr'))
@@ -117,6 +119,8 @@ stages:
                 name: azsdk-pool-mms-ubuntu-2004-general
                 vmImage: MMSUbuntu20.04
 
+              variables:
+                DocValidationImageId: azuresdkimages.azurecr.io/jsrefautocr:latest
               strategy:
                 runOnce:
                   deploy:
@@ -128,6 +132,12 @@ stages:
                             - sdk/**/*.md
                             - .github/CODEOWNERS
                       - download: current
+                      # Pull and build the docker image.
+                      - template: /eng/common/pipelines/templates/steps/docker-pull-image.yml
+                        parameters:
+                          ContainerRegistryClientId: $(azuresdkimages-cr-clientid)
+                          ContainerRegistryClientSecret: $(azuresdkimages-cr-clientsecret)
+                          ImageId: "$(DocValidationImageId)"
                       - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
                         parameters:
                           PackageInfoLocations:
@@ -140,7 +150,10 @@ stages:
                           SparseCheckoutPaths:
                             - docs-ref-services/
                             - metadata/
-
+                            - ci-configs/packages-latest.json
+                            - ci-configs/packages-preview.json
+                          DocValidationImageId: "$(DocValidationImageId)"
+                          
           - ${{if ne(artifact.skipPublishDocGithubIo, 'true')}}:
             - deployment: PublishDocsGitHubIO
               displayName: Publish Docs to GitHubIO Blob Storage
@@ -182,9 +195,6 @@ stages:
                 name: azsdk-pool-mms-ubuntu-2004-general
                 vmImage: MMSUbuntu20.04
 
-              variables:
-                - template: /eng/pipelines/templates/variables/globals.yml
-
               strategy:
                 runOnce:
                   deploy:
@@ -206,11 +216,12 @@ stages:
                           node common/scripts/install-run-rush.js install
                         displayName: "Install dependencies"
 
-                      - bash: |
-                          npm install -g ./common/tools/dev-tool
-                          npm install ./eng/tools/eng-package-utils
-                          node ./eng/tools/eng-package-utils/update-samples.js ${{ artifact.name }}
-                        displayName: Update samples
+                      # Disabled until packages can be updated to support ES2019 syntax.
+                      # - bash: |
+                      #     npm install -g ./common/tools/dev-tool
+                      #     npm install ./eng/tools/eng-package-utils
+                      #     node ./eng/tools/eng-package-utils/update-samples.js ${{ artifact.name }}
+                      #   displayName: Update samples
 
                       - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
                         parameters:
@@ -231,6 +242,8 @@ stages:
 
   - stage: Integration
     dependsOn: ${{parameters.DependsOn}}
+    variables:
+    - template: /eng/pipelines/templates/variables/globals.yml
     jobs:
     - job: PublishPackages
       # Run Integration job only if SetDevVersion is set to true or ( SetDevVersion is empty and job is a scheduled CI run)
@@ -276,11 +289,13 @@ stages:
                 arguments: '-pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "dev" -registry "$(Registry)" -npmToken "$(NpmToken)"'
 
     - job: PublishDocsToNightlyBranch
-      condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal')))
+      condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'),  ne(variables['Skip.PublishDocs'], 'true')))
       dependsOn: PublishPackages
       pool:
         name: azsdk-pool-mms-ubuntu-2004-general
         vmImage: MMSUbuntu20.04
+      variables:
+        DocValidationImageId: azuresdkimages.azurecr.io/jsrefautocr:latest
       steps:
         - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
           parameters:
@@ -292,7 +307,12 @@ stages:
         - pwsh: |
             Get-ChildItem -Recurse $(Pipeline.Workspace)/${{parameters.ArtifactName}}/
           displayName: Show visible artifacts
-
+        # Pull and build the docker image.
+        - template: /eng/common/pipelines/templates/steps/docker-pull-image.yml
+          parameters:
+            ContainerRegistryClientId: $(azuresdkimages-cr-clientid)
+            ContainerRegistryClientSecret: $(azuresdkimages-cr-clientsecret)
+            ImageId: "$(DocValidationImageId)"
         - template: /eng/common/pipelines/templates/steps/update-docsms-metadata.yml
           parameters:
             PackageInfoLocations:
@@ -307,3 +327,6 @@ stages:
             SparseCheckoutPaths:
               - docs-ref-services/
               - metadata/
+              - ci-configs/packages-latest.json
+              - ci-configs/packages-preview.json
+            DocValidationImageId: "$(DocValidationImageId)"

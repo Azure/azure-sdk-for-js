@@ -1,44 +1,99 @@
-## Release History
+# Release History
 
-### 10.0.0-beta.2 (Unreleased)
+## 10.5.1 (Unreleased)
 
-#### Features Added
+### Features Added
 
-#### Breaking Changes
+### Breaking Changes
 
-#### Bugs Fixed
+### Bugs Fixed
 
-#### Other Changes
+### Other Changes
 
-### 10.0.0-beta.1 (2021-11-23)
+## 10.5.0 (2022-05-09)
     
 **Features**
 
-  - Interface DataFlowReference has a new optional parameter parameters
-  - Interface Transformation has a new optional parameter dataset
-  - Interface Transformation has a new optional parameter linkedService
-  - Type Alias FtpReadSettings has a new parameter disableChunking
-  - Type Alias SftpReadSettings has a new parameter disableChunking
-
-**Breaking Changes**
-
-  - Type Alias DataFlowSink no longer has parameter dataset
-  - Type Alias DataFlowSink no longer has parameter linkedService
-  - Type Alias DataFlowSource no longer has parameter dataset
-  - Type Alias DataFlowSource no longer has parameter linkedService
-  - Type Alias Flowlet no longer has parameter additionalProperties
+  - Added Interface PrivateEndpoint
+  - Interface PrivateLinkConnectionApprovalRequest has a new optional parameter privateEndpoint
+  - Type Alias DataFlowSink has a new parameter rejectedDataLinkedService
     
-### 9.0.0-beta.1 (2021-11-10)
+    
+## 10.4.0 (2022-04-20)
+    
+**Features**
 
-This is the first preview for the new version of the `@azure/arm-datafactory` package that follows the new [guidelines for TypeScript SDKs](https://azure.github.io/azure-sdk/typescript_introduction.html) for Azure services.
+  - Added Type Alias AppFiguresLinkedService
+  - Added Type Alias AsanaLinkedService
+  - Added Type Alias DataworldLinkedService
+  - Added Type Alias TwilioLinkedService
+    
+    
+## 10.3.0 (2022-04-06)
+    
+**Features**
 
-While this package remains auto generated, the SDK generator itself has undergone changes to comply with the above guidelines in order to generate packages that are idiomatic to the JavaScript/TypeScript ecosystem and consistent with other packages for Azure services. For more on this, please see [State of the Azure SDK 2021](https://devblogs.microsoft.com/azure-sdk/state-of-the-azure-sdk-2021/).
+  - Added Interface ExecutePipelineActivityPolicy
+  - Added Type Alias CredentialReferenceType
+  - Added Type Alias DataFlowReferenceType
+  - Added Type Alias ManagedVirtualNetworkReferenceType
+  - Added Type Alias TriggerReferenceType
+  - Type Alias ExecutePipelineActivity has a new parameter policy
+  - Type Alias SqlServerStoredProcedureActivity has a new parameter storedProcedureParameters
+  - Type Alias WebActivity has a new parameter disableCertValidation
+  - Added Enum KnownCredentialReferenceType
+  - Added Enum KnownDataFlowReferenceType
+  - Added Enum KnownManagedVirtualNetworkReferenceType
+  - Added Enum KnownTriggerReferenceType
+    
+    
+## 10.2.0 (2022-02-22)
+    
+**Features**
 
-Please note that this version has breaking changes, all of which were made after careful consideration during the authoring of the guidelines and user studies.
+  - Added Interface ScriptActivityParameter
+  - Added Interface ScriptActivityScriptBlock
+  - Added Interface ScriptActivityTypePropertiesLogSettings
+  - Added Type Alias QuickbaseLinkedService
+  - Added Type Alias ScriptActivity
+  - Added Type Alias ScriptActivityLogDestination
+  - Added Type Alias ScriptActivityParameterDirection
+  - Added Type Alias ScriptActivityParameterType
+  - Added Type Alias ScriptType
+  - Added Type Alias SmartsheetLinkedService
+  - Added Type Alias TeamDeskAuthenticationType
+  - Added Type Alias TeamDeskLinkedService
+  - Added Type Alias ZendeskAuthenticationType
+  - Added Type Alias ZendeskLinkedService
+  - Added Enum KnownScriptActivityLogDestination
+  - Added Enum KnownScriptActivityParameterDirection
+  - Added Enum KnownScriptActivityParameterType
+  - Added Enum KnownScriptType
+  - Added Enum KnownTeamDeskAuthenticationType
+  - Added Enum KnownZendeskAuthenticationType
+    
+    
+## 10.1.0 (2022-01-10)
+    
+**Features**
 
-**Noteworthy changes and features**
-- Authentication: The packages `@azure/ms-rest-nodeauth` or `@azure/ms-rest-browserauth` are no longer supported. Use package [@azure/identity](https://www.npmjs.com/package/@azure/identity) instead. Select a credential from Azure Identity examples based on the authentication method of your choice.
-- Callbacks: Method overloads that used callbacks have been removed and the use of promises is encouraged instead.
-- List operations now return an iterable result that follows the `PagedAsyncIterableIterator` interface as opposed to the previous model where you had to make a new request using the link to the next page.
-- Long running operations i.e. the Lro related object returned by methods whose names started with `begin`, now uses `pollUntilDone` to check whether the request is finished, instead of `pollUntilFinished`. To get the final result, use the corresponding method that will have the suffix `AndWait`.
-- The SDK only supports ECMAScript 2015 (ES6) and beyond, all projects that referenced this SDK should be upgraded to use ES6.
+  - Added Type Alias FailActivity
+  - Type Alias AzureBlobFSLinkedService has a new parameter servicePrincipalCredentialType
+  - Type Alias AzureBlobFSLinkedService has a new parameter servicePrincipalCredential
+  - Type Alias AzureDatabricksDeltaLakeLinkedService has a new parameter credential
+  - Type Alias AzureDatabricksDeltaLakeLinkedService has a new parameter workspaceResourceId
+  - Type Alias CosmosDbLinkedService has a new parameter credential
+  - Type Alias DynamicsLinkedService has a new parameter credential
+  - Type Alias GoogleAdWordsLinkedService has a new parameter connectionProperties
+  - Type Alias LinkedIntegrationRuntimeRbacAuthorization has a new parameter credential
+    
+    
+## 10.0.0 (2021-12-17)
+
+The package of @azure/arm-datafactory is using our next generation design principles since version 10.0.0, which contains breaking changes.
+
+To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
+
+To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
+
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).

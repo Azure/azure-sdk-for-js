@@ -10,15 +10,15 @@ import {
   EncryptParameters,
   EncryptResult,
   KeyWrapAlgorithm,
-  SignatureAlgorithm,
   SignOptions,
   SignResult,
+  SignatureAlgorithm,
   UnwrapKeyOptions,
   UnwrapResult,
   VerifyOptions,
   VerifyResult,
   WrapKeyOptions,
-  WrapResult
+  WrapResult,
 } from "..";
 
 export class LocalCryptographyUnsupportedError extends Error {}

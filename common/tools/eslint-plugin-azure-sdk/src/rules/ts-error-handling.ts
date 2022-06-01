@@ -6,9 +6,9 @@
  * @author Arpan Laha
  */
 
+import { Identifier, NewExpression, ThrowStatement } from "estree";
 import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
 import { Rule } from "eslint";
-import { Identifier, NewExpression, ThrowStatement } from "estree";
 import { getRuleMetaData } from "../utils";
 
 //------------------------------------------------------------------------------
@@ -29,7 +29,7 @@ export = {
           "ThrowStatement[argument.type='Literal']": (node: ThrowStatement): void => {
             context.report({
               node: node,
-              message: "statement is throwing a literal"
+              message: "statement is throwing a literal",
             });
           },
 
@@ -50,7 +50,7 @@ export = {
             if (!["TypeError", "RangeError", "Error", "any"].includes(type)) {
               context.report({
                 node: thrown,
-                message: `type ${type} of thrown error is not one of the allowed error types: TypeError, RangeError, Error`
+                message: `type ${type} of thrown error is not one of the allowed error types: TypeError, RangeError, Error`,
               });
             }
           },
@@ -63,10 +63,10 @@ export = {
             if (!["TypeError", "RangeError", "Error"].includes(callee.name)) {
               context.report({
                 node: callee,
-                message: `type ${callee.name} of thrown error is not one of the allowed error types: TypeError, RangeError, Error`
+                message: `type ${callee.name} of thrown error is not one of the allowed error types: TypeError, RangeError, Error`,
               });
             }
-          }
+          },
         } as Rule.RuleListener)
-      : {}
+      : {},
 };

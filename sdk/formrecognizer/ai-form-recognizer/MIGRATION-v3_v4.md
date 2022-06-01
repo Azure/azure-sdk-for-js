@@ -263,7 +263,7 @@ The previous `FormRecognizerClient` class and new `DocumentAnalysisClient` class
   - `beginRecognizeInvoices` and `beginRecognizeInvoicesFromUrl`
   - `beginRecognizeIdentityDocuments` and `beginRecognizeIdentityDocumentsFromUrl`
 - `beginExtractLayout`, which replaces `beginRecognizeContent` and `beginRecognizeContentFromUrl`
-- `beginExtractGenericDocument`, which is new, and provides similar functionality to unlabeled custom models from the previous SDK without the need to train a model. Please refer to [the `extractGenericDocument` sample for an example of using this new method](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/extractGenericDocument.ts), as it is not quite the same as using an unlabeled custom model.
+- `beginExtractGenericDocument`, which is new, and provides similar functionality to unlabeled custom models from the previous SDK without the need to train a model. Please refer to [the `extractGenericDocument` sample for an example of using this new method](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/samples/v4-beta/typescript/src/extractGeneralDocument.ts), as it is not quite the same as using an unlabeled custom model.
 
 All of these methods produce `AnalyzeResult`, `LayoutResult`, and `GenericDocumentResult` types respectively. Please see the section above about these types for more information.
 
@@ -372,7 +372,7 @@ The `DocumentModelAdministrationClient` has several methods, some of which have 
 
 - `beginBuildModel`, which replaces `beginTraining` (a required `modelId` parameter was added, and the `useLabels` parameter was removed, as v4.x of the SDK and the newest Form Recognizer service APIs no longer support unlabeled training of document types).
 - `beginComposeModel`, which replaces `beginCreateComposedModel` (like `beginBuildModel` it now requires a `modelId` as its first parameter).
-- `beginCopyModel`, which performs the same function as in `FormTrainingClient` (though it now requires `modelId` like `beginBuildModel`, and the `CopyAuthorization` has changed, see the table above).
+- `beginCopyModelTo`, which performs the same function as `beginCopyModel` in `FormTrainingClient` (though it now requires `modelId` like `beginBuildModel`, and the `CopyAuthorization` has changed, see the table above).
 - `deleteModel`, which performs the same function as in `FormTrainingClient`.
 - `getCopyAuthorization`, which creates an authorization to copy a model into the client's resource (as in `FormTrainingClient`); however, it no longer requires the resource ID and location, and only requires a model ID (the copy authorization encodes the model ID that the model will be copied into).
 - `getInfo`, which replaces `getAccountProperties` and now produces a `GetInfoResponse` (see the table above).
@@ -475,4 +475,4 @@ for (const [docType, { description, fieldSchema: docTypeSchema }] of Object.entr
 // Training document information is no longer included.
 ```
 
-**Note**: all three model creation methods (`beginBuildModel`, `beginComposeModel`, and `beginCopyModel`) eventually produce a `ModelInfo` with all of the information shown in the sample above, so while the sample only shows `beginBuildModel`, it actually applies to all three methods as well as `getModel`, which also produces a `ModelInfo`.
+**Note**: all three model creation methods (`beginBuildModel`, `beginComposeModel`, and `beginCopyModelTo`) eventually produce a `ModelInfo` with all of the information shown in the sample above, so while the sample only shows `beginBuildModel`, it actually applies to all three methods as well as `getModel`, which also produces a `ModelInfo`.

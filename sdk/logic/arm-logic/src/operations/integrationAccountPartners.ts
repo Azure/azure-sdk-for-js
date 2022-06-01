@@ -11,7 +11,7 @@ import { IntegrationAccountPartners } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { LogicManagementClientContext } from "../logicManagementClientContext";
+import { LogicManagementClient } from "../logicManagementClient";
 import {
   IntegrationAccountPartner,
   IntegrationAccountPartnersListNextOptionalParams,
@@ -32,13 +32,13 @@ import {
 /** Class containing IntegrationAccountPartners operations. */
 export class IntegrationAccountPartnersImpl
   implements IntegrationAccountPartners {
-  private readonly client: LogicManagementClientContext;
+  private readonly client: LogicManagementClient;
 
   /**
    * Initialize a new instance of the class IntegrationAccountPartners class.
    * @param client Reference to the service client
    */
-  constructor(client: LogicManagementClientContext) {
+  constructor(client: LogicManagementClient) {
     this.client = client;
   }
 

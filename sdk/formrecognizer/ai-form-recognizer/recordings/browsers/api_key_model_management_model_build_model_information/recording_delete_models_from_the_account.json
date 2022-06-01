@@ -1,45 +1,79 @@
 {
- "recordings": [
-  {
-   "method": "DELETE",
-   "url": "https://endpoint/formrecognizer/documentModels/modelName163226013887303315",
-   "query": {
-    "api-version": "2021-09-30-preview"
-   },
-   "requestBody": null,
-   "status": 204,
-   "response": "",
-   "responseHeaders": {
-    "apim-request-id": "5ff9b6e8-35bb-48c1-9dd0-a576ce0a668e",
-    "content-length": "0",
-    "date": "Tue, 21 Sep 2021 21:35:59 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "218"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/formrecognizer/documentModels/modelName163226013887303315",
-   "query": {
-    "api-version": "2021-09-30-preview"
-   },
-   "requestBody": null,
-   "status": 404,
-   "response": "{\n  \"error\": {\n    \"code\": \"NotFound\",\n    \"message\": \"Resource not found.\",\n    \"innererror\": {\n      \"code\": \"ModelNotFound\",\n      \"message\": \"The requested model was not found.\"\n    }\n  }\n}",
-   "responseHeaders": {
-    "apim-request-id": "1e545330-c11c-40ce-9bb2-5e019ef47596",
-    "content-type": "application/json",
-    "date": "Tue, 21 Sep 2021 21:36:00 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "158"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "4b301e80abe3405e0ac47fd5f57a6338"
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/modelName10345?api-version=2022-01-30-preview",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "19add45e-3763-483c-8dfe-5ec261bf55ba",
+        "x-ms-useragent": "azsdk-js-ai-form-recognizer/4.0.0-beta.3 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "apim-request-id": "33785105-a237-4994-b1e1-54c7c9fdb67d",
+        "Content-Length": "0",
+        "Date": "Tue, 08 Feb 2022 22:00:40 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "120"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/modelName10345?api-version=2022-01-30-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "4ab78f17-50cc-4acb-8ff9-a4e0b35426ff",
+        "x-ms-useragent": "azsdk-js-ai-form-recognizer/4.0.0-beta.3 core-rest-pipeline/1.5.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "apim-request-id": "8af427fc-4692-4739-b7b7-14376f999b65",
+        "Content-Type": "application/json",
+        "Date": "Tue, 08 Feb 2022 22:00:40 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "46"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "NotFound",
+          "message": "Resource not found.",
+          "innererror": {
+            "code": "ModelNotFound",
+            "message": "The requested model was not found."
+          }
+        }
+      }
+    }
+  ],
+  "Variables": {}
 }

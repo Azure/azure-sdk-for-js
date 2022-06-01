@@ -1,0 +1,221 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:deepSchema;1",
+      "@type": "Array",
+      "elementSchema": {
+        "@type": "Object",
+        "fields": [
+          {
+            "name": "myField",
+            "schema": {
+              "@type": "Map",
+              "mapKey": {
+                "name": "myMapKey",
+                "schema": "string"
+              },
+              "mapValue": {
+                "name": "myMapValue",
+                "schema": {
+                  "@type": "Object",
+                  "fields": [
+                    {
+                      "name": "myField",
+                      "schema": {
+                        "@type": "Array",
+                        "elementSchema": "double"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:deepSchema;1",
+        "type": "Array",
+        "properties": {
+          "elementSchema": "dtmi:test:deepSchema:_elementSchema;1"
+        }
+      },
+      {
+        "id": "dtmi:test:deepSchema:_elementSchema;1",
+        "type": "Object",
+        "properties": {
+          "fields": [
+            "dtmi:test:deepSchema:_elementSchema:_fields:__myField;1"
+          ]
+        }
+      },
+      {
+        "id": "dtmi:test:deepSchema:_elementSchema:_fields:__myField;1",
+        "type": "Field",
+        "name": "myField",
+        "schema": "dtmi:test:deepSchema:_elementSchema:_fields:__myField:_schema;1"
+      },
+      {
+        "id": "dtmi:test:deepSchema:_elementSchema:_fields:__myField:_schema;1",
+        "type": "Map",
+        "properties": {
+          "mapKey": "dtmi:test:deepSchema:_elementSchema:_fields:__myField:_schema:_mapKey;1",
+          "mapValue": "dtmi:test:deepSchema:_elementSchema:_fields:__myField:_schema:_mapValue;1"
+        }
+      },
+      {
+        "id": "dtmi:test:deepSchema:_elementSchema:_fields:__myField:_schema:_mapKey;1",
+        "type": "MapKey",
+        "name": "myMapKey",
+        "schema": "dtmi:dtdl:instance:Schema:string;2"
+      },
+      {
+        "id": "dtmi:test:deepSchema:_elementSchema:_fields:__myField:_schema:_mapValue;1",
+        "type": "MapValue",
+        "name": "myMapValue",
+        "schema": "dtmi:test:deepSchema:_elementSchema:_fields:__myField:_schema:_mapValue:_schema;1"
+      },
+      {
+        "id": "dtmi:test:deepSchema:_elementSchema:_fields:__myField:_schema:_mapValue:_schema;1",
+        "type": "Object",
+        "properties": {
+          "fields": [
+            "dtmi:test:deepSchema:_elementSchema:_fields:__myField:_schema:_mapValue:_schema:_fields:__myField;1"
+          ]
+        }
+      },
+      {
+        "id": "dtmi:test:deepSchema:_elementSchema:_fields:__myField:_schema:_mapValue:_schema:_fields:__myField;1",
+        "type": "Field",
+        "name": "myField",
+        "schema": "dtmi:test:deepSchema:_elementSchema:_fields:__myField:_schema:_mapValue:_schema:_fields:__myField:_schema;1"
+      },
+      {
+        "id": "dtmi:test:deepSchema:_elementSchema:_fields:__myField:_schema:_mapValue:_schema:_fields:__myField:_schema;1",
+        "type": "Array",
+        "properties": {
+          "elementSchema": "dtmi:dtdl:instance:Schema:double;2"
+        }
+      }
+    ]
+  },
+  "instances": [
+    {
+      "subject": "dtmi:test:deepSchema;1",
+      "conforms": true,
+      "submit": "[ { \"myField\": { \"myField\": { \"myField\": [ 2, 3.14, 555 ] } } } ]"
+    },
+    {
+      "subject": "dtmi:test:deepSchema;1",
+      "conforms": true,
+      "submit": "[ { \"myField\": { \"myField\": { \"myField\": [ 2, 3.14 ] } } }, { \"myField\": { \"myField\": { \"myField\": [ 555 ] } } } ]"
+    },
+    {
+      "subject": "dtmi:test:deepSchema;1",
+      "conforms": false,
+      "submit": "[ { \"myField\": { \"myField\": { \"myField\": [ 2, \"hi\", 555 ] } } } ]"
+    },
+    {
+      "subject": "dtmi:test:deepSchema;1",
+      "conforms": false,
+      "submit": "[ { \"myField\": { \"myField\": { \"myField\": [ 2, true, 555 ] } } } ]"
+    },
+    {
+      "subject": "dtmi:test:deepSchema;1",
+      "conforms": false,
+      "submit": "[ { \"myField\": { \"myField\": { \"myField\": [ 2, null, 555 ] } } } ]"
+    },
+    {
+      "subject": "dtmi:test:deepSchema;1",
+      "conforms": false,
+      "submit": "{ \"myField\": { \"myField\": { \"myField\": { \"myField\": [ 2, 3.14, 555 ] } } } }"
+    },
+    {
+      "subject": "dtmi:test:deepSchema;1",
+      "conforms": false,
+      "submit": "[ { \"myField\": { \"myField\": { \"myField\": { \"myField\": 3.14 } } } } ]"
+    },
+    {
+      "subject": "dtmi:test:deepSchema;1",
+      "conforms": false,
+      "submit": "[ { \"myField\": [ { \"myField\": [ 2, 3.14, 555 ] } ] } ]"
+    },
+    {
+      "subject": "dtmi:test:deepSchema;1",
+      "conforms": true,
+      "submit": "[ { \"myField\": { \"myField\": { \"myField\": [ ] } } } ]"
+    },
+    {
+      "subject": "dtmi:test:deepSchema;1",
+      "conforms": true,
+      "submit": "[ { \"myField\": { \"myField\": { } } } ]"
+    },
+    {
+      "subject": "dtmi:test:deepSchema;1",
+      "conforms": true,
+      "submit": "[ { \"myField\": { } } ]"
+    },
+    {
+      "subject": "dtmi:test:deepSchema;1",
+      "conforms": true,
+      "submit": "[ { } ]"
+    },
+    {
+      "subject": "dtmi:test:deepSchema;1",
+      "conforms": true,
+      "submit": "[ ]"
+    },
+    {
+      "subject": "dtmi:test:deepSchema;1",
+      "conforms": false,
+      "submit": ""
+    },
+    {
+      "subject": "dtmi:test:deepSchema;1",
+      "conforms": false,
+      "submit": "true"
+    },
+    {
+      "subject": "dtmi:test:deepSchema;1",
+      "conforms": false,
+      "submit": "\"[ { \"myField\": { \"myField\": { \"myField\": [ 2, 3.14, 555 ] } } } ]\""
+    },
+    {
+      "subject": "dtmi:test:deepSchema;1",
+      "conforms": false,
+      "submit": "3.14"
+    },
+    {
+      "subject": "dtmi:test:deepSchema;1",
+      "conforms": false,
+      "submit": "null"
+    },
+    {
+      "subject": "dtmi:test:deepSchema;1",
+      "conforms": false,
+      "submit": "$$"
+    },
+    {
+      "subject": "dtmi:test:deepSchema;1",
+      "conforms": false,
+      "submit": "[ \"hi\": \"there\" ]"
+    },
+    {
+      "subject": "dtmi:test:deepSchema;1",
+      "conforms": false,
+      "submit": "{ \"hello\" }"
+    },
+    {
+      "subject": "dtmi:test:deepSchema;1",
+      "conforms": false,
+      "submit": "{ 23 ]"
+    }
+  ]
+}

@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PollerLike } from "@azure/core-lro";
-
-import { KeyVaultClient } from "./generated/keyVaultClient";
 import {
   KeyVaultBackupClientOptions,
   KeyVaultBackupResult,
@@ -11,27 +8,29 @@ import {
   KeyVaultBeginRestoreOptions,
   KeyVaultBeginSelectiveKeyRestoreOptions,
   KeyVaultRestoreResult,
-  KeyVaultSelectiveKeyRestoreResult
+  KeyVaultSelectiveKeyRestoreResult,
 } from "./backupClientModels";
 import { LATEST_API_VERSION, authenticationScopes } from "./constants";
-import { logger } from "./log";
-import { KeyVaultBackupPoller } from "./lro/backup/poller";
-import { KeyVaultRestorePoller } from "./lro/restore/poller";
-import { KeyVaultSelectiveKeyRestorePoller } from "./lro/selectiveKeyRestore/poller";
-import { KeyVaultBackupOperationState } from "./lro/backup/operation";
-import { KeyVaultRestoreOperationState } from "./lro/restore/operation";
 import { KeyVaultAdminPollOperationState } from "./lro/keyVaultAdminPoller";
+import { KeyVaultBackupOperationState } from "./lro/backup/operation";
+import { KeyVaultBackupPoller } from "./lro/backup/poller";
+import { KeyVaultClient } from "./generated/keyVaultClient";
+import { KeyVaultRestoreOperationState } from "./lro/restore/operation";
+import { KeyVaultRestorePoller } from "./lro/restore/poller";
 import { KeyVaultSelectiveKeyRestoreOperationState } from "./lro/selectiveKeyRestore/operation";
-import { mappings } from "./mappings";
+import { KeyVaultSelectiveKeyRestorePoller } from "./lro/selectiveKeyRestore/poller";
+import { PollerLike } from "@azure/core-lro";
 import { TokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { createChallengeCallbacks } from "./challengeAuthenticationCallbacks";
+import { logger } from "./log";
+import { mappings } from "./mappings";
 
 export {
   KeyVaultBackupOperationState,
   KeyVaultRestoreOperationState,
   KeyVaultSelectiveKeyRestoreOperationState,
-  KeyVaultAdminPollOperationState
+  KeyVaultAdminPollOperationState,
 };
 
 /**
@@ -47,7 +46,6 @@ export class KeyVaultBackupClient {
   public readonly vaultUrl: string;
 
   /**
-   * @internal
    * A reference to the auto-generated Key Vault HTTP client.
    */
   private readonly client: KeyVaultClient;
@@ -85,9 +83,9 @@ export class KeyVaultBackupClient {
         additionalAllowedHeaderNames: [
           "x-ms-keyvault-region",
           "x-ms-keyvault-network-info",
-          "x-ms-keyvault-service-version"
-        ]
-      }
+          "x-ms-keyvault-service-version",
+        ],
+      },
     };
 
     this.client = new KeyVaultClient(apiVersion, clientOptions);
@@ -95,7 +93,7 @@ export class KeyVaultBackupClient {
       bearerTokenAuthenticationPolicy({
         credential,
         scopes: authenticationScopes,
-        challengeCallbacks: createChallengeCallbacks()
+        challengeCallbacks: createChallengeCallbacks(),
       })
     );
   }
@@ -143,7 +141,7 @@ export class KeyVaultBackupClient {
       vaultUrl: this.vaultUrl,
       intervalInMs: options.intervalInMs,
       resumeFrom: options.resumeFrom,
-      requestOptions: options
+      requestOptions: options,
     });
 
     // This will initialize the poller's operation (the generation of the backup).
@@ -196,7 +194,7 @@ export class KeyVaultBackupClient {
       vaultUrl: this.vaultUrl,
       intervalInMs: options.intervalInMs,
       resumeFrom: options.resumeFrom,
-      requestOptions: options
+      requestOptions: options,
     });
 
     // This will initialize the poller's operation (the generation of the backup).
@@ -254,7 +252,7 @@ export class KeyVaultBackupClient {
       vaultUrl: this.vaultUrl,
       intervalInMs: options.intervalInMs,
       resumeFrom: options.resumeFrom,
-      requestOptions: options
+      requestOptions: options,
     });
 
     // This will initialize the poller's operation (the generation of the backup).

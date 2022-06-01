@@ -11,7 +11,7 @@ The `@azure/identity` v2 package includes the best parts of v1, plus several imp
 
 - [Update packages](#update-packages)
   - [Update Identity package](#update-identity-package)
-  - [Update dependencies for Visual Studio Code authentication](#update-visual-studio-code-authentication)
+  - [Update dependencies for Visual Studio Code authentication](#update-dependencies-for-visual-studio-code-authentication)
 - [Update error handling](#update-error-handling)
   - [Update authentication error handling](#update-authentication-error-handling)
   - [Update error handling code for getToken calls](#update-error-handling-code-for-gettoken-calls)
@@ -148,7 +148,7 @@ For more information, see [Interactive Browser Credential documentation](https:/
 
 ## Troubleshooting
 
-As part of the v2 release, a [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/Troubleshooting.md) is provided. This guide includes solutions to many common problems users have encountered. In v2, errors and exception logs link to this troubleshooting guide.
+As part of the v2 release, a [troubleshooting guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/TROUBLESHOOTING.md) is provided. This guide includes solutions to many common problems users have encountered. In v2, errors and exception logs link to this troubleshooting guide.
 
 ## Provide feedback
 

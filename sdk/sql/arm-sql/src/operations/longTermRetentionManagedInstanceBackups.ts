@@ -6,13 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { LongTermRetentionManagedInstanceBackups } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { SqlManagementClientContext } from "../sqlManagementClientContext";
+import { SqlManagementClient } from "../sqlManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -53,13 +52,13 @@ import {
 /** Class containing LongTermRetentionManagedInstanceBackups operations. */
 export class LongTermRetentionManagedInstanceBackupsImpl
   implements LongTermRetentionManagedInstanceBackups {
-  private readonly client: SqlManagementClientContext;
+  private readonly client: SqlManagementClient;
 
   /**
    * Initialize a new instance of the class LongTermRetentionManagedInstanceBackups class.
    * @param client Reference to the service client
    */
-  constructor(client: SqlManagementClientContext) {
+  constructor(client: SqlManagementClient) {
     this.client = client;
   }
 
@@ -590,10 +589,12 @@ export class LongTermRetentionManagedInstanceBackupsImpl
       { locationName, managedInstanceName, databaseName, backupName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -774,10 +775,12 @@ export class LongTermRetentionManagedInstanceBackupsImpl
       },
       deleteByResourceGroupOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -1045,14 +1048,14 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.databaseName,
     Parameters.locationName,
-    Parameters.backupName,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
+    Parameters.backupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1062,14 +1065,14 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionManagedInstances/{managedInstanceName}/longTermRetentionDatabases/{databaseName}/longTermRetentionManagedInstanceBackups/{backupName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.databaseName,
     Parameters.locationName,
-    Parameters.backupName,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
+    Parameters.backupName
   ],
   serializer
 };
@@ -1084,7 +1087,7 @@ const listByDatabaseOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
-    Parameters.apiVersion2,
+    Parameters.apiVersion1,
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState
   ],
@@ -1109,7 +1112,7 @@ const listByInstanceOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
-    Parameters.apiVersion2,
+    Parameters.apiVersion1,
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState
   ],
@@ -1133,7 +1136,7 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
-    Parameters.apiVersion2,
+    Parameters.apiVersion1,
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState
   ],
@@ -1155,15 +1158,15 @@ const getByResourceGroupOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
     Parameters.locationName,
-    Parameters.backupName,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
+    Parameters.backupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1173,15 +1176,15 @@ const deleteByResourceGroupOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionManagedInstances/{managedInstanceName}/longTermRetentionDatabases/{databaseName}/longTermRetentionManagedInstanceBackups/{backupName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion2],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.databaseName,
     Parameters.locationName,
-    Parameters.backupName,
-    Parameters.managedInstanceName
+    Parameters.managedInstanceName,
+    Parameters.backupName
   ],
   serializer
 };
@@ -1196,7 +1199,7 @@ const listByResourceGroupDatabaseOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
-    Parameters.apiVersion2,
+    Parameters.apiVersion1,
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState
   ],
@@ -1222,7 +1225,7 @@ const listByResourceGroupInstanceOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
-    Parameters.apiVersion2,
+    Parameters.apiVersion1,
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState
   ],
@@ -1247,7 +1250,7 @@ const listByResourceGroupLocationOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
-    Parameters.apiVersion2,
+    Parameters.apiVersion1,
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState
   ],
@@ -1270,7 +1273,7 @@ const listByDatabaseNextOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
-    Parameters.apiVersion2,
+    Parameters.apiVersion1,
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState
   ],
@@ -1295,7 +1298,7 @@ const listByInstanceNextOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
-    Parameters.apiVersion2,
+    Parameters.apiVersion1,
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState
   ],
@@ -1319,7 +1322,7 @@ const listByLocationNextOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
-    Parameters.apiVersion2,
+    Parameters.apiVersion1,
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState
   ],
@@ -1342,7 +1345,7 @@ const listByResourceGroupDatabaseNextOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
-    Parameters.apiVersion2,
+    Parameters.apiVersion1,
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState
   ],
@@ -1368,7 +1371,7 @@ const listByResourceGroupInstanceNextOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
-    Parameters.apiVersion2,
+    Parameters.apiVersion1,
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState
   ],
@@ -1393,7 +1396,7 @@ const listByResourceGroupLocationNextOperationSpec: coreClient.OperationSpec = {
     default: {}
   },
   queryParameters: [
-    Parameters.apiVersion2,
+    Parameters.apiVersion1,
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState
   ],

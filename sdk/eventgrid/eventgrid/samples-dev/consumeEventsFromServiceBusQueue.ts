@@ -52,7 +52,7 @@ async function main() {
     processMessage,
     processError: async (err) => {
       console.error("Error while processing events:", err);
-    }
+    },
   });
 
   // Run for 10 seconds, allowing events to be processed.
@@ -63,9 +63,9 @@ async function main() {
   // Stop processing events and exit.
   await closer.close();
   await receiver.close();
-  process.exit();
 }
 
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
+  process.exit(1);
 });

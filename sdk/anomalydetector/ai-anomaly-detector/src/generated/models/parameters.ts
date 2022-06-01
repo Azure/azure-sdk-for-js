@@ -15,7 +15,8 @@ import {
   DetectRequest as DetectRequestMapper,
   DetectChangePointRequest as DetectChangePointRequestMapper,
   ModelInfo as ModelInfoMapper,
-  DetectionRequest as DetectionRequestMapper
+  DetectionRequest as DetectionRequestMapper,
+  LastDetectionRequest as LastDetectionRequestMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -59,53 +60,27 @@ export const endpoint: OperationURLParameter = {
   skipEncoding: true
 };
 
+export const apiVersion: OperationURLParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "v1.1-preview.1",
+    isConstant: true,
+    serializedName: "ApiVersion",
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
 export const body1: OperationParameter = {
   parameterPath: "body",
   mapper: DetectChangePointRequestMapper
 };
 
-export const modelRequest: OperationParameter = {
-  parameterPath: "modelRequest",
+export const body2: OperationParameter = {
+  parameterPath: "body",
   mapper: ModelInfoMapper
-};
-
-export const modelId: OperationURLParameter = {
-  parameterPath: "modelId",
-  mapper: {
-    serializedName: "modelId",
-    required: true,
-    type: {
-      name: "Uuid"
-    }
-  }
-};
-
-export const detectionRequest: OperationParameter = {
-  parameterPath: "detectionRequest",
-  mapper: DetectionRequestMapper
-};
-
-export const resultId: OperationURLParameter = {
-  parameterPath: "resultId",
-  mapper: {
-    serializedName: "resultId",
-    required: true,
-    type: {
-      name: "Uuid"
-    }
-  }
-};
-
-export const accept1: OperationParameter = {
-  parameterPath: "accept",
-  mapper: {
-    defaultValue: "application/zip",
-    isConstant: true,
-    serializedName: "Accept",
-    type: {
-      name: "String"
-    }
-  }
 };
 
 export const skip: OperationQueryParameter = {
@@ -127,6 +102,50 @@ export const top: OperationQueryParameter = {
       name: "Number"
     }
   }
+};
+
+export const modelId: OperationURLParameter = {
+  parameterPath: "modelId",
+  mapper: {
+    serializedName: "modelId",
+    required: true,
+    type: {
+      name: "Uuid"
+    }
+  }
+};
+
+export const body3: OperationParameter = {
+  parameterPath: "body",
+  mapper: DetectionRequestMapper
+};
+
+export const resultId: OperationURLParameter = {
+  parameterPath: "resultId",
+  mapper: {
+    serializedName: "resultId",
+    required: true,
+    type: {
+      name: "Uuid"
+    }
+  }
+};
+
+export const accept1: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/zip, application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const body4: OperationParameter = {
+  parameterPath: "body",
+  mapper: LastDetectionRequestMapper
 };
 
 export const nextLink: OperationURLParameter = {

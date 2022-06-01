@@ -11,7 +11,7 @@ import { PipelineRuns } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ContainerRegistryManagementClientContext } from "../containerRegistryManagementClientContext";
+import { ContainerRegistryManagementClient } from "../containerRegistryManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -30,13 +30,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PipelineRuns operations. */
 export class PipelineRunsImpl implements PipelineRuns {
-  private readonly client: ContainerRegistryManagementClientContext;
+  private readonly client: ContainerRegistryManagementClient;
 
   /**
    * Initialize a new instance of the class PipelineRuns class.
    * @param client Reference to the service client
    */
-  constructor(client: ContainerRegistryManagementClientContext) {
+  constructor(client: ContainerRegistryManagementClient) {
     this.client = client;
   }
 
@@ -205,10 +205,12 @@ export class PipelineRunsImpl implements PipelineRuns {
       },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -293,10 +295,12 @@ export class PipelineRunsImpl implements PipelineRuns {
       { resourceGroupName, registryName, pipelineRunName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -350,6 +354,9 @@ const listOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.PipelineRunListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -369,6 +376,9 @@ const getOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.PipelineRun
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -398,6 +408,9 @@ const createOperationSpec: coreClient.OperationSpec = {
     },
     204: {
       bodyMapper: Mappers.PipelineRun
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.pipelineRunCreateParameters,
@@ -417,7 +430,15 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{registryName}/pipelineRuns/{pipelineRunName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -426,6 +447,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.registryName,
     Parameters.pipelineRunName
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
@@ -434,6 +456,9 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.PipelineRunListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],

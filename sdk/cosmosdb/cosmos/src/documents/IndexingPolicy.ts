@@ -18,7 +18,7 @@ export enum SpatialType {
   LineString = "LineString",
   MultiPolygon = "MultiPolygon",
   Point = "Point",
-  Polygon = "Polygon"
+  Polygon = "Polygon",
 }
 
 export interface SpatialIndex {

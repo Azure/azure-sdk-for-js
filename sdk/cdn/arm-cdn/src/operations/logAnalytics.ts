@@ -10,7 +10,7 @@ import { LogAnalytics } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { CdnManagementClientContext } from "../cdnManagementClientContext";
+import { CdnManagementClient } from "../cdnManagementClient";
 import {
   LogMetric,
   LogMetricsGranularity,
@@ -35,20 +35,21 @@ import {
 
 /** Class containing LogAnalytics operations. */
 export class LogAnalyticsImpl implements LogAnalytics {
-  private readonly client: CdnManagementClientContext;
+  private readonly client: CdnManagementClient;
 
   /**
    * Initialize a new instance of the class LogAnalytics class.
    * @param client Reference to the service client
    */
-  constructor(client: CdnManagementClientContext) {
+  constructor(client: CdnManagementClient) {
     this.client = client;
   }
 
   /**
    * Get log report for AFD profile
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group. which is unique within the resource group.
    * @param metrics Array of LogMetric
    * @param dateTimeBegin
    * @param dateTimeEnd
@@ -87,7 +88,8 @@ export class LogAnalyticsImpl implements LogAnalytics {
   /**
    * Get log analytics ranking report for AFD profile
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group. which is unique within the resource group.
    * @param rankings Array of LogRanking
    * @param metrics Array of LogRankingMetric
    * @param maxRanking
@@ -123,7 +125,8 @@ export class LogAnalyticsImpl implements LogAnalytics {
   /**
    * Get all available location names for AFD log analytics report.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group. which is unique within the resource group.
    * @param options The options parameters.
    */
   getLogAnalyticsLocations(
@@ -140,7 +143,8 @@ export class LogAnalyticsImpl implements LogAnalytics {
   /**
    * Get all endpoints and custom domains available for AFD log report
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group. which is unique within the resource group.
    * @param options The options parameters.
    */
   getLogAnalyticsResources(
@@ -157,7 +161,8 @@ export class LogAnalyticsImpl implements LogAnalytics {
   /**
    * Get Waf related log analytics report for AFD profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group. which is unique within the resource group.
    * @param metrics Array of WafMetric
    * @param dateTimeBegin
    * @param dateTimeEnd
@@ -190,7 +195,8 @@ export class LogAnalyticsImpl implements LogAnalytics {
   /**
    * Get WAF log analytics charts for AFD profile
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
+   *                    is unique within the resource group. which is unique within the resource group.
    * @param metrics Array of WafMetric
    * @param dateTimeBegin
    * @param dateTimeEnd

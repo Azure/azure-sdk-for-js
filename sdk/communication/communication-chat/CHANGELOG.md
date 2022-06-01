@@ -1,8 +1,37 @@
 # Release History
 
+## 1.2.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.2.0 (2022-04-05)
+
+### Features Added
+
+- Updated to @azure/communication-signaling@1.0.0-beta.13.
+- Updated to @azure/communication-common@2.0.0.
+
+## 1.1.2 (2022-02-08)
+
+### Breaking Changes
+
+- Prohibit sending the typing notification request within 8 seconds of the previous request.
+
+### Features Added
+
+- Updated to @azure/communication-signaling@1.0.0-beta.12.
+- Added two new events realTimeNotificationConnected and realTimeNotificationDisconnected that allow the developer to know when the connection to the call server is active
+
 ## 1.1.1 (2021-10-19)
 
 ### Features Added
+
 - Updated to @azure/communication-signaling@1.0.0-beta.11.
 - Added `signalingClientOptions` in `ClientOptions`.
 

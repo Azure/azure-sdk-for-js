@@ -10,7 +10,7 @@ import {
   AzureKeyCredential,
   SearchClient,
   GeographyPoint,
-  SearchIndexClient
+  SearchIndexClient,
 } from "@azure/search-documents";
 import { createIndex, documentKeyRetriever, WAIT_TIME, delay } from "./setup";
 import { Hotel } from "./interfaces";
@@ -51,8 +51,8 @@ function getDocumentsArray(size: number): Hotel[] {
       rating: 5,
       location: new GeographyPoint({
         longitude: -122.131577,
-        latitude: 47.678581
-      })
+        latitude: 47.678581,
+      }),
     });
   }
   return array;
@@ -81,7 +81,7 @@ async function main() {
     searchClient,
     documentKeyRetriever,
     {
-      autoFlush: true
+      autoFlush: true,
     }
   );
 

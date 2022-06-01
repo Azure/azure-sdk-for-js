@@ -1,0 +1,167 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:intEnum;1",
+      "@type": "Enum",
+      "valueSchema": "integer",
+      "enumValues": [
+        {
+          "name": "near",
+          "enumValue": 1
+        },
+        {
+          "name": "far",
+          "enumValue": 2
+        }
+      ],
+      "displayName": {
+        "en": "Distance",
+        "es": "Distancia"
+      },
+      "description": [
+        {
+          "@language": "en",
+          "@value": "how close"
+        },
+        {
+          "@language": "es",
+          "@value": "lo cerca que"
+        }
+      ],
+      "comment": "How close is it?"
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:intEnum;1",
+        "type": "Enum",
+        "properties": {
+          "valueSchema": "dtmi:dtdl:instance:Schema:integer;3",
+          "enumValues": [
+            "dtmi:test:intEnum:_enumValues:__near;1",
+            "dtmi:test:intEnum:_enumValues:__far;1"
+          ],
+          "displayName": {
+            "en": "Distance",
+            "es": "Distancia"
+          },
+          "description": {
+            "en": "how close",
+            "es": "lo cerca que"
+          },
+          "comment": "How close is it?"
+        }
+      },
+      {
+        "id": "dtmi:test:intEnum:_enumValues:__near;1",
+        "type": "EnumValue",
+        "properties": {
+          "enumValue": 1
+        }
+      },
+      {
+        "id": "dtmi:test:intEnum:_enumValues:__far;1",
+        "type": "EnumValue",
+        "properties": {
+          "enumValue": 2
+        }
+      }
+    ]
+  },
+  "instances": [
+    {
+      "subject": "dtmi:test:intEnum;1",
+      "conforms": true,
+      "submit": "1"
+    },
+    {
+      "subject": "dtmi:test:intEnum;1",
+      "conforms": true,
+      "submit": "2"
+    },
+    {
+      "subject": "dtmi:test:intEnum;1",
+      "conforms": false,
+      "submit": "0"
+    },
+    {
+      "subject": "dtmi:test:intEnum;1",
+      "conforms": false,
+      "submit": "3"
+    },
+    {
+      "subject": "dtmi:test:intEnum;1",
+      "conforms": false,
+      "submit": "1.0"
+    },
+    {
+      "subject": "dtmi:test:intEnum;1",
+      "conforms": false,
+      "submit": "2.0"
+    },
+    {
+      "subject": "dtmi:test:intEnum;1",
+      "conforms": false,
+      "submit": "-1"
+    },
+    {
+      "subject": "dtmi:test:intEnum;1",
+      "conforms": false,
+      "submit": "-2"
+    },
+    {
+      "subject": "dtmi:test:intEnum;1",
+      "conforms": false,
+      "submit": ""
+    },
+    {
+      "subject": "dtmi:test:intEnum;1",
+      "conforms": false,
+      "submit": "\"1\""
+    },
+    {
+      "subject": "dtmi:test:intEnum;1",
+      "conforms": false,
+      "submit": "true"
+    },
+    {
+      "subject": "dtmi:test:intEnum;1",
+      "conforms": false,
+      "submit": "null"
+    },
+    {
+      "subject": "dtmi:test:intEnum;1",
+      "conforms": false,
+      "submit": "[ 1 ]"
+    },
+    {
+      "subject": "dtmi:test:intEnum;1",
+      "conforms": false,
+      "submit": "{ \"value\": 1 }"
+    },
+    {
+      "subject": "dtmi:test:intEnum;1",
+      "conforms": false,
+      "submit": "$$"
+    },
+    {
+      "subject": "dtmi:test:intEnum;1",
+      "conforms": false,
+      "submit": "[ \"hi\": \"there\" ]"
+    },
+    {
+      "subject": "dtmi:test:intEnum;1",
+      "conforms": false,
+      "submit": "{ \"near\" }"
+    },
+    {
+      "subject": "dtmi:test:intEnum;1",
+      "conforms": false,
+      "submit": "{ 1 ]"
+    }
+  ]
+}

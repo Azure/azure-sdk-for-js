@@ -6,13 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { Certificates } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { WebSiteManagementClientContext } from "../webSiteManagementClientContext";
+import { WebSiteManagementClient } from "../webSiteManagementClient";
 import {
   Certificate,
   CertificatesListNextOptionalParams,
@@ -34,15 +33,15 @@ import {
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a Certificates. */
+/** Class containing Certificates operations. */
 export class CertificatesImpl implements Certificates {
-  private readonly client: WebSiteManagementClientContext;
+  private readonly client: WebSiteManagementClient;
 
   /**
    * Initialize a new instance of the class Certificates class.
    * @param client Reference to the service client
    */
-  constructor(client: WebSiteManagementClientContext) {
+  constructor(client: WebSiteManagementClient) {
     this.client = client;
   }
 

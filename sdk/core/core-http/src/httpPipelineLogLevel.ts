@@ -23,5 +23,5 @@ export enum HttpPipelineLogLevel {
   /**
    * An information log.
    */
-  INFO
+  INFO,
 }

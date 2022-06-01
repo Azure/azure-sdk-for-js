@@ -100,7 +100,7 @@ export const timeoutInSeconds: OperationQueryParameter = {
 export const version: OperationParameter = {
   parameterPath: "version",
   mapper: {
-    defaultValue: "2020-12-06",
+    defaultValue: "2021-06-08",
     isConstant: true,
     serializedName: "x-ms-version",
     type: {
@@ -613,10 +613,9 @@ export const fileAttributes: OperationParameter = {
 };
 
 export const fileCreatedOn: OperationParameter = {
-  parameterPath: "fileCreatedOn",
+  parameterPath: ["options", "fileCreatedOn"],
   mapper: {
     serializedName: "x-ms-file-creation-time",
-    required: true,
     xmlName: "x-ms-file-creation-time",
     type: {
       name: "String"
@@ -625,11 +624,21 @@ export const fileCreatedOn: OperationParameter = {
 };
 
 export const fileLastWriteOn: OperationParameter = {
-  parameterPath: "fileLastWriteOn",
+  parameterPath: ["options", "fileLastWriteOn"],
   mapper: {
     serializedName: "x-ms-file-last-write-time",
-    required: true,
     xmlName: "x-ms-file-last-write-time",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const fileChangeOn: OperationParameter = {
+  parameterPath: ["options", "fileChangeOn"],
+  mapper: {
+    serializedName: "x-ms-file-change-time",
+    xmlName: "x-ms-file-change-time",
     type: {
       name: "String"
     }
@@ -707,6 +716,122 @@ export const handleId: OperationParameter = {
     serializedName: "x-ms-handle-id",
     required: true,
     xmlName: "x-ms-handle-id",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const comp11: OperationQueryParameter = {
+  parameterPath: "comp",
+  mapper: {
+    defaultValue: "rename",
+    isConstant: true,
+    serializedName: "comp",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const renameSource: OperationParameter = {
+  parameterPath: "renameSource",
+  mapper: {
+    serializedName: "x-ms-file-rename-source",
+    required: true,
+    xmlName: "x-ms-file-rename-source",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const replaceIfExists: OperationParameter = {
+  parameterPath: ["options", "replaceIfExists"],
+  mapper: {
+    serializedName: "x-ms-file-rename-replace-if-exists",
+    xmlName: "x-ms-file-rename-replace-if-exists",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
+export const ignoreReadOnly: OperationParameter = {
+  parameterPath: ["options", "ignoreReadOnly"],
+  mapper: {
+    serializedName: "x-ms-file-rename-ignore-readonly",
+    xmlName: "x-ms-file-rename-ignore-readonly",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+
+export const sourceLeaseId: OperationParameter = {
+  parameterPath: ["options", "sourceLeaseAccessConditions", "sourceLeaseId"],
+  mapper: {
+    serializedName: "x-ms-source-lease-id",
+    xmlName: "x-ms-source-lease-id",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const destinationLeaseId: OperationParameter = {
+  parameterPath: [
+    "options",
+    "destinationLeaseAccessConditions",
+    "destinationLeaseId"
+  ],
+  mapper: {
+    serializedName: "x-ms-destination-lease-id",
+    xmlName: "x-ms-destination-lease-id",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const fileAttributes1: OperationParameter = {
+  parameterPath: ["options", "copyFileSmbInfo", "fileAttributes"],
+  mapper: {
+    serializedName: "x-ms-file-attributes",
+    xmlName: "x-ms-file-attributes",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const fileCreationTime: OperationParameter = {
+  parameterPath: ["options", "copyFileSmbInfo", "fileCreationTime"],
+  mapper: {
+    serializedName: "x-ms-file-creation-time",
+    xmlName: "x-ms-file-creation-time",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const fileLastWriteTime: OperationParameter = {
+  parameterPath: ["options", "copyFileSmbInfo", "fileLastWriteTime"],
+  mapper: {
+    serializedName: "x-ms-file-last-write-time",
+    xmlName: "x-ms-file-last-write-time",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const fileChangeTime: OperationParameter = {
+  parameterPath: ["options", "copyFileSmbInfo", "fileChangeTime"],
+  mapper: {
+    serializedName: "x-ms-file-change-time",
+    xmlName: "x-ms-file-change-time",
     type: {
       name: "String"
     }
@@ -871,7 +996,7 @@ export const accept3: OperationParameter = {
   }
 };
 
-export const comp11: OperationQueryParameter = {
+export const comp12: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "range",
@@ -928,6 +1053,18 @@ export const contentMD5: OperationParameter = {
     xmlName: "Content-MD5",
     type: {
       name: "ByteArray"
+    }
+  }
+};
+
+export const fileLastWrittenMode: OperationParameter = {
+  parameterPath: ["options", "fileLastWrittenMode"],
+  mapper: {
+    serializedName: "x-ms-file-last-write-time",
+    xmlName: "x-ms-file-last-write-time",
+    type: {
+      name: "Enum",
+      allowedValues: ["Now", "Preserve"]
     }
   }
 };
@@ -1019,7 +1156,7 @@ export const copySourceAuthorization: OperationParameter = {
   }
 };
 
-export const comp12: OperationQueryParameter = {
+export const comp13: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "rangelist",
@@ -1054,46 +1191,13 @@ export const filePermissionCopyMode: OperationParameter = {
   }
 };
 
-export const ignoreReadOnly: OperationParameter = {
+export const ignoreReadOnly1: OperationParameter = {
   parameterPath: ["options", "copyFileSmbInfo", "ignoreReadOnly"],
   mapper: {
-    serializedName: "x-ms-file-copy-ignore-read-only",
-    xmlName: "x-ms-file-copy-ignore-read-only",
+    serializedName: "x-ms-file-copy-ignore-readonly",
+    xmlName: "x-ms-file-copy-ignore-readonly",
     type: {
       name: "Boolean"
-    }
-  }
-};
-
-export const fileAttributes1: OperationParameter = {
-  parameterPath: ["options", "copyFileSmbInfo", "fileAttributes"],
-  mapper: {
-    serializedName: "x-ms-file-attributes",
-    xmlName: "x-ms-file-attributes",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const fileCreationTime: OperationParameter = {
-  parameterPath: ["options", "copyFileSmbInfo", "fileCreationTime"],
-  mapper: {
-    serializedName: "x-ms-file-creation-time",
-    xmlName: "x-ms-file-creation-time",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const fileLastWriteTime: OperationParameter = {
-  parameterPath: ["options", "copyFileSmbInfo", "fileLastWriteTime"],
-  mapper: {
-    serializedName: "x-ms-file-last-write-time",
-    xmlName: "x-ms-file-last-write-time",
-    type: {
-      name: "String"
     }
   }
 };
@@ -1109,7 +1213,7 @@ export const setArchiveAttribute: OperationParameter = {
   }
 };
 
-export const comp13: OperationQueryParameter = {
+export const comp14: OperationQueryParameter = {
   parameterPath: "comp",
   mapper: {
     defaultValue: "copy",

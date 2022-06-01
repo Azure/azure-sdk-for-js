@@ -5,10 +5,10 @@ const {
   jsonRecordingFilterFunction,
   isPlaybackMode,
   isSoftRecordMode,
-  isRecordMode
+  isRecordMode,
 } = require("@azure-tools/test-recorder");
 
-module.exports = function(config) {
+module.exports = function (config) {
   config.set({
     basePath: "./",
     frameworks: ["mocha"],
@@ -25,12 +25,12 @@ module.exports = function(config) {
       "karma-sourcemap-loader",
       "karma-junit-reporter",
       "karma-json-to-file-reporter",
-      "karma-json-preprocessor"
+      "karma-json-preprocessor",
     ],
 
     files: [
       "dist-test/index.browser.js",
-      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true }
+      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true },
     ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
 
     exclude: [],
@@ -38,7 +38,7 @@ module.exports = function(config) {
     preprocessors: {
       "**/*.js": ["sourcemap", "env"],
       //"dist-test/index.browser.js": ["coverage"],
-      "recordings/browsers/**/*.json": ["json"]
+      "recordings/browsers/**/*.json": ["json"],
     },
 
     envPreprocessor: [
@@ -50,7 +50,7 @@ module.exports = function(config) {
       "AZURE_MANAGEDHSM_URI",
       "AZURE_KEYVAULT_ATTESTATION_URI",
       "TEST_MODE",
-      "AZURE_AUTHORITY_HOST"
+      "AZURE_AUTHORITY_HOST",
     ],
 
     reporters: ["mocha", "coverage", "junit", "json-to-file"],
@@ -62,8 +62,8 @@ module.exports = function(config) {
         { type: "json", subdir: ".", file: "coverage.json" },
         { type: "lcovonly", subdir: ".", file: "lcov.info" },
         { type: "html", subdir: "html" },
-        { type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" }
-      ]
+        { type: "cobertura", subdir: ".", file: "cobertura-coverage.xml" },
+      ],
     },
 
     junitReporter: {
@@ -73,13 +73,13 @@ module.exports = function(config) {
       useBrowserName: false,
       nameFormatter: undefined,
       classNameFormatter: undefined,
-      properties: {}
+      properties: {},
     },
 
     jsonToFileReporter: {
       // required - to save the recordings of browser tests
       filter: jsonRecordingFilterFunction,
-      outputPath: "."
+      outputPath: ".",
     },
 
     port: 9329,
@@ -93,8 +93,8 @@ module.exports = function(config) {
     customLaunchers: {
       ChromeHeadlessNoSandbox: {
         base: "ChromeHeadless",
-        flags: ["--no-sandbox", "--disable-web-security"]
-      }
+        flags: ["--no-sandbox", "--disable-web-security"],
+      },
     },
 
     singleRun: false,
@@ -105,15 +105,15 @@ module.exports = function(config) {
     browserDisconnectTolerance: 3,
     browserConsoleLogOptions: {
       // IMPORTANT: COMMENT the following line if you want to print debug logs in your browsers in record mode!!
-      terminal: !isRecordMode()
+      terminal: !isRecordMode(),
     },
 
     client: {
       mocha: {
         // change Karma's debug.html to the mocha web reporter
         reporter: "html",
-        timeout: "180000"
-      }
-    }
+        timeout: "180000",
+      },
+    },
   });
 };

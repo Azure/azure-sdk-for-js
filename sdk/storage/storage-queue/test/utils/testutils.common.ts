@@ -20,7 +20,7 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
     // Comment following line to skip user delegation key/SAS related cases in record and play
     // which depends on this environment variable
-    ACCOUNT_TOKEN: `${mockAccountKey}`
+    ACCOUNT_TOKEN: `${mockAccountKey}`,
   },
   customizationsOnRecordings: [
     // Used in record mode
@@ -30,7 +30,7 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
       recording.replace(
         new RegExp(env.ACCOUNT_SAS.match("(.*)&sig=(.*)")[2], "g"),
         `${mockAccountKey}`
-      )
+      ),
   ],
   // SAS token may contain sensitive information
   queryParametersToSkip: [
@@ -42,8 +42,8 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     "srt",
     "ss",
     "st",
-    "sv"
-  ]
+    "sv",
+  ],
 };
 
 export function getUniqueName(prefix: string): string {

@@ -16,7 +16,7 @@ import {
   MetricAnomalyFeedback,
   MetricChangePointFeedback,
   MetricCommentFeedback,
-  MetricPeriodFeedback
+  MetricPeriodFeedback,
 } from "@azure/ai-metrics-advisor";
 
 export async function main() {
@@ -46,7 +46,7 @@ async function provideAnomalyFeedback(client: MetricsAdvisorClient, metricId: st
     startTime: new Date("2020/08/05"),
     endTime: new Date("2020/08/07"),
     value: "NotAnomaly",
-    dimensionKey: { city: "Manila", category: "Handmade" }
+    dimensionKey: { city: "Manila", category: "Handmade" },
   };
   return await client.addFeedback(anomalyFeedback);
 }
@@ -58,7 +58,7 @@ async function providePeriodFeedback(client: MetricsAdvisorClient, metricId: str
     feedbackType: "Period",
     periodType: "AutoDetect",
     periodValue: 4,
-    dimensionKey: { city: "Manila", category: "Handmade" }
+    dimensionKey: { city: "Manila", category: "Handmade" },
   };
   return await client.addFeedback(periodFeedback);
 }
@@ -70,7 +70,7 @@ async function provideChangePointFeedback(client: MetricsAdvisorClient, metricId
     feedbackType: "ChangePoint",
     startTime: new Date("2020/08/05"),
     value: "ChangePoint",
-    dimensionKey: { city: "Manila", category: "Handmade" }
+    dimensionKey: { city: "Manila", category: "Handmade" },
   };
   return await client.addFeedback(changePointFeedback);
 }
@@ -81,7 +81,7 @@ async function provideCommentFeedback(client: MetricsAdvisorClient, metricId: st
     metricId,
     feedbackType: "Comment",
     dimensionKey: { city: "Manila", category: "Handmade" },
-    comment: "This is a comment"
+    comment: "This is a comment",
   };
   return await client.addFeedback(commendFeedback);
 }
@@ -99,8 +99,8 @@ async function listFeedback(client: MetricsAdvisorClient, metricId: string) {
     filter: {
       startTime: new Date("08/01/2020"),
       endTime: new Date("08/03/2020"),
-      timeMode: "MetricTimestamp"
-    }
+      timeMode: "MetricTimestamp",
+    },
   });
   for await (const feedback of listIterator) {
     console.log(`    ${feedback.feedbackType} feedback ${feedback.id}`);
@@ -124,8 +124,8 @@ async function listFeedback(client: MetricsAdvisorClient, metricId: string) {
   const iterator = client
     .listFeedback(metricId, {
       filter: {
-        timeMode: "FeedbackCreatedTime"
-      }
+        timeMode: "FeedbackCreatedTime",
+      },
     })
     .byPage({ maxPageSize: 2 });
   const result = await iterator.next();

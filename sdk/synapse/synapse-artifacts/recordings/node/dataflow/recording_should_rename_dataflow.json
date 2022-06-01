@@ -1,0 +1,111 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://testaccount.dev.azuresynapse.net/dataflows/testdataflow/rename?api-version=2020-12-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "27",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-synapse-artifacts/1.0.0-beta.9 core-rest-pipeline/1.4.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "c117a4ed-f559-490f-ad84-d5a7b699ecae"
+      },
+      "RequestBody": {
+        "newName": "testdataflow2"
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Headers": [
+          "Location",
+          "Retry-After"
+        ],
+        "Access-Control-Expose-Headers": [
+          "Location",
+          "Retry-After"
+        ],
+        "Content-Length": "418",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 31 Jan 2022 22:59:04 GMT",
+        "Location": "https://testaccount.dev.azuresynapse.net/operationResults/da5630b7-6e9f-4c34-bd6d-3fbc5a4d1fe3?api-version=2020-12-01",
+        "Retry-After": "10",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-request-id": "ba278491-c296-4caf-884d-6560fd96ec87"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/faa080af-c1d8-40ad-9cce-e1a450ca5b57/resourceGroups/joheredi-test/providers/Microsoft.Synapse/workspaces/joheredisyn/dataflows/testdataflow",
+        "recordId": 1850566,
+        "state": "Renaming",
+        "created": "2022-01-31T22:58:53.34Z",
+        "changed": "2022-01-31T22:58:56.08Z",
+        "type": "DataFlow",
+        "name": "testdataflow",
+        "operationId": "da5630b7-6e9f-4c34-bd6d-3fbc5a4d1fe3",
+        "artifactId": "BA8E76DE-7BEE-431C-AD73-D9C8D2938F5B"
+      }
+    },
+    {
+      "RequestUri": "https://testaccount.dev.azuresynapse.net/operationResults/da5630b7-6e9f-4c34-bd6d-3fbc5a4d1fe3?api-version=2020-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-synapse-artifacts/1.0.0-beta.9 core-rest-pipeline/1.4.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "9e07810c-e754-4529-a518-4fbb1f953da2"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Headers": [
+          "Location",
+          "Retry-After"
+        ],
+        "Access-Control-Expose-Headers": [
+          "Location",
+          "Retry-After"
+        ],
+        "Content-Length": "23",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 31 Jan 2022 22:59:04 GMT",
+        "Location": "https://testaccount.dev.azuresynapse.net/operationResults/da5630b7-6e9f-4c34-bd6d-3fbc5a4d1fe3?api-version=2020-12-01",
+        "Retry-After": "10",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-request-id": "b72cc831-92db-47d3-9d0d-51cca130cbbf"
+      },
+      "ResponseBody": {
+        "status": "InProgress"
+      }
+    },
+    {
+      "RequestUri": "https://testaccount.dev.azuresynapse.net/operationResults/da5630b7-6e9f-4c34-bd6d-3fbc5a4d1fe3?api-version=2020-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-synapse-artifacts/1.0.0-beta.9 core-rest-pipeline/1.4.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "72322663-fb60-4cd1-9153-ff2853c0e5a1"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Date": "Mon, 31 Jan 2022 22:59:14 GMT",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-request-id": "fc8d8f49-4af7-4666-8e7a-82f13fde8489"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {}
+}

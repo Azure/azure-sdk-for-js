@@ -11,7 +11,7 @@ import { AccountFilters } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureMediaServicesContext } from "../azureMediaServicesContext";
+import { AzureMediaServices } from "../azureMediaServices";
 import {
   AccountFilter,
   AccountFiltersListNextOptionalParams,
@@ -30,13 +30,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AccountFilters operations. */
 export class AccountFiltersImpl implements AccountFilters {
-  private readonly client: AzureMediaServicesContext;
+  private readonly client: AzureMediaServices;
 
   /**
    * Initialize a new instance of the class AccountFilters class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMediaServicesContext) {
+  constructor(client: AzureMediaServices) {
     this.client = client;
   }
 
@@ -278,7 +278,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -325,7 +325,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

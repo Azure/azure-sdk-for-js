@@ -1,0 +1,102 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://testaccount.dev.azuresynapse.net/roleAssignments?api-version=2020-12-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "core-rest-pipeline/1.3.3 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "1a860e1b-d85d-4c21-915d-f0596f821654"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "2213",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 31 Jan 2022 22:40:56 GMT",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-continuation": "",
+        "x-ms-request-id": "8b36e6a6-85f9-4adf-ad6d-0867d3a29113"
+      },
+      "ResponseBody": {
+        "count": 10,
+        "value": [
+          {
+            "id": "d3454554-b137-4f10-820d-f66f048c0341",
+            "roleDefinitionId": "6e4bf58a-b8e1-4cc3-bbf9-d73143322b78",
+            "principalId": "35ac9d32-a8ca-4324-9393-d4000746f07c",
+            "scope": "workspaces/joheredisyn",
+            "principalType": "User"
+          },
+          {
+            "id": "94af6da3-097d-4b32-9184-3db224a040df",
+            "roleDefinitionId": "6e4bf58a-b8e1-4cc3-bbf9-d73143322b78",
+            "principalId": "dc79720f-a14b-4abe-aa2c-6be62e7ca602",
+            "scope": "workspaces/joheredisyn",
+            "principalType": "ServicePrincipal"
+          },
+          {
+            "id": "ed08acb4-43af-48d8-9cbb-2b40c5894b08",
+            "roleDefinitionId": "6e4bf58a-b8e1-4cc3-bbf9-d73143322b78",
+            "principalId": "f8cfe8ca-1f83-4deb-814c-ee49336fdebd",
+            "scope": "workspaces/joheredisyn",
+            "principalType": "ServicePrincipal"
+          },
+          {
+            "id": "27489262-aba1-4af1-99fd-f528d49ff8ae",
+            "roleDefinitionId": "7572bffe-f453-4b66-912a-46cc5ef38fda",
+            "principalId": "f8cfe8ca-1f83-4deb-814c-ee49336fdebd",
+            "scope": "workspaces/joheredisyn",
+            "principalType": "ServicePrincipal"
+          },
+          {
+            "id": "6fd186d4-1119-4b6e-8f1d-f4f81f17600b",
+            "roleDefinitionId": "05930f57-09a3-4c0d-9fa9-6d1eb91c178b",
+            "principalId": "f8cfe8ca-1f83-4deb-814c-ee49336fdebd",
+            "scope": "workspaces/joheredisyn",
+            "principalType": "ServicePrincipal"
+          },
+          {
+            "id": "c2606b47-3eff-4802-a107-ca22a21e6b16",
+            "roleDefinitionId": "c3a6d2f1-a26f-4810-9b0f-591308d5cbf1",
+            "principalId": "f8cfe8ca-1f83-4deb-814c-ee49336fdebd",
+            "scope": "workspaces/joheredisyn",
+            "principalType": "ServicePrincipal"
+          },
+          {
+            "id": "3c4d921a-3114-4e48-8cdd-baeb9344ccb6",
+            "roleDefinitionId": "e3844cc7-4670-42cb-9349-9bdac1ee7881",
+            "principalId": "f8cfe8ca-1f83-4deb-814c-ee49336fdebd",
+            "scope": "workspaces/joheredisyn",
+            "principalType": "ServicePrincipal"
+          },
+          {
+            "id": "e9108af2-3e00-4844-aa7e-4cac1ef811fa",
+            "roleDefinitionId": "e3844cc7-4670-42cb-9349-9bdac1ee7881",
+            "principalId": "35ac9d32-a8ca-4324-9393-d4000746f07c",
+            "scope": "workspaces/joheredisyn",
+            "principalType": "User"
+          },
+          {
+            "id": "f8a28c90-2230-45d1-9b61-d33dae92e745",
+            "roleDefinitionId": "53faaa0e-40b6-40c8-a2ff-e38f2d388875",
+            "principalId": "f8cfe8ca-1f83-4deb-814c-ee49336fdebd",
+            "scope": "workspaces/joheredisyn",
+            "principalType": "ServicePrincipal"
+          },
+          {
+            "id": "cb9deb8e-6453-4145-9d82-14edf872ebe6",
+            "roleDefinitionId": "2a385764-43e8-416c-9825-7b18d05a2c4b",
+            "principalId": "cf28f607-5e8c-4d59-b341-f4e3422ec4b9",
+            "scope": "workspaces/joheredisyn"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

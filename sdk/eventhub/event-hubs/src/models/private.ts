@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RetryOptions } from "@azure/core-amqp";
-import { SubscribeOptions } from "../eventHubConsumerClientModels";
 import { LoadBalancingStrategy } from "../loadBalancerStrategies/loadBalancingStrategy";
+import { RetryOptions } from "@azure/core-amqp";
+import { Typed } from "rhea-promise";
+import { SubscribeOptions } from "../eventHubConsumerClientModels";
+import { idempotentProducerAmqpPropertyNames } from "../util/constants";
 
 /**
  * The set of options to configure the behavior of an `EventHubProducer`.
@@ -111,7 +113,7 @@ export interface EventHubConsumerOptions {
    * Indicates whether or not the consumer should request information on the last enqueued event on its
    * associated partition, and track that information as events are received.
 
-   * When information about the partition's last enqueued event is being tracked, each event received 
+   * When information about the partition's last enqueued event is being tracked, each event received
    * from the Event Hubs service will carry metadata about the partition that it otherwise would not. This results in a small amount of
    * additional network bandwidth consumption that is generally a favorable trade-off when considered
    * against periodically making requests for partition properties using the Event Hub client.
@@ -123,4 +125,77 @@ export interface EventHubConsumerOptions {
    * prefer to work directly with the bytes present in the message body than have the client attempt to parse it.
    */
   skipParsingBodyAsJson?: boolean;
+}
+
+/**
+ * @internal
+ */
+export interface IdempotentLinkProperties {
+  [idempotentProducerAmqpPropertyNames.epoch]: Typed | null;
+  [idempotentProducerAmqpPropertyNames.producerId]: Typed | null;
+  [idempotentProducerAmqpPropertyNames.producerSequenceNumber]: Typed | null;
+}
+
+/**
+ * The set of options that can be specified for an `EventHubProducerClient`
+ * to influence its behavior when publishing directly to an Event Hub partition.
+ *
+ * These options are ignored when publishing to the Event Hubs gateway for automatic
+ * routing or when using a partition key.
+ */
+export interface PartitionPublishingOptions {
+  /**
+   * The owner level indicates that a publishing is intended to be performed exclusively for events in the
+   * requested partition in the context of the associated producer group.
+   *
+   * To do so, publishing will attempt to assert ownership over the partition;
+   * in the case where more than one publisher in the producer group attempts to assert ownership for the same partition,
+   * the one having a larger `ownerLevel` value will "win".
+   */
+  ownerLevel?: number;
+  /**
+   * The identifier of the producer group that this producer is associated with when publishing to the associated partition.
+   * Events will be published in the context of this group.
+   *
+   * If `undefined`, the Event Hubs service will control the value.
+   *
+   * The producer group is only recognized and relevant when certain features of the producer are enabled.
+   * For example, it is used by idempotent publishing.
+   */
+  producerGroupId?: number;
+  /**
+   * The starting number that should be used for the automatic sequencing of events for the associated partition, when published by this producer.
+   *
+   * If `undefined`, the Event Hubs service will control the value.
+   *
+   * The producer group is only recognized and relevant when certain features of the producer are enabled.
+   * For example, it is used by idempotent publishing.
+   */
+  startingSequenceNumber?: number;
+}
+
+/**
+ * Describes the information about the state of publishing for a partition.
+ */
+export interface PartitionPublishingProperties {
+  /**
+   * Indicates whether or not idempotent publishing is enabled for the producer and, by extension, the associated partition.
+   */
+  isIdempotentPublishingEnabled: boolean;
+  /**
+   * The owner level of the producer publishing to the associated partition.
+   */
+  ownerLevel?: number;
+  /**
+   * The partition id the properties are associated with.
+   */
+  partitionId: string;
+  /**
+   * The identifier of the producer group for which this producer is publishing to the associated partition.
+   */
+  producerGroupId?: number;
+  /**
+   * The sequence number assigned to the event that was most recently published to the associated partition successfully.
+   */
+  lastPublishedSequenceNumber?: number;
 }

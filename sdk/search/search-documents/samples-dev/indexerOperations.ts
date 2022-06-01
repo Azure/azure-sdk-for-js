@@ -9,7 +9,7 @@ import {
   SearchIndexerClient,
   AzureKeyCredential,
   SearchIndexer,
-  SearchIndexerStatus
+  SearchIndexerStatus,
 } from "@azure/search-documents";
 
 import * as dotenv from "dotenv";
@@ -29,7 +29,7 @@ async function createIndexer(indexerName: string, client: SearchIndexerClient) {
     description: "Description for Sample Indexer",
     dataSourceName,
     targetIndexName,
-    isDisabled: false
+    isDisabled: false,
   };
   await client.createIndexer(indexer);
 }

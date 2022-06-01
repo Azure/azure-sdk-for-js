@@ -66,6 +66,18 @@ export const DetectRequest: coreHttp.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      imputeMode: {
+        serializedName: "imputeMode",
+        type: {
+          name: "String"
+        }
+      },
+      imputeFixedValue: {
+        serializedName: "imputeFixedValue",
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -176,6 +188,17 @@ export const DetectEntireResponse: coreHttp.CompositeMapper = {
             }
           }
         }
+      },
+      severity: {
+        serializedName: "severity",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
       }
     }
   }
@@ -261,6 +284,12 @@ export const DetectLastPointResponse: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Boolean"
+        }
+      },
+      severity: {
+        serializedName: "severity",
+        type: {
+          name: "Number"
         }
       }
     }
@@ -464,15 +493,7 @@ export const AlignPolicy: coreHttp.CompositeMapper = {
       fillNAMethod: {
         serializedName: "fillNAMethod",
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Previous",
-            "Subsequent",
-            "Linear",
-            "Zero",
-            "Pad",
-            "NotFill"
-          ]
+          name: "String"
         }
       },
       paddingValue: {
@@ -627,17 +648,99 @@ export const VariableState: coreHttp.CompositeMapper = {
         type: {
           name: "DateTime"
         }
-      },
-      errors: {
-        serializedName: "errors",
+      }
+    }
+  }
+};
+
+export const ModelList: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ModelList",
+    modelProperties: {
+      models: {
+        serializedName: "models",
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "ErrorResponse"
+              className: "ModelSnapshot"
             }
           }
+        }
+      },
+      currentCount: {
+        serializedName: "currentCount",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      maxCount: {
+        serializedName: "maxCount",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ModelSnapshot: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ModelSnapshot",
+    modelProperties: {
+      modelId: {
+        serializedName: "modelId",
+        required: true,
+        type: {
+          name: "Uuid"
+        }
+      },
+      createdTime: {
+        serializedName: "createdTime",
+        required: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastUpdatedTime: {
+        serializedName: "lastUpdatedTime",
+        required: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      status: {
+        serializedName: "status",
+        required: true,
+        readOnly: true,
+        type: {
+          name: "Enum",
+          allowedValues: ["CREATED", "RUNNING", "READY", "FAILED"]
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      },
+      variablesCount: {
+        serializedName: "variablesCount",
+        required: true,
+        type: {
+          name: "Number"
         }
       }
     }
@@ -835,18 +938,6 @@ export const AnomalyValue: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "AnomalyValue",
     modelProperties: {
-      contributors: {
-        serializedName: "contributors",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "AnomalyContributor"
-            }
-          }
-        }
-      },
       isAnomaly: {
         serializedName: "isAnomaly",
         required: true,
@@ -871,73 +962,195 @@ export const AnomalyValue: coreHttp.CompositeMapper = {
           InclusiveMinimum: 0
         },
         serializedName: "score",
+        required: true,
         type: {
           name: "Number"
+        }
+      },
+      interpretation: {
+        serializedName: "interpretation",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AnomalyInterpretation"
+            }
+          }
         }
       }
     }
   }
 };
 
-export const AnomalyContributor: coreHttp.CompositeMapper = {
+export const AnomalyInterpretation: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AnomalyContributor",
+    className: "AnomalyInterpretation",
     modelProperties: {
-      contributionScore: {
-        constraints: {
-          InclusiveMaximum: 2,
-          InclusiveMinimum: 0
-        },
-        serializedName: "contributionScore",
-        type: {
-          name: "Number"
-        }
-      },
       variable: {
         serializedName: "variable",
         type: {
           name: "String"
         }
+      },
+      contributionScore: {
+        serializedName: "contributionScore",
+        type: {
+          name: "Number"
+        }
+      },
+      correlationChanges: {
+        serializedName: "correlationChanges",
+        type: {
+          name: "Composite",
+          className: "CorrelationChanges"
+        }
       }
     }
   }
 };
 
-export const ModelList: coreHttp.CompositeMapper = {
+export const CorrelationChanges: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ModelList",
+    className: "CorrelationChanges",
     modelProperties: {
-      models: {
-        serializedName: "models",
+      changedVariables: {
+        serializedName: "changedVariables",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      changedValues: {
+        serializedName: "changedValues",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const LastDetectionRequest: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LastDetectionRequest",
+    modelProperties: {
+      variables: {
+        serializedName: "variables",
         required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "ModelSnapshot"
+              className: "VariableValues"
             }
           }
         }
       },
-      currentCount: {
-        serializedName: "currentCount",
+      detectingPoints: {
+        serializedName: "detectingPoints",
         required: true,
         type: {
           name: "Number"
         }
-      },
-      maxCount: {
-        serializedName: "maxCount",
+      }
+    }
+  }
+};
+
+export const VariableValues: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VariableValues",
+    modelProperties: {
+      name: {
+        serializedName: "name",
         required: true,
         type: {
-          name: "Number"
+          name: "String"
         }
       },
-      nextLink: {
-        serializedName: "nextLink",
+      timestamps: {
+        serializedName: "timestamps",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      values: {
+        serializedName: "values",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const LastDetectionResult: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LastDetectionResult",
+    modelProperties: {
+      variableStates: {
+        serializedName: "variableStates",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "VariableState"
+            }
+          }
+        }
+      },
+      results: {
+        serializedName: "results",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AnomalyState"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AnomalyDetectorDetectEntireSeriesExceptionHeaders: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AnomalyDetectorDetectEntireSeriesExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
         type: {
           name: "String"
         }
@@ -946,52 +1159,30 @@ export const ModelList: coreHttp.CompositeMapper = {
   }
 };
 
-export const ModelSnapshot: coreHttp.CompositeMapper = {
+export const AnomalyDetectorDetectLastPointExceptionHeaders: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ModelSnapshot",
+    className: "AnomalyDetectorDetectLastPointExceptionHeaders",
     modelProperties: {
-      modelId: {
-        serializedName: "modelId",
-        required: true,
-        type: {
-          name: "Uuid"
-        }
-      },
-      createdTime: {
-        serializedName: "createdTime",
-        required: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastUpdatedTime: {
-        serializedName: "lastUpdatedTime",
-        required: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      status: {
-        serializedName: "status",
-        required: true,
-        readOnly: true,
-        type: {
-          name: "Enum",
-          allowedValues: ["CREATED", "RUNNING", "READY", "FAILED"]
-        }
-      },
-      displayName: {
-        serializedName: "displayName",
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
         type: {
           name: "String"
         }
-      },
-      variablesCount: {
-        serializedName: "variablesCount",
-        required: true,
+      }
+    }
+  }
+};
+
+export const AnomalyDetectorDetectChangePointExceptionHeaders: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AnomalyDetectorDetectChangePointExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
         type: {
-          name: "Number"
+          name: "String"
         }
       }
     }
@@ -1005,6 +1196,66 @@ export const AnomalyDetectorTrainMultivariateModelHeaders: coreHttp.CompositeMap
     modelProperties: {
       location: {
         serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AnomalyDetectorTrainMultivariateModelExceptionHeaders: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AnomalyDetectorTrainMultivariateModelExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AnomalyDetectorListMultivariateModelExceptionHeaders: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AnomalyDetectorListMultivariateModelExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AnomalyDetectorGetMultivariateModelExceptionHeaders: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AnomalyDetectorGetMultivariateModelExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AnomalyDetectorDeleteMultivariateModelExceptionHeaders: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AnomalyDetectorDeleteMultivariateModelExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
         type: {
           name: "String"
         }
@@ -1028,13 +1279,73 @@ export const AnomalyDetectorDetectAnomalyHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const AnomalyDetectorExportModelHeaders: coreHttp.CompositeMapper = {
+export const AnomalyDetectorDetectAnomalyExceptionHeaders: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AnomalyDetectorExportModelHeaders",
+    className: "AnomalyDetectorDetectAnomalyExceptionHeaders",
     modelProperties: {
-      contentType: {
-        serializedName: "content-type",
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AnomalyDetectorGetDetectionResultExceptionHeaders: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AnomalyDetectorGetDetectionResultExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AnomalyDetectorExportModelExceptionHeaders: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AnomalyDetectorExportModelExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AnomalyDetectorLastDetectAnomalyExceptionHeaders: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AnomalyDetectorLastDetectAnomalyExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AnomalyDetectorListMultivariateModelNextExceptionHeaders: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AnomalyDetectorListMultivariateModelNextExceptionHeaders",
+    modelProperties: {
+      xMsErrorCode: {
+        serializedName: "x-ms-error-code",
         type: {
           name: "String"
         }

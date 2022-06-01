@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as opentelemetry from "@opentelemetry/api";
-import { BasicTracerProvider } from "@opentelemetry/tracing";
+import { BasicTracerProvider } from "@opentelemetry/sdk-trace-base";
 import { AzureMonitorTraceExporter } from "../../src";
 import { Expectation, Scenario } from "./types";
 import { msToTimeSpan } from "../../src/utils/breezeUtils";
@@ -16,11 +16,11 @@ function delay<T>(t: number, value?: T): Promise<T | void> {
 
 const COMMON_ENVELOPE_PARAMS: Partial<Envelope> = {
   instrumentationKey: process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "ikey",
-  sampleRate: 100
+  sampleRate: 100,
 };
 
 const exporter = new AzureMonitorTraceExporter({
-  connectionString: `instrumentationkey=${COMMON_ENVELOPE_PARAMS.instrumentationKey}`
+  connectionString: `instrumentationkey=${COMMON_ENVELOPE_PARAMS.instrumentationKey}`,
 });
 const processor = new FlushSpanProcessor(exporter);
 
@@ -37,8 +37,8 @@ export class BasicScenario implements Scenario {
       startTime: 0,
       kind: opentelemetry.SpanKind.SERVER,
       attributes: {
-        foo: "bar"
-      }
+        foo: "bar",
+      },
     });
 
     const ctx = opentelemetry.trace.setSpan(opentelemetry.context.active(), root);
@@ -48,8 +48,8 @@ export class BasicScenario implements Scenario {
         startTime: 0,
         kind: opentelemetry.SpanKind.CLIENT,
         attributes: {
-          numbers: "123"
-        }
+          numbers: "123",
+        },
       },
       ctx
     );
@@ -59,8 +59,8 @@ export class BasicScenario implements Scenario {
         startTime: 0,
         kind: opentelemetry.SpanKind.CLIENT,
         attributes: {
-          numbers: "1234"
-        }
+          numbers: "1234",
+        },
       },
       ctx
     );
@@ -93,9 +93,9 @@ export class BasicScenario implements Scenario {
           responseCode: "0",
           success: true,
           properties: {
-            foo: "bar"
-          }
-        } as any
+            foo: "bar",
+          },
+        } as any,
       },
       children: [
         {
@@ -109,11 +109,11 @@ export class BasicScenario implements Scenario {
               success: true,
               resultCode: "0",
               properties: {
-                numbers: "123"
-              }
-            } as any
+                numbers: "123",
+              },
+            } as any,
           },
-          children: []
+          children: [],
         },
         {
           ...COMMON_ENVELOPE_PARAMS,
@@ -126,13 +126,13 @@ export class BasicScenario implements Scenario {
               success: true,
               resultCode: "0",
               properties: {
-                numbers: "1234"
-              }
-            } as any
+                numbers: "1234",
+              },
+            } as any,
           },
-          children: []
-        }
-      ]
-    }
+          children: [],
+        },
+      ],
+    },
   ];
 }

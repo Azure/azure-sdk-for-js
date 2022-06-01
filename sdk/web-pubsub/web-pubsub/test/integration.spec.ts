@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 /* eslint-disable no-invalid-this */
 import { WebPubSubServiceClient } from "../src/index";
-import { env, isLiveMode } from "@azure-tools/test-recorder";
+import { isLiveMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { assert } from "chai";
 import ws from "ws";
@@ -23,7 +23,7 @@ function defer<T>(): {
   return {
     promise,
     resolve: actualResolve!,
-    reject: actualReject!
+    reject: actualReject!,
   };
 }
 
@@ -44,6 +44,17 @@ class SimpleWebSocketFrame {
       this.data[2] === 1
     );
   }
+
+  toString(): string | undefined {
+    if (this.isEndSignal()) {
+      return "|EndSignal|";
+    }
+    if (!this.isBinary) {
+      return this.dataAsString;
+    } else {
+      return this.data.toString();
+    }
+  }
 }
 
 class PubSubWebSocketFrame {
@@ -58,6 +69,14 @@ class PubSubWebSocketFrame {
   isEndSignal(): boolean {
     return this.message.dataType === "binary" && this.message.data === "BQEB";
   }
+
+  toString(): string | undefined {
+    if (this.isEndSignal()) {
+      return "|EndSignal|";
+    }
+
+    return this.dataAsString;
+  }
 }
 
 function getEndSignal(): Uint8Array {
@@ -69,21 +88,26 @@ function getEndSignal(): Uint8Array {
   return payload;
 }
 
-describe("ServiceClient to manage the connected WebSocket connections", function() {
-  it("Simple clients can receive expected messages with different content types", async function(this: Context) {
+describe("ServiceClient to manage the connected WebSocket connections", function () {
+  // Issue - https://github.com/Azure/azure-sdk-for-js/issues/20571 waiting for service fix
+  it.skip("Simple clients can receive expected messages with different content types", async function (this: Context) {
     if (!isLiveMode()) this.skip();
     const hub = "SimpleClientCanReceiveMessage";
 
     const messages: SimpleWebSocketFrame[] = [];
 
     // Get token
-    const serviceClient = new WebPubSubServiceClient(env.WPS_CONNECTION_STRING, hub);
+    const serviceClient = new WebPubSubServiceClient(
+      assertEnvironmentVariable("WPS_CONNECTION_STRING"),
+      hub
+    );
     const token = await serviceClient.getClientAccessToken();
     const endSignal = defer<void>();
     // Start simple WebSocket connections
     const client = new ws.WebSocket(token.url);
     client.on("message", (data, isBinary) => {
       const frame = new SimpleWebSocketFrame(data, isBinary);
+      console.log(frame.toString());
       if (frame.isEndSignal()) {
         endSignal.resolve();
         client.close();
@@ -102,6 +126,7 @@ describe("ServiceClient to manage the connected WebSocket connections", function
       // Send the binary end signal message
       await serviceClient.sendToAll(getEndSignal());
     });
+
     await endSignal.promise;
 
     assert.equal(messages.length, 2);
@@ -109,19 +134,27 @@ describe("ServiceClient to manage the connected WebSocket connections", function
     assert.equal(messages[1].dataAsString, "Hi there!");
   });
 
-  it("Subprotocol clients can receive expected messages with different content types", async function(this: Context) {
+  it("Subprotocol clients can receive expected messages with different content types", async function (this: Context) {
     if (!isLiveMode()) this.skip();
     const hub = "PubSubClientCanReceiveMessage";
     const messages: PubSubWebSocketFrame[] = [];
 
     // Get token
-    const serviceClient = new WebPubSubServiceClient(env.WPS_CONNECTION_STRING, hub);
+    const serviceClient = new WebPubSubServiceClient(
+      assertEnvironmentVariable("WPS_CONNECTION_STRING"),
+      hub
+    );
     const token = await serviceClient.getClientAccessToken();
     const endSignal = defer<void>();
+    const connectedSignal = defer<void>();
     // Start simple WebSocket connections
     const client = new ws.WebSocket(token.url, "json.webpubsub.azure.v1");
     client.on("message", (data, isBinary) => {
       const frame = new PubSubWebSocketFrame(data, isBinary);
+      console.log(frame.toString());
+      if (frame.message.event === "connected") {
+        connectedSignal.resolve();
+      }
       if (frame.isEndSignal()) {
         endSignal.resolve();
         client.close();
@@ -130,6 +163,8 @@ describe("ServiceClient to manage the connected WebSocket connections", function
       }
     });
     client.on("open", async () => {
+      await connectedSignal.promise;
+
       // send to all
       // Send a JSON message
       await serviceClient.sendToAll({ message: "Hello world!" });

@@ -1,0 +1,31 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:aProperty;1",
+      "@type": [
+        "Property",
+        "SemanticType/Velocity"
+      ],
+      "name": "expectedSpeed",
+      "schema": "double",
+      "unit": "kilometrePerSecond"
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:aProperty;1",
+        "type": "Property",
+        "properties": {
+          "name": "expectedSpeed",
+          "schema": "dtmi:dtdl:instance:Schema:double;3"
+        },
+        "supplementalTypes": [],
+        "supplementalProperties": {}
+      }
+    ]
+  }
+}

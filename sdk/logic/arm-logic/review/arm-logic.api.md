@@ -641,7 +641,7 @@ export interface GenerateUpgradedDefinitionParameters {
 
 // @public
 export interface GetCallbackUrlParameters {
-    keyType?: KeyType;
+    keyType?: KeyType_2;
     notAfter?: Date;
 }
 
@@ -1611,7 +1611,8 @@ export interface JsonSchema {
 }
 
 // @public
-export type KeyType = string;
+type KeyType_2 = string;
+export { KeyType_2 as KeyType }
 
 // @public
 export interface KeyVaultKey {
@@ -2294,8 +2295,12 @@ export interface ListKeyVaultKeysDefinition {
 }
 
 // @public (undocumented)
-export class LogicManagementClient extends LogicManagementClientContext {
+export class LogicManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: LogicManagementClientOptionalParams);
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     integrationAccountAgreements: IntegrationAccountAgreements;
     // (undocumented)
@@ -2327,6 +2332,8 @@ export class LogicManagementClient extends LogicManagementClientContext {
     // (undocumented)
     operations: Operations;
     // (undocumented)
+    subscriptionId: string;
+    // (undocumented)
     workflowRunActionRepetitions: WorkflowRunActionRepetitions;
     // (undocumented)
     workflowRunActionRepetitionsRequestHistories: WorkflowRunActionRepetitionsRequestHistories;
@@ -2350,17 +2357,6 @@ export class LogicManagementClient extends LogicManagementClientContext {
     workflowVersions: WorkflowVersions;
     // (undocumented)
     workflowVersionTriggers: WorkflowVersionTriggers;
-}
-
-// @public (undocumented)
-export class LogicManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: LogicManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    subscriptionId: string;
 }
 
 // @public
@@ -2523,7 +2519,7 @@ export interface RecurrenceScheduleOccurrence {
 
 // @public
 export interface RegenerateActionParameter {
-    keyType?: KeyType;
+    keyType?: KeyType_2;
 }
 
 // @public
@@ -2533,11 +2529,12 @@ export interface RepetitionIndex {
 }
 
 // @public
-export interface Request {
+interface Request_2 {
     headers?: Record<string, unknown>;
     method?: string;
     uri?: string;
 }
+export { Request_2 as Request }
 
 // @public
 export type RequestHistory = Resource & {
@@ -2553,8 +2550,8 @@ export interface RequestHistoryListResult {
 // @public
 export interface RequestHistoryProperties {
     endTime?: Date;
-    request?: Request;
-    response?: Response;
+    request?: Request_2;
+    response?: Response_2;
     startTime?: Date;
 }
 
@@ -2577,11 +2574,12 @@ export interface ResourceReference {
 }
 
 // @public
-export interface Response {
+interface Response_2 {
     bodyLink?: ContentLink;
     headers?: Record<string, unknown>;
     statusCode?: number;
 }
+export { Response_2 as Response }
 
 // @public
 export interface RetryHistory {
@@ -3720,7 +3718,6 @@ export interface X12ValidationSettings {
     validateEDITypes: boolean;
     validateXSDTypes: boolean;
 }
-
 
 // (No @packageDocumentation comment for this package)
 

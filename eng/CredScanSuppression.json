@@ -24,6 +24,7 @@
         "azure_client_secret&scope=https%3A%2F%2Fdigitaltwins.azure.net%2F.default",
         "azure_client_secret",
         "p@55wOrd",
+        "password",
         "nodesdk",
         "liilef#$DdRGSa_ewkjh",
         "kt#_gahr!@aGERDXA",
@@ -31,7 +32,8 @@
         "SecretPlaceholder",
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjM2MDB9.adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs",
         "Resource",
-        "sanitized.${expiryReplacement}.sanitized"
+        "sanitized.${expiryReplacement}.sanitized",
+        "123456789"
       ],
       "_justification": "Secret used by test code, it is fake."
     },
@@ -45,7 +47,8 @@
         "sdk/storage/storage-blob/test/utils/fakeTestSecrets.ts",
         "sdk/servicebus/service-bus/test/public/fakeTestSecrets.ts",
         "sdk/cosmosdb/cosmos/test/public/common/_fakeTestSecrets.ts",
-        "sdk/tables/data-tables/test/internal/fakeTestSecrets.ts"
+        "sdk/tables/data-tables/test/internal/fakeTestSecrets.ts",
+        "sdk/tables/data-tables/test/internal/node/generateSas.spec.ts"
       ],
       "_justification": "File contains private key used by test code."
     }

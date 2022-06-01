@@ -6,7 +6,7 @@ import { CloudEvent as WireCloudEvent } from "./generated/models";
 import { CloudEvent, EventGridEvent, cloudEventReservedPropertyNames } from "./models";
 import {
   EventGridEvent as EventGridEventMapper,
-  CloudEvent as CloudEventMapper
+  CloudEvent as CloudEventMapper,
 } from "./generated/models/mappers";
 import { parseAndWrap, validateEventGridEvent, validateCloudEventEvent } from "./util";
 
@@ -94,7 +94,7 @@ export class EventGridDeserializer {
         specversion: deserialized.specversion,
         id: deserialized.id,
         source: deserialized.source,
-        type: deserialized.type
+        type: deserialized.type,
       };
 
       if (deserialized.datacontenttype !== undefined) {

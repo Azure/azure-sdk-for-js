@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TableServiceClientOptions } from "../models";
-import { fromAccountConnectionString, getAccountConnectionString } from "./accountConnectionString";
 import { ClientParamsFromConnectionString, ConnectionString } from "./internalModels";
-import { URL } from "./url";
+import { fromAccountConnectionString, getAccountConnectionString } from "./accountConnectionString";
+
+import { TableServiceClientOptions } from "../models";
 
 const DevelopmentConnectionString =
   "DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1";
@@ -33,7 +33,7 @@ export function getClientParamsFromConnectionString(
   } else if (extractedCreds.kind === "SASConnString") {
     return {
       url: `${extractedCreds.url}?${extractedCreds.accountSas}`,
-      options
+      options,
     };
   } else {
     throw new Error(

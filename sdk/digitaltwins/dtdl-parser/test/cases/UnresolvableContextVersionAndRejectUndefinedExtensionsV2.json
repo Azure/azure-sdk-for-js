@@ -1,0 +1,34 @@
+{
+  "valid": false,
+  "options": [
+    "PermitAnyTopLevelElement",
+    "RejectUndefinedExtensions"
+  ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:anInterface;1",
+      "@type": "Interface",
+      "contents": [
+        {
+          "@context": "dtmi:dtdl:extension:historization;100",
+          "@id": "dtmi:test:aProperty;1",
+          "@type": [ "Property", "Historized" ],
+          "name": "expectedDistance",
+          "schema": "double"
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:unresolvableContextVersion",
+        "PrimaryID": null,
+        "SecondaryID": null,
+        "Property": null,
+        "Value": null
+      }
+    ]
+  }
+}

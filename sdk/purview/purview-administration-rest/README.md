@@ -27,12 +27,12 @@ Key links:
 
 Follow [these][purview_resource] instructions to create your Purview resource
 
-### Install the `@azure-rest/purview-account` package
+### Install the `@azure-rest/purview-administration` package
 
-Install the Azure Purview Account client library for JavaScript with `npm`:
+Install the Azure Purview Administration client library for JavaScript with `npm`:
 
 ```bash
-npm install @azure-rest/purview-account
+npm install @azure-rest/purview-administration
 ```
 
 ### Create and authenticate a `PurviewAccount`

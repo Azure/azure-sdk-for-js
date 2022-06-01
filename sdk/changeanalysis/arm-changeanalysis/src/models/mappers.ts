@@ -6,14 +6,58 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { CloudErrorMapper, BaseResourceMapper } from "@azure/ms-rest-azure-js";
-import * as msRest from "@azure/ms-rest-js";
+import * as coreClient from "@azure/core-client";
 
-export const CloudError = CloudErrorMapper;
-export const BaseResource = BaseResourceMapper;
+export const ResourceProviderOperationList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceProviderOperationList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceProviderOperationDefinition"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
 
-export const ResourceProviderOperationDisplay: msRest.CompositeMapper = {
-  serializedName: "ResourceProviderOperationDisplay",
+export const ResourceProviderOperationDefinition: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ResourceProviderOperationDefinition",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      display: {
+        serializedName: "display",
+        type: {
+          name: "Composite",
+          className: "ResourceProviderOperationDisplay"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceProviderOperationDisplay: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ResourceProviderOperationDisplay",
@@ -46,99 +90,130 @@ export const ResourceProviderOperationDisplay: msRest.CompositeMapper = {
   }
 };
 
-export const ResourceProviderOperationDefinition: msRest.CompositeMapper = {
-  serializedName: "ResourceProviderOperationDefinition",
+export const ErrorResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ResourceProviderOperationDefinition",
+    className: "ErrorResponse",
     modelProperties: {
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      display: {
-        serializedName: "display",
+      error: {
+        serializedName: "error",
         type: {
           name: "Composite",
-          className: "ResourceProviderOperationDisplay"
+          className: "ErrorDetail"
         }
       }
     }
   }
 };
 
-export const PropertyChange: msRest.CompositeMapper = {
-  serializedName: "PropertyChange",
+export const ErrorDetail: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "PropertyChange",
+    className: "ErrorDetail",
     modelProperties: {
-      changeType: {
-        serializedName: "changeType",
+      code: {
+        serializedName: "code",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
-      changeCategory: {
-        serializedName: "changeCategory",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "User",
-            "System"
-          ]
-        }
-      },
-      jsonPath: {
-        serializedName: "jsonPath",
+      message: {
+        serializedName: "message",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
-      displayName: {
-        serializedName: "displayName",
+      target: {
+        serializedName: "target",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
-      level: {
-        serializedName: "level",
+      details: {
+        serializedName: "details",
+        readOnly: true,
         type: {
-          name: "String"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail"
+            }
+          }
         }
       },
-      description: {
-        serializedName: "description",
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
         type: {
-          name: "String"
-        }
-      },
-      oldValue: {
-        serializedName: "oldValue",
-        type: {
-          name: "String"
-        }
-      },
-      newValue: {
-        serializedName: "newValue",
-        type: {
-          name: "String"
-        }
-      },
-      isDataMasked: {
-        serializedName: "isDataMasked",
-        type: {
-          name: "Boolean"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo"
+            }
+          }
         }
       }
     }
   }
 };
 
-export const ChangeProperties: msRest.CompositeMapper = {
-  serializedName: "ChangeProperties",
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      info: {
+        serializedName: "info",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const ChangeList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ChangeList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Change"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ChangeProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ChangeProperties",
@@ -188,29 +263,92 @@ export const ChangeProperties: msRest.CompositeMapper = {
   }
 };
 
-export const Resource: msRest.CompositeMapper = {
-  serializedName: "Resource",
+export const PropertyChange: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PropertyChange",
+    modelProperties: {
+      changeType: {
+        serializedName: "changeType",
+        type: {
+          name: "String"
+        }
+      },
+      changeCategory: {
+        serializedName: "changeCategory",
+        type: {
+          name: "Enum",
+          allowedValues: ["User", "System"]
+        }
+      },
+      jsonPath: {
+        serializedName: "jsonPath",
+        type: {
+          name: "String"
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String"
+        }
+      },
+      level: {
+        serializedName: "level",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      oldValue: {
+        serializedName: "oldValue",
+        type: {
+          name: "String"
+        }
+      },
+      newValue: {
+        serializedName: "newValue",
+        type: {
+          name: "String"
+        }
+      },
+      isDataMasked: {
+        serializedName: "isDataMasked",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const Resource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Resource",
     modelProperties: {
       id: {
-        readOnly: true,
         serializedName: "id",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
       name: {
-        readOnly: true,
         serializedName: "name",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
       type: {
-        readOnly: true,
         serializedName: "type",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -219,8 +357,7 @@ export const Resource: msRest.CompositeMapper = {
   }
 };
 
-export const ProxyResource: msRest.CompositeMapper = {
-  serializedName: "ProxyResource",
+export const ProxyResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ProxyResource",
@@ -230,8 +367,7 @@ export const ProxyResource: msRest.CompositeMapper = {
   }
 };
 
-export const Change: msRest.CompositeMapper = {
-  serializedName: "Change",
+export const Change: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "Change",
@@ -242,207 +378,6 @@ export const Change: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ChangeProperties"
-        }
-      }
-    }
-  }
-};
-
-export const TrackedResource: msRest.CompositeMapper = {
-  serializedName: "TrackedResource",
-  type: {
-    name: "Composite",
-    className: "TrackedResource",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      location: {
-        required: true,
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const AzureEntityResource: msRest.CompositeMapper = {
-  serializedName: "AzureEntityResource",
-  type: {
-    name: "Composite",
-    className: "AzureEntityResource",
-    modelProperties: {
-      ...Resource.type.modelProperties,
-      etag: {
-        readOnly: true,
-        serializedName: "etag",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ErrorAdditionalInfo: msRest.CompositeMapper = {
-  serializedName: "ErrorAdditionalInfo",
-  type: {
-    name: "Composite",
-    className: "ErrorAdditionalInfo",
-    modelProperties: {
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      info: {
-        readOnly: true,
-        serializedName: "info",
-        type: {
-          name: "Object"
-        }
-      }
-    }
-  }
-};
-
-export const ErrorDetail: msRest.CompositeMapper = {
-  serializedName: "ErrorDetail",
-  type: {
-    name: "Composite",
-    className: "ErrorDetail",
-    modelProperties: {
-      code: {
-        readOnly: true,
-        serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        readOnly: true,
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      },
-      target: {
-        readOnly: true,
-        serializedName: "target",
-        type: {
-          name: "String"
-        }
-      },
-      details: {
-        readOnly: true,
-        serializedName: "details",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorDetail"
-            }
-          }
-        }
-      },
-      additionalInfo: {
-        readOnly: true,
-        serializedName: "additionalInfo",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorAdditionalInfo"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ErrorResponse: msRest.CompositeMapper = {
-  serializedName: "ErrorResponse",
-  type: {
-    name: "Composite",
-    className: "ErrorResponse",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ErrorDetail"
-        }
-      }
-    }
-  }
-};
-
-export const ResourceProviderOperationList: msRest.CompositeMapper = {
-  serializedName: "ResourceProviderOperationList",
-  type: {
-    name: "Composite",
-    className: "ResourceProviderOperationList",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ResourceProviderOperationDefinition"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ChangeList: msRest.CompositeMapper = {
-  serializedName: "ChangeList",
-  type: {
-    name: "Composite",
-    className: "ChangeList",
-    modelProperties: {
-      value: {
-        serializedName: "",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Change"
-            }
-          }
-        }
-      },
-      nextLink: {
-        serializedName: "nextLink",
-        type: {
-          name: "String"
         }
       }
     }

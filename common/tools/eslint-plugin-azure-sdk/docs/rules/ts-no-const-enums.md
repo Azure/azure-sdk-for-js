@@ -13,7 +13,7 @@ enum Directions {
   North,
   East,
   South,
-  West
+  West,
 }
 ```
 
@@ -24,7 +24,7 @@ const enum Directions {
   North,
   East,
   South,
-  West
+  West,
 }
 ```
 

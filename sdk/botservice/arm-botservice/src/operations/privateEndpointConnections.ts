@@ -11,7 +11,7 @@ import { PrivateEndpointConnections } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureBotServiceContext } from "../azureBotServiceContext";
+import { AzureBotService } from "../azureBotService";
 import {
   PrivateEndpointConnection,
   PrivateEndpointConnectionsListOptionalParams,
@@ -27,13 +27,13 @@ import {
 /** Class containing PrivateEndpointConnections operations. */
 export class PrivateEndpointConnectionsImpl
   implements PrivateEndpointConnections {
-  private readonly client: AzureBotServiceContext;
+  private readonly client: AzureBotService;
 
   /**
    * Initialize a new instance of the class PrivateEndpointConnections class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureBotServiceContext) {
+  constructor(client: AzureBotService) {
     this.client = client;
   }
 

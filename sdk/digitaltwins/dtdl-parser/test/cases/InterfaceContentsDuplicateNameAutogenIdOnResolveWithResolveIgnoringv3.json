@@ -1,0 +1,121 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement", "ResolveIgnoresElementsWithAutoIDsAndDuplicateNames" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:parentInterface;1",
+      "@type": "Interface",
+      "contents": [
+        {
+          "@type": "Component",
+          "name": "child",
+          "schema": "dtmi:test:childInterface;1"
+        }
+      ]
+    }
+  ],
+  "resolution": [
+    {
+      "request": [
+        "dtmi:test:childInterface;1"
+      ],
+      "response": [
+        {
+          "@context": "dtmi:dtdl:context;3",
+          "@id": "dtmi:test:childInterface;1",
+          "@type": "Interface",
+          "contents": [
+            {
+              "@type": "Property",
+              "name": "expectedDistance",
+              "schema": "double"
+            },
+            {
+              "@type": "Property",
+              "name": "expectedDistance",
+              "schema": "integer"
+            },
+            {
+              "@type": "Telemetry",
+              "name": "currentDistance",
+              "schema": "double"
+            },
+            {
+              "@type": "Command",
+              "name": "setDistance"
+            },
+            {
+              "@type": "Relationship",
+              "name": "proximity"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:childInterface:_contents:__expectedDistance;1",
+        "type": "Property",
+        "properties": {
+          "name": "expectedDistance",
+          "writable": false,
+          "schema": "dtmi:dtdl:instance:Schema:double;3"
+        }
+      },
+      {
+        "id": "dtmi:test:childInterface:_contents:__currentDistance;1",
+        "type": "Telemetry",
+        "properties": {
+          "name": "currentDistance",
+          "schema": "dtmi:dtdl:instance:Schema:double;3"
+        }
+      },
+      {
+        "id": "dtmi:test:childInterface:_contents:__setDistance;1",
+        "type": "Command",
+        "properties": {
+          "name": "setDistance"
+        }
+      },
+      {
+        "id": "dtmi:test:childInterface:_contents:__proximity;1",
+        "type": "Relationship",
+        "properties": {
+          "name": "proximity"
+        }
+      },
+      {
+        "id": "dtmi:test:childInterface;1",
+        "type": "Interface",
+        "properties": {
+          "contents": {
+            "expectedDistance": "dtmi:test:childInterface:_contents:__expectedDistance;1",
+            "currentDistance": "dtmi:test:childInterface:_contents:__currentDistance;1",
+            "setDistance": "dtmi:test:childInterface:_contents:__setDistance;1",
+            "proximity": "dtmi:test:childInterface:_contents:__proximity;1"
+          }
+        }
+      },
+      {
+        "id": "dtmi:test:parentInterface;1",
+        "type": "Interface",
+        "properties": {
+          "contents": {
+            "child": "dtmi:test:parentInterface:_contents:__child;1"
+          },
+          "extends": []
+        }
+      },
+      {
+        "id": "dtmi:test:parentInterface:_contents:__child;1",
+        "type": "Component",
+        "properties": {
+          "schema": "dtmi:test:childInterface;1"
+        }
+      }
+    ]
+  }
+}

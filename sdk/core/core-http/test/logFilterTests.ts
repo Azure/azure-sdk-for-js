@@ -1,13 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { AzureLogLevel, Debugger, getLogLevel, setLogLevel } from "@azure/logger";
 import { HttpHeaders, RawHttpHeaders } from "../src/httpHeaders";
-import { HttpOperationResponse } from "../src/httpOperationResponse";
 import { LogPolicy, LogPolicyOptions } from "../src/policies/logPolicy";
 import { RequestPolicy, RequestPolicyOptions } from "../src/policies/requestPolicy";
+import { HttpOperationResponse } from "../src/httpOperationResponse";
 import { WebResource } from "../src/webResource";
-import { getLogLevel, setLogLevel, AzureLogLevel, Debugger } from "@azure/logger";
+import { assert } from "chai";
 
 function getNextPolicy(responseHeaders?: RawHttpHeaders): RequestPolicy {
   return {
@@ -17,9 +17,9 @@ function getNextPolicy(responseHeaders?: RawHttpHeaders): RequestPolicy {
         request,
         status: 200,
         headers: new HttpHeaders(responseHeaders),
-        bodyAsText: null
+        bodyAsText: null,
       });
-    }
+    },
   };
 }
 
@@ -42,13 +42,13 @@ function assertLog(
     extend: () => logger,
     log: () => {
       // Nothing to do here.
-    }
+    },
   });
 
   const options: LogPolicyOptions = {
     logger,
     allowedHeaderNames: ["Capitalized-Header", "x-ms-safe-header"],
-    allowedQueryParameters: ["api-version"]
+    allowedQueryParameters: ["api-version"],
   };
 
   const lf = new LogPolicy(getNextPolicy(responseHeaders), new RequestPolicyOptions(), options);
@@ -97,7 +97,7 @@ Headers: {
 
     const request = new WebResource("https://foo.com", "PUT", { a: 1 }, undefined, {
       "x-ms-safe-header": "It me",
-      "x-ms-oh-noes": ":-p"
+      "x-ms-oh-noes": ":-p",
     });
     delete (request as any).requestId;
     assertLog(request, expected, done);
@@ -126,7 +126,7 @@ Headers: {
     delete (request as any).requestId;
     assertLog(request, expected, done, {
       "x-ms-safe-header": "It me",
-      "x-ms-oh-noes": ":-p"
+      "x-ms-oh-noes": ":-p",
     });
   });
 
@@ -151,7 +151,7 @@ Headers: {
 
     const request = new WebResource("https://foo.com", "PUT", { a: 1 }, undefined, {
       "Capitalized-Header": "Don't redact me, bro",
-      "x-ms-safe-header": "It me"
+      "x-ms-safe-header": "It me",
     });
     delete (request as any).requestId;
     assertLog(request, expected, done);
@@ -183,7 +183,7 @@ Headers: {
       { a: 1 },
       {
         "api-version": "1.0",
-        secret: "SecretPlaceholder"
+        secret: "SecretPlaceholder",
       }
     );
     delete (request as any).requestId;
@@ -207,7 +207,7 @@ Headers: {
 `;
 
     const request = new WebResource("https://foo.com?api-version=1.0&secret=goose", "PUT", {
-      a: 1
+      a: 1,
     });
     delete (request as any).requestId;
     assertLog(request, expected, done);

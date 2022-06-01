@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 import { CheckpointStore, SubscriptionEventHandlers } from "../../src";
+import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import { EventHubConsumerClient, isCheckpointStore } from "../../src/eventHubConsumerClient";
-import { InMemoryCheckpointStore } from "../../src/inMemoryCheckpointStore";
 import { EventProcessor, FullEventProcessorOptions } from "../../src/eventProcessor";
 import { SinonStubbedInstance, createStubInstance } from "sinon";
-import { ConnectionContext } from "../../src/connectionContext";
 import { BalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/balancedStrategy";
+import { ConnectionContext } from "../../src/connectionContext";
 import { GreedyLoadBalancingStrategy } from "../../src/loadBalancerStrategies/greedyStrategy";
+import { InMemoryCheckpointStore } from "../../src/inMemoryCheckpointStore";
 import chai from "chai";
-import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
-import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 import { createMockServer } from "../public/utils/mockService";
+import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
 
 const should = chai.should();
 
@@ -32,7 +33,7 @@ testWithServiceTypes((serviceVersion) => {
   describe("EventHubConsumerClient", () => {
     const service = {
       connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-      path: env[EnvVarKeys.EVENTHUB_NAME]!
+      path: env[EnvVarKeys.EVENTHUB_NAME]!,
     };
 
     before(() => {
@@ -54,7 +55,7 @@ testWithServiceTypes((serviceVersion) => {
           },
           processClose: async () => {
             /* no-op */
-          }
+          },
         }).should.not.equal(true);
 
         isCheckpointStore("hello").should.not.equal(true);
@@ -106,13 +107,12 @@ testWithServiceTypes((serviceVersion) => {
             },
             processError: async () => {
               /* no-op */
-            }
+            },
           };
 
           (client as any)["_createEventProcessor"] = fakeEventProcessorConstructor;
-          (clientWithCheckpointStore as any)[
-            "_createEventProcessor"
-          ] = fakeEventProcessorConstructor;
+          (clientWithCheckpointStore as any)["_createEventProcessor"] =
+            fakeEventProcessorConstructor;
         });
 
         it("conflicting subscribes", () => {
@@ -193,8 +193,8 @@ testWithServiceTypes((serviceVersion) => {
               loadBalancingOptions: {
                 strategy: "greedy", // ignored
                 partitionOwnershipExpirationIntervalInMs: 100, // ignored
-                updateIntervalInMs: 20
-              }
+                updateIntervalInMs: 20,
+              },
             }
           );
           (client as any)["_createEventProcessor"] = fakeEventProcessorConstructor;
@@ -254,13 +254,12 @@ testWithServiceTypes((serviceVersion) => {
               loadBalancingOptions: {
                 strategy: "greedy", // ignored
                 partitionOwnershipExpirationIntervalInMs: 100, // ignored
-                updateIntervalInMs: 20
-              }
+                updateIntervalInMs: 20,
+              },
             }
           );
-          (clientWithCheckpointStore as any)[
-            "_createEventProcessor"
-          ] = fakeEventProcessorConstructor;
+          (clientWithCheckpointStore as any)["_createEventProcessor"] =
+            fakeEventProcessorConstructor;
 
           clientWithCheckpointStore.subscribe("0", subscriptionHandlers);
         });
@@ -303,8 +302,8 @@ testWithServiceTypes((serviceVersion) => {
               loadBalancingOptions: {
                 strategy: "greedy", // ignored
                 partitionOwnershipExpirationIntervalInMs: 100, // ignored
-                updateIntervalInMs: 20
-              }
+                updateIntervalInMs: 20,
+              },
             }
           );
           (client as any)["_createEventProcessor"] = fakeEventProcessorConstructor;
@@ -359,13 +358,12 @@ testWithServiceTypes((serviceVersion) => {
               loadBalancingOptions: {
                 strategy: "greedy",
                 partitionOwnershipExpirationIntervalInMs: 100,
-                updateIntervalInMs: 20
-              }
+                updateIntervalInMs: 20,
+              },
             }
           );
-          (clientWithCheckpointStore as any)[
-            "_createEventProcessor"
-          ] = fakeEventProcessorConstructor;
+          (clientWithCheckpointStore as any)["_createEventProcessor"] =
+            fakeEventProcessorConstructor;
 
           clientWithCheckpointStore.subscribe(subscriptionHandlers);
         });
@@ -395,13 +393,12 @@ testWithServiceTypes((serviceVersion) => {
               loadBalancingOptions: {
                 strategy: "balanced",
                 partitionOwnershipExpirationIntervalInMs: 100,
-                updateIntervalInMs: 20
-              }
+                updateIntervalInMs: 20,
+              },
             }
           );
-          (clientWithCheckpointStore as any)[
-            "_createEventProcessor"
-          ] = fakeEventProcessorConstructor;
+          (clientWithCheckpointStore as any)["_createEventProcessor"] =
+            fakeEventProcessorConstructor;
 
           clientWithCheckpointStore.subscribe(subscriptionHandlers);
         });
@@ -431,13 +428,12 @@ testWithServiceTypes((serviceVersion) => {
               loadBalancingOptions: {
                 // default 'strategy' is 'balanced'
                 partitionOwnershipExpirationIntervalInMs: 100,
-                updateIntervalInMs: 20
-              }
+                updateIntervalInMs: 20,
+              },
             }
           );
-          (clientWithCheckpointStore as any)[
-            "_createEventProcessor"
-          ] = fakeEventProcessorConstructor;
+          (clientWithCheckpointStore as any)["_createEventProcessor"] =
+            fakeEventProcessorConstructor;
 
           clientWithCheckpointStore.subscribe(subscriptionHandlers);
         });
@@ -465,14 +461,13 @@ testWithServiceTypes((serviceVersion) => {
             new InMemoryCheckpointStore(),
             {
               loadBalancingOptions: {
-                strategy: "greedy"
+                strategy: "greedy",
                 // defaults are used for the rest of the parameters.
-              }
+              },
             }
           );
-          (clientWithCheckpointStore as any)[
-            "_createEventProcessor"
-          ] = fakeEventProcessorConstructor;
+          (clientWithCheckpointStore as any)["_createEventProcessor"] =
+            fakeEventProcessorConstructor;
 
           clientWithCheckpointStore.subscribe(subscriptionHandlers);
         });

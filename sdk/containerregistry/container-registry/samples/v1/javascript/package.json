@@ -1,5 +1,5 @@
 {
-  "name": "azure-container-registry-samples-js",
+  "name": "@azure-samples/container-registry-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Container Registry client library samples for JavaScript",
@@ -23,7 +23,7 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/containerregistry/container-registry",
   "dependencies": {
-    "@azure/container-registry": "next",
+    "@azure/container-registry": "latest",
     "dotenv": "latest",
     "@azure/identity": "^2.0.1"
   }

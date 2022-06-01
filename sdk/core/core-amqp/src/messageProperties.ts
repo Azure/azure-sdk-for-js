@@ -171,5 +171,5 @@ export const AmqpMessageProperties = {
 
     logger.verbose("From RheaMessageProperties: %O", msgProperties);
     return msgProperties;
-  }
+  },
 };

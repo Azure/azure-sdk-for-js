@@ -6,9 +6,9 @@
  * @author Arpan Laha
  */
 
-import { Rule } from "eslint";
 import { Literal, Property } from "estree";
 import { getRuleMetaData, getVerifiers, stripPath } from "../utils";
+import { Rule } from "eslint";
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -22,7 +22,7 @@ export = {
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const verifiers = getVerifiers(context, {
-      outer: "main"
+      outer: "main",
     });
     return stripPath(context.getFilename()) === "package.json"
       ? ({
@@ -38,7 +38,7 @@ export = {
             if (node.value.type !== "Literal") {
               context.report({
                 node: node.value,
-                message: "name is not a Literal"
+                message: "name is not a Literal",
               });
             }
 
@@ -50,11 +50,11 @@ export = {
                 node: nodeValue,
                 message: `main is set to ${main} when it should be set to dist/index.js`,
                 fix: (fixer: Rule.RuleFixer): Rule.Fix =>
-                  fixer.replaceText(nodeValue, `"dist/index.js"`)
+                  fixer.replaceText(nodeValue, `"dist/index.js"`),
               });
             }
-          }
+          },
         } as Rule.RuleListener)
       : {};
-  }
+  },
 };

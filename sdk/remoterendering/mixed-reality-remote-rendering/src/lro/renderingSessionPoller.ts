@@ -65,7 +65,8 @@ export class RenderingSessionOperationStateImpl implements RenderingSessionOpera
  * @internal
  */
 class RenderingSessionOperation
-  implements PollOperation<RenderingSessionOperationState, RenderingSession> {
+  implements PollOperation<RenderingSessionOperationState, RenderingSession>
+{
   private accountId: string;
   private operations: RemoteRendering;
   state: RenderingSessionOperationState;

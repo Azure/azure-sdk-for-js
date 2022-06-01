@@ -1,0 +1,187 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:deepArray;1",
+      "@type": "Array",
+      "elementSchema": {
+        "@type": "Array",
+        "elementSchema": {
+          "@type": "Array",
+          "elementSchema": {
+            "@type": "Array",
+            "elementSchema": {
+              "@type": "Array",
+              "elementSchema": "double"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "expect": {
+    "elementCount": 6,
+    "elements": [
+      {
+        "id": "dtmi:test:deepArray;1",
+        "type": "Array",
+        "properties": {
+          "elementSchema": "dtmi:test:deepArray:_elementSchema;1"
+        }
+      },
+      {
+        "id": "dtmi:test:deepArray:_elementSchema;1",
+        "type": "Array",
+        "properties": {
+          "elementSchema": "dtmi:test:deepArray:_elementSchema:_elementSchema;1"
+        }
+      },
+      {
+        "id": "dtmi:test:deepArray:_elementSchema:_elementSchema;1",
+        "type": "Array",
+        "properties": {
+          "elementSchema": "dtmi:test:deepArray:_elementSchema:_elementSchema:_elementSchema;1"
+        }
+      },
+      {
+        "id": "dtmi:test:deepArray:_elementSchema:_elementSchema:_elementSchema;1",
+        "type": "Array",
+        "properties": {
+          "elementSchema": "dtmi:test:deepArray:_elementSchema:_elementSchema:_elementSchema:_elementSchema;1"
+        }
+      },
+      {
+        "id": "dtmi:test:deepArray:_elementSchema:_elementSchema:_elementSchema:_elementSchema;1",
+        "type": "Array",
+        "properties": {
+          "elementSchema": "dtmi:dtdl:instance:Schema:double;3"
+        }
+      }
+    ]
+  },
+  "instances": [
+    {
+      "subject": "dtmi:test:deepArray;1",
+      "conforms": true,
+      "submit": "[ [ [ [ [ 2, 3.14, 555 ] ] ] ] ]"
+    },
+    {
+      "subject": "dtmi:test:deepArray;1",
+      "conforms": true,
+      "submit": "[ [ [ [ [ 2, 3.14 ], [ 555 ] ] ] ] ]"
+    },
+    {
+      "subject": "dtmi:test:deepArray;1",
+      "conforms": true,
+      "submit": "[ [ [ [ [ 2, 3.14 ], [ 555 ] ], [ [ 1.0 ] ] ] ] ]"
+    },
+    {
+      "subject": "dtmi:test:deepArray;1",
+      "conforms": false,
+      "submit": "[ [ [ [ [ 2, \"hi\", 555 ] ] ] ] ]"
+    },
+    {
+      "subject": "dtmi:test:deepArray;1",
+      "conforms": false,
+      "submit": "[ [ [ [ [ 2, true, 555 ] ] ] ] ]"
+    },
+    {
+      "subject": "dtmi:test:deepArray;1",
+      "conforms": true,
+      "submit": "[ [ [ [ [ ] ] ] ] ]"
+    },
+    {
+      "subject": "dtmi:test:deepArray;1",
+      "conforms": true,
+      "submit": "[ [ [ [ [ ], [ ] ] ] ] ]"
+    },
+    {
+      "subject": "dtmi:test:deepArray;1",
+      "conforms": true,
+      "submit": "[ [ [ [ ] ] ] ]"
+    },
+    {
+      "subject": "dtmi:test:deepArray;1",
+      "conforms": false,
+      "submit": "[ [ [ [ 3.14 ] ] ] ]"
+    },
+    {
+      "subject": "dtmi:test:deepArray;1",
+      "conforms": true,
+      "submit": "[ [ [ ] ] ]"
+    },
+    {
+      "subject": "dtmi:test:deepArray;1",
+      "conforms": true,
+      "submit": "[ ]"
+    },
+    {
+      "subject": "dtmi:test:deepArray;1",
+      "conforms": true,
+      "submit": "[ [ ], [ ] ]"
+    },
+    {
+      "subject": "dtmi:test:deepArray;1",
+      "conforms": false,
+      "submit": "[ 1.1 ]"
+    },
+    {
+      "subject": "dtmi:test:deepArray;1",
+      "conforms": false,
+      "submit": ""
+    },
+    {
+      "subject": "dtmi:test:deepArray;1",
+      "conforms": false,
+      "submit": "true"
+    },
+    {
+      "subject": "dtmi:test:deepArray;1",
+      "conforms": false,
+      "submit": "\"[ [ [ [ [ 2, 3.14, 555 ] ] ] ] ]\""
+    },
+    {
+      "subject": "dtmi:test:deepArray;1",
+      "conforms": false,
+      "submit": "3.14"
+    },
+    {
+      "subject": "dtmi:test:deepArray;1",
+      "conforms": false,
+      "submit": "null"
+    },
+    {
+      "subject": "dtmi:test:deepArray;1",
+      "conforms": false,
+      "submit": "{ \"value\": [ [ [ [ [ 2, 3.14, 555 ] ] ] ] ] }"
+    },
+    {
+      "subject": "dtmi:test:deepArray;1",
+      "conforms": false,
+      "submit": "[ [ [ [ [ [ 2, 3.14, 555 ] ] ] ] ] ]"
+    },
+    {
+      "subject": "dtmi:test:deepArray;1",
+      "conforms": false,
+      "submit": "$$"
+    },
+    {
+      "subject": "dtmi:test:deepArray;1",
+      "conforms": false,
+      "submit": "[ \"hi\": \"there\" ]"
+    },
+    {
+      "subject": "dtmi:test:deepArray;1",
+      "conforms": false,
+      "submit": "{ \"hello\" }"
+    },
+    {
+      "subject": "dtmi:test:deepArray;1",
+      "conforms": false,
+      "submit": "{ 23 ]"
+    }
+  ]
+
+}

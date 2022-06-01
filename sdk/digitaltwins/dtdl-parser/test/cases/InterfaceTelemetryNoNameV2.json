@@ -1,0 +1,28 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:missingRequiredProperty",
+        "PrimaryID": "dtmi:test:anInterface;1",
+        "SecondaryID": null,
+        "Property": "contents",
+        "Value": "name"
+      }
+    ]
+  },
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:anInterface;1",
+      "@type": "Interface",
+      "contents": [
+        {
+          "@type": "Telemetry",
+          "schema": "double"
+        }
+      ]
+    }
+  ]
+}

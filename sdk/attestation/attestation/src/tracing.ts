@@ -13,5 +13,5 @@ import { createSpanFunction } from "@azure/core-tracing";
  */
 export const createSpan = createSpanFunction({
   namespace: "Azure.Security.Attestation",
-  packagePrefix: "Azure.Security.Attestation"
+  packagePrefix: "Azure.Security.Attestation",
 });

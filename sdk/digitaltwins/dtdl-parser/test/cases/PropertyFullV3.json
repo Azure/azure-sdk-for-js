@@ -1,0 +1,52 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:aProperty;1",
+      "@type": "Property",
+      "name": "expectedDistance",
+      "schema": "double",
+      "writable": true,
+      "displayName": {
+        "en": "Distance",
+        "es": "Distancia"
+      },
+      "description": [
+        {
+          "@language": "en",
+          "@value": "how close"
+        },
+        {
+          "@language": "es",
+          "@value": "lo cerca que"
+        }
+      ],
+      "comment": "How close is it?"
+    }
+  ],
+  "expect": {
+    "elements": [
+      {
+        "id": "dtmi:test:aProperty;1",
+        "type": "Property",
+        "properties": {
+          "name": "expectedDistance",
+          "schema": "dtmi:dtdl:instance:Schema:double;3",
+          "writable": true,
+          "displayName": {
+            "en": "Distance",
+            "es": "Distancia"
+          },
+          "description": {
+            "en": "how close",
+            "es": "lo cerca que"
+          },
+          "comment": "How close is it?",
+          "definedIn": null
+        }
+      }
+    ]
+  }
+}

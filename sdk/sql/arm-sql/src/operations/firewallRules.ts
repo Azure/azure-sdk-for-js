@@ -6,13 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { FirewallRules } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { SqlManagementClientContext } from "../sqlManagementClientContext";
+import { SqlManagementClient } from "../sqlManagementClient";
 import {
   FirewallRule,
   FirewallRulesListByServerNextOptionalParams,
@@ -32,13 +31,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing FirewallRules operations. */
 export class FirewallRulesImpl implements FirewallRules {
-  private readonly client: SqlManagementClientContext;
+  private readonly client: SqlManagementClient;
 
   /**
    * Initialize a new instance of the class FirewallRules class.
    * @param client Reference to the service client
    */
-  constructor(client: SqlManagementClientContext) {
+  constructor(client: SqlManagementClient) {
     this.client = client;
   }
 
@@ -271,7 +270,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters27,
+  requestBody: Parameters.parameters25,
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
@@ -330,7 +329,7 @@ const replaceOperationSpec: coreClient.OperationSpec = {
     202: {},
     default: {}
   },
-  requestBody: Parameters.parameters28,
+  requestBody: Parameters.parameters26,
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,

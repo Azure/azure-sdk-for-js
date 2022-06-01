@@ -34,9 +34,9 @@ export async function main(): Promise<void> {
       type: "azure.sdk.eventgrid.samples.cloudevent",
       source: "/azure/sdk/eventgrid/samples/sendEventSample",
       data: {
-        message: "this is a sample event"
-      }
-    }
+        message: "this is a sample event",
+      },
+    },
   ]);
 }
 

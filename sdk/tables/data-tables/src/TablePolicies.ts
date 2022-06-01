@@ -2,27 +2,26 @@
 // Licensed under the MIT license.
 
 import {
-  PipelineResponse,
-  PipelineRequest,
-  SendRequest,
-  PipelinePolicy,
-  createHttpHeaders,
-  createPipelineRequest
-} from "@azure/core-rest-pipeline";
-import {
   HeaderConstants,
   TRANSACTION_HTTP_LINE_ENDING,
-  TRANSACTION_HTTP_VERSION_1_1
+  TRANSACTION_HTTP_VERSION_1_1,
 } from "./utils/constants";
+import {
+  PipelinePolicy,
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+  createHttpHeaders,
+  createPipelineRequest,
+} from "@azure/core-rest-pipeline";
 import { getChangeSetBoundary } from "./utils/transactionHelpers";
-import { URL } from "./utils/url";
 
 export const transactionRequestAssemblePolicyName = "transactionRequestAssemblePolicy";
 
 const dummyResponse: PipelineResponse = {
   request: createPipelineRequest({ url: "FAKE" }),
   status: 200,
-  headers: createHttpHeaders()
+  headers: createHttpHeaders(),
 };
 
 export function transactionRequestAssemblePolicy(
@@ -36,7 +35,7 @@ export function transactionRequestAssemblePolicy(
       bodyParts.push(subRequest);
       // Intercept request from going to wire
       return dummyResponse;
-    }
+    },
   };
 }
 
@@ -49,7 +48,7 @@ export function transactionHeaderFilterPolicy(): PipelinePolicy {
       // The subrequests should not have the x-ms-version header.
       request.headers.delete(HeaderConstants.X_MS_VERSION);
       return next(request);
-    }
+    },
   };
 }
 
@@ -69,7 +68,7 @@ function getNextSubrequestBodyPart(request: PipelineRequest, changesetId: string
   const subRequest = [
     subRequestPrefix, // sub request constant prefix
     "", // empty line after sub request's content ID
-    `${request.method.toString()} ${subRequestUrl} ${TRANSACTION_HTTP_VERSION_1_1}` // sub request start line with method,
+    `${request.method.toString()} ${subRequestUrl} ${TRANSACTION_HTTP_VERSION_1_1}`, // sub request start line with method,
   ];
 
   // Add required headers

@@ -6,9 +6,9 @@
  * @author Arpan Laha
  */
 
-import plugin from "../src";
 import { describe, it } from "mocha";
 import { assert } from "chai";
+import plugin from "../src";
 
 /**
  * A list of all currently supported rules
@@ -20,6 +20,7 @@ const ruleList = [
   "ts-apisurface-supportcancellation",
   "ts-config-include",
   "ts-doc-internal",
+  "ts-doc-internal-private-member",
   "ts-error-handling",
   "ts-modules-only-named",
   "ts-naming-drop-noun",
@@ -45,7 +46,7 @@ const ruleList = [
   "ts-pagination-list",
   "ts-use-interface-parameters",
   "ts-use-promises",
-  "ts-versioning-semver"
+  "ts-versioning-semver",
 ];
 
 /**

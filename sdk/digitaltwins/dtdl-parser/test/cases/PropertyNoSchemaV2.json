@@ -1,0 +1,23 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:aProperty;1",
+      "@type": "Property",
+      "name": "distance"
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:missingRequiredProperty",
+        "PrimaryID": "dtmi:test:aProperty;1",
+        "SecondaryID": null,
+        "Property": "schema",
+        "Value": null
+      }
+    ]
+  }
+}

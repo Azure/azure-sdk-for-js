@@ -1,0 +1,24 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:aCommand;1",
+      "@type": "Command",
+      "name": "setDistance",
+      "commandType": "isochronous"
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:badDtmiOrTerm",
+        "PrimaryID": "dtmi:test:aCommand;1",
+        "SecondaryID": null,
+        "Property": "commandType",
+        "Value": "isochronous"
+      }
+    ]
+  }
+}

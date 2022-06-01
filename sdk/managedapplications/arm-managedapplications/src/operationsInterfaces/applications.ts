@@ -6,14 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   Application,
-  ApplicationsListByResourceGroupNextOptionalParams,
   ApplicationsListByResourceGroupOptionalParams,
-  ApplicationsListBySubscriptionNextOptionalParams,
   ApplicationsListBySubscriptionOptionalParams,
   ApplicationsGetOptionalParams,
   ApplicationsGetResponse,
@@ -49,26 +46,6 @@ export interface Applications {
    */
   listBySubscription(
     options?: ApplicationsListBySubscriptionOptionalParams
-  ): PagedAsyncIterableIterator<Application>;
-  /**
-   * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
-   * @param options The options parameters.
-   */
-  listByResourceGroupNext(
-    resourceGroupName: string,
-    nextLink: string,
-    options?: ApplicationsListByResourceGroupNextOptionalParams
-  ): PagedAsyncIterableIterator<Application>;
-  /**
-   * ListBySubscriptionNext
-   * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
-   * @param options The options parameters.
-   */
-  listBySubscriptionNext(
-    nextLink: string,
-    options?: ApplicationsListBySubscriptionNextOptionalParams
   ): PagedAsyncIterableIterator<Application>;
   /**
    * Gets the managed application.

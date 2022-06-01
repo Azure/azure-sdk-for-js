@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay, OperationOptions } from "@azure/core-http";
-import { Poller, PollOperation, PollOperationState } from "@azure/core-lro";
+import { OperationOptions, delay } from "@azure/core-http";
+import { PollOperation, PollOperationState, Poller } from "@azure/core-lro";
 import { KeyVaultClient } from "../generated/keyVaultClient";
 
 /**
@@ -61,7 +61,8 @@ export interface KeyVaultSecretPollOperationOptions {
 export class KeyVaultSecretPollOperation<
   TState extends KeyVaultSecretPollOperationState<TResult>,
   TResult
-> implements PollOperation<TState, TResult> {
+> implements PollOperation<TState, TResult>
+{
   private cancelMessage: string = "";
 
   constructor(public state: TState, options: KeyVaultSecretPollOperationOptions = {}) {
@@ -91,7 +92,7 @@ export class KeyVaultSecretPollOperation<
    */
   public toString(): string {
     return JSON.stringify({
-      state: this.state
+      state: this.state,
     });
   }
 }

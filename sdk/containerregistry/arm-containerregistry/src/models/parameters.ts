@@ -69,7 +69,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-08-01-preview",
+    defaultValue: "2022-02-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -218,6 +218,17 @@ export const registry: OperationParameter = {
 export const registryUpdateParameters: OperationParameter = {
   parameterPath: "registryUpdateParameters",
   mapper: RegistryUpdateParametersMapper
+};
+
+export const groupName: OperationURLParameter = {
+  parameterPath: "groupName",
+  mapper: {
+    serializedName: "groupName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const regenerateCredentialParameters: OperationParameter = {

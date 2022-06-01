@@ -210,7 +210,6 @@
       "type": "Microsoft.Web/serverfarms",
       "apiVersion": "2020-12-01",
       "name": "[variables('attestationFarm')]",
-      "condition": "[parameters('enableHsm')]",
       "location": "[parameters('location')]",
       "kind": "linux",
       "sku": {
@@ -224,7 +223,6 @@
       "type": "Microsoft.Web/sites",
       "apiVersion": "2020-12-01",
       "name": "[variables('attestationSite')]",
-      "condition": "[parameters('enableHsm')]",
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', variables('attestationFarm'))]"
       ],
@@ -282,7 +280,6 @@
     },
     "AZURE_KEYVAULT_ATTESTATION_URI": {
       "type": "string",
-      "condition": "[parameters('enableHsm')]",
       "value": "[format('https://{0}/', reference(variables('attestationSite')).defaultHostName)]"
     }
   }

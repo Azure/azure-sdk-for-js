@@ -1,3 +1,22 @@
+# Release History
+
+### 1.0.0-beta.4 (2022-04-28)
+
+**Features**
+
+  - Bug fix
+
+## 1.0.0-beta.3 (2021-12-22)
+    
+**Features**
+
+  - Class AzureQuotaExtensionAPI has a new parameter $host
+  - Class AzureQuotaExtensionAPI has a new parameter apiVersion
+
+**Breaking Changes**
+
+  - Deleted Class AzureQuotaExtensionAPIContext
+    
 ## 1.0.0-beta.2 (2021-11-01)
     
 **Features**

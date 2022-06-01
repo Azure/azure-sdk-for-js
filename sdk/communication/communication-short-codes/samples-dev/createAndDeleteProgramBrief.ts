@@ -7,7 +7,7 @@
 
 import {
   ShortCodesClient,
-  ShortCodesUpsertUSProgramBriefOptionalParams
+  ShortCodesUpsertUSProgramBriefOptionalParams,
 } from "@azure-tools/communication-short-codes";
 
 // Load the .env file if it exists
@@ -42,7 +42,7 @@ export async function main() {
         signUpTypes: ["sms", "website"],
         termsOfServiceUrl: "https://contoso.com/terms",
         url: "https://contoso.com/loyalty-program",
-        signUpUrl: "https://contoso.com/sign-up"
+        signUpUrl: "https://contoso.com/sign-up",
       },
       companyInformation: {
         address: "1 Contoso Way Redmond, WA 98052",
@@ -51,12 +51,12 @@ export async function main() {
         contactInformation: {
           email: "alex@contoso.com",
           name: "Alex",
-          phone: "+14255551234"
+          phone: "+14255551234",
         },
         customerCareInformation: {
           email: "customercare@contoso.com",
-          tollFreeNumber: "+18005551234"
-        }
+          tollFreeNumber: "+18005551234",
+        },
       },
       messageDetails: {
         supportedProtocols: ["sms"],
@@ -64,23 +64,23 @@ export async function main() {
         useCases: [
           {
             contentCategory: "coupons",
-            examples: [{ messages: [{ direction: "fromUser", text: "txtMessage" }] }]
+            examples: [{ messages: [{ direction: "fromUser", text: "txtMessage" }] }],
           },
           {
             contentCategory: "loyaltyProgram",
-            examples: [{ messages: [{ direction: "toUser", text: "txtMessage" }] }]
+            examples: [{ messages: [{ direction: "toUser", text: "txtMessage" }] }],
           },
           {
             contentCategory: "loyaltyProgramPointsPrizes",
-            examples: [{ messages: [{ direction: "toUser", text: "txtMessage" }] }]
-          }
+            examples: [{ messages: [{ direction: "toUser", text: "txtMessage" }] }],
+          },
         ],
         optInMessage:
           "Someone requested to subscribe this number to receive updates about Contoso's loyalty program.  To confirm subscription, reply to this message with 'JOIN'",
         optInReply: "JOIN",
         confirmationMessage:
           "Congrats, you have been successfully subscribed to loyalty program updates.  Welcome!",
-        directionality: "twoWay"
+        directionality: "twoWay",
       },
       trafficDetails: {
         totalMonthlyVolume: 10000,
@@ -89,32 +89,47 @@ export async function main() {
         estimatedRampUpTimeInDays: 50,
         isSpiky: true,
         spikeDetails:
-          "Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day."
-      }
-    }
+          "Higher traffic expected around major shopping holidays, most notably Black Friday and Memorial Day.",
+      },
+    },
   };
 
   // create program brief
-  var createResponse = await client.upsertUSProgramBrief(programBriefId, programBriefRequest);
-  if (createResponse._response.status != 201) {
-    throw new Error(`Program brief creation failed.
-    Status code: ${createResponse._response.status}; Error: ${
-      createResponse._response.bodyAsText
-    }; CV: ${createResponse._response.headers.get("MS-CV")}`);
-  } else {
-    console.log(`Successfully created a new program brief with Id ${programBriefId}.`);
-  }
+  var createResponse = await client.upsertUSProgramBrief(programBriefId, {
+    ...programBriefRequest,
+    onResponse:
+      (response) =>
+      (res = response) => {
+        if (!res || res.status != 201) {
+          throw new Error(
+            `Program brief creation failed.
+          Status code: ${res.status}; 
+          Error: ${res.bodyAsText}; 
+          CV: ${res.headers.get("MS-CV")}`
+          );
+        }
+      },
+  });
+  console.log(`Successfully created a new program brief with Id ${createResponse.id}`);
 
   // delete program brief
-  var deleteResponse = await client.deleteUSProgramBrief(programBriefId);
-  if (deleteResponse._response.status == 204) {
-    console.log(`Successfully deleted draft program brief with Id ${programBriefId}`);
-  } else {
-    console.log(`Failed to delete draft program brief with Id ${programBriefId}.
-          Status code: ${deleteResponse._response.status}; Error: ${
-      deleteResponse._response.bodyAsText
-    }; CV: ${deleteResponse._response.headers.get("MS-CV")}`);
-  }
+  var deleteResponse = client.deleteUSProgramBrief(programBriefId, {
+    onResponse:
+      (response) =>
+      (res = response) => {
+        if (!res || res.status != 204) {
+          throw new Error(
+            `Program brief deletion failed.
+          Status code: ${res.status}; 
+          Error: ${res.bodyAsText}; 
+          CV: ${res.headers.get("MS-CV")}`
+          );
+        }
+      },
+  });
+  console.log(
+    `Successfully deleted draft program brief with Id ${programBriefId} ${deleteResponse}`
+  );
 }
 
 main().catch((error) => {

@@ -13,7 +13,7 @@ Fortunately, there are a few options:
 
 In this sample we'll use Azure Key Vault - but it can be used as a guideline for any Azure service that does not support CORS natively.
 
-Interested in enabling CORS in Key Vault? [Let us know!](https://feedback.azure.com/forums/906355-azure-key-vault/suggestions/34753195-enable-cors-for-key-vault)
+Interested in enabling CORS in Key Vault? [Let us know!](https://feedback.azure.com/d365community/idea/89085b38-f624-ec11-b6e6-000d3a4f0da0)
 
 ## Use a back end server
 

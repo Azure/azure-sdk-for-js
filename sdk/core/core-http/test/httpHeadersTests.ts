@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import { HttpHeaders } from "../src/httpHeaders";
+import { assert } from "chai";
 
 describe("HttpHeaders", () => {
   it("clone() should keep the original header names", () => {
     const rawHeaders = {
       lowercase: "lower case value",
       camelCase: "camel case value",
-      ALLUPPERCASE: "all upper case value"
+      ALLUPPERCASE: "all upper case value",
     };
     const headers = new HttpHeaders(rawHeaders);
     const cloned = headers.clone();
@@ -21,12 +21,12 @@ describe("HttpHeaders", () => {
     const rawHeaders = {
       lowercase: "lower case value",
       camelCase: "camel case value",
-      ALLUPPERCASE: "all upper case value"
+      ALLUPPERCASE: "all upper case value",
     };
     const normalizedHeaders = {
       lowercase: "lower case value",
       camelcase: "camel case value",
-      alluppercase: "all upper case value"
+      alluppercase: "all upper case value",
     };
     const headers = new HttpHeaders(rawHeaders);
 
@@ -37,7 +37,7 @@ describe("HttpHeaders", () => {
     const rawHeaders = {
       lowercase: "lower case value",
       camelCase: "camel case value",
-      ALLUPPERCASE: "all upper case value"
+      ALLUPPERCASE: "all upper case value",
     };
     const headers = new HttpHeaders(rawHeaders);
 
@@ -48,7 +48,7 @@ describe("HttpHeaders", () => {
     const rawHeaders = {
       lowercase: "lower case value",
       camelCase: "camel case value",
-      ALLUPPERCASE: "all upper case value"
+      ALLUPPERCASE: "all upper case value",
     };
     const headers = new HttpHeaders(rawHeaders);
 
@@ -59,7 +59,7 @@ describe("HttpHeaders", () => {
     const rawHeaders = {
       lowercase: "lower case value",
       camelCase: "camel case value",
-      ALLUPPERCASE: "all upper case value"
+      ALLUPPERCASE: "all upper case value",
     };
     const headers = new HttpHeaders(rawHeaders);
     headers.headersArray().forEach((pair) => {

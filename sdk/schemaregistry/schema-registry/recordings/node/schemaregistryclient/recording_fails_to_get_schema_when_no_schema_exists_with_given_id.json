@@ -1,0 +1,33 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/$schemaGroups/$schemas/ffffffffffffffffffffffffffffffff?api-version=2021-10",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json; serialization=Avro",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-schema-registry/1.0.2 core-rest-pipeline/1.5.1 Node/v16.13.2 OS/(x64-Linux-5.10.60.1-microsoft-standard-WSL2)",
+        "x-ms-client-request-id": "07360192-f429-4aaf-bbf4-7b3a2f0d90cb"
+      },
+      "RequestBody": null,
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Content-Type": "application/json",
+        "Date": "Mon, 14 Feb 2022 23:08:01 GMT",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000",
+        "Transfer-Encoding": "chunked",
+        "x-ms-error-code": "ItemNotFound"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "ItemNotFound",
+          "message": "Schema id ffffffffffffffffffffffffffffffff does not exist. TrackingId:f11eb3f7-9fce-45e3-ad52-c58eff165f13_G26, SystemTracker:sdktesting.servicebus.windows.net:$schemaGroups/$schemas/ffffffffffffffffffffffffffffffff, Timestamp:2022-02-14T23:08:01"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

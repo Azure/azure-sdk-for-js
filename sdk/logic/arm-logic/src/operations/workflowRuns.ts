@@ -11,7 +11,7 @@ import { WorkflowRuns } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { LogicManagementClientContext } from "../logicManagementClientContext";
+import { LogicManagementClient } from "../logicManagementClient";
 import {
   WorkflowRun,
   WorkflowRunsListNextOptionalParams,
@@ -26,13 +26,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing WorkflowRuns operations. */
 export class WorkflowRunsImpl implements WorkflowRuns {
-  private readonly client: LogicManagementClientContext;
+  private readonly client: LogicManagementClient;
 
   /**
    * Initialize a new instance of the class WorkflowRuns class.
    * @param client Reference to the service client
    */
-  constructor(client: LogicManagementClientContext) {
+  constructor(client: LogicManagementClient) {
     this.client = client;
   }
 

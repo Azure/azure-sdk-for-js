@@ -11,7 +11,7 @@ import { Operations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ServiceFabricManagementClientContext } from "../serviceFabricManagementClientContext";
+import { ServiceFabricManagementClient } from "../serviceFabricManagementClient";
 import {
   OperationResult,
   OperationsListNextOptionalParams,
@@ -23,13 +23,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Operations operations. */
 export class OperationsImpl implements Operations {
-  private readonly client: ServiceFabricManagementClientContext;
+  private readonly client: ServiceFabricManagementClient;
 
   /**
    * Initialize a new instance of the class Operations class.
    * @param client Reference to the service client
    */
-  constructor(client: ServiceFabricManagementClientContext) {
+  constructor(client: ServiceFabricManagementClient) {
     this.client = client;
   }
 

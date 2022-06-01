@@ -17,7 +17,7 @@ export enum SASProtocol {
   /**
    * Protocol that allows both HTTPS and HTTP
    */
-  HttpsAndHttp = "https,http"
+  HttpsAndHttp = "https,http",
 }
 
 /**
@@ -271,7 +271,7 @@ export class SASQueryParameters {
     if (this.ipRangeInner) {
       return {
         end: this.ipRangeInner.end,
-        start: this.ipRangeInner.start
+        start: this.ipRangeInner.start,
       };
     }
     return undefined;
@@ -448,7 +448,7 @@ export class SASQueryParameters {
       "rscl",
       "rsct",
       "saoid",
-      "scid"
+      "scid",
     ];
     const queries: string[] = [];
 

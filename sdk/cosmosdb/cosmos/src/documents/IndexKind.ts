@@ -11,5 +11,5 @@ export enum IndexKind {
   /**
    * This is supplied for a path which requires geospatial indexing.
    */
-  Spatial = "Spatial"
+  Spatial = "Spatial",
 }

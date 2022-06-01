@@ -8,7 +8,7 @@
 import { ChatClient } from "@azure/communication-chat";
 import {
   AzureCommunicationTokenCredential,
-  parseConnectionString
+  parseConnectionString,
 } from "@azure/communication-common";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 

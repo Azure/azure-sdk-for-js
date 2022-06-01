@@ -1,15 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as assert from "assert";
+import { assert } from "chai";
 import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
 import { QueueClient } from "../src/QueueClient";
 import { record, Recorder } from "@azure-tools/test-recorder";
-import * as dotenv from "dotenv";
 import { extractConnectionStringParts } from "../src/utils/utils.common";
 import { recorderEnvSetup } from "./utils/testutils.common";
 import { Context } from "mocha";
-dotenv.config();
 
 describe("QueueClient message methods", () => {
   let queueName: string;
@@ -18,7 +16,7 @@ describe("QueueClient message methods", () => {
 
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = record(this, recorderEnvSetup);
     const queueServiceClient = getQSU();
     queueName = recorder.getUniqueName("queue");
@@ -26,7 +24,7 @@ describe("QueueClient message methods", () => {
     await queueClient.create();
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await queueClient.delete();
     await recorder.stop();
   });
@@ -79,7 +77,7 @@ describe("QueueClient message methods", () => {
   it("enqueue, peek, dequeue and clear message with all parameters", async () => {
     const eResult = await queueClient.sendMessage(messageContent, {
       messageTimeToLive: 40,
-      visibilityTimeout: 0
+      visibilityTimeout: 0,
     });
     assert.ok(eResult.date);
     assert.ok(eResult.expiresOn);
@@ -92,15 +90,15 @@ describe("QueueClient message methods", () => {
 
     const eResult2 = await queueClient.sendMessage(messageContent, {
       messageTimeToLive: 40,
-      visibilityTimeout: 0
+      visibilityTimeout: 0,
     });
     await queueClient.sendMessage(messageContent, {
       messageTimeToLive: 10,
-      visibilityTimeout: 5
+      visibilityTimeout: 5,
     });
     await queueClient.sendMessage(messageContent, {
       messageTimeToLive: 20,
-      visibilityTimeout: 19
+      visibilityTimeout: 19,
     });
 
     const pResult = await queueClient.peekMessages({ numberOfMessages: 2 });
@@ -122,7 +120,7 @@ describe("QueueClient message methods", () => {
 
     const dResult = await queueClient.receiveMessages({
       visibilityTimeout: 10,
-      numberOfMessages: 2
+      numberOfMessages: 2,
     });
     assert.ok(dResult.date);
     assert.ok(dResult.requestId);
@@ -147,7 +145,7 @@ describe("QueueClient message methods", () => {
   it("enqueue, peek, dequeue empty message, and peek, dequeue with numberOfMessages > count(messages)", async () => {
     const eResult = await queueClient.sendMessage("", {
       messageTimeToLive: 40,
-      visibilityTimeout: 0
+      visibilityTimeout: 0,
     });
     assert.ok(eResult.date);
     assert.ok(eResult.expiresOn);
@@ -171,7 +169,7 @@ describe("QueueClient message methods", () => {
 
     const dResult = await queueClient.receiveMessages({
       visibilityTimeout: 10,
-      numberOfMessages: 2
+      numberOfMessages: 2,
     });
     assert.ok(dResult.date);
     assert.ok(dResult.requestId);
@@ -192,7 +190,7 @@ describe("QueueClient message methods", () => {
 
     const eResult = await queueClient.sendMessage(specialMessage, {
       messageTimeToLive: 40,
-      visibilityTimeout: 0
+      visibilityTimeout: 0,
     });
     assert.ok(eResult.date);
     assert.ok(eResult.expiresOn);
@@ -216,7 +214,7 @@ describe("QueueClient message methods", () => {
 
     const dResult = await queueClient.receiveMessages({
       visibilityTimeout: 10,
-      numberOfMessages: 2
+      numberOfMessages: 2,
     });
     assert.ok(dResult.date);
     assert.ok(dResult.requestId);
@@ -236,7 +234,7 @@ describe("QueueClient message methods", () => {
 
     const eResult = await queueClient.sendMessage(newMessageContent, {
       messageTimeToLive: 40,
-      visibilityTimeout: 0
+      visibilityTimeout: 0,
     });
     assert.ok(eResult.date);
     assert.ok(eResult.expiresOn);
@@ -260,7 +258,7 @@ describe("QueueClient message methods", () => {
 
     const dResult = await queueClient.receiveMessages({
       visibilityTimeout: 10,
-      numberOfMessages: 2
+      numberOfMessages: 2,
     });
     assert.ok(dResult.date);
     assert.ok(dResult.requestId);
@@ -277,7 +275,7 @@ describe("QueueClient message methods", () => {
 
   it("enqueue, peek and dequeue negative", async () => {
     const eResult = await queueClient.sendMessage(messageContent, {
-      messageTimeToLive: 40
+      messageTimeToLive: 40,
     });
     assert.ok(eResult.date);
     assert.ok(eResult.expiresOn);
@@ -292,9 +290,9 @@ describe("QueueClient message methods", () => {
     try {
       await queueClient.sendMessage(messageContent, {
         messageTimeToLive: 30,
-        visibilityTimeout: 30
+        visibilityTimeout: 30,
       });
-    } catch (err) {
+    } catch (err: any) {
       error = err;
     }
     assert.ok(error);
@@ -302,7 +300,7 @@ describe("QueueClient message methods", () => {
     let errorPeek;
     try {
       await queueClient.peekMessages({ numberOfMessages: 100 });
-    } catch (err) {
+    } catch (err: any) {
       errorPeek = err;
     }
     assert.ok(errorPeek);
@@ -321,7 +319,7 @@ describe("QueueClient message methods", () => {
     // Note visibility time could be larger then message time to live for dequeue.
     await queueClient.receiveMessages({
       visibilityTimeout: 40,
-      numberOfMessages: 2
+      numberOfMessages: 2,
     });
   });
 
@@ -331,7 +329,7 @@ describe("QueueClient message methods", () => {
     let error;
     try {
       await queueClient.sendMessage(newMessageContent, {});
-    } catch (err) {
+    } catch (err: any) {
       error = err;
     }
     assert.ok(error);
@@ -356,8 +354,8 @@ describe("QueueClient message methods", () => {
   it("can be created with a sas connection string and a queue name and an option bag", async () => {
     const newClient = new QueueClient(getSASConnectionStringFromEnvironment(), queueName, {
       retryOptions: {
-        maxTries: 5
-      }
+        maxTries: 5,
+      },
     });
 
     const eResult = await newClient.sendMessage(messageContent);
@@ -372,7 +370,7 @@ describe("QueueClient message methods", () => {
     try {
       new QueueClient(getSASConnectionStringFromEnvironment(), "");
       assert.fail("Expecting an thrown error but didn't get one.");
-    } catch (error) {
+    } catch (error: any) {
       assert.equal(
         "Expecting non-empty strings for queueName parameter",
         error.message,

@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { HttpOperationResponse } from "./httpOperationResponse";
+import { Sanitizer } from "./util/sanitizer";
 import { WebResourceLike } from "./webResource";
 import { custom } from "./util/inspect";
-import { Sanitizer } from "./util/sanitizer";
 
 const errorSanitizer = new Sanitizer();
 

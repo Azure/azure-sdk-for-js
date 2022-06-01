@@ -103,7 +103,7 @@ const CONNECTION_ERROR_CODES = [
   WindowsNoRouteTohost,
   LinuxConnectionReset,
   TimeoutErrorCode,
-  BrokenPipe
+  BrokenPipe,
 ];
 
 /**

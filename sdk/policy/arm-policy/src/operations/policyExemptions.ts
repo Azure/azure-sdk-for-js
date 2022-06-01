@@ -11,7 +11,7 @@ import { PolicyExemptions } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { PolicyClientContext } from "../policyClientContext";
+import { PolicyClient } from "../policyClient";
 import {
   PolicyExemption,
   PolicyExemptionsListNextOptionalParams,
@@ -40,13 +40,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PolicyExemptions operations. */
 export class PolicyExemptionsImpl implements PolicyExemptions {
-  private readonly client: PolicyClientContext;
+  private readonly client: PolicyClient;
 
   /**
    * Initialize a new instance of the class PolicyExemptions class.
    * @param client Reference to the service client
    */
-  constructor(client: PolicyClientContext) {
+  constructor(client: PolicyClient) {
     this.client = client;
   }
 

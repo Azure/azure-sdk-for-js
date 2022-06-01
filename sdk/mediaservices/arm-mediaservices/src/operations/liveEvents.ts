@@ -11,7 +11,7 @@ import { LiveEvents } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureMediaServicesContext } from "../azureMediaServicesContext";
+import { AzureMediaServices } from "../azureMediaServices";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -37,13 +37,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LiveEvents operations. */
 export class LiveEventsImpl implements LiveEvents {
-  private readonly client: AzureMediaServicesContext;
+  private readonly client: AzureMediaServices;
 
   /**
    * Initialize a new instance of the class LiveEvents class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureMediaServicesContext) {
+  constructor(client: AzureMediaServices) {
     this.client = client;
   }
 
@@ -206,10 +206,12 @@ export class LiveEventsImpl implements LiveEvents {
       { resourceGroupName, accountName, liveEventName, parameters, options },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -301,10 +303,12 @@ export class LiveEventsImpl implements LiveEvents {
       { resourceGroupName, accountName, liveEventName, parameters, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -389,10 +393,12 @@ export class LiveEventsImpl implements LiveEvents {
       { resourceGroupName, accountName, liveEventName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -474,10 +480,12 @@ export class LiveEventsImpl implements LiveEvents {
       { resourceGroupName, accountName, liveEventName, options },
       allocateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -560,10 +568,12 @@ export class LiveEventsImpl implements LiveEvents {
       { resourceGroupName, accountName, liveEventName, options },
       startOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -648,10 +658,12 @@ export class LiveEventsImpl implements LiveEvents {
       { resourceGroupName, accountName, liveEventName, parameters, options },
       stopOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -738,10 +750,12 @@ export class LiveEventsImpl implements LiveEvents {
       { resourceGroupName, accountName, liveEventName, options },
       resetOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -856,7 +870,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters15,
+  requestBody: Parameters.parameters16,
   queryParameters: [Parameters.apiVersion, Parameters.autoStart],
   urlParameters: [
     Parameters.$host,
@@ -890,7 +904,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters15,
+  requestBody: Parameters.parameters16,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -988,7 +1002,7 @@ const stopOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  requestBody: Parameters.parameters16,
+  requestBody: Parameters.parameters17,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

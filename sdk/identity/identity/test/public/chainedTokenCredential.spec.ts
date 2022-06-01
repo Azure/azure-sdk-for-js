@@ -8,17 +8,17 @@ import {
   AccessToken,
   AggregateAuthenticationError,
   CredentialUnavailableError,
-  AuthenticationRequiredError
+  AuthenticationRequiredError,
 } from "../../src";
 import { getError } from "../authTestUtils";
 
 function mockCredential(returnPromise: Promise<AccessToken | null>): TokenCredential {
   return {
-    getToken: () => returnPromise
+    getToken: () => returnPromise,
   };
 }
 
-describe("ChainedTokenCredential", function() {
+describe("ChainedTokenCredential", function () {
   it("returns the first token received from a credential", async () => {
     const chainedTokenCredential = new ChainedTokenCredential(
       mockCredential(Promise.reject(new CredentialUnavailableError("unavailable."))),
@@ -26,7 +26,7 @@ describe("ChainedTokenCredential", function() {
         Promise.reject(
           new AuthenticationRequiredError({
             scopes: ["https://vault.azure.net/.default"],
-            message: "authentication-required."
+            message: "authentication-required.",
           })
         )
       ),

@@ -1,24 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { featureFlagContentType, ListConfigurationSettingsOptions } from "..";
-import { URLBuilder } from "@azure/core-http";
 import {
-  ListRevisionsOptions,
-  ConfigurationSettingId,
   ConfigurationSetting,
-  HttpResponseField,
-  HttpResponseFields,
+  ConfigurationSettingId,
+  ConfigurationSettingParam,
   HttpOnlyIfChangedField,
   HttpOnlyIfUnchangedField,
-  ConfigurationSettingParam
+  HttpResponseField,
+  HttpResponseFields,
+  ListConfigurationSettingsOptions,
+  ListRevisionsOptions,
 } from "../models";
-import { AppConfigurationGetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
-import { FeatureFlagHelper, FeatureFlagValue } from "../featureFlag";
+import { GetKeyValuesOptionalParams, KeyValue } from "../generated/src/models";
+import { FeatureFlagHelper, FeatureFlagValue, featureFlagContentType } from "../featureFlag";
 import {
-  secretReferenceContentType,
   SecretReferenceHelper,
-  SecretReferenceValue
+  SecretReferenceValue,
+  secretReferenceContentType,
 } from "../secretReference";
 import { isDefined } from "./typeguards";
 
@@ -70,7 +69,7 @@ export function checkAndFormatIfAndIfNoneMatch(
 
   return {
     ifMatch: ifMatch,
-    ifNoneMatch: ifNoneMatch
+    ifNoneMatch: ifNoneMatch,
   };
 }
 
@@ -85,7 +84,7 @@ export function checkAndFormatIfAndIfNoneMatch(
  */
 export function formatFiltersAndSelect(
   listConfigOptions: ListConfigurationSettingsOptions | ListRevisionsOptions
-): Pick<AppConfigurationGetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime"> {
+): Pick<GetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime"> {
   let acceptDatetime: string | undefined = undefined;
 
   if (listConfigOptions.acceptDateTime) {
@@ -96,7 +95,7 @@ export function formatFiltersAndSelect(
     key: listConfigOptions.keyFilter,
     label: listConfigOptions.labelFilter,
     acceptDatetime,
-    select: formatFieldsForSelect(listConfigOptions.fields)
+    select: formatFieldsForSelect(listConfigOptions.fields),
   };
 }
 
@@ -105,11 +104,11 @@ export function formatFiltersAndSelect(
  * @param newOptions - A newer style options with acceptDateTime as a date (and with proper casing!)
  * @internal
  */
-export function formatAcceptDateTime(newOptions: {
-  acceptDateTime?: Date;
-}): { acceptDatetime?: string } {
+export function formatAcceptDateTime(newOptions: { acceptDateTime?: Date }): {
+  acceptDatetime?: string;
+} {
   return {
-    acceptDatetime: newOptions.acceptDateTime && newOptions.acceptDateTime.toISOString()
+    acceptDatetime: newOptions.acceptDateTime && newOptions.acceptDateTime.toISOString(),
   };
 }
 
@@ -119,8 +118,8 @@ export function formatAcceptDateTime(newOptions: {
  * @internal
  */
 export function extractAfterTokenFromNextLink(nextLink: string): string {
-  const parsedLink = URLBuilder.parse(nextLink);
-  const afterToken = parsedLink.getQueryParameterValue("after");
+  const searchParams = new URLSearchParams(nextLink);
+  const afterToken = searchParams.get("after");
 
   if (afterToken == null || Array.isArray(afterToken)) {
     throw new Error("Invalid nextLink - invalid after token");
@@ -146,7 +145,7 @@ export function makeConfigurationSettingEmpty(
     "lastModified",
     "isReadOnly",
     "tags",
-    "value"
+    "value",
   ];
 
   for (const name of names) {
@@ -157,11 +156,11 @@ export function makeConfigurationSettingEmpty(
 /**
  * @internal
  */
-export function transformKeyValue(kvp: KeyValue): ConfigurationSetting {
-  const setting: ConfigurationSetting & KeyValue = {
+export function transformKeyValue<T>(kvp: T & KeyValue): T & ConfigurationSetting {
+  const setting: T & ConfigurationSetting & KeyValue = {
     value: undefined,
     ...kvp,
-    isReadOnly: !!kvp.locked
+    isReadOnly: !!kvp.locked,
   };
 
   delete setting.locked;
@@ -221,7 +220,7 @@ export function serializeAsConfigurationSettingParam(
     if (isConfigSettingWithSecretReferenceValue(setting)) {
       return SecretReferenceHelper.toConfigurationSettingParam(setting);
     }
-  } catch (error) {
+  } catch (error: any) {
     return setting as ConfigurationSettingParam;
   }
   throw new TypeError(
@@ -232,42 +231,40 @@ export function serializeAsConfigurationSettingParam(
 /**
  * @internal
  */
-export function transformKeyValueResponseWithStatusCode<
-  T extends KeyValue & HttpResponseField<any>
->(kvp: T): ConfigurationSetting & { eTag?: string } & HttpResponseField<any> & HttpResponseFields {
-  return normalizeResponse(kvp, <
-    ConfigurationSetting & HttpResponseField<any> & HttpResponseFields
-  >{
+export function transformKeyValueResponseWithStatusCode<T extends KeyValue>(
+  kvp: T,
+  status: number | undefined
+): ConfigurationSetting & { eTag?: string } & HttpResponseFields {
+  const response = {
     ...transformKeyValue(kvp),
-    statusCode: kvp._response.status
-  });
+    statusCode: status ?? -1,
+  };
+
+  if (hasUnderscoreResponse(kvp)) {
+    Object.defineProperty(response, "_response", {
+      enumerable: false,
+      value: kvp._response,
+    });
+  }
+  return response;
 }
 
 /**
  * @internal
  */
-export function transformKeyValueResponse<
-  T extends KeyValue & { eTag?: string } & HttpResponseField<any>
->(kvp: T): ConfigurationSetting & HttpResponseField<any> {
-  return normalizeResponse(kvp, <ConfigurationSetting & HttpResponseField<any>>{
-    ...transformKeyValue(kvp)
-  });
-}
+export function transformKeyValueResponse<T extends KeyValue & { eTag?: string }>(
+  kvp: T
+): ConfigurationSetting {
+  const setting = transformKeyValue(kvp);
+  if (hasUnderscoreResponse(kvp)) {
+    Object.defineProperty(setting, "_response", {
+      enumerable: false,
+      value: kvp._response,
+    });
+  }
 
-function normalizeResponse<T extends HttpResponseField<any> & { eTag?: string }>(
-  originalResponse: HttpResponseField<any>,
-  newResponse: T
-): T {
-  Object.defineProperty(newResponse, "_response", {
-    enumerable: false,
-    value: originalResponse._response
-  });
-
-  // this field comes from the header but it's redundant with
-  // the one serialized in the model itself
-  delete newResponse.eTag;
-
-  return newResponse;
+  delete setting.eTag;
+  return setting;
 }
 
 /**
@@ -310,4 +307,24 @@ export function errorMessageForUnexpectedSetting(
   expectedType: "FeatureFlag" | "SecretReference"
 ): string {
   return `Setting with key ${key} is not a valid ${expectedType}, make sure to have the correct content-type and a valid non-null value.`;
+}
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function assertResponse<T extends object>(
+  result: T
+): asserts result is T & HttpResponseField<any> {
+  if (!hasUnderscoreResponse(result)) {
+    Object.defineProperty(result, "_response", {
+      enumerable: false,
+      value:
+        "Something went wrong, _response(raw response) is supposed to be part of the response. Please file a bug at https://github.com/Azure/azure-sdk-for-js",
+    });
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function hasUnderscoreResponse<T extends object>(
+  result: T
+): result is T & HttpResponseField<any> {
+  return Object.prototype.hasOwnProperty.call(result, "_response");
 }

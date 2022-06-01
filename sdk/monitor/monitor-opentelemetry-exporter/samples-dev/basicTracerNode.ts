@@ -3,7 +3,7 @@
 
 /**
  * This example shows how to use
- * [@opentelemetry/tracing](https://github.com/open-telemetry/opentelemetry-js/tree/master/packages/opentelemetry-tracing)
+ * [@opentelemetry/sdk-trace-base](https://github.com/open-telemetry/opentelemetry-js/tree/master/packages/opentelemetry-tracing)
  * to instrument a simple Node.js application - e.g. a batch job.
  *
  * @summary use opentelemetry tracing to instrument a Node.js application. Basic use of Tracing in Node.js application.
@@ -12,7 +12,7 @@
 import * as opentelemetry from "@opentelemetry/api";
 import { Resource } from "@opentelemetry/resources";
 import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
-import { BasicTracerProvider, SimpleSpanProcessor } from "@opentelemetry/tracing";
+import { BasicTracerProvider, SimpleSpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
 
 // Load the .env file if it exists
@@ -21,14 +21,14 @@ dotenv.config();
 
 const provider = new BasicTracerProvider({
   resource: new Resource({
-    [SemanticResourceAttributes.SERVICE_NAME]: "basic-service"
-  })
+    [SemanticResourceAttributes.SERVICE_NAME]: "basic-service",
+  }),
 });
 
 // Configure span processor to send spans to the exporter
 const exporter = new AzureMonitorTraceExporter({
   connectionString:
-    process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>"
+    process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
 });
 provider.addSpanProcessor(new SimpleSpanProcessor(exporter as any));
 

@@ -1,5 +1,5 @@
 {
-  "name": "azure-web-pubsub-samples-js",
+  "name": "@azure-samples/web-pubsub-js",
   "private": true,
   "version": "1.0.0",
   "description": "Azure Web PubSub client library samples for JavaScript",
@@ -12,7 +12,7 @@
     "directory": "sdk/web-pubsub/web-pubsub"
   },
   "keywords": [
-    "Azure",
+    "azure",
     "cloud"
   ],
   "author": "Microsoft Corporation",
@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub",
   "dependencies": {
-    "@azure/web-pubsub": "next",
+    "@azure/web-pubsub": "latest",
     "dotenv": "latest"
   }
 }

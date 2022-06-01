@@ -30,6 +30,7 @@ export type AgentPool = SubResource & {
     typePropertiesType?: AgentPoolType;
     mode?: AgentPoolMode;
     orchestratorVersion?: string;
+    readonly currentOrchestratorVersion?: string;
     readonly nodeImageVersion?: string;
     upgradeSettings?: AgentPoolUpgradeSettings;
     readonly provisioningState?: string;
@@ -146,6 +147,11 @@ export interface AgentPoolsListOptionalParams extends coreClient.OperationOption
 export type AgentPoolsListResponse = AgentPoolListResult;
 
 // @public
+export interface AgentPoolsUpgradeNodeImageVersionHeaders {
+    azureAsyncOperation?: string;
+}
+
+// @public
 export interface AgentPoolsUpgradeNodeImageVersionOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -196,10 +202,14 @@ export type Code = string;
 export type ConnectionStatus = string;
 
 // @public (undocumented)
-export class ContainerServiceClient extends ContainerServiceClientContext {
+export class ContainerServiceClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ContainerServiceClientOptionalParams);
     // (undocumented)
     agentPools: AgentPools;
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     maintenanceConfigurations: MaintenanceConfigurations;
     // (undocumented)
@@ -214,15 +224,6 @@ export class ContainerServiceClient extends ContainerServiceClientContext {
     resolvePrivateLinkServiceId: ResolvePrivateLinkServiceId;
     // (undocumented)
     snapshots: Snapshots;
-}
-
-// @public (undocumented)
-export class ContainerServiceClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ContainerServiceClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
     // (undocumented)
     subscriptionId: string;
 }
@@ -261,6 +262,7 @@ export interface ContainerServiceMasterProfile {
 export interface ContainerServiceNetworkProfile {
     dnsServiceIP?: string;
     dockerBridgeCidr?: string;
+    ipFamilies?: IpFamily[];
     loadBalancerProfile?: ManagedClusterLoadBalancerProfile;
     loadBalancerSku?: LoadBalancerSku;
     natGatewayProfile?: ManagedClusterNATGatewayProfile;
@@ -269,7 +271,9 @@ export interface ContainerServiceNetworkProfile {
     networkPolicy?: NetworkPolicy;
     outboundType?: OutboundType;
     podCidr?: string;
+    podCidrs?: string[];
     serviceCidr?: string;
+    serviceCidrs?: string[];
 }
 
 // @public
@@ -343,7 +347,13 @@ export interface ExtendedLocation {
 export type ExtendedLocationTypes = string;
 
 // @public
+export type Format = string;
+
+// @public
 export type GPUInstanceProfile = string;
+
+// @public
+export type IpFamily = string;
 
 // @public
 export enum KnownAgentPoolMode {
@@ -762,6 +772,12 @@ export enum KnownExtendedLocationTypes {
 }
 
 // @public
+export enum KnownFormat {
+    Azure = "azure",
+    Exec = "exec"
+}
+
+// @public
 export enum KnownGPUInstanceProfile {
     // (undocumented)
     MIG1G = "MIG1g",
@@ -773,6 +789,14 @@ export enum KnownGPUInstanceProfile {
     MIG4G = "MIG4g",
     // (undocumented)
     MIG7G = "MIG7g"
+}
+
+// @public
+export enum KnownIpFamily {
+    // (undocumented)
+    IPv4 = "IPv4",
+    // (undocumented)
+    IPv6 = "IPv6"
 }
 
 // @public
@@ -1025,7 +1049,7 @@ export interface MaintenanceConfigurationsListByManagedClusterOptionalParams ext
 export type MaintenanceConfigurationsListByManagedClusterResponse = MaintenanceConfigurationListResult;
 
 // @public
-export type ManagedCluster = Resource & {
+export type ManagedCluster = TrackedResource & {
     sku?: ManagedClusterSKU;
     extendedLocation?: ExtendedLocation;
     identity?: ManagedClusterIdentity;
@@ -1033,6 +1057,7 @@ export type ManagedCluster = Resource & {
     readonly powerState?: PowerState;
     readonly maxAgentPools?: number;
     kubernetesVersion?: string;
+    readonly currentKubernetesVersion?: string;
     dnsPrefix?: string;
     fqdnSubdomain?: string;
     readonly fqdn?: string;
@@ -1062,6 +1087,7 @@ export type ManagedCluster = Resource & {
     disableLocalAccounts?: boolean;
     httpProxyConfig?: ManagedClusterHttpProxyConfig;
     securityProfile?: ManagedClusterSecurityProfile;
+    storageProfile?: ManagedClusterStorageProfile;
     publicNetworkAccess?: PublicNetworkAccess;
 };
 
@@ -1077,7 +1103,7 @@ export interface ManagedClusterAADProfile {
 }
 
 // @public
-export type ManagedClusterAccessProfile = Resource & {
+export type ManagedClusterAccessProfile = TrackedResource & {
     kubeConfig?: Uint8Array;
 };
 
@@ -1103,6 +1129,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     availabilityZones?: string[];
     count?: number;
     creationData?: CreationData;
+    readonly currentOrchestratorVersion?: string;
     enableAutoScaling?: boolean;
     enableEncryptionAtHost?: boolean;
     enableFips?: boolean;
@@ -1197,6 +1224,7 @@ export interface ManagedClusterLoadBalancerProfile {
 // @public
 export interface ManagedClusterLoadBalancerProfileManagedOutboundIPs {
     count?: number;
+    countIPv6?: number;
 }
 
 // @public
@@ -1449,6 +1477,7 @@ export type ManagedClustersListClusterMonitoringUserCredentialsResponse = Creden
 
 // @public
 export interface ManagedClustersListClusterUserCredentialsOptionalParams extends coreClient.OperationOptions {
+    format?: Format;
     serverFqdn?: string;
 }
 
@@ -1520,6 +1549,28 @@ export interface ManagedClustersStartOptionalParams extends coreClient.Operation
 export interface ManagedClustersStopOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface ManagedClusterStorageProfile {
+    diskCSIDriver?: ManagedClusterStorageProfileDiskCSIDriver;
+    fileCSIDriver?: ManagedClusterStorageProfileFileCSIDriver;
+    snapshotController?: ManagedClusterStorageProfileSnapshotController;
+}
+
+// @public
+export interface ManagedClusterStorageProfileDiskCSIDriver {
+    enabled?: boolean;
+}
+
+// @public
+export interface ManagedClusterStorageProfileFileCSIDriver {
+    enabled?: boolean;
+}
+
+// @public
+export interface ManagedClusterStorageProfileSnapshotController {
+    enabled?: boolean;
 }
 
 // @public
@@ -1744,11 +1795,8 @@ export type ResolvePrivateLinkServiceIdPostResponse = PrivateLinkResource;
 // @public
 export interface Resource {
     readonly id?: string;
-    location: string;
     readonly name?: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
@@ -1788,8 +1836,7 @@ export type ScaleSetEvictionPolicy = string;
 export type ScaleSetPriority = string;
 
 // @public
-export type Snapshot = Resource & {
-    readonly systemData?: SystemData;
+export type Snapshot = TrackedResource & {
     creationData?: CreationData;
     snapshotType?: SnapshotType;
     readonly kubernetesVersion?: string;
@@ -1941,6 +1988,14 @@ export interface TimeSpan {
 }
 
 // @public
+export type TrackedResource = Resource & {
+    tags?: {
+        [propertyName: string]: string;
+    };
+    location: string;
+};
+
+// @public
 export type UpgradeChannel = string;
 
 // @public
@@ -1962,7 +2017,6 @@ export interface WindowsGmsaProfile {
 
 // @public
 export type WorkloadRuntime = string;
-
 
 // (No @packageDocumentation comment for this package)
 

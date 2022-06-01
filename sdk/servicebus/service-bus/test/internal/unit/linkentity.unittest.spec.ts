@@ -34,7 +34,7 @@ describe("LinkEntity unit tests", () => {
   let linkEntity: LinkEntity<Receiver>;
   let connectionContext: ConnectionContext;
 
-  beforeEach(function() {
+  beforeEach(function () {
     connectionContext = createConnectionContextForTests();
     linkEntity = new LinkForTests(
       "some initial name",
@@ -43,7 +43,7 @@ describe("LinkEntity unit tests", () => {
       "streaming",
       receiverLogger,
       {
-        address: "my-address"
+        address: "my-address",
       }
     );
   });
@@ -79,7 +79,7 @@ describe("LinkEntity unit tests", () => {
       try {
         await linkEntity.initLink({});
         assert.fail("Should have thrown");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, "Link has been permanently closed. Not reopening.");
         assert.equal(err.name, "AbortError");
       }
@@ -113,7 +113,7 @@ describe("LinkEntity unit tests", () => {
         try {
           await linkEntity.initLink({});
           assert.fail("Should have thrown");
-        } catch (err) {
+        } catch (err: any) {
           assertInitAbortError(err);
         }
       });
@@ -128,7 +128,7 @@ describe("LinkEntity unit tests", () => {
 
           await linkEntity.initLink({});
           assert.fail("Should have thrown");
-        } catch (err) {
+        } catch (err: any) {
           assertInitAbortError(err);
         }
       });
@@ -143,7 +143,7 @@ describe("LinkEntity unit tests", () => {
 
           await linkEntity.initLink({});
           assert.fail("Should have thrown");
-        } catch (err) {
+        } catch (err: any) {
           assertInitAbortError(err);
         }
       });
@@ -158,7 +158,7 @@ describe("LinkEntity unit tests", () => {
 
           await linkEntity.initLink({});
           assert.fail("Should have thrown");
-        } catch (err) {
+        } catch (err: any) {
           assertInitAbortError(err);
         }
       });
@@ -215,7 +215,7 @@ describe("LinkEntity unit tests", () => {
       try {
         await linkEntity.initLink({});
         assert.fail("Should throw");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal("Link has been permanently closed. Not reopening.", err.message);
         assert.isFalse(linkEntity.isOpen(), "Link was closed and will remain closed");
         assert.isFalse(negotiateClaimSpy.called, "We shouldn't attempt to reopen the link.");
@@ -230,7 +230,7 @@ describe("LinkEntity unit tests", () => {
       try {
         await linkEntity.initLink({});
         assert.fail("Should have thrown");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.message, "SPECIAL ERROR THROWN FROM NEGOTIATECLAIM");
       }
     });
@@ -238,10 +238,10 @@ describe("LinkEntity unit tests", () => {
     it("abortSignal - simple abort signal flow", async () => {
       try {
         await linkEntity.initLink({}, {
-          aborted: true
+          aborted: true,
         } as AbortSignalLike);
         assert.fail("Should have thrown.");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.name, "AbortError");
       }
     });
@@ -266,7 +266,7 @@ describe("LinkEntity unit tests", () => {
       try {
         await linkEntity.initLink({}, abortController.signal);
         assert.fail("Should have thrown");
-      } catch (err) {
+      } catch (err: any) {
         assert.equal(err.name, "AbortError");
       }
 
@@ -300,11 +300,11 @@ describe("LinkEntity unit tests", () => {
 
         await linkEntity.initLink({}, abortController.signal);
         assert.fail("Should have thrown");
-      } catch (err) {
+      } catch (err: any) {
         assert.isTrue(sawAbortSignal, "Should have seen the abortSignal.");
         assert.deepNestedInclude(err, {
           name: "AbortError",
-          message: "The operation was aborted."
+          message: "The operation was aborted.",
         });
       }
     });
@@ -313,7 +313,7 @@ describe("LinkEntity unit tests", () => {
       assert.match(linkEntity.name, /some initial name-/);
 
       await linkEntity.initLink({
-        name: "some new name"
+        name: "some new name",
       });
 
       assert.equal(linkEntity["_logPrefix"], "[connection-id|streaming:some new name]");
@@ -348,7 +348,8 @@ describe("LinkEntity unit tests", () => {
         abortSignal: undefined,
         lockRenewer: undefined,
         receiveMode: "receiveAndDelete",
-        tracingOptions: {}
+        skipParsingBodyAsJson: false,
+        tracingOptions: {},
       });
 
       initCachedLinks(batchingReceiver.name);
@@ -361,8 +362,8 @@ describe("LinkEntity unit tests", () => {
         unchangedCaches: [
           connectionContext.managementClients,
           connectionContext.messageSessions,
-          connectionContext.senders
-        ]
+          connectionContext.senders,
+        ],
       });
     });
 
@@ -371,7 +372,8 @@ describe("LinkEntity unit tests", () => {
         abortSignal: undefined,
         lockRenewer: undefined,
         receiveMode: "receiveAndDelete",
-        tracingOptions: {}
+        skipParsingBodyAsJson: false,
+        tracingOptions: {},
       });
 
       initCachedLinks(streamingReceiver.name);
@@ -384,8 +386,8 @@ describe("LinkEntity unit tests", () => {
         unchangedCaches: [
           connectionContext.managementClients,
           connectionContext.messageSessions,
-          connectionContext.senders
-        ]
+          connectionContext.senders,
+        ],
       });
     });
 
@@ -402,15 +404,16 @@ describe("LinkEntity unit tests", () => {
         unchangedCaches: [
           connectionContext.managementClients,
           connectionContext.messageReceivers,
-          connectionContext.messageSessions
-        ]
+          connectionContext.messageSessions,
+        ],
       });
     });
 
     it("session", () => {
       const messageSession = new MessageSession(connectionContext, "entityPath", "session-id", {
         abortSignal: undefined,
-        retryOptions: {}
+        retryOptions: {},
+        skipParsingBodyAsJson: false,
       });
 
       initCachedLinks(messageSession.name);
@@ -423,8 +426,8 @@ describe("LinkEntity unit tests", () => {
         unchangedCaches: [
           connectionContext.managementClients,
           connectionContext.messageReceivers,
-          connectionContext.senders
-        ]
+          connectionContext.senders,
+        ],
       });
     });
 
@@ -441,8 +444,8 @@ describe("LinkEntity unit tests", () => {
         unchangedCaches: [
           connectionContext.messageSessions,
           connectionContext.messageReceivers,
-          connectionContext.senders
-        ]
+          connectionContext.senders,
+        ],
       });
     });
 

@@ -1,10 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { IdentityPlugin } from "@azure/identity";
-
 import { AzurePluginContext } from "../../identity/src/plugins/provider";
-
+import { IdentityPlugin } from "@azure/identity";
 import keytar from "keytar";
 
 const VSCodeServiceName = "VS Code Azure";

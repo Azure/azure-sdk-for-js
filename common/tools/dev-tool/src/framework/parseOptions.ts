@@ -12,7 +12,13 @@ const { debug: parseDebug, error: parseError } = createPrinter("parseOptions");
  * This helper type implements the logic for determining the
  * type of an option according to its possible multiplicity
  */
-export type MaybeMultiple<P, T> = boolean extends P ? T | T[] : true extends P ? T[] : T;
+export type MaybeMultiple<P, T> = unknown extends P
+  ? T | T[]
+  : P extends undefined
+  ? T
+  : P extends true
+  ? T[]
+  : T;
 
 /**
  * The real type of an option parsed from an OptionDescription
@@ -38,12 +44,13 @@ export type OptionFor<Opt extends CommandOptions[string]> = MaybeMultiple<
  */
 export type ParsedOptions<Opts extends CommandOptions = CommandOptions> = {
   /**
-   * If the argument "--" was encountered when parsing, this property
-   * holds all arguments that occurred after the "--"
+   * Extra arguments. If the argument "--" was encountered when parsing, this property holds all arguments that were
+   * encountered after the "--".
    */
   "--"?: string[] | undefined;
   /**
-   * Array of arguments to the command
+   * Array of arguments to the command. The `args` begin at the first string in the argument array that is not
+   * recognized as an option.
    */
   args: string[];
 } & {
@@ -75,6 +82,7 @@ export function parseOptions<Opts extends CommandOptions>(
 
   const keys = Object.keys(options);
   const argMap = getArgs(args, {
+    "--": true,
     // Once an unidentified argument is encountered, stop parsing
     stopEarly: true,
     // Use type information for hinting to minimist about how arguments should
@@ -96,13 +104,13 @@ export function parseOptions<Opts extends CommandOptions>(
           options[key].default !== undefined ? { ...o, [key]: options[key].default } : o,
         {}
       ),
-      help: false
-    }
+      help: false,
+    },
   });
 
   parseDebug("Parsed args:", JSON.stringify(argMap));
 
-  const result: ParsedOptions = { help: argMap.help, args: argMap._ };
+  const result: ParsedOptions = { help: argMap.help, args: argMap._, "--": argMap["--"] };
 
   function expectType<T>(key: string, value: T, expected: string): void {
     if (Array.isArray(value)) {

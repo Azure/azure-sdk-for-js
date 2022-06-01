@@ -7,7 +7,7 @@ import { credentialLogger } from "../util/logging";
 import { checkTenantId } from "../util/checkTenantId";
 import { MsalAuthorizationCode } from "../msal/nodeFlows/msalAuthorizationCode";
 import { MsalFlow } from "../msal/flows";
-import { trace } from "../util/tracing";
+import { tracingClient } from "../util/tracing";
 
 const logger = credentialLogger("AuthorizationCodeCredential");
 
@@ -25,7 +25,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
   private redirectUri: string;
 
   /**
-   * Creates an instance of CodeFlowCredential with the details needed
+   * Creates an instance of AuthorizationCodeCredential with the details needed
    * to request an access token using an authentication that was obtained
    * from Azure Active Directory.
    *
@@ -33,7 +33,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
    * the authorization code flow to obtain an authorization code to be used
    * with this credential.  A full example of this flow is provided here:
    *
-   * https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/manual/authorizationCodeSample.ts
+   * https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v2/manual/authorizationCodeSample.ts
    *
    * @param tenantId - The Azure Active Directory tenant (directory) ID or name.
    *                 'common' may be used when dealing with multi-tenant scenarios.
@@ -55,7 +55,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
     options?: TokenCredentialOptions
   );
   /**
-   * Creates an instance of CodeFlowCredential with the details needed
+   * Creates an instance of AuthorizationCodeCredential with the details needed
    * to request an access token using an authentication that was obtained
    * from Azure Active Directory.
    *
@@ -63,7 +63,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
    * the authorization code flow to obtain an authorization code to be used
    * with this credential.  A full example of this flow is provided here:
    *
-   * https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/manual/authorizationCodeSample.ts
+   * https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/v2/manual/authorizationCodeSample.ts
    *
    * @param tenantId - The Azure Active Directory tenant (directory) ID or name.
    *                 'common' may be used when dealing with multi-tenant scenarios.
@@ -114,10 +114,11 @@ export class AuthorizationCodeCredential implements TokenCredential {
       ...options,
       clientSecret,
       clientId,
+      tenantId,
       tokenCredentialOptions: options || {},
       logger,
       redirectUri: this.redirectUri,
-      authorizationCode: this.authorizationCode
+      authorizationCode: this.authorizationCode,
     });
   }
 
@@ -130,12 +131,16 @@ export class AuthorizationCodeCredential implements TokenCredential {
    *                TokenCredential implementation might make.
    */
   async getToken(scopes: string | string[], options: GetTokenOptions = {}): Promise<AccessToken> {
-    return trace(`${this.constructor.name}.getToken`, options, async (newOptions) => {
-      const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
-      return this.msalFlow.getToken(arrayScopes, {
-        ...newOptions,
-        disableAutomaticAuthentication: this.disableAutomaticAuthentication
-      });
-    });
+    return tracingClient.withSpan(
+      `${this.constructor.name}.getToken`,
+      options,
+      async (newOptions) => {
+        const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
+        return this.msalFlow.getToken(arrayScopes, {
+          ...newOptions,
+          disableAutomaticAuthentication: this.disableAutomaticAuthentication,
+        });
+      }
+    );
   }
 }

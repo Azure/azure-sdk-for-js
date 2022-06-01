@@ -2,13 +2,12 @@
 // Licensed under the MIT license.
 
 import {
-  PipelineResponse,
+  PipelinePolicy,
   PipelineRequest,
+  PipelineResponse,
   SendRequest,
-  PipelinePolicy
 } from "@azure/core-rest-pipeline";
 import { SASCredential } from "@azure/core-auth";
-import { URL, URLSearchParams } from "./utils/url";
 
 /**
  * The programmatic identifier of the tablesSASTokenPolicy.
@@ -24,7 +23,7 @@ export function tablesSASTokenPolicy(credential: SASCredential): PipelinePolicy 
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       signURLWithSAS(request, credential);
       return next(request);
-    }
+    },
   };
 }
 

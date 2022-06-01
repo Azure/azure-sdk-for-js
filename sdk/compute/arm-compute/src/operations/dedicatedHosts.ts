@@ -11,7 +11,7 @@ import { DedicatedHosts } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ComputeManagementClientContext } from "../computeManagementClientContext";
+import { ComputeManagementClient } from "../computeManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -27,19 +27,20 @@ import {
   DedicatedHostsGetOptionalParams,
   DedicatedHostsGetResponse,
   DedicatedHostsListByHostGroupResponse,
+  DedicatedHostsRestartOptionalParams,
   DedicatedHostsListByHostGroupNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DedicatedHosts operations. */
 export class DedicatedHostsImpl implements DedicatedHosts {
-  private readonly client: ComputeManagementClientContext;
+  private readonly client: ComputeManagementClient;
 
   /**
    * Initialize a new instance of the class DedicatedHosts class.
    * @param client Reference to the service client
    */
-  constructor(client: ComputeManagementClientContext) {
+  constructor(client: ComputeManagementClient) {
     this.client = client;
   }
 
@@ -179,10 +180,12 @@ export class DedicatedHostsImpl implements DedicatedHosts {
       { resourceGroupName, hostGroupName, hostName, parameters, options },
       createOrUpdateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -274,10 +277,12 @@ export class DedicatedHostsImpl implements DedicatedHosts {
       { resourceGroupName, hostGroupName, hostName, parameters, options },
       updateOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -362,10 +367,12 @@ export class DedicatedHostsImpl implements DedicatedHosts {
       { resourceGroupName, hostGroupName, hostName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -428,6 +435,99 @@ export class DedicatedHostsImpl implements DedicatedHosts {
   }
 
   /**
+   * Restart the dedicated host. The operation will complete successfully once the dedicated host has
+   * restarted and is running. To determine the health of VMs deployed on the dedicated host after the
+   * restart check the Resource Health Center in the Azure Portal. Please refer to
+   * https://docs.microsoft.com/en-us/azure/service-health/resource-health-overview for more details.
+   * @param resourceGroupName The name of the resource group.
+   * @param hostGroupName The name of the dedicated host group.
+   * @param hostName The name of the dedicated host.
+   * @param options The options parameters.
+   */
+  async beginRestart(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    options?: DedicatedHostsRestartOptionalParams
+  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<void> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = new LroImpl(
+      sendOperation,
+      { resourceGroupName, hostGroupName, hostName, options },
+      restartOperationSpec
+    );
+    const poller = new LroEngine(lro, {
+      resumeFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Restart the dedicated host. The operation will complete successfully once the dedicated host has
+   * restarted and is running. To determine the health of VMs deployed on the dedicated host after the
+   * restart check the Resource Health Center in the Azure Portal. Please refer to
+   * https://docs.microsoft.com/en-us/azure/service-health/resource-health-overview for more details.
+   * @param resourceGroupName The name of the resource group.
+   * @param hostGroupName The name of the dedicated host group.
+   * @param hostName The name of the dedicated host.
+   * @param options The options parameters.
+   */
+  async beginRestartAndWait(
+    resourceGroupName: string,
+    hostGroupName: string,
+    hostName: string,
+    options?: DedicatedHostsRestartOptionalParams
+  ): Promise<void> {
+    const poller = await this.beginRestart(
+      resourceGroupName,
+      hostGroupName,
+      hostName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListByHostGroupNext
    * @param resourceGroupName The name of the resource group.
    * @param hostGroupName The name of the dedicated host group.
@@ -465,14 +565,17 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     204: {
       bodyMapper: Mappers.DedicatedHost
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters6,
+  requestBody: Parameters.parameters16,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.hostGroupName,
     Parameters.hostName
   ],
@@ -496,14 +599,17 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     204: {
       bodyMapper: Mappers.DedicatedHost
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
-  requestBody: Parameters.parameters7,
+  requestBody: Parameters.parameters17,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.hostGroupName,
     Parameters.hostName
   ],
@@ -515,15 +621,24 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.hostGroupName,
     Parameters.hostName
   ],
+  headerParameters: [Parameters.accept],
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
@@ -533,13 +648,16 @@ const getOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.DedicatedHost
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand1],
+  queryParameters: [Parameters.apiVersion, Parameters.expand2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.hostGroupName,
     Parameters.hostName
   ],
@@ -553,14 +671,41 @@ const listByHostGroupOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.DedicatedHostListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.hostGroupName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const restartOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}/restart",
+  httpMethod: "POST",
+  responses: {
+    200: {},
+    201: {},
+    202: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.hostGroupName,
+    Parameters.hostName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -571,14 +716,17 @@ const listByHostGroupNextOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.DedicatedHostListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.resourceGroupName,
     Parameters.hostGroupName
   ],
   headerParameters: [Parameters.accept],

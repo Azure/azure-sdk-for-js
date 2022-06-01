@@ -1,0 +1,135 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:doubleArray;1",
+      "@type": "Array",
+      "elementSchema": "double"
+    }
+  ],
+  "expect": {},
+  "instances": [
+    {
+      "subject": "dtmi:dtdl:instance:Schema:double;2",
+      "conforms": true,
+      "submit": "3"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:double;2",
+      "conforms": true,
+      "submit": "-2"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:double;2",
+      "conforms": true,
+      "submit": "0"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:double;2",
+      "conforms": true,
+      "submit": "-0"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:double;2",
+      "conforms": true,
+      "submit": "0.44"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:double;2",
+      "conforms": true,
+      "submit": "-0.33"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:double;2",
+      "conforms": true,
+      "submit": "3.14"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:double;2",
+      "conforms": true,
+      "submit": "-2.02"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:double;2",
+      "conforms": true,
+      "submit": "0.0"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:double;2",
+      "conforms": true,
+      "submit": "-0.0"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:double;2",
+      "conforms": true,
+      "submit": "1.79769313486231E+308"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:double;2",
+      "conforms": true,
+      "submit": "-1.79769313486231E+308"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:double;2",
+      "conforms": false,
+      "submit": "1.79769313486233E+308"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:double;2",
+      "conforms": false,
+      "submit": "-1.79769313486233E+308"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:double;2",
+      "conforms": false,
+      "submit": ""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:double;2",
+      "conforms": false,
+      "submit": "\"3.14\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:double;2",
+      "conforms": false,
+      "submit": "true"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:double;2",
+      "conforms": false,
+      "submit": "null"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:double;2",
+      "conforms": false,
+      "submit": "[ 3.14 ]"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:double;2",
+      "conforms": false,
+      "submit": "{ \"value\": 3.14 }"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:double;2",
+      "conforms": false,
+      "submit": "$$"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:double;2",
+      "conforms": false,
+      "submit": "[ \"hi\": \"there\" ]"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:double;2",
+      "conforms": false,
+      "submit": "{ \"hello\" }"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:double;2",
+      "conforms": false,
+      "submit": "{ 23 ]"
+    }
+  ]
+}

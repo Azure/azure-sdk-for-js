@@ -68,6 +68,13 @@
         "signedPermission": "rl",
         "signedResource": "c"
       }
+    },
+    "cognitiveServicesEndpointSuffix": {
+      "type": "string",
+      "defaultValue": ".cognitiveservices.azure.com",
+      "metadata": {
+        "description": "Endpoint suffix for the Cognitive Services resource. Defaults to '.cognitiveservices.azure.com'"
+      }
     }
   },
   "variables": {
@@ -101,7 +108,7 @@
   "outputs": {
     "FORM_RECOGNIZER_ENDPOINT": {
       "type": "string",
-      "value": "[concat('https://', parameters('baseName'), '.cognitiveservices.azure.com/')]"
+      "value": "[concat('https://', parameters('baseName'), parameters('cognitiveServicesEndpointSuffix'), '/')]"
     },
     "FORM_RECOGNIZER_API_KEY": {
       "type": "string",

@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 import {
-  createAppConfigurationClientForTests,
-  assertThrowsRestError,
-  deleteKeyCompletely,
   assertThrowsAbortError,
-  startRecorder
+  assertThrowsRestError,
+  createAppConfigurationClientForTests,
+  deleteKeyCompletely,
+  startRecorder,
 } from "./utils/testHelpers";
 import { AppConfigurationClient } from "../../src";
-import * as assert from "assert";
-import { Recorder } from "@azure-tools/test-recorder";
+import { assert } from "chai";
+import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 
 describe("AppConfigurationClient (set|clear)ReadOnly", () => {
@@ -19,10 +19,10 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
   const testConfigSetting = {
     key: "",
     value: "world",
-    label: "some label"
+    label: "some label",
   };
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = startRecorder(this);
     testConfigSetting.key = recorder.getUniqueName("readOnlyTests");
     client = createAppConfigurationClientForTests() || this.skip();
@@ -30,15 +30,15 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
     await client.setConfigurationSetting(testConfigSetting);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await deleteKeyCompletely([testConfigSetting.key], client);
     await recorder.stop();
   });
 
-  it("basic", async function() {
+  it("basic", async function () {
     let storedSetting = await client.getConfigurationSetting({
       key: testConfigSetting.key,
-      label: testConfigSetting.label
+      label: testConfigSetting.label,
     });
     assert.ok(!storedSetting.isReadOnly);
 
@@ -46,7 +46,7 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
 
     storedSetting = await client.getConfigurationSetting({
       key: testConfigSetting.key,
-      label: testConfigSetting.label
+      label: testConfigSetting.label,
     });
     assert.ok(storedSetting.isReadOnly);
 
@@ -60,17 +60,20 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
       () =>
         client.deleteConfigurationSetting({
           key: testConfigSetting.key,
-          label: testConfigSetting.label
+          label: testConfigSetting.label,
         }),
       409,
       "Delete should fail because the setting is read-only"
     );
   });
 
-  it("accepts operation options", async function() {
+  it("accepts operation options", async function () {
+    // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
+    // eslint-disable-next-line @typescript-eslint/no-invalid-this
+    if (isPlaybackMode()) this.skip();
     await client.getConfigurationSetting({
       key: testConfigSetting.key,
-      label: testConfigSetting.label
+      label: testConfigSetting.label,
     });
 
     await assertThrowsAbortError(async () => {

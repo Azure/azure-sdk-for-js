@@ -1,12 +1,20 @@
 # Release History
 
-## 11.3.0-beta.6 (Unreleased)
+## 11.3.0-beta.8 (unreleased)
+
+Added `core-http-compat` dependency
+
+## 11.3.0-beta.7 (2022-03-08)
 
 ### Features Added
 
-### Breaking Changes
+- Added new APIs `createAlias`, `createOrUpdateAlias`, `deleteAlias`, `getAlias` & `listAliases` operations to the `SearchIndexClient`.
 
-### Bugs Fixed
+## 11.3.0-beta.6 (2022-02-08)
+
+### Features Added
+
+- Added new type of SearchIndexer skill - `AzureMachineLearningSkill`. Please refer [#20183](https://github.com/Azure/azure-sdk-for-js/pull/20183) for further details.
 
 ### Other Changes
 

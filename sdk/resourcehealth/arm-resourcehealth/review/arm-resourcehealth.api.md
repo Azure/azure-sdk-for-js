@@ -261,8 +261,12 @@ export enum KnownStageValues {
 }
 
 // @public (undocumented)
-export class MicrosoftResourceHealth extends MicrosoftResourceHealthContext {
+export class MicrosoftResourceHealth extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: MicrosoftResourceHealthOptionalParams);
+    // (undocumented)
+    apiVersion: string;
     // (undocumented)
     availabilityStatuses: AvailabilityStatuses;
     // (undocumented)
@@ -273,15 +277,6 @@ export class MicrosoftResourceHealth extends MicrosoftResourceHealthContext {
     emergingIssues: EmergingIssues;
     // (undocumented)
     operations: Operations;
-}
-
-// @public (undocumented)
-export class MicrosoftResourceHealthContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: MicrosoftResourceHealthOptionalParams);
-    // (undocumented)
-    apiVersion: string;
     // (undocumented)
     subscriptionId: string;
 }

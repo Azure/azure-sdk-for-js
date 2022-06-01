@@ -63,9 +63,9 @@ export class MsalOnBehalfOf extends MsalNode {
         this.msalConfig.auth.clientCertificate = {
           thumbprint: parts.thumbprint,
           privateKey: parts.certificateContents,
-          x5c: parts.x5c
+          x5c: parts.x5c,
         };
-      } catch (error) {
+      } catch (error: any) {
         this.logger.info(formatError("", error));
         throw error;
       }
@@ -85,10 +85,10 @@ export class MsalOnBehalfOf extends MsalNode {
         correlationId: options.correlationId,
         authority: options.authority,
         claims: options.claims,
-        oboAssertion: this.userAssertionToken
+        oboAssertion: this.userAssertionToken,
       });
       return this.handleResult(scopes, this.clientId, result || undefined);
-    } catch (err) {
+    } catch (err: any) {
       throw this.handleError(scopes, err, options);
     }
   }

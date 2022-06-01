@@ -8,6 +8,6 @@ export function processPassthroughOperationResult<TResult>(
 ): LroStatus<TResult> {
   return {
     ...response,
-    done: true
+    done: true,
   };
 }

@@ -1,8 +1,8 @@
 {
-  "name": "azure-ai-form-recognizer-samples-ts",
+  "name": "@azure-samples/ai-form-recognizer-ts-beta",
   "private": true,
   "version": "1.0.0",
-  "description": "Azure Form Recognizer client library samples for TypeScript",
+  "description": "Azure Form Recognizer client library samples for TypeScript (Beta)",
   "engines": {
     "node": ">=12.0.0"
   },
@@ -34,6 +34,7 @@
     "dotenv": "latest"
   },
   "devDependencies": {
+    "@types/node": "^12.0.0",
     "typescript": "~4.4.0",
     "rimraf": "latest"
   }

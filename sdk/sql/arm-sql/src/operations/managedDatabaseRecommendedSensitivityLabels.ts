@@ -10,7 +10,7 @@ import { ManagedDatabaseRecommendedSensitivityLabels } from "../operationsInterf
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { SqlManagementClientContext } from "../sqlManagementClientContext";
+import { SqlManagementClient } from "../sqlManagementClient";
 import {
   RecommendedSensitivityLabelUpdateList,
   ManagedDatabaseRecommendedSensitivityLabelsUpdateOptionalParams
@@ -19,13 +19,13 @@ import {
 /** Class containing ManagedDatabaseRecommendedSensitivityLabels operations. */
 export class ManagedDatabaseRecommendedSensitivityLabelsImpl
   implements ManagedDatabaseRecommendedSensitivityLabels {
-  private readonly client: SqlManagementClientContext;
+  private readonly client: SqlManagementClient;
 
   /**
    * Initialize a new instance of the class ManagedDatabaseRecommendedSensitivityLabels class.
    * @param client Reference to the service client
    */
-  constructor(client: SqlManagementClientContext) {
+  constructor(client: SqlManagementClient) {
     this.client = client;
   }
 
@@ -65,7 +65,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/recommendedSensitivityLabels",
   httpMethod: "PATCH",
   responses: { 200: {}, default: {} },
-  requestBody: Parameters.parameters49,
+  requestBody: Parameters.parameters45,
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,

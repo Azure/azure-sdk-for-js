@@ -38,7 +38,7 @@ export class MixedRealityAccountKeyCredential implements TokenCredential {
   getToken(_scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null> {
     const result: AccessToken = {
       expiresOnTimestamp: maxTimestampMs,
-      token: `${this.accountId}:${this.accountKey.key}`
+      token: `${this.accountId}:${this.accountKey.key}`,
     };
 
     return Promise.resolve(result);

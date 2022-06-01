@@ -5,6 +5,6 @@ import { vsCodePlugin as plugin } from "../../../src";
 
 import { useIdentityPlugin } from "@azure/identity";
 
-before(function() {
+before(function () {
   useIdentityPlugin(plugin);
 });

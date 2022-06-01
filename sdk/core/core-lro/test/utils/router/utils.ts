@@ -2,11 +2,12 @@
 // Licensed under the MIT license.
 
 import {
-  createHttpHeaders,
   HttpHeaders,
   PipelineRequest,
-  PipelineResponse
+  PipelineResponse,
+  createHttpHeaders,
 } from "@azure/core-rest-pipeline";
+import { Processor } from "./paramRoutes";
 
 export function buildResponse(
   request: PipelineRequest,
@@ -18,7 +19,7 @@ export function buildResponse(
     request: request,
     headers: headers ? headers : createHttpHeaders(),
     status: status,
-    bodyAsText: body
+    bodyAsText: body,
   };
 }
 
@@ -40,10 +41,10 @@ export function buildProcessMultipleRequests(
 
 export function applyScenarios(
   request: PipelineRequest,
-  scenarios: ((request: PipelineRequest) => PipelineResponse | undefined)[]
+  scenarios: Processor[]
 ): PipelineResponse | undefined {
   for (const scenario of scenarios) {
-    const response = scenario(request);
+    const response = scenario.process(request);
     if (response) {
       return response;
     }

@@ -1,0 +1,39 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:illegalRelationship;1",
+      "@type": "Relationship",
+      "name": "illegal",
+      "maxMultiplicity": 5,
+      "minMultiplicity": 0,
+      "properties": [
+        {
+          "@id": "dtmi:test:aProperty;1",
+          "@type": "Property",
+          "name": "duplicatedName",
+          "schema": "double"
+        },
+        {
+          "@id": "dtmi:test:anotherProperty;1",
+          "@type": "Property",
+          "name": "duplicatedName",
+          "schema": "double"
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:nonUniquePropertyValue",
+        "PrimaryID": "dtmi:test:illegalRelationship;1",
+        "SecondaryID": null,
+        "Property": "properties",
+        "Value": "name"
+      }
+    ]
+  }
+}

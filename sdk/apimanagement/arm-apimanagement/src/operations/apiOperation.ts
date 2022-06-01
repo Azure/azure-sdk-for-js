@@ -11,7 +11,7 @@ import { ApiOperation } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ApiManagementClientContext } from "../apiManagementClientContext";
+import { ApiManagementClient } from "../apiManagementClient";
 import {
   OperationContract,
   ApiOperationListByApiNextOptionalParams,
@@ -33,13 +33,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ApiOperation operations. */
 export class ApiOperationImpl implements ApiOperation {
-  private readonly client: ApiManagementClientContext;
+  private readonly client: ApiManagementClient;
 
   /**
    * Initialize a new instance of the class ApiOperation class.
    * @param client Reference to the service client
    */
-  constructor(client: ApiManagementClientContext) {
+  constructor(client: ApiManagementClient) {
     this.client = client;
   }
 

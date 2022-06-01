@@ -11,7 +11,7 @@ import { Snapshots } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ContainerServiceClientContext } from "../containerServiceClientContext";
+import { ContainerServiceClient } from "../containerServiceClient";
 import {
   Snapshot,
   SnapshotsListNextOptionalParams,
@@ -35,13 +35,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Snapshots operations. */
 export class SnapshotsImpl implements Snapshots {
-  private readonly client: ContainerServiceClientContext;
+  private readonly client: ContainerServiceClient;
 
   /**
    * Initialize a new instance of the class Snapshots class.
    * @param client Reference to the service client
    */
-  constructor(client: ContainerServiceClientContext) {
+  constructor(client: ContainerServiceClient) {
     this.client = client;
   }
 
@@ -89,7 +89,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Lists snapshots in the specified subscription and resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   public listByResourceGroup(
@@ -152,7 +152,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Lists snapshots in the specified subscription and resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   private _listByResourceGroup(
@@ -167,7 +167,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Gets a snapshot.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -184,7 +184,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Creates or updates a snapshot.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param parameters The snapshot to create or update.
    * @param options The options parameters.
@@ -203,7 +203,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Updates tags on a snapshot.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param parameters Parameters supplied to the Update snapshot Tags operation.
    * @param options The options parameters.
@@ -222,7 +222,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * Deletes a snapshot.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the managed cluster resource.
    * @param options The options parameters.
    */
@@ -254,7 +254,7 @@ export class SnapshotsImpl implements Snapshots {
 
   /**
    * ListByResourceGroupNext
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param nextLink The nextLink from the previous successful call to the ListByResourceGroup method.
    * @param options The options parameters.
    */

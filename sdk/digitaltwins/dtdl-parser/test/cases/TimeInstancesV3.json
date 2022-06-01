@@ -1,0 +1,145 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:timeArray;1",
+      "@type": "Array",
+      "elementSchema": "time"
+    }
+  ],
+  "expect": {},
+  "instances": [
+    {
+      "subject": "dtmi:dtdl:instance:Schema:time;3",
+      "conforms": true,
+      "submit": "\"00:00:00Z\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:time;3",
+      "conforms": true,
+      "submit": "\"23:59:59Z\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:time;3",
+      "conforms": true,
+      "submit": "\"12:34:56Z\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:time;3",
+      "conforms": false,
+      "submit": "\"00:00:60Z\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:time;3",
+      "conforms": false,
+      "submit": "\"00:60:00Z\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:time;3",
+      "conforms": false,
+      "submit": "\"24:00:00Z\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:time;3",
+      "conforms": false,
+      "submit": "\"06:00Z\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:time;3",
+      "conforms": true,
+      "submit": "\"06:00:00.00015Z\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:time;3",
+      "conforms": false,
+      "submit": "\"T06:00:00Z\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:time;3",
+      "conforms": false,
+      "submit": "\"1980-01-01T06:00:00Z\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:time;3",
+      "conforms": true,
+      "submit": "\"06:00:00+11:45\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:time;3",
+      "conforms": true,
+      "submit": "\"06:00:00-01:15\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:time;3",
+      "conforms": false,
+      "submit": "\"06:00:00-1:15\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:time;3",
+      "conforms": false,
+      "submit": "\"06:00:00+11\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:time;3",
+      "conforms": false,
+      "submit": "\"06:00+11:00\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:time;3",
+      "conforms": true,
+      "submit": "\"06:00:00.0000+11:00\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:time;3",
+      "conforms": false,
+      "submit": ""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:time;3",
+      "conforms": false,
+      "submit": "true"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:time;3",
+      "conforms": false,
+      "submit": "1"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:time;3",
+      "conforms": false,
+      "submit": "null"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:time;3",
+      "conforms": false,
+      "submit": "[ \"12:34:56Z\" ]"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:time;3",
+      "conforms": false,
+      "submit": "{ \"time\": \"12:34:56Z\" }"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:time;3",
+      "conforms": false,
+      "submit": "$$"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:time;3",
+      "conforms": false,
+      "submit": "[ \"hi\": \"there\" ]"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:time;3",
+      "conforms": false,
+      "submit": "{ \"hello\" }"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:time;3",
+      "conforms": false,
+      "submit": "{ 23 ]"
+    }
+  ]
+}

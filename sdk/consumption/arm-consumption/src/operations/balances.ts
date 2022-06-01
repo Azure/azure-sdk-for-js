@@ -10,7 +10,7 @@ import { Balances } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { ConsumptionManagementClientContext } from "../consumptionManagementClientContext";
+import { ConsumptionManagementClient } from "../consumptionManagementClient";
 import {
   BalancesGetByBillingAccountOptionalParams,
   BalancesGetByBillingAccountResponse,
@@ -20,13 +20,13 @@ import {
 
 /** Class containing Balances operations. */
 export class BalancesImpl implements Balances {
-  private readonly client: ConsumptionManagementClientContext;
+  private readonly client: ConsumptionManagementClient;
 
   /**
    * Initialize a new instance of the class Balances class.
    * @param client Reference to the service client
    */
-  constructor(client: ConsumptionManagementClientContext) {
+  constructor(client: ConsumptionManagementClient) {
     this.client = client;
   }
 
@@ -86,7 +86,7 @@ const getByBillingAccountOperationSpec: coreClient.OperationSpec = {
 };
 const getForBillingPeriodByBillingAccountOperationSpec: coreClient.OperationSpec = {
   path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.Billing/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/balances",
+    "/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingPeriods/{billingPeriodName}/providers/Microsoft.Consumption/balances",
   httpMethod: "GET",
   responses: {
     200: {

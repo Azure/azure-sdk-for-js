@@ -3,8 +3,9 @@
 /* eslint-disable no-unused-expressions */
 
 import "chai/register-should";
-import * as msRest from "../src/coreHttp";
 import * as base64 from "../src/util/base64";
+import * as msRest from "../src/coreHttp";
+
 const BasicAuthenticationCredentials = msRest.BasicAuthenticationCredentials;
 const ApiKeyCredentials = msRest.ApiKeyCredentials;
 const fakeScheme = "fake-auth-scheme";
@@ -45,8 +46,8 @@ describe("Basic Authentication credentials", () => {
   });
 
   describe("ApiKey credentials", () => {
-    describe("usage", function() {
-      it("should set header parameters properly in request", async function() {
+    describe("usage", function () {
+      it("should set header parameters properly in request", async function () {
         const creds = new ApiKeyCredentials({ inHeader: { key1: "value1", key2: "value2" } });
         const request = new msRest.WebResource();
         request.headers = new msRest.HttpHeaders();
@@ -59,22 +60,22 @@ describe("Basic Authentication credentials", () => {
         request.headers.get("key2")!.should.match(new RegExp("^value2$"));
       });
 
-      it("should set query parameters properly in the request url without any query parameters", async function() {
+      it("should set query parameters properly in the request url without any query parameters", async function () {
         const creds = new ApiKeyCredentials({ inQuery: { key1: "value1", key2: "value2" } });
         const request = {
           headers: {},
-          url: "https://example.com"
+          url: "https://example.com",
         } as msRest.WebResource;
 
         await creds.signRequest(request);
         request.url.should.equal("https://example.com?key1=value1&key2=value2");
       });
 
-      it("should set query parameters properly in the request url with existing query parameters", async function() {
+      it("should set query parameters properly in the request url with existing query parameters", async function () {
         const creds = new ApiKeyCredentials({ inQuery: { key1: "value1", key2: "value2" } });
         const request = {
           headers: {},
-          url: "https://example.com?q1=v2"
+          url: "https://example.com?q1=v2",
         } as msRest.WebResource;
 
         await creds.signRequest(request);
@@ -82,23 +83,23 @@ describe("Basic Authentication credentials", () => {
       });
     });
 
-    describe("construction", function() {
-      it("should fail with options.inHeader and options.inQuery set to null or undefined", function(done) {
-        (function() {
+    describe("construction", function () {
+      it("should fail with options.inHeader and options.inQuery set to null or undefined", function (done) {
+        (function () {
           new ApiKeyCredentials({ inHeader: undefined, inQuery: undefined } as any);
         }.should.throw());
         done();
       });
 
-      it("should fail without options", function(done) {
-        (function() {
+      it("should fail without options", function (done) {
+        (function () {
           new (ApiKeyCredentials as any)();
         }.should.throw());
         done();
       });
 
-      it("should fail with empty options", function(done) {
-        (function() {
+      it("should fail with empty options", function (done) {
+        (function () {
           new ApiKeyCredentials({});
         }.should.throw());
         done();

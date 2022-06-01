@@ -1,0 +1,301 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:test:durationArray;1",
+      "@type": "Array",
+      "elementSchema": "duration"
+    }
+  ],
+  "expect": {},
+  "instances": [
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"P3Y6M4DT8H9M5S\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"P3Y6M4DT8H9M\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"P3Y6M4DT8H5S\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"P3Y6M4DT9M5S\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"P3Y6MT8H9M5S\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"P3Y4DT8H9M5S\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"P6M4DT8H9M5S\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"P3Y6M4DT8H\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": false,
+      "submit": "\"P3Y6M4DT\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"P3Y6M4D\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"P3Y6M\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"P3Y\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"P6M4DT8H9M5S\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"P4DT8H9M5S\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"PT8H9M5S\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": false,
+      "submit": "\"P8H9M5S\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"PT9M5S\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"PT5S\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"PT0.001S\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": false,
+      "submit": "\"PT.001S\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"P163Y16M64DT389999M15S\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"P3Y6M4DT8H9M5.00134S\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"P3Y6M4DT8H9.00134M\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"P3Y6M4DT8.00134H\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"P3Y6M4.00134D\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"P3Y6.00134M\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"P3.00134Y\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"P0Y\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"P0Y\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"P0M\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"P0D\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"PT0H\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"PT0M\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": true,
+      "submit": "\"PT0S\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": false,
+      "submit": "\"P6M3Y\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": false,
+      "submit": "\"PT5S9M\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": false,
+      "submit": "\"P\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": false,
+      "submit": "\"PT\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": false,
+      "submit": "\"P3.0Y6M4DT8H9M5S\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": false,
+      "submit": "\"P3Y6.0M4DT8H9M5S\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": false,
+      "submit": "\"P3Y6M4.0DT8H9M5S\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": false,
+      "submit": "\"P3Y6M4DT8.0H9M5S\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": false,
+      "submit": "\"P3Y6M4DT8H9.0M5S\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": false,
+      "submit": "\"P3W\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": false,
+      "submit": "\"15\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": false,
+      "submit": "\"15D\""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": false,
+      "submit": "\"15\""
+    },
+
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": false,
+      "submit": ""
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": false,
+      "submit": "true"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": false,
+      "submit": "15"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": false,
+      "submit": "null"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": false,
+      "submit": "[ \"PT0S\" ]"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": false,
+      "submit": "{ \"duration\": \"PT0S\" }"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": false,
+      "submit": "$$"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": false,
+      "submit": "[ \"hi\": \"there\" ]"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": false,
+      "submit": "{ \"hello\" }"
+    },
+    {
+      "subject": "dtmi:dtdl:instance:Schema:duration;2",
+      "conforms": false,
+      "submit": "{ 23 ]"
+    }
+  ]
+}

@@ -34,27 +34,18 @@ export interface OperationDisplay {
   operation?: string;
 }
 
-/** Resource information. */
-export interface Resource {
-  /**
-   * Resource ID
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Resource name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * Resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Resource location */
-  location?: string;
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
+/** Plan for the managed application. */
+export interface Plan {
+  /** The plan name. */
+  name: string;
+  /** The publisher ID. */
+  publisher: string;
+  /** The product code. */
+  product: string;
+  /** The promotion code. */
+  promotionCode?: string;
+  /** The plan's version. */
+  version: string;
 }
 
 /** SKU for the resource. */
@@ -89,18 +80,27 @@ export interface Identity {
   type?: "SystemAssigned";
 }
 
-/** Plan for the managed application. */
-export interface Plan {
-  /** The plan name. */
-  name: string;
-  /** The publisher ID. */
-  publisher: string;
-  /** The product code. */
-  product: string;
-  /** The promotion code. */
-  promotionCode?: string;
-  /** The plan's version. */
-  version: string;
+/** Resource information. */
+export interface Resource {
+  /**
+   * Resource ID
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Resource location */
+  location?: string;
+  /** Resource tags */
+  tags?: { [propertyName: string]: string };
 }
 
 /** Error response indicates managed application is not able to process the incoming request. The reason is provided in the error message. */
@@ -280,25 +280,18 @@ export type ApplicationLockLevel = "CanNotDelete" | "ReadOnly" | "None";
 export type ApplicationArtifactType = "Template" | "Custom";
 
 /** Optional parameters. */
-export interface ApplicationClientListOperationsOptionalParams
+export interface ListOperationsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOperations operation. */
-export type ApplicationClientListOperationsResponse = OperationListResult;
+export type ListOperationsResponse = OperationListResult;
 
 /** Optional parameters. */
-export interface ApplicationClientListOperationsNextOptionalParams
+export interface ListOperationsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOperationsNext operation. */
-export type ApplicationClientListOperationsNextResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface ApplicationClientListOperationsNextNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listOperationsNextNext operation. */
-export type ApplicationClientListOperationsNextNextResponse = OperationListResult;
+export type ListOperationsNextResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface ApplicationsGetOptionalParams
@@ -405,20 +398,6 @@ export interface ApplicationsListBySubscriptionNextOptionalParams
 export type ApplicationsListBySubscriptionNextResponse = ApplicationListResult;
 
 /** Optional parameters. */
-export interface ApplicationsListByResourceGroupNextNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNextNext operation. */
-export type ApplicationsListByResourceGroupNextNextResponse = ApplicationListResult;
-
-/** Optional parameters. */
-export interface ApplicationsListBySubscriptionNextNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listBySubscriptionNextNext operation. */
-export type ApplicationsListBySubscriptionNextNextResponse = ApplicationListResult;
-
-/** Optional parameters. */
 export interface ApplicationDefinitionsGetOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -487,13 +466,6 @@ export interface ApplicationDefinitionsListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type ApplicationDefinitionsListByResourceGroupNextResponse = ApplicationDefinitionListResult;
-
-/** Optional parameters. */
-export interface ApplicationDefinitionsListByResourceGroupNextNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByResourceGroupNextNext operation. */
-export type ApplicationDefinitionsListByResourceGroupNextNextResponse = ApplicationDefinitionListResult;
 
 /** Optional parameters. */
 export interface ApplicationClientOptionalParams

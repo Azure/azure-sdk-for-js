@@ -1,9 +1,0 @@
-{
-  "extends": "../../../tsconfig.package",
-  "compilerOptions": {
-    "module": "commonjs",
-    "outDir": "./dist-esm"
-  },
-  "exclude": ["node_modules"],
-  "include": ["./src/**/*.ts"]
-}

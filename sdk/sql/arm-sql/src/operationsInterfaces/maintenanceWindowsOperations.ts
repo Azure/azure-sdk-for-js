@@ -7,10 +7,10 @@
  */
 
 import {
-  MaintenanceWindowsOperationsGetOptionalParams,
-  MaintenanceWindowsOperationsGetResponse,
+  MaintenanceWindowsGetOptionalParams,
+  MaintenanceWindowsGetResponse,
   MaintenanceWindows,
-  MaintenanceWindowsOperationsCreateOrUpdateOptionalParams
+  MaintenanceWindowsCreateOrUpdateOptionalParams
 } from "../models";
 
 /** Interface representing a MaintenanceWindowsOperations. */
@@ -29,8 +29,8 @@ export interface MaintenanceWindowsOperations {
     serverName: string,
     databaseName: string,
     maintenanceWindowName: string,
-    options?: MaintenanceWindowsOperationsGetOptionalParams
-  ): Promise<MaintenanceWindowsOperationsGetResponse>;
+    options?: MaintenanceWindowsGetOptionalParams
+  ): Promise<MaintenanceWindowsGetResponse>;
   /**
    * Sets maintenance windows settings for a database.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -47,6 +47,6 @@ export interface MaintenanceWindowsOperations {
     databaseName: string,
     maintenanceWindowName: string,
     parameters: MaintenanceWindows,
-    options?: MaintenanceWindowsOperationsCreateOrUpdateOptionalParams
+    options?: MaintenanceWindowsCreateOrUpdateOptionalParams
   ): Promise<void>;
 }

@@ -5,7 +5,6 @@
  * @summary Demonstrates database create, read, delete and reading all databases.
  */
 
-const path = require("path");
 require("dotenv").config();
 
 const { handleError, logStep, logSampleHeader, finish } = require("./Shared/handleError");

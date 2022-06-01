@@ -165,6 +165,14 @@ export interface AuthInfoUpdateParameters {
 }
 
 // @public
+export interface AzureADAuthenticationAsArmPolicy {
+    status?: AzureADAuthenticationAsArmPolicyStatus;
+}
+
+// @public
+export type AzureADAuthenticationAsArmPolicyStatus = string;
+
+// @public
 export interface BaseImageDependency {
     digest?: string;
     registry?: string;
@@ -315,7 +323,9 @@ export type ConnectionState = string;
 export type ConnectionStatus = string;
 
 // @public (undocumented)
-export class ContainerRegistryManagementClient extends ContainerRegistryManagementClientContext {
+export class ContainerRegistryManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ContainerRegistryManagementClientOptionalParams);
     // (undocumented)
     agentPools: AgentPools;
@@ -340,6 +350,8 @@ export class ContainerRegistryManagementClient extends ContainerRegistryManageme
     // (undocumented)
     scopeMaps: ScopeMaps;
     // (undocumented)
+    subscriptionId: string;
+    // (undocumented)
     taskRuns: TaskRuns;
     // (undocumented)
     tasks: Tasks;
@@ -347,15 +359,6 @@ export class ContainerRegistryManagementClient extends ContainerRegistryManageme
     tokens: Tokens;
     // (undocumented)
     webhooks: Webhooks;
-}
-
-// @public (undocumented)
-export class ContainerRegistryManagementClientContext extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ContainerRegistryManagementClientOptionalParams);
-    // (undocumented)
-    subscriptionId: string;
 }
 
 // @public
@@ -469,7 +472,7 @@ export interface ErrorResponse {
 // @public
 export interface ErrorResponseBody {
     code: string;
-    details?: InnerErrorDescription;
+    details?: InnerErrorDescription[];
     message: string;
     target?: string;
 }
@@ -826,6 +829,14 @@ export enum KnownAuditLogStatus {
     Disabled = "Disabled",
     // (undocumented)
     Enabled = "Enabled"
+}
+
+// @public
+export enum KnownAzureADAuthenticationAsArmPolicyStatus {
+    // (undocumented)
+    Disabled = "disabled",
+    // (undocumented)
+    Enabled = "enabled"
 }
 
 // @public
@@ -1275,7 +1286,6 @@ export type NetworkRuleBypassOptions = string;
 export interface NetworkRuleSet {
     defaultAction: DefaultAction;
     ipRules?: IPRule[];
-    virtualNetworkRules?: VirtualNetworkRule[];
 }
 
 // @public
@@ -1354,6 +1364,12 @@ export interface OverrideTaskStepProperties {
     target?: string;
     updateTriggerToken?: string;
     values?: SetValue[];
+}
+
+// @public
+export interface PackageType {
+    readonly endpoint?: string;
+    name?: string;
 }
 
 // @public
@@ -1508,9 +1524,11 @@ export interface PlatformUpdateParameters {
 
 // @public
 export interface Policies {
+    azureADAuthenticationAsArmPolicy?: AzureADAuthenticationAsArmPolicy;
     exportPolicy?: ExportPolicy;
     quarantinePolicy?: QuarantinePolicy;
     retentionPolicy?: RetentionPolicy;
+    softDeletePolicy?: SoftDeletePolicy;
     trustPolicy?: TrustPolicy;
 }
 
@@ -1650,6 +1668,7 @@ export interface Registries {
     checkNameAvailability(registryNameCheckRequest: RegistryNameCheckRequest, options?: RegistriesCheckNameAvailabilityOptionalParams): Promise<RegistriesCheckNameAvailabilityResponse>;
     get(resourceGroupName: string, registryName: string, options?: RegistriesGetOptionalParams): Promise<RegistriesGetResponse>;
     getBuildSourceUploadUrl(resourceGroupName: string, registryName: string, options?: RegistriesGetBuildSourceUploadUrlOptionalParams): Promise<RegistriesGetBuildSourceUploadUrlResponse>;
+    getPrivateLinkResource(resourceGroupName: string, registryName: string, groupName: string, options?: RegistriesGetPrivateLinkResourceOptionalParams): Promise<RegistriesGetPrivateLinkResourceResponse>;
     list(options?: RegistriesListOptionalParams): PagedAsyncIterableIterator<Registry>;
     listByResourceGroup(resourceGroupName: string, options?: RegistriesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Registry>;
     listCredentials(resourceGroupName: string, registryName: string, options?: RegistriesListCredentialsOptionalParams): Promise<RegistriesListCredentialsResponse>;
@@ -1699,6 +1718,13 @@ export type RegistriesGetBuildSourceUploadUrlResponse = SourceUploadDefinition;
 // @public
 export interface RegistriesGetOptionalParams extends coreClient.OperationOptions {
 }
+
+// @public
+export interface RegistriesGetPrivateLinkResourceOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type RegistriesGetPrivateLinkResourceResponse = PrivateLinkResource;
 
 // @public
 export type RegistriesGetResponse = Registry;
@@ -2224,6 +2250,13 @@ export type SkuName = string;
 export type SkuTier = string;
 
 // @public
+export interface SoftDeletePolicy {
+    readonly lastUpdatedTime?: Date;
+    retentionDays?: number;
+    status?: PolicyStatus;
+}
+
+// @public
 export interface Source {
     addr?: string;
     instanceID?: string;
@@ -2310,6 +2343,11 @@ export interface StatusDetailProperties {
 
 // @public
 export type StepType = string;
+
+// @public
+export interface StorageAccountProperties {
+    id: string;
+}
 
 // @public
 export interface SyncProperties {
@@ -2767,12 +2805,6 @@ export interface UserIdentityProperties {
 
 // @public
 export type Variant = string;
-
-// @public
-export interface VirtualNetworkRule {
-    action?: Action;
-    virtualNetworkResourceId: string;
-}
 
 // @public
 export type Webhook = Resource & {

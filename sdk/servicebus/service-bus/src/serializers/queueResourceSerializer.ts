@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpOperationResponse, OperationOptions } from "@azure/core-http";
+import { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
-  serializeToAtomXmlRequest
+  serializeToAtomXmlRequest,
 } from "../util/atomXmlHelper";
 import * as Constants from "../util/constants";
 import {
@@ -20,7 +20,7 @@ import {
   getStringOrUndefined,
   getDate,
   EntityStatus,
-  EntityAvailabilityStatus
+  EntityAvailabilityStatus,
 } from "../util/utils";
 
 /**
@@ -56,7 +56,7 @@ export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptio
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(queue.forwardDeadLetteredMessagesTo),
     EntityAvailabilityStatus: getStringOrUndefined(queue.availabilityStatus),
     EnableExpress: getStringOrUndefined(queue.enableExpress),
-    MaxMessageSizeInKilobytes: getStringOrUndefined(queue.maxMessageSizeInKilobytes)
+    MaxMessageSizeInKilobytes: getStringOrUndefined(queue.maxMessageSizeInKilobytes),
   };
 }
 
@@ -116,7 +116,7 @@ export function buildQueue(rawQueue: Record<string, any>): QueueProperties {
 
     maxMessageSizeInKilobytes: getIntegerOrUndefined(
       rawQueue[Constants.MAX_MESSAGE_SIZE_IN_KILOBYTES]
-    )
+    ),
   };
 }
 
@@ -134,7 +134,7 @@ export function buildQueueRuntimeProperties(rawQueue: Record<string, any>): Queu
     ...messageCountDetails,
     createdAt: getDate(rawQueue[Constants.CREATED_AT], "createdAt"),
     modifiedAt: getDate(rawQueue[Constants.UPDATED_AT], "modifiedAt"),
-    accessedAt: getDate(rawQueue[Constants.ACCESSED_AT], "accessedAt")
+    accessedAt: getDate(rawQueue[Constants.ACCESSED_AT], "accessedAt"),
   };
 }
 
@@ -645,7 +645,7 @@ export class QueueResourceSerializer implements AtomXmlSerializer {
     return serializeToAtomXmlRequest("QueueDescription", resource);
   }
 
-  async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {
+  async deserialize(response: FullOperationResponse): Promise<FullOperationResponse> {
     return deserializeAtomXmlResponse(["QueueName"], response);
   }
 }

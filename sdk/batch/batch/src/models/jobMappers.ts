@@ -29,6 +29,7 @@ export {
   DiskEncryptionConfiguration,
   EnvironmentSetting,
   ErrorMessage,
+  HttpHeader,
   ImageReference,
   InboundNATPool,
   JobAddHeaders,

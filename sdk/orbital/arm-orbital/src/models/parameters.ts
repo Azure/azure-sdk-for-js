@@ -219,6 +219,11 @@ export const autoTrackingConfiguration: OperationParameter = {
   mapper: ContactProfileMapper
 };
 
+export const eventHubUri: OperationParameter = {
+  parameterPath: ["options", "eventHubUri"],
+  mapper: ContactProfileMapper
+};
+
 export const links1: OperationParameter = {
   parameterPath: ["options", "links"],
   mapper: ContactProfileMapper

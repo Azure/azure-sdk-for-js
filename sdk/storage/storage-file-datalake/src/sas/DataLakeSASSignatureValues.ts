@@ -390,7 +390,7 @@ function generateBlobSASQueryParameters20150405(
       : "",
     dataLakeSASSignatureValues.contentEncoding ? dataLakeSASSignatureValues.contentEncoding : "",
     dataLakeSASSignatureValues.contentLanguage ? dataLakeSASSignatureValues.contentLanguage : "",
-    dataLakeSASSignatureValues.contentType ? dataLakeSASSignatureValues.contentType : ""
+    dataLakeSASSignatureValues.contentType ? dataLakeSASSignatureValues.contentType : "",
   ].join("\n");
 
   const signature = sharedKeyCredential.computeHMACSHA256(stringToSign);
@@ -511,7 +511,7 @@ function generateBlobSASQueryParameters20181109(
       : "",
     dataLakeSASSignatureValues.contentEncoding ? dataLakeSASSignatureValues.contentEncoding : "",
     dataLakeSASSignatureValues.contentLanguage ? dataLakeSASSignatureValues.contentLanguage : "",
-    dataLakeSASSignatureValues.contentType ? dataLakeSASSignatureValues.contentType : ""
+    dataLakeSASSignatureValues.contentType ? dataLakeSASSignatureValues.contentType : "",
   ].join("\n");
 
   const signature = sharedKeyCredential.computeHMACSHA256(stringToSign);
@@ -635,7 +635,7 @@ function generateBlobSASQueryParametersUDK20181109(
     dataLakeSASSignatureValues.contentDisposition,
     dataLakeSASSignatureValues.contentEncoding,
     dataLakeSASSignatureValues.contentLanguage,
-    dataLakeSASSignatureValues.contentType
+    dataLakeSASSignatureValues.contentType,
   ].join("\n");
 
   const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
@@ -765,7 +765,7 @@ function generateBlobSASQueryParametersUDK20200210(
     dataLakeSASSignatureValues.contentDisposition,
     dataLakeSASSignatureValues.contentEncoding,
     dataLakeSASSignatureValues.contentLanguage,
-    dataLakeSASSignatureValues.contentType
+    dataLakeSASSignatureValues.contentType,
   ].join("\n");
 
   const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
@@ -892,7 +892,7 @@ function generateBlobSASQueryParameters20201206(
       : "",
     dataLakeSASSignatureValues.contentEncoding ? dataLakeSASSignatureValues.contentEncoding : "",
     dataLakeSASSignatureValues.contentLanguage ? dataLakeSASSignatureValues.contentLanguage : "",
-    dataLakeSASSignatureValues.contentType ? dataLakeSASSignatureValues.contentType : ""
+    dataLakeSASSignatureValues.contentType ? dataLakeSASSignatureValues.contentType : "",
   ].join("\n");
 
   const signature = sharedKeyCredential.computeHMACSHA256(stringToSign);
@@ -1020,7 +1020,7 @@ function generateBlobSASQueryParametersUDK20201206(
     dataLakeSASSignatureValues.contentDisposition,
     dataLakeSASSignatureValues.contentEncoding,
     dataLakeSASSignatureValues.contentLanguage,
-    dataLakeSASSignatureValues.contentType
+    dataLakeSASSignatureValues.contentType,
   ].join("\n");
 
   const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);

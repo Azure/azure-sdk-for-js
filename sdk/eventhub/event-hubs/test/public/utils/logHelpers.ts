@@ -63,7 +63,7 @@ export class LogTester {
     this._attachedLoggers.push({
       logger,
       wasEnabled: logger.enabled,
-      previousLogFunction: logger.log
+      previousLogFunction: logger.log,
     });
 
     // install our check instead

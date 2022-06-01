@@ -1,0 +1,54 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:example:someInterface;1",
+      "@type": "Interface",
+      "contents": [
+        {
+          "@type": "Property",
+          "name": "myProp",
+          "schema": {
+            "@type": "Map",
+            "mapKey": {
+              "name": "Foo",
+              "schema": "string"
+            },
+            "mapValue": {
+              "name": "myMapValue",
+              "schema": {
+                "@type": "Object",
+                "fields": [
+                  {
+                    "name": "x",
+                    "schema": "integer"
+                  },
+                  {
+                    "name": "y",
+                    "schema": {
+                      "@type": "Array",
+                      "elementSchema": "double"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:excludedType",
+        "PrimaryID": "dtmi:example:someInterface:_contents:__myProp;1",
+        "SecondaryID": "dtmi:example:someInterface:_contents:__myProp:_schema:_mapValue:_schema:_fields:__y:_schema;1",
+        "Property": null,
+        "Value": null
+      }
+    ]
+  }
+}

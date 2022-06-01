@@ -1,0 +1,141 @@
+{
+  "valid": true,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;2",
+      "@id": "dtmi:example:myTopLevelInterface;1",
+      "@type": "Interface",
+      "contents": [
+        {
+          "@type": "Component",
+          "name": "myFirstComponent",
+          "schema": {
+            "@id": "dtmi:example:myInterface;1",
+            "@type": "Interface",
+            "contents": [
+              {
+                "@id": "dtmi:example:myTelem;1",
+                "@type": "Telemetry",
+                "name": "MyTelem",
+                "schema": "double",
+                "comment": "This is my first telemetry",
+                "description": "Blah-de-blah-de-blah",
+                "displayName": "My first Telemetry"
+              },
+              {
+                "@id": "dtmi:example:myProp;1",
+                "@type": "Property",
+                "name": "MyProp",
+                "schema": "double",
+                "comment": "This is my first property",
+                "description": "Blah-de-blah-de-blah",
+                "displayName": "My first Property",
+                "writable": true
+              },
+              {
+                "@id": "dtmi:example:myCmd;1",
+                "@type": "Command",
+                "name": "MyCommand",
+                "comment": "This is my first command",
+                "description": "Blah-de-blah-de-blah",
+                "displayName": "My first Command",
+                "commandType": "asynchronous",
+                "request": {
+                  "name": "myCommandRequest",
+                  "schema": "integer",
+                  "comment": "This is my first command request",
+                  "description": "Blah-de-blah-de-blah",
+                  "displayName": "My first Command Request"
+                },
+                "response": {
+                  "name": "myCommandResponse",
+                  "schema": "boolean",
+                  "comment": "This is my first command response",
+                  "description": "Blah-de-blah-de-blah",
+                  "displayName": "My first Command Response"
+                }
+              }
+            ]
+          },
+          "comment": "This is my first component",
+          "description": "Blah-de-blah-de-blah",
+          "displayName": "My first Component"
+        },
+        {
+          "@type": "Component",
+          "name": "mySecondComponent",
+          "schema": {
+            "@id": "dtmi:example:myOtherInterface;1",
+            "@type": "Interface",
+            "schemas": [
+              {
+                "@id": "dtmi:example:myEnum;1",
+                "@type": "Enum",
+                "valueSchema": "integer",
+                "enumValues": [
+                  {
+                    "name": "foo",
+                    "enumValue": 1
+                  },
+                  {
+                    "name": "bar",
+                    "enumValue": 2
+                  }
+                ]
+              }
+            ],
+            "contents": [
+              {
+                "@type": "Property",
+                "name": "MyProp",
+                "schema": "dateTime"
+              },
+              {
+                "@type": "Telemetry",
+                "name": "MyTelem",
+                "schema": {
+                  "@id": "dtmi:example:myComplexSchema;1",
+                  "@type": "Array",
+                  "elementSchema": {
+                    "@type": "Map",
+                    "mapKey": {
+                      "name": "myMapKey",
+                      "schema": "string"
+                    },
+                    "mapValue": {
+                      "name": "myMapValue",
+                      "schema": {
+                        "@type": "Object",
+                        "fields": [
+                          {
+                            "name": "x",
+                            "schema": "dtmi:example:myEnum;1"
+                          },
+                          {
+                            "name": "y",
+                            "schema": "dtmi:example:myEnum;1"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "@type": "Command",
+                "name": "MyCommand"
+              }
+            ]
+          }
+        }
+      ],
+      "comment": "This is my DCM",
+      "description": "This attempts to show most of the features of the DTDL language",
+      "displayName": "Example DCM"
+    }
+  ],
+  "expect": {
+    "elementCount": 29
+  }
+}

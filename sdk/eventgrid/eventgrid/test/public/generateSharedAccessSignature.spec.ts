@@ -7,7 +7,7 @@ import { assert } from "chai";
 import { AzureKeyCredential, generateSharedAccessSignature } from "../../src";
 import { isNode } from "@azure/test-utils";
 
-describe("generateSharedAccessSignature", function() {
+describe("generateSharedAccessSignature", function () {
   it("generates the correct signiture", async () => {
     // This is not a real key, it's the base64 encoding of "this is not a real EventGrid key", which happens to be the same
     // number of bytes as an actual EventGrid Access Key.

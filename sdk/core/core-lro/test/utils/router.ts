@@ -2,24 +2,24 @@
 // Licensed under the MIT license.
 
 import {
-  createHttpHeaders,
   HttpClient,
   HttpMethods,
   PipelineRequest,
   PipelineResponse,
-  RestError
+  RestError,
+  createHttpHeaders,
 } from "@azure/core-rest-pipeline";
-import { LroEngine, PollerLike, PollOperationState } from "../../src";
 import {
-  LroResourceLocationConfig,
   LroBody,
+  LroResourceLocationConfig,
   LroResponse,
-  RawResponse
+  RawResponse,
 } from "../../src/lroEngine/models";
-import { CoreRestPipelineLro } from "./coreRestPipelineLro";
-import { paramRoutes } from "./router/paramRoutes";
+import { LroEngine, PollOperationState, PollerLike } from "../../src";
 import { routes, routesTable } from "./router/routesTable";
+import { CoreRestPipelineLro } from "./coreRestPipelineLro";
 import { applyScenarios } from "./router/utils";
+import { paramRoutes } from "./router/paramRoutes";
 
 /**
  * Re-implementation of the lro routes in Autorest test server located in https://github.com/Azure/autorest.testserver/blob/main/legacy/routes/lros.js
@@ -29,8 +29,8 @@ const lroClient: HttpClient = {
   async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
     const reqPath = request.url;
     const reqMethod = request.method;
-    if (routesTable.has(reqPath) === true) {
-      const route = routesTable.get(reqPath)!;
+    const route = routesTable.get(reqPath);
+    if (route !== undefined) {
       if (route.method === reqMethod) {
         return route.process(request);
       } else {
@@ -46,9 +46,9 @@ const lroClient: HttpClient = {
       return response;
     }
     throw new RestError(`Route for ${reqMethod} request to ${reqPath} was not found`, {
-      statusCode: 404
+      statusCode: 404,
     });
-  }
+  },
 };
 
 export type Response = LroBody & { statusCode: number };
@@ -64,31 +64,34 @@ async function runRouter(request: PipelineRequest): Promise<LroResponse<Response
     rawResponse: {
       headers: headers,
       statusCode: response.status,
-      body: parsedBody
-    }
+      body: parsedBody,
+    },
   };
 }
 
-export function mockedPoller<TState>(
-  method: HttpMethods,
-  url: string,
-  lroResourceLocationConfig?: LroResourceLocationConfig,
-  processResult?: (result: unknown, state: TState) => Response,
-  updateState?: (state: TState, lastResponse: RawResponse) => void
-): PollerLike<PollOperationState<Response>, Response> {
+export function mockedPoller<TState>(settings: {
+  method: HttpMethods;
+  url: string;
+  lroResourceLocationConfig?: LroResourceLocationConfig;
+  processResult?: (result: unknown, state: TState) => Response;
+  updateState?: (state: TState, lastResponse: RawResponse) => void;
+  cancel?: (state: TState) => Promise<void>;
+}): PollerLike<PollOperationState<Response>, Response> {
+  const { method, url, lroResourceLocationConfig, processResult, updateState, cancel } = settings;
   const lro = new CoreRestPipelineLro(runRouter, {
     method: method,
     url: url,
     headers: createHttpHeaders(),
     requestId: "",
     timeout: 0,
-    withCredentials: false
+    withCredentials: false,
   });
   return new LroEngine<Response, TState>(lro, {
     intervalInMs: 0,
-    lroResourceLocationConfig: lroResourceLocationConfig,
-    processResult: processResult,
-    updateState: updateState
+    lroResourceLocationConfig,
+    processResult,
+    updateState,
+    cancel,
   });
 }
 
@@ -98,7 +101,7 @@ export async function runMockedLro(
   onProgress?: (state: PollOperationState<Response>) => void,
   lroResourceLocationConfig?: LroResourceLocationConfig
 ): Promise<Response> {
-  const poller = mockedPoller(method, url, lroResourceLocationConfig);
+  const poller = mockedPoller({ method, url, lroResourceLocationConfig });
   if (onProgress !== undefined) {
     poller.onProgress(onProgress);
   }

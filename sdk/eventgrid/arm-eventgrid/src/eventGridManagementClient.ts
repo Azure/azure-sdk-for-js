@@ -6,37 +6,66 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import * as coreClient from "@azure/core-client";
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  ChannelsImpl,
   DomainsImpl,
   DomainTopicsImpl,
+  EventChannelsImpl,
   EventSubscriptionsImpl,
+  DomainTopicEventSubscriptionsImpl,
+  TopicEventSubscriptionsImpl,
+  DomainEventSubscriptionsImpl,
   SystemTopicEventSubscriptionsImpl,
+  PartnerTopicEventSubscriptionsImpl,
   OperationsImpl,
-  TopicsImpl,
+  PartnerConfigurationsImpl,
+  PartnerDestinationsImpl,
+  PartnerNamespacesImpl,
+  PartnerRegistrationsImpl,
+  PartnerTopicsImpl,
   PrivateEndpointConnectionsImpl,
   PrivateLinkResourcesImpl,
   SystemTopicsImpl,
+  TopicsImpl,
   ExtensionTopicsImpl,
-  TopicTypesImpl
+  TopicTypesImpl,
+  VerifiedPartnersImpl
 } from "./operations";
 import {
+  Channels,
   Domains,
   DomainTopics,
+  EventChannels,
   EventSubscriptions,
+  DomainTopicEventSubscriptions,
+  TopicEventSubscriptions,
+  DomainEventSubscriptions,
   SystemTopicEventSubscriptions,
+  PartnerTopicEventSubscriptions,
   Operations,
-  Topics,
+  PartnerConfigurations,
+  PartnerDestinations,
+  PartnerNamespaces,
+  PartnerRegistrations,
+  PartnerTopics,
   PrivateEndpointConnections,
   PrivateLinkResources,
   SystemTopics,
+  Topics,
   ExtensionTopics,
-  TopicTypes
+  TopicTypes,
+  VerifiedPartners
 } from "./operationsInterfaces";
-import { EventGridManagementClientContext } from "./eventGridManagementClientContext";
 import { EventGridManagementClientOptionalParams } from "./models";
 
-export class EventGridManagementClient extends EventGridManagementClientContext {
+export class EventGridManagementClient extends coreClient.ServiceClient {
+  $host: string;
+  subscriptionId: string;
+  apiVersion: string;
+
   /**
    * Initializes a new instance of the EventGridManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
@@ -49,31 +78,122 @@ export class EventGridManagementClient extends EventGridManagementClientContext 
     subscriptionId: string,
     options?: EventGridManagementClientOptionalParams
   ) {
-    super(credentials, subscriptionId, options);
+    if (credentials === undefined) {
+      throw new Error("'credentials' cannot be null");
+    }
+    if (subscriptionId === undefined) {
+      throw new Error("'subscriptionId' cannot be null");
+    }
+
+    // Initializing default values for options
+    if (!options) {
+      options = {};
+    }
+    const defaults: EventGridManagementClientOptionalParams = {
+      requestContentType: "application/json; charset=utf-8",
+      credential: credentials
+    };
+
+    const packageDetails = `azsdk-js-arm-eventgrid/14.0.0-beta.3`;
+    const userAgentPrefix =
+      options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+        ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
+        : `${packageDetails}`;
+
+    if (!options.credentialScopes) {
+      options.credentialScopes = ["https://management.azure.com/.default"];
+    }
+    const optionsWithDefaults = {
+      ...defaults,
+      ...options,
+      userAgentOptions: {
+        userAgentPrefix
+      },
+      baseUri:
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+    };
+    super(optionsWithDefaults);
+
+    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
+        (pipelinePolicy) =>
+          pipelinePolicy.name ===
+          coreRestPipeline.bearerTokenAuthenticationPolicyName
+      );
+      if (!bearerTokenAuthenticationPolicyFound) {
+        this.pipeline.removePolicy({
+          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        });
+        this.pipeline.addPolicy(
+          coreRestPipeline.bearerTokenAuthenticationPolicy({
+            scopes: `${optionsWithDefaults.baseUri}/.default`,
+            challengeCallbacks: {
+              authorizeRequestOnChallenge:
+                coreClient.authorizeRequestOnClaimChallenge
+            }
+          })
+        );
+      }
+    }
+    // Parameter assignments
+    this.subscriptionId = subscriptionId;
+
+    // Assigning values to Constant parameters
+    this.$host = options.$host || "https://management.azure.com";
+    this.apiVersion = options.apiVersion || "2021-10-15-preview";
+    this.channels = new ChannelsImpl(this);
     this.domains = new DomainsImpl(this);
     this.domainTopics = new DomainTopicsImpl(this);
+    this.eventChannels = new EventChannelsImpl(this);
     this.eventSubscriptions = new EventSubscriptionsImpl(this);
+    this.domainTopicEventSubscriptions = new DomainTopicEventSubscriptionsImpl(
+      this
+    );
+    this.topicEventSubscriptions = new TopicEventSubscriptionsImpl(this);
+    this.domainEventSubscriptions = new DomainEventSubscriptionsImpl(this);
     this.systemTopicEventSubscriptions = new SystemTopicEventSubscriptionsImpl(
       this
     );
+    this.partnerTopicEventSubscriptions = new PartnerTopicEventSubscriptionsImpl(
+      this
+    );
     this.operations = new OperationsImpl(this);
-    this.topics = new TopicsImpl(this);
+    this.partnerConfigurations = new PartnerConfigurationsImpl(this);
+    this.partnerDestinations = new PartnerDestinationsImpl(this);
+    this.partnerNamespaces = new PartnerNamespacesImpl(this);
+    this.partnerRegistrations = new PartnerRegistrationsImpl(this);
+    this.partnerTopics = new PartnerTopicsImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.systemTopics = new SystemTopicsImpl(this);
+    this.topics = new TopicsImpl(this);
     this.extensionTopics = new ExtensionTopicsImpl(this);
     this.topicTypes = new TopicTypesImpl(this);
+    this.verifiedPartners = new VerifiedPartnersImpl(this);
   }
 
+  channels: Channels;
   domains: Domains;
   domainTopics: DomainTopics;
+  eventChannels: EventChannels;
   eventSubscriptions: EventSubscriptions;
+  domainTopicEventSubscriptions: DomainTopicEventSubscriptions;
+  topicEventSubscriptions: TopicEventSubscriptions;
+  domainEventSubscriptions: DomainEventSubscriptions;
   systemTopicEventSubscriptions: SystemTopicEventSubscriptions;
+  partnerTopicEventSubscriptions: PartnerTopicEventSubscriptions;
   operations: Operations;
-  topics: Topics;
+  partnerConfigurations: PartnerConfigurations;
+  partnerDestinations: PartnerDestinations;
+  partnerNamespaces: PartnerNamespaces;
+  partnerRegistrations: PartnerRegistrations;
+  partnerTopics: PartnerTopics;
   privateEndpointConnections: PrivateEndpointConnections;
   privateLinkResources: PrivateLinkResources;
   systemTopics: SystemTopics;
+  topics: Topics;
   extensionTopics: ExtensionTopics;
   topicTypes: TopicTypes;
+  verifiedPartners: VerifiedPartners;
 }

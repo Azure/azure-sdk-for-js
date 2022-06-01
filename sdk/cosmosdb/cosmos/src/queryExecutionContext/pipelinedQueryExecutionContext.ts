@@ -129,7 +129,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         if (this.fetchBuffer.length === 0) {
           return {
             result: undefined,
-            headers: this.fetchMoreRespHeaders
+            headers: this.fetchMoreRespHeaders,
           };
         } else {
           // Just give what we have
@@ -151,7 +151,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           return this._fetchMoreImplementation();
         }
       }
-    } catch (err) {
+    } catch (err: any) {
       mergeHeaders(this.fetchMoreRespHeaders, err.headers);
       err.headers = this.fetchMoreRespHeaders;
       if (err) {

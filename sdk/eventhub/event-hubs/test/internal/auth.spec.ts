@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
+import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import {
   EventHubConnectionStringProperties,
   EventHubConsumerClient,
   EventHubProducerClient,
-  parseEventHubConnectionString
+  parseEventHubConnectionString,
 } from "../../src";
-import { EnvVarKeys, getEnvVars } from "../public/utils/testUtils";
 import chai from "chai";
-import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
+import { createMockServer } from "../public/utils/mockService";
 import { createSasTokenProvider } from "@azure/core-amqp";
 import { testWithServiceTypes } from "../public/utils/testWithServiceTypes";
-import { createMockServer } from "../public/utils/mockService";
 
 const should = chai.should();
 
@@ -31,16 +31,12 @@ testWithServiceTypes((serviceVersion) => {
   }
 
   describe("Authentication via", () => {
-    const {
-      endpoint,
-      fullyQualifiedNamespace,
-      sharedAccessKey,
-      sharedAccessKeyName
-    } = parseEventHubConnectionString(env[EnvVarKeys.EVENTHUB_CONNECTION_STRING]);
+    const { endpoint, fullyQualifiedNamespace, sharedAccessKey, sharedAccessKeyName } =
+      parseEventHubConnectionString(env[EnvVarKeys.EVENTHUB_CONNECTION_STRING]);
     const service = {
       connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
       path: env[EnvVarKeys.EVENTHUB_NAME],
-      endpoint: endpoint.replace(/\/+$/, "")
+      endpoint: endpoint.replace(/\/+$/, ""),
     };
 
     before(() => {

@@ -45,10 +45,6 @@
       "path": "sdk/core/core-amqp"
     },
     {
-      "name": "core-asynciterator-polyfill",
-      "path": "sdk/core/core-asynciterator-polyfill"
-    },
-    {
       "name": "core-auth",
       "path": "sdk/core/core-auth"
     },
@@ -61,10 +57,6 @@
       "path": "sdk/core/core-client-rest"
     },
     {
-      "name": "core-client-lro-rest",
-      "path": "sdk/core/core-client-lro-rest"
-    },
-    {
       "name": "ai-document-translator",
       "path": "sdk/documenttranslator/ai-document-translator-rest"
     },
@@ -75,10 +67,6 @@
     {
       "name": "agrifood-farming",
       "path": "sdk/agrifood/agrifood-farming-rest"
-    },
-    {
-      "name": "core-crypto",
-      "path": "sdk/core/core-crypto"
     },
     {
       "name": "core-http",
@@ -123,10 +111,6 @@
     {
       "name": "eventhubs-checkpointstore-blob",
       "path": "sdk/eventhub/eventhubs-checkpointstore-blob"
-    },
-    {
-      "name": "event-processor-host",
-      "path": "sdk/eventhub/event-processor-host"
     },
     {
       "name": "form-recognizer",
@@ -273,10 +257,6 @@
       "path": "sdk/attestation/attestation"
     },
     {
-      "name": "iot-device-update",
-      "path": "sdk/deviceupdate/iot-device-update"
-    },
-    {
       "path": "sdk/web-pubsub/web-pubsub"
     },
     {
@@ -285,6 +265,15 @@
     {
       "name": "mixed-reality-remote-rendering",
       "path": "sdk/remoterendering/mixed-reality-remote-rendering"
+    },
+    {
+      "path": "sdk/test-utils/test-utils"
+    },
+    {
+      "path": "sdk/purview/purview-administration-rest"
+    },
+    {
+      "path": "sdk/instrumentation/opentelemetry-instrumentation-azure-sdk"
     }
   ],
   "settings": {
@@ -320,7 +309,8 @@
   "extensions": {
     "recommendations": [
       "dbaeumer.vscode-eslint",
-      "esbenp.prettier-vscode"
+      "esbenp.prettier-vscode",
+      "streetsidesoftware.code-spell-checker"
     ]
   }
 }

@@ -1,6 +1,6 @@
 # Release History
 
-## 10.0.0-beta.2 (Unreleased)
+## 11.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,17 +10,86 @@
 
 ### Other Changes
 
-## 10.0.0-beta.1 (2021-10-28)
+## 11.0.0 (2022-04-14)
+    
+**Features**
 
-This is the first preview for the new version of the `@azure/arm-mediaservices` package that follows the new [guidelines for TypeScript SDKs](https://azure.github.io/azure-sdk/typescript_introduction.html) for Azure services.
+  - Added operation group OperationResults
+  - Added operation group OperationStatuses
+  - Added operation group Tracks
+  - Added operation StreamingEndpoints.skus
+  - Added Interface ArmStreamingEndpointCapacity
+  - Added Interface ArmStreamingEndpointCurrentSku
+  - Added Interface ArmStreamingEndpointSku
+  - Added Interface ArmStreamingEndpointSkuInfo
+  - Added Interface AssetTrackCollection
+  - Added Interface AssetTrackOperationStatus
+  - Added Interface HlsSettings
+  - Added Interface OperationResultsGetHeaders
+  - Added Interface OperationResultsGetOptionalParams
+  - Added Interface OperationStatusesGetOptionalParams
+  - Added Interface StreamingEndpointSkuInfoListResult
+  - Added Interface StreamingEndpointsSkusOptionalParams
+  - Added Interface TrackBase
+  - Added Interface TracksCreateOrUpdateHeaders
+  - Added Interface TracksCreateOrUpdateOptionalParams
+  - Added Interface TracksDeleteHeaders
+  - Added Interface TracksDeleteOptionalParams
+  - Added Interface TracksGetOptionalParams
+  - Added Interface TracksListOptionalParams
+  - Added Interface TracksUpdateHeaders
+  - Added Interface TracksUpdateOptionalParams
+  - Added Interface TracksUpdateTrackDataHeaders
+  - Added Interface TracksUpdateTrackDataOptionalParams
+  - Added Type Alias AssetTrack
+  - Added Type Alias AudioTrack
+  - Added Type Alias H264RateControlMode
+  - Added Type Alias OperationResultsGetResponse
+  - Added Type Alias OperationStatusesGetResponse
+  - Added Type Alias ProvisioningState
+  - Added Type Alias StreamingEndpointsSkusResponse
+  - Added Type Alias TextTrack_2
+  - Added Type Alias TrackBaseUnion
+  - Added Type Alias TracksCreateOrUpdateResponse
+  - Added Type Alias TracksDeleteResponse
+  - Added Type Alias TracksGetResponse
+  - Added Type Alias TracksListResponse
+  - Added Type Alias TracksUpdateResponse
+  - Added Type Alias TracksUpdateTrackDataResponse
+  - Added Type Alias VideoTrack
+  - Added Type Alias Visibility
+  - Class AzureMediaServices has a new parameter operationResults
+  - Class AzureMediaServices has a new parameter operationStatuses
+  - Class AzureMediaServices has a new parameter tracks
+  - Type Alias H264Layer has a new parameter crf
+  - Type Alias H264Video has a new parameter rateControlMode
+  - Type Alias H265Layer has a new parameter crf
+  - Type Alias StreamingEndpoint has a new parameter sku
+  - Added Enum KnownH264RateControlMode
+  - Added Enum KnownProvisioningState
+  - Added Enum KnownVisibility
+  - Enum KnownH265VideoProfile has a new value Main10
+  - Enum KnownStreamOptionsFlag has a new value LowLatencyV2
 
-While this package remains auto generated, the SDK generator itself has undergone changes to comply with the above guidelines in order to generate packages that are idiomatic to the JavaScript/TypeScript ecosystem and consistent with other packages for Azure services. For more on this, please see [State of the Azure SDK 2021](https://devblogs.microsoft.com/azure-sdk/state-of-the-azure-sdk-2021/).
+**Breaking Changes**
 
-Please note that this version has breaking changes, all of which were made after careful consideration during the authoring of the guidelines and user studies.
+  - Interface AzureMediaServicesOptionalParams no longer has parameter apiVersion
+  - Interface Layer no longer has parameter odataType
+  - Class AzureMediaServices no longer has parameter apiVersion
+  - Type Alias H264Layer no longer has parameter odataType
+  - Type Alias H265Layer no longer has parameter odataType
+  - Type Alias H265VideoLayer no longer has parameter odataType
+  - Type Alias JpgLayer no longer has parameter odataType
+  - Type Alias PngLayer no longer has parameter odataType
+  - Type Alias VideoLayer no longer has parameter odataType
+    
+    
+## 10.0.0 (2021-12-13)
 
-**Noteworthy changes and features**
-- Authentication: The packages `@azure/ms-rest-nodeauth` or `@azure/ms-rest-browserauth` are no longer supported. Use package [@azure/identity](https://www.npmjs.com/package/@azure/identity) instead. Select a credential from Azure Identity examples based on the authentication method of your choice.
-- Callbacks: Method overloads that used callbacks have been removed and the use of promises is encouraged instead.
-- List operations now return an iterable result that follows the `PagedAsyncIterableIterator` interface as opposed to the previous model where you had to make a new request using the link to the next page.
-- Long running operations i.e. the Lro related object returned by methods whose names started with `begin`, now uses `pollUntilDone` to check whether the request is finished, instead of `pollUntilFinished`. To get the final result, use the corresponding method that will have the suffix `AndWait`.
-- The SDK only supports ECMAScript 2015 (ES6) and beyond, all projects that referenced this SDK should be upgraded to use ES6.
+The package of @azure/arm-mediaservices is using our next generation design principles since version 10.0.0, which contains breaking changes.
+
+To understand the detail of the change, please refer to [Changelog](https://aka.ms/js-track2-changelog).
+
+To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
+
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).

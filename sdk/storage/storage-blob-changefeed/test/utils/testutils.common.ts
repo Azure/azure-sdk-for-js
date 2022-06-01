@@ -3,9 +3,10 @@
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { isPlaybackMode, env, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import { Readable } from "stream";
 
 export const testPollerProperties = {
-  intervalInMs: isPlaybackMode() ? 0 : undefined
+  intervalInMs: isPlaybackMode() ? 0 : undefined,
 };
 
 const mockAccountName = "fakestorageaccount";
@@ -26,7 +27,7 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     MD_ACCOUNT_NAME: `${mockMDAccountName}`,
     MD_ACCOUNT_KEY: `${mockAccountKey}`,
     MD_ACCOUNT_SAS: `${mockAccountKey}`,
-    MD_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockMDAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`
+    MD_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockMDAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
   },
   customizationsOnRecordings: [
     // Used in record mode
@@ -36,7 +37,7 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
       recording.replace(
         new RegExp(env.ACCOUNT_SAS.match("(.*)&sig=(.*)")[2], "g"),
         `${mockAccountKey}`
-      )
+      ),
   ],
   // SAS token may contain sensitive information
   queryParametersToSkip: [
@@ -48,8 +49,8 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     "srt",
     "ss",
     "st",
-    "sv"
-  ]
+    "sv",
+  ],
 };
 
 /**
@@ -90,7 +91,7 @@ export class SimpleTokenCredential implements TokenCredential {
   ): Promise<AccessToken | null> {
     return {
       token: this.token,
-      expiresOnTimestamp: this.expiresOn.getTime()
+      expiresOnTimestamp: this.expiresOn.getTime(),
     };
   }
 }
@@ -138,10 +139,23 @@ export function isSuperSet(m1?: BlobMetadata, m2?: BlobMetadata): boolean {
 /**
  * Sleep for seconds.
  *
- * @param seconds -
+ * @param seconds - duration to sleep in seconds
  */
 export function sleep(seconds: number): Promise<void> {
   return new Promise((resolve) => {
     setTimeout(resolve, seconds * 1000);
+  });
+}
+/**
+ * Read text content from a stream as string
+ * @param stream - stream to read from
+ * @returns a utf-8 string that is the whole content of the stream
+ */
+export function streamToString(stream: Readable): Promise<string> {
+  const chunks: any[] = [];
+  return new Promise((resolve, reject) => {
+    stream.on("data", (chunk) => chunks.push(Buffer.from(chunk)));
+    stream.on("error", (err) => reject(err));
+    stream.on("end", () => resolve(Buffer.concat(chunks).toString("utf8")));
   });
 }

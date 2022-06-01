@@ -1,0 +1,105 @@
+{
+  "recordings": [
+    {
+      "method": "GET",
+      "url": "https://skr_attestation.azure.net//generate-test-token",
+      "query": {},
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"token\":\"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjNfT1drYTlNcEpTeFM0NHZBbXRSRHNKelFkeFJPNkxfQkF5VHNXUVhEeUUiLCJqa3UiOiJodHRwczovL21hbGVnZXNrcmt2c2l0ZS5henVyZXdlYnNpdGVzLm5ldC9rZXlzIn0.eyJpc3MiOiJodHRwczovL21hbGVnZXNrcmt2c2l0ZS5henVyZXdlYnNpdGVzLm5ldC8iLCJzZGstdGVzdCI6dHJ1ZSwieC1tcy1pbml0dGltZSI6e30sIngtbXMtcnVudGltZSI6eyJrZXlzIjpbeyJrdHkiOiJSU0EiLCJraWQiOiJmYWtlLXJlbGVhc2Uta2V5IiwidXNlIjoiZW5jIiwiZSI6IkFRQUIiLCJuIjoic0xvYWJZRW5GYjBQeW9vcHM1UnV1UkZEYnB3X2EwUkFZQ0UzM3pjMkZVYUNreVYtS2UtZUxHbXlJTWktc3hTdXZUcWF4bHQtSGREa190OTBrLXlETnNfT1RDX2FPR3Vmc3Vxa0J3Q2JOSWdqemsyTWJhUmdkZVpGRUxDTWpHaDQyOHpvMnJ2XzM1eG8xa1haTTJ5TXpNWjVDTXZwWFZmcXk2WDB1c0NFNnZneEp4UlVKZU5KRGh3aTU3NEFoOGhSbkUzMTkwNFI5YzhhR2t4VFprUFVWX0JXMkZ3cmdPVXJEMUpwZE8wYnhmRzAxdnh1ejBDUVo2OEpadTJrU0ZlOS1sM21RUlFGVlBYRTE1WTh3Vkx2Zi1HMHJWMkZyYjRMNWc4VEMyZXhmSEluTUx4V3RMYzBkd2haLVZKLUI1X0xOQ2tFbC03X2VvRzRsNEFEVzJNbUNRIn1dfSwibWFhLWVoZCI6InNkay10ZXN0IiwiaWF0IjoxNjQwMTI1MjA5LCJleHAiOjE2NDA3MzAwMDl9.3FREXk9RseSIC42Wj8-LTWRL1qXieqNr9mOcXU-xi0CO3qHlpCViDwLC8n2CFeyB0sjWUdGYXGaKBuCHhLGrDlWE6sZIKtqxY_NPnyt3tQQWC58hZRBPCE9MONut1XQRi4EEzIMt7U5uIuTzA0xalfAubgWQb1ftugHqIUK-8sfaOpL-Nm2JQ0vG2JI3410F6LPLIqGAebUADLXdvztnPTId14Cj3vwZAT8ccHwpnzRAOHqFz-K1XYq8PFqIkdOX5CZfBxPDGabk89aXgXuH-8JKC4c77ecDf3YWH4FQ7kU2LNGoc7tLo1n3iHMhuSMFpfnXDvS_xCJfRehDCTd5Gg\"}",
+      "responseHeaders": {
+        "content-length": "1307",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Tue, 21 Dec 2021 22:20:08 GMT",
+        "etag": "W/\"51b-4KgsExLZe+SHQgI6+X8sGzl4YDs\"",
+        "x-powered-by": "Express"
+      }
+    },
+    {
+      "method": "POST",
+      "url": "https://keyvault_name.vault.azure.net/keys/exportablenopolicy164012521012807927/create",
+      "query": {
+        "api-version": "7.3"
+      },
+      "requestBody": "",
+      "status": 401,
+      "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"AKV10000: Request is missing a Bearer or PoP token.\"}}",
+      "responseHeaders": {
+        "cache-control": "no-cache",
+        "content-length": "97",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Tue, 21 Dec 2021 22:20:08 GMT",
+        "expires": "-1",
+        "pragma": "no-cache",
+        "strict-transport-security": "max-age=31536000;includeSubDomains",
+        "www-authenticate": "Bearer authorization=\"https://login.windows.net/12345678-1234-1234-1234-123456789012\", resource=\"https://vault.azure.net\"",
+        "x-content-type-options": "nosniff",
+        "x-ms-client-request-id": "feaf57e9-8187-420e-b422-1c182e3beb41",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.229.43;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-region": "westus2",
+        "x-ms-keyvault-service-version": "1.9.226.1",
+        "x-ms-request-id": "3ccc887f-3496-422b-9126-c5c7effb174b",
+        "x-powered-by": "ASP.NET"
+      }
+    },
+    {
+      "method": "POST",
+      "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
+      "query": {},
+      "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
+      "status": 200,
+      "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+      "responseHeaders": {
+        "cache-control": "no-store, no-cache",
+        "content-length": "1315",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Tue, 21 Dec 2021 22:20:08 GMT",
+        "expires": "-1",
+        "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
+        "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+        "pragma": "no-cache",
+        "referrer-policy": "strict-origin-when-cross-origin",
+        "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+        "strict-transport-security": "max-age=31536000; includeSubDomains",
+        "x-content-type-options": "nosniff",
+        "x-ms-ests-server": "2.1.12261.17 - NCUS ProdSlices",
+        "x-ms-request-id": "d021bcc8-c56d-4dea-8a18-090e1a992300"
+      }
+    },
+    {
+      "method": "POST",
+      "url": "https://keyvault_name.vault.azure.net/keys/exportablenopolicy164012521012807927/create",
+      "query": {
+        "api-version": "7.3"
+      },
+      "requestBody": "{\"kty\":\"RSA-HSM\",\"attributes\":{\"exportable\":true}}",
+      "status": 400,
+      "response": "{\"error\":{\"code\":\"BadParameter\",\"message\":\"AKV.SKR.1004: Exportable keys must have release policy.\"}}",
+      "responseHeaders": {
+        "cache-control": "no-cache",
+        "content-length": "101",
+        "content-type": "application/json; charset=utf-8",
+        "date": "Tue, 21 Dec 2021 22:20:08 GMT",
+        "expires": "-1",
+        "pragma": "no-cache",
+        "strict-transport-security": "max-age=31536000;includeSubDomains",
+        "x-content-type-options": "nosniff",
+        "x-ms-client-request-id": "feaf57e9-8187-420e-b422-1c182e3beb41",
+        "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=50.35.229.43;act_addr_fam=InterNetwork;",
+        "x-ms-keyvault-rbac-assignment-id": "41066385-37cd-5a3a-83db-c5df12b11057",
+        "x-ms-keyvault-rbac-cache": "ra_age=8629;da_age=8629;rd_age=8629;brd_age=739;dec_lev=1;",
+        "x-ms-keyvault-region": "westus2",
+        "x-ms-keyvault-service-version": "1.9.226.1",
+        "x-ms-request-id": "68f96a6f-0cc3-4c85-aa07-f1aaca969f30",
+        "x-powered-by": "ASP.NET"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {
+      "exportablenopolicy": "exportablenopolicy164012521012807927"
+    },
+    "newDate": {}
+  },
+  "hash": "280aa450a42db95606535867511acb2e"
+}

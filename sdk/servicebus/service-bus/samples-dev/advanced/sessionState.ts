@@ -47,13 +47,13 @@ async function runScenario() {
     { event_name: "Add Item", event_details: "Milk" },
     { event_name: "Add Item", event_details: "Bread" },
     { event_name: "Add Item", event_details: "Eggs" },
-    { event_name: "Checkout", event_details: "Success" }
+    { event_name: "Checkout", event_details: "Success" },
   ];
 
   const shoppingEventsDataBob = [
     { event_name: "Add Item", event_details: "Pencil" },
     { event_name: "Add Item", event_details: "Paper" },
-    { event_name: "Add Item", event_details: "Stapler" }
+    { event_name: "Add Item", event_details: "Stapler" },
   ];
 
   // Simulating user events
@@ -104,7 +104,7 @@ async function sendMessagesForSession(shoppingEvents: any[], sessionId: string) 
     const message: ServiceBusMessage = {
       sessionId: sessionId,
       body: shoppingEvents[index],
-      subject: "Shopping Step"
+      subject: "Shopping Step",
     };
     await sender.sendMessages(message);
   }
@@ -116,7 +116,7 @@ async function processMessageFromSession(sessionId: string) {
   const sessionReceiver = await sbClient.acceptSession(userEventsQueueName, sessionId);
 
   const messages = await sessionReceiver.receiveMessages(1, {
-    maxWaitTimeInMs: 10000
+    maxWaitTimeInMs: 10000,
   });
 
   // Custom logic for processing the messages

@@ -22,7 +22,7 @@ function prefixKeyByType(key: v2Key): Buffer {
       bytes = Buffer.concat([
         Buffer.from(BytePrefix.String, "hex"),
         Buffer.from(key),
-        Buffer.from(BytePrefix.Infinity, "hex")
+        Buffer.from(BytePrefix.Infinity, "hex"),
       ]);
       return bytes;
     }

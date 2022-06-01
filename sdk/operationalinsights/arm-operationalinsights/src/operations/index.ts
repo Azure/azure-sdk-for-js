@@ -22,6 +22,7 @@ export * from "./gateways";
 export * from "./schema";
 export * from "./workspacePurge";
 export * from "./operations";
+export * from "./tables";
 export * from "./clusters";
 export * from "./workspaces";
 export * from "./deletedWorkspaces";

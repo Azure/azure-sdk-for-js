@@ -29,6 +29,8 @@ import {
   ContainerRenameResponse,
   ContainerSubmitBatchOptionalParams,
   ContainerSubmitBatchResponse,
+  ContainerFilterBlobsOptionalParams,
+  ContainerFilterBlobsResponse,
   ContainerAcquireLeaseOptionalParams,
   ContainerAcquireLeaseResponse,
   ContainerReleaseLeaseOptionalParams,
@@ -218,6 +220,23 @@ export class Container {
       operationArguments,
       submitBatchOperationSpec
     ) as Promise<ContainerSubmitBatchResponse>;
+  }
+
+  /**
+   * The Filter Blobs operation enables callers to list blobs in a container whose tags match a given
+   * search expression.  Filter blobs searches within the given container.
+   * @param options The options parameters.
+   */
+  filterBlobs(
+    options?: ContainerFilterBlobsOptionalParams
+  ): Promise<ContainerFilterBlobsResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      filterBlobsOperationSpec
+    ) as Promise<ContainerFilterBlobsResponse>;
   }
 
   /**
@@ -642,6 +661,36 @@ const submitBatchOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   contentType: "application/xml; charset=utf-8",
   mediaType: "xml",
+  serializer: xmlSerializer
+};
+const filterBlobsOperationSpec: coreHttp.OperationSpec = {
+  path: "/{containerName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.FilterBlobSegment,
+      headersMapper: Mappers.ContainerFilterBlobsHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.ContainerFilterBlobsExceptionHeaders
+    }
+  },
+  queryParameters: [
+    Parameters.timeoutInSeconds,
+    Parameters.marker,
+    Parameters.maxPageSize,
+    Parameters.comp5,
+    Parameters.where,
+    Parameters.restype2
+  ],
+  urlParameters: [Parameters.url],
+  headerParameters: [
+    Parameters.version,
+    Parameters.requestId,
+    Parameters.accept1
+  ],
+  isXML: true,
   serializer: xmlSerializer
 };
 const acquireLeaseOperationSpec: coreHttp.OperationSpec = {

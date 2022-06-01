@@ -1,6 +1,6 @@
 # Release History
 
-## 12.9.0-beta.2 (Unreleased)
+## 12.10.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,69 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 12.10.0 (2022-05-12)
+
+### Features Added
+
+- Includes all features released in 12.10.0-beta.1.
+
+### Bugs Fixed
+
+- Refined user-agent value to avoid failure when os information is not available on some platforms.
+- Fix an issue of not returning raw blob properties in ContainerClient.listBlobsFlat() and ContainerClient.listBlobsByHierarchy().
+
+## 12.10.0-beta.1 (2022-04-19)
+
+### Features Added
+
+- Added support for service version 2021-06-08.
+- Added pageable output of PageBlobClient.listPageRanges() and PageBlobClient.listPageRangesDiff().
+- Added ability to copy source blob tags for BlobClient.syncCopyFromURL().
+
+### Bugs Fixed
+
+- Fix incorrect browser mapping path for BufferScheduler.js
+- Add `react-native` mapping to ESM entrypoint
+
+## 12.9.0 (2022-03-11)
+
+### Features Added
+
+- Includes all features released in 12.9.0-beta.1, 12.9.0-beta.2, 12.9.0-beta.3 and 12.9.0-beta.4.
+
+### Bugs Fixed
+
+- Fixed an issue of always sending x-ms-encryption-algorithm header in request.
+
+## 12.9.0-beta.4 (2022-03-04)
+
+### Features Added
+
+- Added ability to specify Disk Compute AAD Audience in StoragePipelineOptions.
+
+### Bugs Fixed
+
+- Set correct content length in requests for uploading operations to avoid unexpected failure if customized content length is incorrect.
+
+## 12.9.0-beta.3 (2022-02-11)
+
+### Features Added
+
+- Added support for service version 2021-04-10.
+- Added support for finding blobs by tags in a container.
+
+### Bugs Fixed
+
+- Fixed a bug where customized `ProxyOptions` is overwrited by a default one when initializing `BlobServiceClient`, `BlobClient`, `AppendBlobClient`, `BlockBlobClient`, `PageBlobClient` or `ContainerClient` with connection string.
+
+## 12.9.0-beta.2 (2021-12-03)
+
+### Features Added
+
+- Added support for service version 2021-02-12
+- Added support for listing system containers with `BlobServiceClient.listContainers()`.
+- Added support for blob names container invalid XML characters.
 
 ## 12.9.0-beta.1 (2021-11-09)
 
@@ -258,20 +321,20 @@
     Before this change the option is specified as
     ```js
     blobServiceClient.listContainers({
-      include: "metadata"
+      include: "metadata",
     });
     ```
     After this change:
     ```js
     blobServiceClient.listContainers({
-      includeMetadata: true
+      includeMetadata: true,
     });
     ```
   - For listing blobs
     Before this change the option is specified as
     ```js
     containerClient.listBlobsFlat({
-      include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"]
+      include: ["snapshots", "metadata", "uncommittedblobs", "copy", "deleted"],
     });
     ```
     After this change:
@@ -281,7 +344,7 @@
       includeDeleted: true,
       includeMetadata: true,
       includeSnapshots: true,
-      includeUncommitedBlobs: true
+      includeUncommitedBlobs: true,
     });
     ```
 - [Breaking] `BlobClient.setTier()` is renamed to `BlobClient.setAccessTier()`.
@@ -406,7 +469,7 @@
   - Connection string method is supported only in Node.js (not browsers).
 - Creation/Deletion of child resources are duplicated to parent client type.
 - HTTP proxy support is added (Node.js only).
-  - Please refer to the `proxyAuth.ts` sample in the `samples/typescript` folder.
+  - Please refer to the `proxyAuth.ts` sample in the `samples/v12/typescript` folder.
 - Request and response headers are now logged at INFO level, with sensitive data redacted.
 - `downloadToFile()` is added to `BlobClient`.
 - Exported `HttpRequestBody` type to allow implementation of a customized HTTP client.

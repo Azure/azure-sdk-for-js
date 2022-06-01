@@ -2,57 +2,46 @@
 // Licensed under the MIT license.
 
 import {
-  createHttpHeaders,
-  createPipelineRequest,
-  PipelineResponse,
-  RestError,
-  Pipeline,
-  PipelineRequest
-} from "@azure/core-rest-pipeline";
-import {
-  ServiceClient,
-  OperationOptions,
-  serializationPolicy,
-  serializationPolicyName,
-  ServiceClientOptions
-} from "@azure/core-client";
-import {
   DeleteTableEntityOptions,
   TableEntity,
+  TableTransactionEntityResponse,
+  TableTransactionResponse,
+  TransactionAction,
   UpdateMode,
   UpdateTableEntityOptions,
-  TableTransactionResponse,
-  TableTransactionEntityResponse,
-  TransactionAction
 } from "./models";
+import { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import {
-  isNamedKeyCredential,
-  isSASCredential,
-  isTokenCredential,
-  NamedKeyCredential,
-  SASCredential,
-  TokenCredential
-} from "@azure/core-auth";
-import { getAuthorizationHeader } from "./tablesNamedCredentialPolicy";
-import { TableClientLike } from "./utils/internalModels";
-import { createSpan } from "./utils/tracing";
-import { SpanStatusCode } from "@azure/core-tracing";
-import { TableServiceErrorOdataError } from "./generated";
-import { getTransactionHeaders } from "./utils/transactionHeaders";
+  OperationOptions,
+  ServiceClient,
+  serializationPolicy,
+  serializationPolicyName,
+} from "@azure/core-client";
 import {
+  Pipeline,
+  PipelineRequest,
+  PipelineResponse,
+  RestError,
+  createHttpHeaders,
+  createPipelineRequest,
+} from "@azure/core-rest-pipeline";
+import {
+  getInitialTransactionBody,
   getTransactionHttpRequestBody,
-  getInitialTransactionBody
 } from "./utils/transactionHelpers";
-import { signURLWithSAS } from "./tablesSASTokenPolicy";
 import {
   transactionHeaderFilterPolicy,
-  transactionRequestAssemblePolicy,
   transactionHeaderFilterPolicyName,
-  transactionRequestAssemblePolicyName
+  transactionRequestAssemblePolicy,
+  transactionRequestAssemblePolicyName,
 } from "./TablePolicies";
-import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
+
+import { TableClientLike } from "./utils/internalModels";
+import { TableServiceErrorOdataError } from "./generated";
 import { cosmosPatchPolicy } from "./cosmosPathPolicy";
-import { STORAGE_SCOPE } from "./utils/constants";
+import { getTransactionHeaders } from "./utils/transactionHeaders";
+import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
+import { tracingClient } from "./utils/tracing";
 
 /**
  * Helper to build a list of transaction actions
@@ -131,8 +120,8 @@ export class InternalTableTransaction {
     partitionKey: string;
   };
   private interceptClient: TableClientLike;
-  private credential?: NamedKeyCredential | SASCredential | TokenCredential;
   private allowInsecureConnection: boolean;
+  private client: ServiceClient;
 
   /**
    * @param url - Tables account url
@@ -144,11 +133,12 @@ export class InternalTableTransaction {
     partitionKey: string,
     transactionId: string,
     changesetId: string,
+    client: ServiceClient,
     interceptClient: TableClientLike,
     credential?: NamedKeyCredential | SASCredential | TokenCredential,
     allowInsecureConnection: boolean = false
   ) {
-    this.credential = credential;
+    this.client = client;
     this.url = url;
     this.interceptClient = interceptClient;
     this.allowInsecureConnection = allowInsecureConnection;
@@ -187,7 +177,7 @@ export class InternalTableTransaction {
       changesetId,
       partitionKey,
       pendingOperations,
-      bodyParts
+      bodyParts,
     };
   }
 
@@ -275,48 +265,25 @@ export class InternalTableTransaction {
       this.resetableState.changesetId
     );
 
-    const options: ServiceClientOptions = {};
-
-    if (isTokenCredential(this.credential)) {
-      options.credentialScopes = STORAGE_SCOPE;
-      options.credential = this.credential;
-    }
-
-    const client = new ServiceClient(options);
     const headers = getTransactionHeaders(this.resetableState.transactionId);
 
-    const { span, updatedOptions } = createSpan(
-      "TableTransaction-submitTransaction",
-      {} as OperationOptions
+    return tracingClient.withSpan(
+      "TableTransaction.submitTransaction",
+      {} as OperationOptions,
+      async (updatedOptions) => {
+        const request = createPipelineRequest({
+          url: this.url,
+          method: "POST",
+          body,
+          headers: createHttpHeaders(headers),
+          tracingOptions: updatedOptions.tracingOptions,
+          allowInsecureConnection: this.allowInsecureConnection,
+        });
+
+        const rawTransactionResponse = await this.client.sendRequest(request);
+        return parseTransactionResponse(rawTransactionResponse);
+      }
     );
-    const request = createPipelineRequest({
-      url: this.url,
-      method: "POST",
-      body,
-      headers: createHttpHeaders(headers),
-      tracingOptions: updatedOptions.tracingOptions,
-      allowInsecureConnection: this.allowInsecureConnection
-    });
-
-    if (isNamedKeyCredential(this.credential)) {
-      const authHeader = getAuthorizationHeader(request, this.credential);
-      request.headers.set("Authorization", authHeader);
-    } else if (isSASCredential(this.credential)) {
-      signURLWithSAS(request, this.credential);
-    }
-
-    try {
-      const rawTransactionResponse = await client.sendRequest(request);
-      return parseTransactionResponse(rawTransactionResponse);
-    } catch (error) {
-      span.setStatus({
-        code: SpanStatusCode.ERROR,
-        message: error.message
-      });
-      throw error;
-    } finally {
-      span.end();
-    }
   }
 
   private checkPartitionKey(partitionKey: string): void {
@@ -373,14 +340,14 @@ export function parseTransactionResponse(
     return {
       status: subResponseStatus,
       ...(rowKeyMatch?.length === 2 && { rowKey: rowKeyMatch[1] }),
-      ...(etagMatch?.length === 2 && { etag: etagMatch[1] })
+      ...(etagMatch?.length === 2 && { etag: etagMatch[1] }),
     };
   });
 
   return {
     status,
     subResponses: responses,
-    getResponseForEntity: (rowKey: string) => responses.find((r) => r.rowKey === rowKey)
+    getResponseForEntity: (rowKey: string) => responses.find((r) => r.rowKey === rowKey),
   };
 }
 
@@ -411,7 +378,7 @@ function handleBodyError(
     code,
     statusCode,
     request,
-    response
+    response,
   });
 }
 
@@ -430,7 +397,7 @@ export function prepateTransactionPipeline(
   const policies = pipeline.getOrderedPolicies();
   for (const policy of policies) {
     pipeline.removePolicy({
-      name: policy.name
+      name: policy.name,
     });
   }
 
@@ -443,7 +410,7 @@ export function prepateTransactionPipeline(
   if (isCosmos) {
     pipeline.addPolicy(cosmosPatchPolicy(), {
       afterPolicies: [transactionHeaderFilterPolicyName],
-      beforePolicies: [serializationPolicyName, transactionRequestAssemblePolicyName]
+      beforePolicies: [serializationPolicyName, transactionRequestAssemblePolicyName],
     });
   }
 }

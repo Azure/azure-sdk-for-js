@@ -868,14 +868,6 @@ export interface TokenKey {
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export type ProxyResource = Resource & {};
 
-/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export type TrackedResource = Resource & {
-  /** Resource tags. */
-  tags?: { [propertyName: string]: string };
-  /** The geo-location where the resource lives */
-  location: string;
-};
-
 /** The Private Endpoint Connection resource. */
 export type PrivateEndpointConnection = Resource & {
   /** The resource of private end point. */
@@ -887,6 +879,14 @@ export type PrivateEndpointConnection = Resource & {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+};
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export type TrackedResource = Resource & {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
 };
 
 /** A private link resource */
@@ -2261,7 +2261,7 @@ export interface AccessPoliciesListNextOptionalParams
 export type AccessPoliciesListNextResponse = AccessPolicyEntityCollection;
 
 /** Optional parameters. */
-export interface VideoAnalyzerOptionalParams
+export interface VideoAnalyzerManagementClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;

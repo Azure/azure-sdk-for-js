@@ -1,0 +1,28 @@
+{
+  "valid": false,
+  "options": [ "PermitAnyTopLevelElement" ],
+  "input": [
+    {
+      "@context": "dtmi:dtdl:context;3",
+      "@id": "dtmi:test:aTelemetry;1",
+      "@type": [
+        "Telemetry",
+        "Velocity"
+      ],
+      "name": "currentSpeed",
+      "schema": "string",
+      "unit": "kilometrePerSecond"
+    }
+  ],
+  "expect": {
+    "parsingErrors": [
+      {
+        "ValidationID": "dtmi:dtdl:parsingError:badType",
+        "PrimaryID": "dtmi:test:aTelemetry;1",
+        "SecondaryID": "dtmi:dtdl:instance:Schema:string;3",
+        "Property": "schema",
+        "Value": "NumericSchema"
+      }
+    ]
+  }
+}

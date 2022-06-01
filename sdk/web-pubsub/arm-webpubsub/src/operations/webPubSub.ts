@@ -6,13 +6,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { WebPubSub } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { WebPubSubManagementClientContext } from "../webPubSubManagementClientContext";
+import { WebPubSubManagementClient } from "../webPubSubManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -39,20 +38,22 @@ import {
   WebPubSubRegenerateKeyOptionalParams,
   WebPubSubRegenerateKeyResponse,
   WebPubSubRestartOptionalParams,
+  WebPubSubListSkusOptionalParams,
+  WebPubSubListSkusResponse,
   WebPubSubListBySubscriptionNextResponse,
   WebPubSubListByResourceGroupNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Class representing a WebPubSub. */
+/** Class containing WebPubSub operations. */
 export class WebPubSubImpl implements WebPubSub {
-  private readonly client: WebPubSubManagementClientContext;
+  private readonly client: WebPubSubManagementClient;
 
   /**
    * Initialize a new instance of the class WebPubSub class.
    * @param client Reference to the service client
    */
-  constructor(client: WebPubSubManagementClientContext) {
+  constructor(client: WebPubSubManagementClient) {
     this.client = client;
   }
 
@@ -679,6 +680,24 @@ export class WebPubSubImpl implements WebPubSub {
   }
 
   /**
+   * List all available skus of the resource.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param resourceName The name of the resource.
+   * @param options The options parameters.
+   */
+  listSkus(
+    resourceGroupName: string,
+    resourceName: string,
+    options?: WebPubSubListSkusOptionalParams
+  ): Promise<WebPubSubListSkusResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, resourceName, options },
+      listSkusOperationSpec
+    );
+  }
+
+  /**
    * ListBySubscriptionNext
    * @param nextLink The nextLink from the previous successful call to the ListBySubscription method.
    * @param options The options parameters.
@@ -950,6 +969,28 @@ const restartOperationSpec: coreClient.OperationSpec = {
     201: {},
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listSkusOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/skus",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SkuList
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

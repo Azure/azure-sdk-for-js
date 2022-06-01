@@ -14,8 +14,8 @@ export abstract class KeyTest extends PerfTest<KeyPerfTestOptions> {
       description: "The size of the key to be created",
       shortName: "ks",
       longName: "key-size",
-      defaultValue: 2048
-    }
+      defaultValue: 2048,
+    },
   };
 
   keyClient: KeyClient;
@@ -29,7 +29,7 @@ export abstract class KeyTest extends PerfTest<KeyPerfTestOptions> {
   async globalSetup() {
     // Create a single shared key for all tests
     await this.keyClient.createRsaKey(KeyTest.keyName, {
-      keySize: this.parsedOptions.keySize.value!
+      keySize: this.parsedOptions.keySize.value!,
     });
   }
 

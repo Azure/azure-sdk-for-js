@@ -6,7 +6,7 @@ import {
   RequestPolicy,
   RequestPolicyFactory,
   RequestPolicyOptions,
-  UserAgentOptions
+  UserAgentOptions,
 } from "@azure/core-http";
 import * as os from "os";
 
@@ -44,7 +44,10 @@ export class TelemetryPolicyFactory implements RequestPolicyFactory {
       }
 
       // e.g. (NODE-VERSION 4.9.1; Windows_NT 10.0.16299)
-      const runtimeInfo = `(NODE-VERSION ${process.version}; ${os.type()} ${os.release()})`;
+      let runtimeInfo = `(NODE-VERSION ${process.version})`;
+      if (os) {
+        runtimeInfo = `(NODE-VERSION ${process.version}; ${os.type()} ${os.release()})`;
+      }
       if (userAgentInfo.indexOf(runtimeInfo) === -1) {
         userAgentInfo.push(runtimeInfo);
       }

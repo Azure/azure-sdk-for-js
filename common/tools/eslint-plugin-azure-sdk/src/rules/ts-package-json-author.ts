@@ -6,8 +6,8 @@
  * @author Arpan Laha
  */
 
-import { Rule } from "eslint";
 import { getRuleMetaData, getVerifiers, stripPath } from "../utils";
+import { Rule } from "eslint";
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -22,7 +22,7 @@ export = {
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const verifiers = getVerifiers(context, {
       outer: "author",
-      expected: "Microsoft Corporation"
+      expected: "Microsoft Corporation",
     });
     return stripPath(context.getFilename()) === "package.json"
       ? ({
@@ -33,8 +33,8 @@ export = {
 
           // check the node corresponding to author to see if its value is "Microsoft Corporation"
           "ExpressionStatement > ObjectExpression > Property[key.value='author']":
-            verifiers.outerMatchesExpected
+            verifiers.outerMatchesExpected,
         } as Rule.RuleListener)
       : {};
-  }
+  },
 };

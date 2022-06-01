@@ -2,27 +2,27 @@
 // Licensed under the MIT license.
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+/* eslint-disable sort-imports */
 
+import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity/test/msalTestUtils";
+import { TokenCachePersistenceOptions, UsernamePasswordCredential } from "../../../../identity/src";
+import { MsalNode } from "../../../../identity/src/msal/nodeFlows/msalNodeCommon";
+import { PublicClientApplication } from "@azure/msal-node";
+import { createPersistence } from "./setup.spec";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import Sinon from "sinon";
 import assert from "assert";
 
-import { env } from "@azure-tools/test-recorder";
-import { PublicClientApplication } from "@azure/msal-node";
-
-import { UsernamePasswordCredential, TokenCachePersistenceOptions } from "../../../../identity/src";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../../../identity/test/msalTestUtils";
-import { MsalNode } from "../../../../identity/src/msal/nodeFlows/msalNodeCommon";
-
-import { createPersistence } from "./setup.spec";
-
-describe("UsernamePasswordCredential (internal)", function(this: Mocha.Suite) {
+describe("UsernamePasswordCredential (internal)", function (this: Mocha.Suite) {
   let cleanup: MsalTestCleanup;
   let getTokenSilentSpy: Sinon.SinonSpy;
   let doGetTokenSpy: Sinon.SinonSpy;
+  let recorder: Recorder;
 
-  beforeEach(function(this: Mocha.Context) {
-    const setup = msalNodeTestSetup(this);
+  beforeEach(async function (this: Mocha.Context) {
+    const setup = await msalNodeTestSetup(this.currentTest);
     cleanup = setup.cleanup;
+    recorder = setup.recorder;
 
     getTokenSilentSpy = setup.sandbox.spy(MsalNode.prototype, "getTokenSilent");
 
@@ -33,13 +33,13 @@ describe("UsernamePasswordCredential (internal)", function(this: Mocha.Suite) {
     );
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await cleanup();
   });
 
   const scope = "https://graph.microsoft.com/.default";
 
-  it("Accepts tokenCachePersistenceOptions", async function(this: Mocha.Context) {
+  it("Accepts tokenCachePersistenceOptions", async function (this: Mocha.Context) {
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
     if (process.platform === "darwin") {
       this.skip();
@@ -48,7 +48,7 @@ describe("UsernamePasswordCredential (internal)", function(this: Mocha.Suite) {
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       enabled: true,
       name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
-      unsafeAllowUnencryptedStorage: true
+      unsafeAllowUnencryptedStorage: true,
     };
 
     // Emptying the token cache before we start.
@@ -56,11 +56,11 @@ describe("UsernamePasswordCredential (internal)", function(this: Mocha.Suite) {
     persistence?.save("{}");
 
     const credential = new UsernamePasswordCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_USERNAME,
-      env.AZURE_PASSWORD,
-      { tokenCachePersistenceOptions }
+      env.AZURE_TENANT_ID!,
+      env.AZURE_CLIENT_ID!,
+      env.AZURE_USERNAME!,
+      env.AZURE_PASSWORD!,
+      recorder.configureClientOptions({ tokenCachePersistenceOptions })
     );
 
     await credential.getToken(scope);
@@ -69,7 +69,7 @@ describe("UsernamePasswordCredential (internal)", function(this: Mocha.Suite) {
     assert.ok(parsedResult.AccessToken);
   });
 
-  it("Authenticates silently with tokenCachePersistenceOptions", async function(this: Mocha.Context) {
+  it("Authenticates silently with tokenCachePersistenceOptions", async function (this: Mocha.Context) {
     // OSX asks for passwords on CI, so we need to skip these tests from our automation
     if (process.platform === "darwin") {
       this.skip();
@@ -78,7 +78,7 @@ describe("UsernamePasswordCredential (internal)", function(this: Mocha.Suite) {
     const tokenCachePersistenceOptions: TokenCachePersistenceOptions = {
       enabled: true,
       name: this.test?.title.replace(/[^a-zA-Z]/g, "_"),
-      unsafeAllowUnencryptedStorage: true
+      unsafeAllowUnencryptedStorage: true,
     };
 
     // Emptying the token cache before we start.
@@ -86,11 +86,11 @@ describe("UsernamePasswordCredential (internal)", function(this: Mocha.Suite) {
     persistence?.save("{}");
 
     const credential = new UsernamePasswordCredential(
-      env.AZURE_TENANT_ID,
-      env.AZURE_CLIENT_ID,
-      env.AZURE_USERNAME,
-      env.AZURE_PASSWORD,
-      { tokenCachePersistenceOptions }
+      env.AZURE_TENANT_ID!,
+      env.AZURE_CLIENT_ID!,
+      env.AZURE_USERNAME!,
+      env.AZURE_PASSWORD!,
+      recorder.configureClientOptions({ tokenCachePersistenceOptions })
     );
 
     await credential.getToken(scope);

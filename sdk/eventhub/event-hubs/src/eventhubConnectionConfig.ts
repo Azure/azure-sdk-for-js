@@ -167,5 +167,5 @@ export const EventHubConnectionConfig = {
    */
   validate(config: EventHubConnectionConfig): void {
     return ConnectionConfig.validate(config, { isEntityPathRequired: true });
-  }
+  },
 };

@@ -11,8 +11,8 @@ export class IndexDocumentsTest extends SearchDocumentsBase<SearchDocumentsTestO
       description: "Number of Documents to be created",
       shortName: "dc",
       longName: "documentsCount",
-      defaultValue: 10
-    }
+      defaultValue: 10,
+    },
   };
   private hotels: Hotel[];
 

@@ -12,12 +12,12 @@ import {
   createServiceBusClientForTests,
   testPeekMsgsLength,
   //   getRandomTestClientTypeWithSessions,
-  getRandomTestClientTypeWithNoSessions
+  getRandomTestClientTypeWithNoSessions,
 } from "../public/utils/testutils2";
 import {
   DispositionType,
   ServiceBusMessageImpl,
-  ServiceBusReceivedMessage
+  ServiceBusReceivedMessage,
 } from "../../src/serviceBusMessage";
 import { testLogger } from "./utils/misc";
 
@@ -93,7 +93,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
     let errorWasThrown = false;
     try {
       await receiver.completeMessage(msg);
-    } catch (err) {
+    } catch (err: any) {
       should.equal(
         err.message,
         `Failed to ${DispositionType.complete} the message as the AMQP link with which the message was received is no longer alive.`,
@@ -114,7 +114,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
     await testPeekMsgsLength(receiver, 0);
   }
 
-  it(noSessionTestClientType + ": complete() removes message", async function(): Promise<void> {
+  it(noSessionTestClientType + ": complete() removes message", async function (): Promise<void> {
     await beforeEachTest(noSessionTestClientType);
     await testComplete();
   });
@@ -144,7 +144,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
     let errorWasThrown = false;
     try {
       await receiver.abandonMessage(msg);
-    } catch (err) {
+    } catch (err: any) {
       should.equal(
         err.message,
         `Failed to ${DispositionType.abandon} the message as the AMQP link with which the message was received is no longer alive.`,
@@ -170,7 +170,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
 
   it(
     noSessionTestClientType + ": abandon() retains message with incremented deliveryCount",
-    async function(): Promise<void> {
+    async function (): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
       await testAbandon();
     }
@@ -209,7 +209,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
     let errorWasThrown = false;
     try {
       await receiver.deferMessage(msg);
-    } catch (err) {
+    } catch (err: any) {
       should.equal(
         err.message,
         `Failed to ${DispositionType.defer} the message as the AMQP link with which the message was received is no longer alive.`,
@@ -239,7 +239,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
 
   it(
     noSessionTestClientType + ": defer() moves message to deferred queue",
-    async function(): Promise<void> {
+    async function (): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
       await testDefer();
     }
@@ -287,7 +287,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
       await receiver.deadLetterMessage(msg);
 
       testLogger.info(`Message has been dead lettered`);
-    } catch (err) {
+    } catch (err: any) {
       testLogger.error(`Exception thrown`, err);
 
       should.equal(
@@ -345,7 +345,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
 
   it(
     noSessionTestClientType + ": deadLetter() moves message to deadletter queue",
-    async function(): Promise<void> {
+    async function (): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
       await testDeadletter();
     }
@@ -387,7 +387,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
         "MessageLock did not get renewed!"
       );
       await receiver.completeMessage(msg);
-    } catch (err) {
+    } catch (err: any) {
       if (!entityNames.usesSessions) {
         throw err;
       } else {
@@ -411,7 +411,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
     await testPeekMsgsLength(receiver, 0);
   }
 
-  it(noSessionTestClientType + ": Lock renewal for a message", async function(): Promise<void> {
+  it(noSessionTestClientType + ": Lock renewal for a message", async function (): Promise<void> {
     await beforeEachTest(noSessionTestClientType);
     await testRenewLock();
   });

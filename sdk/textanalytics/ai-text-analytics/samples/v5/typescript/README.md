@@ -27,6 +27,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [authenticationMethods.ts][authenticationmethods]                         | authenticates a service client using both Azure Active Directory and an API key         |
 | [beginAnalyzeActions.ts][beginanalyzeactions]                             | applies multiple Text Analytics actions per document                                    |
 | [customText.ts][customtext]                                               | applies multiple Custom Text Analytics actions per document                             |
+| [modelVersion.ts][modelversion]                                           | shows how to choose model versions for pre-built models.                                |
 
 ## Prerequisites
 
@@ -92,6 +93,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/authenticationMethods.ts
 [beginanalyzeactions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/beginAnalyzeActions.ts
 [customtext]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/customText.ts
+[modelversion]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/textanalytics/ai-text-analytics/samples/v5/typescript/src/modelVersion.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-text-analytics
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesinstance]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account

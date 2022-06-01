@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpClient } from "./httpClient";
-import { RetryOptions } from "./policies/exponentialRetryPolicy";
-import { KeepAliveOptions } from "./policies/keepAlivePolicy";
-import { RedirectOptions } from "./policies/redirectPolicy";
-import { ProxyOptions } from "./serviceClient";
-import { UserAgentOptions } from "./policies/userAgentPolicy";
 import { DeserializationOptions } from "./policies/deserializationPolicy";
+import { HttpClient } from "./httpClient";
+import { KeepAliveOptions } from "./policies/keepAlivePolicy";
 import { LogPolicyOptions } from "./policies/logPolicy";
+import { ProxyOptions } from "./serviceClient";
+import { RedirectOptions } from "./policies/redirectPolicy";
+import { RetryOptions } from "./policies/exponentialRetryPolicy";
+import { UserAgentOptions } from "./policies/userAgentPolicy";
 
 /**
  * Defines options that are used to configure the HTTP pipeline for

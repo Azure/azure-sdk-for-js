@@ -6,10 +6,10 @@
  * @author Arpan Laha
  */
 
-import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
-import { Rule } from "eslint";
 import { ClassDeclaration, Identifier, MethodDefinition } from "estree";
+import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
 import { getPublicMethods, getRuleMetaData } from "../utils";
+import { Rule } from "eslint";
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -55,7 +55,7 @@ export = {
                     const prefixKind = method.kind === "constructor" ? "class" : "method";
                     context.report({
                       node: param,
-                      message: `options parameter type is not prefixed with the ${prefixKind} name`
+                      message: `options parameter type is not prefixed with the ${prefixKind} name`,
                     });
                   }
                 }
@@ -63,7 +63,7 @@ export = {
             }
           });
         });
-      }
+      },
     } as Rule.RuleListener;
-  }
+  },
 };

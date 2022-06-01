@@ -219,9 +219,9 @@ async function main() {
   const repositoryNames = client.listRepositoryNames();
   for await (const repositoryName of repositoryNames) {
     const repository = client.getRepository(repositoryName);
-    // Obtain the images ordered from newest to oldest by passing the `orderBy` option
+    // Obtain the images ordered from newest to oldest by passing the `order` option
     const imageManifests = repository.listManifestProperties({
-      orderBy: "LastUpdatedOnDescending"
+      order: "LastUpdatedOnDescending"
     });
     const imagesToKeep = 3;
     let imageCount = 0;
@@ -254,7 +254,7 @@ main().catch((err) => {
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
 ```javascript
-import { setLogLevel } from "@azure/logger";
+const { setLogLevel } = require("@azure/logger");
 
 setLogLevel("info");
 ```

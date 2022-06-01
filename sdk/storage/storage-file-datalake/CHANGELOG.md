@@ -1,6 +1,6 @@
 # Release History
 
-## 12.8.0-beta.2 (Unreleased)
+## 12.9.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,40 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 12.9.0 (2022-05-12)
+
+### Features Added
+
+- Includes all features released in 12.9.0-beta.1.
+
+### Bugs Fixed
+
+- Refined user-agent value to avoid failure when os information is not available on some platforms.
+
+## 12.9.0-beta.1 (2022-04-19)
+
+### Features Added
+
+- Added support for service version 2021-06-08.
+- Added support for Customer Provided Key server-side encryption of files.
+- Added ability to retrieve path createdOn and expiresOn times with DataLakeFileSystemClient.listPaths().
+
+### Bugs Fixed
+
+- Add missing browser mapping for `./dist-esm/storage-common/src/BufferScheduler.js`
+- Add `react-native` mapping to ESM entry point
+
+## 12.8.0 (2022-03-11)
+
+### Features Added
+
+- Includes all features released in 12.8.0-beta.1.
+
+### Bugs Fixed
+
+- Fixed a bug where customized `ProxyOptions` is overwrited by a default one when initializing `DataLakeServiceClient` with connection string.
+- Set correct content length in requests for uploading operations to avoid unexpected failure if customized content length is incorrect.
 
 ## 12.8.0-beta.1 (2021-11-09)
 

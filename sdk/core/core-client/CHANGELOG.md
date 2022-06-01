@@ -1,19 +1,51 @@
 # Release History
 
-## 1.4.0 (Unreleased)
+## 1.6.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Removed the constraints check during serialization. Please refer [#21839](https://github.com/Azure/azure-sdk-for-js/issues/21839) for further details.
+
+## 1.6.0 (2022-05-05)
+
+### Features Added
+
+- Added a new property endpoint in ServiceClientOptions and mark the baseUri as deprecated to encourage people to use endpoint. See issue link [here](https://github.com/Azure/autorest.typescript/issues/1337)
+- Upgraded our `@azure/core-tracing` dependency to version 1.0
+- Add callbacks to support Storage challenge authentication [PR#21678](https://github.com/Azure/azure-sdk-for-js/pull/21678)
+
+## 1.5.0 (2022-02-03)
+
+### Features Added
+
+- Added new `CommonClientOptions` member `additionalPolicies` to allow passing custom pipeline policies to client constructors. [PR #19920](https://github.com/Azure/azure-sdk-for-js/pull/19920)
+
+### Bugs Fixed
+
+- Addressed an issue where the `onResponse` callback wouldn't be called in certain cases where an unexpected response was received from the service. [PR #19702](https://github.com/Azure/azure-sdk-for-js/pull/19702)
+
+## 1.4.0 (2022-01-06)
 
 ### Features Added
 
 - Added a new function `authorizeRequestOnClaimChallenge`, that can be used with the `@azure/core-rest-pipeline`'s `bearerTokenAuthenticationPolicy` to support [Continuous Access Evaluation (CAE) challenges](https://docs.microsoft.com/azure/active-directory/conditional-access/concept-continuous-access-evaluation).
 - Call the `bearerTokenAuthenticationPolicy` with the following options: `bearerTokenAuthenticationPolicy({ authorizeRequestOnChallenge: authorizeRequestOnClaimChallenge })`. Once provided, the `bearerTokenAuthenticationPolicy` policy will internally handle Continuous Access Evaluation (CAE) challenges. When it can't complete a challenge it will return the 401 (unauthorized) response from ARM.
 
-### Breaking Changes
+### Bugs Fixed
+
+- Fixed a serializer issue with nested polymorphics. [PR #19455](https://github.com/Azure/azure-sdk-for-js/pull/19455)
+
+## 1.3.3 (2021-12-02)
 
 ### Bugs Fixed
 
 - Added a check to handle undefined value during the parsing of query parameters. Please refer to [PR #18621](https://github.com/Azure/azure-sdk-for-js/pull/18621) for further details.
-
-### Other Changes
 
 ## 1.3.2 (2021-10-25)
 

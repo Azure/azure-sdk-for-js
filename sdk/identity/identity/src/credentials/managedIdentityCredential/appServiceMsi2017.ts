@@ -4,7 +4,7 @@
 import {
   createHttpHeaders,
   createPipelineRequest,
-  PipelineRequestOptions
+  PipelineRequestOptions,
 } from "@azure/core-rest-pipeline";
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { TokenResponseParsedBody } from "../../client/identityClient";
@@ -37,7 +37,7 @@ function prepareRequestOptions(
 
   const queryParameters: Record<string, string> = {
     resource,
-    "api-version": "2017-09-01"
+    "api-version": "2017-09-01",
   };
 
   if (clientId) {
@@ -59,8 +59,8 @@ function prepareRequestOptions(
     method: "GET",
     headers: createHttpHeaders({
       Accept: "application/json",
-      secret: process.env.MSI_SECRET
-    })
+      secret: process.env.MSI_SECRET,
+    }),
   };
 }
 
@@ -68,7 +68,7 @@ function prepareRequestOptions(
  * Defines how to determine whether the Azure App Service MSI is available, and also how to retrieve a token from the Azure App Service MSI.
  */
 export const appServiceMsi2017: MSI = {
-  async isAvailable(scopes): Promise<boolean> {
+  async isAvailable({ scopes }): Promise<boolean> {
     const resource = mapScopesToResource(scopes);
     if (!resource) {
       logger.info(`${msiName}: Unavailable. Multiple scopes are not supported.`);
@@ -87,7 +87,13 @@ export const appServiceMsi2017: MSI = {
     configuration: MSIConfiguration,
     getTokenOptions: GetTokenOptions = {}
   ): Promise<AccessToken | null> {
-    const { identityClient, scopes, clientId } = configuration;
+    const { identityClient, scopes, clientId, resourceId } = configuration;
+
+    if (resourceId) {
+      logger.warning(
+        `${msiName}: managed Identity by resource Id is not supported. Argument resourceId might be ignored by the service.`
+      );
+    }
 
     logger.info(
       `${msiName}: Using the endpoint and the secret coming form the environment variables: MSI_ENDPOINT=${process.env.MSI_ENDPOINT} and MSI_SECRET=[REDACTED].`
@@ -97,9 +103,9 @@ export const appServiceMsi2017: MSI = {
       abortSignal: getTokenOptions.abortSignal,
       ...prepareRequestOptions(scopes, clientId),
       // Generally, MSI endpoints use the HTTP protocol, without transport layer security (TLS).
-      allowInsecureConnection: true
+      allowInsecureConnection: true,
     });
     const tokenResponse = await identityClient.sendTokenRequest(request, expiresOnParser);
     return (tokenResponse && tokenResponse.accessToken) || null;
-  }
+  },
 };

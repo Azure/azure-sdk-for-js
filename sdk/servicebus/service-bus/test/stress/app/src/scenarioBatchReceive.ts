@@ -1,7 +1,7 @@
 import {
   ServiceBusClient,
   ServiceBusReceiver,
-  ServiceBusReceiverOptions
+  ServiceBusReceiverOptions,
 } from "@azure/service-bus";
 import { ServiceBusStressTester } from "./serviceBusStressTester";
 import { delay } from "rhea-promise";
@@ -28,7 +28,7 @@ interface ScenarioReceiveBatchOptions {
 function sanitizeOptions(args: string[]): Required<ScenarioReceiveBatchOptions> {
   const options = parsedArgs<ScenarioReceiveBatchOptions>(args, {
     boolean: ["settleMessageOnReceive", "sendAllMessagesBeforeReceiveStarts"],
-    default: { settleMessageOnReceive: false, sendAllMessagesBeforeReceiveStarts: false }
+    default: { settleMessageOnReceive: false, sendAllMessagesBeforeReceiveStarts: false },
   });
   return {
     testDurationInMs: options.testDurationInMs || 60 * 60 * 1000, // Default = 60 minutes
@@ -42,7 +42,7 @@ function sanitizeOptions(args: string[]): Required<ScenarioReceiveBatchOptions> 
     sendAllMessagesBeforeReceiveStarts: !!options.sendAllMessagesBeforeReceiveStarts,
     maxAutoLockRenewalDurationInMs: options.maxAutoLockRenewalDurationInMs || 0, // 0 = disabled
     settleMessageOnReceive: options.settleMessageOnReceive,
-    numberOfParallelSends: options.numberOfParallelSends || 5
+    numberOfParallelSends: options.numberOfParallelSends || 5,
   };
 }
 
@@ -60,7 +60,7 @@ export async function scenarioReceiveBatch() {
     maxAutoLockRenewalDurationInMs,
     settleMessageOnReceive,
     sendAllMessagesBeforeReceiveStarts,
-    numberOfParallelSends
+    numberOfParallelSends,
   } = testOptions;
 
   // Sending stops after 70% of total duration to give the receiver a chance to clean up and receive all the messages
@@ -70,7 +70,7 @@ export async function scenarioReceiveBatch() {
 
   const stressBase = new ServiceBusStressTester({
     testName: "batchAndReceive",
-    snapshotFocus: ["send-info", "receive-info"]
+    snapshotFocus: ["send-info", "receive-info"],
   });
 
   const operation = async (sbClient: ServiceBusClient) => {
@@ -80,7 +80,7 @@ export async function scenarioReceiveBatch() {
     if (receiveMode === "receiveAndDelete") {
       receiver = sbClient.createReceiver(stressBase.queueName, {
         receiveMode: "receiveAndDelete",
-        maxAutoLockRenewalDurationInMs
+        maxAutoLockRenewalDurationInMs,
       });
     } else {
       receiver = sbClient.createReceiver(stressBase.queueName, { maxAutoLockRenewalDurationInMs });
@@ -124,7 +124,7 @@ export async function scenarioReceiveBatch() {
   };
 
   return stressBase.runStressTest(operation, {
-    additionalEventProperties: testOptions
+    additionalEventProperties: testOptions,
   });
 }
 

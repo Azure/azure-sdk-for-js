@@ -9,5 +9,4 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { CosmosDBManagementClient } from "./cosmosDBManagementClient";
-export { CosmosDBManagementClientContext } from "./cosmosDBManagementClientContext";
 export * from "./operationsInterfaces";

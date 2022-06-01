@@ -1,0 +1,27 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://testaccount.dev.azuresynapse.net/roleAssignments/cb9deb8e-6453-4145-9d82-14edf872ebe6?api-version=2020-12-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "core-rest-pipeline/1.3.3 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "823df494-469f-4433-bae1-d72577b06cb5"
+      },
+      "RequestBody": null,
+      "StatusCode": 204,
+      "ResponseHeaders": {
+        "Content-Length": "0",
+        "Date": "Mon, 31 Jan 2022 22:40:57 GMT",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "x-ms-request-id": "cd1dc90f-ec3f-47ab-920a-b00c8bf60b2e"
+      },
+      "ResponseBody": null
+    }
+  ],
+  "Variables": {}
+}

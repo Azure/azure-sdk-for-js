@@ -2,13 +2,11 @@
 // Licensed under the MIT license.
 
 import {
-  RequestPolicy,
-  RequestPolicyOptions,
-  BaseRequestPolicy,
-  WebResource,
-  HttpOperationResponse,
-  RequestPolicyFactory
-} from "@azure/core-http";
+  PipelinePolicy,
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
 
 /**
  * The sync token header, as described here:
@@ -22,34 +20,21 @@ export const SyncTokenHeaderName = "sync-token";
  * @param syncTokens - the sync tokens store to be used across requests.
  * @internal
  */
-export function syncTokenPolicy(syncTokens: SyncTokens): RequestPolicyFactory {
+export function syncTokenPolicy(syncTokens: SyncTokens): PipelinePolicy {
   return {
-    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-      return new SyncTokenPolicy(nextPolicy, options, syncTokens);
-    }
+    name: "Sync Token Policy",
+    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+      const syncTokenHeaderValue = syncTokens.getSyncTokenHeaderValue();
+
+      if (syncTokenHeaderValue) {
+        request.headers.set(SyncTokenHeaderName, syncTokenHeaderValue);
+      }
+
+      const response = await next(request);
+      syncTokens.addSyncTokenFromHeaderValue(response.headers.get(SyncTokenHeaderName));
+      return response;
+    },
   };
-}
-
-class SyncTokenPolicy extends BaseRequestPolicy {
-  constructor(
-    nextPolicy: RequestPolicy,
-    options: RequestPolicyOptions,
-    private _syncTokens: SyncTokens
-  ) {
-    super(nextPolicy, options);
-  }
-
-  public async sendRequest(webResource: WebResource): Promise<HttpOperationResponse> {
-    const syncTokenHeaderValue = this._syncTokens.getSyncTokenHeaderValue();
-
-    if (syncTokenHeaderValue != null) {
-      webResource.headers.set(SyncTokenHeaderName, syncTokenHeaderValue);
-    }
-
-    const response = await this._nextPolicy.sendRequest(webResource);
-    this._syncTokens.addSyncTokenFromHeaderValue(response.headers.get(SyncTokenHeaderName));
-    return response;
-  }
 }
 
 /**
@@ -156,6 +141,6 @@ export function parseSyncToken(syncToken: string): SyncToken {
   return {
     id: matches[1],
     value: matches[2],
-    sequenceNumber
+    sequenceNumber,
   };
 }

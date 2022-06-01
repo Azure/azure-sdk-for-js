@@ -11,7 +11,7 @@ import { PrivateEndpoints } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { StreamAnalyticsManagementClientContext } from "../streamAnalyticsManagementClientContext";
+import { StreamAnalyticsManagementClient } from "../streamAnalyticsManagementClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
@@ -30,13 +30,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateEndpoints operations. */
 export class PrivateEndpointsImpl implements PrivateEndpoints {
-  private readonly client: StreamAnalyticsManagementClientContext;
+  private readonly client: StreamAnalyticsManagementClient;
 
   /**
    * Initialize a new instance of the class PrivateEndpoints class.
    * @param client Reference to the service client
    */
-  constructor(client: StreamAnalyticsManagementClientContext) {
+  constructor(client: StreamAnalyticsManagementClient) {
     this.client = client;
   }
 
@@ -215,10 +215,12 @@ export class PrivateEndpointsImpl implements PrivateEndpoints {
       { resourceGroupName, clusterName, privateEndpointName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -298,7 +300,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.privateEndpoint,
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -307,8 +309,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.privateEndpointName
   ],
   headerParameters: [
-    Parameters.contentType,
     Parameters.accept,
+    Parameters.contentType,
     Parameters.ifMatch,
     Parameters.ifNoneMatch
   ],
@@ -327,7 +329,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -351,7 +353,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -374,7 +376,7 @@ const listByClusterOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -395,12 +397,12 @@ const listByClusterNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorModel
     }
   },
-  queryParameters: [Parameters.apiVersion1],
+  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink,
     Parameters.clusterName
   ],
   headerParameters: [Parameters.accept],

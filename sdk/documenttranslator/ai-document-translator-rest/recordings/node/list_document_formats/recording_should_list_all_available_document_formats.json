@@ -1,0 +1,251 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/translator/text/batch/v1.0/documents/formats",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "core-rest-pipeline/1.4.1 Node/v14.17.6 OS/(x64-Linux-5.4.0-1067-azure)",
+        "x-ms-client-request-id": "680c99a4-6fc4-42d6-bb52-d3fd60d255f8"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "3439a49e-7152-4930-83b6-808bd47cddaa",
+        "Cache-Control": "public, max-age=1",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Mon, 31 Jan 2022 19:30:28 GMT",
+        "ETag": "\u00225478C7120DE16FAA3EAAAF3E994A6412CC6958126140A354E1D1B5CD2114529D\u0022",
+        "Retry-After": "1",
+        "Set-Cookie": [
+          "ARRAffinity=b43e80ef1fbcb9f9d446cbc61b366e02dafefc2a9addab525b1fc3eda44b27b2;Path=/;HttpOnly;Secure;Domain=mtbatch.nam.microsofttranslator.com",
+          "ARRAffinitySameSite=b43e80ef1fbcb9f9d446cbc61b366e02dafefc2a9addab525b1fc3eda44b27b2;Path=/;HttpOnly;SameSite=None;Secure;Domain=mtbatch.nam.microsofttranslator.com"
+        ],
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "Vary": "Accept-Encoding",
+        "X-Content-Type-Options": "nosniff",
+        "X-Powered-By": "ASP.NET",
+        "X-RequestId": "3439a49e-7152-4930-83b6-808bd47cddaa"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "format": "PlainText",
+            "fileExtensions": [
+              ".txt"
+            ],
+            "contentTypes": [
+              "text/plain"
+            ],
+            "versions": []
+          },
+          {
+            "format": "RichTextFormat",
+            "fileExtensions": [
+              ".rtf"
+            ],
+            "contentTypes": [
+              "application/rtf"
+            ],
+            "versions": []
+          },
+          {
+            "format": "OpenXmlWord",
+            "fileExtensions": [
+              ".docx"
+            ],
+            "contentTypes": [
+              "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+            ],
+            "versions": []
+          },
+          {
+            "format": "OpenXmlPresentation",
+            "fileExtensions": [
+              ".pptx"
+            ],
+            "contentTypes": [
+              "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+            ],
+            "versions": []
+          },
+          {
+            "format": "OpenXmlSpreadsheet",
+            "fileExtensions": [
+              ".xlsx"
+            ],
+            "contentTypes": [
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            ],
+            "versions": []
+          },
+          {
+            "format": "WordDocument",
+            "fileExtensions": [
+              ".doc"
+            ],
+            "contentTypes": [
+              "application/msword"
+            ],
+            "versions": []
+          },
+          {
+            "format": "PowerpointPresentation",
+            "fileExtensions": [
+              ".ppt"
+            ],
+            "contentTypes": [
+              "application/vnd.ms-powerpoint"
+            ],
+            "versions": []
+          },
+          {
+            "format": "ExcelSpreadsheet",
+            "fileExtensions": [
+              ".xls"
+            ],
+            "contentTypes": [
+              "application/vnd.ms-excel"
+            ],
+            "versions": []
+          },
+          {
+            "format": "OpenDocumentText",
+            "fileExtensions": [
+              ".odt"
+            ],
+            "contentTypes": [
+              "application/vnd.oasis.opendocument.text"
+            ],
+            "versions": []
+          },
+          {
+            "format": "OpenDocumentPresentation",
+            "fileExtensions": [
+              ".odp"
+            ],
+            "contentTypes": [
+              "application/vnd.oasis.opendocument.presentation"
+            ],
+            "versions": []
+          },
+          {
+            "format": "OpenDocumentSpreadsheet",
+            "fileExtensions": [
+              ".ods"
+            ],
+            "contentTypes": [
+              "application/vnd.oasis.opendocument.spreadsheet"
+            ],
+            "versions": []
+          },
+          {
+            "format": "OutlookMailMessage",
+            "fileExtensions": [
+              ".msg"
+            ],
+            "contentTypes": [
+              "application/vnd.ms-outlook"
+            ],
+            "versions": []
+          },
+          {
+            "format": "HtmlFile",
+            "fileExtensions": [
+              ".html",
+              ".htm"
+            ],
+            "contentTypes": [
+              "text/html"
+            ],
+            "versions": []
+          },
+          {
+            "format": "Markdown",
+            "fileExtensions": [
+              ".markdown",
+              ".mdown",
+              ".mkdn",
+              ".md",
+              ".mkd",
+              ".mdwn",
+              ".mdtxt",
+              ".mdtext",
+              ".rmd"
+            ],
+            "contentTypes": [
+              "text/markdown",
+              "text/x-markdown",
+              "text/plain"
+            ],
+            "versions": []
+          },
+          {
+            "format": "Mhtml",
+            "fileExtensions": [
+              ".mhtml",
+              ".mht"
+            ],
+            "contentTypes": [
+              "message/rfc822",
+              "application/x-mimearchive",
+              "multipart/related"
+            ],
+            "versions": []
+          },
+          {
+            "format": "XLIFF",
+            "fileExtensions": [
+              ".xlf"
+            ],
+            "contentTypes": [
+              "application/xliff\u002Bxml"
+            ],
+            "versions": [
+              "1.0",
+              "1.1",
+              "1.2"
+            ]
+          },
+          {
+            "format": "TSV",
+            "fileExtensions": [
+              ".tsv",
+              ".tab"
+            ],
+            "contentTypes": [
+              "text/tab-separated-values"
+            ],
+            "versions": []
+          },
+          {
+            "format": "CSV",
+            "fileExtensions": [
+              ".csv"
+            ],
+            "contentTypes": [
+              "text/csv"
+            ],
+            "versions": []
+          },
+          {
+            "format": "PortableDocumentFormat",
+            "fileExtensions": [
+              ".pdf"
+            ],
+            "contentTypes": [
+              "application/pdf"
+            ],
+            "versions": []
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

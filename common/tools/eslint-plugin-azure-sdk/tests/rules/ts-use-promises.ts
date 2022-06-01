@@ -6,8 +6,8 @@
  * @author Arpan Laha
  */
 
-import rule from "../../src/rules/ts-use-promises";
 import { RuleTester } from "eslint";
+import rule from "../../src/rules/ts-use-promises";
 
 //------------------------------------------------------------------------------
 // Example files
@@ -28,19 +28,19 @@ const ruleTester = new RuleTester({
   parserOptions: {
     createDefaultProgram: true,
     ecmaFeatures: {
-      modules: true
+      modules: true,
     },
     ecmaVersion: 6,
     project: "./tsconfig.json",
-    sourceType: "module"
-  }
+    sourceType: "module",
+  },
 });
 
 ruleTester.run("ts-use-promises", rule, {
   valid: [
     {
-      code: example
-    }
+      code: example,
+    },
   ],
   invalid: [
     // this could should be uncommented after this issue has been fixed:
@@ -53,5 +53,5 @@ ruleTester.run("ts-use-promises", rule, {
     //     }
     //   ]
     // }
-  ]
+  ],
 });

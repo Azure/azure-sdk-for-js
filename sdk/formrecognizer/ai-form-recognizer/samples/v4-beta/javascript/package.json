@@ -1,8 +1,8 @@
 {
-  "name": "azure-ai-form-recognizer-samples-js",
+  "name": "@azure-samples/ai-form-recognizer-js-beta",
   "private": true,
   "version": "1.0.0",
-  "description": "Azure Form Recognizer client library samples for JavaScript",
+  "description": "Azure Form Recognizer client library samples for JavaScript (Beta)",
   "engines": {
     "node": ">=12.0.0"
   },

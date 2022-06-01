@@ -18,14 +18,13 @@ import {
   isNode,
   TokenCredential,
   isTokenCredential,
-  bearerTokenAuthenticationPolicy,
   tracingPolicy,
   logPolicy,
   ProxyOptions,
   keepAlivePolicy,
   KeepAliveOptions,
   generateClientRequestIdPolicy,
-  UserAgentOptions
+  UserAgentOptions,
 } from "@azure/core-http";
 
 import { logger } from "./log";
@@ -36,11 +35,12 @@ import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import {
   StorageOAuthScopes,
   StorageBlobLoggingAllowedHeaderNames,
-  StorageBlobLoggingAllowedQueryParameters
+  StorageBlobLoggingAllowedQueryParameters,
 } from "./utils/constants";
 import { TelemetryPolicyFactory } from "./TelemetryPolicyFactory";
 import { getCachedDefaultHttpClient } from "./utils/cache";
 import { attachCredential } from "./utils/utils.common";
+import { storageBearerTokenChallengeAuthenticationPolicy } from "./policies/StorageBearerTokenChallengeAuthenticationPolicy";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -55,7 +55,7 @@ export {
   WebResource,
   RequestPolicyFactory,
   RequestPolicy,
-  RequestPolicyOptions
+  RequestPolicyOptions,
 };
 
 /**
@@ -143,7 +143,7 @@ export class Pipeline implements PipelineLike {
     // avoid each client creating its own http client.
     this.options = {
       ...options,
-      httpClient: options.httpClient || getCachedDefaultHttpClient()
+      httpClient: options.httpClient || getCachedDefaultHttpClient(),
     };
   }
 
@@ -156,7 +156,7 @@ export class Pipeline implements PipelineLike {
   public toServiceClientOptions(): ServiceClientOptions {
     return {
       httpClient: this.options.httpClient,
-      requestPolicyFactories: this.factories
+      requestPolicyFactories: this.factories,
     };
   }
 }
@@ -181,11 +181,14 @@ export interface StoragePipelineOptions {
    * Keep alive configurations. Default keep-alive is enabled.
    */
   keepAliveOptions?: KeepAliveOptions;
-
   /**
    * Configures the HTTP client to send requests and receive responses.
    */
   httpClient?: IHttpClient;
+  /**
+   * The audience used to retrieve an AAD token.
+   */
+  audience?: string | string[];
 }
 
 /**
@@ -222,8 +225,8 @@ export function newPipeline(
     logPolicy({
       logger: logger.info,
       allowedHeaderNames: StorageBlobLoggingAllowedHeaderNames,
-      allowedQueryParameters: StorageBlobLoggingAllowedQueryParameters
-    })
+      allowedQueryParameters: StorageBlobLoggingAllowedQueryParameters,
+    }),
   ];
 
   if (isNode) {
@@ -234,7 +237,10 @@ export function newPipeline(
   factories.push(
     isTokenCredential(credential)
       ? attachCredential(
-          bearerTokenAuthenticationPolicy(credential, StorageOAuthScopes),
+          storageBearerTokenChallengeAuthenticationPolicy(
+            credential,
+            pipelineOptions.audience ?? StorageOAuthScopes
+          ),
           credential
         )
       : credential

@@ -3,9 +3,9 @@
 
 import { CommunicationTokenCredential } from "@azure/communication-common";
 import {
-  bearerTokenAuthenticationPolicy,
   BearerTokenAuthenticationPolicyOptions,
-  PipelinePolicy
+  PipelinePolicy,
+  bearerTokenAuthenticationPolicy,
 } from "@azure/core-rest-pipeline";
 
 /**
@@ -18,9 +18,9 @@ export const createCommunicationTokenCredentialPolicy = (
 ): PipelinePolicy => {
   const policyOptions: BearerTokenAuthenticationPolicyOptions = {
     credential: {
-      getToken: (_scopes, options) => credential.getToken({ abortSignal: options?.abortSignal })
+      getToken: (_scopes, options) => credential.getToken({ abortSignal: options?.abortSignal }),
     },
-    scopes: []
+    scopes: [],
   };
 
   return bearerTokenAuthenticationPolicy(policyOptions);

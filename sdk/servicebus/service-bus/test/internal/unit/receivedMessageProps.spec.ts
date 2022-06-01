@@ -13,7 +13,7 @@ const should = chai.should();
 chai.use(chaiAsPromised);
 
 describe("Message translations", () => {
-  describe("expiresAtUtc is not invalid on received message", function(): void {
+  describe("expiresAtUtc is not invalid on received message", function (): void {
     async function verifyExpiresAtUtc(
       transformMessage?: (msg: ServiceBusMessage) => ServiceBusMessage
     ): Promise<void> {
@@ -22,17 +22,17 @@ describe("Message translations", () => {
 
       const rheaMsg: RheaMessage = {
         ...toRheaMessage(testMessage, { encode: (body) => body }),
-        message_annotations: { [Constants.enqueuedTime]: Date.now().valueOf() }
+        message_annotations: { [Constants.enqueuedTime]: Date.now().valueOf() },
       };
-      const expiresAtUtc = fromRheaMessage(rheaMsg).expiresAtUtc;
+      const expiresAtUtc = fromRheaMessage(rheaMsg, false).expiresAtUtc;
       should.not.equal(expiresAtUtc?.toString(), "Invalid Date", "expiresAtUtc is Invalid Date");
     }
 
-    it("ttl defined on sent message", async function(): Promise<void> {
+    it("ttl defined on sent message", async function (): Promise<void> {
       await verifyExpiresAtUtc();
     });
 
-    it("ttl undefined on sent message", async function(): Promise<void> {
+    it("ttl undefined on sent message", async function (): Promise<void> {
       await verifyExpiresAtUtc((msg: ServiceBusMessage) => {
         return { ...msg, timeToLive: undefined };
       });

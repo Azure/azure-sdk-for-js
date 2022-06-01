@@ -1,6 +1,6 @@
 # Release History
 
-## 12.8.0-beta.2 (Unreleased)
+## 12.9.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,28 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 12.9.0 (2022-05-12)
+
+### Features Added
+
+- Added support for service version 2021-06-08.
+
+### Bugs Fixed
+
+- Add `react-native` mapping to ESM entry point
+- Fixed a bug where customized `ProxyOptions` is overwrited by a default one when initializing `QueueServiceClient` or `QueueClient` with connection string.
+- Refined user-agent value to avoid failure when os information is not available on some platforms.
+
+## 12.8.0 (2022-03-11)
+
+### Features Added
+
+- Added support for service version 2021-04-10.
+
+### Bugs Fixed
+
+- Fixed a bug where customized `ProxyOptions` is overwrited by a default one when initializing `QueueServiceClient` or `QueueClient` with connection string.
 
 ## 12.8.0-beta.1 (2021-11-09)
 
@@ -167,13 +189,13 @@
   Before this change the option is specified as
   ```js
   queueServiceClient.listShares({
-    include: "metadata"
+    include: "metadata",
   });
   ```
   After this change:
   ```js
   queueServiceClient.listShares({
-    includeMetadata: true
+    includeMetadata: true,
   });
   ```
 
@@ -189,7 +211,7 @@
 - Updated HTTP client from axios to node-fetch in Node.js runtime.
 - A new option `keepAliveOptions` added to parameter of `newPipeline()` which controls keep-alive configurations. Keep-alive is enabled by default.
 - Pass through `options.abortSignal` to the optional `abortSignal` attribute in option bags instead of using `AbortSignal.none` as the default value when `options.abortSignal` is not specified.
-- Basic HTTP proxy authentication support is added. Proxy settings can be passed in the options while creating a new client. Example - [typescript/proxyAuth.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-queue/samples/typescript/src/proxyAuth.ts)
+- Basic HTTP proxy authentication support is added. Proxy settings can be passed in the options while creating a new client. Example - [typescript/proxyAuth.ts](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-queue/samples/v12/typescript/src/proxyAuth.ts)
 - Connection strings for explicit storage endpoints are supported. - [Configure Azure Storage connection strings](https://docs.microsoft.com/azure/storage/common/storage-configure-connection-string#create-a-connection-string-for-an-explicit-storage-endpoint)
 
 ## 10.3.0 (2019-09-09)
@@ -246,7 +268,7 @@
   - Connection string method is supported only in Node.js (not browsers).
 - Creation/Deletion of child resources are duplicated to parent client type.
 - HTTP proxy support is added (Node.js only).
-  - Please refer to the `proxyAuth.ts` sample in the `samples/typescript` folder.
+  - Please refer to the `proxyAuth.ts` sample in the `samples/v12/typescript` folder.
 - Request and response headers are now logged at INFO level, with sensitive data redacted.
 
 For release notes and more information please visit https://aka.ms/azsdk/releases/july2019preview

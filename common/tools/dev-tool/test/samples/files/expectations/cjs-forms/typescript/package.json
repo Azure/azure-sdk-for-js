@@ -1,0 +1,38 @@
+{
+  "name": "@azure-samples/cjs-forms-ts",
+  "private": true,
+  "version": "1.0.0",
+  "description": "CommonJS client library samples for TypeScript",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "common/tools/dev-tool/test/samples/files/expectations/cjs-forms"
+  },
+  "keywords": [
+    "cjs-forms"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/common/tools/dev-tool/test/samples/files/expectations/cjs-forms",
+  "dependencies": {
+    "cjs-forms": "latest",
+    "dotenv": "latest",
+    "@azure/test1": "latest",
+    "@azure-test2/test2": "next"
+  },
+  "devDependencies": {
+    "@types/node": "^12.0.0",
+    "typescript": "~4.4.0",
+    "rimraf": "latest"
+  }
+}

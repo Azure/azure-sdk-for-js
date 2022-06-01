@@ -26,7 +26,9 @@ import {
   DirectoryListHandlesOptionalParams,
   DirectoryListHandlesResponse,
   DirectoryForceCloseHandlesOptionalParams,
-  DirectoryForceCloseHandlesResponse
+  DirectoryForceCloseHandlesResponse,
+  DirectoryRenameOptionalParams,
+  DirectoryRenameResponse
 } from "../models";
 
 /** Class representing a Directory. */
@@ -45,20 +47,14 @@ export class Directory {
    * Creates a new directory under the specified share or parent directory.
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
    *                       ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
-   * @param fileCreatedOn Creation time for the file/directory. Default value: Now.
-   * @param fileLastWriteOn Last write time for the file/directory. Default value: Now.
    * @param options The options parameters.
    */
   create(
     fileAttributes: string,
-    fileCreatedOn: string,
-    fileLastWriteOn: string,
     options?: DirectoryCreateOptionalParams
   ): Promise<DirectoryCreateResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       fileAttributes,
-      fileCreatedOn,
-      fileLastWriteOn,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
@@ -106,20 +102,14 @@ export class Directory {
    * Sets properties on the directory.
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
    *                       ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
-   * @param fileCreatedOn Creation time for the file/directory. Default value: Now.
-   * @param fileLastWriteOn Last write time for the file/directory. Default value: Now.
    * @param options The options parameters.
    */
   setProperties(
     fileAttributes: string,
-    fileCreatedOn: string,
-    fileLastWriteOn: string,
     options?: DirectorySetPropertiesOptionalParams
   ): Promise<DirectorySetPropertiesResponse> {
     const operationArguments: coreHttp.OperationArguments = {
       fileAttributes,
-      fileCreatedOn,
-      fileLastWriteOn,
       options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
     };
     return this.client.sendOperationRequest(
@@ -196,6 +186,25 @@ export class Directory {
       forceCloseHandlesOperationSpec
     ) as Promise<DirectoryForceCloseHandlesResponse>;
   }
+
+  /**
+   * Renames a directory
+   * @param renameSource Required. Specifies the URI-style path of the source file, up to 2 KB in length.
+   * @param options The options parameters.
+   */
+  rename(
+    renameSource: string,
+    options?: DirectoryRenameOptionalParams
+  ): Promise<DirectoryRenameResponse> {
+    const operationArguments: coreHttp.OperationArguments = {
+      renameSource,
+      options: coreHttp.operationOptionsToRequestOptionsBase(options || {})
+    };
+    return this.client.sendOperationRequest(
+      operationArguments,
+      renameOperationSpec
+    ) as Promise<DirectoryRenameResponse>;
+  }
 }
 // Operation Specifications
 const xmlSerializer = new coreHttp.Serializer(Mappers, /* isXml */ true);
@@ -222,7 +231,8 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.filePermissionKey1,
     Parameters.fileAttributes,
     Parameters.fileCreatedOn,
-    Parameters.fileLastWriteOn
+    Parameters.fileLastWriteOn,
+    Parameters.fileChangeOn
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -292,7 +302,8 @@ const setPropertiesOperationSpec: coreHttp.OperationSpec = {
     Parameters.filePermissionKey1,
     Parameters.fileAttributes,
     Parameters.fileCreatedOn,
-    Parameters.fileLastWriteOn
+    Parameters.fileLastWriteOn,
+    Parameters.fileChangeOn
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -409,6 +420,43 @@ const forceCloseHandlesOperationSpec: coreHttp.OperationSpec = {
     Parameters.accept1,
     Parameters.recursive,
     Parameters.handleId
+  ],
+  isXML: true,
+  serializer: xmlSerializer
+};
+const renameOperationSpec: coreHttp.OperationSpec = {
+  path: "/{shareName}/{directory}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      headersMapper: Mappers.DirectoryRenameHeaders
+    },
+    default: {
+      bodyMapper: Mappers.StorageError,
+      headersMapper: Mappers.DirectoryRenameExceptionHeaders
+    }
+  },
+  queryParameters: [
+    Parameters.timeoutInSeconds,
+    Parameters.restype2,
+    Parameters.comp11
+  ],
+  urlParameters: [Parameters.url],
+  headerParameters: [
+    Parameters.version,
+    Parameters.accept1,
+    Parameters.metadata,
+    Parameters.filePermission,
+    Parameters.filePermissionKey1,
+    Parameters.renameSource,
+    Parameters.replaceIfExists,
+    Parameters.ignoreReadOnly,
+    Parameters.sourceLeaseId,
+    Parameters.destinationLeaseId,
+    Parameters.fileAttributes1,
+    Parameters.fileCreationTime,
+    Parameters.fileLastWriteTime,
+    Parameters.fileChangeTime
   ],
   isXML: true,
   serializer: xmlSerializer

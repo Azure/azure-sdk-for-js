@@ -4,7 +4,7 @@
 export enum FetchResultType {
   "Done" = 0,
   "Exception" = 1,
-  "Result" = 2
+  "Result" = 2,
 }
 
 /** @hidden */

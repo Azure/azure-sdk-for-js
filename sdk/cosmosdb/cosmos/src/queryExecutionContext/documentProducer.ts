@@ -8,7 +8,7 @@ import {
   getPathFromLink,
   ResourceType,
   StatusCodes,
-  SubStatusCodes
+  SubStatusCodes,
 } from "../common";
 import { FeedOptions } from "../request";
 import { Response } from "../request";
@@ -99,7 +99,7 @@ export class DocumentProducer {
       query: this.query,
       options,
 
-      partitionKeyRangeId: this.targetPartitionKeyRange["id"]
+      partitionKeyRangeId: this.targetPartitionKeyRange["id"],
     });
   };
 
@@ -159,10 +159,8 @@ export class DocumentProducer {
     }
 
     try {
-      const {
-        result: resources,
-        headers: headerResponse
-      } = await this.internalExecutionContext.fetchMore();
+      const { result: resources, headers: headerResponse } =
+        await this.internalExecutionContext.fetchMore();
       ++this.generation;
       this._updateStates(undefined, resources === undefined);
       if (resources !== undefined) {
@@ -180,13 +178,12 @@ export class DocumentProducer {
 
         // Wraping query metrics in a object where the keys are the partition key range.
         headerResponse[Constants.HttpHeaders.QueryMetrics] = {};
-        headerResponse[Constants.HttpHeaders.QueryMetrics][
-          this.targetPartitionKeyRange.id
-        ] = queryMetrics;
+        headerResponse[Constants.HttpHeaders.QueryMetrics][this.targetPartitionKeyRange.id] =
+          queryMetrics;
       }
 
       return { result: resources, headers: headerResponse };
-    } catch (err) {
+    } catch (err: any) {
       // TODO: any error
       if (DocumentProducer._needPartitionKeyRangeCacheRefresh(err)) {
         // Split just happend
@@ -237,7 +234,7 @@ export class DocumentProducer {
         case FetchResultType.Result:
           return { result: fetchResult.feedResponse, headers };
       }
-    } catch (err) {
+    } catch (err: any) {
       this._updateStates(err, err.item === undefined);
       throw err;
     }
@@ -255,7 +252,7 @@ export class DocumentProducer {
         case FetchResultType.Done:
           return {
             result: undefined,
-            headers: this._getAndResetActiveResponseHeaders()
+            headers: this._getAndResetActiveResponseHeaders(),
           };
         case FetchResultType.Exception:
           fetchResult.error.headers = this._getAndResetActiveResponseHeaders();
@@ -263,7 +260,7 @@ export class DocumentProducer {
         case FetchResultType.Result:
           return {
             result: fetchResult.feedResponse,
-            headers: this._getAndResetActiveResponseHeaders()
+            headers: this._getAndResetActiveResponseHeaders(),
           };
       }
     }
@@ -272,7 +269,7 @@ export class DocumentProducer {
     if (this.allFetched) {
       return {
         result: undefined,
-        headers: this._getAndResetActiveResponseHeaders()
+        headers: this._getAndResetActiveResponseHeaders(),
       };
     }
 

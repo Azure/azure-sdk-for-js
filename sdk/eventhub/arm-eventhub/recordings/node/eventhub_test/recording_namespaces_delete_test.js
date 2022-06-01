@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "c84bd82c846a55f760eedabbc4aa3d6b";
+module.exports.hash = "1cbd38f5971138f0e262e8ef545d8b30";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -23,19 +23,19 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'a5a2fec4-a46b-4d18-8e30-c2d687b60500',
+  'cc3cd611-5a11-4fd8-9a15-7b1014100200',
   'x-ms-ests-server',
-  '2.1.12108.11 - SEASLR1 ProdSlices',
+  '2.1.12261.14 - SEASLR2 ProdSlices',
   'Set-Cookie',
-  'fpc=Am34gQcr6wJBgpFNXmMn-Q4; expires=Sun, 07-Nov-2021 03:05:50 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Agksl8ibdedBsBu4gg_aumU; expires=Sat, 08-Jan-2022 06:36:07 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrCaAk26VFZ8YVL6qOp1OrIToDscaNOEe7k_nlbu28ZBii6hs2r02cVNpyl36-D_9293geHPKy7iPM9mzLBd7aUBa_Mr98WzYcwNEeokcmlMI32XeRdm2hVD7KysICwgM2tCpk2_xnRoG3tFCPpnnBVR80x4ieHlR5awiGSPcKwk0gAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrNYvm7IJu-RwaIzMwJguHuSU9b8i7aruWxOGoawGf6lI6uoLGZiReOvBjJbFHIRqHNDruTWQg4iQ3bA9wXR9uAtKLvzcaKAEyROXN6HiBRBJBcX7grbaVWSKjerbh1vudOQhe3KzqgAGeMRwdwUsbsTUpt5oD3HspCr6qdYR0T5QgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 08 Oct 2021 03:05:49 GMT',
+  'Thu, 09 Dec 2021 06:36:07 GMT',
   'Content-Length',
   '980'
 ]);
@@ -58,25 +58,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '7d410443-5b41-4027-a989-11129b350600',
+  '311b60c9-0dff-4e90-abb2-27282d870200',
   'x-ms-ests-server',
-  '2.1.12108.11 - KRSLR2 ProdSlices',
+  '2.1.12261.14 - SEASLR1 ProdSlices',
   'Set-Cookie',
-  'fpc=Aks0AttpLcxJlOyP6vfjZJ0; expires=Sun, 07-Nov-2021 03:05:50 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AnbxfVaBSdtAl3kRT1UB7X4; expires=Sat, 08-Jan-2022 06:36:07 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrL4cD7Dkp-MQlF4GabKSsxlp3oVI3AuXi83gn9MMwkX1qTiU_tBJsfuQGt4pqHtDjN4FKnT7XZuZXl8c7m8R1D84yl1D_UyQhasAkSvc-ZmRzApu_YYY4BBEauueu0XVI0Y9hPpN8Ze-O9qTxrSyaMitlHofHp2RjG7cV7OH60tYgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
+  'esctx=AQABAAAAAAD--DLA3VO7QrddgJg7WevrOwhN-SuL91jvQFpi52OTJXBZ2js3PrRAznhuwmthPlqKPV8FVZwhU5IQFn31GBDAjz3wpX1AtgtN341oLL9_XNycI3yRPR_LLAIdnEixLoEDUkcq25_zTwxHxeCgSunHlonvqiOUX3Dak-KabHuLODx3fmKXVwYz9IU5Rn5mpMcgAA; domain=.login.microsoftonline.com; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 08 Oct 2021 03:05:50 GMT',
+  'Thu, 09 Dec 2021 06:36:07 GMT',
   'Content-Length',
   '1753'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
-  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.3.2&x-client-OS=win32&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=ec93ea7b-6633-4f14-98f6-813ce072c96f&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22CP1%22%5D%7D%7D%7D")
+  .post('/88888888-8888-8888-8888-888888888888/oauth2/v2.0/token', "client_id=azure_client_id&scope=https%3A%2F%2Fsanitized%2F&grant_type=client_credentials&x-client-SKU=msal.js.node&x-client-VER=1.3.3&x-client-OS=win32&x-client-CPU=x64&x-ms-lib-capability=retry-after, h429&x-client-current-telemetry=5|771,2,,,|,&x-client-last-telemetry=5|0|||0,0&client-request-id=132a309a-14e2-4a4e-83e6-a03a4af3f0ff&client_secret=azure_client_secret&claims=%7B%22access_token%22%3A%7B%22xms_cc%22%3A%7B%22values%22%3A%5B%22cp1%22%5D%7D%7D%7D")
   .reply(200, {"token_type":"Bearer","expires_in":86399,"ext_expires_in":86399,"access_token":"access_token"}, [
   'Cache-Control',
   'no-store, no-cache',
@@ -93,21 +93,21 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '34b08262-d419-4c23-84e8-b4a3e2d31600',
+  'cc3cd611-5a11-4fd8-9a15-7b1017100200',
   'x-ms-ests-server',
-  '2.1.12108.11 - KRSLR1 ProdSlices',
+  '2.1.12261.14 - SEASLR2 ProdSlices',
   'x-ms-clitelem',
   '1,0,0,,',
   'Set-Cookie',
-  'fpc=AskN1QyCPkZHnl35gytZ_RcWPr5BAQAAAI6s8dgOAAAA; expires=Sun, 07-Nov-2021 03:05:51 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=ApMerg2_X_pAp5xRp6sZ0M4WPr5BAQAAANeaQ9kOAAAA; expires=Sat, 08-Jan-2022 06:36:07 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Fri, 08 Oct 2021 03:05:50 GMT',
+  'Thu, 09 Dec 2021 06:36:07 GMT',
   'Content-Length',
-  '1351'
+  '1374'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
@@ -121,27 +121,27 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'x-ms-request-id',
-  '9ac6223e-4014-42ee-8dd9-cda258f2b211_M11SN1_M11SN1',
+  '134d0bac-b69c-4cbd-8c3d-50684d217578_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-deletes',
   '14998',
   'x-ms-correlation-request-id',
-  '04c4e422-c92b-4a66-b3a2-b8500cfb09ed',
+  '3fcf72d4-d9ff-421b-ae1a-cf7d70236055',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030552Z:04c4e422-c92b-4a66-b3a2-b8500cfb09ed',
+  'SOUTHEASTASIA:20211209T063609Z:3fcf72d4-d9ff-421b-ae1a-cf7d70236055',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:05:51 GMT',
+  'Thu, 09 Dec 2021 06:36:09 GMT',
   'Content-Length',
   '0'
 ]);
@@ -149,7 +149,7 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -161,75 +161,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '48',
+  '0',
   'x-ms-request-id',
-  '80040dbb-d5a4-4e78-9231-62cda7adafd5_M11SN1_M11SN1',
+  'f556c990-ba34-4a94-b0ac-b7950dd9fbef_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
-  'Server',
-  'Microsoft-HTTPAPI/2.0',
-  'x-ms-ratelimit-remaining-subscription-reads',
-  '11975',
-  'x-ms-correlation-request-id',
-  '6bc461c9-8404-4add-9149-05bdfdb9e358',
-  'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030553Z:6bc461c9-8404-4add-9149-05bdfdb9e358',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Fri, 08 Oct 2021 03:05:52 GMT'
-]);
-
-nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
-  .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '728',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
-  'Retry-After',
-  '53',
-  'x-ms-request-id',
-  '83716470-5f7a-4c87-b34b-a1f76ffcc107_M11SN1_M11SN1',
-  'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
-  'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11974',
   'x-ms-correlation-request-id',
-  '0cd7c035-957b-4ba3-b4f6-4ab0b1c73c78',
+  '65e43ce2-ffea-4551-9275-eafbe7d57f3e',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030553Z:0cd7c035-957b-4ba3-b4f6-4ab0b1c73c78',
+  'SOUTHEASTASIA:20211209T063609Z:65e43ce2-ffea-4551-9275-eafbe7d57f3e',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:05:52 GMT'
+  'Thu, 09 Dec 2021 06:36:09 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -241,35 +201,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '32',
+  '0',
   'x-ms-request-id',
-  '4369691f-47db-43ef-83d5-bdcdc1372787_M11SN1_M11SN1',
+  '279fc5c6-23c0-4b9e-bdaa-b17064b9a57e_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11973',
   'x-ms-correlation-request-id',
-  '3610d646-f6fd-49fa-a778-32f2b0d4cf35',
+  'd9a74278-f304-42aa-936b-1e7093aed947',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030553Z:3610d646-f6fd-49fa-a778-32f2b0d4cf35',
+  'SOUTHEASTASIA:20211209T063610Z:d9a74278-f304-42aa-936b-1e7093aed947',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:05:53 GMT'
+  'Thu, 09 Dec 2021 06:36:09 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -281,35 +241,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '31',
+  '0',
   'x-ms-request-id',
-  '6a2b47b2-157c-43be-afc5-3439aea3bc47_M4SN1_M4SN1',
+  '6dcc1fd2-0b08-4557-87fd-8cfc0c0fcb8e_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11972',
   'x-ms-correlation-request-id',
-  '7d4b5634-e42d-45c4-854a-5a6fa84e58db',
+  'c0ea6572-6fdc-44eb-bff1-ddbe5e61701d',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030554Z:7d4b5634-e42d-45c4-854a-5a6fa84e58db',
+  'SOUTHEASTASIA:20211209T063610Z:c0ea6572-6fdc-44eb-bff1-ddbe5e61701d',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:05:53 GMT'
+  'Thu, 09 Dec 2021 06:36:10 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -321,35 +281,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '34',
+  '0',
   'x-ms-request-id',
-  '362b7afb-a93c-4dfa-b131-fb1d6b15492a_M4SN1_M4SN1',
+  '70b8a73f-0773-4125-821f-259f1ea1caf9_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11971',
   'x-ms-correlation-request-id',
-  '5849ead3-c113-42bf-95eb-c3708560a35e',
+  '628047ab-7534-49cc-a21e-579b0bc4f9f5',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030554Z:5849ead3-c113-42bf-95eb-c3708560a35e',
+  'SOUTHEASTASIA:20211209T063610Z:628047ab-7534-49cc-a21e-579b0bc4f9f5',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:05:53 GMT'
+  'Thu, 09 Dec 2021 06:36:10 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -361,35 +321,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '36',
+  '0',
   'x-ms-request-id',
-  'f6fda73c-e927-46b9-ac4f-081a2ee6fcea_M4SN1_M4SN1',
+  '08022ec4-ef1c-45de-9195-b3b7fd2191f8_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11970',
   'x-ms-correlation-request-id',
-  'a018a73a-7c05-4138-9344-3141210d7d86',
+  '5550df56-d22a-487a-bc6a-4c84361bd942',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030555Z:a018a73a-7c05-4138-9344-3141210d7d86',
+  'SOUTHEASTASIA:20211209T063611Z:5550df56-d22a-487a-bc6a-4c84361bd942',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:05:54 GMT'
+  'Thu, 09 Dec 2021 06:36:11 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -401,35 +361,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '45',
+  '0',
   'x-ms-request-id',
-  'b1873a55-6b77-4c3e-a8eb-b4c3b2d60f0c_M4SN1_M4SN1',
+  'b6ce5726-0d80-4c4a-a7f5-a10dd72923c6_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11969',
   'x-ms-correlation-request-id',
-  'be26d8a4-721a-4cb1-aa01-01bf9827f1f2',
+  '9ee5f230-ab8b-4612-9c74-5be09755df71',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030555Z:be26d8a4-721a-4cb1-aa01-01bf9827f1f2',
+  'SOUTHEASTASIA:20211209T063611Z:9ee5f230-ab8b-4612-9c74-5be09755df71',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:05:54 GMT'
+  'Thu, 09 Dec 2021 06:36:11 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -441,35 +401,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '36',
+  '0',
   'x-ms-request-id',
-  'd835ca85-7654-471d-a580-65826a896ed2_M11SN1_M11SN1',
+  '1d863e6e-36f1-44d3-9a41-9eac4e6a7edb_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11968',
   'x-ms-correlation-request-id',
-  '8c4f18cc-2ed0-4245-9f1b-0383975637fe',
+  '9425ef1f-d9d8-4d48-b870-1c1c280a67fd',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030555Z:8c4f18cc-2ed0-4245-9f1b-0383975637fe',
+  'SOUTHEASTASIA:20211209T063612Z:9425ef1f-d9d8-4d48-b870-1c1c280a67fd',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:05:55 GMT'
+  'Thu, 09 Dec 2021 06:36:11 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -481,35 +441,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '46',
+  '0',
   'x-ms-request-id',
-  '69fafc99-ec09-4d98-9f32-bab3f3c028bf_M11SN1_M11SN1',
+  '5fbc66aa-0788-41d6-ab36-f07326945c27_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11967',
   'x-ms-correlation-request-id',
-  'c960acdb-3310-4df3-bb80-00996b18131e',
+  '1d217fcf-e736-4eac-be77-2a49b3983bfc',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030556Z:c960acdb-3310-4df3-bb80-00996b18131e',
+  'SOUTHEASTASIA:20211209T063612Z:1d217fcf-e736-4eac-be77-2a49b3983bfc',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:05:55 GMT'
+  'Thu, 09 Dec 2021 06:36:12 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -521,35 +481,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '39',
+  '0',
   'x-ms-request-id',
-  'eadacd7f-85a9-478d-8e3d-00e4082ff38f_M11SN1_M11SN1',
+  '12166529-338a-4756-a33d-f36140193826_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11966',
   'x-ms-correlation-request-id',
-  '19bc9aa3-662f-44f4-8f98-5c4ec665367d',
+  '8b0835c7-a1f3-4b58-9e2b-6aaac687fa11',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030556Z:19bc9aa3-662f-44f4-8f98-5c4ec665367d',
+  'SOUTHEASTASIA:20211209T063613Z:8b0835c7-a1f3-4b58-9e2b-6aaac687fa11',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:05:55 GMT'
+  'Thu, 09 Dec 2021 06:36:13 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -561,35 +521,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '44',
+  '0',
   'x-ms-request-id',
-  'd856d259-12fd-4bf3-8b63-5b053c6b2495_M11SN1_M11SN1',
+  'bbd267bb-69a5-436f-bfd9-0bf08bd43140_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11965',
   'x-ms-correlation-request-id',
-  '631e1dc1-7aac-46bc-b21d-c8ffd69bc339',
+  '3eeff8d1-f7f2-42f4-be88-a24628faa5b5',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030557Z:631e1dc1-7aac-46bc-b21d-c8ffd69bc339',
+  'SOUTHEASTASIA:20211209T063613Z:3eeff8d1-f7f2-42f4-be88-a24628faa5b5',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:05:56 GMT'
+  'Thu, 09 Dec 2021 06:36:13 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -601,35 +561,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '50',
+  '0',
   'x-ms-request-id',
-  'b657a59c-6134-4dd3-847a-0e676681d5cd_M11SN1_M11SN1',
+  'fd5e1322-ebc6-4f62-98eb-d8136ad30f0f_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11964',
   'x-ms-correlation-request-id',
-  '27968ca2-01f4-4647-a515-e5f6545c658a',
+  'bc72d910-2654-43fa-b3a5-0c9b9b2fc2cf',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030557Z:27968ca2-01f4-4647-a515-e5f6545c658a',
+  'SOUTHEASTASIA:20211209T063614Z:bc72d910-2654-43fa-b3a5-0c9b9b2fc2cf',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:05:56 GMT'
+  'Thu, 09 Dec 2021 06:36:14 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -641,35 +601,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '36',
+  '0',
   'x-ms-request-id',
-  '8068f0cb-a283-4e68-a5b5-b2ebf57be0f9_M11SN1_M11SN1',
+  '1fe2525f-7a75-4ef5-9d28-f8bcd0f972b8_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11963',
   'x-ms-correlation-request-id',
-  'c553a331-718f-4596-9bf6-5be15fec5ea8',
+  'ebc36fe8-140d-4597-9230-c1a9cbab9623',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030558Z:c553a331-718f-4596-9bf6-5be15fec5ea8',
+  'SOUTHEASTASIA:20211209T063614Z:ebc36fe8-140d-4597-9230-c1a9cbab9623',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:05:57 GMT'
+  'Thu, 09 Dec 2021 06:36:14 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -681,35 +641,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '43',
+  '0',
   'x-ms-request-id',
-  '2ff1795d-3e00-4a79-a792-9ab07788df86_M11SN1_M11SN1',
+  'ff741744-e032-4694-8e1a-5c13ffb55982_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11962',
   'x-ms-correlation-request-id',
-  'e4d34432-159e-47cc-b937-192d7b6dc742',
+  'e118c8eb-00f8-4ba8-8214-e693ffb31707',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030558Z:e4d34432-159e-47cc-b937-192d7b6dc742',
+  'SOUTHEASTASIA:20211209T063615Z:e118c8eb-00f8-4ba8-8214-e693ffb31707',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:05:57 GMT'
+  'Thu, 09 Dec 2021 06:36:14 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -721,35 +681,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '42',
+  '0',
   'x-ms-request-id',
-  'f89ca027-4d24-47c6-adbc-2320c0c2d1c7_M11SN1_M11SN1',
+  '50e8bdb3-36e9-4ba1-95ea-0377129dea16_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11961',
   'x-ms-correlation-request-id',
-  '24c0a8b7-76e3-497d-9e35-431206b3f7e6',
+  '293eb174-bdfd-4aec-8656-84aa1bf2594e',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030558Z:24c0a8b7-76e3-497d-9e35-431206b3f7e6',
+  'SOUTHEASTASIA:20211209T063615Z:293eb174-bdfd-4aec-8656-84aa1bf2594e',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:05:57 GMT'
+  'Thu, 09 Dec 2021 06:36:15 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -761,35 +721,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '58',
+  '0',
   'x-ms-request-id',
-  'e1485973-abd0-4858-b74d-dddca6301cfa_M11SN1_M11SN1',
+  '1428c613-3a40-4757-ab50-e7f143bacf3f_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11960',
   'x-ms-correlation-request-id',
-  '7349e4f1-f2d1-4461-aadb-492ada536748',
+  'fdac699e-76bf-483c-bffa-ee3180ad0272',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030559Z:7349e4f1-f2d1-4461-aadb-492ada536748',
+  'SOUTHEASTASIA:20211209T063616Z:fdac699e-76bf-483c-bffa-ee3180ad0272',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:05:58 GMT'
+  'Thu, 09 Dec 2021 06:36:15 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -801,35 +761,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '52',
+  '0',
   'x-ms-request-id',
-  '69b7d042-1dcd-473f-ba25-15f10e1944fb_M4SN1_M4SN1',
+  '37dbaf09-62a2-49b7-b85a-1b3d005753f1_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11959',
   'x-ms-correlation-request-id',
-  'bb4b55a5-782b-4c47-b39e-0db10e50c43b',
+  'bd0b39b9-3966-49e7-889e-7d117163fd51',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030559Z:bb4b55a5-782b-4c47-b39e-0db10e50c43b',
+  'SOUTHEASTASIA:20211209T063616Z:bd0b39b9-3966-49e7-889e-7d117163fd51',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:05:58 GMT'
+  'Thu, 09 Dec 2021 06:36:16 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -841,35 +801,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '35',
+  '0',
   'x-ms-request-id',
-  'ff6bdc23-6f2f-4255-9249-cb5022900a93_M4SN1_M4SN1',
+  '89c86a3b-adbe-4017-9796-26919515bb08_M2CH3_M2CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11958',
   'x-ms-correlation-request-id',
-  '4d9fcb58-4ec9-4359-ad8e-9a535bd28b46',
+  '7c1717fa-7b0e-435f-baf0-d095ca4c5ed3',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030600Z:4d9fcb58-4ec9-4359-ad8e-9a535bd28b46',
+  'SOUTHEASTASIA:20211209T063617Z:7c1717fa-7b0e-435f-baf0-d095ca4c5ed3',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:05:59 GMT'
+  'Thu, 09 Dec 2021 06:36:16 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -881,35 +841,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '58',
+  '0',
   'x-ms-request-id',
-  '7f6d511d-35fd-40a7-ad5d-3c28fdd3a824_M11SN1_M11SN1',
+  '43eddb44-e66b-498e-a846-a398865dc8a3_M2CH3_M2CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11957',
   'x-ms-correlation-request-id',
-  'b3f512c5-1d1d-4565-9a9e-45d3aac7d433',
+  '82f34ed0-28d2-489a-8e96-c29b17228c6e',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030600Z:b3f512c5-1d1d-4565-9a9e-45d3aac7d433',
+  'SOUTHEASTASIA:20211209T063617Z:82f34ed0-28d2-489a-8e96-c29b17228c6e',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:05:59 GMT'
+  'Thu, 09 Dec 2021 06:36:17 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -921,35 +881,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '30',
+  '0',
   'x-ms-request-id',
-  '9872921a-3f85-4357-9067-2c2692cc6902_M11SN1_M11SN1',
+  'cd6e8338-ff4c-475e-ac38-3530dbef85d5_M2CH3_M2CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11956',
   'x-ms-correlation-request-id',
-  '2a830ee8-3131-4cbd-b2aa-d5afc72f27f3',
+  '93e49f08-2a1c-48d5-ab88-714e102ed383',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030600Z:2a830ee8-3131-4cbd-b2aa-d5afc72f27f3',
+  'SOUTHEASTASIA:20211209T063617Z:93e49f08-2a1c-48d5-ab88-714e102ed383',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:05:59 GMT'
+  'Thu, 09 Dec 2021 06:36:17 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -961,11 +921,11 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '59',
+  '0',
   'x-ms-request-id',
-  '3d072a7f-66ca-4795-be88-3c98500531bc_M0CH3_M0CH3',
+  'adedb270-9047-4ea3-9371-1b2f379ed8fd_M2CH3_M2CH3',
   'Server-SB',
   'Service-Bus-Resource-Provider/CH3',
   'Server',
@@ -975,21 +935,21 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'x-ms-ratelimit-remaining-subscription-reads',
   '11955',
   'x-ms-correlation-request-id',
-  '2c10e11d-cd47-41eb-a511-7d2fabe870be',
+  '816605cb-e78d-4844-ba29-d03a6c780473',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030601Z:2c10e11d-cd47-41eb-a511-7d2fabe870be',
+  'SOUTHEASTASIA:20211209T063618Z:816605cb-e78d-4844-ba29-d03a6c780473',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:00 GMT'
+  'Thu, 09 Dec 2021 06:36:17 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1001,11 +961,11 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '44',
+  '0',
   'x-ms-request-id',
-  '34c89b8f-82ab-4606-af8f-e314eb7653cf_M0CH3_M0CH3',
+  '9a23095b-13b8-48bb-afd7-56ef64e4a762_M2CH3_M2CH3',
   'Server-SB',
   'Service-Bus-Resource-Provider/CH3',
   'Server',
@@ -1015,21 +975,21 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'x-ms-ratelimit-remaining-subscription-reads',
   '11954',
   'x-ms-correlation-request-id',
-  '5f89fdb0-6562-47fd-85b8-b8bc4f7423b6',
+  '519bfef7-1e87-451f-bd6a-1141084d5d14',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030601Z:5f89fdb0-6562-47fd-85b8-b8bc4f7423b6',
+  'SOUTHEASTASIA:20211209T063618Z:519bfef7-1e87-451f-bd6a-1141084d5d14',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:00 GMT'
+  'Thu, 09 Dec 2021 06:36:18 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1041,35 +1001,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '33',
+  '0',
   'x-ms-request-id',
-  '9d19fc03-04bd-41b9-a74b-53bad04f7bad_M11SN1_M11SN1',
+  '07f2dd82-78e0-4bf1-ac1a-0bd54b7bda54_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11953',
   'x-ms-correlation-request-id',
-  '3e329922-77de-408b-90bd-9ea78ae9f6e8',
+  'b9f9af49-3f2c-4be3-8f76-581c55cbecb4',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030601Z:3e329922-77de-408b-90bd-9ea78ae9f6e8',
+  'SOUTHEASTASIA:20211209T063619Z:b9f9af49-3f2c-4be3-8f76-581c55cbecb4',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:00 GMT'
+  'Thu, 09 Dec 2021 06:36:18 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1081,35 +1041,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '44',
+  '0',
   'x-ms-request-id',
-  'a3f93d03-d2c6-4329-91d1-0a041330fe7f_M11SN1_M11SN1',
+  '045aee47-dc3c-4879-a1bf-9ba51a152ff8_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11952',
   'x-ms-correlation-request-id',
-  '241d0bfa-d263-4bd1-8532-66969911a558',
+  '5ee2a197-60f8-47e4-a067-4ff666fd8cf3',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030602Z:241d0bfa-d263-4bd1-8532-66969911a558',
+  'SOUTHEASTASIA:20211209T063619Z:5ee2a197-60f8-47e4-a067-4ff666fd8cf3',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:01 GMT'
+  'Thu, 09 Dec 2021 06:36:19 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1121,35 +1081,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '57',
+  '0',
   'x-ms-request-id',
-  '8212982e-cb58-4b8c-9ac2-ea688101633f_M4SN1_M4SN1',
+  '38c80c57-a374-4a2d-a735-97da11fec208_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11951',
   'x-ms-correlation-request-id',
-  '109ad007-4da4-479a-82a5-d6fb23420068',
+  '8f237a1e-101e-4c37-b490-bf96d8634931',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030602Z:109ad007-4da4-479a-82a5-d6fb23420068',
+  'SOUTHEASTASIA:20211209T063619Z:8f237a1e-101e-4c37-b490-bf96d8634931',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:01 GMT'
+  'Thu, 09 Dec 2021 06:36:19 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1161,35 +1121,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '57',
+  '0',
   'x-ms-request-id',
-  '9d9fa1f7-e532-4371-bd08-939ee5fae095_M3SN1_M3SN1',
+  '042b295a-0734-498e-b3cc-e8d4426049f4_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11950',
   'x-ms-correlation-request-id',
-  'db3483c1-de35-4fa4-833b-347d562bf41c',
+  'bcb0a4c7-e97f-467d-a1e8-040ca40543d2',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030603Z:db3483c1-de35-4fa4-833b-347d562bf41c',
+  'SOUTHEASTASIA:20211209T063620Z:bcb0a4c7-e97f-467d-a1e8-040ca40543d2',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:02 GMT'
+  'Thu, 09 Dec 2021 06:36:20 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1201,35 +1161,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '52',
+  '0',
   'x-ms-request-id',
-  '4209178b-7b7b-4ac8-9c3d-89295922da98_M11SN1_M11SN1',
+  'b0ce7833-7860-4d42-bc70-41bba15a7c2c_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11949',
   'x-ms-correlation-request-id',
-  '81ae5495-061e-4ee2-b8e1-4ebbfbb45d42',
+  '71a48f24-d716-43f1-bdcb-cb141b779f8f',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030603Z:81ae5495-061e-4ee2-b8e1-4ebbfbb45d42',
+  'SOUTHEASTASIA:20211209T063621Z:71a48f24-d716-43f1-bdcb-cb141b779f8f',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:02 GMT'
+  'Thu, 09 Dec 2021 06:36:20 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1241,35 +1201,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '43',
+  '0',
   'x-ms-request-id',
-  '656426c0-6160-4997-a26a-a4914cac2991_M11SN1_M11SN1',
+  '24dd6b3f-2206-403c-be79-e7801bd42042_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11948',
   'x-ms-correlation-request-id',
-  '2ef03013-8cc2-44d9-99ce-e90afbab4d2f',
+  'aba9b6ea-bd83-4d67-9935-123ba00513b0',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030603Z:2ef03013-8cc2-44d9-99ce-e90afbab4d2f',
+  'SOUTHEASTASIA:20211209T063621Z:aba9b6ea-bd83-4d67-9935-123ba00513b0',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:03 GMT'
+  'Thu, 09 Dec 2021 06:36:21 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1281,35 +1241,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '39',
+  '0',
   'x-ms-request-id',
-  '156c36dd-5658-42c2-a65c-54b686c1b2b7_M11SN1_M11SN1',
+  'dd19ecf5-123d-4829-9cb4-50c5b63c1a6e_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11947',
   'x-ms-correlation-request-id',
-  '84c19883-f28e-4f61-a140-ca878eaad45b',
+  '647d03cc-d122-42eb-9efc-f5022c76aff9',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030604Z:84c19883-f28e-4f61-a140-ca878eaad45b',
+  'SOUTHEASTASIA:20211209T063622Z:647d03cc-d122-42eb-9efc-f5022c76aff9',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:03 GMT'
+  'Thu, 09 Dec 2021 06:36:21 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1321,35 +1281,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '56',
+  '0',
   'x-ms-request-id',
-  '910a6f1e-bf8f-4743-a477-5654fb6a22c2_M11SN1_M11SN1',
+  '0cabbc9f-d1e1-4619-88c3-ed28c0802035_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11946',
   'x-ms-correlation-request-id',
-  'c3ebd051-fd17-4f00-aab0-d07555fceed3',
+  '61b84793-89dd-4164-abd0-5f3c94630bfa',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030604Z:c3ebd051-fd17-4f00-aab0-d07555fceed3',
+  'SOUTHEASTASIA:20211209T063622Z:61b84793-89dd-4164-abd0-5f3c94630bfa',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:03 GMT'
+  'Thu, 09 Dec 2021 06:36:22 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1361,35 +1321,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '38',
+  '0',
   'x-ms-request-id',
-  'bcbec471-6d5b-4d51-b92f-42c53f065887_M4SN1_M4SN1',
+  '4b890fed-2c71-4f25-b187-9bc1e4a00d38_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11945',
   'x-ms-correlation-request-id',
-  'fd1c26c0-57e6-40c3-8f1b-a5bb2eccf25a',
+  'd5ddd75c-0417-402f-90f3-d137c4be465d',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030605Z:fd1c26c0-57e6-40c3-8f1b-a5bb2eccf25a',
+  'SOUTHEASTASIA:20211209T063623Z:d5ddd75c-0417-402f-90f3-d137c4be465d',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:04 GMT'
+  'Thu, 09 Dec 2021 06:36:22 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1401,35 +1361,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '36',
+  '0',
   'x-ms-request-id',
-  'a4ea43cd-dc98-4895-8433-b6f98b8141c7_M4SN1_M4SN1',
+  '7284739b-8f79-44ea-a030-6d8c6e6a5a5f_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11944',
   'x-ms-correlation-request-id',
-  'dab37c75-6f0e-46dc-adf1-faf354f2677a',
+  '5399eee1-691f-4b4f-9f38-0fac70674428',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030605Z:dab37c75-6f0e-46dc-adf1-faf354f2677a',
+  'SOUTHEASTASIA:20211209T063623Z:5399eee1-691f-4b4f-9f38-0fac70674428',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:04 GMT'
+  'Thu, 09 Dec 2021 06:36:23 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1441,35 +1401,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '41',
+  '0',
   'x-ms-request-id',
-  '50e3e967-2841-46fe-a087-f356fafef451_M11SN1_M11SN1',
+  'bb07d809-9db9-4ac0-baf4-9c0f6cde1c54_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11943',
   'x-ms-correlation-request-id',
-  '72a1a6bc-ea7c-475b-8383-c10c2faee26c',
+  '6ca6ea2c-0b60-492f-8bd8-f0e938756d10',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030605Z:72a1a6bc-ea7c-475b-8383-c10c2faee26c',
+  'SOUTHEASTASIA:20211209T063623Z:6ca6ea2c-0b60-492f-8bd8-f0e938756d10',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:04 GMT'
+  'Thu, 09 Dec 2021 06:36:23 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1481,35 +1441,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '51',
+  '0',
   'x-ms-request-id',
-  '5130e16e-e77d-46b7-a5e0-8ae87442ed4f_M11SN1_M11SN1',
+  '0326a5b8-958e-4973-83c4-b3be56941851_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11942',
   'x-ms-correlation-request-id',
-  '6930453c-696c-41b6-bbc1-4bc58f4b36df',
+  'afaae07b-b8dc-448b-88ae-3bc3246ebcb6',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030606Z:6930453c-696c-41b6-bbc1-4bc58f4b36df',
+  'SOUTHEASTASIA:20211209T063624Z:afaae07b-b8dc-448b-88ae-3bc3246ebcb6',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:05 GMT'
+  'Thu, 09 Dec 2021 06:36:24 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1521,35 +1481,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '33',
+  '0',
   'x-ms-request-id',
-  '80d1845a-6470-4210-995a-c2bb7a7bc180_M11SN1_M11SN1',
+  'c0562a7f-3f0d-47a5-aa00-9303e437730d_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11941',
   'x-ms-correlation-request-id',
-  'ddc70d08-9ba9-43b5-a67f-d3e482c54577',
+  'c010ac12-b072-490d-9431-3bee96e32b58',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030606Z:ddc70d08-9ba9-43b5-a67f-d3e482c54577',
+  'SOUTHEASTASIA:20211209T063624Z:c010ac12-b072-490d-9431-3bee96e32b58',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:05 GMT'
+  'Thu, 09 Dec 2021 06:36:24 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1561,35 +1521,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '55',
+  '0',
   'x-ms-request-id',
-  'aab00365-62fa-4192-852a-7dc08c58fd57_M11SN1_M11SN1',
+  '4809c688-fb15-4888-bd2c-003b3a4455be_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11940',
   'x-ms-correlation-request-id',
-  '82e37d5c-92ed-4a64-ab4f-4e53986c18c2',
+  '24b0cba0-8be5-449d-bc67-d18f7331886f',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030607Z:82e37d5c-92ed-4a64-ab4f-4e53986c18c2',
+  'SOUTHEASTASIA:20211209T063625Z:24b0cba0-8be5-449d-bc67-d18f7331886f',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:06 GMT'
+  'Thu, 09 Dec 2021 06:36:24 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1601,35 +1561,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '30',
+  '0',
   'x-ms-request-id',
-  '6382d6fd-055b-46e5-999b-43881180e9fd_M11SN1_M11SN1',
+  '08ae3ab0-20df-4d0d-a079-3e91bed3bdff_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11939',
   'x-ms-correlation-request-id',
-  '442433a6-db73-4378-8d43-adc57fca8325',
+  'a220962f-d400-4e02-88c9-df150efccede',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030607Z:442433a6-db73-4378-8d43-adc57fca8325',
+  'SOUTHEASTASIA:20211209T063625Z:a220962f-d400-4e02-88c9-df150efccede',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:06 GMT'
+  'Thu, 09 Dec 2021 06:36:25 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1641,35 +1601,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '55',
+  '0',
   'x-ms-request-id',
-  'ecaf8120-63b8-45e6-9f68-cdf8a857491e_M11SN1_M11SN1',
+  'd28dcc54-1f4c-4cc1-b0db-37dc436bb3c8_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11938',
   'x-ms-correlation-request-id',
-  '513d41fd-185d-4ace-a5f2-91b2838ef887',
+  '1ab6c1ec-463b-4727-ab85-86ba4f984842',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030607Z:513d41fd-185d-4ace-a5f2-91b2838ef887',
+  'SOUTHEASTASIA:20211209T063626Z:1ab6c1ec-463b-4727-ab85-86ba4f984842',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:06 GMT'
+  'Thu, 09 Dec 2021 06:36:25 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1681,35 +1641,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '30',
+  '0',
   'x-ms-request-id',
-  '35f15d7e-27dc-44a1-8a09-7770f7f0b235_M4SN1_M4SN1',
+  '627ae464-8e8e-4a43-9550-61e8086e1596_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11937',
   'x-ms-correlation-request-id',
-  'f6671915-dce3-4e14-8183-bf270a4ecfab',
+  'f6b7e8b0-b3e6-41a8-b93a-71665420afc4',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030608Z:f6671915-dce3-4e14-8183-bf270a4ecfab',
+  'SOUTHEASTASIA:20211209T063626Z:f6b7e8b0-b3e6-41a8-b93a-71665420afc4',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:07 GMT'
+  'Thu, 09 Dec 2021 06:36:26 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1721,35 +1681,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '46',
+  '0',
   'x-ms-request-id',
-  '1081f434-f950-41b0-8fce-79eb40c53afc_M4SN1_M4SN1',
+  '42938d5f-f6bb-487e-bb52-fb7716615822_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11936',
   'x-ms-correlation-request-id',
-  'c6734a73-4130-4836-a17c-05221fc976cb',
+  'b9966c4f-0c5b-4154-a7e5-b6c8d39e605c',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030608Z:c6734a73-4130-4836-a17c-05221fc976cb',
+  'SOUTHEASTASIA:20211209T063627Z:b9966c4f-0c5b-4154-a7e5-b6c8d39e605c',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:07 GMT'
+  'Thu, 09 Dec 2021 06:36:26 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1761,35 +1721,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '54',
+  '0',
   'x-ms-request-id',
-  '9b3b127f-d9eb-4db0-8cb1-68010a5ecaef_M11SN1_M11SN1',
+  '847bee18-6674-47bd-9fb3-2e6bf4068cf1_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11935',
   'x-ms-correlation-request-id',
-  '4628fdef-a885-4a8b-b9da-4d5ebcbe1b89',
+  'f9a5bda9-a2dd-4626-a7ab-a6dd1600f1ca',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030609Z:4628fdef-a885-4a8b-b9da-4d5ebcbe1b89',
+  'SOUTHEASTASIA:20211209T063627Z:f9a5bda9-a2dd-4626-a7ab-a6dd1600f1ca',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:08 GMT'
+  'Thu, 09 Dec 2021 06:36:27 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1801,35 +1761,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '42',
+  '0',
   'x-ms-request-id',
-  '778851ef-d789-49ce-8436-51048ec3c1a3_M11SN1_M11SN1',
+  'f3c4b56f-e878-41e1-a1c1-7a105f3603da_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11934',
   'x-ms-correlation-request-id',
-  'a671253f-861e-430b-9a12-8029f6bcabc9',
+  'ae4ff105-0ff5-455f-9f15-cd0103eb750c',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030609Z:a671253f-861e-430b-9a12-8029f6bcabc9',
+  'SOUTHEASTASIA:20211209T063628Z:ae4ff105-0ff5-455f-9f15-cd0103eb750c',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:08 GMT'
+  'Thu, 09 Dec 2021 06:36:28 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1841,35 +1801,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '34',
+  '0',
   'x-ms-request-id',
-  '15014ed7-8b14-458d-b036-9bbac6f1cf99_M4SN1_M4SN1',
+  '34dee079-0458-4207-9b98-a797616c7a7e_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11933',
   'x-ms-correlation-request-id',
-  '37f4cdd8-223f-405d-b4f5-6858c6b0a452',
+  '4a76197c-e2a1-4b15-b3ae-deb5b353e1d8',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030609Z:37f4cdd8-223f-405d-b4f5-6858c6b0a452',
+  'SOUTHEASTASIA:20211209T063629Z:4a76197c-e2a1-4b15-b3ae-deb5b353e1d8',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:08 GMT'
+  'Thu, 09 Dec 2021 06:36:28 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1881,35 +1841,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '56',
+  '0',
   'x-ms-request-id',
-  '1186366f-b1c2-4b4f-bd10-baba2675a8ac_M4SN1_M4SN1',
+  '097e4788-b983-4b49-aeb4-b052a383319b_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11932',
   'x-ms-correlation-request-id',
-  '5af74387-79a4-43d5-aa27-f914a21a7d93',
+  '7068aeb0-f946-4d51-8796-13951d7133a4',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030610Z:5af74387-79a4-43d5-aa27-f914a21a7d93',
+  'SOUTHEASTASIA:20211209T063629Z:7068aeb0-f946-4d51-8796-13951d7133a4',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:09 GMT'
+  'Thu, 09 Dec 2021 06:36:29 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1921,35 +1881,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '57',
+  '0',
   'x-ms-request-id',
-  'b48be349-a671-4ec8-ad44-4c2b7c6c9120_M11SN1_M11SN1',
+  '679d9ef2-540f-4092-af0e-6f5235c5088e_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11931',
   'x-ms-correlation-request-id',
-  '1cee2620-51dd-45ef-a167-fb55fe4703c7',
+  'b108516b-b2ee-4b96-829d-63625fd79caa',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030610Z:1cee2620-51dd-45ef-a167-fb55fe4703c7',
+  'SOUTHEASTASIA:20211209T063629Z:b108516b-b2ee-4b96-829d-63625fd79caa',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:09 GMT'
+  'Thu, 09 Dec 2021 06:36:29 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1961,35 +1921,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '42',
+  '0',
   'x-ms-request-id',
-  '2c5fe4d1-af66-4a7c-aefe-f6a5f864b1b6_M11SN1_M11SN1',
+  '392a9dba-2d9e-47b5-8e41-e577c0bf9219_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11930',
   'x-ms-correlation-request-id',
-  '36c86744-3e1d-4992-9f65-11d680f08261',
+  '03339911-6324-47fa-bd0b-f4b7ef882568',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030611Z:36c86744-3e1d-4992-9f65-11d680f08261',
+  'SOUTHEASTASIA:20211209T063630Z:03339911-6324-47fa-bd0b-f4b7ef882568',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:10 GMT'
+  'Thu, 09 Dec 2021 06:36:30 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -2001,35 +1961,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '51',
+  '0',
   'x-ms-request-id',
-  '8090b64a-6215-47b5-bdd5-477530138590_M4SN1_M4SN1',
+  '07b38de9-714c-4b22-8b21-b7bf29827278_M2CH3_M2CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11929',
   'x-ms-correlation-request-id',
-  '80ed9cdd-e4e0-4e57-8bb6-8e868d8684e8',
+  '1d51a1dc-c6c3-419c-8bab-23374e24ac2c',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030611Z:80ed9cdd-e4e0-4e57-8bb6-8e868d8684e8',
+  'SOUTHEASTASIA:20211209T063631Z:1d51a1dc-c6c3-419c-8bab-23374e24ac2c',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:10 GMT'
+  'Thu, 09 Dec 2021 06:36:30 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -2041,35 +2001,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '59',
+  '0',
   'x-ms-request-id',
-  '810fc1c0-5bed-4455-b369-1a795c7181b0_M11SN1_M11SN1',
+  '29396c5e-c586-4c16-9a5b-5275342b71a6_M2CH3_M2CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11928',
   'x-ms-correlation-request-id',
-  'a747083d-b46e-4f5c-8462-4c7ac07c0fd1',
+  'd80de8ed-7763-4242-a05d-47bde0e4a561',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030611Z:a747083d-b46e-4f5c-8462-4c7ac07c0fd1',
+  'SOUTHEASTASIA:20211209T063631Z:d80de8ed-7763-4242-a05d-47bde0e4a561',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:10 GMT'
+  'Thu, 09 Dec 2021 06:36:31 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -2081,35 +2041,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '57',
+  '0',
   'x-ms-request-id',
-  '96c0fc1c-3ffd-4d61-b678-2f872b54c468_M3SN1_M3SN1',
+  '3337ef71-f308-4434-861d-19502b5c516c_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11927',
   'x-ms-correlation-request-id',
-  '77d0c693-9231-444b-8709-60b72ab55af5',
+  'ee0141a0-2fbb-461d-9789-610571c47145',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030612Z:77d0c693-9231-444b-8709-60b72ab55af5',
+  'SOUTHEASTASIA:20211209T063632Z:ee0141a0-2fbb-461d-9789-610571c47145',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:11 GMT'
+  'Thu, 09 Dec 2021 06:36:31 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -2121,35 +2081,35 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '35',
+  '0',
   'x-ms-request-id',
-  '936d49b8-d33d-4445-9e64-bea5418e0f8c_M4SN1_M4SN1',
+  'c52b3f0d-fe40-4ff2-b2b0-af8f11399240_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11926',
   'x-ms-correlation-request-id',
-  '176aeaa1-9543-4213-96eb-3190acdf2afd',
+  'ed3839fc-f259-4f87-be36-62054ebb1833',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030612Z:176aeaa1-9543-4213-96eb-3190acdf2afd',
+  'SOUTHEASTASIA:20211209T063632Z:ed3839fc-f259-4f87-be36-62054ebb1833',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:11 GMT'
+  'Thu, 09 Dec 2021 06:36:32 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
   .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
   .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
+  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-12-09T06:35:02.677Z","updatedAt":"2021-12-09T06:36:09.033Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -2161,189 +2121,29 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
+  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-11-01',
   'Retry-After',
-  '33',
+  '0',
   'x-ms-request-id',
-  'c7ee28d3-7b42-4fea-88e8-5a0606d8b77f_M11SN1_M11SN1',
+  '69980126-7651-4efa-ba4d-456c3275986e_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
   '11925',
   'x-ms-correlation-request-id',
-  'af50b183-7ccf-4e9b-bdd9-a79a088f170b',
+  'b41ed08e-0f42-4075-a691-e9d38e9c6db0',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030613Z:af50b183-7ccf-4e9b-bdd9-a79a088f170b',
+  'SOUTHEASTASIA:20211209T063632Z:b41ed08e-0f42-4075-a691-e9d38e9c6db0',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:12 GMT'
-]);
-
-nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
-  .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '728',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
-  'Retry-After',
-  '36',
-  'x-ms-request-id',
-  'c00b4527-b170-439d-ae80-0595f3040d4b_M11SN1_M11SN1',
-  'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
-  'Server',
-  'Service-Bus-Resource-Provider/SN1',
-  'Server',
-  'Microsoft-HTTPAPI/2.0',
-  'x-ms-ratelimit-remaining-subscription-reads',
-  '11924',
-  'x-ms-correlation-request-id',
-  '8008d8cf-3afa-4526-9f9c-6cbfddab1533',
-  'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030613Z:8008d8cf-3afa-4526-9f9c-6cbfddab1533',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Fri, 08 Oct 2021 03:06:12 GMT'
-]);
-
-nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
-  .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '728',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
-  'Retry-After',
-  '33',
-  'x-ms-request-id',
-  '7775758a-f161-4126-aa35-5ba36ec62a97_M11SN1_M11SN1',
-  'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
-  'Server',
-  'Service-Bus-Resource-Provider/SN1',
-  'Server',
-  'Microsoft-HTTPAPI/2.0',
-  'x-ms-ratelimit-remaining-subscription-reads',
-  '11923',
-  'x-ms-correlation-request-id',
-  '0b63095e-13e0-4d9f-8621-883ffd436a24',
-  'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030613Z:0b63095e-13e0-4d9f-8621-883ffd436a24',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Fri, 08 Oct 2021 03:06:12 GMT'
-]);
-
-nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
-  .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '728',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
-  'Retry-After',
-  '47',
-  'x-ms-request-id',
-  'aaad6c77-594b-4a41-9b3c-3b76f4af822c_M11SN1_M11SN1',
-  'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
-  'Server',
-  'Service-Bus-Resource-Provider/SN1',
-  'Server',
-  'Microsoft-HTTPAPI/2.0',
-  'x-ms-ratelimit-remaining-subscription-reads',
-  '11922',
-  'x-ms-correlation-request-id',
-  'e84b71ec-d515-4363-aa9b-fcc9a7195aff',
-  'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030614Z:e84b71ec-d515-4363-aa9b-fcc9a7195aff',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Fri, 08 Oct 2021 03:06:13 GMT'
-]);
-
-nock('https://management.azure.com:443', {"encodedQueryParams":true})
-  .get('/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx')
-  .query(true)
-  .reply(202, {"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx","name":"mynamespacexxx","type":"Microsoft.EventHub/Namespaces","location":"East US","tags":{"tag1":"value1","tag2":"value2"},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":false,"maximumThroughputUnits":0,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"azure_subscription_id:mynamespacexxx","createdAt":"2021-10-08T03:04:43.667Z","updatedAt":"2021-10-08T03:05:52.407Z","serviceBusEndpoint":"https://mynamespacexxx.servicebus.windows.net:443/","status":"Removing"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '728',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Location',
-  'https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.EventHub/namespaces/mynamespacexxx/operationresults/mynamespacexxx?api-version=2021-06-01-preview',
-  'Retry-After',
-  '58',
-  'x-ms-request-id',
-  'cf05a0e8-8b03-41ee-93d1-2a92e8fa31c8_M11SN1_M11SN1',
-  'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
-  'Server',
-  'Service-Bus-Resource-Provider/SN1',
-  'Server',
-  'Microsoft-HTTPAPI/2.0',
-  'x-ms-ratelimit-remaining-subscription-reads',
-  '11921',
-  'x-ms-correlation-request-id',
-  '4fe4bb33-384f-4b6b-99ad-4f3ce506f464',
-  'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030614Z:4fe4bb33-384f-4b6b-99ad-4f3ce506f464',
-  'Strict-Transport-Security',
-  'max-age=31536000; includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Fri, 08 Oct 2021 03:06:13 GMT'
+  'Thu, 09 Dec 2021 06:36:32 GMT'
 ]);
 
 nock('https://management.azure.com:443', {"encodedQueryParams":true})
@@ -2357,25 +2157,25 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'x-ms-request-id',
-  '14f74354-7981-443b-9158-9270a9177908_M11SN1_M11SN1',
+  '965b2ec4-d694-4076-9afa-1317998f9fe3_M6CH3_M6CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '11920',
+  '11924',
   'x-ms-correlation-request-id',
-  'e82958b7-f521-473d-9a36-aec952e2f18c',
+  '6f08e450-476f-4ffe-9032-22a5ebac8a37',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030615Z:e82958b7-f521-473d-9a36-aec952e2f18c',
+  'SOUTHEASTASIA:20211209T063633Z:6f08e450-476f-4ffe-9032-22a5ebac8a37',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:14 GMT',
+  'Thu, 09 Dec 2021 06:36:32 GMT',
   'Content-Length',
   '0'
 ]);
@@ -2399,23 +2199,23 @@ nock('https://management.azure.com:443', {"encodedQueryParams":true})
   'Vary',
   'Accept-Encoding',
   'x-ms-request-id',
-  '0e69b1c7-5867-4d45-b851-ece0a4acee83_M11SN1_M11SN1',
+  'f0b8e279-baf1-4786-aec2-4da555148f1c_M2CH3_M2CH3',
   'Server-SB',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
-  'Service-Bus-Resource-Provider/SN1',
+  'Service-Bus-Resource-Provider/CH3',
   'Server',
   'Microsoft-HTTPAPI/2.0',
   'x-ms-ratelimit-remaining-subscription-reads',
-  '11919',
+  '11923',
   'x-ms-correlation-request-id',
-  '91ffd0c3-6bde-4422-80bc-942b5c662c66',
+  'a3c6231f-c707-43d6-89ea-cf9623f10627',
   'x-ms-routing-request-id',
-  'SOUTHEASTASIA:20211008T030615Z:91ffd0c3-6bde-4422-80bc-942b5c662c66',
+  'SOUTHEASTASIA:20211209T063633Z:a3c6231f-c707-43d6-89ea-cf9623f10627',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Fri, 08 Oct 2021 03:06:14 GMT'
+  'Thu, 09 Dec 2021 06:36:33 GMT'
 ]);

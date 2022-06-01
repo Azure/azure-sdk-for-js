@@ -1,53 +1,98 @@
 {
- "recordings": [
-  {
-   "method": "POST",
-   "url": "https://login.microsoftonline.com/98123456-7614-3456-5678-789980112547/oauth2/v2.0/token",
-   "query": {},
-   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
-   "status": 200,
-   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
-   "responseHeaders": {
-    "cache-control": "no-store, no-cache",
-    "content-length": "1321",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 29 Sep 2021 01:11:37 GMT",
-    "expires": "-1",
-    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
-    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
-    "pragma": "no-cache",
-    "referrer-policy": "strict-origin-when-cross-origin",
-    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
-    "strict-transport-security": "max-age=31536000; includeSubDomains",
-    "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.12071.16 - SCUS ProdSlices",
-    "x-ms-request-id": "c9206bf2-61e5-4b48-9010-292422d0dc00"
-   }
-  },
-  {
-   "method": "POST",
-   "url": "https://api.loganalytics.io/v1/workspaces/workspace-id/query",
-   "query": {},
-   "requestBody": "{\"query\":\"print \\\"hello\\\", true, make_datetime(\\\"2000-01-02 03:04:05Z\\\"), toint(100), long(101), 102.1, dynamic({ \\\"hello\\\": \\\"world\\\" })\\n      | project \\n          stringcolumn=print_0, \\n          boolcolumn=print_1,\\n          datecolumn=print_2,\\n          intcolumn=print_3,\\n          longcolumn=print_4,\\n          realcolumn=print_5,\\n          dynamiccolumn=print_6\\n      \",\"timespan\":\"PT5M\"}",
-   "status": 200,
-   "response": "{\"tables\":[{\"name\":\"PrimaryResult\",\"columns\":[{\"name\":\"stringcolumn\",\"type\":\"string\"},{\"name\":\"boolcolumn\",\"type\":\"bool\"},{\"name\":\"datecolumn\",\"type\":\"datetime\"},{\"name\":\"intcolumn\",\"type\":\"int\"},{\"name\":\"longcolumn\",\"type\":\"long\"},{\"name\":\"realcolumn\",\"type\":\"real\"},{\"name\":\"dynamiccolumn\",\"type\":\"dynamic\"}],\"rows\":[[\"hello\",true,\"2000-01-02T03:04:05Z\",100,101,102.1,\"{\\\"hello\\\":\\\"world\\\"}\"]]}]}",
-   "responseHeaders": {
-    "access-control-allow-origin": "*",
-    "access-control-expose-headers": "Retry-After,Age,WWW-Authenticate,x-resource-identities,x-ms-status-location",
-    "age": "108",
-    "content-encoding": "gzip",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 29 Sep 2021 01:11:37 GMT",
-    "strict-transport-security": "max-age=15724800; includeSubDomains",
-    "vary": "Accept-Encoding, Accept-Encoding",
-    "via": "1.1 draft-oms-65975698db-5pndz",
-    "x-content-type-options": "nosniff"
-   }
-  }
- ],
- "uniqueTestInfo": {
-  "uniqueName": {},
-  "newDate": {}
- },
- "hash": "1476629c4a9388af26c32270ebb24e5c"
+  "Entries": [
+    {
+      "RequestUri": "https://api.loganalytics.io/v1/workspaces/workspace-id/query",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "404",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "ff2525f3-71e6-4239-a871-49c4c9afbf6d",
+        "x-ms-useragent": "azsdk-js-monitor-query/1.0.1 azsdk-js-monitor-log-query/1.0.1 core-rest-pipeline/1.5.1 OS/Win32"
+      },
+      "RequestBody": {
+        "query": "print \u0022hello\u0022, true, make_datetime(\u00222000-01-02 03:04:05Z\u0022), toint(100), long(101), 102.1, dynamic({ \u0022hello\u0022: \u0022world\u0022 })\n      | project \n          stringcolumn=print_0, \n          boolcolumn=print_1,\n          datecolumn=print_2,\n          intcolumn=print_3,\n          longcolumn=print_4,\n          realcolumn=print_5,\n          dynamiccolumn=print_6\n      ",
+        "timespan": "PT5M"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "Retry-After,Age,WWW-Authenticate,x-resource-identities,x-ms-status-location",
+        "Age": "52",
+        "Connection": "keep-alive",
+        "Content-Encoding": "gzip",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 11 Feb 2022 23:21:13 GMT",
+        "Strict-Transport-Security": "max-age=15724800; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "Vary": [
+          "Accept-Encoding",
+          "Accept-Encoding"
+        ],
+        "Via": "1.1 draft-oms-5565f6c877-wsmp6",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "tables": [
+          {
+            "name": "PrimaryResult",
+            "columns": [
+              {
+                "name": "stringcolumn",
+                "type": "string"
+              },
+              {
+                "name": "boolcolumn",
+                "type": "bool"
+              },
+              {
+                "name": "datecolumn",
+                "type": "datetime"
+              },
+              {
+                "name": "intcolumn",
+                "type": "int"
+              },
+              {
+                "name": "longcolumn",
+                "type": "long"
+              },
+              {
+                "name": "realcolumn",
+                "type": "real"
+              },
+              {
+                "name": "dynamiccolumn",
+                "type": "dynamic"
+              }
+            ],
+            "rows": [
+              [
+                "hello",
+                true,
+                "2000-01-02T03:04:05Z",
+                100,
+                101,
+                102.1,
+                "{\u0022hello\u0022:\u0022world\u0022}"
+              ]
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
 }
