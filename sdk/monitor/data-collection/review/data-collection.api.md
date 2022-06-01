@@ -6,10 +6,10 @@
 
 import * as coreClient from '@azure/core-client';
 
-// @public
-export interface DataCollectionClientOptions extends coreClient.ServiceClientOptions {
-    apiVersion?: string;
-    endpoint?: string;
+// Warning: (ae-forgotten-export) The symbol "GeneratedDataCollectionClientOptionalParams" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export interface DataCollectionClientOptions extends GeneratedDataCollectionClientOptionalParams {
 }
 
 // @public

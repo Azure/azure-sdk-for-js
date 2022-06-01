@@ -14,7 +14,7 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/3f59f46d112c58cb8f6231732e88848f0f97872c/specification/monitor/data-plane/ingestion/preview/2021-11-01-preview/DataCollectionRules.json
-add-credentials: false
+add-credentials: true
 package-version: 1.0.0-beta.1
 disable-async-iterators: true
 hide-clients: true
