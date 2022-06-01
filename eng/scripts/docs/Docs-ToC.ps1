@@ -20,6 +20,28 @@ function Get-javascript-OnboardedDocsMsPackages($DocRepoLocation) {
   return $onboardedPackages
 }
 
+function Get-javascript-OnboardedDocsMsPackagesForMoniker($DocRepoLocation, $moniker) {
+  $packageOnboardingFile = ""
+  if ("latest" -eq $moniker) {
+    $packageOnboardingFile = "$DocRepoLocation/ci-configs/packages-latest.json"
+  }
+  if ("preview" -eq $moniker) {
+    $packageOnboardingFile = "$DocRepoLocation/ci-configs/packages-preview.json"
+  }
+
+  $onboardedPackages = @{}
+  $onboardingSpec = ConvertFrom-Json (Get-Content $packageOnboardingFile -Raw)
+  foreach ($spec in $onboardingSpec.npm_package_sources) {
+    $packageName = $spec.name
+    if ($packageName.LastIndexOf('@') -gt 0) {
+      # Package has an '@' symbol deliminting the end of the package name
+      $packageName = $packageName.Substring(0, $packageName.LastIndexOf('@'))
+    }
+    $onboardedPackages[$packageName] = $null
+  }
+
+  return $onboardedPackages
+}
 function Get-javascript-PackageLevelReadme($packageMetadata)
 {
   # Fallback to get package-level readme name if metadata file info does not exist

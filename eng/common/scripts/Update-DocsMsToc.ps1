@@ -29,17 +29,6 @@ depending on the requirements for the domain
 .PARAMETER OutputLocation
 Output location for unified reference yml file
 
-.PARAMETER TenantId
-The aad tenant id/object id for ms.author.
-
-.PARAMETER ClientId
-The add client id/application id for ms.author.
-
-.PARAMETER ClientSecret
-The client secret of add app for ms.author.
-
-.PARAMETER EnableServiceReadmeGen
-Use the parameter to enable the service level readme automation for each language repo in their own pace.
 #>
 
 param(
@@ -47,22 +36,10 @@ param(
   [string] $DocRepoLocation,
 
   [Parameter(Mandatory = $true)]
-  [string] $OutputLocation,
-
-  [Parameter(Mandatory = $false)]
-  [string]$TenantId,
-
-  [Parameter(Mandatory = $false)]
-  [string]$ClientId,
-
-  [Parameter(Mandatory = $false)]
-  [string]$ClientSecret,
-
-  [switch]$EnableServiceReadmeGen
+  [string] $OutputLocation
 )
 . $PSScriptRoot/common.ps1
 . $PSScriptRoot/Helpers/PSModule-Helpers.ps1
-. $PSScriptRoot/Helpers/Metadata-Helpers.ps1
 
 Install-ModuleIfNotInstalled "powershell-yaml" "0.4.1" | Import-Module
 
@@ -118,106 +95,6 @@ function GetPackageLookup($packageList) {
   return $packageLookup
 }
 
-function create-metadata-table($readmeFolder, $readmeName, $moniker, $msService, $clientTableLink, $mgmtTableLink, $serviceName)
-{
-  $readmePath = Join-Path $readmeFolder -ChildPath $readmeName
-  New-Item -Path $readmePath -Force
-  $lang = $LanguageDisplayName
-  $langTitle = "Azure $serviceName SDK for $lang"
-  $header = GenerateDocsMsMetadata -language $lang -langTitle $langTitle -serviceName $serviceName `
-    -tenantId $TenantId -clientId $ClientId -clientSecret $ClientSecret `
-    -msService $msService
-  Add-Content -Path $readmePath -Value $header
-
-  # Add tables, seperate client and mgmt.
-  $readmeHeader = "# $langTitle - $moniker"
-  Add-Content -Path $readmePath -Value $readmeHeader
-  if (Test-Path (Join-Path $readmeFolder -ChildPath $clientTableLink)) {
-    $clientTable = "## Client packages - $moniker`r`n"
-    $clientTable += "[!INCLUDE [client-packages]($clientTableLink)]`r`n"
-    Add-Content -Path $readmePath -Value $clientTable
-  }
-  if (Test-Path (Join-Path $readmeFolder -ChildPath $mgmtTableLink)) {
-    $mgmtTable = "## Management packages - $moniker`r`n"
-    $mgmtTable += "[!INCLUDE [mgmt-packages]($mgmtTableLink)]`r`n"
-    Add-Content -Path $readmePath -Value $mgmtTable -NoNewline
-  }
-}
-
-# Update the metadata table on attributes: author, ms.author, ms.service
-function update-metadata-table($readmeFolder, $readmeName, $serviceName, $msService)
-{
-  $readmePath = Join-Path $readmeFolder -ChildPath $readmeName
-  $readmeContent = Get-Content -Path $readmePath -Raw
-  $null = $readmeContent -match "---`n*(?<metadata>(.*`n)*)---`n*(?<content>(.*`n)*)"
-  $restContent = $Matches["content"]
-
-  $lang = $LanguageDisplayName
-  $metadataString = GenerateDocsMsMetadata -language $lang -serviceName $serviceName `
-    -tenantId $TenantId -clientId $ClientId -clientSecret $ClientSecret `
-    -msService $msService
-  Set-Content -Path $readmePath -Value "$metadataString`n$restContent" -NoNewline
-}
-
-function generate-markdown-table($readmeFolder, $readmeName, $packageInfo, $moniker) {
-  $tableHeader = "| Reference | Package | Source |`r`n|---|---|---|`r`n" 
-  $tableContent = ""
-  # Here is the table, the versioned value will
-  foreach ($pkg in $packageInfo) {
-    if (!$pkg.VersionGA -and "latest" -eq $moniker) {
-      continue
-    }
-    if (!$pkg.VersionPreview -and "preview" -eq $moniker) {
-      continue
-      }
-    $repositoryLink = $RepositoryUri
-    $packageLevelReadme = &$GetPackageLevelReadmeFn -packageMetadata $pkg
-    $referenceLink = "[$($pkg.DisplayName)]($packageLevelReadme-readme.md)"
-    if (!(Test-Path (Join-Path $readmeFolder -ChildPath "$packageLevelReadme-readme.md"))) {
-      $referenceLink = $pkg.DisplayName
-    }
-    $githubLink = $GithubUri
-    if ($pkg.PSObject.Members.Name -contains "FileMetadata") {
-      $githubLink = "$GithubUri/blob/main/$($pkg.FileMetadata.DirectoryPath)"
-    }
-    $line = "|$referenceLink|[$($pkg.Package)]($repositoryLink/$($pkg.Package))|[Github]($githubLink)|`r`n"
-    $tableContent += $line
-  }
-  if($tableContent) {
-    Add-Content -Path (Join-Path $readmeFolder -ChildPath $readmeName) -Value $tableHeader -NoNewline
-    Add-Content -Path (Join-Path $readmeFolder -ChildPath $readmeName) -Value $tableContent -NoNewline
-  }
-}
-
-function generate-service-level-readme($readmeBaseName, $pathPrefix, $packageInfos, $serviceName) {
-  # Add ability to override
-  # Fetch the service readme name
-  $monikers = @("latest", "preview")
-  $msService = GetDocsMsService -packageInfo $packageInfos[0] -serviceName $serviceName
-  foreach($moniker in $monikers) {
-    $readmeFolder = "$DocRepoLocation/$pathPrefix/$moniker/"
-    $serviceReadme = "$readmeBaseName.md"
-    $clientIndexReadme  = "$readmeBaseName-client-index.md"
-    $mgmtIndexReadme  = "$readmeBaseName-mgmt-index.md"
-    $clientPackageInfo = $servicePackages.Where({ 'client' -eq $_.Type -and 'true' -eq $_.New}) | Sort-Object -Property Package
-    if ($clientPackageInfo) {
-      generate-markdown-table -readmeFolder $readmeFolder -readmeName "$clientIndexReadme" -packageInfo $clientPackageInfo -moniker $moniker
-    }
-    $mgmtPackageInfo = $servicePackages.Where({ 'mgmt' -eq $_.Type -and 'true' -eq $_.New }) | Sort-Object -Property Package
-    if ($mgmtPackageInfo) {
-      generate-markdown-table -readmeFolder $readmeFolder -readmeName "$mgmtIndexReadme" -packageInfo $mgmtPackageInfo -moniker $moniker
-    }
-    if (!(Test-Path (Join-Path $readmeFolder -ChildPath $serviceReadme))) {
-      create-metadata-table -readmeFolder $readmeFolder -readmeName $serviceReadme -moniker $moniker -msService $msService `
-        -clientTableLink $clientIndexReadme -mgmtTableLink $mgmtIndexReadme `
-        -serviceName $serviceName
-    }
-    else {
-      update-metadata-table -readmeFolder $readmeFolder -readmeName $serviceReadme -serviceName $serviceName -msService $msService
-    }
-  } 
-}
-
 $onboardedPackages = &$GetOnboardedDocsMsPackagesFn `
   -DocRepoLocation $DocRepoLocation
 
@@ -254,21 +131,7 @@ for ($i = 0; $i -lt $metadata.Count; $i++) {
   foreach ($fileEntry in $fileMetadata) {
     if ($fileEntry.Name -eq $metadata[$i].Package) {
       if ($metadata[$i].PSObject.Members.Name -contains "FileMetadata") {
-        Write-Host "File metadata already added for $($metadata[$i].Package). Keeping the first entry found and update the version."
-        $originalVersion = [AzureEngSemanticVersion]::ParseVersionString($fileEntry.Version)
-        if (!$originalVersion) {
-          Write-Warning "Did not parse the version correctly. Check version: $($fileEntry.Version)"
-          continue
-        }
-        if ($metadata[$i].VersionGA -and $originalVersion.IsPrerelease) {
-          $metadata[$i].VersionPreview = $fileEntry.Version
-        }
-        elseif($metadata[$i].VersionGA -and $fileEntry.DevVersion) {
-          $metadata[$i].VersionPreview = $fileEntry.DevVersion
-        }
-        elseif ($metadata[$i].VersionPreview -and !$originalVersion.IsPrerelease) {
-          $metadata[$i].VersionGA = $fileEntry.Version
-        }
+        Write-Host "File metadata already added for $($metadata[$i].Package). Keeping the first entry found."
         continue
       }
       if (!($metadata[$i].PSObject.Members.Name -contains "GroupId") -or ($fileEntry.Group -eq $metadata[$i].GroupId)) {
@@ -311,18 +174,18 @@ $serviceNameList = $services.Keys | Sort-Object
 $toc = @()
 foreach ($service in $serviceNameList) {
   Write-Host "Building service: $service"
+
   $packageItems = @()
 
   # Client packages get individual entries
-  $servicePackages = $packagesForToc.Values.Where({ $_.ServiceName -eq $service })
-  $clientPackages = $servicePackages.Where({ 'client' -eq $_.Type })
+  $clientPackages = $packagesForToc.Values.Where({ $_.ServiceName -eq $service -and ('client' -eq $_.Type) })
   $clientPackages = $clientPackages | Sort-Object -Property Package
   foreach ($clientPackage in $clientPackages) {
     $packageItems += GetClientPackageNode -clientPackage $clientPackage
   }
 
   # All management packages go under a single `Management` header in the ToC
-  $mgmtPackages = $servicePackages.Where({ 'mgmt' -eq $_.Type })
+  $mgmtPackages = $packagesForToc.Values.Where({ $_.ServiceName -eq $service -and ('mgmt' -eq $_.Type) })
   $mgmtPackages = $mgmtPackages | Sort-Object -Property Package
   if ($mgmtPackages) {
     $children = &$GetDocsMsTocChildrenForManagementPackagesFn `
@@ -345,15 +208,9 @@ foreach ($service in $serviceNameList) {
   }
 
   $serviceReadmeBaseName = $service.ToLower().Replace(' ', '-').Replace('/', '-')
-  $hrefPrefix = "docs-ref-services"
-
-  if($EnableServiceReadmeGen) {
-    generate-service-level-readme -readmeBaseName $serviceReadmeBaseName -pathPrefix $hrefPrefix `
-      -packageInfos $servicePackages -serviceName $service
-  }
   $serviceTocEntry = [PSCustomObject]@{
     name            = $service;
-    href            = "~/$hrefPrefix/{moniker}/$serviceReadmeBaseName.md"
+    href            = "~/docs-ref-services/{moniker}/$serviceReadmeBaseName.md"
     landingPageType = 'Service'
     items           = @($packageItems)
   }
@@ -445,4 +302,4 @@ if (Test-Path "Function:$UpdateDocsMsTocFn") {
 }
 
 $outputYaml = ConvertTo-Yaml $output
-Set-Content -Path $OutputLocation -Value $outputYaml -NoNewline
+Set-Content -Path $OutputLocation -Value $outputYaml

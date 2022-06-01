@@ -21,7 +21,6 @@ jobs:
             - ci-configs/
             - metadata/
             - docs-ref-mapping/
-            - docs-ref-services/
           Repositories:
             - Name: $(DocRepoOwner)/$(DocRepoName)
               WorkingDirectory: $(DocRepoLocation)
@@ -48,10 +47,6 @@ jobs:
           arguments: >-
             -DocRepoLocation $(DocRepoLocation)
             -OutputLocation $(DocRepoLocation)/docs-ref-mapping/reference-unified.yml
-            -TenantId '$(opensource-aad-tenant-id)' 
-            -ClientId '$(opensource-aad-app-id)' 
-            -ClientSecret '$(opensource-aad-secret)'
-            -EnableServiceReadmeGen 
         displayName: Generate ToC
         condition: and(succeeded(), or(eq(variables['Build.Reason'], 'Schedule'), eq(variables['Force.MainUpdate'], 'true')))
 
@@ -83,22 +78,30 @@ jobs:
       - task: Powershell@2
         inputs:
           pwsh: true
-          filePath: eng/common/scripts/Update-DocsMsToc.ps1
+          filePath: eng/common/scripts/Update-DocsMsPackages.ps1
+          arguments: -DocRepoLocation $(DocRepoLocation)
+        displayName: Update Docs Onboarding for Daily branch
+
+      - task: Powershell@2
+        inputs:
+          pwsh: true
+          filePath: eng/common/scripts/Service-Level-Readme-Automation.ps1
           arguments: >-
             -DocRepoLocation $(DocRepoLocation)
             -OutputLocation $(DocRepoLocation)/docs-ref-mapping/reference-unified.yml
             -TenantId '$(opensource-aad-tenant-id)' 
             -ClientId '$(opensource-aad-app-id)' 
             -ClientSecret '$(opensource-aad-secret)'
-            -EnableServiceReadmeGen  
-        displayName: Generate ToC for Daily branch
+        displayName: Generate Service Level Readme
+
       - task: Powershell@2
         inputs:
           pwsh: true
-          filePath: eng/common/scripts/Update-DocsMsPackages.ps1
-          arguments: -DocRepoLocation $(DocRepoLocation)
-        displayName: Update Docs Onboarding for Daily branch
-
+          filePath: eng/common/scripts/Update-DocsMsToc.ps1
+          arguments: >-
+            -DocRepoLocation $(DocRepoLocation)
+            -OutputLocation $(DocRepoLocation)/docs-ref-mapping/reference-unified.yml
+        displayName: Generate ToC for Daily branch
 
       - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
         parameters:
