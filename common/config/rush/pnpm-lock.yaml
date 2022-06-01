@@ -6506,7 +6506,7 @@ packages:
     dev: false
 
   /natural-compare/1.4.0:
-    resolution: {integrity: sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=}
+    resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
     dev: false
 
   /negotiator/0.6.3:
@@ -6519,7 +6519,7 @@ packages:
     dev: false
 
   /next-tick/1.0.0:
-    resolution: {integrity: sha1-yobR/ogoFpsBICCOPchCS524NCw=}
+    resolution: {integrity: sha512-mc/caHeUcdjnC/boPWJefDr4KUIWQNv+tlnFnJd38QMou86QtxQzBJfxgGRzvx8jazYRqrVlaHarfO72uNxPOg==}
     dev: false
 
   /nice-try/1.0.5:
@@ -6620,7 +6620,7 @@ packages:
     dev: false
 
   /normalize-path/2.1.1:
-    resolution: {integrity: sha1-GrKLVW4Zg2Oowab35vogE3/mrtk=}
+    resolution: {integrity: sha512-3pKJwH184Xo/lnH6oyP1q2pMd7HcypqqmRs91/6/i2CGtWwIKGCkOOMTm/zXbgTEWHw1uNpNi/igc3ePOYHb6w==}
     engines: {node: '>=0.10.0'}
     dependencies:
       remove-trailing-separator: 1.1.0
@@ -6671,7 +6671,7 @@ packages:
     dev: false
 
   /number-is-nan/1.0.1:
-    resolution: {integrity: sha1-CXtgK1NCKlIsGvuHkDGDNpQaAR0=}
+    resolution: {integrity: sha512-4jbtZXNAsfZbAHiiqjLPBiCl16dES1zI4Hpzzxw61Tk+loF+sBDBKx1ICKKKwIqQ7M0mFn1TmkN7euSncWgHiQ==}
     engines: {node: '>=0.10.0'}
     dev: false
 
@@ -6746,7 +6746,7 @@ packages:
     dev: false
 
   /object-assign/4.1.1:
-    resolution: {integrity: sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=}
+    resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==}
     engines: {node: '>=0.10.0'}
     dev: false
 
@@ -6798,7 +6798,7 @@ packages:
     dev: false
 
   /on-finished/2.3.0:
-    resolution: {integrity: sha1-IPEzZIGwg811M3mSoWlxqi2QaUc=}
+    resolution: {integrity: sha512-ikqdkGAAyf/X/gPhXGvfgAytDZtDbr+bkNUJ0N9h5MI/dmdgCs3l6hoHrcUv41sRKew3jIwrp4qQDXiK99Utww==}
     engines: {node: '>= 0.8'}
     dependencies:
       ee-first: 1.1.1
@@ -6812,7 +6812,7 @@ packages:
     dev: false
 
   /once/1.4.0:
-    resolution: {integrity: sha1-WDsap3WWHUsROsF9nFC6753Xa9E=}
+    resolution: {integrity: sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==}
     dependencies:
       wrappy: 1.0.2
     dev: false
@@ -11539,7 +11539,7 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-SWgT4EK3bJJdP3uikpKQTSRhEgRw9cnMqp6NUwdYNzhgnVTV3OmHYmbOfrY67TSnWB/FbiEBoye3Yb6SBAxivA==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-/+cDQGr6KaQWlAlnlCwXn6SQ7DACFnnnJd+T9PZ7tQPetMAZrcE2V9UFcmK6/ckODkKswXsOpEeMcjjLzfjZ+w==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
@@ -11553,19 +11553,21 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.73.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.73.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.73.0
+      '@types/chai': 4.3.1
       '@types/node': 12.20.52
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
       rimraf: 3.0.2
       rollup: 2.73.0
-      rollup-plugin-sourcemaps: 0.6.3_3524d2876ecc1a2f21bdb8bf03c48501
+      rollup-plugin-sourcemaps: 0.6.3_rollup@2.73.0
       tslib: 2.4.0
       typescript: 4.2.4
       uglify-js: 3.15.5
     transitivePeerDependencies:
+      - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 
