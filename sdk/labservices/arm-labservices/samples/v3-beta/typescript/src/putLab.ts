@@ -24,25 +24,25 @@ async function putLab() {
   const body: Lab = {
     description: "This is a test lab.",
     autoShutdownProfile: {
-      disconnectDelay: "00:05",
-      idleDelay: "01:00",
-      noConnectDelay: "01:00",
+      disconnectDelay: "P0Y0M0DT0H0M5S",
+      idleDelay: "P0Y0M0DT0H1M0S",
+      noConnectDelay: "P0Y0M0DT0H1M0S",
       shutdownOnDisconnect: "Enabled",
       shutdownOnIdle: "UserAbsence",
-      shutdownWhenNotConnected: "Enabled"
+      shutdownWhenNotConnected: "Enabled",
     },
     connectionProfile: {
       clientRdpAccess: "Public",
       clientSshAccess: "Public",
       webRdpAccess: "None",
-      webSshAccess: "None"
+      webSshAccess: "None",
     },
     labPlanId:
       "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labPlans/testlabplan",
     location: "westus",
     networkProfile: {
       subnetId:
-        "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/default"
+        "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/default",
     },
     securityProfile: { openAccess: "Disabled" },
     state: "Draft",
@@ -55,20 +55,16 @@ async function putLab() {
         offer: "WindowsServer",
         publisher: "Microsoft",
         sku: "2019-Datacenter",
-        version: "2019.0.20190410"
+        version: "2019.0.20190410",
       },
       sku: { name: "Medium" },
-      usageQuota: "10:00",
-      useSharedPassword: "Disabled"
-    }
+      usageQuota: "P0Y0M0DT0H10M0S",
+      useSharedPassword: "Disabled",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new LabServicesClient(credential, subscriptionId);
-  const result = await client.labs.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    labName,
-    body
-  );
+  const result = await client.labs.beginCreateOrUpdateAndWait(resourceGroupName, labName, body);
   console.log(result);
 }
 
