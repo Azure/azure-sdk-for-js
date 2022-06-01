@@ -1,5 +1,20 @@
 # Release History
     
+## 1.0.0-beta.3 (2022-05-16)
+    
+**Features**
+
+  - Added Type Alias ProvisioningState
+  - Type Alias Watchlist has a new parameter sasUri
+  - Type Alias Watchlist has a new parameter provisioningState
+  - Added Enum KnownProvisioningState
+
+**Breaking Changes**
+
+  - Type Alias WatchlistItem no longer has parameter itemsKeyValue
+  - Type Alias WatchlistItem no longer has parameter entityMapping
+    
+    
 ## 1.0.0-beta.2 (2022-03-17)
     
 **Features**

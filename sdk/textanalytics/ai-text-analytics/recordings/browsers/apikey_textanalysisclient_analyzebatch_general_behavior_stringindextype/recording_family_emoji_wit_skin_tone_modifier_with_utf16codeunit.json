@@ -1,0 +1,544 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs?api-version=2022-04-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "Content-Length": "202",
+        "Content-Type": "application/json",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
+        "x-ms-client-request-id": "6ccedfc8-fe7e-40fd-be91-acefffd24253",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+      },
+      "RequestBody": {
+        "analysisInput": {
+          "documents": [
+            {
+              "id": "0",
+              "text": "\uD83D\uDC69\uD83C\uDFFB\u200D\uD83D\uDC69\uD83C\uDFFD\u200D\uD83D\uDC67\uD83C\uDFFE\u200D\uD83D\uDC66\uD83C\uDFFF ibuprofen",
+              "language": "en"
+            }
+          ]
+        },
+        "tasks": [
+          {
+            "kind": "Healthcare",
+            "parameters": {
+              "stringIndexType": "Utf16CodeUnit"
+            }
+          }
+        ]
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "apim-request-id": "2a260e14-0f78-4c1a-9a0b-c3b980d5a5e9",
+        "Content-Length": "0",
+        "Date": "Fri, 06 May 2022 20:08:28 GMT",
+        "operation-location": "https://endpoint/language/analyze-text/jobs/23284095-171a-47b8-91b4-3e6a3ddae45d?api-version=2022-04-01-preview",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "126"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/23284095-171a-47b8-91b4-3e6a3ddae45d?api-version=2022-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
+        "x-ms-client-request-id": "522e300d-243a-4547-ba4b-dd77f4337b4f",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "0df0156e-7e11-41de-8e01-a44737ca6379",
+        "Content-Length": "282",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 06 May 2022 20:08:28 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "7"
+      },
+      "ResponseBody": {
+        "jobId": "23284095-171a-47b8-91b4-3e6a3ddae45d",
+        "lastUpdateDateTime": "2022-05-06T20:08:28Z",
+        "createdDateTime": "2022-05-06T20:08:28Z",
+        "expirationDateTime": "2022-05-07T20:08:28Z",
+        "status": "notStarted",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/23284095-171a-47b8-91b4-3e6a3ddae45d?api-version=2022-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
+        "x-ms-client-request-id": "db5782af-1176-4e6b-8857-fa3ecdc2037a",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "8a87a339-2deb-43e9-935c-ce85b5b9f273",
+        "Content-Length": "279",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 06 May 2022 20:08:28 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "8"
+      },
+      "ResponseBody": {
+        "jobId": "23284095-171a-47b8-91b4-3e6a3ddae45d",
+        "lastUpdateDateTime": "2022-05-06T20:08:28Z",
+        "createdDateTime": "2022-05-06T20:08:28Z",
+        "expirationDateTime": "2022-05-07T20:08:28Z",
+        "status": "running",
+        "errors": [],
+        "tasks": {
+          "completed": 0,
+          "failed": 0,
+          "inProgress": 1,
+          "total": 1,
+          "items": []
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/23284095-171a-47b8-91b4-3e6a3ddae45d?api-version=2022-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
+        "x-ms-client-request-id": "bee3830c-eed4-4446-a130-cd5d3815da41",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "824e879b-76b0-4b7d-af87-0ac6b96d6625",
+        "Content-Length": "1787",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 06 May 2022 20:08:30 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "27"
+      },
+      "ResponseBody": {
+        "jobId": "23284095-171a-47b8-91b4-3e6a3ddae45d",
+        "lastUpdateDateTime": "2022-05-06T20:08:29Z",
+        "createdDateTime": "2022-05-06T20:08:28Z",
+        "expirationDateTime": "2022-05-07T20:08:28Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "items": [
+            {
+              "kind": "HealthcareLROResults",
+              "lastUpdateDateTime": "2022-05-06T20:08:29.0771197Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "0",
+                    "entities": [
+                      {
+                        "offset": 20,
+                        "length": 9,
+                        "text": "ibuprofen",
+                        "category": "MedicationName",
+                        "confidenceScore": 0.95,
+                        "name": "ibuprofen",
+                        "links": [
+                          {
+                            "dataSource": "UMLS",
+                            "id": "C0020740"
+                          },
+                          {
+                            "dataSource": "AOD",
+                            "id": "0000019879"
+                          },
+                          {
+                            "dataSource": "ATC",
+                            "id": "M01AE01"
+                          },
+                          {
+                            "dataSource": "CCPSS",
+                            "id": "0046165"
+                          },
+                          {
+                            "dataSource": "CHV",
+                            "id": "0000006519"
+                          },
+                          {
+                            "dataSource": "CSP",
+                            "id": "2270-2077"
+                          },
+                          {
+                            "dataSource": "DRUGBANK",
+                            "id": "DB01050"
+                          },
+                          {
+                            "dataSource": "GS",
+                            "id": "1611"
+                          },
+                          {
+                            "dataSource": "LCH_NW",
+                            "id": "sh97005926"
+                          },
+                          {
+                            "dataSource": "LNC",
+                            "id": "LP16165-0"
+                          },
+                          {
+                            "dataSource": "MEDCIN",
+                            "id": "40458"
+                          },
+                          {
+                            "dataSource": "MMSL",
+                            "id": "d00015"
+                          },
+                          {
+                            "dataSource": "MSH",
+                            "id": "D007052"
+                          },
+                          {
+                            "dataSource": "MTHSPL",
+                            "id": "WK2XYI10QM"
+                          },
+                          {
+                            "dataSource": "NCI",
+                            "id": "C561"
+                          },
+                          {
+                            "dataSource": "NCI_CTRP",
+                            "id": "C561"
+                          },
+                          {
+                            "dataSource": "NCI_DCP",
+                            "id": "00803"
+                          },
+                          {
+                            "dataSource": "NCI_DTP",
+                            "id": "NSC0256857"
+                          },
+                          {
+                            "dataSource": "NCI_FDA",
+                            "id": "WK2XYI10QM"
+                          },
+                          {
+                            "dataSource": "NCI_NCI-GLOSS",
+                            "id": "CDR0000613511"
+                          },
+                          {
+                            "dataSource": "NDDF",
+                            "id": "002377"
+                          },
+                          {
+                            "dataSource": "PDQ",
+                            "id": "CDR0000040475"
+                          },
+                          {
+                            "dataSource": "RCD",
+                            "id": "x02MO"
+                          },
+                          {
+                            "dataSource": "RXNORM",
+                            "id": "5640"
+                          },
+                          {
+                            "dataSource": "SNM",
+                            "id": "E-7772"
+                          },
+                          {
+                            "dataSource": "SNMI",
+                            "id": "C-603C0"
+                          },
+                          {
+                            "dataSource": "SNOMEDCT_US",
+                            "id": "387207008"
+                          },
+                          {
+                            "dataSource": "USP",
+                            "id": "m39860"
+                          },
+                          {
+                            "dataSource": "USPMG",
+                            "id": "MTHU000060"
+                          },
+                          {
+                            "dataSource": "VANDF",
+                            "id": "4017840"
+                          }
+                        ]
+                      }
+                    ],
+                    "relations": [],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2022-03-01"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/language/analyze-text/jobs/23284095-171a-47b8-91b4-3e6a3ddae45d?api-version=2022-04-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
+        "x-ms-client-request-id": "8cdece79-ff86-4b95-9b80-fcb8a94cade5",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "b3b10b0d-bcd4-4e46-a58e-d9fe9e26f0a1",
+        "Content-Length": "1787",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 06 May 2022 20:08:30 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "40"
+      },
+      "ResponseBody": {
+        "jobId": "23284095-171a-47b8-91b4-3e6a3ddae45d",
+        "lastUpdateDateTime": "2022-05-06T20:08:29Z",
+        "createdDateTime": "2022-05-06T20:08:28Z",
+        "expirationDateTime": "2022-05-07T20:08:28Z",
+        "status": "succeeded",
+        "errors": [],
+        "tasks": {
+          "completed": 1,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 1,
+          "items": [
+            {
+              "kind": "HealthcareLROResults",
+              "lastUpdateDateTime": "2022-05-06T20:08:29.0771197Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "id": "0",
+                    "entities": [
+                      {
+                        "offset": 20,
+                        "length": 9,
+                        "text": "ibuprofen",
+                        "category": "MedicationName",
+                        "confidenceScore": 0.95,
+                        "name": "ibuprofen",
+                        "links": [
+                          {
+                            "dataSource": "UMLS",
+                            "id": "C0020740"
+                          },
+                          {
+                            "dataSource": "AOD",
+                            "id": "0000019879"
+                          },
+                          {
+                            "dataSource": "ATC",
+                            "id": "M01AE01"
+                          },
+                          {
+                            "dataSource": "CCPSS",
+                            "id": "0046165"
+                          },
+                          {
+                            "dataSource": "CHV",
+                            "id": "0000006519"
+                          },
+                          {
+                            "dataSource": "CSP",
+                            "id": "2270-2077"
+                          },
+                          {
+                            "dataSource": "DRUGBANK",
+                            "id": "DB01050"
+                          },
+                          {
+                            "dataSource": "GS",
+                            "id": "1611"
+                          },
+                          {
+                            "dataSource": "LCH_NW",
+                            "id": "sh97005926"
+                          },
+                          {
+                            "dataSource": "LNC",
+                            "id": "LP16165-0"
+                          },
+                          {
+                            "dataSource": "MEDCIN",
+                            "id": "40458"
+                          },
+                          {
+                            "dataSource": "MMSL",
+                            "id": "d00015"
+                          },
+                          {
+                            "dataSource": "MSH",
+                            "id": "D007052"
+                          },
+                          {
+                            "dataSource": "MTHSPL",
+                            "id": "WK2XYI10QM"
+                          },
+                          {
+                            "dataSource": "NCI",
+                            "id": "C561"
+                          },
+                          {
+                            "dataSource": "NCI_CTRP",
+                            "id": "C561"
+                          },
+                          {
+                            "dataSource": "NCI_DCP",
+                            "id": "00803"
+                          },
+                          {
+                            "dataSource": "NCI_DTP",
+                            "id": "NSC0256857"
+                          },
+                          {
+                            "dataSource": "NCI_FDA",
+                            "id": "WK2XYI10QM"
+                          },
+                          {
+                            "dataSource": "NCI_NCI-GLOSS",
+                            "id": "CDR0000613511"
+                          },
+                          {
+                            "dataSource": "NDDF",
+                            "id": "002377"
+                          },
+                          {
+                            "dataSource": "PDQ",
+                            "id": "CDR0000040475"
+                          },
+                          {
+                            "dataSource": "RCD",
+                            "id": "x02MO"
+                          },
+                          {
+                            "dataSource": "RXNORM",
+                            "id": "5640"
+                          },
+                          {
+                            "dataSource": "SNM",
+                            "id": "E-7772"
+                          },
+                          {
+                            "dataSource": "SNMI",
+                            "id": "C-603C0"
+                          },
+                          {
+                            "dataSource": "SNOMEDCT_US",
+                            "id": "387207008"
+                          },
+                          {
+                            "dataSource": "USP",
+                            "id": "m39860"
+                          },
+                          {
+                            "dataSource": "USPMG",
+                            "id": "MTHU000060"
+                          },
+                          {
+                            "dataSource": "VANDF",
+                            "id": "4017840"
+                          }
+                        ]
+                      }
+                    ],
+                    "relations": [],
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2022-03-01"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

@@ -646,8 +646,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.diskEncryptionSetName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -679,8 +679,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.diskEncryptionSetName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
@@ -702,8 +702,8 @@ const getOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.diskEncryptionSetName
   ],
   headerParameters: [Parameters.accept],
@@ -725,8 +725,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.diskEncryptionSetName
   ],
   headerParameters: [Parameters.accept],
@@ -747,8 +747,8 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -785,8 +785,8 @@ const listAssociatedResourcesOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName,
     Parameters.diskEncryptionSetName
   ],
   headerParameters: [Parameters.accept],
@@ -806,9 +806,9 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -847,9 +847,9 @@ const listAssociatedResourcesNextOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
+    Parameters.resourceGroupName,
     Parameters.diskEncryptionSetName
   ],
   headerParameters: [Parameters.accept],

@@ -1,12 +1,10 @@
 # Release History
 
-## 2.2.5 (Unreleased)
+## 2.3.0-beta.1 (2022-05-18)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
+- `lroEngine` now supports cancellation of the long-running operation.
 
 ### Other Changes
 

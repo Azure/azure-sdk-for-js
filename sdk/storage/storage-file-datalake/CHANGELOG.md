@@ -1,6 +1,6 @@
 # Release History
 
-## 12.9.0-beta.2 (Unreleased)
+## 12.9.1 (Unreleased)
 
 ### Features Added
 
@@ -8,9 +8,17 @@
 
 ### Bugs Fixed
 
-- Refined user-agent value to avoid failure when os information is not available on some platforms.
-
 ### Other Changes
+
+## 12.9.0 (2022-05-12)
+
+### Features Added
+
+- Includes all features released in 12.9.0-beta.1.
+
+### Bugs Fixed
+
+- Refined user-agent value to avoid failure when os information is not available on some platforms.
 
 ## 12.9.0-beta.1 (2022-04-19)
 

@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EventData, EventHubProducerClient, OperationOptions } from "./index";
+import { EventData } from "./eventData";
+import { EventHubProducerClient } from "./eventHubProducerClient";
+import { OperationOptions } from "./util/operationOptions";
 import {
   EventHubClientOptions,
   GetEventHubPropertiesOptions,

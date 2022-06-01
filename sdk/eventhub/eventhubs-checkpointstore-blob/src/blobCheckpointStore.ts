@@ -67,7 +67,7 @@ export class BlobCheckpointStore implements CheckpointStore {
         const blobPath = blob.name.split("/");
         const blobName = blobPath[blobPath.length - 1];
 
-        const ownershipMetadata = blob.metadata as OwnershipMetadata;
+        const ownershipMetadata = (blob.metadata as OwnershipMetadata) ?? {};
 
         if (ownershipMetadata.ownerid == null) {
           throw new Error(`Missing ownerid in metadata for blob ${blob.name}`);
@@ -196,7 +196,7 @@ export class BlobCheckpointStore implements CheckpointStore {
       const blobPath = blob.name.split("/");
       const blobName = blobPath[blobPath.length - 1];
 
-      const checkpointMetadata = blob.metadata as CheckpointMetadata;
+      const checkpointMetadata = (blob.metadata as CheckpointMetadata) ?? {};
 
       const offset = parseIntOrThrow(blob.name, "offset", checkpointMetadata.offset);
       const sequenceNumber = parseIntOrThrow(

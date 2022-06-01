@@ -2,17 +2,17 @@
 // Licensed under the MIT license.
 
 import {
-  TracingSpan,
-  createTracingClient,
   TracingClient,
   TracingContext,
+  TracingSpan,
+  createTracingClient,
 } from "@azure/core-tracing";
 import { SDK_VERSION } from "../constants";
 import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
 import { PipelinePolicy } from "../pipeline";
 import { getUserAgentValue } from "../util/userAgent";
 import { logger } from "../log";
-import { isError, getErrorMessage } from "@azure/core-util";
+import { getErrorMessage, isError } from "@azure/core-util";
 import { isRestError } from "../restError";
 
 /**

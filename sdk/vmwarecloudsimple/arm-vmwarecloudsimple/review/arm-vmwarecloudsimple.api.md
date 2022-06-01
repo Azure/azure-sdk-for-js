@@ -203,8 +203,8 @@ export interface DedicatedCloudNodeListResponse {
 
 // @public
 export interface DedicatedCloudNodes {
-    beginCreateOrUpdate(resourceGroupName: string, dedicatedCloudNodeName: string, dedicatedCloudNodeRequest: DedicatedCloudNode, options?: DedicatedCloudNodesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DedicatedCloudNodesCreateOrUpdateResponse>, DedicatedCloudNodesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, dedicatedCloudNodeName: string, dedicatedCloudNodeRequest: DedicatedCloudNode, options?: DedicatedCloudNodesCreateOrUpdateOptionalParams): Promise<DedicatedCloudNodesCreateOrUpdateResponse>;
+    beginCreateOrUpdate(resourceGroupName: string, referer: string, dedicatedCloudNodeName: string, dedicatedCloudNodeRequest: DedicatedCloudNode, options?: DedicatedCloudNodesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<DedicatedCloudNodesCreateOrUpdateResponse>, DedicatedCloudNodesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, referer: string, dedicatedCloudNodeName: string, dedicatedCloudNodeRequest: DedicatedCloudNode, options?: DedicatedCloudNodesCreateOrUpdateOptionalParams): Promise<DedicatedCloudNodesCreateOrUpdateResponse>;
     delete(resourceGroupName: string, dedicatedCloudNodeName: string, options?: DedicatedCloudNodesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, dedicatedCloudNodeName: string, options?: DedicatedCloudNodesGetOptionalParams): Promise<DedicatedCloudNodesGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: DedicatedCloudNodesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<DedicatedCloudNode>;
@@ -511,7 +511,7 @@ export interface OperationResource {
 
 // @public
 export interface Operations {
-    get(regionId: string, operationId: string, options?: OperationsGetOptionalParams): Promise<OperationsGetResponse>;
+    get(regionId: string, referer: string, operationId: string, options?: OperationsGetOptionalParams): Promise<OperationsGetResponse>;
     list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<AvailableOperation>;
 }
 
@@ -818,14 +818,14 @@ export interface VirtualMachineListResponse {
 
 // @public
 export interface VirtualMachines {
-    beginCreateOrUpdate(resourceGroupName: string, virtualMachineName: string, virtualMachineRequest: VirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<VirtualMachinesCreateOrUpdateResponse>, VirtualMachinesCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, virtualMachineName: string, virtualMachineRequest: VirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams): Promise<VirtualMachinesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesDeleteOptionalParams): Promise<PollerLike<PollOperationState<VirtualMachinesDeleteResponse>, VirtualMachinesDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesDeleteOptionalParams): Promise<VirtualMachinesDeleteResponse>;
-    beginStart(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesStartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginStartAndWait(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesStartOptionalParams): Promise<void>;
-    beginStop(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesStopOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
-    beginStopAndWait(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesStopOptionalParams): Promise<void>;
+    beginCreateOrUpdate(resourceGroupName: string, referer: string, virtualMachineName: string, virtualMachineRequest: VirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<VirtualMachinesCreateOrUpdateResponse>, VirtualMachinesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, referer: string, virtualMachineName: string, virtualMachineRequest: VirtualMachine, options?: VirtualMachinesCreateOrUpdateOptionalParams): Promise<VirtualMachinesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, referer: string, virtualMachineName: string, options?: VirtualMachinesDeleteOptionalParams): Promise<PollerLike<PollOperationState<VirtualMachinesDeleteResponse>, VirtualMachinesDeleteResponse>>;
+    beginDeleteAndWait(resourceGroupName: string, referer: string, virtualMachineName: string, options?: VirtualMachinesDeleteOptionalParams): Promise<VirtualMachinesDeleteResponse>;
+    beginStart(resourceGroupName: string, referer: string, virtualMachineName: string, options?: VirtualMachinesStartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStartAndWait(resourceGroupName: string, referer: string, virtualMachineName: string, options?: VirtualMachinesStartOptionalParams): Promise<void>;
+    beginStop(resourceGroupName: string, referer: string, virtualMachineName: string, options?: VirtualMachinesStopOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
+    beginStopAndWait(resourceGroupName: string, referer: string, virtualMachineName: string, options?: VirtualMachinesStopOptionalParams): Promise<void>;
     beginUpdate(resourceGroupName: string, virtualMachineName: string, virtualMachineRequest: PatchPayload, options?: VirtualMachinesUpdateOptionalParams): Promise<PollerLike<PollOperationState<VirtualMachinesUpdateResponse>, VirtualMachinesUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, virtualMachineName: string, virtualMachineRequest: PatchPayload, options?: VirtualMachinesUpdateOptionalParams): Promise<VirtualMachinesUpdateResponse>;
     get(resourceGroupName: string, virtualMachineName: string, options?: VirtualMachinesGetOptionalParams): Promise<VirtualMachinesGetResponse>;
@@ -1097,7 +1097,7 @@ export interface VirtualNic {
 export class VMwareCloudSimple extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, referer: string, options?: VMwareCloudSimpleOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: VMwareCloudSimpleOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -1110,8 +1110,6 @@ export class VMwareCloudSimple extends coreClient.ServiceClient {
     operations: Operations;
     // (undocumented)
     privateClouds: PrivateClouds;
-    // (undocumented)
-    referer: string;
     // (undocumented)
     resourcePools: ResourcePools;
     // (undocumented)

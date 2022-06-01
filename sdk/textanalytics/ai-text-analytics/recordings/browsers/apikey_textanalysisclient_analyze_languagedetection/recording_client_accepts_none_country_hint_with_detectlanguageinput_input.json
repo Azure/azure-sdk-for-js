@@ -1,0 +1,140 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/language/:analyze-text?api-version=2022-04-01-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "Content-Length": "800",
+        "Content-Type": "application/json",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
+        "x-ms-client-request-id": "4dc73a06-5344-49dc-a5d1-a97c1afa96c5",
+        "x-ms-useragent": "azsdk-js-ai-text-analytics/6.0.0-beta.1 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+      },
+      "RequestBody": {
+        "kind": "LanguageDetection",
+        "analysisInput": {
+          "documents": [
+            {
+              "id": "1",
+              "text": "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
+              "countryHint": "none"
+            },
+            {
+              "id": "2",
+              "text": "Unfortunately, it rained during my entire trip to Seattle. I didn\u0027t even get to visit the Space Needle",
+              "countryHint": "none"
+            },
+            {
+              "id": "3",
+              "text": "I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.",
+              "countryHint": "none"
+            },
+            {
+              "id": "4",
+              "text": "I didn\u0027t like the last book I read at all.",
+              "countryHint": "none"
+            },
+            {
+              "id": "5",
+              "text": "Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.",
+              "countryHint": "none"
+            },
+            {
+              "id": "6",
+              "text": "La carretera estaba atascada. Hab\u00EDa mucho tr\u00E1fico el d\u00EDa de ayer.",
+              "countryHint": "none"
+            }
+          ]
+        },
+        "parameters": {}
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "04dab47d-f373-4cdb-9265-c8afae1d33f5",
+        "Content-Length": "726",
+        "Content-Type": "application/json; charset=utf-8",
+        "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=6,CognitiveServices.TextAnalytics.TextRecords=6",
+        "Date": "Fri, 06 May 2022 20:18:34 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "9"
+      },
+      "ResponseBody": {
+        "kind": "LanguageDetectionResults",
+        "results": {
+          "documents": [
+            {
+              "id": "1",
+              "detectedLanguage": {
+                "name": "English",
+                "iso6391Name": "en",
+                "confidenceScore": 1.0
+              },
+              "warnings": []
+            },
+            {
+              "id": "2",
+              "detectedLanguage": {
+                "name": "English",
+                "iso6391Name": "en",
+                "confidenceScore": 1.0
+              },
+              "warnings": []
+            },
+            {
+              "id": "3",
+              "detectedLanguage": {
+                "name": "English",
+                "iso6391Name": "en",
+                "confidenceScore": 1.0
+              },
+              "warnings": []
+            },
+            {
+              "id": "4",
+              "detectedLanguage": {
+                "name": "English",
+                "iso6391Name": "en",
+                "confidenceScore": 1.0
+              },
+              "warnings": []
+            },
+            {
+              "id": "5",
+              "detectedLanguage": {
+                "name": "Spanish",
+                "iso6391Name": "es",
+                "confidenceScore": 0.99
+              },
+              "warnings": []
+            },
+            {
+              "id": "6",
+              "detectedLanguage": {
+                "name": "Spanish",
+                "iso6391Name": "es",
+                "confidenceScore": 1.0
+              },
+              "warnings": []
+            }
+          ],
+          "errors": [],
+          "modelVersion": "2021-11-20"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
