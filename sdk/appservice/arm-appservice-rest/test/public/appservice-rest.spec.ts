@@ -71,7 +71,7 @@ describe("Web test", () => {
           serverFarmId:
             "/subscriptions/" +
             subscriptionId +
-            "/resourceGroups/myjstest/providers/Microsoft.Web/serverfarms/myappserviceplanxxx",
+            `/resourceGroups/${env.RESOURCE_GROUP}/providers/Microsoft.Web/serverfarms/myappserviceplanxxx`,
           reserved: false,
           isXenon: false,
           hyperV: false,
@@ -145,7 +145,7 @@ describe("Web test", () => {
           serverFarmId:
             "/subscriptions/" +
             subscriptionId +
-            "/resourceGroups/myjstest/providers/Microsoft.Web/serverfarms/myappserviceplanxxx",
+            `/resourceGroups/${env.RESOURCE_GROUP}/providers/Microsoft.Web/serverfarms/myappserviceplanxxx`,
           reserved: false,
           isXenon: false,
           hyperV: false,
