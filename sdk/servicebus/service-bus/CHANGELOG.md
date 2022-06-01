@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Add support to add, retrieve and remove subscription-level rules. [PR #22018](https://github.com/Azure/azure-sdk-for-js/pull/22018)
+
 ### Breaking Changes
 
 ### Bugs Fixed
