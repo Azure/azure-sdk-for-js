@@ -114,7 +114,14 @@ function createPropertiesFromSpanAttributes(attributes?: SpanAttributes): {
           key.startsWith("rpc.") ||
           key.startsWith("db.") ||
           key.startsWith("peer.") ||
-          key.startsWith("net.")
+          key.startsWith("message.") ||
+          key.startsWith("messaging.") ||
+          key.startsWith("enduser.") ||
+          key.startsWith("net.") ||
+          key.startsWith("exception.") ||
+          key.startsWith("thread.") ||
+          key.startsWith("faas.") ||
+          key.startsWith("code.")
         )
       ) {
         properties[key] = attributes[key] as string;
@@ -424,6 +431,10 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
           let exceptionMsg = event.attributes[SemanticAttributes.EXCEPTION_MESSAGE];
           if (exceptionMsg) {
             message = String(exceptionMsg);
+          }
+          let escaped = event.attributes[SemanticAttributes.EXCEPTION_ESCAPED];
+          if (escaped != undefined) {
+            properties[SemanticAttributes.EXCEPTION_ESCAPED] = String(escaped);
           }
         }
         let exceptionDetails: TelemetryExceptionDetails = {
