@@ -6,12 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode, env } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecorder, createClient } from "./utils/recordedClient";
 import { Context } from "mocha";
 import { WebSiteManagementClient, paginate, getLongRunningPoller } from "../../src/index";
-import { env } from "process";
 
 export const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -29,7 +28,7 @@ describe("Web test", () => {
     recorder = await createRecorder(this);
     client = await createClient(recorder);
     subscriptionId = env.SUBSCRIPTION_ID ?? "";
-    resourceGroup = "myjstest";
+    resourceGroup = env.RESOURCE_GROUP ?? "";
     appservicePlanName = "myappserviceplanxxx";
     name = "mysitexxxx";
   });

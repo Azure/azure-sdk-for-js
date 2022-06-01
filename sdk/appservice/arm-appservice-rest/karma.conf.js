@@ -59,7 +59,8 @@ module.exports = function(config) {
       "AZURE_CLIENT_SECRET",
       "AZURE_CLIENT_ID",
       "AZURE_TENANT_ID",
-      "SUBSCRIPTION_ID"
+      "SUBSCRIPTION_ID",
+      "RESOURCE_GROUP"
     ],
 
     // test results reporter to use

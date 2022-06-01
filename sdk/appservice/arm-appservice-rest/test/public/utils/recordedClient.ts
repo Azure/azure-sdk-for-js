@@ -35,7 +35,6 @@ export async function createClient(
   options?: ClientOptions
 ): Promise<WebSiteManagementClient> {
   const credential = createTestCredential();
-  await recorder.start(recorderEnvSetup);
   return WebSiteClient(
     credential,
     recorder.configureClientOptions({ ...options })
