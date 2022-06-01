@@ -8,21 +8,20 @@ import {
   LroResponse,
   LroStatus,
   RawResponse,
-  failureStates,
-  successStates,
 } from "./models";
-import { isUnexpectedPollingResponse } from "./requestUtils";
+import { isCanceled, isPollingDone } from "./requestUtils";
+import { PollOperationState } from "../pollOperation";
 
-function isPollingDone(rawResponse: RawResponse): boolean {
-  if (isUnexpectedPollingResponse(rawResponse) || rawResponse.statusCode === 202) {
+function getStatus(rawResponse: RawResponse): string {
+  const { status } = (rawResponse.body as LroBody) ?? {};
+  return typeof status === "string" ? status.toLowerCase() : "succeeded";
+}
+
+function isLocationPollingDone(rawResponse: RawResponse, status: string): boolean {
+  if (rawResponse.statusCode === 202) {
     return false;
   }
-  const { status } = (rawResponse.body as LroBody) ?? {};
-  const state = typeof status === "string" ? status.toLowerCase() : "succeeded";
-  if (isUnexpectedPollingResponse(rawResponse) || failureStates.includes(state)) {
-    throw new Error(`The long running operation has failed. The provisioning state: ${state}.`);
-  }
-  return successStates.includes(state);
+  return isPollingDone({ rawResponse, status });
 }
 
 /**
@@ -44,13 +43,24 @@ async function sendFinalRequest<TResult>(
   }
 }
 
-export function processLocationPollingOperationResult<TResult>(
+export function processLocationPollingOperationResult<
+  TResult,
+  TState extends PollOperationState<TResult>
+>(
   lro: LongRunningOperation<TResult>,
+  state: TState,
   resourceLocation?: string,
   lroResourceLocationConfig?: LroResourceLocationConfig
 ): (response: LroResponse<TResult>) => LroStatus<TResult> {
   return (response: LroResponse<TResult>): LroStatus<TResult> => {
-    if (isPollingDone(response.rawResponse)) {
+    const status = getStatus(response.rawResponse);
+    if (
+      isCanceled({
+        state,
+        status,
+      }) ||
+      isLocationPollingDone(response.rawResponse, status)
+    ) {
       if (resourceLocation === undefined) {
         return { ...response, done: true };
       } else {

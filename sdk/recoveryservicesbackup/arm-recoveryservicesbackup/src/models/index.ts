@@ -889,7 +889,7 @@ export interface ProtectionContainer {
   containerType:
     | "DPMContainer"
     | "AzureBackupServerContainer"
-    | "IaaSVMContainer"
+    | "IaasVMContainer"
     | "Microsoft.ClassicCompute/virtualMachines"
     | "Microsoft.Compute/virtualMachines"
     | "AzureWorkloadContainer"
@@ -2933,7 +2933,7 @@ export type DpmContainer = ProtectionContainer & {
 export type IaaSVMContainer = ProtectionContainer & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   containerType:
-    | "IaaSVMContainer"
+    | "IaasVMContainer"
     | "Microsoft.ClassicCompute/virtualMachines"
     | "Microsoft.Compute/virtualMachines";
   /** Fully qualified ARM url of the virtual machine represented by this Azure IaaS VM container. */

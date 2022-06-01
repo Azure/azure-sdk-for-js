@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Creates a scope map for a container registry with the specified parameters.
  *
  * @summary Creates a scope map for a container registry with the specified parameters.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2021-12-01-preview/examples/ScopeMapCreate.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2022-02-01-preview/examples/ScopeMapCreate.json
  */
 async function scopeMapCreate() {
   const subscriptionId = "00000000-0000-0000-0000-000000000000";

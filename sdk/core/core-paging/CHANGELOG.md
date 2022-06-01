@@ -1,6 +1,6 @@
 # Release History
 
-## 1.2.2 (Unreleased)
+## 1.3.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.3.0 (2022-05-18)
+
+### Other Changes
+
+- The default implementation of `byPage` now supports using the continuationToken option as a URL for the page to get first.
 
 ## 1.2.1 (2022-01-06)
 

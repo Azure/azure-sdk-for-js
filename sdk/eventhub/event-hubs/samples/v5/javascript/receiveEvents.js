@@ -8,8 +8,7 @@
 const { EventHubConsumerClient, earliestEventPosition } = require("@azure/event-hubs");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
 const eventHubName = process.env["EVENTHUB_NAME"] || "";
@@ -38,7 +37,7 @@ async function main() {
       },
       processError: async (err, context) => {
         console.log(`Error on partition "${context.partitionId}": ${err}`);
-      }
+      },
     },
     { startPosition: earliestEventPosition }
   );
@@ -54,3 +53,5 @@ async function main() {
 main().catch((error) => {
   console.error("Error running sample:", error);
 });
+
+module.exports = { main };

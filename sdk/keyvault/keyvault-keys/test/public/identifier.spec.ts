@@ -40,4 +40,16 @@ describe("Key Vault Keys Identifier", () => {
       version: undefined,
     });
   });
+
+  it("It should work when using a URL that contains a port", async function () {
+    const uri = "https://localhost:8443/keys/key-name/version";
+    const identifier = parseKeyVaultKeyIdentifier(uri);
+
+    assert.deepEqual(identifier, {
+      sourceId: "https://localhost:8443/keys/key-name/version",
+      vaultUrl: "https://localhost:8443",
+      version: "version",
+      name: "key-name",
+    });
+  });
 });
