@@ -8,8 +8,6 @@
 
 import {
   env,
-  record,
-  RecorderEnvironmentSetup,
   Recorder,
   delay,
   isPlaybackMode
