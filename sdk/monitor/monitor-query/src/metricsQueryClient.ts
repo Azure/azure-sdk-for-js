@@ -59,7 +59,7 @@ export class MetricsQueryClient {
   constructor(tokenCredential: TokenCredential, options?: MetricsQueryClientOptions) {
     let scope;
     if (options?.endpoint) {
-      scope = `${options?.endpoint}./default`;
+      scope = `${options?.endpoint}/.default`;
     }
     const credentialOptions = {
       credentialScopes: scope,
