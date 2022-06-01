@@ -39,7 +39,9 @@ For example, setting the log level to `warning` will cause all logs that have th
 level `warning` or `error` to be emitted.
 
 
-**NOTE**: When logging the body of request and response, we sanitize headers like `Authorization` that contain secrets. The headers that are logged are:
+**NOTE**: When logging requests and responses, we sanitize these objects to make sure things like `Authorization` headers that contain secrets are not logged. 
+
+Request and response bodies are never logged. Headers are redacted by default, unless present in the following list or explicitly allowed by the client SDK:
 - "x-ms-client-request-id",
 - "x-ms-return-client-request-id",
 - "x-ms-useragent",
