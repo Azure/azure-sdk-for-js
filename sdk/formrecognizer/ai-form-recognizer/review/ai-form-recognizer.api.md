@@ -593,7 +593,7 @@ export interface GetModelOptions extends OperationOptions {
 export interface GetOperationOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface HasBoundingPolygon {
     polygon?: Point2D[];
 }
