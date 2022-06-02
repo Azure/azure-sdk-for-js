@@ -249,8 +249,11 @@ export class DocumentAnalysisClient {
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: DocumentAnalysisClientOptions);
     beginAnalyzeDocument(modelId: string, input: string | FormRecognizerRequestBody, options?: AnalyzeDocumentOptions): Promise<AnalysisPoller>;
     beginAnalyzeDocument<Document>(model: DocumentModel<Document>, input: string | FormRecognizerRequestBody, options?: AnalyzeDocumentOptions<AnalyzeResult<Document>>): Promise<AnalysisPoller<AnalyzeResult<Document>>>;
+    // @deprecated
     beginExtractGeneralDocument(input: string | FormRecognizerRequestBody, options?: AnalyzeDocumentOptions<GeneralDocumentResult>): Promise<AnalysisPoller<GeneralDocumentResult>>;
+    // @deprecated
     beginExtractLayout(input: string | FormRecognizerRequestBody, options?: AnalyzeDocumentOptions<LayoutResult>): Promise<AnalysisPoller<LayoutResult>>;
+    // @deprecated
     beginReadDocument(input: string | FormRecognizerRequestBody, options?: AnalyzeDocumentOptions<ReadResult>): Promise<AnalysisPoller<ReadResult>>;
 }
 
@@ -1041,7 +1044,7 @@ export const PrebuiltModels: {
         };
     }>;
     VaccinationCard: DocumentModel<{
-        docType: "vaccination.covid19.us";
+        docType: "vaccinationCard.covid.us";
         fields: {
             cardHolderInfo?: DocumentObjectField<    {
             firstName?: DocumentStringField<string> | undefined;

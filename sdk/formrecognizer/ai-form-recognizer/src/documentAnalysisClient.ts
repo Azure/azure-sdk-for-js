@@ -408,6 +408,7 @@ export class DocumentAnalysisClient {
    *                {@link FormRecognizerRequestBody} that will be uploaded with the request
    * @param options - optional settings for the analysis operation and poller
    * @returns a long-running operation (poller) that will eventually produce a layout result or an error
+   * @deprecated will be removed in a future version (prior to a stable release)
    */
   public async beginExtractLayout(
     input: string | FormRecognizerRequestBody,
@@ -489,6 +490,7 @@ export class DocumentAnalysisClient {
    *                {@link FormRecognizerRequestBody} that will be uploaded with the request
    * @param options - optional settings for the analysis operation and poller
    * @returns a long-running operation (poller) that will eventually produce a general document result or an error
+   * @deprecated will be removed in a future version (prior to a stable release)
    */
   public async beginExtractGeneralDocument(
     input: string | FormRecognizerRequestBody,
@@ -560,6 +562,7 @@ export class DocumentAnalysisClient {
    *                {@link FormRecognizerRequestBody} that will be uploaded with the request
    * @param options - optional settings for the analysis operation and poller
    * @returns a long-running operation (poller) that will eventually produce a read result or an error
+   * @deprecated will be removed in a future version (prior to a stable release)
    */
   public async beginReadDocument(
     input: string | FormRecognizerRequestBody,
