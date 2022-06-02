@@ -27,9 +27,9 @@ export interface sendLogsResult {
 /**
  * Enum representing whether all or few logs succeeded
  */
-export enum SendLogsStatus {
+export type SendLogsStatus  = 
   /** Represents Partial Failure scenario where partial logs have failed for processing and the list of indices is returned for the logs failed */
-  PartialFailure = "PartialFailure",
+"PartialFailure" |
   /** Represents Success scenario where all logs have succeeded and no index is returned */
-  Success = "Success",
-}
+  "Success";
+

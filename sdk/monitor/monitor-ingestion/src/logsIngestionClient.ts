@@ -31,7 +31,7 @@ export class LogsIngestionClient {
  * @param tokenCredential - A token credential.
  * @param options - Options for the MonitorIngestionClient.
  */
-  constructor(endpoint: string,tokenCredential: TokenCredential, options?: LogsIngestionClientOptions) {
+  constructor(endpoint: string, tokenCredential: TokenCredential, options?: LogsIngestionClientOptions) {
     let scope;
     if (endpoint) {
       scope = `${endpoint}/.default`;
@@ -92,15 +92,15 @@ export class LogsIngestionClient {
         }
         let uploadResult: uploadResult = {
           failedLogsIndex: [],
-          sendLogsStatus: SendLogsStatus.Success
+          sendLogsStatus: "Success"
         }
         if (failedLogsIndex.length === 0) {
           return uploadResult;
         }
         else if (failedLogsIndex.length < noOfChunks && failedLogsIndex.length > 0) {
 
-          uploadResult = { failedLogsIndex: failedLogsIndex, sendLogsStatus: SendLogsStatus.PartialFailure };
-          return uploadResult;
+          sendLogsResult = { failedLogsIndex: failedLogsIndex, sendLogsStatus: "PartialFailure" };
+          return sendLogsResult;
         }
         else
           throw Error("All logs failed for the ingestion");
