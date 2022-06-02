@@ -1,5 +1,5 @@
 trigger: none
-
+NugetSecurityAnalysisWarningLevel: 'none'
 jobs:
   - template: /eng/common/pipelines/templates/jobs/docindex.yml
 
