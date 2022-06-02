@@ -297,6 +297,13 @@ matrix(
           makeCredential(useAad),
           recorder.configureClientOptions({})
         );
+        await recorder.addSanitizers({
+          bodyKeySanitizers: [
+            {
+              jsonPath: "$.accessToken",
+              value: "access_token",
+            },]
+        }, ["playback", "record"]);
         const modelId = recorder.variable("copySource", `copySource${getRandomNumber()}`);
 
         const trainingPoller = await trainingClient.beginBuildModel(
