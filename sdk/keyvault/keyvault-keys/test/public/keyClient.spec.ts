@@ -79,7 +79,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     });
   });
 
-  it.only("cannot create a key with an empty name", async function () {
+  it("cannot create a key with an empty name", async function () {
     const keyName = "";
     try {
       await client.createKey(keyName, "RSA");
