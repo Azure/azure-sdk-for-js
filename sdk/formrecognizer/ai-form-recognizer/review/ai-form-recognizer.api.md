@@ -1055,7 +1055,7 @@ export const PrebuiltModels: {
             }>> | undefined;
         };
     }>;
-    HealthInsuranceCard: DocumentModel<{
+    HealthInsuranceCardUs: DocumentModel<{
         docType: "healthInsuranceCard.us";
         fields: {
             idNumber?: DocumentObjectField<    {

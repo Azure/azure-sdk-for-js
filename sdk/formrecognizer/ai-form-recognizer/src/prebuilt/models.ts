@@ -181,7 +181,7 @@ export const PrebuiltModels = {
   Receipt: createModelFromSchema(ReceiptSchema) as DocumentModel<Receipt>,
   TaxUsW2: createModelFromSchema(TaxUsW2Schema) as DocumentModel<TaxUsW2>,
   VaccinationCard: createModelFromSchema(VaccinationCardSchema) as DocumentModel<VaccinationCard>,
-  HealthInsuranceCard: createModelFromSchema(
+  HealthInsuranceCardUs: createModelFromSchema(
     HealthInsuranceCardUsSchema
   ) as DocumentModel<HealthInsuranceCardUs>,
 };
