@@ -14,7 +14,7 @@ export interface LogsIngestionClientOptions extends CommonClientOptions {
   /** Api Version */
   apiVersion?: string;
 }
-const defaultIngestionScope = "<default_scope>";
+const defaultIngestionScope = "https://monitor.azure.com/.default";
 
 /**
  * Client for Monitor Logs Ingestion
