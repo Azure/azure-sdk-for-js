@@ -1,5 +1,4 @@
 trigger: none
-NugetSecurityAnalysisWarningLevel: 'none'
 jobs:
   - template: /eng/common/pipelines/templates/jobs/docindex.yml
 
@@ -12,6 +11,7 @@ jobs:
       DocRepoOwner: MicrosoftDocs
       DocRepoName: azure-docs-sdk-node
       DocValidationImageId: azuresdkimages.azurecr.io/jsrefautocr:latest
+      NugetSecurityAnalysisWarningLevel: 'none'
     steps:
       # Sync docs repo (this can be sparse)
       - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
