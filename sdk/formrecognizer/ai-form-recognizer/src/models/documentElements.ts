@@ -12,6 +12,7 @@ import {
   SelectionMarkState,
 } from "../generated";
 
+/** Simple document elements such as words, selection marks and lines are bounded by the polygon. */
 export interface HasBoundingPolygon {
   /** Bounding polygon of the entity. */
   polygon?: Point2D[];
