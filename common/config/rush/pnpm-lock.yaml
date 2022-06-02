@@ -7038,7 +7038,7 @@ packages:
     dev: false
 
   /pend/1.2.0:
-    resolution: {integrity: sha1-elfrVQpng/kRUzH89GY9XI4AelA=}
+    resolution: {integrity: sha512-F3asv42UuXchdzt+xXqfW1OGlVBe+mxa2mqI0pg5yAHZPvFmY3Y6drSf/GQ1A86WgWEN9Kzh/WrgKa6iGcHXLg==}
     dev: false
 
   /picocolors/1.0.0:
@@ -7057,7 +7057,7 @@ packages:
     dev: false
 
   /pify/3.0.0:
-    resolution: {integrity: sha1-5aSs0sEB/fPZpNB/DbxNtJ3SgXY=}
+    resolution: {integrity: sha512-C3FsVNH1udSEX48gGX1xfvwTWfsYWj5U+8/uK15BGzIGrKoUpghX8hWZwa/OFnakBiiVNmBvemTJR5mcy7iPcg==}
     engines: {node: '>=4'}
     dev: false
 
@@ -7130,7 +7130,7 @@ packages:
     dev: false
 
   /priorityqueuejs/1.0.0:
-    resolution: {integrity: sha1-LuTyPCVgkT4IwHzlzN1t498sWvg=}
+    resolution: {integrity: sha512-lg++21mreCEOuGWTbO5DnJKAdxfjrdN0S9ysoW9SzdSJvbkWpkaDdpG/cdsPCsEnoLUwmd9m3WcZhngW7yKA2g==}
     dev: false
 
   /process-nextick-args/2.0.1:
@@ -7145,7 +7145,7 @@ packages:
     dev: false
 
   /process/0.11.10:
-    resolution: {integrity: sha1-czIwDoQBYb2j5podHZGn1LwW8YI=}
+    resolution: {integrity: sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==}
     engines: {node: '>= 0.6.0'}
     dev: false
 
@@ -7178,7 +7178,7 @@ packages:
     dev: false
 
   /pseudomap/1.0.2:
-    resolution: {integrity: sha1-8FKijacOYYkX7wqKw0wa5aaChrM=}
+    resolution: {integrity: sha512-b/YwNhb8lk1Zz2+bXXpS/LK9OisiZZ1SNsSLxN1x2OXVEhW2Ckr/7mWE5vrC1ZTiJlD9g19jWszTmJsB+oEpFQ==}
     dev: false
 
   /psl/1.8.0:
@@ -7193,7 +7193,7 @@ packages:
     dev: false
 
   /punycode/1.3.2:
-    resolution: {integrity: sha1-llOgNvt8HuQjQvIyXM7v6jkmxI0=}
+    resolution: {integrity: sha512-RofWgt/7fL5wP1Y7fxE7/EmTLzQVnB0ycyibJ0OOHIlJqTNzglYFxVwETOcIoJqJmpDXJ9xImDv+Fq34F/d4Dw==}
     dev: false
 
   /punycode/2.1.1:
@@ -7238,7 +7238,7 @@ packages:
     dev: false
 
   /querystring/0.2.0:
-    resolution: {integrity: sha1-sgmEkgO7Jd+CDadW50cAWHhSFiA=}
+    resolution: {integrity: sha512-X/xY82scca2tau62i9mDyU9K+I+djTMUsvwf7xnUX5GLvVzgJybOJf4Y6o9Zx3oJK/LSXg5tTZBjwzqVPaPO2g==}
     engines: {node: '>=0.4.x'}
     deprecated: The querystring API is considered Legacy. new code should use the URLSearchParams API instead.
     dev: false
@@ -12690,7 +12690,7 @@ packages:
     dev: false
 
   file:projects/arm-orbital.tgz:
-    resolution: {integrity: sha512-+7TyodW0AOzXJ5XWnUpfmgz6pVSoHNIpsbuLqb3AI2VE4twdyrSvlsb2MH3OywZ44UaT9vwd0lP8f/+DK/W0Lg==, tarball: file:projects/arm-orbital.tgz}
+    resolution: {integrity: sha512-FNSdKbFE6FhXtA/K286mPRBCr8q02xRPDd4CfCO7AsekQx1GiV7LMd3hXqjn+ZbbKByXFe+XiRd/ObfV6K1OUQ==, tarball: file:projects/arm-orbital.tgz}
     name: '@rush-temp/arm-orbital'
     version: 0.0.0
     dependencies:
@@ -12702,6 +12702,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.73.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.73.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.73.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -12714,7 +12716,6 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 
