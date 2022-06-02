@@ -289,9 +289,7 @@ matrix(
         assert.equal(Object.entries(composedModel.docTypes ?? {}).length, 2);
       });
 
-      // TODO: re-enable when preview service degradation is mitigated.
-      // See: https://github.com/Azure/azure-sdk-for-js/issues/19604
-      it.skip(`copy model (${buildMode})`, async function () {
+      it(`copy model (${buildMode})`, async function () {
         // Since this test is isolated, we'll create a fresh set of resources for it
 
         const trainingClient = new DocumentModelAdministrationClient(

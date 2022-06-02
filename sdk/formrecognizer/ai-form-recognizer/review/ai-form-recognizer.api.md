@@ -552,11 +552,11 @@ export type EnglishCapitalLetter = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H"
 export type FieldSchema = StringLikeFieldSchema | NumberFieldSchema | DateFieldSchema | ArrayFieldSchema | ObjectFieldSchema | StructuredStringFieldSchema | WellKnownObjectFieldSchema;
 
 // @public
-export type FormRecognizerApiVersion = "2022-01-30-preview";
+export type FormRecognizerApiVersion = typeof FormRecognizerApiVersion[keyof typeof FormRecognizerApiVersion];
 
 // @public
 export const FormRecognizerApiVersion: {
-    readonly Latest: "2022-03-31-preview";
+    readonly Latest: "2022-06-30-preview";
 };
 
 // @public
