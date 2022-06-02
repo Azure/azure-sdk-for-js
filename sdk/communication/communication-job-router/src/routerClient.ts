@@ -59,7 +59,11 @@ import {
   RouterWorker,
   JobStateSelector,
   WorkerStateSelector,
-  WorkerSelector
+  WorkerSelector,
+  JobRouterCancelJobActionResponse,
+  JobRouterCompleteJobActionResponse,
+  JobRouterCloseJobActionResponse,
+  JobRouterDeclineJobActionResponse
 } from "./generated/src";
 
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
@@ -433,7 +437,7 @@ export class RouterClient {
    * @param jobId - The ID of the job to cancel.
    * @param options - Operation options.
    */
-  public async cancelJob(jobId: string, options: CancelJobOptions = {}): Promise<RestResponse> {
+  public async cancelJob(jobId: string, options: CancelJobOptions = {}): Promise<JobRouterCancelJobActionResponse> {
     return this.client.jobRouter.cancelJobAction(jobId, options);
   }
 
@@ -447,7 +451,7 @@ export class RouterClient {
     jobId: string,
     assignmentId: string,
     options: CompleteJobOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<JobRouterCompleteJobActionResponse> {
     return this.client.jobRouter.completeJobAction(jobId, assignmentId, options);
   }
 
@@ -520,7 +524,7 @@ export class RouterClient {
     jobId: string,
     assignmentId: string,
     options: CloseJobOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<JobRouterCloseJobActionResponse> {
     return this.client.jobRouter.closeJobAction(jobId, assignmentId, options);
   }
 
@@ -558,7 +562,7 @@ export class RouterClient {
     workerId: string,
     offerId: string,
     options: DeclineJobOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<JobRouterDeclineJobActionResponse> {
     return this.client.jobRouter.declineJobAction(offerId, workerId, options);
   }
 
@@ -643,7 +647,7 @@ export class RouterClient {
   public async updateWorker(
     updatedModel: RouterWorker,
     options: UpdateWorkerOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<RouterWorker> {
     if (!updatedModel.id) {
       throw new Error("Updated model must contain id");
     }
@@ -689,7 +693,7 @@ export class RouterClient {
     worker: RouterWorker,
     totalCapacity?: number,
     options: UpdateWorkerOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<RouterWorker> {
     if (!worker.id) {
       throw new Error("Updated model must contain id");
     }
