@@ -8,7 +8,7 @@ export const modelInfo = {
   createdDateTime: "2022-03-30T00:00:00.000Z",
   apiVersion: "2022-06-30-preview",
   docTypes: {
-    "vaccination.covid19.us": {
+    "vaccinationCard.covid.us": {
       buildMode: "template",
       fieldSchema: {
         CardHolderInfo: {
