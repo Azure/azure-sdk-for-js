@@ -922,7 +922,7 @@ export interface PollerOptions<TState extends PollOperationState<unknown>> exten
     updateIntervalInMs?: number;
 }
 
-// @public
+// @public @deprecated
 export const PrebuiltModels: {
     BusinessCard: DocumentModel<{
         docType: "businessCard";

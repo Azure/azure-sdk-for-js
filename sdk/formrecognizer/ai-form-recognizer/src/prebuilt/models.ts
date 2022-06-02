@@ -171,16 +171,39 @@ export function getMapper<M extends DocumentModel<unknown>>(
  *
  * console.log("The type of this receipt is:", receipt.fields.receiptType?.value)
  * ```
+ *
+ * @deprecated will be removed and replaced with auto-generated code in the next stable version
  */
 export const PrebuiltModels = {
+  /**
+   * @deprecated will be removed and replaced with auto-generated code in the next stable version
+   */
   BusinessCard: createModelFromSchema(BusinessCardSchema) as DocumentModel<BusinessCard>,
+  /**
+   * @deprecated will be removed and replaced with auto-generated code in the next stable version
+   */
   IdentityDocument: createModelFromSchema(
     IdentityDocumentSchema
   ) as DocumentModel<IdentityDocument>,
+  /**
+   * @deprecated will be removed and replaced with auto-generated code in the next stable version
+   */
   Invoice: createModelFromSchema(InvoiceSchema) as DocumentModel<Invoice>,
+  /**
+   * @deprecated will be removed and replaced with auto-generated code in the next stable version
+   */
   Receipt: createModelFromSchema(ReceiptSchema) as DocumentModel<Receipt>,
+  /**
+   * @deprecated will be removed and replaced with auto-generated code in the next stable version
+   */
   TaxUsW2: createModelFromSchema(TaxUsW2Schema) as DocumentModel<TaxUsW2>,
+  /**
+   * @deprecated will be removed and replaced with auto-generated code in the next stable version
+   */
   VaccinationCard: createModelFromSchema(VaccinationCardSchema) as DocumentModel<VaccinationCard>,
+  /**
+   * @deprecated will be removed and replaced with auto-generated code in the next stable version
+   */
   HealthInsuranceCardUs: createModelFromSchema(
     HealthInsuranceCardUsSchema
   ) as DocumentModel<HealthInsuranceCardUs>,
