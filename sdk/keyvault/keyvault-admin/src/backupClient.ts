@@ -10,7 +10,7 @@ import {
   KeyVaultRestoreResult,
   KeyVaultSelectiveKeyRestoreResult,
 } from "./backupClientModels";
-import { LATEST_API_VERSION, authenticationScopes } from "./constants";
+import { LATEST_API_VERSION } from "./constants";
 import { KeyVaultAdminPollOperationState } from "./lro/keyVaultAdminPoller";
 import { KeyVaultBackupOperationState } from "./lro/backup/operation";
 import { KeyVaultBackupPoller } from "./lro/backup/poller";
@@ -92,7 +92,7 @@ export class KeyVaultBackupClient {
     this.client.pipeline.addPolicy(
       bearerTokenAuthenticationPolicy({
         credential,
-        scopes: authenticationScopes,
+        scopes: [],
         challengeCallbacks: createChallengeCallbacks(),
       })
     );
