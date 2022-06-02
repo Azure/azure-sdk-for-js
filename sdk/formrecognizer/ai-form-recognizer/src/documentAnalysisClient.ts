@@ -19,8 +19,8 @@ import {
   AnalyzeResult,
   DocumentAnalysisPollOperationState,
   FormRecognizerRequestBody,
-  toAnalyzedDocumentFromGenerated,
   toAnalyzeResultFromGenerated,
+  toAnalyzedDocumentFromGenerated,
   toDocumentAnalysisPollOperationState,
 } from "./lro/analyze";
 import { lro } from "./lro/util/poller";
@@ -30,7 +30,7 @@ import { toReadResult } from "./models/ReadResult";
 import { AnalyzeDocumentOptions } from "./options/AnalyzeDocumentsOptions";
 import { DocumentAnalysisClientOptions } from "./options/FormRecognizerClientOptions";
 import { DocumentModel, getMapper } from "./prebuilt/models";
-import { identity, makeServiceClient, Mappers, SERIALIZER } from "./util";
+import { Mappers, SERIALIZER, identity, makeServiceClient } from "./util";
 
 /**
  * A client for interacting with the Form Recognizer service's analysis features.

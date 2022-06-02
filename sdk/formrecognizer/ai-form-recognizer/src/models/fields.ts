@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BoundingRegion, DocumentSpan } from "..";
+import { DocumentSpan } from "..";
 
 import { CurrencyValue, DocumentField as GeneratedDocumentField } from "../generated";
+import { toBoundingRegions } from "../transforms/polygon";
 import { capitalize } from "../util";
+import { BoundingRegion } from "./documentElements";
 
 /**
  * Fields that are common to all DocumentField variants.
@@ -265,7 +267,7 @@ export function toDocumentField(field: GeneratedDocumentField): DocumentField {
   return {
     kind,
     ...value,
-    boundingRegions: field.boundingRegions,
+    boundingRegions: toBoundingRegions(field.boundingRegions),
     content: field.content,
     spans: field.spans,
     confidence: field.confidence,

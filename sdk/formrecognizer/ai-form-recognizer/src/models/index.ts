@@ -22,3 +22,19 @@ export {
   DocumentCurrencyField,
   DocumentField,
 } from "./fields";
+export {
+  BoundingRegion,
+  DocumentImage,
+  DocumentKeyValueElement,
+  DocumentKeyValuePair,
+  DocumentLine,
+  DocumentParagraph,
+  DocumentSelectionMark,
+  DocumentTable,
+  DocumentCaption,
+  DocumentTableCell,
+  DocumentFootnote,
+  DocumentWord,
+  HasBoundingPolygon,
+  DocumentPage,
+} from "./documentElements";
