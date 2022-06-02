@@ -108,7 +108,11 @@ function createModelFromSchema<Schema extends ModelSchema>(
         );
       }
       for (const [fieldName, fieldSchema] of Object.entries(model.fieldSchema)) {
-        if (document.fields && document.fields[fieldName] !== undefined && document.fields[fieldName] !== null) {
+        if (
+          document.fields &&
+          document.fields[fieldName] !== undefined &&
+          document.fields[fieldName] !== null
+        ) {
           result[isAcronymic(fieldName) ? fieldName : uncapitalize(fieldName)] = extractField(
             fieldName,
             fieldSchema,

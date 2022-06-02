@@ -200,7 +200,7 @@ export interface CommonModelCreationOptions {
 }
 
 // @public
-export type ContentType = "application/octet-stream" | "application/pdf" | "application/vnd.openxmlformats-officedocument.presentationml.presentation" | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" | "application/vnd.openxmlformats-officedocument.wordprocessingml.document" | "image/bmp" | "image/jpeg" | "image/png" | "image/tiff";
+export type ContentType = "application/octet-stream" | "application/pdf" | "application/vnd.openxmlformats-officedocument.presentationml.presentation" | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" | "application/vnd.openxmlformats-officedocument.wordprocessingml.document" | "image/bmp" | "image/heif" | "image/jpeg" | "image/png" | "image/tiff";
 
 // @public
 export interface CopyAuthorization {
@@ -369,7 +369,7 @@ export interface DocumentKeyValuePair {
 // @public
 export interface DocumentLanguage {
     confidence: number;
-    languageCode: string;
+    locale: string;
     spans: DocumentSpan[];
 }
 

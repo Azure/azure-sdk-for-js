@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { FormRecognizerError } from "../error";
 import {
-  AnalyzeResult as GeneratedAnalyzeResult,
-  AnalyzeResultOperation,
   AnalyzeResultOperationStatus as AnalyzeOperationStatus,
+  AnalyzeResultOperation,
   DocumentLanguage,
   DocumentSpan,
   DocumentStyle,
+  AnalyzeResult as GeneratedAnalyzeResult,
 } from "../generated";
 import { DocumentField, toAnalyzedDocumentFieldsFromGenerated } from "../models/fields";
 import { FormRecognizerApiVersion, PollerOptions } from "../options";
@@ -22,16 +22,16 @@ import {
 } from "../transforms/polygon";
 import {
   BoundingRegion,
-  DocumentTable,
   DocumentKeyValuePair,
-  DocumentPage,
   DocumentLine,
+  DocumentPage,
   DocumentParagraph,
+  DocumentTable,
 } from "../models/documentElements";
 import {
   Document as GeneratedDocument,
-  DocumentPage as GeneratedDocumentPage,
   DocumentLine as GeneratedDocumentLine,
+  DocumentPage as GeneratedDocumentPage,
 } from "../generated";
 
 /**
@@ -200,8 +200,7 @@ export function toDocumentLineFromGenerated(
       iterFrom(generated.spans, 0),
       page.words?.map((word) => {
         return { ...word, polygon: toBoundingPolygon(word.polygon) };
-      })
-      ?? []
+      }) ?? []
     );
 
   Object.defineProperty(generated, "words", {
@@ -216,13 +215,16 @@ export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): D
     ...generated,
     lines: generated.lines?.map((line) => toDocumentLineFromGenerated(line, generated)),
     selectionMarks: generated.selectionMarks?.map((mark) => ({
-      ...mark, polygon: toBoundingPolygon(mark.polygon)
+      ...mark,
+      polygon: toBoundingPolygon(mark.polygon),
     })),
     words: generated.words?.map((word) => ({
-      ...word, polygon: toBoundingPolygon(word.polygon)
+      ...word,
+      polygon: toBoundingPolygon(word.polygon),
     })),
     images: generated.images?.map((image) => ({
-      ...image, polygon: toBoundingPolygon(image.polygon)
+      ...image,
+      polygon: toBoundingPolygon(image.polygon),
     })),
   };
 }
@@ -378,7 +380,8 @@ export function toAnalyzeResultFromGenerated<
     documents: (result.documents?.map((doc) => mapDocuments(doc)) as Document[]) ?? [],
     paragraphs:
       result.paragraphs?.map((para) => ({
-        ...para, boundingRegions: toBoundingRegions(para.boundingRegions)
+        ...para,
+        boundingRegions: toBoundingRegions(para.boundingRegions),
       })) ?? [],
   };
 }
@@ -393,7 +396,7 @@ export interface AnalysisOperationDefinition<Result = AnalyzeResult> {
   transformResult: (primitiveResult: GeneratedAnalyzeResult) => Result;
   initialModelId: string;
   options: PollerOptions<DocumentAnalysisPollOperationState<Result>> &
-  AnalyzeDocumentOptions<Result>;
+    AnalyzeDocumentOptions<Result>;
 }
 
 /**

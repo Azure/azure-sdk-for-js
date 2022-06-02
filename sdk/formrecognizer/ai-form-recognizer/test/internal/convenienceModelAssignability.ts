@@ -1,19 +1,24 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import {
-  DocumentWord as GeneratedDocumentWord,
-  DocumentSelectionMark as GeneratedDocumentSelectionMark,
-  DocumentImage as GeneratedDocumentImage,
-  DocumentLine as GeneratedDocumentLine,
-  DocumentParagraph as GeneratedDocumentParagraph,
-  DocumentTable as GeneratedDocumentTable,
-  DocumentTableCell as GeneratedDocumentTableCell,
+  Document as GeneratedDocument,
   DocumentCaption as GeneratedDocumentCaption,
   DocumentFootnote as GeneratedDocumentFootnote,
+  DocumentImage as GeneratedDocumentImage,
   DocumentKeyValueElement as GeneratedDocumentKeyValueElement,
-  Document as GeneratedDocument,
+  DocumentLine as GeneratedDocumentLine,
   DocumentPage as GeneratedDocumentPage,
+  DocumentParagraph as GeneratedDocumentParagraph,
+  DocumentSelectionMark as GeneratedDocumentSelectionMark,
+  DocumentTable as GeneratedDocumentTable,
+  DocumentTableCell as GeneratedDocumentTableCell,
+  DocumentWord as GeneratedDocumentWord,
 } from "../../src/generated";
 import {
   Document,
+  DocumentCaption,
+  DocumentFootnote,
   DocumentImage,
   DocumentKeyValueElement,
   DocumentLine,
@@ -21,15 +26,15 @@ import {
   DocumentParagraph,
   DocumentSelectionMark,
   DocumentTable,
-  DocumentCaption,
   DocumentTableCell,
-  DocumentFootnote,
   DocumentWord,
 } from "../../src/models/documentElements";
 
 // To avoid going out-of-sync with the generated types, we test the re-constructed interfaces are following the shapes in the generated interfaces in this test file.
 
-function checkAssign<T>(_model: T) { }
+function checkAssign<T>(_model: T) {
+  /* intentionally empty */
+}
 
 declare const word: DocumentWord;
 declare const selectionMark: DocumentSelectionMark;
@@ -84,9 +89,11 @@ checkAssign<Omit<DocumentParagraph, "boundingRegions">>(generatedDocumentParagra
 checkAssign<Omit<DocumentTableCell, "boundingRegions">>(generatedDocumentTableCell);
 checkAssign<Omit<DocumentCaption, "boundingRegions">>(generatedDocumentCaption);
 checkAssign<Omit<DocumentFootnote, "boundingRegions">>(generatedDocumentFootnote);
-checkAssign<Omit<DocumentTable, "boundingRegions" | "cells" | "caption" | "footnotes">>(generatedDocumentTable
+checkAssign<Omit<DocumentTable, "boundingRegions" | "cells" | "caption" | "footnotes">>(
+  generatedDocumentTable
 );
 checkAssign<Omit<DocumentKeyValueElement, "boundingRegions">>(generatedDocumentKeyValueElement);
 checkAssign<Omit<Document, "boundingRegions">>(generatedDocument);
-checkAssign<Omit<DocumentPage, "images" | "words" | "selectionMarks" | "lines">>(generatedDocumentPage
+checkAssign<Omit<DocumentPage, "images" | "words" | "selectionMarks" | "lines">>(
+  generatedDocumentPage
 );

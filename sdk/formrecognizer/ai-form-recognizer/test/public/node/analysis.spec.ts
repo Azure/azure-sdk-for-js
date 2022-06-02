@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { matrix } from "@azure/test-utils";
 import { assert } from "chai";
 import fs from "fs";
@@ -341,7 +341,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
     describe("receipts", () => {
       it("png file stream", async () => {
         const validator = createValidator({
-          locale: undefined, //"en-US",
+          locale: undefined, // "en-US",
           merchantName: "Contoso",
           merchantPhoneNumber: undefined,
           // merchantPhoneNumber: "+11234567890",
@@ -428,7 +428,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
 
       it("url", async () => {
         const validator = createValidator({
-          locale: undefined, //"en-US",
+          locale: undefined, // "en-US",
           merchantName: "Contoso",
           merchantPhoneNumber: "+19876543210",
           merchantAddress: "123 Main Street\nRedmond, WA 98052",
@@ -636,7 +636,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
           documents: _,
           documents: [businessCard],
         } = await poller.pollUntilDone();
-        const validator = createValidator({
+        const validatorOverride = createValidator({
           contactNames: [
             {
               firstName: "Avery",
@@ -653,7 +653,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
           emails: ["avery.smith@contoso.com"],
           websites: ["https://www.contoso.com/"],
         });
-        validator(businessCard as AnalyzedDocument);
+        validatorOverride(businessCard as AnalyzedDocument);
       });
 
       it("invalid locale throws", async () => {

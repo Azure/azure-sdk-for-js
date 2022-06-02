@@ -3,8 +3,8 @@
 
 import {
   BoundingRegion as GeneratedBoundingRegion,
-  DocumentTable as GeneratedDocumentTable,
   DocumentKeyValuePair as GeneratedDocumentKeyValuePair,
+  DocumentTable as GeneratedDocumentTable,
 } from "../generated";
 import { BoundingRegion, DocumentKeyValuePair, DocumentTable } from "../models/documentElements";
 
@@ -50,13 +50,15 @@ export function toDocumentTableFromGenerated(table: GeneratedDocumentTable): Doc
     ...table,
     boundingRegions: toBoundingRegions(table.boundingRegions),
     cells: table.cells.map((cell) => ({
-      ...cell, boundingRegions: toBoundingRegions(cell.boundingRegions)
+      ...cell,
+      boundingRegions: toBoundingRegions(cell.boundingRegions),
     })),
     caption: table.caption
       ? { ...table.caption, boundingRegions: toBoundingRegions(table.caption?.boundingRegions) }
       : undefined,
     footnotes: table.footnotes?.map((footnote) => ({
-      ...footnote, boundingRegions: toBoundingRegions(footnote.boundingRegions)
+      ...footnote,
+      boundingRegions: toBoundingRegions(footnote.boundingRegions),
     })),
   };
 }

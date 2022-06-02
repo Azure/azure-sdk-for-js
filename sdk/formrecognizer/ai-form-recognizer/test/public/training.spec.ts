@@ -4,15 +4,15 @@
 import { assert } from "chai";
 import { Context } from "mocha";
 
-import { matrix, getYieldedValue } from "@azure/test-utils";
+import { getYieldedValue, matrix } from "@azure/test-utils";
 
-import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
+import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 
 import {
-  testPollingOptions,
-  makeCredential,
   createRecorder,
   getRandomNumber,
+  makeCredential,
+  testPollingOptions,
 } from "../utils/recordedClients";
 
 import { DocumentAnalysisClient, DocumentModelAdministrationClient, ModelInfo } from "../../src";

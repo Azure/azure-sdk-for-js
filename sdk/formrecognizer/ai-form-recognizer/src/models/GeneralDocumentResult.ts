@@ -16,7 +16,7 @@ export function toGeneralDocumentResult(
   const { keyValuePairs } = analyzeResult;
   return {
     ...toLayoutResult(analyzeResult),
-    keyValuePairs
+    keyValuePairs,
   };
 }
 

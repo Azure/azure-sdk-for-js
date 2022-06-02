@@ -1,12 +1,15 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { Point2D } from "../transforms/polygon";
 import {
+  DocumentPageKind,
   DocumentSpan,
-  SelectionMarkState,
-  ParagraphRole,
   DocumentTableCellKind,
   DocumentField as GeneratedDocumentField,
   LengthUnit,
-  DocumentPageKind,
+  ParagraphRole,
+  SelectionMarkState,
 } from "../generated";
 
 export interface HasBoundingPolygon {
