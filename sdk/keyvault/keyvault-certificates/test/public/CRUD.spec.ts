@@ -105,7 +105,9 @@ describe("Certificates client - create, read, update and delete", () => {
         testPollerProperties
       );
       assert.fail("Expected an error");
-    } catch (e) {}
+    } catch (e) {
+      // Ignore expected error
+    }
   });
 
   it("can update the tags of a certificate", async function (this: Context) {
