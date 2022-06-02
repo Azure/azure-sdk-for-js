@@ -48,15 +48,6 @@ describe("TestProxyClient functions", () => {
   };
 
   describe("redirectRequest method", () => {
-    it("request unchanged if not playback or record modes", function () {
-      env.TEST_MODE = "live";
-      testRedirectedRequest(
-        client,
-        () => initialRequest,
-        (req) => req
-      );
-    });
-
     ["record", "playback"].forEach((testMode) => {
       it(
         `${testMode} mode: ` + "request unchanged if request URL already points to test proxy",

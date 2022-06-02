@@ -103,9 +103,7 @@ export class Recorder {
         `[Recorder#redirectRequest] Determined that the request to ${request.url} has already been redirected, not attempting to redirect again.`,
         request
       );
-    }
-
-    if (!isLiveMode() && !requestAlreadyRedirected) {
+    } else {
       if (this.recordingId === undefined) {
         logger.error(
           "[Recorder#redirectRequest] Could not redirect request (recording ID not set)",
