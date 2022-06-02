@@ -31,9 +31,10 @@ export interface sendLogsResult {
 }
 
 // @public
-export enum SendLogsStatus {
-    PartialFailure = "PartialFailure",
-    Success = "Success"
-}
+export type SendLogsStatus =
+/** Represents Partial Failure scenario where partial logs have failed for processing and the list of indices is returned for the logs failed */
+"PartialFailure" |
+/** Represents Success scenario where all logs have succeeded and no index is returned */
+"Success";
 
 ```

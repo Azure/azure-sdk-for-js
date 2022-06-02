@@ -5,7 +5,7 @@ import { TokenCredential } from "@azure/core-auth";
 import { CommonClientOptions } from "@azure/core-client";
 import { SDK_VERSION } from "./constants";
 import { GeneratedDataCollectionClient } from "./generated";
-import { sendLogsOptions as uploadOptions, sendLogsResult as uploadResult, SendLogsStatus } from "./models";
+import { sendLogsOptions, sendLogsResult } from "./models";
 
 /**
  * Options for Montior Logs Ingestion Client
