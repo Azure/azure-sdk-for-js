@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig.package",
+  "compilerOptions": {
+    "outDir": "./dist-esm",
+    "declarationDir": "./types",
+    "paths": {
+      "@azure-rest/service-fabric": ["./src/index"]
+    }
+  }
+}

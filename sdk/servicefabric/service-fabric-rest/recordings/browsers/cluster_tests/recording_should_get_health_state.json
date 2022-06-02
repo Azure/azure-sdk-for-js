@@ -1,0 +1,114 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "http://host.docker.internal:19080/$/GetClusterHealth?api-version=8.1",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/93.0.4577.0 Safari/537.36",
+        "x-ms-client-request-id": "026ed9e7-9927-4b30-af8d-e2f474549279",
+        "x-ms-useragent": "core-rest-pipeline/1.6.1 OS/Win32"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Length": "980",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 09 Mar 2022 23:57:03 GMT",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "HealthEvents": [],
+        "AggregatedHealthState": "Ok",
+        "UnhealthyEvaluations": [],
+        "HealthStatistics": {
+          "HealthStateCountList": [
+            {
+              "EntityKind": "Node",
+              "HealthStateCount": {
+                "OkCount": 1,
+                "ErrorCount": 0,
+                "WarningCount": 0
+              }
+            },
+            {
+              "EntityKind": "Application",
+              "HealthStateCount": {
+                "OkCount": 0,
+                "ErrorCount": 0,
+                "WarningCount": 0
+              }
+            },
+            {
+              "EntityKind": "Service",
+              "HealthStateCount": {
+                "OkCount": 0,
+                "ErrorCount": 0,
+                "WarningCount": 0
+              }
+            },
+            {
+              "EntityKind": "Partition",
+              "HealthStateCount": {
+                "OkCount": 0,
+                "ErrorCount": 0,
+                "WarningCount": 0
+              }
+            },
+            {
+              "EntityKind": "Replica",
+              "HealthStateCount": {
+                "OkCount": 0,
+                "ErrorCount": 0,
+                "WarningCount": 0
+              }
+            },
+            {
+              "EntityKind": "DeployedApplication",
+              "HealthStateCount": {
+                "OkCount": 0,
+                "ErrorCount": 0,
+                "WarningCount": 0
+              }
+            },
+            {
+              "EntityKind": "DeployedServicePackage",
+              "HealthStateCount": {
+                "OkCount": 0,
+                "ErrorCount": 0,
+                "WarningCount": 0
+              }
+            }
+          ]
+        },
+        "NodeHealthStates": [
+          {
+            "Name": "_Node_0",
+            "Id": {
+              "Id": "bf865279ba277deb864a976fbf4c200e"
+            },
+            "AggregatedHealthState": "Ok"
+          }
+        ],
+        "ApplicationHealthStates": [
+          {
+            "Name": "fabric:/System",
+            "AggregatedHealthState": "Ok"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

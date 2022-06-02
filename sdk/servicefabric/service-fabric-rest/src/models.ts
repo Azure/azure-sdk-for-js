@@ -1,0 +1,2720 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+export interface HealthEvent extends HealthInformation {
+  /** Returns true if the health event is expired, otherwise false. */
+  IsExpired?: boolean;
+  /** The date and time when the health report was sent by the source. */
+  SourceUtcTimestamp?: Date | string;
+  /** The date and time when the health report was last modified by the health store. */
+  LastModifiedUtcTimestamp?: Date | string;
+  /**
+   * If the current health state is 'Ok', this property returns the time at which the health report was first reported with 'Ok'.
+   * For periodic reporting, many reports with the same state may have been generated.
+   * This property returns the date and time when the first 'Ok' health report was received.
+   *
+   * If the current health state is 'Error' or 'Warning', returns the date and time at which the health state was last in 'Ok', before transitioning to a different state.
+   *
+   * If the health state was never 'Ok', the value will be zero date-time.
+   */
+  LastOkTransitionAt?: Date | string;
+  /**
+   * If the current health state is 'Warning', this property returns the time at which the health report was first reported with 'Warning'. For periodic reporting, many reports with the same state may have been generated however, this property returns only the date and time at the first 'Warning' health report was received.
+   *
+   * If the current health state is 'Ok' or 'Error', returns the date and time at which the health state was last in 'Warning', before transitioning to a different state.
+   *
+   * If the health state was never 'Warning', the value will be zero date-time.
+   */
+  LastWarningTransitionAt?: Date | string;
+  /**
+   * If the current health state is 'Error', this property returns the time at which the health report was first reported with 'Error'. For periodic reporting, many reports with the same state may have been generated however, this property returns only the date and time at the first 'Error' health report was received.
+   *
+   * If the current health state is 'Ok' or 'Warning', returns the date and time at which the health state was last in 'Error', before transitioning to a different state.
+   *
+   * If the health state was never 'Error', the value will be zero date-time.
+   */
+  LastErrorTransitionAt?: Date | string;
+}
+
+export interface HealthInformation {
+  /** The source name that identifies the client/watchdog/system component that generated the health information. */
+  SourceId: string;
+  /**
+   * The property of the health information. An entity can have health reports for different properties.
+   * The property is a string and not a fixed enumeration to allow the reporter flexibility to categorize the state condition that triggers the report.
+   * For example, a reporter with SourceId "LocalWatchdog" can monitor the state of the available disk on a node,
+   * so it can report "AvailableDisk" property on that node.
+   * The same reporter can monitor the node connectivity, so it can report a property "Connectivity" on the same node.
+   * In the health store, these reports are treated as separate health events for the specified node.
+   *
+   * Together with the SourceId, the property uniquely identifies the health information.
+   */
+  Property: string;
+  /** The health state of a Service Fabric entity such as Cluster, Node, Application, Service, Partition, Replica etc. */
+  HealthState: "Invalid" | "Ok" | "Warning" | "Error" | "Unknown";
+  /**
+   * The duration for which this health report is valid. This field uses ISO8601 format for specifying the duration.
+   * When clients report periodically, they should send reports with higher frequency than time to live.
+   * If clients report on transition, they can set the time to live to infinite.
+   * When time to live expires, the health event that contains the health information
+   * is either removed from health store, if RemoveWhenExpired is true, or evaluated at error, if RemoveWhenExpired false.
+   *
+   * If not specified, time to live defaults to infinite value.
+   */
+  TimeToLiveInMilliSeconds?: string;
+  /**
+   * The description of the health information. It represents free text used to add human readable information about the report.
+   * The maximum string length for the description is 4096 characters.
+   * If the provided string is longer, it will be automatically truncated.
+   * When truncated, the last characters of the description contain a marker "[Truncated]", and total string size is 4096 characters.
+   * The presence of the marker indicates to users that truncation occurred.
+   * Note that when truncated, the description has less than 4096 characters from the original string.
+   */
+  Description?: string;
+  /**
+   * The sequence number for this health report as a numeric string.
+   * The report sequence number is used by the health store to detect stale reports.
+   * If not specified, a sequence number is auto-generated by the health client when a report is added.
+   */
+  SequenceNumber?: string;
+  /**
+   * Value that indicates whether the report is removed from health store when it expires.
+   * If set to true, the report is removed from the health store after it expires.
+   * If set to false, the report is treated as an error when expired. The value of this property is false by default.
+   * When clients report periodically, they should set RemoveWhenExpired false (default).
+   * This way, if the reporter has issues (e.g. deadlock) and can't report, the entity is evaluated at error when the health report expires.
+   * This flags the entity as being in Error health state.
+   */
+  RemoveWhenExpired?: boolean;
+  /**
+   * A health report ID which identifies the health report and can be used to find more detailed information about a specific health event at
+   * aka.ms/sfhealthid
+   */
+  HealthReportId?: string;
+}
+
+export interface ClusterHealthPolicies {
+  /**
+   * Defines a map that contains specific application health policies for different applications.
+   * Each entry specifies as key the application name and as value an ApplicationHealthPolicy used to evaluate the application health.
+   * If an application is not specified in the map, the application health evaluation uses the ApplicationHealthPolicy found in its application manifest or the default application health policy (if no health policy is defined in the manifest).
+   * The map is empty by default.
+   */
+  ApplicationHealthPolicyMap?: Array<ApplicationHealthPolicyMapItem>;
+  /** Defines a health policy used to evaluate the health of the cluster or of a cluster node. */
+  ClusterHealthPolicy?: ClusterHealthPolicy;
+}
+
+export interface ApplicationHealthPolicyMapItem {
+  /** The key of the application health policy map item. This is the name of the application. */
+  Key: string;
+  /** The value of the application health policy map item. This is the ApplicationHealthPolicy for this application. */
+  Value: ApplicationHealthPolicy;
+}
+
+export interface ApplicationHealthPolicy {
+  /** Indicates whether warnings are treated with the same severity as errors. */
+  ConsiderWarningAsError?: boolean;
+  /**
+   * The maximum allowed percentage of unhealthy deployed applications. Allowed values are Byte values from zero to 100.
+   * The percentage represents the maximum tolerated percentage of deployed applications that can be unhealthy before the application is considered in error.
+   * This is calculated by dividing the number of unhealthy deployed applications over the number of nodes where the application is currently deployed on in the cluster.
+   * The computation rounds up to tolerate one failure on small numbers of nodes. Default percentage is zero.
+   */
+  MaxPercentUnhealthyDeployedApplications?: number;
+  /** The health policy used by default to evaluate the health of a service type. */
+  DefaultServiceTypeHealthPolicy?: ServiceTypeHealthPolicy;
+  /** The map with service type health policy per service type name. The map is empty by default. */
+  ServiceTypeHealthPolicyMap?: Array<ServiceTypeHealthPolicyMapItem>;
+}
+
+export interface ServiceTypeHealthPolicy {
+  /**
+   * The maximum allowed percentage of unhealthy partitions per service. Allowed values are Byte values from zero to 100
+   *
+   * The percentage represents the maximum tolerated percentage of partitions that can be unhealthy before the service is considered in error.
+   * If the percentage is respected but there is at least one unhealthy partition, the health is evaluated as Warning.
+   * The percentage is calculated by dividing the number of unhealthy partitions over the total number of partitions in the service.
+   * The computation rounds up to tolerate one failure on small numbers of partitions. Default percentage is zero.
+   */
+  MaxPercentUnhealthyPartitionsPerService?: number;
+  /**
+   * The maximum allowed percentage of unhealthy replicas per partition. Allowed values are Byte values from zero to 100.
+   *
+   * The percentage represents the maximum tolerated percentage of replicas that can be unhealthy before the partition is considered in error.
+   * If the percentage is respected but there is at least one unhealthy replica, the health is evaluated as Warning.
+   * The percentage is calculated by dividing the number of unhealthy replicas over the total number of replicas in the partition.
+   * The computation rounds up to tolerate one failure on small numbers of replicas. Default percentage is zero.
+   */
+  MaxPercentUnhealthyReplicasPerPartition?: number;
+  /**
+   * The maximum allowed percentage of unhealthy services. Allowed values are Byte values from zero to 100.
+   *
+   * The percentage represents the maximum tolerated percentage of services that can be unhealthy before the application is considered in error.
+   * If the percentage is respected but there is at least one unhealthy service, the health is evaluated as Warning.
+   * This is calculated by dividing the number of unhealthy services of the specific service type over the total number of services of the specific service type.
+   * The computation rounds up to tolerate one failure on small numbers of services. Default percentage is zero.
+   */
+  MaxPercentUnhealthyServices?: number;
+}
+
+export interface ServiceTypeHealthPolicyMapItem {
+  /** The key of the service type health policy map item. This is the name of the service type. */
+  Key: string;
+  /** The value of the service type health policy map item. This is the ServiceTypeHealthPolicy for this service type. */
+  Value: ServiceTypeHealthPolicy;
+}
+
+export interface ClusterHealthPolicy {
+  /** Indicates whether warnings are treated with the same severity as errors. */
+  ConsiderWarningAsError?: boolean;
+  /**
+   * The maximum allowed percentage of unhealthy nodes before reporting an error. For example, to allow 10% of nodes to be unhealthy, this value would be 10.
+   *
+   * The percentage represents the maximum tolerated percentage of nodes that can be unhealthy before the cluster is considered in error.
+   * If the percentage is respected but there is at least one unhealthy node, the health is evaluated as Warning.
+   * The percentage is calculated by dividing the number of unhealthy nodes over the total number of nodes in the cluster.
+   * The computation rounds up to tolerate one failure on small numbers of nodes. Default percentage is zero.
+   *
+   * In large clusters, some nodes will always be down or out for repairs, so this percentage should be configured to tolerate that.
+   */
+  MaxPercentUnhealthyNodes?: number;
+  /**
+   * The maximum allowed percentage of unhealthy applications before reporting an error. For example, to allow 10% of applications to be unhealthy, this value would be 10.
+   *
+   * The percentage represents the maximum tolerated percentage of applications that can be unhealthy before the cluster is considered in error.
+   * If the percentage is respected but there is at least one unhealthy application, the health is evaluated as Warning.
+   * This is calculated by dividing the number of unhealthy applications over the total number of application instances in the cluster, excluding applications of application types that are included in the ApplicationTypeHealthPolicyMap.
+   * The computation rounds up to tolerate one failure on small numbers of applications. Default percentage is zero.
+   */
+  MaxPercentUnhealthyApplications?: number;
+  /**
+   * Defines a map with max percentage unhealthy applications for specific application types.
+   * Each entry specifies as key the application type name and as value an integer that represents the MaxPercentUnhealthyApplications percentage used to evaluate the applications of the specified application type.
+   *
+   * The application type health policy map can be used during cluster health evaluation to describe special application types.
+   * The application types included in the map are evaluated against the percentage specified in the map, and not with the global MaxPercentUnhealthyApplications defined in the cluster health policy.
+   * The applications of application types specified in the map are not counted against the global pool of applications.
+   * For example, if some applications of a type are critical, the cluster administrator can add an entry to the map for that application type
+   * and assign it a value of 0% (that is, do not tolerate any failures).
+   * All other applications can be evaluated with MaxPercentUnhealthyApplications set to 20% to tolerate some failures out of the thousands of application instances.
+   * The application type health policy map is used only if the cluster manifest enables application type health evaluation using the configuration entry for HealthManager/EnableApplicationTypeHealthEvaluation.
+   */
+  ApplicationTypeHealthPolicyMap?: Array<ApplicationTypeHealthPolicyMapItem>;
+  /**
+   * Defines a map with max percentage unhealthy nodes for specific node types.
+   * Each entry specifies as key the node type name and as value an integer that represents the MaxPercentUnhealthyNodes percentage used to evaluate the nodes of the specified node type.
+   *
+   * The node type health policy map can be used during cluster health evaluation to describe special node types.
+   * They are evaluated against the percentages associated with their node type name in the map.
+   * Setting this has no impact on the global pool of nodes used for MaxPercentUnhealthyNodes.
+   * The node type health policy map is used only if the cluster manifest enables node type health evaluation using the configuration entry for HealthManager/EnableNodeTypeHealthEvaluation.
+   *
+   * For example, given a cluster with many nodes of different types, with important work hosted on node type "SpecialNodeType" that should not tolerate any nodes down.
+   * You can specify global MaxPercentUnhealthyNodes to 20% to tolerate some failures for all nodes, but for the node type "SpecialNodeType", set the MaxPercentUnhealthyNodes to 0 by
+   * setting the value in the key value pair in NodeTypeHealthPolicyMapItem. The key is the node type name.
+   * This way, as long as no nodes of type "SpecialNodeType" are in Error state,
+   * even if some of the many nodes in the global pool are in Error state, but below the global unhealthy percentage, the cluster would be evaluated to Warning.
+   * A Warning health state does not impact cluster upgrade or other monitoring triggered by Error health state.
+   * But even one node of type SpecialNodeType in Error would make cluster unhealthy (in Error rather than Warning/Ok), which triggers rollback or pauses the cluster upgrade, depending on the upgrade configuration.
+   *
+   * Conversely, setting the global MaxPercentUnhealthyNodes to 0, and setting SpecialNodeType's max percent unhealthy nodes to 100,
+   * with one node of type SpecialNodeType in Error state would still put the cluster in an Error state, since the global restriction is more strict in this case.
+   */
+  NodeTypeHealthPolicyMap?: Array<NodeTypeHealthPolicyMapItem>;
+}
+
+export interface ApplicationTypeHealthPolicyMapItem {
+  /** The key of the application type health policy map item. This is the name of the application type. */
+  Key: string;
+  /**
+   * The value of the application type health policy map item.
+   * The max percent unhealthy applications allowed for the application type. Must be between zero and 100.
+   */
+  Value: number;
+}
+
+export interface NodeTypeHealthPolicyMapItem {
+  /** The key of the node type health policy map item. This is the name of the node type. */
+  Key: string;
+  /**
+   * The value of the node type health policy map item.
+   * If the percentage is respected but there is at least one unhealthy node in the node type, the health is evaluated as Warning.
+   * The percentage is calculated by dividing the number of unhealthy nodes over the total number of nodes in the node type.
+   * The computation rounds up to tolerate one failure on small numbers of nodes.
+   * The max percent unhealthy nodes allowed for the node type. Must be between zero and 100.
+   */
+  Value: number;
+}
+
+export interface ClusterHealthChunkQueryDescription {
+  /**
+   * Defines a list of filters that specify which nodes to be included in the returned cluster health chunk.
+   * If no filters are specified, no nodes are returned. All the nodes are used to evaluate the cluster's aggregated health state, regardless of the input filters.
+   * The cluster health chunk query may specify multiple node filters.
+   * For example, it can specify a filter to return all nodes with health state Error and another filter to always include a node identified by its NodeName.
+   */
+  NodeFilters?: Array<NodeHealthStateFilter>;
+  /**
+   * Defines a list of filters that specify which applications to be included in the returned cluster health chunk.
+   * If no filters are specified, no applications are returned. All the applications are used to evaluate the cluster's aggregated health state, regardless of the input filters.
+   * The cluster health chunk query may specify multiple application filters.
+   * For example, it can specify a filter to return all applications with health state Error and another filter to always include applications of a specified application type.
+   */
+  ApplicationFilters?: Array<ApplicationHealthStateFilter>;
+  /** Defines a health policy used to evaluate the health of the cluster or of a cluster node. */
+  ClusterHealthPolicy?: ClusterHealthPolicy;
+  /** Defines the application health policy map used to evaluate the health of an application or one of its children entities. */
+  ApplicationHealthPolicies?: ApplicationHealthPolicies;
+}
+
+export interface NodeHealthStateFilter {
+  /**
+   * Name of the node that matches the filter. The filter is applied only to the specified node, if it exists.
+   * If the node doesn't exist, no node is returned in the cluster health chunk based on this filter.
+   * If the node exists, it is included in the cluster health chunk if the health state matches the other filter properties.
+   * If not specified, all nodes that match the parent filters (if any) are taken into consideration and matched against the other filter members, like health state filter.
+   */
+  NodeNameFilter?: string;
+  /**
+   * The filter for the health state of the nodes. It allows selecting nodes if they match the desired health states.
+   * The possible values are integer value of one of the following health states. Only nodes that match the filter are returned. All nodes are used to evaluate the cluster aggregated health state.
+   * If not specified, default value is None, unless the node name is specified. If the filter has default value and node name is specified, the matching node is returned.
+   * The state values are flag-based enumeration, so the value could be a combination of these values obtained using bitwise 'OR' operator.
+   * For example, if the provided value is 6, it matches nodes with HealthState value of OK (2) and Warning (4).
+   *
+   * - Default - Default value. Matches any HealthState. The value is zero.
+   * - None - Filter that doesn't match any HealthState value. Used in order to return no results on a given collection of states. The value is 1.
+   * - Ok - Filter that matches input with HealthState value Ok. The value is 2.
+   * - Warning - Filter that matches input with HealthState value Warning. The value is 4.
+   * - Error - Filter that matches input with HealthState value Error. The value is 8.
+   * - All - Filter that matches input with any HealthState value. The value is 65535.
+   */
+  HealthStateFilter?: number;
+}
+
+export interface ApplicationHealthStateFilter {
+  /**
+   * The name of the application that matches the filter, as a fabric uri. The filter is applied only to the specified application, if it exists.
+   * If the application doesn't exist, no application is returned in the cluster health chunk based on this filter.
+   * If the application exists, it is included in the cluster health chunk if it respects the other filter properties.
+   * If not specified, all applications are matched against the other filter members, like health state filter.
+   */
+  ApplicationNameFilter?: string;
+  /**
+   * The name of the application type that matches the filter.
+   * If specified, the filter is applied only to applications of the selected application type, if any exists.
+   * If no applications of the specified application type exists, no application is returned in the cluster health chunk based on this filter.
+   * Each application of the specified application type is included in the cluster health chunk if it respects the other filter properties.
+   * If not specified, all applications are matched against the other filter members, like health state filter.
+   */
+  ApplicationTypeNameFilter?: string;
+  /**
+   * The filter for the health state of the applications. It allows selecting applications if they match the desired health states.
+   * The possible values are integer value of one of the following health states. Only applications that match the filter are returned. All applications are used to evaluate the cluster aggregated health state.
+   * If not specified, default value is None, unless the application name or the application type name are specified. If the filter has default value and application name is specified, the matching application is returned.
+   * The state values are flag-based enumeration, so the value could be a combination of these values obtained using bitwise 'OR' operator.
+   * For example, if the provided value is 6, it matches applications with HealthState value of OK (2) and Warning (4).
+   *
+   * - Default - Default value. Matches any HealthState. The value is zero.
+   * - None - Filter that doesn't match any HealthState value. Used in order to return no results on a given collection of states. The value is 1.
+   * - Ok - Filter that matches input with HealthState value Ok. The value is 2.
+   * - Warning - Filter that matches input with HealthState value Warning. The value is 4.
+   * - Error - Filter that matches input with HealthState value Error. The value is 8.
+   * - All - Filter that matches input with any HealthState value. The value is 65535.
+   */
+  HealthStateFilter?: number;
+  /**
+   * Defines a list of filters that specify which services to be included in the returned cluster health chunk as children of the application. The services are returned only if the parent application matches a filter.
+   * If the list is empty, no services are returned. All the services are used to evaluate the parent application aggregated health state, regardless of the input filters.
+   * The application filter may specify multiple service filters.
+   * For example, it can specify a filter to return all services with health state Error and another filter to always include a service identified by its service name.
+   */
+  ServiceFilters?: Array<ServiceHealthStateFilter>;
+  /**
+   * Defines a list of filters that specify which deployed applications to be included in the returned cluster health chunk as children of the application. The deployed applications are returned only if the parent application matches a filter.
+   * If the list is empty, no deployed applications are returned. All the deployed applications are used to evaluate the parent application aggregated health state, regardless of the input filters.
+   * The application filter may specify multiple deployed application filters.
+   * For example, it can specify a filter to return all deployed applications with health state Error and another filter to always include a deployed application on a specified node.
+   */
+  DeployedApplicationFilters?: Array<DeployedApplicationHealthStateFilter>;
+}
+
+export interface ServiceHealthStateFilter {
+  /**
+   * The name of the service that matches the filter. The filter is applied only to the specified service, if it exists.
+   * If the service doesn't exist, no service is returned in the cluster health chunk based on this filter.
+   * If the service exists, it is included as the application's child if the health state matches the other filter properties.
+   * If not specified, all services that match the parent filters (if any) are taken into consideration and matched against the other filter members, like health state filter.
+   */
+  ServiceNameFilter?: string;
+  /**
+   * The filter for the health state of the services. It allows selecting services if they match the desired health states.
+   * The possible values are integer value of one of the following health states. Only services that match the filter are returned. All services are used to evaluate the cluster aggregated health state.
+   * If not specified, default value is None, unless the service name is specified. If the filter has default value and service name is specified, the matching service is returned.
+   * The state values are flag-based enumeration, so the value could be a combination of these values obtained using bitwise 'OR' operator.
+   * For example, if the provided value is 6, it matches services with HealthState value of OK (2) and Warning (4).
+   *
+   * - Default - Default value. Matches any HealthState. The value is zero.
+   * - None - Filter that doesn't match any HealthState value. Used in order to return no results on a given collection of states. The value is 1.
+   * - Ok - Filter that matches input with HealthState value Ok. The value is 2.
+   * - Warning - Filter that matches input with HealthState value Warning. The value is 4.
+   * - Error - Filter that matches input with HealthState value Error. The value is 8.
+   * - All - Filter that matches input with any HealthState value. The value is 65535.
+   */
+  HealthStateFilter?: number;
+  /**
+   * Defines a list of filters that specify which partitions to be included in the returned cluster health chunk as children of the service. The partitions are returned only if the parent service matches a filter.
+   * If the list is empty, no partitions are returned. All the partitions are used to evaluate the parent service aggregated health state, regardless of the input filters.
+   * The service filter may specify multiple partition filters.
+   * For example, it can specify a filter to return all partitions with health state Error and another filter to always include a partition identified by its partition ID.
+   */
+  PartitionFilters?: Array<PartitionHealthStateFilter>;
+}
+
+export interface PartitionHealthStateFilter {
+  /**
+   * ID of the partition that matches the filter. The filter is applied only to the specified partition, if it exists.
+   * If the partition doesn't exist, no partition is returned in the cluster health chunk based on this filter.
+   * If the partition exists, it is included in the cluster health chunk if it respects the other filter properties.
+   * If not specified, all partitions that match the parent filters (if any) are taken into consideration and matched against the other filter members, like health state filter.
+   *
+   * Value may contain a UUID
+   */
+  PartitionIdFilter?: string;
+  /**
+   * The filter for the health state of the partitions. It allows selecting partitions if they match the desired health states.
+   * The possible values are integer value of one of the following health states. Only partitions that match the filter are returned. All partitions are used to evaluate the cluster aggregated health state.
+   * If not specified, default value is None, unless the partition ID is specified. If the filter has default value and partition ID is specified, the matching partition is returned.
+   * The state values are flag-based enumeration, so the value could be a combination of these values obtained using bitwise 'OR' operator.
+   * For example, if the provided value is 6, it matches partitions with HealthState value of OK (2) and Warning (4).
+   *
+   * - Default - Default value. Matches any HealthState. The value is zero.
+   * - None - Filter that doesn't match any HealthState value. Used in order to return no results on a given collection of states. The value is 1.
+   * - Ok - Filter that matches input with HealthState value Ok. The value is 2.
+   * - Warning - Filter that matches input with HealthState value Warning. The value is 4.
+   * - Error - Filter that matches input with HealthState value Error. The value is 8.
+   * - All - Filter that matches input with any HealthState value. The value is 65535.
+   */
+  HealthStateFilter?: number;
+  /**
+   * Defines a list of filters that specify which replicas to be included in the returned cluster health chunk as children of the parent partition. The replicas are returned only if the parent partition matches a filter.
+   * If the list is empty, no replicas are returned. All the replicas are used to evaluate the parent partition aggregated health state, regardless of the input filters.
+   * The partition filter may specify multiple replica filters.
+   * For example, it can specify a filter to return all replicas with health state Error and another filter to always include a replica identified by its replica id.
+   */
+  ReplicaFilters?: Array<ReplicaHealthStateFilter>;
+}
+
+export interface ReplicaHealthStateFilter {
+  /**
+   * Id of the stateful service replica or stateless service instance that matches the filter. The filter is applied only to the specified replica, if it exists.
+   * If the replica doesn't exist, no replica is returned in the cluster health chunk based on this filter.
+   * If the replica exists, it is included in the cluster health chunk if it respects the other filter properties.
+   * If not specified, all replicas that match the parent filters (if any) are taken into consideration and matched against the other filter members, like health state filter.
+   */
+  ReplicaOrInstanceIdFilter?: string;
+  /**
+   * The filter for the health state of the replicas. It allows selecting replicas if they match the desired health states.
+   * The possible values are integer value of one of the following health states. Only replicas that match the filter are returned. All replicas are used to evaluate the parent partition aggregated health state.
+   * If not specified, default value is None, unless the replica ID is specified. If the filter has default value and replica ID is specified, the matching replica is returned.
+   * The state values are flag-based enumeration, so the value could be a combination of these values obtained using bitwise 'OR' operator.
+   * For example, if the provided value is 6, it matches replicas with HealthState value of OK (2) and Warning (4).
+   *
+   * - Default - Default value. Matches any HealthState. The value is zero.
+   * - None - Filter that doesn't match any HealthState value. Used in order to return no results on a given collection of states. The value is 1.
+   * - Ok - Filter that matches input with HealthState value Ok. The value is 2.
+   * - Warning - Filter that matches input with HealthState value Warning. The value is 4.
+   * - Error - Filter that matches input with HealthState value Error. The value is 8.
+   * - All - Filter that matches input with any HealthState value. The value is 65535.
+   */
+  HealthStateFilter?: number;
+}
+
+export interface DeployedApplicationHealthStateFilter {
+  /**
+   * The name of the node where the application is deployed in order to match the filter.
+   * If specified, the filter is applied only to the application deployed on the specified node.
+   * If the application is not deployed on the node with the specified name, no deployed application is returned in the cluster health chunk based on this filter.
+   * Otherwise, the deployed application is included in the cluster health chunk if it respects the other filter properties.
+   * If not specified, all deployed applications that match the parent filters (if any) are taken into consideration and matched against the other filter members, like health state filter.
+   */
+  NodeNameFilter?: string;
+  /**
+   * The filter for the health state of the deployed applications. It allows selecting deployed applications if they match the desired health states.
+   * The possible values are integer value of one of the following health states. Only deployed applications that match the filter are returned. All deployed applications are used to evaluate the cluster aggregated health state.
+   * If not specified, default value is None, unless the node name is specified. If the filter has default value and node name is specified, the matching deployed application is returned.
+   * The state values are flag-based enumeration, so the value could be a combination of these values obtained using bitwise 'OR' operator.
+   * For example, if the provided value is 6, it matches deployed applications with HealthState value of OK (2) and Warning (4).
+   *
+   * - Default - Default value. Matches any HealthState. The value is zero.
+   * - None - Filter that doesn't match any HealthState value. Used in order to return no results on a given collection of states. The value is 1.
+   * - Ok - Filter that matches input with HealthState value Ok. The value is 2.
+   * - Warning - Filter that matches input with HealthState value Warning. The value is 4.
+   * - Error - Filter that matches input with HealthState value Error. The value is 8.
+   * - All - Filter that matches input with any HealthState value. The value is 65535.
+   */
+  HealthStateFilter?: number;
+  /**
+   * Defines a list of filters that specify which deployed service packages to be included in the returned cluster health chunk as children of the parent deployed application. The deployed service packages are returned only if the parent deployed application matches a filter.
+   * If the list is empty, no deployed service packages are returned. All the deployed service packages are used to evaluate the parent deployed application aggregated health state, regardless of the input filters.
+   * The deployed application filter may specify multiple deployed service package filters.
+   * For example, it can specify a filter to return all deployed service packages with health state Error and another filter to always include a deployed service package on a node.
+   */
+  DeployedServicePackageFilters?: Array<DeployedServicePackageHealthStateFilter>;
+}
+
+export interface DeployedServicePackageHealthStateFilter {
+  /**
+   * The name of the service manifest which identifies the deployed service packages that matches the filter.
+   * If specified, the filter is applied only to the specified deployed service packages, if any.
+   * If no deployed service packages with specified manifest name exist, nothing is returned in the cluster health chunk based on this filter.
+   * If any deployed service package exists, they are included in the cluster health chunk if it respects the other filter properties.
+   * If not specified, all deployed service packages that match the parent filters (if any) are taken into consideration and matched against the other filter members, like health state filter.
+   */
+  ServiceManifestNameFilter?: string;
+  /**
+   * The activation ID of a deployed service package that matches the filter.
+   * If not specified, the filter applies to all deployed service packages that match the other parameters.
+   * If specified, the filter matches only the deployed service package with the specified activation ID.
+   */
+  ServicePackageActivationIdFilter?: string;
+  /**
+   * The filter for the health state of the deployed service packages. It allows selecting deployed service packages if they match the desired health states.
+   * The possible values are integer value of one of the following health states. Only deployed service packages that match the filter are returned. All deployed service packages are used to evaluate the parent deployed application aggregated health state.
+   * If not specified, default value is None, unless the deployed service package ID is specified. If the filter has default value and deployed service package ID is specified, the matching deployed service package is returned.
+   * The state values are flag-based enumeration, so the value could be a combination of these values obtained using bitwise 'OR' operator.
+   * For example, if the provided value is 6, it matches deployed service packages with HealthState value of OK (2) and Warning (4).
+   *
+   * - Default - Default value. Matches any HealthState. The value is zero.
+   * - None - Filter that doesn't match any HealthState value. Used in order to return no results on a given collection of states. The value is 1.
+   * - Ok - Filter that matches input with HealthState value Ok. The value is 2.
+   * - Warning - Filter that matches input with HealthState value Warning. The value is 4.
+   * - Error - Filter that matches input with HealthState value Error. The value is 8.
+   * - All - Filter that matches input with any HealthState value. The value is 65535.
+   */
+  HealthStateFilter?: number;
+}
+
+export interface ApplicationHealthPolicies {
+  /** The wrapper that contains the map with application health policies used to evaluate specific applications in the cluster. */
+  ApplicationHealthPolicyMap?: Array<ApplicationHealthPolicyMapItem>;
+}
+
+export interface MonitoringPolicyDescription {
+  /**
+   * The compensating action to perform when a Monitored upgrade encounters monitoring policy or health policy violations.
+   * Invalid indicates the failure action is invalid. Rollback specifies that the upgrade will start rolling back automatically.
+   * Manual indicates that the upgrade will switch to UnmonitoredManual upgrade mode.
+   */
+  FailureAction?: "Invalid" | "Rollback" | "Manual";
+  /** The amount of time to wait after completing an upgrade domain before applying health policies. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds. */
+  HealthCheckWaitDurationInMilliseconds?: string;
+  /** The amount of time that the application or cluster must remain healthy before the upgrade proceeds to the next upgrade domain. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds. */
+  HealthCheckStableDurationInMilliseconds?: string;
+  /** The amount of time to retry health evaluation when the application or cluster is unhealthy before FailureAction is executed. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds. */
+  HealthCheckRetryTimeoutInMilliseconds?: string;
+  /** The amount of time the overall upgrade has to complete before FailureAction is executed. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds. */
+  UpgradeTimeoutInMilliseconds?: string;
+  /** The amount of time each upgrade domain has to complete before FailureAction is executed. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds. */
+  UpgradeDomainTimeoutInMilliseconds?: string;
+}
+
+export interface ClusterUpgradeHealthPolicyObject {
+  /** The maximum allowed percentage of nodes health degradation allowed during cluster upgrades. The delta is measured between the state of the nodes at the beginning of upgrade and the state of the nodes at the time of the health evaluation. The check is performed after every upgrade domain upgrade completion to make sure the global state of the cluster is within tolerated limits. The default value is 10%. */
+  MaxPercentDeltaUnhealthyNodes?: number;
+  /** The maximum allowed percentage of upgrade domain nodes health degradation allowed during cluster upgrades. The delta is measured between the state of the upgrade domain nodes at the beginning of upgrade and the state of the upgrade domain nodes at the time of the health evaluation. The check is performed after every upgrade domain upgrade completion for all completed upgrade domains to make sure the state of the upgrade domains is within tolerated limits. The default value is 15%. */
+  MaxPercentUpgradeDomainDeltaUnhealthyNodes?: number;
+}
+
+export interface UpgradeOrchestrationServiceState {
+  /** The state of Service Fabric Upgrade Orchestration Service. */
+  ServiceState?: string;
+}
+
+export interface ProvisionFabricDescription {
+  /** The cluster code package file path. */
+  CodeFilePath?: string;
+  /** The cluster manifest file path. */
+  ClusterManifestFilePath?: string;
+}
+
+export interface UnprovisionFabricDescription {
+  /** The cluster code package version. */
+  CodeVersion?: string;
+  /** The cluster manifest version. */
+  ConfigVersion?: string;
+}
+
+export interface ResumeClusterUpgradeDescription {
+  /** The next upgrade domain for this cluster upgrade. */
+  UpgradeDomain: string;
+}
+
+export interface StartClusterUpgradeDescription {
+  /** The cluster code version. */
+  CodeVersion?: string;
+  /** The cluster configuration version. */
+  ConfigVersion?: string;
+  /** The kind of upgrade out of the following possible values. */
+  UpgradeKind?: "Invalid" | "Rolling";
+  /** The mode used to monitor health during a rolling upgrade. The values are UnmonitoredAuto, UnmonitoredManual, and Monitored. */
+  RollingUpgradeMode?: "Invalid" | "UnmonitoredAuto" | "UnmonitoredManual" | "Monitored";
+  /** The maximum amount of time to block processing of an upgrade domain and prevent loss of availability when there are unexpected issues. When this timeout expires, processing of the upgrade domain will proceed regardless of availability loss issues. The timeout is reset at the start of each upgrade domain. Valid values are between 0 and 42949672925 inclusive. (unsigned 32-bit integer). */
+  UpgradeReplicaSetCheckTimeoutInSeconds?: number;
+  /** If true, then processes are forcefully restarted during upgrade even when the code version has not changed (the upgrade only changes configuration or data). */
+  ForceRestart?: boolean;
+  /** Defines the order in which an upgrade proceeds through the cluster. */
+  SortOrder?:
+    | "Invalid"
+    | "Default"
+    | "Numeric"
+    | "Lexicographical"
+    | "ReverseNumeric"
+    | "ReverseLexicographical";
+  /** Describes the parameters for monitoring an upgrade in Monitored mode. */
+  MonitoringPolicy?: MonitoringPolicyDescription;
+  /** Defines a health policy used to evaluate the health of the cluster or of a cluster node. */
+  ClusterHealthPolicy?: ClusterHealthPolicy;
+  /** When true, enables delta health evaluation rather than absolute health evaluation after completion of each upgrade domain. */
+  EnableDeltaHealthEvaluation?: boolean;
+  /** Defines a health policy used to evaluate the health of the cluster during a cluster upgrade. */
+  ClusterUpgradeHealthPolicy?: ClusterUpgradeHealthPolicyObject;
+  /** Defines the application health policy map used to evaluate the health of an application or one of its children entities. */
+  ApplicationHealthPolicyMap?: ApplicationHealthPolicies;
+  /**
+   * Duration in seconds, to wait before a stateless instance is closed, to allow the active requests to drain gracefully. This would be effective when the instance is closing during the application/cluster
+   * upgrade, only for those instances which have a non-zero delay duration configured in the service description. See InstanceCloseDelayDurationSeconds property in $ref: "#/definitions/StatelessServiceDescription.yaml" for details.
+   * Note, the default value of InstanceCloseDelayDurationInSeconds is 4294967295, which indicates that the behavior will entirely depend on the delay configured in the stateless service description.
+   */
+  InstanceCloseDelayDurationInSeconds?: number;
+}
+
+export interface ClusterConfigurationUpgradeDescription {
+  /** The cluster configuration as a JSON string. For example, [this file](https://github.com/Azure-Samples/service-fabric-dotnet-standalone-cluster-configuration/blob/master/Samples/ClusterConfig.Unsecure.DevCluster.json) contains JSON describing the [nodes and other properties of the cluster](https://docs.microsoft.com/azure/service-fabric/service-fabric-cluster-manifest). */
+  ClusterConfig: string;
+  /** The length of time between attempts to perform health checks if the application or cluster is not healthy. */
+  HealthCheckRetryTimeout?: string;
+  /** The length of time to wait after completing an upgrade domain before starting the health checks process. */
+  HealthCheckWaitDurationInSeconds?: string;
+  /** The length of time that the application or cluster must remain healthy before the upgrade proceeds to the next upgrade domain. */
+  HealthCheckStableDurationInSeconds?: string;
+  /** The timeout for the upgrade domain. */
+  UpgradeDomainTimeoutInSeconds?: string;
+  /** The upgrade timeout. */
+  UpgradeTimeoutInSeconds?: string;
+  /** The maximum allowed percentage of unhealthy applications during the upgrade. Allowed values are integer values from zero to 100. */
+  MaxPercentUnhealthyApplications?: number;
+  /** The maximum allowed percentage of unhealthy nodes during the upgrade. Allowed values are integer values from zero to 100. */
+  MaxPercentUnhealthyNodes?: number;
+  /** The maximum allowed percentage of delta health degradation during the upgrade. Allowed values are integer values from zero to 100. */
+  MaxPercentDeltaUnhealthyNodes?: number;
+  /** The maximum allowed percentage of upgrade domain delta health degradation during the upgrade. Allowed values are integer values from zero to 100. */
+  MaxPercentUpgradeDomainDeltaUnhealthyNodes?: number;
+  /** Defines the application health policy map used to evaluate the health of an application or one of its children entities. */
+  ApplicationHealthPolicies?: ApplicationHealthPolicies;
+}
+
+export interface UpdateClusterUpgradeDescription {
+  /** The type of upgrade out of the following possible values. */
+  UpgradeKind?: "Invalid" | "Rolling" | "Rolling_ForceRestart";
+  /** Describes the parameters for updating a rolling upgrade of application or cluster. */
+  UpdateDescription?: RollingUpgradeUpdateDescription;
+  /** Defines a health policy used to evaluate the health of the cluster or of a cluster node. */
+  ClusterHealthPolicy?: ClusterHealthPolicy;
+  /** When true, enables delta health evaluation rather than absolute health evaluation after completion of each upgrade domain. */
+  EnableDeltaHealthEvaluation?: boolean;
+  /** Defines a health policy used to evaluate the health of the cluster during a cluster upgrade. */
+  ClusterUpgradeHealthPolicy?: ClusterUpgradeHealthPolicyObject;
+  /** Defines the application health policy map used to evaluate the health of an application or one of its children entities. */
+  ApplicationHealthPolicyMap?: ApplicationHealthPolicies;
+}
+
+export interface RollingUpgradeUpdateDescription {
+  /** The mode used to monitor health during a rolling upgrade. The values are UnmonitoredAuto, UnmonitoredManual, and Monitored. */
+  RollingUpgradeMode: "Invalid" | "UnmonitoredAuto" | "UnmonitoredManual" | "Monitored";
+  /** If true, then processes are forcefully restarted during upgrade even when the code version has not changed (the upgrade only changes configuration or data). */
+  ForceRestart?: boolean;
+  /** The maximum amount of time to block processing of an upgrade domain and prevent loss of availability when there are unexpected issues. When this timeout expires, processing of the upgrade domain will proceed regardless of availability loss issues. The timeout is reset at the start of each upgrade domain. Valid values are between 0 and 42949672925 inclusive. (unsigned 32-bit integer). */
+  ReplicaSetCheckTimeoutInMilliseconds?: number;
+  /**
+   * The compensating action to perform when a Monitored upgrade encounters monitoring policy or health policy violations.
+   * Invalid indicates the failure action is invalid. Rollback specifies that the upgrade will start rolling back automatically.
+   * Manual indicates that the upgrade will switch to UnmonitoredManual upgrade mode.
+   */
+  FailureAction?: "Invalid" | "Rollback" | "Manual";
+  /** The amount of time to wait after completing an upgrade domain before applying health policies. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds. */
+  HealthCheckWaitDurationInMilliseconds?: string;
+  /** The amount of time that the application or cluster must remain healthy before the upgrade proceeds to the next upgrade domain. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds. */
+  HealthCheckStableDurationInMilliseconds?: string;
+  /** The amount of time to retry health evaluation when the application or cluster is unhealthy before FailureAction is executed. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds. */
+  HealthCheckRetryTimeoutInMilliseconds?: string;
+  /** The amount of time the overall upgrade has to complete before FailureAction is executed. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds. */
+  UpgradeTimeoutInMilliseconds?: string;
+  /** The amount of time each upgrade domain has to complete before FailureAction is executed. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds. */
+  UpgradeDomainTimeoutInMilliseconds?: string;
+  /**
+   * Duration in seconds, to wait before a stateless instance is closed, to allow the active requests to drain gracefully. This would be effective when the instance is closing during the application/cluster
+   * upgrade, only for those instances which have a non-zero delay duration configured in the service description. See InstanceCloseDelayDurationSeconds property in $ref: "#/definitions/StatelessServiceDescription.yaml" for details.
+   * Note, the default value of InstanceCloseDelayDurationInSeconds is 4294967295, which indicates that the behavior will entirely depend on the delay configured in the stateless service description.
+   */
+  InstanceCloseDelayDurationInSeconds?: number;
+}
+
+export interface DeactivationIntentDescription {
+  /** Describes the intent or reason for deactivating the node. The possible values are following. */
+  DeactivationIntent?: "Pause" | "Restart" | "RemoveData";
+}
+
+export interface RestartNodeDescription {
+  /** The instance ID of the target node. If instance ID is specified the node is restarted only if it matches with the current instance of the node. A default value of "0" would match any instance ID. The instance ID can be obtained using get node query. */
+  NodeInstanceId: string;
+  /** Specify True to create a dump of the fabric node process. This is case-sensitive. */
+  CreateFabricDump?: "False" | "True";
+}
+
+export interface ConfigParameterOverride {
+  /** Name of the section for the parameter override. */
+  SectionName: string;
+  /** Name of the parameter that has been overridden. */
+  ParameterName: string;
+  /** Value of the overridden parameter. */
+  ParameterValue: string;
+  /** The duration until config override is considered as valid. */
+  Timeout?: string;
+  /** A value that indicates whether config override will be removed on upgrade or will still be considered as valid. */
+  PersistAcrossUpgrade?: boolean;
+}
+
+export interface ApplicationParameter {
+  /** The name of the parameter. */
+  Key: string;
+  /** The value of the parameter. */
+  Value: string;
+}
+
+export interface ProvisionApplicationTypeDescriptionBaseBase {
+  /** Indicates whether or not provisioning should occur asynchronously. When set to true, the provision operation returns when the request is accepted by the system, and the provision operation continues without any timeout limit. The default value is false. For large application packages, we recommend setting the value to true. */
+  Async: boolean;
+  Kind: "ImageStorePath" | "ExternalStore";
+}
+
+export interface UnprovisionApplicationTypeDescriptionInfo {
+  /** The version of the application type as defined in the application manifest. */
+  ApplicationTypeVersion: string;
+  /** The flag indicating whether or not unprovision should occur asynchronously. When set to true, the unprovision operation returns when the request is accepted by the system, and the unprovision operation continues without any timeout limit. The default value is false. However, we recommend setting it to true for large application packages that were provisioned. */
+  Async?: boolean;
+}
+
+export interface ServiceLoadMetricDescription {
+  /** The name of the metric. If the service chooses to report load during runtime, the load metric name should match the name that is specified in Name exactly. Note that metric names are case-sensitive. */
+  Name: string;
+  /** The service load metric relative weight, compared to other metrics configured for this service, as a number. */
+  Weight?: "Zero" | "Low" | "Medium" | "High";
+  /** Used only for Stateful services. The default amount of load, as a number, that this service creates for this metric when it is a Primary replica. */
+  PrimaryDefaultLoad?: number;
+  /** Used only for Stateful services. The default amount of load, as a number, that this service creates for this metric when it is a Secondary replica. */
+  SecondaryDefaultLoad?: number;
+  /** Used only for Stateful services. The default amount of load, as a number, that this service creates for this metric when it is an Auxiliary replica. */
+  AuxiliaryDefaultLoad?: number;
+  /** Used only for Stateless services. The default amount of load, as a number, that this service creates for this metric. */
+  DefaultLoad?: number;
+}
+
+export interface ServicePlacementPolicyDescriptionBase {
+  Type:
+    | "InvalidDomain"
+    | "NonPartiallyPlaceService"
+    | "AllowMultipleStatelessInstancesOnNode"
+    | "PreferPrimaryDomain"
+    | "RequireDomain"
+    | "RequireDomainDistribution";
+}
+
+export interface ApplicationDescription {
+  /** The name of the application, including the 'fabric:' URI scheme. */
+  Name: string;
+  /** The application type name as defined in the application manifest. */
+  TypeName: string;
+  /** The version of the application type as defined in the application manifest. */
+  TypeVersion: string;
+  /** List of application parameters with overridden values from their default values specified in the application manifest. */
+  ParameterList?: Array<ApplicationParameter>;
+  /**
+   * Describes capacity information for services of this application. This description can be used for describing the following.
+   * - Reserving the capacity for the services on the nodes
+   * - Limiting the total number of nodes that services of this application can run on
+   * - Limiting the custom capacity metrics to limit the total consumption of this metric by the services of this application
+   */
+  ApplicationCapacity?: ApplicationCapacityDescription;
+  /** Managed application identity description. */
+  ManagedApplicationIdentity?: ManagedApplicationIdentityDescription;
+}
+
+export interface ApplicationCapacityDescription {
+  /** The minimum number of nodes where Service Fabric will reserve capacity for this application. Note that this does not mean that the services of this application will be placed on all of those nodes. If this property is set to zero, no capacity will be reserved. The value of this property cannot be more than the value of the MaximumNodes property. */
+  MinimumNodes?: number;
+  /** The maximum number of nodes where Service Fabric will reserve capacity for this application. Note that this does not mean that the services of this application will be placed on all of those nodes. By default, the value of this property is zero and it means that the services can be placed on any node. */
+  MaximumNodes?: number;
+  /** List of application capacity metric description. */
+  ApplicationMetrics?: Array<ApplicationMetricDescription>;
+}
+
+export interface ApplicationMetricDescription {
+  /** The name of the metric. */
+  Name?: string;
+  /**
+   * The maximum node capacity for Service Fabric application.
+   * This is the maximum Load for an instance of this application on a single node. Even if the capacity of node is greater than this value, Service Fabric will limit the total load of services within the application on each node to this value.
+   * If set to zero, capacity for this metric is unlimited on each node.
+   * When creating a new application with application capacity defined, the product of MaximumNodes and this value must always be smaller than or equal to TotalApplicationCapacity.
+   * When updating existing application with application capacity, the product of MaximumNodes and this value must always be smaller than or equal to TotalApplicationCapacity.
+   */
+  MaximumCapacity?: number;
+  /**
+   * The node reservation capacity for Service Fabric application.
+   * This is the amount of load which is reserved on nodes which have instances of this application.
+   * If MinimumNodes is specified, then the product of these values will be the capacity reserved in the cluster for the application.
+   * If set to zero, no capacity is reserved for this metric.
+   * When setting application capacity or when updating application capacity; this value must be smaller than or equal to MaximumCapacity for each metric.
+   */
+  ReservationCapacity?: number;
+  /**
+   * The total metric capacity for Service Fabric application.
+   * This is the total metric capacity for this application in the cluster. Service Fabric will try to limit the sum of loads of services within the application to this value.
+   * When creating a new application with application capacity defined, the product of MaximumNodes and MaximumCapacity must always be smaller than or equal to this value.
+   */
+  TotalApplicationCapacity?: number;
+}
+
+export interface ManagedApplicationIdentityDescription {
+  /** Token service endpoint. */
+  TokenServiceEndpoint?: string;
+  /** A list of managed application identity objects. */
+  ManagedIdentities?: Array<ManagedApplicationIdentity>;
+}
+
+export interface ManagedApplicationIdentity {
+  /** The name of the identity. */
+  Name: string;
+  /** The identity's PrincipalId. */
+  PrincipalId?: string;
+}
+
+export interface ApplicationUpgradeDescription {
+  /** The name of the target application, including the 'fabric:' URI scheme. */
+  Name: string;
+  /** The target application type version (found in the application manifest) for the application upgrade. */
+  TargetApplicationTypeVersion: string;
+  /** List of application parameters with overridden values from their default values specified in the application manifest. */
+  Parameters?: Array<ApplicationParameter>;
+  /** The kind of upgrade out of the following possible values. */
+  UpgradeKind: "Invalid" | "Rolling";
+  /** The mode used to monitor health during a rolling upgrade. The values are UnmonitoredAuto, UnmonitoredManual, and Monitored. */
+  RollingUpgradeMode?: "Invalid" | "UnmonitoredAuto" | "UnmonitoredManual" | "Monitored";
+  /** The maximum amount of time to block processing of an upgrade domain and prevent loss of availability when there are unexpected issues. When this timeout expires, processing of the upgrade domain will proceed regardless of availability loss issues. The timeout is reset at the start of each upgrade domain. Valid values are between 0 and 42949672925 inclusive. (unsigned 32-bit integer). */
+  UpgradeReplicaSetCheckTimeoutInSeconds?: number;
+  /** If true, then processes are forcefully restarted during upgrade even when the code version has not changed (the upgrade only changes configuration or data). */
+  ForceRestart?: boolean;
+  /** Defines the order in which an upgrade proceeds through the cluster. */
+  SortOrder?:
+    | "Invalid"
+    | "Default"
+    | "Numeric"
+    | "Lexicographical"
+    | "ReverseNumeric"
+    | "ReverseLexicographical";
+  /** Describes the parameters for monitoring an upgrade in Monitored mode. */
+  MonitoringPolicy?: MonitoringPolicyDescription;
+  /** Defines a health policy used to evaluate the health of an application or one of its children entities. */
+  ApplicationHealthPolicy?: ApplicationHealthPolicy;
+  /**
+   * Duration in seconds, to wait before a stateless instance is closed, to allow the active requests to drain gracefully. This would be effective when the instance is closing during the application/cluster
+   * upgrade, only for those instances which have a non-zero delay duration configured in the service description. See InstanceCloseDelayDurationSeconds property in $ref: "#/definitions/StatelessServiceDescription.yaml" for details.
+   * Note, the default value of InstanceCloseDelayDurationInSeconds is 4294967295, which indicates that the behavior will entirely depend on the delay configured in the stateless service description.
+   */
+  InstanceCloseDelayDurationInSeconds?: number;
+  /** Managed application identity description. */
+  ManagedApplicationIdentity?: ManagedApplicationIdentityDescription;
+}
+
+export interface ApplicationUpgradeUpdateDescription {
+  /** The name of the application, including the 'fabric:' URI scheme. */
+  Name: string;
+  /** The kind of upgrade out of the following possible values. */
+  UpgradeKind: "Invalid" | "Rolling";
+  /** Defines a health policy used to evaluate the health of an application or one of its children entities. */
+  ApplicationHealthPolicy?: ApplicationHealthPolicy;
+  /** Describes the parameters for updating a rolling upgrade of application or cluster. */
+  UpdateDescription?: RollingUpgradeUpdateDescription;
+}
+
+export interface ApplicationUpdateDescription {
+  /**
+   * Flags indicating whether other properties are set. Each of the associated properties corresponds to a flag, specified below, which, if set, indicate that the property is specified.
+   * If flags are not specified for a certain property, the property will not be updated even if the new value is provided.
+   * This property can be a combination of those flags obtained using bitwise 'OR' operator. Exception is RemoveApplicationCapacity which cannot be specified along with other parameters.
+   * For example, if the provided value is 3 then the flags for MinimumNodes (1) and MaximumNodes (2) are set.
+   *
+   * - None - Does not indicate any other properties are set. The value is 0.
+   * - MinimumNodes - Indicates whether the MinimumNodes property is set. The value is 1.
+   * - MaximumNodes - Indicates whether the MinimumNodes property is set. The value is  2.
+   * - ApplicationMetrics - Indicates whether the ApplicationMetrics property is set. The value is 4.
+   */
+  Flags?: string;
+  /**
+   * Used to clear all parameters related to Application Capacity for this application. |
+   * It is not possible to specify this parameter together with other Application Capacity parameters.
+   */
+  RemoveApplicationCapacity?: boolean;
+  /** The minimum number of nodes where Service Fabric will reserve capacity for this application. Note that this does not mean that the services of this application will be placed on all of those nodes. If this property is set to zero, no capacity will be reserved. The value of this property cannot be more than the value of the MaximumNodes property. */
+  MinimumNodes?: number;
+  /** The maximum number of nodes where Service Fabric will reserve capacity for this application. Note that this does not mean that the services of this application will be placed on all of those nodes. By default, the value of this property is zero and it means that the services can be placed on any node. */
+  MaximumNodes?: number;
+  /** List of application capacity metric description. */
+  ApplicationMetrics?: Array<ApplicationMetricDescription>;
+}
+
+export interface ResumeApplicationUpgradeDescription {
+  /** The name of the upgrade domain in which to resume the upgrade. */
+  UpgradeDomainName: string;
+}
+
+export interface ServiceDescriptionBase {
+  /** The name of the application, including the 'fabric:' URI scheme. */
+  ApplicationName?: string;
+  /** The full name of the service with 'fabric:' URI scheme. */
+  ServiceName: string;
+  /** Name of the service type as specified in the service manifest. */
+  ServiceTypeName: string;
+  /** The initialization data as an array of bytes. Initialization data is passed to service instances or replicas when they are created. */
+  InitializationData?: Array<number>;
+  /** The partition description as an object. */
+  PartitionDescription: PartitionSchemeDescription;
+  /** The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)". */
+  PlacementConstraints?: string;
+  /** The correlation scheme. */
+  CorrelationScheme?: Array<ServiceCorrelationDescription>;
+  /** The service load metrics. */
+  ServiceLoadMetrics?: Array<ServiceLoadMetricDescription>;
+  /** The service placement policies. */
+  ServicePlacementPolicies?: Array<ServicePlacementPolicyDescription>;
+  /** The move cost for the service. */
+  DefaultMoveCost?: "Zero" | "Low" | "Medium" | "High" | "VeryHigh";
+  /** Indicates if the DefaultMoveCost property is specified. */
+  IsDefaultMoveCostSpecified?: boolean;
+  /** The activation mode of service package to be used for a service. */
+  ServicePackageActivationMode?: "SharedProcess" | "ExclusiveProcess";
+  /** The DNS name of the service. It requires the DNS system service to be enabled in Service Fabric cluster. */
+  ServiceDnsName?: string;
+  /** Scaling policies for this service. */
+  ScalingPolicies?: Array<ScalingPolicyDescription>;
+  /** Tags for placement of this service. */
+  TagsRequiredToPlace?: NodeTagsDescription;
+  /** Tags for running of this service. */
+  TagsRequiredToRun?: NodeTagsDescription;
+  ServiceKind: "Stateful" | "Stateless";
+}
+
+export interface PartitionSchemeDescriptionBase {
+  PartitionScheme: "Named" | "Singleton" | "UniformInt64Range";
+}
+
+export interface ServiceCorrelationDescription {
+  /** The ServiceCorrelationScheme which describes the relationship between this service and the service specified via ServiceName. */
+  Scheme: "Invalid" | "Affinity" | "AlignedAffinity" | "NonAlignedAffinity";
+  /** The name of the service that the correlation relationship is established with. */
+  ServiceName: string;
+}
+
+export interface ScalingPolicyDescription {
+  /** Specifies the trigger associated with this scaling policy */
+  ScalingTrigger: ScalingTriggerDescription;
+  /** Specifies the mechanism associated with this scaling policy */
+  ScalingMechanism: ScalingMechanismDescription;
+}
+
+export interface ScalingTriggerDescriptionBase {
+  Kind: "AveragePartitionLoad" | "AverageServiceLoad";
+}
+
+export interface ScalingMechanismDescriptionBase {
+  Kind: "PartitionInstanceCount" | "AddRemoveIncrementalNamedPartition";
+}
+
+export interface NodeTagsDescription {
+  /** The number of tags. */
+  Count: number;
+  /** Array of size specified by the ‘Count’ parameter, for the placement tags of the service. */
+  Tags: Array<string>;
+}
+
+export interface ServiceFromTemplateDescription {
+  /** The name of the application, including the 'fabric:' URI scheme. */
+  ApplicationName: string;
+  /** The full name of the service with 'fabric:' URI scheme. */
+  ServiceName: string;
+  /** Name of the service type as specified in the service manifest. */
+  ServiceTypeName: string;
+  /** The initialization data for the newly created service instance. */
+  InitializationData?: Array<number>;
+  /** The activation mode of service package to be used for a service. */
+  ServicePackageActivationMode?: "SharedProcess" | "ExclusiveProcess";
+  /** The DNS name of the service. It requires the DNS system service to be enabled in Service Fabric cluster. */
+  ServiceDnsName?: string;
+}
+
+export interface ServiceUpdateDescriptionBase {
+  /**
+   * Flags indicating whether other properties are set. Each of the associated properties corresponds to a flag, specified below, which, if set, indicate that the property is specified.
+   * This property can be a combination of those flags obtained using bitwise 'OR' operator.
+   * For example, if the provided value is 6 then the flags for ReplicaRestartWaitDuration (2) and QuorumLossWaitDuration (4) are set.
+   *
+   * - None - Does not indicate any other properties are set. The value is zero.
+   * - TargetReplicaSetSize/InstanceCount - Indicates whether the TargetReplicaSetSize property (for Stateful services) or the InstanceCount property (for Stateless services) is set. The value is 1.
+   * - ReplicaRestartWaitDuration - Indicates the ReplicaRestartWaitDuration property is set. The value is  2.
+   * - QuorumLossWaitDuration - Indicates the QuorumLossWaitDuration property is set. The value is 4.
+   * - StandByReplicaKeepDuration - Indicates the StandByReplicaKeepDuration property is set. The value is 8.
+   * - MinReplicaSetSize - Indicates the MinReplicaSetSize property is set. The value is 16.
+   * - PlacementConstraints - Indicates the PlacementConstraints property is set. The value is 32.
+   * - PlacementPolicyList - Indicates the ServicePlacementPolicies property is set. The value is 64.
+   * - Correlation - Indicates the CorrelationScheme property is set. The value is 128.
+   * - Metrics - Indicates the ServiceLoadMetrics property is set. The value is 256.
+   * - DefaultMoveCost - Indicates the DefaultMoveCost property is set. The value is 512.
+   * - ScalingPolicy - Indicates the ScalingPolicies property is set. The value is 1024.
+   * - ServicePlacementTimeLimit - Indicates the ServicePlacementTimeLimit property is set. The value is 2048.
+   * - MinInstanceCount - Indicates the MinInstanceCount property is set. The value is 4096.
+   * - MinInstancePercentage - Indicates the MinInstancePercentage property is set. The value is 8192.
+   * - InstanceCloseDelayDuration - Indicates the InstanceCloseDelayDuration property is set. The value is 16384.
+   * - InstanceRestartWaitDuration - Indicates the InstanceCloseDelayDuration property is set. The value is 32768.
+   * - DropSourceReplicaOnMove - Indicates the DropSourceReplicaOnMove property is set. The value is 65536.
+   * - ServiceDnsName - Indicates the ServiceDnsName property is set. The value is 131072.
+   * - TagsForPlacement - Indicates the TagsForPlacement property is set. The value is 1048576.
+   * - TagsForRunning - Indicates the TagsForRunning property is set. The value is 2097152.
+   */
+  Flags?: string;
+  /** The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)". */
+  PlacementConstraints?: string;
+  /** The correlation scheme. */
+  CorrelationScheme?: Array<ServiceCorrelationDescription>;
+  /** The service load metrics. */
+  LoadMetrics?: Array<ServiceLoadMetricDescription>;
+  /** The service placement policies. */
+  ServicePlacementPolicies?: Array<ServicePlacementPolicyDescription>;
+  /** The move cost for the service. */
+  DefaultMoveCost?: "Zero" | "Low" | "Medium" | "High" | "VeryHigh";
+  /** Scaling policies for this service. */
+  ScalingPolicies?: Array<ScalingPolicyDescription>;
+  /** The DNS name of the service. */
+  ServiceDnsName?: string;
+  /** Tags for placement of this service. */
+  TagsForPlacement?: NodeTagsDescription;
+  /** Tags for running of this service. */
+  TagsForRunning?: NodeTagsDescription;
+  ServiceKind: "Stateful" | "Stateless";
+}
+
+export interface PartitionMetricLoadDescription {
+  /**
+   * Id of the partition.
+   *
+   * Value may contain a UUID
+   */
+  PartitionId?: string;
+  /** Partition's load information for primary replica, in case partition is from a stateful service. */
+  PrimaryReplicaLoadEntries?: Array<MetricLoadDescription>;
+  /** Partition's load information for all secondary replicas or instances. */
+  SecondaryReplicasOrInstancesLoadEntries?: Array<MetricLoadDescription>;
+  /** Partition's load information for a specific secondary replica or instance located on a specific node. */
+  SecondaryReplicaOrInstanceLoadEntriesPerNode?: Array<ReplicaMetricLoadDescription>;
+  /** Partition's load information for all auxiliary replicas. */
+  AuxiliaryReplicasLoadEntries?: Array<MetricLoadDescription>;
+  /** Partition's load information for a specific auxiliary replica located on a specific node. */
+  AuxiliaryReplicaLoadEntriesPerNode?: Array<ReplicaMetricLoadDescription>;
+}
+
+export interface MetricLoadDescription {
+  /** The name of the reported metric. */
+  MetricName?: string;
+  /** The current value of the metric load. */
+  CurrentLoad?: number;
+  /** The predicted value of the metric load. */
+  PredictedLoad?: number;
+}
+
+export interface ReplicaMetricLoadDescription {
+  /** Node name of a specific secondary replica or instance. */
+  NodeName?: string;
+  /** Loads of a different metrics for a partition's secondary replica or instance. */
+  ReplicaOrInstanceLoadEntries?: Array<MetricLoadDescription>;
+}
+
+export interface RepairTask {
+  /** The ID of the repair task. */
+  TaskId: string;
+  /**
+   * The version of the repair task.
+   * When creating a new repair task, the version must be set to zero.  When updating a repair task,
+   * the version is used for optimistic concurrency checks.  If the version is
+   * set to zero, the update will not check for write conflicts.  If the version is set to a non-zero value, then the
+   * update will only succeed if the actual current version of the repair task matches this value.
+   */
+  Version?: string;
+  /**
+   * A description of the purpose of the repair task, or other informational details.
+   * May be set when the repair task is created, and is immutable once set.
+   */
+  Description?: string;
+  /** The workflow state of the repair task. Valid initial states are Created, Claimed, and Preparing. */
+  State:
+    | "Invalid"
+    | "Created"
+    | "Claimed"
+    | "Preparing"
+    | "Approved"
+    | "Executing"
+    | "Restoring"
+    | "Completed";
+  /**
+   * A bitwise-OR of the following values, which gives additional details about the status of the repair task.
+   * - 1 - Cancellation of the repair has been requested
+   * - 2 - Abort of the repair has been requested
+   * - 4 - Approval of the repair was forced via client request
+   */
+  Flags?: number;
+  /** The requested repair action. Must be specified when the repair task is created, and is immutable once set. */
+  Action: string;
+  /**
+   * The target object determines what actions the system will take to prepare for the impact of the repair, prior to approving execution of the repair.
+   * May be set when the repair task is created, and is immutable once set.
+   */
+  Target?: RepairTargetDescriptionBase;
+  /** The name of the repair executor. Must be specified in Claimed and later states, and is immutable once set. */
+  Executor?: string;
+  /** A data string that the repair executor can use to store its internal state. */
+  ExecutorData?: string;
+  /**
+   * The impact object determines what actions the system will take to prepare for the impact of the repair, prior to approving execution of the repair.
+   * Impact must be specified by the repair executor when transitioning to the Preparing state, and is immutable once set.
+   */
+  Impact?: RepairImpactDescriptionBase;
+  /** A value describing the overall result of the repair task execution. Must be specified in the Restoring and later states, and is immutable once set. */
+  ResultStatus?: "Invalid" | "Succeeded" | "Cancelled" | "Interrupted" | "Failed" | "Pending";
+  /**
+   * A numeric value providing additional details about the result of the repair task execution.
+   * May be specified in the Restoring and later states, and is immutable once set.
+   */
+  ResultCode?: number;
+  /**
+   * A string providing additional details about the result of the repair task execution.
+   * May be specified in the Restoring and later states, and is immutable once set.
+   */
+  ResultDetails?: string;
+  /**
+   * An object that contains timestamps of the repair task's state transitions.
+   * These timestamps are updated by the system, and cannot be directly modified.
+   */
+  History?: RepairTaskHistory;
+  /** The workflow state of the health check when the repair task is in the Preparing state. */
+  PreparingHealthCheckState?: "NotStarted" | "InProgress" | "Succeeded" | "Skipped" | "TimedOut";
+  /** The workflow state of the health check when the repair task is in the Restoring state. */
+  RestoringHealthCheckState?: "NotStarted" | "InProgress" | "Succeeded" | "Skipped" | "TimedOut";
+  /** A value to determine if health checks will be performed when the repair task enters the Preparing state. */
+  PerformPreparingHealthCheck?: boolean;
+  /** A value to determine if health checks will be performed when the repair task enters the Restoring state. */
+  PerformRestoringHealthCheck?: boolean;
+}
+
+export interface RepairTargetDescriptionBaseBase {
+  Kind: "Node";
+}
+
+export interface RepairImpactDescriptionBaseBase {
+  Kind: "Node";
+}
+
+export interface RepairTaskHistory {
+  /** The time when the repair task entered the Created state. */
+  CreatedUtcTimestamp?: Date | string;
+  /** The time when the repair task entered the Claimed state. */
+  ClaimedUtcTimestamp?: Date | string;
+  /** The time when the repair task entered the Preparing state. */
+  PreparingUtcTimestamp?: Date | string;
+  /** The time when the repair task entered the Approved state */
+  ApprovedUtcTimestamp?: Date | string;
+  /** The time when the repair task entered the Executing state */
+  ExecutingUtcTimestamp?: Date | string;
+  /** The time when the repair task entered the Restoring state */
+  RestoringUtcTimestamp?: Date | string;
+  /** The time when the repair task entered the Completed state */
+  CompletedUtcTimestamp?: Date | string;
+  /** The time when the repair task started the health check in the Preparing state. */
+  PreparingHealthCheckStartUtcTimestamp?: Date | string;
+  /** The time when the repair task completed the health check in the Preparing state. */
+  PreparingHealthCheckEndUtcTimestamp?: Date | string;
+  /** The time when the repair task started the health check in the Restoring state. */
+  RestoringHealthCheckStartUtcTimestamp?: Date | string;
+  /** The time when the repair task completed the health check in the Restoring state. */
+  RestoringHealthCheckEndUtcTimestamp?: Date | string;
+}
+
+export interface RepairTaskCancelDescription {
+  /** The ID of the repair task. */
+  TaskId: string;
+  /** The current version number of the repair task. If non-zero, then the request will only succeed if this value matches the actual current version of the repair task. If zero, then no version check is performed. */
+  Version?: string;
+  /** _True_ if the repair should be stopped as soon as possible even if it has already started executing. _False_ if the repair should be cancelled only if execution has not yet started. */
+  RequestAbort?: boolean;
+}
+
+export interface RepairTaskDeleteDescription {
+  /** The ID of the completed repair task to be deleted. */
+  TaskId: string;
+  /** The current version number of the repair task. If non-zero, then the request will only succeed if this value matches the actual current version of the repair task. If zero, then no version check is performed. */
+  Version?: string;
+}
+
+export interface RepairTaskApproveDescription {
+  /** The ID of the repair task. */
+  TaskId: string;
+  /** The current version number of the repair task. If non-zero, then the request will only succeed if this value matches the actual current version of the repair task. If zero, then no version check is performed. */
+  Version?: string;
+}
+
+export interface RepairTaskUpdateHealthPolicyDescription {
+  /** The ID of the repair task to be updated. */
+  TaskId: string;
+  /** The current version number of the repair task. If non-zero, then the request will only succeed if this value matches the actual current value of the repair task. If zero, then no version check is performed. */
+  Version?: string;
+  /** A boolean indicating if health check is to be performed in the Preparing stage of the repair task. If not specified the existing value should not be altered. Otherwise, specify the desired new value. */
+  PerformPreparingHealthCheck?: boolean;
+  /** A boolean indicating if health check is to be performed in the Restoring stage of the repair task. If not specified the existing value should not be altered. Otherwise, specify the desired new value. */
+  PerformRestoringHealthCheck?: boolean;
+}
+
+export interface DeployServicePackageToNodeDescription {
+  /** The name of service manifest whose packages need to be downloaded. */
+  ServiceManifestName: string;
+  /** The application type name as defined in the application manifest. */
+  ApplicationTypeName: string;
+  /** The version of the application type as defined in the application manifest. */
+  ApplicationTypeVersion: string;
+  /** The name of a Service Fabric node. */
+  NodeName: string;
+  /** List of package sharing policy information. */
+  PackageSharingPolicy?: Array<PackageSharingPolicyInfo>;
+}
+
+export interface PackageSharingPolicyInfo {
+  /** The name of code, configuration or data package that should be shared. */
+  SharedPackageName?: string;
+  /** Represents the scope for PackageSharingPolicy. This is specified during DeployServicePackageToNode operation. */
+  PackageSharingScope?: "None" | "All" | "Code" | "Config" | "Data";
+}
+
+export interface RestartDeployedCodePackageDescription {
+  /** The name of service manifest that specified this code package. */
+  ServiceManifestName: string;
+  /**
+   * The ActivationId of a deployed service package. If ServicePackageActivationMode specified at the time of creating the service
+   * is 'SharedProcess' (or if it is not specified, in which case it defaults to 'SharedProcess'), then value of ServicePackageActivationId
+   * is always an empty string.
+   */
+  ServicePackageActivationId?: string;
+  /** The name of the code package defined in the service manifest. */
+  CodePackageName: string;
+  /**
+   * The instance ID for currently running entry point. For a code package setup entry point (if specified) runs first and after it finishes main entry point is started.
+   * Each time entry point executable is run, its instance ID will change. If 0 is passed in as the code package instance ID, the API will restart the code package with whatever instance ID it is currently running.
+   * If an instance ID other than 0 is passed in, the API will restart the code package only if the current Instance ID matches the passed in instance ID.
+   * Note, passing in the exact instance ID (not 0) in the API is safer, because if ensures at most one restart of the code package.
+   */
+  CodePackageInstanceId: string;
+}
+
+export interface ContainerApiRequestBody {
+  /** HTTP verb of container REST API, defaults to "GET" */
+  HttpVerb?: string;
+  /** URI path of container REST API */
+  UriPath: string;
+  /** Content type of container REST API request, defaults to "application/json" */
+  "Content-Type"?: string;
+  /** HTTP request body of container REST API */
+  Body?: string;
+}
+
+export interface CreateComposeDeploymentDescription {
+  /** The name of the deployment. */
+  DeploymentName: string;
+  /** The content of the compose file that describes the deployment to create. */
+  ComposeFileContent: string;
+  /** Credential information to connect to container registry. */
+  RegistryCredential?: RegistryCredential;
+}
+
+export interface RegistryCredential {
+  /** The user name to connect to container registry. */
+  RegistryUserName?: string;
+  /** The password for supplied username to connect to container registry. */
+  RegistryPassword?: string;
+  /** Indicates that supplied container registry password is encrypted. */
+  PasswordEncrypted?: boolean;
+}
+
+export interface ComposeDeploymentUpgradeDescription {
+  /** The name of the deployment. */
+  DeploymentName: string;
+  /** The content of the compose file that describes the deployment to create. */
+  ComposeFileContent: string;
+  /** Credential information to connect to container registry. */
+  RegistryCredential?: RegistryCredential;
+  /** The kind of upgrade out of the following possible values. */
+  UpgradeKind: "Invalid" | "Rolling";
+  /** The mode used to monitor health during a rolling upgrade. The values are UnmonitoredAuto, UnmonitoredManual, and Monitored. */
+  RollingUpgradeMode?: "Invalid" | "UnmonitoredAuto" | "UnmonitoredManual" | "Monitored";
+  /** The maximum amount of time to block processing of an upgrade domain and prevent loss of availability when there are unexpected issues. When this timeout expires, processing of the upgrade domain will proceed regardless of availability loss issues. The timeout is reset at the start of each upgrade domain. Valid values are between 0 and 42949672925 inclusive. (unsigned 32-bit integer). */
+  UpgradeReplicaSetCheckTimeoutInSeconds?: number;
+  /** If true, then processes are forcefully restarted during upgrade even when the code version has not changed (the upgrade only changes configuration or data). */
+  ForceRestart?: boolean;
+  /** Describes the parameters for monitoring an upgrade in Monitored mode. */
+  MonitoringPolicy?: MonitoringPolicyDescription;
+  /** Defines a health policy used to evaluate the health of an application or one of its children entities. */
+  ApplicationHealthPolicy?: ApplicationHealthPolicy;
+}
+
+export interface ChaosParameters {
+  /** Total time (in seconds) for which Chaos will run before automatically stopping. The maximum allowed value is 4,294,967,295 (System.UInt32.MaxValue). */
+  TimeToRunInSeconds?: string;
+  /**
+   * The maximum amount of time to wait for all cluster entities to become stable and healthy. Chaos executes in iterations and at the start of each iteration it validates the health of cluster entities.
+   * During validation if a cluster entity is not stable and healthy within MaxClusterStabilizationTimeoutInSeconds, Chaos generates a validation failed event.
+   */
+  MaxClusterStabilizationTimeoutInSeconds?: number;
+  /**
+   * MaxConcurrentFaults is the maximum number of concurrent faults induced per iteration.
+   * Chaos executes in iterations and two consecutive iterations are separated by a validation phase.
+   * The higher the concurrency, the more aggressive the injection of faults, leading to inducing more complex series of states to uncover bugs.
+   * The recommendation is to start with a value of 2 or 3 and to exercise caution while moving up.
+   */
+  MaxConcurrentFaults?: number;
+  /** Enables or disables the move primary and move secondary faults. */
+  EnableMoveReplicaFaults?: boolean;
+  /**
+   * Wait time (in seconds) between consecutive faults within a single iteration.
+   * The larger the value, the lower the overlapping between faults and the simpler the sequence of state transitions that the cluster goes through.
+   * The recommendation is to start with a value between 1 and 5 and exercise caution while moving up.
+   */
+  WaitTimeBetweenFaultsInSeconds?: number;
+  /**
+   * Time-separation (in seconds) between two consecutive iterations of Chaos.
+   * The larger the value, the lower the fault injection rate.
+   */
+  WaitTimeBetweenIterationsInSeconds?: number;
+  /** Passed-in cluster health policy is used to validate health of the cluster in between Chaos iterations. If the cluster health is in error or if an unexpected exception happens during fault execution--to provide the cluster with some time to recuperate--Chaos will wait for 30 minutes before the next health-check. */
+  ClusterHealthPolicy?: ClusterHealthPolicy;
+  /**
+   * Describes a map, which is a collection of (string, string) type key-value pairs. The map can be used to record information about
+   * the Chaos run. There cannot be more than 100 such pairs and each string (key or value) can be at most 4095 characters long.
+   * This map is set by the starter of the Chaos run to optionally store the context about the specific run.
+   */
+  Context?: ChaosContext;
+  /**
+   * List of cluster entities to target for Chaos faults.
+   * This filter can be used to target Chaos faults only to certain node types or only to certain application instances. If ChaosTargetFilter is not used, Chaos faults all cluster entities.
+   * If ChaosTargetFilter is used, Chaos faults only the entities that meet the ChaosTargetFilter specification.
+   */
+  ChaosTargetFilter?: ChaosTargetFilter;
+}
+
+export interface ChaosContext {
+  /** Describes a map that contains a collection of ChaosContextMapItem's. */
+  Map?: Record<string, string>;
+}
+
+export interface ChaosTargetFilter {
+  /**
+   * A list of node types to include in Chaos faults.
+   * All types of faults (restart node, restart code package, remove replica, restart replica, move primary, and move secondary) are enabled for the nodes of these node types.
+   * If a node type (say NodeTypeX) does not appear in the NodeTypeInclusionList, then node level faults (like NodeRestart) will never be enabled for the nodes of
+   * NodeTypeX, but code package and replica faults can still be enabled for NodeTypeX if an application in the ApplicationInclusionList.
+   * happens to reside on a node of NodeTypeX.
+   * At most 100 node type names can be included in this list, to increase this number, a config upgrade is required for MaxNumberOfNodeTypesInChaosEntityFilter configuration.
+   */
+  NodeTypeInclusionList?: Array<string>;
+  /**
+   * A list of application URIs to include in Chaos faults.
+   * All replicas belonging to services of these applications are amenable to replica faults (restart replica, remove replica, move primary, and move secondary) by Chaos.
+   * Chaos may restart a code package only if the code package hosts replicas of these applications only.
+   * If an application does not appear in this list, it can still be faulted in some Chaos iteration if the application ends up on a node of a node type that is included in NodeTypeInclusionList.
+   * However, if applicationX is tied to nodeTypeY through placement constraints and applicationX is absent from ApplicationInclusionList and nodeTypeY is absent from NodeTypeInclusionList, then applicationX will never be faulted.
+   * At most 1000 application names can be included in this list, to increase this number, a config upgrade is required for MaxNumberOfApplicationsInChaosEntityFilter configuration.
+   */
+  ApplicationInclusionList?: Array<string>;
+}
+
+export interface ChaosScheduleDescription {
+  /** The version number of the Schedule. */
+  Version?: number;
+  /** Defines the schedule used by Chaos. */
+  Schedule?: ChaosSchedule;
+}
+
+export interface ChaosSchedule {
+  /** The date and time Chaos will start using this schedule. */
+  StartDate?: Date | string;
+  /** The date and time Chaos will continue to use this schedule until. */
+  ExpiryDate?: Date | string;
+  /** A mapping of string names to Chaos Parameters to be referenced by Chaos Schedule Jobs. */
+  ChaosParametersDictionary?: Array<ChaosParametersDictionaryItem>;
+  /** A list of all Chaos Schedule Jobs that will be automated by the schedule. */
+  Jobs?: Array<ChaosScheduleJob>;
+}
+
+export interface ChaosParametersDictionaryItem {
+  /** The key identifying the Chaos Parameter in the dictionary. This key is referenced by Chaos Schedule Jobs. */
+  Key: string;
+  /** Defines all the parameters to configure a Chaos run. */
+  Value: ChaosParameters;
+}
+
+export interface ChaosScheduleJob {
+  /** A reference to which Chaos Parameters of the Chaos Schedule to use. */
+  ChaosParameters?: string;
+  /** Defines the days of the week that a Chaos Schedule Job will run for. */
+  Days?: ChaosScheduleJobActiveDaysOfWeek;
+  /** A list of Time Ranges that specify when during active days that this job will run. The times are interpreted as UTC. */
+  Times?: Array<TimeRange>;
+}
+
+export interface ChaosScheduleJobActiveDaysOfWeek {
+  /** Indicates if the Chaos Schedule Job will run on Sunday */
+  Sunday?: boolean;
+  /** Indicates if the Chaos Schedule Job will run on Monday */
+  Monday?: boolean;
+  /** Indicates if the Chaos Schedule Job will run on Tuesday */
+  Tuesday?: boolean;
+  /** Indicates if the Chaos Schedule Job will run on Wednesday */
+  Wednesday?: boolean;
+  /** Indicates if the Chaos Schedule Job will run on Thursday */
+  Thursday?: boolean;
+  /** Indicates if the Chaos Schedule Job will run on Friday */
+  Friday?: boolean;
+  /** Indicates if the Chaos Schedule Job will run on Saturday */
+  Saturday?: boolean;
+}
+
+export interface TimeRange {
+  /** Defines an hour and minute of the day specified in 24 hour time. */
+  StartTime?: TimeOfDay;
+  /** Defines an hour and minute of the day specified in 24 hour time. */
+  EndTime?: TimeOfDay;
+}
+
+export interface TimeOfDay {
+  /** Represents the hour of the day. Value must be between 0 and 23 inclusive. */
+  Hour?: number;
+  /** Represents the minute of the hour. Value must be between 0 to 59 inclusive. */
+  Minute?: number;
+}
+
+export interface ImageStoreCopyDescription {
+  /** The relative path of source image store content to be copied from. */
+  RemoteSource: string;
+  /** The relative path of destination image store content to be copied to. */
+  RemoteDestination: string;
+  /** The list of the file names to be skipped for copying. */
+  SkipFiles?: Array<string>;
+  /** Indicates whether to check mark file during copying. The property is true if checking mark file is required, false otherwise. The mark file is used to check whether the folder is well constructed. If the property is true and mark file does not exist, the copy is skipped. */
+  CheckMarkFile?: boolean;
+}
+
+export interface BackupPolicyDescription {
+  /** The unique name identifying this backup policy. */
+  Name: string;
+  /** Specifies whether to trigger restore automatically using the latest available backup in case the partition experiences a data loss event. */
+  AutoRestoreOnDataLoss: boolean;
+  /**
+   * Defines the maximum number of incremental backups to be taken between two full backups. This is just the upper limit. A full backup may be taken before specified number of incremental backups are completed in one of the following conditions
+   * - The replica has never taken a full backup since it has become primary,
+   * - Some of the log records since the last backup has been truncated, or
+   * - Replica passed the MaxAccumulatedBackupLogSizeInMB limit.
+   */
+  MaxIncrementalBackups: number;
+  /** Describes the backup schedule parameters. */
+  Schedule: BackupScheduleDescription;
+  /** Describes the details of backup storage where to store the periodic backups. */
+  Storage: BackupStorageDescription;
+  /** Describes the policy to retain backups in storage. */
+  RetentionPolicy?: RetentionPolicyDescription;
+}
+
+export interface BackupScheduleDescriptionBase {
+  ScheduleKind: "FrequencyBased" | "TimeBased";
+}
+
+export interface BackupStorageDescriptionBase {
+  /** Friendly name for this backup storage. */
+  FriendlyName?: string;
+  StorageKind:
+    | "AzureBlobStore"
+    | "FileShare"
+    | "DsmsAzureBlobStore"
+    | "ManagedIdentityAzureBlobStore";
+}
+
+export interface RetentionPolicyDescriptionBase {
+  RetentionPolicyType: "Basic";
+}
+
+export interface BackupEntityBase {
+  EntityKind: "Application" | "Service" | "Partition";
+}
+
+export interface EnableBackupDescription {
+  /** Name of the backup policy to be used for enabling periodic backups. */
+  BackupPolicyName: string;
+}
+
+export interface DisableBackupDescription {
+  /** Boolean flag to delete backups. It can be set to true for deleting all the backups which were created for the backup entity that is getting disabled for backup. */
+  CleanBackup: boolean;
+}
+
+export interface BackupPartitionDescription {
+  /** Specifies the details of the backup storage where to save the backup. */
+  BackupStorage?: BackupStorageDescription;
+}
+
+export interface RestorePartitionDescription {
+  /**
+   * Unique backup ID.
+   *
+   * Value may contain a UUID
+   */
+  BackupId: string;
+  /** Location of the backup relative to the backup storage specified/ configured. */
+  BackupLocation: string;
+  /** Location of the backup from where the partition will be restored. */
+  BackupStorage?: BackupStorageDescription;
+}
+
+export interface GetBackupByStorageQueryDescription {
+  /** Specifies the start date time in ISO8601 from which to enumerate backups. If not specified, backups are enumerated from the beginning. */
+  StartDateTimeFilter?: Date | string;
+  /** Specifies the end date time in ISO8601 till which to enumerate backups. If not specified, backups are enumerated till the end. */
+  EndDateTimeFilter?: Date | string;
+  /** If specified as true, gets the most recent backup (within the specified time range) for every partition under the specified backup entity. */
+  Latest?: boolean;
+  /** Describes the parameters for the backup storage from where to enumerate backups. This is optional and by default backups are enumerated from the backup storage where this backup entity is currently being backed up (as specified in backup policy). This parameter is useful to be able to enumerate backups from another cluster where you may intend to restore. */
+  Storage: BackupStorageDescription;
+  /** Indicates the entity for which to enumerate backups. */
+  BackupEntity: BackupEntity;
+}
+
+export interface NameDescription {
+  /** The Service Fabric name, including the 'fabric:' URI scheme. */
+  Name: string;
+}
+
+export interface PropertyValueBase {
+  Kind: "Binary" | "Int64" | "Double" | "String" | "Guid";
+}
+
+export interface PropertyDescription {
+  /** The name of the Service Fabric property. */
+  PropertyName: string;
+  /** The property's custom type ID. Using this property, the user is able to tag the type of the value of the property. */
+  CustomTypeId?: string;
+  /** Describes a Service Fabric property value. */
+  Value: PropertyValue;
+}
+
+export interface PropertyBatchDescriptionList {
+  /** A list of the property batch operations to be executed. */
+  Operations?: Array<PropertyBatchOperation>;
+}
+
+export interface PropertyBatchOperationBase {
+  /** The name of the Service Fabric property. */
+  PropertyName: string;
+  Kind: "CheckExists" | "CheckSequence" | "CheckValue" | "Delete" | "Get" | "Put";
+}
+
+export interface SecretResourceDescription {
+  /** Describes the properties of a secret resource. */
+  properties: SecretResourceProperties;
+  /** Name of the Secret resource. */
+  name: string;
+}
+
+export interface SecretResourcePropertiesBase extends SecretResourcePropertiesParentBase {
+  /** User readable description of the secret. */
+  description?: string;
+  /** Status of the resource. */
+  status?: "Unknown" | "Ready" | "Upgrading" | "Creating" | "Deleting" | "Failed";
+  /** Gives additional information about the current status of the secret. */
+  statusDetails?: string;
+  /** The type of the content stored in the secret value. The value of this property is opaque to Service Fabric. Once set, the value of this property cannot be changed. */
+  contentType?: string;
+  kind: "SecretResourceProperties" | "inlinedValue";
+}
+
+export interface SecretResourcePropertiesParentBase {
+  kind: "SecretResourceProperties" | "inlinedValue";
+}
+
+export interface SecretValueResourceDescription {
+  /** Version identifier of the secret value. */
+  name: string;
+  /** This type describes properties of a secret value resource. */
+  properties: SecretValueResourceProperties;
+}
+
+export interface SecretValueResourceProperties extends SecretValueProperties {}
+
+export interface SecretValueProperties {
+  /** The actual value of the secret. */
+  value?: string;
+}
+
+export interface VolumeResourceDescription {
+  /** Name of the Volume resource. */
+  name: string;
+  /** Describes properties of a volume resource. */
+  properties: VolumeProperties;
+}
+
+export interface VolumeProperties {
+  /** User readable description of the volume. */
+  description?: string;
+  /** Status of the volume. */
+  status?: "Unknown" | "Ready" | "Upgrading" | "Creating" | "Deleting" | "Failed";
+  /** Gives additional information about the current status of the volume. */
+  statusDetails?: string;
+  /** Provider of the volume. */
+  provider: "SFAzureFile";
+  /** This type describes a volume provided by an Azure Files file share. */
+  azureFileParameters?: VolumeProviderParametersAzureFile;
+}
+
+export interface VolumeProviderParametersAzureFile {
+  /** Name of the Azure storage account for the File Share. */
+  accountName: string;
+  /** Access key of the Azure storage account for the File Share. */
+  accountKey?: string;
+  /** Name of the Azure Files file share that provides storage for the volume. */
+  shareName: string;
+}
+
+export interface NetworkResourceDescription {
+  /** Name of the Network resource. */
+  name: string;
+  /** Describes properties of a network resource. */
+  properties: NetworkResourceProperties;
+}
+
+export interface NetworkResourcePropertiesBase extends NetworkResourcePropertiesParentBase {
+  /** User readable description of the network. */
+  description?: string;
+  /** Status of the network. */
+  status?: "Unknown" | "Ready" | "Upgrading" | "Creating" | "Deleting" | "Failed";
+  /** Gives additional information about the current status of the network. */
+  statusDetails?: string;
+  kind: "NetworkResourceProperties" | "Local";
+}
+
+export interface NetworkResourcePropertiesParentBase {
+  kind: "NetworkResourceProperties" | "Local";
+}
+
+export interface ApplicationResourceDescription {
+  /** Name of the Application resource. */
+  name: string;
+  /** Describes properties of a application resource. */
+  properties: ApplicationProperties;
+  /** Describes the identity of the application. */
+  identity?: IdentityDescription;
+}
+
+export interface ApplicationProperties {
+  /** User readable description of the application. */
+  description?: string;
+  /** Describes the services in the application. This property is used to create or modify services of the application. On get only the name of the service is returned. The service description can be obtained by querying for the service resource. */
+  services?: Array<ServiceResourceDescription>;
+  /** Describes the diagnostics definition and usage for an application resource. */
+  diagnostics?: DiagnosticsDescription;
+  /** Internal - used by Visual Studio to setup the debugging session on the local development environment. */
+  debugParams?: string;
+  /** Names of the services in the application. */
+  serviceNames?: Array<string>;
+  /** Status of the application. */
+  status?: "Unknown" | "Ready" | "Upgrading" | "Creating" | "Deleting" | "Failed";
+  /** Gives additional information about the current status of the application. */
+  statusDetails?: string;
+  /** Describes the health state of an application resource. */
+  healthState?: "Invalid" | "Ok" | "Warning" | "Error" | "Unknown";
+  /** When the application's health state is not 'Ok', this additional details from service fabric Health Manager for the user to know why the application is marked unhealthy. */
+  unhealthyEvaluation?: string;
+}
+
+export interface ServiceResourceDescription {
+  /** Name of the Service resource. */
+  name: string;
+  /** This type describes properties of a service resource. */
+  properties: ServiceResourceProperties;
+}
+
+export interface ServiceResourceProperties extends ServiceReplicaProperties, ServiceProperties {}
+
+export interface ServiceReplicaProperties {
+  /** The operation system required by the code in service. */
+  osType: "Linux" | "Windows";
+  /** Describes the set of code packages that forms the service. A code package describes the container and the properties for running it. All the code packages are started together on the same host and share the same context (network, process etc.). */
+  codePackages: Array<ContainerCodePackageProperties>;
+  /** The names of the private networks that this service needs to be part of. */
+  networkRefs?: Array<NetworkRef>;
+  /** Reference to sinks in DiagnosticsDescription. */
+  diagnostics?: DiagnosticsRef;
+}
+
+export interface ContainerCodePackageProperties {
+  /** The name of the code package. */
+  name: string;
+  /** The Container image to use. */
+  image: string;
+  /** Image registry credential. */
+  imageRegistryCredential?: ImageRegistryCredential;
+  /** Override for the default entry point in the container. */
+  entryPoint?: string;
+  /** Command array to execute within the container in exec form. */
+  commands?: Array<string>;
+  /** The environment variables to set in this container */
+  environmentVariables?: Array<EnvironmentVariable>;
+  /** The settings to set in this container. The setting file path can be fetched from environment variable "Fabric_SettingPath". The path for Windows container is "C:\\secrets". The path for Linux container is "/var/secrets". */
+  settings?: Array<Setting>;
+  /** The labels to set in this container. */
+  labels?: Array<ContainerLabel>;
+  /** The endpoints exposed by this container. */
+  endpoints?: Array<EndpointProperties>;
+  /** The resources required by this container. */
+  resources: ResourceRequirements;
+  /** Volumes to be attached to the container. The lifetime of these volumes is independent of the application's lifetime. */
+  volumeRefs?: Array<VolumeReference>;
+  /** Volumes to be attached to the container. The lifetime of these volumes is scoped to the application's lifetime. */
+  volumes?: Array<ApplicationScopedVolume>;
+  /** Reference to sinks in DiagnosticsDescription. */
+  diagnostics?: DiagnosticsRef;
+  /** A list of ReliableCollection resources used by this particular code package. Please refer to ReliableCollectionsRef for more details. */
+  reliableCollectionsRefs?: Array<ReliableCollectionsRef>;
+  /** Runtime information of a container instance. */
+  instanceView?: ContainerInstanceView;
+  /** An array of liveness probes for a code package. It determines when to restart a code package. */
+  livenessProbe?: Array<Probe>;
+  /** An array of readiness probes for a code package. It determines when to unpublish an endpoint. */
+  readinessProbe?: Array<Probe>;
+}
+
+export interface ImageRegistryCredential {
+  /** Docker image registry server, without protocol such as `http` and `https`. */
+  server: string;
+  /** The username for the private registry. */
+  username: string;
+  /** The type of the image registry password being given in password */
+  passwordType?: "ClearText" | "KeyVaultReference" | "SecretValueReference";
+  /** The password for the private registry. The password is required for create or update operations, however it is not returned in the get or list operations. Will be processed based on the type provided. */
+  password?: string;
+}
+
+export interface EnvironmentVariable {
+  /** The type of the environment variable being given in value */
+  type?: "ClearText" | "KeyVaultReference" | "SecretValueReference";
+  /** The name of the environment variable. */
+  name?: string;
+  /** The value of the environment variable, will be processed based on the type provided. */
+  value?: string;
+}
+
+export interface Setting {
+  /** The type of the setting being given in value */
+  type?: "ClearText" | "KeyVaultReference" | "SecretValueReference";
+  /** The name of the setting. */
+  name?: string;
+  /** The value of the setting, will be processed based on the type provided. */
+  value?: string;
+}
+
+export interface ContainerLabel {
+  /** The name of the container label. */
+  name: string;
+  /** The value of the container label. */
+  value: string;
+}
+
+export interface EndpointProperties {
+  /** The name of the endpoint. */
+  name: string;
+  /** Port used by the container. */
+  port?: number;
+}
+
+export interface ResourceRequirements {
+  /** Describes the requested resources for a given container. */
+  requests: ResourceRequests;
+  /** Describes the maximum limits on the resources for a given container. */
+  limits?: ResourceLimits;
+}
+
+export interface ResourceRequests {
+  /** The memory request in GB for this container. */
+  memoryInGB: number;
+  /** Requested number of CPU cores. At present, only full cores are supported. */
+  cpu: number;
+}
+
+export interface ResourceLimits {
+  /** The memory limit in GB. */
+  memoryInGB?: number;
+  /** CPU limits in cores. At present, only full cores are supported. */
+  cpu?: number;
+}
+
+export interface VolumeReference {
+  /** Name of the volume being referenced. */
+  name: string;
+  /** The flag indicating whether the volume is read only. Default is 'false'. */
+  readOnly?: boolean;
+  /** The path within the container at which the volume should be mounted. Only valid path characters are allowed. */
+  destinationPath: string;
+}
+
+export interface ApplicationScopedVolume extends VolumeReference {
+  /** Describes parameters for creating application-scoped volumes. */
+  creationParameters: ApplicationScopedVolumeCreationParameters;
+}
+
+export interface ApplicationScopedVolumeCreationParametersBase {
+  /** User readable description of the volume. */
+  description?: string;
+  kind: "ServiceFabricVolumeDisk";
+}
+
+export interface DiagnosticsRef {
+  /** Status of whether or not sinks are enabled. */
+  enabled?: boolean;
+  /** List of sinks to be used if enabled. References the list of sinks in DiagnosticsDescription. */
+  sinkRefs?: Array<string>;
+}
+
+export interface ReliableCollectionsRef {
+  /** Name of ReliableCollection resource. Right now it's not used and you can use any string. */
+  name: string;
+  /** False (the default) if ReliableCollections state is persisted to disk as usual. True if you do not want to persist state, in which case replication is still enabled and you can use ReliableCollections as distributed cache. */
+  doNotPersistState?: boolean;
+}
+
+export interface ContainerInstanceView {
+  /** The number of times the container has been restarted. */
+  restartCount?: number;
+  /** Current container instance state. */
+  currentState?: ContainerState;
+  /** Previous container instance state. */
+  previousState?: ContainerState;
+  /** The events of this container instance. */
+  events?: Array<ContainerEvent>;
+}
+
+export interface ContainerState {
+  /** The state of this container */
+  state?: string;
+  /** Date/time when the container state started. */
+  startTime?: Date | string;
+  /** The container exit code. */
+  exitCode?: string;
+  /** Date/time when the container state finished. */
+  finishTime?: Date | string;
+  /** Human-readable status of this state. */
+  detailStatus?: string;
+}
+
+export interface ContainerEvent {
+  /** The name of the container event. */
+  name?: string;
+  /** The count of the event. */
+  count?: number;
+  /** Date/time of the first event. */
+  firstTimestamp?: string;
+  /** Date/time of the last event. */
+  lastTimestamp?: string;
+  /** The event message */
+  message?: string;
+  /** The event type. */
+  type?: string;
+}
+
+export interface Probe {
+  /** The initial delay in seconds to start executing probe once codepackage has started. */
+  initialDelaySeconds?: number;
+  /** Periodic seconds to execute probe. */
+  periodSeconds?: number;
+  /** Period after which probe is considered as failed if it hasn't completed successfully. */
+  timeoutSeconds?: number;
+  /** The count of successful probe executions after which probe is considered success. */
+  successThreshold?: number;
+  /** The count of failures after which probe is considered failed. */
+  failureThreshold?: number;
+  /** Exec command to run inside the container. */
+  exec?: ProbeExec;
+  /** Http probe for the container. */
+  httpGet?: ProbeHttpGet;
+  /** Tcp port to probe inside the container. */
+  tcpSocket?: ProbeTcpSocket;
+}
+
+export interface ProbeExec {
+  /** Comma separated command to run inside the container for example "sh, -c, echo hello world". */
+  command: string;
+}
+
+export interface ProbeHttpGet {
+  /** Port to access for probe. */
+  port: number;
+  /** Path to access on the HTTP request. */
+  path?: string;
+  /** Host IP to connect to. */
+  host?: string;
+  /** Headers to set in the request. */
+  httpHeaders?: Array<ProbeHttpGetHeaders>;
+  /** Scheme for the http probe. Can be Http or Https. */
+  scheme?: "http" | "https";
+}
+
+export interface ProbeHttpGetHeaders {
+  /** The name of the header. */
+  name: string;
+  /** The value of the header. */
+  value: string;
+}
+
+export interface ProbeTcpSocket {
+  /** Port to access for probe. */
+  port: number;
+}
+
+export interface NetworkRef {
+  /** Name of the network */
+  name?: string;
+  /** A list of endpoints that are exposed on this network. */
+  endpointRefs?: Array<EndpointRef>;
+}
+
+export interface EndpointRef {
+  /** Name of the endpoint. */
+  name?: string;
+}
+
+export interface ServiceProperties {
+  /** User readable description of the service. */
+  description?: string;
+  /** The number of replicas of the service to create. Defaults to 1 if not specified. */
+  replicaCount?: number;
+  /** The execution policy of the service */
+  executionPolicy?: ExecutionPolicy;
+  /** Auto scaling policies */
+  autoScalingPolicies?: Array<AutoScalingPolicy>;
+  /** Status of the service. */
+  status?: "Unknown" | "Ready" | "Upgrading" | "Creating" | "Deleting" | "Failed";
+  /** Gives additional information about the current status of the service. */
+  statusDetails?: string;
+  /** Describes the health state of an application resource. */
+  healthState?: "Invalid" | "Ok" | "Warning" | "Error" | "Unknown";
+  /** When the service's health state is not 'Ok', this additional details from service fabric Health Manager for the user to know why the service is marked unhealthy. */
+  unhealthyEvaluation?: string;
+  /** The service identity list. */
+  identityRefs?: Array<ServiceIdentity>;
+  /** Dns name of the service. */
+  dnsName?: string;
+}
+
+export interface ExecutionPolicyBase {
+  type: "Default" | "RunToCompletion";
+}
+
+export interface AutoScalingPolicy {
+  /** The name of the auto scaling policy. */
+  name: string;
+  /** Determines when auto scaling operation will be invoked. */
+  trigger: AutoScalingTrigger;
+  /** The mechanism that is used to scale when auto scaling operation is invoked. */
+  mechanism: AutoScalingMechanism;
+}
+
+export interface AutoScalingTriggerBase {
+  kind: "AverageLoad";
+}
+
+export interface AutoScalingMechanismBase {
+  kind: "AddRemoveReplica";
+}
+
+export interface ServiceIdentity {
+  /** The identity friendly name. */
+  name?: string;
+  /** The application identity name. */
+  identityRef?: string;
+}
+
+export interface DiagnosticsDescription {
+  /** List of supported sinks that can be referenced. */
+  sinks?: Array<DiagnosticsSinkProperties>;
+  /** Status of whether or not sinks are enabled. */
+  enabled?: boolean;
+  /** The sinks to be used if diagnostics is enabled. Sink choices can be overridden at the service and code package level. */
+  defaultSinkRefs?: Array<string>;
+}
+
+export interface DiagnosticsSinkPropertiesBase {
+  /** Name of the sink. This value is referenced by DiagnosticsReferenceDescription */
+  name?: string;
+  /** A description of the sink. */
+  description?: string;
+  kind: "AzureInternalMonitoringPipeline";
+}
+
+export interface IdentityDescription {
+  /** the endpoint for the token service managing this identity */
+  tokenServiceEndpoint?: string;
+  /** the types of identities associated with this resource; currently restricted to 'SystemAssigned and UserAssigned' */
+  type: string;
+  /** the identifier of the tenant containing the application's identity. */
+  tenantId?: string;
+  /** the object identifier of the Service Principal of the identity associated with this resource. */
+  principalId?: string;
+  /** represents user assigned identities map. */
+  userAssignedIdentities?: Record<string, IdentityItemDescription>;
+}
+
+export interface IdentityItemDescription {
+  /** the object identifier of the Service Principal which this identity represents. */
+  principalId?: string;
+  /** the client identifier of the Service Principal which this identity represents. */
+  clientId?: string;
+}
+
+export interface ServiceReplicaDescription extends ServiceReplicaProperties {
+  /** Name of the replica. */
+  replicaName: string;
+}
+
+export interface GatewayResourceDescription {
+  /** Name of the Gateway resource. */
+  name: string;
+  /** Describes properties of a gateway resource. */
+  properties: GatewayProperties;
+}
+
+export interface GatewayProperties {
+  /** User readable description of the gateway. */
+  description?: string;
+  /** Network the gateway should listen on for requests. */
+  sourceNetwork: NetworkRef;
+  /** Network that the Application is using. */
+  destinationNetwork: NetworkRef;
+  /** Configuration for tcp connectivity for this gateway. */
+  tcp?: Array<TcpConfig>;
+  /** Configuration for http connectivity for this gateway. */
+  http?: Array<HttpConfig>;
+  /** Status of the resource. */
+  status?: "Unknown" | "Ready" | "Upgrading" | "Creating" | "Deleting" | "Failed";
+  /** Gives additional information about the current status of the gateway. */
+  statusDetails?: string;
+  /** IP address of the gateway. This is populated in the response and is ignored for incoming requests. */
+  ipAddress?: string;
+}
+
+export interface TcpConfig {
+  /** tcp gateway config name. */
+  name: string;
+  /** Specifies the port at which the service endpoint below needs to be exposed. */
+  port: number;
+  /** Describes destination endpoint for routing traffic. */
+  destination: GatewayDestination;
+}
+
+export interface GatewayDestination {
+  /** Name of the service fabric Mesh application. */
+  applicationName: string;
+  /** service that contains the endpoint. */
+  serviceName: string;
+  /** name of the endpoint in the service. */
+  endpointName: string;
+}
+
+export interface HttpConfig {
+  /** http gateway config name. */
+  name: string;
+  /** Specifies the port at which the service endpoint below needs to be exposed. */
+  port: number;
+  /** description for routing. */
+  hosts: Array<HttpHostConfig>;
+}
+
+export interface HttpHostConfig {
+  /** http hostname config name. */
+  name: string;
+  /** Route information to use for routing. Routes are processed in the order they are specified. Specify routes that are more specific before routes that can handle general cases. */
+  routes: Array<HttpRouteConfig>;
+}
+
+export interface HttpRouteConfig {
+  /** http route name. */
+  name: string;
+  /** Describes a rule for http route matching. */
+  match: HttpRouteMatchRule;
+  /** Describes destination endpoint for routing traffic. */
+  destination: GatewayDestination;
+}
+
+export interface HttpRouteMatchRule {
+  /** Path to match for routing. */
+  path: HttpRouteMatchPath;
+  /** headers and their values to match in request. */
+  headers?: Array<HttpRouteMatchHeader>;
+}
+
+export interface HttpRouteMatchPath {
+  /** Uri path to match for request. */
+  value: string;
+  /** replacement string for matched part of the Uri. */
+  rewrite?: string;
+  /** how to match value in the Uri */
+  type: "prefix";
+}
+
+export interface HttpRouteMatchHeader {
+  /** Name of header to match in request. */
+  name: string;
+  /** Value of header to match in request. */
+  value?: string;
+  /** how to match header value */
+  type?: "exact";
+}
+
+export interface ProvisionApplicationTypeDescription
+  extends ProvisionApplicationTypeDescriptionBaseBase {
+  /** The relative path for the application package in the image store specified during the prior upload operation. */
+  ApplicationTypeBuildPath: string;
+  /** The kind of action that needs to be taken for cleaning up the application package after successful provision. */
+  ApplicationPackageCleanupPolicy?: "Invalid" | "Default" | "Automatic" | "Manual";
+  Kind: "ImageStorePath";
+}
+
+export interface ExternalStoreProvisionApplicationTypeDescription
+  extends ProvisionApplicationTypeDescriptionBaseBase {
+  /** The path to the '.sfpkg' application package from where the application package can be downloaded using HTTP or HTTPS protocols. The application package can be stored in an external store that provides GET operation to download the file. Supported protocols are HTTP and HTTPS, and the path must allow READ access. */
+  ApplicationPackageDownloadUri: string;
+  /** The application type name represents the name of the application type found in the application manifest. */
+  ApplicationTypeName: string;
+  /** The application type version represents the version of the application type found in the application manifest. */
+  ApplicationTypeVersion: string;
+  Kind: "ExternalStore";
+}
+
+export interface ServicePlacementInvalidDomainPolicyDescription
+  extends ServicePlacementPolicyDescriptionBase {
+  /** The name of the domain that should not be used for placement. */
+  DomainName?: string;
+  Type: "InvalidDomain";
+}
+
+export interface ServicePlacementNonPartiallyPlaceServicePolicyDescription
+  extends ServicePlacementPolicyDescriptionBase {
+  Type: "NonPartiallyPlaceService";
+}
+
+export interface ServicePlacementAllowMultipleStatelessInstancesOnNodePolicyDescription
+  extends ServicePlacementPolicyDescriptionBase {
+  /** Holdover from other policy descriptions, not used for this policy, values are ignored by runtime. Keeping it for any backwards-compatibility with clients. */
+  DomainName?: string;
+  Type: "AllowMultipleStatelessInstancesOnNode";
+}
+
+export interface ServicePlacementPreferPrimaryDomainPolicyDescription
+  extends ServicePlacementPolicyDescriptionBase {
+  /** The name of the domain that should used for placement as per this policy. */
+  DomainName?: string;
+  Type: "PreferPrimaryDomain";
+}
+
+export interface ServicePlacementRequiredDomainPolicyDescription
+  extends ServicePlacementPolicyDescriptionBase {
+  /** The name of the domain that should used for placement as per this policy. */
+  DomainName?: string;
+  Type: "RequireDomain";
+}
+
+export interface ServicePlacementRequireDomainDistributionPolicyDescription
+  extends ServicePlacementPolicyDescriptionBase {
+  /** The name of the domain that should used for placement as per this policy. */
+  DomainName?: string;
+  Type: "RequireDomainDistribution";
+}
+
+export interface NamedPartitionSchemeDescription extends PartitionSchemeDescriptionBase {
+  /** The number of partitions. */
+  Count: number;
+  /** Array of size specified by the ‘Count’ parameter, for the names of the partitions. */
+  Names: Array<string>;
+  PartitionScheme: "Named";
+}
+
+export interface SingletonPartitionSchemeDescription extends PartitionSchemeDescriptionBase {
+  PartitionScheme: "Singleton";
+}
+
+export interface UniformInt64RangePartitionSchemeDescription
+  extends PartitionSchemeDescriptionBase {
+  /** The number of partitions. */
+  Count: number;
+  /**
+   * String indicating the lower bound of the partition key range that
+   * should be split between the partitions.
+   */
+  LowKey: string;
+  /**
+   * String indicating the upper bound of the partition key range that
+   * should be split between the partitions.
+   */
+  HighKey: string;
+  PartitionScheme: "UniformInt64Range";
+}
+
+export interface StatefulServiceDescription extends ServiceDescriptionBase {
+  /** The target replica set size as a number. */
+  TargetReplicaSetSize: number;
+  /** The minimum replica set size as a number. */
+  MinReplicaSetSize: number;
+  /** A flag indicating whether this is a persistent service which stores states on the local disk. If it is then the value of this property is true, if not it is false. */
+  HasPersistedState: boolean;
+  /**
+   * Flags indicating whether other properties are set. Each of the associated properties corresponds to a flag, specified below, which, if set, indicate that the property is specified.
+   * This property can be a combination of those flags obtained using bitwise 'OR' operator.
+   * For example, if the provided value is 6 then the flags for QuorumLossWaitDuration (2) and StandByReplicaKeepDuration(4) are set.
+   *
+   * - None - Does not indicate any other properties are set. The value is zero.
+   * - ReplicaRestartWaitDuration - Indicates the ReplicaRestartWaitDuration property is set. The value is 1.
+   * - QuorumLossWaitDuration - Indicates the QuorumLossWaitDuration property is set. The value is 2.
+   * - StandByReplicaKeepDuration - Indicates the StandByReplicaKeepDuration property is set. The value is 4.
+   * - ServicePlacementTimeLimit - Indicates the ServicePlacementTimeLimit property is set. The value is 8.
+   * - DropSourceReplicaOnMove - Indicates the DropSourceReplicaOnMove property is set. The value is 16.
+   */
+  Flags?: number;
+  /** The duration, in seconds, between when a replica goes down and when a new replica is created. */
+  ReplicaRestartWaitDurationSeconds?: number;
+  /** The maximum duration, in seconds, for which a partition is allowed to be in a state of quorum loss. */
+  QuorumLossWaitDurationSeconds?: number;
+  /** The definition on how long StandBy replicas should be maintained before being removed. */
+  StandByReplicaKeepDurationSeconds?: number;
+  /** The duration for which replicas can stay InBuild before reporting that build is stuck. */
+  ServicePlacementTimeLimitSeconds?: number;
+  /** Indicates whether to drop source Secondary replica even if the target replica has not finished build. If desired behavior is to drop it as soon as possible the value of this property is true, if not it is false. */
+  DropSourceReplicaOnMove?: boolean;
+  /** Defines how replicas of this service will behave during their lifecycle. */
+  ReplicaLifecycleDescription?: ReplicaLifecycleDescription;
+  /** The auxiliary replica count as a number. To use Auxiliary replicas, the following must be true: AuxiliaryReplicaCount < (TargetReplicaSetSize+1)/2 and TargetReplicaSetSize >=3. */
+  AuxiliaryReplicaCount?: number;
+  ServiceKind: "Stateful";
+}
+
+export interface ReplicaLifecycleDescription {
+  /** If set to true, replicas with a target replica set size of 1 will be permitted to move during upgrade. */
+  IsSingletonReplicaMoveAllowedDuringUpgrade?: boolean;
+  /** If set to true, move/swap replica to original location after upgrade. */
+  RestoreReplicaLocationAfterUpgrade?: boolean;
+}
+
+export interface StatelessServiceDescription extends ServiceDescriptionBase {
+  /** The instance count. */
+  InstanceCount: number;
+  /**
+   * MinInstanceCount is the minimum number of instances that must be up to meet the EnsureAvailability safety check during operations like upgrade or deactivate node.
+   * The actual number that is used is max( MinInstanceCount, ceil( MinInstancePercentage/100.0 * InstanceCount) ).
+   * Note, if InstanceCount is set to -1, during MinInstanceCount computation -1 is first converted into the number of nodes on which the instances are allowed to be placed according to the placement constraints on the service.
+   */
+  MinInstanceCount?: number;
+  /**
+   * MinInstancePercentage is the minimum percentage of InstanceCount that must be up to meet the EnsureAvailability safety check during operations like upgrade or deactivate node.
+   * The actual number that is used is max( MinInstanceCount, ceil( MinInstancePercentage/100.0 * InstanceCount) ).
+   * Note, if InstanceCount is set to -1, during MinInstancePercentage computation, -1 is first converted into the number of nodes on which the instances are allowed to be placed according to the placement constraints on the service.
+   */
+  MinInstancePercentage?: number;
+  /**
+   * Flags indicating whether other properties are set. Each of the associated properties corresponds to a flag, specified below, which, if set, indicate that the property is specified.
+   * This property can be a combination of those flags obtained using bitwise 'OR' operator.
+   * For example, if the provided value is 1 then the flags for InstanceCloseDelayDuration is set.
+   *
+   * - None - Does not indicate any other properties are set. The value is zero.
+   * - InstanceCloseDelayDuration - Indicates the InstanceCloseDelayDuration property is set. The value is 1.
+   * - InstanceRestartWaitDuration - Indicates the InstanceRestartWaitDurationSeconds property is set. The value is 2.
+   */
+  Flags?: number;
+  /**
+   * Duration in seconds, to wait before a stateless instance is closed, to allow the active requests to drain gracefully. This would be effective when the instance is closing during the application/cluster upgrade and disabling node.
+   * The endpoint exposed on this instance is removed prior to starting the delay, which prevents new connections to this instance.
+   * In addition, clients that have subscribed to service endpoint change events(https://docs.microsoft.com/dotnet/api/system.fabric.fabricclient.servicemanagementclient.registerservicenotificationfilterasync), can do
+   * the following upon receiving the endpoint removal notification:
+   *     - Stop sending new requests to this instance.
+   *     - Close existing connections after in-flight requests have completed.
+   *     - Connect to a different instance of the service partition for future requests.
+   * Note, the default value of InstanceCloseDelayDuration is 0, which indicates that there won't be any delay or removal of the endpoint prior to closing the instance.
+   */
+  InstanceCloseDelayDurationSeconds?: number;
+  /** Defines how instances of this service will behave during their lifecycle. */
+  InstanceLifecycleDescription?: InstanceLifecycleDescription;
+  /**
+   * When a stateless instance goes down, this timer starts. When it expires Service Fabric will create a new instance on any node in the cluster.
+   * This configuration is to reduce unnecessary creation of a new instance in situations where the instance going down is likely to recover in a short time. For example, during an upgrade.
+   * The default value is 0, which indicates that when stateless instance goes down, Service Fabric will immediately start building its replacement.
+   */
+  InstanceRestartWaitDurationSeconds?: number;
+  ServiceKind: "Stateless";
+}
+
+export interface InstanceLifecycleDescription {
+  /** If set to true, move/swap replica to original location after upgrade. */
+  RestoreReplicaLocationAfterUpgrade?: boolean;
+}
+
+export interface StatefulServiceUpdateDescription extends ServiceUpdateDescriptionBase {
+  /** The target replica set size as a number. */
+  TargetReplicaSetSize?: number;
+  /** The minimum replica set size as a number. */
+  MinReplicaSetSize?: number;
+  /** The duration, in seconds, between when a replica goes down and when a new replica is created. */
+  ReplicaRestartWaitDurationSeconds?: string;
+  /** The maximum duration, in seconds, for which a partition is allowed to be in a state of quorum loss. */
+  QuorumLossWaitDurationSeconds?: string;
+  /** The definition on how long StandBy replicas should be maintained before being removed. */
+  StandByReplicaKeepDurationSeconds?: string;
+  /** The duration for which replicas can stay InBuild before reporting that build is stuck. */
+  ServicePlacementTimeLimitSeconds?: string;
+  /** Indicates whether to drop source Secondary replica even if the target replica has not finished build. If desired behavior is to drop it as soon as possible the value of this property is true, if not it is false. */
+  DropSourceReplicaOnMove?: boolean;
+  /** Defines how replicas of this service will behave during their lifecycle. */
+  ReplicaLifecycleDescription?: ReplicaLifecycleDescription;
+  /** The auxiliary replica count as a number. To use Auxiliary replicas, the following must be true: AuxiliaryReplicaCount < (TargetReplicaSetSize+1)/2 and TargetReplicaSetSize >=3. */
+  AuxiliaryReplicaCount?: number;
+  ServiceKind: "Stateful";
+}
+
+export interface StatelessServiceUpdateDescription extends ServiceUpdateDescriptionBase {
+  /** The instance count. */
+  InstanceCount?: number;
+  /**
+   * MinInstanceCount is the minimum number of instances that must be up to meet the EnsureAvailability safety check during operations like upgrade or deactivate node.
+   * The actual number that is used is max( MinInstanceCount, ceil( MinInstancePercentage/100.0 * InstanceCount) ).
+   * Note, if InstanceCount is set to -1, during MinInstanceCount computation -1 is first converted into the number of nodes on which the instances are allowed to be placed according to the placement constraints on the service.
+   */
+  MinInstanceCount?: number;
+  /**
+   * MinInstancePercentage is the minimum percentage of InstanceCount that must be up to meet the EnsureAvailability safety check during operations like upgrade or deactivate node.
+   * The actual number that is used is max( MinInstanceCount, ceil( MinInstancePercentage/100.0 * InstanceCount) ).
+   * Note, if InstanceCount is set to -1, during MinInstancePercentage computation, -1 is first converted into the number of nodes on which the instances are allowed to be placed according to the placement constraints on the service.
+   */
+  MinInstancePercentage?: number;
+  /**
+   * Duration in seconds, to wait before a stateless instance is closed, to allow the active requests to drain gracefully. This would be effective when the instance is closing during the application/cluster upgrade and disabling node.
+   * The endpoint exposed on this instance is removed prior to starting the delay, which prevents new connections to this instance.
+   * In addition, clients that have subscribed to service endpoint change events(https://docs.microsoft.com/dotnet/api/system.fabric.fabricclient.servicemanagementclient.registerservicenotificationfilterasync), can do
+   * the following upon receiving the endpoint removal notification:
+   *     - Stop sending new requests to this instance.
+   *     - Close existing connections after in-flight requests have completed.
+   *     - Connect to a different instance of the service partition for future requests.
+   */
+  InstanceCloseDelayDurationSeconds?: string;
+  /** Defines how instances of this service will behave during their lifecycle. */
+  InstanceLifecycleDescription?: InstanceLifecycleDescription;
+  /**
+   * When a stateless instance goes down, this timer starts. When it expires Service Fabric will create a new instance on any node in the cluster.
+   * This configuration is to reduce unnecessary creation of a new instance in situations where the instance going down is likely to recover in a short time. For example, during an upgrade.
+   * The default value is 0, which indicates that when stateless instance goes down, Service Fabric will immediately start building its replacement.
+   */
+  InstanceRestartWaitDurationSeconds?: string;
+  ServiceKind: "Stateless";
+}
+
+export interface BinaryPropertyValue extends PropertyValueBase {
+  /** Array of bytes to be sent as an integer array. Each element of array is a number between 0 and 255. */
+  Data: Array<number>;
+  Kind: "Binary";
+}
+
+export interface Int64PropertyValue extends PropertyValueBase {
+  /** The data of the property value. */
+  Data: string;
+  Kind: "Int64";
+}
+
+export interface DoublePropertyValue extends PropertyValueBase {
+  /** The data of the property value. */
+  Data: number;
+  Kind: "Double";
+}
+
+export interface StringPropertyValue extends PropertyValueBase {
+  /** The data of the property value. */
+  Data: string;
+  Kind: "String";
+}
+
+export interface GuidPropertyValue extends PropertyValueBase {
+  /**
+   * The data of the property value.
+   *
+   * Value may contain a UUID
+   */
+  Data: string;
+  Kind: "Guid";
+}
+
+export interface CheckExistsPropertyBatchOperation extends PropertyBatchOperationBase {
+  /** Whether or not the property should exist for the operation to pass. */
+  Exists: boolean;
+  Kind: "CheckExists";
+}
+
+export interface CheckSequencePropertyBatchOperation extends PropertyBatchOperationBase {
+  /** The expected sequence number. */
+  SequenceNumber: string;
+  Kind: "CheckSequence";
+}
+
+export interface CheckValuePropertyBatchOperation extends PropertyBatchOperationBase {
+  /** The expected property value. */
+  Value: PropertyValue;
+  Kind: "CheckValue";
+}
+
+export interface DeletePropertyBatchOperation extends PropertyBatchOperationBase {
+  Kind: "Delete";
+}
+
+export interface GetPropertyBatchOperation extends PropertyBatchOperationBase {
+  /**
+   * Whether or not to return the property value with the metadata.
+   * True if values should be returned with the metadata; False to return only property metadata.
+   */
+  IncludeValue?: boolean;
+  Kind: "Get";
+}
+
+export interface PutPropertyBatchOperation extends PropertyBatchOperationBase {
+  /** Describes a Service Fabric property value. */
+  Value: PropertyValue;
+  /** The property's custom type ID. Using this property, the user is able to tag the type of the value of the property. */
+  CustomTypeId?: string;
+  Kind: "Put";
+}
+
+export interface BasicRetentionPolicyDescription extends RetentionPolicyDescriptionBase {
+  /** It is the minimum duration for which a backup created, will remain stored in the storage and might get deleted after that span of time. It should be specified in ISO8601 format. */
+  RetentionDuration: string;
+  /** It is the minimum number of backups to be retained at any point of time. If specified with a non zero value, backups will not be deleted even if the backups have gone past retention duration and have number of backups less than or equal to it. */
+  MinimumNumberOfBackups?: number;
+  RetentionPolicyType: "Basic";
+}
+
+export interface AzureBlobBackupStorageDescription extends BackupStorageDescriptionBase {
+  /** The connection string to connect to the Azure blob store. */
+  ConnectionString: string;
+  /** The name of the container in the blob store to store and enumerate backups from. */
+  ContainerName: string;
+  StorageKind: "AzureBlobStore";
+}
+
+export interface FileShareBackupStorageDescription extends BackupStorageDescriptionBase {
+  /** UNC path of the file share where to store or enumerate backups from. */
+  Path: string;
+  /** Primary user name to access the file share. */
+  PrimaryUserName?: string;
+  /** Primary password to access the share location. */
+  PrimaryPassword?: string;
+  /** Secondary user name to access the file share. */
+  SecondaryUserName?: string;
+  /** Secondary password to access the share location */
+  SecondaryPassword?: string;
+  StorageKind: "FileShare";
+}
+
+export interface DsmsAzureBlobBackupStorageDescription extends BackupStorageDescriptionBase {
+  /** The source location of the storage credentials to connect to the Dsms Azure blob store. */
+  StorageCredentialsSourceLocation: string;
+  /** The name of the container in the blob store to store and enumerate backups from. */
+  ContainerName: string;
+  StorageKind: "DsmsAzureBlobStore";
+}
+
+export interface ManagedIdentityAzureBlobBackupStorageDescription
+  extends BackupStorageDescriptionBase {
+  /** The type of managed identity to be used to connect to Azure Blob Store via Managed Identity. */
+  ManagedIdentityType: "Invalid" | "VMSS" | "Cluster";
+  /** The Blob Service Uri to connect to the Azure blob store.. */
+  BlobServiceUri: string;
+  /** The name of the container in the blob store to store and enumerate backups from. */
+  ContainerName: string;
+  StorageKind: "ManagedIdentityAzureBlobStore";
+}
+
+export interface FrequencyBasedBackupScheduleDescription extends BackupScheduleDescriptionBase {
+  /** Defines the interval with which backups are periodically taken. It should be specified in ISO8601 format. Timespan in seconds is not supported and will be ignored while creating the policy. */
+  Interval: string;
+  ScheduleKind: "FrequencyBased";
+}
+
+export interface TimeBasedBackupScheduleDescription extends BackupScheduleDescriptionBase {
+  /** Describes the frequency with which to run the time based backup schedule. */
+  ScheduleFrequencyType: "Invalid" | "Daily" | "Weekly";
+  /** List of days of a week when to trigger the periodic backup. This is valid only when the backup schedule frequency type is weekly. */
+  RunDays?: Array<
+    "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday"
+  >;
+  /** Represents the list of exact time during the day in ISO8601 format. Like '19:00:00' will represent '7PM' during the day. Date specified along with time will be ignored. */
+  RunTimes: Array<Date | string>;
+  ScheduleKind: "TimeBased";
+}
+
+export interface ApplicationBackupEntity extends BackupEntityBase {
+  /** The name of the application, including the 'fabric:' URI scheme. */
+  ApplicationName?: string;
+  EntityKind: "Application";
+}
+
+export interface ServiceBackupEntity extends BackupEntityBase {
+  /** The full name of the service with 'fabric:' URI scheme. */
+  ServiceName?: string;
+  EntityKind: "Service";
+}
+
+export interface PartitionBackupEntity extends BackupEntityBase {
+  /** The full name of the service with 'fabric:' URI scheme. */
+  ServiceName?: string;
+  /**
+   * The partition ID identifying the partition.
+   *
+   * Value may contain a UUID
+   */
+  PartitionId?: string;
+  EntityKind: "Partition";
+}
+
+export interface NodeImpact {
+  /** The name of the impacted node. */
+  NodeName: string;
+  /** The level of impact expected. */
+  ImpactLevel?: "Invalid" | "None" | "Restart" | "RemoveData" | "RemoveNode";
+}
+
+export interface NodeRepairImpactDescription extends RepairImpactDescriptionBaseBase {
+  /** The list of nodes impacted by a repair action and their respective expected impact. */
+  NodeImpactList?: Array<NodeImpact>;
+  Kind: "Node";
+}
+
+export interface NodeRepairTargetDescription extends RepairTargetDescriptionBaseBase {
+  /** The list of nodes targeted by a repair action. */
+  NodeNames?: Array<string>;
+  Kind: "Node";
+}
+
+export interface AveragePartitionLoadScalingTrigger extends ScalingTriggerDescriptionBase {
+  /** The name of the metric for which usage should be tracked. */
+  MetricName: string;
+  /** The lower limit of the load below which a scale in operation should be performed. */
+  LowerLoadThreshold: string;
+  /** The upper limit of the load beyond which a scale out operation should be performed. */
+  UpperLoadThreshold: string;
+  /** The period in seconds on which a decision is made whether to scale or not. */
+  ScaleIntervalInSeconds: number;
+  Kind: "AveragePartitionLoad";
+}
+
+export interface AverageServiceLoadScalingTrigger extends ScalingTriggerDescriptionBase {
+  /** The name of the metric for which usage should be tracked. */
+  MetricName: string;
+  /** The lower limit of the load below which a scale in operation should be performed. */
+  LowerLoadThreshold: string;
+  /** The upper limit of the load beyond which a scale out operation should be performed. */
+  UpperLoadThreshold: string;
+  /** The period in seconds on which a decision is made whether to scale or not. */
+  ScaleIntervalInSeconds: number;
+  /**
+   * Flag determines whether only the load of primary replica should be considered for scaling.
+   * If set to true, then trigger will only consider the load of primary replicas of stateful service.
+   * If set to false, trigger will consider load of all replicas.
+   * This parameter cannot be set to true for stateless service.
+   */
+  UseOnlyPrimaryLoad: boolean;
+  Kind: "AverageServiceLoad";
+}
+
+export interface PartitionInstanceCountScaleMechanism extends ScalingMechanismDescriptionBase {
+  /** Minimum number of instances of the partition. */
+  MinInstanceCount: number;
+  /** Maximum number of instances of the partition. */
+  MaxInstanceCount: number;
+  /** The number of instances to add or remove during a scaling operation. */
+  ScaleIncrement: number;
+  Kind: "PartitionInstanceCount";
+}
+
+export interface AddRemoveIncrementalNamedPartitionScalingMechanism
+  extends ScalingMechanismDescriptionBase {
+  /** Minimum number of named partitions of the service. */
+  MinPartitionCount: number;
+  /** Maximum number of named partitions of the service. */
+  MaxPartitionCount: number;
+  /** The number of instances to add or remove during a scaling operation. */
+  ScaleIncrement: number;
+  Kind: "AddRemoveIncrementalNamedPartition";
+}
+
+export interface InlinedValueSecretResourceProperties extends SecretResourcePropertiesBase {
+  kind: "inlinedValue";
+}
+
+export interface ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk
+  extends ApplicationScopedVolumeCreationParametersBase {
+  /** Volume size */
+  sizeDisk: "Small" | "Medium" | "Large";
+  kind: "ServiceFabricVolumeDisk";
+}
+
+export interface LocalNetworkResourceProperties extends NetworkResourcePropertiesBase {
+  /** Address space for the local container network. */
+  networkAddressPrefix?: string;
+  kind: "Local";
+}
+
+export interface AzureInternalMonitoringPipelineSinkDescription
+  extends DiagnosticsSinkPropertiesBase {
+  /** Azure Internal monitoring pipeline account. */
+  accountName?: string;
+  /** Azure Internal monitoring pipeline account namespace. */
+  namespace?: string;
+  /** Azure Internal monitoring agent configuration. */
+  maConfigUrl?: string;
+  /** Azure Internal monitoring agent fluentd configuration. */
+  fluentdConfigUrl?: string;
+  /** Azure Internal monitoring pipeline autokey associated with the certificate. */
+  autoKeyConfigUrl?: string;
+  kind: "AzureInternalMonitoringPipeline";
+}
+
+export interface AddRemoveReplicaScalingMechanism extends AutoScalingMechanismBase {
+  /** Minimum number of containers (scale down won't be performed below this number). */
+  minCount: number;
+  /** Maximum number of containers (scale up won't be performed above this number). */
+  maxCount: number;
+  /** Each time auto scaling is performed, this number of containers will be added or removed. */
+  scaleIncrement: number;
+  kind: "AddRemoveReplica";
+}
+
+export interface AutoScalingMetricBase {
+  kind: "Resource";
+}
+
+export interface AutoScalingResourceMetric extends AutoScalingMetricBase {
+  /** Name of the resource. */
+  name: "cpu" | "memoryInGB";
+  kind: "Resource";
+}
+
+export interface DefaultExecutionPolicy extends ExecutionPolicyBase {
+  type: "Default";
+}
+
+export interface RunToCompletionExecutionPolicy extends ExecutionPolicyBase {
+  /** Enumerates the restart policy for RunToCompletionExecutionPolicy */
+  restart: "OnFailure" | "Never";
+  type: "RunToCompletion";
+}
+
+export interface AverageLoadScalingTrigger extends AutoScalingTriggerBase {
+  /** Description of the metric that is used for scaling. */
+  metric: AutoScalingMetric;
+  /** Lower load threshold (if average load is below this threshold, service will scale down). */
+  lowerLoadThreshold: number;
+  /** Upper load threshold (if average load is above this threshold, service will scale up). */
+  upperLoadThreshold: number;
+  /** Scale interval that indicates how often will this trigger be checked. */
+  scaleIntervalInSeconds: number;
+  kind: "AverageLoad";
+}
+
+export type ProvisionApplicationTypeDescriptionBase =
+  | ProvisionApplicationTypeDescription
+  | ExternalStoreProvisionApplicationTypeDescription;
+export type ServicePlacementPolicyDescription =
+  | ServicePlacementInvalidDomainPolicyDescription
+  | ServicePlacementNonPartiallyPlaceServicePolicyDescription
+  | ServicePlacementAllowMultipleStatelessInstancesOnNodePolicyDescription
+  | ServicePlacementPreferPrimaryDomainPolicyDescription
+  | ServicePlacementRequiredDomainPolicyDescription
+  | ServicePlacementRequireDomainDistributionPolicyDescription;
+export type ServiceDescription = StatefulServiceDescription | StatelessServiceDescription;
+export type PartitionSchemeDescription =
+  | NamedPartitionSchemeDescription
+  | SingletonPartitionSchemeDescription
+  | UniformInt64RangePartitionSchemeDescription;
+export type ScalingTriggerDescription =
+  | AveragePartitionLoadScalingTrigger
+  | AverageServiceLoadScalingTrigger;
+export type ScalingMechanismDescription =
+  | PartitionInstanceCountScaleMechanism
+  | AddRemoveIncrementalNamedPartitionScalingMechanism;
+export type ServiceUpdateDescription =
+  | StatefulServiceUpdateDescription
+  | StatelessServiceUpdateDescription;
+export type RepairTargetDescriptionBase = NodeRepairTargetDescription;
+export type RepairImpactDescriptionBase = NodeRepairImpactDescription;
+export type BackupScheduleDescription =
+  | FrequencyBasedBackupScheduleDescription
+  | TimeBasedBackupScheduleDescription;
+export type BackupStorageDescription =
+  | AzureBlobBackupStorageDescription
+  | FileShareBackupStorageDescription
+  | DsmsAzureBlobBackupStorageDescription
+  | ManagedIdentityAzureBlobBackupStorageDescription;
+export type RetentionPolicyDescription = BasicRetentionPolicyDescription;
+export type BackupEntity = ApplicationBackupEntity | ServiceBackupEntity | PartitionBackupEntity;
+export type PropertyValue =
+  | BinaryPropertyValue
+  | Int64PropertyValue
+  | DoublePropertyValue
+  | StringPropertyValue
+  | GuidPropertyValue;
+export type PropertyBatchOperation =
+  | CheckExistsPropertyBatchOperation
+  | CheckSequencePropertyBatchOperation
+  | CheckValuePropertyBatchOperation
+  | DeletePropertyBatchOperation
+  | GetPropertyBatchOperation
+  | PutPropertyBatchOperation;
+export type SecretResourceProperties =
+  | SecretResourcePropertiesBase
+  | InlinedValueSecretResourceProperties;
+export type SecretResourcePropertiesParent =
+  | SecretResourceProperties
+  | InlinedValueSecretResourceProperties;
+export type NetworkResourceProperties =
+  | NetworkResourcePropertiesBase
+  | LocalNetworkResourceProperties;
+export type NetworkResourcePropertiesParent =
+  | NetworkResourceProperties
+  | LocalNetworkResourceProperties;
+export type ApplicationScopedVolumeCreationParameters = ApplicationScopedVolumeCreationParametersServiceFabricVolumeDisk;
+export type ExecutionPolicy = DefaultExecutionPolicy | RunToCompletionExecutionPolicy;
+export type AutoScalingTrigger = AverageLoadScalingTrigger;
+export type AutoScalingMechanism = AddRemoveReplicaScalingMechanism;
+export type DiagnosticsSinkProperties = AzureInternalMonitoringPipelineSinkDescription;
+export type AutoScalingMetric = AutoScalingResourceMetric;
