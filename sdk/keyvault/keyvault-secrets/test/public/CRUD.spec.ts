@@ -78,7 +78,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     try {
       await client.setSecret(secretName, secretValue);
       throw Error("Expecting an error but not catching one.");
-    } catch (e: any) {}
+    } catch (e) {}
   });
 
   it("can set a secret with Empty Value", async function (this: Context) {
