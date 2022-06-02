@@ -947,7 +947,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
         ],
       });
 
-      it.only("png file stream", async function (this: Mocha.Context) {
+      it("png file stream", async function (this: Mocha.Context) {
         const filePath = path.join(ASSET_PATH, "w2", "gold_simple_w2.png");
         const stream = fs.createReadStream(filePath);
 
@@ -967,6 +967,100 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
         assert.equal(w2Naive.docType, "tax.us.w2");
 
         validator(w2Naive as AnalyzedDocument);
+      });
+    });
+
+    describe("healthInsuranceCard - US", function () {
+      const validator = createValidator({
+        insurer: "PREMERA",
+        member: {
+          name: "ANGEL BROWN",
+          employer: "Microsoft",
+        },
+        dependents: [
+          {
+            name: "Coinsurance Max",
+          },
+        ],
+        idNumber: {
+          number: "123456789",
+        },
+        groupNumber: "1000000",
+        prescriptionInfo: {
+          rxBIN: "987654",
+          rxGrp: "BCAAXYZ",
+        },
+        copays: [
+          {
+            benefit: "deductible",
+            amount: "$1,500",
+          },
+          {
+            benefit: "coinsurancemax",
+            amount: "$1,000",
+          },
+        ],
+        plan: {
+          name: "PPO",
+        },
+      });
+
+      it("png file stream", async function (this: Mocha.Context) {
+        const filePath = path.join(ASSET_PATH, "healthInsuranceCard", "insurance.png");
+        const stream = fs.createReadStream(filePath);
+
+        const poller = await client.beginAnalyzeDocument(
+          PrebuiltModels.HealthInsuranceCardUs,
+          stream,
+          testPollingOptions
+        );
+
+        const {
+          documents,
+          documents: [healthInsuranceCard],
+        } = await poller.pollUntilDone();
+
+        assert.isNotEmpty(documents);
+
+        validator(healthInsuranceCard as AnalyzedDocument);
+      });
+    });
+
+    describe("vaccinationCard", function () {
+      const validator = createValidator({
+        cardHolderInfo: {
+          firstName: "Angel",
+        },
+        vaccines: [
+          {
+            manufacturer: "Pfizer",
+            dateAdministered: "2021-11-10T05:00:00.000Z",
+          },
+          {
+            manufacturer: "Pfizer",
+            dateAdministered: "2021-12-04T05:00:00.000Z",
+          },
+        ],
+      });
+
+      it("jpg file stream", async function (this: Mocha.Context) {
+        const filePath = path.join(ASSET_PATH, "vaccinationCard", "vaccination.jpg");
+        const stream = fs.createReadStream(filePath);
+
+        const poller = await client.beginAnalyzeDocument(
+          PrebuiltModels.VaccinationCard,
+          stream,
+          testPollingOptions
+        );
+
+        const {
+          documents,
+          documents: [vaccinationCard],
+        } = await poller.pollUntilDone();
+
+        assert.isNotEmpty(documents);
+
+        validator(vaccinationCard as AnalyzedDocument);
       });
     });
   }).timeout(60000);
