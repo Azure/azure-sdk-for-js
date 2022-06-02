@@ -77,7 +77,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     const secretName = "";
     try {
       await client.setSecret(secretName, secretValue);
-      throw Error("Expecting an error but not catching one.");
+      assert.fail("Expected an error");
     } catch (e) {
       // Ignore expected error
     }
