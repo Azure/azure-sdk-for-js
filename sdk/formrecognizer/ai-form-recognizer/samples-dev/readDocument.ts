@@ -59,7 +59,7 @@ async function main() {
     console.log("Languages:");
     for (const languageEntry of languages) {
       console.log(
-        `- Found language: ${languageEntry.languageCode} (confidence: ${languageEntry.confidence})`
+        `- Found language: ${languageEntry.locale} (confidence: ${languageEntry.confidence})`
       );
       for (const text of getTextOfSpans(content, languageEntry.spans)) {
         const escapedText = text.replace(/\r?\n/g, "\\n").replace(/"/g, '\\"');

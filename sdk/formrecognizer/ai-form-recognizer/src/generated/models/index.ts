@@ -79,8 +79,6 @@ export interface AnalyzeResult {
   tables?: DocumentTable[];
   /** Extracted key-value pairs. */
   keyValuePairs?: DocumentKeyValuePair[];
-  /** Extracted entities. */
-  entities?: DocumentEntity[];
   /** Extracted font styles. */
   styles?: DocumentStyle[];
   /** Detected languages. */
@@ -267,22 +265,6 @@ export interface DocumentKeyValueElement {
   spans: DocumentSpan[];
 }
 
-/** An object representing various categories of entities. */
-export interface DocumentEntity {
-  /** Entity type. */
-  category: string;
-  /** Entity sub type. */
-  subCategory?: string;
-  /** Entity content. */
-  content: string;
-  /** Bounding regions covering the entity. */
-  boundingRegions?: BoundingRegion[];
-  /** Location of the entity in the reading order concatenated content. */
-  spans: DocumentSpan[];
-  /** Confidence of correctly extracting the entity. */
-  confidence: number;
-}
-
 /** An object representing observed text styles. */
 export interface DocumentStyle {
   /** Is content handwritten? */
@@ -296,7 +278,7 @@ export interface DocumentStyle {
 /** An object representing the detected language for a given text span. */
 export interface DocumentLanguage {
   /** Detected language.  Value may an ISO 639-1 language code (ex. "en", "fr") or BCP 47 language tag (ex. "zh-Hans"). */
-  languageCode: string;
+  locale: string;
   /** Location of the text elements in the concatenated content the language applies to. */
   spans: DocumentSpan[];
   /** Confidence of correctly identifying the language. */
@@ -350,8 +332,6 @@ export interface DocumentField {
   valueCurrency?: CurrencyValue;
   /** Address value. */
   valueAddress?: AddressValue;
-  /** Boolean value. */
-  valueBoolean?: boolean;
   /** Field content. */
   content?: string;
   /** Bounding regions covering the field. */
@@ -730,8 +710,7 @@ export enum KnownDocumentFieldType {
   Array = "array",
   Object = "object",
   Currency = "currency",
-  Address = "address",
-  Boolean = "boolean"
+  Address = "address"
 }
 
 /**
@@ -751,8 +730,7 @@ export enum KnownDocumentFieldType {
  * **array** \
  * **object** \
  * **currency** \
- * **address** \
- * **boolean**
+ * **address**
  */
 export type DocumentFieldType = string;
 
@@ -813,6 +791,7 @@ export type ContentType =
   | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
   | "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
   | "image/bmp"
+  | "image/heif"
   | "image/jpeg"
   | "image/png"
   | "image/tiff";

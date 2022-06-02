@@ -252,18 +252,6 @@ export const AnalyzeResult: coreClient.CompositeMapper = {
           }
         }
       },
-      entities: {
-        serializedName: "entities",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DocumentEntity"
-            }
-          }
-        }
-      },
       styles: {
         serializedName: "styles",
         type: {
@@ -1050,71 +1038,6 @@ export const DocumentKeyValueElement: coreClient.CompositeMapper = {
   }
 };
 
-export const DocumentEntity: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "DocumentEntity",
-    modelProperties: {
-      category: {
-        serializedName: "category",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      subCategory: {
-        serializedName: "subCategory",
-        type: {
-          name: "String"
-        }
-      },
-      content: {
-        serializedName: "content",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      boundingRegions: {
-        serializedName: "boundingRegions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "BoundingRegion"
-            }
-          }
-        }
-      },
-      spans: {
-        serializedName: "spans",
-        required: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DocumentSpan"
-            }
-          }
-        }
-      },
-      confidence: {
-        constraints: {
-          InclusiveMaximum: 1,
-          InclusiveMinimum: 0
-        },
-        serializedName: "confidence",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
 export const DocumentStyle: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1159,8 +1082,8 @@ export const DocumentLanguage: coreClient.CompositeMapper = {
     name: "Composite",
     className: "DocumentLanguage",
     modelProperties: {
-      languageCode: {
-        serializedName: "languageCode",
+      locale: {
+        serializedName: "locale",
         required: true,
         type: {
           name: "String"
@@ -1354,12 +1277,6 @@ export const DocumentField: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "AddressValue"
-        }
-      },
-      valueBoolean: {
-        serializedName: "valueBoolean",
-        type: {
-          name: "Boolean"
         }
       },
       content: {

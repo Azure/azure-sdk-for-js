@@ -41,7 +41,6 @@ export interface AnalyzeDocumentOptions<Result = AnalyzeResult<AnalyzedDocument>
 // @public
 export interface AnalyzeResult<Document = AnalyzedDocument> extends AnalyzeResultCommon {
     documents: Document[];
-    entities: DocumentEntity[];
     keyValuePairs: DocumentKeyValuePair[];
     languages: DocumentLanguage[];
     pages: DocumentPage[];
@@ -310,16 +309,6 @@ export interface DocumentDateField extends DocumentValueField<Date> {
 }
 
 // @public
-export interface DocumentEntity {
-    boundingRegions?: BoundingRegion[];
-    category: string;
-    confidence: number;
-    content: string;
-    spans: DocumentSpan[];
-    subCategory?: string;
-}
-
-// @public
 export type DocumentField = DocumentStringField | DocumentDateField | DocumentTimeField | DocumentPhoneNumberField | DocumentNumberField | DocumentIntegerField | DocumentSelectionMarkField | DocumentCountryRegionField | DocumentSignatureField | DocumentCurrencyField | DocumentArrayField | DocumentObjectField;
 
 // @public
@@ -580,7 +569,6 @@ export type FormRecognizerRequestBody = NodeJS.ReadableStream | Blob | ArrayBuff
 
 // @public
 export interface GeneralDocumentResult extends LayoutResult {
-    entities: DocumentEntity[];
     keyValuePairs: DocumentKeyValuePair[];
 }
 

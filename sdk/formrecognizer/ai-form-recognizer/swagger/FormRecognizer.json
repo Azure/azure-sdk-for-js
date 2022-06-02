@@ -42,6 +42,7 @@
           "image/png",
           "image/tiff",
           "image/bmp",
+          "image/heif",
           "text/html",
           "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
           "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -1121,13 +1122,6 @@
             "$ref": "#/definitions/DocumentKeyValuePair"
           }
         },
-        "entities": {
-          "description": "Extracted entities.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DocumentEntity"
-          }
-        },
         "styles": {
           "description": "Extracted font styles.",
           "type": "array",
@@ -1573,43 +1567,6 @@
         }
       }
     },
-    "DocumentEntity": {
-      "description": "An object representing various categories of entities.",
-      "type": "object",
-      "required": ["category", "content", "spans", "confidence"],
-      "properties": {
-        "category": {
-          "description": "Entity type.",
-          "type": "string"
-        },
-        "subCategory": {
-          "description": "Entity sub type.",
-          "type": "string"
-        },
-        "content": {
-          "description": "Entity content.",
-          "type": "string"
-        },
-        "boundingRegions": {
-          "description": "Bounding regions covering the entity.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/BoundingRegion"
-          }
-        },
-        "spans": {
-          "description": "Location of the entity in the reading order concatenated content.",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/DocumentSpan"
-          }
-        },
-        "confidence": {
-          "description": "Confidence of correctly extracting the entity.",
-          "$ref": "#/definitions/Confidence"
-        }
-      }
-    },
     "DocumentStyle": {
       "description": "An object representing observed text styles.",
       "type": "object",
@@ -1635,9 +1592,9 @@
     "DocumentLanguage": {
       "description": "An object representing the detected language for a given text span.",
       "type": "object",
-      "required": ["languageCode", "spans", "confidence"],
+      "required": ["locale", "spans", "confidence"],
       "properties": {
-        "languageCode": {
+        "locale": {
           "description": "Detected language.  Value may an ISO 639-1 language code (ex. \"en\", \"fr\") or BCP 47 language tag (ex. \"zh-Hans\").",
           "type": "string"
         },
@@ -1765,10 +1722,6 @@
           "description": "Address value.",
           "$ref": "#/definitions/AddressValue"
         },
-        "valueBoolean": {
-          "description": "Boolean value.",
-          "type": "boolean"
-        },
         "content": {
           "description": "Field content.",
           "type": "string"
@@ -1809,8 +1762,7 @@
         "array",
         "object",
         "currency",
-        "address",
-        "boolean"
+        "address"
       ],
       "x-ms-enum": {
         "name": "DocumentFieldType",
