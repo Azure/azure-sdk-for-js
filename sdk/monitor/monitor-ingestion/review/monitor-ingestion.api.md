@@ -11,7 +11,7 @@ import { TokenCredential } from '@azure/core-auth';
 export class LogsIngestionClient {
     constructor(tokenCredential: TokenCredential, endpoint: string, options?: LogsIngestionClientOptions);
     endpoint: string;
-    sendLogs(ruleId: string, stream: string, logs: Record<string, unknown>[], options?: sendLogsOptions): Promise<sendLogsResult>;
+    sendLogs(ruleId: string, stream: string, logs: Record<string, unknown>[], options?: SendLogsOptions): Promise<SendLogsResult>;
 }
 
 // @public
@@ -20,12 +20,12 @@ export interface LogsIngestionClientOptions extends CommonClientOptions {
 }
 
 // @public
-export interface sendLogsOptions {
+export interface SendLogsOptions {
     concurrency?: number;
 }
 
 // @public
-export interface sendLogsResult {
+export interface SendLogsResult {
     failedLogsIndex: Array<number>;
     sendLogsStatus: SendLogsStatus;
 }

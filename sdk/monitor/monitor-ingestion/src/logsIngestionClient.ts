@@ -5,7 +5,7 @@ import { TokenCredential } from "@azure/core-auth";
 import { CommonClientOptions } from "@azure/core-client";
 import { SDK_VERSION } from "./constants";
 import { GeneratedDataCollectionClient } from "./generated";
-import { sendLogsOptions, sendLogsResult } from "./models";
+import { SendLogsOptions, SendLogsResult } from "./models";
 
 /**
  * Options for Montior Logs Ingestion Client
@@ -67,8 +67,8 @@ export class LogsIngestionClient {
     ruleId: string,
     streamName: string,
     logs: Record<string, unknown>[],
-    options?: uploadOptions
-  ): Promise<uploadResult> {
+    options?: SendLogsOptions
+  ): Promise<SendLogsResult> {
     //yet-to-be-implemented
     if (options?.maxConcurrency && options?.maxConcurrency > 1) {
       throw ("Concurrency yet to be implemeted");
@@ -90,12 +90,12 @@ export class LogsIngestionClient {
           }
           count++;
         }
-        let uploadResult: uploadResult = {
+        let sendLogsResult: SendLogsResult = {
           failedLogsIndex: [],
           sendLogsStatus: "Success"
         }
         if (failedLogsIndex.length === 0) {
-          return uploadResult;
+          return sendLogsResult;
         }
         else if (failedLogsIndex.length < noOfChunks && failedLogsIndex.length > 0) {
 

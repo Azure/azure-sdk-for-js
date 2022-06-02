@@ -4,7 +4,7 @@
 /**
  * Options for send logs operation
  */
-export interface sendLogsOptions {
+export interface SendLogsOptions {
   /**
    * Concurrency of parallel requests. Must be greater than or equal to 0.
    */
@@ -14,7 +14,7 @@ export interface sendLogsOptions {
 /**
  * Result type for send logs operation
  */
-export interface sendLogsResult {
+export interface SendLogsResult {
   /**
    * List of indices for failed logs
    */
