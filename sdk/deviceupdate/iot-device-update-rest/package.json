@@ -78,8 +78,7 @@
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "unit-test:browser": "dev-tool run test:browser",
     "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "docs": "typedoc --excludePrivate --excludeExternals  --out ./dist/docs ./src"
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": false,
   "autoPublish": false,
@@ -98,14 +97,14 @@
     "@azure/identity": "^2.0.1",
     "@azure-tools/test-recorder": "^2.0.0",
     "@azure-tools/test-credential": "1.0.0",
-    "@microsoft/api-extractor": "^7.18.11",
+    "@microsoft/api-extractor": "7.18.11",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
-    "eslint": "^7.15.0",
+    "eslint": "^8.0.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-edge-launcher": "^0.4.2",
@@ -127,7 +126,6 @@
     "prettier": "2.2.1",
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.9",
-    "typedoc": "0.15.2",
     "typescript": "~4.2.0"
   }
 }

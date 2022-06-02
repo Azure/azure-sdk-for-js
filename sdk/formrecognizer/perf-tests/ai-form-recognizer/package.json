@@ -17,14 +17,14 @@
   },
   "devDependencies": {
     "@types/node": "^12.0.0",
-    "eslint": "^7.15.0",
+    "eslint": "^8.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "ts-node": "^10.0.0",
     "typescript": "~4.2.0"
   },
   "scripts": {
-    "perf-test:node": "ts-node test/index.spec.ts",
+    "perf-test:node": "npm run build && node dist-esm/index.spec.js",
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "npm run clean && tsc -p .",
     "build:samples": "echo skipped",

@@ -83,6 +83,14 @@ function ignoreChaiCircularDependency(warning: RollupWarning): boolean {
   );
 }
 
+
+function ignoreRheaPromiseCircularDependency(warning: RollupWarning): boolean {
+  return (
+    warning.code === "CIRCULAR_DEPENDENCY" &&
+    warning.importer?.includes(["node_modules", "rhea-promise"].join(path.sep)) === true
+  );
+}
+
 function ignoreOpenTelemetryThisIsUndefined(warning: RollupWarning): boolean {
   return (
     warning.code === "THIS_IS_UNDEFINED" &&
@@ -104,6 +112,7 @@ function ignoreMissingExportsFromEmpty(warning: RollupWarning): boolean {
 
 const warningInhibitors: Array<(warning: RollupWarning) => boolean> = [
   ignoreChaiCircularDependency,
+  ignoreRheaPromiseCircularDependency,
   ignoreNiseSinonEval,
   ignoreOpenTelemetryThisIsUndefined,
   ignoreMissingExportsFromEmpty,

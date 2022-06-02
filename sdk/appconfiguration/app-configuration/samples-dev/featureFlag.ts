@@ -79,7 +79,7 @@ export async function main() {
   const newFeatureFlag = parseFeatureFlag(getResponse); // Converts the configurationsetting into featureflag
   // Modify the props
   for (const clientFilter of newFeatureFlag.value.conditions.clientFilters) {
-    clientFilter.parameters = clientFilter.parameters ?? {};
+    clientFilter.parameters = clientFilter.parameters || {};
     console.log(
       `\n...clientFilter - "${clientFilter.name}"...\nparams => ${JSON.stringify(
         clientFilter.parameters,

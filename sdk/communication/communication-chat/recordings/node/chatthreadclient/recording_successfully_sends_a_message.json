@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/chat/threads/19%3ACVY6cS046Q76bICKk00-dR7_y5RHQo3_3ONhDTEIrk41%40thread.v2/messages?api-version=2021-09-07",
+      "RequestUri": "https://endpoint/chat/threads/19%3A1LP8h-5WKvPuwtMH3edl4AihPeEZu3VWYitvgn-9uDw1%40thread.v2/messages?api-version=2021-09-07",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "51",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-azure-communication-chat/1.2.0 core-rest-pipeline/1.8.0 Node/v16.14.2 OS/(arm64-Darwin-21.4.0)",
-        "x-ms-client-request-id": "a2984bb4-6ba1-456b-af95-359b94b67970"
+        "User-Agent": "azsdk-js-communication-chat/1.2.0 core-rest-pipeline/1.8.1 Node/v14.15.4 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "12b3e31b-ba7d-42f8-822f-5c1ae2b59cf9"
       },
       "RequestBody": {
         "content": "content",
@@ -22,18 +22,19 @@
       "StatusCode": 201,
       "ResponseHeaders": {
         "api-supported-versions": "2021-03-07, 2021-04-05-preview6, 2021-09-07, 2021-10-01-preview7",
+        "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 30 Mar 2022 21:36:31 GMT",
-        "Location": "https://endpoint/chat/threads/19%3ACVY6cS046Q76bICKk00-dR7_y5RHQo3_3ONhDTEIrk41@thread.v2/messages/1648676192118",
-        "MS-CV": "Z7RiSWwJXk\u002BvQqDJEGpX\u002BQ.0",
+        "Date": "Mon, 02 May 2022 22:48:40 GMT",
+        "Location": "https://endpoint/chat/threads/19%3A1LP8h-5WKvPuwtMH3edl4AihPeEZu3VWYitvgn-9uDw1@thread.v2/messages/1651531715497",
+        "MS-CV": "Z\u002Bf/nu5BQkGf3tjcY102PQ.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0X81EYgAAAAASvAh8FSMaSbkjpBeIW9ViUERYMzFFREdFMDIxMgBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
+        "x-azure-ref": "20220502T224840Z-1kdy40ce594zxd7ayzepxvrcq0000000052000000002q5se",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "400ms"
+        "X-Processing-Time": "155ms"
       },
       "ResponseBody": {
-        "id": "1648676192118"
+        "id": "1651531715497"
       }
     }
   ],

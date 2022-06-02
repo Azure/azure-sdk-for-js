@@ -89,7 +89,7 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure-tools/test-recorder": "^2.0.0",
-    "@microsoft/api-extractor": "^7.18.11",
+    "@microsoft/api-extractor": "7.18.11",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
@@ -97,7 +97,7 @@
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
-    "eslint": "^7.15.0",
+    "eslint": "^8.0.0",
     "inherits": "^2.0.3",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
@@ -119,7 +119,7 @@
     "rimraf": "^3.0.0",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~4.2.0",
+    "typescript": "~4.6.0",
     "util": "^0.12.1"
   },
   "//sampleConfiguration": {

@@ -3,7 +3,7 @@
 
 import { ClientSecretCredential } from "@azure/identity";
 import { KeyClient } from "../../../src";
-import { env, isLiveMode, record, RecorderEnvironmentSetup } from "@azure-tools/test-recorder";
+import { RecorderEnvironmentSetup, env, isLiveMode, record } from "@azure-tools/test-recorder";
 import { uniqueString } from "./recorderUtils";
 import TestClient from "./testClient";
 import { Context } from "mocha";

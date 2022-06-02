@@ -258,7 +258,18 @@ export interface DomainEventSubscriptionsGetOptionalParams extends coreClient.Op
 export type DomainEventSubscriptionsGetResponse = EventSubscription;
 
 // @public
+export interface DomainEventSubscriptionsListNextOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type DomainEventSubscriptionsListNextResponse = EventSubscriptionsListResult;
+
+// @public
 export interface DomainEventSubscriptionsListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
 }
 
 // @public
@@ -443,7 +454,18 @@ export interface DomainTopicEventSubscriptionsGetOptionalParams extends coreClie
 export type DomainTopicEventSubscriptionsGetResponse = EventSubscription;
 
 // @public
+export interface DomainTopicEventSubscriptionsListNextOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type DomainTopicEventSubscriptionsListNextResponse = EventSubscriptionsListResult;
+
+// @public
 export interface DomainTopicEventSubscriptionsListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
 }
 
 // @public
@@ -3034,7 +3056,18 @@ export interface TopicEventSubscriptionsGetOptionalParams extends coreClient.Ope
 export type TopicEventSubscriptionsGetResponse = EventSubscription;
 
 // @public
+export interface TopicEventSubscriptionsListNextOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type TopicEventSubscriptionsListNextResponse = EventSubscriptionsListResult;
+
+// @public
 export interface TopicEventSubscriptionsListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
 }
 
 // @public

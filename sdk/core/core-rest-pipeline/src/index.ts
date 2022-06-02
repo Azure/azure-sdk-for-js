@@ -3,20 +3,23 @@
 
 export {
   Agent,
-  HttpClient,
-  PipelineRequest,
-  PipelineResponse,
-  SendRequest,
   FormDataMap,
   FormDataValue,
+  HttpClient,
   HttpHeaders,
   HttpMethods,
+  KeyObject,
+  PipelineRequest,
+  PipelineResponse,
+  PipelineRetryOptions,
   ProxySettings,
+  PxfObject,
   RawHttpHeaders,
   RawHttpHeadersInput,
-  TransferProgressEvent,
   RequestBodyType,
-  PipelineRetryOptions,
+  SendRequest,
+  TlsSettings,
+  TransferProgressEvent,
 } from "./interfaces";
 export {
   AddPolicyOptions as AddPipelineOptions,
@@ -73,6 +76,7 @@ export {
   userAgentPolicyName,
   UserAgentPolicyOptions,
 } from "./policies/userAgentPolicy";
+export { tlsPolicy, tlsPolicyName } from "./policies/tlsPolicy";
 export { formDataPolicy, formDataPolicyName } from "./policies/formDataPolicy";
 export {
   bearerTokenAuthenticationPolicy,

@@ -1,28 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
-
-import { isKeyCredential, parseClientArguments } from "@azure/communication-common";
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { createSpan, logger } from "./utils";
-import { ShortCodesClient as ShortCodesGeneratedClient } from "./generated/src";
-import {
-  ShortCode,
-  ShortCodesUpsertUSProgramBriefOptionalParams,
-  USProgramBrief,
-} from "./generated/src/models/";
-import { SpanStatusCode } from "@azure/core-tracing";
 import {
   DeleteUSProgramBriefOptions,
   GetUSProgramBriefOptions,
   ListShortCodesOptions,
   ListUSProgramBriefsOptions,
+  ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams,
+  ShortCodesDeleteUSProgramBriefAttachmentOptionalParams,
+  ShortCodesGetUSProgramBriefAttachmentOptionalParams,
+  ShortCodesGetUSProgramBriefAttachmentsOptionalParams,
   SubmitUSProgramBriefOptions,
 } from "./models";
+import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import {
+  ProgramBriefAttachment,
+  ShortCode,
+  ShortCodesUpsertUSProgramBriefOptionalParams,
+  USProgramBrief,
+} from "./generated/src/models/";
+import { createSpan, logger } from "./utils";
+import { isKeyCredential, parseClientArguments } from "@azure/communication-common";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { ShortCodesClient as ShortCodesGeneratedClient } from "./generated/src";
+import { SpanStatusCode } from "@azure/core-tracing";
 import { createCommunicationAuthPolicy } from "@azure/communication-common";
-
 /**
  * Client options used to configure the ShortCodesClient API requests.
  */
@@ -183,6 +186,109 @@ export class ShortCodesClient {
         updatedOptions
       );
     } catch (e: any) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async getUSProgramBriefAttachment(
+    programBriefId: string,
+    attachmentId: string,
+    options?: ShortCodesGetUSProgramBriefAttachmentOptionalParams
+  ): Promise<ProgramBriefAttachment> {
+    const { span, updatedOptions } = createSpan(
+      "ShortCodesClient-getUSProgramBriefAttachment",
+      options
+    );
+    try {
+      return await this.client.shortCodesOperations.getUSProgramBriefAttachment(
+        programBriefId,
+        attachmentId,
+        updatedOptions
+      );
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public listUSProgramBriefAttachments(
+    programBriefId: string,
+    options: ShortCodesGetUSProgramBriefAttachmentsOptionalParams = {}
+  ): PagedAsyncIterableIterator<ProgramBriefAttachment> {
+    const { span, updatedOptions } = createSpan(
+      "ShortCodesClient-listUSProgramBriefAttachments",
+      options
+    );
+    try {
+      return this.client.shortCodesOperations.listUSProgramBriefAttachments(
+        programBriefId,
+        updatedOptions
+      );
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async deleteUSProgramBriefAttachment(
+    programBriefId: string,
+    attachmentId: string,
+    options?: ShortCodesDeleteUSProgramBriefAttachmentOptionalParams
+  ): Promise<void> {
+    const { span, updatedOptions } = createSpan(
+      "ShortCodesClient-deleteUSProgramBriefAttachment",
+      options
+    );
+    try {
+      return await this.client.shortCodesOperations.deleteUSProgramBriefAttachment(
+        programBriefId,
+        attachmentId,
+        updatedOptions
+      );
+    } catch (e) {
+      span.setStatus({
+        code: SpanStatusCode.ERROR,
+        message: e.message,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public async createOrReplaceUSProgramBriefAttachment(
+    programBriefId: string,
+    attachmentId: string,
+    options: ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams = {}
+  ): Promise<USProgramBrief> {
+    const { span, updatedOptions } = createSpan(
+      "ShortCodesClient-createOrReplaceUSProgramBriefAttachment",
+      options
+    );
+    try {
+      return await this.client.shortCodesOperations.createOrReplaceUSProgramBriefAttachment(
+        programBriefId,
+        attachmentId,
+        attachmentId,
+        updatedOptions
+      );
+    } catch (e) {
       span.setStatus({
         code: SpanStatusCode.ERROR,
         message: e.message,

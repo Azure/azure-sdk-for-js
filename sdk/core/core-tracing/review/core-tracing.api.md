@@ -31,7 +31,9 @@ export interface OperationTracingOptions {
 }
 
 // @public
-export type OptionsWithTracingContext<Options> = Options & {
+export type OptionsWithTracingContext<Options extends {
+    tracingOptions?: OperationTracingOptions;
+}> = Options & {
     tracingOptions: {
         tracingContext: TracingContext;
     };

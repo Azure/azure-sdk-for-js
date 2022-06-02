@@ -310,12 +310,18 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
             options.fromSequenceNumber,
             maxMessageCount,
             this.sessionId,
+            options.omitMessageBody,
             managementRequestOptions
           );
       } else {
         return this._context
           .getManagementClient(this.entityPath)
-          .peekMessagesBySession(this.sessionId, maxMessageCount, managementRequestOptions);
+          .peekMessagesBySession(
+            this.sessionId,
+            maxMessageCount,
+            options.omitMessageBody,
+            managementRequestOptions
+          );
       }
     };
 

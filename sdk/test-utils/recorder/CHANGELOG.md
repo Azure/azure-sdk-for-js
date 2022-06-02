@@ -4,9 +4,13 @@
 
 ### Features Added
 
+- Add support for session-level sanitization using the `Recorder.addSessionSanitizers` static method. [#21533](https://github.com/Azure/azure-sdk-for-js/pull/21533)
+
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- Fixed redirects not being passed to the test proxy in the browser. [#21713](https://github.com/Azure/azure-sdk-for-js/pull/21713)
 
 ### Other Changes
 

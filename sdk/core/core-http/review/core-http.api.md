@@ -700,6 +700,7 @@ export class Serializer {
         [key: string]: any;
     };
     serialize(mapper: Mapper, object: unknown, objectName?: string, options?: SerializerOptions): any;
+    // @deprecated
     validateConstraints(mapper: Mapper, value: unknown, objectName: string): void;
 }
 

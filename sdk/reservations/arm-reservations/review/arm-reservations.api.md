@@ -231,14 +231,20 @@ export interface CreateGenericQuotaRequestParameters {
 
 // @public
 export interface CurrentQuotaLimit {
+    readonly id?: string;
     readonly message?: string;
+    readonly name?: string;
     properties?: QuotaProperties;
     readonly provisioningState?: QuotaRequestState;
+    readonly type?: string;
 }
 
 // @public
 export interface CurrentQuotaLimitBase {
+    readonly id?: string;
+    readonly name?: string;
     properties?: QuotaProperties;
+    readonly type?: string;
 }
 
 // @public
@@ -366,6 +372,9 @@ export type GetAppliedReservationListResponse = AppliedReservations;
 // @public
 export interface GetCatalogOptionalParams extends coreClient.OperationOptions {
     location?: string;
+    offerId?: string;
+    planId?: string;
+    publisherId?: string;
     reservedResourceType?: string;
 }
 
@@ -419,6 +428,8 @@ export enum KnownDisplayProvisioningState {
     Failed = "Failed",
     // (undocumented)
     Pending = "Pending",
+    // (undocumented)
+    Processing = "Processing",
     // (undocumented)
     Succeeded = "Succeeded"
 }
@@ -704,6 +715,8 @@ export enum KnownReservationStatusCode {
     // (undocumented)
     Pending = "Pending",
     // (undocumented)
+    Processing = "Processing",
+    // (undocumented)
     PurchaseError = "PurchaseError",
     // (undocumented)
     Split = "Split",
@@ -771,6 +784,8 @@ export enum KnownReservedResourceType {
     SuseLinux = "SuseLinux",
     // (undocumented)
     VirtualMachines = "VirtualMachines",
+    // (undocumented)
+    VirtualMachineSoftware = "VirtualMachineSoftware",
     // (undocumented)
     VMwareCloudSimple = "VMwareCloudSimple"
 }
@@ -963,7 +978,7 @@ export interface QuotaCreateOrUpdateOptionalParams extends coreClient.OperationO
 }
 
 // @public
-export type QuotaCreateOrUpdateResponse = QuotaRequestOneResourceSubmitResponse;
+export type QuotaCreateOrUpdateResponse = CurrentQuotaLimitBase;
 
 // @public
 export interface QuotaGetHeaders {
@@ -1044,12 +1059,15 @@ export interface QuotaRequestDetailsList {
 // @public
 export interface QuotaRequestOneResourceSubmitResponse {
     readonly id?: string;
+    readonly idPropertiesId?: string;
     readonly message?: string;
     readonly name?: string;
+    readonly namePropertiesName?: string;
     properties?: QuotaProperties;
     readonly provisioningState?: QuotaRequestState;
     readonly requestSubmitTime?: Date;
     readonly type?: string;
+    readonly typePropertiesType?: string;
 }
 
 // @public
@@ -1120,7 +1138,7 @@ export interface QuotaUpdateOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type QuotaUpdateResponse = QuotaRequestOneResourceSubmitResponse;
+export type QuotaUpdateResponse = CurrentQuotaLimitBase;
 
 // @public (undocumented)
 export interface RenewPropertiesResponse {
@@ -1329,6 +1347,7 @@ export type ReservationOrderPurchaseResponse = ReservationOrderResponse;
 
 // @public (undocumented)
 export interface ReservationOrderResponse {
+    benefitStartTime?: Date;
     billingPlan?: ReservationBillingPlan;
     createdDateTime?: Date;
     displayName?: string;
@@ -1389,6 +1408,7 @@ export interface ReservationsProperties {
     appliedScopes?: string[];
     appliedScopeType?: AppliedScopeType;
     archived?: boolean;
+    benefitStartTime?: Date;
     billingPlan?: ReservationBillingPlan;
     billingScopeId?: string;
     capabilities?: string;
@@ -1436,6 +1456,7 @@ export interface ReservationSummary {
     readonly expiringCount?: number;
     readonly failedCount?: number;
     readonly pendingCount?: number;
+    readonly processingCount?: number;
     readonly succeededCount?: number;
 }
 

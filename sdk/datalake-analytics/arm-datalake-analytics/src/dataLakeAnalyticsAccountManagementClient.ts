@@ -62,7 +62,7 @@ export class DataLakeAnalyticsAccountManagementClient extends coreClient.Service
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-datalake-analytics/2.0.0-beta.3`;
+    const packageDetails = `azsdk-js-arm-datalake-analytics/2.0.0-beta.4`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

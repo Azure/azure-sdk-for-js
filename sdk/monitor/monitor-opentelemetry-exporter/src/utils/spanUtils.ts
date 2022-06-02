@@ -3,9 +3,9 @@
 
 import os from "os";
 import { URL } from "url";
-import { ReadableSpan } from "@opentelemetry/sdk-trace-base";
+import { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
-import { diag, SpanKind, SpanStatusCode, Link } from "@opentelemetry/api";
+import { diag, SpanKind, SpanStatusCode, Link, SpanAttributes } from "@opentelemetry/api";
 import {
   SemanticResourceAttributes,
   SemanticAttributes,
@@ -19,16 +19,18 @@ import { parseEventHubSpan } from "./eventhub";
 import { DependencyTypes, MS_LINKS } from "./constants/applicationinsights";
 import { AzNamespace, MicrosoftEventHub } from "./constants/span/azAttributes";
 import {
+  TelemetryExceptionData,
+  MessageData,
   RemoteDependencyData,
   RequestData,
   TelemetryItem as Envelope,
   KnownContextTagKeys,
+  TelemetryExceptionDetails,
 } from "../generated";
 
-function createTagsFromSpan(span: ReadableSpan): Tags {
+function createGenericTagsFromSpan(span: ReadableSpan): Tags {
   const context = getInstance();
   const tags: Tags = { ...context.tags };
-
   tags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
   if (span.parentSpanId) {
     tags[KnownContextTagKeys.AiOperationParentId] = span.parentSpanId;
@@ -55,6 +57,16 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
       tags[KnownContextTagKeys.AiUserId] = String(endUserId);
     }
   }
+  const httpUserAgent = span.attributes[SemanticAttributes.HTTP_USER_AGENT];
+  if (httpUserAgent) {
+    // TODO: Not exposed in Swagger, need to update def
+    tags["ai.user.userAgent"] = String(httpUserAgent);
+  }
+  return tags;
+}
+
+function createTagsFromSpan(span: ReadableSpan): Tags {
+  const tags: Tags = createGenericTagsFromSpan(span);
   if (span.kind === SpanKind.SERVER) {
     const httpMethod = span.attributes[SemanticAttributes.HTTP_METHOD];
     const httpClientIp = span.attributes[SemanticAttributes.HTTP_CLIENT_IP];
@@ -87,42 +99,49 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
   }
   // TODO: Operation Name and Location IP TBD for non server spans
 
-  const httpUserAgent = span.attributes[SemanticAttributes.HTTP_USER_AGENT];
-  if (httpUserAgent) {
-    // TODO: Not exposed in Swagger, need to update def
-    tags["ai.user.userAgent"] = String(httpUserAgent);
-  }
-
   return tags;
 }
 
-function createPropertiesFromSpan(span: ReadableSpan): [Properties, Measurements] {
-  const properties: Properties = {};
-  const measurements: Measurements = {};
-
-  for (const key of Object.keys(span.attributes)) {
-    if (
-      !(
-        key.startsWith("http.") ||
-        key.startsWith("rpc.") ||
-        key.startsWith("db.") ||
-        key.startsWith("peer.") ||
-        key.startsWith("net.")
-      )
-    ) {
-      properties[key] = span.attributes[key] as string;
+function createPropertiesFromSpanAttributes(attributes?: SpanAttributes): {
+  [propertyName: string]: string;
+} {
+  const properties: { [propertyName: string]: string } = {};
+  if (attributes) {
+    for (const key of Object.keys(attributes)) {
+      if (
+        !(
+          key.startsWith("http.") ||
+          key.startsWith("rpc.") ||
+          key.startsWith("db.") ||
+          key.startsWith("peer.") ||
+          key.startsWith("message.") ||
+          key.startsWith("messaging.") ||
+          key.startsWith("enduser.") ||
+          key.startsWith("net.") ||
+          key.startsWith("exception.") ||
+          key.startsWith("thread.") ||
+          key.startsWith("faas.") ||
+          key.startsWith("code.")
+        )
+      ) {
+        properties[key] = attributes[key] as string;
+      }
     }
   }
+  return properties;
+}
+
+function createPropertiesFromSpan(span: ReadableSpan): [Properties, Measurements] {
+  const properties: Properties = createPropertiesFromSpanAttributes(span.attributes);
+  const measurements: Measurements = {};
 
   const links: MSLink[] = span.links.map((link: Link) => ({
     operation_Id: link.context.traceId,
     id: link.context.spanId,
   }));
-
   if (links.length > 0) {
     properties[MS_LINKS] = JSON.stringify(links);
   }
-
   return [properties, measurements];
 }
 
@@ -242,7 +261,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
             target = res[1] + res[2] + res[4];
           }
         }
-      } catch (error: any) {}
+      } catch (ex: any) {}
       remoteDependencyData.target = `${target}`;
     }
   }
@@ -378,4 +397,82 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
       },
     },
   };
+}
+
+/**
+ * Span Events to Azure envelopes parsing.
+ * @internal
+ */
+export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelope[] {
+  let envelopes: Envelope[] = [];
+  if (span.events) {
+    span.events.forEach((event: TimedEvent) => {
+      let baseType: "ExceptionData" | "MessageData";
+      const sampleRate = 100;
+      let time = new Date(hrTimeToMilliseconds(event.time));
+      let name = "";
+      let baseData: TelemetryExceptionData | MessageData;
+      const properties = createPropertiesFromSpanAttributes(event.attributes);
+      const tags: Tags = createGenericTagsFromSpan(span);
+
+      if (event.name == "exception") {
+        name = "Microsoft.ApplicationInsights.Exception";
+        baseType = "ExceptionData";
+        let typeName = "";
+        let message = "Exception";
+        let stack = "";
+        let hasFullStack = false;
+        if (event.attributes) {
+          typeName = String(event.attributes[SemanticAttributes.EXCEPTION_TYPE]);
+          stack = String(event.attributes[SemanticAttributes.EXCEPTION_STACKTRACE]);
+          if (stack) {
+            hasFullStack = true;
+          }
+          let exceptionMsg = event.attributes[SemanticAttributes.EXCEPTION_MESSAGE];
+          if (exceptionMsg) {
+            message = String(exceptionMsg);
+          }
+          let escaped = event.attributes[SemanticAttributes.EXCEPTION_ESCAPED];
+          if (escaped != undefined) {
+            properties[SemanticAttributes.EXCEPTION_ESCAPED] = String(escaped);
+          }
+        }
+        let exceptionDetails: TelemetryExceptionDetails = {
+          typeName: typeName,
+          message: message,
+          stack: stack,
+          hasFullStack: hasFullStack,
+        };
+        let exceptionData: TelemetryExceptionData = {
+          exceptions: [exceptionDetails],
+          version: 2,
+          properties: properties,
+        };
+        baseData = exceptionData;
+      } else {
+        name = "Microsoft.ApplicationInsights.Message";
+        baseType = "MessageData";
+        let messageData: MessageData = {
+          message: event.name,
+          version: 2,
+          properties: properties,
+        };
+        baseData = messageData;
+      }
+      let env: Envelope = {
+        name: name,
+        time: time,
+        instrumentationKey: ikey,
+        version: 1,
+        sampleRate: sampleRate,
+        data: {
+          baseType: baseType,
+          baseData: baseData,
+        },
+        tags: tags,
+      };
+      envelopes.push(env);
+    });
+  }
+  return envelopes;
 }

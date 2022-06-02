@@ -199,10 +199,12 @@ export class VolumeGroupsImpl implements VolumeGroups {
       { resourceGroupName, accountName, volumeGroupName, body, options },
       createOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -287,10 +289,12 @@ export class VolumeGroupsImpl implements VolumeGroups {
       { resourceGroupName, accountName, volumeGroupName, options },
       deleteOperationSpec
     );
-    return new LroEngine(lro, {
+    const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
+    await poller.poll();
+    return poller;
   }
 
   /**

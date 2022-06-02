@@ -17,8 +17,7 @@ const { HttpsProxyAgent } = require("https-proxy-agent");
 const { EventHubConsumerClient } = require("@azure/event-hubs");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 // Define connection string and related Event Hubs entity name here
 const connectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
@@ -38,8 +37,8 @@ async function main() {
   const client = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName, {
     webSocketOptions: {
       webSocket: WebSocket,
-      webSocketConstructorOptions: { agent: proxyAgent }
-    }
+      webSocketConstructorOptions: { agent: proxyAgent },
+    },
   });
   /*
      Refer to other samples, and place your code here to send/receive events
@@ -52,3 +51,5 @@ async function main() {
 main().catch((error) => {
   console.error("Error running sample:", error);
 });
+
+module.exports = { main };

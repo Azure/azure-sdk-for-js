@@ -16,7 +16,7 @@ function deserializeState<TResult, TState>(
 ): TState & ResumablePollOperationState<TResult> {
   try {
     return JSON.parse(serializedState).state;
-  } catch (e: any) {
+  } catch (e) {
     throw new Error(`LroEngine: Unable to deserialize state: ${serializedState}`);
   }
 }
@@ -42,7 +42,8 @@ export class LroEngine<TResult, TState extends PollOperationState<TResult>> exte
       options?.lroResourceLocationConfig,
       options?.processResult,
       options?.updateState,
-      options?.isDone
+      options?.isDone,
+      options?.cancel
     );
     super(operation);
 

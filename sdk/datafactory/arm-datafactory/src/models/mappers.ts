@@ -3641,6 +3641,28 @@ export const PrivateLinkConnectionApprovalRequest: coreClient.CompositeMapper = 
           name: "Composite",
           className: "PrivateLinkConnectionState"
         }
+      },
+      privateEndpoint: {
+        serializedName: "privateEndpoint",
+        type: {
+          name: "Composite",
+          className: "PrivateEndpoint"
+        }
+      }
+    }
+  }
+};
+
+export const PrivateEndpoint: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrivateEndpoint",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -11163,6 +11185,127 @@ export const ZendeskLinkedService: coreClient.CompositeMapper = {
   }
 };
 
+export const DataworldLinkedService: coreClient.CompositeMapper = {
+  serializedName: "Dataworld",
+  type: {
+    name: "Composite",
+    className: "DataworldLinkedService",
+    uberParent: "LinkedService",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      apiToken: {
+        serializedName: "typeProperties.apiToken",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "typeProperties.encryptedCredential",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const AppFiguresLinkedService: coreClient.CompositeMapper = {
+  serializedName: "AppFigures",
+  type: {
+    name: "Composite",
+    className: "AppFiguresLinkedService",
+    uberParent: "LinkedService",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      userName: {
+        serializedName: "typeProperties.userName",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      password: {
+        serializedName: "typeProperties.password",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      },
+      clientKey: {
+        serializedName: "typeProperties.clientKey",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      }
+    }
+  }
+};
+
+export const AsanaLinkedService: coreClient.CompositeMapper = {
+  serializedName: "Asana",
+  type: {
+    name: "Composite",
+    className: "AsanaLinkedService",
+    uberParent: "LinkedService",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      apiToken: {
+        serializedName: "typeProperties.apiToken",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      },
+      encryptedCredential: {
+        serializedName: "typeProperties.encryptedCredential",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      }
+    }
+  }
+};
+
+export const TwilioLinkedService: coreClient.CompositeMapper = {
+  serializedName: "Twilio",
+  type: {
+    name: "Composite",
+    className: "TwilioLinkedService",
+    uberParent: "LinkedService",
+    additionalProperties: { type: { name: "Object" } },
+    polymorphicDiscriminator: LinkedService.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...LinkedService.type.modelProperties,
+      userName: {
+        serializedName: "typeProperties.userName",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
+        }
+      },
+      password: {
+        serializedName: "typeProperties.password",
+        type: {
+          name: "Composite",
+          className: "SecretBase"
+        }
+      }
+    }
+  }
+};
+
 export const AmazonRedshiftLinkedService: coreClient.CompositeMapper = {
   serializedName: "AmazonRedshift",
   type: {
@@ -18347,6 +18490,13 @@ export const DataFlowSink: coreClient.CompositeMapper = {
       ...Transformation.type.modelProperties,
       schemaLinkedService: {
         serializedName: "schemaLinkedService",
+        type: {
+          name: "Composite",
+          className: "LinkedServiceReference"
+        }
+      },
+      rejectedDataLinkedService: {
+        serializedName: "rejectedDataLinkedService",
         type: {
           name: "Composite",
           className: "LinkedServiceReference"
@@ -27400,6 +27550,10 @@ export let discriminators = {
   "LinkedService.Quickbase": QuickbaseLinkedService,
   "LinkedService.Smartsheet": SmartsheetLinkedService,
   "LinkedService.Zendesk": ZendeskLinkedService,
+  "LinkedService.Dataworld": DataworldLinkedService,
+  "LinkedService.AppFigures": AppFiguresLinkedService,
+  "LinkedService.Asana": AsanaLinkedService,
+  "LinkedService.Twilio": TwilioLinkedService,
   "LinkedService.AmazonRedshift": AmazonRedshiftLinkedService,
   "LinkedService.CustomDataSource": CustomDataSourceLinkedService,
   "LinkedService.AzureSearch": AzureSearchLinkedService,

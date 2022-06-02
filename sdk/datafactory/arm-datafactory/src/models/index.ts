@@ -83,6 +83,10 @@ export type LinkedServiceUnion =
   | QuickbaseLinkedService
   | SmartsheetLinkedService
   | ZendeskLinkedService
+  | DataworldLinkedService
+  | AppFiguresLinkedService
+  | AsanaLinkedService
+  | TwilioLinkedService
   | AmazonRedshiftLinkedService
   | CustomDataSourceLinkedService
   | AzureSearchLinkedService
@@ -1283,6 +1287,10 @@ export interface LinkedService {
     | "Quickbase"
     | "Smartsheet"
     | "Zendesk"
+    | "Dataworld"
+    | "AppFigures"
+    | "Asana"
+    | "Twilio"
     | "AmazonRedshift"
     | "CustomDataSource"
     | "AzureSearch"
@@ -2253,6 +2261,14 @@ export interface PrivateLinkConnectionState {
 export interface PrivateLinkConnectionApprovalRequest {
   /** The state of a private link connection */
   privateLinkServiceConnectionState?: PrivateLinkConnectionState;
+  /** The resource of private endpoint. */
+  privateEndpoint?: PrivateEndpoint;
+}
+
+/** Private endpoint which a connection belongs to. */
+export interface PrivateEndpoint {
+  /** The resource Id for private endpoint */
+  id?: string;
 }
 
 /** Wrapper for a collection of private link resources */
@@ -4985,6 +5001,48 @@ export type ZendeskLinkedService = LinkedService & {
   encryptedCredential?: Record<string, unknown>;
 };
 
+/** Linked service for Dataworld. */
+export type DataworldLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Dataworld";
+  /** The api token for the Dataworld source. */
+  apiToken: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: Record<string, unknown>;
+};
+
+/** Linked service for AppFigures. */
+export type AppFiguresLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "AppFigures";
+  /** The username of the Appfigures source. */
+  userName: Record<string, unknown>;
+  /** The password of the AppFigures source. */
+  password: SecretBaseUnion;
+  /** The client key for the AppFigures source. */
+  clientKey: SecretBaseUnion;
+};
+
+/** Linked service for Asana. */
+export type AsanaLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Asana";
+  /** The api token for the Asana source. */
+  apiToken: SecretBaseUnion;
+  /** The encrypted credential used for authentication. Credentials are encrypted using the integration runtime credential manager. Type: string (or Expression with resultType string). */
+  encryptedCredential?: Record<string, unknown>;
+};
+
+/** Linked service for Twilio. */
+export type TwilioLinkedService = LinkedService & {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  type: "Twilio";
+  /** The Account SID of Twilio service. */
+  userName: Record<string, unknown>;
+  /** The auth token of Twilio service. */
+  password: SecretBaseUnion;
+};
+
 /** Linked service for Amazon Redshift. */
 export type AmazonRedshiftLinkedService = LinkedService & {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -7368,6 +7426,8 @@ export type DataFlowSource = Transformation & {
 export type DataFlowSink = Transformation & {
   /** Schema linked service reference. */
   schemaLinkedService?: LinkedServiceReference;
+  /** Rejected data linked service reference. */
+  rejectedDataLinkedService?: LinkedServiceReference;
 };
 
 /** The location of azure blob dataset. */

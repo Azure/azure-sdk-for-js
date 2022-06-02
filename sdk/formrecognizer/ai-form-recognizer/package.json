@@ -67,8 +67,8 @@
     "integration-test:browser": "dev-tool run test:browser",
     "integration-test:node": "dev-tool run test:node-js-input -- --timeout 1200000 --exclude 'dist-esm/**/browser/*.spec.js' \"dist-esm/test/**/*.spec.js\" \"dist-esm/test/**/node/*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json src test --ext .ts",
+    "lint:fix": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js",
     "pack": "npm pack 2>&1",
     "test:browser": "npm run build:test && npm run unit-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node",
@@ -98,7 +98,7 @@
     "@azure/test-utils": "^1.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "@azure-tools/test-recorder": "^2.0.0",
-    "@microsoft/api-extractor": "^7.18.11",
+    "@microsoft/api-extractor": "7.18.11",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^7.0.2",
     "@types/node": "^12.0.0",
@@ -107,7 +107,7 @@
     "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
-    "eslint": "^7.15.0",
+    "eslint": "^8.0.0",
     "esm": "^3.2.18",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
@@ -127,7 +127,7 @@
     "rimraf": "^3.0.0",
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
-    "typescript": "~4.4.0"
+    "typescript": "~4.6.0"
   },
   "//sampleConfiguration": {
     "skip": [

@@ -1,6 +1,6 @@
 # Release History
 
-## 15.2.1 (Unreleased)
+## 16.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,38 @@
 
 ### Other Changes
 
+## 16.1.0 (2022-05-23)
+    
+**Features**
+
+  - Interface ManagedClusterAgentPoolProfileProperties has a new optional parameter currentOrchestratorVersion
+  - Type Alias AgentPool has a new parameter currentOrchestratorVersion
+  - Type Alias ManagedCluster has a new parameter currentKubernetesVersion
+  - Type Alias ManagedCluster has a new parameter storageProfile
+    
+    
+## 16.0.0 (2022-04-20)
+    
+**Features**
+
+  - Added Interface ManagedClusterStorageProfile
+  - Added Interface ManagedClusterStorageProfileDiskCSIDriver
+  - Added Interface ManagedClusterStorageProfileFileCSIDriver
+  - Added Interface ManagedClusterStorageProfileSnapshotController
+  - Added Type Alias TrackedResource
+  - Add parameters of TrackedResource to TypeAlias ManagedCluster
+  - Add parameters of TrackedResource to TypeAlias ManagedClusterAccessProfile
+  - Add parameters of TrackedResource to TypeAlias Snapshot
+
+**Breaking Changes**
+
+  - Interface Resource no longer has parameter location
+  - Interface Resource no longer has parameter tags
+  - Delete parameters of Resource in TypeAlias ManagedCluster
+  - Delete parameters of Resource in TypeAlias ManagedClusterAccessProfile
+  - Delete parameters of Resource in TypeAlias Snapshot
+    
+    
 ## 15.2.0 (2022-03-23)
     
 **Features**

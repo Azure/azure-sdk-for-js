@@ -30,6 +30,7 @@ export type AgentPool = SubResource & {
     typePropertiesType?: AgentPoolType;
     mode?: AgentPoolMode;
     orchestratorVersion?: string;
+    readonly currentOrchestratorVersion?: string;
     readonly nodeImageVersion?: string;
     upgradeSettings?: AgentPoolUpgradeSettings;
     readonly provisioningState?: string;
@@ -1048,7 +1049,7 @@ export interface MaintenanceConfigurationsListByManagedClusterOptionalParams ext
 export type MaintenanceConfigurationsListByManagedClusterResponse = MaintenanceConfigurationListResult;
 
 // @public
-export type ManagedCluster = Resource & {
+export type ManagedCluster = TrackedResource & {
     sku?: ManagedClusterSKU;
     extendedLocation?: ExtendedLocation;
     identity?: ManagedClusterIdentity;
@@ -1056,6 +1057,7 @@ export type ManagedCluster = Resource & {
     readonly powerState?: PowerState;
     readonly maxAgentPools?: number;
     kubernetesVersion?: string;
+    readonly currentKubernetesVersion?: string;
     dnsPrefix?: string;
     fqdnSubdomain?: string;
     readonly fqdn?: string;
@@ -1085,6 +1087,7 @@ export type ManagedCluster = Resource & {
     disableLocalAccounts?: boolean;
     httpProxyConfig?: ManagedClusterHttpProxyConfig;
     securityProfile?: ManagedClusterSecurityProfile;
+    storageProfile?: ManagedClusterStorageProfile;
     publicNetworkAccess?: PublicNetworkAccess;
 };
 
@@ -1100,7 +1103,7 @@ export interface ManagedClusterAADProfile {
 }
 
 // @public
-export type ManagedClusterAccessProfile = Resource & {
+export type ManagedClusterAccessProfile = TrackedResource & {
     kubeConfig?: Uint8Array;
 };
 
@@ -1126,6 +1129,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     availabilityZones?: string[];
     count?: number;
     creationData?: CreationData;
+    readonly currentOrchestratorVersion?: string;
     enableAutoScaling?: boolean;
     enableEncryptionAtHost?: boolean;
     enableFips?: boolean;
@@ -1548,6 +1552,28 @@ export interface ManagedClustersStopOptionalParams extends coreClient.OperationO
 }
 
 // @public
+export interface ManagedClusterStorageProfile {
+    diskCSIDriver?: ManagedClusterStorageProfileDiskCSIDriver;
+    fileCSIDriver?: ManagedClusterStorageProfileFileCSIDriver;
+    snapshotController?: ManagedClusterStorageProfileSnapshotController;
+}
+
+// @public
+export interface ManagedClusterStorageProfileDiskCSIDriver {
+    enabled?: boolean;
+}
+
+// @public
+export interface ManagedClusterStorageProfileFileCSIDriver {
+    enabled?: boolean;
+}
+
+// @public
+export interface ManagedClusterStorageProfileSnapshotController {
+    enabled?: boolean;
+}
+
+// @public
 export interface ManagedClustersUpdateTagsOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -1769,12 +1795,8 @@ export type ResolvePrivateLinkServiceIdPostResponse = PrivateLinkResource;
 // @public
 export interface Resource {
     readonly id?: string;
-    location: string;
     readonly name?: string;
     readonly systemData?: SystemData;
-    tags?: {
-        [propertyName: string]: string;
-    };
     readonly type?: string;
 }
 
@@ -1814,7 +1836,7 @@ export type ScaleSetEvictionPolicy = string;
 export type ScaleSetPriority = string;
 
 // @public
-export type Snapshot = Resource & {
+export type Snapshot = TrackedResource & {
     creationData?: CreationData;
     snapshotType?: SnapshotType;
     readonly kubernetesVersion?: string;
@@ -1964,6 +1986,14 @@ export interface TimeSpan {
     end?: Date;
     start?: Date;
 }
+
+// @public
+export type TrackedResource = Resource & {
+    tags?: {
+        [propertyName: string]: string;
+    };
+    location: string;
+};
 
 // @public
 export type UpgradeChannel = string;

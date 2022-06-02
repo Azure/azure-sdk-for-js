@@ -4,21 +4,20 @@
    "method": "PATCH",
    "url": "https://endpoint/phoneNumbers/%2B14155550100/capabilities",
    "query": {
-    "api-version": "2022-01-11-preview2"
+    "api-version": "2022-06-01-preview"
    },
    "requestBody": "{\"calling\":\"none\",\"sms\":\"outbound\"}",
    "status": 404,
    "response": "{\"error\":{\"code\":\"InternalError\",\"message\":\"The server encountered an internal error.\"}}",
    "responseHeaders": {
-    "api-supported-versions": "2021-03-07, 2022-01-11-preview2",
+    "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview",
     "content-type": "application/json",
-    "date": "Wed, 02 Mar 2022 21:21:20 GMT",
-    "ms-cv": "NmUxgorH4kKvQBhSUnv+gg.0",
-    "request-context": "appId=",
+    "date": "Thu, 12 May 2022 16:08:27 GMT",
+    "ms-cv": "qY2zQpqH7U6hVmk/nb64qg.0",
     "strict-transport-security": "max-age=2592000",
-    "x-azure-ref": "0z98fYgAAAACF9ft+bFd0SIleMtngLZthTEFYMzExMDAwMTA4MDMzADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
+    "x-azure-ref": "0+zB9YgAAAAAM94qp9vbTT5eql78Sg9vzUFJHMDFFREdFMDcxOQBjYzkyNzU4ZC0wNWY3LTRhZDYtYWE1ZS0wZmE5NzE4ZDg5ODU=",
     "x-cache": "CONFIG_NOCACHE",
-    "x-processing-time": "316ms"
+    "x-processing-time": "457ms"
    }
   }
  ],

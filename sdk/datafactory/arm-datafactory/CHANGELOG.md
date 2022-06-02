@@ -1,6 +1,6 @@
 # Release History
 
-## 10.3.1 (Unreleased)
+## 10.5.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,25 @@
 
 ### Other Changes
 
+## 10.5.0 (2022-05-09)
+    
+**Features**
+
+  - Added Interface PrivateEndpoint
+  - Interface PrivateLinkConnectionApprovalRequest has a new optional parameter privateEndpoint
+  - Type Alias DataFlowSink has a new parameter rejectedDataLinkedService
+    
+    
+## 10.4.0 (2022-04-20)
+    
+**Features**
+
+  - Added Type Alias AppFiguresLinkedService
+  - Added Type Alias AsanaLinkedService
+  - Added Type Alias DataworldLinkedService
+  - Added Type Alias TwilioLinkedService
+    
+    
 ## 10.3.0 (2022-04-06)
     
 **Features**
