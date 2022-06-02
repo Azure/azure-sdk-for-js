@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/**
+ * Options for send logs operation
+ */
 export interface sendLogsOptions {
   /**
    * Concurrency of parallel requests. Must be greater than or equal to 0.
@@ -8,6 +11,9 @@ export interface sendLogsOptions {
   concurrency?: number;
 }
 
+/**
+ * Result type for send logs operation
+ */
 export interface sendLogsResult {
   /**
    * List of indices for failed logs
@@ -18,6 +24,9 @@ export interface sendLogsResult {
    */
   sendLogsStatus: SendLogsStatus;
 }
+/**
+ * Enum representing whether all or few logs succeeded
+ */
 export enum SendLogsStatus {
   /** Represents Partial Failure scenario where partial logs have failed for processing and the list of indices is returned for the logs failed */
   PartialFailure = "PartialFailure",

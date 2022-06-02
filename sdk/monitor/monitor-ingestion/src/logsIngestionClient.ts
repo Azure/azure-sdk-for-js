@@ -7,13 +7,22 @@ import { SDK_VERSION } from "./constants";
 import { GeneratedDataCollectionClient } from "./generated";
 import { sendLogsOptions, sendLogsResult, SendLogsStatus } from "./models";
 
+/**
+ * Options for Montior Logs Ingestion Client
+ */
 export interface LogsIngestionClientOptions extends CommonClientOptions {
   /** Api Version */
   apiVersion?: string;
 }
 const defaultIngestionScope = "<default_scope>";
 
+/**
+ * Client for Monitor Logs Ingestion
+ */
 export class LogsIngestionClient {
+  /**
+   * Overrides client endpoint.
+   */
   endpoint: string;
   private _dataClient: GeneratedDataCollectionClient;
   /**
@@ -100,7 +109,5 @@ export class LogsIngestionClient {
         throw e;
       }
     }
-
-
   }
 }

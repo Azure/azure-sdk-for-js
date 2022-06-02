@@ -4,26 +4,36 @@
 
 ```ts
 
-import * as coreClient from '@azure/core-client';
+import { CommonClientOptions } from '@azure/core-client';
+import { TokenCredential } from '@azure/core-auth';
 
-// Warning: (ae-forgotten-export) The symbol "GeneratedDataCollectionClientOptionalParams" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export interface DataCollectionClientOptions extends GeneratedDataCollectionClientOptionalParams {
+// @public
+export class LogsIngestionClient {
+    constructor(tokenCredential: TokenCredential, endpoint: string, options?: LogsIngestionClientOptions);
+    endpoint: string;
+    sendLogs(ruleId: string, stream: string, logs: Record<string, unknown>[], options?: sendLogsOptions): Promise<sendLogsResult>;
 }
 
-// Warning: (ae-forgotten-export) The symbol "DataCollectionRule" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export interface LogsIngestionClient extends DataCollectionRule {
+// @public
+export interface LogsIngestionClientOptions extends CommonClientOptions {
+    apiVersion?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "DataCollectionRuleIngestOptionalParams" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export interface LogsIngestionClientOptions extends DataCollectionRuleIngestOptionalParams {
+// @public
+export interface sendLogsOptions {
+    concurrency?: number;
 }
 
-// (No @packageDocumentation comment for this package)
+// @public
+export interface sendLogsResult {
+    failedLogsIndex: Array<number>;
+    sendLogsStatus: SendLogsStatus;
+}
+
+// @public
+export enum SendLogsStatus {
+    PartialFailure = "PartialFailure",
+    Success = "Success"
+}
 
 ```
