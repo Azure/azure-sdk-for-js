@@ -12,7 +12,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/2c66a689c610dbef623d6c4e4c4e913446d5ac68/specification/purview/data-plane/Azure.Analytics.Purview.Catalog/preview/2021-05-01-preview/purviewcatalog.json
+input-file: https://github.com/Azure/azure-rest-api-specs/blob/80fee259d7e835a9604b5d1c4afd01943f03881c/specification/purview/data-plane/Azure.Analytics.Purview.Catalog/preview/2022-03-01-preview/purviewcatalog.json
 package-version: 1.0.0-beta.5
 rest-level-client: true
 add-credentials: true
