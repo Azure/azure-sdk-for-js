@@ -115,6 +115,8 @@ function GenerateDocsMsMetadata($language, $langTitle = "", $serviceName, $tenan
     LogError "No ms.author found for $author. "
     $msauthor = $author
   }
+  # $author = "sima-zhu"
+  # $msauthor = "sizhu"
   $date = Get-Date -Format "MM/dd/yyyy"
   $header = @"
 ---

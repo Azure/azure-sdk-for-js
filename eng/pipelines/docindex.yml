@@ -88,7 +88,6 @@ jobs:
           filePath: eng/common/scripts/Service-Level-Readme-Automation.ps1
           arguments: >-
             -DocRepoLocation $(DocRepoLocation)
-            -OutputLocation $(DocRepoLocation)/docs-ref-mapping/reference-unified.yml
             -TenantId '$(opensource-aad-tenant-id)' 
             -ClientId '$(opensource-aad-app-id)' 
             -ClientSecret '$(opensource-aad-secret)'

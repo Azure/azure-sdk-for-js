@@ -26,9 +26,6 @@ ToC node layout:
 Location of the documentation repo. This repo may be sparsely checked out
 depending on the requirements for the domain
 
-.PARAMETER OutputLocation
-Output location for unified reference yml file
-
 .PARAMETER TenantId
 The aad tenant id/object id for ms.author.
 
@@ -42,9 +39,6 @@ The client secret of add app for ms.author.
 param(
   [Parameter(Mandatory = $true)]
   [string] $DocRepoLocation,
-
-  [Parameter(Mandatory = $true)]
-  [string] $OutputLocation,
 
   [Parameter(Mandatory = $false)]
   [string]$TenantId,
@@ -113,7 +107,7 @@ function GetPackageLookup($packageList) {
 function create-metadata-table($readmeFolder, $readmeName, $moniker, $msService, $clientTableLink, $mgmtTableLink, $serviceName)
 {
   $readmePath = Join-Path $readmeFolder -ChildPath $readmeName
-  New-Item -Path $readmePath -Force
+  $null = New-Item -Path $readmePath -Force
   $lang = $LanguageDisplayName
   $langTitle = "Azure $serviceName SDK for $lang"
   $header = GenerateDocsMsMetadata -language $lang -langTitle $langTitle -serviceName $serviceName `
@@ -169,9 +163,11 @@ function generate-markdown-table($readmeFolder, $readmeName, $packageInfo, $moni
     $line = "|$referenceLink|[$($pkg.Package)]($repositoryLink/$($pkg.Package))|[Github]($githubLink)|`r`n"
     $tableContent += $line
   }
+  $readmePath = Join-Path $readmeFolder -ChildPath $readmeName
   if($tableContent) {
-    Set-Content -Path (Join-Path $readmeFolder -ChildPath $readmeName) -Value $tableHeader -NoNewline
-    Add-Content -Path (Join-Path $readmeFolder -ChildPath $readmeName) -Value $tableContent -NoNewline
+    $null = New-Item -Path $readmePath -ItemType File -Force
+    Add-Content -Path $readmePath -Value $tableHeader -NoNewline
+    Add-Content -Path $readmePath -Value $tableContent -NoNewline
   }
 }
 
@@ -186,19 +182,19 @@ function generate-service-level-readme($readmeBaseName, $pathPrefix, $packageInf
   $mgmtIndexReadme  = "$readmeBaseName-mgmt-index.md"
   $clientPackageInfo = $packageInfos.Where({ 'client' -eq $_.Type }) | Sort-Object -Property Package
   if ($clientPackageInfo) {
-      generate-markdown-table -readmeFolder $readmeFolder -readmeName "$clientIndexReadme" -packageInfo $clientPackageInfo -moniker $moniker
+    generate-markdown-table -readmeFolder $readmeFolder -readmeName "$clientIndexReadme" -packageInfo $clientPackageInfo -moniker $moniker
   }
   $mgmtPackageInfo = $packageInfos.Where({ 'mgmt' -eq $_.Type }) | Sort-Object -Property Package
   if ($mgmtPackageInfo) {
-      generate-markdown-table -readmeFolder $readmeFolder -readmeName "$mgmtIndexReadme" -packageInfo $mgmtPackageInfo -moniker $moniker
+    generate-markdown-table -readmeFolder $readmeFolder -readmeName "$mgmtIndexReadme" -packageInfo $mgmtPackageInfo -moniker $moniker
   }
   if (!(Test-Path (Join-Path $readmeFolder -ChildPath $serviceReadme))) {
-      create-metadata-table -readmeFolder $readmeFolder -readmeName $serviceReadme -moniker $moniker -msService $msService `
+    create-metadata-table -readmeFolder $readmeFolder -readmeName $serviceReadme -moniker $moniker -msService $msService `
       -clientTableLink $clientIndexReadme -mgmtTableLink $mgmtIndexReadme `
       -serviceName $serviceName
   }
   else {
-      update-metadata-table -readmeFolder $readmeFolder -readmeName $serviceReadme -serviceName $serviceName -msService $msService
+    update-metadata-table -readmeFolder $readmeFolder -readmeName $serviceReadme -serviceName $serviceName -msService $msService
   }
 }
 
