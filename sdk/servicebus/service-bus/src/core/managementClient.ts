@@ -58,6 +58,7 @@ import {
   SqlRuleAction,
   SqlRuleFilter,
 } from "../serializers/ruleResourceSerializer";
+import { ListRequestOptions } from "../serviceBusAtomManagementClient";
 
 /**
  * @internal
@@ -1138,14 +1139,14 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * @returns A list of rules.
    */
   async getRules(
-    options?: OperationOptionsBase & SendManagementRequestOptions
+    options?: ListRequestOptions & OperationOptionsBase & SendManagementRequestOptions
   ): Promise<RuleProperties[]> {
     throwErrorIfConnectionClosed(this._context);
     try {
       const request: RheaMessage = {
         body: {
-          top: types.wrap_int(max32BitNumber),
-          skip: types.wrap_int(0),
+          top: options?.maxCount ? types.wrap_int(options.maxCount) : types.wrap_int(max32BitNumber),
+          skip: options?.skip ? types.wrap_int(options.skip) : types.wrap_int(0),
         },
         reply_to: this.replyTo,
         application_properties: {

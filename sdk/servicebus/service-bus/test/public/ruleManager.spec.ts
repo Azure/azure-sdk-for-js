@@ -3,6 +3,7 @@
 
 import {
   CorrelationRuleFilter,
+  RuleProperties,
   ServiceBusMessage,
   ServiceBusSender,
   SqlRuleAction,
@@ -41,6 +42,13 @@ const orders: Order[] = [
 ];
 
 /**
+ * testing helper for convenience
+ */
+async function getRules(ruleManager: any): Promise<RuleProperties[]> {
+  return (await (ruleManager).getRules()) as RuleProperties[];
+}
+
+/**
  * A basic suite that exercises most of the core functionality.
  */
 describe("RuleManager tests", () => {
@@ -76,13 +84,13 @@ describe("RuleManager tests", () => {
       return serviceBusClient.test.afterEach();
     });
 
-    it("add get and remove rule", async () => {
+    it("add rules", async () => {
       const ruleManager = serviceBusClient.createRuleManager(topic, subscription);
 
       const sqlRuleName = "sqlRule";
       const correlationRuleName = "correlationRule";
 
-      let rules = await ruleManager.getRules();
+      let rules = await getRules(ruleManager);
       assert.equal(rules.length, 1); // default rule
       const firstRule = rules[0];
       assert.equal(firstRule.name, defaultRuleName);
@@ -113,7 +121,7 @@ describe("RuleManager tests", () => {
       };
       await ruleManager.createRule(correlationRuleName, correlationRuleFilter, action);
 
-      rules = await ruleManager.getRules();
+      rules = await getRules(ruleManager);
       assert.equal(rules.length, 3);
 
       const sqlRules = rules.filter((r) => r.name === sqlRuleName);
@@ -139,6 +147,62 @@ describe("RuleManager tests", () => {
       assert.deepStrictEqual(correlationFilter.applicationProperties, applicationProperties);
     });
 
+    it("list rules by page", async () => {
+      const ruleManager = serviceBusClient.createRuleManager(topic, subscription);
+
+      const sqlRuleName = "sqlRule";
+      const correlationRuleName = "correlationRule";
+
+      let rules = await getRules(ruleManager);
+      assert.equal(rules.length, 1); // default rule
+      const firstRule = rules[0];
+      assert.equal(firstRule.name, defaultRuleName);
+
+      await ruleManager.createRule(sqlRuleName, {
+        sqlExpression: "price > 10",
+      });
+
+      const applicationProperties = {
+        key1: "value1",
+      };
+      const correlationRuleFilter: CorrelationRuleFilter = {
+        correlationId: "correlationId",
+        subject: "label",
+        messageId: "messageId",
+        applicationProperties,
+        replyTo: "replyTo",
+        replyToSessionId: "replyToSessionId",
+        sessionId: "sessionId",
+        to: "to",
+      };
+      const action: SqlRuleAction = {
+        sqlExpression: "Set CorrelationId = 'newValue'",
+      };
+      await ruleManager.createRule(correlationRuleName, correlationRuleFilter, action);
+
+      const iterator = ruleManager.listRules().byPage({ maxPageSize: 1 });
+      let result = await iterator.next();
+      assert.equal(result.value.length, 1, "Expecting one rule in first page");
+      assert.equal(result.value[0].name, defaultRuleName);
+      const tokenForNextPage = result.value.continuationToken;
+      result = await iterator.next();
+      assert.equal(result.value.length, 1, "Expecting one rule in second page");
+      assert.equal(result.value[0].name, correlationRuleName);
+      result = await iterator.next();
+      assert.equal(result.value.length, 1, "Expecting one rule in third page");
+      assert.equal(result.value[0].name, sqlRuleName);
+      result = await iterator.next();
+      assert.equal(result.value.length, 0, "Not expecting any result in last page");
+      result = await iterator.next();
+      assert.equal(result.value, undefined, "Not expecting any more pages");
+
+      const iterNextPage = ruleManager.listRules().byPage({ maxPageSize: 2, continuationToken: tokenForNextPage });
+      result = await iterNextPage.next();
+      assert.equal(result.value.length, 2, "Expecting two rules in next page with continuation token");
+      assert.equal(result.value[0].name, correlationRuleName);
+      assert.equal(result.value[1].name, sqlRuleName);
+    });
+
     it("throws if add rule with same name twice", async () => {
       const ruleManager = serviceBusClient.createRuleManager(topic, subscription);
       const ruleName = "ruleName";
@@ -159,7 +223,7 @@ describe("RuleManager tests", () => {
     it("created true filter works", async () => {
       const ruleManager = serviceBusClient.createRuleManager(topic, subscription);
 
-      const rules = await ruleManager.getRules();
+      const rules = await getRules(ruleManager);
       const filteredRules = rules.filter((r) => r.name === defaultRuleName);
       assert.ok(filteredRules.length >= 1, "expecting at least one rule");
       assert.ok(filteredRules[0], "expecting valid default rule");
@@ -175,7 +239,7 @@ describe("RuleManager tests", () => {
     it("created false filter works", async () => {
       const ruleManager = serviceBusClient.createRuleManager(topic, subscription);
 
-      const rules = await ruleManager.getRules();
+      const rules = await getRules(ruleManager);
       const filteredRules = rules.filter((r) => r.name === defaultRuleName);
       assert.ok(filteredRules.length >= 1, "expecting at least one rule");
       assert.ok(filteredRules[0], "expecting valid default rule");
@@ -200,7 +264,7 @@ describe("RuleManager tests", () => {
     it("created correlation filter on the messages works", async () => {
       const ruleManager = serviceBusClient.createRuleManager(topic, subscription);
 
-      const rules = await ruleManager.getRules();
+      const rules = await getRules(ruleManager);
       const filteredRules = rules.filter((r) => r.name === defaultRuleName);
       assert.ok(filteredRules.length >= 1, "expecting at least one rule");
       assert.ok(filteredRules[0], "expecting valid default rule");
@@ -217,7 +281,7 @@ describe("RuleManager tests", () => {
     it("created correlation filter on the user properties works", async () => {
       const ruleManager = serviceBusClient.createRuleManager(topic, subscription);
 
-      const rules = await ruleManager.getRules();
+      const rules = await getRules(ruleManager);
       const filteredRules = rules.filter((r) => r.name === defaultRuleName);
       assert.ok(filteredRules.length >= 1, "expecting at least one rule");
       assert.ok(filteredRules[0], "expecting valid default rule");
@@ -234,7 +298,7 @@ describe("RuleManager tests", () => {
     it("created correlation filter with action works", async () => {
       const ruleManager = serviceBusClient.createRuleManager(topic, subscription);
 
-      const rules = await ruleManager.getRules();
+      const rules = await getRules(ruleManager);
       const filteredRules = rules.filter((r) => r.name === defaultRuleName);
       assert.ok(filteredRules.length >= 1, "expecting at least one rule");
       assert.ok(filteredRules[0], "expecting valid default rule");
@@ -264,7 +328,7 @@ describe("RuleManager tests", () => {
     it("created sql filter on the message property works", async () => {
       const ruleManager = serviceBusClient.createRuleManager(topic, subscription);
 
-      const rules = await ruleManager.getRules();
+      const rules = await getRules(ruleManager);
       const filteredRules = rules.filter((r) => r.name === defaultRuleName);
       assert.ok(filteredRules.length >= 1, "expecting at least one rule");
       assert.ok(filteredRules[0], "expecting valid default rule");
@@ -281,7 +345,7 @@ describe("RuleManager tests", () => {
     it("created sql filter on the user properties works", async () => {
       const ruleManager = serviceBusClient.createRuleManager(topic, subscription);
 
-      const rules = await ruleManager.getRules();
+      const rules = await getRules(ruleManager);
       const filteredRules = rules.filter((r) => r.name === defaultRuleName);
       assert.ok(filteredRules.length >= 1, "expecting at least one rule");
       assert.ok(filteredRules[0], "expecting valid default rule");
@@ -298,7 +362,7 @@ describe("RuleManager tests", () => {
     it("created sql filter with action works", async () => {
       const ruleManager = serviceBusClient.createRuleManager(topic, subscription);
 
-      const rules = await ruleManager.getRules();
+      const rules = await getRules(ruleManager);
       const filteredRules = rules.filter((r) => r.name === defaultRuleName);
       assert.ok(filteredRules.length >= 1, "expecting at least one rule");
       assert.ok(filteredRules[0], "expecting valid default rule");

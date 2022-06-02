@@ -507,7 +507,7 @@ export interface ServiceBusReceiverOptions {
 export interface ServiceBusRuleManager {
     createRule(ruleName: string, filter: SqlRuleFilter | CorrelationRuleFilter, ruleAction?: SqlRuleAction, options?: OperationOptionsBase): Promise<void>;
     deleteRule(ruleName: string, options?: OperationOptionsBase): Promise<void>;
-    getRules(options?: OperationOptionsBase): Promise<RuleProperties[]>;
+    listRules(options?: OperationOptions): PagedAsyncIterableIterator<RuleProperties>;
 }
 
 // @public
