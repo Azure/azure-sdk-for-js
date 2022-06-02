@@ -30,14 +30,14 @@ async function iotHubResourceCreateOrUpdate() {
         feedback: {
           lockDurationAsIso8601: "PT1M",
           maxDeliveryCount: 10,
-          ttlAsIso8601: "PT1H"
+          ttlAsIso8601: "PT1H",
         },
-        maxDeliveryCount: 10
+        maxDeliveryCount: 10,
       },
-      enableDataResidency: true,
+      enableDataResidency: false,
       enableFileUploadNotifications: false,
       eventHubEndpoints: {
-        events: { partitionCount: 2, retentionTimeInDays: 1 }
+        events: { partitionCount: 2, retentionTimeInDays: 1 },
       },
       features: "None",
       ipFilterRules: [],
@@ -45,8 +45,8 @@ async function iotHubResourceCreateOrUpdate() {
         fileNotifications: {
           lockDurationAsIso8601: "PT1M",
           maxDeliveryCount: 10,
-          ttlAsIso8601: "PT1H"
-        }
+          ttlAsIso8601: "PT1H",
+        },
       },
       minTlsVersion: "1.2",
       networkRuleSets: {
@@ -54,35 +54,35 @@ async function iotHubResourceCreateOrUpdate() {
         defaultAction: "Deny",
         ipRules: [
           { action: "Allow", filterName: "rule1", ipMask: "131.117.159.53" },
-          { action: "Allow", filterName: "rule2", ipMask: "157.55.59.128/25" }
-        ]
+          { action: "Allow", filterName: "rule2", ipMask: "157.55.59.128/25" },
+        ],
       },
       routing: {
         endpoints: {
           eventHubs: [],
           serviceBusQueues: [],
           serviceBusTopics: [],
-          storageContainers: []
+          storageContainers: [],
         },
         fallbackRoute: {
           name: "$fallback",
           condition: "true",
           endpointNames: ["events"],
           isEnabled: true,
-          source: "DeviceMessages"
+          source: "DeviceMessages",
         },
-        routes: []
+        routes: [],
       },
       storageEndpoints: {
         $default: {
           connectionString: "",
           containerName: "",
-          sasTtlAsIso8601: "PT1H"
-        }
-      }
+          sasTtlAsIso8601: "PT1H",
+        },
+      },
     },
     sku: { name: "S1", capacity: 1 },
-    tags: {}
+    tags: {},
   };
   const credential = new DefaultAzureCredential();
   const client = new IotHubClient(credential, subscriptionId);

@@ -34,7 +34,7 @@ async function iotHubResourceCreateOrUpdate() {
         },
         maxDeliveryCount: 10,
       },
-      enableDataResidency: true,
+      enableDataResidency: false,
       enableFileUploadNotifications: false,
       eventHubEndpoints: {
         events: { partitionCount: 2, retentionTimeInDays: 1 },
