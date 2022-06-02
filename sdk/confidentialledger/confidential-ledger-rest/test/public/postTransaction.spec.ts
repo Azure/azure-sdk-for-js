@@ -29,10 +29,10 @@ describe("Post transaction", () => {
   });
 
   it("should post to default ledger", async function () {
-    var entry: LedgerEntry = {
+    const entry: LedgerEntry = {
       contents: contentBody,
     };
-    var ledgerEntry: PostLedgerEntryParameters = {
+    const ledgerEntry: PostLedgerEntryParameters = {
       contentType: "application/json",
       body: entry,
     };

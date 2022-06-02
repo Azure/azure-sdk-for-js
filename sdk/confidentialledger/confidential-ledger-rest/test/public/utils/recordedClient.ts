@@ -6,16 +6,16 @@
 import { Context } from "mocha";
 
 import {
-  env,
   Recorder,
-  record,
   RecorderEnvironmentSetup,
+  env,
   isLiveMode,
+  record,
 } from "@azure-tools/test-recorder";
-import ConfidentialLedger, { ConfidentialLedgerRestClient } from "../../../src";
+import ConfidentialLedger, { ConfidentialLedgerRestClient, getLedgerIdentity } from "../../../src";
 // import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
 import { DefaultAzureCredential } from "@azure/identity";
-import { isNode, createXhrHttpClient } from "@azure/test-utils";
+import { createXhrHttpClient, isNode } from "@azure/test-utils";
 
 import "./env";
 
@@ -45,7 +45,7 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: [],
 };
 
-export function createClient(): ConfidentialLedgerRestClient {
+export async function createClient(): Promise<ConfidentialLedgerRestClient> {
   const httpClient = isNode || isLiveMode() ? undefined : createXhrHttpClient();
   /* in the future, let's change this to the following:
   const credential = new ClientSecretCredential(
@@ -56,7 +56,8 @@ export function createClient(): ConfidentialLedgerRestClient {
   );
   */
   const credential = new DefaultAzureCredential({ httpClient });
-  return ConfidentialLedger(env.ENDPOINT, env.LEDGER_IDENTITY, credential, { httpClient });
+  const {ledgerTlsCertificate} = await getLedgerIdentity(env.LEDGER_IDENTITY, env.IDENTITY_SERVICE_URL);
+  return ConfidentialLedger(env.ENDPOINT, ledgerTlsCertificate, credential, { httpClient });
 }
 
 /**

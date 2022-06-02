@@ -6,7 +6,7 @@ import {
   GetConstitution200Response,
   GetEnclaveQuotes200Response,
 } from "../../src";
-import { EnclaveQuotesDictionary, EnclaveQuote } from "../../src";
+import { EnclaveQuote, EnclaveQuotesDictionary } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
@@ -29,13 +29,11 @@ describe("Colder endpoints", () => {
   it("should obtain constitution from ledger", async function () {
     const result = await client.path("/app/governance/constitution").get();
 
-    console.log(result)
-
     if (result.status !== "200") {
       assert.fail(`GET "/app/governance/constitution" failed with ${result.status}`);
     }
 
-    let constResponse = result as GetConstitution200Response;
+    const constResponse = result as GetConstitution200Response;
 
     assert.typeOf(constResponse.body.digest, "string");
     assert.typeOf(constResponse.body.script, "string");
@@ -67,9 +65,9 @@ describe("Colder endpoints", () => {
 
     assert.typeOf(memberResponse.body.currentNodeId, "string");
 
-    var enclaveQuotes: EnclaveQuotesDictionary = memberResponse.body.enclaveQuotes;
-    for (let key in enclaveQuotes) {
-      let quote: EnclaveQuote = enclaveQuotes[key];
+    const enclaveQuotes: EnclaveQuotesDictionary = memberResponse.body.enclaveQuotes;
+    for (const key in enclaveQuotes) {
+      const quote: EnclaveQuote = enclaveQuotes[key];
       assert.typeOf(quote.quoteVersion, "string");
       assert.typeOf(quote.nodeId, "string");
       assert.typeOf(quote.raw, "string");

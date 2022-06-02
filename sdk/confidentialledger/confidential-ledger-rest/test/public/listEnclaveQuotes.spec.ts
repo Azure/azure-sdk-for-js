@@ -13,7 +13,7 @@ describe("List Document Formats", () => {
 
   beforeEach(async function (this: Context) {
     recorder = createRecorder(this);
-    client = createClient();
+    client = await createClient();
   });
 
   afterEach(async function () {

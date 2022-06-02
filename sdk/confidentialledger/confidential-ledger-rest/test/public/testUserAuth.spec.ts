@@ -29,10 +29,11 @@ describe("Test user authentications", () => {
     { httpClient }
   );
   */
-    var ledgerIdentityPromise = getLedgerIdentity(env.LEDGER_IDENTITY, env.IDENTITY_SERVICE_URL);
+    const {ledgerTlsCertificate} = await getLedgerIdentity(env.LEDGER_IDENTITY, env.IDENTITY_SERVICE_URL);
     const credential = new DefaultAzureCredential();
     console.log(credential);
-    var ledgerClient = ConfidentialLedger(env.ENDPOINT, ledgerIdentityPromise, credential);
+    // use let instead of var
+    const ledgerClient = ConfidentialLedger(env.ENDPOINT, ledgerTlsCertificate, credential);
     console.log(ledgerClient);
     assert(ledgerClient);
 
@@ -48,8 +49,8 @@ describe("Test user authentications", () => {
   });
 
   it("should authenticate using a certificate", async function () {
-    var certificate = env.CERTIFICATE;
-    var ledgerClient = ConfidentialLedger(env.ENDPOINT, certificate);
+    const certificate = env.CERTIFICATE;
+    const ledgerClient = ConfidentialLedger(env.ENDPOINT, certificate);
     assert(ledgerClient);
 
     console.log(ledgerClient);

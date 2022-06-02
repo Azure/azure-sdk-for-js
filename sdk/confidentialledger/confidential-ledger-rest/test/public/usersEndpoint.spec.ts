@@ -24,7 +24,7 @@ describe("Get user", () => {
 
   it("should obtain user data", async function () {
     // if the ledger in the .env changes, so should this
-    let userId = env.USER_ID;
+    const userId = env.USER_ID;
     const result = await client.path("/app/users/{userId}", userId).get();
 
     if (result.status !== "200") {

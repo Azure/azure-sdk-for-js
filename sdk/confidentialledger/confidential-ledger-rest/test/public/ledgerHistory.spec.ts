@@ -35,7 +35,7 @@ describe("Get ledger history", () => {
       );
     }
 
-    let currentTransaction: GetCurrentLedgerEntry200Response =
+    const currentTransaction: GetCurrentLedgerEntry200Response =
       currentTransactionsResult as GetCurrentLedgerEntry200Response;
     assert.typeOf(currentTransaction.body.contents, "string");
     assert.typeOf(currentTransaction.body.collectionId, "string");
