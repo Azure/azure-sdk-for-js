@@ -870,17 +870,28 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
         taxYear: "2018",
         w2Copy: "Copy 2 -- To Be Filed with Employee's State, City, or Local Income Tax Return,",
         employee: {
-          name: "BONNIE F HERNANDEZ",
-          address: "96541 MOLLY HOLLOW STREET APT.124 KATHRYNMOUTH, NE",
-          zipCode: "98631-5293",
           socialSecurityNumber: "986-62-1002",
+          name: "BONNIE F HERNANDEZ",
+          address: {
+            houseNumber: "96541",
+            road: "molly hollow street",
+            city: "kathrynmouth",
+            state: "ne",
+            postalCode: "98631-5293",
+            streetAddress: "96541 molly hollow street",
+          },
         },
         controlNumber: "000086242",
         employer: {
           idNumber: "48-1069918",
           name: "BLUE BEACON USA, LP",
-          address: "PO BOX 856 SALINA, KS",
-          zipCode: "67402-0856",
+          address: {
+            poBox: "po box 856",
+            city: "salina",
+            state: "ks",
+            postalCode: "67402-0856",
+            streetAddress: "po box 856",
+          },
         },
         wagesTipsAndOtherCompensation: 37160.56,
         federalIncomeTaxWithheld: 3894.54,
@@ -910,6 +921,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
             amount: 123.3,
           },
         ],
+        isRetirementPlan: "true",
         other: "DISINS 170.85",
         stateTaxInfos: [
           {
@@ -925,18 +937,17 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
           {
             localWagesTipsEtc: 37160.56,
             localIncomeTax: 51,
-            localityName: "Cmberland Vly/Mddl",
+            localityName: "Cmberland Vly/ Mddl",
           },
           {
             localWagesTipsEtc: 37160.56,
             localIncomeTax: 594.54,
-            localityName: "|E.Pennsboro/E.Pnns",
+            localityName: "E.Pennsboro/E.Pnns",
           },
         ],
       });
 
-      // TODO: reenable when the 'address' field type is implemented
-      it.skip("png file stream", async function (this: Mocha.Context) {
+      it.only("png file stream", async function (this: Mocha.Context) {
         const filePath = path.join(ASSET_PATH, "w2", "gold_simple_w2.png");
         const stream = fs.createReadStream(filePath);
 
