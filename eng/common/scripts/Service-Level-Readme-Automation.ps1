@@ -170,7 +170,7 @@ function generate-markdown-table($readmeFolder, $readmeName, $packageInfo, $moni
     $tableContent += $line
   }
   if($tableContent) {
-    Add-Content -Path (Join-Path $readmeFolder -ChildPath $readmeName) -Value $tableHeader -NoNewline
+    Set-Content -Path (Join-Path $readmeFolder -ChildPath $readmeName) -Value $tableHeader -NoNewline
     Add-Content -Path (Join-Path $readmeFolder -ChildPath $readmeName) -Value $tableContent -NoNewline
   }
 }
