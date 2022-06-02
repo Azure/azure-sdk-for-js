@@ -9,4 +9,4 @@ import { modelInfo as ReceiptSchema } from "./data/prebuilt-receipt.json";
  */
 export type Receipt = ReifyPrebuiltSchema<typeof ReceiptSchema>;
 
-export { ReceiptSchema }
+export { ReceiptSchema };

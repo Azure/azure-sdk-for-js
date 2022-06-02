@@ -9,4 +9,4 @@ import { modelInfo as HealthInsuranceCardUsSchema } from "./data/prebuilt-health
  */
 export type HealthInsuranceCardUs = ReifyPrebuiltSchema<typeof HealthInsuranceCardUsSchema>;
 
-export { HealthInsuranceCardUsSchema }
+export { HealthInsuranceCardUsSchema };

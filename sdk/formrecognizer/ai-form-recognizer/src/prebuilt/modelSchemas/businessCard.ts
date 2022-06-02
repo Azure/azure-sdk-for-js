@@ -9,4 +9,4 @@ import { modelInfo as BusinessCardSchema } from "./data/prebuilt-businessCard.js
  */
 export type BusinessCard = ReifyPrebuiltSchema<typeof BusinessCardSchema>;
 
-export { BusinessCardSchema }
+export { BusinessCardSchema };

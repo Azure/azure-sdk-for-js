@@ -9,4 +9,4 @@ import { modelInfo as TaxUsW2Schema } from "./data/prebuilt-tax.us.w2.json";
  */
 export type TaxUsW2 = ReifyPrebuiltSchema<typeof TaxUsW2Schema>;
 
-export { TaxUsW2Schema }
+export { TaxUsW2Schema };

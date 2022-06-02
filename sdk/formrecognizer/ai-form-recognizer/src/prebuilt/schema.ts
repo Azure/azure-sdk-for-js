@@ -110,7 +110,9 @@ export interface ArrayFieldSchema<Item extends Readonly<FieldSchema> = Readonly<
  * beneath a property named `properties` as in ordinary "object" fields).
  * @hidden
  */
-export interface WellKnownObjectFieldSchema<Type extends "currency" | "address" = "currency" | "address"> {
+export interface WellKnownObjectFieldSchema<
+  Type extends "currency" | "address" = "currency" | "address"
+> {
   /** Field type: an immediate object such as "currency". */
   readonly type: Type;
 }

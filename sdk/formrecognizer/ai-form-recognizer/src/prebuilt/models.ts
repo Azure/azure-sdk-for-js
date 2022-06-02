@@ -6,7 +6,10 @@ import { Document } from "../generated";
 import { DocumentField, toDocumentField } from "../models/fields";
 import { isAcronymic, uncapitalize } from "../util";
 import { BusinessCard, BusinessCardSchema } from "./modelSchemas/businessCard";
-import { HealthInsuranceCardUs, HealthInsuranceCardUsSchema } from "./modelSchemas/healthInsuranceCard";
+import {
+  HealthInsuranceCardUs,
+  HealthInsuranceCardUsSchema,
+} from "./modelSchemas/healthInsuranceCard";
 import { IdentityDocument, IdentityDocumentSchema } from "./modelSchemas/idDocument";
 import { Invoice, InvoiceSchema } from "./modelSchemas/invoice";
 import { Receipt, ReceiptSchema } from "./modelSchemas/receipt";
@@ -178,7 +181,9 @@ export const PrebuiltModels = {
   Receipt: createModelFromSchema(ReceiptSchema) as DocumentModel<Receipt>,
   TaxUsW2: createModelFromSchema(TaxUsW2Schema) as DocumentModel<TaxUsW2>,
   VaccinationCard: createModelFromSchema(VaccinationCardSchema) as DocumentModel<VaccinationCard>,
-  HealthInsuranceCard: createModelFromSchema(HealthInsuranceCardUsSchema) as DocumentModel<HealthInsuranceCardUs>,
+  HealthInsuranceCard: createModelFromSchema(
+    HealthInsuranceCardUsSchema
+  ) as DocumentModel<HealthInsuranceCardUs>,
 };
 
 // PrebuiltModels is defined `as const` so this assignment checks to make sure it has the appropriate type, and

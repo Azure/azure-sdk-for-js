@@ -9,4 +9,4 @@ import { modelInfo as VaccinationCardSchema } from "./data/prebuilt-vaccinationC
  */
 export type VaccinationCard = ReifyPrebuiltSchema<typeof VaccinationCardSchema>;
 
-export { VaccinationCardSchema }
+export { VaccinationCardSchema };

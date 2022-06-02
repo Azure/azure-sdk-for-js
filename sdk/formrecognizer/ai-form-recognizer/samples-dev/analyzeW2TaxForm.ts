@@ -48,12 +48,11 @@ async function main() {
       console.log("  SSN/TIN:", socialSecurityNumber && socialSecurityNumber.value);
 
       if (address && address.value) {
-        const { streetAddress, postalCode} = address.value;
+        const { streetAddress, postalCode } = address.value;
         console.log("  Address:");
         console.log("    Street Address:", streetAddress);
         console.log("    Postal Code:", postalCode);
       }
-
     } else {
       console.log("No employee information extracted.");
     }

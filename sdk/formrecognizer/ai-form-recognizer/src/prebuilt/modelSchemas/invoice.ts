@@ -9,4 +9,4 @@ import { modelInfo as InvoiceSchema } from "./data/prebuilt-invoice.json";
  */
 export type Invoice = ReifyPrebuiltSchema<typeof InvoiceSchema>;
 
-export { InvoiceSchema }
+export { InvoiceSchema };
