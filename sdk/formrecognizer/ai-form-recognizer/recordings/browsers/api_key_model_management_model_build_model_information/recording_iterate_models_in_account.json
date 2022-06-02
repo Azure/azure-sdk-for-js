@@ -5,22 +5,31 @@
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
         "Connection": "keep-alive",
-        "Ocp-Apim-Subscription-Key": "api_key",
-        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v16.15.0 OS/(x64-Linux-5.18.1-zen1-1-zen)",
-        "x-ms-client-request-id": "51e3053e-d00c-43a5-9fcc-3bfaee2fc060"
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
+        "x-ms-client-request-id": "cdd66656-8aea-40eb-a019-10bf79083b8d",
+        "x-ms-useragent": "azsdk-js-ai-form-recognizer/4.0.0-beta.4 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "apim-request-id": "727648fc-e67b-454f-8800-0eba0f447a08",
+        "apim-request-id": "4c0dbf3a-bc5f-49d1-97ab-0edcff5b1bcd",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 02 Jun 2022 15:22:42 GMT",
+        "Date": "Thu, 02 Jun 2022 15:50:36 GMT",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
         "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff",
-        "x-envoy-upstream-service-time": "3132"
+        "x-envoy-upstream-service-time": "3110"
       },
       "ResponseBody": {
         "value": [
@@ -144,8 +153,8 @@
             "apiVersion": "2022-06-30-preview"
           },
           {
-            "modelId": "modelName10539",
-            "createdDateTime": "2022-06-02T15:22:19Z",
+            "modelId": "input110214",
+            "createdDateTime": "2022-06-02T15:31:40Z",
             "apiVersion": "2022-06-30-preview"
           },
           {
@@ -155,8 +164,13 @@
             "description": "my composed model"
           },
           {
-            "modelId": "349422738",
-            "createdDateTime": "2022-05-20T21:46:07Z",
+            "modelId": "1831929663",
+            "createdDateTime": "2022-05-20T22:43:22Z",
+            "apiVersion": "2022-06-30-preview"
+          },
+          {
+            "modelId": "modelName10478",
+            "createdDateTime": "2022-06-02T15:32:28Z",
             "apiVersion": "2022-06-30-preview"
           },
           {
@@ -212,6 +226,11 @@
             "description": "model1"
           },
           {
+            "modelId": "composedModelName10685",
+            "createdDateTime": "2022-06-02T15:32:17Z",
+            "apiVersion": "2022-06-30-preview"
+          },
+          {
             "modelId": "composedModelName10962",
             "createdDateTime": "2022-06-02T15:22:06Z",
             "apiVersion": "2022-06-30-preview"
@@ -224,6 +243,11 @@
           {
             "modelId": "293046778",
             "createdDateTime": "2022-05-26T01:35:42Z",
+            "apiVersion": "2022-06-30-preview"
+          },
+          {
+            "modelId": "1311906493",
+            "createdDateTime": "2022-05-20T21:47:10Z",
             "apiVersion": "2022-06-30-preview"
           },
           {
@@ -313,11 +337,6 @@
             "apiVersion": "2022-06-30-preview"
           },
           {
-            "modelId": "44c53e4b-be29-494d-8fba-b777cbbf8eb6",
-            "createdDateTime": "2022-05-26T00:56:37Z",
-            "apiVersion": "2022-06-30-preview"
-          },
-          {
             "modelId": "b53c4b42-1103-460c-bd69-3bb73e4bcbbe",
             "createdDateTime": "2022-05-25T21:23:09Z",
             "apiVersion": "2022-06-30-preview",
@@ -332,6 +351,11 @@
             "apiVersion": "2022-06-30-preview"
           },
           {
+            "modelId": "input110033",
+            "createdDateTime": "2022-06-02T15:32:13Z",
+            "apiVersion": "2022-06-30-preview"
+          },
+          {
             "modelId": "1c361ac2-8b2f-4a7b-9582-ff0f4f494be7",
             "createdDateTime": "2022-05-25T21:25:28Z",
             "apiVersion": "2022-06-30-preview",
@@ -341,6 +365,11 @@
             "modelId": "480042a0-0d05-4b08-bcb4-ae6242e39fda",
             "createdDateTime": "2022-05-26T01:38:50Z",
             "apiVersion": "v2.1"
+          },
+          {
+            "modelId": "modelName11000",
+            "createdDateTime": "2022-06-02T15:50:16Z",
+            "apiVersion": "2022-06-30-preview"
           },
           {
             "modelId": "49db8e08-4cd0-4522-a448-02b7fc0a3dfb",
@@ -435,6 +464,11 @@
             "apiVersion": "v2.0"
           },
           {
+            "modelId": "composedModelName10487",
+            "createdDateTime": "2022-06-02T15:31:43Z",
+            "apiVersion": "2022-06-30-preview"
+          },
+          {
             "modelId": "5c42c37a-4e17-49c9-9526-71f4a6f05d55",
             "createdDateTime": "2022-05-26T18:15:37Z",
             "apiVersion": "v2.1"
@@ -453,6 +487,11 @@
           {
             "modelId": "1320960452",
             "createdDateTime": "2022-05-20T22:24:12Z",
+            "apiVersion": "2022-06-30-preview"
+          },
+          {
+            "modelId": "input210767",
+            "createdDateTime": "2022-06-02T15:49:59Z",
             "apiVersion": "2022-06-30-preview"
           },
           {
@@ -503,6 +542,11 @@
           {
             "modelId": "6f2a7a5f-9122-425b-b908-345df44a2899",
             "createdDateTime": "2022-05-25T23:16:27Z",
+            "apiVersion": "2022-06-30-preview"
+          },
+          {
+            "modelId": "customFormModelName10030",
+            "createdDateTime": "2022-05-26T19:54:16Z",
             "apiVersion": "2022-06-30-preview"
           },
           {
@@ -596,6 +640,11 @@
             "apiVersion": "2022-06-30-preview"
           },
           {
+            "modelId": "599703190",
+            "createdDateTime": "2022-05-20T22:32:45Z",
+            "apiVersion": "2022-06-30-preview"
+          },
+          {
             "modelId": "b31a676e-7831-4e6c-9553-eb21e51c1e7a",
             "createdDateTime": "2022-05-31T01:55:07Z",
             "apiVersion": "2022-06-30-preview"
@@ -610,6 +659,11 @@
             "createdDateTime": "2022-05-25T21:30:01Z",
             "apiVersion": "2022-06-30-preview",
             "description": "model2"
+          },
+          {
+            "modelId": "input210436",
+            "createdDateTime": "2022-06-02T15:31:39Z",
+            "apiVersion": "2022-06-30-preview"
           },
           {
             "modelId": "187a7873-ccf2-4e91-9013-d1fae78335fd",
@@ -736,6 +790,11 @@
             "apiVersion": "2022-06-30-preview"
           },
           {
+            "modelId": "input210078",
+            "createdDateTime": "2022-06-02T15:32:13Z",
+            "apiVersion": "2022-06-30-preview"
+          },
+          {
             "modelId": "af57af14-dc3c-4a36-b595-044361fb32e9",
             "createdDateTime": "2022-05-22T21:59:02Z",
             "apiVersion": "v2.1"
@@ -743,6 +802,11 @@
           {
             "modelId": "dde082a7-3c48-4f6e-917c-af71911c88b2",
             "createdDateTime": "2022-05-25T21:27:00Z",
+            "apiVersion": "2022-06-30-preview"
+          },
+          {
+            "modelId": "composedModelName10139",
+            "createdDateTime": "2022-06-02T15:50:03Z",
             "apiVersion": "2022-06-30-preview"
           },
           {
@@ -762,6 +826,11 @@
           {
             "modelId": "b6d8e64a-2daf-40e5-92fd-ee729992eca7",
             "createdDateTime": "2022-05-24T23:23:21Z",
+            "apiVersion": "2022-06-30-preview"
+          },
+          {
+            "modelId": "input110803",
+            "createdDateTime": "2022-06-02T15:49:59Z",
             "apiVersion": "2022-06-30-preview"
           },
           {
@@ -829,11 +898,6 @@
             "apiVersion": "2022-06-30-preview"
           },
           {
-            "modelId": "c89ded72-6d76-4096-8f36-65fb3af45a24",
-            "createdDateTime": "2022-05-20T22:49:08Z",
-            "apiVersion": "v2.1"
-          },
-          {
             "modelId": "c94b2bd8-bae2-4710-b8c9-8eec2d9863e4",
             "createdDateTime": "2022-05-31T08:51:28Z",
             "apiVersion": "v2.1"
@@ -859,6 +923,11 @@
             "apiVersion": "2022-06-30-preview"
           },
           {
+            "modelId": "modelName10301",
+            "createdDateTime": "2022-06-02T15:31:56Z",
+            "apiVersion": "2022-06-30-preview"
+          },
+          {
             "modelId": "3b4a08a8-5198-4bfb-b905-22a8c5aa9946",
             "createdDateTime": "2022-05-25T21:25:19Z",
             "apiVersion": "2022-06-30-preview",
@@ -867,6 +936,11 @@
           {
             "modelId": "input210844",
             "createdDateTime": "2022-06-02T15:22:02Z",
+            "apiVersion": "2022-06-30-preview"
+          },
+          {
+            "modelId": "422555072",
+            "createdDateTime": "2022-05-20T21:46:29Z",
             "apiVersion": "2022-06-30-preview"
           },
           {
@@ -905,12 +979,44 @@
             "modelId": "9970e227-9940-4b21-9bb2-b3c98dc58bbc",
             "createdDateTime": "2022-05-24T23:22:05Z",
             "apiVersion": "2022-06-30-preview"
-          },
-          {
-            "modelId": "ff898898-fcee-4ba7-8a23-3ec222ee8fd6",
-            "createdDateTime": "2022-05-26T00:37:19Z",
-            "apiVersion": "2022-06-30-preview"
-          },
+          }
+        ],
+        "nextLink": "https://endpoint/formrecognizer/documentModels?api-version=2022-06-30-preview\u0026nextLink=2!204!MDAwMTA4IXN1YnNjcmlwdGlvbnMvYjE3OWU2MjM1Y2MyNDUyYmI3YWZhMzM0MzBjNTYzZWYvbW9kZWxzL2UzOTRjYmZiLTIzNjUtNGUwNy05YjJlLWI4ZGQzMjIwY2Q0My91c2VMYWJlbEZpbGUuanNvbiEwMDAwMjghOTk5OS0xMi0zMVQyMzo1OTo1OS45OTk5OTk5WiE-"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/formrecognizer/documentModels?api-version=2022-06-30-preview\u0026nextLink=2!204!MDAwMTA4IXN1YnNjcmlwdGlvbnMvYjE3OWU2MjM1Y2MyNDUyYmI3YWZhMzM0MzBjNTYzZWYvbW9kZWxzL2UzOTRjYmZiLTIzNjUtNGUwNy05YjJlLWI4ZGQzMjIwY2Q0My91c2VMYWJlbEZpbGUuanNvbiEwMDAwMjghOTk5OS0xMi0zMVQyMzo1OTo1OS45OTk5OTk5WiE-",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Connection": "keep-alive",
+        "ocp-apim-subscription-key": "api_key",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/100.0.4889.0 Safari/537.36",
+        "x-ms-client-request-id": "631fa1bf-48a2-4424-b9f4-234ed4693480",
+        "x-ms-useragent": "azsdk-js-ai-form-recognizer/4.0.0-beta.4 core-rest-pipeline/1.8.1 OS/Linuxx86_64"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "9a2e7049-8e5f-4d1f-93a4-b3b4ad8cd45a",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 02 Jun 2022 15:50:36 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "606"
+      },
+      "ResponseBody": {
+        "value": [
           {
             "modelId": "e5b45f47-22ff-4aed-bc5c-cfef028bd8ab",
             "createdDateTime": "2022-05-31T08:51:39Z",
@@ -940,9 +1046,105 @@
             "modelId": "2fa2ff27-32b4-4e71-9252-775b5516f791",
             "createdDateTime": "2022-05-25T21:24:44Z",
             "apiVersion": "2022-06-30-preview"
+          },
+          {
+            "modelId": "f1705381-724c-44f8-940c-7eb21e42f199",
+            "createdDateTime": "2022-05-31T03:16:59Z",
+            "apiVersion": "v2.1"
+          },
+          {
+            "modelId": "c0d5c6b7-b015-4d1b-b72a-4417b5a87a86",
+            "createdDateTime": "2022-05-25T21:30:37Z",
+            "apiVersion": "2022-06-30-preview"
+          },
+          {
+            "modelId": "f2ceb503-7b93-44ae-885a-74c7e0b1546d",
+            "createdDateTime": "2022-05-31T01:55:52Z",
+            "apiVersion": "v2.1"
+          },
+          {
+            "modelId": "f2e4085e-9d2e-4265-96ec-151694435f06",
+            "createdDateTime": "2022-05-31T08:51:16Z",
+            "apiVersion": "v2.1"
+          },
+          {
+            "modelId": "95eb8c08-59a6-45c5-9005-e0944ba2286a",
+            "createdDateTime": "2022-05-25T21:32:04Z",
+            "apiVersion": "2022-06-30-preview",
+            "description": "my composed model",
+            "tags": {
+              "testkey": "testvalue"
+            }
+          },
+          {
+            "modelId": "1865946473",
+            "createdDateTime": "2022-05-20T22:28:34Z",
+            "apiVersion": "2022-06-30-preview"
+          },
+          {
+            "modelId": "customFormModelName10350",
+            "createdDateTime": "2022-06-02T15:23:52Z",
+            "apiVersion": "2022-06-30-preview"
+          },
+          {
+            "modelId": "f4a5160c-d64a-4eb1-8138-e3e057bb9ffb",
+            "createdDateTime": "2022-06-01T17:16:09Z",
+            "apiVersion": "v2.1"
+          },
+          {
+            "modelId": "b0e2b4d4-4391-4798-ae28-9d2d374fc219",
+            "createdDateTime": "2022-05-25T21:25:48Z",
+            "apiVersion": "2022-06-30-preview",
+            "description": "model1"
+          },
+          {
+            "modelId": "f5150828-164f-436b-8dd6-b1711b8fb621",
+            "createdDateTime": "2022-05-31T01:58:45Z",
+            "apiVersion": "v2.1"
+          },
+          {
+            "modelId": "1820e3da-71c4-44a9-bb37-3f9e4f0cf45d",
+            "createdDateTime": "2022-05-26T00:39:47Z",
+            "apiVersion": "2022-06-30-preview"
+          },
+          {
+            "modelId": "eaeb112d-9f3f-4c42-932f-e8ee5afa708d",
+            "createdDateTime": "2022-05-26T00:55:13Z",
+            "apiVersion": "2022-06-30-preview"
+          },
+          {
+            "modelId": "613882d5-6701-48ff-b32f-3a974dccc5a5",
+            "createdDateTime": "2022-05-25T21:23:34Z",
+            "apiVersion": "2022-06-30-preview",
+            "description": "model2"
+          },
+          {
+            "modelId": "814669322",
+            "createdDateTime": "2022-05-20T21:47:13Z",
+            "apiVersion": "2022-06-30-preview"
+          },
+          {
+            "modelId": "4d2863b5-62de-4d6e-a257-80f35a8dfc76",
+            "createdDateTime": "2022-05-25T21:24:04Z",
+            "apiVersion": "2022-06-30-preview"
+          },
+          {
+            "modelId": "fe04d78c-5c1d-4376-9900-55490161d4fb",
+            "createdDateTime": "2022-05-26T01:39:13Z",
+            "apiVersion": "v2.1",
+            "description": "My Model"
+          },
+          {
+            "modelId": "c8917cdd-476e-4e65-b16c-41d4e06eb8af",
+            "createdDateTime": "2022-05-26T00:58:03Z",
+            "apiVersion": "2022-06-30-preview"
+          },
+          {
+            "modelId": "0410d1da-0e7e-4892-ad99-71189fda353a",
+            "createdDateTime": "2022-05-25T21:26:47Z",
+            "apiVersion": "2022-06-30-preview"
           }
-        ],
-        "nextLink": "https://endpoint/formrecognizer/documentModels?api-version=2022-06-30-preview\u0026nextLink=2!236!MDAwMTMyIXN1YnNjcmlwdGlvbnMvYjE3OWU2MjM1Y2MyNDUyYmI3YWZhMzM0MzBjNTYzZWYvbW9kZWxzL2YxNzA1MzgxLTcyNGMtNDRmOC05NDBjLTdlYjIxZTQyZjE5OS9mMTcwNTM4MS03MjRjLTQ0ZjgtOTQwYy03ZWIyMWU0MmYxOTkuanNvbiEwMDAwMjghOTk5OS0xMi0zMVQyMzo1OTo1OS45OTk5OTk5WiE-"
+        ]
       }
     }
   ],

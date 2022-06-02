@@ -1,0 +1,553 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/formrecognizer/documentModels:build?api-version=2022-06-30-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "137",
+        "Content-Type": "application/json",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v16.15.0 OS/(x64-Linux-5.18.1-zen1-1-zen)",
+        "x-ms-client-request-id": "ff35f437-0125-4fb7-aa5f-9b3d5ef1d96b"
+      },
+      "RequestBody": {
+        "modelId": "copySource10102",
+        "buildMode": "template",
+        "azureBlobSource": {
+          "containerUrl": "https://storageaccount/trainingdata-v3?sastoken"
+        }
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "apim-request-id": "4db0115d-015f-41bb-a863-4029ea739adb",
+        "Content-Length": "0",
+        "Date": "Thu, 02 Jun 2022 16:06:35 GMT",
+        "operation-location": "https://endpoint/formrecognizer/operations/31512182010_4db0115d-015f-41bb-a863-4029ea739adb?api-version=2022-06-30-preview",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "5306"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/formrecognizer/operations/31512182010_4db0115d-015f-41bb-a863-4029ea739adb?api-version=2022-06-30-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v16.15.0 OS/(x64-Linux-5.18.1-zen1-1-zen)",
+        "x-ms-client-request-id": "4441ddd5-0fcf-4a9c-a591-84974bf60ecc"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "b4e161b5-d830-42a3-be09-c8d57fd35255",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 02 Jun 2022 16:06:35 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "23"
+      },
+      "ResponseBody": {
+        "operationId": "31512182010_4db0115d-015f-41bb-a863-4029ea739adb",
+        "kind": "documentModelBuild",
+        "status": "notStarted",
+        "createdDateTime": "2022-06-02T16:06:30Z",
+        "lastUpdatedDateTime": "2022-06-02T16:06:30Z",
+        "resourceLocation": "https://endpoint/formrecognizer/documentModels/copySource10102?api-version=2022-06-30-preview"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/formrecognizer/operations/31512182010_4db0115d-015f-41bb-a863-4029ea739adb?api-version=2022-06-30-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v16.15.0 OS/(x64-Linux-5.18.1-zen1-1-zen)",
+        "x-ms-client-request-id": "86f0e226-9824-481a-a9c9-0dd57ae9c232"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "2bd8efc4-2d4b-4bd2-94cc-6b6372c445ac",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 02 Jun 2022 16:06:35 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "17"
+      },
+      "ResponseBody": {
+        "operationId": "31512182010_4db0115d-015f-41bb-a863-4029ea739adb",
+        "kind": "documentModelBuild",
+        "status": "running",
+        "createdDateTime": "2022-06-02T16:06:30Z",
+        "lastUpdatedDateTime": "2022-06-02T16:06:35Z",
+        "resourceLocation": "https://endpoint/formrecognizer/documentModels/copySource10102?api-version=2022-06-30-preview"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/formrecognizer/operations/31512182010_4db0115d-015f-41bb-a863-4029ea739adb?api-version=2022-06-30-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v16.15.0 OS/(x64-Linux-5.18.1-zen1-1-zen)",
+        "x-ms-client-request-id": "8dd4dc0f-797d-4b8e-8be8-834f33b4f0e5"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "afce1262-56eb-4507-a381-edb4e6eaae51",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 02 Jun 2022 16:06:41 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "89"
+      },
+      "ResponseBody": {
+        "operationId": "31512182010_4db0115d-015f-41bb-a863-4029ea739adb",
+        "kind": "documentModelBuild",
+        "status": "succeeded",
+        "createdDateTime": "2022-06-02T16:06:30Z",
+        "lastUpdatedDateTime": "2022-06-02T16:06:38Z",
+        "resourceLocation": "https://endpoint/formrecognizer/documentModels/copySource10102?api-version=2022-06-30-preview",
+        "percentCompleted": 100,
+        "result": {
+          "docTypes": {
+            "copySource10102": {
+              "fieldSchema": {
+                "Merchant": {
+                  "type": "string"
+                },
+                "PhoneNumber": {
+                  "type": "string"
+                },
+                "Website": {
+                  "type": "string"
+                },
+                "Email": {
+                  "type": "string"
+                },
+                "PurchaseOrderNumber": {
+                  "type": "string"
+                },
+                "DatedAs": {
+                  "type": "string"
+                },
+                "VendorName": {
+                  "type": "string"
+                },
+                "CompanyName": {
+                  "type": "string"
+                },
+                "CompanyAddress": {
+                  "type": "string"
+                },
+                "CompanyPhoneNumber": {
+                  "type": "string"
+                },
+                "Subtotal": {
+                  "type": "string"
+                },
+                "Tax": {
+                  "type": "string"
+                },
+                "Total": {
+                  "type": "string"
+                },
+                "Signature": {
+                  "type": "string"
+                },
+                "Quantity": {
+                  "type": "number"
+                },
+                "FullSignature": {
+                  "type": "signature"
+                }
+              },
+              "buildMode": "template",
+              "fieldConfidence": {
+                "CompanyAddress": 0.8,
+                "CompanyName": 0.995,
+                "CompanyPhoneNumber": 0.995,
+                "DatedAs": 0.995,
+                "Email": 0.8,
+                "FullSignature": 0.6,
+                "Merchant": 0.995,
+                "PhoneNumber": 0.995,
+                "PurchaseOrderNumber": 0.995,
+                "Quantity": 0.995,
+                "Signature": 0.995,
+                "Subtotal": 0.995,
+                "Tax": 0.995,
+                "Total": 0.995,
+                "VendorName": 0.995,
+                "Website": 0.995
+              }
+            }
+          },
+          "modelId": "copySource10102",
+          "createdDateTime": "2022-06-02T16:06:38Z",
+          "apiVersion": "2022-06-30-preview"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/formrecognizer/documentModels:authorizeCopy?api-version=2022-06-30-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "29",
+        "Content-Type": "application/json",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v16.15.0 OS/(x64-Linux-5.18.1-zen1-1-zen)",
+        "x-ms-client-request-id": "7b967ad2-d3f9-405d-9561-8243dba86856"
+      },
+      "RequestBody": {
+        "modelId": "copyTarget10181"
+      },
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "8f998e9a-4de3-432a-8665-4e3d8739a3ee",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 02 Jun 2022 16:06:41 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "230"
+      },
+      "ResponseBody": {
+        "targetResourceId": "/subscriptions/23154302-c2b1-49b9-8632-4372833c7f69/resourceGroups/paulhsu/providers/Microsoft.CognitiveServices/accounts/formrecognizersdk",
+        "targetResourceRegion": "westeurope",
+        "targetModelId": "copyTarget10181",
+        "targetModelLocation": "https://endpoint/formrecognizer/documentModels/copyTarget10181?api-version=2022-06-30-preview",
+        "accessToken": "d6352465-6f2d-407e-958a-55ce4eb8daf7",
+        "expirationDateTime": "2022-06-02T17:06:41Z"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/copySource10102:copyTo?api-version=2022-06-30-preview",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Content-Length": "451",
+        "Content-Type": "application/json",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v16.15.0 OS/(x64-Linux-5.18.1-zen1-1-zen)",
+        "x-ms-client-request-id": "c8c43232-cbaf-4f9b-8efb-e85a46cccea7"
+      },
+      "RequestBody": {
+        "targetResourceId": "/subscriptions/23154302-c2b1-49b9-8632-4372833c7f69/resourceGroups/paulhsu/providers/Microsoft.CognitiveServices/accounts/formrecognizersdk",
+        "targetResourceRegion": "westeurope",
+        "targetModelId": "copyTarget10181",
+        "targetModelLocation": "https://endpoint/formrecognizer/documentModels/copyTarget10181?api-version=2022-06-30-preview",
+        "accessToken": "d6352465-6f2d-407e-958a-55ce4eb8daf7",
+        "expirationDateTime": "2022-06-02T17:06:41.000Z"
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "apim-request-id": "a3406332-fad6-4417-94a6-9d6caca7e6e1",
+        "Content-Length": "0",
+        "Date": "Thu, 02 Jun 2022 16:06:41 GMT",
+        "Operation-Location": "https://endpoint/formrecognizer/operations/31512181998_a3406332-fad6-4417-94a6-9d6caca7e6e1?api-version=2022-06-30-preview",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "224"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/formrecognizer/operations/31512181998_a3406332-fad6-4417-94a6-9d6caca7e6e1?api-version=2022-06-30-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v16.15.0 OS/(x64-Linux-5.18.1-zen1-1-zen)",
+        "x-ms-client-request-id": "db246bbe-0c61-46de-950d-1c627ddba358"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "31ac39e5-6173-43ef-93ec-e6ad71655c6c",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 02 Jun 2022 16:06:42 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "18"
+      },
+      "ResponseBody": {
+        "operationId": "31512181998_a3406332-fad6-4417-94a6-9d6caca7e6e1",
+        "kind": "documentModelCopyTo",
+        "status": "notStarted",
+        "createdDateTime": "2022-06-02T16:06:41Z",
+        "lastUpdatedDateTime": "2022-06-02T16:06:41Z",
+        "resourceLocation": "https://endpoint/formrecognizer/documentModels/copyTarget10181?api-version=2022-06-30-preview"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/formrecognizer/operations/31512181998_a3406332-fad6-4417-94a6-9d6caca7e6e1?api-version=2022-06-30-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v16.15.0 OS/(x64-Linux-5.18.1-zen1-1-zen)",
+        "x-ms-client-request-id": "9c62e2f6-85db-4dc2-bc06-7d0c58e19e9e"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "2e0c1a8a-9e4c-4942-bc2f-d3e7a0d988ac",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 02 Jun 2022 16:06:42 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "16"
+      },
+      "ResponseBody": {
+        "operationId": "31512181998_a3406332-fad6-4417-94a6-9d6caca7e6e1",
+        "kind": "documentModelCopyTo",
+        "status": "running",
+        "createdDateTime": "2022-06-02T16:06:41Z",
+        "lastUpdatedDateTime": "2022-06-02T16:06:42Z",
+        "resourceLocation": "https://endpoint/formrecognizer/documentModels/copyTarget10181?api-version=2022-06-30-preview"
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/formrecognizer/operations/31512181998_a3406332-fad6-4417-94a6-9d6caca7e6e1?api-version=2022-06-30-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v16.15.0 OS/(x64-Linux-5.18.1-zen1-1-zen)",
+        "x-ms-client-request-id": "79749dfd-b801-4f21-a17f-4fda2f7b1a3d"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "6241b135-4f3b-4e5f-91a2-36265f388864",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 02 Jun 2022 16:06:47 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "17"
+      },
+      "ResponseBody": {
+        "operationId": "31512181998_a3406332-fad6-4417-94a6-9d6caca7e6e1",
+        "kind": "documentModelCopyTo",
+        "status": "succeeded",
+        "createdDateTime": "2022-06-02T16:06:41Z",
+        "lastUpdatedDateTime": "2022-06-02T16:06:42Z",
+        "resourceLocation": "https://endpoint/formrecognizer/documentModels/copyTarget10181?api-version=2022-06-30-preview",
+        "percentCompleted": 100,
+        "result": {
+          "docTypes": {
+            "copySource10102": {
+              "fieldSchema": {
+                "Merchant": {
+                  "type": "string"
+                },
+                "PhoneNumber": {
+                  "type": "string"
+                },
+                "Website": {
+                  "type": "string"
+                },
+                "Email": {
+                  "type": "string"
+                },
+                "PurchaseOrderNumber": {
+                  "type": "string"
+                },
+                "DatedAs": {
+                  "type": "string"
+                },
+                "VendorName": {
+                  "type": "string"
+                },
+                "CompanyName": {
+                  "type": "string"
+                },
+                "CompanyAddress": {
+                  "type": "string"
+                },
+                "CompanyPhoneNumber": {
+                  "type": "string"
+                },
+                "Subtotal": {
+                  "type": "string"
+                },
+                "Tax": {
+                  "type": "string"
+                },
+                "Total": {
+                  "type": "string"
+                },
+                "Signature": {
+                  "type": "string"
+                },
+                "Quantity": {
+                  "type": "number"
+                },
+                "FullSignature": {
+                  "type": "signature"
+                }
+              },
+              "buildMode": "template",
+              "fieldConfidence": {
+                "CompanyAddress": 0.8,
+                "CompanyName": 0.995,
+                "CompanyPhoneNumber": 0.995,
+                "DatedAs": 0.995,
+                "Email": 0.8,
+                "FullSignature": 0.6,
+                "Merchant": 0.995,
+                "PhoneNumber": 0.995,
+                "PurchaseOrderNumber": 0.995,
+                "Quantity": 0.995,
+                "Signature": 0.995,
+                "Subtotal": 0.995,
+                "Tax": 0.995,
+                "Total": 0.995,
+                "VendorName": 0.995,
+                "Website": 0.995
+              }
+            }
+          },
+          "modelId": "copyTarget10181",
+          "createdDateTime": "2022-06-02T16:06:38Z",
+          "apiVersion": "2022-06-30-preview"
+        }
+      }
+    },
+    {
+      "RequestUri": "https://endpoint/formrecognizer/documentModels/copyTarget10181?api-version=2022-06-30-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Connection": "keep-alive",
+        "Ocp-Apim-Subscription-Key": "api_key",
+        "User-Agent": "azsdk-js-ai-form-recognizer/4.0.0-beta.4 core-rest-pipeline/1.8.1 Node/v16.15.0 OS/(x64-Linux-5.18.1-zen1-1-zen)",
+        "x-ms-client-request-id": "56d81b6d-20fd-4533-855d-aad5e9c1c1a5"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "apim-request-id": "5cc4f1ab-68c9-42a8-b92e-2ce6214fedd0",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 02 Jun 2022 16:06:47 GMT",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains; preload",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "x-envoy-upstream-service-time": "39"
+      },
+      "ResponseBody": {
+        "docTypes": {
+          "copySource10102": {
+            "fieldSchema": {
+              "Merchant": {
+                "type": "string"
+              },
+              "PhoneNumber": {
+                "type": "string"
+              },
+              "Website": {
+                "type": "string"
+              },
+              "Email": {
+                "type": "string"
+              },
+              "PurchaseOrderNumber": {
+                "type": "string"
+              },
+              "DatedAs": {
+                "type": "string"
+              },
+              "VendorName": {
+                "type": "string"
+              },
+              "CompanyName": {
+                "type": "string"
+              },
+              "CompanyAddress": {
+                "type": "string"
+              },
+              "CompanyPhoneNumber": {
+                "type": "string"
+              },
+              "Subtotal": {
+                "type": "string"
+              },
+              "Tax": {
+                "type": "string"
+              },
+              "Total": {
+                "type": "string"
+              },
+              "Signature": {
+                "type": "string"
+              },
+              "Quantity": {
+                "type": "number"
+              },
+              "FullSignature": {
+                "type": "signature"
+              }
+            },
+            "buildMode": "template",
+            "fieldConfidence": {
+              "CompanyAddress": 0.8,
+              "CompanyName": 0.995,
+              "CompanyPhoneNumber": 0.995,
+              "DatedAs": 0.995,
+              "Email": 0.8,
+              "FullSignature": 0.6,
+              "Merchant": 0.995,
+              "PhoneNumber": 0.995,
+              "PurchaseOrderNumber": 0.995,
+              "Quantity": 0.995,
+              "Signature": 0.995,
+              "Subtotal": 0.995,
+              "Tax": 0.995,
+              "Total": 0.995,
+              "VendorName": 0.995,
+              "Website": 0.995
+            }
+          }
+        },
+        "modelId": "copyTarget10181",
+        "createdDateTime": "2022-06-02T16:06:38Z",
+        "apiVersion": "2022-06-30-preview"
+      }
+    }
+  ],
+  "Variables": {
+    "copySource": "copySource10102",
+    "copyTarget": "copyTarget10181"
+  }
+}

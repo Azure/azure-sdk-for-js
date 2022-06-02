@@ -341,25 +341,23 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
     describe("receipts", () => {
       it("png file stream", async () => {
         const validator = createValidator({
-          locale: undefined, // "en-US",
           merchantName: "Contoso",
-          merchantPhoneNumber: undefined,
-          // merchantPhoneNumber: "+11234567890",
+          merchantPhoneNumber: "+19876543210",
           merchantAddress: "123 Main Street\nRedmond, WA 98052",
-          total: 1203.39,
+          total: 2516.28,
           transactionDate: "2019-06-10T00:00:00.000Z",
           transactionTime: "13:59:00",
-          subtotal: 1098.99,
+          subtotal: 2297.97,
           items: [
             {
-              totalPrice: 999,
+              totalPrice: 1998,
               description: "Surface Pro 6",
-              quantity: 1,
+              quantity: 2,
             },
             {
-              totalPrice: 99.99,
-              description: "SurfacePen",
-              quantity: 1,
+              totalPrice: 299.97,
+              description: "Surface Pen",
+              quantity: 3,
             },
           ],
         });
@@ -468,18 +466,16 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
         validator(receipt as AnalyzedDocument);
       });
 
-      // TODO: Service regression - throws InternalServerError (message - "An unexpected error occurred.")
-      it.skip("multi-page receipt with blank page", async () => {
+      it("multi-page receipt with blank page", async () => {
         const validator = createValidator({
-          locale: "en-US",
-          // TODO: the following _one_ field is incorrectly identified
+          // TODO: model regression
+          // locale: "en-US",
           merchantName: "Bilbo Baggins",
           merchantPhoneNumber: "+15555555555",
-          merchantAddress: "567 Main St. Redmond, WA",
+          merchantAddress: "567 Main St.\nRedmond, WA",
           total: 430,
           subtotal: 300,
-          // TODO: model regression
-          // tip: 100,
+          tip: 100,
           items: [
             {
               totalPrice: 10.99,
@@ -490,9 +486,8 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
               quantity: 2,
             },
             {
+              totalPrice: 15.66,
               quantity: 4,
-              // TODO: model regression
-              // price: 15.66,
             },
             {
               totalPrice: 12,
@@ -503,8 +498,8 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
               quantity: 4,
             },
             {
-              totalPrice: 12,
               quantity: 6,
+              price: 12,
             },
             {
               totalPrice: 22,
@@ -772,18 +767,17 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
     describe("identityDocuments", () => {
       const validator = createValidator({
         countryRegion: "USA",
-        region: "Washington",
-        documentNumber: "WDLABCD456DG",
-        firstName: "LIAM R.",
-        lastName: "TALBOT",
-        address: "123 STREET ADDRESS\nYOUR CITY WA 99999-1234",
-        dateOfBirth: "1958-01-06T00:00:00.000Z",
-        dateOfExpiration: "2020-08-12T00:00:00.000Z",
+        region: "West Virginia",
+        documentNumber: "034568",
+        firstName: "CHRIS",
+        lastName: "SMITH",
+        address: "Main Street , Charleston,\nWV 456789",
+        dateOfBirth: "1988-03-23T00:00:00.000Z",
+        dateOfExpiration: "2026-03-23T00:00:00.000Z",
         sex: "M",
-        endorsements: "L",
-        restrictions: "E",
-        // TODO: model regression
-        // restrictions: "B",
+        endorsements: "NONE",
+        restrictions: "NONE",
+        vehicleClassifications: "A",
       });
 
       it("png file stream", async () => {
@@ -809,7 +803,21 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
       });
 
       it("url", async () => {
-        const url = makeTestUrl("/license.png");
+        const url = makeTestUrl("/license.jpg");
+
+        const validatorOverride = createValidator({
+          countryRegion: "USA",
+          region: "Washington",
+          documentNumber: "WDLABCD456DG",
+          firstName: "LIAM R.",
+          lastName: "TALBOT",
+          address: "123 STREET ADDRESS\nYOUR CITY WA 99999-1234",
+          dateOfBirth: "1958-01-06T00:00:00.000Z",
+          dateOfExpiration: "2020-08-12T00:00:00.000Z",
+          sex: "M",
+          endorsements: "L",
+          restrictions: "E",
+        });
 
         const poller = await client.beginAnalyzeDocument(
           PrebuiltModels.IdentityDocument,
@@ -835,7 +843,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
 
         assert.equal(idDocument.docType, "idDocument.driverLicense");
 
-        validator(idDocument as AnalyzedDocument);
+        validatorOverride(idDocument as AnalyzedDocument);
       });
 
       it("invalid locale throws", async () => {
