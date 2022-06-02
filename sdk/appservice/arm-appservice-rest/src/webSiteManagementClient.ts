@@ -14,8 +14,8 @@ export default function createClient(
   options = {
     ...options,
     credentials: {
-      scopes: ["https://management.azure.com/.default"]
-    }
+      scopes: ["https://management.azure.com/.default"],
+    },
   };
 
   const userAgentInfo = `azsdk-js-arm-appservice-rest/1.0.0`;
@@ -26,15 +26,11 @@ export default function createClient(
   options = {
     ...options,
     userAgentOptions: {
-      userAgentPrefix
-    }
+      userAgentPrefix,
+    },
   };
 
-  const client = getClient(
-    baseUrl,
-    credentials,
-    options
-  ) as WebSiteManagementClient;
+  const client = getClient(baseUrl, credentials, options) as WebSiteManagementClient;
 
   return {
     ...client,
@@ -64,12 +60,7 @@ export default function createClient(
           )
           .get(options);
       },
-      get: (
-        subscriptionId,
-        resourceGroupName,
-        certificateOrderName,
-        options
-      ) => {
+      get: (subscriptionId, resourceGroupName, certificateOrderName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}",
@@ -79,12 +70,7 @@ export default function createClient(
           )
           .get(options);
       },
-      createOrUpdate: (
-        subscriptionId,
-        resourceGroupName,
-        certificateOrderName,
-        options
-      ) => {
+      createOrUpdate: (subscriptionId, resourceGroupName, certificateOrderName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}",
@@ -94,12 +80,7 @@ export default function createClient(
           )
           .put(options);
       },
-      delete: (
-        subscriptionId,
-        resourceGroupName,
-        certificateOrderName,
-        options
-      ) => {
+      delete: (subscriptionId, resourceGroupName, certificateOrderName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}",
@@ -109,12 +90,7 @@ export default function createClient(
           )
           .delete(options);
       },
-      update: (
-        subscriptionId,
-        resourceGroupName,
-        certificateOrderName,
-        options
-      ) => {
+      update: (subscriptionId, resourceGroupName, certificateOrderName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}",
@@ -124,12 +100,7 @@ export default function createClient(
           )
           .patch(options);
       },
-      listCertificates: (
-        subscriptionId,
-        resourceGroupName,
-        certificateOrderName,
-        options
-      ) => {
+      listCertificates: (subscriptionId, resourceGroupName, certificateOrderName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/certificates",
@@ -139,13 +110,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getCertificate: (
-        subscriptionId,
-        resourceGroupName,
-        certificateOrderName,
-        name,
-        options
-      ) => {
+      getCertificate: (subscriptionId, resourceGroupName, certificateOrderName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/certificates/{name}",
@@ -207,12 +172,7 @@ export default function createClient(
           )
           .patch(options);
       },
-      reissue: (
-        subscriptionId,
-        resourceGroupName,
-        certificateOrderName,
-        options
-      ) => {
+      reissue: (subscriptionId, resourceGroupName, certificateOrderName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/reissue",
@@ -222,12 +182,7 @@ export default function createClient(
           )
           .post(options);
       },
-      renew: (
-        subscriptionId,
-        resourceGroupName,
-        certificateOrderName,
-        options
-      ) => {
+      renew: (subscriptionId, resourceGroupName, certificateOrderName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/renew",
@@ -237,12 +192,7 @@ export default function createClient(
           )
           .post(options);
       },
-      resendEmail: (
-        subscriptionId,
-        resourceGroupName,
-        certificateOrderName,
-        options
-      ) => {
+      resendEmail: (subscriptionId, resourceGroupName, certificateOrderName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/resendEmail",
@@ -252,12 +202,7 @@ export default function createClient(
           )
           .post(options);
       },
-      resendRequestEmails: (
-        subscriptionId,
-        resourceGroupName,
-        certificateOrderName,
-        options
-      ) => {
+      resendRequestEmails: (subscriptionId, resourceGroupName, certificateOrderName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/resendRequestEmails",
@@ -267,12 +212,7 @@ export default function createClient(
           )
           .post(options);
       },
-      retrieveSiteSeal: (
-        subscriptionId,
-        resourceGroupName,
-        certificateOrderName,
-        options
-      ) => {
+      retrieveSiteSeal: (subscriptionId, resourceGroupName, certificateOrderName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/retrieveSiteSeal",
@@ -282,12 +222,7 @@ export default function createClient(
           )
           .post(options);
       },
-      verifyDomainOwnership: (
-        subscriptionId,
-        resourceGroupName,
-        certificateOrderName,
-        options
-      ) => {
+      verifyDomainOwnership: (subscriptionId, resourceGroupName, certificateOrderName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/verifyDomainOwnership",
@@ -297,12 +232,7 @@ export default function createClient(
           )
           .post(options);
       },
-      retrieveCertificateActions: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      retrieveCertificateActions: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{name}/retrieveCertificateActions",
@@ -312,12 +242,7 @@ export default function createClient(
           )
           .post(options);
       },
-      retrieveCertificateEmailHistory: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      retrieveCertificateEmailHistory: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{name}/retrieveEmailHistory",
@@ -326,7 +251,7 @@ export default function createClient(
             name
           )
           .post(options);
-      }
+      },
     },
     certificateOrdersDiagnostics: {
       listAppServiceCertificateOrderDetectorResponse: (
@@ -360,14 +285,12 @@ export default function createClient(
             detectorName
           )
           .get(options);
-      }
+      },
     },
     certificateRegistrationProvider: {
       listOperations: (options) => {
-        return client
-          .path("/providers/Microsoft.CertificateRegistration/operations")
-          .get(options);
-      }
+        return client.path("/providers/Microsoft.CertificateRegistration/operations").get(options);
+      },
     },
     domains: {
       checkAvailability: (subscriptionId, options) => {
@@ -421,12 +344,7 @@ export default function createClient(
           )
           .get(options);
       },
-      createOrUpdate: (
-        subscriptionId,
-        resourceGroupName,
-        domainName,
-        options
-      ) => {
+      createOrUpdate: (subscriptionId, resourceGroupName, domainName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}",
@@ -456,12 +374,7 @@ export default function createClient(
           )
           .patch(options);
       },
-      listOwnershipIdentifiers: (
-        subscriptionId,
-        resourceGroupName,
-        domainName,
-        options
-      ) => {
+      listOwnershipIdentifiers: (subscriptionId, resourceGroupName, domainName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/domainOwnershipIdentifiers",
@@ -471,13 +384,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getOwnershipIdentifier: (
-        subscriptionId,
-        resourceGroupName,
-        domainName,
-        name,
-        options
-      ) => {
+      getOwnershipIdentifier: (subscriptionId, resourceGroupName, domainName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/domainOwnershipIdentifiers/{name}",
@@ -505,13 +412,7 @@ export default function createClient(
           )
           .put(options);
       },
-      deleteOwnershipIdentifier: (
-        subscriptionId,
-        resourceGroupName,
-        domainName,
-        name,
-        options
-      ) => {
+      deleteOwnershipIdentifier: (subscriptionId, resourceGroupName, domainName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/domainOwnershipIdentifiers/{name}",
@@ -522,13 +423,7 @@ export default function createClient(
           )
           .delete(options);
       },
-      updateOwnershipIdentifier: (
-        subscriptionId,
-        resourceGroupName,
-        domainName,
-        name,
-        options
-      ) => {
+      updateOwnershipIdentifier: (subscriptionId, resourceGroupName, domainName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/domainOwnershipIdentifiers/{name}",
@@ -558,7 +453,7 @@ export default function createClient(
             domainName
           )
           .put(options);
-      }
+      },
     },
     topLevelDomains: {
       list: (subscriptionId, options) => {
@@ -586,14 +481,12 @@ export default function createClient(
             name
           )
           .post(options);
-      }
+      },
     },
     domainRegistrationProvider: {
       listOperations: (options) => {
-        return client
-          .path("/providers/Microsoft.DomainRegistration/operations")
-          .get(options);
-      }
+        return client.path("/providers/Microsoft.DomainRegistration/operations").get(options);
+      },
     },
     appServiceEnvironments: {
       list: (subscriptionId, options) => {
@@ -683,12 +576,7 @@ export default function createClient(
           )
           .post(options);
       },
-      getAseV3NetworkingConfiguration: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      getAseV3NetworkingConfiguration: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/configurations/networking",
@@ -698,12 +586,7 @@ export default function createClient(
           )
           .get(options);
       },
-      updateAseNetworkingConfiguration: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      updateAseNetworkingConfiguration: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/configurations/networking",
@@ -723,13 +606,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getDiagnosticsItem: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        diagnosticsName,
-        options
-      ) => {
+      getDiagnosticsItem: (subscriptionId, resourceGroupName, name, diagnosticsName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/diagnostics/{diagnosticsName}",
@@ -755,12 +632,7 @@ export default function createClient(
           )
           .get(options);
       },
-      listMultiRolePools: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listMultiRolePools: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools",
@@ -780,12 +652,7 @@ export default function createClient(
           )
           .get(options);
       },
-      createOrUpdateMultiRolePool: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      createOrUpdateMultiRolePool: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default",
@@ -795,12 +662,7 @@ export default function createClient(
           )
           .put(options);
       },
-      updateMultiRolePool: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      updateMultiRolePool: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default",
@@ -827,12 +689,7 @@ export default function createClient(
           )
           .get(options);
       },
-      listMultiRoleMetricDefinitions: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listMultiRoleMetricDefinitions: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default/metricdefinitions",
@@ -842,12 +699,7 @@ export default function createClient(
           )
           .get(options);
       },
-      listMultiRolePoolSkus: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listMultiRolePoolSkus: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default/skus",
@@ -857,12 +709,7 @@ export default function createClient(
           )
           .get(options);
       },
-      listMultiRoleUsages: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listMultiRoleUsages: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default/usages",
@@ -897,12 +744,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getPrivateEndpointConnectionList: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      getPrivateEndpointConnectionList: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/privateEndpointConnections",
@@ -963,12 +805,7 @@ export default function createClient(
           )
           .delete(options);
       },
-      getPrivateLinkResources: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      getPrivateLinkResources: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/privateLinkResources",
@@ -998,12 +835,7 @@ export default function createClient(
           )
           .post(options);
       },
-      listAppServicePlans: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listAppServicePlans: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/serverfarms",
@@ -1053,13 +885,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getWorkerPool: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        workerPoolName,
-        options
-      ) => {
+      getWorkerPool: (subscriptionId, resourceGroupName, name, workerPoolName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools/{workerPoolName}",
@@ -1087,13 +913,7 @@ export default function createClient(
           )
           .put(options);
       },
-      updateWorkerPool: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        workerPoolName,
-        options
-      ) => {
+      updateWorkerPool: (subscriptionId, resourceGroupName, name, workerPoolName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools/{workerPoolName}",
@@ -1140,13 +960,7 @@ export default function createClient(
           )
           .get(options);
       },
-      listWorkerPoolSkus: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        workerPoolName,
-        options
-      ) => {
+      listWorkerPoolSkus: (subscriptionId, resourceGroupName, name, workerPoolName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools/{workerPoolName}/skus",
@@ -1157,13 +971,7 @@ export default function createClient(
           )
           .get(options);
       },
-      listWebWorkerUsages: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        workerPoolName,
-        options
-      ) => {
+      listWebWorkerUsages: (subscriptionId, resourceGroupName, name, workerPoolName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools/{workerPoolName}/usages",
@@ -1173,7 +981,7 @@ export default function createClient(
             workerPoolName
           )
           .get(options);
-      }
+      },
     },
     appServicePlans: {
       list: (subscriptionId, options) => {
@@ -1319,12 +1127,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getHybridConnectionPlanLimit: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      getHybridConnectionPlanLimit: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/hybridConnectionPlanLimits/limit",
@@ -1334,12 +1137,7 @@ export default function createClient(
           )
           .get(options);
       },
-      listHybridConnections: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listHybridConnections: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/hybridConnectionRelays",
@@ -1399,13 +1197,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getVnetFromServerFarm: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        vnetName,
-        options
-      ) => {
+      getVnetFromServerFarm: (subscriptionId, resourceGroupName, name, vnetName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/virtualNetworkConnections/{vnetName}",
@@ -1416,14 +1208,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getVnetGateway: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        vnetName,
-        gatewayName,
-        options
-      ) => {
+      getVnetGateway: (subscriptionId, resourceGroupName, name, vnetName, gatewayName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/virtualNetworkConnections/{vnetName}/gateways/{gatewayName}",
@@ -1454,13 +1239,7 @@ export default function createClient(
           )
           .put(options);
       },
-      listRoutesForVnet: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        vnetName,
-        options
-      ) => {
+      listRoutesForVnet: (subscriptionId, resourceGroupName, name, vnetName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/virtualNetworkConnections/{vnetName}/routes",
@@ -1471,14 +1250,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getRouteForVnet: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        vnetName,
-        routeName,
-        options
-      ) => {
+      getRouteForVnet: (subscriptionId, resourceGroupName, name, vnetName, routeName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/virtualNetworkConnections/{vnetName}/routes/{routeName}",
@@ -1509,14 +1281,7 @@ export default function createClient(
           )
           .put(options);
       },
-      deleteVnetRoute: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        vnetName,
-        routeName,
-        options
-      ) => {
+      deleteVnetRoute: (subscriptionId, resourceGroupName, name, vnetName, routeName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/virtualNetworkConnections/{vnetName}/routes/{routeName}",
@@ -1528,14 +1293,7 @@ export default function createClient(
           )
           .delete(options);
       },
-      updateVnetRoute: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        vnetName,
-        routeName,
-        options
-      ) => {
+      updateVnetRoute: (subscriptionId, resourceGroupName, name, vnetName, routeName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/virtualNetworkConnections/{vnetName}/routes/{routeName}",
@@ -1547,13 +1305,7 @@ export default function createClient(
           )
           .patch(options);
       },
-      rebootWorker: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        workerName,
-        options
-      ) => {
+      rebootWorker: (subscriptionId, resourceGroupName, name, workerName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/workers/{workerName}/reboot",
@@ -1563,7 +1315,7 @@ export default function createClient(
             workerName
           )
           .post(options);
-      }
+      },
     },
     certificates: {
       list: (subscriptionId, options) => {
@@ -1622,7 +1374,7 @@ export default function createClient(
             name
           )
           .patch(options);
-      }
+      },
     },
     containerApps: {
       listBySubscription: (subscriptionId, options) => {
@@ -1680,15 +1432,10 @@ export default function createClient(
             name
           )
           .post(options);
-      }
+      },
     },
     containerAppsRevisions: {
-      listRevisions: (
-        subscriptionId,
-        resourceGroupName,
-        containerAppName,
-        options
-      ) => {
+      listRevisions: (subscriptionId, resourceGroupName, containerAppName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/containerApps/{containerAppName}/revisions",
@@ -1698,13 +1445,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getRevision: (
-        subscriptionId,
-        resourceGroupName,
-        containerAppName,
-        name,
-        options
-      ) => {
+      getRevision: (subscriptionId, resourceGroupName, containerAppName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/containerApps/{containerAppName}/revisions/{name}",
@@ -1715,13 +1456,7 @@ export default function createClient(
           )
           .get(options);
       },
-      activateRevision: (
-        subscriptionId,
-        resourceGroupName,
-        containerAppName,
-        name,
-        options
-      ) => {
+      activateRevision: (subscriptionId, resourceGroupName, containerAppName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/containerApps/{containerAppName}/revisions/{name}/activate",
@@ -1732,13 +1467,7 @@ export default function createClient(
           )
           .post(options);
       },
-      deactivateRevision: (
-        subscriptionId,
-        resourceGroupName,
-        containerAppName,
-        name,
-        options
-      ) => {
+      deactivateRevision: (subscriptionId, resourceGroupName, containerAppName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/containerApps/{containerAppName}/revisions/{name}/deactivate",
@@ -1749,13 +1478,7 @@ export default function createClient(
           )
           .post(options);
       },
-      restartRevision: (
-        subscriptionId,
-        resourceGroupName,
-        containerAppName,
-        name,
-        options
-      ) => {
+      restartRevision: (subscriptionId, resourceGroupName, containerAppName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/containerApps/{containerAppName}/revisions/{name}/restart",
@@ -1765,7 +1488,7 @@ export default function createClient(
             name
           )
           .post(options);
-      }
+      },
     },
     deletedWebApps: {
       list: (subscriptionId, options) => {
@@ -1785,12 +1508,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getDeletedWebAppByLocation: (
-        subscriptionId,
-        location,
-        deletedSiteId,
-        options
-      ) => {
+      getDeletedWebAppByLocation: (subscriptionId, location, deletedSiteId, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/providers/Microsoft.Web/locations/{location}/deletedSites/{deletedSiteId}",
@@ -1799,7 +1517,7 @@ export default function createClient(
             deletedSiteId
           )
           .get(options);
-      }
+      },
     },
     diagnostics: {
       listHostingEnvironmentDetectorResponses: (
@@ -1834,12 +1552,7 @@ export default function createClient(
           )
           .get(options);
       },
-      listSiteDetectorResponses: (
-        subscriptionId,
-        resourceGroupName,
-        siteName,
-        options
-      ) => {
+      listSiteDetectorResponses: (subscriptionId, resourceGroupName, siteName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/detectors",
@@ -1866,12 +1579,7 @@ export default function createClient(
           )
           .get(options);
       },
-      listSiteDiagnosticCategories: (
-        subscriptionId,
-        resourceGroupName,
-        siteName,
-        options
-      ) => {
+      listSiteDiagnosticCategories: (subscriptionId, resourceGroupName, siteName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/diagnostics",
@@ -2201,7 +1909,7 @@ export default function createClient(
             detectorName
           )
           .post(options);
-      }
+      },
     },
     global: {
       getDeletedWebApp: (subscriptionId, deletedSiteId, options) => {
@@ -2236,7 +1944,7 @@ export default function createClient(
             operationId
           )
           .get(options);
-      }
+      },
     },
     kubeEnvironments: {
       listBySubscription: (subscriptionId, options) => {
@@ -2295,42 +2003,30 @@ export default function createClient(
             name
           )
           .patch(options);
-      }
+      },
     },
     provider: {
       getAvailableStacks: (options) => {
-        return client
-          .path("/providers/Microsoft.Web/availableStacks")
-          .get(options);
+        return client.path("/providers/Microsoft.Web/availableStacks").get(options);
       },
       getFunctionAppStacks: (options) => {
-        return client
-          .path("/providers/Microsoft.Web/functionAppStacks")
-          .get(options);
+        return client.path("/providers/Microsoft.Web/functionAppStacks").get(options);
       },
       getFunctionAppStacksForLocation: (location, options) => {
         return client
-          .path(
-            "/providers/Microsoft.Web/locations/{location}/functionAppStacks",
-            location
-          )
+          .path("/providers/Microsoft.Web/locations/{location}/functionAppStacks", location)
           .get(options);
       },
       getWebAppStacksForLocation: (location, options) => {
         return client
-          .path(
-            "/providers/Microsoft.Web/locations/{location}/webAppStacks",
-            location
-          )
+          .path("/providers/Microsoft.Web/locations/{location}/webAppStacks", location)
           .get(options);
       },
       listOperations: (options) => {
         return client.path("/providers/Microsoft.Web/operations").get(options);
       },
       getWebAppStacks: (options) => {
-        return client
-          .path("/providers/Microsoft.Web/webAppStacks")
-          .get(options);
+        return client.path("/providers/Microsoft.Web/webAppStacks").get(options);
       },
       getAvailableStacksOnPrem: (subscriptionId, options) => {
         return client
@@ -2339,7 +2035,7 @@ export default function createClient(
             subscriptionId
           )
           .get(options);
-      }
+      },
     },
     recommendations: {
       list: (subscriptionId, options) => {
@@ -2461,12 +2157,7 @@ export default function createClient(
           )
           .post(options);
       },
-      listHistoryForWebApp: (
-        subscriptionId,
-        resourceGroupName,
-        siteName,
-        options
-      ) => {
+      listHistoryForWebApp: (subscriptionId, resourceGroupName, siteName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendationHistory",
@@ -2476,12 +2167,7 @@ export default function createClient(
           )
           .get(options);
       },
-      listRecommendedRulesForWebApp: (
-        subscriptionId,
-        resourceGroupName,
-        siteName,
-        options
-      ) => {
+      listRecommendedRulesForWebApp: (subscriptionId, resourceGroupName, siteName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendations",
@@ -2491,12 +2177,7 @@ export default function createClient(
           )
           .get(options);
       },
-      disableAllForWebApp: (
-        subscriptionId,
-        resourceGroupName,
-        siteName,
-        options
-      ) => {
+      disableAllForWebApp: (subscriptionId, resourceGroupName, siteName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendations/disable",
@@ -2506,12 +2187,7 @@ export default function createClient(
           )
           .post(options);
       },
-      resetAllFiltersForWebApp: (
-        subscriptionId,
-        resourceGroupName,
-        siteName,
-        options
-      ) => {
+      resetAllFiltersForWebApp: (subscriptionId, resourceGroupName, siteName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendations/reset",
@@ -2521,13 +2197,7 @@ export default function createClient(
           )
           .post(options);
       },
-      getRuleDetailsByWebApp: (
-        subscriptionId,
-        resourceGroupName,
-        siteName,
-        name,
-        options
-      ) => {
+      getRuleDetailsByWebApp: (subscriptionId, resourceGroupName, siteName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/recommendations/{name}",
@@ -2554,7 +2224,7 @@ export default function createClient(
             name
           )
           .post(options);
-      }
+      },
     },
     resourceHealthMetadata: {
       list: (subscriptionId, options) => {
@@ -2594,13 +2264,7 @@ export default function createClient(
           )
           .get(options);
       },
-      listBySiteSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listBySiteSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/resourceHealthMetadata",
@@ -2611,13 +2275,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getBySiteSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      getBySiteSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/resourceHealthMetadata/default",
@@ -2627,38 +2285,26 @@ export default function createClient(
             slot
           )
           .get(options);
-      }
+      },
     },
     ...{
       getPublishingUser: (options) => {
-        return client
-          .path("/providers/Microsoft.Web/publishingUsers/web")
-          .get(options);
+        return client.path("/providers/Microsoft.Web/publishingUsers/web").get(options);
       },
       updatePublishingUser: (options) => {
-        return client
-          .path("/providers/Microsoft.Web/publishingUsers/web")
-          .put(options);
+        return client.path("/providers/Microsoft.Web/publishingUsers/web").put(options);
       },
       listSourceControls: (options) => {
-        return client
-          .path("/providers/Microsoft.Web/sourcecontrols")
-          .get(options);
+        return client.path("/providers/Microsoft.Web/sourcecontrols").get(options);
       },
       getSourceControl: (sourceControlType, options) => {
         return client
-          .path(
-            "/providers/Microsoft.Web/sourcecontrols/{sourceControlType}",
-            sourceControlType
-          )
+          .path("/providers/Microsoft.Web/sourcecontrols/{sourceControlType}", sourceControlType)
           .get(options);
       },
       updateSourceControl: (sourceControlType, options) => {
         return client
-          .path(
-            "/providers/Microsoft.Web/sourcecontrols/{sourceControlType}",
-            sourceControlType
-          )
+          .path("/providers/Microsoft.Web/sourcecontrols/{sourceControlType}", sourceControlType)
           .put(options);
       },
       listBillingMeters: (subscriptionId, options) => {
@@ -2719,10 +2365,7 @@ export default function createClient(
       },
       listSkus: (subscriptionId, options) => {
         return client
-          .path(
-            "/subscriptions/{subscriptionId}/providers/Microsoft.Web/skus",
-            subscriptionId
-          )
+          .path("/subscriptions/{subscriptionId}/providers/Microsoft.Web/skus", subscriptionId)
           .get(options);
       },
       verifyHostingEnvironmentVnet: (subscriptionId, options) => {
@@ -2759,7 +2402,7 @@ export default function createClient(
             resourceGroupName
           )
           .post(options);
-      }
+      },
     },
     staticSites: {
       previewWorkflow: (subscriptionId, location, options) => {
@@ -2779,11 +2422,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getStaticSitesByResourceGroup: (
-        subscriptionId,
-        resourceGroupName,
-        options
-      ) => {
+      getStaticSitesByResourceGroup: (subscriptionId, resourceGroupName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites",
@@ -2802,12 +2441,7 @@ export default function createClient(
           )
           .get(options);
       },
-      createOrUpdateStaticSite: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      createOrUpdateStaticSite: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}",
@@ -2837,13 +2471,7 @@ export default function createClient(
           )
           .patch(options);
       },
-      listStaticSiteUsers: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        authprovider,
-        options
-      ) => {
+      listStaticSiteUsers: (subscriptionId, resourceGroupName, name, authprovider, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/authproviders/{authprovider}/listUsers",
@@ -2892,12 +2520,7 @@ export default function createClient(
           )
           .patch(options);
       },
-      getStaticSiteBuilds: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      getStaticSiteBuilds: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds",
@@ -2907,13 +2530,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getStaticSiteBuild: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        environmentName,
-        options
-      ) => {
+      getStaticSiteBuild: (subscriptionId, resourceGroupName, name, environmentName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}",
@@ -3117,12 +2734,7 @@ export default function createClient(
           )
           .post(options);
       },
-      createOrUpdateStaticSiteAppSettings: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      createOrUpdateStaticSiteAppSettings: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/config/appsettings",
@@ -3147,12 +2759,7 @@ export default function createClient(
           )
           .put(options);
       },
-      createUserRolesInvitationLink: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      createUserRolesInvitationLink: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/createUserInvitation",
@@ -3162,12 +2769,7 @@ export default function createClient(
           )
           .post(options);
       },
-      listStaticSiteCustomDomains: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listStaticSiteCustomDomains: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains",
@@ -3177,13 +2779,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getStaticSiteCustomDomain: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        domainName,
-        options
-      ) => {
+      getStaticSiteCustomDomain: (subscriptionId, resourceGroupName, name, domainName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains/{domainName}",
@@ -3255,12 +2851,7 @@ export default function createClient(
           )
           .post(options);
       },
-      listStaticSiteFunctions: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listStaticSiteFunctions: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/functions",
@@ -3270,12 +2861,7 @@ export default function createClient(
           )
           .get(options);
       },
-      listStaticSiteAppSettings: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listStaticSiteAppSettings: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/listAppSettings",
@@ -3285,12 +2871,7 @@ export default function createClient(
           )
           .post(options);
       },
-      listStaticSiteConfiguredRoles: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listStaticSiteConfiguredRoles: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/listConfiguredRoles",
@@ -3300,12 +2881,7 @@ export default function createClient(
           )
           .post(options);
       },
-      listStaticSiteFunctionAppSettings: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listStaticSiteFunctionAppSettings: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/listFunctionAppSettings",
@@ -3315,12 +2891,7 @@ export default function createClient(
           )
           .post(options);
       },
-      listStaticSiteSecrets: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listStaticSiteSecrets: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/listSecrets",
@@ -3330,12 +2901,7 @@ export default function createClient(
           )
           .post(options);
       },
-      getPrivateEndpointConnectionList: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      getPrivateEndpointConnectionList: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateEndpointConnections",
@@ -3396,12 +2962,7 @@ export default function createClient(
           )
           .delete(options);
       },
-      getPrivateLinkResources: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      getPrivateLinkResources: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/privateLinkResources",
@@ -3411,12 +2972,7 @@ export default function createClient(
           )
           .get(options);
       },
-      resetStaticSiteApiKey: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      resetStaticSiteApiKey: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/resetapikey",
@@ -3492,12 +3048,7 @@ export default function createClient(
           )
           .delete(options);
       },
-      createZipDeploymentForStaticSite: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      createZipDeploymentForStaticSite: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/zipdeploy",
@@ -3506,15 +3057,12 @@ export default function createClient(
             name
           )
           .post(options);
-      }
+      },
     },
     webApps: {
       list: (subscriptionId, options) => {
         return client
-          .path(
-            "/subscriptions/{subscriptionId}/providers/Microsoft.Web/sites",
-            subscriptionId
-          )
+          .path("/subscriptions/{subscriptionId}/providers/Microsoft.Web/sites", subscriptionId)
           .get(options);
       },
       listByResourceGroup: (subscriptionId, resourceGroupName, options) => {
@@ -3566,12 +3114,7 @@ export default function createClient(
           )
           .patch(options);
       },
-      analyzeCustomHostname: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      analyzeCustomHostname: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/analyzeCustomHostname",
@@ -3581,12 +3124,7 @@ export default function createClient(
           )
           .get(options);
       },
-      applySlotConfigToProduction: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      applySlotConfigToProduction: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/applySlotConfig",
@@ -3616,13 +3154,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getBackupStatus: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        backupId,
-        options
-      ) => {
+      getBackupStatus: (subscriptionId, resourceGroupName, name, backupId, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/backups/{backupId}",
@@ -3633,13 +3165,7 @@ export default function createClient(
           )
           .get(options);
       },
-      deleteBackup: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        backupId,
-        options
-      ) => {
+      deleteBackup: (subscriptionId, resourceGroupName, name, backupId, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/backups/{backupId}",
@@ -3650,13 +3176,7 @@ export default function createClient(
           )
           .delete(options);
       },
-      listBackupStatusSecrets: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        backupId,
-        options
-      ) => {
+      listBackupStatusSecrets: (subscriptionId, resourceGroupName, name, backupId, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/backups/{backupId}/list",
@@ -3733,12 +3253,7 @@ export default function createClient(
           )
           .put(options);
       },
-      listConfigurations: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listConfigurations: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config",
@@ -3748,12 +3263,7 @@ export default function createClient(
           )
           .get(options);
       },
-      updateApplicationSettings: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      updateApplicationSettings: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/appsettings",
@@ -3763,12 +3273,7 @@ export default function createClient(
           )
           .put(options);
       },
-      listApplicationSettings: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listApplicationSettings: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/appsettings/list",
@@ -3778,12 +3283,7 @@ export default function createClient(
           )
           .post(options);
       },
-      updateAuthSettings: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      updateAuthSettings: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/authsettings",
@@ -3803,12 +3303,7 @@ export default function createClient(
           )
           .post(options);
       },
-      getAuthSettingsV2WithoutSecrets: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      getAuthSettingsV2WithoutSecrets: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/authsettingsV2",
@@ -3818,12 +3313,7 @@ export default function createClient(
           )
           .get(options);
       },
-      updateAuthSettingsV2: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      updateAuthSettingsV2: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/authsettingsV2",
@@ -3843,12 +3333,7 @@ export default function createClient(
           )
           .get(options);
       },
-      updateAzureStorageAccounts: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      updateAzureStorageAccounts: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/azurestorageaccounts",
@@ -3858,12 +3343,7 @@ export default function createClient(
           )
           .put(options);
       },
-      listAzureStorageAccounts: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listAzureStorageAccounts: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/azurestorageaccounts/list",
@@ -3873,12 +3353,7 @@ export default function createClient(
           )
           .post(options);
       },
-      updateBackupConfiguration: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      updateBackupConfiguration: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/backup",
@@ -3888,12 +3363,7 @@ export default function createClient(
           )
           .put(options);
       },
-      deleteBackupConfiguration: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      deleteBackupConfiguration: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/backup",
@@ -3903,12 +3373,7 @@ export default function createClient(
           )
           .delete(options);
       },
-      getBackupConfiguration: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      getBackupConfiguration: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/backup/list",
@@ -3918,12 +3383,7 @@ export default function createClient(
           )
           .post(options);
       },
-      getAppSettingsKeyVaultReferences: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      getAppSettingsKeyVaultReferences: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/configreferences/appsettings",
@@ -3982,12 +3442,7 @@ export default function createClient(
           )
           .get(options);
       },
-      updateConnectionStrings: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      updateConnectionStrings: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/connectionstrings",
@@ -3997,12 +3452,7 @@ export default function createClient(
           )
           .put(options);
       },
-      listConnectionStrings: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listConnectionStrings: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/connectionstrings/list",
@@ -4012,12 +3462,7 @@ export default function createClient(
           )
           .post(options);
       },
-      getDiagnosticLogsConfiguration: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      getDiagnosticLogsConfiguration: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/logs",
@@ -4027,12 +3472,7 @@ export default function createClient(
           )
           .get(options);
       },
-      updateDiagnosticLogsConfig: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      updateDiagnosticLogsConfig: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/logs",
@@ -4062,12 +3502,7 @@ export default function createClient(
           )
           .post(options);
       },
-      listPublishingCredentials: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listPublishingCredentials: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/publishingcredentials/list",
@@ -4077,12 +3512,7 @@ export default function createClient(
           )
           .post(options);
       },
-      updateSitePushSettings: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      updateSitePushSettings: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/pushsettings",
@@ -4092,12 +3522,7 @@ export default function createClient(
           )
           .put(options);
       },
-      listSitePushSettings: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listSitePushSettings: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/pushsettings/list",
@@ -4107,12 +3532,7 @@ export default function createClient(
           )
           .post(options);
       },
-      listSlotConfigurationNames: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listSlotConfigurationNames: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/slotConfigNames",
@@ -4122,12 +3542,7 @@ export default function createClient(
           )
           .get(options);
       },
-      updateSlotConfigurationNames: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      updateSlotConfigurationNames: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/slotConfigNames",
@@ -4147,12 +3562,7 @@ export default function createClient(
           )
           .get(options);
       },
-      createOrUpdateConfiguration: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      createOrUpdateConfiguration: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/web",
@@ -4162,12 +3572,7 @@ export default function createClient(
           )
           .put(options);
       },
-      updateConfiguration: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      updateConfiguration: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/web",
@@ -4177,12 +3582,7 @@ export default function createClient(
           )
           .patch(options);
       },
-      listConfigurationSnapshotInfo: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listConfigurationSnapshotInfo: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/web/snapshots",
@@ -4192,13 +3592,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getConfigurationSnapshot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        snapshotId,
-        options
-      ) => {
+      getConfigurationSnapshot: (subscriptionId, resourceGroupName, name, snapshotId, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/config/web/snapshots/{snapshotId}",
@@ -4226,12 +3620,7 @@ export default function createClient(
           )
           .post(options);
       },
-      getWebSiteContainerLogs: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      getWebSiteContainerLogs: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/containerlogs",
@@ -4241,12 +3630,7 @@ export default function createClient(
           )
           .post(options);
       },
-      getContainerLogsZip: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      getContainerLogsZip: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/containerlogs/zip/download",
@@ -4256,12 +3640,7 @@ export default function createClient(
           )
           .post(options);
       },
-      listContinuousWebJobs: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listContinuousWebJobs: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/continuouswebjobs",
@@ -4271,13 +3650,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getContinuousWebJob: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        webJobName,
-        options
-      ) => {
+      getContinuousWebJob: (subscriptionId, resourceGroupName, name, webJobName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/continuouswebjobs/{webJobName}",
@@ -4288,13 +3661,7 @@ export default function createClient(
           )
           .get(options);
       },
-      deleteContinuousWebJob: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        webJobName,
-        options
-      ) => {
+      deleteContinuousWebJob: (subscriptionId, resourceGroupName, name, webJobName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/continuouswebjobs/{webJobName}",
@@ -4305,13 +3672,7 @@ export default function createClient(
           )
           .delete(options);
       },
-      startContinuousWebJob: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        webJobName,
-        options
-      ) => {
+      startContinuousWebJob: (subscriptionId, resourceGroupName, name, webJobName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/continuouswebjobs/{webJobName}/start",
@@ -4322,13 +3683,7 @@ export default function createClient(
           )
           .post(options);
       },
-      stopContinuousWebJob: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        webJobName,
-        options
-      ) => {
+      stopContinuousWebJob: (subscriptionId, resourceGroupName, name, webJobName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/continuouswebjobs/{webJobName}/stop",
@@ -4360,13 +3715,7 @@ export default function createClient(
           )
           .get(options);
       },
-      createDeployment: (
-        subscriptionId,
-        resourceGroupName,
-        id,
-        name,
-        options
-      ) => {
+      createDeployment: (subscriptionId, resourceGroupName, id, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/deployments/{id}",
@@ -4377,13 +3726,7 @@ export default function createClient(
           )
           .put(options);
       },
-      deleteDeployment: (
-        subscriptionId,
-        resourceGroupName,
-        id,
-        name,
-        options
-      ) => {
+      deleteDeployment: (subscriptionId, resourceGroupName, id, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/deployments/{id}",
@@ -4394,13 +3737,7 @@ export default function createClient(
           )
           .delete(options);
       },
-      listDeploymentLog: (
-        subscriptionId,
-        resourceGroupName,
-        id,
-        name,
-        options
-      ) => {
+      listDeploymentLog: (subscriptionId, resourceGroupName, id, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/deployments/{id}/log",
@@ -4421,12 +3758,7 @@ export default function createClient(
           )
           .post(options);
       },
-      listDomainOwnershipIdentifiers: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listDomainOwnershipIdentifiers: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/domainOwnershipIdentifiers",
@@ -4514,12 +3846,7 @@ export default function createClient(
           )
           .get(options);
       },
-      createMSDeployOperation: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      createMSDeployOperation: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/extensions/MSDeploy",
@@ -4539,12 +3866,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getOneDeployStatus: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      getOneDeployStatus: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/extensions/onedeploy",
@@ -4554,12 +3876,7 @@ export default function createClient(
           )
           .get(options);
       },
-      createOneDeployOperation: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      createOneDeployOperation: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/extensions/onedeploy",
@@ -4579,12 +3896,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getFunctionsAdminToken: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      getFunctionsAdminToken: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/functions/admin/token",
@@ -4594,13 +3906,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getFunction: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        functionName,
-        options
-      ) => {
+      getFunction: (subscriptionId, resourceGroupName, name, functionName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/functions/{functionName}",
@@ -4611,13 +3917,7 @@ export default function createClient(
           )
           .get(options);
       },
-      createFunction: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        functionName,
-        options
-      ) => {
+      createFunction: (subscriptionId, resourceGroupName, name, functionName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/functions/{functionName}",
@@ -4628,13 +3928,7 @@ export default function createClient(
           )
           .put(options);
       },
-      deleteFunction: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        functionName,
-        options
-      ) => {
+      deleteFunction: (subscriptionId, resourceGroupName, name, functionName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/functions/{functionName}",
@@ -4683,13 +3977,7 @@ export default function createClient(
           )
           .delete(options);
       },
-      listFunctionKeys: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        functionName,
-        options
-      ) => {
+      listFunctionKeys: (subscriptionId, resourceGroupName, name, functionName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/functions/{functionName}/listkeys",
@@ -4700,13 +3988,7 @@ export default function createClient(
           )
           .post(options);
       },
-      listFunctionSecrets: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        functionName,
-        options
-      ) => {
+      listFunctionSecrets: (subscriptionId, resourceGroupName, name, functionName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/functions/{functionName}/listsecrets",
@@ -4766,14 +4048,7 @@ export default function createClient(
           )
           .put(options);
       },
-      deleteHostSecret: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        keyType,
-        keyName,
-        options
-      ) => {
+      deleteHostSecret: (subscriptionId, resourceGroupName, name, keyType, keyName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/host/default/{keyType}/{keyName}",
@@ -4785,12 +4060,7 @@ export default function createClient(
           )
           .delete(options);
       },
-      listHostNameBindings: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listHostNameBindings: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/hostNameBindings",
@@ -4800,13 +4070,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getHostNameBinding: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        hostName,
-        options
-      ) => {
+      getHostNameBinding: (subscriptionId, resourceGroupName, name, hostName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/hostNameBindings/{hostName}",
@@ -4834,13 +4098,7 @@ export default function createClient(
           )
           .put(options);
       },
-      deleteHostNameBinding: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        hostName,
-        options
-      ) => {
+      deleteHostNameBinding: (subscriptionId, resourceGroupName, name, hostName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/hostNameBindings/{hostName}",
@@ -4927,12 +4185,7 @@ export default function createClient(
           )
           .patch(options);
       },
-      listHybridConnections: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listHybridConnections: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/hybridConnectionRelays",
@@ -4942,12 +4195,7 @@ export default function createClient(
           )
           .get(options);
       },
-      listRelayServiceConnections: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listRelayServiceConnections: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/hybridconnection",
@@ -4957,13 +4205,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getRelayServiceConnection: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        entityName,
-        options
-      ) => {
+      getRelayServiceConnection: (subscriptionId, resourceGroupName, name, entityName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/hybridconnection/{entityName}",
@@ -5025,12 +4267,7 @@ export default function createClient(
           )
           .patch(options);
       },
-      listInstanceIdentifiers: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listInstanceIdentifiers: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/instances",
@@ -5040,13 +4277,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getInstanceInfo: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        instanceId,
-        options
-      ) => {
+      getInstanceInfo: (subscriptionId, resourceGroupName, name, instanceId, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/instances/{instanceId}",
@@ -5057,13 +4288,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getInstanceMsDeployStatus: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        instanceId,
-        options
-      ) => {
+      getInstanceMsDeployStatus: (subscriptionId, resourceGroupName, name, instanceId, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/instances/{instanceId}/extensions/MSDeploy",
@@ -5091,13 +4316,7 @@ export default function createClient(
           )
           .put(options);
       },
-      getInstanceMSDeployLog: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        instanceId,
-        options
-      ) => {
+      getInstanceMSDeployLog: (subscriptionId, resourceGroupName, name, instanceId, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/instances/{instanceId}/extensions/MSDeploy/log",
@@ -5108,13 +4327,7 @@ export default function createClient(
           )
           .get(options);
       },
-      listInstanceProcesses: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        instanceId,
-        options
-      ) => {
+      listInstanceProcesses: (subscriptionId, resourceGroupName, name, instanceId, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/instances/{instanceId}/processes",
@@ -5261,12 +4474,7 @@ export default function createClient(
           )
           .post(options);
       },
-      listSyncFunctionTriggers: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listSyncFunctionTriggers: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/listsyncfunctiontriggerstatus",
@@ -5296,12 +4504,7 @@ export default function createClient(
           )
           .post(options);
       },
-      getMigrateMySqlStatus: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      getMigrateMySqlStatus: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/migratemysql/status",
@@ -5311,12 +4514,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getSwiftVirtualNetworkConnection: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      getSwiftVirtualNetworkConnection: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
@@ -5341,12 +4539,7 @@ export default function createClient(
           )
           .put(options);
       },
-      deleteSwiftVirtualNetwork: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      deleteSwiftVirtualNetwork: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkConfig/virtualNetwork",
@@ -5371,13 +4564,7 @@ export default function createClient(
           )
           .patch(options);
       },
-      listNetworkFeatures: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        view,
-        options
-      ) => {
+      listNetworkFeatures: (subscriptionId, resourceGroupName, name, view, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkFeatures/{view}",
@@ -5388,13 +4575,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getNetworkTraceOperation: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        operationId,
-        options
-      ) => {
+      getNetworkTraceOperation: (subscriptionId, resourceGroupName, name, operationId, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkTrace/operationresults/{operationId}",
@@ -5405,12 +4586,7 @@ export default function createClient(
           )
           .get(options);
       },
-      startWebSiteNetworkTrace: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      startWebSiteNetworkTrace: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkTrace/start",
@@ -5420,12 +4596,7 @@ export default function createClient(
           )
           .post(options);
       },
-      startWebSiteNetworkTraceOperation: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      startWebSiteNetworkTraceOperation: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkTrace/startOperation",
@@ -5435,12 +4606,7 @@ export default function createClient(
           )
           .post(options);
       },
-      stopWebSiteNetworkTrace: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      stopWebSiteNetworkTrace: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkTrace/stop",
@@ -5450,13 +4616,7 @@ export default function createClient(
           )
           .post(options);
       },
-      getNetworkTraces: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        operationId,
-        options
-      ) => {
+      getNetworkTraces: (subscriptionId, resourceGroupName, name, operationId, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkTrace/{operationId}",
@@ -5484,13 +4644,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getNetworkTracesV2: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        operationId,
-        options
-      ) => {
+      getNetworkTracesV2: (subscriptionId, resourceGroupName, name, operationId, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/networkTraces/{operationId}",
@@ -5501,12 +4655,7 @@ export default function createClient(
           )
           .get(options);
       },
-      generateNewSitePublishingPassword: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      generateNewSitePublishingPassword: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/newpassword",
@@ -5516,12 +4665,7 @@ export default function createClient(
           )
           .post(options);
       },
-      listPerfMonCounters: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listPerfMonCounters: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/perfcounters",
@@ -5531,12 +4675,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getSitePhpErrorLogFlag: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      getSitePhpErrorLogFlag: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/phplogging",
@@ -5556,13 +4695,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getPremierAddOn: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        premierAddOnName,
-        options
-      ) => {
+      getPremierAddOn: (subscriptionId, resourceGroupName, name, premierAddOnName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/premieraddons/{premierAddOnName}",
@@ -5573,13 +4706,7 @@ export default function createClient(
           )
           .get(options);
       },
-      addPremierAddOn: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        premierAddOnName,
-        options
-      ) => {
+      addPremierAddOn: (subscriptionId, resourceGroupName, name, premierAddOnName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/premieraddons/{premierAddOnName}",
@@ -5590,13 +4717,7 @@ export default function createClient(
           )
           .put(options);
       },
-      deletePremierAddOn: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        premierAddOnName,
-        options
-      ) => {
+      deletePremierAddOn: (subscriptionId, resourceGroupName, name, premierAddOnName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/premieraddons/{premierAddOnName}",
@@ -5607,13 +4728,7 @@ export default function createClient(
           )
           .delete(options);
       },
-      updatePremierAddOn: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        premierAddOnName,
-        options
-      ) => {
+      updatePremierAddOn: (subscriptionId, resourceGroupName, name, premierAddOnName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/premieraddons/{premierAddOnName}",
@@ -5634,12 +4749,7 @@ export default function createClient(
           )
           .get(options);
       },
-      putPrivateAccessVnet: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      putPrivateAccessVnet: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/privateAccess/virtualNetworks",
@@ -5649,12 +4759,7 @@ export default function createClient(
           )
           .put(options);
       },
-      getPrivateEndpointConnectionList: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      getPrivateEndpointConnectionList: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/privateEndpointConnections",
@@ -5715,12 +4820,7 @@ export default function createClient(
           )
           .delete(options);
       },
-      getPrivateLinkResources: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      getPrivateLinkResources: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/privateLinkResources",
@@ -5740,13 +4840,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getProcess: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        processId,
-        options
-      ) => {
+      getProcess: (subscriptionId, resourceGroupName, name, processId, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/processes/{processId}",
@@ -5757,13 +4851,7 @@ export default function createClient(
           )
           .get(options);
       },
-      deleteProcess: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        processId,
-        options
-      ) => {
+      deleteProcess: (subscriptionId, resourceGroupName, name, processId, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/processes/{processId}",
@@ -5774,13 +4862,7 @@ export default function createClient(
           )
           .delete(options);
       },
-      getProcessDump: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        processId,
-        options
-      ) => {
+      getProcessDump: (subscriptionId, resourceGroupName, name, processId, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/processes/{processId}/dump",
@@ -5791,13 +4873,7 @@ export default function createClient(
           )
           .get(options);
       },
-      listProcessModules: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        processId,
-        options
-      ) => {
+      listProcessModules: (subscriptionId, resourceGroupName, name, processId, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/processes/{processId}/modules",
@@ -5827,13 +4903,7 @@ export default function createClient(
           )
           .get(options);
       },
-      listProcessThreads: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        processId,
-        options
-      ) => {
+      listProcessThreads: (subscriptionId, resourceGroupName, name, processId, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/processes/{processId}/threads",
@@ -5844,12 +4914,7 @@ export default function createClient(
           )
           .get(options);
       },
-      listPublicCertificates: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listPublicCertificates: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/publicCertificates",
@@ -5910,12 +4975,7 @@ export default function createClient(
           )
           .delete(options);
       },
-      listPublishingProfileXmlWithSecrets: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listPublishingProfileXmlWithSecrets: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/publishxml",
@@ -5925,12 +4985,7 @@ export default function createClient(
           )
           .post(options);
       },
-      resetProductionSlotConfig: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      resetProductionSlotConfig: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/resetSlotConfig",
@@ -5950,12 +5005,7 @@ export default function createClient(
           )
           .post(options);
       },
-      restoreFromBackupBlob: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      restoreFromBackupBlob: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/restoreFromBackupBlob",
@@ -5965,12 +5015,7 @@ export default function createClient(
           )
           .post(options);
       },
-      restoreFromDeletedApp: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      restoreFromDeletedApp: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/restoreFromDeletedApp",
@@ -5990,12 +5035,7 @@ export default function createClient(
           )
           .post(options);
       },
-      listSiteExtensions: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listSiteExtensions: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/siteextensions",
@@ -6005,13 +5045,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getSiteExtension: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        siteExtensionId,
-        options
-      ) => {
+      getSiteExtension: (subscriptionId, resourceGroupName, name, siteExtensionId, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/siteextensions/{siteExtensionId}",
@@ -6022,13 +5056,7 @@ export default function createClient(
           )
           .get(options);
       },
-      installSiteExtension: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        siteExtensionId,
-        options
-      ) => {
+      installSiteExtension: (subscriptionId, resourceGroupName, name, siteExtensionId, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/siteextensions/{siteExtensionId}",
@@ -6039,13 +5067,7 @@ export default function createClient(
           )
           .put(options);
       },
-      deleteSiteExtension: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        siteExtensionId,
-        options
-      ) => {
+      deleteSiteExtension: (subscriptionId, resourceGroupName, name, siteExtensionId, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/siteextensions/{siteExtensionId}",
@@ -6077,13 +5099,7 @@ export default function createClient(
           )
           .get(options);
       },
-      createOrUpdateSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      createOrUpdateSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}",
@@ -6116,13 +5132,7 @@ export default function createClient(
           )
           .patch(options);
       },
-      analyzeCustomHostnameSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      analyzeCustomHostnameSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/analyzeCustomHostname",
@@ -6133,13 +5143,7 @@ export default function createClient(
           )
           .get(options);
       },
-      applySlotConfigurationSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      applySlotConfigurationSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/applySlotConfig",
@@ -6161,13 +5165,7 @@ export default function createClient(
           )
           .post(options);
       },
-      listBackupsSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listBackupsSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/backups",
@@ -6178,14 +5176,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getBackupStatusSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        backupId,
-        options
-      ) => {
+      getBackupStatusSlot: (subscriptionId, resourceGroupName, name, slot, backupId, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/backups/{backupId}",
@@ -6197,14 +5188,7 @@ export default function createClient(
           )
           .get(options);
       },
-      deleteBackupSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        backupId,
-        options
-      ) => {
+      deleteBackupSlot: (subscriptionId, resourceGroupName, name, slot, backupId, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/backups/{backupId}",
@@ -6235,14 +5219,7 @@ export default function createClient(
           )
           .post(options);
       },
-      restoreSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        backupId,
-        options
-      ) => {
+      restoreSlot: (subscriptionId, resourceGroupName, name, slot, backupId, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/backups/{backupId}/restore",
@@ -6271,13 +5248,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getFtpAllowedSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      getFtpAllowedSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/basicPublishingCredentialsPolicies/ftp",
@@ -6288,13 +5259,7 @@ export default function createClient(
           )
           .get(options);
       },
-      updateFtpAllowedSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      updateFtpAllowedSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/basicPublishingCredentialsPolicies/ftp",
@@ -6305,13 +5270,7 @@ export default function createClient(
           )
           .put(options);
       },
-      getScmAllowedSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      getScmAllowedSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/basicPublishingCredentialsPolicies/scm",
@@ -6322,13 +5281,7 @@ export default function createClient(
           )
           .get(options);
       },
-      updateScmAllowedSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      updateScmAllowedSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/basicPublishingCredentialsPolicies/scm",
@@ -6339,13 +5292,7 @@ export default function createClient(
           )
           .put(options);
       },
-      listConfigurationsSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listConfigurationsSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config",
@@ -6356,13 +5303,7 @@ export default function createClient(
           )
           .get(options);
       },
-      updateApplicationSettingsSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      updateApplicationSettingsSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/appsettings",
@@ -6373,13 +5314,7 @@ export default function createClient(
           )
           .put(options);
       },
-      listApplicationSettingsSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listApplicationSettingsSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/appsettings/list",
@@ -6390,13 +5325,7 @@ export default function createClient(
           )
           .post(options);
       },
-      updateAuthSettingsSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      updateAuthSettingsSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/authsettings",
@@ -6407,13 +5336,7 @@ export default function createClient(
           )
           .put(options);
       },
-      getAuthSettingsSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      getAuthSettingsSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/authsettings/list",
@@ -6441,13 +5364,7 @@ export default function createClient(
           )
           .get(options);
       },
-      updateAuthSettingsV2Slot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      updateAuthSettingsV2Slot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/authsettingsV2",
@@ -6458,13 +5375,7 @@ export default function createClient(
           )
           .put(options);
       },
-      getAuthSettingsV2Slot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      getAuthSettingsV2Slot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/authsettingsV2/list",
@@ -6475,13 +5386,7 @@ export default function createClient(
           )
           .get(options);
       },
-      updateAzureStorageAccountsSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      updateAzureStorageAccountsSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/azurestorageaccounts",
@@ -6492,13 +5397,7 @@ export default function createClient(
           )
           .put(options);
       },
-      listAzureStorageAccountsSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listAzureStorageAccountsSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/azurestorageaccounts/list",
@@ -6509,13 +5408,7 @@ export default function createClient(
           )
           .post(options);
       },
-      updateBackupConfigurationSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      updateBackupConfigurationSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/backup",
@@ -6526,13 +5419,7 @@ export default function createClient(
           )
           .put(options);
       },
-      deleteBackupConfigurationSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      deleteBackupConfigurationSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/backup",
@@ -6543,13 +5430,7 @@ export default function createClient(
           )
           .delete(options);
       },
-      getBackupConfigurationSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      getBackupConfigurationSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/backup/list",
@@ -6632,13 +5513,7 @@ export default function createClient(
           )
           .get(options);
       },
-      updateConnectionStringsSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      updateConnectionStringsSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/connectionstrings",
@@ -6649,13 +5524,7 @@ export default function createClient(
           )
           .put(options);
       },
-      listConnectionStringsSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listConnectionStringsSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/connectionstrings/list",
@@ -6683,13 +5552,7 @@ export default function createClient(
           )
           .get(options);
       },
-      updateDiagnosticLogsConfigSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      updateDiagnosticLogsConfigSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/logs",
@@ -6700,13 +5563,7 @@ export default function createClient(
           )
           .put(options);
       },
-      updateMetadataSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      updateMetadataSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/metadata",
@@ -6717,13 +5574,7 @@ export default function createClient(
           )
           .put(options);
       },
-      listMetadataSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listMetadataSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/metadata/list",
@@ -6734,13 +5585,7 @@ export default function createClient(
           )
           .post(options);
       },
-      listPublishingCredentialsSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listPublishingCredentialsSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/publishingcredentials/list",
@@ -6751,13 +5596,7 @@ export default function createClient(
           )
           .post(options);
       },
-      updateSitePushSettingsSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      updateSitePushSettingsSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/pushsettings",
@@ -6768,13 +5607,7 @@ export default function createClient(
           )
           .put(options);
       },
-      listSitePushSettingsSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listSitePushSettingsSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/pushsettings/list",
@@ -6785,13 +5618,7 @@ export default function createClient(
           )
           .post(options);
       },
-      getConfigurationSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      getConfigurationSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/web",
@@ -6802,13 +5629,7 @@ export default function createClient(
           )
           .get(options);
       },
-      createOrUpdateConfigurationSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      createOrUpdateConfigurationSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/web",
@@ -6819,13 +5640,7 @@ export default function createClient(
           )
           .put(options);
       },
-      updateConfigurationSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      updateConfigurationSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/config/web",
@@ -6891,13 +5706,7 @@ export default function createClient(
           )
           .post(options);
       },
-      getWebSiteContainerLogsSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      getWebSiteContainerLogsSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/containerlogs",
@@ -6908,13 +5717,7 @@ export default function createClient(
           )
           .post(options);
       },
-      getContainerLogsZipSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      getContainerLogsZipSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/containerlogs/zip/download",
@@ -6925,13 +5728,7 @@ export default function createClient(
           )
           .post(options);
       },
-      listContinuousWebJobsSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listContinuousWebJobsSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/continuouswebjobs",
@@ -7018,13 +5815,7 @@ export default function createClient(
           )
           .post(options);
       },
-      listDeploymentsSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listDeploymentsSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/deployments",
@@ -7035,14 +5826,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getDeploymentSlot: (
-        subscriptionId,
-        resourceGroupName,
-        id,
-        name,
-        slot,
-        options
-      ) => {
+      getDeploymentSlot: (subscriptionId, resourceGroupName, id, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/deployments/{id}",
@@ -7054,14 +5838,7 @@ export default function createClient(
           )
           .get(options);
       },
-      createDeploymentSlot: (
-        subscriptionId,
-        resourceGroupName,
-        id,
-        name,
-        slot,
-        options
-      ) => {
+      createDeploymentSlot: (subscriptionId, resourceGroupName, id, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/deployments/{id}",
@@ -7073,14 +5850,7 @@ export default function createClient(
           )
           .put(options);
       },
-      deleteDeploymentSlot: (
-        subscriptionId,
-        resourceGroupName,
-        id,
-        name,
-        slot,
-        options
-      ) => {
+      deleteDeploymentSlot: (subscriptionId, resourceGroupName, id, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/deployments/{id}",
@@ -7092,14 +5862,7 @@ export default function createClient(
           )
           .delete(options);
       },
-      listDeploymentLogSlot: (
-        subscriptionId,
-        resourceGroupName,
-        id,
-        name,
-        slot,
-        options
-      ) => {
+      listDeploymentLogSlot: (subscriptionId, resourceGroupName, id, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/deployments/{id}/log",
@@ -7111,13 +5874,7 @@ export default function createClient(
           )
           .get(options);
       },
-      discoverBackupSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      discoverBackupSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/discoverbackup",
@@ -7221,13 +5978,7 @@ export default function createClient(
           )
           .patch(options);
       },
-      getMSDeployStatusSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      getMSDeployStatusSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/extensions/MSDeploy",
@@ -7238,13 +5989,7 @@ export default function createClient(
           )
           .get(options);
       },
-      createMSDeployOperationSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      createMSDeployOperationSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/extensions/MSDeploy",
@@ -7255,13 +6000,7 @@ export default function createClient(
           )
           .put(options);
       },
-      getMSDeployLogSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      getMSDeployLogSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/extensions/MSDeploy/log",
@@ -7272,13 +6011,7 @@ export default function createClient(
           )
           .get(options);
       },
-      listInstanceFunctionsSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listInstanceFunctionsSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/functions",
@@ -7289,13 +6022,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getFunctionsAdminTokenSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      getFunctionsAdminTokenSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/functions/admin/token",
@@ -7443,13 +6170,7 @@ export default function createClient(
           )
           .post(options);
       },
-      listHostKeysSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listHostKeysSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/host/default/listkeys",
@@ -7460,13 +6181,7 @@ export default function createClient(
           )
           .post(options);
       },
-      listSyncStatusSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listSyncStatusSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/host/default/listsyncstatus",
@@ -7477,13 +6192,7 @@ export default function createClient(
           )
           .post(options);
       },
-      syncFunctionsSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      syncFunctionsSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/host/default/sync",
@@ -7536,13 +6245,7 @@ export default function createClient(
           )
           .delete(options);
       },
-      listHostNameBindingsSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listHostNameBindingsSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/hostNameBindings",
@@ -7694,13 +6397,7 @@ export default function createClient(
           )
           .patch(options);
       },
-      listHybridConnectionsSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listHybridConnectionsSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/hybridConnectionRelays",
@@ -7711,13 +6408,7 @@ export default function createClient(
           )
           .get(options);
       },
-      listRelayServiceConnectionsSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listRelayServiceConnectionsSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/hybridconnection",
@@ -7804,13 +6495,7 @@ export default function createClient(
           )
           .patch(options);
       },
-      listInstanceIdentifiersSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listInstanceIdentifiersSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/instances",
@@ -7821,14 +6506,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getInstanceInfoSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        instanceId,
-        options
-      ) => {
+      getInstanceInfoSlot: (subscriptionId, resourceGroupName, name, slot, instanceId, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/instances/{instanceId}",
@@ -8044,13 +6722,7 @@ export default function createClient(
           )
           .get(options);
       },
-      isCloneableSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      isCloneableSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/iscloneable",
@@ -8061,13 +6733,7 @@ export default function createClient(
           )
           .post(options);
       },
-      listSiteBackupsSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listSiteBackupsSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/listbackups",
@@ -8078,13 +6744,7 @@ export default function createClient(
           )
           .post(options);
       },
-      listSyncFunctionTriggersSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listSyncFunctionTriggersSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/listsyncfunctiontriggerstatus",
@@ -8095,13 +6755,7 @@ export default function createClient(
           )
           .post(options);
       },
-      getMigrateMySqlStatusSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      getMigrateMySqlStatusSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/migratemysql/status",
@@ -8146,13 +6800,7 @@ export default function createClient(
           )
           .put(options);
       },
-      deleteSwiftVirtualNetworkSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      deleteSwiftVirtualNetworkSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkConfig/virtualNetwork",
@@ -8180,14 +6828,7 @@ export default function createClient(
           )
           .patch(options);
       },
-      listNetworkFeaturesSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        view,
-        options
-      ) => {
+      listNetworkFeaturesSlot: (subscriptionId, resourceGroupName, name, slot, view, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkFeatures/{view}",
@@ -8218,13 +6859,7 @@ export default function createClient(
           )
           .get(options);
       },
-      startWebSiteNetworkTraceSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      startWebSiteNetworkTraceSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkTrace/start",
@@ -8252,13 +6887,7 @@ export default function createClient(
           )
           .post(options);
       },
-      stopWebSiteNetworkTraceSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      stopWebSiteNetworkTraceSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkTrace/stop",
@@ -8343,13 +6972,7 @@ export default function createClient(
           )
           .post(options);
       },
-      listPerfMonCountersSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listPerfMonCountersSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/perfcounters",
@@ -8360,13 +6983,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getSitePhpErrorLogFlagSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      getSitePhpErrorLogFlagSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/phplogging",
@@ -8377,13 +6994,7 @@ export default function createClient(
           )
           .get(options);
       },
-      listPremierAddOnsSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listPremierAddOnsSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/premieraddons",
@@ -8470,13 +7081,7 @@ export default function createClient(
           )
           .patch(options);
       },
-      getPrivateAccessSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      getPrivateAccessSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/privateAccess/virtualNetworks",
@@ -8487,13 +7092,7 @@ export default function createClient(
           )
           .get(options);
       },
-      putPrivateAccessVnetSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      putPrivateAccessVnetSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/privateAccess/virtualNetworks",
@@ -8578,13 +7177,7 @@ export default function createClient(
           )
           .delete(options);
       },
-      getPrivateLinkResourcesSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      getPrivateLinkResourcesSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/privateLinkResources",
@@ -8595,13 +7188,7 @@ export default function createClient(
           )
           .get(options);
       },
-      listProcessesSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listProcessesSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/processes",
@@ -8612,14 +7199,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getProcessSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        processId,
-        options
-      ) => {
+      getProcessSlot: (subscriptionId, resourceGroupName, name, slot, processId, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/processes/{processId}",
@@ -8631,14 +7211,7 @@ export default function createClient(
           )
           .get(options);
       },
-      deleteProcessSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        processId,
-        options
-      ) => {
+      deleteProcessSlot: (subscriptionId, resourceGroupName, name, slot, processId, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/processes/{processId}",
@@ -8650,14 +7223,7 @@ export default function createClient(
           )
           .delete(options);
       },
-      getProcessDumpSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        processId,
-        options
-      ) => {
+      getProcessDumpSlot: (subscriptionId, resourceGroupName, name, slot, processId, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/processes/{processId}/dump",
@@ -8728,13 +7294,7 @@ export default function createClient(
           )
           .get(options);
       },
-      listPublicCertificatesSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listPublicCertificatesSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/publicCertificates",
@@ -8819,13 +7379,7 @@ export default function createClient(
           )
           .post(options);
       },
-      resetSlotConfigurationSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      resetSlotConfigurationSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/resetSlotConfig",
@@ -8847,13 +7401,7 @@ export default function createClient(
           )
           .post(options);
       },
-      restoreFromBackupBlobSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      restoreFromBackupBlobSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/restoreFromBackupBlob",
@@ -8864,13 +7412,7 @@ export default function createClient(
           )
           .post(options);
       },
-      restoreFromDeletedAppSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      restoreFromDeletedAppSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/restoreFromDeletedApp",
@@ -8881,13 +7423,7 @@ export default function createClient(
           )
           .post(options);
       },
-      restoreSnapshotSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      restoreSnapshotSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/restoreSnapshot",
@@ -8898,13 +7434,7 @@ export default function createClient(
           )
           .post(options);
       },
-      listSiteExtensionsSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listSiteExtensionsSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/siteextensions",
@@ -8972,13 +7502,7 @@ export default function createClient(
           )
           .delete(options);
       },
-      listSlotDifferencesSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listSlotDifferencesSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/slotsdiffs",
@@ -9000,13 +7524,7 @@ export default function createClient(
           )
           .post(options);
       },
-      listSnapshotsSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listSnapshotsSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/snapshots",
@@ -9034,13 +7552,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getSourceControlSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      getSourceControlSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/sourcecontrols/web",
@@ -9051,13 +7563,7 @@ export default function createClient(
           )
           .get(options);
       },
-      createOrUpdateSourceControlSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      createOrUpdateSourceControlSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/sourcecontrols/web",
@@ -9068,13 +7574,7 @@ export default function createClient(
           )
           .put(options);
       },
-      deleteSourceControlSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      deleteSourceControlSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/sourcecontrols/web",
@@ -9085,13 +7585,7 @@ export default function createClient(
           )
           .delete(options);
       },
-      updateSourceControlSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      updateSourceControlSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/sourcecontrols/web",
@@ -9113,13 +7607,7 @@ export default function createClient(
           )
           .post(options);
       },
-      startNetworkTraceSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      startNetworkTraceSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/startNetworkTrace",
@@ -9141,13 +7629,7 @@ export default function createClient(
           )
           .post(options);
       },
-      stopNetworkTraceSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      stopNetworkTraceSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/stopNetworkTrace",
@@ -9158,13 +7640,7 @@ export default function createClient(
           )
           .post(options);
       },
-      syncRepositorySlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      syncRepositorySlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/sync",
@@ -9175,13 +7651,7 @@ export default function createClient(
           )
           .post(options);
       },
-      syncFunctionTriggersSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      syncFunctionTriggersSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/syncfunctiontriggers",
@@ -9192,13 +7662,7 @@ export default function createClient(
           )
           .post(options);
       },
-      listTriggeredWebJobsSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listTriggeredWebJobsSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/triggeredwebjobs",
@@ -9306,13 +7770,7 @@ export default function createClient(
           )
           .post(options);
       },
-      listUsagesSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listUsagesSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/usages",
@@ -9323,13 +7781,7 @@ export default function createClient(
           )
           .get(options);
       },
-      listVnetConnectionsSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listVnetConnectionsSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/virtualNetworkConnections",
@@ -9340,14 +7792,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getVnetConnectionSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        vnetName,
-        options
-      ) => {
+      getVnetConnectionSlot: (subscriptionId, resourceGroupName, name, slot, vnetName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/virtualNetworkConnections/{vnetName}",
@@ -9479,13 +7924,7 @@ export default function createClient(
           )
           .patch(options);
       },
-      listWebJobsSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        options
-      ) => {
+      listWebJobsSlot: (subscriptionId, resourceGroupName, name, slot, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/webjobs",
@@ -9496,14 +7935,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getWebJobSlot: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        slot,
-        webJobName,
-        options
-      ) => {
+      getWebJobSlot: (subscriptionId, resourceGroupName, name, slot, webJobName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/webjobs/{webJobName}",
@@ -9515,12 +7947,7 @@ export default function createClient(
           )
           .get(options);
       },
-      listSlotDifferencesFromProduction: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listSlotDifferencesFromProduction: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slotsdiffs",
@@ -9530,12 +7957,7 @@ export default function createClient(
           )
           .post(options);
       },
-      swapSlotWithProduction: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      swapSlotWithProduction: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slotsswap",
@@ -9555,12 +7977,7 @@ export default function createClient(
           )
           .get(options);
       },
-      listSnapshotsFromDRSecondary: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listSnapshotsFromDRSecondary: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/snapshotsdr",
@@ -9580,12 +7997,7 @@ export default function createClient(
           )
           .get(options);
       },
-      createOrUpdateSourceControl: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      createOrUpdateSourceControl: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/sourcecontrols/web",
@@ -9595,12 +8007,7 @@ export default function createClient(
           )
           .put(options);
       },
-      deleteSourceControl: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      deleteSourceControl: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/sourcecontrols/web",
@@ -9610,12 +8017,7 @@ export default function createClient(
           )
           .delete(options);
       },
-      updateSourceControl: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      updateSourceControl: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/sourcecontrols/web",
@@ -9675,12 +8077,7 @@ export default function createClient(
           )
           .post(options);
       },
-      syncFunctionTriggers: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      syncFunctionTriggers: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/syncfunctiontriggers",
@@ -9690,12 +8087,7 @@ export default function createClient(
           )
           .post(options);
       },
-      listTriggeredWebJobs: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listTriggeredWebJobs: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/triggeredwebjobs",
@@ -9705,13 +8097,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getTriggeredWebJob: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        webJobName,
-        options
-      ) => {
+      getTriggeredWebJob: (subscriptionId, resourceGroupName, name, webJobName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/triggeredwebjobs/{webJobName}",
@@ -9722,13 +8108,7 @@ export default function createClient(
           )
           .get(options);
       },
-      deleteTriggeredWebJob: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        webJobName,
-        options
-      ) => {
+      deleteTriggeredWebJob: (subscriptionId, resourceGroupName, name, webJobName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/triggeredwebjobs/{webJobName}",
@@ -9775,13 +8155,7 @@ export default function createClient(
           )
           .get(options);
       },
-      runTriggeredWebJob: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        webJobName,
-        options
-      ) => {
+      runTriggeredWebJob: (subscriptionId, resourceGroupName, name, webJobName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/triggeredwebjobs/{webJobName}/run",
@@ -9802,12 +8176,7 @@ export default function createClient(
           )
           .get(options);
       },
-      listVnetConnections: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        options
-      ) => {
+      listVnetConnections: (subscriptionId, resourceGroupName, name, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/virtualNetworkConnections",
@@ -9817,13 +8186,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getVnetConnection: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        vnetName,
-        options
-      ) => {
+      getVnetConnection: (subscriptionId, resourceGroupName, name, vnetName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/virtualNetworkConnections/{vnetName}",
@@ -9851,13 +8214,7 @@ export default function createClient(
           )
           .put(options);
       },
-      deleteVnetConnection: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        vnetName,
-        options
-      ) => {
+      deleteVnetConnection: (subscriptionId, resourceGroupName, name, vnetName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/virtualNetworkConnections/{vnetName}",
@@ -9868,13 +8225,7 @@ export default function createClient(
           )
           .delete(options);
       },
-      updateVnetConnection: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        vnetName,
-        options
-      ) => {
+      updateVnetConnection: (subscriptionId, resourceGroupName, name, vnetName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/virtualNetworkConnections/{vnetName}",
@@ -9952,13 +8303,7 @@ export default function createClient(
           )
           .get(options);
       },
-      getWebJob: (
-        subscriptionId,
-        resourceGroupName,
-        name,
-        webJobName,
-        options
-      ) => {
+      getWebJob: (subscriptionId, resourceGroupName, name, webJobName, options) => {
         return client
           .path(
             "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/webjobs/{webJobName}",
@@ -9968,7 +8313,7 @@ export default function createClient(
             webJobName
           )
           .get(options);
-      }
-    }
+      },
+    },
   };
 }

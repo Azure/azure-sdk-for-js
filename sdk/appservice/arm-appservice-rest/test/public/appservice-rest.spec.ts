@@ -64,33 +64,38 @@ describe("Web test", () => {
   });
 
   it("webApps create test", async function () {
-    const initialResponse = await client.webApps.createOrUpdate(subscriptionId, resourceGroup, name, {
-      body: {
-        location: "eastus",
-        properties: {
-          serverFarmId:
-            "/subscriptions/" +
-            subscriptionId +
-            `/resourceGroups/${env.RESOURCE_GROUP}/providers/Microsoft.Web/serverfarms/myappserviceplanxxx`,
-          reserved: false,
-          isXenon: false,
-          hyperV: false,
-          siteConfig: {
-            netFrameworkVersion: "v4.6",
-            appSettings: [
-              {
-                name: "WEBSITE_NODE_DEFAULT_VERSION",
-                value: "10.14",
-              },
-            ],
-            localMySqlEnabled: false,
-            http20Enabled: true,
+    const initialResponse = await client.webApps.createOrUpdate(
+      subscriptionId,
+      resourceGroup,
+      name,
+      {
+        body: {
+          location: "eastus",
+          properties: {
+            serverFarmId:
+              "/subscriptions/" +
+              subscriptionId +
+              `/resourceGroups/${env.RESOURCE_GROUP}/providers/Microsoft.Web/serverfarms/myappserviceplanxxx`,
+            reserved: false,
+            isXenon: false,
+            hyperV: false,
+            siteConfig: {
+              netFrameworkVersion: "v4.6",
+              appSettings: [
+                {
+                  name: "WEBSITE_NODE_DEFAULT_VERSION",
+                  value: "10.14",
+                },
+              ],
+              localMySqlEnabled: false,
+              http20Enabled: true,
+            },
+            scmSiteAlsoStopped: false,
+            httpsOnly: false,
           },
-          scmSiteAlsoStopped: false,
-          httpsOnly: false,
         },
-      },
-    });
+      }
+    );
     const poller = getLongRunningPoller(client, initialResponse, testPollingOptions);
     const res = await poller.pollUntilDone();
     assert.strictEqual(res.status, "200");
@@ -176,7 +181,10 @@ describe("Web test", () => {
   it("appServicePlans delete test", async function () {
     await client.appServicePlans.delete(subscriptionId, resourceGroup, appservicePlanName);
     const resArray = new Array();
-    const initialResposne = await client.appServicePlans.listByResourceGroup(subscriptionId, resourceGroup);
+    const initialResposne = await client.appServicePlans.listByResourceGroup(
+      subscriptionId,
+      resourceGroup
+    );
     const result = paginate(client, initialResposne);
     for await (let item of result) {
       resArray.push(item);

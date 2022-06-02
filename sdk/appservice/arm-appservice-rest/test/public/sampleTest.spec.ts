@@ -9,15 +9,15 @@ import { Context } from "mocha";
 describe("My test", () => {
   let recorder: Recorder;
 
-  beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
-  it("sample test", async function() {
+  it("sample test", async function () {
     assert.equal(1, 1);
   });
 });

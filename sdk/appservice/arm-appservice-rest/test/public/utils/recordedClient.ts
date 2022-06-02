@@ -13,11 +13,11 @@ const envSetupForPlayback: { [k: string]: string } = {
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   SUBSCRIPTION_ID: "azure_subscription_id",
-  RESOURCE_GROUP: "resource-group"
+  RESOURCE_GROUP: "resource-group",
 };
 
 const recorderEnvSetup: RecorderStartOptions = {
-  envSetupForPlayback
+  envSetupForPlayback,
 };
 
 /**
@@ -36,8 +36,5 @@ export async function createClient(
   options?: ClientOptions
 ): Promise<WebSiteManagementClient> {
   const credential = createTestCredential();
-  return WebSiteClient(
-    credential,
-    recorder.configureClientOptions({ ...options })
-  );
+  return WebSiteClient(credential, recorder.configureClientOptions({ ...options }));
 }
