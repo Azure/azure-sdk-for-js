@@ -75,18 +75,12 @@ describe("Secret client - create, read, update and delete operations", () => {
 
   it("cannot create a secret with an empty name", async function () {
     const secretName = "";
-    let error;
     try {
       await client.setSecret(secretName, secretValue);
-      throw Error("Expecting an error but not catching one.");
-    } catch (e: any) {
-      error = e;
+      assert.fail("Expected an error");
+    } catch (e) {
+      // Ignore expected error
     }
-    assert.equal(
-      error.message,
-      `"secretName" with value "" should satisfy the constraint "Pattern": /^[0-9a-zA-Z-]+$/.`,
-      "Unexpected error while running setSecret with an empty string as the name."
-    );
   });
 
   it("can set a secret with Empty Value", async function (this: Context) {
