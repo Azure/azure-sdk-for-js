@@ -41,10 +41,10 @@ export interface AnalyzeDocumentOptions<Result = AnalyzeResult<AnalyzedDocument>
 // @public
 export interface AnalyzeResult<Document = AnalyzedDocument> extends AnalyzeResultCommon {
     documents: Document[];
-    entities: DocumentEntity[];
     keyValuePairs: DocumentKeyValuePair[];
     languages: DocumentLanguage[];
     pages: DocumentPage[];
+    paragraphs: DocumentParagraph[];
     styles: DocumentStyle[];
     tables: DocumentTable[];
 }
@@ -68,8 +68,7 @@ export interface ArrayFieldSchema<Item extends Readonly<FieldSchema> = Readonly<
 export { AzureKeyCredential }
 
 // @public
-export interface BoundingRegion {
-    boundingBox: number[];
+export interface BoundingRegion extends HasBoundingPolygon {
     pageNumber: number;
 }
 
@@ -201,7 +200,7 @@ export interface CommonModelCreationOptions {
 }
 
 // @public
-export type ContentType = "application/octet-stream" | "application/pdf" | "image/bmp" | "image/jpeg" | "image/png" | "image/tiff";
+export type ContentType = "application/octet-stream" | "application/pdf" | "application/vnd.openxmlformats-officedocument.presentationml.presentation" | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" | "application/vnd.openxmlformats-officedocument.wordprocessingml.document" | "image/bmp" | "image/heif" | "image/jpeg" | "image/png" | "image/tiff";
 
 // @public
 export interface CopyAuthorization {
@@ -286,6 +285,13 @@ export interface DocumentArrayField<T = DocumentField> extends DocumentFieldComm
 export type DocumentBuildMode = string;
 
 // @public
+export interface DocumentCaption {
+    boundingRegions?: BoundingRegion[];
+    content: string;
+    spans: DocumentSpan[];
+}
+
+// @public
 export interface DocumentCountryRegionField extends DocumentFieldCommon {
     kind: "countryRegion";
     value?: string;
@@ -300,16 +306,6 @@ export interface DocumentCurrencyField extends DocumentFieldCommon {
 // @public
 export interface DocumentDateField extends DocumentValueField<Date> {
     kind: "date";
-}
-
-// @public
-export interface DocumentEntity {
-    boundingRegions?: BoundingRegion[];
-    category: string;
-    confidence: number;
-    content: string;
-    spans: DocumentSpan[];
-    subCategory?: string;
 }
 
 // @public
@@ -338,6 +334,20 @@ export interface DocumentFieldSchema {
 export type DocumentFieldType = string;
 
 // @public
+export interface DocumentFootnote {
+    boundingRegions?: BoundingRegion[];
+    content: string;
+    spans: DocumentSpan[];
+}
+
+// @public
+export interface DocumentImage extends HasBoundingPolygon {
+    confidence: number;
+    pageRef: number;
+    span: DocumentSpan;
+}
+
+// @public
 export interface DocumentIntegerField extends DocumentValueField<number> {
     kind: "integer";
 }
@@ -359,13 +369,12 @@ export interface DocumentKeyValuePair {
 // @public
 export interface DocumentLanguage {
     confidence: number;
-    languageCode: string;
+    locale: string;
     spans: DocumentSpan[];
 }
 
 // @public
-export interface DocumentLine {
-    boundingBox?: number[];
+export interface DocumentLine extends HasBoundingPolygon {
     content: string;
     spans: DocumentSpan[];
     words: () => IterableIterator<DocumentWord>;
@@ -422,15 +431,28 @@ export interface DocumentObjectField<Properties = {
 
 // @public
 export interface DocumentPage {
-    angle: number;
-    height: number;
-    lines: DocumentLine[];
+    angle?: number;
+    height?: number;
+    images?: DocumentImage[];
+    kind: DocumentPageKind;
+    lines?: DocumentLine[];
     pageNumber: number;
     selectionMarks?: DocumentSelectionMark[];
     spans: DocumentSpan[];
-    unit: LengthUnit;
-    width: number;
-    words: DocumentWord[];
+    unit?: LengthUnit;
+    width?: number;
+    words?: DocumentWord[];
+}
+
+// @public
+export type DocumentPageKind = string;
+
+// @public
+export interface DocumentParagraph {
+    boundingRegions?: BoundingRegion[];
+    content: string;
+    role?: ParagraphRole;
+    spans: DocumentSpan[];
 }
 
 // @public
@@ -440,8 +462,7 @@ export interface DocumentPhoneNumberField extends DocumentFieldCommon {
 }
 
 // @public
-export interface DocumentSelectionMark {
-    boundingBox?: number[];
+export interface DocumentSelectionMark extends HasBoundingPolygon {
     confidence: number;
     span: DocumentSpan;
     state: SelectionMarkState;
@@ -483,8 +504,10 @@ export interface DocumentStyle {
 // @public
 export interface DocumentTable {
     boundingRegions?: BoundingRegion[];
+    caption?: DocumentCaption;
     cells: DocumentTableCell[];
     columnCount: number;
+    footnotes?: DocumentFootnote[];
     rowCount: number;
     spans: DocumentSpan[];
 }
@@ -516,8 +539,7 @@ export interface DocumentValueField<T> extends DocumentFieldCommon {
 }
 
 // @public
-export interface DocumentWord {
-    boundingBox?: number[];
+export interface DocumentWord extends HasBoundingPolygon {
     confidence: number;
     content: string;
     span: DocumentSpan;
@@ -530,11 +552,11 @@ export type EnglishCapitalLetter = "A" | "B" | "C" | "D" | "E" | "F" | "G" | "H"
 export type FieldSchema = StringLikeFieldSchema | NumberFieldSchema | DateFieldSchema | ArrayFieldSchema | ObjectFieldSchema | StructuredStringFieldSchema | WellKnownObjectFieldSchema;
 
 // @public
-export type FormRecognizerApiVersion = "2022-01-30-preview";
+export type FormRecognizerApiVersion = typeof FormRecognizerApiVersion[keyof typeof FormRecognizerApiVersion];
 
 // @public
 export const FormRecognizerApiVersion: {
-    readonly Latest: "2022-01-30-preview";
+    readonly Latest: "2022-06-30-preview";
 };
 
 // @public
@@ -547,7 +569,6 @@ export type FormRecognizerRequestBody = NodeJS.ReadableStream | Blob | ArrayBuff
 
 // @public
 export interface GeneralDocumentResult extends LayoutResult {
-    entities: DocumentEntity[];
     keyValuePairs: DocumentKeyValuePair[];
 }
 
@@ -570,6 +591,11 @@ export interface GetModelOptions extends OperationOptions {
 
 // @public
 export interface GetOperationOptions extends OperationOptions {
+}
+
+// @public
+export interface HasBoundingPolygon {
+    polygon?: Point2D[];
 }
 
 // @public
@@ -1009,6 +1035,15 @@ export type OperationKind = string;
 
 // @public
 export type OperationStatus = "notStarted" | "running" | "failed" | "succeeded" | "canceled";
+
+// @public
+export type ParagraphRole = string;
+
+// @public
+export interface Point2D {
+    x: number;
+    y: number;
+}
 
 // @public
 export interface PollerOptions<TState extends PollOperationState<unknown>> extends OperationOptions {
