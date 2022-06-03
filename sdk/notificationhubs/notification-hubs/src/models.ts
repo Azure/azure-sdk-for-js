@@ -9,3 +9,31 @@ import { CommonClientOptions } from "@azure/core-client";
 export interface NotificationHubsClientOptions extends CommonClientOptions {
   
 }
+
+export interface Installation {
+  installationId: string;
+
+  userId?: string;
+
+  readonly expirationTime: string;
+
+  readonly lastUpdate: string;
+
+  platform: string;
+
+  pushChannel: string;
+
+  tags?: string[];
+
+  templates?: Record<string, InstallationTemplate>;
+}
+
+export interface InstallationTemplate {
+  body: string;
+
+  headers: Record<string, string>;
+
+  tags?: string[];
+
+  expiry?: string;
+}
