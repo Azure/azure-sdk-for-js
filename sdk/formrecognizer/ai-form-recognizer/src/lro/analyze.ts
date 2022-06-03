@@ -222,10 +222,6 @@ export function toDocumentPageFromGenerated(generated: GeneratedDocumentPage): D
       ...word,
       polygon: toBoundingPolygon(word.polygon),
     })),
-    images: generated.images?.map((image) => ({
-      ...image,
-      polygon: toBoundingPolygon(image.polygon),
-    })),
   };
 }
 

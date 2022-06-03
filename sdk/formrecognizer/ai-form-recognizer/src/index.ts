@@ -14,7 +14,6 @@ export { DocumentModelAdministrationClient } from "./documentModelAdministration
 export {
   // Generated types used verbatim
   AddressValue,
-  ContentType,
   CopyAuthorization,
   CurrencyValue,
   DocTypeInfo,
