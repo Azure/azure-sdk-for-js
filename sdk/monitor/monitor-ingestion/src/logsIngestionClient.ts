@@ -5,7 +5,7 @@ import { TokenCredential } from "@azure/core-auth";
 import { CommonClientOptions } from "@azure/core-client";
 import { SDK_VERSION } from "./constants";
 import { GeneratedDataCollectionClient } from "./generated";
-import { sendLogsOptions, sendLogsResult, SendLogsStatus } from "./models";
+import { sendLogsOptions as uploadOptions, sendLogsResult as uploadResult, SendLogsStatus } from "./models";
 
 /**
  * Options for Montior Logs Ingestion Client
@@ -31,7 +31,7 @@ export class LogsIngestionClient {
  * @param tokenCredential - A token credential.
  * @param options - Options for the MonitorIngestionClient.
  */
-  constructor(tokenCredential: TokenCredential, endpoint: string, options?: LogsIngestionClientOptions) {
+  constructor(endpoint: string,tokenCredential: TokenCredential, options?: LogsIngestionClientOptions) {
     let scope;
     if (endpoint) {
       scope = `${endpoint}/.default`;
@@ -59,18 +59,18 @@ export class LogsIngestionClient {
   /**
  * See error response code and error response message for more detail.
  * @param ruleId The immutable Id of the Data Collection Rule resource.
- * @param stream The streamDeclaration name as defined in the Data Collection Rule.
+ * @param streamName The streamDeclaration name as defined in the Data Collection Rule.
  * @param logs An array of objects matching the schema defined by the provided stream.
  * @param options The options parameters.
  */
-  async sendLogs(
+  async upload(
     ruleId: string,
-    stream: string,
+    streamName: string,
     logs: Record<string, unknown>[],
-    options?: sendLogsOptions
-  ): Promise<sendLogsResult> {
+    options?: uploadOptions
+  ): Promise<uploadResult> {
     //yet-to-be-implemented
-    if (options?.concurrency && options?.concurrency > 1) {
+    if (options?.maxConcurrency && options?.maxConcurrency > 1) {
       throw ("Concurrency yet to be implemeted");
     }
     else {
@@ -80,7 +80,7 @@ export class LogsIngestionClient {
         let failedLogsIndex = [];
         while (count < noOfChunks) {
           try {
-            await this._dataClient.dataCollectionRule.ingest(ruleId, stream, logs, {
+            await this._dataClient.dataCollectionRule.ingest(ruleId, streamName, logs, {
               contentEncoding: "gzip"
             });
           }
@@ -90,17 +90,17 @@ export class LogsIngestionClient {
           }
           count++;
         }
-        let sendLogsResult: sendLogsResult = {
+        let uploadResult: uploadResult = {
           failedLogsIndex: [],
           sendLogsStatus: SendLogsStatus.Success
         }
         if (failedLogsIndex.length === 0) {
-          return sendLogsResult;
+          return uploadResult;
         }
         else if (failedLogsIndex.length < noOfChunks && failedLogsIndex.length > 0) {
 
-          sendLogsResult = { failedLogsIndex: failedLogsIndex, sendLogsStatus: SendLogsStatus.PartialFailure };
-          return sendLogsResult;
+          uploadResult = { failedLogsIndex: failedLogsIndex, sendLogsStatus: SendLogsStatus.PartialFailure };
+          return uploadResult;
         }
         else
           throw Error("All logs failed for the ingestion");

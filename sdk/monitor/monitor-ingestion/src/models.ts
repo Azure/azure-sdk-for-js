@@ -8,7 +8,7 @@ export interface sendLogsOptions {
   /**
    * Concurrency of parallel requests. Must be greater than or equal to 0.
    */
-  concurrency?: number;
+  maxConcurrency?: number;
 }
 
 /**
