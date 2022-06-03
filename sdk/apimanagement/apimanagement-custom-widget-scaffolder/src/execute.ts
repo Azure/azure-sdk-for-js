@@ -12,7 +12,7 @@ import {
 } from "./execute-configs";
 import { buildGetConfig } from "./execute-helpers";
 import chalk from "chalk";
-import { generateProject } from "./scaffolding";
+import { generateProject } from "./generateProject";
 
 const log = console.log;
 const white = (msg: string): void => log(chalk.white(msg));

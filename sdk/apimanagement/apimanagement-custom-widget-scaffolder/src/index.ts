@@ -11,7 +11,8 @@
  * @packageDocumentation
  */
 
-export { generateProject, OVERRIDE_PORT_KEY, OVERRIDE_DEFAULT_PORT } from "./scaffolding";
+export { OVERRIDE_PORT_KEY, OVERRIDE_DEFAULT_PORT } from "./scaffolding";
+export { generateProject } from "./generateProject";
 export type {
   TWidgetConfig as TCustomWidgetBaseConfig,
   TDeployConfig,

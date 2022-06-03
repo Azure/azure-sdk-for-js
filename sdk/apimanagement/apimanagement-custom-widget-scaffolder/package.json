@@ -7,6 +7,9 @@
   "sdk-type": "utility",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/apimanagement/apimanagement-custom-widget-scaffolder/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
+  "browser": {
+    "./dist-esm/src/generateProject.js": "./dist-esm/src/generateProject.browser.js"
+  },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -24,14 +27,16 @@
     "developer-portal"
   ],
   "sideEffects": false,
-  "files": ["src/templates", "dist/", "dist-esm/src/", "types/latest/", "README.md", "LICENSE"],
+  "files": ["src", "dist/", "dist-esm/src/", "types/latest/", "README.md", "LICENSE"],
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "types/latest/apimanagement-custom-widget-scaffolder.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build": "npm run clean && tsc && api-extractor run --local",
+    "build:browser": "tsc -p . && dev-tool run bundle --browser-test=false",
+    "build:node": "tsc -p . && dev-tool run bundle",
     "build:test": "echo Skipped.",
+    "build": "npm run clean && tsc && api-extractor run --local && dev-tool run bundle --browser-test=false",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore --ignore-path ./.prettierignore \"src/templates/**\" \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* types *.tgz *.log",
     "extract-api": "tsc -p . && api-extractor run --local",

@@ -1,14 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  TWidgetConfig,
-  displayNameToName,
-  generateProject,
-  technologies,
-} from "../src/scaffolding";
+import { TWidgetConfig, displayNameToName, technologies } from "../src/scaffolding";
 
 import { assert } from "chai";
+import { generateProject } from "../src";
 import { promises } from "fs";
 import sinon from "sinon";
 
