@@ -184,7 +184,6 @@ describe("RuleManager tests", () => {
       let result = await iterator.next();
       assert.equal(result.value.length, 1, "Expecting one rule in first page");
       assert.equal(result.value[0].name, defaultRuleName);
-      const tokenForNextPage = result.value.continuationToken;
       result = await iterator.next();
       assert.equal(result.value.length, 1, "Expecting one rule in second page");
       assert.equal(result.value[0].name, correlationRuleName);
@@ -195,12 +194,6 @@ describe("RuleManager tests", () => {
       assert.equal(result.value.length, 0, "Not expecting any result in last page");
       result = await iterator.next();
       assert.equal(result.value, undefined, "Not expecting any more pages");
-
-      const iterNextPage = ruleManager.listRules().byPage({ maxPageSize: 2, continuationToken: tokenForNextPage });
-      result = await iterNextPage.next();
-      assert.equal(result.value.length, 2, "Expecting two rules in next page with continuation token");
-      assert.equal(result.value[0].name, correlationRuleName);
-      assert.equal(result.value[1].name, sqlRuleName);
     });
 
     it("throws if add rule with same name twice", async () => {

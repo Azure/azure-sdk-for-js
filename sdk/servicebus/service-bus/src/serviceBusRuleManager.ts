@@ -168,7 +168,6 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
         abortSignal: options?.abortSignal,
       };
       const result = retry<RuleProperties[]>(config);
-      // TODO: set continuation token
       span.setStatus({ code: SpanStatusCode.OK });
       return result;
     } catch (error: any) {
@@ -185,23 +184,17 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
   private async *listRulesPage(
     marker?: string,
     options: OperationOptions & Pick<PageSettings, "maxPageSize"> = {}
-  ): AsyncIterableIterator<RuleProperties[] & Pick<PageSettings, "continuationToken">> {
+  ): AsyncIterableIterator<RuleProperties[]> {
     do {
       const rules = await this.getRules({
         skip: Number(marker),
         maxCount: options.maxPageSize,
         ...options,
       });
+      yield rules;
       if (rules.length > 0) {
-        const continuationToken = String(Number(marker ?? 0) + rules.length);
-        yield Object.defineProperty(rules, "continuationToken", {
-          value: continuationToken,
-        });
-        marker = continuationToken
+        marker = String(Number(marker ?? 0) + rules.length);
       } else {
-        yield Object.defineProperty(rules, "continuationToken", {
-          value: undefined,
-        });
         break;
       }
     } while (marker);
@@ -227,7 +220,7 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
   public listRules(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: OperationOptions
-  ): PagedAsyncIterableIterator<RuleProperties> {
+  ): PagedAsyncIterableIterator<RuleProperties, RuleProperties[], { maxPageSize?: number; }> {
     logger.verbose(`Performing operation - listRules() with options: %j`, options);
     const iter = this.listRulesAll(options);
     return {
@@ -243,12 +236,8 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
       },
       /**
        */
-      byPage: (settings: PageSettings = {}) => {
-        const token = settings.continuationToken;
-        if (!(token === undefined || (typeof token === "string" && Number(token) >= 0))) {
-          throw new Error(`Invalid continuationToken ${token} provided`);
-        }
-        return this.listRulesPage(settings.continuationToken, {
+      byPage: (settings: { maxPageSize?: number; } = {}) => {
+        return this.listRulesPage(undefined, {
           maxPageSize: settings.maxPageSize,
           ...options,
         });
