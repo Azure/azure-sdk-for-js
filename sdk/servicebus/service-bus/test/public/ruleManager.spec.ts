@@ -45,7 +45,7 @@ const orders: Order[] = [
  * testing helper for convenience
  */
 async function getRules(ruleManager: any): Promise<RuleProperties[]> {
-  return (await (ruleManager).getRules()) as RuleProperties[];
+  return (await ruleManager.getRules()) as RuleProperties[];
 }
 
 /**
@@ -153,7 +153,7 @@ describe("RuleManager tests", () => {
       const sqlRuleName = "sqlRule";
       const correlationRuleName = "correlationRule";
 
-      let rules = await getRules(ruleManager);
+      const rules = await getRules(ruleManager);
       assert.equal(rules.length, 1); // default rule
       const firstRule = rules[0];
       assert.equal(firstRule.name, defaultRuleName);

@@ -1145,7 +1145,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     try {
       const request: RheaMessage = {
         body: {
-          top: options?.maxCount ? types.wrap_int(options.maxCount) : types.wrap_int(max32BitNumber),
+          top: options?.maxCount
+            ? types.wrap_int(options.maxCount)
+            : types.wrap_int(max32BitNumber),
           skip: options?.skip ? types.wrap_int(options.skip) : types.wrap_int(0),
         },
         reply_to: this.replyTo,

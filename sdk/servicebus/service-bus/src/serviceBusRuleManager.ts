@@ -141,7 +141,9 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
   /**
    * Get all rules associated with the subscription.
    */
-  private async getRules(options?: ListRequestOptions & OperationOptionsBase): Promise<RuleProperties[]> {
+  private async getRules(
+    options?: ListRequestOptions & OperationOptionsBase
+  ): Promise<RuleProperties[]> {
     const { span } = createServiceBusSpan(
       "ServiceBusRuleManager.getRules",
       options,
@@ -220,7 +222,7 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
   public listRules(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: OperationOptions
-  ): PagedAsyncIterableIterator<RuleProperties, RuleProperties[], { maxPageSize?: number; }> {
+  ): PagedAsyncIterableIterator<RuleProperties, RuleProperties[], { maxPageSize?: number }> {
     logger.verbose(`Performing operation - listRules() with options: %j`, options);
     const iter = this.listRulesAll(options);
     return {
@@ -236,7 +238,7 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
       },
       /**
        */
-      byPage: (settings: { maxPageSize?: number; } = {}) => {
+      byPage: (settings: { maxPageSize?: number } = {}) => {
         return this.listRulesPage(undefined, {
           maxPageSize: settings.maxPageSize,
           ...options,
