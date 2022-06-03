@@ -63,7 +63,7 @@ describe("ClientAssertionCredential (internal)", function () {
     });
   });
 
-  it.only("Sends the expected parameters", async function () {
+  it("Sends the expected parameters", async function () {
     async function getAssertion(): Promise<string> {
 
       return "assertion";
@@ -95,63 +95,3 @@ describe("ClientAssertionCredential (internal)", function () {
     assert.equal(sentConfiguration.clientAssertion.assertionType, "urn:ietf:params:oauth:client-assertion-type:jwt-bearer");
   });
 });
-
-
-/*
-async function createClientAssertion(authorityHost: string, clientId: string, tenantId: string, clientCertificatePath: string): Promise<void> {
-    
- const certificatePart: CertificateParts = await parseCertificate({certificatePath: clientCertificatePath});
-
-  // var audienceBuilder = new RequestUriBuilder();
-
-  //   audienceBuilder.Reset(authorityHost);
-
-  //   audienceBuilder.AppendPath(tenantId + "/v2.0", false);
-
-  //   var audience = audienceBuilder.ToString();
-
-  //   var headerBuff = new ArrayBufferWriter<byte>();
-
-  //   using(var headerJson = new Utf8JsonWriter(headerBuff))
-  //     {
-  //       headerJson.WriteStartObject();
-
-  //   headerJson.WriteString("typ", "JWT");
-  //   headerJson.WriteString("alg", "RS256");
-  //   headerJson.WriteString("x5t", HexToBase64Url(clientCertificate.Thumbprint));
-
-  //   headerJson.WriteEndObject();
-
-  //   headerJson.Flush();
-  // }
-
-  // var payloadBuff = new ArrayBufferWriter<byte>();
-
-  // using(var payloadJson = new Utf8JsonWriter(payloadBuff))
-  //   {
-  //     payloadJson.WriteStartObject();
-
-  // payloadJson.WriteString("jti", Guid.NewGuid());
-  // payloadJson.WriteString("aud", audience);
-  // payloadJson.WriteString("iss", clientId);
-  // payloadJson.WriteString("sub", clientId);
-  // payloadJson.WriteNumber("nbf", DateTimeOffset.UtcNow.ToUnixTimeSeconds());
-  // payloadJson.WriteNumber("exp", (DateTimeOffset.UtcNow + TimeSpan.FromMinutes(30)).ToUnixTimeSeconds());
-
-  // payloadJson.WriteEndObject();
-
-  // payloadJson.Flush();
-//}
-
-//             string header = Base64Url.Encode(headerBuff.WrittenMemory.ToArray());
-
-//             string payload = Base64Url.Encode(payloadBuff.WrittenMemory.ToArray());
-
-//             string flattenedJws = header + "." + payload;
-
-// byte[] signature = clientCertificate.GetRSAPrivateKey().SignData(Encoding.ASCII.GetBytes(flattenedJws), HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-
-// return flattenedJws + "." + Base64Url.Encode(signature);
-//         }
-}
-*/
