@@ -13,7 +13,6 @@ export { DocumentAnalysisClient } from "./documentAnalysisClient";
 export { DocumentModelAdministrationClient } from "./documentModelAdministrationClient";
 export {
   // Generated types used verbatim
-  ContentType,
   CopyAuthorization,
   CurrencyValue,
   DocTypeInfo,

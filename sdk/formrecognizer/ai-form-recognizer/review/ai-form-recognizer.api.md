@@ -200,9 +200,6 @@ export interface CommonModelCreationOptions {
 }
 
 // @public
-export type ContentType = "application/octet-stream" | "application/pdf" | "application/vnd.openxmlformats-officedocument.presentationml.presentation" | "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" | "application/vnd.openxmlformats-officedocument.wordprocessingml.document" | "image/bmp" | "image/heif" | "image/jpeg" | "image/png" | "image/tiff";
-
-// @public
 export interface CopyAuthorization {
     accessToken: string;
     expirationDateTime: Date;
@@ -341,13 +338,6 @@ export interface DocumentFootnote {
 }
 
 // @public
-export interface DocumentImage extends HasBoundingPolygon {
-    confidence: number;
-    pageRef: number;
-    span: DocumentSpan;
-}
-
-// @public
 export interface DocumentIntegerField extends DocumentValueField<number> {
     kind: "integer";
 }
@@ -433,7 +423,6 @@ export interface DocumentObjectField<Properties = {
 export interface DocumentPage {
     angle?: number;
     height?: number;
-    images?: DocumentImage[];
     kind: DocumentPageKind;
     lines?: DocumentLine[];
     pageNumber: number;

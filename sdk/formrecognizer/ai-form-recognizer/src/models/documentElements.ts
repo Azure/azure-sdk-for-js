@@ -53,16 +53,6 @@ export interface DocumentSelectionMark extends HasBoundingPolygon {
   confidence: number;
 }
 
-/** An image object detected in the page. */
-export interface DocumentImage extends HasBoundingPolygon {
-  /** Location of the image in the reading order concatenated content. */
-  span: DocumentSpan;
-  /** 0-based index of the global pages array that containing the content of the image. */
-  pageRef: number;
-  /** Confidence of correctly identifying the image. */
-  confidence: number;
-}
-
 /** A content line object consisting of an adjacent sequence of content elements, such as words and selection marks. */
 export interface DocumentLine extends HasBoundingPolygon {
   /** Concatenated content of the contained elements in reading order. */
@@ -193,7 +183,7 @@ export interface DocumentPage {
   width?: number;
   /** The height of the image/PDF in pixels/inches, respectively. */
   height?: number;
-  /** The unit used by the width, height, and polygon properties. For images, the unit is "pixel". For PDF, the unit is "inch". */
+  /** The unit used by the width, height, and polygon properties. For PDF, the unit is "inch". */
   unit?: LengthUnit;
   /** Location of the page in the reading order concatenated content. */
   spans: DocumentSpan[];
@@ -201,8 +191,6 @@ export interface DocumentPage {
   words?: DocumentWord[];
   /** Extracted selection marks from the page. */
   selectionMarks?: DocumentSelectionMark[];
-  /** Extracted images from the page. */
-  images?: DocumentImage[];
   /** Extracted lines from the page, potentially containing both textual and visual elements. */
   lines?: DocumentLine[];
 }

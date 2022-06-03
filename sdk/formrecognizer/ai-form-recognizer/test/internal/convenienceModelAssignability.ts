@@ -5,7 +5,6 @@ import {
   Document as GeneratedDocument,
   DocumentCaption as GeneratedDocumentCaption,
   DocumentFootnote as GeneratedDocumentFootnote,
-  DocumentImage as GeneratedDocumentImage,
   DocumentKeyValueElement as GeneratedDocumentKeyValueElement,
   DocumentLine as GeneratedDocumentLine,
   DocumentPage as GeneratedDocumentPage,
@@ -19,7 +18,6 @@ import {
   Document,
   DocumentCaption,
   DocumentFootnote,
-  DocumentImage,
   DocumentKeyValueElement,
   DocumentLine,
   DocumentPage,
@@ -38,7 +36,6 @@ function checkAssign<T>(_model: T) {
 
 declare const word: DocumentWord;
 declare const selectionMark: DocumentSelectionMark;
-declare const documentImage: DocumentImage;
 declare const documentLine: DocumentLine;
 declare const documentParagraph: DocumentParagraph;
 declare const documentTable: DocumentTable;
@@ -51,7 +48,6 @@ declare const documentPage: DocumentPage;
 
 checkAssign<Omit<GeneratedDocumentWord, "polygon">>(word);
 checkAssign<Omit<GeneratedDocumentSelectionMark, "polygon">>(selectionMark);
-checkAssign<Omit<GeneratedDocumentImage, "polygon">>(documentImage);
 checkAssign<Omit<GeneratedDocumentLine, "polygon">>(documentLine);
 checkAssign<Omit<GeneratedDocumentParagraph, "boundingRegions">>(documentParagraph);
 checkAssign<Omit<GeneratedDocumentTableCell, "boundingRegions">>(documentTableCell);
@@ -70,7 +66,6 @@ checkAssign<Omit<GeneratedDocumentPage, "images" | "words" | "selectionMarks" | 
 
 declare const generatedWord: GeneratedDocumentWord;
 declare const generatedSelectionMark: GeneratedDocumentSelectionMark;
-declare const generatedDocumentImage: GeneratedDocumentImage;
 declare const generatedDocumentLine: GeneratedDocumentLine;
 declare const generatedDocumentParagraph: GeneratedDocumentParagraph;
 declare const generatedDocumentTable: GeneratedDocumentTable;
@@ -83,7 +78,6 @@ declare const generatedDocumentPage: GeneratedDocumentPage;
 
 checkAssign<Omit<DocumentWord, "polygon">>(generatedWord);
 checkAssign<Omit<DocumentSelectionMark, "polygon">>(generatedSelectionMark);
-checkAssign<Omit<DocumentImage, "polygon">>(generatedDocumentImage);
 checkAssign<Omit<DocumentLine, "polygon" | "words">>(generatedDocumentLine);
 checkAssign<Omit<DocumentParagraph, "boundingRegions">>(generatedDocumentParagraph);
 checkAssign<Omit<DocumentTableCell, "boundingRegions">>(generatedDocumentTableCell);
