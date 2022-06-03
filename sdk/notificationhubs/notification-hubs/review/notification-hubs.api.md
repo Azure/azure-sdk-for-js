@@ -4,8 +4,64 @@
 
 ```ts
 
+import { CommonClientOptions } from '@azure/core-client';
+import { OperationOptions } from '@azure/core-client';
+import { ServiceClient } from '@azure/core-client';
+
 // @public (undocumented)
-export const foo = 42;
+export interface Installation {
+    // (undocumented)
+    readonly expirationTime: string;
+    // (undocumented)
+    installationId: string;
+    // (undocumented)
+    readonly lastUpdate: string;
+    // (undocumented)
+    platform: string;
+    // (undocumented)
+    pushChannel: string;
+    // (undocumented)
+    tags?: string[];
+    // (undocumented)
+    templates?: Record<string, InstallationTemplate>;
+    // (undocumented)
+    userId?: string;
+}
+
+// @public (undocumented)
+export interface InstallationTemplate {
+    // (undocumented)
+    body: string;
+    // (undocumented)
+    expiry?: string;
+    // (undocumented)
+    headers: Record<string, string>;
+    // (undocumented)
+    tags?: string[];
+}
+
+// @public (undocumented)
+export interface NotificationHubResponse {
+    // (undocumented)
+    correlationId?: string;
+    // (undocumented)
+    location?: string;
+    // (undocumented)
+    trackingId?: string;
+}
+
+// @public (undocumented)
+export class NotificationHubsClient extends ServiceClient {
+    constructor(connectionString: string, hubName: string, options?: NotificationHubsClientOptions);
+    // (undocumented)
+    deleteInstallation(installationId: string, options?: OperationOptions): Promise<NotificationHubResponse>;
+    // (undocumented)
+    getInstallation(installationId: string, options?: OperationOptions): Promise<Installation>;
+}
+
+// @public
+export interface NotificationHubsClientOptions extends CommonClientOptions {
+}
 
 // (No @packageDocumentation comment for this package)
 

@@ -3,18 +3,12 @@
 
 import { OperationOptions, ServiceClient } from "@azure/core-client";
 import { createHttpHeaders, createPipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
-import { createTokenProviderFromConnectionString, parseNotificationHubsConnectionString } from "./utils/connectionStringUtils";
-import { Installation, NotificationHubsClientOptions } from "./models";
+import { createTokenProviderFromConnection, parseNotificationHubsConnectionString } from "./utils/connectionStringUtils";
+import { Installation, NotificationHubsClientOptions, NotificationHubResponse } from "./models";
 import { SasTokenProvider } from "@azure/core-amqp";
 import { tracingClient } from "./utils/tracing";
 
 const API_VERSION = "2020-06";
-
-export interface NotificationHubResponse {
-  trackingId?: string;
-  correlationId?: string;
-  location?: string;
-}
 
 export class NotificationHubsClient extends ServiceClient {
   private _baseUrl: string;
@@ -27,7 +21,7 @@ export class NotificationHubsClient extends ServiceClient {
 
     const parsedConnection = parseNotificationHubsConnectionString(connectionString);
     this._baseUrl = parsedConnection.endpoint;
-    this._sasTokenProvider = createTokenProviderFromConnectionString(connectionString);
+    this._sasTokenProvider = createTokenProviderFromConnection(parsedConnection.sharedAccessKey, parsedConnection.sharedAccessKeyName);
   }
 
   public deleteInstallation(installationId: string, options: OperationOptions = {}): Promise<NotificationHubResponse> {
@@ -65,6 +59,7 @@ export class NotificationHubsClient extends ServiceClient {
       const authorization = this._sasTokenProvider.getToken(this._baseUrl);
       const headers = createHttpHeaders();
       headers.set("Authorization", authorization.token);
+      headers.set("Content-Type", "application/json");
       headers.set("x-ms-version", API_VERSION);
 
       const request = createPipelineRequest({
@@ -78,11 +73,11 @@ export class NotificationHubsClient extends ServiceClient {
 
       const response = await this.sendRequest(request);
       if (response.status !== 200) {
-        // TODO: throw special error
+        // TODO: throw special errors
         throw new Error(`deleteInstallation failed with ${response.status}`);
       }
 
-      const installation = JSON.parse(response.bodyAsText) as Installation;
+      const installation = JSON.parse(response.bodyAsText!) as Installation;
       return installation;
     });
   }

@@ -10,6 +10,12 @@ export interface NotificationHubsClientOptions extends CommonClientOptions {
   
 }
 
+export interface NotificationHubResponse {
+  trackingId?: string;
+  correlationId?: string;
+  location?: string;
+}
+
 export interface Installation {
   installationId: string;
 

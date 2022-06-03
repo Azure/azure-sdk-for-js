@@ -16,32 +16,17 @@ export interface NotificationHubsConnectionStringProperties {
    * in the connection string is used to generate a SharedAccessSignature which can be used authorize
    * the connection to the service.
    */
-  sharedAccessKey?: string;
+  sharedAccessKey: string;
   /**
    * The value for "SharedAccessKeyName" in the connection string. This along with the "SharedAccessKey"
    * in the connection string is used to generate a SharedAccessSignature which can be used authorize
    * the connection to the service.
    */
-  sharedAccessKeyName?: string;
+  sharedAccessKeyName: string;
 }
 
-export function createTokenProviderFromConnectionString(connectionString: string): SasTokenProvider {
-  const parsed = parseNotificationHubsConnectionString(connectionString) as Required<
-    | Pick<NotificationHubsConnectionStringProperties, "sharedAccessKey" | "sharedAccessKeyName">
-  >;
-  return createSasTokenProvider(parsed);
-}
-
-export function parseEndpoint(endpoint: string): { host: string; hostname: string; port?: string } {
-  const hostMatch = endpoint.match(/.*:\/\/([^/]*)/);
-  if (!hostMatch) {
-    throw new TypeError(`Invalid endpoint missing host: ${endpoint}`);
-  }
-
-  const [, host] = hostMatch;
-  const [hostname, port] = host.split(":");
-
-  return { host, hostname, port };
+export function createTokenProviderFromConnection(sharedAccessKey: string, sharedAccessKeyName: string): SasTokenProvider {
+  return createSasTokenProvider({ sharedAccessKey, sharedAccessKeyName });
 }
 
 /**
@@ -72,8 +57,8 @@ export function parseNotificationHubsConnectionString(
 
   const output: NotificationHubsConnectionStringProperties = {
     endpoint: parsedResult.Endpoint,
-    sharedAccessKey: parsedResult.SharedAccessKey,
-    sharedAccessKeyName: parsedResult.SharedAccessKeyName
+    sharedAccessKey: parsedResult.SharedAccessKey!,
+    sharedAccessKeyName: parsedResult.SharedAccessKeyName!
   };
 
   return output;
