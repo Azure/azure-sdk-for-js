@@ -14,8 +14,8 @@
 - [**DEPRECATION**] Deprecated `beginExtractLayout`, `beginExtractGeneralDocument`, and `beginReadDocument`. In a future version (prior to a stable release), these methods will be removed, and `beginAnalyzeDocument` will be enhanced to provide the same restricted types.
 - Renamed the `beginCopyModel` method of `DocumentModelAdministrationClient` to `beginCopyModelTo`. [#20775](https://github.com/Azure/azure-sdk-for-js/pull/20775)
 - Renamed `BoundingRegion#boundingBox` to `BoundingRegion#polygon`, as the service may now provide arbitrary, polygonal bounding areas rather than just rectangles.
-- Removed `entities` property from the `AnalyzeResult` type.
-- Renamed `languageCode` property in the `DocumentLanguage` type to `locale`.
+- Removed the `entities` property from the `AnalyzeResult` type. This field may be reintroduced in a future version, but service API version `2022-06-30-preview` no longer returns this field.
+- Renamed the `languageCode` property in the `DocumentLanguage` type to `locale`.
 
 ### Bugs Fixed
 
