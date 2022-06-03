@@ -6,9 +6,12 @@
 
 - Added `caption` and `footnotes` properties to the `DocumentTable` type. These properties represent an optional caption and footnotes (as `DocumentCaption` and `DocumentFootnote`) that were attached to extracted tables in the input documents.
 - Added a `paragraphs` property to the `AnalyzeResult` type and a new `DocumentParagraph` type. This property represents the paragraph structure of the input document's text.
+- Documents may now contain a `DocumentAddressField` type, which has an object with several fields related to physical addresses, such as `streetAddress`, `city`, and `state` as its value. This field is identified by the value `"address"` in the `kind` field.
 
 ### Breaking Changes
 
+- [**DEPRECATION**] Deprecated `PrebuiltModels`. In a future version (prior to a stable release), `PrebuiltModels` and its fields will be replaced with an out-of-tree solution for obtaining strongly-typed analysis results.
+- [**DEPRECATION**] Deprecated `beginExtractLayout`, `beginExtractGeneralDocument`, and `beginReadDocument`. In a future version (prior to a stable release), these methods will be removed, and `beginAnalyzeDocument` will be enhanced to provide the same restricted types.
 - Renamed the `beginCopyModel` method of `DocumentModelAdministrationClient` to `beginCopyModelTo`. [#20775](https://github.com/Azure/azure-sdk-for-js/pull/20775)
 - Renamed `BoundingRegion#boundingBox` to `BoundingRegion#polygon`, as the service may now provide arbitrary, polygonal bounding areas rather than just rectangles.
 

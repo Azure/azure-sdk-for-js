@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { BusinessCard, BusinessCardSchema } from "./modelSchemas/businessCard";
-export { IdentityDocument, IdentityDocumentSchema } from "./modelSchemas/idDocument";
-export { Invoice, InvoiceSchema } from "./modelSchemas/invoice";
-export { Receipt, ReceiptSchema } from "./modelSchemas/receipt";
+export * from "./modelSchemas/businessCard";
+export * from "./modelSchemas/idDocument";
+export * from "./modelSchemas/invoice";
+export * from "./modelSchemas/receipt";
+export * from "./modelSchemas/w2";
 
 export {
   ReifyPrebuiltSchema,

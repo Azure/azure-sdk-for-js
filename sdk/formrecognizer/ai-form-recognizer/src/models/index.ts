@@ -20,6 +20,7 @@ export {
   DocumentSelectionMarkField,
   DocumentSignatureField,
   DocumentCurrencyField,
+  DocumentAddressField,
   DocumentField,
 } from "./fields";
 export {
