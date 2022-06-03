@@ -35,6 +35,8 @@ npm install @azure-rest/service-fabric
 
 ### Create and authenticate a ServiceFabric
 
+#### Authenticate with Azure Active Directory
+
 To use an [Azure Active Directory (AAD) token credential][authenticate_with_token],
 provide an instance of the desired credential type obtained from the
 [@azure/identity][azure_identity_credentials] library.
@@ -57,6 +59,25 @@ import { DefaultAzureCredential } from "@azure/identity";
 const client = ServiceFabric("<my-endpoint>", new DefaultAzureCredential());
 ```
 
+#### Authenticate with a client certificate
+
+You can use a TLS certificate to authenticate the client.
+
+Please see [Service Fabric Authentication][authenticate_with_certificate] documentation for more details.
+
+Here's an example of how to pass a client certificate to the client:
+
+```typescript
+import ServiceFabric from "@azure-rest/service-fabric";
+import { promises as fs } from "fs";
+
+// Read the certificate
+const pfxPath = process.env["SERVICE_FABRIC_PFX_PATH"] ?? "<PATH_TO_CERTIFICATE>";
+const pfx = await fs.readFile(pfxPath);
+
+const client = ServiceFabric("<my-endpoint>", { tlsOptions: { pfx } });
+```
+
 ## Key concepts
 
 ### REST Client
@@ -65,9 +86,7 @@ This client is one of our REST clients. We highly recommend you read how to use 
 
 ## Examples
 
-The following section shows you how to initialize and authenticate your client, then get all of your type-defs.
-
-- [Get All Type Definitions](#get-all-type-definitions "Get All Type Definitions")
+The following section shows you how to initialize and authenticate your client, then get the cluster health.
 
 ```typescript
 import ServiceFabric from "@azure-rest/service-fabric";
@@ -76,13 +95,13 @@ import { DefaultAzureCredential } from "@azure/identity";
 async function main() {
   const client = ServiceFabric(endpoint, new DefaultAzureCredential());
 
-  const result = await client.path("<my-path>").get();
+  const result = await client.path("/$/GetClusterHealth").get();
 
   if (result.status !== "200") {
     throw result;
   }
 
-  console.log(result).join("\n"));
+  console.log(result.body).join("\n"));
 }
 
 main().catch(console.error);
@@ -112,7 +131,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
 
-[product_documentation]: https://docs.microsoft.com/azure/service-fabric/
+[product_documentation]: https://docs.microsoft.com/rest/api/servicefabric/v82/sfclient-v82-index
 [rest_client]: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md
 [source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicefabric/service-fabric-rest
 [npm]: https://www.npmjs.com/org/azure-rest
@@ -124,3 +143,4 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_identity_npm]: https://www.npmjs.com/package/@azure/identity
 [enable_aad]: https://docs.microsoft.com/azure/service-fabric/quickstart-managed-cluster-template
 [default_azure_credential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
+[authenticate_with_certificate]: https://docs.microsoft.com/rest/api/servicefabric/v82/sfclient-v82-authenticating-service-fabric-rest-requests#http-gateway-with-x509-security

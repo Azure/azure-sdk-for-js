@@ -17,8 +17,7 @@ rest-level-client: true
 add-credentials: true
 credential-scopes: "https://servicefabric.azure.net/.default"
 use-extension:
-  "@autorest/typescript": "6.0.0-beta.16"
-rlc-shortcut: true
+  "@autorest/typescript": "6.0.0-beta.20"
 ```
 
 ```yaml

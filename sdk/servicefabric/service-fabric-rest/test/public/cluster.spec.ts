@@ -2,16 +2,14 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
 import { Recorder } from "@azure-tools/test-recorder";
+import { ServiceFabricClient } from "../../src";
 import { assert } from "chai";
-import { ServiceFabricLike } from "../../src";
 import { createClient } from "./utils/recordedClient";
 
 describe("Cluster tests", () => {
   let recorder: Recorder;
-  let client: ServiceFabricLike;
+  let client: ServiceFabricClient;
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
@@ -23,7 +21,7 @@ describe("Cluster tests", () => {
   });
 
   it("should get health state", async function () {
-    const result = await client.getClusterHealth();
+    const result = await client.path("/$/GetClusterHealth").get();
 
     if (result.status !== "200") {
       throw result;

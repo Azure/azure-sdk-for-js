@@ -4,7 +4,6 @@
 
 ```ts
 
-import { CertificateCredential } from '@azure-rest/core-client';
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
@@ -1399,225 +1398,6 @@ export interface CheckValuePropertyBatchOperation extends PropertyBatchOperation
     Value: PropertyValue;
 }
 
-// @public
-export interface ClientOperations {
-    addConfigurationParameterOverrides(nodeName: string, options: AddConfigurationParameterOverridesParameters): Promise<AddConfigurationParameterOverrides200Response | AddConfigurationParameterOverridesdefaultResponse>;
-    addNodeTags(nodeName: string, options: AddNodeTagsParameters): Promise<AddNodeTags200Response | AddNodeTagsdefaultResponse>;
-    backupPartition(partitionId: string, options?: BackupPartitionParameters): Promise<BackupPartition202Response | BackupPartitiondefaultResponse>;
-    cancelOperation(options: CancelOperationParameters): Promise<CancelOperation200Response | CancelOperationdefaultResponse>;
-    cancelRepairTask(options: CancelRepairTaskParameters): Promise<CancelRepairTask200Response | CancelRepairTaskdefaultResponse>;
-    commitImageStoreUploadSession(options: CommitImageStoreUploadSessionParameters): Promise<CommitImageStoreUploadSession200Response | CommitImageStoreUploadSessiondefaultResponse>;
-    copyImageStoreContent(options: CopyImageStoreContentParameters): Promise<CopyImageStoreContent200Response | CopyImageStoreContentdefaultResponse>;
-    createApplication(options: CreateApplicationParameters): Promise<CreateApplication201Response | CreateApplicationdefaultResponse>;
-    createBackupPolicy(options: CreateBackupPolicyParameters): Promise<CreateBackupPolicy201Response | CreateBackupPolicydefaultResponse>;
-    createComposeDeployment(options: CreateComposeDeploymentParameters): Promise<CreateComposeDeployment202Response | CreateComposeDeploymentdefaultResponse>;
-    createName(options: CreateNameParameters): Promise<CreateName201Response | CreateNamedefaultResponse>;
-    createRepairTask(options: CreateRepairTaskParameters): Promise<CreateRepairTask200Response | CreateRepairTaskdefaultResponse>;
-    createService(applicationId: string, options: CreateServiceParameters): Promise<CreateService202Response | CreateServicedefaultResponse>;
-    createServiceFromTemplate(applicationId: string, options: CreateServiceFromTemplateParameters): Promise<CreateServiceFromTemplate202Response | CreateServiceFromTemplatedefaultResponse>;
-    deleteApplication(applicationId: string, options?: DeleteApplicationParameters): Promise<DeleteApplication200Response | DeleteApplicationdefaultResponse>;
-    deleteBackupPolicy(backupPolicyName: string, options?: DeleteBackupPolicyParameters): Promise<DeleteBackupPolicy200Response | DeleteBackupPolicydefaultResponse>;
-    deleteImageStoreContent(contentPath: string, options?: DeleteImageStoreContentParameters): Promise<DeleteImageStoreContent200Response | DeleteImageStoreContentdefaultResponse>;
-    deleteImageStoreUploadSession(options: DeleteImageStoreUploadSessionParameters): Promise<DeleteImageStoreUploadSession200Response | DeleteImageStoreUploadSessiondefaultResponse>;
-    deleteName(nameId: string, options?: DeleteNameParameters): Promise<DeleteName200Response | DeleteNamedefaultResponse>;
-    deleteProperty(nameId: string, options: DeletePropertyParameters): Promise<DeleteProperty200Response | DeletePropertydefaultResponse>;
-    deleteRepairTask(options: DeleteRepairTaskParameters): Promise<DeleteRepairTask200Response | DeleteRepairTaskdefaultResponse>;
-    deleteService(serviceId: string, options?: DeleteServiceParameters): Promise<DeleteService200Response | DeleteServicedefaultResponse>;
-    deployServicePackageToNode(nodeName: string, options: DeployServicePackageToNodeParameters): Promise<DeployServicePackageToNode200Response | DeployServicePackageToNodedefaultResponse>;
-    disableApplicationBackup(applicationId: string, options?: DisableApplicationBackupParameters): Promise<DisableApplicationBackup202Response | DisableApplicationBackupdefaultResponse>;
-    disableNode(nodeName: string, options: DisableNodeParameters): Promise<DisableNode200Response | DisableNodedefaultResponse>;
-    disablePartitionBackup(partitionId: string, options?: DisablePartitionBackupParameters): Promise<DisablePartitionBackup202Response | DisablePartitionBackupdefaultResponse>;
-    disableServiceBackup(serviceId: string, options?: DisableServiceBackupParameters): Promise<DisableServiceBackup202Response | DisableServiceBackupdefaultResponse>;
-    enableApplicationBackup(applicationId: string, options: EnableApplicationBackupParameters): Promise<EnableApplicationBackup202Response | EnableApplicationBackupdefaultResponse>;
-    enableNode(nodeName: string, options?: EnableNodeParameters): Promise<EnableNode200Response | EnableNodedefaultResponse>;
-    enablePartitionBackup(partitionId: string, options: EnablePartitionBackupParameters): Promise<EnablePartitionBackup202Response | EnablePartitionBackupdefaultResponse>;
-    enableServiceBackup(serviceId: string, options: EnableServiceBackupParameters): Promise<EnableServiceBackup202Response | EnableServiceBackupdefaultResponse>;
-    forceApproveRepairTask(options: ForceApproveRepairTaskParameters): Promise<ForceApproveRepairTask200Response | ForceApproveRepairTaskdefaultResponse>;
-    getAadMetadata(options?: GetAadMetadataParameters): Promise<GetAadMetadata200Response | GetAadMetadatadefaultResponse>;
-    getAllEntitiesBackedUpByPolicy(backupPolicyName: string, options?: GetAllEntitiesBackedUpByPolicyParameters): Promise<GetAllEntitiesBackedUpByPolicy200Response | GetAllEntitiesBackedUpByPolicydefaultResponse>;
-    getApplicationBackupConfigurationInfo(applicationId: string, options?: GetApplicationBackupConfigurationInfoParameters): Promise<GetApplicationBackupConfigurationInfo200Response | GetApplicationBackupConfigurationInfodefaultResponse>;
-    getApplicationBackupList(applicationId: string, options?: GetApplicationBackupListParameters): Promise<GetApplicationBackupList200Response | GetApplicationBackupListdefaultResponse>;
-    getApplicationEventList(applicationId: string, options: GetApplicationEventListParameters): Promise<GetApplicationEventList200Response | GetApplicationEventListdefaultResponse>;
-    getApplicationHealth(applicationId: string, options?: GetApplicationHealthParameters): Promise<GetApplicationHealth200Response | GetApplicationHealthdefaultResponse>;
-    getApplicationHealthUsingPolicy(applicationId: string, options?: GetApplicationHealthUsingPolicyParameters): Promise<GetApplicationHealthUsingPolicy200Response | GetApplicationHealthUsingPolicydefaultResponse>;
-    getApplicationInfo(applicationId: string, options?: GetApplicationInfoParameters): Promise<GetApplicationInfo200Response | GetApplicationInfo204Response | GetApplicationInfodefaultResponse>;
-    getApplicationInfoList(options?: GetApplicationInfoListParameters): Promise<GetApplicationInfoList200Response | GetApplicationInfoListdefaultResponse>;
-    getApplicationLoadInfo(applicationId: string, options?: GetApplicationLoadInfoParameters): Promise<GetApplicationLoadInfo200Response | GetApplicationLoadInfo204Response | GetApplicationLoadInfodefaultResponse>;
-    getApplicationManifest(applicationTypeName: string, options: GetApplicationManifestParameters): Promise<GetApplicationManifest200Response | GetApplicationManifestdefaultResponse>;
-    getApplicationNameInfo(serviceId: string, options?: GetApplicationNameInfoParameters): Promise<GetApplicationNameInfo200Response | GetApplicationNameInfodefaultResponse>;
-    getApplicationsEventList(options: GetApplicationsEventListParameters): Promise<GetApplicationsEventList200Response | GetApplicationsEventListdefaultResponse>;
-    getApplicationTypeInfoList(options?: GetApplicationTypeInfoListParameters): Promise<GetApplicationTypeInfoList200Response | GetApplicationTypeInfoListdefaultResponse>;
-    getApplicationTypeInfoListByName(applicationTypeName: string, options?: GetApplicationTypeInfoListByNameParameters): Promise<GetApplicationTypeInfoListByName200Response | GetApplicationTypeInfoListByNamedefaultResponse>;
-    getApplicationUpgrade(applicationId: string, options?: GetApplicationUpgradeParameters): Promise<GetApplicationUpgrade200Response | GetApplicationUpgradedefaultResponse>;
-    getBackupPolicyByName(backupPolicyName: string, options?: GetBackupPolicyByNameParameters): Promise<GetBackupPolicyByName200Response | GetBackupPolicyByNamedefaultResponse>;
-    getBackupPolicyList(options?: GetBackupPolicyListParameters): Promise<GetBackupPolicyList200Response | GetBackupPolicyListdefaultResponse>;
-    getBackupsFromBackupLocation(options: GetBackupsFromBackupLocationParameters): Promise<GetBackupsFromBackupLocation200Response | GetBackupsFromBackupLocationdefaultResponse>;
-    getChaos(options?: GetChaosParameters): Promise<GetChaos200Response | GetChaosdefaultResponse>;
-    getChaosEvents(options?: GetChaosEventsParameters): Promise<GetChaosEvents200Response | GetChaosEventsdefaultResponse>;
-    getChaosSchedule(options?: GetChaosScheduleParameters): Promise<GetChaosSchedule200Response | GetChaosScheduledefaultResponse>;
-    getClusterConfiguration(options: GetClusterConfigurationParameters): Promise<GetClusterConfiguration200Response | GetClusterConfigurationdefaultResponse>;
-    getClusterConfigurationUpgradeStatus(options?: GetClusterConfigurationUpgradeStatusParameters): Promise<GetClusterConfigurationUpgradeStatus200Response | GetClusterConfigurationUpgradeStatusdefaultResponse>;
-    getClusterEventList(options: GetClusterEventListParameters): Promise<GetClusterEventList200Response | GetClusterEventListdefaultResponse>;
-    getClusterHealth(options?: GetClusterHealthParameters): Promise<GetClusterHealth200Response | GetClusterHealthdefaultResponse>;
-    getClusterHealthChunk(options?: GetClusterHealthChunkParameters): Promise<GetClusterHealthChunk200Response | GetClusterHealthChunkdefaultResponse>;
-    getClusterHealthChunkUsingPolicyAndAdvancedFilters(options?: GetClusterHealthChunkUsingPolicyAndAdvancedFiltersParameters): Promise<GetClusterHealthChunkUsingPolicyAndAdvancedFilters200Response | GetClusterHealthChunkUsingPolicyAndAdvancedFiltersdefaultResponse>;
-    getClusterHealthUsingPolicy(options?: GetClusterHealthUsingPolicyParameters): Promise<GetClusterHealthUsingPolicy200Response | GetClusterHealthUsingPolicydefaultResponse>;
-    getClusterLoad(options?: GetClusterLoadParameters): Promise<GetClusterLoad200Response | GetClusterLoaddefaultResponse>;
-    getClusterManifest(options?: GetClusterManifestParameters): Promise<GetClusterManifest200Response | GetClusterManifestdefaultResponse>;
-    getClusterUpgradeProgress(options?: GetClusterUpgradeProgressParameters): Promise<GetClusterUpgradeProgress200Response | GetClusterUpgradeProgressdefaultResponse>;
-    getClusterVersion(options?: GetClusterVersionParameters): Promise<GetClusterVersion200Response | GetClusterVersiondefaultResponse>;
-    getComposeDeploymentStatus(deploymentName: string, options?: GetComposeDeploymentStatusParameters): Promise<GetComposeDeploymentStatus200Response | GetComposeDeploymentStatusdefaultResponse>;
-    getComposeDeploymentStatusList(options?: GetComposeDeploymentStatusListParameters): Promise<GetComposeDeploymentStatusList200Response | GetComposeDeploymentStatusListdefaultResponse>;
-    getComposeDeploymentUpgradeProgress(deploymentName: string, options?: GetComposeDeploymentUpgradeProgressParameters): Promise<GetComposeDeploymentUpgradeProgress200Response | GetComposeDeploymentUpgradeProgressdefaultResponse>;
-    getConfigurationOverrides(nodeName: string, options?: GetConfigurationOverridesParameters): Promise<GetConfigurationOverrides200Response | GetConfigurationOverridesdefaultResponse>;
-    getContainerLogsDeployedOnNode(nodeName: string, applicationId: string, options: GetContainerLogsDeployedOnNodeParameters): Promise<GetContainerLogsDeployedOnNode200Response | GetContainerLogsDeployedOnNodedefaultResponse>;
-    getContainersEventList(options: GetContainersEventListParameters): Promise<GetContainersEventList200Response | GetContainersEventListdefaultResponse>;
-    getCorrelatedEventList(eventInstanceId: string, options?: GetCorrelatedEventListParameters): Promise<GetCorrelatedEventList200Response | GetCorrelatedEventListdefaultResponse>;
-    getDataLossProgress(serviceId: string, partitionId: string, options: GetDataLossProgressParameters): Promise<GetDataLossProgress200Response | GetDataLossProgressdefaultResponse>;
-    getDeployedApplicationHealth(nodeName: string, applicationId: string, options?: GetDeployedApplicationHealthParameters): Promise<GetDeployedApplicationHealth200Response | GetDeployedApplicationHealthdefaultResponse>;
-    getDeployedApplicationHealthUsingPolicy(nodeName: string, applicationId: string, options?: GetDeployedApplicationHealthUsingPolicyParameters): Promise<GetDeployedApplicationHealthUsingPolicy200Response | GetDeployedApplicationHealthUsingPolicydefaultResponse>;
-    getDeployedApplicationInfo(nodeName: string, applicationId: string, options?: GetDeployedApplicationInfoParameters): Promise<GetDeployedApplicationInfo200Response | GetDeployedApplicationInfo204Response | GetDeployedApplicationInfodefaultResponse>;
-    getDeployedApplicationInfoList(nodeName: string, options?: GetDeployedApplicationInfoListParameters): Promise<GetDeployedApplicationInfoList200Response | GetDeployedApplicationInfoListdefaultResponse>;
-    getDeployedCodePackageInfoList(nodeName: string, applicationId: string, options?: GetDeployedCodePackageInfoListParameters): Promise<GetDeployedCodePackageInfoList200Response | GetDeployedCodePackageInfoListdefaultResponse>;
-    getDeployedServicePackageHealth(nodeName: string, applicationId: string, servicePackageName: string, options?: GetDeployedServicePackageHealthParameters): Promise<GetDeployedServicePackageHealth200Response | GetDeployedServicePackageHealthdefaultResponse>;
-    getDeployedServicePackageHealthUsingPolicy(nodeName: string, applicationId: string, servicePackageName: string, options?: GetDeployedServicePackageHealthUsingPolicyParameters): Promise<GetDeployedServicePackageHealthUsingPolicy200Response | GetDeployedServicePackageHealthUsingPolicydefaultResponse>;
-    getDeployedServicePackageInfoList(nodeName: string, applicationId: string, options?: GetDeployedServicePackageInfoListParameters): Promise<GetDeployedServicePackageInfoList200Response | GetDeployedServicePackageInfoListdefaultResponse>;
-    getDeployedServicePackageInfoListByName(nodeName: string, applicationId: string, servicePackageName: string, options?: GetDeployedServicePackageInfoListByNameParameters): Promise<GetDeployedServicePackageInfoListByName200Response | GetDeployedServicePackageInfoListByName204Response | GetDeployedServicePackageInfoListByNamedefaultResponse>;
-    getDeployedServiceReplicaDetailInfo(nodeName: string, partitionId: string, replicaId: string, options?: GetDeployedServiceReplicaDetailInfoParameters): Promise<GetDeployedServiceReplicaDetailInfo200Response | GetDeployedServiceReplicaDetailInfodefaultResponse>;
-    getDeployedServiceReplicaDetailInfoByPartitionId(nodeName: string, partitionId: string, options?: GetDeployedServiceReplicaDetailInfoByPartitionIdParameters): Promise<GetDeployedServiceReplicaDetailInfoByPartitionId200Response | GetDeployedServiceReplicaDetailInfoByPartitionIddefaultResponse>;
-    getDeployedServiceReplicaInfoList(nodeName: string, applicationId: string, options?: GetDeployedServiceReplicaInfoListParameters): Promise<GetDeployedServiceReplicaInfoList200Response | GetDeployedServiceReplicaInfoList204Response | GetDeployedServiceReplicaInfoListdefaultResponse>;
-    getDeployedServiceTypeInfoByName(nodeName: string, applicationId: string, serviceTypeName: string, options?: GetDeployedServiceTypeInfoByNameParameters): Promise<GetDeployedServiceTypeInfoByName200Response | GetDeployedServiceTypeInfoByName204Response | GetDeployedServiceTypeInfoByNamedefaultResponse>;
-    getDeployedServiceTypeInfoList(nodeName: string, applicationId: string, options?: GetDeployedServiceTypeInfoListParameters): Promise<GetDeployedServiceTypeInfoList200Response | GetDeployedServiceTypeInfoListdefaultResponse>;
-    getFaultOperationList(options: GetFaultOperationListParameters): Promise<GetFaultOperationList200Response | GetFaultOperationListdefaultResponse>;
-    getImageStoreContent(contentPath: string, options?: GetImageStoreContentParameters): Promise<GetImageStoreContent200Response | GetImageStoreContentdefaultResponse>;
-    getImageStoreFolderSize(contentPath: string, options?: GetImageStoreFolderSizeParameters): Promise<GetImageStoreFolderSize200Response | GetImageStoreFolderSizedefaultResponse>;
-    getImageStoreInfo(options?: GetImageStoreInfoParameters): Promise<GetImageStoreInfo200Response | GetImageStoreInfodefaultResponse>;
-    getImageStoreRootContent(options?: GetImageStoreRootContentParameters): Promise<GetImageStoreRootContent200Response | GetImageStoreRootContentdefaultResponse>;
-    getImageStoreRootFolderSize(options?: GetImageStoreRootFolderSizeParameters): Promise<GetImageStoreRootFolderSize200Response | GetImageStoreRootFolderSizedefaultResponse>;
-    getImageStoreUploadSessionById(options: GetImageStoreUploadSessionByIdParameters): Promise<GetImageStoreUploadSessionById200Response | GetImageStoreUploadSessionByIddefaultResponse>;
-    getImageStoreUploadSessionByPath(contentPath: string, options?: GetImageStoreUploadSessionByPathParameters): Promise<GetImageStoreUploadSessionByPath200Response | GetImageStoreUploadSessionByPathdefaultResponse>;
-    getLoadedPartitionInfoList(options: GetLoadedPartitionInfoListParameters): Promise<GetLoadedPartitionInfoList200Response | GetLoadedPartitionInfoListdefaultResponse>;
-    getNameExistsInfo(nameId: string, options?: GetNameExistsInfoParameters): Promise<GetNameExistsInfo200Response | GetNameExistsInfodefaultResponse>;
-    getNodeEventList(nodeName: string, options: GetNodeEventListParameters): Promise<GetNodeEventList200Response | GetNodeEventListdefaultResponse>;
-    getNodeHealth(nodeName: string, options?: GetNodeHealthParameters): Promise<GetNodeHealth200Response | GetNodeHealthdefaultResponse>;
-    getNodeHealthUsingPolicy(nodeName: string, options?: GetNodeHealthUsingPolicyParameters): Promise<GetNodeHealthUsingPolicy200Response | GetNodeHealthUsingPolicydefaultResponse>;
-    getNodeInfo(nodeName: string, options?: GetNodeInfoParameters): Promise<GetNodeInfo200Response | GetNodeInfo204Response | GetNodeInfodefaultResponse>;
-    getNodeInfoList(options?: GetNodeInfoListParameters): Promise<GetNodeInfoList200Response | GetNodeInfoListdefaultResponse>;
-    getNodeLoadInfo(nodeName: string, options?: GetNodeLoadInfoParameters): Promise<GetNodeLoadInfo200Response | GetNodeLoadInfodefaultResponse>;
-    getNodesEventList(options: GetNodesEventListParameters): Promise<GetNodesEventList200Response | GetNodesEventListdefaultResponse>;
-    getNodeTransitionProgress(nodeName: string, options: GetNodeTransitionProgressParameters): Promise<GetNodeTransitionProgress200Response | GetNodeTransitionProgressdefaultResponse>;
-    getPartitionBackupConfigurationInfo(partitionId: string, options?: GetPartitionBackupConfigurationInfoParameters): Promise<GetPartitionBackupConfigurationInfo200Response | GetPartitionBackupConfigurationInfodefaultResponse>;
-    getPartitionBackupList(partitionId: string, options?: GetPartitionBackupListParameters): Promise<GetPartitionBackupList200Response | GetPartitionBackupListdefaultResponse>;
-    getPartitionBackupProgress(partitionId: string, options?: GetPartitionBackupProgressParameters): Promise<GetPartitionBackupProgress200Response | GetPartitionBackupProgressdefaultResponse>;
-    getPartitionEventList(partitionId: string, options: GetPartitionEventListParameters): Promise<GetPartitionEventList200Response | GetPartitionEventListdefaultResponse>;
-    getPartitionHealth(partitionId: string, options?: GetPartitionHealthParameters): Promise<GetPartitionHealth200Response | GetPartitionHealthdefaultResponse>;
-    getPartitionHealthUsingPolicy(partitionId: string, options?: GetPartitionHealthUsingPolicyParameters): Promise<GetPartitionHealthUsingPolicy200Response | GetPartitionHealthUsingPolicydefaultResponse>;
-    getPartitionInfo(partitionId: string, options?: GetPartitionInfoParameters): Promise<GetPartitionInfo200Response | GetPartitionInfo204Response | GetPartitionInfodefaultResponse>;
-    getPartitionInfoList(serviceId: string, options?: GetPartitionInfoListParameters): Promise<GetPartitionInfoList200Response | GetPartitionInfoListdefaultResponse>;
-    getPartitionLoadInformation(partitionId: string, options?: GetPartitionLoadInformationParameters): Promise<GetPartitionLoadInformation200Response | GetPartitionLoadInformationdefaultResponse>;
-    getPartitionReplicaEventList(partitionId: string, replicaId: string, options: GetPartitionReplicaEventListParameters): Promise<GetPartitionReplicaEventList200Response | GetPartitionReplicaEventListdefaultResponse>;
-    getPartitionReplicasEventList(partitionId: string, options: GetPartitionReplicasEventListParameters): Promise<GetPartitionReplicasEventList200Response | GetPartitionReplicasEventListdefaultResponse>;
-    getPartitionRestartProgress(serviceId: string, partitionId: string, options: GetPartitionRestartProgressParameters): Promise<GetPartitionRestartProgress200Response | GetPartitionRestartProgressdefaultResponse>;
-    getPartitionRestoreProgress(partitionId: string, options?: GetPartitionRestoreProgressParameters): Promise<GetPartitionRestoreProgress200Response | GetPartitionRestoreProgressdefaultResponse>;
-    getPartitionsEventList(options: GetPartitionsEventListParameters): Promise<GetPartitionsEventList200Response | GetPartitionsEventListdefaultResponse>;
-    getPropertyInfo(nameId: string, options: GetPropertyInfoParameters): Promise<GetPropertyInfo200Response | GetPropertyInfodefaultResponse>;
-    getPropertyInfoList(nameId: string, options?: GetPropertyInfoListParameters): Promise<GetPropertyInfoList200Response | GetPropertyInfoListdefaultResponse>;
-    getProvisionedFabricCodeVersionInfoList(options?: GetProvisionedFabricCodeVersionInfoListParameters): Promise<GetProvisionedFabricCodeVersionInfoList200Response | GetProvisionedFabricCodeVersionInfoListdefaultResponse>;
-    getProvisionedFabricConfigVersionInfoList(options?: GetProvisionedFabricConfigVersionInfoListParameters): Promise<GetProvisionedFabricConfigVersionInfoList200Response | GetProvisionedFabricConfigVersionInfoListdefaultResponse>;
-    getQuorumLossProgress(serviceId: string, partitionId: string, options: GetQuorumLossProgressParameters): Promise<GetQuorumLossProgress200Response | GetQuorumLossProgressdefaultResponse>;
-    getRepairTaskList(options?: GetRepairTaskListParameters): Promise<GetRepairTaskList200Response | GetRepairTaskListdefaultResponse>;
-    getReplicaHealth(partitionId: string, replicaId: string, options?: GetReplicaHealthParameters): Promise<GetReplicaHealth200Response | GetReplicaHealthdefaultResponse>;
-    getReplicaHealthUsingPolicy(partitionId: string, replicaId: string, options?: GetReplicaHealthUsingPolicyParameters): Promise<GetReplicaHealthUsingPolicy200Response | GetReplicaHealthUsingPolicydefaultResponse>;
-    getReplicaInfo(partitionId: string, replicaId: string, options?: GetReplicaInfoParameters): Promise<GetReplicaInfo200Response | GetReplicaInfo204Response | GetReplicaInfodefaultResponse>;
-    getReplicaInfoList(partitionId: string, options?: GetReplicaInfoListParameters): Promise<GetReplicaInfoList200Response | GetReplicaInfoListdefaultResponse>;
-    getServiceBackupConfigurationInfo(serviceId: string, options?: GetServiceBackupConfigurationInfoParameters): Promise<GetServiceBackupConfigurationInfo200Response | GetServiceBackupConfigurationInfodefaultResponse>;
-    getServiceBackupList(serviceId: string, options?: GetServiceBackupListParameters): Promise<GetServiceBackupList200Response | GetServiceBackupListdefaultResponse>;
-    getServiceDescription(serviceId: string, options?: GetServiceDescriptionParameters): Promise<GetServiceDescription200Response | GetServiceDescriptiondefaultResponse>;
-    getServiceEventList(serviceId: string, options: GetServiceEventListParameters): Promise<GetServiceEventList200Response | GetServiceEventListdefaultResponse>;
-    getServiceHealth(serviceId: string, options?: GetServiceHealthParameters): Promise<GetServiceHealth200Response | GetServiceHealthdefaultResponse>;
-    getServiceHealthUsingPolicy(serviceId: string, options?: GetServiceHealthUsingPolicyParameters): Promise<GetServiceHealthUsingPolicy200Response | GetServiceHealthUsingPolicydefaultResponse>;
-    getServiceInfo(applicationId: string, serviceId: string, options?: GetServiceInfoParameters): Promise<GetServiceInfo200Response | GetServiceInfo204Response | GetServiceInfodefaultResponse>;
-    getServiceInfoList(applicationId: string, options?: GetServiceInfoListParameters): Promise<GetServiceInfoList200Response | GetServiceInfoListdefaultResponse>;
-    getServiceManifest(applicationTypeName: string, options: GetServiceManifestParameters): Promise<GetServiceManifest200Response | GetServiceManifestdefaultResponse>;
-    getServiceNameInfo(partitionId: string, options?: GetServiceNameInfoParameters): Promise<GetServiceNameInfo200Response | GetServiceNameInfodefaultResponse>;
-    getServicesEventList(options: GetServicesEventListParameters): Promise<GetServicesEventList200Response | GetServicesEventListdefaultResponse>;
-    getServiceTypeInfoByName(applicationTypeName: string, serviceTypeName: string, options: GetServiceTypeInfoByNameParameters): Promise<GetServiceTypeInfoByName200Response | GetServiceTypeInfoByName204Response | GetServiceTypeInfoByNamedefaultResponse>;
-    getServiceTypeInfoList(applicationTypeName: string, options: GetServiceTypeInfoListParameters): Promise<GetServiceTypeInfoList200Response | GetServiceTypeInfoListdefaultResponse>;
-    getSubNameInfoList(nameId: string, options?: GetSubNameInfoListParameters): Promise<GetSubNameInfoList200Response | GetSubNameInfoListdefaultResponse>;
-    getUnplacedReplicaInformation(serviceId: string, options?: GetUnplacedReplicaInformationParameters): Promise<GetUnplacedReplicaInformation200Response | GetUnplacedReplicaInformationdefaultResponse>;
-    getUpgradeOrchestrationServiceState(options?: GetUpgradeOrchestrationServiceStateParameters): Promise<GetUpgradeOrchestrationServiceState200Response | GetUpgradeOrchestrationServiceStatedefaultResponse>;
-    invokeContainerApi(nodeName: string, applicationId: string, options: InvokeContainerApiParameters): Promise<InvokeContainerApi200Response | InvokeContainerApidefaultResponse>;
-    invokeInfrastructureCommand(options: InvokeInfrastructureCommandParameters): Promise<InvokeInfrastructureCommand200Response | InvokeInfrastructureCommanddefaultResponse>;
-    invokeInfrastructureQuery(options: InvokeInfrastructureQueryParameters): Promise<InvokeInfrastructureQuery200Response | InvokeInfrastructureQuerydefaultResponse>;
-    moveAuxiliaryReplica(serviceId: string, partitionId: string, options?: MoveAuxiliaryReplicaParameters): Promise<MoveAuxiliaryReplica200Response | MoveAuxiliaryReplicadefaultResponse>;
-    moveInstance(serviceId: string, partitionId: string, options?: MoveInstanceParameters): Promise<MoveInstance200Response | MoveInstancedefaultResponse>;
-    movePrimaryReplica(partitionId: string, options?: MovePrimaryReplicaParameters): Promise<MovePrimaryReplica200Response | MovePrimaryReplicadefaultResponse>;
-    moveSecondaryReplica(partitionId: string, options: MoveSecondaryReplicaParameters): Promise<MoveSecondaryReplica200Response | MoveSecondaryReplicadefaultResponse>;
-    postChaosSchedule(options: PostChaosScheduleParameters): Promise<PostChaosSchedule200Response | PostChaosScheduledefaultResponse>;
-    provisionApplicationType(options: ProvisionApplicationTypeParameters): Promise<ProvisionApplicationType200Response | ProvisionApplicationType202Response | ProvisionApplicationTypedefaultResponse>;
-    provisionCluster(options: ProvisionClusterParameters): Promise<ProvisionCluster200Response | ProvisionClusterdefaultResponse>;
-    putProperty(nameId: string, options: PutPropertyParameters): Promise<PutProperty200Response | PutPropertydefaultResponse>;
-    recoverAllPartitions(options?: RecoverAllPartitionsParameters): Promise<RecoverAllPartitions200Response | RecoverAllPartitionsdefaultResponse>;
-    recoverPartition(partitionId: string, options?: RecoverPartitionParameters): Promise<RecoverPartition200Response | RecoverPartitiondefaultResponse>;
-    recoverServicePartitions(serviceId: string, options?: RecoverServicePartitionsParameters): Promise<RecoverServicePartitions200Response | RecoverServicePartitionsdefaultResponse>;
-    recoverSystemPartitions(options?: RecoverSystemPartitionsParameters): Promise<RecoverSystemPartitions200Response | RecoverSystemPartitionsdefaultResponse>;
-    removeComposeDeployment(deploymentName: string, options?: RemoveComposeDeploymentParameters): Promise<RemoveComposeDeployment202Response | RemoveComposeDeploymentdefaultResponse>;
-    removeConfigurationOverrides(nodeName: string, options?: RemoveConfigurationOverridesParameters): Promise<RemoveConfigurationOverrides200Response | RemoveConfigurationOverridesdefaultResponse>;
-    removeNodeState(nodeName: string, options?: RemoveNodeStateParameters): Promise<RemoveNodeState200Response | RemoveNodeStatedefaultResponse>;
-    removeNodeTags(nodeName: string, options: RemoveNodeTagsParameters): Promise<RemoveNodeTags200Response | RemoveNodeTagsdefaultResponse>;
-    removeReplica(nodeName: string, partitionId: string, replicaId: string, options?: RemoveReplicaParameters): Promise<RemoveReplica200Response | RemoveReplicadefaultResponse>;
-    reportApplicationHealth(applicationId: string, options: ReportApplicationHealthParameters): Promise<ReportApplicationHealth200Response | ReportApplicationHealthdefaultResponse>;
-    reportClusterHealth(options: ReportClusterHealthParameters): Promise<ReportClusterHealth200Response | ReportClusterHealthdefaultResponse>;
-    reportDeployedApplicationHealth(nodeName: string, applicationId: string, options: ReportDeployedApplicationHealthParameters): Promise<ReportDeployedApplicationHealth200Response | ReportDeployedApplicationHealthdefaultResponse>;
-    reportDeployedServicePackageHealth(nodeName: string, applicationId: string, servicePackageName: string, options: ReportDeployedServicePackageHealthParameters): Promise<ReportDeployedServicePackageHealth200Response | ReportDeployedServicePackageHealthdefaultResponse>;
-    reportNodeHealth(nodeName: string, options: ReportNodeHealthParameters): Promise<ReportNodeHealth200Response | ReportNodeHealthdefaultResponse>;
-    reportPartitionHealth(partitionId: string, options: ReportPartitionHealthParameters): Promise<ReportPartitionHealth200Response | ReportPartitionHealthdefaultResponse>;
-    reportReplicaHealth(partitionId: string, replicaId: string, options: ReportReplicaHealthParameters): Promise<ReportReplicaHealth200Response | ReportReplicaHealthdefaultResponse>;
-    reportServiceHealth(serviceId: string, options: ReportServiceHealthParameters): Promise<ReportServiceHealth200Response | ReportServiceHealthdefaultResponse>;
-    resetPartitionLoad(partitionId: string, options?: ResetPartitionLoadParameters): Promise<ResetPartitionLoad200Response | ResetPartitionLoaddefaultResponse>;
-    resolveService(serviceId: string, options?: ResolveServiceParameters): Promise<ResolveService200Response | ResolveServicedefaultResponse>;
-    restartDeployedCodePackage(nodeName: string, applicationId: string, options: RestartDeployedCodePackageParameters): Promise<RestartDeployedCodePackage200Response | RestartDeployedCodePackagedefaultResponse>;
-    restartNode(nodeName: string, options: RestartNodeParameters): Promise<RestartNode200Response | RestartNodedefaultResponse>;
-    restartReplica(nodeName: string, partitionId: string, replicaId: string, options?: RestartReplicaParameters): Promise<RestartReplica200Response | RestartReplicadefaultResponse>;
-    restorePartition(partitionId: string, options: RestorePartitionParameters): Promise<RestorePartition202Response | RestorePartitiondefaultResponse>;
-    resumeApplicationBackup(applicationId: string, options?: ResumeApplicationBackupParameters): Promise<ResumeApplicationBackup202Response | ResumeApplicationBackupdefaultResponse>;
-    resumeApplicationUpgrade(applicationId: string, options: ResumeApplicationUpgradeParameters): Promise<ResumeApplicationUpgrade200Response | ResumeApplicationUpgradedefaultResponse>;
-    resumeClusterUpgrade(options: ResumeClusterUpgradeParameters): Promise<ResumeClusterUpgrade200Response | ResumeClusterUpgradedefaultResponse>;
-    resumePartitionBackup(partitionId: string, options?: ResumePartitionBackupParameters): Promise<ResumePartitionBackup202Response | ResumePartitionBackupdefaultResponse>;
-    resumeServiceBackup(serviceId: string, options?: ResumeServiceBackupParameters): Promise<ResumeServiceBackup202Response | ResumeServiceBackupdefaultResponse>;
-    rollbackApplicationUpgrade(applicationId: string, options?: RollbackApplicationUpgradeParameters): Promise<RollbackApplicationUpgrade200Response | RollbackApplicationUpgradedefaultResponse>;
-    rollbackClusterUpgrade(options?: RollbackClusterUpgradeParameters): Promise<RollbackClusterUpgrade202Response | RollbackClusterUpgradedefaultResponse>;
-    setUpgradeOrchestrationServiceState(options: SetUpgradeOrchestrationServiceStateParameters): Promise<SetUpgradeOrchestrationServiceState200Response | SetUpgradeOrchestrationServiceStatedefaultResponse>;
-    startApplicationUpgrade(applicationId: string, options: StartApplicationUpgradeParameters): Promise<StartApplicationUpgrade200Response | StartApplicationUpgradedefaultResponse>;
-    startChaos(options: StartChaosParameters): Promise<StartChaos200Response | StartChaosdefaultResponse>;
-    startClusterConfigurationUpgrade(options: StartClusterConfigurationUpgradeParameters): Promise<StartClusterConfigurationUpgrade202Response | StartClusterConfigurationUpgradedefaultResponse>;
-    startClusterUpgrade(options: StartClusterUpgradeParameters): Promise<StartClusterUpgrade202Response | StartClusterUpgradedefaultResponse>;
-    startComposeDeploymentUpgrade(deploymentName: string, options: StartComposeDeploymentUpgradeParameters): Promise<StartComposeDeploymentUpgrade202Response | StartComposeDeploymentUpgradedefaultResponse>;
-    startDataLoss(serviceId: string, partitionId: string, options: StartDataLossParameters): Promise<StartDataLoss202Response | StartDataLossdefaultResponse>;
-    startNodeTransition(nodeName: string, options: StartNodeTransitionParameters): Promise<StartNodeTransition202Response | StartNodeTransitiondefaultResponse>;
-    startPartitionRestart(serviceId: string, partitionId: string, options: StartPartitionRestartParameters): Promise<StartPartitionRestart202Response | StartPartitionRestartdefaultResponse>;
-    startQuorumLoss(serviceId: string, partitionId: string, options: StartQuorumLossParameters): Promise<StartQuorumLoss202Response | StartQuorumLossdefaultResponse>;
-    startRollbackComposeDeploymentUpgrade(deploymentName: string, options?: StartRollbackComposeDeploymentUpgradeParameters): Promise<StartRollbackComposeDeploymentUpgrade200Response | StartRollbackComposeDeploymentUpgradedefaultResponse>;
-    stopChaos(options?: StopChaosParameters): Promise<StopChaos200Response | StopChaosdefaultResponse>;
-    submitPropertyBatch(nameId: string, options: SubmitPropertyBatchParameters): Promise<SubmitPropertyBatch200Response | SubmitPropertyBatch409Response | SubmitPropertyBatchdefaultResponse>;
-    suspendApplicationBackup(applicationId: string, options?: SuspendApplicationBackupParameters): Promise<SuspendApplicationBackup202Response | SuspendApplicationBackupdefaultResponse>;
-    suspendPartitionBackup(partitionId: string, options?: SuspendPartitionBackupParameters): Promise<SuspendPartitionBackup202Response | SuspendPartitionBackupdefaultResponse>;
-    suspendServiceBackup(serviceId: string, options?: SuspendServiceBackupParameters): Promise<SuspendServiceBackup202Response | SuspendServiceBackupdefaultResponse>;
-    toggleVerboseServicePlacementHealthReporting(options: ToggleVerboseServicePlacementHealthReportingParameters): Promise<ToggleVerboseServicePlacementHealthReporting200Response | ToggleVerboseServicePlacementHealthReportingdefaultResponse>;
-    unprovisionApplicationType(applicationTypeName: string, options: UnprovisionApplicationTypeParameters): Promise<UnprovisionApplicationType200Response | UnprovisionApplicationType202Response | UnprovisionApplicationTypedefaultResponse>;
-    unprovisionCluster(options: UnprovisionClusterParameters): Promise<UnprovisionCluster200Response | UnprovisionClusterdefaultResponse>;
-    updateApplication(applicationId: string, options: UpdateApplicationParameters): Promise<UpdateApplication200Response | UpdateApplicationdefaultResponse>;
-    updateApplicationUpgrade(applicationId: string, options: UpdateApplicationUpgradeParameters): Promise<UpdateApplicationUpgrade200Response | UpdateApplicationUpgradedefaultResponse>;
-    updateBackupPolicy(backupPolicyName: string, options: UpdateBackupPolicyParameters): Promise<UpdateBackupPolicy200Response | UpdateBackupPolicydefaultResponse>;
-    updateClusterUpgrade(options: UpdateClusterUpgradeParameters): Promise<UpdateClusterUpgrade200Response | UpdateClusterUpgradedefaultResponse>;
-    updatePartitionLoad(options: UpdatePartitionLoadParameters): Promise<UpdatePartitionLoad200Response | UpdatePartitionLoaddefaultResponse>;
-    updateRepairExecutionState(options: UpdateRepairExecutionStateParameters): Promise<UpdateRepairExecutionState200Response | UpdateRepairExecutionStatedefaultResponse>;
-    updateRepairTaskHealthPolicy(options: UpdateRepairTaskHealthPolicyParameters): Promise<UpdateRepairTaskHealthPolicy200Response | UpdateRepairTaskHealthPolicydefaultResponse>;
-    updateService(serviceId: string, options: UpdateServiceParameters): Promise<UpdateService200Response | UpdateServicedefaultResponse>;
-    uploadFile(contentPath: string, options?: UploadFileParameters): Promise<UploadFile200Response | UploadFiledefaultResponse>;
-    uploadFileChunk(contentPath: string, options: UploadFileChunkParameters): Promise<UploadFileChunk200Response | UploadFileChunkdefaultResponse>;
-}
-
 // @public (undocumented)
 export interface ClusterConfigurationOutput {
     ClusterConfiguration?: string;
@@ -2239,6 +2019,13 @@ export interface CreateBackupPolicyQueryParamProperties {
     timeout?: number;
     ValidateConnection?: boolean;
 }
+
+// @public (undocumented)
+function createClient(endpoint: string, credentials: TokenCredential, options?: ClientOptions): ServiceFabricClient;
+
+// @public (undocumented)
+function createClient(endpoint: string, options?: ClientOptions): ServiceFabricClient;
+export default createClient;
 
 // @public (undocumented)
 export interface CreateComposeDeployment {
@@ -8873,15 +8660,6 @@ export interface MeshApplicationListdefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type MeshApplicationListParameters = RequestParameters;
 
-// @public
-export interface MeshApplicationOperations {
-    createOrUpdate(applicationResourceName: string, options: MeshApplicationCreateOrUpdateParameters): Promise<MeshApplicationCreateOrUpdate200Response | MeshApplicationCreateOrUpdate201Response | MeshApplicationCreateOrUpdate202Response | MeshApplicationCreateOrUpdatedefaultResponse>;
-    delete(applicationResourceName: string, options?: MeshApplicationDeleteParameters): Promise<MeshApplicationDelete200Response | MeshApplicationDelete202Response | MeshApplicationDelete204Response | MeshApplicationDeletedefaultResponse>;
-    get(applicationResourceName: string, options?: MeshApplicationGetParameters): Promise<MeshApplicationGet200Response | MeshApplicationGetdefaultResponse>;
-    getUpgradeProgress(applicationResourceName: string, options?: MeshApplicationGetUpgradeProgressParameters): Promise<MeshApplicationGetUpgradeProgress200Response | MeshApplicationGetUpgradeProgressdefaultResponse>;
-    list(options?: MeshApplicationListParameters): Promise<MeshApplicationList200Response | MeshApplicationListdefaultResponse>;
-}
-
 // @public (undocumented)
 export interface MeshCodePackageGetContainerLogs {
     get(options?: MeshCodePackageGetContainerLogsParameters): Promise<MeshCodePackageGetContainerLogs200Response | MeshCodePackageGetContainerLogsdefaultResponse>;
@@ -8915,11 +8693,6 @@ export interface MeshCodePackageGetContainerLogsQueryParam {
 // @public (undocumented)
 export interface MeshCodePackageGetContainerLogsQueryParamProperties {
     Tail?: string;
-}
-
-// @public
-export interface MeshCodePackageOperations {
-    getContainerLogs(applicationResourceName: string, serviceResourceName: string, replicaName: string, codePackageName: string, options?: MeshCodePackageGetContainerLogsParameters): Promise<MeshCodePackageGetContainerLogs200Response | MeshCodePackageGetContainerLogsdefaultResponse>;
 }
 
 // @public (undocumented)
@@ -9052,14 +8825,6 @@ export interface MeshGatewayListdefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type MeshGatewayListParameters = RequestParameters;
 
-// @public
-export interface MeshGatewayOperations {
-    createOrUpdate(gatewayResourceName: string, options: MeshGatewayCreateOrUpdateParameters): Promise<MeshGatewayCreateOrUpdate200Response | MeshGatewayCreateOrUpdate201Response | MeshGatewayCreateOrUpdate202Response | MeshGatewayCreateOrUpdatedefaultResponse>;
-    delete(gatewayResourceName: string, options?: MeshGatewayDeleteParameters): Promise<MeshGatewayDelete200Response | MeshGatewayDelete202Response | MeshGatewayDelete204Response | MeshGatewayDeletedefaultResponse>;
-    get(gatewayResourceName: string, options?: MeshGatewayGetParameters): Promise<MeshGatewayGet200Response | MeshGatewayGetdefaultResponse>;
-    list(options?: MeshGatewayListParameters): Promise<MeshGatewayList200Response | MeshGatewayListdefaultResponse>;
-}
-
 // @public (undocumented)
 export interface MeshNetworkCreateOrUpdate {
     delete(options?: MeshNetworkDeleteParameters): Promise<MeshNetworkDelete200Response | MeshNetworkDelete202Response | MeshNetworkDelete204Response | MeshNetworkDeletedefaultResponse>;
@@ -9189,14 +8954,6 @@ export interface MeshNetworkListdefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export type MeshNetworkListParameters = RequestParameters;
-
-// @public
-export interface MeshNetworkOperations {
-    createOrUpdate(networkResourceName: string, options: MeshNetworkCreateOrUpdateParameters): Promise<MeshNetworkCreateOrUpdate200Response | MeshNetworkCreateOrUpdate201Response | MeshNetworkCreateOrUpdate202Response | MeshNetworkCreateOrUpdatedefaultResponse>;
-    delete(networkResourceName: string, options?: MeshNetworkDeleteParameters): Promise<MeshNetworkDelete200Response | MeshNetworkDelete202Response | MeshNetworkDelete204Response | MeshNetworkDeletedefaultResponse>;
-    get(networkResourceName: string, options?: MeshNetworkGetParameters): Promise<MeshNetworkGet200Response | MeshNetworkGetdefaultResponse>;
-    list(options?: MeshNetworkListParameters): Promise<MeshNetworkList200Response | MeshNetworkListdefaultResponse>;
-}
 
 // @public (undocumented)
 export interface MeshSecretCreateOrUpdate {
@@ -9328,14 +9085,6 @@ export interface MeshSecretListdefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type MeshSecretListParameters = RequestParameters;
 
-// @public
-export interface MeshSecretOperations {
-    createOrUpdate(secretResourceName: string, options: MeshSecretCreateOrUpdateParameters): Promise<MeshSecretCreateOrUpdate200Response | MeshSecretCreateOrUpdate201Response | MeshSecretCreateOrUpdate202Response | MeshSecretCreateOrUpdatedefaultResponse>;
-    delete(secretResourceName: string, options?: MeshSecretDeleteParameters): Promise<MeshSecretDelete200Response | MeshSecretDelete202Response | MeshSecretDelete204Response | MeshSecretDeletedefaultResponse>;
-    get(secretResourceName: string, options?: MeshSecretGetParameters): Promise<MeshSecretGet200Response | MeshSecretGetdefaultResponse>;
-    list(options?: MeshSecretListParameters): Promise<MeshSecretList200Response | MeshSecretListdefaultResponse>;
-}
-
 // @public (undocumented)
 export interface MeshSecretValueAddValue {
     delete(options?: MeshSecretValueDeleteParameters): Promise<MeshSecretValueDelete200Response | MeshSecretValueDelete202Response | MeshSecretValueDelete204Response | MeshSecretValueDeletedefaultResponse>;
@@ -9466,15 +9215,6 @@ export interface MeshSecretValueListdefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type MeshSecretValueListParameters = RequestParameters;
 
-// @public
-export interface MeshSecretValueOperations {
-    addValue(secretResourceName: string, secretValueResourceName: string, options: MeshSecretValueAddValueParameters): Promise<MeshSecretValueAddValue200Response | MeshSecretValueAddValue201Response | MeshSecretValueAddValue202Response | MeshSecretValueAddValuedefaultResponse>;
-    delete(secretResourceName: string, secretValueResourceName: string, options?: MeshSecretValueDeleteParameters): Promise<MeshSecretValueDelete200Response | MeshSecretValueDelete202Response | MeshSecretValueDelete204Response | MeshSecretValueDeletedefaultResponse>;
-    get(secretResourceName: string, secretValueResourceName: string, options?: MeshSecretValueGetParameters): Promise<MeshSecretValueGet200Response | MeshSecretValueGetdefaultResponse>;
-    list(secretResourceName: string, options?: MeshSecretValueListParameters): Promise<MeshSecretValueList200Response | MeshSecretValueListdefaultResponse>;
-    show(secretResourceName: string, secretValueResourceName: string, options?: MeshSecretValueShowParameters): Promise<MeshSecretValueShow200Response | MeshSecretValueShowdefaultResponse>;
-}
-
 // @public (undocumented)
 export interface MeshSecretValueShow {
     post(options?: MeshSecretValueShowParameters): Promise<MeshSecretValueShow200Response | MeshSecretValueShowdefaultResponse>;
@@ -9547,12 +9287,6 @@ export interface MeshServiceListdefaultResponse extends HttpResponse {
 // @public (undocumented)
 export type MeshServiceListParameters = RequestParameters;
 
-// @public
-export interface MeshServiceOperations {
-    get(applicationResourceName: string, serviceResourceName: string, options?: MeshServiceGetParameters): Promise<MeshServiceGet200Response | MeshServiceGetdefaultResponse>;
-    list(applicationResourceName: string, options?: MeshServiceListParameters): Promise<MeshServiceList200Response | MeshServiceListdefaultResponse>;
-}
-
 // @public (undocumented)
 export interface MeshServiceReplicaGet {
     get(options?: MeshServiceReplicaGetParameters): Promise<MeshServiceReplicaGet200Response | MeshServiceReplicaGetdefaultResponse>;
@@ -9600,12 +9334,6 @@ export interface MeshServiceReplicaListdefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export type MeshServiceReplicaListParameters = RequestParameters;
-
-// @public
-export interface MeshServiceReplicaOperations {
-    get(applicationResourceName: string, serviceResourceName: string, replicaName: string, options?: MeshServiceReplicaGetParameters): Promise<MeshServiceReplicaGet200Response | MeshServiceReplicaGetdefaultResponse>;
-    list(applicationResourceName: string, serviceResourceName: string, options?: MeshServiceReplicaListParameters): Promise<MeshServiceReplicaList200Response | MeshServiceReplicaListdefaultResponse>;
-}
 
 // @public (undocumented)
 export interface MeshVolumeCreateOrUpdate {
@@ -9736,14 +9464,6 @@ export interface MeshVolumeListdefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export type MeshVolumeListParameters = RequestParameters;
-
-// @public
-export interface MeshVolumeOperations {
-    createOrUpdate(volumeResourceName: string, options: MeshVolumeCreateOrUpdateParameters): Promise<MeshVolumeCreateOrUpdate200Response | MeshVolumeCreateOrUpdate201Response | MeshVolumeCreateOrUpdate202Response | MeshVolumeCreateOrUpdatedefaultResponse>;
-    delete(volumeResourceName: string, options?: MeshVolumeDeleteParameters): Promise<MeshVolumeDelete200Response | MeshVolumeDelete202Response | MeshVolumeDelete204Response | MeshVolumeDeletedefaultResponse>;
-    get(volumeResourceName: string, options?: MeshVolumeGetParameters): Promise<MeshVolumeGet200Response | MeshVolumeGetdefaultResponse>;
-    list(options?: MeshVolumeListParameters): Promise<MeshVolumeList200Response | MeshVolumeListdefaultResponse>;
-}
 
 // @public (undocumented)
 export interface MetricLoadDescription {
@@ -13333,25 +13053,9 @@ export interface ServiceEventOutputBase extends FabricEventOutputBase {
 }
 
 // @public (undocumented)
-function ServiceFabric(enpoint: string, options?: ClientOptions): ServiceFabricLike;
-
-// @public (undocumented)
-function ServiceFabric(enpoint: string, credentials: TokenCredential | CertificateCredential, options?: ClientOptions): ServiceFabricLike;
-export default ServiceFabric;
-
-// @public (undocumented)
-export type ServiceFabricLike = Client & {
+export type ServiceFabricClient = Client & {
     path: Routes;
-    meshSecret: MeshSecretOperations;
-    meshSecretValue: MeshSecretValueOperations;
-    meshVolume: MeshVolumeOperations;
-    meshNetwork: MeshNetworkOperations;
-    meshApplication: MeshApplicationOperations;
-    meshService: MeshServiceOperations;
-    meshCodePackage: MeshCodePackageOperations;
-    meshServiceReplica: MeshServiceReplicaOperations;
-    meshGateway: MeshGatewayOperations;
-} & ClientOperations;
+};
 
 // @public (undocumented)
 export interface ServiceFromTemplateDescription {
