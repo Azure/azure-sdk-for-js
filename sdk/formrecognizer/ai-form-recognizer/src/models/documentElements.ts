@@ -183,7 +183,7 @@ export interface DocumentPage {
   width?: number;
   /** The height of the image/PDF in pixels/inches, respectively. */
   height?: number;
-  /** The unit used by the width, height, and polygon properties. For PDF, the unit is "inch". */
+  /** The unit used by the width, height, and polygon properties. For images, the unit is "pixel". PDF, the unit is "inch". */
   unit?: LengthUnit;
   /** Location of the page in the reading order concatenated content. */
   spans: DocumentSpan[];
