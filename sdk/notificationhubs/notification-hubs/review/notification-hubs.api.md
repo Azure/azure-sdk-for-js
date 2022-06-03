@@ -57,6 +57,8 @@ export class NotificationHubsClient extends ServiceClient {
     deleteInstallation(installationId: string, options?: OperationOptions): Promise<NotificationHubResponse>;
     // (undocumented)
     getInstallation(installationId: string, options?: OperationOptions): Promise<Installation>;
+    // (undocumented)
+    upsertInstallation(installation: Installation, options?: OperationOptions): Promise<NotificationHubResponse>;
 }
 
 // @public

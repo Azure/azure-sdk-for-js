@@ -41,3 +41,13 @@ export interface InstallationTemplate {
 
   expiry?: string;
 }
+
+export type JSONPatchType = "add" | "remove" | "replace";
+
+export interface InstallationPatch {
+  op: JSONPatchType;
+
+  path: string;
+
+  value?: string;
+}

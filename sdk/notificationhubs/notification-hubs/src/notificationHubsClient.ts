@@ -7,6 +7,9 @@ import {
   PipelineResponse,
   createHttpHeaders,
   createPipelineRequest,
+  HttpMethods,
+  PipelineRequest,
+  HttpHeaders,
 } from "@azure/core-rest-pipeline";
 import {
   createTokenProviderFromConnection,
@@ -48,19 +51,14 @@ export class NotificationHubsClient extends ServiceClient {
       async (updatedOptions) => {
         const endpoint = this.getBaseURL();
         endpoint.pathname += `/installations/${installationId}`;
-        const authorization = this._sasTokenProvider.getToken(this._baseUrl);
-        const headers = createHttpHeaders();
-        headers.set("Authorization", authorization.token);
-        headers.set("x-ms-version", API_VERSION);
+        const headers = this.createHeaders();
 
-        const request = createPipelineRequest({
-          ...updatedOptions.tracingOptions,
-          ...updatedOptions.requestOptions,
-          url: endpoint.toString(),
-          abortSignal: updatedOptions.abortSignal,
-          method: "DELETE",
+        const request = this.createRequest(
+          endpoint,
+          "DELETE",
           headers,
-        });
+          updatedOptions
+        );
 
         const response = await this.sendRequest(request);
         if (response.status !== 204) {
@@ -83,31 +81,79 @@ export class NotificationHubsClient extends ServiceClient {
       async (updatedOptions) => {
         const endpoint = this.getBaseURL();
         endpoint.pathname += `/installations/${installationId}`;
-        const authorization = this._sasTokenProvider.getToken(this._baseUrl);
-        const headers = createHttpHeaders();
-        headers.set("Authorization", authorization.token);
+        const headers = this.createHeaders();
         headers.set("Content-Type", "application/json");
-        headers.set("x-ms-version", API_VERSION);
 
-        const request = createPipelineRequest({
-          ...updatedOptions.tracingOptions,
-          ...updatedOptions.requestOptions,
-          url: endpoint.toString(),
-          abortSignal: updatedOptions.abortSignal,
-          method: "PUT",
+        const request = this.createRequest(
+          endpoint,
+          "GET",
           headers,
-        });
+          updatedOptions
+        );
 
         const response = await this.sendRequest(request);
         if (response.status !== 200) {
           // TODO: throw special errors
-          throw new Error(`deleteInstallation failed with ${response.status}`);
+          throw new Error(`getInstallation failed with ${response.status}`);
         }
 
         const installation = JSON.parse(response.bodyAsText!) as Installation;
         return installation;
       }
     );
+  }
+
+  public upsertInstallation(
+    installation: Installation,
+    options: OperationOptions = {}
+  ): Promise<NotificationHubResponse> {
+    return tracingClient.withSpan(
+      "NotificationHubsClient-upsertInstallation",
+      options,
+      async (updatedOptions) => {
+        const endpoint = this.getBaseURL();
+        endpoint.pathname += `/installations/${installation.installationId}`;
+        const headers = this.createHeaders();
+        headers.set("Content-Type", "application/json");
+
+        const request = this.createRequest(
+          endpoint,
+          "PUT",
+          headers,
+          updatedOptions
+        );
+
+        request.body = JSON.stringify(installation);
+
+        const response = await this.sendRequest(request);
+        if (response.status !== 200) {
+          // TODO: throw special errors
+          throw new Error(`upsertInstallation failed with ${response.status}`);
+        }
+
+        return this.parseNotificationResponse(response);
+      });
+  }
+
+  private createHeaders(): HttpHeaders {
+    const authorization = this._sasTokenProvider.getToken(this._baseUrl);
+    const headers = createHttpHeaders();
+    headers.set("Authorization", authorization.token);
+    headers.set("Content-Type", "application/json");
+    headers.set("x-ms-version", API_VERSION);
+
+    return headers;
+  }
+
+  private createRequest(endpoint: URL, method: HttpMethods, headers: HttpHeaders, options: OperationOptions): PipelineRequest {
+    return createPipelineRequest({
+      ...options.tracingOptions,
+      ...options.requestOptions,
+      url: endpoint.toString(),
+      abortSignal: options.abortSignal,
+      method,
+      headers,
+    });
   }
 
   private parseNotificationResponse(response: PipelineResponse): NotificationHubResponse {
