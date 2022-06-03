@@ -1,10 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { Installation, NotificationHubResponse, NotificationHubsClientOptions } from "./models";
 import { OperationOptions, ServiceClient } from "@azure/core-client";
-import { createHttpHeaders, createPipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
-import { createTokenProviderFromConnection, parseNotificationHubsConnectionString } from "./utils/connectionStringUtils";
-import { Installation, NotificationHubsClientOptions, NotificationHubResponse } from "./models";
+import {
+  PipelineResponse,
+  createHttpHeaders,
+  createPipelineRequest,
+} from "@azure/core-rest-pipeline";
+import {
+  createTokenProviderFromConnection,
+  parseNotificationHubsConnectionString,
+} from "./utils/connectionStringUtils";
 import { SasTokenProvider } from "@azure/core-amqp";
 import { tracingClient } from "./utils/tracing";
 
@@ -15,83 +22,104 @@ export class NotificationHubsClient extends ServiceClient {
   private _hubName: string;
   private _sasTokenProvider: SasTokenProvider;
 
-  constructor(connectionString: string, hubName: string, options: NotificationHubsClientOptions = {}) {
+  constructor(
+    connectionString: string,
+    hubName: string,
+    options: NotificationHubsClientOptions = {}
+  ) {
     super(options);
     this._hubName = hubName;
 
     const parsedConnection = parseNotificationHubsConnectionString(connectionString);
     this._baseUrl = parsedConnection.endpoint;
-    this._sasTokenProvider = createTokenProviderFromConnection(parsedConnection.sharedAccessKey, parsedConnection.sharedAccessKeyName);
+    this._sasTokenProvider = createTokenProviderFromConnection(
+      parsedConnection.sharedAccessKey,
+      parsedConnection.sharedAccessKeyName
+    );
   }
 
-  public deleteInstallation(installationId: string, options: OperationOptions = {}): Promise<NotificationHubResponse> {
-    return tracingClient.withSpan("NotificationHubsClient-deleteInstallation", options, async (updatedOptions) => {
-      const endpoint = this.getBaseURL();
-      endpoint.pathname += `/installations/${installationId}`;
-      const authorization = this._sasTokenProvider.getToken(this._baseUrl);
-      const headers = createHttpHeaders();
-      headers.set("Authorization", authorization.token);
-      headers.set("x-ms-version", API_VERSION);
+  public deleteInstallation(
+    installationId: string,
+    options: OperationOptions = {}
+  ): Promise<NotificationHubResponse> {
+    return tracingClient.withSpan(
+      "NotificationHubsClient-deleteInstallation",
+      options,
+      async (updatedOptions) => {
+        const endpoint = this.getBaseURL();
+        endpoint.pathname += `/installations/${installationId}`;
+        const authorization = this._sasTokenProvider.getToken(this._baseUrl);
+        const headers = createHttpHeaders();
+        headers.set("Authorization", authorization.token);
+        headers.set("x-ms-version", API_VERSION);
 
-      const request = createPipelineRequest({
-        ...updatedOptions.tracingOptions,
-        ...updatedOptions.requestOptions,
-        url: endpoint.toString(),
-        abortSignal: updatedOptions.abortSignal,
-        method: "DELETE",
-        headers
-      });
+        const request = createPipelineRequest({
+          ...updatedOptions.tracingOptions,
+          ...updatedOptions.requestOptions,
+          url: endpoint.toString(),
+          abortSignal: updatedOptions.abortSignal,
+          method: "DELETE",
+          headers,
+        });
 
-      const response = await this.sendRequest(request);
-      if (response.status !== 204) {
-        // TODO: throw special error
-        throw new Error(`deleteInstallation failed with ${response.status}`);
+        const response = await this.sendRequest(request);
+        if (response.status !== 204) {
+          // TODO: throw special error
+          throw new Error(`deleteInstallation failed with ${response.status}`);
+        }
+
+        return this.parseNotificationResponse(response);
       }
-
-      return this.parseNotificationResponse(response);
-    });
+    );
   }
 
-  public getInstallation(installationId: string, options: OperationOptions = {}): Promise<Installation> {
-    return tracingClient.withSpan("NotificationHubsClient-getInstallation", options, async (updatedOptions) => {
-      const endpoint = this.getBaseURL();
-      endpoint.pathname += `/installations/${installationId}`;
-      const authorization = this._sasTokenProvider.getToken(this._baseUrl);
-      const headers = createHttpHeaders();
-      headers.set("Authorization", authorization.token);
-      headers.set("Content-Type", "application/json");
-      headers.set("x-ms-version", API_VERSION);
+  public getInstallation(
+    installationId: string,
+    options: OperationOptions = {}
+  ): Promise<Installation> {
+    return tracingClient.withSpan(
+      "NotificationHubsClient-getInstallation",
+      options,
+      async (updatedOptions) => {
+        const endpoint = this.getBaseURL();
+        endpoint.pathname += `/installations/${installationId}`;
+        const authorization = this._sasTokenProvider.getToken(this._baseUrl);
+        const headers = createHttpHeaders();
+        headers.set("Authorization", authorization.token);
+        headers.set("Content-Type", "application/json");
+        headers.set("x-ms-version", API_VERSION);
 
-      const request = createPipelineRequest({
-        ...updatedOptions.tracingOptions,
-        ...updatedOptions.requestOptions,
-        url: endpoint.toString(),
-        abortSignal: updatedOptions.abortSignal,
-        method: "PUT",
-        headers
-      });
+        const request = createPipelineRequest({
+          ...updatedOptions.tracingOptions,
+          ...updatedOptions.requestOptions,
+          url: endpoint.toString(),
+          abortSignal: updatedOptions.abortSignal,
+          method: "PUT",
+          headers,
+        });
 
-      const response = await this.sendRequest(request);
-      if (response.status !== 200) {
-        // TODO: throw special errors
-        throw new Error(`deleteInstallation failed with ${response.status}`);
+        const response = await this.sendRequest(request);
+        if (response.status !== 200) {
+          // TODO: throw special errors
+          throw new Error(`deleteInstallation failed with ${response.status}`);
+        }
+
+        const installation = JSON.parse(response.bodyAsText!) as Installation;
+        return installation;
       }
-
-      const installation = JSON.parse(response.bodyAsText!) as Installation;
-      return installation;
-    });
+    );
   }
 
   private parseNotificationResponse(response: PipelineResponse): NotificationHubResponse {
-      const correlationId = response.headers.get("x-ms-correlation-request-id");
-      const trackingId = response.headers.get("TrackingId");
-      const location = response.headers.get("Location");
+    const correlationId = response.headers.get("x-ms-correlation-request-id");
+    const trackingId = response.headers.get("TrackingId");
+    const location = response.headers.get("Location");
 
-      return {
-        correlationId,
-        trackingId,
-        location
-      };
+    return {
+      correlationId,
+      trackingId,
+      location,
+    };
   }
 
   private getBaseURL(): URL {

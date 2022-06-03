@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createSasTokenProvider, parseConnectionString, SasTokenProvider } from "@azure/core-amqp";
+import { SasTokenProvider, createSasTokenProvider, parseConnectionString } from "@azure/core-amqp";
 
 /**
  * The set of properties that comprise a Notification Hubs connection string.
@@ -25,7 +25,10 @@ export interface NotificationHubsConnectionStringProperties {
   sharedAccessKeyName: string;
 }
 
-export function createTokenProviderFromConnection(sharedAccessKey: string, sharedAccessKeyName: string): SasTokenProvider {
+export function createTokenProviderFromConnection(
+  sharedAccessKey: string,
+  sharedAccessKeyName: string
+): SasTokenProvider {
   return createSasTokenProvider({ sharedAccessKey, sharedAccessKeyName });
 }
 
@@ -58,7 +61,7 @@ export function parseNotificationHubsConnectionString(
   const output: NotificationHubsConnectionStringProperties = {
     endpoint: parsedResult.Endpoint,
     sharedAccessKey: parsedResult.SharedAccessKey!,
-    sharedAccessKeyName: parsedResult.SharedAccessKeyName!
+    sharedAccessKeyName: parsedResult.SharedAccessKeyName!,
   };
 
   return output;
