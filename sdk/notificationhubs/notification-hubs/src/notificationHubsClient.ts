@@ -32,7 +32,7 @@ export class NotificationHubsClient extends ServiceClient {
 
   public deleteInstallation(installationId: string, options: OperationOptions = {}): Promise<NotificationHubResponse> {
     return tracingClient.withSpan("NotificationHubsClient-deleteInstallation", options, async (updatedOptions) => {
-      const endpoint = `https://${this._baseUrl.hostname.replace("sb://", "https://")}/${this._hubName}/installations/${installationId}?api-version=${API_VERSION}`;
+      const endpoint = `${this._baseUrl.hostname.replace("sb://", "https://")}/${this._hubName}/installations/${installationId}?api-version=${API_VERSION}`;
       const authorization = this._sasTokenProvider.getToken(this._baseUrl.hostname);
       const headers = createHttpHeaders();
       headers.set("Authorization", authorization.token);
