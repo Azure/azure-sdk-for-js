@@ -870,17 +870,28 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
         taxYear: "2018",
         w2Copy: "Copy 2 -- To Be Filed with Employee's State, City, or Local Income Tax Return,",
         employee: {
-          name: "BONNIE F HERNANDEZ",
-          address: "96541 MOLLY HOLLOW STREET APT.124 KATHRYNMOUTH, NE",
-          zipCode: "98631-5293",
           socialSecurityNumber: "986-62-1002",
+          name: "BONNIE F HERNANDEZ",
+          address: {
+            houseNumber: "96541",
+            road: "molly hollow street",
+            city: "kathrynmouth",
+            state: "ne",
+            postalCode: "98631-5293",
+            streetAddress: "96541 molly hollow street",
+          },
         },
         controlNumber: "000086242",
         employer: {
           idNumber: "48-1069918",
           name: "BLUE BEACON USA, LP",
-          address: "PO BOX 856 SALINA, KS",
-          zipCode: "67402-0856",
+          address: {
+            poBox: "po box 856",
+            city: "salina",
+            state: "ks",
+            postalCode: "67402-0856",
+            streetAddress: "po box 856",
+          },
         },
         wagesTipsAndOtherCompensation: 37160.56,
         federalIncomeTaxWithheld: 3894.54,
@@ -910,6 +921,7 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
             amount: 123.3,
           },
         ],
+        isRetirementPlan: "true",
         other: "DISINS 170.85",
         stateTaxInfos: [
           {
@@ -925,18 +937,17 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
           {
             localWagesTipsEtc: 37160.56,
             localIncomeTax: 51,
-            localityName: "Cmberland Vly/Mddl",
+            localityName: "Cmberland Vly/ Mddl",
           },
           {
             localWagesTipsEtc: 37160.56,
             localIncomeTax: 594.54,
-            localityName: "|E.Pennsboro/E.Pnns",
+            localityName: "E.Pennsboro/E.Pnns",
           },
         ],
       });
 
-      // TODO: reenable when the 'address' field type is implemented
-      it.skip("png file stream", async function (this: Mocha.Context) {
+      it("png file stream", async function (this: Mocha.Context) {
         const filePath = path.join(ASSET_PATH, "w2", "gold_simple_w2.png");
         const stream = fs.createReadStream(filePath);
 
@@ -956,6 +967,102 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
         assert.equal(w2Naive.docType, "tax.us.w2");
 
         validator(w2Naive as AnalyzedDocument);
+      });
+    });
+
+    describe("healthInsuranceCard - US", function () {
+      const validator = createValidator({
+        insurer: "PREMERA",
+        member: {
+          name: "ANGEL BROWN",
+          employer: "Microsoft",
+        },
+        dependents: [
+          {
+            name: "Coinsurance Max",
+          },
+        ],
+        idNumber: {
+          number: "123456789",
+        },
+        groupNumber: "1000000",
+        prescriptionInfo: {
+          rxBIN: "987654",
+          rxGrp: "BCAAXYZ",
+        },
+        copays: [
+          {
+            benefit: "deductible",
+            amount: "$1,500",
+          },
+          {
+            benefit: "coinsurancemax",
+            amount: "$1,000",
+          },
+        ],
+        plan: {
+          name: "PPO",
+        },
+      });
+
+      it("png file stream", async function (this: Mocha.Context) {
+        const filePath = path.join(ASSET_PATH, "healthInsuranceCard", "insurance.png");
+        const stream = fs.createReadStream(filePath);
+
+        const poller = await client.beginAnalyzeDocument(
+          PrebuiltModels.HealthInsuranceCardUs,
+          stream,
+          testPollingOptions
+        );
+
+        const {
+          documents,
+          documents: [healthInsuranceCard],
+        } = await poller.pollUntilDone();
+
+        assert.isNotEmpty(documents);
+
+        validator(healthInsuranceCard as AnalyzedDocument);
+      });
+    });
+
+    describe("vaccinationCard", function () {
+      const validator = createValidator({
+        cardHolderInfo: {
+          firstName: "Angel",
+        },
+        vaccines: [
+          {
+            manufacturer: "Pfizer",
+            // TODO: date format incorrect
+            // dateAdministered: "2021-11-10T05:00:00.000Z",
+          },
+          {
+            manufacturer: "Pfizer",
+            // TODO: date format incorrect
+            // dateAdministered: "2021-12-04T05:00:00.000Z",
+          },
+        ],
+      });
+
+      it("jpg file stream", async function (this: Mocha.Context) {
+        const filePath = path.join(ASSET_PATH, "vaccinationCard", "vaccination.jpg");
+        const stream = fs.createReadStream(filePath);
+
+        const poller = await client.beginAnalyzeDocument(
+          PrebuiltModels.VaccinationCard,
+          stream,
+          testPollingOptions
+        );
+
+        const {
+          documents,
+          documents: [vaccinationCard],
+        } = await poller.pollUntilDone();
+
+        assert.isNotEmpty(documents);
+
+        validator(vaccinationCard as AnalyzedDocument);
       });
     });
   }).timeout(60000);
