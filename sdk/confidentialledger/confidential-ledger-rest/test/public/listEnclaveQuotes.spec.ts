@@ -27,6 +27,7 @@ describe("List Document Formats", () => {
       assert.fail(`GET "/app/enclaveQuotes" failed with ${result.status}`);
     }
 
+    assert.typeOf(result.body.currentNodeId, "string");
     assert.equal(Object.keys(result.body.enclaveQuotes).length, 3);
   });
 });
