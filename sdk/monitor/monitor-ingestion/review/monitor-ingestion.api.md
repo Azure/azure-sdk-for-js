@@ -9,9 +9,9 @@ import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export class LogsIngestionClient {
-    constructor(tokenCredential: TokenCredential, endpoint: string, options?: LogsIngestionClientOptions);
+    constructor(endpoint: string, tokenCredential: TokenCredential, options?: LogsIngestionClientOptions);
     endpoint: string;
-    sendLogs(ruleId: string, stream: string, logs: Record<string, unknown>[], options?: SendLogsOptions): Promise<SendLogsResult>;
+    upload(ruleId: string, streamName: string, logs: Record<string, unknown>[], options?: UploadOptions): Promise<UploadResult>;
 }
 
 // @public
@@ -20,18 +20,18 @@ export interface LogsIngestionClientOptions extends CommonClientOptions {
 }
 
 // @public
-export interface SendLogsOptions {
-    concurrency?: number;
+export interface UploadOptions {
+    maxConcurrency?: number;
 }
 
 // @public
-export interface SendLogsResult {
+export interface UploadResult {
     failedLogsIndex: Array<number>;
-    sendLogsStatus: SendLogsStatus;
+    uploadStatus: UploadStatus;
 }
 
 // @public
-export type SendLogsStatus =
+export type UploadStatus =
 /** Represents Partial Failure scenario where partial logs have failed for processing and the list of indices is returned for the logs failed */
 "PartialFailure" |
 /** Represents Success scenario where all logs have succeeded and no index is returned */
