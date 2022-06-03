@@ -4,6 +4,7 @@
 
 ### Features Added
 
+- Updated the SDK to use the latest preview version of the Form Recognizer service: `2022-06-30-preview`.
 - Added `caption` and `footnotes` properties to the `DocumentTable` type. These properties represent an optional caption and footnotes (as `DocumentCaption` and `DocumentFootnote`) that were attached to extracted tables in the input documents.
 - Added a `paragraphs` property to the `AnalyzeResult` type and a new `DocumentParagraph` type. This property represents the paragraph structure of the input document's text.
 - Documents may now contain a `DocumentAddressField` type, which has an object with several fields related to physical addresses, such as `streetAddress`, `city`, and `state` as its value. This field is identified by the value `"address"` in the `kind` field.
