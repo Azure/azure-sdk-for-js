@@ -31,10 +31,6 @@ variables:
     value: 'true'
   - name: DisableDockerDetector
     value: 'true'
-  - name: Pool
-    value: 'azsdk-pool-mms-ubuntu-2004-perf'
-  - name: OSVmImage
-    value: 'MMSUbuntu20.04'
 
 resources:
   repositories:
@@ -47,6 +43,14 @@ resources:
 jobs:
 - job: Perf
   timeoutInMinutes: 360
+  strategy:
+    matrix:
+      Windows:
+        Pool: 'azsdk-pool-mms-windows-2019-perf'
+        OsVmImage: 'MMS2019'
+      Linux:
+        Pool: 'azsdk-pool-mms-ubuntu-2004-perf'
+        OsVmImage: 'MMSUbuntu20.04'
   pool:
     name: $(Pool)
     vmImage: $(OSVmImage)
