@@ -12,6 +12,7 @@
 ### Bugs Fixed
 
 - Fixed redirects not being passed to the test proxy in the browser. [#21713](https://github.com/Azure/azure-sdk-for-js/pull/21713)
+- The value of the `TEST_MODE` environment variable is no longer case-sensitive. [#22118](https://github.com/Azure/azure-sdk-for-js/pull/22118)
 
 ### Other Changes
 
