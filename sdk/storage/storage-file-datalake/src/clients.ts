@@ -336,12 +336,11 @@ export class DataLakePathClient extends StorageClient {
           expiryOptions = "RelativeToNow";
           expiresOn = Math.round(options.expiresOn! as number).toString();
         } else {
-          const fileExpiryTime = options.expiresOn as Date;
-          if (!fileExpiryTime) {
-            throw new Error(`Value for expiresOn is invalid.`);
-          } else {
+          if (options.expiresOn instanceof Date) {
             expiryOptions = "Absolute";
-            expiresOn = fileExpiryTime.toUTCString();
+            expiresOn = options.expiresOn.toUTCString();
+          } else {
+            throw new Error(`Value for expiresOn is invalid.`);
           }
         }
       }
