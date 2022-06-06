@@ -1,4 +1,7 @@
 parameters:
+  - name: operatingSystems
+    type: string
+    default: ''
   - name: serviceDirectory
     type: string
     default: ''
@@ -45,12 +48,14 @@ jobs:
   timeoutInMinutes: 360
   strategy:
     matrix:
-      Windows:
-        Pool: 'azsdk-pool-mms-windows-2019-perf'
-        OsVmImage: 'MMS2019'
-      Linux:
-        Pool: 'azsdk-pool-mms-ubuntu-2004-perf'
-        OsVmImage: 'MMSUbuntu20.04'
+      ${{ if contains(parameters.TestRepository, 'Windows') }}:
+        Windows:
+          Pool: 'azsdk-pool-mms-windows-2019-perf'
+          OsVmImage: 'MMS2019'
+      ${{ if contains(parameters.TestRepository, 'Linux') }}:
+        Linux:
+          Pool: 'azsdk-pool-mms-ubuntu-2004-perf'
+          OsVmImage: 'MMSUbuntu20.04'
   pool:
     name: $(Pool)
     vmImage: $(OSVmImage)
