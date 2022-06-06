@@ -15,6 +15,7 @@ import {
   ServiceBusSessionReceiver,
   ServiceBusSessionReceiverImpl,
 } from "./receivers/sessionReceiver";
+import { ServiceBusRuleManager, ServiceBusRuleManagerImpl } from "./serviceBusRuleManager";
 import { ServiceBusSender, ServiceBusSenderImpl } from "./sender";
 import { entityPathMisMatchError } from "./util/errors";
 import { MessageSession } from "./session/messageSession";
@@ -212,6 +213,25 @@ export class ServiceBusClient {
       receiveMode,
       maxLockAutoRenewDurationInMs,
       options?.skipParsingBodyAsJson ?? false,
+      this._clientOptions.retryOptions
+    );
+  }
+
+  /**
+   * Creates an instance of {@link ServiceBusRuleManager} that is used to manage
+   * the rules for a subscription.
+   *
+   * @param topicName - the topic to create {@link ServiceBusRuleManager}
+   * @param subscriptionName - the subscription specific to the specified topic to create a {@link ServiceBusRuleManager} for.
+   * @returns a {@link ServiceBusRuleManager} scoped to the specified subscription and topic.
+   */
+  createRuleManager(topicName: string, subscriptionName: string): ServiceBusRuleManager {
+    validateEntityPath(this._connectionContext.config, topicName);
+
+    const { entityPath } = extractReceiverArguments(topicName, subscriptionName);
+    return new ServiceBusRuleManagerImpl(
+      this._connectionContext,
+      entityPath,
       this._clientOptions.retryOptions
     );
   }
