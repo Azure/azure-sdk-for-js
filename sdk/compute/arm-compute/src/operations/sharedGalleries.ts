@@ -149,7 +149,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -170,7 +170,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location,
+    Parameters.location1,
     Parameters.galleryUniqueName
   ],
   headerParameters: [Parameters.accept],
@@ -192,7 +192,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location
+    Parameters.location1
   ],
   headerParameters: [Parameters.accept],
   serializer

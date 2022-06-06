@@ -1,5 +1,20 @@
 # Release History
 
+## 3.16.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 3.16.1 (2022-05-31)
+
+### Bugs Fixed
+- Fix [#22003](https://github.com/Azure/azure-sdk-for-js/issues/22003) missing interface error. [#22015](https://github.com/Azure/azure-sdk-for-js/pull/22015)
+
 ## 3.16.0 (2022-05-23)
 
 ### Features Added

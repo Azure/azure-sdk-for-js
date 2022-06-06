@@ -1,8 +1,119 @@
 {
- "recordings": [],
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://azure_managedhsm.managedhsm.azure.net/rng",
+   "query": {
+    "api-version": "7.3"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "0",
+    "content-security-policy": "default-src 'self'",
+    "content-type": "application/json; charset=utf-8",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012\", resource=\"https://managedhsm.azure.net\"",
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "SAMEORIGIN",
+    "x-ms-request-id": "1d25e29c-e2c7-11ec-8bc7-0022488ca45f",
+    "x-ms-server-latency": "1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1322",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 02 Jun 2022 22:55:35 GMT",
+    "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+wst\"}]}",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.12851.6 - SCUS ProdSlices",
+    "x-ms-request-id": "bb234d9f-7b6c-4915-a273-f7d76e852d00",
+    "x-xss-protection": "0"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://azure_managedhsm.managedhsm.azure.net/rng",
+   "query": {
+    "api-version": "7.3"
+   },
+   "requestBody": "{\"count\":-1}",
+   "status": 400,
+   "response": "{\"error\":{\"code\":\"BadParameter\",\"message\":\"GetRandomBytesRequest: count cannot be greater than 128 or less than 1 (Activity ID: 1d56c024-e2c7-11ec-8bc7-0022488ca45f)\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "168",
+    "content-security-policy": "default-src 'self'",
+    "content-type": "application/json; charset=utf-8",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "SAMEORIGIN",
+    "x-ms-request-id": "1d56c024-e2c7-11ec-8bc7-0022488ca45f",
+    "x-ms-server-latency": "1"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://azure_managedhsm.managedhsm.azure.net/rng",
+   "query": {
+    "api-version": "7.3"
+   },
+   "requestBody": "{\"count\":0}",
+   "status": 400,
+   "response": "{\"error\":{\"code\":\"BadParameter\",\"message\":\"GetRandomBytesRequest: count cannot be greater than 128 or less than 1 (Activity ID: 1d609356-e2c7-11ec-8bc7-0022488ca45f)\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "168",
+    "content-security-policy": "default-src 'self'",
+    "content-type": "application/json; charset=utf-8",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "SAMEORIGIN",
+    "x-ms-request-id": "1d609356-e2c7-11ec-8bc7-0022488ca45f",
+    "x-ms-server-latency": "0"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://azure_managedhsm.managedhsm.azure.net/rng",
+   "query": {
+    "api-version": "7.3"
+   },
+   "requestBody": "{\"count\":129}",
+   "status": 400,
+   "response": "{\"error\":{\"code\":\"BadParameter\",\"message\":\"GetRandomBytesRequest: count cannot be greater than 128 or less than 1 (Activity ID: 1d6a0b48-e2c7-11ec-8bc7-0022488ca45f)\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "168",
+    "content-security-policy": "default-src 'self'",
+    "content-type": "application/json; charset=utf-8",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-frame-options": "SAMEORIGIN",
+    "x-ms-request-id": "1d6a0b48-e2c7-11ec-8bc7-0022488ca45f",
+    "x-ms-server-latency": "0"
+   }
+  }
+ ],
  "uniqueTestInfo": {
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "b4deb846148bd9998061b157d310dfaf"
+ "hash": "bd13b308002e9d2b079191bb5943ffb4"
 }

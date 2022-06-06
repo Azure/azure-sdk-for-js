@@ -19,8 +19,8 @@ import {
   AnalyzeResult,
   DocumentAnalysisPollOperationState,
   FormRecognizerRequestBody,
-  toAnalyzedDocumentFromGenerated,
   toAnalyzeResultFromGenerated,
+  toAnalyzedDocumentFromGenerated,
   toDocumentAnalysisPollOperationState,
 } from "./lro/analyze";
 import { lro } from "./lro/util/poller";
@@ -30,7 +30,7 @@ import { toReadResult } from "./models/ReadResult";
 import { AnalyzeDocumentOptions } from "./options/AnalyzeDocumentsOptions";
 import { DocumentAnalysisClientOptions } from "./options/FormRecognizerClientOptions";
 import { DocumentModel, getMapper } from "./prebuilt/models";
-import { identity, makeServiceClient, Mappers, SERIALIZER } from "./util";
+import { Mappers, SERIALIZER, identity, makeServiceClient } from "./util";
 
 /**
  * A client for interacting with the Form Recognizer service's analysis features.
@@ -408,6 +408,7 @@ export class DocumentAnalysisClient {
    *                {@link FormRecognizerRequestBody} that will be uploaded with the request
    * @param options - optional settings for the analysis operation and poller
    * @returns a long-running operation (poller) that will eventually produce a layout result or an error
+   * @deprecated will be removed in a future version (prior to a stable release)
    */
   public async beginExtractLayout(
     input: string | FormRecognizerRequestBody,
@@ -489,6 +490,7 @@ export class DocumentAnalysisClient {
    *                {@link FormRecognizerRequestBody} that will be uploaded with the request
    * @param options - optional settings for the analysis operation and poller
    * @returns a long-running operation (poller) that will eventually produce a general document result or an error
+   * @deprecated will be removed in a future version (prior to a stable release)
    */
   public async beginExtractGeneralDocument(
     input: string | FormRecognizerRequestBody,
@@ -560,6 +562,7 @@ export class DocumentAnalysisClient {
    *                {@link FormRecognizerRequestBody} that will be uploaded with the request
    * @param options - optional settings for the analysis operation and poller
    * @returns a long-running operation (poller) that will eventually produce a read result or an error
+   * @deprecated will be removed in a future version (prior to a stable release)
    */
   public async beginReadDocument(
     input: string | FormRecognizerRequestBody,

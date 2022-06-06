@@ -1,8 +1,85 @@
 {
- "recordings": [],
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/keys//create",
+   "query": {
+    "api-version": "7.3"
+   },
+   "requestBody": "",
+   "status": 401,
+   "response": "{\"error\":{\"code\":\"Unauthorized\",\"message\":\"AKV10000: Request is missing a Bearer or PoP token.\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "97",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 02 Jun 2022 21:21:30 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "www-authenticate": "Bearer authorization=\"https://login.windows.net/12345678-1234-1234-1234-123456789012\", resource=\"https://vault.azure.net\"",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "964cb4a6-efcb-4771-9a98-4f93db028554",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.80.222;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "northcentralus",
+    "x-ms-keyvault-service-version": "1.9.422.1",
+    "x-ms-request-id": "6625779d-f5bf-4e4c-ace0-23a227a788c7"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://login.microsoftonline.com/12345678-1234-1234-1234-123456789012/oauth2/v2.0/token",
+   "query": {},
+   "requestBody": "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fsanitized%2F",
+   "status": 200,
+   "response": "{\"token_type\":\"Bearer\",\"expires_in\":86399,\"ext_expires_in\":86399,\"access_token\":\"access_token\"}",
+   "responseHeaders": {
+    "cache-control": "no-store, no-cache",
+    "content-length": "1315",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 02 Jun 2022 21:21:30 GMT",
+    "expires": "-1",
+    "nel": "{\"report_to\":\"network-errors\",\"max_age\":86400,\"success_fraction\":0.001,\"failure_fraction\":1.0}",
+    "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
+    "pragma": "no-cache",
+    "referrer-policy": "strict-origin-when-cross-origin",
+    "report-to": "{\"group\":\"network-errors\",\"max_age\":86400,\"endpoints\":[{\"url\":\"https://identity.nel.measure.office.net/api/report?catId=GW+estsfd+est\"}]}",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-ests-server": "2.1.12851.6 - SCUS ProdSlices",
+    "x-ms-request-id": "05833e79-8a99-47a9-b24d-e521469f3200",
+    "x-xss-protection": "0"
+   }
+  },
+  {
+   "method": "POST",
+   "url": "https://keyvault_name.vault.azure.net/keys//create",
+   "query": {
+    "api-version": "7.3"
+   },
+   "requestBody": "{\"kty\":\"RSA\"}",
+   "status": 400,
+   "response": "{\"error\":{\"code\":\"BadParameter\",\"message\":\"Operation not specified\"}}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "69",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Thu, 02 Jun 2022 21:21:31 GMT",
+    "expires": "-1",
+    "pragma": "no-cache",
+    "strict-transport-security": "max-age=31536000;includeSubDomains",
+    "x-content-type-options": "nosniff",
+    "x-ms-client-request-id": "964cb4a6-efcb-4771-9a98-4f93db028554",
+    "x-ms-keyvault-network-info": "conn_type=Ipv4;addr=167.220.80.222;act_addr_fam=InterNetwork;",
+    "x-ms-keyvault-region": "northcentralus",
+    "x-ms-keyvault-service-version": "1.9.422.1",
+    "x-ms-request-id": "5484c8c6-90f4-4d66-aa4f-2a3d486c4fb7"
+   }
+  }
+ ],
  "uniqueTestInfo": {
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "7077c535e87fc080351bf272e637ec5e"
+ "hash": "d5adc7296f725338fd7610ba67b687ce"
 }

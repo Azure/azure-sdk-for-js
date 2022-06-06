@@ -71,7 +71,7 @@ function GetNewNpmTags($packageName, $packageVersion)
   $setLatest = $false
   $setNext = $false
   # Set Latest tag if new version is higher than current GA or if package has never GA released before
-  if ((!$newVersion.IsPreRelease) -and ($latestVersion -eq $null -or $newVersion.CompareTo($latestVersion) -eq 1)) {
+  if ((!$newVersion.IsPreRelease) -and ($latestVersion -eq $null -or $newVersion -ge $latestVersion)) {
     $setLatest = $true
   }
 
@@ -81,7 +81,7 @@ function GetNewNpmTags($packageName, $packageVersion)
     $highestNpmVersion = FindRecentPackageVersion -packageName $packageName
     $highestNpmVersion = [AzureEngSemanticVersion]::ParseVersionString($highestNpmVersion)
     # New version is preview and if package is getting released first time or higher than currently available
-    if ($highestNpmVersion -eq $null -or $newVersion.CompareTo($highestNpmVersion) -eq 1)
+    if ($highestNpmVersion -eq $null -or $newVersion -ge $highestNpmVersion)
     {
       $setNext = $true
       # Set latest tag if package was never GA released
