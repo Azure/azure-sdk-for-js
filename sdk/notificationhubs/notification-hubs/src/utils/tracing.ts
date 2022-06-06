@@ -10,5 +10,5 @@ import { createTracingClient } from "@azure/core-tracing";
 export const tracingClient = createTracingClient({
   namespace: "Microsoft.NotificationHubs",
   packageName: "@azure/notification-hubs",
-  packageVersion: "1.0.0.0",
+  packageVersion: "1.0.0",
 });
