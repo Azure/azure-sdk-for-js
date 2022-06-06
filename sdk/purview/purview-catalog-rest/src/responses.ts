@@ -10,6 +10,7 @@ import {
   AtlasClassificationOutput,
   AtlasClassificationsOutput,
   AtlasEntityHeaderOutput,
+  BulkImportResponseOutput,
   AtlasGlossaryOutput,
   AtlasGlossaryCategoryOutput,
   AtlasRelatedCategoryHeaderOutput,
@@ -25,6 +26,7 @@ import {
   AtlasLineageInfoOutput,
   AtlasRelationshipOutput,
   AtlasRelationshipWithExtInfoOutput,
+  AtlasBusinessMetadataDefOutput,
   AtlasClassificationDefOutput,
   AtlasEntityDefOutput,
   AtlasEnumDefOutput,
@@ -33,7 +35,7 @@ import {
   AtlasTypeDefOutput,
   AtlasTypesDefOutput,
   AtlasTypeDefHeaderOutput,
-  TermTemplateDefOutput,
+  TermTemplateDefOutput
 } from "./outputModels";
 
 /**
@@ -83,7 +85,8 @@ export interface EntityCreateOrUpdateEntities200Response extends HttpResponse {
  * Existing entity is matched using its unique guid if supplied or by its unique attributes eg: qualifiedName.
  * Map and array of collections are not well supported. E.g., array<array<int>>, array<map<string, int>>.
  */
-export interface EntityCreateOrUpdateEntitiesdefaultResponse extends HttpResponse {
+export interface EntityCreateOrUpdateEntitiesdefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -130,7 +133,8 @@ export interface EntityGetByGuiddefaultResponse extends HttpResponse {
  * It does not support updating complex types like arrays, and maps.
  * Null updates are not possible.
  */
-export interface EntityPartialUpdateEntityAttributeByGuid200Response extends HttpResponse {
+export interface EntityPartialUpdateEntityAttributeByGuid200Response
+  extends HttpResponse {
   status: "200";
   body: EntityMutationResponseOutput;
 }
@@ -141,7 +145,8 @@ export interface EntityPartialUpdateEntityAttributeByGuid200Response extends Htt
  * It does not support updating complex types like arrays, and maps.
  * Null updates are not possible.
  */
-export interface EntityPartialUpdateEntityAttributeByGuiddefaultResponse extends HttpResponse {
+export interface EntityPartialUpdateEntityAttributeByGuiddefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -177,7 +182,8 @@ export interface EntityDeleteClassification204Response extends HttpResponse {
 }
 
 /** Delete a given classification from an existing entity represented by a GUID. */
-export interface EntityDeleteClassificationdefaultResponse extends HttpResponse {
+export interface EntityDeleteClassificationdefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -213,7 +219,8 @@ export interface EntityUpdateClassifications204Response extends HttpResponse {
 }
 
 /** Update classifications to an existing entity represented by a guid. */
-export interface EntityUpdateClassificationsdefaultResponse extends HttpResponse {
+export interface EntityUpdateClassificationsdefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -239,7 +246,8 @@ export interface EntityGetByUniqueAttributes200Response extends HttpResponse {
  * The REST request would look something like this:
  * GET /v2/entity/uniqueAttribute/type/aType?attr:aTypeAttribute=someValue.
  */
-export interface EntityGetByUniqueAttributesdefaultResponse extends HttpResponse {
+export interface EntityGetByUniqueAttributesdefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -254,7 +262,8 @@ export interface EntityGetByUniqueAttributesdefaultResponse extends HttpResponse
  * The REST request would look something like this:
  * PUT /v2/entity/uniqueAttribute/type/aType?attr:aTypeAttribute=someValue.
  */
-export interface EntityPartialUpdateEntityByUniqueAttributes200Response extends HttpResponse {
+export interface EntityPartialUpdateEntityByUniqueAttributes200Response
+  extends HttpResponse {
   status: "200";
   body: EntityMutationResponseOutput;
 }
@@ -269,7 +278,8 @@ export interface EntityPartialUpdateEntityByUniqueAttributes200Response extends 
  * The REST request would look something like this:
  * PUT /v2/entity/uniqueAttribute/type/aType?attr:aTypeAttribute=someValue.
  */
-export interface EntityPartialUpdateEntityByUniqueAttributesdefaultResponse extends HttpResponse {
+export interface EntityPartialUpdateEntityByUniqueAttributesdefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -295,43 +305,50 @@ export interface EntityDeleteByUniqueAttribute200Response extends HttpResponse {
  * The REST request would look something like this:
  * DELETE /v2/entity/uniqueAttribute/type/aType?attr:aTypeAttribute=someValue.
  */
-export interface EntityDeleteByUniqueAttributedefaultResponse extends HttpResponse {
+export interface EntityDeleteByUniqueAttributedefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
 
 /** Delete a given classification from an entity identified by its type and unique attributes. */
-export interface EntityDeleteClassificationByUniqueAttribute204Response extends HttpResponse {
+export interface EntityDeleteClassificationByUniqueAttribute204Response
+  extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
 
 /** Delete a given classification from an entity identified by its type and unique attributes. */
-export interface EntityDeleteClassificationByUniqueAttributedefaultResponse extends HttpResponse {
+export interface EntityDeleteClassificationByUniqueAttributedefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
 
 /** Add classification to the entity identified by its type and unique attributes. */
-export interface EntityAddClassificationsByUniqueAttribute204Response extends HttpResponse {
+export interface EntityAddClassificationsByUniqueAttribute204Response
+  extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
 
 /** Add classification to the entity identified by its type and unique attributes. */
-export interface EntityAddClassificationsByUniqueAttributedefaultResponse extends HttpResponse {
+export interface EntityAddClassificationsByUniqueAttributedefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
 
 /** Update classification on an entity identified by its type and unique attributes. */
-export interface EntityUpdateClassificationsByUniqueAttribute204Response extends HttpResponse {
+export interface EntityUpdateClassificationsByUniqueAttribute204Response
+  extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
 
 /** Update classification on an entity identified by its type and unique attributes. */
-export interface EntityUpdateClassificationsByUniqueAttributedefaultResponse extends HttpResponse {
+export interface EntityUpdateClassificationsByUniqueAttributedefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -361,7 +378,8 @@ export interface EntitySetClassificationsdefaultResponse extends HttpResponse {
  *
  * GET /v2/entity/bulk/uniqueAttribute/type/hive_db?attr_0:qualifiedName=db1@cl1&attr_2:qualifiedName=db2@cl1
  */
-export interface EntityGetEntitiesByUniqueAttributes200Response extends HttpResponse {
+export interface EntityGetEntitiesByUniqueAttributes200Response
+  extends HttpResponse {
   status: "200";
   body: AtlasEntitiesWithExtInfoOutput;
 }
@@ -379,7 +397,8 @@ export interface EntityGetEntitiesByUniqueAttributes200Response extends HttpResp
  *
  * GET /v2/entity/bulk/uniqueAttribute/type/hive_db?attr_0:qualifiedName=db1@cl1&attr_2:qualifiedName=db2@cl1
  */
-export interface EntityGetEntitiesByUniqueAttributesdefaultResponse extends HttpResponse {
+export interface EntityGetEntitiesByUniqueAttributesdefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -394,6 +413,105 @@ export interface EntityGetHeader200Response extends HttpResponse {
 export interface EntityGetHeaderdefaultResponse extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
+}
+
+/** Remove business metadata from an entity. */
+export interface EntityDeleteBusinessMetadata204Response extends HttpResponse {
+  status: "204";
+  body: Record<string, unknown>;
+}
+
+/** Add business metadata to an entity. */
+export interface EntityAddOrUpdateBusinessMetadata204Response
+  extends HttpResponse {
+  status: "204";
+  body: Record<string, unknown>;
+}
+
+/** Delete business metadata attributes from an entity. */
+export interface EntityDeleteBusinessMetadataAttributes204Response
+  extends HttpResponse {
+  status: "204";
+  body: Record<string, unknown>;
+}
+
+/** Add or update business metadata attributes */
+export interface EntityAddOrUpdateBusinessMetadataAttributes204Response
+  extends HttpResponse {
+  status: "204";
+  body: Record<string, unknown>;
+}
+
+/** Get the sample Template for uploading/creating bulk BusinessMetaData */
+export interface EntityGetSampleBusinessMetadataTemplate200Response
+  extends HttpResponse {
+  status: "200";
+  /** Value may contain any sequence of octets */
+  body: Uint8Array;
+}
+
+/** Get the sample Template for uploading/creating bulk BusinessMetaData */
+export interface EntityGetSampleBusinessMetadataTemplate400Response
+  extends HttpResponse {
+  status: "400";
+  body: Record<string, unknown>;
+}
+
+/** Upload the file for creating Business Metadata in BULK */
+export interface EntityImportBusinessMetadata200Response extends HttpResponse {
+  status: "200";
+  body: BulkImportResponseOutput;
+}
+
+/** Upload the file for creating Business Metadata in BULK */
+export interface EntityImportBusinessMetadata400Response extends HttpResponse {
+  status: "400";
+  body: Record<string, unknown>;
+}
+
+/** Upload the file for creating Business Metadata in BULK */
+export interface EntityImportBusinessMetadata409Response extends HttpResponse {
+  status: "409";
+  body: Record<string, unknown>;
+}
+
+/** delete given labels to a given entity */
+export interface EntityDeleteLabels204Response extends HttpResponse {
+  status: "204";
+  body: Record<string, unknown>;
+}
+
+/** Set labels to a given entity */
+export interface EntitySetLabels204Response extends HttpResponse {
+  status: "204";
+  body: Record<string, unknown>;
+}
+
+/** add given labels to a given entity */
+export interface EntityAddLabel204Response extends HttpResponse {
+  status: "204";
+  body: Record<string, unknown>;
+}
+
+/** Delete given labels to a given entity identified by its type and unique attributes, if labels is null/empty, no labels will be removed. If any labels in labels set are non-existing labels, they will be ignored, only existing labels will be removed. In addition to the typeName path parameter, attribute key-value pair(s) can be provided in the following format: attr:<attrName>=<attrValue>. NOTE: The attrName and attrValue should be unique across entities, eg. qualifiedName. The REST request would look something like this: DELETE /v2/entity/uniqueAttribute/type/aType?attr:aTypeAttribute=someValue. */
+export interface EntityDeleteLabelsByUniqueAttribute204Response
+  extends HttpResponse {
+  status: "204";
+  body: Record<string, unknown>;
+}
+
+/** Set labels to a given entity identified by its type and unique attributes, if labels is null/empty, existing labels will all be removed. In addition to the typeName path parameter, attribute key-value pair(s) can be provided in the following format: attr:<attrName>=<attrValue>. NOTE: The attrName and attrValue should be unique across entities, eg. qualifiedName. The REST request would look something like this: POST /v2/entity/uniqueAttribute/type/aType?attr:aTypeAttribute=someValue. */
+export interface EntitySetLabelsByUniqueAttribute204Response
+  extends HttpResponse {
+  status: "204";
+  body: Record<string, unknown>;
+}
+
+/** Add given labels to a given entity identified by its type and unique attributes, if labels is null/empty, no labels will be added. In addition to the typeName path parameter, attribute key-value pair(s) can be provided in the following format: attr:<attrName>=<attrValue>. NOTE: The attrName and attrValue should be unique across entities, eg. qualifiedName. The REST request would look something like this: PUT /v2/entity/uniqueAttribute/type/aType?attr:aTypeAttribute=someValue. */
+export interface EntityAddLabelsByUniqueAttribute204Response
+  extends HttpResponse {
+  status: "204";
+  body: Record<string, unknown>;
 }
 
 /** Get all glossaries registered with Atlas. */
@@ -421,25 +539,29 @@ export interface GlossaryCreateGlossarydefaultResponse extends HttpResponse {
 }
 
 /** Create glossary category in bulk. */
-export interface GlossaryCreateGlossaryCategories200Response extends HttpResponse {
+export interface GlossaryCreateGlossaryCategories200Response
+  extends HttpResponse {
   status: "200";
   body: Array<AtlasGlossaryCategoryOutput>;
 }
 
 /** Create glossary category in bulk. */
-export interface GlossaryCreateGlossaryCategoriesdefaultResponse extends HttpResponse {
+export interface GlossaryCreateGlossaryCategoriesdefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
 
 /** Create a glossary category. */
-export interface GlossaryCreateGlossaryCategory200Response extends HttpResponse {
+export interface GlossaryCreateGlossaryCategory200Response
+  extends HttpResponse {
   status: "200";
   body: AtlasGlossaryCategoryOutput;
 }
 
 /** Create a glossary category. */
-export interface GlossaryCreateGlossaryCategorydefaultResponse extends HttpResponse {
+export interface GlossaryCreateGlossaryCategorydefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -451,43 +573,50 @@ export interface GlossaryGetGlossaryCategory200Response extends HttpResponse {
 }
 
 /** Get specific glossary category by its GUID. */
-export interface GlossaryGetGlossaryCategorydefaultResponse extends HttpResponse {
+export interface GlossaryGetGlossaryCategorydefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
 
 /** Update the given glossary category by its GUID. */
-export interface GlossaryUpdateGlossaryCategory200Response extends HttpResponse {
+export interface GlossaryUpdateGlossaryCategory200Response
+  extends HttpResponse {
   status: "200";
   body: AtlasGlossaryCategoryOutput;
 }
 
 /** Update the given glossary category by its GUID. */
-export interface GlossaryUpdateGlossaryCategorydefaultResponse extends HttpResponse {
+export interface GlossaryUpdateGlossaryCategorydefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
 
 /** Delete a glossary category. */
-export interface GlossaryDeleteGlossaryCategory204Response extends HttpResponse {
+export interface GlossaryDeleteGlossaryCategory204Response
+  extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
 
 /** Delete a glossary category. */
-export interface GlossaryDeleteGlossaryCategorydefaultResponse extends HttpResponse {
+export interface GlossaryDeleteGlossaryCategorydefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
 
 /** Update the glossary category partially. */
-export interface GlossaryPartialUpdateGlossaryCategory200Response extends HttpResponse {
+export interface GlossaryPartialUpdateGlossaryCategory200Response
+  extends HttpResponse {
   status: "200";
   body: AtlasGlossaryCategoryOutput;
 }
 
 /** Update the glossary category partially. */
-export interface GlossaryPartialUpdateGlossaryCategorydefaultResponse extends HttpResponse {
+export interface GlossaryPartialUpdateGlossaryCategorydefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -499,7 +628,8 @@ export interface GlossaryListRelatedCategories200Response extends HttpResponse {
 }
 
 /** Get all related categories (parent and children). Limit, offset, and sort parameters are currently not being enabled and won't work even they are passed. */
-export interface GlossaryListRelatedCategoriesdefaultResponse extends HttpResponse {
+export interface GlossaryListRelatedCategoriesdefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -523,7 +653,8 @@ export interface GlossaryCreateGlossaryTerm200Response extends HttpResponse {
 }
 
 /** Create a glossary term. */
-export interface GlossaryCreateGlossaryTermdefaultResponse extends HttpResponse {
+export interface GlossaryCreateGlossaryTermdefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -547,7 +678,8 @@ export interface GlossaryUpdateGlossaryTerm200Response extends HttpResponse {
 }
 
 /** Update the given glossary term by its GUID. */
-export interface GlossaryUpdateGlossaryTermdefaultResponse extends HttpResponse {
+export interface GlossaryUpdateGlossaryTermdefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -559,19 +691,22 @@ export interface GlossaryDeleteGlossaryTerm204Response extends HttpResponse {
 }
 
 /** Delete a glossary term. */
-export interface GlossaryDeleteGlossaryTermdefaultResponse extends HttpResponse {
+export interface GlossaryDeleteGlossaryTermdefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
 
 /** Update the glossary term partially. */
-export interface GlossaryPartialUpdateGlossaryTerm200Response extends HttpResponse {
+export interface GlossaryPartialUpdateGlossaryTerm200Response
+  extends HttpResponse {
   status: "200";
   body: AtlasGlossaryTermOutput;
 }
 
 /** Update the glossary term partially. */
-export interface GlossaryPartialUpdateGlossaryTermdefaultResponse extends HttpResponse {
+export interface GlossaryPartialUpdateGlossaryTermdefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -583,19 +718,22 @@ export interface GlossaryCreateGlossaryTerms200Response extends HttpResponse {
 }
 
 /** Create glossary terms in bulk. */
-export interface GlossaryCreateGlossaryTermsdefaultResponse extends HttpResponse {
+export interface GlossaryCreateGlossaryTermsdefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
 
 /** Get all related objects assigned with the specified term. */
-export interface GlossaryGetEntitiesAssignedWithTerm200Response extends HttpResponse {
+export interface GlossaryGetEntitiesAssignedWithTerm200Response
+  extends HttpResponse {
   status: "200";
   body: Array<AtlasRelatedObjectIdOutput>;
 }
 
 /** Get all related objects assigned with the specified term. */
-export interface GlossaryGetEntitiesAssignedWithTermdefaultResponse extends HttpResponse {
+export interface GlossaryGetEntitiesAssignedWithTermdefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -607,31 +745,36 @@ export interface GlossaryAssignTermToEntities204Response extends HttpResponse {
 }
 
 /** Assign the given term to the provided list of related objects. */
-export interface GlossaryAssignTermToEntitiesdefaultResponse extends HttpResponse {
+export interface GlossaryAssignTermToEntitiesdefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
 
 /** Delete the term assignment for the given list of related objects. */
-export interface GlossaryRemoveTermAssignmentFromEntities204Response extends HttpResponse {
+export interface GlossaryRemoveTermAssignmentFromEntities204Response
+  extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
 
 /** Delete the term assignment for the given list of related objects. */
-export interface GlossaryRemoveTermAssignmentFromEntitiesdefaultResponse extends HttpResponse {
+export interface GlossaryRemoveTermAssignmentFromEntitiesdefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
 
 /** Delete the term assignment for the given list of related objects. */
-export interface GlossaryDeleteTermAssignmentFromEntities204Response extends HttpResponse {
+export interface GlossaryDeleteTermAssignmentFromEntities204Response
+  extends HttpResponse {
   status: "204";
   body: Record<string, unknown>;
 }
 
 /** Delete the term assignment for the given list of related objects. */
-export interface GlossaryDeleteTermAssignmentFromEntitiesdefaultResponse extends HttpResponse {
+export interface GlossaryDeleteTermAssignmentFromEntitiesdefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -685,25 +828,29 @@ export interface GlossaryDeleteGlossarydefaultResponse extends HttpResponse {
 }
 
 /** Get the categories belonging to a specific glossary. */
-export interface GlossaryListGlossaryCategories200Response extends HttpResponse {
+export interface GlossaryListGlossaryCategories200Response
+  extends HttpResponse {
   status: "200";
   body: Array<AtlasGlossaryCategoryOutput>;
 }
 
 /** Get the categories belonging to a specific glossary. */
-export interface GlossaryListGlossaryCategoriesdefaultResponse extends HttpResponse {
+export interface GlossaryListGlossaryCategoriesdefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
 
 /** Get the category headers belonging to a specific glossary. */
-export interface GlossaryListGlossaryCategoriesHeaders200Response extends HttpResponse {
+export interface GlossaryListGlossaryCategoriesHeaders200Response
+  extends HttpResponse {
   status: "200";
   body: Array<AtlasRelatedCategoryHeaderOutput>;
 }
 
 /** Get the category headers belonging to a specific glossary. */
-export interface GlossaryListGlossaryCategoriesHeadersdefaultResponse extends HttpResponse {
+export interface GlossaryListGlossaryCategoriesHeadersdefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -715,7 +862,8 @@ export interface GlossaryGetDetailedGlossary200Response extends HttpResponse {
 }
 
 /** Get a specific glossary with detailed information. */
-export interface GlossaryGetDetailedGlossarydefaultResponse extends HttpResponse {
+export interface GlossaryGetDetailedGlossarydefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -727,7 +875,8 @@ export interface GlossaryPartialUpdateGlossary200Response extends HttpResponse {
 }
 
 /** Update the glossary partially. Some properties such as qualifiedName are not allowed to be updated. */
-export interface GlossaryPartialUpdateGlossarydefaultResponse extends HttpResponse {
+export interface GlossaryPartialUpdateGlossarydefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -745,31 +894,36 @@ export interface GlossaryListGlossaryTermsdefaultResponse extends HttpResponse {
 }
 
 /** Get term headers belonging to a specific glossary. */
-export interface GlossaryListGlossaryTermHeaders200Response extends HttpResponse {
+export interface GlossaryListGlossaryTermHeaders200Response
+  extends HttpResponse {
   status: "200";
   body: Array<AtlasRelatedTermHeaderOutput>;
 }
 
 /** Get term headers belonging to a specific glossary. */
-export interface GlossaryListGlossaryTermHeadersdefaultResponse extends HttpResponse {
+export interface GlossaryListGlossaryTermHeadersdefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
 
 /** Import Glossary Terms from local csv file */
-export interface GlossaryImportGlossaryTermsViaCsv202Response extends HttpResponse {
+export interface GlossaryImportGlossaryTermsViaCsv202Response
+  extends HttpResponse {
   status: "202";
   body: ImportCSVOperationOutput;
 }
 
 /** Import Glossary Terms from local csv file */
-export interface GlossaryImportGlossaryTermsViaCsvdefaultResponse extends HttpResponse {
+export interface GlossaryImportGlossaryTermsViaCsvdefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
 
 /** Import Glossary Terms from local csv file by glossaryName */
-export interface GlossaryImportGlossaryTermsViaCsvByGlossaryName202Response extends HttpResponse {
+export interface GlossaryImportGlossaryTermsViaCsvByGlossaryName202Response
+  extends HttpResponse {
   status: "202";
   body: ImportCSVOperationOutput;
 }
@@ -782,38 +936,44 @@ export interface GlossaryImportGlossaryTermsViaCsvByGlossaryNamedefaultResponse
 }
 
 /** Get the status of import csv operation */
-export interface GlossaryGetImportCsvOperationStatus200Response extends HttpResponse {
+export interface GlossaryGetImportCsvOperationStatus200Response
+  extends HttpResponse {
   status: "200";
   body: ImportCSVOperationOutput;
 }
 
 /** Get the status of import csv operation */
-export interface GlossaryGetImportCsvOperationStatusdefaultResponse extends HttpResponse {
+export interface GlossaryGetImportCsvOperationStatusdefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
 
 /** Export Glossary Terms as csv file */
-export interface GlossaryExportGlossaryTermsAsCsv200Response extends HttpResponse {
+export interface GlossaryExportGlossaryTermsAsCsv200Response
+  extends HttpResponse {
   status: "200";
   /** Value may contain any sequence of octets */
   body: Uint8Array;
 }
 
 /** Export Glossary Terms as csv file */
-export interface GlossaryExportGlossaryTermsAsCsvdefaultResponse extends HttpResponse {
+export interface GlossaryExportGlossaryTermsAsCsvdefaultResponse
+  extends HttpResponse {
   status: "500";
   body: Record<string, unknown>;
 }
 
 /** Get terms by glossary name. */
-export interface GlossaryListTermsByGlossaryName200Response extends HttpResponse {
+export interface GlossaryListTermsByGlossaryName200Response
+  extends HttpResponse {
   status: "200";
   body: Array<AtlasGlossaryTermOutput>;
 }
 
 /** Get terms by glossary name. */
-export interface GlossaryListTermsByGlossaryNamedefaultResponse extends HttpResponse {
+export interface GlossaryListTermsByGlossaryNamedefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -890,6 +1050,51 @@ export interface LineageNextPageLineagedefaultResponse extends HttpResponse {
   body: ErrorResponseOutput;
 }
 
+/**
+ * Returns lineage info about entity.
+ *
+ * In addition to the typeName path parameter, attribute key-value pair(s) can be provided in the following format
+ *
+ * attr:[attrName]=[attrValue]
+ *
+ * NOTE: The attrName and attrValue should be unique across entities, eg. qualifiedName
+ */
+export interface LineageGetLineageByUniqueAttribute200Response
+  extends HttpResponse {
+  status: "200";
+  body: AtlasLineageInfoOutput;
+}
+
+/**
+ * Returns lineage info about entity.
+ *
+ * In addition to the typeName path parameter, attribute key-value pair(s) can be provided in the following format
+ *
+ * attr:[attrName]=[attrValue]
+ *
+ * NOTE: The attrName and attrValue should be unique across entities, eg. qualifiedName
+ */
+export interface LineageGetLineageByUniqueAttribute400Response
+  extends HttpResponse {
+  status: "400";
+  body: Record<string, unknown>;
+}
+
+/**
+ * Returns lineage info about entity.
+ *
+ * In addition to the typeName path parameter, attribute key-value pair(s) can be provided in the following format
+ *
+ * attr:[attrName]=[attrValue]
+ *
+ * NOTE: The attrName and attrValue should be unique across entities, eg. qualifiedName
+ */
+export interface LineageGetLineageByUniqueAttribute404Response
+  extends HttpResponse {
+  status: "404";
+  body: Record<string, unknown>;
+}
+
 /** Create a new relationship between entities. */
 export interface RelationshipCreate200Response extends HttpResponse {
   status: "200";
@@ -938,50 +1143,86 @@ export interface RelationshipDeletedefaultResponse extends HttpResponse {
   body: ErrorResponseOutput;
 }
 
+/** Get the businessMetadata definition for the given guid */
+export interface TypesGetBusinessMetadataDefByGuid200Response
+  extends HttpResponse {
+  status: "200";
+  body: AtlasBusinessMetadataDefOutput;
+}
+
+/** Get the businessMetadata definition for the given guid */
+export interface TypesGetBusinessMetadataDefByGuid404Response
+  extends HttpResponse {
+  status: "404";
+  body: Record<string, unknown>;
+}
+
+/** Get the businessMetadata definition by it's name (unique) */
+export interface TypesGetBusinessMetadataDefByName200Response
+  extends HttpResponse {
+  status: "200";
+  body: AtlasBusinessMetadataDefOutput;
+}
+
+/** Get the businessMetadata definition by it's name (unique) */
+export interface TypesGetBusinessMetadataDefByName404Response
+  extends HttpResponse {
+  status: "404";
+  body: Record<string, unknown>;
+}
+
 /** Get the classification definition for the given GUID. */
-export interface TypesGetClassificationDefByGuid200Response extends HttpResponse {
+export interface TypesGetClassificationDefByGuid200Response
+  extends HttpResponse {
   status: "200";
   body: AtlasClassificationDefOutput;
 }
 
 /** Get the classification definition for the given GUID. */
-export interface TypesGetClassificationDefByGuiddefaultResponse extends HttpResponse {
+export interface TypesGetClassificationDefByGuiddefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
 
 /** Get the classification definition by its name (unique). */
-export interface TypesGetClassificationDefByName200Response extends HttpResponse {
+export interface TypesGetClassificationDefByName200Response
+  extends HttpResponse {
   status: "200";
   body: AtlasClassificationDefOutput;
 }
 
 /** Get the classification definition by its name (unique). */
-export interface TypesGetClassificationDefByNamedefaultResponse extends HttpResponse {
+export interface TypesGetClassificationDefByNamedefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
 
 /** Get the Entity definition for the given GUID. */
-export interface TypesGetEntityDefinitionByGuid200Response extends HttpResponse {
+export interface TypesGetEntityDefinitionByGuid200Response
+  extends HttpResponse {
   status: "200";
   body: AtlasEntityDefOutput;
 }
 
 /** Get the Entity definition for the given GUID. */
-export interface TypesGetEntityDefinitionByGuiddefaultResponse extends HttpResponse {
+export interface TypesGetEntityDefinitionByGuiddefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
 
 /** Get the entity definition by its name (unique). */
-export interface TypesGetEntityDefinitionByName200Response extends HttpResponse {
+export interface TypesGetEntityDefinitionByName200Response
+  extends HttpResponse {
   status: "200";
   body: AtlasEntityDefOutput;
 }
 
 /** Get the entity definition by its name (unique). */
-export interface TypesGetEntityDefinitionByNamedefaultResponse extends HttpResponse {
+export interface TypesGetEntityDefinitionByNamedefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -1017,7 +1258,8 @@ export interface TypesGetRelationshipDefByGuid200Response extends HttpResponse {
 }
 
 /** Get the relationship definition for the given GUID. */
-export interface TypesGetRelationshipDefByGuiddefaultResponse extends HttpResponse {
+export interface TypesGetRelationshipDefByGuiddefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -1029,7 +1271,8 @@ export interface TypesGetRelationshipDefByName200Response extends HttpResponse {
 }
 
 /** Get the relationship definition by its name (unique). */
-export interface TypesGetRelationshipDefByNamedefaultResponse extends HttpResponse {
+export interface TypesGetRelationshipDefByNamedefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -1065,7 +1308,8 @@ export interface TypesGetTypeDefinitionByGuid200Response extends HttpResponse {
 }
 
 /** Get the type definition for the given GUID. */
-export interface TypesGetTypeDefinitionByGuiddefaultResponse extends HttpResponse {
+export interface TypesGetTypeDefinitionByGuiddefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -1077,7 +1321,8 @@ export interface TypesGetTypeDefinitionByName200Response extends HttpResponse {
 }
 
 /** Get the type definition by its name (unique). */
-export interface TypesGetTypeDefinitionByNamedefaultResponse extends HttpResponse {
+export interface TypesGetTypeDefinitionByNamedefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -1101,7 +1346,8 @@ export interface TypesGetAllTypeDefinitions200Response extends HttpResponse {
 }
 
 /** Get all type definitions in Atlas in bulk. */
-export interface TypesGetAllTypeDefinitionsdefaultResponse extends HttpResponse {
+export interface TypesGetAllTypeDefinitionsdefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -1119,19 +1365,22 @@ export interface TypesCreateTypeDefinitions200Response extends HttpResponse {
  * Create all atlas type definitions in bulk, only new definitions will be created.
  * Any changes to the existing definitions will be discarded.
  */
-export interface TypesCreateTypeDefinitionsdefaultResponse extends HttpResponse {
+export interface TypesCreateTypeDefinitionsdefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
 
 /** Update all types in bulk, changes detected in the type definitions would be persisted. */
-export interface TypesUpdateAtlasTypeDefinitions200Response extends HttpResponse {
+export interface TypesUpdateAtlasTypeDefinitions200Response
+  extends HttpResponse {
   status: "200";
   body: AtlasTypesDefOutput;
 }
 
 /** Update all types in bulk, changes detected in the type definitions would be persisted. */
-export interface TypesUpdateAtlasTypeDefinitionsdefaultResponse extends HttpResponse {
+export interface TypesUpdateAtlasTypeDefinitionsdefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -1143,19 +1392,22 @@ export interface TypesDeleteTypeDefinitions204Response extends HttpResponse {
 }
 
 /** Delete API for all types in bulk. */
-export interface TypesDeleteTypeDefinitionsdefaultResponse extends HttpResponse {
+export interface TypesDeleteTypeDefinitionsdefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
 
 /** List all type definitions returned as a list of minimal information header. */
-export interface TypesListTypeDefinitionHeaders200Response extends HttpResponse {
+export interface TypesListTypeDefinitionHeaders200Response
+  extends HttpResponse {
   status: "200";
   body: Array<AtlasTypeDefHeaderOutput>;
 }
 
 /** List all type definitions returned as a list of minimal information header. */
-export interface TypesListTypeDefinitionHeadersdefaultResponse extends HttpResponse {
+export interface TypesListTypeDefinitionHeadersdefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -1167,7 +1419,8 @@ export interface TypesGetTermTemplateDefByGuid200Response extends HttpResponse {
 }
 
 /** Get the term template definition for the given GUID. */
-export interface TypesGetTermTemplateDefByGuiddefaultResponse extends HttpResponse {
+export interface TypesGetTermTemplateDefByGuiddefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -1179,7 +1432,8 @@ export interface TypesGetTermTemplateDefByName200Response extends HttpResponse {
 }
 
 /** Get the term template definition by its name (unique). */
-export interface TypesGetTermTemplateDefByNamedefaultResponse extends HttpResponse {
+export interface TypesGetTermTemplateDefByNamedefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
@@ -1219,19 +1473,22 @@ export interface CollectionCreateOrUpdateBulk200Response extends HttpResponse {
  * Existing entity is matched using its unique guid if supplied or by its unique attributes eg: qualifiedName.
  * Map and array of collections are not well supported. E.g., array<array<int>>, array<map<string, int>>.
  */
-export interface CollectionCreateOrUpdateBulkdefaultResponse extends HttpResponse {
+export interface CollectionCreateOrUpdateBulkdefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
 
 /** Move existing entities to the target collection. */
-export interface CollectionMoveEntitiesToCollection200Response extends HttpResponse {
+export interface CollectionMoveEntitiesToCollection200Response
+  extends HttpResponse {
   status: "200";
   body: EntityMutationResponseOutput;
 }
 
 /** Move existing entities to the target collection. */
-export interface CollectionMoveEntitiesToCollectiondefaultResponse extends HttpResponse {
+export interface CollectionMoveEntitiesToCollectiondefaultResponse
+  extends HttpResponse {
   status: "500";
   body: ErrorResponseOutput;
 }
