@@ -151,11 +151,11 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location,
+    Parameters.location1,
     Parameters.publisherName,
-    Parameters.version,
     Parameters.offer,
-    Parameters.skus
+    Parameters.skus,
+    Parameters.version
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -184,14 +184,14 @@ const listOperationSpec: coreClient.OperationSpec = {
   },
   queryParameters: [
     Parameters.apiVersion,
-    Parameters.expand,
+    Parameters.expand1,
     Parameters.top,
     Parameters.orderby
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location,
+    Parameters.location1,
     Parameters.publisherName,
     Parameters.offer,
     Parameters.skus
@@ -225,7 +225,7 @@ const listOffersOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location,
+    Parameters.location1,
     Parameters.publisherName
   ],
   headerParameters: [Parameters.accept],
@@ -257,7 +257,7 @@ const listPublishersOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -288,7 +288,7 @@ const listSkusOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location,
+    Parameters.location1,
     Parameters.publisherName,
     Parameters.offer
   ],

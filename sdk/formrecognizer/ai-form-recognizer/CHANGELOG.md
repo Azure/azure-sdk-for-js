@@ -4,9 +4,19 @@
 
 ### Features Added
 
+- Updated the SDK to use the latest preview version of the Form Recognizer service: `2022-06-30-preview`.
+- Added `caption` and `footnotes` properties to the `DocumentTable` type. These properties represent an optional caption and footnotes (as `DocumentCaption` and `DocumentFootnote`) that were attached to extracted tables in the input documents.
+- Added a `paragraphs` property to the `AnalyzeResult` type and a new `DocumentParagraph` type. This property represents the paragraph structure of the input document's text.
+- Documents may now contain a `DocumentAddressField` type, which has an object with several fields related to physical addresses, such as `streetAddress`, `city`, and `state` as its value. This field is identified by the value `"address"` in the `kind` field.
+
 ### Breaking Changes
 
-- Renamed the `beginCopyModel` method of `DocumentModelAdministrationClient` to `beginCopyModelTo`. [#20775](https://github.com/Azure/azure-sdk-for-js/pull/20775) 
+- [**DEPRECATION**] Deprecated `PrebuiltModels`. In a future version (prior to a stable release), `PrebuiltModels` and its fields will be replaced with an out-of-tree solution for obtaining strongly-typed analysis results.
+- [**DEPRECATION**] Deprecated `beginExtractLayout`, `beginExtractGeneralDocument`, and `beginReadDocument`. In a future version (prior to a stable release), these methods will be removed, and `beginAnalyzeDocument` will be enhanced to provide the same restricted types.
+- Renamed the `beginCopyModel` method of `DocumentModelAdministrationClient` to `beginCopyModelTo`. [#20775](https://github.com/Azure/azure-sdk-for-js/pull/20775)
+- Renamed `BoundingRegion#boundingBox` to `BoundingRegion#polygon`, as the service may now provide arbitrary, polygonal bounding areas rather than just rectangles.
+- Removed the `entities` property from the `AnalyzeResult` type. This field may be reintroduced in a future version, but service API version `2022-06-30-preview` no longer returns this field.
+- Renamed the `languageCode` property in the `DocumentLanguage` type to `locale`.
 
 ### Bugs Fixed
 

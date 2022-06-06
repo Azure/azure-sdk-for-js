@@ -15,7 +15,7 @@ const { DefaultAzureCredential } = require("@azure/identity");
  * This sample demonstrates how to Updates a private endpoint connection.
  *
  * @summary Updates a private endpoint connection.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-03-01/examples/PrivateEndpointConnectionsUpdate.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-04-01/examples/PrivateEndpointConnectionsUpdate.json
  */
 async function updatePrivateEndpointConnection() {
   const subscriptionId = "subid1";

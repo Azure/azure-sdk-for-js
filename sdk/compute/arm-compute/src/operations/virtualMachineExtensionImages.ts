@@ -109,10 +109,10 @@ const getOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location,
+    Parameters.location1,
     Parameters.publisherName,
-    Parameters.typeParam,
-    Parameters.version
+    Parameters.version,
+    Parameters.typeParam
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -143,7 +143,7 @@ const listTypesOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location,
+    Parameters.location1,
     Parameters.publisherName
   ],
   headerParameters: [Parameters.accept],
@@ -180,7 +180,7 @@ const listVersionsOperationSpec: coreClient.OperationSpec = {
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location,
+    Parameters.location1,
     Parameters.publisherName,
     Parameters.typeParam
   ],

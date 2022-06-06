@@ -42,23 +42,33 @@ async function main() {
     const { employee, employer, controlNumber, taxYear, additionalInfo } = result.fields;
 
     if (employee) {
-      const { name, address, zipCode, socialSecurityNumber } = employee.properties;
+      const { name, address, socialSecurityNumber } = employee.properties;
       console.log("Employee:");
       console.log("  Name:", name && name.value);
-      console.log("  Address:", address && address.value);
-      console.log("  ZIP Code:", zipCode && zipCode.value);
       console.log("  SSN/TIN:", socialSecurityNumber && socialSecurityNumber.value);
+
+      if (address && address.value) {
+        const { streetAddress, postalCode } = address.value;
+        console.log("  Address:");
+        console.log("    Street Address:", streetAddress);
+        console.log("    Postal Code:", postalCode);
+      }
     } else {
       console.log("No employee information extracted.");
     }
 
     if (employer) {
-      const { name, address, zipCode, idNumber } = employer.properties;
+      const { name, address, idNumber } = employer.properties;
       console.log("Employer:");
       console.log("  Name:", name && name.value);
-      console.log("  Address:", address && address.value);
-      console.log("  ZIP Code:", zipCode && zipCode.value);
       console.log("  ID (EIN):", idNumber && idNumber.value);
+
+      if (address && address.value) {
+        const { streetAddress, postalCode } = address.value;
+        console.log("  Address:");
+        console.log("    Street Address:", streetAddress);
+        console.log("    Postal Code:", postalCode);
+      }
     } else {
       console.log("No employer information extracted.");
     }
