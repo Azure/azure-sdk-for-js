@@ -48,14 +48,14 @@ jobs:
   timeoutInMinutes: 360
   strategy:
     matrix:
-      ${{ if contains(parameters.operatingSystems, 'Windows') }}:
-        Windows:
-          Pool: 'azsdk-pool-mms-win-2019-perf'
-          OsVmImage: 'MMS2019'
       ${{ if contains(parameters.operatingSystems, 'Linux') }}:
         Linux:
           Pool: 'azsdk-pool-mms-ubuntu-2004-perf'
           OsVmImage: 'MMSUbuntu20.04'
+      ${{ if contains(parameters.operatingSystems, 'Windows') }}:
+        Windows:
+          Pool: 'azsdk-pool-mms-win-2019-perf'
+          OsVmImage: 'MMS2019'
   pool:
     name: $(Pool)
     vmImage: $(OSVmImage)
