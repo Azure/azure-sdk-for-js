@@ -89,6 +89,8 @@ export class KeyVaultAccessControlClient {
     this.client.pipeline.addPolicy(
       bearerTokenAuthenticationPolicy({
         credential,
+        // The scopes will be populated in the challenge callbacks based on the WWW-authenticate header
+        // returned by the challenge, so pass an empty array as a placeholder.
         scopes: [],
         challengeCallbacks: createChallengeCallbacks(),
       })
