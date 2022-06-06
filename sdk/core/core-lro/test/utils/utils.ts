@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import {
-  HttpHeaders,
   HttpMethods,
   PipelineRequest,
   PipelineResponse,
