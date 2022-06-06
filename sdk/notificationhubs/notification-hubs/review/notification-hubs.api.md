@@ -8,13 +8,13 @@ import { CommonClientOptions } from '@azure/core-client';
 import { OperationOptions } from '@azure/core-client';
 import { ServiceClient } from '@azure/core-client';
 
-// @public (undocumented)
+// @public
 export interface ADMInstallation extends DeviceTokenInstallation {
     // (undocumented)
     platform: "adm";
 }
 
-// @public (undocumented)
+// @public
 export interface ADMMessage extends NotificationHubMessage {
     // (undocumented)
     contentType: "application/json;charset=utf-8";
@@ -22,13 +22,13 @@ export interface ADMMessage extends NotificationHubMessage {
     platform: "adm";
 }
 
-// @public (undocumented)
+// @public
 export interface AppleInstallation extends DeviceTokenInstallation {
     // (undocumented)
     platform: "apple";
 }
 
-// @public (undocumented)
+// @public
 export interface AppleMessage extends NotificationHubMessage {
     // (undocumented)
     contentType: "application/json;charset=utf-8";
@@ -36,13 +36,13 @@ export interface AppleMessage extends NotificationHubMessage {
     platform: "apple";
 }
 
-// @public (undocumented)
+// @public
 export interface BaiduInstallation extends DeviceTokenInstallation {
     // (undocumented)
     platform: "baidu";
 }
 
-// @public (undocumented)
+// @public
 export interface BaiduMessage extends NotificationHubMessage {
     // (undocumented)
     contentType: "application/json;charset=utf-8";
@@ -50,7 +50,7 @@ export interface BaiduMessage extends NotificationHubMessage {
     platform: "baidu";
 }
 
-// @public (undocumented)
+// @public
 export interface BrowserInstallation extends Installation {
     // (undocumented)
     platform: "browser";
@@ -58,7 +58,7 @@ export interface BrowserInstallation extends Installation {
     pushChannel: BrowserPushChannel;
 }
 
-// @public (undocumented)
+// @public
 export interface BrowserMessage extends NotificationHubMessage {
     // (undocumented)
     contentType: "application/json;charset=utf-8";
@@ -66,29 +66,26 @@ export interface BrowserMessage extends NotificationHubMessage {
     platform: "browser";
 }
 
-// @public (undocumented)
+// @public
 export interface BrowserPushChannel {
-    // (undocumented)
     auth: string;
-    // (undocumented)
     endpoint: string;
-    // (undocumented)
     p256dh: string;
 }
 
-// @public (undocumented)
+// @public
 export interface DeviceTokenInstallation extends Installation {
     // (undocumented)
     pushChannel: string;
 }
 
-// @public (undocumented)
+// @public
 export interface FirebaseLegacyInstallation extends DeviceTokenInstallation {
     // (undocumented)
     platform: "gcm";
 }
 
-// @public (undocumented)
+// @public
 export interface FirebaseLegacyMessage extends NotificationHubMessage {
     // (undocumented)
     contentType: "application/json;charset=utf-8";
@@ -96,65 +93,47 @@ export interface FirebaseLegacyMessage extends NotificationHubMessage {
     platform: "gcm";
 }
 
-// @public (undocumented)
+// @public
 export interface Installation {
-    // (undocumented)
     readonly expirationTime: string;
-    // (undocumented)
     installationId: string;
-    // (undocumented)
     readonly lastUpdate: string;
-    // (undocumented)
     platform: string;
-    // (undocumented)
     tags?: string[];
-    // (undocumented)
     templates?: Record<string, InstallationTemplate>;
-    // (undocumented)
     userId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface InstallationPatch {
-    // (undocumented)
     op: JSONPatchType;
-    // (undocumented)
     path: string;
-    // (undocumented)
     value?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface InstallationTemplate {
-    // (undocumented)
     body: string;
-    // (undocumented)
     expiry?: string;
-    // (undocumented)
     headers: Record<string, string>;
-    // (undocumented)
     tags?: string[];
 }
 
-// @public (undocumented)
+// @public
 export type InstallationType = AppleInstallation | ADMInstallation | BaiduInstallation | BrowserInstallation | FirebaseLegacyInstallation | WindowsInstallation;
 
-// @public (undocumented)
+// @public
 export type JSONPatchType = "add" | "remove" | "replace";
 
-// @public (undocumented)
+// @public
 export interface NotificationHubMessage {
-    // (undocumented)
     body: string;
-    // (undocumented)
     contentType: string;
-    // (undocumented)
     headers: Record<string, string>;
-    // (undocumented)
     platform: string;
 }
 
-// @public (undocumented)
+// @public
 export type NotificationHubMessageType = AppleMessage | ADMMessage | BaiduMessage | BrowserMessage | FirebaseLegacyMessage | WindowsMessage | TemplateMessage;
 
 // @public
@@ -164,22 +143,15 @@ export interface NotificationHubResponse {
     trackingId?: string;
 }
 
-// @public (undocumented)
+// @public
 export class NotificationHubsClient extends ServiceClient {
     constructor(connectionString: string, hubName: string, options?: NotificationHubsClientOptions);
-    // (undocumented)
     deleteInstallation(installationId: string, options?: OperationOptions): Promise<NotificationHubResponse>;
-    // (undocumented)
     getInstallation(installationId: string, options?: OperationOptions): Promise<InstallationType>;
-    // (undocumented)
     patchInstallation(installationId: string, installationPatches: InstallationPatch[], options?: OperationOptions): Promise<NotificationHubResponse>;
-    // (undocumented)
+    scheduleNotification(scheduledTime: Date, tags: string[] | string, message: NotificationHubMessageType, options?: SendOperationOptions): Promise<NotificationHubResponse>;
     sendDirectNotification(pushHandle: PushHandleType, message: NotificationHubMessageType, options?: SendOperationOptions): Promise<NotificationHubResponse>;
-    // (undocumented)
-    sendNotificationWithTagExpression(tagExpression: string, message: NotificationHubMessageType, options?: SendOperationOptions): Promise<NotificationHubResponse>;
-    // (undocumented)
-    sendNotificationWithTags(tags: string[], message: NotificationHubMessageType, options?: SendOperationOptions): Promise<NotificationHubResponse>;
-    // (undocumented)
+    sendNotification(tags: string[] | string, message: NotificationHubMessageType, options?: SendOperationOptions): Promise<NotificationHubResponse>;
     upsertInstallation(installation: InstallationType, options?: OperationOptions): Promise<NotificationHubResponse>;
 }
 
@@ -187,16 +159,15 @@ export class NotificationHubsClient extends ServiceClient {
 export interface NotificationHubsClientOptions extends CommonClientOptions {
 }
 
-// @public (undocumented)
+// @public
 export type PushHandleType = BrowserPushChannel | string;
 
-// @public (undocumented)
+// @public
 export interface SendOperationOptions extends OperationOptions {
-    // (undocumented)
     debug?: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface TemplateMessage extends NotificationHubMessage {
     // (undocumented)
     contentType: "application/json;charset=utf-8";
@@ -204,16 +175,16 @@ export interface TemplateMessage extends NotificationHubMessage {
     platform: "template";
 }
 
-// @public (undocumented)
+// @public
 export type WindowsContentType = "application/xml" | "application/octet-stream";
 
-// @public (undocumented)
+// @public
 export interface WindowsInstallation extends DeviceTokenInstallation {
     // (undocumented)
     platform: "wns";
 }
 
-// @public (undocumented)
+// @public
 export interface WindowsMessage extends NotificationHubMessage {
     // (undocumented)
     contentType: WindowsContentType;
