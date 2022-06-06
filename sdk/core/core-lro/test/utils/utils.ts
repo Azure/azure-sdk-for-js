@@ -25,21 +25,6 @@ export interface LroResponseSpec {
   headers?: Record<string, string>;
 }
 
-export function buildResponse(settings: {
-  request: PipelineRequest;
-  status: number;
-  body?: string;
-  headers?: HttpHeaders;
-}): PipelineResponse {
-  const { request, status, body: bodyAsText, headers = createHttpHeaders() } = settings;
-  return {
-    request,
-    headers,
-    status,
-    bodyAsText,
-  };
-}
-
 export function createProcessor(settings: {
   status: number;
   body?: string;
