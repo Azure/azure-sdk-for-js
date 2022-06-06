@@ -69,7 +69,6 @@ export class SubscribeTest extends EventPerfTest<ReceiverOptions> {
   setup() {
     this.subscriber = this.receiver.subscribe(
       {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         processMessage: async (_message: ServiceBusReceivedMessage) => {
           // { event: _message }
           this.eventRaised();
