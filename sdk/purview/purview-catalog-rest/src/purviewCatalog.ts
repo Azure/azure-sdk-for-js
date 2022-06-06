@@ -11,15 +11,15 @@ export default function createClient(
   options: ClientOptions = {}
 ): PurviewCatalogClient {
   const baseUrl = options.baseUrl ?? `${Endpoint}/catalog/api`;
-  options.apiVersion = options.apiVersion ?? "2022-03-01-preview";
+  options.apiVersion = options.apiVersion ?? "2021-05-01-preview";
   options = {
     ...options,
     credentials: {
-      scopes: ["https://purview.azure.net/.default"]
-    }
+      scopes: ["https://purview.azure.net/.default"],
+    },
   };
 
-  const userAgentInfo = `azsdk-js-purview-catalog-rest/1.0.0-beta.5`;
+  const userAgentInfo = `azsdk-js-purview-catalog-rest/1.0.0-beta.4`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
@@ -27,15 +27,11 @@ export default function createClient(
   options = {
     ...options,
     userAgentOptions: {
-      userAgentPrefix
-    }
+      userAgentPrefix,
+    },
   };
 
-  const client = getClient(
-    baseUrl,
-    credentials,
-    options
-  ) as PurviewCatalogClient;
+  const client = getClient(baseUrl, credentials, options) as PurviewCatalogClient;
 
   return client;
 }
