@@ -10,35 +10,37 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   CommunicationServiceResource,
-  CommunicationServiceListBySubscriptionOptionalParams,
-  CommunicationServiceListByResourceGroupOptionalParams,
-  CommunicationServiceCheckNameAvailabilityOptionalParams,
-  CommunicationServiceCheckNameAvailabilityResponse,
-  CommunicationServiceLinkNotificationHubOptionalParams,
-  CommunicationServiceLinkNotificationHubResponse,
-  CommunicationServiceUpdateOptionalParams,
-  CommunicationServiceUpdateResponse,
-  CommunicationServiceGetOptionalParams,
-  CommunicationServiceGetResponse,
-  CommunicationServiceCreateOrUpdateOptionalParams,
-  CommunicationServiceCreateOrUpdateResponse,
-  CommunicationServiceDeleteOptionalParams,
-  CommunicationServiceListKeysOptionalParams,
-  CommunicationServiceListKeysResponse,
+  CommunicationServicesListBySubscriptionOptionalParams,
+  CommunicationServicesListByResourceGroupOptionalParams,
+  NameAvailabilityParameters,
+  CommunicationServicesCheckNameAvailabilityOptionalParams,
+  CommunicationServicesCheckNameAvailabilityResponse,
+  CommunicationServicesLinkNotificationHubOptionalParams,
+  CommunicationServicesLinkNotificationHubResponse,
+  CommunicationServiceResourceUpdate,
+  CommunicationServicesUpdateOptionalParams,
+  CommunicationServicesUpdateResponse,
+  CommunicationServicesGetOptionalParams,
+  CommunicationServicesGetResponse,
+  CommunicationServicesCreateOrUpdateOptionalParams,
+  CommunicationServicesCreateOrUpdateResponse,
+  CommunicationServicesDeleteOptionalParams,
+  CommunicationServicesListKeysOptionalParams,
+  CommunicationServicesListKeysResponse,
   RegenerateKeyParameters,
-  CommunicationServiceRegenerateKeyOptionalParams,
-  CommunicationServiceRegenerateKeyResponse
+  CommunicationServicesRegenerateKeyOptionalParams,
+  CommunicationServicesRegenerateKeyResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
-/** Interface representing a CommunicationService. */
-export interface CommunicationService {
+/** Interface representing a CommunicationServices. */
+export interface CommunicationServices {
   /**
    * Handles requests to list all resources in a subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: CommunicationServiceListBySubscriptionOptionalParams
+    options?: CommunicationServicesListBySubscriptionOptionalParams
   ): PagedAsyncIterableIterator<CommunicationServiceResource>;
   /**
    * Handles requests to list all resources in a resource group.
@@ -47,15 +49,17 @@ export interface CommunicationService {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: CommunicationServiceListByResourceGroupOptionalParams
+    options?: CommunicationServicesListByResourceGroupOptionalParams
   ): PagedAsyncIterableIterator<CommunicationServiceResource>;
   /**
    * Checks that the CommunicationService name is valid and is not already in use.
+   * @param nameAvailabilityParameters Parameters supplied to the operation.
    * @param options The options parameters.
    */
   checkNameAvailability(
-    options?: CommunicationServiceCheckNameAvailabilityOptionalParams
-  ): Promise<CommunicationServiceCheckNameAvailabilityResponse>;
+    nameAvailabilityParameters: NameAvailabilityParameters,
+    options?: CommunicationServicesCheckNameAvailabilityOptionalParams
+  ): Promise<CommunicationServicesCheckNameAvailabilityResponse>;
   /**
    * Links an Azure Notification Hub to this communication service.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -65,19 +69,39 @@ export interface CommunicationService {
   linkNotificationHub(
     resourceGroupName: string,
     communicationServiceName: string,
-    options?: CommunicationServiceLinkNotificationHubOptionalParams
-  ): Promise<CommunicationServiceLinkNotificationHubResponse>;
+    options?: CommunicationServicesLinkNotificationHubOptionalParams
+  ): Promise<CommunicationServicesLinkNotificationHubResponse>;
   /**
    * Operation to update an existing CommunicationService.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param communicationServiceName The name of the CommunicationService resource.
+   * @param parameters Parameters for the update operation
    * @param options The options parameters.
    */
-  update(
+  beginUpdate(
     resourceGroupName: string,
     communicationServiceName: string,
-    options?: CommunicationServiceUpdateOptionalParams
-  ): Promise<CommunicationServiceUpdateResponse>;
+    parameters: CommunicationServiceResourceUpdate,
+    options?: CommunicationServicesUpdateOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<CommunicationServicesUpdateResponse>,
+      CommunicationServicesUpdateResponse
+    >
+  >;
+  /**
+   * Operation to update an existing CommunicationService.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param communicationServiceName The name of the CommunicationService resource.
+   * @param parameters Parameters for the update operation
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    communicationServiceName: string,
+    parameters: CommunicationServiceResourceUpdate,
+    options?: CommunicationServicesUpdateOptionalParams
+  ): Promise<CommunicationServicesUpdateResponse>;
   /**
    * Get the CommunicationService and its properties.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -87,35 +111,39 @@ export interface CommunicationService {
   get(
     resourceGroupName: string,
     communicationServiceName: string,
-    options?: CommunicationServiceGetOptionalParams
-  ): Promise<CommunicationServiceGetResponse>;
+    options?: CommunicationServicesGetOptionalParams
+  ): Promise<CommunicationServicesGetResponse>;
   /**
    * Create a new CommunicationService or update an existing CommunicationService.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param communicationServiceName The name of the CommunicationService resource.
+   * @param parameters Parameters for the create or update operation
    * @param options The options parameters.
    */
   beginCreateOrUpdate(
     resourceGroupName: string,
     communicationServiceName: string,
-    options?: CommunicationServiceCreateOrUpdateOptionalParams
+    parameters: CommunicationServiceResource,
+    options?: CommunicationServicesCreateOrUpdateOptionalParams
   ): Promise<
     PollerLike<
-      PollOperationState<CommunicationServiceCreateOrUpdateResponse>,
-      CommunicationServiceCreateOrUpdateResponse
+      PollOperationState<CommunicationServicesCreateOrUpdateResponse>,
+      CommunicationServicesCreateOrUpdateResponse
     >
   >;
   /**
    * Create a new CommunicationService or update an existing CommunicationService.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param communicationServiceName The name of the CommunicationService resource.
+   * @param parameters Parameters for the create or update operation
    * @param options The options parameters.
    */
   beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     communicationServiceName: string,
-    options?: CommunicationServiceCreateOrUpdateOptionalParams
-  ): Promise<CommunicationServiceCreateOrUpdateResponse>;
+    parameters: CommunicationServiceResource,
+    options?: CommunicationServicesCreateOrUpdateOptionalParams
+  ): Promise<CommunicationServicesCreateOrUpdateResponse>;
   /**
    * Operation to delete a CommunicationService.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -125,7 +153,7 @@ export interface CommunicationService {
   beginDelete(
     resourceGroupName: string,
     communicationServiceName: string,
-    options?: CommunicationServiceDeleteOptionalParams
+    options?: CommunicationServicesDeleteOptionalParams
   ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Operation to delete a CommunicationService.
@@ -136,7 +164,7 @@ export interface CommunicationService {
   beginDeleteAndWait(
     resourceGroupName: string,
     communicationServiceName: string,
-    options?: CommunicationServiceDeleteOptionalParams
+    options?: CommunicationServicesDeleteOptionalParams
   ): Promise<void>;
   /**
    * Get the access keys of the CommunicationService resource.
@@ -147,8 +175,8 @@ export interface CommunicationService {
   listKeys(
     resourceGroupName: string,
     communicationServiceName: string,
-    options?: CommunicationServiceListKeysOptionalParams
-  ): Promise<CommunicationServiceListKeysResponse>;
+    options?: CommunicationServicesListKeysOptionalParams
+  ): Promise<CommunicationServicesListKeysResponse>;
   /**
    * Regenerate CommunicationService access key. PrimaryKey and SecondaryKey cannot be regenerated at the
    * same time.
@@ -157,10 +185,29 @@ export interface CommunicationService {
    * @param parameters Parameter that describes the Regenerate Key Operation.
    * @param options The options parameters.
    */
-  regenerateKey(
+  beginRegenerateKey(
     resourceGroupName: string,
     communicationServiceName: string,
     parameters: RegenerateKeyParameters,
-    options?: CommunicationServiceRegenerateKeyOptionalParams
-  ): Promise<CommunicationServiceRegenerateKeyResponse>;
+    options?: CommunicationServicesRegenerateKeyOptionalParams
+  ): Promise<
+    PollerLike<
+      PollOperationState<CommunicationServicesRegenerateKeyResponse>,
+      CommunicationServicesRegenerateKeyResponse
+    >
+  >;
+  /**
+   * Regenerate CommunicationService access key. PrimaryKey and SecondaryKey cannot be regenerated at the
+   * same time.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param communicationServiceName The name of the CommunicationService resource.
+   * @param parameters Parameter that describes the Regenerate Key Operation.
+   * @param options The options parameters.
+   */
+  beginRegenerateKeyAndWait(
+    resourceGroupName: string,
+    communicationServiceName: string,
+    parameters: RegenerateKeyParameters,
+    options?: CommunicationServicesRegenerateKeyOptionalParams
+  ): Promise<CommunicationServicesRegenerateKeyResponse>;
 }

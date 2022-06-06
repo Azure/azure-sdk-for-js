@@ -10195,7 +10195,7 @@ packages:
     dev: false
 
   file:projects/arm-communication.tgz:
-    resolution: {integrity: sha512-7SlI8SHYvzhUPiX8qC3UIIrv8aLlNqhaLb2ui1kilikhnZLTzJUROwOk1j2zXASuhQSjZ+AUwqrwQfHoRlkCkQ==, tarball: file:projects/arm-communication.tgz}
+    resolution: {integrity: sha512-TK7bmRfPql6rCKdQqdc72hpE03Ct4VzYxNs+N/9PNgSqBVgQhmYHtj9H21fpnCw+b6WlObewHqT97a4w3rbu1Q==, tarball: file:projects/arm-communication.tgz}
     name: '@rush-temp/arm-communication'
     version: 0.0.0
     dependencies:
@@ -10207,6 +10207,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.73.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.73.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.73.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -10219,7 +10221,6 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 
@@ -14868,7 +14869,7 @@ packages:
     dev: false
 
   file:projects/confidential-ledger.tgz:
-    resolution: {integrity: sha512-vCqpCTyguXTL7yBsh/rHShVhUnHFHXoXFJoyhuABpqKQgc6y6UJ5G3EdgVccbNboT/uHfIZP80FNi+AL9BdsZg==, tarball: file:projects/confidential-ledger.tgz}
+    resolution: {integrity: sha512-BPYKhcbHAYhyJRlkHOAk4JMErAMx6lfAAwMVCwlDuGq/U4VbDsjX2h0LXH1e1bHyh82UIbAXnoxScDTMPvaXJg==, tarball: file:projects/confidential-ledger.tgz}
     name: '@rush-temp/confidential-ledger'
     version: 0.0.0
     dependencies:
