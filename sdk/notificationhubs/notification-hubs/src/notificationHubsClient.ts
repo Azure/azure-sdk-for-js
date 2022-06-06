@@ -40,9 +40,9 @@ export class NotificationHubsClient extends ServiceClient {
 
   /**
    * Creates a new instance of the NotificationClient with a connection string, hub name and options.
-   * @param connectionString The Notification Hub Access Policy connection string.
-   * @param hubName The name of the Azure Notification Hub.
-   * @param options Options for configuring the Azure Notification Hubs client.
+   * @param connectionString - The Notification Hub Access Policy connection string.
+   * @param hubName - The name of the Azure Notification Hub.
+   * @param options - Options for configuring the Azure Notification Hubs client.
    */
   constructor(
     connectionString: string,
@@ -62,8 +62,8 @@ export class NotificationHubsClient extends ServiceClient {
 
   /**
    * Deletes an installation from a Notification Hub.
-   * @param installationId The installation ID of the installation to delete.
-   * @param options Configuration options for the installation delete operation.
+   * @param installationId - The installation ID of the installation to delete.
+   * @param options - Configuration options for the installation delete operation.
    * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
    */
   public deleteInstallation(
@@ -93,8 +93,8 @@ export class NotificationHubsClient extends ServiceClient {
 
   /**
    * Gets an Azure Notification Hub installation by the installation ID.
-   * @param installationId The ID of the installation to get.
-   * @param options Configuration options for the get installation operation.
+   * @param installationId - The ID of the installation to get.
+   * @param options - Configuration options for the get installation operation.
    * @returns The installation that matches the installation ID.
    */
   public getInstallation(
@@ -126,8 +126,8 @@ export class NotificationHubsClient extends ServiceClient {
 
   /**
    * Creates or overwrites an installation to a Notification Hub.
-   * @param installation The installation to create or overwrite.
-   * @param options Configuration options for the upsert installation operation.
+   * @param installation - The installation to create or overwrite.
+   * @param options - Configuration options for the upsert installation operation.
    * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
    */
   public upsertInstallation(
@@ -160,9 +160,9 @@ export class NotificationHubsClient extends ServiceClient {
 
   /**
    * Patches an installation using the JSON-Patch standard in RFC6902.
-   * @param installationId The ID of the installation to update.
-   * @param installationPatches An array of patches following the JSON-Patch standard.
-   * @param options Configuration options for the patch installation operation.
+   * @param installationId - The ID of the installation to update.
+   * @param installationPatches - An array of patches following the JSON-Patch standard.
+   * @param options - Configuration options for the patch installation operation.
    * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
    */
   public patchInstallation(
@@ -195,10 +195,38 @@ export class NotificationHubsClient extends ServiceClient {
   }
 
   /**
+   * Retrieves an Azure Storage container URL. The container has feedback data for the notification hub. 
+   * The caller can then use the Azure Storage Services SDK to retrieve the contents of the container.
+   * @param options - The options for getting the push notification feedback container URL.
+   * @returns The URL of the Azure Storage Container containing the feedback data.
+   */
+  public getPushNotificationFeedbackURL(options: OperationOptions = {}): Promise<URL> {
+    return tracingClient.withSpan(
+      "NotificationHubsClient-getPushNotificationFeedbackURL",
+      options,
+      async (updatedOptions) => {
+        const endpoint = this.getBaseURL();
+        endpoint.pathname += "/feedbackcontainer";
+        const headers = this.createHeaders();
+        headers.set("Content-Type", "application/xml;type=entry;charset=utf-8");
+
+        const request = this.createRequest(endpoint, "GET", headers, updatedOptions);
+        const response = await this.sendRequest(request);
+        if (response.status !== 200) {
+          // TODO: throw special errors
+          throw new Error(`upsertInstallation failed with ${response.status}`);
+        }
+
+        return new URL(response.bodyAsText!);
+      }
+    );
+  }
+
+  /**
    * Sends a direct push notification to a device with the given push handle.
-   * @param pushHandle The push handle which is the unique identifier for the device.
-   * @param message The message to send to the device.
-   * @param options Configuration options for the direct send operation which can contain custom headers
+   * @param pushHandle - The push handle which is the unique identifier for the device.
+   * @param message - The message to send to the device.
+   * @param options - Configuration options for the direct send operation which can contain custom headers
    * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
    * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
    */
@@ -219,9 +247,9 @@ export class NotificationHubsClient extends ServiceClient {
 
   /**
    * Sends push notifications to devices that match the given tags or tag expression.
-   * @param tags The tags used to target the device for push notifications in either an array or tag expression.
-   * @param message The message to send to the matching devices.
-   * @param options Configuration options for the direct send operation which can contain custom headers
+   * @param tags - The tags used to target the device for push notifications in either an array or tag expression.
+   * @param message - The message to send to the matching devices.
+   * @param options - Configuration options for the direct send operation which can contain custom headers
    * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
    * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
    */
@@ -243,10 +271,10 @@ export class NotificationHubsClient extends ServiceClient {
   /**
    * Schedules a push notification to devices that match the given tags or tag expression at the specified time.
    * NOTE: This is only available in Standard SKU Azure Notification Hubs.
-   * @param scheduledTime The Date to send the push notification.
-   * @param tags The tags used to target the device for push notifications in either an array or tag expression.
-   * @param message The message to send to the matching devices.
-   * @param options Configuration options for the direct send operation which can contain custom headers
+   * @param scheduledTime - The Date to send the push notification.
+   * @param tags - The tags used to target the device for push notifications in either an array or tag expression.
+   * @param message - The message to send to the matching devices.
+   * @param options - Configuration options for the direct send operation which can contain custom headers
    * which may include APNs specific such as apns-topic or for WNS, X-WNS-TYPE.
    * @returns A NotificationHubResponse with the tracking ID, correlation ID and location.
    */
