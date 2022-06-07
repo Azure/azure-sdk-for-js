@@ -8,8 +8,7 @@ trigger:
       - hotfix/*
   paths:
     include:
-      - sdk/formrecognizer/ci.mgmt.yml
-      - sdk/formrecognizer/ai-form-recognizer/
+      - sdk/formrecognizer/
 pr:
   branches:
     include:
