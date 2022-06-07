@@ -318,6 +318,7 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
         if (this.operation.state.isCancelled && this.reject) {
           this.stopped = true;
           this.reject(new PollerCancelledError("Poller cancelled"));
+          throw new Error(`The long-running operation has been canceled.`);
         } else if (this.isDone() && this.resolve) {
           // If the poller has finished polling, this means we now have a result.
           // However, it can be the case that TResult is instantiated to void, so

@@ -429,7 +429,7 @@ describe("Lro Engine", function () {
           ],
         }),
         {
-          messagePattern: /The long-running operation has been canceled./,
+          messagePattern: /Poller cancelled/,
         }
       );
     });
@@ -702,7 +702,7 @@ describe("Lro Engine", function () {
               ],
             }),
             {
-              messagePattern: /The long-running operation has been canceled./,
+              messagePattern: /Poller cancelled/,
             }
           );
         });
@@ -1064,7 +1064,7 @@ describe("Lro Engine", function () {
               ],
             }),
             {
-              messagePattern: /The long-running operation has been canceled./,
+              messagePattern: /Poller cancelled/,
             }
           );
         });
@@ -1279,7 +1279,7 @@ describe("Lro Engine", function () {
               ],
             }),
             {
-              messagePattern: /The long-running operation has been canceled./,
+              messagePattern: /Poller cancelled/,
             }
           );
         });
@@ -2071,9 +2071,14 @@ describe("Lro Engine", function () {
       await poller.cancelOperation();
       assert.isTrue(run);
       assert.isUndefined(poller.getOperationState().isCancelled);
-      await assertError(poller.poll(), {
-        messagePattern: /The long-running operation has been canceled/,
-      });
+      await Promise.all([
+        assertError(poller.pollUntilDone(), {
+          messagePattern: /Poller cancelled/,
+        }),
+        assertError(poller.poll(), {
+          messagePattern: /The long-running operation has been canceled./,
+        }),
+      ]);
       assert.isTrue(poller.getOperationState().isCancelled);
     });
 
