@@ -53,13 +53,6 @@ export function toDocumentTableFromGenerated(table: GeneratedDocumentTable): Doc
       ...cell,
       boundingRegions: toBoundingRegions(cell.boundingRegions),
     })),
-    caption: table.caption
-      ? { ...table.caption, boundingRegions: toBoundingRegions(table.caption?.boundingRegions) }
-      : undefined,
-    footnotes: table.footnotes?.map((footnote) => ({
-      ...footnote,
-      boundingRegions: toBoundingRegions(footnote.boundingRegions),
-    })),
   };
 }
 
