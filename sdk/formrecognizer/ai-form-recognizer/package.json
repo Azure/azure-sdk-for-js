@@ -159,9 +159,9 @@
         "typescript/assets/forms/selection_mark_form.pdf",
         "javascript/assets/forms/selection_mark_form.pdf"
       ],
-      "./assets/identityDocument/license.jpg": [
-        "typescript/assets/identityDocument/license.jpg",
-        "javascript/assets/identityDocument/license.jpg"
+      "./assets/identityDocument/license.png": [
+        "typescript/assets/identityDocument/license.png",
+        "javascript/assets/identityDocument/license.png"
       ],
       "./assets/invoice/sample_invoice.jpg": [
         "typescript/assets/invoice/sample_invoice.jpg",
