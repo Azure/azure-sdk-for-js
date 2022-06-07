@@ -19,7 +19,7 @@ import {
 } from "@azure/core-client";
 import { LongRunningOperation, LroResponse, RawResponse } from "@azure/core-lro";
 import { PagedResult, getPagedAsyncIterator } from "@azure/core-paging";
-import { transformAnalyzeBatchResults, transformError } from "./transforms";
+import { throwError, transformAnalyzeBatchResults } from "./transforms";
 import { HttpMethods } from "@azure/core-rest-pipeline";
 import { TracingClient } from "@azure/core-tracing";
 import { clientName } from "./constants";
@@ -75,9 +75,9 @@ async function sendRequest<TOptions extends OperationOptions>(settings: {
   httpMethod?: HttpMethods;
 }): Promise<LroResponse<unknown>> {
   const { client, opOptions, path, spanStr, spec, tracing, httpMethod = "GET" } = settings;
-  return tracing.withSpan(spanStr, opOptions, async (finalOptions: TOptions) => {
-    try {
-      const response = getRawResponse(
+  return tracing.withSpan(spanStr, opOptions, async (finalOptions: TOptions) =>
+    throwError(
+      getRawResponse(
         (options) =>
           client.sendOperationRequest(
             { options },
@@ -88,12 +88,9 @@ async function sendRequest<TOptions extends OperationOptions>(settings: {
             }
           ),
         finalOptions
-      );
-      return response;
-    } catch (e: unknown) {
-      throw transformError(e);
-    }
-  });
+      )
+    )
+  );
 }
 
 /**
@@ -107,7 +104,7 @@ export function createSendPollRequest<TOptions extends OperationOptions>(setting
 }): (path: string) => Promise<LroResponse<unknown>> {
   const { client, options, tracing, spanStr } = settings;
   return async (path: string): Promise<LroResponse<unknown>> => {
-    return throwTransformErrors(
+    return throwError(
       sendRequest({
         client,
         opOptions: options,
@@ -156,7 +153,7 @@ export function createAnalyzeBatchLro(settings: {
           ...initialRequestOptions,
         },
         async (finalOptions) =>
-          throwTransformErrors(
+          throwError(
             getRawResponse(
               (paramOptions) =>
                 client.analyzeText.submitJob(
@@ -288,14 +285,6 @@ export function createUpdateAnalyzeState(documents?: TextDocumentInput[]) {
   };
 }
 
-async function throwTransformErrors<T>(p: Promise<T>): Promise<T> {
-  try {
-    return await p;
-  } catch (e: unknown) {
-    throw transformError(e);
-  }
-}
-
 /**
  * @internal
  */
@@ -307,7 +296,7 @@ export function createCancelOperation(settings: {
   return async ({ operationId }): Promise<void> => {
     const { client, options, tracing } = settings;
     await tracing.withSpan(`${clientName}.beginAnalyzeBatch`, options, async (finalOptions) =>
-      throwTransformErrors(
+      throwError(
         getRawResponse(
           (paramOptions) => client.analyzeText.cancelJob(operationId, paramOptions),
           finalOptions
