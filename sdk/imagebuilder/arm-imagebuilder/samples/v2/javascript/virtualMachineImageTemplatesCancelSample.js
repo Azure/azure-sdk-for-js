@@ -8,8 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ImageBuilderClient } from "@azure/arm-imagebuilder";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ImageBuilderClient } = require("@azure/arm-imagebuilder");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Cancel the long running image build based on the image template

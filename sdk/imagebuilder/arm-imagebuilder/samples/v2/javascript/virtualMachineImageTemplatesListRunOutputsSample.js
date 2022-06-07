@@ -8,8 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ImageBuilderClient } from "@azure/arm-imagebuilder";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ImageBuilderClient } = require("@azure/arm-imagebuilder");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to List all run outputs for the specified Image Template resource
@@ -33,6 +33,4 @@ async function retrieveAListOfAllOutputsCreatedByTheLastRunOfAnImageTemplate() {
   console.log(resArray);
 }
 
-retrieveAListOfAllOutputsCreatedByTheLastRunOfAnImageTemplate().catch(
-  console.error
-);
+retrieveAListOfAllOutputsCreatedByTheLastRunOfAnImageTemplate().catch(console.error);

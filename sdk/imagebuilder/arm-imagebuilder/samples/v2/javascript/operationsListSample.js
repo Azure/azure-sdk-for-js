@@ -8,8 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ImageBuilderClient } from "@azure/arm-imagebuilder";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ImageBuilderClient } = require("@azure/arm-imagebuilder");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Lists available operations for the Microsoft.VirtualMachineImages provider

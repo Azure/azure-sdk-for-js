@@ -8,11 +8,8 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  ImageTemplateUpdateParameters,
-  ImageBuilderClient
-} from "@azure/arm-imagebuilder";
-import { DefaultAzureCredential } from "@azure/identity";
+const { ImageBuilderClient } = require("@azure/arm-imagebuilder");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to Update the tags for this Virtual Machine Image Template
@@ -24,8 +21,8 @@ async function removeIdentitiesForAnImageTemplate() {
   const subscriptionId = "{subscription-id}";
   const resourceGroupName = "myResourceGroup";
   const imageTemplateName = "myImageTemplate";
-  const parameters: ImageTemplateUpdateParameters = {
-    identity: { type: "None" }
+  const parameters = {
+    identity: { type: "None" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ImageBuilderClient(credential, subscriptionId);
@@ -49,8 +46,8 @@ async function updateTheTagsForAnImageTemplate() {
   const subscriptionId = "{subscription-id}";
   const resourceGroupName = "myResourceGroup";
   const imageTemplateName = "myImageTemplate";
-  const parameters: ImageTemplateUpdateParameters = {
-    tags: { newTag: "new-value" }
+  const parameters = {
+    tags: { newTag: "new-value" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ImageBuilderClient(credential, subscriptionId);
