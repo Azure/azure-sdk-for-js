@@ -2,7 +2,7 @@ parameters:
   - name: operatingSystems
     displayName: OperatingSystems (list of operating systems to run)
     type: string
-    default: 'Linux'
+    default: 'Linux, Windows'
   - name: packageVersions
     displayName: PackageVersions (regex of package versions to run)
     type: string
