@@ -504,7 +504,7 @@ const result = await logsQueryClient.queryWorkspace(
       includeVisualization: true
     }
   );
-console.log("visualization result-",result.visualization);
+console.log("visualization result:", result.visualization);
 ```
 
 Because the structure of the `visualization` payload varies by query, a `Record<string, unknown>` return type is used. It contains the raw JSON response. For example:
