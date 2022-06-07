@@ -233,6 +233,9 @@ As an alternative to providing a readable stream, a publicly-accessible URL can 
 
 ### Extract Layout
 
+<a id="beginextractlayout-deprecation"></a>
+**Deprecation Warning** ⚠️: The built in `beginExtractLayout` method is deprecated as of version `4.0.0-beta.4`. Prior to a stable release of version 4.0.0, we will remove it and provide a solution that uses the `beginAnalyzeDocument` method instead. This will align the `"prebuilt-layout"` model with the other prebuilt models, enabling us to continue to provide timely updates and ensure stability as the number of supported prebuilt models increases and as their capabilities are enhanced.
+
 The `beginExtractLayout` method extracts only the basic elements of the document, such as pages, (which consist of text words/lines and selection marks), tables, and visual text styles along with their bounding regions and spans within the text content of the input documents.
 
 ```javascript
@@ -271,6 +274,9 @@ main().catch((err) => {
 _Note_: you may also use the `beginAnalyzeDocument` method to extract layout information using the prebuilt layout model by providing the model ID `"prebuilt-layout"`. This method provides a weaker TypeScript type for the layout analysis result, but will produce the same information. The `beginExtractLayout` method is available for your convenience.
 
 ### Extract General Document
+
+<a id="beginextractgeneraldocument-deprecation"></a>
+**Deprecation Warning** ⚠️: The built in `beginExtractGeneralDocument` method is deprecated as of version `4.0.0-beta.4`. Prior to a stable release of version 4.0.0, we will remove it and provide a solution that uses the `beginAnalyzeDocument` method instead. This will align the `"prebuilt-document"` model with the other prebuilt models, enabling us to continue to provide timely updates and ensure stability as the number of supported prebuilt models increases and as their capabilities are enhanced.
 
 The `beginExtractGeneralDocument` method extracts information about key-value pairs and entities in addition to the properties produced by the layout extraction method. This prebuilt (general) document model provides similar functionality to the custom models trained without label information in previous iterations of the Form Recognizer service, but it is now provided as a prebuilt model that works with a wide variety of documents.
 
@@ -325,6 +331,9 @@ main().catch((err) => {
 _Note_: you may also use the `beginAnalyzeDocument` method to extract general document information using the prebuilt document model by providing the model ID `"prebuilt-document"`. This method provides a weaker TypeScript type for the layout analysis result, but will produce the same information. The `beginExtractGeneralDocument` method is available for your convenience.
 
 ### Read Document
+
+<a id="beginreaddocument-deprecation"></a>
+**Deprecation Warning** ⚠️: The built in `beginReadDocument` method is deprecated as of version `4.0.0-beta.4`. Prior to a stable release of version 4.0.0, we will remove it and provide a solution that uses the `beginAnalyzeDocument` method instead. This will align the `"prebuilt-document"` model with the other prebuilt models, enabling us to continue to provide timely updates and ensure stability as the number of supported prebuilt models increases and as their capabilities are enhanced.
 
 ```javascript
 const { DocumentAnalysisClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
@@ -462,8 +471,8 @@ You are not limited to receipts! There are a few prebuilt models to choose from,
 - Invoices, using `PrebuiltModels.Invoice` or its model ID `"prebuilt-invoice"`.
 - Identity Documents (such as driver licenses and passports), using `PrebuiltModels.IdentityDocument` or its model ID `"prebuilt-idDocument"`.
 - W2 Tax Forms (United States), using `PrebuiltModels.TaxUsW2` or its model ID `"prebuilt-tax.us.w2"`.
+- Health Insurance Cards (United States), using `PrebuiltModels.HealthInsuranceCardUs` or its model ID `"prebuilt-healthInsuranceCard.us"`.
 - Vaccination Cards (currently supports US COVID-19 vaccination cards), using `PrebuiltModels.VaccinationCard` or its model ID `"prebuilt-vaccinationCard"`.
--
 
 For information about the fields of these models, see [the service's documentation of the available prebuilt models](https://aka.ms/azsdk/formrecognizer/models).
 
