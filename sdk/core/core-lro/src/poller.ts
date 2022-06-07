@@ -315,9 +315,11 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
           abortSignal: options.abortSignal,
           fireProgress: this.fireProgress.bind(this),
         });
-        if (this.operation.state.isCancelled && this.reject) {
+        if (this.operation.state.isCancelled) {
           this.stopped = true;
-          this.reject(new PollerCancelledError("Poller cancelled"));
+          if (this.reject) {
+            this.reject(new PollerCancelledError("Poller cancelled"));
+          }
           throw new Error(`The long-running operation has been canceled.`);
         } else if (this.isDone() && this.resolve) {
           // If the poller has finished polling, this means we now have a result.
