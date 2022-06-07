@@ -14,11 +14,13 @@ parameters:
   - name: arguments
     displayName: Arguments (regex of arguments to run)
     type: string
-    default: '(10240)|(10485760)|(1073741824)' 
+    # Hang in 10MB and 1GB tests (#22141)
+    # default: '(10240)|(10485760)|(1073741824)'
+    default: '(10240)'
   - name: iterations
     displayName: Iterations (times to run each test)
     type: number
-    default: '5'
+    default: '5'    
   - name: additionalArguments
     displayName: AdditionalArguments (passed to PerfAutomation)
     type: string
