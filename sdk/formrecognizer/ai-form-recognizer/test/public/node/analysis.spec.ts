@@ -82,8 +82,17 @@ matrix([[/* true, */ false]] as const, async (useAad) => {
         const filePath = path.join(ASSET_PATH, "receipt", "contoso-receipt.png");
         const stream = fs.createReadStream(filePath);
 
-        const poller = await client.beginExtractLayout(stream, testPollingOptions);
-        const { pages } = await poller.pollUntilDone();
+        const poller = await client.beginAnalyzeDocument(
+          "prebuilt-layout",
+          stream,
+          testPollingOptions
+        );
+        const { pages, paragraphs } = await poller.pollUntilDone();
+
+        assert.ok(
+          paragraphs && paragraphs.length > 0,
+          `Expected non-empty paragraphs but got ${paragraphs}.`
+        );
 
         assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
       });
