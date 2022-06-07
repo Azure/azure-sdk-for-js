@@ -511,23 +511,23 @@ Because the structure of the `visualization` payload varies by query, a `Record<
 
 ```json
 {
-"visualization": "columnchart",
-"title": "the chart title",
-"accumulate": false,
-"isQuerySorted": false,
-"kind": null,
-"legend": null,
-"series": null,
-"yMin": "NaN",
-"yMax": "NaN",
-"xAxis": null,
-"xColumn": null,
-"xTitle": "x axis title",
-"yAxis": null,
-"yColumns": null,
-"ySplit": null,
-"yTitle": null,
-"anomalyColumns": null
+  "visualization": "columnchart",
+  "title": "the chart title",
+  "accumulate": false,
+  "isQuerySorted": false,
+  "kind": null,
+  "legend": null,
+  "series": null,
+  "yMin": "NaN",
+  "yMax": "NaN",
+  "xAxis": null,
+  "xColumn": null,
+  "xTitle": "x axis title",
+  "yAxis": null,
+  "yColumns": null,
+  "ySplit": null,
+  "yTitle": null,
+  "anomalyColumns": null
 }
 ```
 
