@@ -440,8 +440,9 @@ A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob
 
 To get logs query execution statistics, such as CPU and memory consumption:
 
-Set the `LogsQueryOptions.includeQueryStatistics` property to `true`.
-Access the `statistics` field inside the `LogsQueryResult` object.
+1. Set the `LogsQueryOptions.includeQueryStatistics` property to `true`.
+1. Access the `statistics` field inside the `LogsQueryResult` object.
+
 The following example prints the query execution time:
 
 ```ts
