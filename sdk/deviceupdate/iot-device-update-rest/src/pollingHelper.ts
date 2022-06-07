@@ -7,8 +7,8 @@ import {
   LroEngine,
   LroEngineOptions,
   LroResponse,
-  PollOperationState,
   PollerLike,
+  PollOperationState
 } from "@azure/core-lro";
 
 /**
@@ -37,9 +37,11 @@ export function getLongRunningPoller<TResult extends HttpResponse>(
       // to get the latest status. We use the client provided and the polling path
       // which is an opaque URL provided by caller, the service sends this in one of the following headers: operation-location, azure-asyncoperation or location
       // depending on the lro pattern that the service implements. If non is provided we default to the initial path.
-      const response = await client.pathUnchecked(path ?? initialResponse.request.url).get();
+      const response = await client
+        .pathUnchecked(path ?? initialResponse.request.url)
+        .get();
       return getLroResponse(response as TResult);
-    },
+    }
   };
 
   return new LroEngine(poller, options);
@@ -50,9 +52,13 @@ export function getLongRunningPoller<TResult extends HttpResponse>(
  * @param response - a rest client http response
  * @returns - An LRO response that the LRO engine can work with
  */
-function getLroResponse<TResult extends HttpResponse>(response: TResult): LroResponse<TResult> {
+function getLroResponse<TResult extends HttpResponse>(
+  response: TResult
+): LroResponse<TResult> {
   if (Number.isNaN(response.status)) {
-    throw new TypeError(`Status code of the response is not a number. Value: ${response.status}`);
+    throw new TypeError(
+      `Status code of the response is not a number. Value: ${response.status}`
+    );
   }
 
   return {
@@ -60,7 +66,7 @@ function getLroResponse<TResult extends HttpResponse>(response: TResult): LroRes
     rawResponse: {
       ...response,
       statusCode: Number.parseInt(response.status),
-      body: response.body,
-    },
+      body: response.body
+    }
   };
 }
