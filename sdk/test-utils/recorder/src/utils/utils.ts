@@ -211,8 +211,7 @@ export interface SanitizerOptions {
    * 2) To do a simple regex replace operation, define arguments "key", "value", and "regex"
    * 3) To do a targeted substitution of a specific group, define all arguments "key", "value", and "regex"
    */
-  |``|``|xbxjhwsba|
-s?: HeaderSanitizer[];
+headerSanitizers?: HeaderSanitizer[];
   /**
    * General use sanitizer for cleaning URIs via regex. Runs a regex replace on the member of your choice.
    */
