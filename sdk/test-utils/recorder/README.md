@@ -146,9 +146,9 @@ Test scripts
 }
 ```
 
-Have your test scripts based on the following examples in your package.json:
+Your test scripts (in `package.json`) should be based on the following examples:
 
-|                            |                                                                                                                  |
+| script name                | command                                                                                                          |
 | :------------------------- | :--------------------------------------------------------------------------------------------------------------- |
 | `unit-test:browser`        | `dev-tool run test:browser`                                                                                      |
 | `unit-test:node`           | `dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'` |
@@ -172,21 +172,20 @@ If for some reason, you have trouble running the test-proxy tool in your environ
 
 By using recorder with your clients, the requests are redirected to the test-proxy tool to either save them or replay them.
 Interactions with the test-proxy tool vary based on what the `TEST_MODE` environment is.
-| | |
+|TEST_MODE |What? |
 | :--------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **TEST_MODE** | **What?** |
 | `record` | Stores network requests with the help of test-proxy tool in a plain text file in the folder `recordings` at the root of your repository (example: root of the `sdk/tables/data-tables` project) |
 | `playback` | Stored requests/responses are utilized by the test-proxy tool when the requests are redirected to it instead of reaching the service |  
 | `live` | Recorder and its methods are no-ops here, requests directly reach the service instead of being redirected at the test-proxy tool layer |
 
 ### Using the `Recorder`
 
-Inside a mocha test(either in the `beforeEach` or the `it` blocks), you'll instantiate the `Recorder` as below to leverage it's functionalities.
+Inside a mocha test (either in the `beforeEach` or in the test body itself), you will need to instantiate the `Recorder` as below to leverage its functionalities.
 
 ```js
 let recorder: Recorder;
 
-beforeEach(async function () {
+beforeEach(async function (this: Mocha.Context) {
   recorder = new Recorder(this.currentTest);
 });
 ```
@@ -202,15 +201,15 @@ const client = new AnyCoreV2Client(/** args **/, recorder.configureClientOptions
 
   _Note: If your client relies on `@azure/core-http` instead of the core-v2 libraries(i.e., `@azure/core-client` and `@azure/core-rest-pipeline`), please use `recorder.configureClientOptionsCoreV1()` instead of `recorder.configureClientOptions()`._
 
-Once instantiated the recorder, you're expected to start the recorder using the `recorder.start()` method with the appropriate recorder options.
+Once the recorder has been instantiated, you must start the recorder using the `recorder.start()` method with the appropriate recorder options.
 
 ```js
 await recorder.start(/** recorderOptions go here **/);
 ```
 
-- Recorder options will typically contain the environment setup needed for the `playback` mode, and the sanitizers that help with masking the sensitive information in the recordings, more on the recorder options below.
+Recorder options will typically contain the environment setup needed for the `playback` mode, and the sanitizers that help with masking the sensitive information in the recordings, more on the recorder options below.
 
-After the start call is made, any requests that are made using the `client (AnyCoreV2Client)` will be redirected to the test-proxy tool before they reach the service, the requests and responses will be recorded and saved when `recorder.stop()` is called in `record` mode.
+Any requests that are made using the above `client (AnyCoreV2Client)` will be redirected to the test-proxy tool before they reach the service, the requests and responses will be recorded and saved when `recorder.stop()` is called in `record` mode.
 
 Likewise, in `playback` mode, the saved responses are utilized by the test-proxy tool when the requests are redirected to it instead of reaching the service.
 
@@ -220,7 +219,7 @@ await recorder.stop();
 
 - Call this method to ping the test-proxy tool with a stop request, this helps to stop recording, saves the recording file in record mode.
 
-_Note: Instantiating the recorder, starting and stopping the recorder, have no effects in the `live` mode(`TEST_MODE=live`), means the redirection to the test-proxy tool doesn't happen and the requests would reach the services as usual._
+_Note: Instantiating, starting, and stopping the recorder all have no effect in the `live` mode (`TEST_MODE=live`). In `live` mode, the redirection to the test-proxy tool doesn't happen and the requests are sent to the services as usual._
 
 #### Recorder#variable()
 
@@ -369,7 +368,7 @@ describe(`TableServiceClient tests`, () => {
 
 ### Securing Sensitive Data
 
-Live tests need to do sensitive operations, like authenticating with your Azure endpoints, keys, secrets, etc, these are generally contained in the environment variables which are used as part of the tests.
+Live tests need to do sensitive operations, like authenticating with your Azure endpoints, keys, secrets, etc. These are generally contained in the environment variables which are used as part of the tests.
 
 We must secure them and not let them leak into our recordings. To avoid storing the sensitive info in the recordings, we use the sanitizers to mask the values with the fake ones or remove them, `RecorderStartOptions` helps us here.
 
@@ -377,7 +376,7 @@ We must secure them and not let them leak into our recordings. To avoid storing 
 
 `RecorderStartOptions` has two components, `envSetupForPlayback` and the `sanitizers` which you'd have seen in the previous snippet.
 
-For a live test to be run, we typically need the test secrets, which are usally stored as Environemnt variables.
+For a live test to be run, we typically need the test secrets, which are usally stored as Environment variables.
 
 And since in playback mode, the requests don't reach the service, we don't actually need to have/share the test secrets to run the tests in playback mode.
 
@@ -402,9 +401,8 @@ Used in record and playback modes. No effect in live mode.
 
 #### `Sanitizers`
 
-|                             |                                                                                                                                                                                 |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| Sanitizers                  | How does it look? Example??                                                                                                                                                     | What does it do?                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 | :-------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Sanitizers**              | **How does it look? Example??**                                                                                                                                                 | **What does it do?**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | `generalSanitizer`          | `{ regex: true, target: "abc+def", value: "fakeValue" }`                                                                                                                        | Offers a general regex replace across request/response Body, Headers, and URI. For the body, this means regex applying to the raw JSON.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | `bodySanitizer`             | `{ regex: true, target: "(.*)&SECRET=(?<secret_content>[^&]*)&(.*)", value: fakeSecretValue, groupForReplace: "secret_content" }`                                               | Offers regex replace within a returned body. Specifically, this means regex applying to the raw JSON. If you are attempting to simply replace a specific key, the `bodyKeySanitizer` is probably the way to go.                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | `headerSanitizer`           | `{ key: "your_uuid", value: sanitizedValue }`                                                                                                                                   | Can be used for multiple purposes:<br/>1) To replace a key with a specific value, do not set "regex" value.<br/>2) To do a simple regex replace operation, define arguments "key", "value", and "regex"<br/>3) To do a targeted substitution of a specific group, define all arguments "key", "value", and "regex"                                                                                                                                                                                                                                                                                                                                         |
