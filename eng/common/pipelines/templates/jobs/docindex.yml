@@ -1,5 +1,3 @@
-variables:
-  - template: /eng/pipelines/templates/variables/globals.yml
 jobs:
   - job: CreateDocIndex
     pool:
