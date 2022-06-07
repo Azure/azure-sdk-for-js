@@ -1,16 +1,10 @@
 # Release History
 
-## 7.6.0-beta.4 (Unreleased)
+## 7.6.0-beta.4 (2022-06-07)
 
 ### Features Added
 
 - Add support to add, retrieve, and remove subscription-level rules via AMQP links. [PR #22018](https://github.com/Azure/azure-sdk-for-js/pull/22018)
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 7.6.0-beta.3 (2022-05-19)
 
