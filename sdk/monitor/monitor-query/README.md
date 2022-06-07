@@ -437,6 +437,7 @@ AppEvents | filter TenantId == "<workspace2>"
 A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryMultipleWorkspaces.ts).
 
 #### Include statistics
+
 To get logs query execution statistics, such as CPU and memory consumption:
 
 Set the `LogsQueryOptions.includeQueryStatistics` property to `true`.
