@@ -126,7 +126,7 @@ describe("Challenge based authentication tests", function () {
         scopes: [],
       });
 
-      assert.sameMembers(getAccessTokenScopes, ["cae_scope"]);
+      assert.sameMembers(getAccessTokenScopes, ["cae_scope/.default"]);
     });
 
     it("passes the tenantId if provided", async () => {
