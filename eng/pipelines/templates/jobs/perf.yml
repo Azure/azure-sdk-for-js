@@ -52,10 +52,12 @@ jobs:
         Linux:
           Pool: 'azsdk-pool-mms-ubuntu-2004-perf'
           OsVmImage: 'MMSUbuntu20.04'
+          MatrixName: 'Linux'
       ${{ if contains(parameters.operatingSystems, 'Windows') }}:
         Windows:
           Pool: 'azsdk-pool-mms-win-2019-perf'
           OsVmImage: 'MMS2019'
+          MatrixName: 'Windows'
   pool:
     name: $(Pool)
     vmImage: $(OSVmImage)
@@ -116,4 +118,4 @@ jobs:
     - task: PublishPipelineArtifact@1
       inputs:
         targetPath: azure-sdk-tools/tools/perf-automation/Azure.Sdk.Tools.PerfAutomation/results
-        artifactName: results
+        artifactName: results-$(MatrixName)
