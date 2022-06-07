@@ -98,22 +98,16 @@ describe("Certificates client - create, read, update and delete", () => {
 
   it("cannot create a certificate with an empty name", async function () {
     const certificateName = "";
-    let error;
     try {
       await client.beginCreateCertificate(
         certificateName,
         basicCertificatePolicy,
         testPollerProperties
       );
-      throw Error("Expecting an error but not catching one.");
-    } catch (e: any) {
-      error = e;
+      assert.fail("Expected an error");
+    } catch (e) {
+      // Ignore expected error
     }
-    assert.equal(
-      error.message,
-      `"certificateName" with value "" should satisfy the constraint "Pattern": /^[0-9a-zA-Z-]+$/.`,
-      "Unexpected error while running beginCreateCertificate with an empty string as the name."
-    );
   });
 
   it("can update the tags of a certificate", async function (this: Context) {

@@ -3,7 +3,7 @@
 
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { createTracingClient, TracingClient } from "@azure/core-tracing";
+import { TracingClient, createTracingClient } from "@azure/core-tracing";
 import { __decorate } from "tslib";
 import { SDK_VERSION } from "./constants";
 import {
@@ -17,10 +17,10 @@ import {
 } from "./generated";
 import { accept1 } from "./generated/models/parameters";
 import {
-  toTrainingPollOperationState,
   TrainingOperationDefinition,
-  TrainingPoller,
   TrainingPollOperationState,
+  TrainingPoller,
+  toTrainingPollOperationState,
 } from "./lro/training";
 import { lro } from "./lro/util/poller";
 import {
@@ -36,7 +36,7 @@ import {
   ListOperationsOptions,
 } from "./options";
 import { DocumentModelBuildMode } from "./options/BuildModelOptions";
-import { makeServiceClient, Mappers, SERIALIZER } from "./util";
+import { Mappers, SERIALIZER, makeServiceClient } from "./util";
 
 /**
  * A client for interacting with the Form Recognizer service's model management features, such as creating, reading,

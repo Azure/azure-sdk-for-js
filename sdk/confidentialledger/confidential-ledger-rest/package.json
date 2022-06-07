@@ -85,7 +85,7 @@
   "autoPublish": false,
   "dependencies": {
     "@azure/core-auth": "^1.3.0",
-    "@azure-rest/core-client": "1.0.0-beta.9",
+    "@azure-rest/core-client": "1.0.0-beta.10",
     "@azure/core-rest-pipeline": "^1.1.0",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0"

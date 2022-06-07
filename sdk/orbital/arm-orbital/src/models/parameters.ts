@@ -46,7 +46,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-04-04-preview",
+    defaultValue: "2022-03-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -63,6 +63,16 @@ export const subscriptionId: OperationURLParameter = {
     },
     serializedName: "subscriptionId",
     required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const skiptoken: OperationQueryParameter = {
+  parameterPath: ["options", "skiptoken"],
+  mapper: {
+    serializedName: "$skiptoken",
     type: {
       name: "String"
     }
@@ -117,6 +127,11 @@ export const location: OperationParameter = {
   mapper: SpacecraftMapper
 };
 
+export const provisioningState: OperationParameter = {
+  parameterPath: ["options", "provisioningState"],
+  mapper: SpacecraftMapper
+};
+
 export const noradId: OperationParameter = {
   parameterPath: ["options", "noradId"],
   mapper: SpacecraftMapper
@@ -167,6 +182,18 @@ export const endTime: OperationParameter = {
   mapper: ContactParametersMapper
 };
 
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+
 export const contactName: OperationURLParameter = {
   parameterPath: "contactName",
   mapper: {
@@ -204,6 +231,11 @@ export const location1: OperationParameter = {
   mapper: ContactProfileMapper
 };
 
+export const provisioningState1: OperationParameter = {
+  parameterPath: ["options", "provisioningState"],
+  mapper: ContactProfileMapper
+};
+
 export const minimumViableContactDuration: OperationParameter = {
   parameterPath: ["options", "minimumViableContactDuration"],
   mapper: ContactProfileMapper
@@ -221,6 +253,11 @@ export const autoTrackingConfiguration: OperationParameter = {
 
 export const eventHubUri: OperationParameter = {
   parameterPath: ["options", "eventHubUri"],
+  mapper: ContactProfileMapper
+};
+
+export const networkConfiguration: OperationParameter = {
+  parameterPath: ["options", "networkConfiguration"],
   mapper: ContactProfileMapper
 };
 
@@ -252,14 +289,30 @@ export const groundStationName1: OperationURLParameter = {
   }
 };
 
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
+export const location2: OperationURLParameter = {
+  parameterPath: "location",
   mapper: {
-    serializedName: "nextLink",
+    constraints: {
+      MinLength: 1
+    },
+    serializedName: "location",
     required: true,
     type: {
       name: "String"
     }
-  },
-  skipEncoding: true
+  }
+};
+
+export const operationId: OperationURLParameter = {
+  parameterPath: "operationId",
+  mapper: {
+    constraints: {
+      MinLength: 1
+    },
+    serializedName: "operationId",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };

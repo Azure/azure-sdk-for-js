@@ -178,7 +178,7 @@ export class WorkbooksImpl implements Workbooks {
   /**
    * Get the revisions for the workbook defined by its resourceName.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the Application Insights component resource.
+   * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   public listRevisionsList(
@@ -281,7 +281,7 @@ export class WorkbooksImpl implements Workbooks {
   /**
    * Get a single workbook by its resourceName.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the Application Insights component resource.
+   * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   get(
@@ -298,7 +298,7 @@ export class WorkbooksImpl implements Workbooks {
   /**
    * Delete a workbook.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the Application Insights component resource.
+   * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   delete(
@@ -315,7 +315,7 @@ export class WorkbooksImpl implements Workbooks {
   /**
    * Create a new workbook.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the Application Insights component resource.
+   * @param resourceName The name of the resource.
    * @param workbookProperties Properties that need to be specified to create a new workbook.
    * @param options The options parameters.
    */
@@ -334,7 +334,7 @@ export class WorkbooksImpl implements Workbooks {
   /**
    * Updates a workbook that has already been added.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the Application Insights component resource.
+   * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   update(
@@ -351,7 +351,7 @@ export class WorkbooksImpl implements Workbooks {
   /**
    * Get the revisions for the workbook defined by its resourceName.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the Application Insights component resource.
+   * @param resourceName The name of the resource.
    * @param options The options parameters.
    */
   private _revisionsList(
@@ -368,7 +368,7 @@ export class WorkbooksImpl implements Workbooks {
   /**
    * Get a single workbook revision defined by its revisionId.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the Application Insights component resource.
+   * @param resourceName The name of the resource.
    * @param revisionId The id of the workbook's revision.
    * @param options The options parameters.
    */
@@ -423,7 +423,7 @@ export class WorkbooksImpl implements Workbooks {
   /**
    * RevisionsListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName The name of the Application Insights component resource.
+   * @param resourceName The name of the resource.
    * @param nextLink The nextLink from the previous successful call to the RevisionsList method.
    * @param options The options parameters.
    */

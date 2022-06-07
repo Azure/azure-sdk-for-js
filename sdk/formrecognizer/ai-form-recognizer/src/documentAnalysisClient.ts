@@ -19,8 +19,8 @@ import {
   AnalyzeResult,
   DocumentAnalysisPollOperationState,
   FormRecognizerRequestBody,
-  toAnalyzedDocumentFromGenerated,
   toAnalyzeResultFromGenerated,
+  toAnalyzedDocumentFromGenerated,
   toDocumentAnalysisPollOperationState,
 } from "./lro/analyze";
 import { lro } from "./lro/util/poller";
@@ -30,7 +30,7 @@ import { toReadResult } from "./models/ReadResult";
 import { AnalyzeDocumentOptions } from "./options/AnalyzeDocumentsOptions";
 import { DocumentAnalysisClientOptions } from "./options/FormRecognizerClientOptions";
 import { DocumentModel, getMapper } from "./prebuilt/models";
-import { identity, makeServiceClient, Mappers, SERIALIZER } from "./util";
+import { Mappers, SERIALIZER, identity, makeServiceClient } from "./util";
 
 /**
  * A client for interacting with the Form Recognizer service's analysis features.
@@ -356,6 +356,11 @@ export class DocumentAnalysisClient {
   }
 
   /**
+   * **Deprecation Warning**: This method is deprecated and will be replaced prior to a stable release of
+   * `@azure/ai-form-recognizer` 4.0.0. Please see
+   * [the deprecation notice](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/README.md#beginextractlayout-deprecation)
+   * in the README for more information.
+   *
    * Extracts only the layout (basic OCR information) from an input file. The layout result includes information about
    * the pages and their text contents, extracted tables, and identified text styles.
    *
@@ -408,6 +413,7 @@ export class DocumentAnalysisClient {
    *                {@link FormRecognizerRequestBody} that will be uploaded with the request
    * @param options - optional settings for the analysis operation and poller
    * @returns a long-running operation (poller) that will eventually produce a layout result or an error
+   * @deprecated will be replaced in a future version (prior to a stable release)
    */
   public async beginExtractLayout(
     input: string | FormRecognizerRequestBody,
@@ -427,6 +433,11 @@ export class DocumentAnalysisClient {
   }
 
   /**
+   * **Deprecation Warning**: This method is deprecated and will be replaced prior to a stable release of
+   * `@azure/ai-form-recognizer` 4.0.0. Please see
+   * [the deprecation notice](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/README.md#beginextractgeneraldocument-deprecation)
+   * in the README for more information.
+   *
    * Extracts general document information from an input file. The general document result includes the information from
    * layout analysis (pages, tables, and styles) as well as extracted key-value pairs and entities.
    *
@@ -489,6 +500,7 @@ export class DocumentAnalysisClient {
    *                {@link FormRecognizerRequestBody} that will be uploaded with the request
    * @param options - optional settings for the analysis operation and poller
    * @returns a long-running operation (poller) that will eventually produce a general document result or an error
+   * @deprecated will be replaced in a future version (prior to a stable release)
    */
   public async beginExtractGeneralDocument(
     input: string | FormRecognizerRequestBody,
@@ -509,6 +521,11 @@ export class DocumentAnalysisClient {
   }
 
   /**
+   * **Deprecation Warning**: This method is deprecated and will be replaced prior to a stable release of
+   * `@azure/ai-form-recognizer` 4.0.0. Please see
+   * [the deprecation notice](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/formrecognizer/ai-form-recognizer/README.md#beginreaddocument-deprecation)
+   * in the README for more information.
+   *
    * Extracts textual information from a document such as the text contents of pages and identified written languages.
    *
    * ### Examples
@@ -560,6 +577,7 @@ export class DocumentAnalysisClient {
    *                {@link FormRecognizerRequestBody} that will be uploaded with the request
    * @param options - optional settings for the analysis operation and poller
    * @returns a long-running operation (poller) that will eventually produce a read result or an error
+   * @deprecated will be replaced in a future version (prior to a stable release)
    */
   public async beginReadDocument(
     input: string | FormRecognizerRequestBody,
