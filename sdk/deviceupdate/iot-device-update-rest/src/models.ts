@@ -1,6 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+export interface UpdateId {
+  /** Update provider. */
+  provider: string;
+  /** Update name. */
+  name: string;
+  /** Update version. */
+  version: string;
+}
+
 export interface ImportUpdateInputItem {
   /** Import manifest metadata like source URL, file size/hashes, etc. */
   importManifest: ImportManifestMetadata;
@@ -26,48 +35,53 @@ export interface FileImportMetadata {
   url: string;
 }
 
-export interface UpdateId {
-  /** Update provider. */
-  provider: string;
-  /** Update name. */
-  name: string;
-  /** Update version. */
-  version: string;
+export interface UpdateInfo {
+  /** Update identifier. */
+  updateId: UpdateId;
+  /** Update description. */
+  description?: string;
+  /** Friendly update name. */
+  friendlyName?: string;
 }
 
-export interface Group {
-  /** Group identity. */
-  groupId: string;
-  /** Group type. */
-  groupType:
-    | "DeviceClassIdAndIoTHubTag"
-    | "InvalidDeviceClassIdAndIoTHubTag"
-    | "DefaultDeviceClassId";
-  /** IoT Hub tags. */
-  tags: Array<string>;
-  /** Date and time when the update was created. */
-  createdDateTime: string;
-  /** The number of devices in the group. */
-  deviceCount?: number;
-  /** The deployment Id for the group. */
-  deploymentId?: string;
-  /** The device class Id for the group. */
-  deviceClassId?: string;
+export interface PatchBody {
+  /** The device class friendly name. */
+  friendlyName: string;
 }
 
 export interface Deployment {
   /** The deployment identifier. */
   deploymentId: string;
   /** The deployment start datetime. */
-  startDateTime: string;
-  /** Update identity. */
-  updateId: UpdateId;
+  startDateTime: Date | string;
+  /** Update information. */
+  update: UpdateInfo;
   /** The group identity */
   groupId: string;
+  /** The device class subgroups for the deployment. */
+  deviceClassSubgroups?: Array<string>;
   /** Boolean flag indicating whether the deployment was canceled. */
   isCanceled?: boolean;
   /** Boolean flag indicating whether the deployment has been retried. */
   isRetried?: boolean;
+  /** The rollback policy for the deployment. */
+  rollbackPolicy?: CloudInitiatedRollbackPolicy;
+  /** Boolean flag indicating whether the deployment is a rollback deployment. */
+  isCloudInitiatedRollback?: boolean;
+}
+
+export interface CloudInitiatedRollbackPolicy {
+  /** Update to rollback to. */
+  update: UpdateInfo;
+  /** Failure conditions to initiate rollback policy. */
+  failure: CloudInitiatedRollbackPolicyFailure;
+}
+
+export interface CloudInitiatedRollbackPolicyFailure {
+  /** Percentage of devices that failed. */
+  devicesFailedPercentage: number;
+  /** Number of devices that failed. */
+  devicesFailedCount: number;
 }
 
 export interface LogCollectionOperation {
@@ -82,7 +96,7 @@ export interface LogCollectionOperation {
   /** A timestamp for when the current state was entered. */
   lastActionDateTime?: string;
   /** Operation status. */
-  status?: "Undefined" | "NotStarted" | "Running" | "Succeeded" | "Failed";
+  status?: "NotStarted" | "Running" | "Succeeded" | "Failed";
 }
 
 export interface DeviceUpdateAgentId {

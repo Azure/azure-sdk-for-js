@@ -18,19 +18,52 @@ import { RequestParameters } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
+export interface CloudInitiatedRollbackPolicy {
+    failure: CloudInitiatedRollbackPolicyFailure;
+    update: UpdateInfo;
+}
+
+// @public (undocumented)
+export interface CloudInitiatedRollbackPolicyFailure {
+    devicesFailedCount: number;
+    devicesFailedPercentage: number;
+}
+
+// @public (undocumented)
+export interface CloudInitiatedRollbackPolicyFailureOutput {
+    devicesFailedCount: number;
+    devicesFailedPercentage: number;
+}
+
+// @public (undocumented)
+export interface CloudInitiatedRollbackPolicyOutput {
+    failure: CloudInitiatedRollbackPolicyFailureOutput;
+    update: UpdateInfoOutput;
+}
+
+// @public (undocumented)
+export interface ContractModelOutput {
+    id: string;
+    name: string;
+}
+
+// @public (undocumented)
 export interface Deployment {
     deploymentId: string;
+    deviceClassSubgroups?: Array<string>;
     groupId: string;
     isCanceled?: boolean;
+    isCloudInitiatedRollback?: boolean;
     isRetried?: boolean;
-    startDateTime: string;
-    updateId: UpdateId;
+    rollbackPolicy?: CloudInitiatedRollbackPolicy;
+    startDateTime: Date | string;
+    update: UpdateInfo;
 }
 
 // @public (undocumented)
 export interface DeploymentDeviceStateOutput {
     deviceId: string;
-    deviceState: "Succeeded" | "InProgress" | "Failed" | "Canceled" | "Incompatible";
+    deviceState: "Succeeded" | "InProgress" | "Canceled" | "Failed";
     moduleId?: string;
     movedOnToNewDeployment: boolean;
     retryCount: number;
@@ -45,11 +78,14 @@ export interface DeploymentDeviceStatesListOutput {
 // @public (undocumented)
 export interface DeploymentOutput {
     deploymentId: string;
+    deviceClassSubgroups?: Array<string>;
     groupId: string;
     isCanceled?: boolean;
+    isCloudInitiatedRollback?: boolean;
     isRetried?: boolean;
+    rollbackPolicy?: CloudInitiatedRollbackPolicyOutput;
     startDateTime: string;
-    updateId: UpdateIdOutput;
+    update: UpdateInfoOutput;
 }
 
 // @public (undocumented)
@@ -60,12 +96,10 @@ export interface DeploymentsListOutput {
 
 // @public (undocumented)
 export interface DeploymentStatusOutput {
-    deploymentState: "Active" | "Inactive" | "Canceled";
-    devicesCanceledCount?: number;
-    devicesCompletedFailedCount?: number;
-    devicesCompletedSucceededCount?: number;
-    devicesInProgressCount?: number;
-    totalDevices?: number;
+    deploymentState: "Active" | "ActiveWithSubgroupFailures" | "Failed" | "Inactive" | "Canceled";
+    error?: ErrorModelOutput;
+    groupId: string;
+    subgroupStatus: Array<DeviceClassSubgroupDeploymentStatusOutput>;
 }
 
 // @public (undocumented)
@@ -76,9 +110,73 @@ export interface DeviceClassesListOutput {
 
 // @public (undocumented)
 export interface DeviceClassOutput {
-    bestCompatibleUpdateId: UpdateIdOutput;
-    compatProperties: Record<string, string>;
+    bestCompatibleUpdate?: UpdateInfoOutput;
     deviceClassId: string;
+    deviceClassProperties: DeviceClassPropertiesOutput;
+    friendlyName?: string;
+}
+
+// @public (undocumented)
+export interface DeviceClassPropertiesOutput {
+    compatProperties: Record<string, string>;
+    contractModel?: ContractModelOutput;
+}
+
+// @public (undocumented)
+export interface DeviceClassSubgroupDeploymentStatusOutput {
+    deploymentState: "Active" | "Failed" | "Inactive" | "Canceled";
+    deviceClassId: string;
+    devicesCanceledCount?: number;
+    devicesCompletedFailedCount?: number;
+    devicesCompletedSucceededCount?: number;
+    devicesInProgressCount?: number;
+    error?: ErrorModelOutput;
+    groupId: string;
+    totalDevices?: number;
+}
+
+// @public (undocumented)
+export interface DeviceClassSubgroupOutput {
+    createdDateTime: string;
+    deploymentId?: string;
+    deviceClassId: string;
+    deviceCount?: number;
+    groupId: string;
+}
+
+// @public (undocumented)
+export interface DeviceClassSubgroupsListOutput {
+    nextLink?: string;
+    value: Array<DeviceClassSubgroupOutput>;
+}
+
+// @public (undocumented)
+export interface DeviceClassSubgroupUpdatableDevicesListOutput {
+    nextLink?: string;
+    value: Array<DeviceClassSubgroupUpdatableDevicesOutput>;
+}
+
+// @public (undocumented)
+export interface DeviceClassSubgroupUpdatableDevicesOutput {
+    deviceClassId: string;
+    deviceCount: number;
+    groupId: string;
+    update: UpdateInfoOutput;
+}
+
+// @public (undocumented)
+export interface DeviceHealthListOutput {
+    nextLink?: string;
+    value: Array<DeviceHealthOutput>;
+}
+
+// @public (undocumented)
+export interface DeviceHealthOutput {
+    deviceId: string;
+    digitalTwinModelId?: string;
+    healthChecks: Array<HealthCheckOutput>;
+    moduleId?: string;
+    state: "healthy" | "unhealthy";
 }
 
 // @public (undocumented)
@@ -146,35 +244,6 @@ export interface DeviceManagementCreateOrUpdateDeploymentMediaTypesParam {
 export type DeviceManagementCreateOrUpdateDeploymentParameters = DeviceManagementCreateOrUpdateDeploymentMediaTypesParam & DeviceManagementCreateOrUpdateDeploymentBodyParam & RequestParameters;
 
 // @public
-export interface DeviceManagementCreateOrUpdateGroup200Response extends HttpResponse {
-    // (undocumented)
-    body: GroupOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface DeviceManagementCreateOrUpdateGroupBodyParam {
-    body: Group;
-}
-
-// @public
-export interface DeviceManagementCreateOrUpdateGroupdefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: "500";
-}
-
-// @public (undocumented)
-export interface DeviceManagementCreateOrUpdateGroupMediaTypesParam {
-    contentType?: "application/json";
-}
-
-// @public (undocumented)
-export type DeviceManagementCreateOrUpdateGroupParameters = DeviceManagementCreateOrUpdateGroupMediaTypesParam & DeviceManagementCreateOrUpdateGroupBodyParam & RequestParameters;
-
-// @public
 export interface DeviceManagementDeleteDeployment204Response extends HttpResponse {
     // (undocumented)
     body: Record<string, unknown>;
@@ -192,6 +261,63 @@ export interface DeviceManagementDeleteDeploymentdefaultResponse extends HttpRes
 
 // @public (undocumented)
 export type DeviceManagementDeleteDeploymentParameters = RequestParameters;
+
+// @public
+export interface DeviceManagementDeleteDeviceClass204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    status: "204";
+}
+
+// @public
+export interface DeviceManagementDeleteDeviceClassdefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: "500";
+}
+
+// @public (undocumented)
+export type DeviceManagementDeleteDeviceClassParameters = RequestParameters;
+
+// @public
+export interface DeviceManagementDeleteDeviceClassSubgroup204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    status: "204";
+}
+
+// @public
+export interface DeviceManagementDeleteDeviceClassSubgroupdefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: "500";
+}
+
+// @public
+export interface DeviceManagementDeleteDeviceClassSubgroupDeployment204Response extends HttpResponse {
+    // (undocumented)
+    body: Record<string, unknown>;
+    // (undocumented)
+    status: "204";
+}
+
+// @public
+export interface DeviceManagementDeleteDeviceClassSubgroupDeploymentdefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: "500";
+}
+
+// @public (undocumented)
+export type DeviceManagementDeleteDeviceClassSubgroupDeploymentParameters = RequestParameters;
+
+// @public (undocumented)
+export type DeviceManagementDeleteDeviceClassSubgroupParameters = RequestParameters;
 
 // @public
 export interface DeviceManagementDeleteGroup204Response extends HttpResponse {
@@ -216,7 +342,6 @@ export type DeviceManagementDeleteGroupParameters = RequestParameters;
 export interface DeviceManagementGetDeployment {
     delete(options?: DeviceManagementDeleteDeploymentParameters): Promise<DeviceManagementDeleteDeployment204Response | DeviceManagementDeleteDeploymentdefaultResponse>;
     get(options?: DeviceManagementGetDeploymentParameters): Promise<DeviceManagementGetDeployment200Response | DeviceManagementGetDeploymentdefaultResponse>;
-    post(options: DeviceManagementStopDeploymentParameters | DeviceManagementRetryDeploymentParameters): Promise<DeviceManagementStopDeployment200Response | DeviceManagementStopDeploymentdefaultResponse> | Promise<DeviceManagementRetryDeployment200Response | DeviceManagementRetryDeploymentdefaultResponse>;
     put(options: DeviceManagementCreateOrUpdateDeploymentParameters): Promise<DeviceManagementCreateOrUpdateDeployment200Response | DeviceManagementCreateOrUpdateDeploymentdefaultResponse>;
 }
 
@@ -235,6 +360,31 @@ export interface DeviceManagementGetDeploymentdefaultResponse extends HttpRespon
     // (undocumented)
     status: "500";
 }
+
+// @public (undocumented)
+export interface DeviceManagementGetDeploymentForDeviceClassSubgroup {
+    delete(options?: DeviceManagementDeleteDeviceClassSubgroupDeploymentParameters): Promise<DeviceManagementDeleteDeviceClassSubgroupDeployment204Response | DeviceManagementDeleteDeviceClassSubgroupDeploymentdefaultResponse>;
+    get(options?: DeviceManagementGetDeploymentForDeviceClassSubgroupParameters): Promise<DeviceManagementGetDeploymentForDeviceClassSubgroup200Response | DeviceManagementGetDeploymentForDeviceClassSubgroupdefaultResponse>;
+}
+
+// @public
+export interface DeviceManagementGetDeploymentForDeviceClassSubgroup200Response extends HttpResponse {
+    // (undocumented)
+    body: DeploymentOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface DeviceManagementGetDeploymentForDeviceClassSubgroupdefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: "500";
+}
+
+// @public (undocumented)
+export type DeviceManagementGetDeploymentForDeviceClassSubgroupParameters = RequestParameters;
 
 // @public (undocumented)
 export type DeviceManagementGetDeploymentParameters = RequestParameters;
@@ -278,7 +428,9 @@ export interface DeviceManagementGetDevice200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface DeviceManagementGetDeviceClass {
+    delete(options?: DeviceManagementDeleteDeviceClassParameters): Promise<DeviceManagementDeleteDeviceClass204Response | DeviceManagementDeleteDeviceClassdefaultResponse>;
     get(options?: DeviceManagementGetDeviceClassParameters): Promise<DeviceManagementGetDeviceClass200Response | DeviceManagementGetDeviceClassdefaultResponse>;
+    patch(options: DeviceManagementUpdateDeviceClassParameters): Promise<DeviceManagementUpdateDeviceClass200Response | DeviceManagementUpdateDeviceClassdefaultResponse>;
 }
 
 // @public
@@ -299,6 +451,79 @@ export interface DeviceManagementGetDeviceClassdefaultResponse extends HttpRespo
 
 // @public (undocumented)
 export type DeviceManagementGetDeviceClassParameters = RequestParameters;
+
+// @public (undocumented)
+export interface DeviceManagementGetDeviceClassSubgroupDeploymentStatus {
+    get(options?: DeviceManagementGetDeviceClassSubgroupDeploymentStatusParameters): Promise<DeviceManagementGetDeviceClassSubgroupDeploymentStatus200Response | DeviceManagementGetDeviceClassSubgroupDeploymentStatusdefaultResponse>;
+}
+
+// @public
+export interface DeviceManagementGetDeviceClassSubgroupDeploymentStatus200Response extends HttpResponse {
+    // (undocumented)
+    body: DeviceClassSubgroupDeploymentStatusOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface DeviceManagementGetDeviceClassSubgroupDeploymentStatusdefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: "500";
+}
+
+// @public (undocumented)
+export type DeviceManagementGetDeviceClassSubgroupDeploymentStatusParameters = RequestParameters;
+
+// @public (undocumented)
+export interface DeviceManagementGetDeviceClassSubgroupDetails {
+    delete(options?: DeviceManagementDeleteDeviceClassSubgroupParameters): Promise<DeviceManagementDeleteDeviceClassSubgroup204Response | DeviceManagementDeleteDeviceClassSubgroupdefaultResponse>;
+    get(options?: DeviceManagementGetDeviceClassSubgroupDetailsParameters): Promise<DeviceManagementGetDeviceClassSubgroupDetails200Response | DeviceManagementGetDeviceClassSubgroupDetailsdefaultResponse>;
+}
+
+// @public
+export interface DeviceManagementGetDeviceClassSubgroupDetails200Response extends HttpResponse {
+    // (undocumented)
+    body: DeviceClassSubgroupOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface DeviceManagementGetDeviceClassSubgroupDetailsdefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: "500";
+}
+
+// @public (undocumented)
+export type DeviceManagementGetDeviceClassSubgroupDetailsParameters = RequestParameters;
+
+// @public (undocumented)
+export interface DeviceManagementGetDeviceClassSubgroupUpdateCompliance {
+    get(options?: DeviceManagementGetDeviceClassSubgroupUpdateComplianceParameters): Promise<DeviceManagementGetDeviceClassSubgroupUpdateCompliance200Response | DeviceManagementGetDeviceClassSubgroupUpdateCompliancedefaultResponse>;
+}
+
+// @public
+export interface DeviceManagementGetDeviceClassSubgroupUpdateCompliance200Response extends HttpResponse {
+    // (undocumented)
+    body: UpdateComplianceOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface DeviceManagementGetDeviceClassSubgroupUpdateCompliancedefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: "500";
+}
+
+// @public (undocumented)
+export type DeviceManagementGetDeviceClassSubgroupUpdateComplianceParameters = RequestParameters;
 
 // @public
 export interface DeviceManagementGetDevicedefaultResponse extends HttpResponse {
@@ -336,34 +561,9 @@ export type DeviceManagementGetDeviceModuleParameters = RequestParameters;
 export type DeviceManagementGetDeviceParameters = RequestParameters;
 
 // @public (undocumented)
-export interface DeviceManagementGetDeviceTag {
-    get(options?: DeviceManagementGetDeviceTagParameters): Promise<DeviceManagementGetDeviceTag200Response | DeviceManagementGetDeviceTagdefaultResponse>;
-}
-
-// @public
-export interface DeviceManagementGetDeviceTag200Response extends HttpResponse {
-    // (undocumented)
-    body: DeviceTagOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface DeviceManagementGetDeviceTagdefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: "500";
-}
-
-// @public (undocumented)
-export type DeviceManagementGetDeviceTagParameters = RequestParameters;
-
-// @public (undocumented)
 export interface DeviceManagementGetGroup {
     delete(options?: DeviceManagementDeleteGroupParameters): Promise<DeviceManagementDeleteGroup204Response | DeviceManagementDeleteGroupdefaultResponse>;
     get(options?: DeviceManagementGetGroupParameters): Promise<DeviceManagementGetGroup200Response | DeviceManagementGetGroupdefaultResponse>;
-    put(options: DeviceManagementCreateOrUpdateGroupParameters): Promise<DeviceManagementCreateOrUpdateGroup200Response | DeviceManagementCreateOrUpdateGroupdefaultResponse>;
 }
 
 // @public
@@ -527,6 +727,11 @@ export interface DeviceManagementGetUpdateCompliancedefaultResponse extends Http
 export type DeviceManagementGetUpdateComplianceParameters = RequestParameters;
 
 // @public (undocumented)
+export interface DeviceManagementImportDevices {
+    post(options: DeviceManagementImportDevicesParameters): Promise<DeviceManagementImportDevices202Response | DeviceManagementImportDevicesdefaultResponse>;
+}
+
+// @public (undocumented)
 export interface DeviceManagementImportDevices202Headers {
     "operation-location"?: string;
 }
@@ -560,18 +765,31 @@ export interface DeviceManagementImportDevicesMediaTypesParam {
 }
 
 // @public (undocumented)
-export type DeviceManagementImportDevicesParameters = DeviceManagementImportDevicesQueryParam & DeviceManagementImportDevicesMediaTypesParam & DeviceManagementImportDevicesBodyParam & RequestParameters;
+export type DeviceManagementImportDevicesParameters = DeviceManagementImportDevicesMediaTypesParam & DeviceManagementImportDevicesBodyParam & RequestParameters;
 
 // @public (undocumented)
-export interface DeviceManagementImportDevicesQueryParam {
+export interface DeviceManagementListBestUpdatesForDeviceClassSubgroup {
+    get(options?: DeviceManagementListBestUpdatesForDeviceClassSubgroupParameters): Promise<DeviceManagementListBestUpdatesForDeviceClassSubgroup200Response | DeviceManagementListBestUpdatesForDeviceClassSubgroupdefaultResponse>;
+}
+
+// @public
+export interface DeviceManagementListBestUpdatesForDeviceClassSubgroup200Response extends HttpResponse {
     // (undocumented)
-    queryParameters: DeviceManagementImportDevicesQueryParamProperties;
+    body: DeviceClassSubgroupUpdatableDevicesOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface DeviceManagementListBestUpdatesForDeviceClassSubgroupdefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: "500";
 }
 
 // @public (undocumented)
-export interface DeviceManagementImportDevicesQueryParamProperties {
-    action: "import";
-}
+export type DeviceManagementListBestUpdatesForDeviceClassSubgroupParameters = RequestParameters;
 
 // @public (undocumented)
 export interface DeviceManagementListBestUpdatesForGroup {
@@ -581,7 +799,7 @@ export interface DeviceManagementListBestUpdatesForGroup {
 // @public
 export interface DeviceManagementListBestUpdatesForGroup200Response extends HttpResponse {
     // (undocumented)
-    body: UpdatableDevicesListOutput;
+    body: DeviceClassSubgroupUpdatableDevicesListOutput;
     // (undocumented)
     status: "200";
 }
@@ -605,24 +823,24 @@ export interface DeviceManagementListBestUpdatesForGroupQueryParam {
 
 // @public (undocumented)
 export interface DeviceManagementListBestUpdatesForGroupQueryParamProperties {
-    $filter?: string;
+    filter?: string;
 }
 
 // @public (undocumented)
-export interface DeviceManagementListDeploymentDevices {
-    get(options?: DeviceManagementListDeploymentDevicesParameters): Promise<DeviceManagementListDeploymentDevices200Response | DeviceManagementListDeploymentDevicesdefaultResponse>;
+export interface DeviceManagementListDeploymentsForDeviceClassSubgroup {
+    get(options?: DeviceManagementListDeploymentsForDeviceClassSubgroupParameters): Promise<DeviceManagementListDeploymentsForDeviceClassSubgroup200Response | DeviceManagementListDeploymentsForDeviceClassSubgroupdefaultResponse>;
 }
 
 // @public
-export interface DeviceManagementListDeploymentDevices200Response extends HttpResponse {
+export interface DeviceManagementListDeploymentsForDeviceClassSubgroup200Response extends HttpResponse {
     // (undocumented)
-    body: DeploymentDeviceStatesListOutput;
+    body: DeploymentsListOutput;
     // (undocumented)
     status: "200";
 }
 
 // @public
-export interface DeviceManagementListDeploymentDevicesdefaultResponse extends HttpResponse {
+export interface DeviceManagementListDeploymentsForDeviceClassSubgroupdefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
@@ -630,17 +848,17 @@ export interface DeviceManagementListDeploymentDevicesdefaultResponse extends Ht
 }
 
 // @public (undocumented)
-export type DeviceManagementListDeploymentDevicesParameters = DeviceManagementListDeploymentDevicesQueryParam & RequestParameters;
+export type DeviceManagementListDeploymentsForDeviceClassSubgroupParameters = DeviceManagementListDeploymentsForDeviceClassSubgroupQueryParam & RequestParameters;
 
 // @public (undocumented)
-export interface DeviceManagementListDeploymentDevicesQueryParam {
+export interface DeviceManagementListDeploymentsForDeviceClassSubgroupQueryParam {
     // (undocumented)
-    queryParameters?: DeviceManagementListDeploymentDevicesQueryParamProperties;
+    queryParameters?: DeviceManagementListDeploymentsForDeviceClassSubgroupQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface DeviceManagementListDeploymentDevicesQueryParamProperties {
-    $filter?: string;
+export interface DeviceManagementListDeploymentsForDeviceClassSubgroupQueryParamProperties {
+    orderby?: string;
 }
 
 // @public (undocumented)
@@ -675,7 +893,7 @@ export interface DeviceManagementListDeploymentsForGroupQueryParam {
 
 // @public (undocumented)
 export interface DeviceManagementListDeploymentsForGroupQueryParamProperties {
-    $filter?: string;
+    orderby?: string;
 }
 
 // @public (undocumented)
@@ -703,9 +921,78 @@ export interface DeviceManagementListDeviceClassesdefaultResponse extends HttpRe
 export type DeviceManagementListDeviceClassesParameters = RequestParameters;
 
 // @public (undocumented)
+export interface DeviceManagementListDeviceClassSubgroupsForGroup {
+    get(options?: DeviceManagementListDeviceClassSubgroupsForGroupParameters): Promise<DeviceManagementListDeviceClassSubgroupsForGroup200Response | DeviceManagementListDeviceClassSubgroupsForGroupdefaultResponse>;
+}
+
+// @public
+export interface DeviceManagementListDeviceClassSubgroupsForGroup200Response extends HttpResponse {
+    // (undocumented)
+    body: DeviceClassSubgroupsListOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface DeviceManagementListDeviceClassSubgroupsForGroupdefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: "500";
+}
+
+// @public (undocumented)
+export type DeviceManagementListDeviceClassSubgroupsForGroupParameters = DeviceManagementListDeviceClassSubgroupsForGroupQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface DeviceManagementListDeviceClassSubgroupsForGroupQueryParam {
+    // (undocumented)
+    queryParameters?: DeviceManagementListDeviceClassSubgroupsForGroupQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface DeviceManagementListDeviceClassSubgroupsForGroupQueryParamProperties {
+    filter?: string;
+}
+
+// @public (undocumented)
+export interface DeviceManagementListDeviceHealth {
+    get(options: DeviceManagementListDeviceHealthParameters): Promise<DeviceManagementListDeviceHealth200Response | DeviceManagementListDeviceHealthdefaultResponse>;
+}
+
+// @public
+export interface DeviceManagementListDeviceHealth200Response extends HttpResponse {
+    // (undocumented)
+    body: DeviceHealthListOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface DeviceManagementListDeviceHealthdefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: "500";
+}
+
+// @public (undocumented)
+export type DeviceManagementListDeviceHealthParameters = DeviceManagementListDeviceHealthQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface DeviceManagementListDeviceHealthQueryParam {
+    // (undocumented)
+    queryParameters: DeviceManagementListDeviceHealthQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface DeviceManagementListDeviceHealthQueryParamProperties {
+    filter: string;
+}
+
+// @public (undocumented)
 export interface DeviceManagementListDevices {
     get(options?: DeviceManagementListDevicesParameters): Promise<DeviceManagementListDevices200Response | DeviceManagementListDevicesdefaultResponse>;
-    post(options: DeviceManagementImportDevicesParameters): Promise<DeviceManagementImportDevices202Response | DeviceManagementImportDevicesdefaultResponse>;
 }
 
 // @public
@@ -725,6 +1012,41 @@ export interface DeviceManagementListDevicesdefaultResponse extends HttpResponse
 }
 
 // @public (undocumented)
+export interface DeviceManagementListDevicesForDeviceClassSubgroupDeployment {
+    get(options?: DeviceManagementListDevicesForDeviceClassSubgroupDeploymentParameters): Promise<DeviceManagementListDevicesForDeviceClassSubgroupDeployment200Response | DeviceManagementListDevicesForDeviceClassSubgroupDeploymentdefaultResponse>;
+}
+
+// @public
+export interface DeviceManagementListDevicesForDeviceClassSubgroupDeployment200Response extends HttpResponse {
+    // (undocumented)
+    body: DeploymentDeviceStatesListOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public
+export interface DeviceManagementListDevicesForDeviceClassSubgroupDeploymentdefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: "500";
+}
+
+// @public (undocumented)
+export type DeviceManagementListDevicesForDeviceClassSubgroupDeploymentParameters = DeviceManagementListDevicesForDeviceClassSubgroupDeploymentQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface DeviceManagementListDevicesForDeviceClassSubgroupDeploymentQueryParam {
+    // (undocumented)
+    queryParameters?: DeviceManagementListDevicesForDeviceClassSubgroupDeploymentQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface DeviceManagementListDevicesForDeviceClassSubgroupDeploymentQueryParamProperties {
+    filter?: string;
+}
+
+// @public (undocumented)
 export type DeviceManagementListDevicesParameters = DeviceManagementListDevicesQueryParam & RequestParameters;
 
 // @public (undocumented)
@@ -735,32 +1057,8 @@ export interface DeviceManagementListDevicesQueryParam {
 
 // @public (undocumented)
 export interface DeviceManagementListDevicesQueryParamProperties {
-    $filter?: string;
+    filter?: string;
 }
-
-// @public (undocumented)
-export interface DeviceManagementListDeviceTags {
-    get(options?: DeviceManagementListDeviceTagsParameters): Promise<DeviceManagementListDeviceTags200Response | DeviceManagementListDeviceTagsdefaultResponse>;
-}
-
-// @public
-export interface DeviceManagementListDeviceTags200Response extends HttpResponse {
-    // (undocumented)
-    body: DeviceTagsListOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public
-export interface DeviceManagementListDeviceTagsdefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponseOutput;
-    // (undocumented)
-    status: "500";
-}
-
-// @public (undocumented)
-export type DeviceManagementListDeviceTagsParameters = RequestParameters;
 
 // @public (undocumented)
 export interface DeviceManagementListGroups {
@@ -784,7 +1082,18 @@ export interface DeviceManagementListGroupsdefaultResponse extends HttpResponse 
 }
 
 // @public (undocumented)
-export type DeviceManagementListGroupsParameters = RequestParameters;
+export type DeviceManagementListGroupsParameters = DeviceManagementListGroupsQueryParam & RequestParameters;
+
+// @public (undocumented)
+export interface DeviceManagementListGroupsQueryParam {
+    // (undocumented)
+    queryParameters?: DeviceManagementListGroupsQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface DeviceManagementListGroupsQueryParamProperties {
+    orderby?: string;
+}
 
 // @public (undocumented)
 export interface DeviceManagementListInstallableUpdatesForDeviceClass {
@@ -794,7 +1103,7 @@ export interface DeviceManagementListInstallableUpdatesForDeviceClass {
 // @public
 export interface DeviceManagementListInstallableUpdatesForDeviceClass200Response extends HttpResponse {
     // (undocumented)
-    body: UpdateIdsListOutput;
+    body: UpdateInfoListOutput;
     // (undocumented)
     status: "200";
 }
@@ -866,8 +1175,13 @@ export interface DeviceManagementListOperationsQueryParam {
 
 // @public (undocumented)
 export interface DeviceManagementListOperationsQueryParamProperties {
-    $filter?: string;
-    $top?: number;
+    filter?: string;
+    top?: number;
+}
+
+// @public (undocumented)
+export interface DeviceManagementRetryDeployment {
+    post(options?: DeviceManagementRetryDeploymentParameters): Promise<DeviceManagementRetryDeployment200Response | DeviceManagementRetryDeploymentdefaultResponse>;
 }
 
 // @public
@@ -887,17 +1201,11 @@ export interface DeviceManagementRetryDeploymentdefaultResponse extends HttpResp
 }
 
 // @public (undocumented)
-export type DeviceManagementRetryDeploymentParameters = DeviceManagementRetryDeploymentQueryParam & RequestParameters;
+export type DeviceManagementRetryDeploymentParameters = RequestParameters;
 
 // @public (undocumented)
-export interface DeviceManagementRetryDeploymentQueryParam {
-    // (undocumented)
-    queryParameters: DeviceManagementRetryDeploymentQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface DeviceManagementRetryDeploymentQueryParamProperties {
-    action: "retry";
+export interface DeviceManagementStopDeployment {
+    post(options?: DeviceManagementStopDeploymentParameters): Promise<DeviceManagementStopDeployment200Response | DeviceManagementStopDeploymentdefaultResponse>;
 }
 
 // @public
@@ -917,18 +1225,36 @@ export interface DeviceManagementStopDeploymentdefaultResponse extends HttpRespo
 }
 
 // @public (undocumented)
-export type DeviceManagementStopDeploymentParameters = DeviceManagementStopDeploymentQueryParam & RequestParameters;
+export type DeviceManagementStopDeploymentParameters = RequestParameters;
 
-// @public (undocumented)
-export interface DeviceManagementStopDeploymentQueryParam {
+// @public
+export interface DeviceManagementUpdateDeviceClass200Response extends HttpResponse {
     // (undocumented)
-    queryParameters: DeviceManagementStopDeploymentQueryParamProperties;
+    body: DeviceClassOutput;
+    // (undocumented)
+    status: "200";
 }
 
 // @public (undocumented)
-export interface DeviceManagementStopDeploymentQueryParamProperties {
-    action: "cancel";
+export interface DeviceManagementUpdateDeviceClassBodyParam {
+    body: PatchBody;
 }
+
+// @public
+export interface DeviceManagementUpdateDeviceClassdefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: "500";
+}
+
+// @public (undocumented)
+export interface DeviceManagementUpdateDeviceClassMediaTypesParam {
+    contentType?: "application/merge-patch+json";
+}
+
+// @public (undocumented)
+export type DeviceManagementUpdateDeviceClassParameters = DeviceManagementUpdateDeviceClassMediaTypesParam & DeviceManagementUpdateDeviceClassBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface DeviceOperationOutput {
@@ -937,7 +1263,7 @@ export interface DeviceOperationOutput {
     etag?: string;
     lastActionDateTime: string;
     operationId: string;
-    status: "Undefined" | "NotStarted" | "Running" | "Succeeded" | "Failed";
+    status: "NotStarted" | "Running" | "Succeeded" | "Failed";
     traceId?: string;
 }
 
@@ -949,16 +1275,14 @@ export interface DeviceOperationsListOutput {
 
 // @public (undocumented)
 export interface DeviceOutput {
-    deploymentStatus?: "Succeeded" | "InProgress" | "Failed" | "Canceled" | "Incompatible";
+    deploymentStatus?: "Succeeded" | "InProgress" | "Canceled" | "Failed";
     deviceClassId: string;
     deviceId: string;
     groupId?: string;
-    installedUpdateId?: UpdateIdOutput;
-    lastAttemptedUpdateId?: UpdateIdOutput;
+    installedUpdate?: UpdateInfoOutput;
+    lastAttemptedUpdate?: UpdateInfoOutput;
     lastDeploymentId?: string;
     lastInstallResult?: InstallResultOutput;
-    manufacturer: string;
-    model: string;
     moduleId?: string;
     onLatestUpdate: boolean;
 }
@@ -967,18 +1291,6 @@ export interface DeviceOutput {
 export interface DevicesListOutput {
     nextLink?: string;
     value: Array<DeviceOutput>;
-}
-
-// @public (undocumented)
-export interface DeviceTagOutput {
-    deviceCount: number;
-    tagName: string;
-}
-
-// @public (undocumented)
-export interface DeviceTagsListOutput {
-    nextLink?: string;
-    value: Array<DeviceTagOutput>;
 }
 
 // @public (undocumented)
@@ -1162,7 +1474,6 @@ export type DeviceUpdateGetUpdateParameters = DeviceUpdateGetUpdateHeaderParam &
 
 // @public (undocumented)
 export interface DeviceUpdateImportUpdate {
-    get(options?: DeviceUpdateListUpdatesParameters): Promise<DeviceUpdateListUpdates200Response | DeviceUpdateListUpdatesdefaultResponse>;
     post(options: DeviceUpdateImportUpdateParameters): Promise<DeviceUpdateImportUpdate202Response | DeviceUpdateImportUpdatedefaultResponse>;
 }
 
@@ -1174,7 +1485,7 @@ export interface DeviceUpdateImportUpdate202Headers {
 // @public
 export interface DeviceUpdateImportUpdate202Response extends HttpResponse {
     // (undocumented)
-    body: UpdateOutput;
+    body: Record<string, unknown>;
     // (undocumented)
     headers: RawHttpHeaders & DeviceUpdateImportUpdate202Headers;
     // (undocumented)
@@ -1200,18 +1511,7 @@ export interface DeviceUpdateImportUpdateMediaTypesParam {
 }
 
 // @public (undocumented)
-export type DeviceUpdateImportUpdateParameters = DeviceUpdateImportUpdateQueryParam & DeviceUpdateImportUpdateMediaTypesParam & DeviceUpdateImportUpdateBodyParam & RequestParameters;
-
-// @public (undocumented)
-export interface DeviceUpdateImportUpdateQueryParam {
-    // (undocumented)
-    queryParameters: DeviceUpdateImportUpdateQueryParamProperties;
-}
-
-// @public (undocumented)
-export interface DeviceUpdateImportUpdateQueryParamProperties {
-    action: "import";
-}
+export type DeviceUpdateImportUpdateParameters = DeviceUpdateImportUpdateMediaTypesParam & DeviceUpdateImportUpdateBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface DeviceUpdateListFiles {
@@ -1293,8 +1593,8 @@ export interface DeviceUpdateListOperationsQueryParam {
 
 // @public (undocumented)
 export interface DeviceUpdateListOperationsQueryParamProperties {
-    $filter?: string;
-    $top?: number;
+    filter?: string;
+    top?: number;
 }
 
 // @public (undocumented)
@@ -1320,6 +1620,11 @@ export interface DeviceUpdateListProvidersdefaultResponse extends HttpResponse {
 
 // @public (undocumented)
 export type DeviceUpdateListProvidersParameters = RequestParameters;
+
+// @public (undocumented)
+export interface DeviceUpdateListUpdates {
+    get(options?: DeviceUpdateListUpdatesParameters): Promise<DeviceUpdateListUpdates200Response | DeviceUpdateListUpdatesdefaultResponse>;
+}
 
 // @public
 export interface DeviceUpdateListUpdates200Response extends HttpResponse {
@@ -1348,8 +1653,8 @@ export interface DeviceUpdateListUpdatesQueryParam {
 
 // @public (undocumented)
 export interface DeviceUpdateListUpdatesQueryParamProperties {
-    $filter?: string;
-    $search?: string;
+    filter?: string;
+    search?: string;
 }
 
 // @public (undocumented)
@@ -1384,7 +1689,7 @@ export interface DeviceUpdateListVersionsQueryParam {
 
 // @public (undocumented)
 export interface DeviceUpdateListVersionsQueryParamProperties {
-    $filter?: string;
+    filter?: string;
 }
 
 // @public (undocumented)
@@ -1426,31 +1731,27 @@ export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise
 }>;
 
 // @public (undocumented)
-export interface Group {
-    createdDateTime: string;
-    deploymentId?: string;
-    deviceClassId?: string;
-    deviceCount?: number;
-    groupId: string;
-    groupType: "DeviceClassIdAndIoTHubTag" | "InvalidDeviceClassIdAndIoTHubTag" | "DefaultDeviceClassId";
-    tags: Array<string>;
-}
-
-// @public (undocumented)
 export interface GroupOutput {
     createdDateTime: string;
-    deploymentId?: string;
-    deviceClassId?: string;
+    deployments?: Array<string>;
     deviceCount?: number;
     groupId: string;
-    groupType: "DeviceClassIdAndIoTHubTag" | "InvalidDeviceClassIdAndIoTHubTag" | "DefaultDeviceClassId";
-    tags: Array<string>;
+    groupType: "IoTHubTag" | "DefaultNoTag";
+    subgroupsWithNewUpdatesAvailableCount?: number;
+    subgroupsWithOnLatestUpdateCount?: number;
+    subgroupsWithUpdatesInProgressCount?: number;
 }
 
 // @public (undocumented)
 export interface GroupsListOutput {
     nextLink?: string;
     value: Array<GroupOutput>;
+}
+
+// @public (undocumented)
+export interface HealthCheckOutput {
+    name?: string;
+    result?: "success" | "userError";
 }
 
 // @public (undocumented)
@@ -1495,7 +1796,7 @@ export interface LogCollectionOperation {
     deviceList: Array<DeviceUpdateAgentId>;
     lastActionDateTime?: string;
     operationId?: string;
-    status?: "Undefined" | "NotStarted" | "Running" | "Succeeded" | "Failed";
+    status?: "NotStarted" | "Running" | "Succeeded" | "Failed";
 }
 
 // @public (undocumented)
@@ -1505,7 +1806,7 @@ export interface LogCollectionOperationDetailedStatusOutput {
     deviceStatus?: Array<LogCollectionOperationDeviceStatusOutput>;
     lastActionDateTime?: string;
     operationId?: string;
-    status?: "Undefined" | "NotStarted" | "Running" | "Succeeded" | "Failed";
+    status?: "NotStarted" | "Running" | "Succeeded" | "Failed";
 }
 
 // @public (undocumented)
@@ -1515,7 +1816,7 @@ export interface LogCollectionOperationDeviceStatusOutput {
     logLocation?: string;
     moduleId?: string;
     resultCode?: string;
-    status: "Undefined" | "NotStarted" | "Running" | "Succeeded" | "Failed";
+    status: "NotStarted" | "Running" | "Succeeded" | "Failed";
 }
 
 // @public (undocumented)
@@ -1531,7 +1832,7 @@ export interface LogCollectionOperationOutput {
     deviceList: Array<DeviceUpdateAgentIdOutput>;
     lastActionDateTime?: string;
     operationId?: string;
-    status?: "Undefined" | "NotStarted" | "Running" | "Succeeded" | "Failed";
+    status?: "NotStarted" | "Running" | "Succeeded" | "Failed";
 }
 
 // @public
@@ -1550,38 +1851,53 @@ export interface PagingOptions<TResponse> {
 }
 
 // @public (undocumented)
+export interface PatchBody {
+    friendlyName: string;
+}
+
+// @public (undocumented)
 export interface Routes {
-    (path: "/deviceupdate/{instanceId}/updates", instanceId: string): DeviceUpdateImportUpdate;
-    (path: "/deviceupdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}", instanceId: string, provider: string, name: string, version: string): DeviceUpdateGetUpdate;
-    (path: "/deviceupdate/{instanceId}/updates/providers", instanceId: string): DeviceUpdateListProviders;
-    (path: "/deviceupdate/{instanceId}/updates/providers/{provider}/names", instanceId: string, provider: string): DeviceUpdateListNames;
-    (path: "/deviceupdate/{instanceId}/updates/providers/{provider}/names/{name}/versions", instanceId: string, provider: string, name: string): DeviceUpdateListVersions;
-    (path: "/deviceupdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}/files", instanceId: string, provider: string, name: string, version: string): DeviceUpdateListFiles;
-    (path: "/deviceupdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}/files/{fileId}", instanceId: string, provider: string, name: string, version: string, fileId: string): DeviceUpdateGetFile;
-    (path: "/deviceupdate/{instanceId}/updates/operations", instanceId: string): DeviceUpdateListOperations;
-    (path: "/deviceupdate/{instanceId}/updates/operations/{operationId}", instanceId: string, operationId: string): DeviceUpdateGetOperation;
-    (path: "/deviceupdate/{instanceId}/management/deviceclasses", instanceId: string): DeviceManagementListDeviceClasses;
-    (path: "/deviceupdate/{instanceId}/management/deviceclasses/{deviceClassId}", instanceId: string, deviceClassId: string): DeviceManagementGetDeviceClass;
-    (path: "/deviceupdate/{instanceId}/management/deviceclasses/{deviceClassId}/installableupdates", instanceId: string, deviceClassId: string): DeviceManagementListInstallableUpdatesForDeviceClass;
-    (path: "/deviceupdate/{instanceId}/management/devices", instanceId: string): DeviceManagementListDevices;
-    (path: "/deviceupdate/{instanceId}/management/devices/{deviceId}", instanceId: string, deviceId: string): DeviceManagementGetDevice;
-    (path: "/deviceupdate/{instanceId}/management/devices/{deviceId}/modules/{moduleId}", instanceId: string, deviceId: string, moduleId: string): DeviceManagementGetDeviceModule;
-    (path: "/deviceupdate/{instanceId}/management/updatecompliance", instanceId: string): DeviceManagementGetUpdateCompliance;
-    (path: "/deviceupdate/{instanceId}/management/devicetags", instanceId: string): DeviceManagementListDeviceTags;
-    (path: "/deviceupdate/{instanceId}/management/devicetags/{tagName}", instanceId: string, tagName: string): DeviceManagementGetDeviceTag;
-    (path: "/deviceupdate/{instanceId}/management/groups", instanceId: string): DeviceManagementListGroups;
-    (path: "/deviceupdate/{instanceId}/management/groups/{groupId}", instanceId: string, groupId: string): DeviceManagementGetGroup;
-    (path: "/deviceupdate/{instanceId}/management/groups/{groupId}/updateCompliance", instanceId: string, groupId: string): DeviceManagementGetGroupUpdateCompliance;
-    (path: "/deviceupdate/{instanceId}/management/groups/{groupId}/bestUpdates", instanceId: string, groupId: string): DeviceManagementListBestUpdatesForGroup;
-    (path: "/deviceupdate/{instanceId}/management/groups/{groupId}/deployments", instanceId: string, groupId: string): DeviceManagementListDeploymentsForGroup;
-    (path: "/deviceupdate/{instanceId}/management/groups/{groupId}/deployments/{deploymentId}", instanceId: string, groupId: string, deploymentId: string): DeviceManagementGetDeployment;
-    (path: "/deviceupdate/{instanceId}/management/groups/{groupId}/deployments/{deploymentId}/status", instanceId: string, groupId: string, deploymentId: string): DeviceManagementGetDeploymentStatus;
-    (path: "/deviceupdate/{instanceId}/management/groups/{groupId}/deployments/{deploymentId}/devicestates", instanceId: string, groupId: string, deploymentId: string): DeviceManagementListDeploymentDevices;
-    (path: "/deviceupdate/{instanceId}/management/operations/{operationId}", instanceId: string, operationId: string): DeviceManagementGetOperation;
-    (path: "/deviceupdate/{instanceId}/management/operations", instanceId: string): DeviceManagementListOperations;
-    (path: "/deviceupdate/{instanceId}/management/deviceDiagnostics/logCollections/{operationId}", instanceId: string, operationId: string): DeviceManagementCollectLogs;
-    (path: "/deviceupdate/{instanceId}/management/deviceDiagnostics/logCollections", instanceId: string): DeviceManagementListLogCollectionOperations;
-    (path: "/deviceupdate/{instanceId}/management/deviceDiagnostics/logCollections/{operationId}/detailedStatus", instanceId: string, operationId: string): DeviceManagementGetLogCollectionOperationDetailedStatus;
+    (path: "/deviceUpdate/{instanceId}/updates", instanceId: string): DeviceUpdateListUpdates;
+    (path: "/deviceUpdate/{instanceId}/updates:import", instanceId: string): DeviceUpdateImportUpdate;
+    (path: "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}", instanceId: string, provider: string, name: string, version: string): DeviceUpdateGetUpdate;
+    (path: "/deviceUpdate/{instanceId}/updates/providers", instanceId: string): DeviceUpdateListProviders;
+    (path: "/deviceUpdate/{instanceId}/updates/providers/{provider}/names", instanceId: string, provider: string): DeviceUpdateListNames;
+    (path: "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions", instanceId: string, provider: string, name: string): DeviceUpdateListVersions;
+    (path: "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}/files", instanceId: string, provider: string, name: string, version: string): DeviceUpdateListFiles;
+    (path: "/deviceUpdate/{instanceId}/updates/providers/{provider}/names/{name}/versions/{version}/files/{fileId}", instanceId: string, provider: string, name: string, version: string, fileId: string): DeviceUpdateGetFile;
+    (path: "/deviceUpdate/{instanceId}/updates/operations", instanceId: string): DeviceUpdateListOperations;
+    (path: "/deviceUpdate/{instanceId}/updates/operations/{operationId}", instanceId: string, operationId: string): DeviceUpdateGetOperation;
+    (path: "/deviceUpdate/{instanceId}/management/deviceClasses", instanceId: string): DeviceManagementListDeviceClasses;
+    (path: "/deviceUpdate/{instanceId}/management/deviceClasses/{deviceClassId}", instanceId: string, deviceClassId: string): DeviceManagementGetDeviceClass;
+    (path: "/deviceUpdate/{instanceId}/management/deviceClasses/{deviceClassId}/installableUpdates", instanceId: string, deviceClassId: string): DeviceManagementListInstallableUpdatesForDeviceClass;
+    (path: "/deviceUpdate/{instanceId}/management/devices", instanceId: string): DeviceManagementListDevices;
+    (path: "/deviceUpdate/{instanceId}/management/devices:import", instanceId: string): DeviceManagementImportDevices;
+    (path: "/deviceUpdate/{instanceId}/management/devices/{deviceId}", instanceId: string, deviceId: string): DeviceManagementGetDevice;
+    (path: "/deviceUpdate/{instanceId}/management/devices/{deviceId}/modules/{moduleId}", instanceId: string, deviceId: string, moduleId: string): DeviceManagementGetDeviceModule;
+    (path: "/deviceUpdate/{instanceId}/management/updateCompliance", instanceId: string): DeviceManagementGetUpdateCompliance;
+    (path: "/deviceUpdate/{instanceId}/management/groups", instanceId: string): DeviceManagementListGroups;
+    (path: "/deviceUpdate/{instanceId}/management/groups/{groupId}", instanceId: string, groupId: string): DeviceManagementGetGroup;
+    (path: "/deviceUpdate/{instanceId}/management/groups/{groupId}/updateCompliance", instanceId: string, groupId: string): DeviceManagementGetGroupUpdateCompliance;
+    (path: "/deviceUpdate/{instanceId}/management/groups/{groupId}/bestUpdates", instanceId: string, groupId: string): DeviceManagementListBestUpdatesForGroup;
+    (path: "/deviceUpdate/{instanceId}/management/groups/{groupId}/deployments", instanceId: string, groupId: string): DeviceManagementListDeploymentsForGroup;
+    (path: "/deviceUpdate/{instanceId}/management/groups/{groupId}/deployments/{deploymentId}", instanceId: string, groupId: string, deploymentId: string): DeviceManagementGetDeployment;
+    (path: "/deviceUpdate/{instanceId}/management/groups/{groupId}/deployments/{deploymentId}/status", instanceId: string, groupId: string, deploymentId: string): DeviceManagementGetDeploymentStatus;
+    (path: "/deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups", instanceId: string, groupId: string): DeviceManagementListDeviceClassSubgroupsForGroup;
+    (path: "/deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}", instanceId: string, groupId: string, deviceClassId: string): DeviceManagementGetDeviceClassSubgroupDetails;
+    (path: "/deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/updateCompliance", instanceId: string, groupId: string, deviceClassId: string): DeviceManagementGetDeviceClassSubgroupUpdateCompliance;
+    (path: "/deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/bestUpdates", instanceId: string, groupId: string, deviceClassId: string): DeviceManagementListBestUpdatesForDeviceClassSubgroup;
+    (path: "/deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/deployments", instanceId: string, groupId: string, deviceClassId: string): DeviceManagementListDeploymentsForDeviceClassSubgroup;
+    (path: "/deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/deployments/{deploymentId}", instanceId: string, groupId: string, deviceClassId: string, deploymentId: string): DeviceManagementGetDeploymentForDeviceClassSubgroup;
+    (path: "/deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/deployments/{deploymentId}:cancel", instanceId: string, groupId: string, deviceClassId: string, deploymentId: string): DeviceManagementStopDeployment;
+    (path: "/deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/deployments/{deploymentId}:retry", instanceId: string, groupId: string, deviceClassId: string, deploymentId: string): DeviceManagementRetryDeployment;
+    (path: "/deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/deployments/{deploymentId}/status", instanceId: string, groupId: string, deviceClassId: string, deploymentId: string): DeviceManagementGetDeviceClassSubgroupDeploymentStatus;
+    (path: "/deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/deployments/{deploymentId}/devicestates", instanceId: string, groupId: string, deviceClassId: string, deploymentId: string): DeviceManagementListDevicesForDeviceClassSubgroupDeployment;
+    (path: "/deviceUpdate/{instanceId}/management/operations/{operationId}", instanceId: string, operationId: string): DeviceManagementGetOperation;
+    (path: "/deviceUpdate/{instanceId}/management/operations", instanceId: string): DeviceManagementListOperations;
+    (path: "/deviceUpdate/{instanceId}/management/deviceDiagnostics/logCollections/{operationId}", instanceId: string, operationId: string): DeviceManagementCollectLogs;
+    (path: "/deviceUpdate/{instanceId}/management/deviceDiagnostics/logCollections", instanceId: string): DeviceManagementListLogCollectionOperations;
+    (path: "/deviceUpdate/{instanceId}/management/deviceDiagnostics/logCollections/{operationId}/detailedStatus", instanceId: string, operationId: string): DeviceManagementGetLogCollectionOperationDetailedStatus;
+    (path: "/deviceUpdate/{instanceId}/management/deviceDiagnostics/deviceHealth", instanceId: string): DeviceManagementListDeviceHealth;
 }
 
 // @public (undocumented)
@@ -1600,25 +1916,13 @@ export interface StepResultOutput {
     extendedResultCode: number;
     resultCode: number;
     resultDetails?: string;
-    updateId?: UpdateIdOutput;
+    update?: UpdateInfoOutput;
 }
 
 // @public (undocumented)
 export interface StringsListOutput {
     nextLink?: string;
     value: Array<string>;
-}
-
-// @public (undocumented)
-export interface UpdatableDevicesListOutput {
-    nextLink?: string;
-    value: Array<UpdatableDevicesOutput>;
-}
-
-// @public (undocumented)
-export interface UpdatableDevicesOutput {
-    deviceCount: number;
-    updateId: UpdateIdOutput;
 }
 
 // @public (undocumented)
@@ -1630,15 +1934,27 @@ export interface UpdateComplianceOutput {
 }
 
 // @public (undocumented)
-export interface UpdateFileOutput {
-    etag?: string;
-    fileId: string;
+export interface UpdateFileBaseOutput {
     fileName: string;
     hashes: Record<string, string>;
     mimeType?: string;
+    properties?: Record<string, string>;
     scanDetails?: string;
     scanResult?: string;
     sizeInBytes: number;
+}
+
+// @public (undocumented)
+export interface UpdateFileDownloadHandlerOutput {
+    id: string;
+}
+
+// @public (undocumented)
+export interface UpdateFileOutput extends UpdateFileBaseOutput {
+    downloadHandler?: UpdateFileDownloadHandlerOutput;
+    etag?: string;
+    fileId: string;
+    relatedFiles?: Array<UpdateFileBaseOutput>;
 }
 
 // @public (undocumented)
@@ -1656,9 +1972,23 @@ export interface UpdateIdOutput {
 }
 
 // @public (undocumented)
-export interface UpdateIdsListOutput {
+export interface UpdateInfo {
+    description?: string;
+    friendlyName?: string;
+    updateId: UpdateId;
+}
+
+// @public (undocumented)
+export interface UpdateInfoListOutput {
     nextLink?: string;
-    value: Array<UpdateIdOutput>;
+    value: Array<UpdateInfoOutput>;
+}
+
+// @public (undocumented)
+export interface UpdateInfoOutput {
+    description?: string;
+    friendlyName?: string;
+    updateId: UpdateIdOutput;
 }
 
 // @public (undocumented)
@@ -1675,9 +2005,9 @@ export interface UpdateOperationOutput {
     lastActionDateTime: string;
     operationId: string;
     resourceLocation?: string;
-    status: "Undefined" | "NotStarted" | "Running" | "Succeeded" | "Failed";
+    status: "NotStarted" | "Running" | "Succeeded" | "Failed";
     traceId?: string;
-    updateId?: UpdateIdOutput;
+    update?: UpdateInfoOutput;
 }
 
 // @public (undocumented)
