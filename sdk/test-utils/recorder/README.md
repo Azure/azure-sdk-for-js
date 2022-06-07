@@ -539,7 +539,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 [docker]: https://docker.com/
 [test proxy server]: https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy
-  [ `root-of-the-repo example` - `/workspaces/azure-sdk-for-js` if you're on codespaces]
 
 ## Troubleshooting
 
