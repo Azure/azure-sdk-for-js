@@ -101,8 +101,8 @@ function GenerateDocsMsMetadata($language, $langTitle = "", $serviceName, $tenan
   $langDescription = "Reference for Azure $serviceName SDK for $language"
   # Github url for source code: e.g. https://github.com/Azure/azure-sdk-for-js
   $serviceBaseName = $serviceName.ToLower().Replace(' ', '').Replace('/', '-')
-  $author = "sizhu"#GetPrimaryCodeOwner -TargetDirectory "/sdk/$serviceBaseName/"
-  $msauthor = "sima-zhu"#""
+  $author = GetPrimaryCodeOwner -TargetDirectory "/sdk/$serviceBaseName/"
+  $msauthor = ""
   if (!$author) {
     LogError "Cannot fetch the author from CODEOWNER file."
     return
