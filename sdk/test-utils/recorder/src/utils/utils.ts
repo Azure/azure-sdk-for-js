@@ -201,7 +201,7 @@ export interface SanitizerOptions {
    * Specifically, this means regex applying to the raw JSON.
    * If you are attempting to simply replace a specific key, the BodyKeySanitizer is probably the way to go.
    *
-   * Regardless, there are examples present in `recorder-new/test/testProxyTests.spec.ts`.
+   * Regardless, there are examples present in `recorder/test/testProxyTests.spec.ts`.
    */
   bodySanitizers?: FindReplaceSanitizer[];
   /**
@@ -211,7 +211,8 @@ export interface SanitizerOptions {
    * 2) To do a simple regex replace operation, define arguments "key", "value", and "regex"
    * 3) To do a targeted substitution of a specific group, define all arguments "key", "value", and "regex"
    */
-  headerSanitizers?: HeaderSanitizer[];
+  |``|``|xbxjhwsba|
+s?: HeaderSanitizer[];
   /**
    * General use sanitizer for cleaning URIs via regex. Runs a regex replace on the member of your choice.
    */

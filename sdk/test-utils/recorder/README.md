@@ -110,7 +110,7 @@ import { Recorder } from "@azure-tools/test-recorder";
 Or, if you know what you want to import, you can also do the following:
 
 ```typescript
-import { Recorder, RecorderStartOptions, env, SanitizerOptions } from "@azure/test-utils-recorder";
+import { Recorder, RecorderStartOptions, env, SanitizerOptions } from "@azure-tools/test-recorder";
 ```
 
 ### Configuring your project
@@ -168,6 +168,17 @@ Read more at [dev-tool commands #usage](https://github.com/Azure/azure-sdk-for-j
 
 If for some reason, you have trouble running the test-proxy tool in your environment using the `dev-tool` commands as suggested above, please read [many ways to run the test-proxy tool](#many-ways-to-run-the-test-proxy-tool) to unblock yourself sooner.
 
+### Key Concepts
+
+By using recorder with your clients, the requests are redirected to the test-proxy tool to either save them or replay them.
+Interactions with the test-proxy tool vary based on what the `TEST_MODE` environment is.
+| | |
+| :--------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **TEST_MODE** | **What?** |
+| `record` | Stores network requests with the help of test-proxy tool in a plain text file in the folder `recordings` at the root of your repository (example: root of the `sdk/tables/data-tables` project) |
+| `playback` | Stored requests/responses are utilized by the test-proxy tool when the requests are redirected to it instead of reaching the service |  
+| `live` | Recorder and its methods are no-ops here, requests directly reach the service instead of being redirected at the test-proxy tool layer |
+
 ### Using the `Recorder`
 
 Inside a mocha test(either in the `beforeEach` or the `it` blocks), you'll instantiate the `Recorder` as below to leverage it's functionalities.
@@ -187,9 +198,9 @@ const client = new AnyCoreV2Client(/** args **/, recorder.configureClientOptions
 ```
 
 - Modifying the client options(that you'd otherwise provide) with `recorder.configureClientOptions()` helps us with adding the recording policy to the additionalPolicies in the client options.
-- Adding the policy is important for redirecting the requests to the proxy tool instead of directly going to the service.
+- Adding the policy is important to redirect the requests to the proxy tool instead of directly going to the service.
 
-  _Note: If your client is relying on `@azure/core-http` instead of the core-v2 libraries(i.e., `@azure/core-client` and `@azure/core-rest-pipeline`), please use `recorder.configureClientOptionsCoreV1()` instead of `recorder.configureClientOptions()`._
+  _Note: If your client relies on `@azure/core-http` instead of the core-v2 libraries(i.e., `@azure/core-client` and `@azure/core-rest-pipeline`), please use `recorder.configureClientOptionsCoreV1()` instead of `recorder.configureClientOptions()`._
 
 Once instantiated the recorder, you're expected to start the recorder using the `recorder.start()` method with the appropriate recorder options.
 
@@ -207,7 +218,7 @@ Likewise, in `playback` mode, the saved responses are utilized by the test-proxy
 await recorder.stop();
 ```
 
-- Call this method to ping the test-proxy tool with a stop request, this helps to stop recording saving the recording file in record mode.
+- Call this method to ping the test-proxy tool with a stop request, this helps to stop recording, saves the recording file in record mode.
 
 _Note: Instantiating the recorder, starting and stopping the recorder, have no effects in the `live` mode(`TEST_MODE=live`), means the redirection to the test-proxy tool doesn't happen and the requests would reach the services as usual._
 
@@ -366,19 +377,57 @@ We must secure them and not let them leak into our recordings. To avoid storing 
 
 `RecorderStartOptions` has two components, `envSetupForPlayback` and the `sanitizers` which you'd have seen in the previous snippet.
 
+For a live test to be run, we typically need the test secrets, which are usally stored as Environemnt variables.
+
+And since in playback mode, the requests don't reach the service, we don't actually need to have/share the test secrets to run the tests in playback mode.
+
+Another angle to this is that the recordings store the requests, which would contain the sensitive information related to the endpoints, tokens, keys, secrets, credentials, etc that are parts of the supposedly secretive environment variables or derivatives of them.
+
+We try our best to make sure the sensitive information is not leaked anywhere with the help of `envSetupForPlayback` and `Sanitizers`.
+
 #### `envSetupForPlayback`
 
+`envSetupForPlayback` expects key-value pairs, with keys signifying the names of the environment variables, and the values would be the fake ones that you'd like to map/swap the originals with.
+
+```js
+  envSetupForPlayback: {
+    TABLES_URL: "https://fakeaccount.table.core.windows.net",
+  }
+```
+
+Used in record and playback modes. No effect in live mode.
+
+- The key-value pairs will be used as the environment variables in playback mode.
+- If the environment variables are present in the recordings as plain strings, they will be replaced with the provided values in record mode.
+
 #### `Sanitizers`
+
+|                             |                                                                                                                                                                                 |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| :-------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Sanitizers**              | **How does it look? Example??**                                                                                                                                                 | **What does it do?**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `generalSanitizer`          | `{ regex: true, target: "abc+def", value: "fakeValue" }`                                                                                                                        | Offers a general regex replace across request/response Body, Headers, and URI. For the body, this means regex applying to the raw JSON.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `bodySanitizer`             | `{ regex: true, target: "(.*)&SECRET=(?<secret_content>[^&]*)&(.*)", value: fakeSecretValue, groupForReplace: "secret_content" }`                                               | Offers regex replace within a returned body. Specifically, this means regex applying to the raw JSON. If you are attempting to simply replace a specific key, the `bodyKeySanitizer` is probably the way to go.                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| `headerSanitizer`           | `{ key: "your_uuid", value: sanitizedValue }`                                                                                                                                   | Can be used for multiple purposes:<br/>1) To replace a key with a specific value, do not set "regex" value.<br/>2) To do a simple regex replace operation, define arguments "key", "value", and "regex"<br/>3) To do a targeted substitution of a specific group, define all arguments "key", "value", and "regex"                                                                                                                                                                                                                                                                                                                                         |
+| `uriSanitizer`              | `{ target: secretEndpoint, value: fakeEndpoint}`                                                                                                                                | General use sanitizer for cleaning URIs via regex. Runs a regex replace on the member of your choice.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| `connectionStringSanitizer` | `{`<br/> `actualConnString: env.TABLES_CONN_STRING,` <br/>`fakeConnString: "Endpoint=https://fakeaccountname.net/;SharedAccessSignature=st=2021-08-03&sig=fakesigval"` <br/>`}` | Internally, <br/>- connection strings are parsed and<br/>- each part of the connection string is mapped with its corresponding fake value<br/>- `generalRegexSanitizer` is applied for each of the parts with the real and fake values that are parsed                                                                                                                                                                                                                                                                                                                                                                                                     |
+| `bodyKeySanitizer`          | `{ jsonPath: "$.bodyProvided.secret_info", regex: secretValue, value: fakeSecretValue }`                                                                                        | This sanitizer offers regex update of a specific JTokenPath.<br/><br/> EG: "TableName" within a json response body having its value replaced by whatever substitution is offered.<br/> This simply means that if you are attempting to replace a specific key wholesale, this sanitizer will be simpler<br/> than configuring a BodyRegexSanitizer that has to match against the full "KeyName": "Value" that is part of the json structure.<br/><br/> Further reading is available [here](https://www.newtonsoft.com/json/help/html/SelectToken.htm#SelectTokenJSONPath).<br/><br/> If the body is NOT a JSON object, this sanitizer will NOT be applied. |
+| `removeHeaderSanitizer`     | `{ headersForRemoval: ["X-Content-Type-Options"] }`                                                                                                                             | A simple sanitizer that should be used to clean out one or multiple headers by their key. Removes headers from before saving a recording.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `resetSanitizer`            | `true`                                                                                                                                                                          | This clears the sanitizers that are added.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+
+Sanitizers can be added in two different ways.
+
+1. Pass them as part of the `recorder.start({ envSetupForPlayback, sanitizerOptions })` call. Sanitizers are applied on the recordings in record mode before they are saved.
+2. Call `recorder.addSanitizers(sanitizerOptions, ["record", "playback"])`. This way, the same sanitizer would be applied in both record and playback modes.
 
 ### How to playback
 
 Once you have recorded something, you can run your tests again with `TEST_MODE` set to `playback`.
 
-You'll notice how the tests succeed much faster. That's because the requests will not reach the service endpoints, the recorder assisted by the test-proxy tool will respond every request according to their matching copy stored in the recordings.
+You'll notice how the tests succeed much faster. That's because the requests don't reach the service endpoints, the recorder assisted by the test-proxy tool will respond every request with their matching copy stored in the recordings.
 
 ### Update existing recordings
 
-Once you have your recorded files, to update them after changing one of the tests, simply re-run the tests with `TEST_MODE` set to `record`. This will overwrite previously existing files.
+Once you have your recorded files, to update them after changing one of the tests, simply re-run the tests with `TEST_MODE` set to `record`. This will override previously existing files.
 
 > **Note:** If you rename the file of the test, or the name of the test, the
 > path of the recording will change. Make sure to delete the recordings
@@ -388,7 +437,7 @@ Once you have your recorded files, to update them after changing one of the test
 
 ### Skipping tests
 
-Writing live tests can take considerable time, specially since each time you want to check that everything works fine, you potentially need to run again every test. With the test recorder, you can specify what test to run by following Mocha's approach of setting certain tests to `it.only`, and also to skip specific tests with `it.skip`.
+Writing live tests can take considerable time, specially since each time you want to check that everything works fine, you potentially need to run again every test. You can specify what test to run by following Mocha's approach of setting certain tests to `it.only`, and also to skip specific tests with `it.skip`.
 
 If you launch the `recorder` in record mode with some of these changes (and given that you activate the recorder on `beforeEach`), only the files that relate to the changed tests will be updated. Skipped tests won't update their recordings.
 
@@ -400,6 +449,7 @@ You can also skip specific tests with the following.
 import { isLiveMode } from "@azure-tools/test-recorder";
 
 it("test-title", function () {
+  // isPlaybackMode() and isRecordMode() methods are also available from recorder.
   if (!isLiveMode()) this.skip(); // This skips the test in record and playback modes
   // Test goes here...
   // ...
@@ -408,9 +458,9 @@ it("test-title", function () {
 
 ### Supporting parallelism
 
-A common issue while running integration tests is that, sometimes two persons or machines might try to run the same set of tests against the same resource.
+A common issue while running integration tests is that, sometimes two individuals or machines might try to run the same set of tests against the same resource.
 
-This is not directly related to the `@azure/test-utils-recorder` package, but if you're getting into issues because of concurrent conflicting requests, we strongly suggest using randomly generated strings as prefixes or suffixes for the resources you create.
+This is not directly related to the `@azure-tools/test-recorder` package, but if you're getting into issues because of concurrent conflicting requests, we strongly suggest using randomly generated strings as prefixes or suffixes for the resources you create.
 
 Since new resources are likely to get accumulated because some tests would crash or fail for any reason, make sure you delete the resources that are not cleared.
 
