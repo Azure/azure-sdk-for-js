@@ -14868,7 +14868,7 @@ packages:
     dev: false
 
   file:projects/confidential-ledger.tgz:
-    resolution: {integrity: sha512-vCqpCTyguXTL7yBsh/rHShVhUnHFHXoXFJoyhuABpqKQgc6y6UJ5G3EdgVccbNboT/uHfIZP80FNi+AL9BdsZg==, tarball: file:projects/confidential-ledger.tgz}
+    resolution: {integrity: sha512-BPYKhcbHAYhyJRlkHOAk4JMErAMx6lfAAwMVCwlDuGq/U4VbDsjX2h0LXH1e1bHyh82UIbAXnoxScDTMPvaXJg==, tarball: file:projects/confidential-ledger.tgz}
     name: '@rush-temp/confidential-ledger'
     version: 0.0.0
     dependencies:
@@ -16527,7 +16527,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
-    resolution: {integrity: sha512-sJiKrmcNRrSzM9Pr7IRzBUfP1bQDjVXIMMe2PE88ZtNs2nyNxeVGf8oTJwyt7wSE+0bSDEdqIVZhNmoWpf+SwQ==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-zZM/zbruK3/PI+HzyEKMjq7dT+gDek2v3tmQjscUvAC6mUvI/JvtLeYnHgaT09c04tyR+dP4DtoNR5iO++s/vQ==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
@@ -16545,7 +16545,7 @@ packages:
       dotenv: 8.6.0
       eslint: 8.15.0
       eslint-plugin-node: 11.1.0_eslint@8.15.0
-      execa: 5.1.1
+      execa: 6.1.0
       mocha: 7.2.0
       nock: 12.0.3
       nyc: 15.1.0
@@ -17307,7 +17307,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-7LNzP3b+jm7xmyup5jGFXbcy9Jm5Yz7uSxSyaUCFLEIhV043upU6r97ODeXNFI9TXGPARoBajq2nfGRSWUIAwA==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-QxAznMAHY2GFFIUE/4GwadhE3Tn7b8UwkOqbONcgyFcd40SF0DA8OKJrCUwXGOIEXgMPCF6Sz6vnVYkFpZI6+w==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
