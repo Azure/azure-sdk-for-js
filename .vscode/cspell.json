@@ -23,6 +23,7 @@
     "*.crt",
     "*.key",
     ".vscode/cspell.json",
+    "sdk/**/*-rest/review/*.md",
     "sdk/**/arm-*/**",
     "sdk/test-utils/**",
     "sdk/agrifood/agrifood-farming-rest/review/*.md",
