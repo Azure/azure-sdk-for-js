@@ -1,0 +1,55 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/virtualMachines/virtualmachinex?api-version=2022-03-01",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "214",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-arm-compute/19.0.0 core-rest-pipeline/1.9.0 Node/v16.15.0 OS/(x64-Windows_NT-10.0.22000)",
+        "x-ms-client-request-id": "b2c50aa3-b7e0-4c03-9411-64489c93bcf3"
+      },
+      "RequestBody": {
+        "properties": {
+          "networkProfile": {
+            "networkInterfaces": [
+              {
+                "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Network/networkInterfaces/interfacex",
+                "properties": {
+                  "primary": true
+                }
+              }
+            ]
+          }
+        }
+      },
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "279",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 07 Jun 2022 07:41:39 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "5a7db3d2-1c3e-4ba1-b534-83a9cdc6986a",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-request-id": "5a7db3d2-1c3e-4ba1-b534-83a9cdc6986a",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20220607T074140Z:5a7db3d2-1c3e-4ba1-b534-83a9cdc6986a"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "PatchResourceNotFound",
+          "target": "virtualmachinex",
+          "message": "The resource \u0027/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.Compute/virtualMachines/virtualmachinex\u0027 was not found when evaluating policies for a PATCH operation."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
