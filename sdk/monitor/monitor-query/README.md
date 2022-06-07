@@ -482,10 +482,12 @@ Because the structure of the `statistics` payload varies by query, a `Record<str
 ```
 
 #### Include visualization
-To get visualization data for logs queries using the render operator:
 
-Set the `LogsQueryOptions.includeVisualization` property to `true`.
-Access the `visualization` field inside the `LogsQueryResult` object.
+To get visualization data for logs queries using the [render operator](https://docs.microsoft.com/azure/data-explorer/kusto/query/renderoperator?pivots=azuremonitor):
+
+1. Set the `LogsQueryOptions.includeVisualization` property to `true`.
+1. Access the `visualization` field inside the `LogsQueryResult` object.
+
 For example:
 
 ```ts
