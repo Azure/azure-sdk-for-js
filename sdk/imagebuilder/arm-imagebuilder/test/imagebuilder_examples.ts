@@ -172,10 +172,10 @@ describe("ImageBuilder test", () => {
     assert.equal(resArray.length, 0);
   });
 
-  // it("delete parameter for virtualMachineImageTemplates test", async function () {
-  //   const imagesDelete = await compute_client.images.beginDeleteAndWait(resourceGroup, imagesName);
-  //   const snapshotsDelete = await compute_client.snapshots.beginDeleteAndWait(resourceGroup, snapshotName);
-  //   const diskDelete = await compute_client.disks.beginDeleteAndWait(resourceGroup, diskName);
-  //   const msiDelete = await msi_client.userAssignedIdentities.delete(resourceGroup, msiName);
-  // });
+  it("delete parameter for virtualMachineImageTemplates test", async function () {
+    const imagesDelete = await compute_client.images.beginDeleteAndWait(resourceGroup, imagesName);
+    const snapshotsDelete = await compute_client.snapshots.beginDeleteAndWait(resourceGroup, snapshotName);
+    const diskDelete = await compute_client.disks.beginDeleteAndWait(resourceGroup, diskName);
+    const msiDelete = await msi_client.userAssignedIdentities.delete(resourceGroup, msiName);
+  });
 });
