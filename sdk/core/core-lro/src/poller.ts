@@ -32,7 +32,7 @@ export class PollerStoppedError extends Error {
 }
 
 /**
- * When a operation is cancelled, the poller will be rejected with an instance
+ * When the operation is cancelled, the poller will be rejected with an instance
  * of the PollerCancelledError.
  */
 export class PollerCancelledError extends Error {
