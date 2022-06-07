@@ -33,6 +33,7 @@ function Get-javascript-OnboardedDocsMsPackagesForMoniker($DocRepoLocation, $mon
   $onboardingSpec = ConvertFrom-Json (Get-Content $packageOnboardingFile -Raw)
   foreach ($spec in $onboardingSpec.npm_package_sources) {
     $packageName = $spec.name
+
     if ($packageName.LastIndexOf('@') -gt 0) {
       # Package has an '@' symbol deliminting the end of the package name
       $packageName = $packageName.Substring(0, $packageName.LastIndexOf('@'))

@@ -157,11 +157,15 @@ function generate-markdown-table($readmeFolder, $readmeName, $packageInfo, $moni
       $referenceLink = $pkg.DisplayName
     }
     $githubLink = $GithubUri
-    if ($pkg.PSObject.Members.Name -contains "FileMetadata") {
-      $githubLink = "$GithubUri/blob/main/$($pkg.FileMetadata.DirectoryPath)"
+    if ($pkg.PSObject.Members.Name -contains "DirectoryPath") {
+      $githubLink = "$GithubUri/blob/main/$($pkg.DirectoryPath)"
     }
     $line = "|$referenceLink|[$($pkg.Package)]($repositoryLink/$($pkg.Package))|[Github]($githubLink)|`r`n"
     $tableContent += $line
+  
+    # if ("preview" -eq $moniker) {
+    #   Add-Content -Path "./servicereadme.txt" -Value $pkg.Package
+    # }
   }
   $readmePath = Join-Path $readmeFolder -ChildPath $readmeName
   if($tableContent) {
@@ -212,6 +216,19 @@ foreach($moniker in $monikers) {
     if ($metadataEntry.Package -and $metadataEntry.Hide -ne 'true') {
       $pkgKey = GetPackageKey $metadataEntry
       if($metadata.ContainsKey($pkgKey)) {
+        $jsonFileName = $pkgKey.Replace('@azure/', 'azure-')
+        $jsonFilePath = "$DocRepoLocation/metadata/$moniker/$jsonFileName.json"
+        if(!(Test-Path $jsonFilePath)){
+          $csvMetadata += $metadataEntry
+          continue
+        }
+        if (!($metadataEntry.PSObject.Members.Name -contains "DirectoryPath")) {
+          $metadataJsonFile = Get-Content $jsonFilePath -Raw | ConvertFrom-Json
+          Add-Member -InputObject $metadataEntry `
+          -MemberType NoteProperty `
+          -Name DirectoryPath `
+          -Value $metadataJsonFile.DirectoryPath
+        }
         $csvMetadata += $metadataEntry
       }
     }
