@@ -118,7 +118,7 @@ describe("Challenge based authentication tests", function () {
         request,
         response: {
           headers: createHttpHeaders({
-            "WWW-Authenticate": `Bearer scope="cae_scope"`,
+            "WWW-Authenticate": `Bearer resource="cae_scope"`,
           }),
           request,
           status: 200,
