@@ -9,4 +9,3 @@
 /// <reference lib="esnext.asynciterable" />
 export * from "./models";
 export { GeneratedClient } from "./generatedClient";
-export { GeneratedClientContext } from "./generatedClientContext";

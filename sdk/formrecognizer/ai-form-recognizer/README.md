@@ -90,7 +90,7 @@ In order to interact with the Form Recognizer service, you'll need to select eit
 You can find the endpoint for your Form Recognizer resource either in the [Azure Portal][azure_portal] or by using the [Azure CLI][azure_cli] snippet below:
 
 ```bash
-az cognitiveservices account show --name <your-resource-name> --resource-group <your-resource-group-name> --query "endpoint"
+az cognitiveservices account show --name <your-resource-name> --resource-group <your-resource-group-name> --query "properties.endpoint"
 ```
 
 #### Using an API Key
@@ -328,6 +328,7 @@ _Note_: you may also use the `beginAnalyzeDocument` method to extract general do
 
 ```javascript
 const { DocumentAnalysisClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
+const fs = require("fs");
 
 async function main() {
   const endpoint = "<cognitive services endpoint>";
@@ -408,19 +409,19 @@ async function main() {
 
   // The PrebuiltModels.Receipt `DocumentModel` encodes both the model ID and a stronger return type for the operation
   const poller = await client.beginAnalyzeDocument(PrebuiltModels.Receipt, readStream, {
-    onProgress: ({status}}) => {
+    onProgress: ({status}) => {
       console.log(`status: ${status}`);
     }
   });
 
   const { documents: [receiptDocument] } = await poller.pollUntilDone();
 
+  // The fields of the document constitute the extracted receipt data.
+  const receipt = receiptDocument.fields;
+
   if (receipt === undefined) {
     throw new Error("Expected at least one receipt in analysis result.");
   }
-
-  // The fields of the document constitute the extracted receipt data.
-  const receipt = receiptDocument.fields;
 
   console.log(`Receipt data (${receiptDocument.docType})`);
   console.log("  Merchant Name:", receipt.merchantName?.value);

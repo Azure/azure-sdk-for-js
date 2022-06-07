@@ -1,10 +1,11 @@
 # Release History
 
-## 2.0.1 (Unreleased)
+## 2.1.0 (Unreleased)
 
 ### Features Added
 
 - Add support for session-level sanitization using the `Recorder.addSessionSanitizers` static method. [#21533](https://github.com/Azure/azure-sdk-for-js/pull/21533)
+- Added logging to help with debugging tests. [#21641](https://github.com/Azure/azure-sdk-for-js/pull/21641)
 
 ### Breaking Changes
 
@@ -13,6 +14,8 @@
 - Fixed redirects not being passed to the test proxy in the browser. [#21713](https://github.com/Azure/azure-sdk-for-js/pull/21713)
 
 ### Other Changes
+
+- Improved formatting of error messages returned by the test proxy. [#21575](https://github.com/Azure/azure-sdk-for-js/pull/21575)
 
 ## 2.0.0 (2022-04-11)
 

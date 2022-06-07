@@ -36,6 +36,7 @@ import {
   ExpressRouteCrossConnectionPeering as ExpressRouteCrossConnectionPeeringMapper,
   ExpressRoutePort as ExpressRoutePortMapper,
   GenerateExpressRoutePortsLOARequest as GenerateExpressRoutePortsLOARequestMapper,
+  ExpressRoutePortAuthorization as ExpressRoutePortAuthorizationMapper,
   FirewallPolicy as FirewallPolicyMapper,
   FirewallPolicyRuleCollectionGroup as FirewallPolicyRuleCollectionGroupMapper,
   IdpsQueryObject as IdpsQueryObjectMapper,
@@ -109,6 +110,7 @@ import {
   VpnSite as VpnSiteMapper,
   GetVpnSitesConfigurationRequest as GetVpnSitesConfigurationRequestMapper,
   VpnServerConfiguration as VpnServerConfigurationMapper,
+  VpnServerConfigurationPolicyGroup as VpnServerConfigurationPolicyGroupMapper,
   VirtualHub as VirtualHubMapper,
   EffectiveRoutesParameters as EffectiveRoutesParametersMapper,
   HubVirtualNetworkConnection as HubVirtualNetworkConnectionMapper,
@@ -181,7 +183,7 @@ export const applicationGatewayName: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-05-01",
+    defaultValue: "2021-08-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -459,18 +461,6 @@ export const virtualmachineIndex: OperationURLParameter = {
   }
 };
 
-export const apiVersion1: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2018-10-01",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String"
-    }
-  }
-};
-
 export const ipConfigurationName: OperationURLParameter = {
   parameterPath: "ipConfigurationName",
   mapper: {
@@ -693,6 +683,11 @@ export const linkName: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const authorizationParameters1: OperationParameter = {
+  parameterPath: "authorizationParameters",
+  mapper: ExpressRoutePortAuthorizationMapper
 };
 
 export const firewallPolicyName: OperationURLParameter = {
@@ -1749,6 +1744,22 @@ export const vpnServerConfigurationParameters: OperationParameter = {
 export const vpnServerConfigurationParameters1: OperationParameter = {
   parameterPath: "vpnServerConfigurationParameters",
   mapper: TagsObjectMapper
+};
+
+export const vpnServerConfigurationPolicyGroupParameters: OperationParameter = {
+  parameterPath: "vpnServerConfigurationPolicyGroupParameters",
+  mapper: VpnServerConfigurationPolicyGroupMapper
+};
+
+export const configurationPolicyGroupName: OperationURLParameter = {
+  parameterPath: "configurationPolicyGroupName",
+  mapper: {
+    serializedName: "configurationPolicyGroupName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const virtualHubName: OperationURLParameter = {

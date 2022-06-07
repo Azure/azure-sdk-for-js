@@ -312,6 +312,7 @@ export interface Serializer {
         [key: string]: any;
     };
     serialize(mapper: Mapper, object: any, objectName?: string, options?: SerializerOptions): any;
+    // @deprecated
     validateConstraints(mapper: Mapper, value: any, objectName: string): void;
 }
 

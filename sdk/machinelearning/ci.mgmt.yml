@@ -12,6 +12,7 @@ trigger:
       - sdk/machinelearning/arm-commitmentplans
       - sdk/machinelearning/arm-webservices
       - sdk/machinelearning/arm-workspaces
+      - sdk/machinelearning/arm-machinelearning
 pr:
   branches:
     include:
@@ -27,6 +28,7 @@ pr:
       - sdk/machinelearning/arm-commitmentplans
       - sdk/machinelearning/arm-webservices
       - sdk/machinelearning/arm-workspaces
+      - sdk/machinelearning/arm-machinelearning
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
@@ -38,3 +40,5 @@ extends:
         safeName: azurearmwebservices
       - name: azure-arm-commitmentplans
         safeName: azurearmcommitmentplans
+      - name: azure-arm-machinelearning
+        safeName: azurearmmachinelearning

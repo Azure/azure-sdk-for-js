@@ -2413,13 +2413,6 @@ export const SubProtectionPolicy: coreClient.CompositeMapper = {
           name: "Composite",
           className: "RetentionPolicy"
         }
-      },
-      tieringPolicy: {
-        serializedName: "tieringPolicy",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "Composite", className: "TieringPolicy" } }
-        }
       }
     }
   }
@@ -2467,33 +2460,6 @@ export const RetentionPolicy: coreClient.CompositeMapper = {
   }
 };
 
-export const TieringPolicy: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "TieringPolicy",
-    modelProperties: {
-      tieringMode: {
-        serializedName: "tieringMode",
-        type: {
-          name: "String"
-        }
-      },
-      duration: {
-        serializedName: "duration",
-        type: {
-          name: "Number"
-        }
-      },
-      durationType: {
-        serializedName: "durationType",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const AzureIaaSVMProtectedItemExtendedInfo: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2501,24 +2467,6 @@ export const AzureIaaSVMProtectedItemExtendedInfo: coreClient.CompositeMapper = 
     modelProperties: {
       oldestRecoveryPoint: {
         serializedName: "oldestRecoveryPoint",
-        type: {
-          name: "DateTime"
-        }
-      },
-      oldestRecoveryPointInVault: {
-        serializedName: "oldestRecoveryPointInVault",
-        type: {
-          name: "DateTime"
-        }
-      },
-      oldestRecoveryPointInArchive: {
-        serializedName: "oldestRecoveryPointInArchive",
-        type: {
-          name: "DateTime"
-        }
-      },
-      newestRecoveryPointInArchive: {
-        serializedName: "newestRecoveryPointInArchive",
         type: {
           name: "DateTime"
         }
@@ -2881,24 +2829,6 @@ export const AzureVmWorkloadProtectedItemExtendedInfo: coreClient.CompositeMappe
     modelProperties: {
       oldestRecoveryPoint: {
         serializedName: "oldestRecoveryPoint",
-        type: {
-          name: "DateTime"
-        }
-      },
-      oldestRecoveryPointInVault: {
-        serializedName: "oldestRecoveryPointInVault",
-        type: {
-          name: "DateTime"
-        }
-      },
-      oldestRecoveryPointInArchive: {
-        serializedName: "oldestRecoveryPointInArchive",
-        type: {
-          name: "DateTime"
-        }
-      },
-      newestRecoveryPointInArchive: {
-        serializedName: "newestRecoveryPointInArchive",
         type: {
           name: "DateTime"
         }
@@ -6913,13 +6843,6 @@ export const AzureIaaSVMProtectionPolicy: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "RetentionPolicy"
-        }
-      },
-      tieringPolicy: {
-        serializedName: "tieringPolicy",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "Composite", className: "TieringPolicy" } }
         }
       },
       instantRpRetentionRangeInDays: {

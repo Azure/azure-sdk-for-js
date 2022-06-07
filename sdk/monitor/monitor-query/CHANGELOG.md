@@ -8,6 +8,7 @@
 
 ### Bugs Fixed
 
+- Fixed a typo in the string for user-provided scope for `MetricsQueryClient` and `LogsQueryClient`.
 ### Other Changes
 
 ## 1.0.1 (2022-02-10)

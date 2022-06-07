@@ -16,6 +16,7 @@ import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
 import { LroImpl } from "../lroImpl";
 import {
   EventSubscription,
+  DomainEventSubscriptionsListNextOptionalParams,
   DomainEventSubscriptionsListOptionalParams,
   DomainEventSubscriptionsGetOptionalParams,
   DomainEventSubscriptionsGetResponse,
@@ -29,7 +30,8 @@ import {
   DomainEventSubscriptionsGetFullUrlResponse,
   DomainEventSubscriptionsListResponse,
   DomainEventSubscriptionsGetDeliveryAttributesOptionalParams,
-  DomainEventSubscriptionsGetDeliveryAttributesResponse
+  DomainEventSubscriptionsGetDeliveryAttributesResponse,
+  DomainEventSubscriptionsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -77,6 +79,17 @@ export class DomainEventSubscriptionsImpl implements DomainEventSubscriptions {
   ): AsyncIterableIterator<EventSubscription[]> {
     let result = await this._list(resourceGroupName, domainName, options);
     yield result.value || [];
+    let continuationToken = result.nextLink;
+    while (continuationToken) {
+      result = await this._listNext(
+        resourceGroupName,
+        domainName,
+        continuationToken,
+        options
+      );
+      continuationToken = result.nextLink;
+      yield result.value || [];
+    }
   }
 
   private async *listPagingAll(
@@ -466,6 +479,25 @@ export class DomainEventSubscriptionsImpl implements DomainEventSubscriptions {
       getDeliveryAttributesOperationSpec
     );
   }
+
+  /**
+   * ListNext
+   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param domainName Name of the domain.
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    resourceGroupName: string,
+    domainName: string,
+    nextLink: string,
+    options?: DomainEventSubscriptionsListNextOptionalParams
+  ): Promise<DomainEventSubscriptionsListNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, domainName, nextLink, options },
+      listNextOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -601,7 +633,7 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -628,6 +660,26 @@ const getDeliveryAttributesOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.domainName,
     Parameters.eventSubscriptionName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.EventSubscriptionsListResult
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.nextLink,
+    Parameters.domainName
   ],
   headerParameters: [Parameters.accept],
   serializer
