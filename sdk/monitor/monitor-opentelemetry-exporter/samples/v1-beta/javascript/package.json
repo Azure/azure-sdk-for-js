@@ -1,0 +1,41 @@
+{
+  "name": "@azure-samples/monitor-opentelemetry-exporter-js-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure Monitor Trace Exporter client library samples for JavaScript (Beta)",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/monitor/monitor-opentelemetry-exporter"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "monitor",
+    "javascript",
+    "applicationinsights",
+    "opentelemetry",
+    "exporter",
+    "cloud"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-opentelemetry-exporter",
+  "dependencies": {
+    "@azure/monitor-opentelemetry-exporter": "next",
+    "dotenv": "latest",
+    "@opentelemetry/api": "^1.1.0",
+    "@opentelemetry/resources": "^1.2.0",
+    "@opentelemetry/semantic-conventions": "^1.2.0",
+    "@opentelemetry/sdk-trace-base": "^1.2.0",
+    "@opentelemetry/instrumentation": "^0.29.2",
+    "@opentelemetry/sdk-trace-node": "^1.2.0",
+    "@opentelemetry/instrumentation-http": "^0.29.2"
+  }
+}
