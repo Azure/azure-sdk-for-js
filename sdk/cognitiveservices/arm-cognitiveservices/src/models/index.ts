@@ -1206,6 +1206,7 @@ export type DeploymentProvisioningState = string;
 
 /** Known values of {@link DeploymentScaleType} that the service accepts. */
 export enum KnownDeploymentScaleType {
+  Standard = "Standard",
   Manual = "Manual"
 }
 
@@ -1214,6 +1215,7 @@ export enum KnownDeploymentScaleType {
  * {@link KnownDeploymentScaleType} can be used interchangeably with DeploymentScaleType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **Standard** \
  * **Manual**
  */
 export type DeploymentScaleType = string;

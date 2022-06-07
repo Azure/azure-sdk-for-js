@@ -669,7 +669,9 @@ export enum KnownDeploymentProvisioningState {
 // @public
 export enum KnownDeploymentScaleType {
     // (undocumented)
-    Manual = "Manual"
+    Manual = "Manual",
+    // (undocumented)
+    Standard = "Standard"
 }
 
 // @public
