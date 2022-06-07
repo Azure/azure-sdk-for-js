@@ -225,11 +225,28 @@ _Note: Instantiating, starting, and stopping the recorder all have no effect in 
 
 To handle the dynamic/generated values for testing that are created as part of the tests, to make sure the requests in the `playback` mode match the ones in the `record` mode, you can leverage the `Recorder#variable` function.
 
+For example, when resources are created dynamically, the name of the resource that is generated would vary in record and playback modes.
+This is not ideal for playing back the requests/responses because the requests wouldn't match with what was saved in the recording in record mode.
+
+For such cases, you can leverage the `recorder.variable()` method. It acts differently based on what the TEST_MODE is.
+
+```js
+// variable method
+recorder.variable("table-name", `table${Math.ceil(Math.random() * 1000 + 1000)}`)
+
+// Shows up in the recording as
+  "Variables": {
+    "table-name": "table1662"
+  }
+```
+
 - Lets you register a variable to be stored with the recording. The behavior of this function depends on whether the recorder is in record/live mode or in playback mode.
 
-- In record or live mode, the function will store the value provided with the recording as a variable and return that value.
+- In record mode, the function will store the value provided with the recording as a variable and return that value.
 
 - In playback mode, the function will fetch the value from the variables stored as part of the recording and return the retrieved variable, throwing an error if it is not found.
+
+- In live mode, no recordings are saved, just returns the provided value.
 
 ### Beyond `Recorder`
 
@@ -239,6 +256,9 @@ To handle the dynamic/generated values for testing that are created as part of t
 
 - `recorder.start()` internally sets up the environment variables for playback. So, make sure to have the `recorder.start()` call before you use any environment variables in your tests.
 - To use an environment variable in a test, just do `env["NAME_OF_THE_VARIABLE"]`.
+- Recorder also exports a `assertEnvironmentVariable` global method, which can be used to retrieve the environment variables.
+  The function `assertEnvironmentVariable("NAME_OF_THE_VARIABLE")` either returns the value or throws an error saying the variable is not defined in your environment.
+  (This function comes handy when your function args expect a non-undefined value but the environment variable may not be defined in the runtime.)
 
 #### `@azure-tools/test-credential` package and the NoOpCredential
 
@@ -309,6 +329,8 @@ To record your tests,
 - call `#stop()` function to save the recording in a file
 
 In the following example, we'll use the recorder with the client from `@azure/data-tables`:
+
+_[Example](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/template/template/test/public/configurationClient.spec.ts) from the template project if you want to check out._
 
 ```typescript
 import { RecorderStartOptions, Recorder, env } from "@azure-tools/test-recorder";
