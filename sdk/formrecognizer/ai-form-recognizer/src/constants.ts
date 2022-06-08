@@ -10,4 +10,4 @@ export const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.def
 /**
  * @internal
  */
-export const SDK_VERSION = "4.0.0-beta.4";
+export const SDK_VERSION = "4.0.0-beta.5";
