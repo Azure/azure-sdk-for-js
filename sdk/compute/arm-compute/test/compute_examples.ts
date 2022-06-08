@@ -206,7 +206,7 @@ describe("Compute test", () => {
       osProfile: {
         adminUsername: "testuser",
         computerName: "myVM",
-        adminPassword: "SecretPlaceholder-123456",
+        adminPassword: "SecretPlaceholder",
         windowsConfiguration: {
           enableAutomaticUpdates: true, // need automatic update for reimage
         },

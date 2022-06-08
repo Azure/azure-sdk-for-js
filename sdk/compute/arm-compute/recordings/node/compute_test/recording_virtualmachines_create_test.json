@@ -419,7 +419,7 @@
           "osProfile": {
             "computerName": "myVM",
             "adminUsername": "testuser",
-            "adminPassword": "SecretPlaceholder-123456",
+            "adminPassword": "SecretPlaceholder",
             "windowsConfiguration": {
               "enableAutomaticUpdates": true
             }
