@@ -125,6 +125,18 @@ export const ApiOperationPropertiesServiceSpecification: coreClient.CompositeMap
             }
           }
         }
+      },
+      logSpecifications: {
+        serializedName: "logSpecifications",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "LogSpecification"
+            }
+          }
+        }
       }
     }
   }
@@ -225,6 +237,27 @@ export const MetricDimension: coreClient.CompositeMapper = {
         serializedName: "toBeExportedForShoebox",
         type: {
           name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const LogSpecification: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "LogSpecification",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      displayName: {
+        serializedName: "displayName",
+        type: {
+          name: "String"
         }
       }
     }
@@ -839,6 +872,13 @@ export const Cache: coreClient.CompositeMapper = {
           className: "CacheUpgradeStatus"
         }
       },
+      upgradeSettings: {
+        serializedName: "properties.upgradeSettings",
+        type: {
+          name: "Composite",
+          className: "CacheUpgradeSettings"
+        }
+      },
       networkSettings: {
         serializedName: "properties.networkSettings",
         type: {
@@ -874,6 +914,32 @@ export const Cache: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "String"
+            }
+          }
+        }
+      },
+      primingJobs: {
+        serializedName: "properties.primingJobs",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrimingJob"
+            }
+          }
+        }
+      },
+      spaceAllocation: {
+        serializedName: "properties.spaceAllocation",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "StorageTargetSpaceAllocation"
             }
           }
         }
@@ -1092,6 +1158,27 @@ export const CacheUpgradeStatus: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CacheUpgradeSettings: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CacheUpgradeSettings",
+    modelProperties: {
+      upgradeScheduleEnabled: {
+        serializedName: "upgradeScheduleEnabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      scheduledTime: {
+        serializedName: "scheduledTime",
+        type: {
+          name: "DateTime"
         }
       }
     }
@@ -1534,6 +1621,102 @@ export const CacheUsernameDownloadSettingsCredentials: coreClient.CompositeMappe
   }
 };
 
+export const PrimingJob: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrimingJob",
+    modelProperties: {
+      primingJobName: {
+        constraints: {
+          Pattern: new RegExp("^[-0-9a-zA-Z_]{1,80}$")
+        },
+        serializedName: "primingJobName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      primingManifestUrl: {
+        serializedName: "primingManifestUrl",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      primingJobId: {
+        constraints: {
+          Pattern: new RegExp("^[-0-9a-zA-Z_]{1,80}$")
+        },
+        serializedName: "primingJobId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      primingJobState: {
+        serializedName: "primingJobState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      primingJobStatus: {
+        serializedName: "primingJobStatus",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      primingJobDetails: {
+        serializedName: "primingJobDetails",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      primingJobPercentComplete: {
+        constraints: {
+          InclusiveMaximum: 100,
+          InclusiveMinimum: 0
+        },
+        serializedName: "primingJobPercentComplete",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const StorageTargetSpaceAllocation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageTargetSpaceAllocation",
+    modelProperties: {
+      name: {
+        constraints: {
+          Pattern: new RegExp("^[-0-9a-zA-Z_]{1,80}$")
+        },
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      allocationPercentage: {
+        constraints: {
+          InclusiveMaximum: 100,
+          InclusiveMinimum: 1
+        },
+        serializedName: "allocationPercentage",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const CacheSku: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1733,6 +1916,25 @@ export const StorageTargetResource: coreClient.CompositeMapper = {
   }
 };
 
+export const PrimingJobIdParameter: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PrimingJobIdParameter",
+    modelProperties: {
+      primingJobId: {
+        constraints: {
+          Pattern: new RegExp("^[-0-9a-zA-Z_]{1,80}$")
+        },
+        serializedName: "primingJobId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const StorageTarget: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1796,6 +1998,122 @@ export const StorageTarget: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "BlobNfsTarget"
+        }
+      },
+      allocationPercentage: {
+        constraints: {
+          InclusiveMaximum: 100,
+          InclusiveMinimum: 1
+        },
+        serializedName: "properties.allocationPercentage",
+        readOnly: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const CachesStartPrimingJobHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CachesStartPrimingJobHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CachesStopPrimingJobHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CachesStopPrimingJobHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CachesPausePrimingJobHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CachesPausePrimingJobHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CachesResumePrimingJobHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CachesResumePrimingJobHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CachesSpaceAllocationHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CachesSpaceAllocationHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
         }
       }
     }

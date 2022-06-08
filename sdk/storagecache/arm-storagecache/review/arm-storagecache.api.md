@@ -35,6 +35,7 @@ export interface ApiOperationListResult {
 
 // @public
 export interface ApiOperationPropertiesServiceSpecification {
+    logSpecifications?: LogSpecification[];
     metricSpecifications?: MetricSpecification[];
 }
 
@@ -100,15 +101,18 @@ interface Cache_2 {
     readonly mountAddresses?: string[];
     readonly name?: string;
     networkSettings?: CacheNetworkSettings;
+    readonly primingJobs?: PrimingJob[];
     readonly provisioningState?: ProvisioningStateType;
     securitySettings?: CacheSecuritySettings;
     sku?: CacheSku;
+    readonly spaceAllocation?: StorageTargetSpaceAllocation[];
     subnet?: string;
     readonly systemData?: SystemData;
     tags?: {
         [propertyName: string]: string;
     };
     readonly type?: string;
+    upgradeSettings?: CacheUpgradeSettings;
     readonly upgradeStatus?: CacheUpgradeStatus;
     zones?: string[];
 }
@@ -182,10 +186,20 @@ export interface Caches {
     beginDeleteAndWait(resourceGroupName: string, cacheName: string, options?: CachesDeleteOptionalParams): Promise<void>;
     beginFlush(resourceGroupName: string, cacheName: string, options?: CachesFlushOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginFlushAndWait(resourceGroupName: string, cacheName: string, options?: CachesFlushOptionalParams): Promise<void>;
+    beginPausePrimingJob(resourceGroupName: string, cacheName: string, options?: CachesPausePrimingJobOptionalParams): Promise<PollerLike<PollOperationState<CachesPausePrimingJobResponse>, CachesPausePrimingJobResponse>>;
+    beginPausePrimingJobAndWait(resourceGroupName: string, cacheName: string, options?: CachesPausePrimingJobOptionalParams): Promise<CachesPausePrimingJobResponse>;
+    beginResumePrimingJob(resourceGroupName: string, cacheName: string, options?: CachesResumePrimingJobOptionalParams): Promise<PollerLike<PollOperationState<CachesResumePrimingJobResponse>, CachesResumePrimingJobResponse>>;
+    beginResumePrimingJobAndWait(resourceGroupName: string, cacheName: string, options?: CachesResumePrimingJobOptionalParams): Promise<CachesResumePrimingJobResponse>;
+    beginSpaceAllocation(resourceGroupName: string, cacheName: string, options?: CachesSpaceAllocationOptionalParams): Promise<PollerLike<PollOperationState<CachesSpaceAllocationResponse>, CachesSpaceAllocationResponse>>;
+    beginSpaceAllocationAndWait(resourceGroupName: string, cacheName: string, options?: CachesSpaceAllocationOptionalParams): Promise<CachesSpaceAllocationResponse>;
     beginStart(resourceGroupName: string, cacheName: string, options?: CachesStartOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginStartAndWait(resourceGroupName: string, cacheName: string, options?: CachesStartOptionalParams): Promise<void>;
+    beginStartPrimingJob(resourceGroupName: string, cacheName: string, options?: CachesStartPrimingJobOptionalParams): Promise<PollerLike<PollOperationState<CachesStartPrimingJobResponse>, CachesStartPrimingJobResponse>>;
+    beginStartPrimingJobAndWait(resourceGroupName: string, cacheName: string, options?: CachesStartPrimingJobOptionalParams): Promise<CachesStartPrimingJobResponse>;
     beginStop(resourceGroupName: string, cacheName: string, options?: CachesStopOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginStopAndWait(resourceGroupName: string, cacheName: string, options?: CachesStopOptionalParams): Promise<void>;
+    beginStopPrimingJob(resourceGroupName: string, cacheName: string, options?: CachesStopPrimingJobOptionalParams): Promise<PollerLike<PollOperationState<CachesStopPrimingJobResponse>, CachesStopPrimingJobResponse>>;
+    beginStopPrimingJobAndWait(resourceGroupName: string, cacheName: string, options?: CachesStopPrimingJobOptionalParams): Promise<CachesStopPrimingJobResponse>;
     beginUpgradeFirmware(resourceGroupName: string, cacheName: string, options?: CachesUpgradeFirmwareOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginUpgradeFirmwareAndWait(resourceGroupName: string, cacheName: string, options?: CachesUpgradeFirmwareOptionalParams): Promise<void>;
     get(resourceGroupName: string, cacheName: string, options?: CachesGetOptionalParams): Promise<CachesGetResponse>;
@@ -274,16 +288,96 @@ export interface CachesListResult {
 }
 
 // @public
+export interface CachesPausePrimingJobHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface CachesPausePrimingJobOptionalParams extends coreClient.OperationOptions {
+    primingJobId?: PrimingJobIdParameter;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CachesPausePrimingJobResponse = CachesPausePrimingJobHeaders;
+
+// @public
+export interface CachesResumePrimingJobHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface CachesResumePrimingJobOptionalParams extends coreClient.OperationOptions {
+    primingJobId?: PrimingJobIdParameter;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CachesResumePrimingJobResponse = CachesResumePrimingJobHeaders;
+
+// @public
+export interface CachesSpaceAllocationHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface CachesSpaceAllocationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    spaceAllocation?: StorageTargetSpaceAllocation[];
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CachesSpaceAllocationResponse = CachesSpaceAllocationHeaders;
+
+// @public
 export interface CachesStartOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
+export interface CachesStartPrimingJobHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface CachesStartPrimingJobOptionalParams extends coreClient.OperationOptions {
+    primingjob?: PrimingJob;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CachesStartPrimingJobResponse = CachesStartPrimingJobHeaders;
+
+// @public
 export interface CachesStopOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
+
+// @public
+export interface CachesStopPrimingJobHeaders {
+    azureAsyncOperation?: string;
+    location?: string;
+}
+
+// @public
+export interface CachesStopPrimingJobOptionalParams extends coreClient.OperationOptions {
+    primingJobId?: PrimingJobIdParameter;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type CachesStopPrimingJobResponse = CachesStopPrimingJobHeaders;
 
 // @public
 export interface CachesUpdateOptionalParams extends coreClient.OperationOptions {
@@ -297,6 +391,12 @@ export type CachesUpdateResponse = Cache_2;
 export interface CachesUpgradeFirmwareOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
+}
+
+// @public
+export interface CacheUpgradeSettings {
+    scheduledTime?: Date;
+    upgradeScheduleEnabled?: boolean;
 }
 
 // @public
@@ -424,6 +524,8 @@ export enum KnownHealthStateType {
     // (undocumented)
     Healthy = "Healthy",
     // (undocumented)
+    StartFailed = "StartFailed",
+    // (undocumented)
     Stopped = "Stopped",
     // (undocumented)
     Stopping = "Stopping",
@@ -432,7 +534,11 @@ export enum KnownHealthStateType {
     // (undocumented)
     Unknown = "Unknown",
     // (undocumented)
-    Upgrading = "Upgrading"
+    UpgradeFailed = "UpgradeFailed",
+    // (undocumented)
+    Upgrading = "Upgrading",
+    // (undocumented)
+    WaitingForKey = "WaitingForKey"
 }
 
 // @public
@@ -483,6 +589,18 @@ export enum KnownOperationalStateType {
     Ready = "Ready",
     // (undocumented)
     Suspended = "Suspended"
+}
+
+// @public
+export enum KnownPrimingJobState {
+    // (undocumented)
+    Complete = "Complete",
+    // (undocumented)
+    Paused = "Paused",
+    // (undocumented)
+    Queued = "Queued",
+    // (undocumented)
+    Running = "Running"
 }
 
 // @public
@@ -541,6 +659,12 @@ export enum KnownUsernameSource {
     Ldap = "LDAP",
     // (undocumented)
     None = "None"
+}
+
+// @public
+export interface LogSpecification {
+    displayName?: string;
+    name?: string;
 }
 
 // @public
@@ -625,6 +749,25 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 
 // @public
 export type OperationsListResponse = ApiOperationListResult;
+
+// @public
+export interface PrimingJob {
+    readonly primingJobDetails?: string;
+    readonly primingJobId?: string;
+    primingJobName: string;
+    readonly primingJobPercentComplete?: number;
+    readonly primingJobState?: PrimingJobState;
+    readonly primingJobStatus?: string;
+    primingManifestUrl: string;
+}
+
+// @public
+export interface PrimingJobIdParameter {
+    primingJobId: string;
+}
+
+// @public
+export type PrimingJobState = string;
 
 // @public
 export type ProvisioningStateType = string;
@@ -750,6 +893,7 @@ export type StorageTarget = StorageTargetResource & {
     clfs?: ClfsTarget;
     unknown?: UnknownTarget;
     blobNfs?: BlobNfsTarget;
+    readonly allocationPercentage?: number;
 };
 
 // @public
@@ -846,6 +990,12 @@ export interface StorageTargetsListByCacheOptionalParams extends coreClient.Oper
 
 // @public
 export type StorageTargetsListByCacheResponse = StorageTargetsResult;
+
+// @public
+export interface StorageTargetSpaceAllocation {
+    allocationPercentage?: number;
+    name?: string;
+}
 
 // @public
 export interface StorageTargetsResult {
