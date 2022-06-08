@@ -112,7 +112,7 @@ The test-recorder provides the `Recorder` class that deals with recording and pl
 
 #### package.json scripts
 
-For the unified recorder client library to work, the [test proxy server] must be active while you are running your tests. Helpers have been added to the `dev-tool` package which manage starting and stopping the test proxy server before and after your tests are run.
+For the unified recorder client library to work, the [test proxy server](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy) must be active while you are running your tests. Helpers have been added to the `dev-tool` package which manage starting and stopping the test proxy server before and after your tests are run.
 
 The following commands run the tests with the default configs and concurrently starts(runs) the test-proxy tool in a detached process in the background in record/playback modes if it is not already active. Additionally, more options can be passed to override the default configs.
 
@@ -152,7 +152,7 @@ Read more at [dev-tool commands #usage](https://github.com/Azure/azure-sdk-for-j
 
 #### Prerequisites
 
-- [Docker] is required, as the [test proxy server] is run in a container during testing. When running the tests, ensure the Docker daemon is running and you have permission to use it. For WSL 2, running `sudo service docker start` and `sudo usermod -aG docker $USER` should be sufficient.
+- [Docker](https://docker.com/) is required, as the [test proxy server](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy) is run in a container during testing. When running the tests, ensure the Docker daemon is running and you have permission to use it. For WSL 2, running `sudo service docker start` and `sudo usermod -aG docker $USER` should be sufficient.
 
 If for some reason, you have trouble running the test-proxy tool in your environment using the `dev-tool` commands as suggested above, please read [many ways to run the test-proxy tool](#many-ways-to-run-the-test-proxy-tool) to unblock yourself sooner.
 
@@ -549,13 +549,10 @@ The test-recorder(v2.0) might not be used yet in each one of the libraries in th
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Ftest-utils%2Frecorder%2FREADME.png)
-
-[docker]: https://docker.com/
-[test proxy server]: https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy
-
 ## Troubleshooting
 
 ### Logging
 
 Enabling logging may help uncover useful information about failures. In order to see logs from the recorder client, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling the `setLogLevel` function in the `@azure/logger` package.
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Ftest-utils%2Frecorder%2FREADME.png)
