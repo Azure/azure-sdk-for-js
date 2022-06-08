@@ -13,10 +13,13 @@
  * @summary build a model with a single document type from a training data set
  */
 
-import { AzureKeyCredential, DocumentModelAdministrationClient } from "@azure/ai-form-recognizer";
+import {
+  AzureKeyCredential,
+  DocumentModelAdministrationClient,
+  DocumentModelBuildMode,
+} from "@azure/ai-form-recognizer";
 
 import * as dotenv from "dotenv";
-import { DocumentModelBuildMode } from "../src/options/BuildModelOptions";
 dotenv.config();
 
 async function main() {
