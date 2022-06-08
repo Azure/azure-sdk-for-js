@@ -42,7 +42,7 @@ This tool helps to record and playback the tests in the JS repo by leveraging th
 
 ## Key concepts
 
-- To **record** means to intercept any HTTP request, store it in a file, then store the response received from the live resource that was originally targeted. We leverage the unified out-of-process test proxy server that is built for this use case. The output files are stored in `recordings/node/*` and in `recordings/browser/*`, which are relative to the root of the project you're working on.
+- To **record** means to intercept any HTTP request, store it in a file, then store the response received from the live resource that was originally targeted. We leverage the unified out-of-process test proxy server that is built for this use case. The output files are stored in `recordings/node/*` and in `recordings/browsers/*`, which are relative to the root of the project you're working on.
 - To **playback** means to intercept any HTTP request and to respond it with the stored response of a previously recorded matching request.
 - **Sensitive information** means content that should not be shared publicly. Content like passwords, unique identifiers or personal information should be cleaned up from the recordings. Some functionality is provided to fix this problem. You can read more at [securing sensitive data](#securing-sensitive-data).
 
@@ -50,14 +50,9 @@ This tool helps to record and playback the tests in the JS repo by leveraging th
 
 We're about to go through how to set up your project to use the `@azure-tools/test-recorder` package.
 
-This document assumes familiarity with [git](https://git-scm.com) and [rush](https://rushjs.io). You can read more about how we use rush in the following links:
-
-- Rush used for [Project Orchestration](https://github.com/sadasant/azure-sdk-for-js/blob/master/CONTRIBUTING.md#project-orchestration).
-- [Rush for NPM users](https://github.com/sadasant/azure-sdk-for-js/blob/master/CONTRIBUTING.md#rush-for-npm-users).
+**_Note: If you're new to this repository, follow the [ContributingGuide.md](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn how to setup/build the repo and to create/test an SDK in the [Azure/azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) repository._**
 
 ### Installing the package
-
-**_Note: If you're new to this repository, follow the [ContributingGuide.md](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn how to setup/build the repo and to create/test an SDK in the [Azure/azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) repository._**
 
 To install the `@azure-tools/test-recorder` package, you can use the following command.
 
@@ -186,10 +181,11 @@ The tested client needs to install the recording policy that redirects requests 
 
 ```js
 const client = new AnyCoreV2Client(/** args **/, recorder.configureClientOptions(/** client options **/));
+```
 
   _Note: If your client relies on `@azure/core-http` instead of the core-v2 libraries(i.e., `@azure/core-client` and `@azure/core-rest-pipeline`), please use `recorder.configureClientOptionsCoreV1()` instead of `recorder.configureClientOptions()`._
 
-Recording can start using the `recorder.start()` method.
+Recording starts with the `recorder.start()` method.
 
 ```js
 await recorder.start(/** recorderOptions go here **/);
