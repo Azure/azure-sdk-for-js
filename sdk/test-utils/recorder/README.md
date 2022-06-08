@@ -452,7 +452,7 @@ You can also skip specific tests with the following.
 ```js
 import { isLiveMode } from "@azure-tools/test-recorder";
 
-it("test-title", function () {
+it("test-title", function (this: Mocha.Context) {
   // isPlaybackMode() and isRecordMode() methods are also available from recorder.
   if (!isLiveMode()) this.skip(); // This skips the test in record and playback modes
   // Test goes here...
