@@ -12,59 +12,42 @@ import { ServiceClient } from '@azure/core-client';
 
 // @public
 export interface ADMInstallation extends DeviceTokenInstallation {
-    // (undocumented)
     platform: "adm";
 }
 
 // @public
-export interface ADMMessage extends NotificationHubMessage {
-    // (undocumented)
-    contentType: "application/json;charset=utf-8";
-    // (undocumented)
+export interface ADMMessage extends JSONNotificationMessage {
     platform: "adm";
 }
 
 // @public
 export interface AppleInstallation extends DeviceTokenInstallation {
-    // (undocumented)
     platform: "apple";
 }
 
 // @public
-export interface AppleMessage extends NotificationHubMessage {
-    // (undocumented)
-    contentType: "application/json;charset=utf-8";
-    // (undocumented)
+export interface AppleMessage extends JSONNotificationMessage {
     platform: "apple";
 }
 
 // @public
 export interface BaiduInstallation extends DeviceTokenInstallation {
-    // (undocumented)
     platform: "baidu";
 }
 
 // @public
-export interface BaiduMessage extends NotificationHubMessage {
-    // (undocumented)
-    contentType: "application/json;charset=utf-8";
-    // (undocumented)
+export interface BaiduMessage extends JSONNotificationMessage {
     platform: "baidu";
 }
 
 // @public
 export interface BrowserInstallation extends Installation {
-    // (undocumented)
     platform: "browser";
-    // (undocumented)
     pushChannel: BrowserPushChannel;
 }
 
 // @public
-export interface BrowserMessage extends NotificationHubMessage {
-    // (undocumented)
-    contentType: "application/json;charset=utf-8";
-    // (undocumented)
+export interface BrowserMessage extends JSONNotificationMessage {
     platform: "browser";
 }
 
@@ -77,21 +60,16 @@ export interface BrowserPushChannel {
 
 // @public
 export interface DeviceTokenInstallation extends Installation {
-    // (undocumented)
     pushChannel: string;
 }
 
 // @public
 export interface FirebaseLegacyInstallation extends DeviceTokenInstallation {
-    // (undocumented)
     platform: "gcm";
 }
 
 // @public
-export interface FirebaseLegacyMessage extends NotificationHubMessage {
-    // (undocumented)
-    contentType: "application/json;charset=utf-8";
-    // (undocumented)
+export interface FirebaseLegacyMessage extends JSONNotificationMessage {
     platform: "gcm";
 }
 
@@ -125,6 +103,11 @@ export interface InstallationTemplate {
 export type InstallationType = AppleInstallation | ADMInstallation | BaiduInstallation | BrowserInstallation | FirebaseLegacyInstallation | WindowsInstallation;
 
 // @public
+export interface JSONNotificationMessage extends NotificationHubMessage {
+    contentType: "application/json;charset=utf-8";
+}
+
+// @public
 export type JSONPatchType = "add" | "remove" | "replace";
 
 // @public
@@ -149,8 +132,8 @@ export interface NotificationHubResponse {
 export class NotificationHubsClient extends ServiceClient {
     constructor(connectionString: string, hubName: string, options?: NotificationHubsClientOptions);
     deleteInstallation(installationId: string, options?: OperationOptions): Promise<NotificationHubResponse>;
+    getFeedbackContainerURL(options?: OperationOptions): Promise<URL>;
     getInstallation(installationId: string, options?: OperationOptions): Promise<InstallationType>;
-    getPushNotificationFeedbackURL(options?: OperationOptions): Promise<URL>;
     patchInstallation(installationId: string, installationPatches: InstallationPatch[], options?: OperationOptions): Promise<NotificationHubResponse>;
     scheduleNotification(scheduledTime: Date, tags: string[] | string, message: NotificationHubMessageType, options?: SendOperationOptions): Promise<NotificationHubResponse>;
     sendDirectNotification(pushHandle: PushHandleType, message: NotificationHubMessageType, options?: SendOperationOptions): Promise<NotificationHubResponse>;
@@ -171,10 +154,7 @@ export interface SendOperationOptions extends OperationOptions {
 }
 
 // @public
-export interface TemplateMessage extends NotificationHubMessage {
-    // (undocumented)
-    contentType: "application/json;charset=utf-8";
-    // (undocumented)
+export interface TemplateMessage extends JSONNotificationMessage {
     platform: "template";
 }
 
@@ -183,15 +163,12 @@ export type WindowsContentType = "application/xml" | "application/octet-stream";
 
 // @public
 export interface WindowsInstallation extends DeviceTokenInstallation {
-    // (undocumented)
     platform: "wns";
 }
 
 // @public
 export interface WindowsMessage extends NotificationHubMessage {
-    // (undocumented)
     contentType: WindowsContentType;
-    // (undocumented)
     platform: "wns";
 }
 

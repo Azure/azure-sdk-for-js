@@ -18,6 +18,7 @@ export {
   JSONPatchType,
   NotificationHubMessage,
   NotificationHubMessageType,
+  JSONNotificationMessage,
   AppleMessage,
   ADMMessage,
   BaiduMessage,

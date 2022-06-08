@@ -41,21 +41,7 @@ TBD
 
 ### Authenticate the client
 
-AppConfigurationClient can authenticate using a [service principal](#authenticating-with-a-service-principal) or using a [connection string](#authenticating-with-a-connection-string).
-
-#### Authenticating with a connection string
-
-To get the Primary **connection string** for an App Configuration resource you can use this Azure CLI command:
-
-```
-az appconfig credential list -g <resource-group-name> -n <notification-hubs-resource-name> --query "([?name=='Primary'].connectionString)[0]"
-```
-
-And in code you can now create your App Configuration client with the **connection string** you got from the Azure CLI:
-
-```typescript
-const client = new NotificationHubsClient("<connection string>", "<hub name>");
-```
+TBD
 
 ## Key concepts
 
@@ -71,13 +57,13 @@ TBD
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
-This module's tests are a mixture of live and unit tests, which require you to have an Azure App Configuration instance. To execute the tests you'll need to run:
+This module's tests are a mixture of live and unit tests, which require you to have an Azure Notification Hubs instance. To execute the tests you'll need to run:
 
 1. `rush update`
 2. `rush build -t @azure/notification-hubs`
-3. Create a .env file with these contents in the `sdk\appconfiguration\notification-hubs` folder:
-   `APPCONFIG_CONNECTION_STRING=connection string for your App Configuration instance`
-4. `cd sdk\appconfiguration\notification-hubs`
+3. Create a .env file with these contents in the `sdk\notificationhubs\notification-hubs` folder:
+   `NH_CONNECTION_STRING=connection string for your Notification Hubs instance`
+4. `cd sdk\notificationhubs\notification-hubs`
 5. `npm run test`.
 
 View our [tests](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/notificationhubs/notification-hubs/test)
@@ -86,6 +72,6 @@ folder for more details.
 ## Related projects
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
-- [Azure App Configuration](https://docs.microsoft.com/azure/azure-notification-hubs/overview)
+- [Azure Notification Hubs](https://docs.microsoft.com/en-us/azure/notification-hubs/notification-hubs-push-notification-overview)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fappconfiguration%2Fnotification-hubs%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%notificationhubs%2Fnotification-hubs%2FREADME.png)

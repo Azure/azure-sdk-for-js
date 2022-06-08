@@ -72,6 +72,9 @@ export interface Installation {
  * Represents an installation with a string based device token.
  */
 export interface DeviceTokenInstallation extends Installation {
+  /**
+   * The push channel for a device.
+   */
   pushChannel: string;
 }
 
@@ -79,6 +82,9 @@ export interface DeviceTokenInstallation extends Installation {
  * Represents an Apple APNs based installation.
  */
 export interface AppleInstallation extends DeviceTokenInstallation {
+  /**
+   * The platform for the installation.
+   */
   platform: "apple";
 }
 
@@ -86,6 +92,9 @@ export interface AppleInstallation extends DeviceTokenInstallation {
  * Represents an Amazon Device Messaging (ADM) based installation.
  */
 export interface ADMInstallation extends DeviceTokenInstallation {
+  /**
+   * The platform for the installation.
+   */
   platform: "adm";
 }
 
@@ -93,6 +102,9 @@ export interface ADMInstallation extends DeviceTokenInstallation {
  * Represents a Baidu based installation.
  */
 export interface BaiduInstallation extends DeviceTokenInstallation {
+  /**
+   * The platform for the installation.
+   */
   platform: "baidu";
 }
 
@@ -100,6 +112,9 @@ export interface BaiduInstallation extends DeviceTokenInstallation {
  * Represents a Firebase Legacy HTTP installation.
  */
 export interface FirebaseLegacyInstallation extends DeviceTokenInstallation {
+  /**
+   * The platform for the installation.
+   */
   platform: "gcm";
 }
 
@@ -107,6 +122,9 @@ export interface FirebaseLegacyInstallation extends DeviceTokenInstallation {
  * Represents a Windows Notification Services (WNS) based installation.
  */
 export interface WindowsInstallation extends DeviceTokenInstallation {
+  /**
+   * The platform for the installation.
+   */
   platform: "wns";
 }
 
@@ -134,8 +152,15 @@ export interface BrowserPushChannel {
  * Represents a Browser/Web Push based installation.
  */
 export interface BrowserInstallation extends Installation {
+
+  /**
+   * The push channel for the Web Push API.
+   */
   pushChannel: BrowserPushChannel;
 
+  /**
+   * The platform for the installation.
+   */
   platform: "browser";
 }
 
@@ -226,56 +251,87 @@ export interface NotificationHubMessage {
 }
 
 /**
+ * Represents a JSON notification hub message.
+ */
+export interface JSONNotificationMessage extends NotificationHubMessage {
+  /**
+   * The content type for the push notification.
+   */
+  contentType: "application/json;charset=utf-8";
+}
+
+/**
  * Represents an Apple APNs push notification message.
  */
-export interface AppleMessage extends NotificationHubMessage {
+export interface AppleMessage extends JSONNotificationMessage {
+  /**
+   * The platform for the push notification.
+   */
   platform: "apple";
-
-  contentType: "application/json;charset=utf-8";
 }
 
 /**
  * Represents an Amazon Device Messaging (ADM) push notification message.
  */
-export interface ADMMessage extends NotificationHubMessage {
+export interface ADMMessage extends JSONNotificationMessage {
+  /**
+   * The platform for the push notification.
+   */
   platform: "adm";
-
-  contentType: "application/json;charset=utf-8";
 }
 
 /**
  * Represents a Baidu push notification message.
  */
-export interface BaiduMessage extends NotificationHubMessage {
+export interface BaiduMessage extends JSONNotificationMessage {
+  /**
+   * The platform for the push notification.
+   */
   platform: "baidu";
-
-  contentType: "application/json;charset=utf-8";
 }
 
 /**
  * Represents a Browser push notification message.
  */
-export interface BrowserMessage extends NotificationHubMessage {
+export interface BrowserMessage extends JSONNotificationMessage {
+  /**
+   * The platform for the push notification.
+   */
   platform: "browser";
-
-  contentType: "application/json;charset=utf-8";
 }
 
 /**
  * Represents a Firebase legacy HTTP push notification message.
  */
-export interface FirebaseLegacyMessage extends NotificationHubMessage {
+export interface FirebaseLegacyMessage extends JSONNotificationMessage {
+  /**
+   * The platform for the push notification.
+   */
   platform: "gcm";
+}
 
-  contentType: "application/json;charset=utf-8";
+/**
+ * Represents a template based push notification message.
+ */
+export interface TemplateMessage extends JSONNotificationMessage {
+  /**
+   * The platform for the push notification.
+   */
+  platform: "template";
 }
 
 /**
  * Represents a Windows Notification Services (WNS) push notification message.
  */
 export interface WindowsMessage extends NotificationHubMessage {
+  /**
+   * The platform for the push notification.
+   */
   platform: "wns";
 
+  /**
+   * The content type for the push notification.
+   */
   contentType: WindowsContentType;
 }
 
@@ -283,15 +339,6 @@ export interface WindowsMessage extends NotificationHubMessage {
  * Represents the possible WNS content-types.
  */
 export type WindowsContentType = "application/xml" | "application/octet-stream";
-
-/**
- * Represents a template based push notification message.
- */
-export interface TemplateMessage extends NotificationHubMessage {
-  platform: "template";
-
-  contentType: "application/json;charset=utf-8";
-}
 
 /**
  * Represents the possible push notification messages types.

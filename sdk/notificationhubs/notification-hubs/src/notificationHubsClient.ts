@@ -200,9 +200,9 @@ export class NotificationHubsClient extends ServiceClient {
    * @param options - The options for getting the push notification feedback container URL.
    * @returns The URL of the Azure Storage Container containing the feedback data.
    */
-  public getPushNotificationFeedbackURL(options: OperationOptions = {}): Promise<URL> {
+  public getFeedbackContainerURL(options: OperationOptions = {}): Promise<URL> {
     return tracingClient.withSpan(
-      "NotificationHubsClient-getPushNotificationFeedbackURL",
+      "NotificationHubsClient-getFeedbackContainerURL",
       options,
       async (updatedOptions) => {
         const endpoint = this.getBaseURL();
