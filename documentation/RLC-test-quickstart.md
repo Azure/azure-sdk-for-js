@@ -4,7 +4,7 @@
 - [Overview](#overview)
 - [Prerequisites](#prerequisites)
 - [How to Run Test](#how-to-run-test)
-  - [Test strucure](#test-strucure)
+  - [Test structure](#test-structure)
   - [Fail to run tests in the first time](#fail-to-run-tests-in-the-first-time)
   - [Running tests in playback mode](#running-tests-in-playback-mode)
 - [Writing New Tests](#writing-new-tests)
@@ -29,7 +29,7 @@ This page is to help you write and run tests for Azure Javascript SDK. The Azure
 
 This section describes how to run the SDK tests. If you want to run the tests of a specific project, go to that project's folder and execute `rushx test`. All of the tests will automatically run both in NodeJS and in the browser. To target these environments individually, you can run `rushx test:node` and `rushx test:browser`. Let's take `purview-catalog-rest` as an example.
 
-## Test strucure
+## Test structure
 
 At the moment, tests in our repo depend on one of the two different versions of the recorder tool (`@azure-tools/test-recorder`) - `1.a.b` and `2.x.y`. Currently version 2.x.y utilize the [Azure SDK Tools Test Proxy](https://github.com/Azure/azure-sdk-tools/blob/main/tools/test-proxy/README.md) to record and playback HTTP interactions.
 
