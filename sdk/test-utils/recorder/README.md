@@ -190,14 +190,10 @@ beforeEach(async function (this: Mocha.Context) {
 });
 ```
 
-Adding the recorder policies to your client, whose requests are supposed to be recorded.
+The tested client needs to install the recording policy that redirects requests to the test-proxy tool first before they go to the service. This is done by simply passing the client options bag through the `recorder.configureClientOptions` helper:
 
 ```js
 const client = new AnyCoreV2Client(/** args **/, recorder.configureClientOptions(/** client options **/));
-```
-
-- Modifying the client options(that you'd otherwise provide) with `recorder.configureClientOptions()` helps us with adding the recording policy to the additionalPolicies in the client options.
-- Adding the policy is important to redirect the requests to the proxy tool instead of directly going to the service.
 
   _Note: If your client relies on `@azure/core-http` instead of the core-v2 libraries(i.e., `@azure/core-client` and `@azure/core-rest-pipeline`), please use `recorder.configureClientOptionsCoreV1()` instead of `recorder.configureClientOptions()`._
 
