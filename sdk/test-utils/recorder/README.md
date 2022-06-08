@@ -121,6 +121,8 @@ The following commands run the tests with the default configs and concurrently s
 - `dev-tool run test:browser`
   Read more at [dev-tool commands #usage](https://github.com/Azure/azure-sdk-for-js/blob/main/common/tools/dev-tool/README.md#usage)
 
+The test-proxy tool is run at ports 5000(for HTTP) and 5001(for HTTPS) unless you specify `TEST_PROXY_HTTP_PORT` as an environment variable, in which case that will be picked.
+
 Test scripts
 
 ```json
@@ -183,7 +185,7 @@ The tested client needs to install the recording policy that redirects requests 
 const client = new AnyCoreV2Client(/** args **/, recorder.configureClientOptions(/** client options **/));
 ```
 
-  _Note: If your client relies on `@azure/core-http` instead of the core-v2 libraries(i.e., `@azure/core-client` and `@azure/core-rest-pipeline`), please use `recorder.configureClientOptionsCoreV1()` instead of `recorder.configureClientOptions()`._
+_Note: If your client relies on `@azure/core-http` instead of the core-v2 libraries(i.e., `@azure/core-client` and `@azure/core-rest-pipeline`), please use `recorder.configureClientOptionsCoreV1()` instead of `recorder.configureClientOptions()`._
 
 Recording starts with the `recorder.start()` method.
 
@@ -281,8 +283,10 @@ module.exports = function (config) {
     /* ... */
 
     envPreprocessor: [
-      ,
-      /* ... */ "RECORDINGS_RELATIVE_PATH", // Add this!
+      // variables
+      "RECORDINGS_RELATIVE_PATH", // Add this!
+      "TEST_PROXY_HTTP_PORT", // Optional (Incase you need a port other than 5000)
+      // more variables
     ],
 
     /* ... */
@@ -490,6 +494,8 @@ If you desire, you can run the proxy tool docker image manually before running y
 docker run -v <your azure-sdk-for-js repository root>:/srv/testproxy -p 5001:5001 -p 5000:5000 -e Logging__LogLevel__Microsoft=Debug azsdkengsys.azurecr.io/engsys/testproxy-lin:latest
 ```
 
+If port 5000 is already being used in your machine, you can specify any other port such as 2345:5000 in the args, and make sure to have the environment variable `TEST_PROXY_HTTP_PORT` set as the specified port(2345 in this case).
+
 Once you've done this, you can run your tests in a separate terminal. `dev-tool` will detect that a test proxy container is already running and will point requests to the Docker container you started.
 
 ### Many ways to run the test-proxy tool
@@ -518,6 +524,8 @@ Follow the below two methods if you wish to run the proxy tool yourself without 
   If the above command doesn't work directly, try [Troubleshooting Access to Public Container Registry](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/docker#troubleshooting-access-to-public-container-registry).
 
   Reference: [Using Test Proxy with docker container](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy/docker#build-and-run)
+
+  If port 5000 is already being used in your machine, you can specify any other port such as 2345:5000 in the args, and make sure to have the environment variable `TEST_PROXY_HTTP_PORT` set as the specified port(2345 in this case) so that the recorder knows which port to hit.
 
 #### (OR) With the `dotnet tool`
 
