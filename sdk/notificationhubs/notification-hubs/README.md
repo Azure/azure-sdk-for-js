@@ -10,10 +10,7 @@ Azure Notification Hubs provide a scaled-out push engine that enables you to sen
 - Send codes for multi-factor authentication.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/notificationhubs/notification-hubs/) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/notification-hubs) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/notification-hubs) |
-[Product documentation](https://docs.microsoft.com/azure/azure-notification-hubs/) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/notificationhubs/notification-hubs/samples)
+[Product documentation](https://docs.microsoft.com/azure/notification-hubs/) |
 
 ## Getting started
 
@@ -72,6 +69,6 @@ folder for more details.
 ## Related projects
 
 - [Microsoft Azure SDK for JavaScript](https://github.com/Azure/azure-sdk-for-js)
-- [Azure Notification Hubs](https://docs.microsoft.com/en-us/azure/notification-hubs/notification-hubs-push-notification-overview)
+- [Azure Notification Hubs](https://docs.microsoft.com/azure/notification-hubs/notification-hubs-push-notification-overview)
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%notificationhubs%2Fnotification-hubs%2FREADME.png)
