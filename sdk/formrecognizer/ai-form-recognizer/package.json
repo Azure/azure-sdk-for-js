@@ -159,9 +159,9 @@
         "typescript/assets/forms/selection_mark_form.pdf",
         "javascript/assets/forms/selection_mark_form.pdf"
       ],
-      "./assets/identityDocument/license.jpg": [
-        "typescript/assets/identityDocument/license.jpg",
-        "javascript/assets/identityDocument/license.jpg"
+      "./assets/identityDocument/license.png": [
+        "typescript/assets/identityDocument/license.png",
+        "javascript/assets/identityDocument/license.png"
       ],
       "./assets/invoice/sample_invoice.jpg": [
         "typescript/assets/invoice/sample_invoice.jpg",
@@ -170,6 +170,10 @@
       "./assets/receipt/contoso-allinone.jpg": [
         "typescript/assets/receipt/contoso-allinone.jpg",
         "javascript/assets/receipt/contoso-allinone.jpg"
+      ],
+      "./assets/w2/w2-single.png": [
+        "typescript/assets/w2/w2-single.png",
+        "javascript/assets/w2/w2-single.png"
       ]
     }
   }
