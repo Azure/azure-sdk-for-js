@@ -119,7 +119,7 @@ Having the recorder as a devDependency means that you'll be able to start record
 
 The test-recorder provides the `Recorder` class that deals with recording and playing back the network requests, depending on the value assigned to the `TEST_MODE` environment variable.
 
-- If `TEST_MODE` equals to `record`, it will automatically store network requests in a plain text file in the folder `recordings` at the root of your repository (which for our example case is the root of the `sdk/tables/data-tables` project).
+- If `TEST_MODE` equals to `record`, it will automatically store network requests in a plain text file in the folder `recordings` at the root of your library (it is `sdk/tables/data-tables` in our example).
 - This package assumes that the tests in the sdk are leveraging
   [mocha](https://mochajs.org/) and [rollup](https://rollupjs.org/guide/en/)
   (and [karma](https://karma-runner.github.io/latest/index.html) test runner for browser tests) as suggested by the [template](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template) package in the repo.
