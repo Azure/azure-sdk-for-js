@@ -14,8 +14,8 @@ export default function createClient(
   options = {
     ...options,
     credentials: {
-      scopes: ["https://management.azure.com/.default"]
-    }
+      scopes: ["https://management.azure.com/.default"],
+    },
   };
 
   const userAgentInfo = `azsdk-js-arm-appservice-rest/1.0.0`;
@@ -26,15 +26,11 @@ export default function createClient(
   options = {
     ...options,
     userAgentOptions: {
-      userAgentPrefix
-    }
+      userAgentPrefix,
+    },
   };
 
-  const client = getClient(
-    baseUrl,
-    credentials,
-    options
-  ) as WebSiteManagementClient;
+  const client = getClient(baseUrl, credentials, options) as WebSiteManagementClient;
 
   return client;
 }

@@ -24,12 +24,14 @@ async function getInboundNetworkDependenciesEndpoints() {
   const credential = new DefaultAzureCredential();
   const client = WebSiteManagementClient(credential);
   const resArray = new Array();
-  const initialResposne = await client.path(
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/inboundNetworkDependenciesEndpoints",
-    subscriptionId,
-    resourceGroupName,
-    name
-  ).get();
+  const initialResposne = await client
+    .path(
+      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/inboundNetworkDependenciesEndpoints",
+      subscriptionId,
+      resourceGroupName,
+      name
+    )
+    .get();
   const res = paginate(client, initialResposne);
   for await (let item of res) {
     resArray.push(item);

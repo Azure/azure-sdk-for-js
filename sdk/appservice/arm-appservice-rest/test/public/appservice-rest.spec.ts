@@ -222,11 +222,13 @@ describe("Web test", () => {
       )
       .delete();
     const resArray = new Array();
-    const initialResposne = await client.path(
-      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms",
-      subscriptionId,
-      resourceGroup
-    ).get();
+    const initialResposne = await client
+      .path(
+        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms",
+        subscriptionId,
+        resourceGroup
+      )
+      .get();
     const result = paginate(client, initialResposne);
     for await (const item of result) {
       resArray.push(item);

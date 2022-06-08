@@ -653,7 +653,7 @@ import {
   WebAppsCreateOrUpdateVnetConnectionGatewayParameters,
   WebAppsUpdateVnetConnectionGatewayParameters,
   WebAppsListWebJobsParameters,
-  WebAppsGetWebJobParameters
+  WebAppsGetWebJobParameters,
 } from "./parameters";
 import {
   AppServiceCertificateOrdersList200Response,
@@ -2184,7 +2184,7 @@ import {
   WebAppsListWebJobs200Response,
   WebAppsListWebJobsdefaultResponse,
   WebAppsGetWebJob200Response,
-  WebAppsGetWebJobdefaultResponse
+  WebAppsGetWebJobdefaultResponse,
 } from "./responses";
 import { Client } from "@azure-rest/core-client";
 
@@ -2193,8 +2193,7 @@ export interface AppServiceCertificateOrdersList {
   get(
     options?: AppServiceCertificateOrdersListParameters
   ): Promise<
-    | AppServiceCertificateOrdersList200Response
-    | AppServiceCertificateOrdersListdefaultResponse
+    AppServiceCertificateOrdersList200Response | AppServiceCertificateOrdersListdefaultResponse
   >;
 }
 
@@ -2223,8 +2222,7 @@ export interface AppServiceCertificateOrdersGet {
   get(
     options?: AppServiceCertificateOrdersGetParameters
   ): Promise<
-    | AppServiceCertificateOrdersGet200Response
-    | AppServiceCertificateOrdersGetdefaultResponse
+    AppServiceCertificateOrdersGet200Response | AppServiceCertificateOrdersGetdefaultResponse
   >;
   /** Create or update a certificate purchase order. */
   put(
@@ -2246,8 +2244,7 @@ export interface AppServiceCertificateOrdersGet {
   patch(
     options: AppServiceCertificateOrdersUpdateParameters
   ): Promise<
-    | AppServiceCertificateOrdersUpdate200Response
-    | AppServiceCertificateOrdersUpdatedefaultResponse
+    AppServiceCertificateOrdersUpdate200Response | AppServiceCertificateOrdersUpdatedefaultResponse
   >;
 }
 
@@ -2309,8 +2306,7 @@ export interface AppServiceCertificateOrdersRenew {
   post(
     options: AppServiceCertificateOrdersRenewParameters
   ): Promise<
-    | AppServiceCertificateOrdersRenew204Response
-    | AppServiceCertificateOrdersRenewdefaultResponse
+    AppServiceCertificateOrdersRenew204Response | AppServiceCertificateOrdersRenewdefaultResponse
   >;
 }
 
@@ -2408,10 +2404,7 @@ export interface DomainsCheckAvailability {
   /** Check if a domain is available for registration. */
   post(
     options: DomainsCheckAvailabilityParameters
-  ): Promise<
-    | DomainsCheckAvailability200Response
-    | DomainsCheckAvailabilitydefaultResponse
-  >;
+  ): Promise<DomainsCheckAvailability200Response | DomainsCheckAvailabilitydefaultResponse>;
 }
 
 export interface DomainsList {
@@ -2426,8 +2419,7 @@ export interface DomainsGetControlCenterSsoRequest {
   post(
     options?: DomainsGetControlCenterSsoRequestParameters
   ): Promise<
-    | DomainsGetControlCenterSsoRequest200Response
-    | DomainsGetControlCenterSsoRequestdefaultResponse
+    DomainsGetControlCenterSsoRequest200Response | DomainsGetControlCenterSsoRequestdefaultResponse
   >;
 }
 
@@ -2435,27 +2427,19 @@ export interface DomainsListRecommendations {
   /** Get domain name recommendations based on keywords. */
   post(
     options: DomainsListRecommendationsParameters
-  ): Promise<
-    | DomainsListRecommendations200Response
-    | DomainsListRecommendationsdefaultResponse
-  >;
+  ): Promise<DomainsListRecommendations200Response | DomainsListRecommendationsdefaultResponse>;
 }
 
 export interface DomainsListByResourceGroup {
   /** Get all domains in a resource group. */
   get(
     options?: DomainsListByResourceGroupParameters
-  ): Promise<
-    | DomainsListByResourceGroup200Response
-    | DomainsListByResourceGroupdefaultResponse
-  >;
+  ): Promise<DomainsListByResourceGroup200Response | DomainsListByResourceGroupdefaultResponse>;
 }
 
 export interface DomainsGet {
   /** Get a domain. */
-  get(
-    options?: DomainsGetParameters
-  ): Promise<DomainsGet200Response | DomainsGetdefaultResponse>;
+  get(options?: DomainsGetParameters): Promise<DomainsGet200Response | DomainsGetdefaultResponse>;
   /** Creates or updates a domain. */
   put(
     options: DomainsCreateOrUpdateParameters
@@ -2467,19 +2451,11 @@ export interface DomainsGet {
   /** Delete a domain. */
   delete(
     options?: DomainsDeleteParameters
-  ): Promise<
-    | DomainsDelete200Response
-    | DomainsDelete204Response
-    | DomainsDeletedefaultResponse
-  >;
+  ): Promise<DomainsDelete200Response | DomainsDelete204Response | DomainsDeletedefaultResponse>;
   /** Creates or updates a domain. */
   patch(
     options: DomainsUpdateParameters
-  ): Promise<
-    | DomainsUpdate200Response
-    | DomainsUpdate202Response
-    | DomainsUpdatedefaultResponse
-  >;
+  ): Promise<DomainsUpdate200Response | DomainsUpdate202Response | DomainsUpdatedefaultResponse>;
 }
 
 export interface DomainsListOwnershipIdentifiers {
@@ -2487,8 +2463,7 @@ export interface DomainsListOwnershipIdentifiers {
   get(
     options?: DomainsListOwnershipIdentifiersParameters
   ): Promise<
-    | DomainsListOwnershipIdentifiers200Response
-    | DomainsListOwnershipIdentifiersdefaultResponse
+    DomainsListOwnershipIdentifiers200Response | DomainsListOwnershipIdentifiersdefaultResponse
   >;
 }
 
@@ -2497,8 +2472,7 @@ export interface DomainsGetOwnershipIdentifier {
   get(
     options?: DomainsGetOwnershipIdentifierParameters
   ): Promise<
-    | DomainsGetOwnershipIdentifier200Response
-    | DomainsGetOwnershipIdentifierdefaultResponse
+    DomainsGetOwnershipIdentifier200Response | DomainsGetOwnershipIdentifierdefaultResponse
   >;
   /** Creates an ownership identifier for a domain or updates identifier details for an existing identifier */
   put(
@@ -2519,8 +2493,7 @@ export interface DomainsGetOwnershipIdentifier {
   patch(
     options: DomainsUpdateOwnershipIdentifierParameters
   ): Promise<
-    | DomainsUpdateOwnershipIdentifier200Response
-    | DomainsUpdateOwnershipIdentifierdefaultResponse
+    DomainsUpdateOwnershipIdentifier200Response | DomainsUpdateOwnershipIdentifierdefaultResponse
   >;
 }
 
@@ -2551,9 +2524,7 @@ export interface TopLevelDomainsList {
   /** Get all top-level domains supported for registration. */
   get(
     options?: TopLevelDomainsListParameters
-  ): Promise<
-    TopLevelDomainsList200Response | TopLevelDomainsListdefaultResponse
-  >;
+  ): Promise<TopLevelDomainsList200Response | TopLevelDomainsListdefaultResponse>;
 }
 
 export interface TopLevelDomainsGet {
@@ -2568,8 +2539,7 @@ export interface TopLevelDomainsListAgreements {
   post(
     options: TopLevelDomainsListAgreementsParameters
   ): Promise<
-    | TopLevelDomainsListAgreements200Response
-    | TopLevelDomainsListAgreementsdefaultResponse
+    TopLevelDomainsListAgreements200Response | TopLevelDomainsListAgreementsdefaultResponse
   >;
 }
 
@@ -2587,10 +2557,7 @@ export interface AppServiceEnvironmentsList {
   /** Get all App Service Environments for a subscription. */
   get(
     options?: AppServiceEnvironmentsListParameters
-  ): Promise<
-    | AppServiceEnvironmentsList200Response
-    | AppServiceEnvironmentsListdefaultResponse
-  >;
+  ): Promise<AppServiceEnvironmentsList200Response | AppServiceEnvironmentsListdefaultResponse>;
 }
 
 export interface AppServiceEnvironmentsListByResourceGroup {
@@ -2607,10 +2574,7 @@ export interface AppServiceEnvironmentsGet {
   /** Get the properties of an App Service Environment. */
   get(
     options?: AppServiceEnvironmentsGetParameters
-  ): Promise<
-    | AppServiceEnvironmentsGet200Response
-    | AppServiceEnvironmentsGetdefaultResponse
-  >;
+  ): Promise<AppServiceEnvironmentsGet200Response | AppServiceEnvironmentsGetdefaultResponse>;
   /** Create or update an App Service Environment. */
   put(
     options: AppServiceEnvironmentsCreateOrUpdateParameters
@@ -2654,8 +2618,7 @@ export interface AppServiceEnvironmentsGetVipInfo {
   get(
     options?: AppServiceEnvironmentsGetVipInfoParameters
   ): Promise<
-    | AppServiceEnvironmentsGetVipInfo200Response
-    | AppServiceEnvironmentsGetVipInfodefaultResponse
+    AppServiceEnvironmentsGetVipInfo200Response | AppServiceEnvironmentsGetVipInfodefaultResponse
   >;
 }
 
@@ -2864,10 +2827,7 @@ export interface AppServiceEnvironmentsReboot {
   /** Reboot all machines in an App Service Environment. */
   post(
     options?: AppServiceEnvironmentsRebootParameters
-  ): Promise<
-    | AppServiceEnvironmentsReboot202Response
-    | AppServiceEnvironmentsRebootdefaultResponse
-  >;
+  ): Promise<AppServiceEnvironmentsReboot202Response | AppServiceEnvironmentsRebootdefaultResponse>;
 }
 
 export interface AppServiceEnvironmentsResume {
@@ -2896,8 +2856,7 @@ export interface AppServiceEnvironmentsListWebApps {
   get(
     options?: AppServiceEnvironmentsListWebAppsParameters
   ): Promise<
-    | AppServiceEnvironmentsListWebApps200Response
-    | AppServiceEnvironmentsListWebAppsdefaultResponse
+    AppServiceEnvironmentsListWebApps200Response | AppServiceEnvironmentsListWebAppsdefaultResponse
   >;
 }
 
@@ -2917,8 +2876,7 @@ export interface AppServiceEnvironmentsListUsages {
   get(
     options?: AppServiceEnvironmentsListUsagesParameters
   ): Promise<
-    | AppServiceEnvironmentsListUsages200Response
-    | AppServiceEnvironmentsListUsagesdefaultResponse
+    AppServiceEnvironmentsListUsages200Response | AppServiceEnvironmentsListUsagesdefaultResponse
   >;
 }
 
@@ -3002,9 +2960,7 @@ export interface AppServicePlansList {
   /** Get all App Service plans for a subscription. */
   get(
     options?: AppServicePlansListParameters
-  ): Promise<
-    AppServicePlansList200Response | AppServicePlansListdefaultResponse
-  >;
+  ): Promise<AppServicePlansList200Response | AppServicePlansListdefaultResponse>;
 }
 
 export interface AppServicePlansListByResourceGroup {
@@ -3057,8 +3013,7 @@ export interface AppServicePlansListCapabilities {
   get(
     options?: AppServicePlansListCapabilitiesParameters
   ): Promise<
-    | AppServicePlansListCapabilities200Response
-    | AppServicePlansListCapabilitiesdefaultResponse
+    AppServicePlansListCapabilities200Response | AppServicePlansListCapabilitiesdefaultResponse
   >;
 }
 
@@ -3125,8 +3080,7 @@ export interface AppServicePlansRestartWebApps {
   post(
     options?: AppServicePlansRestartWebAppsParameters
   ): Promise<
-    | AppServicePlansRestartWebApps204Response
-    | AppServicePlansRestartWebAppsdefaultResponse
+    AppServicePlansRestartWebApps204Response | AppServicePlansRestartWebAppsdefaultResponse
   >;
 }
 
@@ -3134,10 +3088,7 @@ export interface AppServicePlansListWebApps {
   /** Get all apps associated with an App Service plan. */
   get(
     options?: AppServicePlansListWebAppsParameters
-  ): Promise<
-    | AppServicePlansListWebApps200Response
-    | AppServicePlansListWebAppsdefaultResponse
-  >;
+  ): Promise<AppServicePlansListWebApps200Response | AppServicePlansListWebAppsdefaultResponse>;
 }
 
 export interface AppServicePlansGetServerFarmSkus {
@@ -3145,8 +3096,7 @@ export interface AppServicePlansGetServerFarmSkus {
   get(
     options?: AppServicePlansGetServerFarmSkusParameters
   ): Promise<
-    | AppServicePlansGetServerFarmSkus200Response
-    | AppServicePlansGetServerFarmSkusdefaultResponse
+    AppServicePlansGetServerFarmSkus200Response | AppServicePlansGetServerFarmSkusdefaultResponse
   >;
 }
 
@@ -3154,20 +3104,14 @@ export interface AppServicePlansListUsages {
   /** Gets server farm usage information */
   get(
     options?: AppServicePlansListUsagesParameters
-  ): Promise<
-    | AppServicePlansListUsages200Response
-    | AppServicePlansListUsagesdefaultResponse
-  >;
+  ): Promise<AppServicePlansListUsages200Response | AppServicePlansListUsagesdefaultResponse>;
 }
 
 export interface AppServicePlansListVnets {
   /** Get all Virtual Networks associated with an App Service plan. */
   get(
     options?: AppServicePlansListVnetsParameters
-  ): Promise<
-    | AppServicePlansListVnets200Response
-    | AppServicePlansListVnetsdefaultResponse
-  >;
+  ): Promise<AppServicePlansListVnets200Response | AppServicePlansListVnetsdefaultResponse>;
 }
 
 export interface AppServicePlansGetVnetFromServerFarm {
@@ -3186,15 +3130,13 @@ export interface AppServicePlansGetVnetGateway {
   get(
     options?: AppServicePlansGetVnetGatewayParameters
   ): Promise<
-    | AppServicePlansGetVnetGateway200Response
-    | AppServicePlansGetVnetGatewaydefaultResponse
+    AppServicePlansGetVnetGateway200Response | AppServicePlansGetVnetGatewaydefaultResponse
   >;
   /** Update a Virtual Network gateway. */
   put(
     options: AppServicePlansUpdateVnetGatewayParameters
   ): Promise<
-    | AppServicePlansUpdateVnetGateway200Response
-    | AppServicePlansUpdateVnetGatewaydefaultResponse
+    AppServicePlansUpdateVnetGateway200Response | AppServicePlansUpdateVnetGatewaydefaultResponse
   >;
 }
 
@@ -3203,8 +3145,7 @@ export interface AppServicePlansListRoutesForVnet {
   get(
     options?: AppServicePlansListRoutesForVnetParameters
   ): Promise<
-    | AppServicePlansListRoutesForVnet200Response
-    | AppServicePlansListRoutesForVnetdefaultResponse
+    AppServicePlansListRoutesForVnet200Response | AppServicePlansListRoutesForVnetdefaultResponse
   >;
 }
 
@@ -3249,10 +3190,7 @@ export interface AppServicePlansRebootWorker {
   /** Reboot a worker machine in an App Service plan. */
   post(
     options?: AppServicePlansRebootWorkerParameters
-  ): Promise<
-    | AppServicePlansRebootWorker204Response
-    | AppServicePlansRebootWorkerdefaultResponse
-  >;
+  ): Promise<AppServicePlansRebootWorker204Response | AppServicePlansRebootWorkerdefaultResponse>;
 }
 
 export interface CertificatesList {
@@ -3267,8 +3205,7 @@ export interface CertificatesListByResourceGroup {
   get(
     options?: CertificatesListByResourceGroupParameters
   ): Promise<
-    | CertificatesListByResourceGroup200Response
-    | CertificatesListByResourceGroupdefaultResponse
+    CertificatesListByResourceGroup200Response | CertificatesListByResourceGroupdefaultResponse
   >;
 }
 
@@ -3280,10 +3217,7 @@ export interface CertificatesGet {
   /** Create or update a certificate. */
   put(
     options: CertificatesCreateOrUpdateParameters
-  ): Promise<
-    | CertificatesCreateOrUpdate200Response
-    | CertificatesCreateOrUpdatedefaultResponse
-  >;
+  ): Promise<CertificatesCreateOrUpdate200Response | CertificatesCreateOrUpdatedefaultResponse>;
   /** Delete a certificate. */
   delete(
     options?: CertificatesDeleteParameters
@@ -3303,8 +3237,7 @@ export interface ContainerAppsListBySubscription {
   get(
     options?: ContainerAppsListBySubscriptionParameters
   ): Promise<
-    | ContainerAppsListBySubscription200Response
-    | ContainerAppsListBySubscriptiondefaultResponse
+    ContainerAppsListBySubscription200Response | ContainerAppsListBySubscriptiondefaultResponse
   >;
 }
 
@@ -3313,8 +3246,7 @@ export interface ContainerAppsListByResourceGroup {
   get(
     options?: ContainerAppsListByResourceGroupParameters
   ): Promise<
-    | ContainerAppsListByResourceGroup200Response
-    | ContainerAppsListByResourceGroupdefaultResponse
+    ContainerAppsListByResourceGroup200Response | ContainerAppsListByResourceGroupdefaultResponse
   >;
 }
 
@@ -3323,9 +3255,7 @@ export interface ContainerAppsGet {
   get(
     options?: ContainerAppsGetParameters
   ): Promise<
-    | ContainerAppsGet200Response
-    | ContainerAppsGet404Response
-    | ContainerAppsGetdefaultResponse
+    ContainerAppsGet200Response | ContainerAppsGet404Response | ContainerAppsGetdefaultResponse
   >;
   /** Create or update a Container App. */
   put(
@@ -3350,10 +3280,7 @@ export interface ContainerAppsListSecrets {
   /** List secrets for a container app */
   post(
     options?: ContainerAppsListSecretsParameters
-  ): Promise<
-    | ContainerAppsListSecrets200Response
-    | ContainerAppsListSecretsdefaultResponse
-  >;
+  ): Promise<ContainerAppsListSecrets200Response | ContainerAppsListSecretsdefaultResponse>;
 }
 
 export interface ContainerAppsRevisionsListRevisions {
@@ -3371,8 +3298,7 @@ export interface ContainerAppsRevisionsGetRevision {
   get(
     options?: ContainerAppsRevisionsGetRevisionParameters
   ): Promise<
-    | ContainerAppsRevisionsGetRevision200Response
-    | ContainerAppsRevisionsGetRevisiondefaultResponse
+    ContainerAppsRevisionsGetRevision200Response | ContainerAppsRevisionsGetRevisiondefaultResponse
   >;
 }
 
@@ -3417,10 +3343,7 @@ export interface DeletedWebAppsListByLocation {
   /** Get all deleted apps for a subscription at location */
   get(
     options?: DeletedWebAppsListByLocationParameters
-  ): Promise<
-    | DeletedWebAppsListByLocation200Response
-    | DeletedWebAppsListByLocationdefaultResponse
-  >;
+  ): Promise<DeletedWebAppsListByLocation200Response | DeletedWebAppsListByLocationdefaultResponse>;
 }
 
 export interface DeletedWebAppsGetDeletedWebAppByLocation {
@@ -3497,20 +3420,14 @@ export interface DiagnosticsListSiteAnalyses {
   /** Get Site Analyses */
   get(
     options?: DiagnosticsListSiteAnalysesParameters
-  ): Promise<
-    | DiagnosticsListSiteAnalyses200Response
-    | DiagnosticsListSiteAnalysesdefaultResponse
-  >;
+  ): Promise<DiagnosticsListSiteAnalyses200Response | DiagnosticsListSiteAnalysesdefaultResponse>;
 }
 
 export interface DiagnosticsGetSiteAnalysis {
   /** Get Site Analysis */
   get(
     options?: DiagnosticsGetSiteAnalysisParameters
-  ): Promise<
-    | DiagnosticsGetSiteAnalysis200Response
-    | DiagnosticsGetSiteAnalysisdefaultResponse
-  >;
+  ): Promise<DiagnosticsGetSiteAnalysis200Response | DiagnosticsGetSiteAnalysisdefaultResponse>;
 }
 
 export interface DiagnosticsExecuteSiteAnalysis {
@@ -3518,8 +3435,7 @@ export interface DiagnosticsExecuteSiteAnalysis {
   post(
     options?: DiagnosticsExecuteSiteAnalysisParameters
   ): Promise<
-    | DiagnosticsExecuteSiteAnalysis200Response
-    | DiagnosticsExecuteSiteAnalysisdefaultResponse
+    DiagnosticsExecuteSiteAnalysis200Response | DiagnosticsExecuteSiteAnalysisdefaultResponse
   >;
 }
 
@@ -3527,20 +3443,14 @@ export interface DiagnosticsListSiteDetectors {
   /** Get Detectors */
   get(
     options?: DiagnosticsListSiteDetectorsParameters
-  ): Promise<
-    | DiagnosticsListSiteDetectors200Response
-    | DiagnosticsListSiteDetectorsdefaultResponse
-  >;
+  ): Promise<DiagnosticsListSiteDetectors200Response | DiagnosticsListSiteDetectorsdefaultResponse>;
 }
 
 export interface DiagnosticsGetSiteDetector {
   /** Get Detector */
   get(
     options?: DiagnosticsGetSiteDetectorParameters
-  ): Promise<
-    | DiagnosticsGetSiteDetector200Response
-    | DiagnosticsGetSiteDetectordefaultResponse
-  >;
+  ): Promise<DiagnosticsGetSiteDetector200Response | DiagnosticsGetSiteDetectordefaultResponse>;
 }
 
 export interface DiagnosticsExecuteSiteDetector {
@@ -3548,8 +3458,7 @@ export interface DiagnosticsExecuteSiteDetector {
   post(
     options?: DiagnosticsExecuteSiteDetectorParameters
   ): Promise<
-    | DiagnosticsExecuteSiteDetector200Response
-    | DiagnosticsExecuteSiteDetectordefaultResponse
+    DiagnosticsExecuteSiteDetector200Response | DiagnosticsExecuteSiteDetectordefaultResponse
   >;
 }
 
@@ -3598,8 +3507,7 @@ export interface DiagnosticsListSiteAnalysesSlot {
   get(
     options?: DiagnosticsListSiteAnalysesSlotParameters
   ): Promise<
-    | DiagnosticsListSiteAnalysesSlot200Response
-    | DiagnosticsListSiteAnalysesSlotdefaultResponse
+    DiagnosticsListSiteAnalysesSlot200Response | DiagnosticsListSiteAnalysesSlotdefaultResponse
   >;
 }
 
@@ -3608,8 +3516,7 @@ export interface DiagnosticsGetSiteAnalysisSlot {
   get(
     options?: DiagnosticsGetSiteAnalysisSlotParameters
   ): Promise<
-    | DiagnosticsGetSiteAnalysisSlot200Response
-    | DiagnosticsGetSiteAnalysisSlotdefaultResponse
+    DiagnosticsGetSiteAnalysisSlot200Response | DiagnosticsGetSiteAnalysisSlotdefaultResponse
   >;
 }
 
@@ -3628,8 +3535,7 @@ export interface DiagnosticsListSiteDetectorsSlot {
   get(
     options?: DiagnosticsListSiteDetectorsSlotParameters
   ): Promise<
-    | DiagnosticsListSiteDetectorsSlot200Response
-    | DiagnosticsListSiteDetectorsSlotdefaultResponse
+    DiagnosticsListSiteDetectorsSlot200Response | DiagnosticsListSiteDetectorsSlotdefaultResponse
   >;
 }
 
@@ -3638,8 +3544,7 @@ export interface DiagnosticsGetSiteDetectorSlot {
   get(
     options?: DiagnosticsGetSiteDetectorSlotParameters
   ): Promise<
-    | DiagnosticsGetSiteDetectorSlot200Response
-    | DiagnosticsGetSiteDetectorSlotdefaultResponse
+    DiagnosticsGetSiteDetectorSlot200Response | DiagnosticsGetSiteDetectorSlotdefaultResponse
   >;
 }
 
@@ -3657,9 +3562,7 @@ export interface GlobalGetDeletedWebApp {
   /** Get deleted app for a subscription. */
   get(
     options?: GlobalGetDeletedWebAppParameters
-  ): Promise<
-    GlobalGetDeletedWebApp200Response | GlobalGetDeletedWebAppdefaultResponse
-  >;
+  ): Promise<GlobalGetDeletedWebApp200Response | GlobalGetDeletedWebAppdefaultResponse>;
 }
 
 export interface GlobalGetDeletedWebAppSnapshots {
@@ -3667,8 +3570,7 @@ export interface GlobalGetDeletedWebAppSnapshots {
   get(
     options?: GlobalGetDeletedWebAppSnapshotsParameters
   ): Promise<
-    | GlobalGetDeletedWebAppSnapshots200Response
-    | GlobalGetDeletedWebAppSnapshotsdefaultResponse
+    GlobalGetDeletedWebAppSnapshots200Response | GlobalGetDeletedWebAppSnapshotsdefaultResponse
   >;
 }
 
@@ -3706,9 +3608,7 @@ export interface KubeEnvironmentsGet {
   /** Get the properties of a Kubernetes Environment. */
   get(
     options?: KubeEnvironmentsGetParameters
-  ): Promise<
-    KubeEnvironmentsGet200Response | KubeEnvironmentsGetdefaultResponse
-  >;
+  ): Promise<KubeEnvironmentsGet200Response | KubeEnvironmentsGetdefaultResponse>;
   /** Creates or updates a Kubernetes Environment. */
   put(
     options: KubeEnvironmentsCreateOrUpdateParameters
@@ -3740,20 +3640,14 @@ export interface ProviderGetAvailableStacks {
   /** Get available application frameworks and their versions */
   get(
     options?: ProviderGetAvailableStacksParameters
-  ): Promise<
-    | ProviderGetAvailableStacks200Response
-    | ProviderGetAvailableStacksdefaultResponse
-  >;
+  ): Promise<ProviderGetAvailableStacks200Response | ProviderGetAvailableStacksdefaultResponse>;
 }
 
 export interface ProviderGetFunctionAppStacks {
   /** Get available Function app frameworks and their versions */
   get(
     options?: ProviderGetFunctionAppStacksParameters
-  ): Promise<
-    | ProviderGetFunctionAppStacks200Response
-    | ProviderGetFunctionAppStacksdefaultResponse
-  >;
+  ): Promise<ProviderGetFunctionAppStacks200Response | ProviderGetFunctionAppStacksdefaultResponse>;
 }
 
 export interface ProviderGetFunctionAppStacksForLocation {
@@ -3780,18 +3674,14 @@ export interface ProviderListOperations {
   /** Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions */
   get(
     options?: ProviderListOperationsParameters
-  ): Promise<
-    ProviderListOperations200Response | ProviderListOperationsdefaultResponse
-  >;
+  ): Promise<ProviderListOperations200Response | ProviderListOperationsdefaultResponse>;
 }
 
 export interface ProviderGetWebAppStacks {
   /** Get available Web app frameworks and their versions */
   get(
     options?: ProviderGetWebAppStacksParameters
-  ): Promise<
-    ProviderGetWebAppStacks200Response | ProviderGetWebAppStacksdefaultResponse
-  >;
+  ): Promise<ProviderGetWebAppStacks200Response | ProviderGetWebAppStacksdefaultResponse>;
 }
 
 export interface ProviderGetAvailableStacksOnPrem {
@@ -3799,8 +3689,7 @@ export interface ProviderGetAvailableStacksOnPrem {
   get(
     options?: ProviderGetAvailableStacksOnPremParameters
   ): Promise<
-    | ProviderGetAvailableStacksOnPrem200Response
-    | ProviderGetAvailableStacksOnPremdefaultResponse
+    ProviderGetAvailableStacksOnPrem200Response | ProviderGetAvailableStacksOnPremdefaultResponse
   >;
 }
 
@@ -3808,9 +3697,7 @@ export interface RecommendationsList {
   /** List all recommendations for a subscription. */
   get(
     options?: RecommendationsListParameters
-  ): Promise<
-    RecommendationsList200Response | RecommendationsListdefaultResponse
-  >;
+  ): Promise<RecommendationsList200Response | RecommendationsListdefaultResponse>;
 }
 
 export interface RecommendationsResetAllFilters {
@@ -3818,8 +3705,7 @@ export interface RecommendationsResetAllFilters {
   post(
     options?: RecommendationsResetAllFiltersParameters
   ): Promise<
-    | RecommendationsResetAllFilters204Response
-    | RecommendationsResetAllFiltersdefaultResponse
+    RecommendationsResetAllFilters204Response | RecommendationsResetAllFiltersdefaultResponse
   >;
 }
 
@@ -3957,10 +3843,7 @@ export interface ResourceHealthMetadataList {
   /** List all ResourceHealthMetadata for all sites in the subscription. */
   get(
     options?: ResourceHealthMetadataListParameters
-  ): Promise<
-    | ResourceHealthMetadataList200Response
-    | ResourceHealthMetadataListdefaultResponse
-  >;
+  ): Promise<ResourceHealthMetadataList200Response | ResourceHealthMetadataListdefaultResponse>;
 }
 
 export interface ResourceHealthMetadataListByResourceGroup {
@@ -3978,8 +3861,7 @@ export interface ResourceHealthMetadataListBySite {
   get(
     options?: ResourceHealthMetadataListBySiteParameters
   ): Promise<
-    | ResourceHealthMetadataListBySite200Response
-    | ResourceHealthMetadataListBySitedefaultResponse
+    ResourceHealthMetadataListBySite200Response | ResourceHealthMetadataListBySitedefaultResponse
   >;
 }
 
@@ -3988,8 +3870,7 @@ export interface ResourceHealthMetadataGetBySite {
   get(
     options?: ResourceHealthMetadataGetBySiteParameters
   ): Promise<
-    | ResourceHealthMetadataGetBySite200Response
-    | ResourceHealthMetadataGetBySitedefaultResponse
+    ResourceHealthMetadataGetBySite200Response | ResourceHealthMetadataGetBySitedefaultResponse
   >;
 }
 
@@ -4021,9 +3902,7 @@ export interface GetPublishingUser {
   /** Updates publishing user */
   put(
     options: UpdatePublishingUserParameters
-  ): Promise<
-    UpdatePublishingUser200Response | UpdatePublishingUserdefaultResponse
-  >;
+  ): Promise<UpdatePublishingUser200Response | UpdatePublishingUserdefaultResponse>;
 }
 
 export interface ListSourceControls {
@@ -4041,9 +3920,7 @@ export interface GetSourceControl {
   /** Updates source control token */
   put(
     options: UpdateSourceControlParameters
-  ): Promise<
-    UpdateSourceControl200Response | UpdateSourceControldefaultResponse
-  >;
+  ): Promise<UpdateSourceControl200Response | UpdateSourceControldefaultResponse>;
 }
 
 export interface ListBillingMeters {
@@ -4057,18 +3934,14 @@ export interface CheckNameAvailability {
   /** Check if a resource name is available. */
   post(
     options: CheckNameAvailabilityParameters
-  ): Promise<
-    CheckNameAvailability200Response | CheckNameAvailabilitydefaultResponse
-  >;
+  ): Promise<CheckNameAvailability200Response | CheckNameAvailabilitydefaultResponse>;
 }
 
 export interface ListCustomHostNameSites {
   /** Get custom hostnames under this subscription */
   get(
     options?: ListCustomHostNameSitesParameters
-  ): Promise<
-    ListCustomHostNameSites200Response | ListCustomHostNameSitesdefaultResponse
-  >;
+  ): Promise<ListCustomHostNameSites200Response | ListCustomHostNameSitesdefaultResponse>;
 }
 
 export interface GetSubscriptionDeploymentLocations {
@@ -4102,26 +3975,19 @@ export interface ListPremierAddOnOffers {
   /** List all premier add-on offers. */
   get(
     options?: ListPremierAddOnOffersParameters
-  ): Promise<
-    ListPremierAddOnOffers200Response | ListPremierAddOnOffersdefaultResponse
-  >;
+  ): Promise<ListPremierAddOnOffers200Response | ListPremierAddOnOffersdefaultResponse>;
 }
 
 export interface ListSkus {
   /** List all SKUs. */
-  get(
-    options?: ListSkusParameters
-  ): Promise<ListSkus200Response | ListSkusdefaultResponse>;
+  get(options?: ListSkusParameters): Promise<ListSkus200Response | ListSkusdefaultResponse>;
 }
 
 export interface VerifyHostingEnvironmentVnet {
   /** Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules. */
   post(
     options: VerifyHostingEnvironmentVnetParameters
-  ): Promise<
-    | VerifyHostingEnvironmentVnet200Response
-    | VerifyHostingEnvironmentVnetdefaultResponse
-  >;
+  ): Promise<VerifyHostingEnvironmentVnet200Response | VerifyHostingEnvironmentVnetdefaultResponse>;
 }
 
 export interface Move {
@@ -4131,9 +3997,7 @@ export interface Move {
 
 export interface Validate {
   /** Validate if a resource can be created. */
-  post(
-    options: ValidateParameters
-  ): Promise<Validate200Response | ValidatedefaultResponse>;
+  post(options: ValidateParameters): Promise<Validate200Response | ValidatedefaultResponse>;
 }
 
 export interface ValidateMove {
@@ -4147,10 +4011,7 @@ export interface StaticSitesPreviewWorkflow {
   /** Generates a preview workflow file for the static site */
   post(
     options: StaticSitesPreviewWorkflowParameters
-  ): Promise<
-    | StaticSitesPreviewWorkflow200Response
-    | StaticSitesPreviewWorkflowdefaultResponse
-  >;
+  ): Promise<StaticSitesPreviewWorkflow200Response | StaticSitesPreviewWorkflowdefaultResponse>;
 }
 
 export interface StaticSitesList {
@@ -4174,10 +4035,7 @@ export interface StaticSitesGetStaticSite {
   /** Gets the details of a static site. */
   get(
     options?: StaticSitesGetStaticSiteParameters
-  ): Promise<
-    | StaticSitesGetStaticSite200Response
-    | StaticSitesGetStaticSitedefaultResponse
-  >;
+  ): Promise<StaticSitesGetStaticSite200Response | StaticSitesGetStaticSitedefaultResponse>;
   /** Creates a new static site in an existing resource group, or updates an existing static site. */
   put(
     options: StaticSitesCreateOrUpdateStaticSiteParameters
@@ -4209,8 +4067,7 @@ export interface StaticSitesListStaticSiteUsers {
   post(
     options?: StaticSitesListStaticSiteUsersParameters
   ): Promise<
-    | StaticSitesListStaticSiteUsers200Response
-    | StaticSitesListStaticSiteUsersdefaultResponse
+    StaticSitesListStaticSiteUsers200Response | StaticSitesListStaticSiteUsersdefaultResponse
   >;
 }
 
@@ -4219,15 +4076,13 @@ export interface StaticSitesDeleteStaticSiteUser {
   delete(
     options?: StaticSitesDeleteStaticSiteUserParameters
   ): Promise<
-    | StaticSitesDeleteStaticSiteUser200Response
-    | StaticSitesDeleteStaticSiteUserdefaultResponse
+    StaticSitesDeleteStaticSiteUser200Response | StaticSitesDeleteStaticSiteUserdefaultResponse
   >;
   /** Updates a user entry with the listed roles */
   patch(
     options: StaticSitesUpdateStaticSiteUserParameters
   ): Promise<
-    | StaticSitesUpdateStaticSiteUser200Response
-    | StaticSitesUpdateStaticSiteUserdefaultResponse
+    StaticSitesUpdateStaticSiteUser200Response | StaticSitesUpdateStaticSiteUserdefaultResponse
   >;
 }
 
@@ -4236,8 +4091,7 @@ export interface StaticSitesGetStaticSiteBuilds {
   get(
     options?: StaticSitesGetStaticSiteBuildsParameters
   ): Promise<
-    | StaticSitesGetStaticSiteBuilds200Response
-    | StaticSitesGetStaticSiteBuildsdefaultResponse
+    StaticSitesGetStaticSiteBuilds200Response | StaticSitesGetStaticSiteBuildsdefaultResponse
   >;
 }
 
@@ -4246,8 +4100,7 @@ export interface StaticSitesGetStaticSiteBuild {
   get(
     options?: StaticSitesGetStaticSiteBuildParameters
   ): Promise<
-    | StaticSitesGetStaticSiteBuild200Response
-    | StaticSitesGetStaticSiteBuilddefaultResponse
+    StaticSitesGetStaticSiteBuild200Response | StaticSitesGetStaticSiteBuilddefaultResponse
   >;
   /** Deletes a static site build. */
   delete(
@@ -4490,8 +4343,7 @@ export interface StaticSitesListStaticSiteSecrets {
   post(
     options?: StaticSitesListStaticSiteSecretsParameters
   ): Promise<
-    | StaticSitesListStaticSiteSecrets200Response
-    | StaticSitesListStaticSiteSecretsdefaultResponse
+    StaticSitesListStaticSiteSecrets200Response | StaticSitesListStaticSiteSecretsdefaultResponse
   >;
 }
 
@@ -4547,8 +4399,7 @@ export interface StaticSitesResetStaticSiteApiKey {
   post(
     options: StaticSitesResetStaticSiteApiKeyParameters
   ): Promise<
-    | StaticSitesResetStaticSiteApiKey200Response
-    | StaticSitesResetStaticSiteApiKeydefaultResponse
+    StaticSitesResetStaticSiteApiKey200Response | StaticSitesResetStaticSiteApiKeydefaultResponse
   >;
 }
 
@@ -4610,19 +4461,14 @@ export interface WebAppsListByResourceGroup {
   /** Gets all web, mobile, and API apps in the specified resource group. */
   get(
     options?: WebAppsListByResourceGroupParameters
-  ): Promise<
-    | WebAppsListByResourceGroup200Response
-    | WebAppsListByResourceGroupdefaultResponse
-  >;
+  ): Promise<WebAppsListByResourceGroup200Response | WebAppsListByResourceGroupdefaultResponse>;
 }
 
 export interface WebAppsGet {
   /** Gets the details of a web, mobile, or API app. */
   get(
     options?: WebAppsGetParameters
-  ): Promise<
-    WebAppsGet200Response | WebAppsGet404Response | WebAppsGetdefaultResponse
-  >;
+  ): Promise<WebAppsGet200Response | WebAppsGet404Response | WebAppsGetdefaultResponse>;
   /** Creates a new web, mobile, or API app in an existing resource group, or updates an existing app. */
   put(
     options: WebAppsCreateOrUpdateParameters
@@ -4643,21 +4489,14 @@ export interface WebAppsGet {
   /** Creates a new web, mobile, or API app in an existing resource group, or updates an existing app. */
   patch(
     options: WebAppsUpdateParameters
-  ): Promise<
-    | WebAppsUpdate200Response
-    | WebAppsUpdate202Response
-    | WebAppsUpdatedefaultResponse
-  >;
+  ): Promise<WebAppsUpdate200Response | WebAppsUpdate202Response | WebAppsUpdatedefaultResponse>;
 }
 
 export interface WebAppsAnalyzeCustomHostname {
   /** Analyze a custom hostname. */
   get(
     options?: WebAppsAnalyzeCustomHostnameParameters
-  ): Promise<
-    | WebAppsAnalyzeCustomHostname200Response
-    | WebAppsAnalyzeCustomHostnamedefaultResponse
-  >;
+  ): Promise<WebAppsAnalyzeCustomHostname200Response | WebAppsAnalyzeCustomHostnamedefaultResponse>;
 }
 
 export interface WebAppsApplySlotConfigToProduction {
@@ -4688,9 +4527,7 @@ export interface WebAppsGetBackupStatus {
   /** Gets a backup of an app by its ID. */
   get(
     options?: WebAppsGetBackupStatusParameters
-  ): Promise<
-    WebAppsGetBackupStatus200Response | WebAppsGetBackupStatusdefaultResponse
-  >;
+  ): Promise<WebAppsGetBackupStatus200Response | WebAppsGetBackupStatusdefaultResponse>;
   /** Deletes a backup of an app by its ID. */
   delete(
     options?: WebAppsDeleteBackupParameters
@@ -4706,8 +4543,7 @@ export interface WebAppsListBackupStatusSecrets {
   post(
     options: WebAppsListBackupStatusSecretsParameters
   ): Promise<
-    | WebAppsListBackupStatusSecrets200Response
-    | WebAppsListBackupStatusSecretsdefaultResponse
+    WebAppsListBackupStatusSecrets200Response | WebAppsListBackupStatusSecretsdefaultResponse
   >;
 }
 
@@ -4715,11 +4551,7 @@ export interface WebAppsRestore {
   /** Restores a specific backup to another app (or deployment slot, if specified). */
   post(
     options: WebAppsRestoreParameters
-  ): Promise<
-    | WebAppsRestore200Response
-    | WebAppsRestore202Response
-    | WebAppsRestoredefaultResponse
-  >;
+  ): Promise<WebAppsRestore200Response | WebAppsRestore202Response | WebAppsRestoredefaultResponse>;
 }
 
 export interface WebAppsListBasicPublishingCredentialsPolicies {
@@ -4736,40 +4568,29 @@ export interface WebAppsGetFtpAllowed {
   /** Returns whether FTP is allowed on the site or not. */
   get(
     options?: WebAppsGetFtpAllowedParameters
-  ): Promise<
-    WebAppsGetFtpAllowed200Response | WebAppsGetFtpAlloweddefaultResponse
-  >;
+  ): Promise<WebAppsGetFtpAllowed200Response | WebAppsGetFtpAlloweddefaultResponse>;
   /** Updates whether FTP is allowed on the site or not. */
   put(
     options: WebAppsUpdateFtpAllowedParameters
-  ): Promise<
-    WebAppsUpdateFtpAllowed200Response | WebAppsUpdateFtpAlloweddefaultResponse
-  >;
+  ): Promise<WebAppsUpdateFtpAllowed200Response | WebAppsUpdateFtpAlloweddefaultResponse>;
 }
 
 export interface WebAppsGetScmAllowed {
   /** Returns whether Scm basic auth is allowed on the site or not. */
   get(
     options?: WebAppsGetScmAllowedParameters
-  ): Promise<
-    WebAppsGetScmAllowed200Response | WebAppsGetScmAlloweddefaultResponse
-  >;
+  ): Promise<WebAppsGetScmAllowed200Response | WebAppsGetScmAlloweddefaultResponse>;
   /** Updates whether user publishing credentials are allowed on the site or not. */
   put(
     options: WebAppsUpdateScmAllowedParameters
-  ): Promise<
-    WebAppsUpdateScmAllowed200Response | WebAppsUpdateScmAlloweddefaultResponse
-  >;
+  ): Promise<WebAppsUpdateScmAllowed200Response | WebAppsUpdateScmAlloweddefaultResponse>;
 }
 
 export interface WebAppsListConfigurations {
   /** List the configurations of an app */
   get(
     options?: WebAppsListConfigurationsParameters
-  ): Promise<
-    | WebAppsListConfigurations200Response
-    | WebAppsListConfigurationsdefaultResponse
-  >;
+  ): Promise<WebAppsListConfigurations200Response | WebAppsListConfigurationsdefaultResponse>;
 }
 
 export interface WebAppsUpdateApplicationSettings {
@@ -4777,8 +4598,7 @@ export interface WebAppsUpdateApplicationSettings {
   put(
     options: WebAppsUpdateApplicationSettingsParameters
   ): Promise<
-    | WebAppsUpdateApplicationSettings200Response
-    | WebAppsUpdateApplicationSettingsdefaultResponse
+    WebAppsUpdateApplicationSettings200Response | WebAppsUpdateApplicationSettingsdefaultResponse
   >;
 }
 
@@ -4787,8 +4607,7 @@ export interface WebAppsListApplicationSettings {
   post(
     options?: WebAppsListApplicationSettingsParameters
   ): Promise<
-    | WebAppsListApplicationSettings200Response
-    | WebAppsListApplicationSettingsdefaultResponse
+    WebAppsListApplicationSettings200Response | WebAppsListApplicationSettingsdefaultResponse
   >;
 }
 
@@ -4796,19 +4615,14 @@ export interface WebAppsUpdateAuthSettings {
   /** Updates the Authentication / Authorization settings associated with web app. */
   put(
     options: WebAppsUpdateAuthSettingsParameters
-  ): Promise<
-    | WebAppsUpdateAuthSettings200Response
-    | WebAppsUpdateAuthSettingsdefaultResponse
-  >;
+  ): Promise<WebAppsUpdateAuthSettings200Response | WebAppsUpdateAuthSettingsdefaultResponse>;
 }
 
 export interface WebAppsGetAuthSettings {
   /** Gets the Authentication/Authorization settings of an app. */
   post(
     options?: WebAppsGetAuthSettingsParameters
-  ): Promise<
-    WebAppsGetAuthSettings200Response | WebAppsGetAuthSettingsdefaultResponse
-  >;
+  ): Promise<WebAppsGetAuthSettings200Response | WebAppsGetAuthSettingsdefaultResponse>;
 }
 
 export interface WebAppsGetAuthSettingsV2WithoutSecrets {
@@ -4822,20 +4636,14 @@ export interface WebAppsGetAuthSettingsV2WithoutSecrets {
   /** Updates site's Authentication / Authorization settings for apps via the V2 format */
   put(
     options: WebAppsUpdateAuthSettingsV2Parameters
-  ): Promise<
-    | WebAppsUpdateAuthSettingsV2200Response
-    | WebAppsUpdateAuthSettingsV2defaultResponse
-  >;
+  ): Promise<WebAppsUpdateAuthSettingsV2200Response | WebAppsUpdateAuthSettingsV2defaultResponse>;
 }
 
 export interface WebAppsGetAuthSettingsV2 {
   /** Gets site's Authentication / Authorization settings for apps via the V2 format */
   get(
     options?: WebAppsGetAuthSettingsV2Parameters
-  ): Promise<
-    | WebAppsGetAuthSettingsV2200Response
-    | WebAppsGetAuthSettingsV2defaultResponse
-  >;
+  ): Promise<WebAppsGetAuthSettingsV2200Response | WebAppsGetAuthSettingsV2defaultResponse>;
 }
 
 export interface WebAppsUpdateAzureStorageAccounts {
@@ -4843,8 +4651,7 @@ export interface WebAppsUpdateAzureStorageAccounts {
   put(
     options: WebAppsUpdateAzureStorageAccountsParameters
   ): Promise<
-    | WebAppsUpdateAzureStorageAccounts200Response
-    | WebAppsUpdateAzureStorageAccountsdefaultResponse
+    WebAppsUpdateAzureStorageAccounts200Response | WebAppsUpdateAzureStorageAccountsdefaultResponse
   >;
 }
 
@@ -4853,8 +4660,7 @@ export interface WebAppsListAzureStorageAccounts {
   post(
     options?: WebAppsListAzureStorageAccountsParameters
   ): Promise<
-    | WebAppsListAzureStorageAccounts200Response
-    | WebAppsListAzureStorageAccountsdefaultResponse
+    WebAppsListAzureStorageAccounts200Response | WebAppsListAzureStorageAccountsdefaultResponse
   >;
 }
 
@@ -4863,15 +4669,13 @@ export interface WebAppsUpdateBackupConfiguration {
   put(
     options: WebAppsUpdateBackupConfigurationParameters
   ): Promise<
-    | WebAppsUpdateBackupConfiguration200Response
-    | WebAppsUpdateBackupConfigurationdefaultResponse
+    WebAppsUpdateBackupConfiguration200Response | WebAppsUpdateBackupConfigurationdefaultResponse
   >;
   /** Deletes the backup configuration of an app. */
   delete(
     options?: WebAppsDeleteBackupConfigurationParameters
   ): Promise<
-    | WebAppsDeleteBackupConfiguration200Response
-    | WebAppsDeleteBackupConfigurationdefaultResponse
+    WebAppsDeleteBackupConfiguration200Response | WebAppsDeleteBackupConfigurationdefaultResponse
   >;
 }
 
@@ -4880,8 +4684,7 @@ export interface WebAppsGetBackupConfiguration {
   post(
     options?: WebAppsGetBackupConfigurationParameters
   ): Promise<
-    | WebAppsGetBackupConfiguration200Response
-    | WebAppsGetBackupConfigurationdefaultResponse
+    WebAppsGetBackupConfiguration200Response | WebAppsGetBackupConfigurationdefaultResponse
   >;
 }
 
@@ -4930,8 +4733,7 @@ export interface WebAppsUpdateConnectionStrings {
   put(
     options: WebAppsUpdateConnectionStringsParameters
   ): Promise<
-    | WebAppsUpdateConnectionStrings200Response
-    | WebAppsUpdateConnectionStringsdefaultResponse
+    WebAppsUpdateConnectionStrings200Response | WebAppsUpdateConnectionStringsdefaultResponse
   >;
 }
 
@@ -4939,10 +4741,7 @@ export interface WebAppsListConnectionStrings {
   /** Gets the connection strings of an app. */
   post(
     options?: WebAppsListConnectionStringsParameters
-  ): Promise<
-    | WebAppsListConnectionStrings200Response
-    | WebAppsListConnectionStringsdefaultResponse
-  >;
+  ): Promise<WebAppsListConnectionStrings200Response | WebAppsListConnectionStringsdefaultResponse>;
 }
 
 export interface WebAppsGetDiagnosticLogsConfiguration {
@@ -4957,8 +4756,7 @@ export interface WebAppsGetDiagnosticLogsConfiguration {
   put(
     options: WebAppsUpdateDiagnosticLogsConfigParameters
   ): Promise<
-    | WebAppsUpdateDiagnosticLogsConfig200Response
-    | WebAppsUpdateDiagnosticLogsConfigdefaultResponse
+    WebAppsUpdateDiagnosticLogsConfig200Response | WebAppsUpdateDiagnosticLogsConfigdefaultResponse
   >;
 }
 
@@ -4966,18 +4764,14 @@ export interface WebAppsUpdateMetadata {
   /** Replaces the metadata of an app. */
   put(
     options: WebAppsUpdateMetadataParameters
-  ): Promise<
-    WebAppsUpdateMetadata200Response | WebAppsUpdateMetadatadefaultResponse
-  >;
+  ): Promise<WebAppsUpdateMetadata200Response | WebAppsUpdateMetadatadefaultResponse>;
 }
 
 export interface WebAppsListMetadata {
   /** Gets the metadata of an app. */
   post(
     options?: WebAppsListMetadataParameters
-  ): Promise<
-    WebAppsListMetadata200Response | WebAppsListMetadatadefaultResponse
-  >;
+  ): Promise<WebAppsListMetadata200Response | WebAppsListMetadatadefaultResponse>;
 }
 
 export interface WebAppsListPublishingCredentials {
@@ -4985,8 +4779,7 @@ export interface WebAppsListPublishingCredentials {
   post(
     options?: WebAppsListPublishingCredentialsParameters
   ): Promise<
-    | WebAppsListPublishingCredentials200Response
-    | WebAppsListPublishingCredentialsdefaultResponse
+    WebAppsListPublishingCredentials200Response | WebAppsListPublishingCredentialsdefaultResponse
   >;
 }
 
@@ -4995,8 +4788,7 @@ export interface WebAppsUpdateSitePushSettings {
   put(
     options: WebAppsUpdateSitePushSettingsParameters
   ): Promise<
-    | WebAppsUpdateSitePushSettings200Response
-    | WebAppsUpdateSitePushSettingsdefaultResponse
+    WebAppsUpdateSitePushSettings200Response | WebAppsUpdateSitePushSettingsdefaultResponse
   >;
 }
 
@@ -5004,10 +4796,7 @@ export interface WebAppsListSitePushSettings {
   /** Gets the Push settings associated with web app. */
   post(
     options?: WebAppsListSitePushSettingsParameters
-  ): Promise<
-    | WebAppsListSitePushSettings200Response
-    | WebAppsListSitePushSettingsdefaultResponse
-  >;
+  ): Promise<WebAppsListSitePushSettings200Response | WebAppsListSitePushSettingsdefaultResponse>;
 }
 
 export interface WebAppsListSlotConfigurationNames {
@@ -5015,8 +4804,7 @@ export interface WebAppsListSlotConfigurationNames {
   get(
     options?: WebAppsListSlotConfigurationNamesParameters
   ): Promise<
-    | WebAppsListSlotConfigurationNames200Response
-    | WebAppsListSlotConfigurationNamesdefaultResponse
+    WebAppsListSlotConfigurationNames200Response | WebAppsListSlotConfigurationNamesdefaultResponse
   >;
   /** Updates the names of application settings and connection string that remain with the slot during swap operation. */
   put(
@@ -5031,9 +4819,7 @@ export interface WebAppsGetConfiguration {
   /** Gets the configuration of an app, such as platform version and bitness, default documents, virtual applications, Always On, etc. */
   get(
     options?: WebAppsGetConfigurationParameters
-  ): Promise<
-    WebAppsGetConfiguration200Response | WebAppsGetConfigurationdefaultResponse
-  >;
+  ): Promise<WebAppsGetConfiguration200Response | WebAppsGetConfigurationdefaultResponse>;
   /** Updates the configuration of an app. */
   put(
     options: WebAppsCreateOrUpdateConfigurationParameters
@@ -5044,10 +4830,7 @@ export interface WebAppsGetConfiguration {
   /** Updates the configuration of an app. */
   patch(
     options: WebAppsUpdateConfigurationParameters
-  ): Promise<
-    | WebAppsUpdateConfiguration200Response
-    | WebAppsUpdateConfigurationdefaultResponse
-  >;
+  ): Promise<WebAppsUpdateConfiguration200Response | WebAppsUpdateConfigurationdefaultResponse>;
 }
 
 export interface WebAppsListConfigurationSnapshotInfo {
@@ -5065,8 +4848,7 @@ export interface WebAppsGetConfigurationSnapshot {
   get(
     options?: WebAppsGetConfigurationSnapshotParameters
   ): Promise<
-    | WebAppsGetConfigurationSnapshot200Response
-    | WebAppsGetConfigurationSnapshotdefaultResponse
+    WebAppsGetConfigurationSnapshot200Response | WebAppsGetConfigurationSnapshotdefaultResponse
   >;
 }
 
@@ -5106,10 +4888,7 @@ export interface WebAppsListContinuousWebJobs {
   /** List continuous web jobs for an app, or a deployment slot. */
   get(
     options?: WebAppsListContinuousWebJobsParameters
-  ): Promise<
-    | WebAppsListContinuousWebJobs200Response
-    | WebAppsListContinuousWebJobsdefaultResponse
-  >;
+  ): Promise<WebAppsListContinuousWebJobs200Response | WebAppsListContinuousWebJobsdefaultResponse>;
 }
 
 export interface WebAppsGetContinuousWebJob {
@@ -5157,24 +4936,18 @@ export interface WebAppsListDeployments {
   /** List deployments for an app, or a deployment slot. */
   get(
     options?: WebAppsListDeploymentsParameters
-  ): Promise<
-    WebAppsListDeployments200Response | WebAppsListDeploymentsdefaultResponse
-  >;
+  ): Promise<WebAppsListDeployments200Response | WebAppsListDeploymentsdefaultResponse>;
 }
 
 export interface WebAppsGetDeployment {
   /** Get a deployment by its ID for an app, or a deployment slot. */
   get(
     options?: WebAppsGetDeploymentParameters
-  ): Promise<
-    WebAppsGetDeployment200Response | WebAppsGetDeploymentdefaultResponse
-  >;
+  ): Promise<WebAppsGetDeployment200Response | WebAppsGetDeploymentdefaultResponse>;
   /** Create a deployment for an app, or a deployment slot. */
   put(
     options: WebAppsCreateDeploymentParameters
-  ): Promise<
-    WebAppsCreateDeployment200Response | WebAppsCreateDeploymentdefaultResponse
-  >;
+  ): Promise<WebAppsCreateDeployment200Response | WebAppsCreateDeploymentdefaultResponse>;
   /** Delete a deployment by its ID for an app, or a deployment slot. */
   delete(
     options?: WebAppsDeleteDeploymentParameters
@@ -5189,19 +4962,14 @@ export interface WebAppsListDeploymentLog {
   /** List deployment log for specific deployment for an app, or a deployment slot. */
   get(
     options?: WebAppsListDeploymentLogParameters
-  ): Promise<
-    | WebAppsListDeploymentLog200Response
-    | WebAppsListDeploymentLogdefaultResponse
-  >;
+  ): Promise<WebAppsListDeploymentLog200Response | WebAppsListDeploymentLogdefaultResponse>;
 }
 
 export interface WebAppsDiscoverBackup {
   /** Discovers an existing app backup that can be restored from a blob in Azure storage. Use this to get information about the databases stored in a backup. */
   post(
     options: WebAppsDiscoverBackupParameters
-  ): Promise<
-    WebAppsDiscoverBackup200Response | WebAppsDiscoverBackupdefaultResponse
-  >;
+  ): Promise<WebAppsDiscoverBackup200Response | WebAppsDiscoverBackupdefaultResponse>;
 }
 
 export interface WebAppsListDomainOwnershipIdentifiers {
@@ -5250,10 +5018,7 @@ export interface WebAppsGetMSDeployStatus {
   /** Get the status of the last MSDeploy operation. */
   get(
     options?: WebAppsGetMSDeployStatusParameters
-  ): Promise<
-    | WebAppsGetMSDeployStatus200Response
-    | WebAppsGetMSDeployStatusdefaultResponse
-  >;
+  ): Promise<WebAppsGetMSDeployStatus200Response | WebAppsGetMSDeployStatusdefaultResponse>;
   /** Invoke the MSDeploy web app extension. */
   put(
     options: WebAppsCreateMSDeployOperationParameters
@@ -5279,16 +5044,12 @@ export interface WebAppsGetOneDeployStatus {
   /** Invoke onedeploy status API /api/deployments and gets the deployment status for the site */
   get(
     options?: WebAppsGetOneDeployStatusParameters
-  ): Promise<
-    | WebAppsGetOneDeployStatus200Response
-    | WebAppsGetOneDeployStatusdefaultResponse
-  >;
+  ): Promise<WebAppsGetOneDeployStatus200Response | WebAppsGetOneDeployStatusdefaultResponse>;
   /** Invoke the OneDeploy publish web app extension. */
   put(
     options?: WebAppsCreateOneDeployOperationParameters
   ): Promise<
-    | WebAppsCreateOneDeployOperation200Response
-    | WebAppsCreateOneDeployOperationdefaultResponse
+    WebAppsCreateOneDeployOperation200Response | WebAppsCreateOneDeployOperationdefaultResponse
   >;
 }
 
@@ -5308,8 +5069,7 @@ export interface WebAppsGetFunctionsAdminToken {
   get(
     options?: WebAppsGetFunctionsAdminTokenParameters
   ): Promise<
-    | WebAppsGetFunctionsAdminToken200Response
-    | WebAppsGetFunctionsAdminTokendefaultResponse
+    WebAppsGetFunctionsAdminToken200Response | WebAppsGetFunctionsAdminTokendefaultResponse
   >;
 }
 
@@ -5325,9 +5085,7 @@ export interface WebAppsGetFunction {
   /** Create function for web site, or a deployment slot. */
   put(
     options: WebAppsCreateFunctionParameters
-  ): Promise<
-    WebAppsCreateFunction201Response | WebAppsCreateFunctiondefaultResponse
-  >;
+  ): Promise<WebAppsCreateFunction201Response | WebAppsCreateFunctiondefaultResponse>;
   /** Delete a function for web site, or a deployment slot. */
   delete(
     options?: WebAppsDeleteFunctionParameters
@@ -5361,46 +5119,35 @@ export interface WebAppsListFunctionKeys {
   /** Get function keys for a function in a web site, or a deployment slot. */
   post(
     options?: WebAppsListFunctionKeysParameters
-  ): Promise<
-    WebAppsListFunctionKeys200Response | WebAppsListFunctionKeysdefaultResponse
-  >;
+  ): Promise<WebAppsListFunctionKeys200Response | WebAppsListFunctionKeysdefaultResponse>;
 }
 
 export interface WebAppsListFunctionSecrets {
   /** Get function secrets for a function in a web site, or a deployment slot. */
   post(
     options?: WebAppsListFunctionSecretsParameters
-  ): Promise<
-    | WebAppsListFunctionSecrets200Response
-    | WebAppsListFunctionSecretsdefaultResponse
-  >;
+  ): Promise<WebAppsListFunctionSecrets200Response | WebAppsListFunctionSecretsdefaultResponse>;
 }
 
 export interface WebAppsListHostKeys {
   /** Get host secrets for a function app. */
   post(
     options?: WebAppsListHostKeysParameters
-  ): Promise<
-    WebAppsListHostKeys200Response | WebAppsListHostKeysdefaultResponse
-  >;
+  ): Promise<WebAppsListHostKeys200Response | WebAppsListHostKeysdefaultResponse>;
 }
 
 export interface WebAppsListSyncStatus {
   /** This is to allow calling via powershell and ARM template. */
   post(
     options?: WebAppsListSyncStatusParameters
-  ): Promise<
-    WebAppsListSyncStatus204Response | WebAppsListSyncStatusdefaultResponse
-  >;
+  ): Promise<WebAppsListSyncStatus204Response | WebAppsListSyncStatusdefaultResponse>;
 }
 
 export interface WebAppsSyncFunctions {
   /** Syncs function trigger metadata to the management database */
   post(
     options?: WebAppsSyncFunctionsParameters
-  ): Promise<
-    WebAppsSyncFunctions204Response | WebAppsSyncFunctionsdefaultResponse
-  >;
+  ): Promise<WebAppsSyncFunctions204Response | WebAppsSyncFunctionsdefaultResponse>;
 }
 
 export interface WebAppsCreateOrUpdateHostSecret {
@@ -5426,20 +5173,14 @@ export interface WebAppsListHostNameBindings {
   /** Get hostname bindings for an app or a deployment slot. */
   get(
     options?: WebAppsListHostNameBindingsParameters
-  ): Promise<
-    | WebAppsListHostNameBindings200Response
-    | WebAppsListHostNameBindingsdefaultResponse
-  >;
+  ): Promise<WebAppsListHostNameBindings200Response | WebAppsListHostNameBindingsdefaultResponse>;
 }
 
 export interface WebAppsGetHostNameBinding {
   /** Get the named hostname binding for an app (or deployment slot, if specified). */
   get(
     options?: WebAppsGetHostNameBindingParameters
-  ): Promise<
-    | WebAppsGetHostNameBinding200Response
-    | WebAppsGetHostNameBindingdefaultResponse
-  >;
+  ): Promise<WebAppsGetHostNameBinding200Response | WebAppsGetHostNameBindingdefaultResponse>;
   /** Creates a hostname binding for an app. */
   put(
     options: WebAppsCreateOrUpdateHostNameBindingParameters
@@ -5461,10 +5202,7 @@ export interface WebAppsGetHybridConnection {
   /** Retrieves a specific Service Bus Hybrid Connection used by this Web App. */
   get(
     options?: WebAppsGetHybridConnectionParameters
-  ): Promise<
-    | WebAppsGetHybridConnection200Response
-    | WebAppsGetHybridConnectiondefaultResponse
-  >;
+  ): Promise<WebAppsGetHybridConnection200Response | WebAppsGetHybridConnectiondefaultResponse>;
   /** Creates a new Hybrid Connection using a Service Bus relay. */
   put(
     options: WebAppsCreateOrUpdateHybridConnectionParameters
@@ -5484,8 +5222,7 @@ export interface WebAppsGetHybridConnection {
   patch(
     options: WebAppsUpdateHybridConnectionParameters
   ): Promise<
-    | WebAppsUpdateHybridConnection200Response
-    | WebAppsUpdateHybridConnectiondefaultResponse
+    WebAppsUpdateHybridConnection200Response | WebAppsUpdateHybridConnectiondefaultResponse
   >;
 }
 
@@ -5493,10 +5230,7 @@ export interface WebAppsListHybridConnections {
   /** Retrieves all Service Bus Hybrid Connections used by this Web App. */
   get(
     options?: WebAppsListHybridConnectionsParameters
-  ): Promise<
-    | WebAppsListHybridConnections200Response
-    | WebAppsListHybridConnectionsdefaultResponse
-  >;
+  ): Promise<WebAppsListHybridConnections200Response | WebAppsListHybridConnectionsdefaultResponse>;
 }
 
 export interface WebAppsListRelayServiceConnections {
@@ -5514,8 +5248,7 @@ export interface WebAppsGetRelayServiceConnection {
   get(
     options?: WebAppsGetRelayServiceConnectionParameters
   ): Promise<
-    | WebAppsGetRelayServiceConnection200Response
-    | WebAppsGetRelayServiceConnectiondefaultResponse
+    WebAppsGetRelayServiceConnection200Response | WebAppsGetRelayServiceConnectiondefaultResponse
   >;
   /** Creates a new hybrid connection configuration (PUT), or updates an existing one (PATCH). */
   put(
@@ -5546,8 +5279,7 @@ export interface WebAppsListInstanceIdentifiers {
   get(
     options?: WebAppsListInstanceIdentifiersParameters
   ): Promise<
-    | WebAppsListInstanceIdentifiers200Response
-    | WebAppsListInstanceIdentifiersdefaultResponse
+    WebAppsListInstanceIdentifiers200Response | WebAppsListInstanceIdentifiersdefaultResponse
   >;
 }
 
@@ -5555,9 +5287,7 @@ export interface WebAppsGetInstanceInfo {
   /** Gets all scale-out instances of an app. */
   get(
     options?: WebAppsGetInstanceInfoParameters
-  ): Promise<
-    WebAppsGetInstanceInfo200Response | WebAppsGetInstanceInfodefaultResponse
-  >;
+  ): Promise<WebAppsGetInstanceInfo200Response | WebAppsGetInstanceInfodefaultResponse>;
 }
 
 export interface WebAppsGetInstanceMsDeployStatus {
@@ -5565,8 +5295,7 @@ export interface WebAppsGetInstanceMsDeployStatus {
   get(
     options?: WebAppsGetInstanceMsDeployStatusParameters
   ): Promise<
-    | WebAppsGetInstanceMsDeployStatus200Response
-    | WebAppsGetInstanceMsDeployStatusdefaultResponse
+    WebAppsGetInstanceMsDeployStatus200Response | WebAppsGetInstanceMsDeployStatusdefaultResponse
   >;
   /** Invoke the MSDeploy web app extension. */
   put(
@@ -5674,9 +5403,7 @@ export interface WebAppsListSiteBackups {
   /** Gets existing backups of an app. */
   post(
     options?: WebAppsListSiteBackupsParameters
-  ): Promise<
-    WebAppsListSiteBackups200Response | WebAppsListSiteBackupsdefaultResponse
-  >;
+  ): Promise<WebAppsListSiteBackups200Response | WebAppsListSiteBackupsdefaultResponse>;
 }
 
 export interface WebAppsListSyncFunctionTriggers {
@@ -5684,8 +5411,7 @@ export interface WebAppsListSyncFunctionTriggers {
   post(
     options?: WebAppsListSyncFunctionTriggersParameters
   ): Promise<
-    | WebAppsListSyncFunctionTriggers200Response
-    | WebAppsListSyncFunctionTriggersdefaultResponse
+    WebAppsListSyncFunctionTriggers200Response | WebAppsListSyncFunctionTriggersdefaultResponse
   >;
 }
 
@@ -5693,28 +5419,21 @@ export interface WebAppsMigrateStorage {
   /** Restores a web app. */
   put(
     options: WebAppsMigrateStorageParameters
-  ): Promise<
-    WebAppsMigrateStorage200Response | WebAppsMigrateStoragedefaultResponse
-  >;
+  ): Promise<WebAppsMigrateStorage200Response | WebAppsMigrateStoragedefaultResponse>;
 }
 
 export interface WebAppsMigrateMySql {
   /** Migrates a local (in-app) MySql database to a remote MySql database. */
   post(
     options: WebAppsMigrateMySqlParameters
-  ): Promise<
-    WebAppsMigrateMySql200Response | WebAppsMigrateMySqldefaultResponse
-  >;
+  ): Promise<WebAppsMigrateMySql200Response | WebAppsMigrateMySqldefaultResponse>;
 }
 
 export interface WebAppsGetMigrateMySqlStatus {
   /** Returns the status of MySql in app migration, if one is active, and whether or not MySql in app is enabled */
   get(
     options?: WebAppsGetMigrateMySqlStatusParameters
-  ): Promise<
-    | WebAppsGetMigrateMySqlStatus200Response
-    | WebAppsGetMigrateMySqlStatusdefaultResponse
-  >;
+  ): Promise<WebAppsGetMigrateMySqlStatus200Response | WebAppsGetMigrateMySqlStatusdefaultResponse>;
 }
 
 export interface WebAppsGetSwiftVirtualNetworkConnection {
@@ -5782,8 +5501,7 @@ export interface WebAppsStartWebSiteNetworkTrace {
   post(
     options?: WebAppsStartWebSiteNetworkTraceParameters
   ): Promise<
-    | WebAppsStartWebSiteNetworkTrace200Response
-    | WebAppsStartWebSiteNetworkTracedefaultResponse
+    WebAppsStartWebSiteNetworkTrace200Response | WebAppsStartWebSiteNetworkTracedefaultResponse
   >;
 }
 
@@ -5813,9 +5531,7 @@ export interface WebAppsGetNetworkTraces {
   /** Gets a named operation for a network trace capturing (or deployment slot, if specified). */
   get(
     options?: WebAppsGetNetworkTracesParameters
-  ): Promise<
-    WebAppsGetNetworkTraces200Response | WebAppsGetNetworkTracesdefaultResponse
-  >;
+  ): Promise<WebAppsGetNetworkTraces200Response | WebAppsGetNetworkTracesdefaultResponse>;
 }
 
 export interface WebAppsGetNetworkTraceOperationV2 {
@@ -5833,10 +5549,7 @@ export interface WebAppsGetNetworkTracesV2 {
   /** Gets a named operation for a network trace capturing (or deployment slot, if specified). */
   get(
     options?: WebAppsGetNetworkTracesV2Parameters
-  ): Promise<
-    | WebAppsGetNetworkTracesV2200Response
-    | WebAppsGetNetworkTracesV2defaultResponse
-  >;
+  ): Promise<WebAppsGetNetworkTracesV2200Response | WebAppsGetNetworkTracesV2defaultResponse>;
 }
 
 export interface WebAppsGenerateNewSitePublishingPassword {
@@ -5854,10 +5567,7 @@ export interface WebAppsListPerfMonCounters {
   /** Gets perfmon counters for web app. */
   get(
     options?: WebAppsListPerfMonCountersParameters
-  ): Promise<
-    | WebAppsListPerfMonCounters200Response
-    | WebAppsListPerfMonCountersdefaultResponse
-  >;
+  ): Promise<WebAppsListPerfMonCounters200Response | WebAppsListPerfMonCountersdefaultResponse>;
 }
 
 export interface WebAppsGetSitePhpErrorLogFlag {
@@ -5865,8 +5575,7 @@ export interface WebAppsGetSitePhpErrorLogFlag {
   get(
     options?: WebAppsGetSitePhpErrorLogFlagParameters
   ): Promise<
-    | WebAppsGetSitePhpErrorLogFlag200Response
-    | WebAppsGetSitePhpErrorLogFlagdefaultResponse
+    WebAppsGetSitePhpErrorLogFlag200Response | WebAppsGetSitePhpErrorLogFlagdefaultResponse
   >;
 }
 
@@ -5874,55 +5583,37 @@ export interface WebAppsListPremierAddOns {
   /** Gets the premier add-ons of an app. */
   get(
     options?: WebAppsListPremierAddOnsParameters
-  ): Promise<
-    | WebAppsListPremierAddOns200Response
-    | WebAppsListPremierAddOnsdefaultResponse
-  >;
+  ): Promise<WebAppsListPremierAddOns200Response | WebAppsListPremierAddOnsdefaultResponse>;
 }
 
 export interface WebAppsGetPremierAddOn {
   /** Gets a named add-on of an app. */
   get(
     options?: WebAppsGetPremierAddOnParameters
-  ): Promise<
-    WebAppsGetPremierAddOn200Response | WebAppsGetPremierAddOndefaultResponse
-  >;
+  ): Promise<WebAppsGetPremierAddOn200Response | WebAppsGetPremierAddOndefaultResponse>;
   /** Updates a named add-on of an app. */
   put(
     options: WebAppsAddPremierAddOnParameters
-  ): Promise<
-    WebAppsAddPremierAddOn200Response | WebAppsAddPremierAddOndefaultResponse
-  >;
+  ): Promise<WebAppsAddPremierAddOn200Response | WebAppsAddPremierAddOndefaultResponse>;
   /** Delete a premier add-on from an app. */
   delete(
     options?: WebAppsDeletePremierAddOnParameters
-  ): Promise<
-    | WebAppsDeletePremierAddOn200Response
-    | WebAppsDeletePremierAddOndefaultResponse
-  >;
+  ): Promise<WebAppsDeletePremierAddOn200Response | WebAppsDeletePremierAddOndefaultResponse>;
   /** Updates a named add-on of an app. */
   patch(
     options: WebAppsUpdatePremierAddOnParameters
-  ): Promise<
-    | WebAppsUpdatePremierAddOn200Response
-    | WebAppsUpdatePremierAddOndefaultResponse
-  >;
+  ): Promise<WebAppsUpdatePremierAddOn200Response | WebAppsUpdatePremierAddOndefaultResponse>;
 }
 
 export interface WebAppsGetPrivateAccess {
   /** Gets data around private site access enablement and authorized Virtual Networks that can access the site. */
   get(
     options?: WebAppsGetPrivateAccessParameters
-  ): Promise<
-    WebAppsGetPrivateAccess200Response | WebAppsGetPrivateAccessdefaultResponse
-  >;
+  ): Promise<WebAppsGetPrivateAccess200Response | WebAppsGetPrivateAccessdefaultResponse>;
   /** Sets data around private site access enablement and authorized Virtual Networks that can access the site. */
   put(
     options: WebAppsPutPrivateAccessVnetParameters
-  ): Promise<
-    | WebAppsPutPrivateAccessVnet200Response
-    | WebAppsPutPrivateAccessVnetdefaultResponse
-  >;
+  ): Promise<WebAppsPutPrivateAccessVnet200Response | WebAppsPutPrivateAccessVnetdefaultResponse>;
 }
 
 export interface WebAppsGetPrivateEndpointConnectionList {
@@ -5967,8 +5658,7 @@ export interface WebAppsGetPrivateLinkResources {
   get(
     options?: WebAppsGetPrivateLinkResourcesParameters
   ): Promise<
-    | WebAppsGetPrivateLinkResources200Response
-    | WebAppsGetPrivateLinkResourcesdefaultResponse
+    WebAppsGetPrivateLinkResources200Response | WebAppsGetPrivateLinkResourcesdefaultResponse
   >;
 }
 
@@ -5988,9 +5678,7 @@ export interface WebAppsGetProcess {
   get(
     options?: WebAppsGetProcessParameters
   ): Promise<
-    | WebAppsGetProcess200Response
-    | WebAppsGetProcess404Response
-    | WebAppsGetProcessdefaultResponse
+    WebAppsGetProcess200Response | WebAppsGetProcess404Response | WebAppsGetProcessdefaultResponse
   >;
   /** Terminate a process by its ID for a web site, or a deployment slot, or specific scaled-out instance in a web site. */
   delete(
@@ -6051,8 +5739,7 @@ export interface WebAppsListPublicCertificates {
   get(
     options?: WebAppsListPublicCertificatesParameters
   ): Promise<
-    | WebAppsListPublicCertificates200Response
-    | WebAppsListPublicCertificatesdefaultResponse
+    WebAppsListPublicCertificates200Response | WebAppsListPublicCertificatesdefaultResponse
   >;
 }
 
@@ -6060,10 +5747,7 @@ export interface WebAppsGetPublicCertificate {
   /** Get the named public certificate for an app (or deployment slot, if specified). */
   get(
     options?: WebAppsGetPublicCertificateParameters
-  ): Promise<
-    | WebAppsGetPublicCertificate200Response
-    | WebAppsGetPublicCertificatedefaultResponse
-  >;
+  ): Promise<WebAppsGetPublicCertificate200Response | WebAppsGetPublicCertificatedefaultResponse>;
   /** Creates a hostname binding for an app. */
   put(
     options: WebAppsCreateOrUpdatePublicCertificateParameters
@@ -6096,8 +5780,7 @@ export interface WebAppsResetProductionSlotConfig {
   post(
     options?: WebAppsResetProductionSlotConfigParameters
   ): Promise<
-    | WebAppsResetProductionSlotConfig200Response
-    | WebAppsResetProductionSlotConfigdefaultResponse
+    WebAppsResetProductionSlotConfig200Response | WebAppsResetProductionSlotConfigdefaultResponse
   >;
 }
 
@@ -6191,11 +5874,7 @@ export interface WebAppsGetSlot {
   /** Gets the details of a web, mobile, or API app. */
   get(
     options?: WebAppsGetSlotParameters
-  ): Promise<
-    | WebAppsGetSlot200Response
-    | WebAppsGetSlot404Response
-    | WebAppsGetSlotdefaultResponse
-  >;
+  ): Promise<WebAppsGetSlot200Response | WebAppsGetSlot404Response | WebAppsGetSlotdefaultResponse>;
   /** Creates a new web, mobile, or API app in an existing resource group, or updates an existing app. */
   put(
     options: WebAppsCreateOrUpdateSlotParameters
@@ -6217,9 +5896,7 @@ export interface WebAppsGetSlot {
   patch(
     options: WebAppsUpdateSlotParameters
   ): Promise<
-    | WebAppsUpdateSlot200Response
-    | WebAppsUpdateSlot202Response
-    | WebAppsUpdateSlotdefaultResponse
+    WebAppsUpdateSlot200Response | WebAppsUpdateSlot202Response | WebAppsUpdateSlotdefaultResponse
   >;
 }
 
@@ -6228,8 +5905,7 @@ export interface WebAppsAnalyzeCustomHostnameSlot {
   get(
     options?: WebAppsAnalyzeCustomHostnameSlotParameters
   ): Promise<
-    | WebAppsAnalyzeCustomHostnameSlot200Response
-    | WebAppsAnalyzeCustomHostnameSlotdefaultResponse
+    WebAppsAnalyzeCustomHostnameSlot200Response | WebAppsAnalyzeCustomHostnameSlotdefaultResponse
   >;
 }
 
@@ -6238,8 +5914,7 @@ export interface WebAppsApplySlotConfigurationSlot {
   post(
     options: WebAppsApplySlotConfigurationSlotParameters
   ): Promise<
-    | WebAppsApplySlotConfigurationSlot200Response
-    | WebAppsApplySlotConfigurationSlotdefaultResponse
+    WebAppsApplySlotConfigurationSlot200Response | WebAppsApplySlotConfigurationSlotdefaultResponse
   >;
 }
 
@@ -6254,19 +5929,14 @@ export interface WebAppsListBackupsSlot {
   /** Gets existing backups of an app. */
   get(
     options?: WebAppsListBackupsSlotParameters
-  ): Promise<
-    WebAppsListBackupsSlot200Response | WebAppsListBackupsSlotdefaultResponse
-  >;
+  ): Promise<WebAppsListBackupsSlot200Response | WebAppsListBackupsSlotdefaultResponse>;
 }
 
 export interface WebAppsGetBackupStatusSlot {
   /** Gets a backup of an app by its ID. */
   get(
     options?: WebAppsGetBackupStatusSlotParameters
-  ): Promise<
-    | WebAppsGetBackupStatusSlot200Response
-    | WebAppsGetBackupStatusSlotdefaultResponse
-  >;
+  ): Promise<WebAppsGetBackupStatusSlot200Response | WebAppsGetBackupStatusSlotdefaultResponse>;
   /** Deletes a backup of an app by its ID. */
   delete(
     options?: WebAppsDeleteBackupSlotParameters
@@ -6312,34 +5982,22 @@ export interface WebAppsGetFtpAllowedSlot {
   /** Returns whether FTP is allowed on the site or not. */
   get(
     options?: WebAppsGetFtpAllowedSlotParameters
-  ): Promise<
-    | WebAppsGetFtpAllowedSlot200Response
-    | WebAppsGetFtpAllowedSlotdefaultResponse
-  >;
+  ): Promise<WebAppsGetFtpAllowedSlot200Response | WebAppsGetFtpAllowedSlotdefaultResponse>;
   /** Updates whether FTP is allowed on the site or not. */
   put(
     options: WebAppsUpdateFtpAllowedSlotParameters
-  ): Promise<
-    | WebAppsUpdateFtpAllowedSlot200Response
-    | WebAppsUpdateFtpAllowedSlotdefaultResponse
-  >;
+  ): Promise<WebAppsUpdateFtpAllowedSlot200Response | WebAppsUpdateFtpAllowedSlotdefaultResponse>;
 }
 
 export interface WebAppsGetScmAllowedSlot {
   /** Returns whether Scm basic auth is allowed on the site or not. */
   get(
     options?: WebAppsGetScmAllowedSlotParameters
-  ): Promise<
-    | WebAppsGetScmAllowedSlot200Response
-    | WebAppsGetScmAllowedSlotdefaultResponse
-  >;
+  ): Promise<WebAppsGetScmAllowedSlot200Response | WebAppsGetScmAllowedSlotdefaultResponse>;
   /** Updates whether user publishing credentials are allowed on the site or not. */
   put(
     options: WebAppsUpdateScmAllowedSlotParameters
-  ): Promise<
-    | WebAppsUpdateScmAllowedSlot200Response
-    | WebAppsUpdateScmAllowedSlotdefaultResponse
-  >;
+  ): Promise<WebAppsUpdateScmAllowedSlot200Response | WebAppsUpdateScmAllowedSlotdefaultResponse>;
 }
 
 export interface WebAppsListConfigurationsSlot {
@@ -6347,8 +6005,7 @@ export interface WebAppsListConfigurationsSlot {
   get(
     options?: WebAppsListConfigurationsSlotParameters
   ): Promise<
-    | WebAppsListConfigurationsSlot200Response
-    | WebAppsListConfigurationsSlotdefaultResponse
+    WebAppsListConfigurationsSlot200Response | WebAppsListConfigurationsSlotdefaultResponse
   >;
 }
 
@@ -6377,8 +6034,7 @@ export interface WebAppsUpdateAuthSettingsSlot {
   put(
     options: WebAppsUpdateAuthSettingsSlotParameters
   ): Promise<
-    | WebAppsUpdateAuthSettingsSlot200Response
-    | WebAppsUpdateAuthSettingsSlotdefaultResponse
+    WebAppsUpdateAuthSettingsSlot200Response | WebAppsUpdateAuthSettingsSlotdefaultResponse
   >;
 }
 
@@ -6386,10 +6042,7 @@ export interface WebAppsGetAuthSettingsSlot {
   /** Gets the Authentication/Authorization settings of an app. */
   post(
     options?: WebAppsGetAuthSettingsSlotParameters
-  ): Promise<
-    | WebAppsGetAuthSettingsSlot200Response
-    | WebAppsGetAuthSettingsSlotdefaultResponse
-  >;
+  ): Promise<WebAppsGetAuthSettingsSlot200Response | WebAppsGetAuthSettingsSlotdefaultResponse>;
 }
 
 export interface WebAppsGetAuthSettingsV2WithoutSecretsSlot {
@@ -6404,8 +6057,7 @@ export interface WebAppsGetAuthSettingsV2WithoutSecretsSlot {
   put(
     options: WebAppsUpdateAuthSettingsV2SlotParameters
   ): Promise<
-    | WebAppsUpdateAuthSettingsV2Slot200Response
-    | WebAppsUpdateAuthSettingsV2SlotdefaultResponse
+    WebAppsUpdateAuthSettingsV2Slot200Response | WebAppsUpdateAuthSettingsV2SlotdefaultResponse
   >;
 }
 
@@ -6413,10 +6065,7 @@ export interface WebAppsGetAuthSettingsV2Slot {
   /** Gets site's Authentication / Authorization settings for apps via the V2 format */
   get(
     options?: WebAppsGetAuthSettingsV2SlotParameters
-  ): Promise<
-    | WebAppsGetAuthSettingsV2Slot200Response
-    | WebAppsGetAuthSettingsV2SlotdefaultResponse
-  >;
+  ): Promise<WebAppsGetAuthSettingsV2Slot200Response | WebAppsGetAuthSettingsV2SlotdefaultResponse>;
 }
 
 export interface WebAppsUpdateAzureStorageAccountsSlot {
@@ -6461,8 +6110,7 @@ export interface WebAppsGetBackupConfigurationSlot {
   post(
     options?: WebAppsGetBackupConfigurationSlotParameters
   ): Promise<
-    | WebAppsGetBackupConfigurationSlot200Response
-    | WebAppsGetBackupConfigurationSlotdefaultResponse
+    WebAppsGetBackupConfigurationSlot200Response | WebAppsGetBackupConfigurationSlotdefaultResponse
   >;
 }
 
@@ -6521,8 +6169,7 @@ export interface WebAppsListConnectionStringsSlot {
   post(
     options?: WebAppsListConnectionStringsSlotParameters
   ): Promise<
-    | WebAppsListConnectionStringsSlot200Response
-    | WebAppsListConnectionStringsSlotdefaultResponse
+    WebAppsListConnectionStringsSlot200Response | WebAppsListConnectionStringsSlotdefaultResponse
   >;
 }
 
@@ -6547,19 +6194,14 @@ export interface WebAppsUpdateMetadataSlot {
   /** Replaces the metadata of an app. */
   put(
     options: WebAppsUpdateMetadataSlotParameters
-  ): Promise<
-    | WebAppsUpdateMetadataSlot200Response
-    | WebAppsUpdateMetadataSlotdefaultResponse
-  >;
+  ): Promise<WebAppsUpdateMetadataSlot200Response | WebAppsUpdateMetadataSlotdefaultResponse>;
 }
 
 export interface WebAppsListMetadataSlot {
   /** Gets the metadata of an app. */
   post(
     options?: WebAppsListMetadataSlotParameters
-  ): Promise<
-    WebAppsListMetadataSlot200Response | WebAppsListMetadataSlotdefaultResponse
-  >;
+  ): Promise<WebAppsListMetadataSlot200Response | WebAppsListMetadataSlotdefaultResponse>;
 }
 
 export interface WebAppsListPublishingCredentialsSlot {
@@ -6577,8 +6219,7 @@ export interface WebAppsUpdateSitePushSettingsSlot {
   put(
     options: WebAppsUpdateSitePushSettingsSlotParameters
   ): Promise<
-    | WebAppsUpdateSitePushSettingsSlot200Response
-    | WebAppsUpdateSitePushSettingsSlotdefaultResponse
+    WebAppsUpdateSitePushSettingsSlot200Response | WebAppsUpdateSitePushSettingsSlotdefaultResponse
   >;
 }
 
@@ -6587,8 +6228,7 @@ export interface WebAppsListSitePushSettingsSlot {
   post(
     options?: WebAppsListSitePushSettingsSlotParameters
   ): Promise<
-    | WebAppsListSitePushSettingsSlot200Response
-    | WebAppsListSitePushSettingsSlotdefaultResponse
+    WebAppsListSitePushSettingsSlot200Response | WebAppsListSitePushSettingsSlotdefaultResponse
   >;
 }
 
@@ -6596,10 +6236,7 @@ export interface WebAppsGetConfigurationSlot {
   /** Gets the configuration of an app, such as platform version and bitness, default documents, virtual applications, Always On, etc. */
   get(
     options?: WebAppsGetConfigurationSlotParameters
-  ): Promise<
-    | WebAppsGetConfigurationSlot200Response
-    | WebAppsGetConfigurationSlotdefaultResponse
-  >;
+  ): Promise<WebAppsGetConfigurationSlot200Response | WebAppsGetConfigurationSlotdefaultResponse>;
   /** Updates the configuration of an app. */
   put(
     options: WebAppsCreateOrUpdateConfigurationSlotParameters
@@ -6611,8 +6248,7 @@ export interface WebAppsGetConfigurationSlot {
   patch(
     options: WebAppsUpdateConfigurationSlotParameters
   ): Promise<
-    | WebAppsUpdateConfigurationSlot200Response
-    | WebAppsUpdateConfigurationSlotdefaultResponse
+    WebAppsUpdateConfigurationSlot200Response | WebAppsUpdateConfigurationSlotdefaultResponse
   >;
 }
 
@@ -6673,8 +6309,7 @@ export interface WebAppsListContinuousWebJobsSlot {
   get(
     options?: WebAppsListContinuousWebJobsSlotParameters
   ): Promise<
-    | WebAppsListContinuousWebJobsSlot200Response
-    | WebAppsListContinuousWebJobsSlotdefaultResponse
+    WebAppsListContinuousWebJobsSlot200Response | WebAppsListContinuousWebJobsSlotdefaultResponse
   >;
 }
 
@@ -6723,27 +6358,18 @@ export interface WebAppsListDeploymentsSlot {
   /** List deployments for an app, or a deployment slot. */
   get(
     options?: WebAppsListDeploymentsSlotParameters
-  ): Promise<
-    | WebAppsListDeploymentsSlot200Response
-    | WebAppsListDeploymentsSlotdefaultResponse
-  >;
+  ): Promise<WebAppsListDeploymentsSlot200Response | WebAppsListDeploymentsSlotdefaultResponse>;
 }
 
 export interface WebAppsGetDeploymentSlot {
   /** Get a deployment by its ID for an app, or a deployment slot. */
   get(
     options?: WebAppsGetDeploymentSlotParameters
-  ): Promise<
-    | WebAppsGetDeploymentSlot200Response
-    | WebAppsGetDeploymentSlotdefaultResponse
-  >;
+  ): Promise<WebAppsGetDeploymentSlot200Response | WebAppsGetDeploymentSlotdefaultResponse>;
   /** Create a deployment for an app, or a deployment slot. */
   put(
     options: WebAppsCreateDeploymentSlotParameters
-  ): Promise<
-    | WebAppsCreateDeploymentSlot200Response
-    | WebAppsCreateDeploymentSlotdefaultResponse
-  >;
+  ): Promise<WebAppsCreateDeploymentSlot200Response | WebAppsCreateDeploymentSlotdefaultResponse>;
   /** Delete a deployment by its ID for an app, or a deployment slot. */
   delete(
     options?: WebAppsDeleteDeploymentSlotParameters
@@ -6758,20 +6384,14 @@ export interface WebAppsListDeploymentLogSlot {
   /** List deployment log for specific deployment for an app, or a deployment slot. */
   get(
     options?: WebAppsListDeploymentLogSlotParameters
-  ): Promise<
-    | WebAppsListDeploymentLogSlot200Response
-    | WebAppsListDeploymentLogSlotdefaultResponse
-  >;
+  ): Promise<WebAppsListDeploymentLogSlot200Response | WebAppsListDeploymentLogSlotdefaultResponse>;
 }
 
 export interface WebAppsDiscoverBackupSlot {
   /** Discovers an existing app backup that can be restored from a blob in Azure storage. Use this to get information about the databases stored in a backup. */
   post(
     options: WebAppsDiscoverBackupSlotParameters
-  ): Promise<
-    | WebAppsDiscoverBackupSlot200Response
-    | WebAppsDiscoverBackupSlotdefaultResponse
-  >;
+  ): Promise<WebAppsDiscoverBackupSlot200Response | WebAppsDiscoverBackupSlotdefaultResponse>;
 }
 
 export interface WebAppsListDomainOwnershipIdentifiersSlot {
@@ -6820,10 +6440,7 @@ export interface WebAppsGetMSDeployStatusSlot {
   /** Get the status of the last MSDeploy operation. */
   get(
     options?: WebAppsGetMSDeployStatusSlotParameters
-  ): Promise<
-    | WebAppsGetMSDeployStatusSlot200Response
-    | WebAppsGetMSDeployStatusSlotdefaultResponse
-  >;
+  ): Promise<WebAppsGetMSDeployStatusSlot200Response | WebAppsGetMSDeployStatusSlotdefaultResponse>;
   /** Invoke the MSDeploy web app extension. */
   put(
     options: WebAppsCreateMSDeployOperationSlotParameters
@@ -6861,8 +6478,7 @@ export interface WebAppsGetFunctionsAdminTokenSlot {
   get(
     options?: WebAppsGetFunctionsAdminTokenSlotParameters
   ): Promise<
-    | WebAppsGetFunctionsAdminTokenSlot200Response
-    | WebAppsGetFunctionsAdminTokenSlotdefaultResponse
+    WebAppsGetFunctionsAdminTokenSlot200Response | WebAppsGetFunctionsAdminTokenSlotdefaultResponse
   >;
 }
 
@@ -6879,8 +6495,7 @@ export interface WebAppsGetInstanceFunctionSlot {
   put(
     options: WebAppsCreateInstanceFunctionSlotParameters
   ): Promise<
-    | WebAppsCreateInstanceFunctionSlot201Response
-    | WebAppsCreateInstanceFunctionSlotdefaultResponse
+    WebAppsCreateInstanceFunctionSlot201Response | WebAppsCreateInstanceFunctionSlotdefaultResponse
   >;
   /** Delete a function for web site, or a deployment slot. */
   delete(
@@ -6915,10 +6530,7 @@ export interface WebAppsListFunctionKeysSlot {
   /** Get function keys for a function in a web site, or a deployment slot. */
   post(
     options?: WebAppsListFunctionKeysSlotParameters
-  ): Promise<
-    | WebAppsListFunctionKeysSlot200Response
-    | WebAppsListFunctionKeysSlotdefaultResponse
-  >;
+  ): Promise<WebAppsListFunctionKeysSlot200Response | WebAppsListFunctionKeysSlotdefaultResponse>;
 }
 
 export interface WebAppsListFunctionSecretsSlot {
@@ -6926,8 +6538,7 @@ export interface WebAppsListFunctionSecretsSlot {
   post(
     options?: WebAppsListFunctionSecretsSlotParameters
   ): Promise<
-    | WebAppsListFunctionSecretsSlot200Response
-    | WebAppsListFunctionSecretsSlotdefaultResponse
+    WebAppsListFunctionSecretsSlot200Response | WebAppsListFunctionSecretsSlotdefaultResponse
   >;
 }
 
@@ -6935,29 +6546,21 @@ export interface WebAppsListHostKeysSlot {
   /** Get host secrets for a function app. */
   post(
     options?: WebAppsListHostKeysSlotParameters
-  ): Promise<
-    WebAppsListHostKeysSlot200Response | WebAppsListHostKeysSlotdefaultResponse
-  >;
+  ): Promise<WebAppsListHostKeysSlot200Response | WebAppsListHostKeysSlotdefaultResponse>;
 }
 
 export interface WebAppsListSyncStatusSlot {
   /** This is to allow calling via powershell and ARM template. */
   post(
     options?: WebAppsListSyncStatusSlotParameters
-  ): Promise<
-    | WebAppsListSyncStatusSlot204Response
-    | WebAppsListSyncStatusSlotdefaultResponse
-  >;
+  ): Promise<WebAppsListSyncStatusSlot204Response | WebAppsListSyncStatusSlotdefaultResponse>;
 }
 
 export interface WebAppsSyncFunctionsSlot {
   /** Syncs function trigger metadata to the management database */
   post(
     options?: WebAppsSyncFunctionsSlotParameters
-  ): Promise<
-    | WebAppsSyncFunctionsSlot204Response
-    | WebAppsSyncFunctionsSlotdefaultResponse
-  >;
+  ): Promise<WebAppsSyncFunctionsSlot204Response | WebAppsSyncFunctionsSlotdefaultResponse>;
 }
 
 export interface WebAppsCreateOrUpdateHostSecretSlot {
@@ -6984,8 +6587,7 @@ export interface WebAppsListHostNameBindingsSlot {
   get(
     options?: WebAppsListHostNameBindingsSlotParameters
   ): Promise<
-    | WebAppsListHostNameBindingsSlot200Response
-    | WebAppsListHostNameBindingsSlotdefaultResponse
+    WebAppsListHostNameBindingsSlot200Response | WebAppsListHostNameBindingsSlotdefaultResponse
   >;
 }
 
@@ -6994,8 +6596,7 @@ export interface WebAppsGetHostNameBindingSlot {
   get(
     options?: WebAppsGetHostNameBindingSlotParameters
   ): Promise<
-    | WebAppsGetHostNameBindingSlot200Response
-    | WebAppsGetHostNameBindingSlotdefaultResponse
+    WebAppsGetHostNameBindingSlot200Response | WebAppsGetHostNameBindingSlotdefaultResponse
   >;
   /** Creates a hostname binding for an app. */
   put(
@@ -7019,8 +6620,7 @@ export interface WebAppsGetHybridConnectionSlot {
   get(
     options?: WebAppsGetHybridConnectionSlotParameters
   ): Promise<
-    | WebAppsGetHybridConnectionSlot200Response
-    | WebAppsGetHybridConnectionSlotdefaultResponse
+    WebAppsGetHybridConnectionSlot200Response | WebAppsGetHybridConnectionSlotdefaultResponse
   >;
   /** Creates a new Hybrid Connection using a Service Bus relay. */
   put(
@@ -7041,8 +6641,7 @@ export interface WebAppsGetHybridConnectionSlot {
   patch(
     options: WebAppsUpdateHybridConnectionSlotParameters
   ): Promise<
-    | WebAppsUpdateHybridConnectionSlot200Response
-    | WebAppsUpdateHybridConnectionSlotdefaultResponse
+    WebAppsUpdateHybridConnectionSlot200Response | WebAppsUpdateHybridConnectionSlotdefaultResponse
   >;
 }
 
@@ -7051,8 +6650,7 @@ export interface WebAppsListHybridConnectionsSlot {
   get(
     options?: WebAppsListHybridConnectionsSlotParameters
   ): Promise<
-    | WebAppsListHybridConnectionsSlot200Response
-    | WebAppsListHybridConnectionsSlotdefaultResponse
+    WebAppsListHybridConnectionsSlot200Response | WebAppsListHybridConnectionsSlotdefaultResponse
   >;
 }
 
@@ -7112,10 +6710,7 @@ export interface WebAppsGetInstanceInfoSlot {
   /** Gets all scale-out instances of an app. */
   get(
     options?: WebAppsGetInstanceInfoSlotParameters
-  ): Promise<
-    | WebAppsGetInstanceInfoSlot200Response
-    | WebAppsGetInstanceInfoSlotdefaultResponse
-  >;
+  ): Promise<WebAppsGetInstanceInfoSlot200Response | WebAppsGetInstanceInfoSlotdefaultResponse>;
 }
 
 export interface WebAppsGetInstanceMsDeployStatusSlot {
@@ -7225,19 +6820,14 @@ export interface WebAppsIsCloneableSlot {
   /** Shows whether an app can be cloned to another resource group or subscription. */
   post(
     options?: WebAppsIsCloneableSlotParameters
-  ): Promise<
-    WebAppsIsCloneableSlot200Response | WebAppsIsCloneableSlotdefaultResponse
-  >;
+  ): Promise<WebAppsIsCloneableSlot200Response | WebAppsIsCloneableSlotdefaultResponse>;
 }
 
 export interface WebAppsListSiteBackupsSlot {
   /** Gets existing backups of an app. */
   post(
     options?: WebAppsListSiteBackupsSlotParameters
-  ): Promise<
-    | WebAppsListSiteBackupsSlot200Response
-    | WebAppsListSiteBackupsSlotdefaultResponse
-  >;
+  ): Promise<WebAppsListSiteBackupsSlot200Response | WebAppsListSiteBackupsSlotdefaultResponse>;
 }
 
 export interface WebAppsListSyncFunctionTriggersSlot {
@@ -7255,8 +6845,7 @@ export interface WebAppsGetMigrateMySqlStatusSlot {
   get(
     options?: WebAppsGetMigrateMySqlStatusSlotParameters
   ): Promise<
-    | WebAppsGetMigrateMySqlStatusSlot200Response
-    | WebAppsGetMigrateMySqlStatusSlotdefaultResponse
+    WebAppsGetMigrateMySqlStatusSlot200Response | WebAppsGetMigrateMySqlStatusSlotdefaultResponse
   >;
 }
 
@@ -7356,10 +6945,7 @@ export interface WebAppsGetNetworkTracesSlot {
   /** Gets a named operation for a network trace capturing (or deployment slot, if specified). */
   get(
     options?: WebAppsGetNetworkTracesSlotParameters
-  ): Promise<
-    | WebAppsGetNetworkTracesSlot200Response
-    | WebAppsGetNetworkTracesSlotdefaultResponse
-  >;
+  ): Promise<WebAppsGetNetworkTracesSlot200Response | WebAppsGetNetworkTracesSlotdefaultResponse>;
 }
 
 export interface WebAppsGetNetworkTraceOperationSlotV2 {
@@ -7378,8 +6964,7 @@ export interface WebAppsGetNetworkTracesSlotV2 {
   get(
     options?: WebAppsGetNetworkTracesSlotV2Parameters
   ): Promise<
-    | WebAppsGetNetworkTracesSlotV2200Response
-    | WebAppsGetNetworkTracesSlotV2defaultResponse
+    WebAppsGetNetworkTracesSlotV2200Response | WebAppsGetNetworkTracesSlotV2defaultResponse
   >;
 }
 
@@ -7399,8 +6984,7 @@ export interface WebAppsListPerfMonCountersSlot {
   get(
     options?: WebAppsListPerfMonCountersSlotParameters
   ): Promise<
-    | WebAppsListPerfMonCountersSlot200Response
-    | WebAppsListPerfMonCountersSlotdefaultResponse
+    WebAppsListPerfMonCountersSlot200Response | WebAppsListPerfMonCountersSlotdefaultResponse
   >;
 }
 
@@ -7409,8 +6993,7 @@ export interface WebAppsGetSitePhpErrorLogFlagSlot {
   get(
     options?: WebAppsGetSitePhpErrorLogFlagSlotParameters
   ): Promise<
-    | WebAppsGetSitePhpErrorLogFlagSlot200Response
-    | WebAppsGetSitePhpErrorLogFlagSlotdefaultResponse
+    WebAppsGetSitePhpErrorLogFlagSlot200Response | WebAppsGetSitePhpErrorLogFlagSlotdefaultResponse
   >;
 }
 
@@ -7418,40 +7001,29 @@ export interface WebAppsListPremierAddOnsSlot {
   /** Gets the premier add-ons of an app. */
   get(
     options?: WebAppsListPremierAddOnsSlotParameters
-  ): Promise<
-    | WebAppsListPremierAddOnsSlot200Response
-    | WebAppsListPremierAddOnsSlotdefaultResponse
-  >;
+  ): Promise<WebAppsListPremierAddOnsSlot200Response | WebAppsListPremierAddOnsSlotdefaultResponse>;
 }
 
 export interface WebAppsGetPremierAddOnSlot {
   /** Gets a named add-on of an app. */
   get(
     options?: WebAppsGetPremierAddOnSlotParameters
-  ): Promise<
-    | WebAppsGetPremierAddOnSlot200Response
-    | WebAppsGetPremierAddOnSlotdefaultResponse
-  >;
+  ): Promise<WebAppsGetPremierAddOnSlot200Response | WebAppsGetPremierAddOnSlotdefaultResponse>;
   /** Updates a named add-on of an app. */
   put(
     options: WebAppsAddPremierAddOnSlotParameters
-  ): Promise<
-    | WebAppsAddPremierAddOnSlot200Response
-    | WebAppsAddPremierAddOnSlotdefaultResponse
-  >;
+  ): Promise<WebAppsAddPremierAddOnSlot200Response | WebAppsAddPremierAddOnSlotdefaultResponse>;
   /** Delete a premier add-on from an app. */
   delete(
     options?: WebAppsDeletePremierAddOnSlotParameters
   ): Promise<
-    | WebAppsDeletePremierAddOnSlot200Response
-    | WebAppsDeletePremierAddOnSlotdefaultResponse
+    WebAppsDeletePremierAddOnSlot200Response | WebAppsDeletePremierAddOnSlotdefaultResponse
   >;
   /** Updates a named add-on of an app. */
   patch(
     options: WebAppsUpdatePremierAddOnSlotParameters
   ): Promise<
-    | WebAppsUpdatePremierAddOnSlot200Response
-    | WebAppsUpdatePremierAddOnSlotdefaultResponse
+    WebAppsUpdatePremierAddOnSlot200Response | WebAppsUpdatePremierAddOnSlotdefaultResponse
   >;
 }
 
@@ -7459,16 +7031,12 @@ export interface WebAppsGetPrivateAccessSlot {
   /** Gets data around private site access enablement and authorized Virtual Networks that can access the site. */
   get(
     options?: WebAppsGetPrivateAccessSlotParameters
-  ): Promise<
-    | WebAppsGetPrivateAccessSlot200Response
-    | WebAppsGetPrivateAccessSlotdefaultResponse
-  >;
+  ): Promise<WebAppsGetPrivateAccessSlot200Response | WebAppsGetPrivateAccessSlotdefaultResponse>;
   /** Sets data around private site access enablement and authorized Virtual Networks that can access the site. */
   put(
     options: WebAppsPutPrivateAccessVnetSlotParameters
   ): Promise<
-    | WebAppsPutPrivateAccessVnetSlot200Response
-    | WebAppsPutPrivateAccessVnetSlotdefaultResponse
+    WebAppsPutPrivateAccessVnetSlot200Response | WebAppsPutPrivateAccessVnetSlotdefaultResponse
   >;
 }
 
@@ -7598,8 +7166,7 @@ export interface WebAppsListPublicCertificatesSlot {
   get(
     options?: WebAppsListPublicCertificatesSlotParameters
   ): Promise<
-    | WebAppsListPublicCertificatesSlot200Response
-    | WebAppsListPublicCertificatesSlotdefaultResponse
+    WebAppsListPublicCertificatesSlot200Response | WebAppsListPublicCertificatesSlotdefaultResponse
   >;
 }
 
@@ -7608,8 +7175,7 @@ export interface WebAppsGetPublicCertificateSlot {
   get(
     options?: WebAppsGetPublicCertificateSlotParameters
   ): Promise<
-    | WebAppsGetPublicCertificateSlot200Response
-    | WebAppsGetPublicCertificateSlotdefaultResponse
+    WebAppsGetPublicCertificateSlot200Response | WebAppsGetPublicCertificateSlotdefaultResponse
   >;
   /** Creates a hostname binding for an app. */
   put(
@@ -7643,8 +7209,7 @@ export interface WebAppsResetSlotConfigurationSlot {
   post(
     options?: WebAppsResetSlotConfigurationSlotParameters
   ): Promise<
-    | WebAppsResetSlotConfigurationSlot200Response
-    | WebAppsResetSlotConfigurationSlotdefaultResponse
+    WebAppsResetSlotConfigurationSlot200Response | WebAppsResetSlotConfigurationSlotdefaultResponse
   >;
 }
 
@@ -7732,8 +7297,7 @@ export interface WebAppsListSlotDifferencesSlot {
   post(
     options: WebAppsListSlotDifferencesSlotParameters
   ): Promise<
-    | WebAppsListSlotDifferencesSlot200Response
-    | WebAppsListSlotDifferencesSlotdefaultResponse
+    WebAppsListSlotDifferencesSlot200Response | WebAppsListSlotDifferencesSlotdefaultResponse
   >;
 }
 
@@ -7742,9 +7306,7 @@ export interface WebAppsSwapSlot {
   post(
     options: WebAppsSwapSlotParameters
   ): Promise<
-    | WebAppsSwapSlot200Response
-    | WebAppsSwapSlot202Response
-    | WebAppsSwapSlotdefaultResponse
+    WebAppsSwapSlot200Response | WebAppsSwapSlot202Response | WebAppsSwapSlotdefaultResponse
   >;
 }
 
@@ -7752,10 +7314,7 @@ export interface WebAppsListSnapshotsSlot {
   /** Returns all Snapshots to the user. */
   get(
     options?: WebAppsListSnapshotsSlotParameters
-  ): Promise<
-    | WebAppsListSnapshotsSlot200Response
-    | WebAppsListSnapshotsSlotdefaultResponse
-  >;
+  ): Promise<WebAppsListSnapshotsSlot200Response | WebAppsListSnapshotsSlotdefaultResponse>;
 }
 
 export interface WebAppsListSnapshotsFromDRSecondarySlot {
@@ -7847,10 +7406,7 @@ export interface WebAppsSyncRepositorySlot {
   /** Sync web app repository. */
   post(
     options?: WebAppsSyncRepositorySlotParameters
-  ): Promise<
-    | WebAppsSyncRepositorySlot200Response
-    | WebAppsSyncRepositorySlotdefaultResponse
-  >;
+  ): Promise<WebAppsSyncRepositorySlot200Response | WebAppsSyncRepositorySlotdefaultResponse>;
 }
 
 export interface WebAppsSyncFunctionTriggersSlot {
@@ -7858,8 +7414,7 @@ export interface WebAppsSyncFunctionTriggersSlot {
   post(
     options?: WebAppsSyncFunctionTriggersSlotParameters
   ): Promise<
-    | WebAppsSyncFunctionTriggersSlot204Response
-    | WebAppsSyncFunctionTriggersSlotdefaultResponse
+    WebAppsSyncFunctionTriggersSlot204Response | WebAppsSyncFunctionTriggersSlotdefaultResponse
   >;
 }
 
@@ -7868,8 +7423,7 @@ export interface WebAppsListTriggeredWebJobsSlot {
   get(
     options?: WebAppsListTriggeredWebJobsSlotParameters
   ): Promise<
-    | WebAppsListTriggeredWebJobsSlot200Response
-    | WebAppsListTriggeredWebJobsSlotdefaultResponse
+    WebAppsListTriggeredWebJobsSlot200Response | WebAppsListTriggeredWebJobsSlotdefaultResponse
   >;
 }
 
@@ -7929,9 +7483,7 @@ export interface WebAppsListUsagesSlot {
   /** Gets the quota usage information of an app (or deployment slot, if specified). */
   get(
     options?: WebAppsListUsagesSlotParameters
-  ): Promise<
-    WebAppsListUsagesSlot200Response | WebAppsListUsagesSlotdefaultResponse
-  >;
+  ): Promise<WebAppsListUsagesSlot200Response | WebAppsListUsagesSlotdefaultResponse>;
 }
 
 export interface WebAppsListVnetConnectionsSlot {
@@ -7939,8 +7491,7 @@ export interface WebAppsListVnetConnectionsSlot {
   get(
     options?: WebAppsListVnetConnectionsSlotParameters
   ): Promise<
-    | WebAppsListVnetConnectionsSlot200Response
-    | WebAppsListVnetConnectionsSlotdefaultResponse
+    WebAppsListVnetConnectionsSlot200Response | WebAppsListVnetConnectionsSlotdefaultResponse
   >;
 }
 
@@ -7948,10 +7499,7 @@ export interface WebAppsGetVnetConnectionSlot {
   /** Gets a virtual network the app (or deployment slot) is connected to by name. */
   get(
     options?: WebAppsGetVnetConnectionSlotParameters
-  ): Promise<
-    | WebAppsGetVnetConnectionSlot200Response
-    | WebAppsGetVnetConnectionSlotdefaultResponse
-  >;
+  ): Promise<WebAppsGetVnetConnectionSlot200Response | WebAppsGetVnetConnectionSlotdefaultResponse>;
   /** Adds a Virtual Network connection to an app or slot (PUT) or updates the connection properties (PATCH). */
   put(
     options: WebAppsCreateOrUpdateVnetConnectionSlotParameters
@@ -7971,8 +7519,7 @@ export interface WebAppsGetVnetConnectionSlot {
   patch(
     options: WebAppsUpdateVnetConnectionSlotParameters
   ): Promise<
-    | WebAppsUpdateVnetConnectionSlot200Response
-    | WebAppsUpdateVnetConnectionSlotdefaultResponse
+    WebAppsUpdateVnetConnectionSlot200Response | WebAppsUpdateVnetConnectionSlotdefaultResponse
   >;
 }
 
@@ -8005,18 +7552,14 @@ export interface WebAppsListWebJobsSlot {
   /** List webjobs for an app, or a deployment slot. */
   get(
     options?: WebAppsListWebJobsSlotParameters
-  ): Promise<
-    WebAppsListWebJobsSlot200Response | WebAppsListWebJobsSlotdefaultResponse
-  >;
+  ): Promise<WebAppsListWebJobsSlot200Response | WebAppsListWebJobsSlotdefaultResponse>;
 }
 
 export interface WebAppsGetWebJobSlot {
   /** Get webjob information for an app, or a deployment slot. */
   get(
     options?: WebAppsGetWebJobSlotParameters
-  ): Promise<
-    WebAppsGetWebJobSlot200Response | WebAppsGetWebJobSlotdefaultResponse
-  >;
+  ): Promise<WebAppsGetWebJobSlot200Response | WebAppsGetWebJobSlotdefaultResponse>;
 }
 
 export interface WebAppsListSlotDifferencesFromProduction {
@@ -8044,9 +7587,7 @@ export interface WebAppsListSnapshots {
   /** Returns all Snapshots to the user. */
   get(
     options?: WebAppsListSnapshotsParameters
-  ): Promise<
-    WebAppsListSnapshots200Response | WebAppsListSnapshotsdefaultResponse
-  >;
+  ): Promise<WebAppsListSnapshots200Response | WebAppsListSnapshotsdefaultResponse>;
 }
 
 export interface WebAppsListSnapshotsFromDRSecondary {
@@ -8138,29 +7679,21 @@ export interface WebAppsSyncRepository {
   /** Sync web app repository. */
   post(
     options?: WebAppsSyncRepositoryParameters
-  ): Promise<
-    WebAppsSyncRepository200Response | WebAppsSyncRepositorydefaultResponse
-  >;
+  ): Promise<WebAppsSyncRepository200Response | WebAppsSyncRepositorydefaultResponse>;
 }
 
 export interface WebAppsSyncFunctionTriggers {
   /** Syncs function trigger metadata to the management database */
   post(
     options?: WebAppsSyncFunctionTriggersParameters
-  ): Promise<
-    | WebAppsSyncFunctionTriggers204Response
-    | WebAppsSyncFunctionTriggersdefaultResponse
-  >;
+  ): Promise<WebAppsSyncFunctionTriggers204Response | WebAppsSyncFunctionTriggersdefaultResponse>;
 }
 
 export interface WebAppsListTriggeredWebJobs {
   /** List triggered web jobs for an app, or a deployment slot. */
   get(
     options?: WebAppsListTriggeredWebJobsParameters
-  ): Promise<
-    | WebAppsListTriggeredWebJobs200Response
-    | WebAppsListTriggeredWebJobsdefaultResponse
-  >;
+  ): Promise<WebAppsListTriggeredWebJobs200Response | WebAppsListTriggeredWebJobsdefaultResponse>;
 }
 
 export interface WebAppsGetTriggeredWebJob {
@@ -8226,20 +7759,14 @@ export interface WebAppsListVnetConnections {
   /** Gets the virtual networks the app (or deployment slot) is connected to. */
   get(
     options?: WebAppsListVnetConnectionsParameters
-  ): Promise<
-    | WebAppsListVnetConnections200Response
-    | WebAppsListVnetConnectionsdefaultResponse
-  >;
+  ): Promise<WebAppsListVnetConnections200Response | WebAppsListVnetConnectionsdefaultResponse>;
 }
 
 export interface WebAppsGetVnetConnection {
   /** Gets a virtual network the app (or deployment slot) is connected to by name. */
   get(
     options?: WebAppsGetVnetConnectionParameters
-  ): Promise<
-    | WebAppsGetVnetConnection200Response
-    | WebAppsGetVnetConnectiondefaultResponse
-  >;
+  ): Promise<WebAppsGetVnetConnection200Response | WebAppsGetVnetConnectiondefaultResponse>;
   /** Adds a Virtual Network connection to an app or slot (PUT) or updates the connection properties (PATCH). */
   put(
     options: WebAppsCreateOrUpdateVnetConnectionParameters
@@ -8258,10 +7785,7 @@ export interface WebAppsGetVnetConnection {
   /** Adds a Virtual Network connection to an app or slot (PUT) or updates the connection properties (PATCH). */
   patch(
     options: WebAppsUpdateVnetConnectionParameters
-  ): Promise<
-    | WebAppsUpdateVnetConnection200Response
-    | WebAppsUpdateVnetConnectiondefaultResponse
-  >;
+  ): Promise<WebAppsUpdateVnetConnection200Response | WebAppsUpdateVnetConnectiondefaultResponse>;
 }
 
 export interface WebAppsGetVnetConnectionGateway {
@@ -9206,13 +8730,9 @@ export interface Routes {
     name: string
   ): KubeEnvironmentsGet;
   /** Resource for '/providers/Microsoft.Web/availableStacks' has methods for the following verbs: get */
-  (
-    path: "/providers/Microsoft.Web/availableStacks"
-  ): ProviderGetAvailableStacks;
+  (path: "/providers/Microsoft.Web/availableStacks"): ProviderGetAvailableStacks;
   /** Resource for '/providers/Microsoft.Web/functionAppStacks' has methods for the following verbs: get */
-  (
-    path: "/providers/Microsoft.Web/functionAppStacks"
-  ): ProviderGetFunctionAppStacks;
+  (path: "/providers/Microsoft.Web/functionAppStacks"): ProviderGetFunctionAppStacks;
   /** Resource for '/providers/Microsoft.Web/locations/\{location\}/functionAppStacks' has methods for the following verbs: get */
   (
     path: "/providers/Microsoft.Web/locations/{location}/functionAppStacks",
