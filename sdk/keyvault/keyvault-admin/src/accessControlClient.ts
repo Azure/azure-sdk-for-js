@@ -19,14 +19,14 @@ import {
   SetRoleDefinitionOptions,
 } from "./accessControlModels";
 import { KeyVaultClient } from "./generated/keyVaultClient";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { createChallengeCallbacks } from "../../keyvault-common/src/";
 import { LATEST_API_VERSION } from "./constants";
-import { logger } from "./log";
-import { mappings } from "./mappings";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { RoleAssignmentsListForScopeOptionalParams } from "./generated/models";
 import { TokenCredential } from "@azure/core-auth";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { createChallengeCallbacks } from "../../keyvault-common/src/";
+import { logger } from "./log";
+import { mappings } from "./mappings";
 import { tracingClient } from "./tracing";
 import { v4 as v4uuid } from "uuid";
 
