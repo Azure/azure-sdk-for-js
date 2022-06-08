@@ -14,7 +14,7 @@ const log = createPrinter("test-proxy");
 const CONTAINER_NAME = "js-azsdk-test-proxy";
 
 export async function startProxyTool(): Promise<void> {
-  log.info(`Attempting to start test proxy at http://localhost:5000 & https://localhost:5001.\n`);
+  log.info(`Attempting to start test proxy at http://localhost:${process.env.TEST_PROXY_HTTP_PORT ?? 5000} & https://localhost:${process.env.TEST_PROXY_HTTPS_PORT ?? 5001}.\n`);
 
   const subprocess = spawn(await getDockerRunCommand(), [], {
     shell: true,
@@ -59,13 +59,13 @@ async function getDockerRunCommand() {
   const testProxyRecordingsLocation = "/srv/testproxy";
   const allowLocalhostAccess = "--add-host host.docker.internal:host-gateway";
   const imageToLoad = `azsdkengsys.azurecr.io/engsys/testproxy-lin:${await getImageTag()}`;
-  return `docker run --rm --name ${CONTAINER_NAME} -v ${repoRoot}:${testProxyRecordingsLocation} -p 5001:5001 -p 5000:5000 ${allowLocalhostAccess} ${imageToLoad}`;
+  return `docker run --rm --name ${CONTAINER_NAME} -v ${repoRoot}:${testProxyRecordingsLocation} -p ${process.env.TEST_PROXY_HTTPS_PORT ?? 5001}:5001 -p ${process.env.TEST_PROXY_HTTP_PORT ?? 5000}:5000 ${allowLocalhostAccess} ${imageToLoad}`;
 }
 
 export async function isProxyToolActive(): Promise<boolean> {
   try {
-    await makeRequest("http://localhost:5000/info/available", {});
-    log.info(`Proxy tool seems to be active at http://localhost:5000\n`);
+    await makeRequest(`http://localhost:${process.env.TEST_PROXY_HTTP_PORT ?? 5000}/info/available`, {});
+    log.info(`Proxy tool seems to be active at http://localhost:${process.env.TEST_PROXY_HTTP_PORT ?? 5000}\n`);
     return true;
   } catch (error: any) {
     return false;
