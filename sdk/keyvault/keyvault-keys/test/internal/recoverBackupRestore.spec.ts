@@ -91,7 +91,6 @@ describe("Keys client - restore keys and recover backups", () => {
 
   // On playback mode, the tests happen too fast for the timeout to work
   it("can generate a backup of a key with requestOptions timeout", async function () {
-    
     if (!isLiveMode()) {
       console.log("Timeout tests don't work on playback mode.");
       this.skip();

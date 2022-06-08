@@ -207,7 +207,11 @@ describe("Local cryptography public tests", () => {
 
         const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
         const keyVaultKey = await client.createKey(keyName, "RSA");
-        const cryptoClient = new CryptographyClient(keyVaultKey.id!, credential, recorder.configureClientOptions({}));
+        const cryptoClient = new CryptographyClient(
+          keyVaultKey.id!,
+          credential,
+          recorder.configureClientOptions({})
+        );
 
         // Sign is not implemented yet.
         // This boils down to the JWK to PEM conversion, which doesn't support private keys at the moment.

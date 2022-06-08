@@ -43,7 +43,11 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       keySuffix = authentication.keySuffix;
       keyName = recorder.variable("RSA", `RSA-${Math.floor(Math.random() * 100000)}`);
       keyVaultKey = await client.createKey(keyName, "RSA");
-      cryptoClient = new CryptographyClient(keyVaultKey, credential, recorder.configureClientOptions({}));
+      cryptoClient = new CryptographyClient(
+        keyVaultKey,
+        credential,
+        recorder.configureClientOptions({})
+      );
     });
 
     afterEach(async function (this: Context) {
@@ -120,7 +124,11 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
           `${keyPrefix}-${this!.test!.title}-${keySuffix}`
         );
         const customKeyVaultKey = await client.createKey(customKeyName, "RSA");
-        const cryptoClientFromKey = new CryptographyClient(customKeyVaultKey, credential, recorder.configureClientOptions({}));
+        const cryptoClientFromKey = new CryptographyClient(
+          customKeyVaultKey,
+          credential,
+          recorder.configureClientOptions({})
+        );
 
         const text = this.test!.title;
         const encryptResult = await cryptoClientFromKey.encrypt({
@@ -241,7 +249,11 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
 
       keyName = recorder.variable("RSA-HSM", `RSA-HSM-${Math.floor(Math.random() * 100000)}`);
       keyVaultKey = await client.createKey(keyName, "RSA-HSM");
-      cryptoClient = new CryptographyClient(keyVaultKey.id!, credential, recorder.configureClientOptions({}));
+      cryptoClient = new CryptographyClient(
+        keyVaultKey.id!,
+        credential,
+        recorder.configureClientOptions({})
+      );
     });
 
     afterEach(async function (this: Context) {
@@ -354,9 +366,12 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       it(`sign / signData and verify / verifyData using ${signatureAlgorithm}`, async function (this: Context) {
         keyVaultKey = await client.createEcKey(keyName, { curve: keyCurve });
         // Implicitly test the getCryptographyClient method here
-        cryptoClient = client.getCryptographyClient(keyVaultKey.name, recorder.configureClientOptions({
-          keyVersion: keyVaultKey.properties.version,
-        }));
+        cryptoClient = client.getCryptographyClient(
+          keyVaultKey.name,
+          recorder.configureClientOptions({
+            keyVersion: keyVaultKey.properties.version,
+          })
+        );
         const data = Buffer.from("my message");
 
         // Sign and verify

@@ -53,7 +53,11 @@ onVersions({ minVer: "7.2" }).describe(
     describe("with AES crypto algorithms", async function () {
       it("encrypts and decrypts using AES-GCM", async function (this: Context) {
         keyVaultKey = await hsmClient.createKey(keyName, "AES", { keySize: 256 });
-        cryptoClient = new CryptographyClient(keyVaultKey.id!, credential, recorder.configureClientOptions({}));
+        cryptoClient = new CryptographyClient(
+          keyVaultKey.id!,
+          credential,
+          recorder.configureClientOptions({})
+        );
         const text = this.test!.title;
         const encryptResult = await cryptoClient.encrypt({
           algorithm: "A256GCM",
@@ -77,7 +81,11 @@ onVersions({ minVer: "7.2" }).describe(
           this.skip();
         }
         keyVaultKey = await hsmClient.createKey(keyName, "AES", { keySize: 256 });
-        cryptoClient = new CryptographyClient(keyVaultKey.id!, credential, recorder.configureClientOptions({}));
+        cryptoClient = new CryptographyClient(
+          keyVaultKey.id!,
+          credential,
+          recorder.configureClientOptions({})
+        );
         const text = this.test!.title;
         // We are using a predictable IV to support our recorded tests; however, you should use a cryptographically secure IV or omit it and
         // let the client library generate it for you.

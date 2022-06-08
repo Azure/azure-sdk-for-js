@@ -159,7 +159,11 @@ describe("AesCryptographyProvider internal tests", function () {
         it("encrypts locally and decrypts remotely", async function (this: Context) {
           const keyName = testClient.formatName(`${keyPrefix}-${this.test!.title}-${keySuffix}`);
           keyVaultKey = await client.importKey(keyName, jwk, {});
-          remoteProvider = new RemoteCryptographyProvider(keyVaultKey, credential, recorder.configureClientOptions({}));
+          remoteProvider = new RemoteCryptographyProvider(
+            keyVaultKey,
+            credential,
+            recorder.configureClientOptions({})
+          );
 
           const text = this.test!.title;
           const iv = getKey(16);
@@ -181,7 +185,11 @@ describe("AesCryptographyProvider internal tests", function () {
         it("encrypts remotely and decrypts locally", async function (this: Context) {
           const keyName = testClient.formatName(`${keyPrefix}-${this.test!.title}-${keySuffix}`);
           keyVaultKey = await client.importKey(keyName, jwk, {});
-          remoteProvider = new RemoteCryptographyProvider(keyVaultKey, credential, recorder.configureClientOptions({}));
+          remoteProvider = new RemoteCryptographyProvider(
+            keyVaultKey,
+            credential,
+            recorder.configureClientOptions({})
+          );
 
           const text = this.test!.title;
           const iv = getKey(16);

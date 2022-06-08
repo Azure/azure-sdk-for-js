@@ -5,10 +5,7 @@ import { assert } from "@azure/test-utils";
 import { Context } from "mocha";
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { KeyClient } from "../../src";
-import {
-  authenticate,
-  envSetupForPlayback,
-} from "./utils/testAuthentication";
+import { authenticate, envSetupForPlayback } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { CreateOctKeyOptions, KnownKeyExportEncryptionAlgorithm } from "../../src/keysModels";
 import { getServiceVersion, onVersions } from "./utils/common";
@@ -165,7 +162,7 @@ onVersions({ minVer: "7.2" }).describe(
           "exportkey",
           `exportkey-${Math.floor(Math.random() * 100000)}`
         );
-        
+
         const createdKey = await hsmClient.createKey(keyName, "RSA", {
           exportable: true,
           releasePolicy: { encodedPolicy: encodedReleasePolicy },
