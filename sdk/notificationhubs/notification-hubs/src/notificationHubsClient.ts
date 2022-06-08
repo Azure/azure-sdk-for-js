@@ -195,7 +195,7 @@ export class NotificationHubsClient extends ServiceClient {
   }
 
   /**
-   * Retrieves an Azure Storage container URL. The container has feedback data for the notification hub. 
+   * Retrieves an Azure Storage container URL. The container has feedback data for the notification hub.
    * The caller can then use the Azure Storage Services SDK to retrieve the contents of the container.
    * @param options - The options for getting the push notification feedback container URL.
    * @returns The URL of the Azure Storage Container containing the feedback data.
