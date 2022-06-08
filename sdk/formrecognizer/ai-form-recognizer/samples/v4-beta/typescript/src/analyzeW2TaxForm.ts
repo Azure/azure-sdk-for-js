@@ -28,7 +28,7 @@ async function main() {
   const endpoint = process.env.FORM_RECOGNIZER_ENDPOINT || "<endpoint>";
   const credential = new AzureKeyCredential(process.env.FORM_RECOGNIZER_API_KEY || "<api key>");
 
-  const file = fs.readFileSync(path.join(".", "assets", "w2", "gold_simple_w2.png"));
+  const file = fs.readFileSync(path.join(".", "assets", "w2", "w2-single.png"));
 
   const client = new DocumentAnalysisClient(endpoint, credential);
 
