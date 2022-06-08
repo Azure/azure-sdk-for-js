@@ -25,6 +25,7 @@ This tool helps to record and playback the tests in the JS repo by leveraging th
 - [Getting started](#getting-started)
   - [Installing the package](#installing-the-package)
   - [Configuring your project](#configuring-your-project)
+  - [TEST_MODE](#test_mode)
   - [Using the `Recorder`](#using-the-recorder)
 - [Examples](#examples)
   - [How to record](#how-to-record)
@@ -56,23 +57,13 @@ This document assumes familiarity with [git](https://git-scm.com) and [rush](htt
 
 ### Installing the package
 
-To install the `@azure-tools/test-recorder` package, you'll need to start by cloning our azure-sdk-for-js repository. One way of doing this is by using the git command line interface, as follows:
+**_Note: If you're new to this repository, follow the [ContributingGuide.md](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn how to setup/build the repo and to create/test an SDK in the [Azure/azure-sdk-for-js](https://github.com/Azure/azure-sdk-for-js) repository._**
+
+To install the `@azure-tools/test-recorder` package, you can use the following command.
 
 ```bash
-cd /path/to/my/github/repositories
-git clone https://github.com/Azure/azure-sdk-for-js/
+rush add -p @azure-tools/test-recorder@^2.0.0 --dev
 ```
-
-Having cloned this repository, let's set it up by running the following rush commands:
-
-```bash
-cd azure-sdk-for-js
-rush update
-rush install
-rush build
-```
-
-This will optimistically assume you're in a fresh clone.
 
 From this point forward, we'll assume that you're developing (perhaps contributing!) to one of the azure-sdk-for-js's libraries. So, your next step is to change directory to the path relevant to your project. Let's say you want to add the `@azure-tools/test-recorder` package to `@azure/data-tables` (it already uses test-recorder, but bear with us), you'll be doing the following:
 
@@ -80,7 +71,13 @@ From this point forward, we'll assume that you're developing (perhaps contributi
 cd sdk/tables/data-tables
 ```
 
-Once there, you can add the test-recorder package by changing your package.json to include the following line in the devDependencies:
+If you are using `@azure/identity` in your tests, also install `"@azure-tools/test-credential"` package.
+
+```bash
+rush add -p @azure-tools/test-credential@^1.0.0 --dev
+```
+
+With a following `rush update`, you may see something like below.
 
 ```json
 {
@@ -95,13 +92,7 @@ Once there, you can add the test-recorder package by changing your package.json 
 }
 ```
 
-After that, we recommend you to update rush and install the dependencies again, as follows:
-
-```bash
-rush update && rush install
-```
-
-And you're ready! Now you can use the common recorder in your code, as shown below:
+And you're ready! Now you can use the test recorder in your code, as shown below:
 
 ```typescript
 import { Recorder } from "@azure-tools/test-recorder";
@@ -168,15 +159,16 @@ Read more at [dev-tool commands #usage](https://github.com/Azure/azure-sdk-for-j
 
 If for some reason, you have trouble running the test-proxy tool in your environment using the `dev-tool` commands as suggested above, please read [many ways to run the test-proxy tool](#many-ways-to-run-the-test-proxy-tool) to unblock yourself sooner.
 
-### Key Concepts
+### TEST_MODE
 
 By using recorder with your clients, the requests are redirected to the test-proxy tool to either save them or replay them.
-Interactions with the test-proxy tool vary based on what the `TEST_MODE` environment is.
-|TEST_MODE |What? |
-| :--------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `record` | Stores network requests with the help of test-proxy tool in a plain text file in the folder `recordings` at the root of your repository (example: root of the `sdk/tables/data-tables` project) |
-| `playback` | Stored requests/responses are utilized by the test-proxy tool when the requests are redirected to it instead of reaching the service |  
-| `live` | Recorder and its methods are no-ops here, requests directly reach the service instead of being redirected at the test-proxy tool layer |
+Interactions with the test-proxy tool vary based on what the `TEST_MODE` environment variable is.
+
+| TEST_MODE  | What?                                                                                                                                                                                           |
+| :--------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `record`   | Stores network requests with the help of test-proxy tool in a plain text file in the folder `recordings` at the root of your repository (example: root of the `sdk/tables/data-tables` project) |
+| `playback` | Stored requests/responses are utilized by the test-proxy tool when the requests are redirected to it instead of reaching the service                                                            |
+| `live`     | Recorder and its methods are no-ops here, requests directly reach the service instead of being redirected at the test-proxy tool layer                                                          |
 
 ### Using the `Recorder`
 
