@@ -44,6 +44,43 @@ can be used to authenticate the client:
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables:
 AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
+Use the returned token credential to authenticate the client:
+
+```typescript
+import WebSiteManagementClient from "@azure-rest/arm-appservice";
+import { DefaultAzureCredential } from "@azure/identity";
+const credential = new DefaultAzureCredential();
+const client = WebSiteManagementClient(credential);
+```
+
+## Examples
+
+The following section shows you how to initialize and authenticate your client, then list all of your App Service Plans.
+
+### List All App Service Plans
+
+```typescript
+import WebSiteManagementClient, { paginate }  from "@azure-rest/arm-appservice";
+import { DefaultAzureCredential } from "@azure/identity";
+
+async function listAppServicePlans() {
+  const subscriptionId = process.env.SUBSCRIPTION_ID as string;
+  const credential = new DefaultAzureCredential();
+  const client = WebSiteManagementClient(credential);
+  const result = [];
+  const initialResposne = await client
+    .path("/subscriptions/{subscriptionId}/providers/Microsoft.Web/serverfarms", subscriptionId)
+    .get();
+  const res = paginate(client, initialResposne);
+  for await (let item of res) {
+    result.push(item);
+  }
+  console.log(result);
+}
+
+listAppServicePlans().catch(console.error);
+```
+
 ## Troubleshooting
 
 ### Logging
