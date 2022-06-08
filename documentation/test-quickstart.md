@@ -73,13 +73,13 @@ Interactions with the test-proxy tool vary based on what the `TEST_MODE` environ
 
 ## Code structure
 
-If you are the first time to generate SDK you could enable the config `generate-test: true` in `README.md`. We'll generate simple utils and a sample test file for you with.
+If you are the first time to generate SDK you could enable the config `generate-test: true` in `README.md`. We'll generate simple utils and a sample test file for you.
 
 ```yml
 generate-test: true
 ```
 
-They only contains basics for testing, you need to update to your own utility and test cases. So the overall structure will be similar to below:
+They only contains basics for testing, you need to update to your own utility and test cases. The overall structure will be similar to below:
 
 _Note: the structure of `test` folder has slight differences between high-level and rest-level clients. In HLC we only have one file under the `test` folder which contains all contents. But in RLC we separate the sample test and utils._
 
@@ -115,7 +115,7 @@ Then we could go to the project folder to run the tests. By default, if you don'
 sdk/purview/purview-catalog-rest> rushx test
 ```
 
-If we are the first time to run tests we may fail with below message because there is no any recordings found.
+If you are the first time to run tests you may fail with below message because there is no any recordings found.
 
 ```
 [test-info] ===TEST_MODE=undefined===
@@ -231,8 +231,9 @@ API key authentication would hit the service's endpoint directly so these traffi
 
 ## Example: Basic Azure service interaction and recording
 
-As the [section](#code-structure) described we'll generate sample file for you so if you are the first time to write test cases you could grow up your own based on them. Next we'll expore on how to do that.
-This simple test creates a resource and checks that its name is assigned correctly. Take `purview-catalog-rest` as example:
+At the code structure [section](#code-structure) we described we'll generate sample file for you, if you are the first time to write test cases you could grow up your own based on them.
+
+This simple test creates a resource and checks that the service handles it correctly in the project `purview-catalog-rest`. Below are the steps:
 
 - Step 1: Create your test file and add one test case with resource creation, here we have purview catalog glossary test file `glossary.spec.ts` and one case named `Should create a glossary`. Or rename the `sampleTest.spec.ts` file and its case `sample test`.
 - Step 2: Add the utility method `createClient` in `public/utils/recordedClient.ts` to share the `PurviewCatalogClient` creation.
@@ -279,7 +280,7 @@ describe("My test", () => {
         usage: "Example Glossary",
       },
     });
-    // Step 5:
+    // Step 5: Add your assertions
     assert.strictEqual(glossary.status, "200");
   });
 });
