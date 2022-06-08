@@ -1,18 +1,31 @@
+# Javascript Codegen Quick Start for Test
+
+This page is to help you write and run tests for Javascript Codegen SDK including high-level and rest-level clients. We firstly introduce key concepts we'll touch upon on, then show how to run generated sample tests and add testcases.
+
 # Table of contents
 
-- [Table of contents](#table-of-contents)
-- [Overview](#overview)
+- [Background](#background)
 - [Prerequisites](#prerequisites)
-- [How to Run Test](#how-to-run-test)
+- [How to run test](#how-to-run-test)
+  - [Key concepts](#key-concepts)
+    - [Record](#record)
+    - [Playback](#playback)
+    - [Sensitive information](#sensitive-information)
+    - [TEST_MODE](#test_mode)
   - [Test structure](#test-structure)
-  - [Fail to run tests in the first time](#fail-to-run-tests-in-the-first-time)
-  - [Running tests in playback mode](#running-tests-in-playback-mode)
-- [Writing New Tests](#writing-new-tests)
+  - [Run tests in record mode](#run-tests-in-record-mode)
+  - [Run tests in playback mode](#run-tests-in-playback-mode)
+- [How to write tests](#how-to-write-tests)
+  - [Before writing test](#before-writing-test)
+    - [Prepare environment variables](#prepare-environment-variables)
+    - [Secure sensitive data](#secure-sensitive-data)
   - [Example: Basic Azure service interaction and recording](#example-basic-azure-service-interaction-and-recording)
 
-# Overview
+# Background
 
-This page is to help you write and run tests for Azure Javascript SDK. The Azure SDK test framework uses the [`test-recorder`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md) library, which in turn rests upon on a HTTP recording system ([testproxy](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy)) that enables tests dependent on network interaction to be run offline.
+The Azure SDK test framework uses the [`test-recorder`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md) library, which in turn rests upon on a HTTP recording system ([testproxy](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy)) that enables tests dependent on network interaction to be run offline.
+
+At the moment, tests in our repo depend on one of the two different versions of the recorder tool (`@azure-tools/test-recorder`) - `1.a.b` and `2.x.y`. Eventually, all the tests will be migrated to depend on the 2.x.y version of the recorder and you could refer to the [test recoeder migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md). Please note this quickstart is based on 2.x.y version.
 
 # Prerequisites
 
@@ -25,19 +38,41 @@ This page is to help you write and run tests for Azure Javascript SDK. The Azure
 - A C++ compiler toolchain and Python (for compiling machine-code modules)
   - Refer [here](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#prerequisites) for more details
 
-# How to Run Test
+# How to run test
 
 This section describes how to run the SDK tests. If you want to run the tests of a specific project, go to that project's folder and execute `rushx test`. All of the tests will automatically run both in NodeJS and in the browser. To target these environments individually, you can run `rushx test:node` and `rushx test:browser`. Let's take `purview-catalog-rest` as an example.
 
+## Key concepts
+
+Before we dig into the details let's get a glimpse of key concepts which we'll touch upon on during running tests.
+
+### Record
+
+To **record** means to intercept any HTTP request, store it in a file, then store the response received from the live resource that was originally targeted. We leverage the unified out-of-process test proxy server that is built for this use case. The output files are stored in `recordings/node/*` and in `recordings/browser/*`, which are relative to the root of the project you're working on.
+
+### Playback
+
+To **playback** means to intercept any HTTP request and to respond it with the stored response of a previously recorded matching request.
+
+### Sensitive information
+
+**Sensitive information** means content that should not be shared publicly. Content like passwords, unique identifiers or personal information should be cleaned up from the recordings. Some functionality is provided to fix this problem. You can read more at [securing sensitive data](#securing-sensitive-data).
+
+### TEST_MODE
+
+The Azure SDK test framework uses the [`test-recorder`](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/README.md) library to record tests. By using recorder with your clients, the requests are redirected to the test-proxy tool to either save them or replay them.
+Interactions with the test-proxy tool vary based on what the `TEST_MODE` environment is.
+|TEST_MODE |What? |
+| :--------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `record` | Stores network requests with the help of test-proxy tool in a plain text file in the folder `recordings` at the root of your repository (example: root of the `sdk/purview/purview-catalog-rest` project) |
+| `playback` | Stored requests/responses are utilized by the test-proxy tool when the requests are redirected to it instead of reaching the service |  
+| `live` | Recorder and its methods are no-ops here, requests directly reach the service instead of being redirected at the test-proxy tool layer |
+
 ## Test structure
 
-At the moment, tests in our repo depend on one of the two different versions of the recorder tool (`@azure-tools/test-recorder`) - `1.a.b` and `2.x.y`. Currently version 2.x.y utilize the [Azure SDK Tools Test Proxy](https://github.com/Azure/azure-sdk-tools/blob/main/tools/test-proxy/README.md) to record and playback HTTP interactions.
+If you are the first time to generate SDK you could enable the config `generate-test: true` in `README.md`. We'll generate simple utils and a sample test file for you with below similar structure. They only contains basics for testing, so you need to update to your own utility and test cases. So the overall structure will be similar to below:
 
-To migrate an existing test recorder to use the test proxy, or to learn more about using the test proxy, refer to the [test recoeder migration guide](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/test-utils/recorder/MIGRATION.md).
-
-Eventually, all the tests will be migrated to depend on the 2.x.y version of the recorder and our guide is based on the 2.x.y one.
-
-If you are the first time to generate SDK you could enable the config `generate-test: true` in `README.md`. We'll generate simple utils and a sample test file for you with below similar structure. They only contains basics for testing, so you need to update to your own utility and test cases.
+Note: the structure of `test` folder has slight differenct between HLC and RLC SDK. We only have one sample file under the `test` folder which contains all contents.
 
 ```
 sdk/
@@ -45,15 +80,17 @@ sdk/
 │  ├─ purview-catalog-rest/
 │  │  ├─ src/
 │  │  │  ├─ ...
+│  │  ├─ recordings/
+│  │  │  ├─ node/
+│  │  │  ├─ browsers/
 │  │  ├─ test/
 │  │  │  ├─ public/
 │  │  │  |  ├─ utils/
-│  │  │  |  |  ├─ env.ts
 │  │  │  |  |  ├─ recordedClient.ts
-│  │  │  ├─ sampleTest.spec.ts
+│  │  │  |  ├─ sampleTest.spec.ts
 ```
 
-## Fail to run tests in the first time
+## Run tests in record mode
 
 Before running tests it's advised to update the dependencises and build our project by running the command `rush update && rush build -t <your-package-name>`. And please notice this command is time-consuming and take around 10 mins. You could find more [details](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md#installing-and-managing-dependencies).
 
@@ -114,7 +151,7 @@ Then you could have following similar logs and also go to the folder `purview-ca
 [node-tests]   1 passing (223ms)
 ```
 
-## Running tests in playback mode
+## Run tests in playback mode
 
 If you have existing recordings then the tests have been run against generated the HTTP recordings, you can run your tests in `playback` mode.
 
@@ -136,9 +173,27 @@ Then the log could indicate that it is in `playback` mode.
 [test-info] ===TEST_MODE="playback"===
 ```
 
-# Writing New Tests
+# How to write tests
 
 In the `test` directory create a file with the naming pattern `<what_you_are_testing>.spec.ts`. It's recommanded to seprate your test cases into `pulic` and `internal`(if you have) folders.
+
+## Before writing test
+
+### Prepare environment variables
+
+`@azure-tools/test-recorder` exports `env` which loads the environment variables from the correct location (using `process.env` and `dotenv` in Node, and using `window.__env__` via karma in the browser), and also means that the environment variables set in `envSetupForPlayback` are used in playback mode.
+
+- `recorder.start()` internally sets up the environment variables for playback. So, make sure to have the `recorder.start()` call before you use any environment variables in your tests.
+- To use an environment variable in a test, just do `env["NAME_OF_THE_VARIABLE"]`.
+- Recorder also exports a `assertEnvironmentVariable` global method, which can be used to retrieve the environment variables.
+  The function `assertEnvironmentVariable("NAME_OF_THE_VARIABLE")` either returns the value or throws an error saying the variable is not defined in your environment.
+  (This function comes handy when your function args expect a non-undefined value but the environment variable may not be defined in the runtime.)
+
+### Secure sensitive data
+
+Live tests need to do sensitive operations, like authenticating with your Azure endpoints, keys, secrets, etc. These are generally contained in the environment variables which are used as part of the tests.
+
+We must secure them and not let them leak into our recordings. To avoid storing the sensitive info in the recordings, we use the sanitizers to mask the values with the fake ones or remove them, `RecorderStartOptions` helps us here.
 
 ## Example: Basic Azure service interaction and recording
 
