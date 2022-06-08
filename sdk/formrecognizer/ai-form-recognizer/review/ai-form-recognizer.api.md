@@ -489,10 +489,8 @@ export interface DocumentStyle {
 // @public
 export interface DocumentTable {
     boundingRegions?: BoundingRegion[];
-    caption?: DocumentCaption;
     cells: DocumentTableCell[];
     columnCount: number;
-    footnotes?: DocumentFootnote[];
     rowCount: number;
     spans: DocumentSpan[];
 }
