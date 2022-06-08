@@ -1,10 +1,25 @@
-import { DefaultAzureCredential } from "@azure/identity";
+import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { assert } from "@azure/test-utils";
 import { Durations, MetricsQueryClient } from "../../../src";
 
 it("verify tracing", async () => {
-  const credential = new DefaultAzureCredential();
-  const client = new MetricsQueryClient(credential, {
+  const scopesPassed: string[] = [];
+
+  const tokenCredential: TokenCredential = {
+    async getToken(
+      scopes: string | string[],
+      _options?: GetTokenOptions
+    ): Promise<AccessToken | null> {
+      if (Array.isArray(scopes)) {
+        scopesPassed.push(...scopes);
+      } else {
+        scopesPassed.push(scopes);
+      }
+
+      throw new Error("Shortcircuit auth exception");
+    },
+  };
+  const client = new MetricsQueryClient(tokenCredential, {
     endpoint: "https://customEndpoint1",
   });
   await assert.supportsTracing(
