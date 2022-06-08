@@ -156,7 +156,11 @@ Read more at [dev-tool commands #usage](https://github.com/Azure/azure-sdk-for-j
 
 #### Prerequisites
 
-- [Docker](https://docker.com/) is required, as the [test proxy server](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy) is run in a container during testing. When running the tests, ensure the Docker daemon is running and you have permission to use it. For WSL 2, running `sudo service docker start` and `sudo usermod -aG docker $USER` should be sufficient.
+- [Docker](https://docker.com/) is required, as the [test proxy server](https://github.com/Azure/azure-sdk-tools/tree/main/tools/test-proxy) is run in a container during testing. When running the tests, ensure the Docker daemon is running and you have permission to use it. 
+
+Check [docker.com/get-started](https://www.docker.com/get-started/) to download and install docker desktop on your machine.
+
+For WSL 2, running `sudo service docker start` and `sudo usermod -aG docker $USER` should be sufficient.
 
 If for some reason, you have trouble running the test-proxy tool in your environment using the `dev-tool` commands as suggested above, please read [many ways to run the test-proxy tool](#many-ways-to-run-the-test-proxy-tool) to unblock yourself sooner.
 
