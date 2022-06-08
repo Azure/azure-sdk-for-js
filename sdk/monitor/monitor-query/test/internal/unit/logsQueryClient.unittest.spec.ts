@@ -10,26 +10,24 @@ describe("LogsQueryClient unit tests", () => {
    * Custom scopes and endpoints are needed if you're connecting to
    * a government cloud, for instance.
    */
-   const scopesPassed: string[] = [];
+  const scopesPassed: string[] = [];
 
-   const tokenCredential: TokenCredential = {
-     async getToken(
-       scopes: string | string[],
-       _options?: GetTokenOptions
-     ): Promise<AccessToken | null> {
-       if (Array.isArray(scopes)) {
-         scopesPassed.push(...scopes);
-       } else {
-         scopesPassed.push(scopes);
-       }
+  const tokenCredential: TokenCredential = {
+    async getToken(
+      scopes: string | string[],
+      _options?: GetTokenOptions
+    ): Promise<AccessToken | null> {
+      if (Array.isArray(scopes)) {
+        scopesPassed.push(...scopes);
+      } else {
+        scopesPassed.push(scopes);
+      }
 
-       throw new Error("Shortcircuit auth exception");
-     },
-   };
-   
+      throw new Error("Shortcircuit auth exception");
+    },
+  };
+
   it("using custom scopes and endpoints", async () => {
-
-
     const client = new LogsQueryClient(tokenCredential, {
       endpoint: "https://customEndpoint1",
     });

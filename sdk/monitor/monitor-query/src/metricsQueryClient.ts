@@ -25,6 +25,7 @@ import {
 import {
   MonitorManagementClient as GeneratedMetricsNamespacesClient,
   KnownApiVersion20171201Preview as MetricNamespacesApiVersion,
+  MetricNamespacesListOptionalParams,
 } from "./generated/metricsnamespaces/src";
 import {
   convertRequestForMetrics,
@@ -133,7 +134,7 @@ export class MetricsQueryClient {
     const segmentResponse = await tracingClient.withSpan(
       "MetricsQueryClient.listSegmentOfMetricDefinitions",
       options,
-      (updatedOptions) =>
+      async (updatedOptions) =>
         this._definitionsClient.metricDefinitions.list(
           resourceUri,
           convertRequestOptionsForMetricsDefinitions(updatedOptions)
@@ -226,10 +227,8 @@ export class MetricsQueryClient {
     const segmentResponse = await tracingClient.withSpan(
       "MetricsQueryClient.listSegmentOfMetricNamespaces",
       options,
-       (updatedOptions) => {
+      async (updatedOptions: MetricNamespacesListOptionalParams | undefined) =>
         this._namespacesClient.metricNamespaces.list(resourceUri, updatedOptions)
-      }
-        
     );
     yield convertResponseForMetricNamespaces(segmentResponse.value);
   }
