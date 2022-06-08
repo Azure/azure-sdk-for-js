@@ -9931,7 +9931,7 @@ packages:
     dev: false
 
   file:projects/arm-communication.tgz:
-    resolution: {integrity: sha512-7SlI8SHYvzhUPiX8qC3UIIrv8aLlNqhaLb2ui1kilikhnZLTzJUROwOk1j2zXASuhQSjZ+AUwqrwQfHoRlkCkQ==, tarball: file:projects/arm-communication.tgz}
+    resolution: {integrity: sha512-TK7bmRfPql6rCKdQqdc72hpE03Ct4VzYxNs+N/9PNgSqBVgQhmYHtj9H21fpnCw+b6WlObewHqT97a4w3rbu1Q==, tarball: file:projects/arm-communication.tgz}
     name: '@rush-temp/arm-communication'
     version: 0.0.0
     dependencies:
@@ -9943,6 +9943,8 @@ packages:
       '@rollup/plugin-json': 4.1.0_rollup@2.73.0
       '@rollup/plugin-multi-entry': 4.1.0_rollup@2.73.0
       '@rollup/plugin-node-resolve': 13.3.0_rollup@2.73.0
+      '@types/chai': 4.3.1
+      chai: 4.3.6
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 7.2.0
@@ -9955,7 +9957,6 @@ packages:
     transitivePeerDependencies:
       - '@types/node'
       - debug
-      - encoding
       - supports-color
     dev: false
 
@@ -9989,7 +9990,7 @@ packages:
     dev: false
 
   file:projects/arm-compute.tgz:
-    resolution: {integrity: sha512-WNwaFkgcR4RYtiL7d5U15HxAVB6NyBluO5nOkCucMMdFuFlEEQE8pinfogB4iRGDXHUmkDtQ95TiyqqZTkV2FQ==, tarball: file:projects/arm-compute.tgz}
+    resolution: {integrity: sha512-Tq3qA9nww0K9qB4coND2tz+rG8+c2KmSG3LpqOvkwAnpcCbAMAqeVhrrbjswTVOF3UVfhH0I57nJINEUme0mGw==, tarball: file:projects/arm-compute.tgz}
     name: '@rush-temp/arm-compute'
     version: 0.0.0
     dependencies:
