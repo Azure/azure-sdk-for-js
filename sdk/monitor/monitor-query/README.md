@@ -436,6 +436,104 @@ AppEvents | filter TenantId == "<workspace2>"
 
 A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/logsQueryMultipleWorkspaces.ts).
 
+#### Include statistics
+
+To get logs query execution statistics, such as CPU and memory consumption:
+
+1. Set the `LogsQueryOptions.includeQueryStatistics` property to `true`.
+1. Access the `statistics` field inside the `LogsQueryResult` object.
+
+The following example prints the query execution time:
+
+```ts
+const workspaceId = "<workspace_id>";
+const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
+const kustoQuery = "AzureActivity | top 10 by TimeGenerated";
+
+const result = await logsQueryClient.queryWorkspace(
+    monitorWorkspaceId,
+    kustoQuery,
+    { duration: Durations.oneDay },
+    {
+      includeQueryStatistics: true
+    }
+  );
+
+const executionTime =
+    result.statistics && result.statistics.query && result.statistics.query.executionTime;
+
+console.log(
+    `Results for query '${kustoQuery}', execution time: ${
+      executionTime == null ? "unknown" : executionTime
+    }`
+  );
+```
+
+Because the structure of the `statistics` payload varies by query, a `Record<string, unknown>` return type is used. It contains the raw JSON response. The statistics are found within the `query` property of the JSON. For example:
+
+```json
+{
+  "query": {
+    "executionTime": 0.0156478,
+    "resourceUsage": {...},
+    "inputDatasetStatistics": {...},
+    "datasetStatistics": [{...}]
+  }
+}
+```
+
+#### Include visualization
+
+To get visualization data for logs queries using the [render operator](https://docs.microsoft.com/azure/data-explorer/kusto/query/renderoperator?pivots=azuremonitor):
+
+1. Set the `LogsQueryOptions.includeVisualization` property to `true`.
+1. Access the `visualization` field inside the `LogsQueryResult` object.
+
+For example:
+
+```ts
+const workspaceId = "<workspace_id>";
+const logsQueryClient = new LogsQueryClient(new DefaultAzureCredential());
+
+const result = await logsQueryClient.queryWorkspace(
+    monitorWorkspaceId,
+    @"StormEvents
+        | summarize event_count = count() by State
+        | where event_count > 10
+        | project State, event_count
+        | render columnchart",
+    { duration: Durations.oneDay },
+    {
+      includeVisualization: true
+    }
+  );
+console.log("visualization result:", result.visualization);
+```
+
+Because the structure of the `visualization` payload varies by query, a `Record<string, unknown>` return type is used. It contains the raw JSON response. For example:
+
+```json
+{
+  "visualization": "columnchart",
+  "title": "the chart title",
+  "accumulate": false,
+  "isQuerySorted": false,
+  "kind": null,
+  "legend": null,
+  "series": null,
+  "yMin": "NaN",
+  "yMax": "NaN",
+  "xAxis": null,
+  "xColumn": null,
+  "xTitle": "x axis title",
+  "yAxis": null,
+  "yColumns": null,
+  "ySplit": null,
+  "yTitle": null,
+  "anomalyColumns": null
+}
+```
+
 ### Metrics query
 
 The following example gets metrics for an [Azure Metrics Advisor](https://docs.microsoft.com/azure/applied-ai-services/metrics-advisor/overview) subscription.

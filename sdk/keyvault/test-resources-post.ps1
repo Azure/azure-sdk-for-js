@@ -100,6 +100,13 @@ if (Test-Path $sdpath) {
 }
 
 Export-AzKeyVaultSecurityDomain -Name $hsmName -Quorum 2 -Certificates $wrappingFiles -OutputPath $sdPath
+if ( !$? ) {
+    Write-Host $Error[0].Exception
+    Write-Error $Error[0]
+
+    exit
+}
+
 Log "Security domain downloaded to '$sdPath'; Managed HSM is now active at '$hsmUrl'"
 
 $testApplicationOid = $DeploymentOutputs["CLIENT_OBJECT_ID"]
