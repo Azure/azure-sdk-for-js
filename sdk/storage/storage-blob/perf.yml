@@ -2,7 +2,9 @@ parameters:
   - name: operatingSystems
     displayName: OperatingSystems (list of operating systems to run)
     type: string
-    default: 'Linux, Windows'
+    # Hang in storage-blob 1GB parallel=8 upload perf tests on Windows (#22146)
+    # default: 'Linux, Windows'
+    default: 'Linux'
   - name: packageVersions
     displayName: PackageVersions (regex of package versions to run)
     type: string
